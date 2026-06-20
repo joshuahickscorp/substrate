@@ -53,8 +53,10 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 ## CPU-Now campaign (execution session)
 - [x] unlock attempted: real V-JEPA 2 ViT-L weights LOAD from HF (network up); real forward fixed
       (pixel_values_videos=) and validated [B,64,3,256,256]->[B,8192,1024]
-- [~] real-encoder caching: 64-frame ViT-L forward is very slow on M3 (MPS hung; CPU ~minutes/clip),
-      pipeline proven, useful sample DEFERRED to Studio; campaign science runs PROVISIONAL (synthetic latents)
+- [x] real-encoder caching: 96 real V-JEPA latents cached on CPU (24.3s/clip); REAL-ENCODER results:
+      linear-probe acc 1.000 (chance 0.167, decodable), and forget-then-retain on real latents
+      (naive BWT -1.0 collapses to chance, replay+EWC BWT 0.0 perfect retention). Natural-video content
+      deferred to Studio (structured-synthetic content here); grid science remains PROVISIONAL
 - [x] parallel CPU harness (cpu_pool: process pool, thread caps, mem-aware, checkpointed, resumable)
 - [x] studies legs: 11A determinism, 11B seed-variance, 11D negative-registry, 8B assoc-memory, 8C pc-depth, cost-projection
 - [x] T0/T1/8B/8C real results: CPU bit-identical (det), seeds {headline 5, sanity 3}, Hopfield cap 6x vs ff 1x, PC gap widens with depth

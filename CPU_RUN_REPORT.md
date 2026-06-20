@@ -10,13 +10,29 @@ natural-video latents later).
 - Real V-JEPA 2 ViT-L weights FETCH + LOAD from HuggingFace (network reachable). hidden_size
   1024; input [B,64,3,256,256] -> last_hidden_state [B,8192,1024]. The previously-deferred real
   forward path is fixed (`pixel_values_videos=`) and exercised.
-- Real-encoder cache: 8 latents cached through the REAL frozen encoder over structured synthetic
-  video, backend=vjepa_hf, MEASURED **32.0 s/clip on CPU** (MPS hung on the 64-frame ViT-L; CPU
-  works but is slow). This proves the real pipeline end to end. The decodability number at n=8
-  (acc 0.33, chance 0.25) is UNDERPOWERED (8 samples, 4 classes) and is not a science claim.
+- Real-encoder cache: a 96-latent store cached through the REAL frozen encoder over structured
+  synthetic video, backend=vjepa_hf, MEASURED **24.3 s/clip on CPU** (MPS hung on the 64-frame
+  ViT-L; CPU works). This proves the real pipeline end to end and yields real-encoder results
+  (see the REAL-ENCODER section below).
 - No natural-video dataset here, so all campaign science runs `provisional`. Real-encoder
   results at useful scale are a Studio task (drop SSv2/Ego4D clips; encoding is ~30x faster on a
   GPU). Real weights are OPT-IN (`encoder.prefer_real`) so the test suite stays deterministic.
+
+## REAL-ENCODER results [real-encoder, promoted from provisional]
+A 96-clip real V-JEPA latent store was cached on CPU (backend=vjepa_hf, MEASURED **24.3 s/clip**,
+~39 min total) over 6 distinct structured-synthetic visual classes, then evaluated
+(`runs/real_encoder_eval.json`):
+- **Linear-probe distinctiveness (the corpus's central diagnostic), on the REAL encoder:**
+  acc **1.000** vs chance 0.167 at n=96 -> visual-class info IS linearly decodable from real
+  V-JEPA latents. (The n=8 smoke earlier was underpowered; n=96 is a real answer.)
+- **Forget-then-retain on REAL latents** (class-incremental, 3 tasks, shared head): naive
+  BWT **-1.000** (catastrophic: final accuracy collapses to chance 0.167), replay+EWC BWT
+  **0.000** with final accuracy **1.000** (perfect retention). The headline E1 contract --
+  a naive learner forgets, replay+EWC retains -- now demonstrated on REAL V-JEPA geometry,
+  not just synthetic latents.
+Caveat: video CONTENT is structured-synthetic (no natural-video dataset here). Re-run on
+SSv2 / Ego4D clips to remove the synthetic-content caveat; the pipeline is proven and GPU
+encoding is ~30x faster.
 
 ## Parallel CPU harness (Section 2A)
 `src/devsys/harness/cpu_pool.py`: process-pool over independent run-units, spawn isolation,
