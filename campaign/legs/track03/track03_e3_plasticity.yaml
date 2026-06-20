@@ -14,3 +14,14 @@ toy_overrides:
 - experiment.stream.samples_per_task=160
 - shell.buffer.index=brute
 note: 'Axis A plasticity: staged vs constant vs tuned-decay + Fisher signature.'
+full_axes:
+  shell.plasticity.schedule:
+  - hard
+  - soft
+  - learned
+full_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4

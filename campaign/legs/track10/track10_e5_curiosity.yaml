@@ -14,3 +14,13 @@ toy_overrides:
 - experiment.rounds=6
 note: Curiosity self-curriculum. Data-selection variant toy-runnable; env-rollout
   variant needs an environment (Tier E, disabled).
+full_axes:
+  experiment.rounds:
+  - 6
+  - 10
+full_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4

@@ -1,7 +1,10 @@
 # V-JEPA 2.1 ViT-B, dense token output (for E6 dense-vs-pooled). Frozen, inference-only.
+# NOTE: V-JEPA 2.1 is NOT yet published on HF (probed 2026-06; the id below is a PLACEHOLDER).
+# Deferred until 2.1 releases; prefer_real=false keeps the scaffold on the frozen-random path.
 name: vjepa21_vitb
 arch: vit_base
-hf_id: facebook/vjepa2.1-vitb-dense
+hf_id: facebook/vjepa2.1-vitb-dense      # PLACEHOLDER: not on HF yet (deferred)
+available: false
 hub: facebookresearch/jepa
 embed_dim: 768
 patch_size: 16

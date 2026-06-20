@@ -11,3 +11,8 @@ toy_overrides:
 - experiment.n_actions=80
 note: POET-style environment co-evolution. Lab-scale, Tier R. Disabled by default
   (optional leg).
+full_axes: {}
+full_seeds:
+- 0
+- 1
+- 2

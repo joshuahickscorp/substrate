@@ -18,3 +18,17 @@ toy_overrides:
 - shell.consolidation.method=ewc
 - shell.consolidation.ewc_lambda=1000.0
 note: 'Foundation gate: forget-then-retain. Gates every other leg (Vol I Sec 8).'
+full_axes:
+  experiment.stream.separation:
+  - 0.3
+  - 0.5
+  - 0.7
+  experiment.head.depth:
+  - 1
+  - 2
+full_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4

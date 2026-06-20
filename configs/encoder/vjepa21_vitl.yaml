@@ -1,7 +1,11 @@
 # V-JEPA 2.1 ViT-L, dense token output. Frozen, inference-only.
+# NOTE: V-JEPA 2.1 is NOT yet published on HF under any verified id (probed 2026-06; the id below
+# is a PLACEHOLDER, RepositoryNotFoundError). The 2.1-only experiments (E6 dense) stay deferred
+# until 2.1 releases; prefer_real=false keeps this on the frozen-random path so the scaffold runs.
 name: vjepa21_vitl
 arch: vit_large
-hf_id: facebook/vjepa2.1-vitl-dense
+hf_id: facebook/vjepa2.1-vitl-dense      # PLACEHOLDER: not on HF yet (deferred)
+available: false
 hub: facebookresearch/jepa
 embed_dim: 1024
 patch_size: 16

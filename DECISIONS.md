@@ -93,6 +93,20 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   dataset. Its benchmarks (SSv2, Ego4D, EPIC-KITCHENS) are external datasets to obtain when
   expanding to natural-video latents (deferred, not procured this session).
 
+## Plug-and-play hardening (this session)
+- Encoder ids VERIFIED on HF (metadata probe, no full downloads): real + present are
+  vjepa2-vitl-fpc64-256 (1024), vjepa2-vith-fpc64-256 (1280), vjepa2-vitg-fpc64-384 (1408);
+  added a real `vjepa2_vith` config. V-JEPA 2.1 dense ids do NOT resolve -> `vjepa21_*` marked
+  placeholder + `available: false`; E6 dense deferred until 2.1 ships.
+- Real-video ingestion path built (`substrate/video.py` + `scripts/cache_video.py`): backend-
+  agnostic decode (lazy torchvision/decord, `video` extra) + a torch-only, tested preprocessing
+  core (frame-sample/resize/ImageNet-normalize to [B,64,3,256,256]) feeding the existing
+  cache_latents pipeline. This is the keystone for natural-video latents; the Studio just drops
+  clips and runs cache_video.py. Decode backend is NOT a hard dep (preprocessing tested today).
+- Campaign legs now carry genuine `full_axes` + `full_seeds` (the real factorials, 217 run-units
+  total) alongside the toy subsets; `run_queue.py --full` runs them. sweep.run_sweep selects
+  full vs toy. The cost projection's full-scale assumption is now backed by encoded grids.
+
 ## Deferred (feasible only on the Studio / rented CUDA, or needs weights)
 - Real V-JEPA weight download + real latent caching: scaffolded, falls back to the
   synthetic latent generator. Unblock: `pip install -e .[encoder]` then run

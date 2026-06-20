@@ -34,11 +34,20 @@ def expand(axes: dict[str, list], seeds: list[int], base: list[str]) -> list[lis
 
 
 def run_sweep(leg: dict, toy: bool = True, max_runs: int | None = None) -> list[dict]:
-    """Run every (axis-combo x seed) in a leg. Returns [{overrides, metrics}]."""
+    """Run every (axis-combo x seed) in a leg. Returns [{overrides, metrics}].
+
+    toy: the reduced axis subset + small overrides (the laptop validation grid).
+    full: the genuine factorial (leg['full_axes'] if present, else 'axes') x full seed set
+    (leg['full_seeds'] if present, else 'seeds'), with toy_overrides dropped. The Studio runs
+    `run_queue.py --full`; the cost projection is computed against these full grids."""
     base = [f"experiment={leg['experiment']}"] + list(leg.get("base_overrides", []))
     if toy:
         base += list(leg.get("toy_overrides", []))
-    combos = expand(dict(leg.get("axes", {})), list(leg.get("seeds", [0])), base)
+        axes, seeds = dict(leg.get("axes", {})), list(leg.get("seeds", [0]))
+    else:
+        axes = dict(leg.get("full_axes", leg.get("axes", {})))
+        seeds = list(leg.get("full_seeds", leg.get("seeds", [0])))
+    combos = expand(axes, seeds, base)
     if max_runs is not None:
         combos = combos[:max_runs]
     results = []

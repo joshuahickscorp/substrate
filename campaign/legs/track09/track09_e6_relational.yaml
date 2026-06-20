@@ -14,3 +14,13 @@ toy_overrides:
 - experiment.epochs=80
 note: Relational map 2-vs-2.1 (pooled vs dense). 2.1-only science; frozen-random fallback
   this session.
+full_axes:
+  experiment.n_attr:
+  - 3
+  - 4
+full_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4

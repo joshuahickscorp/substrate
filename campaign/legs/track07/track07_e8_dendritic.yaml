@@ -12,3 +12,14 @@ toy_overrides:
 - experiment.samples_per_task=160
 - experiment.seeds=[0,1,2]
 note: Dendritic predictor toy test (online streaming, matched params).
+full_axes:
+  experiment.branches:
+  - 2
+  - 3
+  - 4
+full_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4

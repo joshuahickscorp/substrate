@@ -23,6 +23,8 @@ encoder = ["transformers>=4.44", "huggingface-hub>=0.24"]
 ann = ["hnswlib>=0.8"]
 # Apple Silicon throughput experiment (optional, not on the hot path; see APPLE_SILICON.md).
 apple = ["mlx>=0.18; platform_machine == 'arm64' and sys_platform == 'darwin'"]
+# Real natural-video decode for the real-latent caching path (lazy-imported; decord is an alt).
+video = ["torchvision>=0.19"]
 dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.11"]
 
 [project.scripts]

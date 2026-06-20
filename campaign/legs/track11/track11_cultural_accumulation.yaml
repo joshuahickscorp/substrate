@@ -11,3 +11,8 @@ toy_overrides:
 - experiment.n_actions=80
 note: Cultural accumulation across an agent population. Lab-scale, Tier R. Disabled
   by default (optional leg).
+full_axes: {}
+full_seeds:
+- 0
+- 1
+- 2

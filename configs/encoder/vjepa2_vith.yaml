@@ -1,0 +1,14 @@
+# V-JEPA 2 ViT-H/16: real, verified on HF (~630M). Between ViT-L and ViT-g. Frozen, inference-only.
+name: vjepa2_vith
+arch: vit_huge
+hf_id: facebook/vjepa2-vith-fpc64-256   # verified present on HF
+hub: facebookresearch/jepa
+embed_dim: 1280                          # verified from the model config.json
+patch_size: 16
+tubelet: 2
+frames_per_clip: 64
+resolution: 256
+dense: false
+pool: mean
+frozen: true
+prefer_real: false    # opt-in: real weights need real video; default stays frozen-random/synthetic

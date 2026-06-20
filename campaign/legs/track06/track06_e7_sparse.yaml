@@ -15,3 +15,17 @@ toy_overrides:
 - experiment.epochs_per_task=25
 note: 'Axis D structural: sparse/modular interference at matched params (pairs with
   consolidation).'
+full_axes:
+  experiment.kwta_k:
+  - 4
+  - 8
+  - 16
+  experiment.n_experts:
+  - 2
+  - 4
+full_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4

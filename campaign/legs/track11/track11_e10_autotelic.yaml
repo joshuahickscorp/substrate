@@ -13,3 +13,8 @@ toy_overrides:
 - experiment.n_actions=80
 note: 'Open-ended capstone (autotelic single agent). Tier R: rented CUDA + procedural
   env. Disabled.'
+full_axes: {}
+full_seeds:
+- 0
+- 1
+- 2

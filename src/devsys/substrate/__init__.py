@@ -7,6 +7,7 @@ from .cache import cache_latents, synthetic_clips
 from .datasets import Task, make_task_stream, noisy_tv_dataset, stream_from_store
 from .encoder import EncoderSpec, FrozenEncoder, load_encoder
 from .latent_store import LatentStore, StoreMeta
+from .video import iter_video_clips, preprocess_clip, read_video
 
 __all__ = [
     "EncoderSpec",
@@ -20,4 +21,7 @@ __all__ = [
     "make_task_stream",
     "noisy_tv_dataset",
     "stream_from_store",
+    "preprocess_clip",
+    "read_video",
+    "iter_video_clips",
 ]

@@ -37,22 +37,29 @@ resize automatically. No shell code changes. The dense 2.1 encoders
 `2.1-only` experiments (E6); see the tier table below.
 
 ### 3. Real latent caching: synthetic -> real V-JEPA
-Today the substrate falls back to a frozen-random projection + synthetic latent generator,
-and the store records `backend` so synthetic latents are never mistaken for real ones. To
-cache real V-JEPA latents you need weights (network access to HuggingFace) and the encoder
-extra:
+Today the substrate defaults to frozen-random + the synthetic latent generator (the grids run
+on these, tagged provisional). Real V-JEPA 2 ViT-L weights load and a real-encoder cache has
+been validated (see CPU_RUN_REPORT.md). The remaining step for REAL natural-video science is
+just dropping real clips and running the video cache:
 
 ```
-uv pip install -e ".[encoder]"          # transformers + huggingface-hub (lazy-imported)
-.venv/bin/python scripts/cache_latents.py encoder=vjepa2_vitl_fpc64_256 +source=<videos>
+uv pip install -e ".[encoder,video]"    # transformers + huggingface-hub + torchvision (decode)
+# drop class-foldered clips under <dir>/<class>/*.mp4, then:
+.venv/bin/python scripts/cache_video.py +source=<dir> encoder=vjepa2_vitl_fpc64_256 device=mps +total=N
 ```
 
-`cache_latents.py` runs the frozen encoder once over the clips and writes latents to the
-memmap store (`substrate/cache.py`, `substrate/latent_store.py`). Because the encoder is
-frozen, the cache never goes stale: there is no retraining that could invalidate it. Cache
-once, iterate forever. After caching, every experiment reads the real cache with no further
-change; the `backend` field flips from `frozen_random` to `vjepa_hf`/`vjepa_hub` in the
-store manifest, which is your proof the latents are real.
+`substrate/video.py` decodes + preprocesses (frame-sample, resize, ImageNet-normalize) to
+V-JEPA's `[B,64,3,256,256]`; `cache_video.py` runs the frozen encoder once and writes the
+memmap store (`substrate/cache.py`, `substrate/latent_store.py`). Because the encoder is frozen
+the cache never goes stale. Every experiment then reads the real cache with no change; the
+`backend` field flips `frozen_random` -> `vjepa_hf`, your proof the latents are real. The
+structured-synthetic real-encoder cache (`scripts/cache_real_encoder.py`, no video files
+needed) is the bridge until natural clips are on disk.
+
+Verified encoder ids (HF, probed 2026-06): real and present are `vjepa2-vitl-fpc64-256` (1024),
+`vjepa2-vith-fpc64-256` (1280), `vjepa2-vitg-fpc64-384` (1408). V-JEPA 2.1 dense is NOT yet on
+HF under any verified id, so the `vjepa21_*` configs are placeholders (`available: false`) and
+the 2.1-only experiments (E6 dense) stay deferred until 2.1 ships.
 
 ### 4. Batch / dataset scale-up knobs
 All overridable as CLI dotlist (`group.key=value`), no edits to source:
@@ -107,21 +114,22 @@ lab-scale. C runs now; E and R wait for env + rented CUDA.
 
 ## First commands on the new machine
 
-Mac Studio (cuda available, scale up the cached-latent bank):
+Mac Studio (Apple Silicon -- stay on mps, scale up the cached-latent bank):
 
 ```
 uv venv --python 3.12 .venv
-uv pip install -e ".[dev,ann,encoder]"          # encoder extra for real weights
-make test                                        # confirm green on the new box first
-.venv/bin/python -m devsys.diagnostics ... determinism   # or: make diag, set tolerances
-# cache real latents once (network to HF required):
-.venv/bin/python scripts/cache_latents.py encoder=vjepa2_vitg +source=<videos>
-# run the bank at scale:
-.venv/bin/python scripts/run_experiment.py experiment=e1_baseline device=cuda encoder=vjepa2_vitg
-make i4                                           # add device=cuda via the script if desired
-# E6 needs the dense 2.1 substrate:
-.venv/bin/python scripts/cache_latents.py encoder=vjepa21_vitl +source=<videos>
-.venv/bin/python scripts/run_experiment.py experiment=e6_relational device=cuda encoder=vjepa21_vitl
+uv pip install -e ".[dev,ann,encoder,video,apple]"   # video=torchvision decode, apple=mlx (optional)
+make test                                            # confirm green on the new box first
+make diag                                            # determinism + diagnostics; set tolerances
+# verify the 64-frame ViT-L forward runs on Metal here (it hangs the M3; more GPU cores should lift it):
+.venv/bin/python scripts/cache_real_encoder.py device=mps +classes=2 +per_class=1   # smoke
+# cache REAL natural-video latents once (drop clips under <dir>/<class>/*.mp4):
+.venv/bin/python scripts/cache_video.py +source=<dir> encoder=vjepa2_vitl_fpc64_256 device=mps +total=N
+# run the bank at scale on Metal (NOT cuda; the Studio is Apple Silicon):
+.venv/bin/python scripts/run_experiment.py experiment=e1_baseline device=mps encoder=vjepa2_vitg
+.venv/bin/python scripts/run_queue.py --tiers C --full   # full factorials (217 run-units; see cost projection)
+# E6 (dense 2.1) waits for V-JEPA 2.1 to ship on HF (vjepa21_* configs are placeholders today).
+# Tier R env rollouts (E5/E10) are the only cuda path: rent a GPU and `--tiers C,E,R --full`.
 ```
 
 Rented CUDA (env rollouts, Tier R):

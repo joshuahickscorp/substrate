@@ -12,3 +12,12 @@ toy_overrides:
 - experiment.epochs=120
 - experiment.seeds=[0,1]
 note: I4 backprop-alternatives comparison table (BP/FA/DFA/FF/target-prop/eq-prop/PC).
+full_axes:
+  experiment.hidden:
+  - 32
+  - 48
+  - 64
+full_seeds:
+- 0
+- 1
+- 2

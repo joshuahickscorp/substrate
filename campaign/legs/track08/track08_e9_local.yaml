@@ -13,3 +13,12 @@ toy_overrides:
 - experiment.passes=3
 - experiment.seeds=[0,1]
 note: Local-learning head, streaming regime (activation memory + online stability).
+full_axes:
+  experiment.hidden:
+  - 32
+  - 48
+  - 64
+full_seeds:
+- 0
+- 1
+- 2

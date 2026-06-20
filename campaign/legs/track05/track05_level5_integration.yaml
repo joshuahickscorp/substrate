@@ -16,10 +16,22 @@ toy_overrides:
 - experiment.stream.samples_per_task=160
 - shell.buffer.index=brute
 - shell.consolidation.method=ewc
-# the protected arm becomes the genuine E2+E3+E4 combination: replay (E2) + EWC consolidation +
-# staged plasticity (E3) + uncertainty neuromodulation (E4), all wired into one Learner.
 - experiment.configs.protected.plasticity=true
 - experiment.configs.protected.neuromod=true
 - shell.plasticity.schedule=soft
 note: 'Level-5 headline: E2+E3+E4 combined (replay + EWC + staged plasticity + uncertainty
   gating) wired into the protected arm vs the naive baseline.'
+full_axes:
+  experiment.stream.separation:
+  - 0.3
+  - 0.5
+  - 0.7
+  experiment.head.depth:
+  - 1
+  - 2
+full_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4
