@@ -1,0 +1,18 @@
+# I4: backprop-alternatives comparison. Fully implemented (not a scaffold). Tier: cpu-now.
+id: i4_backprop_alts
+name: backprop_alternatives
+module: i4_backprop_alternatives
+metric: [accuracy_gap, locality, compute_cost, stability]
+null_hypothesis: "no alternative comes within `margin` accuracy of backprop at matched head/data/seed/budget"
+tier: cpu-now
+
+# shared, fixed across all rules:
+dim: 64
+n_classes: 10
+samples: 400
+separation: 0.6        # hard enough that bio-plausible rules trail backprop (the expected gap)
+hidden: 48
+epochs: 250
+lr: 0.05
+seeds: [0, 1, 2]
+margin: 0.03           # "within margin of backprop" threshold
