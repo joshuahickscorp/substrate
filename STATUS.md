@@ -31,7 +31,9 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] E1 integration gate GREEN: naive BWT -0.40 forgets, protected BWT -0.14 retains, both learn last task; plots saved
 
 ## Phase 5 diagnostics
-- [ ] linear_probe, noisy_tv, calibration, fisher_trace, determinism
+- [x] linear_probe (decodability), noisy_tv (epistemic collapses on noise, error stays high, LP separates)
+- [x] calibration (reliability+ECE), fisher_trace (critical-period signature), determinism (Metal spread)
+- [x] 9 diagnostics tests green
 
 ## Phase 6 experiment scaffolds + local-learning comparison
 - [ ] E2-E10 scaffolds (metric+null baked, toy-runnable)
