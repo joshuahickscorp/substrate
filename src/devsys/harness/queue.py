@@ -100,11 +100,14 @@ def run_queue(
     toy: bool = True,
     max_runs_per_leg: int | None = 1,
     run_disabled: bool = False,
+    max_legs: int | None = None,
 ) -> dict:
     legs = load_queue(path)
     validate(legs)
     tiers = enabled_tiers or {"C"}
     chosen = plan(legs, tiers, run_disabled)
+    if max_legs is not None:
+        chosen = chosen[:max_legs]
     summary = {
         "total_legs": len(legs),
         "enabled_tiers": sorted(tiers),

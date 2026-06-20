@@ -1,0 +1,14 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track08_i4_backprop_alts
+experiment: i4_backprop_alts
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.samples=240
+- experiment.epochs=120
+- experiment.seeds=[0,1]
+note: I4 backprop-alternatives comparison table (BP/FA/DFA/FF/target-prop/eq-prop/PC).

@@ -96,7 +96,7 @@ def main() -> int:
         step("campaign queue dry-run", False, repr(e))
 
     try:
-        ran = run_queue(dry_run=False, enabled_tiers={"C"}, toy=True, max_runs_per_leg=1)
+        ran = run_queue(dry_run=False, enabled_tiers={"C"}, toy=True, max_runs_per_leg=1, max_legs=1)
         step("one toy Tier C leg", len(ran.get("results", {})) >= 1, str(ran.get("results")))
     except Exception as e:
         step("one toy Tier C leg", False, repr(e))

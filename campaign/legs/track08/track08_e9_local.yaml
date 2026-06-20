@@ -1,0 +1,15 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track08_e9_local
+experiment: e9_local
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.dim=48
+- experiment.samples=240
+- experiment.passes=3
+- experiment.seeds=[0,1]
+note: Local-learning head, streaming regime (activation memory + online stability).

@@ -1,0 +1,14 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track07_e8_dendritic
+experiment: e8_dendritic
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.dim=48
+- experiment.samples_per_task=160
+- experiment.seeds=[0,1,2]
+note: Dendritic predictor toy test (online streaming, matched params).

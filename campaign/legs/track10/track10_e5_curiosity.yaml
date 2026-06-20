@@ -1,0 +1,16 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track10_e5_curiosity
+experiment: e5_curiosity
+tier: E
+seeds:
+- 0
+- 1
+- 2
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.dim=32
+- experiment.rounds=6
+note: Curiosity self-curriculum. Data-selection variant toy-runnable; env-rollout
+  variant needs an environment (Tier E, disabled).

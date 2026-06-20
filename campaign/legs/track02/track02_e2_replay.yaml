@@ -1,0 +1,19 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track02_e2_replay
+experiment: e2_replay
+tier: C
+seeds:
+- 0
+- 1
+- 2
+base_overrides:
+- device=cpu
+axes:
+  shell.buffer.prioritized:
+  - true
+  - false
+toy_overrides:
+- experiment.stream.dim=64
+- experiment.stream.samples_per_task=160
+- shell.buffer.index=brute
+note: 'Axis B memory: replay schemes on the retention-adaptation frontier.'

@@ -1,0 +1,17 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track06_e7_sparse
+experiment: e7_sparse
+tier: C
+seeds:
+- 0
+- 1
+- 2
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.stream.dim=64
+- experiment.stream.samples_per_task=160
+- experiment.epochs_per_task=25
+note: 'Axis D structural: sparse/modular interference at matched params (pairs with
+  consolidation).'

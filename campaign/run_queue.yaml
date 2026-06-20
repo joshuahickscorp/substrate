@@ -1,0 +1,155 @@
+# Volume IV campaign run-queue (SYNTHESIZED: no Volume IV file exists; built from
+# Vol I Section 8 build-order DAG + Section 9 compute map + the experiment bank. See DECISIONS.md).
+# Tiers: C cached-latent (laptop, on by default), E environment (rented single GPU), R rented CUDA / lab-scale.
+# Cached-latent (C) legs are ordered first and enabled; E and R default to disabled.
+legs:
+- name: track01_e1_gate
+  track: track01
+  experiment: e1_baseline
+  tier: C
+  sweep: campaign/legs/track01/track01_e1_gate.yaml
+  depends_on: []
+  run_units: 3
+  enabled: true
+  note: 'Foundation gate: forget-then-retain. Gates every other leg (Vol I Sec 8).'
+- name: track02_e2_replay
+  track: track02
+  experiment: e2_replay
+  tier: C
+  sweep: campaign/legs/track02/track02_e2_replay.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 6
+  enabled: true
+  note: 'Axis B memory: replay schemes on the retention-adaptation frontier.'
+- name: track03_e3_plasticity
+  track: track03
+  experiment: e3_plasticity
+  tier: C
+  sweep: campaign/legs/track03/track03_e3_plasticity.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 3
+  enabled: true
+  note: 'Axis A plasticity: staged vs constant vs tuned-decay + Fisher signature.'
+- name: track04_e4_neuromod
+  track: track04
+  experiment: e4_neuromod
+  tier: C
+  sweep: campaign/legs/track04/track04_e4_neuromod.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 3
+  enabled: true
+  note: 'Axis C uncertainty: noisy-TV gating. Must pass before trusted by E2/E3.'
+- name: track05_level5_integration
+  track: track05
+  experiment: e1_baseline
+  tier: C
+  sweep: campaign/legs/track05/track05_level5_integration.yaml
+  depends_on:
+  - track02_e2_replay
+  - track03_e3_plasticity
+  - track04_e4_neuromod
+  run_units: 3
+  enabled: true
+  note: 'Level-5 headline: E2+E3+E4 combined (replay+plasticity+uncertainty). Anchored
+    on the protected E1 arm.'
+- name: track06_e7_sparse
+  track: track06
+  experiment: e7_sparse
+  tier: C
+  sweep: campaign/legs/track06/track06_e7_sparse.yaml
+  depends_on:
+  - track01_e1_gate
+  - track03_e3_plasticity
+  run_units: 3
+  enabled: true
+  note: 'Axis D structural: sparse/modular interference at matched params (pairs with
+    consolidation).'
+- name: track07_e8_dendritic
+  track: track07
+  experiment: e8_dendritic
+  tier: C
+  sweep: campaign/legs/track07/track07_e8_dendritic.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 1
+  enabled: true
+  note: Dendritic predictor toy test (online streaming, matched params).
+- name: track08_e9_local
+  track: track08
+  experiment: e9_local
+  tier: C
+  sweep: campaign/legs/track08/track08_e9_local.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 1
+  enabled: true
+  note: Local-learning head, streaming regime (activation memory + online stability).
+- name: track08_i4_backprop_alts
+  track: track08
+  experiment: i4_backprop_alts
+  tier: C
+  sweep: campaign/legs/track08/track08_i4_backprop_alts.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 1
+  enabled: true
+  note: I4 backprop-alternatives comparison table (BP/FA/DFA/FF/target-prop/eq-prop/PC).
+- name: track09_e6_relational
+  track: track09
+  experiment: e6_relational
+  tier: C
+  sweep: campaign/legs/track09/track09_e6_relational.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 3
+  enabled: true
+  note: Relational map 2-vs-2.1 (pooled vs dense). 2.1-only science; frozen-random
+    fallback this session.
+- name: track10_e5_curiosity
+  track: track10
+  experiment: e5_curiosity
+  tier: E
+  sweep: campaign/legs/track10/track10_e5_curiosity.yaml
+  depends_on:
+  - track04_e4_neuromod
+  run_units: 3
+  enabled: false
+  note: Curiosity self-curriculum. Data-selection variant toy-runnable; env-rollout
+    variant needs an environment (Tier E, disabled).
+- name: track11_e10_autotelic
+  track: track11
+  experiment: e10_openended
+  tier: R
+  sweep: campaign/legs/track11/track11_e10_autotelic.yaml
+  depends_on:
+  - track05_level5_integration
+  - track10_e5_curiosity
+  run_units: 3
+  enabled: false
+  note: 'Open-ended capstone (autotelic single agent). Tier R: rented CUDA + procedural
+    env. Disabled.'
+- name: track11_poet_envgen
+  track: track11
+  experiment: e10_openended
+  tier: R
+  sweep: campaign/legs/track11/track11_poet_envgen.yaml
+  depends_on:
+  - track11_e10_autotelic
+  run_units: 1
+  enabled: false
+  note: POET-style environment co-evolution. Lab-scale, Tier R. Disabled by default
+    (optional leg).
+- name: track11_cultural_accumulation
+  track: track11
+  experiment: e10_openended
+  tier: R
+  sweep: campaign/legs/track11/track11_cultural_accumulation.yaml
+  depends_on:
+  - track11_e10_autotelic
+  run_units: 1
+  enabled: false
+  note: Cultural accumulation across an agent population. Lab-scale, Tier R. Disabled
+    by default (optional leg).

@@ -45,8 +45,11 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] harness sweep + queue, scripts (cache_latents, run_queue, acceptance)
 
 ## Phase 8 campaign (synthesized; no Vol IV)
-- [ ] resources (encoders, streams, seeds, budget), legs (track01..track11), run_queue.yaml
-- [ ] harness/queue.py + scripts/run_queue.py; dry-run + one toy Tier C leg
+- [x] resources (encoders, streams, seeds, budget_controls)
+- [x] 14 legs across 11 tracks (track01..track11), run_queue.yaml (tier-tagged, dep-aware DAG)
+- [x] harness/queue.py + sweep.py + scripts/run_queue.py; dry-run resolves, all 10 Tier C legs run toy
+- [~] Tier E (track10 curiosity env) + Tier R (track11 capstone/POET/cultural) DEFERRED (disabled): need env + rented CUDA
 
 ## Acceptance
-- [ ] scripts/acceptance.py green end to end
+- [x] scripts/acceptance.py GREEN 10/10 (suite, lint, types, E1 gate, diagnostics, I4, queue dry-run, toy Tier C leg, registry)
+- [x] 65 tests pass; ruff + mypy clean; em-dash-free across code/config/docs

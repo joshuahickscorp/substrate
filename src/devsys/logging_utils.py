@@ -22,7 +22,7 @@ _FMT = "%(asctime)s %(levelname)s %(name)s | %(message)s"
 def get_logger(name: str = "devsys", level: int = logging.INFO) -> logging.Logger:
     log = logging.getLogger(name)
     if not log.handlers:
-        h = logging.StreamHandler(sys.stdout)
+        h = logging.StreamHandler(sys.stderr)  # logs to stderr; data (JSON) stays clean on stdout
         h.setFormatter(logging.Formatter(_FMT, datefmt="%H:%M:%S"))
         log.addHandler(h)
         log.setLevel(level)

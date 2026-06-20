@@ -1,0 +1,20 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track05_level5_integration
+experiment: e1_baseline
+tier: C
+seeds:
+- 0
+- 1
+- 2
+base_overrides:
+- device=cpu
+axes:
+  experiment.stream.separation:
+  - 0.5
+toy_overrides:
+- experiment.stream.dim=64
+- experiment.stream.samples_per_task=160
+- shell.buffer.index=brute
+- shell.consolidation.method=ewc
+note: 'Level-5 headline: E2+E3+E4 combined (replay+plasticity+uncertainty). Anchored
+  on the protected E1 arm.'

@@ -1,0 +1,15 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track04_e4_neuromod
+experiment: e4_neuromod
+tier: C
+seeds:
+- 0
+- 1
+- 2
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.dim=40
+- experiment.steps=140
+note: 'Axis C uncertainty: noisy-TV gating. Must pass before trusted by E2/E3.'

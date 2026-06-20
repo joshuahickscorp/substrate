@@ -1,0 +1,13 @@
+# Campaign leg sweep config (synthesized from the corpus DAG; no Volume IV exists).
+leg: track11_poet_envgen
+experiment: e10_openended
+tier: R
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.n_actions=80
+note: POET-style environment co-evolution. Lab-scale, Tier R. Disabled by default
+  (optional leg).
