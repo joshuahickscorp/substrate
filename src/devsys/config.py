@@ -45,6 +45,7 @@ def compose(
 
     group_over, dot_over = {}, []
     for o in overrides or []:
+        o = o.lstrip("+")  # Hydra-style add-key prefix; OmegaConf merge adds keys anyway
         key, _, val = o.partition("=")
         if key in GROUPS:
             group_over[key] = val

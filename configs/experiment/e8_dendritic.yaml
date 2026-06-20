@@ -1,0 +1,26 @@
+# E8: dendritic predictor. Parameter-matched plain MLP vs context-gated dendritic head on an
+# ONLINE (one-pass, no-epoch) domain-incremental latent stream. Tier: cpu-now.
+id: e8_dendritic
+name: dendritic_predictor
+module: e8_dendritic
+metric: [capacity_per_param, adaptation_speed, forgetting]
+null_hypothesis: "the dendritic head only ties the parameter-matched MLP online (analogy adds complexity, no benefit); dendritic_beats_mlp is False"
+tier: cpu-now
+
+# online domain-incremental stream (shared by both arms, per seed):
+dim: 64
+n_tasks: 4
+classes_per_task: 4      # shared label space; domain geometry shifts each task
+samples_per_task: 240
+separation: 1.2
+
+# dendritic head shape; the MLP hidden width is auto-chosen to match total params
+hidden: 16
+branches: 3              # branch sub-linears per unit, context-gated max combination
+
+# online optimization (one SGD step per minibatch, single pass)
+lr: 0.05
+batch: 16
+adapt_floor: 0.6         # accuracy floor that defines "adapted" on a fresh domain
+margin: 0.0              # capacity-per-param edge the dendritic head must clear to "win"
+seeds: [0, 1, 2, 3, 4]

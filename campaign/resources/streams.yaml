@@ -1,0 +1,180 @@
+# Stream Library (campaign SHARED RESOURCE). SYNTHESIZED faithfully: no Volume IV exists, so
+# this is the cross product of incremental TYPE x LENGTH/shape, with params that map directly
+# onto substrate/datasets.py::make_task_stream (and noisy_tv_dataset for the adversarial row).
+# Form: no em dashes or en dashes (commas, colons, parentheses only), per BLACKHOLE.md.
+#
+# make_task_stream signature it targets:
+#   make_task_stream(n_tasks, dim, classes_per_task, samples_per_task, separation,
+#                    incremental, forward_dynamics, seed)
+# incremental in {task, class, domain}. Toy defaults run in seconds on mps; each entry also
+# carries the full-scale value to flip on the Studio / rented box (SCALING.md scale-up knobs).
+# dim follows the selected encoder embed_dim (default 1024 for vjepa2_vitl_fpc64_256).
+
+defaults:
+  dim: 1024                     # = encoder.embed_dim of the campaign default substrate
+  forward_dynamics: false       # set true for next-latent target legs (E5 learning-progress, E6 dynamics)
+
+# Incremental TYPE axis (faithful to make_task_stream semantics in substrate/datasets.py):
+#   task   = each task reuses labels 0..k-1, task id known at eval (the standard CL baseline)
+#   class  = label space grows, each task adds new classes (harder, EWC/SI saturate, per corpus)
+#   domain = shared labels, INDEPENDENT geometry per task (the reliable catastrophic-forgetting
+#            regime, faithful to distinct video domains, what E1 the gate uses)
+incremental_types: [task, class, domain]
+
+# LENGTH / shape axis. short/medium/long set the sequence length and per-task volume; cyclic
+# revisits earlier tasks (tests retention under recurrence); adversarial pairs a learnable
+# region against an unlearnable noisy-TV region (uses noisy_tv_dataset, not make_task_stream).
+shapes: [short, medium, long, cyclic, adversarial]
+
+# Real-video cached-latent SOURCES (from the corpus Dataset/environment notes, Vol I): three
+# or four distinct domains so cross-domain interference is real. Each stream entry names which
+# source backs it once real latents are cached (scripts/cache_latents.py + encoder extra).
+# Until then the synthetic latent generator backs every entry (store backend frozen_random).
+sources:
+  ssv2:
+    name: Something-Something-v2
+    character: motion-centric, temporal verbs, low egocentrism
+    backs: [task, class]                  # clean labeled motion classes for type-incremental streams
+    note: 77.7 global recognition reported on the substrate; good clean-label source.
+  ego4d_epic:
+    name: Ego4D / EPIC-KITCHENS
+    character: egocentric, different statistics, action anticipation
+    backs: [domain]                       # a distinct domain from ssv2 to drive cross-domain interference
+    note: Ego4D 7.71 mAP and EPIC-KITCHENS 40.8 Recall@5 reported; the domain-shift source.
+  moving_object_sim:
+    name: synthetic moving-object simulator
+    character: fully controllable, dial-able difficulty (separation), instrumentable
+    backs: [task, class, domain, adversarial]   # the difficulty knob; also the noisy-TV construction
+    note: You control geometry and separation directly; this is the toy-default surrogate too.
+  droid:
+    name: DROID
+    character: action-conditioned robot trajectories, forward dynamics
+    backs: [cyclic]                       # revisitable trajectory segments, dynamics targets
+    note: Optional, under 62 hours used by 2-AC; forward_dynamics legs and dynamics targets.
+
+# ---- Stream Library: cross product of incremental TYPE x LENGTH/shape ----
+# Each key is <type>_<shape>. params is the toy default passed to make_task_stream; full is the
+# Studio / rented-box scale to flip via the leg sweep (drop toy_overrides).
+
+streams:
+
+  # -------- task-incremental (standard CL baseline, labels reused, id known at eval) --------
+  task_short:
+    incremental: task
+    params: { n_tasks: 3, classes_per_task: 2, samples_per_task: 128, separation: 3.0 }
+    full:   { n_tasks: 5, classes_per_task: 5, samples_per_task: 4096 }
+    source: moving_object_sim
+    note: Smallest sanity stream; high separation so learning is trivial, isolates plumbing.
+
+  task_medium:
+    incremental: task
+    params: { n_tasks: 5, classes_per_task: 2, samples_per_task: 256, separation: 2.0 }
+    full:   { n_tasks: 10, classes_per_task: 5, samples_per_task: 8192 }
+    source: ssv2
+    note: The make_task_stream default shape; the everyday Tier C continual stream.
+
+  task_long:
+    incremental: task
+    params: { n_tasks: 12, classes_per_task: 2, samples_per_task: 256, separation: 1.5 }
+    full:   { n_tasks: 50, classes_per_task: 5, samples_per_task: 8192 }
+    source: ssv2
+    note: Long sequence where Fisher estimate saturates (per corpus EWC/SI weakness); stresses consolidation.
+
+  task_cyclic:
+    incremental: task
+    params: { n_tasks: 6, classes_per_task: 2, samples_per_task: 256, separation: 2.0, revisit: true }
+    full:   { n_tasks: 20, classes_per_task: 5, samples_per_task: 8192, revisit: true }
+    source: droid
+    note: Tasks recur (A B C A B C); tests whether retention survives recurrence vs relearn-from-scratch.
+
+  task_adversarial:
+    incremental: task
+    builder: noisy_tv_dataset           # NOT make_task_stream: learnable vs noise region
+    params: { n: 256, separation: 2.0, noise_scale: 5.0 }
+    full:   { n: 4096, separation: 2.0, noise_scale: 5.0 }
+    source: moving_object_sim
+    note: E4/E5 construction; a correct uncertainty/curiosity mechanism spends near-zero on noise.
+
+  # -------- class-incremental (label space grows each task; harder, baselines struggle) --------
+  class_short:
+    incremental: class
+    params: { n_tasks: 3, classes_per_task: 2, samples_per_task: 128, separation: 3.0 }
+    full:   { n_tasks: 5, classes_per_task: 10, samples_per_task: 4096 }
+    source: ssv2
+    note: Growing head; small enough to debug class-incremental head sizing (total_classes grows).
+
+  class_medium:
+    incremental: class
+    params: { n_tasks: 5, classes_per_task: 2, samples_per_task: 256, separation: 2.0 }
+    full:   { n_tasks: 10, classes_per_task: 10, samples_per_task: 8192 }
+    source: ssv2
+    note: The setting EWC/SI are known to struggle on (corpus); good null-clarity for consolidation legs.
+
+  class_long:
+    incremental: class
+    params: { n_tasks: 12, classes_per_task: 2, samples_per_task: 256, separation: 1.5 }
+    full:   { n_tasks: 50, classes_per_task: 10, samples_per_task: 8192 }
+    source: ssv2
+    note: Long class-incremental; the hardest retention stress, Fisher saturates, replay carries it.
+
+  class_cyclic:
+    incremental: class
+    params: { n_tasks: 6, classes_per_task: 2, samples_per_task: 256, separation: 2.0, revisit: true }
+    full:   { n_tasks: 20, classes_per_task: 10, samples_per_task: 8192, revisit: true }
+    source: droid
+    note: Recurring class blocks; checks whether old classes are recovered or catastrophically overwritten.
+
+  class_adversarial:
+    incremental: class
+    builder: noisy_tv_dataset
+    params: { n: 256, separation: 2.0, noise_scale: 5.0 }
+    full:   { n: 4096, separation: 2.0, noise_scale: 5.0 }
+    source: moving_object_sim
+    note: Growing-label variant of the noisy-TV split; noise region must not consume new-class capacity.
+
+  # -------- domain-incremental (shared labels, independent geometry; reliable forgetting) --------
+  domain_short:
+    incremental: domain
+    params: { n_tasks: 3, classes_per_task: 6, samples_per_task: 128, separation: 0.5 }
+    full:   { n_tasks: 5, classes_per_task: 6, samples_per_task: 4096 }
+    source: moving_object_sim
+    note: Low separation => cross-domain overlap => interference; the smallest forgetting demo.
+
+  domain_medium:
+    incremental: domain
+    params: { n_tasks: 6, classes_per_task: 6, samples_per_task: 256, separation: 0.5 }
+    full:   { n_tasks: 10, classes_per_task: 6, samples_per_task: 8192 }
+    source: ego4d_epic
+    note: The E1 GATE stream (matches configs/experiment/e1_baseline.yaml); must forget naive, retain protected.
+
+  domain_long:
+    incremental: domain
+    params: { n_tasks: 12, classes_per_task: 6, samples_per_task: 256, separation: 0.5 }
+    full:   { n_tasks: 40, classes_per_task: 6, samples_per_task: 8192 }
+    source: ego4d_epic
+    note: Many distinct domains; the strongest catastrophic-forgetting regime, biggest retention gap to recover.
+
+  domain_cyclic:
+    incremental: domain
+    params: { n_tasks: 6, classes_per_task: 6, samples_per_task: 256, separation: 0.5, revisit: true }
+    full:   { n_tasks: 20, classes_per_task: 6, samples_per_task: 8192, revisit: true }
+    source: droid
+    note: Domains recur; measures BWT recovery on return vs full catastrophic overwrite between visits.
+
+  domain_adversarial:
+    incremental: domain
+    builder: noisy_tv_dataset
+    params: { n: 256, separation: 0.5, noise_scale: 5.0 }
+    full:   { n: 4096, separation: 0.5, noise_scale: 5.0 }
+    source: moving_object_sim
+    note: Overlapping-domain noisy-TV; uncertainty gating (E4) must not chase aleatoric domain noise.
+
+# Notes on the shape axis applied uniformly:
+#   short  -> few tasks, high separation, small samples (fast sanity, easy to learn)
+#   medium -> the default working scale per type
+#   long   -> many tasks, lower separation (retention stress; consolidation/replay separation)
+#   cyclic -> revisit: true, earlier tasks recur (retention-under-recurrence, recovery measure)
+#   adversarial -> noisy_tv_dataset learnable-vs-noise split (epistemic vs aleatoric, E4/E5)
+# revisit is a campaign-level flag consumed by the leg sweep ordering, not a make_task_stream
+# argument; the underlying tasks are still generated by make_task_stream and replayed in a
+# recurring order.

@@ -21,7 +21,10 @@ def get_experiment(eid: str) -> Experiment:
     return REGISTRY[eid]()
 
 
-# scaffolds register themselves on import
-from . import scaffolds  # noqa: E402,F401
+# E2-E10 scaffolds, registered on import
+from . import scaffolds  # noqa: E402
+
+for _cls in scaffolds.SCAFFOLDS:
+    REGISTRY[_cls.id] = _cls
 
 __all__ = ["Experiment", "E1", "I4", "REGISTRY", "register", "get_experiment"]

@@ -1,0 +1,19 @@
+# E6: relational map over JEPA latents, the 2-vs-2.1 (pooled-vs-dense) contrast.
+# Two encoders loaded (pooled vjepa2, dense vjepa21). A recombination-generalization task:
+# train on a subset of (attr_a, attr_b) pairs, test on held-out pairs. Structured (relational)
+# head vs parameter-matched flat head, per substrate. Headline = dense delta minus pooled delta.
+# Tier: 2.1-only (the comparison is the point; weights fall back to frozen-random this session).
+id: e6_relational
+name: relational_map_2_vs_21
+module: e6_relational
+metric: [pooled_delta, dense_delta, headline_2_vs_21_delta]
+null_hypothesis: "structured head ties the parameter-matched flat head on recombination, and the dense (2.1) gain is no larger than the pooled (2) gain"
+tier: 2.1-only
+
+samples: 192          # paired synthetic clips; toy scale, runs in seconds
+n_attr: 4             # attributes per slot; composite class space is n_attr*n_attr = 16
+attr_shift: 1.5       # per-attribute clip bias so the frozen latent carries attribute info
+hidden: 64            # flat head hidden width; structured head is parameter-matched to it
+epochs: 120
+lr: 0.01
+tie_eps: 0.01         # delta must exceed this to count as beating the flat baseline (not a tie)

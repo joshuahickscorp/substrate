@@ -1,0 +1,27 @@
+# E2: latent hippocampus (replay). Domain-incremental latent stream, low separation so the
+# no-replay arm forgets. Compares replay schemes on the retention-adaptation frontier and
+# answers the null: prioritized ties random AND replay ties no-replay. Tier: cpu-now.
+id: e2_replay
+name: latent_hippocampus_replay
+module: e2_replay
+metric: [backward_transfer, frontier_auc, adaptation_speed, retention]
+null_hypothesis: "prioritized replay ties random replay AND replay ties no-replay (stream too short or latents not distinct)"
+tier: cpu-now
+
+tie_tol: 0.02            # BWT gap below this counts as a tie (the null answer)
+
+stream:
+  incremental: domain    # shared labels, geometry rotates per domain => reliable forgetting
+  n_tasks: 5
+  dim: 1024
+  classes_per_task: 6
+  samples_per_task: 256
+  separation: 0.5        # low separation => cross-domain overlap => interference => forgetting
+
+train:
+  epochs_per_task: 6
+  batch_size: 32
+
+head:
+  hidden: 64
+  depth: 2               # capacity to retain with replay; overlap forces no-replay to forget

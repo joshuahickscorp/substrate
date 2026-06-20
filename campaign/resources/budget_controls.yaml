@@ -1,0 +1,77 @@
+# Budget Controls (campaign SHARED RESOURCE). SYNTHESIZED faithfully: no Volume IV exists, so
+# the tiers are the DECISIONS.md mapping of Vol I Section 9 compute tractability:
+#   Tier C = laptop-feasible cached-latent (runs now, the dominant cost is your time not compute)
+#   Tier E = environment-needed (env adapter + rented single GPU, rollout-bound)
+#   Tier R = rented CUDA / lab-scale (env generation + population + long runs, DISABLED by default)
+# The corpus says rent a GPU only for rollout-bound and wall-clock-claim work, and only for
+# hours not weeks. Form: no em dashes or en dashes (commas, colons, parentheses only).
+#
+# These controls gate the run queue (harness/queue.py): a leg runs only if its tier is enabled
+# here AND in the queue, its deps are satisfied, and it stays within max_run_units_per_leg.
+
+# Global per-tier enable flags. Matches queue defaults: C on, E and R off until env + rented box.
+enabled:
+  C: true        # cached-latent laptop legs run now
+  E: false       # flip true once an environment adapter exists and a single GPU is rented
+  R: false       # flip true only on a rented CUDA box with the env adapter, for hours
+
+tiers:
+
+  C:
+    name: cached-latent
+    hardware: laptop (M3 Pro 18GB), mps or cpu
+    budget_kind: laptop_hours          # the spend unit is your time, compute is effectively free
+    budget:
+      laptop_hours_soft: 24            # soft cap of wall-clock laptop hours per campaign pass
+      laptop_hours_hard: 72            # hard cap; latent caching is a one-time overnight pass, then free
+    max_run_units_per_leg: 5           # = full seed set; one run-unit is one seed of one leg
+    seed_count: 5                      # full seeds (seeds.yaml seed_lists.full)
+    enabled: true
+    note: >-
+      The whole cpu-now column (E1, E2, E3, E4, E7, E8, E9, I4, E5 data-selection, E6 science).
+      Cache latents once overnight, then iterate against the cache for free. No GPU rental.
+
+  E:
+    name: env
+    hardware: rented single GPU (A100 / H100 spot), hours not weeks
+    budget_kind: gpu_hours             # rented single-GPU hours, rollout-bound
+    budget:
+      gpu_hours_soft: 8                # soft cap per campaign pass; bottleneck is environment steps
+      gpu_hours_hard: 24               # hard cap; cut the run if rollouts blow past this
+      max_usd: 80                      # spot-instance dollar ceiling, accounting-brain guardrail
+    max_run_units_per_leg: 3           # expensive seed set (rollouts are costly)
+    seed_count: 3                      # expensive seeds (seeds.yaml seed_lists.expensive)
+    enabled: false                     # needs the env adapter; flip enabled.E true to arm
+    note: >-
+      E5 curiosity rollout variant and the env side of E10. Bottleneck is environment steps,
+      not model size, so rent a single GPU for hours. Disabled until an env adapter exists.
+
+  R:
+    name: rented_cuda
+    hardware: rented CUDA, lab-scale (env generation + population + long runs)
+    budget_kind: gpu_hours
+    budget:
+      gpu_hours_soft: 24               # soft cap; this is the honestly-partly-lab-scale tier
+      gpu_hours_hard: 96               # hard ceiling; the single most expensive work in the program
+      max_usd: 400                     # hard dollar ceiling
+    max_run_units_per_leg: 3           # 3 seeds even at scale (E10 capstone is 3 to 5)
+    seed_count: 3
+    enabled: false                     # DISABLED BY DEFAULT (DECISIONS.md deferred + queue default)
+    note: >-
+      Tier R legs (rollout-heavy E5, E10 capstone, POET env-generation, cultural accumulation)
+      sit in the queue with enabled false. On a rented box provide the env adapter, flip
+      enabled.R true, then run the queue. Capstone honestly partly exceeds a solo year for the
+      full ambition; the single-agent autotelic version is the feasible rented-GPU prototype.
+
+# Global ceilings across all tiers (a stop is hit if any is exceeded; surface, do not swallow).
+global:
+  max_total_run_units: 200           # campaign-wide cap on total leg-seed runs per pass
+  max_usd_total: 480                 # E plus R dollar ceiling combined
+  require_e1_gate: true              # no downstream leg runs before E1 the gate passes (build-order DAG)
+  determinism_loop_first: true       # run the determinism sanity loop before trusting any delta
+  default_tiers: [C]                 # default enabled tier set if the runner passes none (matches queue)
+  dry_run_default: true             # plan and price before spending; --dry-run resolves with no compute
+
+# Cross-reference: harness/queue.py gates legs by tier and deps and run_units; SCALING.md
+# describes flipping E and R on the rented box; seeds.yaml supplies the seed lists referenced
+# by seed_count here. Tier C is the only tier that runs on the laptop session today.

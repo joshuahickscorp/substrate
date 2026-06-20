@@ -1,0 +1,20 @@
+# E9: local-learning head in the streaming / online-cost regime. Fully implemented. Tier: cpu-now.
+# Distinct from I4: one online pass over a single streamed task, local rules only, the angle is
+# activation memory + online stability, not the full full-batch accuracy grid.
+id: e9_local
+name: local_learning_streaming
+module: e9_local
+metric: [accuracy_vs_backprop, activation_memory, online_stability]
+null_hypothesis: "in the streaming regime no local rule reaches within `margin` of backprop and none offers a memory or online-stability win"
+tier: cpu-now
+
+# the single multiclass latent task (the shared streamed substrate for every rule):
+dim: 64
+n_classes: 8
+samples: 400
+separation: 0.7        # local rules trail backprop here (the expected accuracy gap)
+hidden: 48
+lr: 0.05
+passes: 4              # online passes over the stream (small == streaming/online cost)
+seeds: [0, 1, 2]       # 2-3 seeds for the online-stability proxy
+margin: 0.04           # "within margin of backprop accuracy" threshold

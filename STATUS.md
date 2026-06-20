@@ -36,11 +36,13 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] 9 diagnostics tests green
 
 ## Phase 6 experiment scaffolds + local-learning comparison
-- [ ] E2-E10 scaffolds (metric+null baked, toy-runnable)
-- [ ] I4 backprop-alternatives (full): backprop, FA, DFA, FF, target-prop, eq-prop, predictive-coding
+- [x] E2-E10 scaffolds (all 9; metric+null baked, toy-runnable, each with its own integration test)
+- [x] I4 backprop-alternatives (full): backprop, FA, DFA, FF, target-prop, eq-prop, predictive-coding + table
+- [x] all 11 experiments registered; 59 tests green; lint+types clean
 
 ## Phase 7 polish
-- [ ] README, SCALING, finalize ARCHITECTURE/EXPERIMENTS
+- [x] README, SCALING written (wave 1); ARCHITECTURE/EXPERIMENTS finalized
+- [x] harness sweep + queue, scripts (cache_latents, run_queue, acceptance)
 
 ## Phase 8 campaign (synthesized; no Vol IV)
 - [ ] resources (encoders, streams, seeds, budget), legs (track01..track11), run_queue.yaml

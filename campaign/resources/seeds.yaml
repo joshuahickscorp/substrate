@@ -1,0 +1,57 @@
+# Seed Set (campaign SHARED RESOURCE). SYNTHESIZED faithfully: no Volume IV exists, so this
+# follows DECISIONS.md (5 seeds min, 3 to 5 for E10) and the corpus determinism doctrine
+# (Apple-Silicon Metal at temperature 0 runs near 50% byte-identical; treat seed variance as
+# real, report mean and spread, run the determinism sanity loop first). Form: no em dashes or
+# en dashes (commas, colons, parentheses only), per BLACKHOLE.md.
+#
+# Seeds feed seeding.py and make_task_stream(..., seed=). The base seed in configs/config.yaml
+# is 0; the campaign runs each leg across the set below and aggregates over the runs.
+
+defaults:
+  seeds: [0, 1, 2, 3, 4]        # 5 independent seeds, the reproducibility-claim minimum
+  count: 5
+
+# Per-cost seed counts. Expensive legs (E10 capstone, rollout-bound) use 3; everything else
+# uses the full 5. Cheap cached-latent legs MAY run more if a delta sits inside the spread.
+seed_counts:
+  default: 5                    # all Tier C cached-latent legs, and the gpu-later science
+  expensive: 3                  # E10 capstone and any rollout-heavy leg (3 to 5 per DECISIONS.md)
+  cheap_extra: 8                # optional: when a cross-condition delta is near the Metal spread, add seeds
+
+# Explicit seed lists by cost, sliced from a single deterministic ordering so subsets nest.
+seed_lists:
+  full:      [0, 1, 2, 3, 4]               # the 5-seed default
+  expensive: [0, 1, 2]                     # 3 seeds for E10 / rollout-bound legs
+  extended:  [0, 1, 2, 3, 4, 5, 6, 7]      # 8 seeds when fighting the determinism spread
+
+# Which experiments draw which count (tier tags from EXPERIMENTS.md).
+assignment:
+  E1:  full        # the gate, cheap, full 5
+  E2:  full
+  E3:  full
+  E4:  full
+  E5:  expensive   # rollout variant is env-later, expensive; data-selection variant may use full
+  E6:  full        # 2.1-only science is cached-latent, full 5
+  E7:  full
+  E8:  full
+  E9:  full
+  E10: expensive   # capstone, 3 seeds (3 to 5), the single most expensive leg
+  I4:  full        # backprop-alternatives comparison, matched seed/budget across all rules
+
+# ---- Determinism sanity loop (run BEFORE trusting any cross-condition delta) ----
+determinism_sanity_loop:
+  rationale: >-
+    Apple-Silicon Metal at temperature 0 runs near 50% byte-identical in measured experience,
+    so seed variance is real. Never trust a single run and never trust a cross-condition delta
+    that sits inside the measured Metal spread. On cuda determinism is tighter, so tolerances
+    loosen back toward exact.
+  procedure:
+    - repeat one fixed configuration several times at the same seed
+    - measure the byte-level / metric spread across those repeats (the Metal floor)
+    - only deltas LARGER than that spread are trusted as real cross-condition effects
+  diagnostic: src/devsys/diagnostics/determinism.py    # the harness that measures the spread
+  metal_byte_identical_approx: 0.5                      # ~50% byte-identical at temperature 0, measured
+  order: >-
+    Sanity order on any box: make test green, then run this loop to set tolerances, then trust
+    deltas, then run the bank. Never trust a downstream result before E1 the gate passes.
+  reporting: mean_and_spread     # always report mean and spread across seeds, never a single run
