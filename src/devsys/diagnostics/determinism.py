@@ -19,12 +19,11 @@ def determinism_loop(fn: Callable[[], torch.Tensor], runs: int = 5, seed: int = 
 
 
 def assert_reproducible(
-    fn: Callable[[], torch.Tensor], runs: int = 5, seed: int = 0, floor: float = 1e-6
+    fn: Callable[[], torch.Tensor], runs: int = 5, seed: int = 0, tol: float = 1e-4
 ) -> VarianceReport:
-    """Soft reproducibility check: passes if spread is within a tolerance derived from the
-    measured spread itself (never asserts bit-exactness on Metal)."""
+    """Reproducibility check against an ABSOLUTE tolerance (default fp32-friendly 1e-4), so
+    the assertion can actually fail. Never asserts bit-exactness on Metal: pass a larger tol
+    for ops with known Metal nondeterminism, sized from determinism_loop on this machine."""
     rep = determinism_loop(fn, runs, seed)
-    assert rep.max_abs <= rep.tol(floor), (
-        f"run-to-run spread {rep.max_abs} exceeds tolerance {rep.tol(floor)}"
-    )
+    assert rep.max_abs <= tol, f"run-to-run spread {rep.max_abs} exceeds tolerance {tol}"
     return rep

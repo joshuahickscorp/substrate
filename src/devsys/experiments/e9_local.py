@@ -15,6 +15,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import matplotlib
+import torch
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
@@ -28,6 +29,22 @@ from .base import Experiment  # noqa: E402
 
 # the subset that is genuinely local (local credit assignment, no global backward pass)
 LOCAL_RULES = ("forward_forward", "equilibrium_prop", "predictive_coding", "target_prop")
+
+
+def _measured_run(fn, x, y, hidden, epochs, lr, seed):
+    """Run a rule while MEASURING activation memory: the total autograd saved-tensor elements
+    it retains for backward. Rules that do global/local backprop save activations; rules with
+    purely manual updates (no autograd backward) save ~zero. This is the real footprint, not a
+    stipulated constant, so the memory comparison can come out either way."""
+    saved = {"elems": 0}
+
+    def pack(t):
+        saved["elems"] += int(t.numel())
+        return t
+
+    with torch.autograd.graph.saved_tensors_hooks(pack, lambda t: t):
+        r = fn(x, y, hidden=hidden, epochs=epochs, lr=lr, seed=seed)
+    return r, float(saved["elems"])
 
 
 class E9(Experiment):
@@ -65,11 +82,11 @@ class E9(Experiment):
             last = None
             for s in seeds:
                 seed_everything(s)
-                # streaming: few passes, small lr; activation_memory is the rule's online footprint
-                r = fn(x, y, hidden=int(e.hidden), epochs=passes, lr=float(e.lr), seed=s)
+                # streaming: few passes, small lr; activation memory is MEASURED, not stipulated
+                r, mem = _measured_run(fn, x, y, int(e.hidden), passes, float(e.lr), s)
                 accs.append(r.test_acc)
                 secs.append(r.seconds)
-                mems.append(r.activation_memory)
+                mems.append(mem)
                 last = r
             assert last is not None  # seeds is non-empty
             mean = sum(accs) / len(accs)
@@ -133,7 +150,7 @@ class E9(Experiment):
         ax2.axhline(bp_mem, color="k", linestyle="--", alpha=0.6, label="backprop memory")
         ax2.set_xticks(range(len(names)))
         ax2.set_xticklabels(names, rotation=35, ha="right", fontsize=7)
-        ax2.set_ylabel("relative activation memory (lower == online win)")
+        ax2.set_ylabel("activation memory (autograd saved-tensor elems)")
         ax2.set_title("E9: online activation memory")
         ax2.legend(fontsize=8)
         fig.tight_layout()

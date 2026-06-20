@@ -47,8 +47,12 @@ def test_e9_streaming_local_learning(tmp_path):
     assert out["null_supported"] == (
         (not out["any_local_within_margin"]) and (not out["best_local_memory_win"])
     )
-    # at least one local rule wins on activation memory here (the expected online angle)
-    assert out["best_local_memory_win"] is True
+    # MEASURED, falsifiable: backprop retains a real autograd activation footprint and the
+    # leanest local rule (manual, no autograd graph) retains strictly less. Would fail if the
+    # memory measurement broke or every local rule used autograd as heavily as backprop.
+    bp_mem = out["backprop_activation_memory"]
+    min_local_mem = min(out["table"][n]["activation_memory"] for n in LOCAL_RULES)
+    assert bp_mem > 0 and min_local_mem < bp_mem, (min_local_mem, bp_mem)
 
     # the plot was saved
     assert (tmp_path / "e9_local" / "e9_streaming.png").exists()

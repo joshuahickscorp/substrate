@@ -22,7 +22,7 @@ from ..devices import DeviceInfo  # noqa: E402
 from ..learning.backprop import Learner, TrainConfig  # noqa: E402
 from ..metrics import ContinualResult, FrontierPoint, frontier_auc, retention_from_bwt  # noqa: E402
 from ..seeding import seed_everything  # noqa: E402
-from ..shell import Consolidation, ReplayBuffer  # noqa: E402
+from ..shell import Consolidation, Neuromodulation, PlasticityController, ReplayBuffer  # noqa: E402
 from ..shell.heads import ClassHead  # noqa: E402
 from ..substrate.datasets import Task, make_task_stream  # noqa: E402
 from .base import Experiment  # noqa: E402
@@ -103,13 +103,29 @@ class E1(Experiment):
             else None
         )
         con = Consolidation(sh.consolidation) if bool(flags.ewc) else None
+        # optional arms (used by the Level-5 leg to combine E2+E3+E4 in one run)
+        plast = (
+            PlasticityController(sh.plasticity, seed=int(cfg.seed))
+            if bool(flags.get("plasticity", False))
+            else None
+        )
+        nm = Neuromodulation(sh.neuromod) if bool(flags.get("neuromod", False)) else None
         tc = TrainConfig(
             epochs_per_task=int(cfg.experiment.train.epochs_per_task),
             batch_size=int(cfg.experiment.train.batch_size),
             replay_batch=int(cfg.experiment.train.batch_size),
             base_lr=float(sh.plasticity.lr),
         )
-        learner = Learner(model, device, tc, buffer=buffer, consolidation=con, seed=int(cfg.seed))
+        learner = Learner(
+            model,
+            device,
+            tc,
+            buffer=buffer,
+            consolidation=con,
+            plasticity=plast,
+            neuromod=nm,
+            seed=int(cfg.seed),
+        )
         T = len(train)
         R: list[list[float]] = []
         adapt: list[int] = []

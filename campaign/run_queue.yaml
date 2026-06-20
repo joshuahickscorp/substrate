@@ -53,8 +53,8 @@ legs:
   - track04_e4_neuromod
   run_units: 3
   enabled: true
-  note: 'Level-5 headline: E2+E3+E4 combined (replay+plasticity+uncertainty). Anchored
-    on the protected E1 arm.'
+  note: 'Level-5 headline: E2+E3+E4 combined (replay + EWC + staged plasticity + uncertainty
+    gating) wired into the protected arm vs the naive baseline.'
 - name: track06_e7_sparse
   track: track06
   experiment: e7_sparse

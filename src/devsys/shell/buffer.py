@@ -96,12 +96,12 @@ class ReplayBuffer:
         pmax = float(self.prio[: self.size].max()) if self.size else 1.0
         prio = self._as_prio(priority, n, pmax)
         for j in range(n):
+            self.seen += 1  # count EVERY item seen (Algorithm-R t)
             slot = self._slot(float(prio[j]))
             if slot is None:
                 continue
             self.x[slot], self.y[slot], self.keys[slot], self.prio[slot] = x[j], y[j], key[j], prio[j]
             self.size = max(self.size, slot + 1)
-            self.seen += 1
         self._dirty = True
 
     def _as_prio(self, priority, n, pmax) -> torch.Tensor:

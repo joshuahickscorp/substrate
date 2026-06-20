@@ -115,6 +115,10 @@ class Consolidation:
         if self.si:
             self.si.begin_task(model)
 
+    def before_step(self, model: nn.Module) -> None:
+        if self.si:
+            self.si.before_step(model)
+
     def after_step(self, model: nn.Module) -> None:
         if self.si:
             self.si.after_step(model)

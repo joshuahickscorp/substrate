@@ -38,7 +38,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 ## Phase 6 experiment scaffolds + local-learning comparison
 - [x] E2-E10 scaffolds (all 9; metric+null baked, toy-runnable, each with its own integration test)
 - [x] I4 backprop-alternatives (full): backprop, FA, DFA, FF, target-prop, eq-prop, predictive-coding + table
-- [x] all 11 experiments registered; 59 tests green; lint+types clean
+- [x] all 11 experiments registered; full suite green; lint+types clean
 
 ## Phase 7 polish
 - [x] README, SCALING written (wave 1); ARCHITECTURE/EXPERIMENTS finalized
@@ -52,4 +52,5 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
 ## Acceptance
 - [x] scripts/acceptance.py GREEN 10/10 (suite, lint, types, E1 gate, diagnostics, I4, queue dry-run, toy Tier C leg, registry)
-- [x] 65 tests pass; ruff + mypy clean; em-dash-free across code/config/docs
+- [x] 68 tests pass; ruff + mypy clean; em-dash-free across code/config/docs
+- [x] adversarial review wave applied: fixed SI path-integral wiring, reservoir bias, E9 measured-memory + non-vacuous test, determinism absolute tolerance, Level-5 leg now genuinely combines E2+E3+E4, make diag entry point

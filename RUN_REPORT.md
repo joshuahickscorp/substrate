@@ -36,10 +36,27 @@ green 10/10.
 - Docs: README, ARCHITECTURE, EXPERIMENTS, SCALING, STATUS, DECISIONS, ISSUES, this report.
 
 ## Test results
-- 65 tests pass (unit: foundation, substrate, shell, diagnostics; integration: E1 gate, I4,
+- 68 tests pass (unit: foundation, substrate, shell, diagnostics; integration: E1 gate, I4,
   per-scaffold, campaign queue). ruff lint + format clean. mypy clean (51 source files).
 - `scripts/acceptance.py`: 10/10 PASS (full suite, ruff lint, ruff format, mypy, E1 gate,
   diagnostics, I4 table, queue dry-run, one toy Tier C leg, registry has 11 experiments).
+
+## Adversarial review wave (applied)
+A 4-dimension review + verify workflow (16 agents) audited the build for correctness,
+vacuous tests, silent failures, and corpus faithfulness; 11 confirmed findings were fixed:
+- BLOCKER: SI path integral was computed against task-start, not the previous step
+  (`SI.before_step` was never wired). Now wired in `Learner._step`; regression test added.
+- Reservoir eviction was recency-biased (`seen` counted only accepted writes). Now counts
+  every item (Algorithm-R); uniformity regression test added.
+- E9 activation memory was a stipulated constant (rigged the null). Now MEASURED via autograd
+  saved-tensor traffic; the test asserts a real, falsifiable memory gap.
+- `assert_reproducible` derived its tolerance from the spread it checked (could never fail).
+  Now an absolute tolerance; a can-fail test added.
+- The Level-5 leg ran plain E1; it now genuinely combines E2+E3+E4 (replay + EWC + staged
+  plasticity + uncertainty gating) in the protected arm.
+- `make diag` pointed at a dead override; added `scripts/run_diagnostics.py`.
+- Removed a no-op device-move line in E8; fixed a silent no-op sweep axis in track02; doc
+  test-count drift corrected.
 
 ## Deferred (environment-bound, scaffolded + unblock recorded)
 - Real V-JEPA latent caching: weights not downloaded this session. The frozen-random

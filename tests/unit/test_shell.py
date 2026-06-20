@@ -81,6 +81,19 @@ def test_buffer_is_weights_in_unit_range():
     assert w.max() <= 1.0 + 1e-5 and w.min() > 0
 
 
+def test_reservoir_is_uniform_over_stream():
+    # Algorithm-R: every item survives with prob capacity/N. A recency-biased reservoir keeps
+    # almost nothing from the early stream; a correct one keeps ~capacity * (fraction) from any slice.
+    b = _buf(capacity=100, eviction="reservoir", seed=0)
+    n = 3000
+    for i in range(n):
+        b.add(torch.randn(1, 8), torch.tensor([i]))  # label = stream index
+    assert b.seen == n
+    retained = b.y[: b.size]
+    from_first_fifth = int((retained < n // 5).sum())
+    assert from_first_fifth >= 6, f"recency-biased: only {from_first_fifth} of 100 from first 20%"
+
+
 def test_buffer_retrieval_finds_nearest(tmp_path):
     b = _buf(capacity=50, eviction="fifo", index="brute")
     x = torch.eye(8).repeat(6, 1)[:50]
@@ -113,6 +126,28 @@ def test_si_penalty_hand_case():
         lin.weight.fill_(3.0)  # (3-1)^2 = 4
     # penalty = c * omega * 4 = 0.5 * 2 * 4 = 4
     assert torch.isclose(si.penalty(lin), torch.tensor(4.0))
+
+
+def test_si_path_integral_uses_per_step_deltas():
+    # the path integral must accumulate -grad * (theta_t - theta_{t-1}), NOT theta_t - theta_start.
+    lin = torch.nn.Linear(1, 1, bias=False)
+    with torch.no_grad():
+        lin.weight.fill_(0.0)
+    si = SI()
+    si.begin_task(lin)
+    # step 1: prev=0, grad=1, move to 2 -> w += -1*(2-0) = -2
+    si.before_step(lin)
+    lin.weight.grad = torch.tensor([[1.0]])
+    with torch.no_grad():
+        lin.weight.fill_(2.0)
+    si.after_step(lin)
+    # step 2: prev=2, grad=1, move to 3 -> w += -1*(3-2) = -1   (total -3, NOT -5)
+    si.before_step(lin)
+    lin.weight.grad = torch.tensor([[1.0]])
+    with torch.no_grad():
+        lin.weight.fill_(3.0)
+    si.after_step(lin)
+    assert torch.isclose(si._w["weight"], torch.tensor([[-3.0]]))
 
 
 def test_ewc_fisher_estimation_runs():

@@ -170,7 +170,6 @@ class E8(Experiment):
                     if arm == "mlp"
                     else DendriticHead(dim, hidden, branches, cpt)
                 )
-                safe_to(next(model.parameters()), device.device)
                 model = model.to(device.device)
                 R, adapt = _online_pass(model, stream, device, lr, batch, floor, int(s))
                 finals.append(float(sum(R[-1]) / len(R[-1])))  # final mean acc over all domains

@@ -95,3 +95,17 @@ def test_determinism_loop_cpu_bit_identical():
 def test_assert_reproducible_passes_on_cpu():
     rep = assert_reproducible(lambda: torch.randn(32).sum(), runs=4, seed=1)
     assert rep.runs == 4
+
+
+def test_assert_reproducible_can_fail():
+    # a fn whose output drifts despite reseeding must trip the absolute-tolerance assertion
+    import pytest
+
+    state = {"n": 0.0}
+
+    def drifting():
+        state["n"] += 1.0
+        return torch.tensor(state["n"])
+
+    with pytest.raises(AssertionError):
+        assert_reproducible(drifting, runs=4, seed=0, tol=1e-4)

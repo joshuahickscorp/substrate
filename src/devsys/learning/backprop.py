@@ -111,9 +111,11 @@ class Learner:
             )
             for grp in self.opt.param_groups:
                 grp["lr"] = lr
+        if self.con is not None:
+            self.con.before_step(self.model)  # snapshot theta_{t-1} for the SI path integral
         self.opt.step()
         if self.con is not None:
-            self.con.after_step(self.model)
+            self.con.after_step(self.model)  # accumulate -grad * (theta_t - theta_{t-1})
         return float(loss.detach()), accuracy(logits.detach(), y)
 
     def _end_task(self, task: Task) -> None:

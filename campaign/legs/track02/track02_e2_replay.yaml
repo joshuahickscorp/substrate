@@ -8,12 +8,14 @@ seeds:
 - 2
 base_overrides:
 - device=cpu
+# E2 sweeps its four replay arms (none/random/prioritized/replay+EWC) INTERNALLY, so there is
+# no external prioritized axis to vary; we sweep the tie tolerance that defines its null answer.
 axes:
-  shell.buffer.prioritized:
-  - true
-  - false
+  experiment.tie_tol:
+  - 0.02
+  - 0.05
 toy_overrides:
 - experiment.stream.dim=64
 - experiment.stream.samples_per_task=160
 - shell.buffer.index=brute
-note: 'Axis B memory: replay schemes on the retention-adaptation frontier.'
+note: 'Axis B memory: replay schemes (none/random/prioritized/replay+EWC) on the retention-adaptation frontier.'

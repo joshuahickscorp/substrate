@@ -25,7 +25,7 @@ e1:
 	$(PY) scripts/run_experiment.py experiment=e1_baseline
 
 diag:
-	$(PY) scripts/run_experiment.py +run=diagnostics
+	$(PY) scripts/run_diagnostics.py device=cpu
 
 i4:
 	$(PY) scripts/run_experiment.py experiment=i4_backprop_alts
