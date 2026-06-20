@@ -105,8 +105,10 @@ def main(argv: list[str] | None = None) -> int:
     print(
         f"OK real-encoder cache: {len(store)} latents, backend={enc.spec.backend}, {secs / total:.2f}s/clip"
     )
-    print(f"   linear-probe (REAL-ENCODER) acc={probe['score']:.3f} chance={probe['chance']:.3f} "
-          f"decodable={probe['decodable']} (n={len(store)}, underpowered if small)")
+    print(
+        f"   linear-probe (REAL-ENCODER) acc={probe['score']:.3f} chance={probe['chance']:.3f} "
+        f"decodable={probe['decodable']} (n={len(store)}, underpowered if small)"
+    )
     return 0
 
 

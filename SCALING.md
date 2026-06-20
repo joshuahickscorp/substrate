@@ -1,28 +1,27 @@
 # SCALING
 
-What to flip when the Mac Studio or a rented CUDA box arrives. Nothing here is a code
-change: the system is built cached-latent-first and device-flag-driven on purpose, so scale
-is config plus two scripts. The frozen substrate never trains, so scaling means a bigger
-frozen encoder, real latent caches, larger batches/datasets, and unlocking the tiers that
-need a GPU or an environment. Read ARCHITECTURE.md (device boundary, frozen invariant) and
-EXPERIMENTS.md (tier tags) alongside this.
+What to flip when the Mac Studio (Apple Silicon) or a rented CUDA box arrives. Nothing here is
+a code change: the system is built cached-latent-first and device-flag-driven on purpose, so
+scale is config plus two scripts. The frozen substrate never trains, so scaling means a bigger
+frozen encoder, real latent caches, larger batches/datasets, and unlocking the tiers that need
+more compute or an environment. Read APPLE_SILICON.md (the MPS-first story), ARCHITECTURE.md
+(device boundary, frozen invariant), and EXPERIMENTS.md (tier tags) alongside this.
 
 ## The flips, in order
 
-### 1. Device: mps -> cuda
-The single highest-leverage flip. Everything that touches a device goes through
-`devices.resolve(cfg.device.kind)`, so this is config only.
+### 1. Device: STAY on mps (the Studio is Apple Silicon)
+The Mac Studio is an M-series Apple Silicon machine, NOT a CUDA box: more GPU cores and far
+more unified memory than the laptop, same Metal backend. So the headline scale-up is NOT a
+device flip at all: keep `device=mps` and the same code runs, just bigger. Everything
+device-touching goes through `devices.resolve(cfg.device.kind)`; `auto` already prefers mps on
+Apple Silicon. `configs/device/mps.yaml` carries the Apple-Silicon knobs (`amp: true` fp16,
+`pin_memory: false` unified memory, `allow_cpu_fallback: true`). On the Studio, raise batch and
+cache sizes to use the larger unified memory, and re-test the 64-frame encoder forward on Metal
+(the laptop hits an MPS-compiler limit on it; more GPU cores should lift it; see APPLE_SILICON.md).
 
-```
-device=cuda     # on the CLI, or set defaults.device: cuda in configs/config.yaml
-```
-
-`configs/device/cuda.yaml` already carries the right knobs: `amp: true` (mixed precision),
-`pin_memory: true`, `num_workers: 8`, `allow_cpu_fallback: false` (on the Studio you WANT a
-hard failure on a missing op, not a silent CPU drop), `matmul_precision: high` (tf32 on
-Ampere+). On the laptop `device=mps` keeps `num_workers: 0` (mps + dataloader workers is
-fragile) and `allow_cpu_fallback: true` (MPS op gaps fall back to CPU). Do not change the
-mps file; just stop selecting it.
+`device=cuda` is the rented-box path used ONLY for Tier R environment rollouts (E5/E10), which
+Metal cannot cover cheaply. `configs/device/cuda.yaml` carries `amp: true`, `pin_memory: true`,
+`num_workers: 8`, `allow_cpu_fallback: false`. Select it only for those legs.
 
 ### 2. Larger encoder: vjepa2_vitl -> vjepa2_vitg
 Default substrate is `vjepa2_vitl_fpc64_256` (ViT-L, embed_dim 1024, 256px). On the Studio,

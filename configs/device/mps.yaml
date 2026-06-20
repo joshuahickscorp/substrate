@@ -1,6 +1,11 @@
+# Apple Silicon (Metal / MPS) -- the PRIMARY target. M3 laptop today, M-series Mac Studio later
+# (same code, more GPU cores + more unified memory). amp=fp16 halves memory and speeds inference.
 kind: mps
-amp: false
-pin_memory: false
-num_workers: 0          # mps + dataloader workers is fragile; keep 0 on laptop
-allow_cpu_fallback: true
+amp: true               # fp16 autocast on Metal (opt-in via devices.autocast; inference + heads)
+pin_memory: false       # unified memory: no host/device pinning needed on Apple Silicon
+num_workers: 0          # mps + dataloader workers is fragile; keep 0 (latents are cached anyway)
+allow_cpu_fallback: true  # PYTORCH_ENABLE_MPS_FALLBACK: patchy Metal ops run on cpu, never crash
 matmul_precision: high
+# Known Metal limitation: a 64-frame ViT-L forward (8192 tokens) can hang the MPS compiler on
+# this laptop; cache real latents on cpu (see APPLE_SILICON.md). Standard heads/predictors are fine on mps.
+mps_safe_token_cap: 4096  # route encoder forwards above this token count to cpu

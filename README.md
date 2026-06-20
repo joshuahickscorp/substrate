@@ -38,18 +38,25 @@ and the store records `backend` so synthetic-substrate latents are never mistake
 V-JEPA latents. Every downstream experiment is built and tested on this path. Swapping in
 real latents is a config + script flip, not a code change (see SCALING.md).
 
-## Device flag
+## Device flag (Apple-Silicon-native)
 
-Everything that touches a device goes through `devices.resolve(cfg.device.kind)`. The same
-code runs `device=mps` on the laptop (default, toy scale) and `device=cuda` on the Mac
-Studio or a rented box (full scale) by config alone. MPS op gaps fall back to CPU through
-`devices.safe_to`, never crashing the run. Flip it on the command line:
+This project targets Metal (MPS) first. Everything device-touching goes through
+`devices.resolve(cfg.device.kind)`, which prefers mps on Apple Silicon. The same code runs on
+the M3 laptop today and a bigger M-series Mac Studio later (more GPU cores, more unified
+memory) with NO device change: the Studio is Apple Silicon, not CUDA. fp16 autocast
+(`devices.autocast`), unified memory (no pinning), and graceful MPS->CPU op fallback are built
+in. `device=cuda` is the rented-box path used ONLY for Tier R environment rollouts.
 
 ```
-.venv/bin/python scripts/run_experiment.py experiment=e1_baseline device=cuda
+.venv/bin/python scripts/run_experiment.py experiment=e1_baseline device=mps
 ```
 
-Today: `device=mps`. On the Studio: `device=cuda`. See SCALING.md for the full flip list.
+See APPLE_SILICON.md (the MPS-first story, the 64-frame Metal limit, MLX option) and SCALING.md.
+
+Note on data: V-JEPA ships pretrained WEIGHTS (which load fine, see CPU_RUN_REPORT.md), not a
+training dataset. Its benchmarks (Something-Something-v2, Ego4D, EPIC-KITCHENS) are separate
+datasets to obtain when expanding to natural-video latents. The system runs today on cached
+real-encoder latents (structured-synthetic video) and the synthetic latent generator.
 
 ## Quickstart
 

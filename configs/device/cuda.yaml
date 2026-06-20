@@ -1,5 +1,7 @@
+# cuda is the rented-box path, used ONLY for Tier R environment rollouts (E5/E10). The Studio is
+# Apple Silicon (MPS), not cuda. See APPLE_SILICON.md and SCALING.md.
 kind: cuda
-amp: true                # mixed precision on the Studio / rented CUDA
+amp: true                # mixed precision on rented CUDA
 pin_memory: true
 num_workers: 8
 allow_cpu_fallback: false

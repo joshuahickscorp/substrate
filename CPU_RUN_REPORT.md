@@ -30,6 +30,10 @@ A 96-clip real V-JEPA latent store was cached on CPU (backend=vjepa_hf, MEASURED
   **0.000** with final accuracy **1.000** (perfect retention). The headline E1 contract --
   a naive learner forgets, replay+EWC retains -- now demonstrated on REAL V-JEPA geometry,
   not just synthetic latents.
+- **E2 replay schemes on REAL latents** (promotes E2 to real, no new video): naive -1.000 ->
+  random replay -0.250 -> prioritized replay -0.250 -> replay+EWC 0.000. Replay beats naive
+  decisively; **prioritized ties random** (the corpus's predicted E2 half-null), now confirmed
+  on REAL latents, not just synthetic.
 Caveat: video CONTENT is structured-synthetic (no natural-video dataset here). Re-run on
 SSv2 / Ego4D clips to remove the synthetic-content caveat; the pipeline is proven and GPU
 encoding is ~30x faster.
