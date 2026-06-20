@@ -48,7 +48,11 @@ class FrozenEncoder(nn.Module):
     def encode(self, clips: torch.Tensor) -> torch.Tensor:
         """clips: [B, C, T, H, W] (or [B, ...]) -> pooled [B, D] or dense [B, N, D]."""
         if self._model is not None:
-            out = self._model(clips)
+            # V-JEPA 2 takes pixel_values_videos=[B,T,C,H,W]; other HF models take positional.
+            try:
+                out = self._model(pixel_values_videos=clips)
+            except TypeError:
+                out = self._model(clips)
             feats = out.last_hidden_state if hasattr(out, "last_hidden_state") else out
         else:
             b = clips.shape[0]
@@ -73,13 +77,15 @@ def load_encoder(cfg) -> FrozenEncoder:
     """Build the encoder from an encoder config. Tries real weights, falls back to frozen
     random. cfg has: name, embed_dim, dense, pool, hf_id, hub, frozen."""
     spec = EncoderSpec(name=cfg.name, embed_dim=int(cfg.embed_dim), dense=bool(cfg.dense), pool=str(cfg.pool))
-    model = _try_real_weights(cfg)
+    # Real V-JEPA weights are OPT-IN (prefer_real): they need correctly-shaped real video, so the
+    # toy experiments and the test suite stay on the deterministic frozen-random substrate. The
+    # real-encoder caching script sets prefer_real to fetch and run the actual weights.
+    model = _try_real_weights(cfg) if bool(cfg.get("prefer_real", False)) else None
     if model is not None:
         spec.backend = "vjepa_hf"
-    else:
+    elif bool(cfg.get("prefer_real", False)):
         warnings.warn(
-            f"V-JEPA weights for {cfg.name} unavailable; using FROZEN RANDOM substrate. "
-            "Real latent caching is deferred (see ISSUES.md). Downstream runs on synthetic latents.",
+            f"V-JEPA weights for {cfg.name} requested but unavailable; using FROZEN RANDOM substrate.",
             stacklevel=2,
         )
     return FrozenEncoder(spec, model)

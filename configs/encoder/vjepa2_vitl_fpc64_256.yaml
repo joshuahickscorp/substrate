@@ -11,3 +11,4 @@ resolution: 256
 dense: false          # pooled token output
 pool: mean            # mean | cls | none(dense)
 frozen: true
+prefer_real: false    # opt-in: real weights need real video; default stays frozen-random/synthetic

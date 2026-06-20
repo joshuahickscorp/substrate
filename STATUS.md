@@ -50,6 +50,16 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] harness/queue.py + sweep.py + scripts/run_queue.py; dry-run resolves, all 10 Tier C legs run toy
 - [~] Tier E (track10 curiosity env) + Tier R (track11 capstone/POET/cultural) DEFERRED (disabled): need env + rented CUDA
 
+## CPU-Now campaign (execution session)
+- [x] unlock attempted: real V-JEPA 2 ViT-L weights LOAD from HF (network up); real forward fixed
+      (pixel_values_videos=) and validated [B,64,3,256,256]->[B,8192,1024]
+- [~] real-encoder caching: 64-frame ViT-L forward is very slow on M3 (MPS hung; CPU ~minutes/clip),
+      pipeline proven, useful sample DEFERRED to Studio; campaign science runs PROVISIONAL (synthetic latents)
+- [x] parallel CPU harness (cpu_pool: process pool, thread caps, mem-aware, checkpointed, resumable)
+- [x] studies legs: 11A determinism, 11B seed-variance, 11D negative-registry, 8B assoc-memory, 8C pc-depth, cost-projection
+- [x] T0/T1/8B/8C real results: CPU bit-identical (det), seeds {headline 5, sanity 3}, Hopfield cap 6x vs ff 1x, PC gap widens with depth
+- [ ] full campaign driver run (T0-T2 complete, T3 budget-drained) + cost projection + CPU_RUN_REPORT.md
+
 ## Acceptance
 - [x] scripts/acceptance.py GREEN 10/10 (suite, lint, types, E1 gate, diagnostics, I4, queue dry-run, toy Tier C leg, registry)
 - [x] 68 tests pass; ruff + mypy clean; em-dash-free across code/config/docs

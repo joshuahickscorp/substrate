@@ -51,6 +51,31 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   that grows as a weight stabilizes, structurally close to SI importance) per Vol I.
 - Consolidation = EWC (Fisher proxy) and SI (path integral), both selectable + composable.
 
+## CPU-Now campaign execution (this session)
+- THE UNLOCK SUCCEEDED: real V-JEPA 2 ViT-L weights fetch + load from HF (network reachable),
+  hidden_size 1024, input [B,64,3,256,256] -> last_hidden_state [B,8192,1024]. The deferred
+  real-encoder forward path is now fixed (call with pixel_values_videos=) and exercised.
+- BUT there is no natural-video dataset in this environment. Feeding random pixels through the
+  real encoder gives no class structure. Decision: cache a small REAL-ENCODER latent store from
+  STRUCTURED synthetic video (per-class color/orientation/spatial-frequency/motion), which the
+  real encoder maps to a real perceptual geometry. This gives a genuine REAL-ENCODER answer to
+  the corpus's central diagnostic (is class info linearly decodable from real V-JEPA latents?).
+  Fully-natural-video results remain deferred (drop SSv2/Ego4D clips on the Studio).
+- RESULT TAGS: "real-encoder" = computed on the cached real V-JEPA latents (real weights,
+  structured-synthetic video content). "provisional" = computed on the direct synthetic latent
+  generator (make_task_stream), which the grids use for speed/coverage. Every number carries a tag.
+- PARALLELIZATION: 12 physical cores (6 performance + 6 efficiency). Worker pool of processes
+  (spawn), thread caps set per worker (OMP/MKL/OPENBLAS/VECLIB/NUMEXPR + torch.set_num_threads)
+  so workers x threads ~= 12. Small-head legs: many workers x 1 BLAS thread. Heavy legs: fewer
+  workers x more threads. Memory-aware worker cap (probe footprint, hold under 18 GB). Per-unit
+  subprocess isolation + bounded retry + per-unit result checkpoint (resumable).
+- SCALE CAPS: T0-T2 full seeds (5); T3 reduced seeds (3) + representative axis subsets (recorded
+  per leg in the campaign). Determinism leg (11A) runs single-threaded/serial for a clean baseline.
+- WALL-CLOCK: a literal 24h unattended run is not possible inside one assistant session; instead
+  the cheap tiers run to completion at real (modest) scale producing REAL MEASURED per-run-unit
+  timings, and those timings drive a full-scale cost projection that makes the 24h CPU fill and
+  the Studio campaign plannable. T3 drains a bounded budget, checkpointed and resumable.
+
 ## Deferred (feasible only on the Studio / rented CUDA, or needs weights)
 - Real V-JEPA weight download + real latent caching: scaffolded, falls back to the
   synthetic latent generator. Unblock: `pip install -e .[encoder]` then run
