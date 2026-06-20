@@ -1,0 +1,13 @@
+# Default substrate: V-JEPA 2 ViT-L/16, 64 frames per clip, 256px. Frozen, inference-only.
+name: vjepa2_vitl_fpc64_256
+arch: vit_large
+hf_id: facebook/vjepa2-vitl-fpc64-256
+hub: facebookresearch/jepa
+embed_dim: 1024
+patch_size: 16
+tubelet: 2
+frames_per_clip: 64
+resolution: 256
+dense: false          # pooled token output
+pool: mean            # mean | cls | none(dense)
+frozen: true

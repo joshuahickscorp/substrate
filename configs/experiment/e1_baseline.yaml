@@ -1,0 +1,25 @@
+# E1: the gate experiment. Continual learning over a task sequence on cached latents.
+# Must show forgetting (naive) then retention (replay+EWC) under fixed seeds. Tier: cpu-now.
+id: e1_baseline
+name: continual_learning_gate
+module: e1_baseline_harness
+metric: [backward_transfer, forward_transfer, adaptation_speed, frontier_auc]
+null_hypothesis: "shuffled-task-label control shows no retention gap between naive and replay+EWC"
+tier: cpu-now
+
+stream:
+  kind: synthetic        # synthetic | cached
+  n_tasks: 5
+  dim: 1024
+  classes_per_task: 2
+  samples_per_task: 256
+  separation: 3.0        # cluster separation; controls task distinctiveness
+
+train:
+  epochs_per_task: 3
+  batch_size: 32
+  eval_batch: 128
+
+configs:                 # the two arms the gate compares
+  naive: { buffer.capacity: 0, consolidation.method: none }
+  protected: { buffer.capacity: 1024, consolidation.method: ewc }

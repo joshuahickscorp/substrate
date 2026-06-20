@@ -1,0 +1,13 @@
+# V-JEPA 2 ViT-g: bigger substrate for the Studio. Frozen, inference-only.
+name: vjepa2_vitg
+arch: vit_giant
+hf_id: facebook/vjepa2-vitg-fpc64-384
+hub: facebookresearch/jepa
+embed_dim: 1408
+patch_size: 16
+tubelet: 2
+frames_per_clip: 64
+resolution: 384
+dense: false
+pool: mean
+frozen: true

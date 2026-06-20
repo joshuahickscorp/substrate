@@ -1,0 +1,13 @@
+# V-JEPA 2.1 ViT-B, dense token output (for E6 dense-vs-pooled). Frozen, inference-only.
+name: vjepa21_vitb
+arch: vit_base
+hf_id: facebook/vjepa2.1-vitb-dense
+hub: facebookresearch/jepa
+embed_dim: 768
+patch_size: 16
+tubelet: 2
+frames_per_clip: 16
+resolution: 256
+dense: true           # per-patch tokens, no pooling
+pool: none
+frozen: true

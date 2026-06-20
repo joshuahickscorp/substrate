@@ -1,0 +1,57 @@
+# Canonical full shell bundle. The shell group selects ONE file = one complete shell.
+# Sibling files (buffer/plasticity/consolidation/neuromod/modulation.yaml) are variant
+# bundles that override one block for ablations. Components map to ARCHITECTURE levers.
+
+predictor:
+  kind: mlp              # mlp | action_conditioned
+  hidden: 1024
+  depth: 2
+  dropout: 0.0
+  action_dim: 0          # >0 enables action-conditioned forward model
+  layernorm: true
+
+heads:
+  hidden: 512
+  probabilistic: true    # gaussian head -> mean+logvar, enables calibration + surprise
+  n_classes: 10
+
+ensemble:
+  size: 1                # >1 enables epistemic disagreement signal
+  bootstrap: false
+
+buffer:
+  capacity: 2048
+  prioritized: true
+  alpha: 0.6             # priority exponent
+  beta: 0.4             # IS-weight exponent
+  index: faiss           # faiss | brute | hnsw  (key-value retrieval)
+  key_dim: 1024
+  eviction: reservoir    # reservoir | fifo | priority
+
+plasticity:
+  schedule: soft         # hard | soft | learned
+  lr: 1.0e-3
+  rigidity: 0.0          # perineuronal-net style rigidity term weight
+  pnn_fraction: 0.0      # fraction of units made rigid
+
+consolidation:
+  method: ewc            # none | ewc | si | both
+  ewc_lambda: 1.0e3
+  si_c: 0.1
+  si_xi: 1.0e-3
+  fisher_samples: 64
+
+neuromod:
+  enabled: true
+  surprise_gain: 1.0     # dopamine-like prediction-error gate on plasticity
+  novelty_gain: 1.0      # acetylcholine-like novelty gate
+  uncertainty_gain: 1.0  # noradrenaline-like uncertainty gate
+  gate_floor: 0.1
+  gate_ceil: 3.0
+
+modulation:
+  context_gating: false  # task/context-conditioned gating of units
+  working_memory: false   # small recurrent slot store
+  chunking: false         # sequence chunking module
+  n_contexts: 8
+  wm_slots: 4

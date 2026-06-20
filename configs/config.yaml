@@ -1,0 +1,18 @@
+# Root config. `defaults` selects one file per group under configs/<group>/.
+# Override any with CLI dotlist: device=cuda shell.buffer.capacity=4096
+defaults:
+  device: mps
+  encoder: vjepa2_vitl_fpc64_256
+  shell: predictor
+  experiment: e1_baseline
+
+# package-wide knobs
+package: devsys
+seed: 0
+deterministic: true
+runs_dir: runs
+data_dir: data
+
+# latent dimensionality the shell operates on. Must match encoder.embed_dim.
+# Overridden by the selected encoder config.
+latent_dim: 1024

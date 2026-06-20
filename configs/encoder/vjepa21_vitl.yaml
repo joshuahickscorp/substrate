@@ -1,0 +1,13 @@
+# V-JEPA 2.1 ViT-L, dense token output. Frozen, inference-only.
+name: vjepa21_vitl
+arch: vit_large
+hf_id: facebook/vjepa2.1-vitl-dense
+hub: facebookresearch/jepa
+embed_dim: 1024
+patch_size: 16
+tubelet: 2
+frames_per_clip: 16
+resolution: 256
+dense: true
+pool: none
+frozen: true

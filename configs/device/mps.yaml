@@ -1,0 +1,6 @@
+kind: mps
+amp: false
+pin_memory: false
+num_workers: 0          # mps + dataloader workers is fragile; keep 0 on laptop
+allow_cpu_fallback: true
+matmul_precision: high

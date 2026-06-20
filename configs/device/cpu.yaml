@@ -1,0 +1,6 @@
+kind: cpu
+amp: false
+pin_memory: false
+num_workers: 0
+allow_cpu_fallback: true
+matmul_precision: high

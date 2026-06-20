@@ -1,0 +1,6 @@
+kind: cuda
+amp: true                # mixed precision on the Studio / rented CUDA
+pin_memory: true
+num_workers: 8
+allow_cpu_fallback: false
+matmul_precision: high    # tf32 on Ampere+
