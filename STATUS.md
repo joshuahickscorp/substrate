@@ -64,7 +64,14 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] Studio cost projection (Tier C ~0.11h, E ~1.5h, R ~20h full-scale, laptop-throttled) + CPU_RUN_REPORT.md
 - [x] 98 tests green; lint+types clean; all campaign numbers tagged real-encoder/provisional
 
+## Apple Silicon native (this session)
+- [x] MPS-first device layer: apple_silicon_info (M3 Pro 6P+6E ~19GB), fp16 autocast, unified-memory defaults
+- [x] Studio reframed as Apple Silicon (not CUDA): SCALING.md + configs/device/* + APPLE_SILICON.md; cuda = Tier-R-only
+- [x] mlx optional `apple` extra; V-JEPA = weights not dataset (clarified in README/DECISIONS)
+- [x] real-encoder E2 replay-scheme comparison on the 96-latent store (no new video): replay beats naive, prioritized ties random (corpus null confirmed on REAL latents)
+
 ## Acceptance
 - [x] scripts/acceptance.py GREEN 10/10 (suite, lint, types, E1 gate, diagnostics, I4, queue dry-run, toy Tier C leg, registry)
+- [x] re-verified 10/10 after the Apple Silicon reframe; 103 tests green
 - [x] 68 tests pass; ruff + mypy clean; em-dash-free across code/config/docs
 - [x] adversarial review wave applied: fixed SI path-integral wiring, reservoir bias, E9 measured-memory + non-vacuous test, determinism absolute tolerance, Level-5 leg now genuinely combines E2+E3+E4, make diag entry point

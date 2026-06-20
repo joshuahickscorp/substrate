@@ -76,6 +76,23 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   timings, and those timings drive a full-scale cost projection that makes the 24h CPU fill and
   the Studio campaign plannable. T3 drains a bounded budget, checkpointed and resumable.
 
+## Apple Silicon reframe (this session)
+- The project is now Apple-Silicon-NATIVE: MPS is the primary target, not a fallback. KEY
+  REALIZATION: a Mac Studio is also Apple Silicon (M-series Ultra, more GPU cores + much more
+  unified memory), NOT a CUDA box. So the headline scale-up is "same MPS code, bigger chip",
+  not a device port. `resolve(auto)` prefers mps on Apple Silicon; `cuda` is retained ONLY for
+  Tier R rented-GPU env rollouts (E5/E10). SCALING.md and configs/device/* updated accordingly.
+- Device layer gains `apple_silicon_info()` (chip, P/E cores, unified memory: here M3 Pro,
+  6P+6E, ~19 GB), fp16 `autocast()` for mps/cuda inference, unified-memory defaults (no pinning).
+- Known Metal limit (measured): a 64-frame ViT-L forward (8192 tokens) hangs the MPS compiler on
+  this M3 Pro; real-encoder caching runs on cpu (24 to 32 s/clip). `mps_safe_token_cap` documents
+  the route-to-cpu threshold. Expected to lift on a Studio with more GPU cores; verify there.
+- MLX is an OPTIONAL `apple` extra for encoder-inference throughput, not a dependency and not on
+  the hot path (PyTorch-MPS is the safe default; do not yak-shave MLX).
+- DATA CLARIFICATION: V-JEPA ships pretrained WEIGHTS (loaded successfully), NOT a training
+  dataset. Its benchmarks (SSv2, Ego4D, EPIC-KITCHENS) are external datasets to obtain when
+  expanding to natural-video latents (deferred, not procured this session).
+
 ## Deferred (feasible only on the Studio / rented CUDA, or needs weights)
 - Real V-JEPA weight download + real latent caching: scaffolded, falls back to the
   synthetic latent generator. Unblock: `pip install -e .[encoder]` then run
