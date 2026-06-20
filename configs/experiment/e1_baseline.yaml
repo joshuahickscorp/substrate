@@ -9,17 +9,26 @@ tier: cpu-now
 
 stream:
   kind: synthetic        # synthetic | cached
-  n_tasks: 5
+  incremental: domain    # domain (reliable forgetting) | class | task
+  n_tasks: 6
   dim: 1024
-  classes_per_task: 2
+  classes_per_task: 6    # shared label space across domains
   samples_per_task: 256
-  separation: 3.0        # cluster separation; controls task distinctiveness
+  separation: 0.5        # low separation => cross-domain overlap => interference => forgetting
 
 train:
-  epochs_per_task: 3
+  epochs_per_task: 6
   batch_size: 32
   eval_batch: 128
 
+head:
+  hidden: 64
+  depth: 2               # enough capacity to RETAIN with replay; overlap forces naive to forget
+
 configs:                 # the two arms the gate compares
-  naive: { buffer.capacity: 0, consolidation.method: none }
-  protected: { buffer.capacity: 1024, consolidation.method: ewc }
+  naive:     { replay: false, ewc: false }   # ordinary sequential training: must forget
+  protected: { replay: true,  ewc: true }    # replay + EWC: must retain
+gate:
+  forget_bwt: -0.15      # naive must drop earlier-task accuracy by at least this
+  retain_margin: 0.10    # protected BWT must beat naive BWT by at least this
+  min_last_task: 0.70    # both arms must actually learn the final task

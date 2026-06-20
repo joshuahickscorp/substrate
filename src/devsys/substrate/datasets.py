@@ -53,13 +53,14 @@ def make_task_stream(
     domain-incremental: same labels, the cluster centers rotate/shift per task.
     """
     g = torch.Generator().manual_seed(seed)
-    base = torch.randn(classes_per_task, dim, generator=g)
     tasks: list[Task] = []
     total_classes = classes_per_task * (n_tasks if incremental == "class" else 1)
     for t in range(n_tasks):
         if incremental == "domain":
-            shift = torch.randn(1, dim, generator=g) * separation
-            centers = base + shift
+            # shared label space, INDEPENDENT geometry per domain: the head must remap the
+            # same outputs to new clusters, overwriting prior domains. This is the reliable
+            # catastrophic-forgetting regime (faithful to "distinct video domains").
+            centers = torch.randn(classes_per_task, dim, generator=g)
             label_base = 0
         elif incremental == "task":
             centers = torch.randn(classes_per_task, dim, generator=g)

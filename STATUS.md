@@ -25,7 +25,10 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] 21 shell tests green; lint+types clean
 
 ## Phase 4 E1 (the gate)
-- [ ] continual harness + metrics (BWT/FWT/adaptation/frontier) + forget-then-retain integration test
+- [x] metrics: continual (BWT/FWT/adaptation), frontier (Pareto + AUC)
+- [x] learning.Learner (backprop trainer wiring buffer+EWC/SI+plasticity+neuromod)
+- [x] experiments.base doctrine contract (no null -> cannot define), E1 harness, runner, CLI
+- [x] E1 integration gate GREEN: naive BWT -0.40 forgets, protected BWT -0.14 retains, both learn last task; plots saved
 
 ## Phase 5 diagnostics
 - [ ] linear_probe, noisy_tv, calibration, fisher_trace, determinism
