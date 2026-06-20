@@ -13,8 +13,8 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] tests: foundation (7) green; lint+types clean
 
 ## Phase 2 substrate
-- [ ] encoder (frozen, lazy real weights + synthetic fallback)
-- [ ] latent cache pipeline + memmap store + datasets + synthetic generator
+- [x] encoder (frozen, lazy real weights + frozen-random fallback); grad-free invariant tested
+- [x] latent cache pipeline + memmap store + datasets + synthetic generator (9 tests)
 - [~] real latent caching DEFERRED (no weights this session); synthetic path operational
 
 ## Phase 3 trainable shell
