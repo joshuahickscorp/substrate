@@ -10,3 +10,5 @@ runs/
 *.npy
 *.memmap
 .DS_Store
+
+runs/cpu_campaign/ckpt/
