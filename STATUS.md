@@ -18,9 +18,11 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [~] real latent caching DEFERRED (no weights this session); synthetic path operational
 
 ## Phase 3 trainable shell
-- [ ] predictor (+action-conditioned), heads (+probabilistic), ensemble
-- [ ] buffer (prioritized, KV index, eviction), plasticity (hard/soft/learned + PNN rigidity)
-- [ ] consolidation (EWC + SI), neuromod (DA/ACh/NE gates), modulation (context/WM/chunking)
+- [x] predictor (+action-conditioned), heads (+probabilistic gaussian), ensemble (disagreement)
+- [x] buffer (prioritized PER, KV faiss/brute index, reservoir/fifo/priority eviction)
+- [x] plasticity (hard/soft/learned + PNN rigidity + triggered reopening)
+- [x] consolidation (EWC fisher + SI path-integral, hand-case math tested), neuromod (DA/ACh/NE), modulation (context/WM/chunking)
+- [x] 21 shell tests green; lint+types clean
 
 ## Phase 4 E1 (the gate)
 - [ ] continual harness + metrics (BWT/FWT/adaptation/frontier) + forget-then-retain integration test
