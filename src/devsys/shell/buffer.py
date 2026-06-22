@@ -10,25 +10,59 @@ Prioritized sampling is standard PER: P(i) ~ p_i^alpha, importance weight w_i = 
 
 from __future__ import annotations
 
+import subprocess
+import sys
+import warnings
+
 import torch
+
+_FAISS_SAFE: bool | None = None
+
+
+def faiss_search_safe() -> bool:
+    """Probe (once, cached) whether faiss.search runs safely AFTER torch is imported. On Apple
+    Silicon, faiss 1.14 + this torch share two OpenMP runtimes and faiss.search SEGFAULTS (rc
+    139), which cannot be caught in-process. So we test it in a throwaway subprocess and fall
+    back to the exact brute-force path if it is unsafe. brute is exact, so correctness is never
+    at risk: only large-scale speed, which is a Studio concern."""
+    global _FAISS_SAFE
+    if _FAISS_SAFE is None:
+        code = (
+            "import torch, faiss, numpy as np; i=faiss.IndexFlatL2(4); "
+            "i.add(np.zeros((2,4),'float32')); i.search(np.zeros((1,4),'float32'),1); print('ok')"
+        )
+        try:
+            r = subprocess.run([sys.executable, "-c", code], capture_output=True, timeout=60)
+            _FAISS_SAFE = r.returncode == 0 and b"ok" in r.stdout
+        except Exception:
+            _FAISS_SAFE = False
+    return _FAISS_SAFE
 
 
 class KVIndex:
-    """Nearest-neighbor retrieval over keys. faiss if present and asked, else exact torch
-    cdist (correct at toy scale; the API matches so the Studio can flip to faiss)."""
+    """Nearest-neighbor retrieval over keys. faiss when asked AND safe on this platform, else
+    exact torch cdist (correct at any scale; the API matches so the Studio can use faiss)."""
 
-    def __init__(self, dim: int, kind: str = "faiss"):
+    def __init__(self, dim: int, kind: str = "brute"):
         self.dim = dim
         self.kind = kind
         self._keys: torch.Tensor | None = None
         self._faiss = None
         if kind == "faiss":
-            try:
-                import faiss
-
-                self._faiss = faiss.IndexFlatL2(dim)
-            except Exception:
+            if not faiss_search_safe():
+                warnings.warn(
+                    "faiss.search is unsafe with torch on this platform (segfault risk); "
+                    "using exact brute-force retrieval instead. See APPLE_SILICON.md.",
+                    stacklevel=2,
+                )
                 self.kind = "brute"
+            else:
+                try:
+                    import faiss
+
+                    self._faiss = faiss.IndexFlatL2(dim)
+                except Exception:
+                    self.kind = "brute"
 
     def rebuild(self, keys: torch.Tensor) -> None:
         self._keys = keys.detach().float().cpu()
@@ -59,7 +93,7 @@ class ReplayBuffer:
         prioritized: bool = True,
         alpha: float = 0.6,
         beta: float = 0.4,
-        index: str = "faiss",
+        index: str = "brute",
         eviction: str = "reservoir",
         seed: int = 0,
     ):

@@ -107,6 +107,27 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   total) alongside the toy subsets; `run_queue.py --full` runs them. sweep.run_sweep selects
   full vs toy. The cost projection's full-scale assumption is now backed by encoded grids.
 
+## Pre-Studio hardening sprint (this session)
+- Full-grid accounting (F1): one source of truth `sweep.full_run_units`/`toy_run_units`;
+  cost_projection, `run_queue --full`, and the manifest now agree exactly (tested). Manifest
+  declares full + toy run-units per leg; cost_projection reads full_axes/full_seeds (not the
+  old full_seed param). All 14 legs carry full_axes; toy axes are a verified subset of full.
+- Provenance (F4): `provenance.py` stamps git SHA+dirty, package versions, device, seed,
+  encoder id+backend, cache id, and an enum result_tag into every RunManifest and a
+  provenance.json beside every cache. Result tags: natural-video > real-encoder >
+  structured-synthetic > provisional.
+- Validation (F7): `harness/validate.py` fails fast (bad device/tier/encoder/null, unavailable
+  encoder + prefer_real) and `check_all()` audits all configs+legs; wired into the runner.
+- FAISS SEGFAULT (found by the microbench leg): faiss.search after torch import segfaults on
+  Apple Silicon. Decision: buffer default index = `brute` (exact, safe); `KVIndex` subprocess-
+  probes faiss safety and falls back to brute with a warning. Never silently wrong. See ISSUES.
+- New operator tools, all cpu/seconds, no downloads: studio_doctor (readiness JSON+md),
+  cache_tool (list/info/validate), storage_tool (estimate/list/prune dry-run), bench
+  (microbenchmarks), build_report (analysis scaffold), check_docs (drift gate). Makefile +
+  tests for each.
+- Queue UX (F12): dry-run reports planned/skipped-with-reasons, toy-vs-full unit counts,
+  enabled tiers, and next commands.
+
 ## Deferred (feasible only on the Studio / rented CUDA, or needs weights)
 - Real V-JEPA weight download + real latent caching: scaffolded, falls back to the
   synthetic latent generator. Unblock: `pip install -e .[encoder]` then run

@@ -20,7 +20,13 @@ Empty of hard failures means a clean run.
   preprocessing core is tested today; full decode is exercised on the Studio with real clips.
 
 ## Degraded
-(none)
+- faiss 1.14 + torch on Apple Silicon: `faiss.search()` HARD-SEGFAULTS (rc 139, dual OpenMP
+  runtime) when run after torch is imported, and a segfault cannot be caught in-process.
+  MITIGATED, not a live risk: `KVIndex` probes faiss.search safety once in a subprocess
+  (`shell.buffer.faiss_search_safe`) and falls back to EXACT brute-force retrieval if unsafe;
+  the buffer default index is now `brute`. Correctness is never affected (brute is exact); only
+  large-scale retrieval speed, which is a Studio concern. Unblock: re-probe on the Studio (more
+  GPU cores / a faiss build without the OpenMP clash may make faiss.search safe there).
 
 ## Expected failures (xfail, kept in the suite)
 (none currently; any flaky-on-Metal exact assertion is converted to a tolerance from the

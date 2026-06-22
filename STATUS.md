@@ -79,5 +79,15 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] real-video ingestion: substrate/video.py (decode + tested preprocessing core) + scripts/cache_video.py + [video] extra
 - [x] campaign legs carry full_axes/full_seeds (217 full-scale run-units); run_queue --full runs genuine factorials
 - [x] 108 tests green; acceptance re-verified 10/10; em-dash clean
+
+## Pre-Studio hardening sprint (this session)
+- [x] F1 full-grid accounting: cost_projection == run_queue --full == manifest (single source of truth, tested)
+- [x] F4 provenance: git/packages/device/seed/encoder/cache-id/result-tag in every run manifest + cache provenance.json
+- [x] F7 fail-fast validation (validate.check_all clean) wired into the runner
+- [x] F2 studio_doctor, F9 cache_tool, F14 storage_tool, F5 bench, F11 build_report, F6 check_docs (drift gate) + Makefile targets
+- [x] F3 video hardening (validate source, label-map persist, clip hashes, dup detect, corrupt-skip, mocked decode fixture)
+- [x] F8 failure rehearsal, F13 MPS routing tests, F15 encoder-registry honesty, F12 queue dry-run UX
+- [x] FAISS Apple-Silicon segfault found + mitigated: buffer default index=brute, KVIndex subprocess-probes faiss, exact fallback
+- [x] full suite green; ruff + mypy clean; acceptance 10/10; docs-drift gate clean
 - [x] 68 tests pass; ruff + mypy clean; em-dash-free across code/config/docs
 - [x] adversarial review wave applied: fixed SI path-integral wiring, reservoir bias, E9 measured-memory + non-vacuous test, determinism absolute tolerance, Level-5 leg now genuinely combines E2+E3+E4, make diag entry point

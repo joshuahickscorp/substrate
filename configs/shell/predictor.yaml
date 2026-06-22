@@ -24,7 +24,7 @@ buffer:
   prioritized: true
   alpha: 0.6             # priority exponent
   beta: 0.4             # IS-weight exponent
-  index: faiss           # faiss | brute | hnsw  (key-value retrieval)
+  index: brute           # brute (exact, safe default) | faiss (probed; auto-falls-back) | hnsw
   key_dim: 1024
   eviction: reservoir    # reservoir | fifo | priority
 

@@ -8,16 +8,24 @@ Usage:
 Needs a video backend: uv pip install -e ".[video]" (torchvision) or `uv pip install decord`.
 On this laptop the 64-frame ViT-L forward is faster on cpu (Metal compiler limit); the Studio
 should run it on mps. Latents are tagged backend=vjepa_hf (real) in the store meta.
+
+HARDENING: the source layout is validated before any decode (clear message on missing/empty/no-
+class dirs); a pre-existing store is detected and reported (cache_latents overwrites, not resumes);
+the sorted-folder->index label_map is persisted to <cache>/<name>/label_map.json so labels are
+reproducible; per-clip sha256 content hashes are recorded and duplicates are counted; corrupt
+files are skipped (logged) rather than crashing the run.
 """
 
 from __future__ import annotations
 
+import json
 import sys
 
 from devsys.config import REPO_ROOT, compose
 from devsys.devices import resolve
 from devsys.logging_utils import get_logger
 from devsys.substrate import cache_latents, iter_video_clips, load_encoder
+from devsys.substrate.video import detect_partial_cache, validate_source, write_label_map
 
 log = get_logger("cache_video")
 
@@ -28,6 +36,17 @@ def main(argv: list[str] | None = None) -> int:
     if not source:
         print("FAIL: pass +source=/path/to/clips (a dir of <class>/<clip>.mp4)")
         return 1
+    try:
+        manifest = validate_source(source)
+    except ValueError as e:
+        print(f"FAIL: {e}")
+        return 1
+    log.info(
+        "source ok: %d classes, %d clips, per_class=%s",
+        len(manifest["classes"]),
+        manifest["n_clips"],
+        manifest["per_class"],
+    )
     dev = resolve(str(cfg.device.kind))
     enc = load_encoder(cfg.encoder).to(dev.device)
     if enc.spec.backend == "frozen_random":
@@ -35,12 +54,23 @@ def main(argv: list[str] | None = None) -> int:
     fpc = int(cfg.encoder.frames_per_clip)
     res = int(cfg.encoder.resolution)
     total = int(cfg.get("total", 512))
-    clips = iter_video_clips(
-        source, frames_per_clip=fpc, res=res, batch=int(cfg.get("batch", 2)), limit=total
-    )
+    cache_root = REPO_ROOT / cfg.data_dir / "cache"
     name = f"{cfg.encoder.name}_video"
-    store = cache_latents(enc, clips, REPO_ROOT / cfg.data_dir / "cache", name, total=total, device=dev)
-    print(f"OK cached {len(store)} real-video latents backend={enc.spec.backend} -> {store.root}")
+    detect_partial_cache(cache_root, name)  # report any pre-existing store before we overwrite it
+    hashes: list[str] = []
+    clips = iter_video_clips(
+        source, frames_per_clip=fpc, res=res, batch=int(cfg.get("batch", 2)), limit=total, hashes_out=hashes
+    )
+    store = cache_latents(enc, clips, cache_root, name, total=total, device=dev)
+    label_map_path = write_label_map(store.root, manifest["label_map"])
+    n_dup = len(hashes) - len(set(hashes))
+    (store.root / "clip_hashes.json").write_text(json.dumps(hashes, indent=2))
+    if n_dup:
+        log.warning("%d duplicate-content clip(s) cached (see clip_hashes.json)", n_dup)
+    print(
+        f"OK cached {len(store)} real-video latents backend={enc.spec.backend} "
+        f"(duplicates={n_dup}) -> {store.root} ; label_map -> {label_map_path}"
+    )
     return 0
 
 

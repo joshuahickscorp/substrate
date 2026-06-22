@@ -65,7 +65,7 @@ Python 3.12 via `uv`. From the repo root:
 ```
 uv venv --python 3.12 .venv
 uv pip install -e ".[dev]"      # add ann for hnswlib; encoder for real V-JEPA weights
-make test                       # full suite, 68 tests, mps/cpu, seconds
+make test                       # full suite (mps/cpu, seconds); count grows, see STATUS.md
 make e1                         # E1 the gate: naive forgets, protected retains, both learn
 make i4                         # I4 backprop-alternatives comparison (FA/DFA/FF/...)
 make queue-dry                  # dry-run the campaign queue (no compute spent)
