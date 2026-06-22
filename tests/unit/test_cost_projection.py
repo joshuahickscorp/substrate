@@ -25,26 +25,32 @@ def test_covers_every_queued_leg_including_disabled_ER():
 
 
 def test_measured_vs_assumed_and_full_scale_units():
+    # canonical units come from each leg's full_axes x full_seeds (frontier 1), not a global param
+    from devsys.harness.sweep import full_run_units, load_leg
+
     timings = {"e1_baseline": 4.0}
     proj = cost_projection(timings, workers=8, full_seed=5)
     by = {r["name"]: r for r in proj["per_leg"]}
+    legs = {leg.name: leg for leg in load_queue()}
     e1 = by["track01_e1_gate"]
     assert e1["basis"] == "measured" and e1["per_unit_s_measured_or_assumed"] == 4.0
-    assert e1["run_units_full"] == 5  # factorial 1 x full_seed 5 (toy queue had 3)
+    assert e1["run_units_full"] == full_run_units(load_leg(legs["track01_e1_gate"].sweep))  # 3x2x5 = 30
     e2 = by["track02_e2_replay"]
     assert e2["basis"] == "assumed", "C leg with no timing falls back to assumed"
-    assert e2["run_units_full"] == 2 * 5, "full axis factorial(2) x full_seed(5)"
+    assert e2["run_units_full"] == full_run_units(load_leg(legs["track02_e2_replay"].sweep))  # 2x2x5 = 20
     er = [r for r in proj["per_leg"] if r["tier"] in ("E", "R")]
     assert er and all(r["basis"] == "assumed" for r in er), "E/R are assumption-based"
 
 
-def test_full_seed_scales_C_units():
+def test_C_units_come_from_leg_full_grid_not_param():
+    # frontier 1: the full_seed PARAM no longer drives C unit counts; each leg's full_seeds does,
+    # so cost_projection agrees exactly with what `run_queue --full` expands.
     t = {"e1_baseline": 1.0}
     p5 = cost_projection(t, workers=4, full_seed=5)
     p3 = cost_projection(t, workers=4, full_seed=3)
     u5 = {r["name"]: r["run_units_full"] for r in p5["per_leg"] if r["tier"] == "C"}
     u3 = {r["name"]: r["run_units_full"] for r in p3["per_leg"] if r["tier"] == "C"}
-    assert all(u5[k] > u3[k] for k in u5), "more seeds -> strictly more C run-units"
+    assert u5 == u3, "C units are canonical (leg full grid), independent of the full_seed param"
 
 
 def test_parallelism_reduces_wall_and_totals_are_consistent():

@@ -119,8 +119,9 @@ def cost_projection(timings: dict, workers: int = 10, full_seed: int = 5) -> dic
     notes = [
         "laptop-throttled: measured cpu times are thermal/shared-core throttle-limited and "
         "CONSERVATIVE vs the Studio; full-scale Studio wall-clock will be no worse, likely faster.",
-        f"Tier C: run_units_full = full_axis_factorial x full_seed({full_seed}); basis=measured "
-        f"where a per-unit timing was supplied, else assumed at {ASSUMED_C_PER_UNIT_S}s/unit.",
+        f"Tier C: run_units_full = each leg's full_axes x full_seeds (the SAME count run_queue "
+        f"--full expands and the manifest declares); basis=measured where a per-unit timing was "
+        f"supplied, else assumed at {ASSUMED_C_PER_UNIT_S}s/unit.",
         f"Tier E/R: cannot be cpu-timed (need env / rented CUDA); run_units scaled by a stated "
         f"cost-class multiplier (E x{TIER_FULL['E']['unit_mult']}, R x{TIER_FULL['R']['unit_mult']}) "
         f"with ASSUMPTION-BASED per-unit cost (E {TIER_FULL['E']['assumed_per_unit_s']}s, "
