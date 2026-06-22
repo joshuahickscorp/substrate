@@ -11,7 +11,6 @@ from itertools import product
 from omegaconf import OmegaConf
 
 from ..config import compose
-from .runner import run_experiment
 
 
 def _fmt(v) -> str:
@@ -50,6 +49,8 @@ def run_sweep(leg: dict, toy: bool = True, max_runs: int | None = None) -> list[
     combos = expand(axes, seeds, base)
     if max_runs is not None:
         combos = combos[:max_runs]
+    from .runner import run_experiment  # lazy: avoids sweep<->runner import cycle
+
     results = []
     for ov in combos:
         cfg = compose(ov)
@@ -59,3 +60,26 @@ def run_sweep(leg: dict, toy: bool = True, max_runs: int | None = None) -> list[
 
 def load_leg(path) -> dict:
     return OmegaConf.to_container(OmegaConf.load(path), resolve=True)  # type: ignore[return-value]
+
+
+def _count(axes: dict, seeds: list) -> int:
+    """Run-units = |seeds| x product of axis lengths. The ONE definition of a leg's size, shared
+    by run_sweep (what actually runs), the run_queue manifest, and the cost projection."""
+    n = len(seeds) if seeds else 1
+    for v in axes.values():
+        n *= max(1, len(v)) if isinstance(v, list) else 1
+    return n
+
+
+def toy_run_units(leg: dict) -> int:
+    return _count(dict(leg.get("axes", {})), list(leg.get("seeds", [0])))
+
+
+def full_run_units(leg: dict) -> int:
+    """The canonical full-scale run-unit count: full_axes x full_seeds (falling back to axes/seeds
+    if a leg declares no full grid). `run_queue --full` expands exactly this many units per leg,
+    the run_queue manifest declares it, and cost_projection projects it. They agree by construction."""
+    return _count(
+        dict(leg.get("full_axes", leg.get("axes", {}))),
+        list(leg.get("full_seeds", leg.get("seeds", [0]))),
+    )

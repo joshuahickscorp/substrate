@@ -46,8 +46,11 @@ def cache_latents(
     total: int,
     device: DeviceInfo,
     has_labels: bool = True,
+    result_tag: str | None = None,
+    seed: int = 0,
 ) -> LatentStore:
-    """Encode a clip stream into a fresh LatentStore. Returns the finalized store."""
+    """Encode a clip stream into a fresh LatentStore. Returns the finalized store. Writes a
+    provenance.json (git, packages, encoder id+backend, result tag, cache id) beside the store."""
     encoder = encoder.to(device.device)
     it = iter(clips)
     first = next(it)
@@ -68,6 +71,7 @@ def cache_latents(
         store.write_batch(pos, z.numpy(), z.numpy(), y.numpy() if has_labels else None)
         pos += z.shape[0]
     store.finalize()
+    _write_provenance(store, encoder, result_tag, seed, device)
     log.info(
         "cached %d latents dim=%d backend=%s -> %s",
         len(store),
@@ -76,3 +80,23 @@ def cache_latents(
         store.root,
     )
     return store
+
+
+def _write_provenance(store, encoder, result_tag, seed, device) -> None:
+    import json
+
+    from ..provenance import cache_id, provenance
+
+    backend = encoder.spec.backend
+    tag = result_tag or ("real-encoder" if backend == "vjepa_hf" else "provisional")
+    sample = store.latents(slice(0, min(4, len(store)))).numpy().tobytes()[:4096] if len(store) else b""
+    prov = provenance(
+        seed=seed,
+        device=device.kind,
+        encoder_id=encoder.spec.name,
+        encoder_backend=backend,
+        result_tag=tag,
+        cache=cache_id(store.meta.name, len(store), sample),
+        extra={"count": len(store), "feat_shape": store.meta.feat_shape, "dtype": store.meta.dtype},
+    )
+    (store.root / "provenance.json").write_text(json.dumps(prov, indent=2, default=str))

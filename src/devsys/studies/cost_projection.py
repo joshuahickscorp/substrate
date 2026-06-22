@@ -23,6 +23,7 @@ from omegaconf import OmegaConf
 
 from ..config import REPO_ROOT
 from ..harness.queue import Leg, load_queue
+from ..harness.sweep import full_run_units
 from ..logging_utils import get_logger
 
 log = get_logger("cost_projection")
@@ -39,19 +40,16 @@ TIER_FULL = {
 ASSUMED_C_PER_UNIT_S = 30.0  # fallback when a C leg has no measured timing yet
 
 
-def _axis_factorial(sweep_path: Path) -> int:
-    """Full axis factorial declared in a leg's sweep yaml. toy_overrides shrink dims, not the
-    grid, so this is the true full-scale factorial. Missing/unreadable sweep -> 1 (no axes)."""
+def _leg_full_units(sweep_path: Path) -> int:
+    """Canonical full-scale run-units for a leg, read off its sweep yaml (full_axes x full_seeds).
+    This is the SAME number `run_queue --full` expands and the run_queue manifest declares, so the
+    three agree by construction. Missing/unreadable sweep -> 1."""
     p = sweep_path if sweep_path.is_absolute() else REPO_ROOT / sweep_path
     if not p.exists():
-        log.info("sweep yaml missing for cost projection: %s (factorial=1)", p)
+        log.info("sweep yaml missing for cost projection: %s (units=1)", p)
         return 1
     d = OmegaConf.to_container(OmegaConf.load(p), resolve=True)
-    axes = (d.get("axes") if isinstance(d, dict) else None) or {}
-    fac = 1
-    for vals in axes.values():
-        fac *= max(1, len(vals) if isinstance(vals, list) else 1)
-    return fac
+    return full_run_units(d) if isinstance(d, dict) else 1
 
 
 def _per_unit_measured(leg: Leg, timings: dict[str, float]) -> float | None:
@@ -65,9 +63,9 @@ def _per_unit_measured(leg: Leg, timings: dict[str, float]) -> float | None:
 
 
 def _run_units_full(leg: Leg, tier: dict, full_seed: int) -> int:
-    if leg.tier == "C":
-        return _axis_factorial(Path(leg.sweep)) * int(full_seed)
-    return int(leg.run_units) * int(tier["unit_mult"])
+    # canonical full grid (full_axes x full_seeds) for every tier; E/R take the cost-class mult.
+    base = _leg_full_units(Path(leg.sweep))
+    return base if leg.tier == "C" else base * int(tier["unit_mult"])
 
 
 def cost_projection(timings: dict, workers: int = 10, full_seed: int = 5) -> dict:

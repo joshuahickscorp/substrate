@@ -13,11 +13,13 @@ from ..devices import resolve
 from ..experiments import get_experiment
 from ..logging_utils import RunManifest, get_logger, new_run_dir
 from ..seeding import seed_everything
+from .validate import validate_config
 
 log = get_logger("runner")
 
 
 def run_experiment(cfg: DictConfig, run_dir: Path | None = None) -> dict:
+    validate_config(cfg)  # fail fast on bad device/experiment/encoder before doing any work
     eid = str(cfg.experiment.id)
     dev = resolve(str(cfg.device.kind))
     seed_everything(int(cfg.seed), bool(cfg.get("deterministic", True)))
@@ -26,7 +28,16 @@ def run_experiment(cfg: DictConfig, run_dir: Path | None = None) -> dict:
     log.info("run %s on %s (seed=%d) -> %s", eid, dev.note, int(cfg.seed), run_dir)
 
     exp = get_experiment(eid)
-    man = RunManifest(name=eid, seed=int(cfg.seed), device=dev.kind, extra={"contract": exp.contract()})
+    enc = cfg.get("encoder", {})
+    # synthetic-latent experiments default to provisional; cache scripts set richer tags on stores.
+    man = RunManifest(
+        name=eid,
+        seed=int(cfg.seed),
+        device=dev.kind,
+        encoder_id=str(enc.get("name", "")) if enc else "",
+        result_tag=str(cfg.get("result_tag", "provisional")),
+        extra={"contract": exp.contract(), "device_note": dev.note},
+    )
     try:
         metrics = exp.run(cfg, dev, run_dir)
         man.metrics = metrics

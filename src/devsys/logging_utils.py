@@ -56,6 +56,14 @@ class RunManifest:
     status: str = "running"
     metrics: dict = field(default_factory=dict)
     extra: dict = field(default_factory=dict)
+    # provenance: what produced this run (see provenance.py)
+    encoder_id: str = ""
+    encoder_backend: str = ""
+    cache_id: str = ""
+    result_tag: str = "provisional"
+    packages: dict = field(
+        default_factory=lambda: __import__("devsys.provenance", fromlist=["x"]).package_versions()
+    )
 
     def write(self, run_dir: Path) -> Path:
         run_dir.mkdir(parents=True, exist_ok=True)

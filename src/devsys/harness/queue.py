@@ -30,9 +30,10 @@ class Leg:
     tier: str
     sweep: str
     depends_on: list[str] = field(default_factory=list)
-    run_units: int = 1
+    run_units: int = 1  # canonical FULL-scale run-units (full_axes x full_seeds)
     enabled: bool = True
     note: str = ""
+    toy_run_units: int = 0  # laptop-validation run-units (axes x seeds)
 
 
 def load_queue(path: Path | None = None) -> list[Leg]:
@@ -93,6 +94,37 @@ def plan(legs: list[Leg], enabled_tiers: set[str], run_disabled: bool = False) -
     return chosen
 
 
+def _skip_reasons(legs: list[Leg], chosen: list[Leg], tiers: set[str], run_disabled: bool) -> list[dict]:
+    """Classify why each non-planned leg was skipped: tier gated, disabled, or dependency gated."""
+    chosen_names = {l.name for l in chosen}
+    out = []
+    for leg in legs:
+        if leg in chosen:
+            continue
+        if leg.tier not in tiers:
+            reason = f"tier {leg.tier} not enabled"
+        elif not leg.enabled and not run_disabled:
+            reason = "disabled"
+        elif not all(d in chosen_names for d in leg.depends_on):
+            reason = "dependency gated out"
+        else:
+            reason = "not planned"
+        out.append({"name": leg.name, "tier": leg.tier, "reason": reason})
+    return out
+
+
+def _next_commands(tiers: set[str]) -> list[str]:
+    cmds = ["python scripts/run_queue.py --dry-run --tiers C   # resolve the Tier C plan"]
+    if tiers == {"C"}:
+        cmds += [
+            "python scripts/run_queue.py --tiers C              # toy validation on this laptop",
+            "python scripts/run_queue.py --tiers C --full       # full grids (Studio / Apple Silicon)",
+        ]
+    else:
+        cmds.append("python scripts/run_queue.py --tiers C,E,R --full --run-disabled  # Studio + rented CUDA")
+    return cmds
+
+
 def run_queue(
     path: Path | None = None,
     dry_run: bool = True,
@@ -108,9 +140,18 @@ def run_queue(
     chosen = plan(legs, tiers, run_disabled)
     if max_legs is not None:
         chosen = chosen[:max_legs]
+    units = "toy_run_units" if toy else "run_units"
+    scale = "toy" if toy else "full"
+    totals = {
+        "planned_legs": len(chosen),
+        "run_units_this_scale": sum(getattr(l, units) for l in chosen),
+        "run_units_full": sum(l.run_units for l in chosen),
+        "run_units_toy": sum(l.toy_run_units for l in chosen),
+    }
     summary = {
         "total_legs": len(legs),
         "enabled_tiers": sorted(tiers),
+        "scale": scale,
         "planned": [
             {
                 "name": l.name,
@@ -118,15 +159,27 @@ def run_queue(
                 "experiment": l.experiment,
                 "tier": l.tier,
                 "depends_on": l.depends_on,
-                "run_units": l.run_units,
+                "run_units_full": l.run_units,
+                "run_units_toy": l.toy_run_units,
             }
             for l in chosen
         ],
-        "gated_out": [l.name for l in legs if l not in chosen],
+        "skipped": _skip_reasons(legs, chosen, tiers, run_disabled),
+        "gated_out": [l.name for l in legs if l not in chosen],  # names only (back-compat)
+        "totals": totals,
+        "next": _next_commands(tiers),
         "dry_run": dry_run,
     }
     if dry_run:
-        log.info("dry-run: %d/%d legs planned (tiers=%s)", len(chosen), len(legs), sorted(tiers))
+        log.info(
+            "dry-run: %d/%d legs planned (tiers=%s, scale=%s, %d %s run-units)",
+            len(chosen),
+            len(legs),
+            sorted(tiers),
+            scale,
+            totals["run_units_this_scale"],
+            scale,
+        )
         return summary
     results = {}
     for leg in chosen:
