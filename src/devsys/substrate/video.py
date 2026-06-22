@@ -33,6 +33,8 @@ log = get_logger("substrate.video")
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
 VIDEO_EXTS = (".mp4", ".avi", ".mov", ".mkv", ".webm")
+FIXTURE_EXTS = (".npy",)  # codec-free mocked clips (the rehearsal corpus); same pipeline
+INGEST_EXTS = VIDEO_EXTS + FIXTURE_EXTS
 LABEL_MAP_NAME = "label_map.json"
 
 
@@ -67,9 +69,14 @@ def preprocess_clip(
 
 
 def read_video(path: str | Path) -> torch.Tensor:
-    """Decode a video file to frames [T,H,W,3] uint8 via a lazy backend. Raises a clear unblock
-    if no backend is installed."""
+    """Decode a clip to frames [T,H,W,3] uint8. A .npy fixture is a codec-free MOCKED decode (the
+    rehearsal corpus); real video uses a lazy backend (torchvision.io, then decord) and raises a
+    clear unblock if none is installed."""
     p = str(path)
+    if p.endswith(".npy"):  # mocked decode: the rehearsal corpus, no codec needed
+        import numpy as np
+
+        return torch.from_numpy(np.load(p))
     try:
         from torchvision.io import read_video
 
@@ -107,7 +114,7 @@ def list_class_files(source: str | Path) -> tuple[list[str], list[tuple[Path, in
         (f, cidx[c])
         for c in classes
         for f in sorted((root / c).iterdir())
-        if f.is_file() and f.suffix.lower() in VIDEO_EXTS
+        if f.is_file() and f.suffix.lower() in INGEST_EXTS
     ]
     return classes, files
 
@@ -130,13 +137,13 @@ def validate_source(source: str | Path) -> dict:
         )
     label_map = {c: i for i, c in enumerate(classes)}
     per_class = {
-        c: sum(1 for f in sorted((root / c).iterdir()) if f.is_file() and f.suffix.lower() in VIDEO_EXTS)
+        c: sum(1 for f in sorted((root / c).iterdir()) if f.is_file() and f.suffix.lower() in INGEST_EXTS)
         for c in classes
     }
     empty = [c for c, n in per_class.items() if n == 0]
     if empty:
         raise ValueError(
-            f"class folder(s) with no {list(VIDEO_EXTS)} video files: {empty} under {root}; "
+            f"class folder(s) with no {list(INGEST_EXTS)} clips: {empty} under {root}; "
             f"every class needs at least one clip"
         )
     n_clips = sum(per_class.values())

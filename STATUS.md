@@ -89,5 +89,13 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] F8 failure rehearsal, F13 MPS routing tests, F15 encoder-registry honesty, F12 queue dry-run UX
 - [x] FAISS Apple-Silicon segfault found + mitigated: buffer default index=brute, KVIndex subprocess-probes faiss, exact fallback
 - [x] full suite green; ruff + mypy clean; acceptance 10/10; docs-drift gate clean
+
+## Mac-Studio rehearsal capsule (this session)
+- [x] one command `make rehearse` (scripts/studio_rehearsal.py) walks the WHOLE Studio workflow on tiny fixtures
+- [x] tiny video-corpus generator (substrate/fixtures.py): deterministic .npy clips + injected duplicate + short clip
+- [x] codec-free path: video.read_video decodes .npy (mocked decode); same validate/preprocess/cache contract
+- [x] 9 stages all pass (~11s): doctor, corpus, validation, decode+preprocess, cache, integrity, full-grid dry-run + cost agreement, miniature Tier C run, microbench
+- [x] report.md + summary.json under runs/studio_rehearsal/, every stage tagged real/mocked/provisional, with Studio day-one commands
+- [x] tests: fixtures (4), capsule (5), failure rehearsal +2 (empty class folder, bad cache metadata)
 - [x] 68 tests pass; ruff + mypy clean; em-dash-free across code/config/docs
 - [x] adversarial review wave applied: fixed SI path-integral wiring, reservoir bias, E9 measured-memory + non-vacuous test, determinism absolute tolerance, Level-5 leg now genuinely combines E2+E3+E4, make diag entry point

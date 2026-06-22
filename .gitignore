@@ -12,3 +12,4 @@ runs/
 .DS_Store
 
 runs/cpu_campaign/ckpt/
+runs/studio_rehearsal/

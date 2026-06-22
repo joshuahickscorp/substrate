@@ -77,6 +77,27 @@ make accept                     # end-to-end acceptance check
 E1 must pass (the gate) before any downstream result is trusted: see EXPERIMENTS.md for the
 build-order DAG (E1 gates everything; E2,E3 feed E4; E2+E3+E4 = the Level-5 headline).
 
+## Rehearse the Mac Studio workflow (one command)
+
+```
+make rehearse        # python scripts/studio_rehearsal.py
+```
+
+This is the Mac-Studio REHEARSAL CAPSULE: it walks the entire future Studio workflow end to end
+on tiny generated fixtures, with NO downloads and NO long runs, and writes
+`runs/studio_rehearsal/{report.md,summary.json}`. The path it proves:
+
+  tiny video corpus (generated .npy clips) -> source validation -> decode + preprocess ->
+  cache creation -> cache integrity -> full-grid dry-run + cost agreement -> one tiny Tier C
+  run -> provenance manifests -> microbenchmarks -> Markdown + JSON report.
+
+It is a rehearsal, not a science result, and the report tags every stage real / mocked /
+provisional. On THIS machine the video DECODE is mocked (no codec): the corpus is `.npy` clips
+that flow through the exact same validate/decode/preprocess/cache contract; on the Studio the
+same path runs over real `.mp4` with a video backend (`uv pip install -e ".[video]"`). Other
+operator tools: `make doctor` (readiness), `make cache-list`, `make storage`, `make bench`,
+`make report`, `make docs` (drift gate).
+
 ## Repo map
 
 ```

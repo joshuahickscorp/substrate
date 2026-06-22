@@ -128,6 +128,21 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
 - Queue UX (F12): dry-run reports planned/skipped-with-reasons, toy-vs-full unit counts,
   enabled tiers, and next commands.
 
+## Mac-Studio rehearsal capsule (this session)
+- One command, `make rehearse` (scripts/studio_rehearsal.py -> src/devsys/studio_rehearsal.py),
+  rehearses the entire future Studio workflow end to end on tiny LOCAL fixtures: no downloads,
+  no long runs, no science claims. Writes runs/studio_rehearsal/{report.md,summary.json}.
+- No video codec on this device (torchvision/decord/av/imageio all absent). Decision: the corpus
+  generator (substrate/fixtures.py) writes deterministic .npy clips (the explicitly-allowed
+  mocked equivalent of .mp4), and video.read_video decodes .npy so the SAME validate -> decode ->
+  preprocess -> cache contract runs codec-free. INGEST_EXTS = video + .npy. On the Studio the
+  same path runs over real .mp4 with a backend; only the decode swaps. Honestly tagged "mocked
+  decode" in the report; everything else (validation, preprocess, cache, integrity, planning,
+  the miniature run, microbench, provenance) is real.
+- The capsule re-uses the existing tools (studio_doctor, cache_tools, cost_projection, queue,
+  bench, provenance), so it doubles as an integration test of the whole operator surface. Each
+  stage records pass/fail + real/mocked; overall is pass only if every stage passes.
+
 ## Deferred (feasible only on the Studio / rented CUDA, or needs weights)
 - Real V-JEPA weight download + real latent caching: scaffolded, falls back to the
   synthetic latent generator. Unblock: `pip install -e .[encoder]` then run

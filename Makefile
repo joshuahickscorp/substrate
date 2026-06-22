@@ -1,7 +1,7 @@
 VENV=.venv/bin
 PY=$(VENV)/python
 
-.PHONY: install test lint types fmt e1 diag i4 queue-dry accept clean doctor bench cache-list storage docs report
+.PHONY: install test lint types fmt e1 diag i4 queue-dry accept clean doctor bench cache-list storage docs report rehearse
 
 install:
 	uv venv --python 3.12 .venv
@@ -35,6 +35,9 @@ queue-dry:
 
 accept:
 	$(PY) scripts/acceptance.py
+
+rehearse:
+	$(PY) scripts/studio_rehearsal.py     # WHOLE Studio workflow on tiny fixtures -> runs/studio_rehearsal/
 
 doctor:
 	$(PY) scripts/studio_doctor.py        # Studio readiness report (JSON + runs/studio_doctor.md)

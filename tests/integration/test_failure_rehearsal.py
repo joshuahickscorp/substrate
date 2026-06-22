@@ -11,6 +11,7 @@ from __future__ import annotations
 import builtins
 import json
 
+import numpy as np
 import pytest
 
 from devsys import devices
@@ -144,3 +145,30 @@ def test_interrupted_run_resumes_from_checkpoint(tmp_path):
     assert rec["cached"] is True  # the loud signal that it was reused, not recomputed
     assert rec["metrics"] == {"avg_accuracy": 0.81}  # the cached result came back intact
     assert rec["key"] == key
+
+
+# (9) empty class folder -> validate_source raises with a clear, listing message (not silent skip).
+def test_empty_class_folder_raises(tmp_path):
+    (tmp_path / "full").mkdir()
+    np.save(tmp_path / "full" / "clip0.npy", np.zeros((4, 8, 8, 3), dtype=np.uint8))
+    (tmp_path / "empty").mkdir()  # a class with zero clips
+    with pytest.raises(ValueError) as ei:
+        video.validate_source(tmp_path)
+    assert "empty" in str(ei.value)  # the offending class is named
+
+
+# (10) bad cache metadata -> validate_cache flags it (does not pretend the cache is fine).
+def test_bad_cache_metadata_flagged(tmp_path):
+    from devsys import devices
+    from devsys.substrate import EncoderSpec, FrozenEncoder, cache_latents, synthetic_clips
+    from devsys.substrate.cache_tools import validate_cache
+
+    enc = FrozenEncoder(EncoderSpec("vjepa2_vitl_fpc64_256", 16, dense=False, pool="mean"))
+    store = cache_latents(
+        enc, synthetic_clips(n=8, batch=4, n_classes=2), tmp_path, "c", total=8, device=devices.resolve("cpu")
+    )
+    assert validate_cache(store.root) == []  # honest cache is clean
+    meta = json.loads((store.root / "meta.json").read_text())
+    meta["count"] = 999  # corrupt the declared length
+    (store.root / "meta.json").write_text(json.dumps(meta))
+    assert validate_cache(store.root), "corrupted meta.json must be flagged, not trusted"
