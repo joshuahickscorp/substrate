@@ -1,0 +1,18 @@
+"""Studio acquisition layer: the pre-Studio readiness surface. Registries (datasets + models),
+device profiles + kill switches, the 1 TB knapsack planner, the dry-run downloader orchestrator,
+data cards + license ledger, synthetic control expansion, and the one pipeline that ties them
+together (plan/acquire/validate/cache/run/optimize/report + local-max). Nothing here trains or
+downloads heavy assets by default; heavy acquisition is gated behind execute + budget + license."""
+
+from __future__ import annotations
+
+from .profiles import M3PRO_LOCAL_MAX, PROFILES, STUDIO, Profile, get_profile, list_profiles
+
+__all__ = [
+    "Profile",
+    "STUDIO",
+    "M3PRO_LOCAL_MAX",
+    "PROFILES",
+    "get_profile",
+    "list_profiles",
+]
