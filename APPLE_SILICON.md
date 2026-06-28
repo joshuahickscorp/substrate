@@ -31,7 +31,8 @@ conservative versus the better-cooled Studio (the cost projection labels them la
 
 ## Known Metal limitation (measured)
 A 64-frame ViT-L forward (8192 tokens) hangs the MPS graph compiler on this M3 Pro. Real-encoder
-latent caching therefore runs on cpu (measured 24 to 32 s/clip; see CPU_RUN_REPORT.md). The
+latent caching therefore runs on cpu (measured 24 to 32 s/clip; see STATUS.md and the
+retrospective ledger). The
 `mps_safe_token_cap` knob in `configs/device/mps.yaml` documents the threshold above which an
 encoder forward should be routed to cpu. Standard heads, predictors, ensembles, and the shell run
 fine on mps. On a Mac Studio with more GPU cores this limit is expected to lift; verify before

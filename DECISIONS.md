@@ -149,3 +149,74 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   scripts/cache_latents.py with network access to HF on the target machine.
 - Tier R legs (rollout-heavy E5 env variant, E10 capstone, POET env-gen, cultural
   accumulation): scaffolded + queued disabled; need env + rented CUDA.
+
+## Studio acquisition layer (this session)
+- ONE pipeline surface (scripts/studio_pipeline.py -> src/devsys/studio/pipeline.py): the goal
+  asked for plan/acquire/validate/cache/run/optimize/report. Built exactly that plus a current
+  device local-max lane and a profiles command. Rationale: one obvious operator surface beats a
+  scatter of scripts; the raw scripts (cache_video, run_queue) still work underneath for hand control.
+- New src/devsys/studio/ subpackage, NOT more flat top-level modules. The acquisition layer
+  (profiles, registry, planner, downloader, datacards, controls, pipeline) is cohesive; grouping
+  it keeps the package map readable. The existing flat studio_doctor/studio_rehearsal stay as-is.
+- Device PROFILE is the single home of every kill switch (Frontier 3B + 15). studio-1tb (900 GB
+  usable) and m3pro-local-max (the goal's stated current-device caps) differ only in NUMBERS, not
+  enforcement path, so the Studio profile can grow without touching safety logic. The hard download
+  cap holds even against a generous --budget-gb (effective_budget_gb clamps); requested clips/time
+  are clamped, not trusted.
+- Dataset registry is YAML data (registry/datasets.yaml) + a validating loader (studio/registry.py),
+  mirroring the configs/ + loader split already in the repo. Honesty is enforced in code: signed
+  terms cannot be status available, metadata-only carries no cache size, full Ego4D is pinned
+  deferred (ALWAYS_DEFERRED), and the planner refuses deferred/blocked and gates manual sources.
+- Model registry keeps canonical V-JEPA as the source of truth (configs/encoder + encoder_registry);
+  registry/models.yaml adds ONLY clearly-tagged auxiliary/distilled/quantized extras with
+  replaces_canonical:false and result_tag never real-encoder unless canonical. No optional encoder
+  can silently stand in for the frozen substrate.
+- Planner is a breadth-first greedy knapsack: priority x a diversity multiplier (new modality 1.5x,
+  new domain 1.25x, already-covered 0.6x), subset-scaled to fit budget + per-source cap. Greedy not
+  optimal-knapsack on purpose: breadth is the objective, the source set is tiny, and the choice must
+  be explainable (every skip carries a reason). Full Ego4D is never selected by construction.
+- Downloader is dry-run by default; this module NEVER streams bytes itself. generate (synthetic)
+  and local-path run on-device; remote methods execute only via a caller-supplied fetcher callback,
+  so with no credentials here they record a clean blocked status. That makes it impossible for the
+  current-device lane to be the thing that fills a disk, while the orchestration (budget hard-stop,
+  resume manifest, hash/dedup, unsafe-archive refusal) is real and tested.
+- local-max runs REAL work within the m3pro envelope and is the current-device acceptance of the
+  whole surface; it reuses substrate/harness/bench so it doubles as an integration test. Video
+  decode stays mocked (.npy) here exactly as in the rehearsal capsule; every stage is tagged
+  real/mocked and overall is pass only if all stages pass.
+- Did NOT add a studio step to scripts/acceptance.py: it has comprehensive dedicated tests (67) and
+  local-max is its end-to-end acceptance. Keeping acceptance at 10/10 avoids rewriting historical
+  build-log ratios in STATUS.md (which would be a false claim about past state).
+
+## Developmental capacities layer (this session)
+- The expanded goal asks for a "sentience-adjacent" developmental learner. Decision: build MEASURABLE
+  capacities only, and put the anti-grandiosity rule in CODE, not just prose. north_star.scan_text
+  flags affirmative sentience/consciousness/feelings/agency claims (but passes disclaimers), and
+  metacognition.render_md calls assert_no_sentience_claims so a report literally cannot ship a claim.
+  "drive"/"curiosity" are engineered objective terms (novelty, uncertainty, learning progress);
+  "memory" is a data structure; "self-monitoring" is diagnostics. Never sentience/consciousness/personhood.
+- New src/devsys/devel/ subpackage (parallel to studio/), data in registry/*.yaml. The paradigm,
+  capacity, and paper-watch registries are YAML + a validating loader, mirroring the configs/ + studio
+  registry pattern. The capacity ladder and paradigm entries carry the SAME contract as experiments
+  (baseline, ablation, metric, null), so a speculative mechanism cannot be promoted to canonical
+  science without an explicit tag (validate_paradigm rejects a candidate that claims a real result_tag).
+- Curriculum engine uses a REAL, cheap learning-progress signal (linear-probe accuracy gain with more
+  data) and a PERMUTATION TEST for noisy-TV rejection. Why the permutation test: on the M3 Pro the
+  frozen latent dim (1024) far exceeds the tiny sample count, so a single probe overfits and even pure
+  noise looks decodable; comparing real-label accuracy to shuffled-label accuracy (averaged) cancels
+  the overfit, so genuine signal shows a gap and aleatoric noise does not. This is what lets "curiosity"
+  reject the noisy-TV before any live RL environment exists (Frontier 26/33).
+- Ablation engine costs/info-gains are EXPLICIT ASSUMPTIONS (levers), not measurements, and it refuses
+  to combine mechanisms before isolated gates pass (redundant groups surfaced). It names one next-best
+  experiment rather than chaining everything (anti-chaos, Frontier 29).
+- Markdown consolidation (Frontier 36): canonical doctrine is the corpus volumes + BLACKHOLE.md +
+  docs/STUDIO_MAXIMIZATION_2026_06_27.md. Removed scripts/_scaffold_api.md (0 references; its contract
+  lives in experiments/base.py + EXPERIMENTS.md). The old generated run reports and maximal-goal prompt
+  were consolidated into /Users/scammermike/Downloads/PROJECT_RETROSPECTIVE_CHECKPOINTS_2026_06_28.md
+  and deleted from the repo so they cannot compete with the active Studio plan. check_docs now carries
+  a markdown LEDGER (canonical/operational) and flags any on-disk markdown not in it, so stale docs
+  cannot silently regrow. The ledger check runs only over the real repo so the docs-drift fixture tests
+  (which monkeypatch a fake ROOT) are unaffected.
+- Did NOT wire the devel registries into acceptance.py or studio_doctor: the registries have dedicated
+  tests + `make devel`, and touching acceptance would force rewriting the historical 10/10 ratio in
+  STATUS (a false claim about past state). The doctor stays scoped to machine-readiness probes.

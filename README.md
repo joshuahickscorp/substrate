@@ -1,5 +1,7 @@
 # devsys
 
+> **Status:** experimental framework and measurement instrument. No real-data results yet; the full campaign runs on a forthcoming Apple M2 Max Mac Studio (96 GB). Results so far are on cached real-encoder latents over structured-synthetic video.
+
 A developmental continual-learning system built around a frozen V-JEPA perceptual
 substrate. The headline question: how far can a trainable shell go on top of inherited,
 fixed perception, learning continually without forgetting, on a laptop today and a GPU
@@ -53,7 +55,8 @@ in. `device=cuda` is the rented-box path used ONLY for Tier R environment rollou
 
 See APPLE_SILICON.md (the MPS-first story, the 64-frame Metal limit, MLX option) and SCALING.md.
 
-Note on data: V-JEPA ships pretrained WEIGHTS (which load fine, see CPU_RUN_REPORT.md), not a
+Note on data: V-JEPA ships pretrained WEIGHTS (which load fine, see STATUS.md and the Studio
+maximization plan), not a
 training dataset. Its benchmarks (Something-Something-v2, Ego4D, EPIC-KITCHENS) are separate
 datasets to obtain when expanding to natural-video latents. The system runs today on cached
 real-encoder latents (structured-synthetic video) and the synthetic latent generator.
@@ -98,6 +101,65 @@ same path runs over real `.mp4` with a video backend (`uv pip install -e ".[vide
 operator tools: `make doctor` (readiness), `make cache-list`, `make storage`, `make bench`,
 `make report`, `make docs` (drift gate).
 
+## The one Studio pipeline (plan -> acquire -> validate -> cache -> run -> optimize -> report)
+
+`scripts/studio_pipeline.py` is the single acquisition surface for the future 1 TB Mac Studio,
+plus a `local-max` lane that does the most real work that is SAFE on this M3 Pro today. Heavy
+downloads are DRY-RUN by default and become real only under `--execute` + `--budget-gb` + (for
+any source with terms) `--accept-license`. Every stage honors a device PROFILE whose kill
+switches (disk, download, clip, run-count, wall-time, tier caps) are enforced, not advisory.
+
+```
+make local-max                                              # current-device maximal rehearsal (m3pro)
+make studio-plan                                            # DRY-RUN plan under the 900 GB studio budget
+python scripts/studio_pipeline.py plan --profile studio-1tb --budget-gb 900
+python scripts/studio_pipeline.py acquire --plan runs/studio_pipeline/latest/plan.json   # DRY RUN
+python scripts/studio_pipeline.py run --gated --tiers C --full --profile studio-1tb   # gates are kill switches
+python scripts/studio_pipeline.py profiles                  # list the kill-switch envelopes
+```
+
+The `run`/`cache`/`optimize` stages default to the SAFE `m3pro-local-max` profile, so an
+unqualified `run --full` fails the run-count kill switch on this laptop instead of launching a
+sweep; the Studio passes `--profile studio-1tb` explicitly (as above). The 900 GB is the budget
+CAP for the 1 TB Studio disk, not the planned volume: the seeded registry plans roughly 150 GB
+of breadth by default (about 425 GB with `--accept-license`), and the rest is headroom for
+larger subsets or future sources.
+
+The planner is a breadth-first knapsack over `registry/datasets.yaml` (action/egocentric/
+instructional/audio/synthetic/local sources, each with license, size, risk, status) and
+`registry/models.yaml` (canonical V-JEPA plus clearly-tagged auxiliary/distilled/quantized
+extras that NEVER replace canonical). Full Ego4D is never planned by default. `local-max` runs
+real on this device: generate control corpora, validate, build a tiny real latent cache, audit
+the queue/cost agreement, microbench, run one gated leg, and write a report under
+`runs/studio_pipeline/`. See SCALING.md for the exact Mac Studio day-one sequence.
+
+## Developmental capacities (sentience-ADJACENT, never sentience)
+
+`scripts/devel.py` is a measurable developmental layer on top of the frozen substrate. It does
+NOT claim sentience, consciousness, feelings, or agency: every capacity is a measurement with a
+null hypothesis, and a code-level safety rail (`devsys.devel.north_star`) scans every rendered
+report and refuses to ship an affirmative sentience claim. The north star is the loop
+`perceive -> remember -> predict -> notice surprise -> choose what to study -> adapt ->
+consolidate -> abstract -> transfer -> explain what changed -> choose the next lesson`.
+
+```
+python scripts/devel.py capacities      # the 14-rung capacity ladder (registry/capacities.yaml)
+python scripts/devel.py paradigms       # the paradigm frontier registry (registry/paradigms.yaml)
+python scripts/devel.py ablation --scope local   # next-best experiment by info-gain per compute hour
+python scripts/devel.py curriculum      # next-lesson manifest: REAL probes over controls, rejects noisy-TV
+python scripts/devel.py metacognition   # self-monitoring report (gated by the safety rails)
+python scripts/devel.py paperwatch      # offline literature watch
+make devel ladder curriculum
+```
+
+The curriculum engine is real on this device: it generates control corpora, extracts frozen
+latents, and ranks candidates by LEARNING PROGRESS (probe-accuracy gain) gated by a permutation
+test, so it picks the learnable-but-not-mastered family and REJECTS the aleatoric noisy-TV (the
+trap an error-seeking learner would chase forever). "curiosity"/"drive" are engineered objective
+terms (novelty, uncertainty, learning progress), not feelings. The capacity ladder and paradigm
+registry mirror the experiment contract (baseline, ablation, metric, null) so a speculative
+mechanism can never be promoted to canonical science without an explicit tag.
+
 ## Repo map
 
 ```
@@ -126,7 +188,16 @@ experiments/    base.py (the doctrine contract), e1 harness, i4 harness, E2..E10
 harness/        runner.py + cli.py (run, compose, campaign queue)
 campaign/       synthesized training campaign (legs/tracks/tiers, run queue); see DECISIONS.md
 configs/        OmegaConf group composition: device/, encoder/, shell/, experiment/
-scripts/        run_experiment.py, cache_latents.py, run_queue.py, acceptance.py
+registry/       machine-readable registries: datasets.yaml (sources), models.yaml (aux encoders),
+                paradigms.yaml (mechanism candidates), capacities.yaml (capacity ladder), paperwatch.yaml
+studio/         the Studio acquisition layer (under src/devsys/): profiles+kill-switches, dataset/
+                model registry loader, 1 TB knapsack planner, dry-run downloader, data cards +
+                license ledger, synthetic control expansion, the plan/acquire/validate/cache/run/
+                optimize/report pipeline + local-max
+devel/          the developmental capacities layer (under src/devsys/): north_star + safety rails,
+                paradigm/capacity/paperwatch registries, curriculum engine (learning-progress data
+                selection), automated ablation/hypothesis engine, metacognition reports
+scripts/        run_experiment.py, run_queue.py, acceptance.py, studio_pipeline.py, devel.py
 ```
 
 ## The doctrine contract

@@ -19,6 +19,23 @@ Empty of hard failures means a clean run.
   torchvision/decord; neither is a hard dep. Unblock: `uv pip install -e ".[video]"`. The
   preprocessing core is tested today; full decode is exercised on the Studio with real clips.
 
+## Deferred (acquisition lane, gated by design, not a defect)
+- Heavy dataset downloads: every remote source in `registry/datasets.yaml` is DRY-RUN by
+  default in `scripts/studio_pipeline.py acquire`. Real bytes need `--execute --budget-gb N`
+  and, for any source with terms, `--accept-license`. On the current device the downloader has
+  no credentials/fetcher for remote methods, so remote sources record a clean `blocked` status
+  (never a partial). Unblock on the Studio: provide credentials/tools, then run acquire --execute.
+- Manual-license sources (ssv2, ego4d_subset): status `manual`; the planner will not select
+  them unless the profile allows manual auth AND `--accept-license` is passed. Unblock: complete
+  the signed terms (see each source's `auth_steps` / the license ledger), then re-plan.
+- Blocked / deferred sources (laion_tiny_meta blocked; ego4d_full, ego_exo4d_subset deferred):
+  full Ego4D and Ego-Exo4D are beyond a 1 TB local disk and are NEVER planned by default; LAION
+  is withdrawn pending a safety-reviewed re-release. These are intentional, surfaced in the
+  license ledger, and require dedicated storage / a re-release before they could be considered.
+- Real remote fetch + archive extraction: the downloader detects unsafe archive members
+  (path traversal / absolute paths) but the actual streaming fetcher is a Studio-side callback
+  (not implemented on this device, by design). Unblock: supply a `fetch_fn` with credentials.
+
 ## Degraded
 - faiss 1.14 + torch on Apple Silicon: `faiss.search()` HARD-SEGFAULTS (rc 139, dual OpenMP
   runtime) when run after torch is imported, and a segfault cannot be caught in-process.

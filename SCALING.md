@@ -39,7 +39,7 @@ resize automatically. No shell code changes. The dense 2.1 encoders
 ### 3. Real latent caching: synthetic -> real V-JEPA
 Today the substrate defaults to frozen-random + the synthetic latent generator (the grids run
 on these, tagged provisional). Real V-JEPA 2 ViT-L weights load and a real-encoder cache has
-been validated (see CPU_RUN_REPORT.md). The remaining step for REAL natural-video science is
+been validated (see STATUS.md and the retrospective ledger). The remaining step for REAL natural-video science is
 just dropping real clips and running the video cache:
 
 ```
@@ -114,23 +114,40 @@ lab-scale. C runs now; E and R wait for env + rented CUDA.
 
 ## First commands on the new machine
 
-Mac Studio (Apple Silicon -- stay on mps, scale up the cached-latent bank):
+Mac Studio (Apple Silicon -- stay on mps, scale up the cached-latent bank). The ONE pipeline
+surface drives the whole acquisition + run path; the raw scripts below it still work for hand
+control:
 
 ```
 uv venv --python 3.12 .venv
 uv pip install -e ".[dev,ann,encoder,video,apple]"   # video=torchvision decode, apple=mlx (optional)
 make test                                            # confirm green on the new box first
+make doctor                                          # readiness (python/torch/mps/disk/video/hf/encoders/cache/config)
+# --- the one Studio pipeline (plan/acquire/validate/cache/run/optimize/report) ---
+python scripts/studio_pipeline.py plan --profile studio-1tb --budget-gb 900   # writes runs/studio_pipeline/latest/
+# REVIEW runs/studio_pipeline/latest/license_ledger.md (resolve manual/blocked sources first), then:
+python scripts/studio_pipeline.py acquire  --plan runs/studio_pipeline/latest/plan.json \
+    --execute --budget-gb 900 --accept-license       # REAL downloads, gated + budgeted
+python scripts/studio_pipeline.py validate --plan runs/studio_pipeline/latest/plan.json
+python scripts/studio_pipeline.py cache    --plan runs/studio_pipeline/latest/plan.json --execute
+python scripts/studio_pipeline.py run --gated --tiers C --full   # gated conveyor (gates are kill switches)
+python scripts/studio_pipeline.py optimize --cache <cache_id>    # throughput lane (not science)
+python scripts/studio_pipeline.py report
+# --- raw scripts (hand control, still supported) ---
 make diag                                            # determinism + diagnostics; set tolerances
 # verify the 64-frame ViT-L forward runs on Metal here (it hangs the M3; more GPU cores should lift it):
 .venv/bin/python scripts/cache_real_encoder.py device=mps +classes=2 +per_class=1   # smoke
-# cache REAL natural-video latents once (drop clips under <dir>/<class>/*.mp4):
 .venv/bin/python scripts/cache_video.py +source=<dir> encoder=vjepa2_vitl_fpc64_256 device=mps +total=N
-# run the bank at scale on Metal (NOT cuda; the Studio is Apple Silicon):
-.venv/bin/python scripts/run_experiment.py experiment=e1_baseline device=mps encoder=vjepa2_vitg
 .venv/bin/python scripts/run_queue.py --tiers C --full   # full factorials (217 run-units; see cost projection)
 # E6 (dense 2.1) waits for V-JEPA 2.1 to ship on HF (vjepa21_* configs are placeholders today).
 # Tier R env rollouts (E5/E10) are the only cuda path: rent a GPU and `--tiers C,E,R --full`.
 ```
+
+Current M3 Pro before the Studio arrives: `make local-max` (profile m3pro-local-max) does the
+most real work that is SAFE here (plan, dry-run acquire, generate control corpora, validate,
+tiny real cache, queue/cost audit, microbench, one gated leg, report) under hard kill switches
+(10 GB download default / 25 GB cap, 2 GB fixtures, 128 clips, 60 GB free-disk floor, 90 min,
+Tier C only). It never downloads heavy assets or starts a long sweep.
 
 Rented CUDA (env rollouts, Tier R):
 
