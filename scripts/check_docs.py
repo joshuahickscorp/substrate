@@ -23,10 +23,54 @@ ROOT = Path(__file__).resolve().parents[1]
 PY = str(ROOT / ".venv" / "bin" / "python")
 DOCS = ("README.md", "STATUS.md")
 
+# Markdown ledger (Frontier 36): the COMPLETE set of markdown the project intends to keep, so stale
+# docs cannot silently regrow. canonical = doctrine (corpus + BLACKHOLE + active Studio plan);
+# operational = concise summaries / references. Old generated reports and maximal-goal prompts are
+# consolidated outside the repo in the project retrospective ledger, not kept as competing docs.
+# Anything on disk and not in this ledger is flagged by the docs gate (consolidate it, or add it here
+# deliberately).
+CANONICAL_MD = (
+    "developmental_jepa_corpus.md",
+    "developmental_jepa_corpus_vol2.md",
+    "developmental_jepa_corpus_vol3.md",
+    "BLACKHOLE.md",
+    "docs/STUDIO_MAXIMIZATION_2026_06_27.md",
+)
+OPERATIONAL_MD = (
+    "README.md",
+    "STATUS.md",
+    "DECISIONS.md",
+    "ISSUES.md",
+    "SCALING.md",
+    "APPLE_SILICON.md",
+    "ARCHITECTURE.md",
+    "EXPERIMENTS.md",
+)
+HISTORICAL_MD = ()
+# Frontier 36 proof system (Section 10): the standalone proof instruments and their templates,
+# registered deliberately so a missing instrument is caught while a new unledgered doc is still flagged.
+PROOF_MD = (
+    "proof/README.md",
+    "proof/ATLAS.md",
+    "proof/CORPUS_CARD.md",
+    "proof/FAILURE_TAXONOMY.md",
+    "proof/OBITUARIES.md",
+    "proof/REPRODUCE_ONE_PLOT.md",
+    "proof/DO_NOT_CITE_AS_INTELLIGENCE.md",
+    "proof/NULL_CARDS/_TEMPLATE.md",
+    "proof/NULL_CARDS/third_party/README.md",
+)
+LEDGER_MD = frozenset(CANONICAL_MD + OPERATIONAL_MD + HISTORICAL_MD + PROOF_MD)
+# directories whose markdown is tooling/output, not project docs (excluded from the ledger scan)
+_MD_SKIP_DIRS = (".venv", ".git", "runs", ".pytest_cache", ".ruff_cache", ".mypy_cache", "data")
+
 # the canonical make targets live on the Makefile .PHONY line; these are referenced in prose too
 _PHONY = re.compile(r"^\.PHONY:\s*(.+)$", re.M)
 _SCRIPT_REF = re.compile(r"scripts/[A-Za-z0-9_]+\.py")
 _MAKE_REF = re.compile(r"\bmake\s+([a-z][a-z0-9-]+)\b")
+# studio_pipeline.py subcommands referenced in docs must be real CLI subcommands (no stale verbs)
+_STUDIO_SUB_REF = re.compile(r"studio_pipeline\.py\s+([a-z][a-z-]+)")
+_ADD_PARSER = re.compile(r'add_parser\(\s*"([a-z][a-z-]+)"')
 _STEP = re.compile(r'step\(\s*"([^"]+)"')
 # "68 tests", "108 tests green", "9 tests" (parenthetical build-log counts included)
 _TESTS_CLAIM = re.compile(r"(\d+)\s+tests\b")
@@ -87,6 +131,39 @@ def _make_targets() -> set[str]:
     return set(m.group(1).split()) if m else set()
 
 
+def _studio_subcommands() -> set[str]:
+    """The real studio_pipeline.py subcommands, read off its argparse add_parser calls, so the docs
+    are checked against the ACTUAL CLI (self-consistent, no hardcoded list to drift)."""
+    return set(_ADD_PARSER.findall(_read("scripts/studio_pipeline.py")))
+
+
+def _project_markdown() -> list[str]:
+    """Every project markdown file (repo-relative), excluding tooling/output dirs. The ledger scan
+    runs over this so a new competing-doctrine doc cannot accumulate unnoticed."""
+    out = []
+    for p in ROOT.rglob("*.md"):
+        rel = p.relative_to(ROOT)
+        if any(part in _MD_SKIP_DIRS for part in rel.parts):
+            continue
+        out.append(str(rel))
+    return out
+
+
+def _markdown_ledger_problems() -> list[str]:
+    """Frontier 36 anti-regrowth: every markdown on disk must be in the ledger (consolidate or add it
+    deliberately), and every ledgered doc must still exist (no dangling ledger entry). Runs only over
+    the real repo (canonical doctrine present); a monkeypatched fixture ROOT skips it."""
+    if not (ROOT / "BLACKHOLE.md").exists():
+        return []  # not the real repo (a test fixture root): the ledger check does not apply
+    problems: list[str] = []
+    on_disk = set(_project_markdown())
+    for md in sorted(on_disk - LEDGER_MD):
+        problems.append(f"unexpected markdown {md} not in the ledger (consolidate it, or add to LEDGER_MD)")
+    for md in sorted(LEDGER_MD - on_disk):
+        problems.append(f"ledger lists {md} but it is missing on disk (update the ledger)")
+    return problems
+
+
 def check_docs() -> list[str]:
     """Return a list of human-readable drift problems (empty == docs are consistent)."""
     problems: list[str] = []
@@ -95,6 +172,9 @@ def check_docs() -> list[str]:
     real_experiments = experiment_registry_size()
     real_accept = acceptance_check_count()
     make_targets = _make_targets()
+    studio_subs = _studio_subcommands()
+
+    problems += _markdown_ledger_problems()  # Frontier 36: stale markdown must not regrow
 
     for name in DOCS:
         text = _read(name)
@@ -133,6 +213,15 @@ def check_docs() -> list[str]:
         for tgt in sorted(set(_MAKE_REF.findall(text))):
             if tgt not in make_targets:
                 problems.append(f"{name}: references `make {tgt}` not in Makefile .PHONY")
+
+        # every studio_pipeline.py subcommand named in the docs must be a real CLI subcommand
+        if studio_subs:  # only enforce once the CLI is parseable
+            for sub in sorted(set(_STUDIO_SUB_REF.findall(text))):
+                if sub not in studio_subs:
+                    problems.append(
+                        f"{name}: references `studio_pipeline.py {sub}` not a CLI subcommand "
+                        f"(have {sorted(studio_subs)})"
+                    )
 
     return problems
 

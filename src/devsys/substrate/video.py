@@ -201,18 +201,44 @@ def detect_partial_cache(cache_dir: str | Path, name: str) -> dict:
     return out
 
 
+def _stratify(files: list[tuple[Path, int]]) -> list[tuple[Path, int]]:
+    """Round-robin interleave (file, label) by label so that a PREFIX of the result still covers
+    every class. list_class_files groups all of class0, then class1, ...; a raw limit[:k] prefix
+    would drop whole trailing classes. Interleaving by label fixes that: limit[:k] now draws from
+    every class as evenly as k allows (the representative-subset property the clip cap needs)."""
+    from collections import defaultdict, deque
+
+    buckets: dict[int, deque] = defaultdict(deque)
+    for f, label in files:
+        buckets[label].append((f, label))
+    order = sorted(buckets)
+    out: list[tuple[Path, int]] = []
+    while any(buckets[label] for label in order):
+        for label in order:
+            if buckets[label]:
+                out.append(buckets[label].popleft())
+    return out
+
+
 def iter_clip_records(
     source: str | Path,
     frames_per_clip: int = 64,
     res: int = 256,
     limit: int | None = None,
+    stratified: bool = False,
 ) -> Iterator[tuple[torch.Tensor, int, str]]:
     """Per-clip generator under the batching layer: yields (clip [T,3,res,res], label, sha256).
     CORRUPT/undecodable files are skipped with a logged warning (never crash the whole cache);
     SHORT clips are padded by preprocess_clip. Tracks duplicate content hashes and logs a summary.
-    iter_video_clips wraps this for the (clip_batch, label_batch) contract cache_latents consumes."""
+    iter_video_clips wraps this for the (clip_batch, label_batch) contract cache_latents consumes.
+
+    limit caps the number of files DECODED (limit=0 means zero clips, enforced precisely, not
+    treated as no-limit). stratified=True interleaves files across classes BEFORE the cap so a small
+    limit yields a representative subset (every class contributes) instead of a class-prefix slice."""
     _classes, files = list_class_files(source)
-    if limit:
+    if stratified:
+        files = _stratify(files)
+    if limit is not None:  # limit=0 truncates to zero (a clip cap of 0 is honored, not ignored)
         files = files[:limit]
     seen: dict[str, str] = {}
     n_ok = n_corrupt = n_dup = 0
@@ -249,14 +275,16 @@ def iter_video_clips(
     batch: int = 2,
     limit: int | None = None,
     hashes_out: list[str] | None = None,
+    stratified: bool = False,
 ) -> Iterator[tuple[torch.Tensor, torch.Tensor]]:
     """Walk `source` as class-foldered video files (source/<class>/<clip>.mp4) and yield
     (clip_batch [B,T,3,res,res], label_batch [B]). Labels are the sorted class-folder index.
     This is the iterator cache_latents consumes to build a real-video latent store. Corrupt files
     are skipped and short clips padded (see iter_clip_records). If `hashes_out` is given, each
-    kept clip's sha256 is appended to it (so the caller can record/inspect content hashes)."""
+    kept clip's sha256 is appended to it (so the caller can record/inspect content hashes).
+    stratified=True makes a `limit` cap draw evenly across classes (representative subset)."""
     buf_x, buf_y = [], []
-    for clip, label, h in iter_clip_records(source, frames_per_clip, res, limit):
+    for clip, label, h in iter_clip_records(source, frames_per_clip, res, limit, stratified):
         buf_x.append(clip)
         buf_y.append(label)
         if hashes_out is not None:

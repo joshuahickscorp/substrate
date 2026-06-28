@@ -1,0 +1,76 @@
+# Paper-watch registry (Frontier 30). A LIGHTWEIGHT, OFFLINE-first catalog of the literature this
+# project tracks. Normal tests never hit the network: devsys.devel.paperwatch reads this file and
+# reports the watch list. An online refresh is opt-in and cached (not implemented as an auto-fetch
+# here; the slots below hold the primary sources / official repos to check by hand or on the Studio).
+#
+# Each topic: slug, title, why (relevance to this project), primary (official repo/source slots),
+# last_checked (date string or "never"), status in {active, watching, stale}. Prefer primary sources.
+#
+# Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
+
+version: 1
+
+topics:
+
+  - slug: vjepa
+    title: V-JEPA and JEPA releases
+    why: the frozen perceptual substrate; new weights (2.1 dense) unlock deferred experiments (E6)
+    primary: ["facebook/vjepa2 on HuggingFace", "facebookresearch/jepa GitHub"]
+    last_checked: "2026-06"
+    status: active
+
+  - slug: dense_video_repr
+    title: Dense video representations
+    why: per-token/object features unlock the abstraction frontier (slots, what/where)
+    primary: ["V-JEPA 2.1 dense", "VideoMAE V2", "dense prediction heads literature"]
+    last_checked: "never"
+    status: watching
+
+  - slug: continual_learning_plasticity
+    title: Continual learning and loss of plasticity
+    why: the core program; rejuvenation / shrink-and-perturb / dead-feature diagnostics
+    primary: ["Dohare et al. loss of plasticity", "EWC/SI primary papers", "Avalanche library"]
+    last_checked: "2026-06"
+    status: active
+
+  - slug: test_time_training
+    title: Test-time training / fast weights
+    why: bounded plasticity overlay without touching slow weights (Frontier 21)
+    primary: ["Sun et al. test-time training", "fast-weights literature"]
+    last_checked: "never"
+    status: watching
+
+  - slug: memory_augmented
+    title: Memory-augmented networks
+    why: episodic/associative/KV memory beyond a single replay buffer (Frontier 23)
+    primary: ["modern Hopfield networks", "Neural Turing Machines / DNC", "kNN-LM"]
+    last_checked: "never"
+    status: watching
+
+  - slug: active_curriculum_curiosity
+    title: Active curriculum and curiosity
+    why: learning-progress data selection before live RL (Frontier 26)
+    primary: ["Oudeyer intrinsic motivation", "Schmidhuber compression progress"]
+    last_checked: "never"
+    status: watching
+
+  - slug: modular_sparse
+    title: Modular / sparse learners
+    why: routing reduces interference; expandable modules for transfer (Frontier 25)
+    primary: ["sparsely-gated MoE", "progressive neural networks"]
+    last_checked: "never"
+    status: watching
+
+  - slug: local_learning
+    title: Local learning alternatives
+    why: backprop-free pathways for the alt-learning comparison (Frontier 24, I4)
+    primary: ["Hinton Forward-Forward", "predictive coding (Millidge)", "equilibrium propagation"]
+    last_checked: "2026-06"
+    status: active
+
+  - slug: world_models_planning
+    title: World models and planning
+    why: latent rollout + MPC where actions exist (Frontier 27)
+    primary: ["Ha and Schmidhuber world models", "Hafner Dreamer line"]
+    last_checked: "never"
+    status: watching

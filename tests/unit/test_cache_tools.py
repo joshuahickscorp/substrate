@@ -31,6 +31,22 @@ def test_validate_clean_store_returns_empty(tmp_path):
     assert validate_cache(root) == []
 
 
+def test_validate_flags_label_map_coverage_gap(tmp_path):
+    # a label_map that declares classes the cached labels do not contain is a silent class-incomplete
+    # cache; validate_cache must flag it (the honest-coverage guard).
+    root = _build(tmp_path, n=24, n_classes=4)
+    # the store actually contains labels 0..3; write a label_map claiming a 5th class never cached
+    (root / "label_map.json").write_text(json.dumps({"c0": 0, "c1": 1, "c2": 2, "c3": 3, "ghost": 4}))
+    problems = validate_cache(root)
+    assert any("label_map declares" in p and "missing [4]" in p for p in problems)
+
+
+def test_validate_clean_when_label_map_matches_labels(tmp_path):
+    root = _build(tmp_path, n=24, n_classes=4)
+    (root / "label_map.json").write_text(json.dumps({"c0": 0, "c1": 1, "c2": 2, "c3": 3}))
+    assert validate_cache(root) == []  # declared == present, no coverage problem
+
+
 def test_clean_store_writes_provenance_and_meta(tmp_path):
     root = _build(tmp_path)
     assert (root / "meta.json").exists()

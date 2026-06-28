@@ -234,3 +234,32 @@ def test_detect_partial_cache_present(tmp_path, mock_decode, caplog):
     assert info["count"] == 4
     assert info["has_label_map"] is True
     assert any("existing cache" in r.message for r in caplog.records)
+
+
+# ---- clip-cap correctness: stratified sampling + limit=0 (audit findings) ----
+
+
+def test_stratified_cap_covers_all_classes(tmp_path, mock_decode):
+    # 4 classes x 5 clips; a stratified cap of 4 must draw ONE clip from each class (not a
+    # class-prefix slice that would otherwise take 4 clips all from the first class).
+    src = _make_tree(tmp_path / "vid", {"a": 5, "b": 5, "c": 5, "d": 5})
+    labels = []
+    for _x, y in V.iter_video_clips(src, frames_per_clip=4, res=8, batch=2, limit=4, stratified=True):
+        labels.extend(int(v) for v in y.tolist())
+    assert sorted(labels) == [0, 1, 2, 3]  # every class represented under the cap
+
+
+def test_unstratified_cap_is_a_prefix(tmp_path, mock_decode):
+    # without stratification a limit is a class-grouped prefix (documents the contrast)
+    src = _make_tree(tmp_path / "vid", {"a": 5, "b": 5, "c": 5, "d": 5})
+    labels = []
+    for _x, y in V.iter_video_clips(src, frames_per_clip=4, res=8, batch=2, limit=4):
+        labels.extend(int(v) for v in y.tolist())
+    assert set(labels) == {0}  # all 4 came from the first class
+
+
+def test_limit_zero_yields_no_clips(tmp_path, mock_decode):
+    # a clip cap that resolves to 0 must truncate to zero, not be treated as no-limit
+    src = _make_tree(tmp_path / "vid", {"a": 3, "b": 3})
+    batches = list(V.iter_video_clips(src, frames_per_clip=4, res=8, batch=2, limit=0))
+    assert batches == []

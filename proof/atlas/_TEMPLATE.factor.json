@@ -1,0 +1,13 @@
+{
+  "encoder": "vjepa2_vitl_fpc64_256",
+  "factor": "identity",
+  "linear_acc": {"value": null, "ci95": [null, null]},
+  "nonlinear_acc": {"value": null, "ci95": [null, null]},
+  "chance_floor": null,
+  "decodable": "yes|no|marginal",
+  "seeds": {"n": null, "sem": null},
+  "provenance_tag": "natural-video|real-encoder|structured-synthetic|provisional",
+  "repro_level": "R0",
+  "raw_run_id": null,
+  "_note": "Scaffold template per STUDIO_MAXIMIZATION_2026_06_27.md Section 10.9. The Studio writes one populated copy per probed factor under atlas/<encoder>/<factor>.json. A row is INVALID without a chance_floor (shuffle-label control), a repro_level, or a reproducible raw_run_id. encoder is one of vjepa2_vitl_fpc64_256 | vjepa2_vith | vjepa2_vitg. factor is one of identity | action | controllability | relation | permanence | count | intervention_effect | cross_modal_correspondence | motion | temporal_order."
+}

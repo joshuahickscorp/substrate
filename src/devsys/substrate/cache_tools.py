@@ -142,6 +142,19 @@ def validate_cache(store_dir: Path | str) -> list[str]:
                 problems.append(f"labels contain negatives (min {int(sub.min())})")
             if sub.size and not np.issubdtype(sub.dtype, np.integer):
                 problems.append(f"labels dtype {sub.dtype} is not integer")
+            # honest class coverage: a persisted label_map must not claim classes the cache lacks.
+            # Guards against a capped build that drops whole classes while still declaring them.
+            lm = _read_json(store_dir / "label_map.json")
+            if lm and sub.size:
+                declared = {int(v) for v in lm.values()}
+                present = {int(x) for x in np.unique(sub).tolist()}
+                missing = sorted(declared - present)
+                if missing:
+                    problems.append(
+                        f"label_map declares classes {sorted(declared)} but cached labels cover only "
+                        f"{sorted(present)} (missing {missing}); a capped cache must persist only "
+                        f"present classes"
+                    )
 
     # provenance (optional): backend tag present, honest result tag, content hash matches
     prov = _read_json(store_dir / "provenance.json")
