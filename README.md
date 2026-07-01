@@ -257,14 +257,24 @@ Apple M2 Max Mac Studio (96 GB), where wall-clock time is not the constraint.
   bit-identical runs, and a proof grammar (atlas rows and null cards).
 - A Studio pipeline (plan, acquire, validate, cache, run, report) that is
   dry-run by default and gated by per-device kill switches.
+- A pre-Studio run across 100 experiments in 9 disciplines, each with a
+  pre-registered null hypothesis and an adversarial verification pass. Result:
+  zero candidate positives survived adversarial re-checking, an honest null
+  corpus rather than a positive finding. That pass also narrowed which of the
+  Studio-gated items are genuinely hardware-gated (3 of 9) versus runnable now.
 
 ### Next (on the Mac Studio)
-- Lift the 64-frame MPS encoder limit on the Studio GPU, so real-encoder
-  caching is no longer bottlenecked on CPU.
+- Lift the MPS encoder limit: real-encoder caching hits a hard per-buffer
+  ceiling at 64 frames on this machine's GPU (confirmed not fixable by more
+  RAM), so it needs the Studio's GPU headroom.
 - Build the permanent multi-encoder cached-latent corpus over real natural
-  video (frozen V-JEPA L / H / g), breadth-first and fully licensed.
+  video (frozen V-JEPA L / H / g), breadth-first and fully licensed. No
+  natural video has been acquired yet; two auxiliary encoders (DINOv2-large,
+  VideoMAEv2-Base) are downloaded and staged but not yet wired into any
+  experiment.
 - Grow the representational atlas factor by factor, including the rows that are
-  not linearly decodable (the substrate's blind spots).
+  not linearly decodable (the substrate's blind spots). A first real-weight
+  atlas row exists; growing it is ongoing.
 
 ### Later
 - Run the full E1 to E10 plus I4 campaign at real scale with seeds and error
