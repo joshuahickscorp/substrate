@@ -1,0 +1,12 @@
+id: s6_compositionality
+name: compositionality_probe
+module: s_semiotics
+metric: [heldout_acc, heldout_acc_frozen_random, gap_to_seen, compositional]
+null_hypothesis: "held-out combinations are not decodable above the frozen-random floor (the pooled latent represents whole-scene gestalts, not factors compositionally; taxonomy 3)"
+tier: cpu-now
+
+dim: 48
+n_factor: 4
+per_cell: 28
+interaction: 0.0
+seeds: [0, 1]

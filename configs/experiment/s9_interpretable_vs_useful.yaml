@@ -1,0 +1,13 @@
+id: s9_interpretable_vs_useful
+name: interpretable_vs_useful
+module: s_semiotics
+metric: [spearman_use_interp, frac_top_useful_named, frac_random_named, needs_real]
+null_hypothesis: "usefulness and interpretability are uncorrelated (the useful code is not the namable code, an opaque-but-useful private code)"
+tier: cpu-now
+
+dim: 40
+n_factor: 3
+per_cell: 28
+epochs: 80
+lr: 0.02
+seeds: [0, 1]

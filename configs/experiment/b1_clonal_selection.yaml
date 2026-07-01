@@ -1,0 +1,17 @@
+id: b1_clonal_selection
+name: clonal_selection_eviction
+module: b_biology
+metric: [backward_transfer, retention_at_matched_slots, mutation_effect]
+null_hypothesis: "at matched slots clonal-selection eviction ties PER and random within the seed spread, and somatic mutation does not beat the no-mutation arm"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+n_tasks: 4
+samples: 160
+separation: 2.0
+capacity: 40
+replay_batch: 32
+epochs: 60
+lr: 0.02
+seeds: [0, 1]

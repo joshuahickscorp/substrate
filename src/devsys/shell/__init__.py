@@ -11,10 +11,12 @@ from .modulation import Chunking, ContextGating, WorkingMemory, build_modulation
 from .neuromod import Neuromodulation, RunningStat
 from .plasticity import PlasticityController
 from .predictor import Predictor, mlp
+from .refine import IterativeRefiner
 
 __all__ = [
     "Predictor",
     "mlp",
+    "IterativeRefiner",
     "ClassHead",
     "GaussianHead",
     "build_head",

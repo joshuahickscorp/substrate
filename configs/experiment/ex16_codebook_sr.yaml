@@ -1,0 +1,14 @@
+id: ex16_codebook_sr
+name: codebook_vq_abstraction
+module: ex16_codebook_sr
+metric: [cluster_purity, purity_vs_random_codebook, code_probe_vs_raw]
+null_hypothesis: "the codebook adds no decodable structure over raw latents (random codebook ties it; code probe does not beat raw probe)"
+tier: cpu-now
+
+dim: 64
+n_classes: 4
+samples: 320
+separation: 2.0
+codebook_size: 16
+kmeans_iters: 10
+seeds: [0, 1, 2]

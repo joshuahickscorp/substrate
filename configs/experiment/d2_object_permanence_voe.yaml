@@ -1,0 +1,16 @@
+id: d2_object_permanence_voe
+name: object_permanence_voe_precursor
+module: d_developmental
+metric: [occluded_present_decodability, voe_error_gap, wm_widening]
+null_hypothesis: "the occluded-object-present factor is not linearly decodable from pooled latents (gate fails), or illegal-vanish error equals legal-continue error"
+tier: cpu-now
+
+dim: 40
+samples: 200
+n_tokens: 8
+hidden: 64
+wm_slots: 4
+separation: 2.0
+epochs: 60
+lr: 0.01
+seeds: [0, 1]

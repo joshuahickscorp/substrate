@@ -1,0 +1,16 @@
+# Campaign leg sweep config. C1 held-out-combination decoding: the compositionality gate above the shuffled floor. Tier C, cross-disciplinary roots series. Gated on the E1 gate.
+leg: track13_c1_held_out_combination
+experiment: c1_held_out_combination
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+note: 'C1 held-out-combination decoding: the compositionality gate above the shuffled floor.'
+full_axes: {}
+full_seeds:
+- 0
+- 1

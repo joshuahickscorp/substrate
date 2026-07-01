@@ -1,0 +1,14 @@
+id: b7_developmental_curriculum
+name: developmental_curriculum
+module: b_biology
+metric: [final_competence, ordered_vs_shuffled, ordered_vs_hardfirst]
+null_hypothesis: "ordered curriculum ties shuffled at matched samples (order does not matter on a frozen pooled substrate)"
+tier: cpu-now
+
+dim: 40
+n_classes: 3
+samples: 160
+separations: [0.8, 1.5, 3.0]
+epochs: 50
+lr: 0.02
+seeds: [0, 1]

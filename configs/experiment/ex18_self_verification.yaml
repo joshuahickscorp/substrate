@@ -1,0 +1,21 @@
+id: ex18_self_verification
+name: latent_self_verification
+module: ex18_self_verification
+metric: [accuracy, self_correction_gain, halting_step_distribution]
+null_hypothesis: "verify-revise ties single-shot at matched compute; the verifier carries no usable correction signal"
+tier: cpu-now
+
+# the self-verification toy: single multiclass latent task; verify-revise vs single-shot vs
+# shuffled-verifier control, all sharing one trained refiner block and one step budget
+dim: 48
+hidden: 64
+n_classes: 4
+samples: 240
+separation: 0.08
+epochs: 60
+lr: 1.0e-3
+base_steps: 2          # single-shot fixed step count (also verify-revise's minimum before checking)
+step_budget: 5          # hard cap on steps any sample may spend (revise never exceeds this)
+verify_threshold: 0.5   # predicted-error threshold above which a sample gets one more revise step
+margin: 0.03             # accuracy tie band: gains at or below this are noise, not signal
+seeds: [0, 1]

@@ -1,0 +1,14 @@
+id: a2_viewpoint_invariance
+name: viewpoint_motion_invariance
+module: a_perception
+metric: [cross_viewpoint_transfer, cka_across_viewpoints, transfer_gap_vs_frozen_random]
+null_hypothesis: "event identity does not transfer across viewpoint beyond a pixel-difference baseline, OR the real encoder invariance ties frozen-random"
+tier: cpu-now
+
+dim: 48
+n_events: 4
+samples: 220
+separation: 2.0
+view_shift: 0.5
+epochs: 80
+seeds: [0, 1]

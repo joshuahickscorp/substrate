@@ -1,0 +1,2746 @@
+# Experiment bank registry (the machine-readable, preregistered source of truth). Catalogs the whole
+# bank: the conducted experiments (E1-E10), the cross-cutting comparison (I4), the bleeding-edge
+# EX-series (EX1-EX18, EX1-16 from docs/STUDIO_MAXIMIZATION_2026_06_27.md Section 6, EX17/EX18 the
+# latent-reasoning line added here), and the reusable diagnostics (D) + ablations (A) that gate and
+# control them. This file IS the preregistration: a row's null, headline metric, falsifier, and
+# failure-taxonomy slot are committed here before it runs. Validated by
+# devsys.devel.registries.validate_experiment; EXPERIMENTS.md is regenerated FROM this file.
+#
+# Honesty rules enforced in code:
+#   - kind in {experiment, cross-cutting, diagnostic, ablation}
+#   - exp_tier (runnable Experiment.tier) in {cpu-now, gpu-later, env-later, 2.1-only}
+#   - resource_tier (planning) in {cpu-now, studio-scale, environment-needed, weights-needed, moonshot}
+#   - status in {implemented, registry-only, deferred}; an implemented experiment/cross-cutting row
+#     MUST have a matching id in devsys.experiments.REGISTRY; an implemented diagnostic/ablation MUST
+#     name an existing module path
+#   - taxonomy_slot in 1..10 (proof/FAILURE_TAXONOMY.md); every row carries null + metric + falsifier
+#   - free-text scanned by the north_star sentience rail (engineering vocabulary only)
+#
+# Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
+
+version: 1
+
+experiments:
+
+  # ============================================================ conducted bank (E1-E10) + I4
+  - id: e1_baseline
+    name: Baseline continual harness (GATE)
+    kind: experiment
+    series: E
+    question: does a protected learner retain across a domain-incremental stream while a naive learner forgets, both still learning the last task
+    mechanism: replay + EWC protected arm vs naive sequential arm over a domain/class-incremental latent stream
+    null_hypothesis: with shuffled task labels or matched capacity/difficulty, naive and protected show no retention gap; no forgetting means tasks too easy, no learning means target not decodable
+    falsifier: protected_bwt does not beat naive_bwt by the retain margin, or both arms fail the last task
+    metrics: [backward_transfer, forward_transfer, adaptation_speed, frontier_auc]
+    controls: [shuffled-label, frozen-random-substrate, difficulty-separation]
+    gates: [linear_probe, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: the gate every downstream result depends on
+    capacity_rungs: [4]
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/e1.md", evidence_level: R3}
+
+  - id: e2_replay
+    name: Latent hippocampus (replay)
+    kind: experiment
+    series: E
+    question: does prioritized replay buy retention over random and no-replay at matched buffer size
+    mechanism: PER replay buffer arms (none/random/prioritized/+EWC) over the continual stream
+    null_hypothesis: prioritized replay ties random replay, or replay ties no-replay (stream too short or latents not distinct)
+    falsifier: no replay arm improves frontier AUC or BWT beyond the seed spread
+    metrics: [frontier_auc, backward_transfer]
+    controls: [matched-buffer-size, frozen-random-substrate]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: feeds the Level-5 headline; extended by EX1/EX13/EX14
+    capacity_rungs: [3]
+    paradigm_slugs: [uncertainty_indexed_memory]
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/e2.md", evidence_level: R2}
+
+  - id: e3_plasticity
+    name: Critical-period schedule (staged plasticity)
+    kind: experiment
+    series: E
+    question: does a staged plasticity schedule beat constant and tuned-decay learning rates on the frontier
+    mechanism: plasticity arms (constant/decay/staged/triggered) + Fisher-trace critical-period signature
+    null_hypothesis: staged plasticity ties constant LR and tuned cosine decay (an LR trick, nothing to shape on a frozen substrate)
+    falsifier: staged frontier AUC within seed spread of the best tuned-decay baseline
+    metrics: [frontier_auc, parameter_drift, fisher_trace]
+    controls: [tuned-cosine-decay, frozen-random-substrate]
+    gates: [fisher_trace, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: feeds Level-5; extended by EX15 rejuvenation
+    capacity_rungs: [4, 5]
+    paradigm_slugs: [shrink_and_perturb]
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/e3.md", evidence_level: R2}
+
+  - id: e4_neuromod
+    name: Neuromodulation (uncertainty gating)
+    kind: experiment
+    series: E
+    question: does ensemble-disagreement gating adapt on the learnable region while ignoring the noisy-TV
+    mechanism: three gates (ungated / point-error / disagreement) on the noisy-TV split + calibration
+    null_hypothesis: point prediction-error gating chases the noisy-TV as much as ungated (conflates epistemic and aleatoric); needs a distributional signal
+    falsifier: disagreement gate-on-noise not below the ignore threshold, or point-error not above the chase threshold
+    metrics: [adapt_speed_learnable, gate_on_noise, calibration_ece]
+    controls: [noisy-TV, point-error-baseline]
+    gates: [noisy_tv, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: uncertainty signal feeds E2/E3 triggers and EX6/EX8 selection
+    capacity_rungs: [9, 6]
+    paradigm_slugs: [uncertainty_indexed_memory]
+    taxonomy_slot: 8
+    status: implemented
+    proof: {atlas_factor: controllability, null_card: "proof/NULL_CARDS/e4.md", evidence_level: R2}
+
+  - id: e5_curiosity
+    name: Curiosity as self-curriculum
+    kind: experiment
+    series: E
+    question: does learning-progress selection beat random on a learnable-vs-noisy budget
+    mechanism: data-selection curriculum over control families (live-RL variant deferred)
+    null_hypothesis: prediction-error/RND curiosity equals random on a learnable-vs-noisy env; only learning-progress survives
+    falsifier: learning-progress time-on-learnable within seed spread of random
+    metrics: [steps_to_competence, fraction_time_learnable, noise_attraction]
+    controls: [noisy-TV, random-selection]
+    gates: [noisy_tv, linear_probe]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: data-selection variant runnable now; sharpened by EX8 bake-off
+    capacity_rungs: [6]
+    paradigm_slugs: [learning_progress_sampling]
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: controllability, null_card: "proof/NULL_CARDS/e5.md", evidence_level: R1}
+
+  - id: e6_relational
+    name: Relational map over latents
+    kind: experiment
+    series: E
+    question: does a structured/relational head beat a flat baseline, and more on 2.1-dense than on 2
+    mechanism: structured (pairwise) vs flat head on 2 vs 2.1 encoders (frozen-random fallback today)
+    null_hypothesis: structured head ties parameter-matched flat baseline; gain on 2.1 not larger than on 2 (pooled latent lacks object factorization)
+    falsifier: structured recombination accuracy within seed spread of flat at matched params
+    metrics: [recombination_generalization, planning_success, dense_delta]
+    controls: [parameter-matched-flat, frozen-random-substrate]
+    gates: [linear_probe]
+    resource_tier: weights-needed
+    exp_tier: 2.1-only
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: pooled precursor is EX9; full dense path needs 2.1
+    capacity_rungs: [2, 7]
+    paradigm_slugs: [object_slot_probe]
+    taxonomy_slot: 3
+    status: deferred
+    proof: {atlas_factor: relation, null_card: "proof/NULL_CARDS/e6.md", evidence_level: R0}
+
+  - id: e7_sparse
+    name: Sparse / modular predictor
+    kind: experiment
+    series: E
+    question: does sparsity/routing reduce interference at matched parameters
+    mechanism: dense / k-WTA / MoE heads at matched params + routing entropy
+    null_hypothesis: sparse/modular ties parameter-matched dense (the reduction was just capacity)
+    falsifier: interference reduction within seed spread of matched dense
+    metrics: [interference, routing_entropy, backward_transfer]
+    controls: [parameter-matched-dense, difficulty-calibration]
+    gates: [linear_probe, difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: high
+    relation: overlaps E8 + context-gating; the interference-at-matched-capacity umbrella
+    capacity_rungs: [4]
+    paradigm_slugs: [mixture_of_experts]
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/e7.md", evidence_level: R2}
+
+  - id: e8_dendritic
+    name: Dendritic predictor
+    kind: experiment
+    series: E
+    question: does a dendrite-inspired block beat a matched MLP on capacity-per-param and online adaptation
+    mechanism: context-gated max-over-branches block vs matched MLP, online streaming
+    null_hypothesis: dendritic block ties a matched MLP (the analogy adds complexity, no benefit)
+    falsifier: capacity-per-param within seed spread of matched MLP
+    metrics: [capacity_per_param, online_adaptation]
+    controls: [parameter-matched-mlp, difficulty-calibration]
+    gates: [difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: high
+    relation: overlaps E7; fold into the interference umbrella
+    capacity_rungs: [4]
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/e8.md", evidence_level: R2}
+
+  - id: e9_local
+    name: Local learning head
+    kind: experiment
+    series: E
+    question: can a backprop-free head reach backprop accuracy with a memory or stability win
+    mechanism: local-rule head vs backprop, activation memory + online stability
+    null_hypothesis: local rules fail to reach within margin of backprop and offer no memory/stability win
+    falsifier: a local rule reaches within the accuracy margin AND shows a memory/stability advantage
+    metrics: [accuracy_gap, activation_memory, online_stability]
+    controls: [backprop-ceiling, matched-budget]
+    gates: [determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: single-rule; I4/EX5 are the multi-rule comparison
+    capacity_rungs: [4]
+    paradigm_slugs: [forward_forward, predictive_coding]
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/e9.md", evidence_level: R2}
+
+  - id: e10_openended
+    name: Minimal open-ended JEPA (CAPSTONE)
+    kind: experiment
+    series: E
+    question: can a solo agent exhibit open-ended skill growth without a population/environment generator
+    mechanism: stub env + skill archive + goal generator spine (env-later)
+    null_hypothesis: a solo agent plateaus; open-endedness is a population/env-generation property a solo agent cannot exhibit
+    falsifier: a solo agent shows sustained non-collapsing skill/archive growth
+    metrics: [distinct_skills, reuse, archive_diversity, transfer, non_collapse]
+    controls: [single-agent-baseline]
+    gates: [linear_probe]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: high
+    relation: capstone; needs an environment + population (Tier R)
+    capacity_rungs: [12, 13]
+    paradigm_slugs: []
+    taxonomy_slot: 7
+    status: deferred
+    proof: {atlas_factor: none, null_card: "proof/NULL_CARDS/e10.md", evidence_level: R0}
+
+  - id: i4_backprop_alts
+    name: Backprop-alternatives comparison
+    kind: cross-cutting
+    series: I
+    question: does any bio-plausible rule come within an accuracy margin of backprop at matched budget
+    mechanism: FA / DFA / FF / target-prop / eq-prop / predictive-coding vs backprop, matched head/data/seed/budget
+    null_hypothesis: no alternative comes within the stated accuracy margin of backprop at matched budget
+    falsifier: an alternative reaches within the margin at matched budget
+    metrics: [accuracy_gap, locality, compute, stability]
+    controls: [backprop-ceiling, matched-budget, matched-seed]
+    gates: [determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: extended to natural-video + retention by EX5
+    capacity_rungs: [4]
+    paradigm_slugs: [forward_forward, predictive_coding]
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i4.md", evidence_level: R3}
+
+  # ============================================================ bleeding-edge EX-series (Section 6)
+  - id: ex1_generative_replay
+    name: Generative latent replay vs stored-buffer replay (dreaming)
+    kind: experiment
+    series: EX
+    question: can a tiny latent generator replace the stored exemplar buffer at matched replay budget
+    mechanism: per-task latent VAE/flow prior synthesizes pseudo-latents interleaved into the E2 shell
+    null_hypothesis: generated replay does not match stored-buffer replay on BWT at matched budget; the distribution gap costs retention
+    falsifier: generative replay ties or beats stored replay on BWT at equal or lower storage
+    metrics: [backward_transfer, frontier_auc, generator_probe_transfer]
+    controls: [stored-buffer-replay, matched-replay-budget]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: promotes paradigm generative_latent_replay; extends E2
+    capacity_rungs: [3, 5]
+    paradigm_slugs: [generative_latent_replay]
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex1_generative_replay.md", evidence_level: R1}
+
+  - id: ex2_latent_planning
+    name: Model-based planning in latent space (Dreamer/MuZero-style)
+    kind: experiment
+    series: EX
+    question: do short-horizon latent rollouts enable goal-reaching a flat reactive head cannot
+    mechanism: learned latent dynamics g(z,a)->z' + MPC rollout on synthetic action-conditioned families
+    null_hypothesis: the learned dynamics does not enable planning the flat shell cannot do, or rollout error is too high to plan against
+    falsifier: planner reduces goal-latent distance beyond the flat head at acceptable rollout error
+    metrics: [goal_success, goal_distance_reduction, rollout_error]
+    controls: [flat-reactive-head, action-shuffle]
+    gates: [rollout_predictability]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: synthetic arm cpu-now precursor; live planning Tier R
+    capacity_rungs: [8]
+    paradigm_slugs: [latent_rollout_mpc]
+    taxonomy_slot: 7
+    status: deferred
+    proof: {atlas_factor: controllability, null_card: "proof/NULL_CARDS/ex2.md", evidence_level: R0}
+
+  - id: ex3_test_time_adaptation
+    name: Test-time training / adaptation on frozen latents
+    kind: experiment
+    series: EX
+    question: can a fast-weight overlay adapt the shell at inference from unlabeled shifted latents
+    mechanism: freeze slow shell; few self-supervised (next-latent error) steps fit a fast-weight overlay; revert restores base
+    null_hypothesis: TTA does not beat the frozen head at matched parameters; the unlabeled proxy carries no adaptation signal, or it corrupts the base
+    falsifier: TTA reduces shifted-domain error beyond the frozen head while revert restores the base
+    metrics: [shift_error, base_retention_after_revert, adaptation_steps]
+    controls: [frozen-head, full-finetune-ceiling, frozen-random-substrate]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: promotes paradigm test_time_adaptation; complements E3
+    capacity_rungs: [4]
+    paradigm_slugs: [test_time_adaptation]
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex3.md", evidence_level: R2}
+
+  - id: ex4_fast_weights
+    name: Fast-weight / hypernetwork shells (in-context vs gradient plasticity)
+    kind: experiment
+    series: EX
+    question: can a hypernet emit shell weights in one forward pass that match gradient adaptation
+    mechanism: hypernet h(context_latents)->shell_weights, zero-gradient eval vs gradient-TTA and meta-init
+    null_hypothesis: in-context plasticity does not match gradient plasticity, or the hypernet collapses to a context-independent average shell
+    falsifier: emitted weights match a few gradient steps at matched adaptation budget
+    metrics: [adaptation_speed, accuracy_held_out]
+    controls: [gradient-TTA, static-head, meta-init]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: adjacent to EX3/EX7
+    capacity_rungs: [4, 12]
+    paradigm_slugs: [test_time_adaptation, meta_learned_init]
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex4_fast_weights.md", evidence_level: R1}
+
+  - id: ex5_local_rules_scale
+    name: Local learning rules at scale (extend I4 to retention)
+    kind: cross-cutting
+    series: EX
+    question: which local rule gives the best continual-learning/locality tradeoff at depth and scale
+    mechanism: extend I4 (PC/eq-prop/FF/target-prop) to multi-encoder probes + BWT on the continual stream
+    null_hypothesis: no local rule comes within the accuracy margin of backprop AND none offers a continual-learning or memory advantage that justifies the gap
+    falsifier: a local rule ties backprop accuracy or shows a retention/memory advantage at matched budget
+    metrics: [accuracy_gap, activation_memory, locality, backward_transfer]
+    controls: [backprop-ceiling, matched-budget, depth-sweep]
+    gates: [determinism]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: extends I4; promotes predictive_coding/forward_forward to scale
+    capacity_rungs: [4]
+    paradigm_slugs: [predictive_coding, forward_forward]
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex5.md", evidence_level: R0}
+
+  - id: ex6_active_inference
+    name: Active-inference / free-energy shell objective
+    kind: experiment
+    series: EX
+    question: does a free-energy objective improve calibration and selection over the standard predictor loss
+    mechanism: prediction error + KL complexity term over the gaussian head; expected free energy picks the next clip
+    null_hypothesis: the free-energy objective does not improve calibration or selection; the complexity term is a regularizer, or it chases the noisy-TV
+    falsifier: free-energy improves ECE and noisy-TV rejection beyond standard-loss-plus-learning-progress
+    metrics: [calibration_ece, fraction_time_learnable, noise_rejection]
+    controls: [standard-predictor-loss, learning-progress-selection, noisy-TV]
+    gates: [noisy_tv, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: objective swap on the E4/E8 stack
+    capacity_rungs: [6, 9]
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: implemented
+    proof: {atlas_factor: controllability, null_card: "proof/NULL_CARDS/ex6_active_inference.md", evidence_level: R1}
+
+  - id: ex7_meta_learning
+    name: Meta-learning across the task stream (MAML / Reptile)
+    kind: experiment
+    series: EX
+    question: does a meta-learned shell init adapt to new tasks in fewer steps than a generic init
+    mechanism: outer-loop Reptile/MAML over the task stream; eval adaptation speed on held-out tasks
+    null_hypothesis: the meta-learned init does not reduce adaptation steps vs a control init; the task family is too homogeneous or the shell too small
+    falsifier: meta-init reduces steps-to-threshold beyond the control init on held-out tasks
+    metrics: [adaptation_speed, forward_transfer]
+    controls: [random-init, hypernet, matched-budget]
+    gates: [determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: promotes meta_learned_init; compares to EX4
+    capacity_rungs: [13, 12]
+    paradigm_slugs: [meta_learned_init]
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex7_meta_learning.md", evidence_level: R1}
+
+  - id: ex8_curiosity_bakeoff
+    name: Intrinsic-motivation curriculum bake-off (LP vs RND vs disagreement vs info-gain)
+    kind: cross-cutting
+    series: EX
+    question: which intrinsic-motivation signals pick the learnable region and reject the noisy-TV
+    mechanism: four selection signals through one curriculum engine over control families incl. an aleatoric noisy-TV
+    null_hypothesis: prediction-error and RND equal random on a learnable-vs-noisy budget; only learning-progress and disagreement survive; sharper, even LP ties uniform on a homogeneous stream
+    falsifier: a reducible-uncertainty signal spends near-zero on the noisy-TV and beats uniform on learnable coverage
+    metrics: [learnable_coverage, noisy_tv_time_share, noisy_tv_rejection]
+    controls: [uniform-random-selection, noisy-TV]
+    gates: [noisy_tv, linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: extends learning_progress_sampling; sharpens E5/rung-6
+    capacity_rungs: [6]
+    paradigm_slugs: [learning_progress_sampling]
+    taxonomy_slot: 10
+    status: implemented
+    proof: {atlas_factor: controllability, null_card: "proof/NULL_CARDS/ex8.md", evidence_level: R2}
+
+  - id: ex9_slot_attention
+    name: Object-centric / slot attention over pooled latents (E6 precursor)
+    kind: experiment
+    series: EX
+    question: can temporal slot attention over pooled per-clip latents recover coarse relation/event structure
+    mechanism: slots over a window of pooled latents on relation-change/containment families vs a flat-pooled head
+    null_hypothesis: slot attention over pooled latents ties the parameter-matched flat baseline; pooled features carry no per-slot structure to factor
+    falsifier: slot assignments decode relation identity beyond the flat-pooled baseline
+    metrics: [relation_decoding, pooled_ceiling_gap]
+    controls: [parameter-matched-flat]
+    gates: [linear_probe]
+    resource_tier: weights-needed
+    exp_tier: 2.1-only
+    runtime_class: minutes
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: high
+    relation: pooled precursor to E6; full within-frame slots need 2.1 dense
+    capacity_rungs: [2, 7]
+    paradigm_slugs: [object_slot_probe]
+    taxonomy_slot: 3
+    status: deferred
+    proof: {atlas_factor: relation, null_card: "proof/NULL_CARDS/ex9.md", evidence_level: R0}
+
+  - id: ex10_cross_modal
+    name: Cross-modal world model (video latents bound to audio latents)
+    kind: experiment
+    series: EX
+    question: does binding frozen video latents to frozen audio latents improve retention and abstraction
+    mechanism: tiny cross-modal predictor on paired pooled latents as an auxiliary objective
+    null_hypothesis: cross-modal prediction does not improve retention or abstraction; the modalities are not aligned enough to bind, or it is just a regularizer
+    falsifier: cross-modal auxiliary improves BWT and abstraction-probe beyond the unimodal shell at matched params
+    metrics: [backward_transfer, abstraction_probe]
+    controls: [video-only-shell, matched-params]
+    gates: [linear_probe]
+    resource_tier: weights-needed
+    exp_tier: 2.1-only
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: needs a verified frozen audio encoder HF id (none yet)
+    capacity_rungs: [10, 3]
+    paradigm_slugs: [language_conditioned_selection]
+    taxonomy_slot: 3
+    status: deferred
+    proof: {atlas_factor: cross_modal, null_card: "proof/NULL_CARDS/ex10.md", evidence_level: R0}
+
+  - id: ex11_causal_probing
+    name: Causal / interventional probing (do-operations on control families)
+    kind: experiment
+    series: EX
+    question: does the shell learn an interventional latent map that extrapolates to unseen intervention values
+    mechanism: generate do(factor=value) control clips; predict post-intervention latent; test unseen values
+    null_hypothesis: the shell cannot learn an interventional map beyond the observational one; it predicts seen interventions but fails unseen values
+    falsifier: post-intervention prediction generalizes to held-out intervention values beyond the observational predictor
+    metrics: [post_intervention_error, extrapolation_gap]
+    controls: [observational-predictor]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: extends the probe spine from observational to interventional
+    capacity_rungs: [8]
+    paradigm_slugs: []
+    taxonomy_slot: 10
+    status: implemented
+    proof: {atlas_factor: intervention, null_card: "proof/NULL_CARDS/ex11_causal_probing.md", evidence_level: R1}
+
+  - id: ex12_atlas
+    name: Representational atlas (what is decodable, by encoder scale)
+    kind: experiment
+    series: EX
+    question: what factors are linearly vs nonlinearly decodable from each frozen encoder, bounding every mechanism
+    mechanism: linear + small-MLP probes for each target over each encoder cache + shuffle-label chance floor + geometry battery
+    null_hypothesis: probe accuracy does not exceed the shuffle-label floor for a target (not in the latent); bigger frozen perception does not raise decodability beyond seed spread
+    falsifier: a target is decodable above the shuffle floor (a substrate gift) or decodability rises with encoder scale
+    metrics: [probe_accuracy_above_chance, cka, rsa, effective_rank, anisotropy]
+    controls: [shuffle-label, frozen-random-substrate]
+    gates: [linear_probe, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: the empirical floor under the whole bank; integrates proof/atlas; run FIRST per encoder
+    capacity_rungs: [1, 7]
+    paradigm_slugs: [codebook_abstraction]
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: all, null_card: "proof/NULL_CARDS/ex12.md", evidence_level: R3}
+
+  - id: ex13_long_stream
+    name: Long-stream continual learning (the forgetting curve)
+    kind: experiment
+    series: EX
+    question: where does each mechanism's retention break across hundreds of sequential tasks
+    mechanism: E1-E4 + Level-5 over a long domain/class-incremental stream; retention vs stream position + effective rank
+    null_hypothesis: retention is flat in stream length within the seed spread, or every mechanism degrades identically (protection only delays the same collapse)
+    falsifier: mechanisms separate or break at a stream length the short stream cannot reveal
+    metrics: [forgetting_curve, retention_threshold_length, effective_rank]
+    controls: [naive-sequential, frozen-random-substrate]
+    gates: [linear_probe, determinism]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: days
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: the scale stress test unlimited wall-clock unlocks; pairs with EX15
+    capacity_rungs: [4, 5]
+    paradigm_slugs: [shrink_and_perturb]
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex13.md", evidence_level: R0}
+
+  - id: ex14_memory_bakeoff
+    name: Uncertainty-indexed and associative memory at scale (memory bake-off)
+    kind: cross-cutting
+    series: EX
+    question: does Hopfield or uncertainty-indexed memory beat FIFO at matched memory budget
+    mechanism: FIFO vs modern-Hopfield vs uncertainty-indexed eviction on recall@k + downstream BWT
+    null_hypothesis: associative memory does not beat FIFO capacity and uncertainty indexing ties random eviction, even at scale
+    falsifier: a memory scheme improves recall@k or BWT beyond FIFO/random at matched slots
+    metrics: [recall_at_k, backward_transfer, retention_per_byte]
+    controls: [fifo, random-eviction, matched-budget]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: promotes hopfield_associative_memory + uncertainty_indexed_memory; extends E2
+    capacity_rungs: [3]
+    paradigm_slugs: [hopfield_associative_memory, uncertainty_indexed_memory]
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex14_memory_bakeoff.md", evidence_level: R1}
+
+  - id: ex15_rejuvenation
+    name: Shrink-and-perturb rejuvenation against loss of plasticity
+    kind: experiment
+    series: EX
+    question: does periodic shrink-and-perturb restore plasticity over a long stream without losing retention
+    mechanism: run the long stream with/without a rejuvenation schedule; track effective rank + dead units + retention
+    null_hypothesis: rejuvenation does not restore plasticity, or it restores plasticity at the cost of retention; the frozen-latent shell does not suffer loss of plasticity at this scale
+    falsifier: rejuvenation recovers effective rank and dead-unit count while retaining accuracy
+    metrics: [effective_rank, dead_unit_count, retained_accuracy]
+    controls: [no-rejuvenation, frozen-random-substrate]
+    gates: [determinism]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: days
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: promotes shrink_and_perturb; depends on EX13 long stream
+    capacity_rungs: [4]
+    paradigm_slugs: [shrink_and_perturb]
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex15.md", evidence_level: R0}
+
+  - id: ex16_codebook_sr
+    name: Discrete codebook / VQ abstraction and successor representation
+    kind: experiment
+    series: EX
+    question: do VQ codes form reusable concepts and does an SR over them improve transfer over raw latents
+    mechanism: VQ codebook over frozen latents + successor representation over codes; probe next-state/relation + FWT
+    null_hypothesis: the codebook adds no decodable structure over raw latents (random codebook ties it) and the SR provides no transfer over raw-latent features
+    falsifier: codes/SR improve cluster purity or transfer beyond the raw-latent baseline
+    metrics: [codebook_usage, cluster_purity, sr_probe_accuracy, forward_transfer]
+    controls: [raw-latent-probe, random-codebook, kmeans]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: promotes codebook_abstraction + successor_representation
+    capacity_rungs: [7, 12]
+    paradigm_slugs: [codebook_abstraction, successor_representation]
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex16.md", evidence_level: R2}
+
+  - id: ex17_latent_reasoning
+    name: Latent iterative reasoning (refinement + adaptive halting)
+    kind: experiment
+    series: EX
+    question: does refining the latent over N steps before the head beat a compute-matched single-pass head
+    mechanism: IterativeRefiner (residual latent->latent + LayerNorm), fixed-N and confidence-halt, vs a compute-matched deep MLP
+    null_hypothesis: at matched compute, N-step refinement ties the depth-and-flop-matched single-pass head (iteration was just depth)
+    falsifier: refinement improves accuracy/loss beyond the compute-matched control by more than the seed spread
+    metrics: [accuracy, gain_per_compute, halting_step_distribution]
+    controls: [compute-matched-deep-mlp, frozen-random-substrate, shuffled-latent]
+    gates: [linear_probe, determinism, compute_accounting]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: new primitive (shell/refine.py); the latent-reasoning line; feeds EX18
+    capacity_rungs: [7, 13]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex17.md", evidence_level: R2}
+
+  - id: ex18_self_verification
+    name: Latent self-verification / self-correction
+    kind: experiment
+    series: EX
+    question: does a verify-then-revise latent step before the head reduce error vs single-shot at matched compute
+    mechanism: a verifier head scores the refined latent; revise when confidence is low (built on EX17)
+    null_hypothesis: verify-revise ties single-shot at matched compute; the verifier carries no usable correction signal
+    falsifier: verify-revise reduces error beyond the compute-matched single-shot control
+    metrics: [accuracy, self_correction_gain, halting_step_distribution]
+    controls: [single-shot, compute-matched, shuffled-verifier]
+    gates: [compute_accounting, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: extends EX17 with a verifier; the self-correction line
+    capacity_rungs: [9, 13]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex18_self_verification.md", evidence_level: R1}
+
+  # ============================================================ reusable diagnostics (D)
+  - id: d1_geometry
+    name: Representation geometry battery
+    kind: diagnostic
+    series: D
+    question: what is the geometry of the frozen latent (similarity, rank, anisotropy)
+    mechanism: CKA (linear+kernel), RSA, effective rank, anisotropy, intrinsic dim, neighborhood overlap over cached latents
+    null_hypothesis: the substrate geometry is indistinguishable from a frozen-random projection on these measures
+    falsifier: a geometry measure separates the real encoder from a frozen-random projection beyond noise
+    metrics: [cka, rsa, effective_rank, anisotropy, intrinsic_dim, neighborhood_overlap]
+    controls: [frozen-random-substrate, shuffled-latent]
+    gates: []
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: the math under EX12; module diagnostics/geometry.py
+    capacity_rungs: [1, 7]
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    module: src/devsys/diagnostics/geometry.py
+    proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
+
+  - id: d2_substrate_ablation
+    name: Substrate-ablation control
+    kind: ablation
+    series: D
+    question: does a result need V-JEPA structure or would any projection do
+    mechanism: rerun any experiment with real / frozen-random / shuffled-latent / compressed-latent substrates
+    null_hypothesis: the result is unchanged under a frozen-random or shuffled substrate (it did not need V-JEPA)
+    falsifier: the effect survives on the real encoder but collapses under frozen-random/shuffled
+    metrics: [delta_vs_real]
+    controls: [frozen-random-substrate, shuffled-latent, compressed-latent]
+    gates: []
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: the cheapest devastating control; wrapper diagnostics/substrate_ablation.py
+    capacity_rungs: [1]
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    module: src/devsys/diagnostics/substrate_ablation.py
+    proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
+
+  - id: d3_difficulty_calibration
+    name: Difficulty calibration
+    kind: diagnostic
+    series: D
+    question: is a regime hard enough that a known-separable control method does separate
+    mechanism: certify a known-separable reference method shows a gap in the same regime before trusting a tie
+    null_hypothesis: a tie is uninterpretable because no method separates in this regime
+    falsifier: the reference method separates, certifying the regime can resolve mechanism differences
+    metrics: [reference_separation, regime_calibrated]
+    controls: [known-separable-reference]
+    gates: []
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: makes E7/E8 ties meaningful; module diagnostics/difficulty_calibration.py
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 6
+    status: implemented
+    module: src/devsys/diagnostics/difficulty_calibration.py
+    proof: {atlas_factor: none, null_card: "none", evidence_level: R2}
+
+  - id: d4_transfer_matrix
+    name: Transfer matrix
+    kind: diagnostic
+    series: D
+    question: how does a probe trained on task i decode task j across the stream
+    mechanism: loop linear_probe over task pairs; full T by T accuracy matrix + asymmetry index
+    null_hypothesis: off-diagonal transfer is at chance (no cross-task structure)
+    falsifier: off-diagonal transfer exceeds chance, revealing cross-task structure
+    metrics: [transfer_matrix, asymmetry_index]
+    controls: [shuffle-label]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: cross-task structure for free; module diagnostics/transfer_matrix.py, reuses linear_probe
+    capacity_rungs: [12]
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    module: src/devsys/diagnostics/transfer_matrix.py
+    proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
+
+  - id: d5_compute_accounting
+    name: Compute accounting
+    kind: diagnostic
+    series: D
+    question: are two arms actually matched on compute, not just parameters
+    mechanism: param count + FLOP/step + wall estimate so matched-compute is enforced not claimed
+    null_hypothesis: a measured gain disappears once compute is matched (it was extra compute, not the mechanism)
+    falsifier: the gain survives at matched FLOPs
+    metrics: [params, flops_per_step, wall_seconds]
+    controls: [matched-compute]
+    gates: []
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: mandatory gate for EX17/EX18 reasoning; module diagnostics/compute.py
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    module: src/devsys/diagnostics/compute.py
+    proof: {atlas_factor: none, null_card: "none", evidence_level: R2}
+
+  - id: d6_rollout_gate
+    name: Rollout-predictability gate
+    kind: diagnostic
+    series: D
+    question: are short-horizon latent rollouts predictive enough to plan against
+    mechanism: short-horizon latent prediction R2 floor before any planning result is trusted
+    null_hypothesis: rollout R2 is below the floor, so planning is not licensed
+    falsifier: rollout R2 exceeds the floor, licensing the planning claim
+    metrics: [one_step_r2, planning_licensed]
+    controls: [marginal-predictor]
+    gates: []
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: gates EX2 planning; module diagnostics/sysid.py (Y7 controllability_sysid_gate reuses it)
+    capacity_rungs: [8]
+    paradigm_slugs: [latent_rollout_mpc]
+    taxonomy_slot: 7
+    status: implemented
+    module: src/devsys/diagnostics/sysid.py
+    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R2}
+
+  # ============================================================ reusable ablations (A)
+  - id: a1_frozen_random_arm
+    name: Frozen-random substrate arm
+    kind: ablation
+    series: A
+    question: does the claimed effect need the real encoder or would a random projection do
+    mechanism: standard frozen-random arm alongside the real-encoder arm for every representational claim
+    null_hypothesis: the effect is unchanged under a frozen-random projection
+    falsifier: the effect requires the real encoder
+    metrics: [delta_vs_frozen_random]
+    controls: [frozen-random-substrate]
+    gates: []
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: the standard substrate ablation; subset of D2, module diagnostics/substrate_ablation.py
+    capacity_rungs: [1]
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    module: src/devsys/diagnostics/substrate_ablation.py
+    proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
+
+  - id: a2_matched_compute_arm
+    name: Matched-compute arm
+    kind: ablation
+    series: A
+    question: does the claimant tie a compute-matched control once FLOPs are equalized
+    mechanism: re-run claimant vs a control matched on FLOPs (via D5), not just parameters
+    null_hypothesis: the gain disappears at matched compute
+    falsifier: the gain survives at matched compute
+    metrics: [delta_at_matched_compute]
+    controls: [matched-compute]
+    gates: [compute_accounting]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: pairs with D5; mandatory for reasoning claims; module diagnostics/compute.py
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    module: src/devsys/diagnostics/compute.py
+    proof: {atlas_factor: none, null_card: "none", evidence_level: R2}
+
+  - id: a3_buffer_compression
+    name: Replay-buffer compression
+    kind: ablation
+    series: A
+    question: how much can stored latents be quantized before retention drops (retention-per-byte)
+    mechanism: quantize stored replay latents to k bits; measure retention vs bytes
+    null_hypothesis: low-bit replay ties full-precision replay (memory is cheap) or collapses (memory needs precision)
+    falsifier: a clear retention-per-byte frontier emerges
+    metrics: [retention_per_byte, backward_transfer]
+    controls: [full-precision-replay]
+    gates: []
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: the Hawking compression borrow; pairs with I-series capability-per-bit; module
+      diagnostics/buffer_compression.py, generalizes I5's inline quantize-on-store loop
+    capacity_rungs: [3]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    module: src/devsys/diagnostics/buffer_compression.py
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R2}
+
+  - id: a4_latent_robustness
+    name: Latent robustness
+    kind: ablation
+    series: A
+    question: how does accuracy degrade under shuffled/noised/dropped/compressed latents
+    mechanism: perturb cached latent inputs (shuffle, additive noise, dropout, low-bit) and re-probe
+    null_hypothesis: accuracy is flat under perturbation (the head ignores the latent) or collapses immediately (brittle)
+    falsifier: a graded degradation curve characterizes brittleness
+    metrics: [degradation_curve]
+    controls: [unperturbed-latent]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: brittleness characterization; module diagnostics/latent_robustness.py, reuses linear_probe
+    capacity_rungs: [1]
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    module: src/devsys/diagnostics/latent_robustness.py
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R2}
+
+  - id: n1_replay_ordering
+    name: replay_ordering_surprise_priority
+    kind: experiment
+    series: N
+    question: Does reverse-order and disagreement-prioritized replay of cached latent sequences buy retention over forward and uniform replay at matched buffer size
+    mechanism: Add reverse-order and surprise-priority (ensemble-disagreement margin proxy, not raw error) sampling to a PER-style buffer over a domain-incremental cached-latent stream, comparing forward, uniform, no-replay, and a frozen-random substrate arm at identical buffer count.
+    null_hypothesis: Reverse and surprise-priority replay tie uniform rehearsal at matched count, or all replay ties no-replay (stream too short, latents too uniform).
+    falsifier: No ordering scheme improves backward transfer or frontier AUC beyond the seed spread of uniform rehearsal at matched buffer size.
+    metrics: [backward_transfer, frontier_auc, ordering_deltas]
+    controls: [uniform-rehearsal-matched-count, no-replay, frozen-random-substrate]
+    gates: [linear_probe, noisy_tv, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Extends E2 (latent hippocampus PER replay) and the buffer module, complements EX14 memory bake-off.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n1_replay_ordering.md", evidence_level: R1}
+  - id: n3_pc_refiner
+    name: predictive_coding_refiner_matched_compute
+    kind: experiment
+    series: N
+    question: Does shaping the latent refiner as explicit prediction-error minimization (PC settling) beat a generic residual refiner and a compute-matched untied MLP
+    mechanism: Implement the refiner step as a prediction-error descent (pc_rate times pred minus z), comparing to the generic residual refiner and to a depth-and-FLOP-matched untied MLP, with a frozen-random substrate arm.
+    null_hypothesis: The PC-shaped refiner ties the generic refiner and ties the compute-matched untied MLP (iteration was just depth).
+    falsifier: The PC refiner improves accuracy or gain-per-compute beyond both controls by more than the seed spread.
+    metrics: [accuracy, gain_per_compute, fixed_point_residual]
+    controls: [generic-residual-refiner, compute-matched-untied-mlp, shuffled-latent, frozen-random-substrate]
+    gates: [compute, linear_probe, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Sharpens EX17 (IterativeRefiner) and links it to the I4 and EX5 predictive-coding line.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n3_pc_refiner.md", evidence_level: R1}
+  - id: n4_tag_and_capture
+    name: synaptic_tag_and_capture_consolidation
+    kind: experiment
+    series: N
+    question: Does consolidating weakly-learned buffer entries only when a later high-disagreement event occurs within a window beat uniform consolidation
+    mechanism: Tag low-confidence latent entries, consolidate a tagged entry only if a high-disagreement event lands within a temporal window, versus consolidating all entries uniformly and versus plain confidence-priority, at matched consolidation budget.
+    null_hypothesis: Tagged-and-captured consolidation ties uniform consolidation (the schedule adds no benefit, or a simpler priority-by-confidence already captures it).
+    falsifier: Tagged consolidation improves backward transfer at matched consolidation budget beyond uniform and beyond plain confidence-priority.
+    metrics: [backward_transfer, retention_per_byte]
+    controls: [uniform-consolidation, confidence-priority-only, matched-budget]
+    gates: [noisy_tv, linear_probe, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Extends E2 buffer plus consolidation (EWC and SI), uses the E4 disagreement signal.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n4_tag_and_capture.md", evidence_level: R1}
+  - id: n5_fisher_reopen
+    name: fisher_triggered_plasticity_reopening
+    kind: experiment
+    series: N
+    question: Does using the Fisher-trace signature as a closed-loop trigger to reopen plasticity beat fixed schedules and tuned cosine decay when a shift is planted at an unknown stream position
+    mechanism: Monitor a Fisher-trace proxy online, reopen the learning-rate gate when it signals a shift, comparing to constant LR, a staged schedule, tuned cosine decay, and a frozen-random substrate arm, and scoring shift localization.
+    null_hypothesis: Triggered reopening ties tuned cosine decay (an LR trick), or the Fisher signal fails to localize the shift (estimator too weak).
+    falsifier: Triggered reopening beats tuned decay on post-shift frontier AUC AND the Fisher signal localizes the planted shift above chance.
+    metrics: [frontier_auc_after_shift, adaptation_speed, shift_localization_acc]
+    controls: [constant-lr, staged-schedule, tuned-cosine-decay, frozen-random-substrate]
+    gates: [fisher_trace, determinism, linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Sharpens E3 (critical-period staged plasticity) with a closed-loop trigger, pairs with EX15.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n5_fisher_reopen.md", evidence_level: R1}
+  - id: n6_ach_ne_dissociation
+    name: ach_ne_expected_unexpected_uncertainty
+    kind: experiment
+    series: N
+    question: Does a two-signal gate (ACh as within-context entropy, NE as a change-point disagreement spike at boundaries) beat a single uncertainty scalar
+    mechanism: Plant labeled context boundaries and within-context aleatoric noise in a latent stream, have ACh down-weight learning under within-context noise and NE raise adaptation at boundaries, comparing to a single disagreement scalar with a noisy-TV rejection guard.
+    null_hypothesis: The two-signal split ties a single disagreement scalar (the dissociation adds no benefit, or helps only combined).
+    falsifier: The ACh and NE split adapts faster at boundaries while rejecting within-context noise better than a single scalar, beyond seed spread.
+    metrics: [adapt_speed_at_boundary, within_context_noise_rejection, calibration_ece]
+    controls: [single-disagreement-scalar, ungated, point-error-baseline, noisy-tv]
+    gates: [noisy_tv, calibration, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Extends E4 (neuromodulation uncertainty gating) and the neuromod module.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n6_ach_ne_dissociation.md", evidence_level: R1}
+  - id: n7_wm_delayed_match
+    name: working_memory_delayed_match_to_sample
+    kind: experiment
+    series: N
+    question: Do read and write WM slots let the shell hold a cue across a delay-filled latent sequence and solve a delayed-match task a feedforward head cannot, at matched compute
+    mechanism: Use modulation WorkingMemory slots on a delayed-match-to-sample latent task with distractor-filled delays, comparing to a feedforward head with the cue concatenated, with a shuffled-latent arm and an accuracy-vs-delay sweep.
+    null_hypothesis: WM slots tie a feedforward head with concatenated cue (the delay is trivial or the task does not need memory across it).
+    falsifier: WM slots solve longer-delay matches than the feedforward head at matched compute, with accuracy that degrades gracefully with delay.
+    metrics: [delayed_match_accuracy, accuracy_vs_delay_length]
+    controls: [feedforward-cue-concat, matched-compute, shuffled-latent]
+    gates: [compute, linear_probe, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Exercises the modulation WorkingMemory module, compares to EX4 fast-weights.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n7_wm_delayed_match.md", evidence_level: R1}
+  - id: n8_object_permanence_bound
+    name: object_permanence_pooled_latent_bound
+    kind: experiment
+    series: N
+    question: Does the shell predict the post-occlusion latent better than a last-frame baseline, and is occluded-object identity even decodable from the pooled latent through occlusion
+    mechanism: On a pooled occlusion-reveal construction, run the linear-probe gate for occluded-object identity, then predict the post-reveal latent and compare to last-frame and marginal baselines, with a frozen-random substrate arm. Implemented as the pooled precursor that ships the bound.
+    null_hypothesis: Occluded identity is not decodable from the pooled latent (substrate loses it), or the predictor ties the last-frame baseline.
+    falsifier: Occluded identity decodes above the shuffle floor AND the predictor beats last-frame, OR a clean negative bounds V-JEPA 2 pooled latents.
+    metrics: [post_reveal_prediction_error, occluded_identity_probe_acc]
+    controls: [last-frame-baseline, marginal-predictor, shuffle-label, frozen-random-substrate]
+    gates: [linear_probe, determinism, substrate_ablation]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Precursor evidence for E6 (relational) and EX9 (slots), uses occlusion control families.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n8_object_permanence_bound.md", evidence_level: R1}
+  - id: n9_attractor_convergence
+    name: latent_refiner_attractor_convergence
+    kind: experiment
+    series: N
+    question: Does the IterativeRefiner converge to a fixed point, does convergence depth track item difficulty, and do converged latents decode the target better than a compute-matched untied MLP
+    mechanism: Instrument the refiner for step-to-step latent delta, fixed-point residual, and basin stability under input perturbation, relate convergence depth to a linear-probe-margin difficulty measure, and compare accuracy versus a compute-matched untied control.
+    null_hypothesis: The refiner drifts rather than converging (a compute story not a representational one), or converged accuracy ties the compute-matched untied MLP.
+    falsifier: The refiner converges, convergence depth correlates with difficulty, and converged latents decode better than the matched untied control.
+    metrics: [fixed_point_residual, convergence_depth_vs_difficulty, converged_decode_gap]
+    controls: [compute-matched-untied-mlp, shuffled-latent, frozen-random-substrate]
+    gates: [compute, linear_probe, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: low
+    relation: Directly sharpens EX17 (IterativeRefiner) with dynamical-systems diagnostics.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n9_attractor_convergence.md", evidence_level: R1}
+  - id: n10_halting_difficulty
+    name: confidence_halting_tracks_difficulty
+    kind: experiment
+    series: N
+    question: Does the refiner halt-step distribution track an independent difficulty measure, and does adaptive halting match fixed-N accuracy at lower average compute
+    mechanism: Run the halt-enabled IterativeRefiner, correlate per-sample halt step with an independent linear-probe-margin difficulty measure, and compare adaptive-halt accuracy and average steps to fixed-N, against a random-halt control.
+    null_hypothesis: Halting is uncorrelated with difficulty (the halt head is noise), or adaptive halting loses accuracy with no compute saving.
+    falsifier: Halt step correlates with probe margin AND adaptive halting matches fixed-N accuracy at lower average compute.
+    metrics: [halt_step_vs_difficulty_corr, accuracy_at_lower_compute]
+    controls: [fixed-n-refiner, random-halt, shuffled-latent]
+    gates: [compute, linear_probe, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Sharpens EX17 adaptive halting, feeds EX18 self-verification.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n10_halting_difficulty.md", evidence_level: R1}
+  - id: n11_self_verification
+    name: latent_self_verification_error_monitoring
+    kind: experiment
+    series: N
+    question: Does a verifier head that triggers a revise step reduce error versus single-shot at matched compute, beyond a shuffled-verifier control
+    mechanism: A verifier head scores the refined latent and triggers an extra refine step when confidence is low (EX18 built on EX17), comparing to single-shot, a compute-matched single-shot, and a shuffled-verifier at matched compute.
+    null_hypothesis: Verify-revise ties single-shot at matched compute (the verifier carries no usable correction signal).
+    falsifier: Verify-revise reduces error beyond the compute-matched single-shot control and beyond a shuffled verifier.
+    metrics: [accuracy, self_correction_gain, halting_step_distribution]
+    controls: [single-shot, compute-matched, shuffled-verifier]
+    gates: [compute, determinism, linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Implements EX18 (self-verification) on the EX17 refiner.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/n11_self_verification.md", evidence_level: R1}
+  - id: d1_fast_mapping
+    name: fast_mapping_mutual_exclusivity
+    kind: experiment
+    series: D
+    question: Does a one-exposure, mutual-exclusivity-gated prototype binding beat generic nearest-centroid readout on 1-shot accuracy AND retain through interfering classes, on pooled frozen latents
+    mechanism: Prototype readout over class-incremental families; a novel class gets a fast-weight residual binding; a mutual-exclusivity prior assigns the new label to the most-novel (far-from-all-prototypes) cluster; interference is measured by retraining on distractor classes and reading the bound-class accuracy drop.
+    null_hypothesis: 1-shot mutual-exclusivity-gated binding ties the nearest-centroid baseline on 1-shot accuracy and is no more interference-robust than a vanilla softmax head
+    falsifier: The gated binding beats nearest-centroid by a seed-stable margin AND retains through interference where vanilla softmax catastrophically forgets.
+    metrics: [one_shot_acc, acc_vs_nearest_centroid, retention_drop_gate_vs_softmax]
+    controls: [nearest-centroid baseline, capacity-matched softmax under interference, tuned-baseline check]
+    gates: [linear_probe class decodability, seed stability, compute capacity-match]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Extends EX4 fast-weights and reuses the E1 continual harness and shell heads; a developmental specialization.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d1_fast_mapping.md", evidence_level: R1}
+  - id: d2_object_permanence_voe
+    name: object_permanence_voe_precursor
+    kind: experiment
+    series: D
+    question: Is the occluded-object-present factor linearly decodable from pooled latents, and if so does a forward predictor register higher error on illegal-vanish than legal-continue clips, widened by a working-memory slot
+    mechanism: Pooled precursor where a scene is a set of object tokens mean-pooled into one latent and the occluded slot shows the occluder not the object; probe-gate the occluded-present factor first, then compare memoryless vs WorkingMemory-slot forward predictors on a violation-of-expectation error gap.
+    null_hypothesis: the occluded-object-present factor is not linearly decodable from pooled latents (the gate fails), or illegal-vanish prediction error equals legal-continue error
+    falsifier: Gate passes AND a seed-stable positive VoE error gap appears that a memoryless predictor cannot produce.
+    metrics: [occluded_present_decodability, voe_error_gap, wm_widening]
+    controls: [memoryless predictor baseline, frozen-random substrate arm, shuffled-frame control]
+    gates: [linear_probe mandatory gate run first, noisy_tv epistemic check, seed stability]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Probe-gates the same substrate limit that defers E6; a failure strengthens the dense-2.1 case.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d2_object_permanence_voe.md", evidence_level: R1}
+  - id: d3_blicket_causal
+    name: blicket_causal_intervention
+    kind: experiment
+    series: D
+    question: Does training on a few interventional trials let the shell attribute an outcome to the true latent cause rather than a correlated confound, and extrapolate to held-out cause configurations
+    mechanism: Generate do(cause) control clips where an activation outcome is a deterministic function of a latent cause with a correlated confound; train observational plus a few interventional trials at matched capacity; test cause attribution on held-out anti-correlated configurations against an observational-only predictor.
+    null_hypothesis: interventional training does not beat observational-only on held-out cause attribution (the shell learns the observational map and confound, not the causal one)
+    falsifier: Seed-stable interventional advantage on unseen cause configurations beyond the observational predictor.
+    metrics: [held_out_cause_attribution, interventional_vs_observational_gap, cause_confound_separable]
+    controls: [observational-only capacity-matched predictor, confound-only baseline, shuffled-intervention control]
+    gates: [linear_probe separate cause and confound decodability, compute capacity-match, seed stability]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Direct developmental extension of EX11 interventional probing; adds the cause-vs-confound separability gate.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 10
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d3_blicket_causal.md", evidence_level: R1}
+  - id: d4_ushaped_overgen
+    name: ushaped_overgeneralization_dip
+    kind: experiment
+    series: D
+    question: When a control stream mixes a dominant regular pattern with minority exception clips, does exception-item accuracy show a reliable non-monotone dip-then-recover, and does a separate exception memory remove it
+    mechanism: Build a regime where most clips of a family follow rule A and a minority follow exception B with an idiosyncratic tag; train continually and track exception-item accuracy over time for the dip; ablate with extra shell width and with a WorkingMemory exception memory.
+    null_hypothesis: exception-item accuracy is monotone (no over-regularization dip), or any dip is just capacity starvation removed by width alone
+    falsifier: A seed-stable non-monotone dip that recovers, present at adequate capacity, attributable to rule-vs-exception competition rather than width.
+    metrics: [u_dip_depth, time_to_recovery, dip_removed_by_exception_memory]
+    controls: [monotone-baseline expectation, capacity sweep width guard, exception-memory ablation]
+    gates: [linear_probe both patterns decodable, seed stability of the curve shape, compute capacity sweep]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: New; reuses the E1 continual harness and EX14 associative memory; complements E3 plasticity dynamics.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d4_ushaped_overgen.md", evidence_level: R1}
+  - id: d5_lp_self_curriculum
+    name: lp_self_curriculum_developmental_order
+    kind: experiment
+    series: D
+    question: Does an LP-driven self-curriculum over all control families spontaneously order them easy-to-hard matching an independent difficulty ranking, and does that ordering improve final competence over random and reverse ordering
+    mechanism: Measure per-family difficulty as the asymptotic error of a fixed probe; run learning-progress selection over the graded-separation family pool and record entry order; compare final accuracy under LP vs random vs reverse ordering; guard with noisy_tv so aleatoric noise is rejected not chased.
+    null_hypothesis: LP-ordering ties random ordering on final accuracy and LP entry order is uncorrelated with measured family difficulty
+    falsifier: LP-ordering beats both random and reverse ordering, seed-stable, with a positive entry-order vs difficulty rank correlation.
+    metrics: [entry_order_difficulty_rank_corr, final_acc_by_ordering, noisy_tv_rejected]
+    controls: [random ordering, reverse ordering, point-error curiosity noisy-TV trap baseline]
+    gates: [noisy_tv reject aleatoric, linear_probe family difficulty floor, seed stability, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Directly extends E5 curiosity self-curriculum and EX8 intrinsic-motivation bake-off with a developmental-staging read.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d5_lp_self_curriculum.md", evidence_level: R1}
+  - id: d7_scaffolding
+    name: scaffolding_external_frontier_gating
+    kind: experiment
+    series: D
+    question: Does an external teacher gating input to the learnable frontier beat unscaffolded training, and does it add anything over self-generated learning progress
+    mechanism: A teacher signal masks which latents enter training via ContextGating using an LP frontier estimator; compare scaffolded vs unscaffolded vs self-LP-only vs a random-mask control on final accuracy under a fixed sample budget.
+    null_hypothesis: scaffolding ties self-curriculum and unscaffolded training (external frontier gating adds no measured benefit over self-generated learning progress)
+    falsifier: A seed-stable scaffolding advantage in sample efficiency or final accuracy over both controls.
+    metrics: [scaffolded_final_acc, scaffolding_vs_self_lp_gain, scaffolding_vs_random_mask_gain]
+    controls: [unscaffolded baseline, self-LP-only, random-mask control with no frontier info]
+    gates: [linear_probe, noisy_tv frontier validity, seed stability, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Builds on E5 and D5 self-curriculum and modulation ContextGating; isolates the external social gating signal from self.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d7_scaffolding.md", evidence_level: R1}
+  - id: d8_imitation_conditioned_rollout
+    name: imitation_demonstration_conditioned_rollout
+    kind: experiment
+    series: D
+    question: Does conditioning a predictor on a demonstration latent trajectory improve next-latent rollout on novel start states over an unconditioned predictor, on pooled navigation latents
+    mechanism: Embed a demonstration trajectory from a navigation clip and condition the rollout predictor by concatenation (no action model); test rollout error on held-out start states vs an unconditioned predictor and a shuffled-demonstration control.
+    null_hypothesis: demonstration conditioning gives no rollout improvement on novel starts (a simpler unconditioned control ties it), or true imitation needs real action
+    falsifier: Seed-stable conditioned rollout improvement on novel starts beyond the unconditioned predictor.
+    metrics: [conditioned_vs_unconditioned_rollout_error, terminal_state_decodability, novel_start_gap]
+    controls: [unconditioned predictor, shuffled-demonstration control, context-free baseline]
+    gates: [linear_probe terminal-state decodability, seed stability, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Precursor to EX2 latent planning which needs an environment; reuses the navigation control family and predictor, honestly bounded by no action.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 7
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d8_imitation_conditioned_rollout.md", evidence_level: R1}
+  - id: d9_relation_transfer_gate
+    name: relation_transfer_gate_precursor
+    kind: experiment
+    series: D
+    question: Is the relation factor in relation_change linearly decodable from pooled latents, and if so does a relation classifier transfer to held-out instances of the same relation
+    mechanism: Pooled precursor where an item-pair is two object tokens mean-pooled into one latent so the relation (the token difference) cancels under pooling; probe-gate relation decodability first, then train a relation classifier on some instances and test transfer to held-out instances vs a surface-feature baseline.
+    null_hypothesis: the relation factor is not decodable from pooled latents (taxonomy 3), or there is no transfer beyond surface features
+    falsifier: Gate passes AND seed-stable same-relation transfer beyond a surface-feature baseline.
+    metrics: [relation_decodability, held_out_same_relation_transfer, transfer_vs_surface]
+    controls: [surface-feature baseline, frozen-random substrate arm, shuffled-relation control]
+    gates: [linear_probe mandatory relation gate, geometry RSA structure check, seed stability]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Probe-gates the same relational structure that defers E6 relational map dense-2.1; a failure strengthens the dense case.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d9_relation_transfer_gate.md", evidence_level: R1}
+  - id: b1_clonal_selection
+    name: clonal_selection_eviction
+    kind: experiment
+    series: B
+    question: Does an immune-style clonal-selection eviction policy (keep high-affinity somatically-mutated exemplars, expand clones near recent error) beat prioritized replay and FIFO at matched buffer slots on retention
+    mechanism: Treat each stored latent as a B-cell with an affinity equal to its recent prediction error; at eviction keep the top-affinity exemplars, somatically mutate a fraction with small additive noise, and compare against PER (high-priority keep) and random reservoir at the same fixed slot count
+    null_hypothesis: At matched slots clonal-selection eviction ties PER and random on backward transfer within the seed spread, and the somatic-mutation arm does not beat the no-mutation arm
+    falsifier: Clonal-selection beats PER and random by more than the seed spread on backward transfer at matched slots, or the somatic-mutation arm degrades below the no-mutation arm
+    metrics: [backward_transfer, retention_at_matched_slots, mutation_effect]
+    controls: [PER priority eviction, random reservoir eviction, no-mutation clonal arm]
+    gates: [matched buffer slots]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Direct competitor and extension to E2 (PER replay) and EX14 (memory bake-off), reuses the buffer eviction hooks and the E4 disagreement signal
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b1_clonal_selection.md", evidence_level: R1}
+  - id: b2_baldwin_meta_init
+    name: baldwin_meta_init
+    kind: experiment
+    series: B
+    question: Does a Reptile meta-learned init internalize protection previously supplied online by replay so that a naive learner from the meta-init forgets less even with replay turned off
+    mechanism: Run an outer Reptile loop over many domain-stream draws with replay protection active in the inner loop, then evaluate a NAIVE inner learner (no replay) starting from the meta-init versus from a generic init and measure forgetting on a held-out stream
+    null_hypothesis: The meta-init confers no retention advantage to a naive learner over a generic init (nothing assimilated, protection lives only in the online mechanism)
+    falsifier: A naive learner from the meta-init shows lower forgetting than from a generic init by more than the seed spread, with no replay active at eval
+    metrics: [bwt_naive_from_meta, bwt_naive_from_generic, assimilation_gain]
+    controls: [naive learner from generic init]
+    gates: [no protection active at eval]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Builds on EX7 (meta-learning) and E1 and E2 (protection), a falsifiable operationalization of the Baldwin effect
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b2_baldwin_meta_init.md", evidence_level: R1}
+  - id: b3_stigmergic_curriculum
+    name: stigmergic_curriculum
+    kind: experiment
+    series: B
+    question: Does a stigmergic data-selection rule (deposit a decaying pheromone trace proportional to recent learning progress, then sample softmax over the field) match the explicit learning-progress selector while rejecting the noisy-TV
+    mechanism: Replace the explicit LP bandit with a per-region pheromone field that is a leaky integrator of a smoothed held-out learning-progress estimate (deposit equals LP, evaporation equals exponential decay), sample softmax over the field across two learnable regions and an irreducible fresh-sampled noise region, and compare to a raw-error deposit and to a greedy LP bandit
+    null_hypothesis: The stigmergic field ties explicit LP selection (it is a reparameterization of the same bandit), and a raw-error deposit chases the noisy-TV unless the deposit uses LP
+    falsifier: Stigmergic selection spends near-zero time on the noisy-TV and matches or beats LP on learnable coverage, with the evaporation rate showing a measurable optimum a static selector lacks
+    metrics: [learnable_coverage, noisy_tv_time_share, stigmergic_vs_lp]
+    controls: [explicit greedy LP bandit, raw-error deposit arm, noisy-TV guard]
+    gates: [fresh-sampled noise region, smoothed held-out LP estimator]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: New arm for EX8 (intrinsic-motivation bake-off) and E5 (curiosity self-curriculum), reuses the noisy-TV construction and the control families
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b3_stigmergic_curriculum.md", evidence_level: R1}
+  - id: b4_homeostatic_scaling
+    name: homeostatic_scaling
+    kind: experiment
+    series: B
+    question: Does a homeostatic normalization rule (rescale shell unit gains to hold a target activation statistic per layer) reduce catastrophic forgetting separately from and on top of EWC
+    mechanism: After each task multiplicatively rescale the incoming weights of a hidden layer to restore a target mean activation magnitude (synaptic scaling, unsupervised and label-free), run arms none, EWC-only, homeostasis-only, and EWC-plus-homeostasis over a domain stream, and add a frozen-random substrate arm
+    null_hypothesis: Homeostatic scaling alone does not beat naive on backward transfer (a normalization trick not protection), and it adds nothing on top of EWC (the two protect the same directions)
+    falsifier: Homeostasis alone reduces forgetting beyond naive, or EWC-plus-homeostasis beats EWC alone by more than the seed spread, and the frozen-random arm shows the effect needs the real encoder geometry
+    metrics: [backward_transfer, homeostasis_effect, homeostasis_on_top_of_ewc]
+    controls: [naive sequential, EWC-only, frozen-random substrate]
+    gates: [matched domain stream]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Extends E1 and E3 (plasticity) and the consolidation EWC and SI module, shares effective-rank and dead-unit instrumentation with EX15 rejuvenation
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b4_homeostatic_scaling.md", evidence_level: R1}
+  - id: b5_degeneracy_robustness
+    name: degeneracy_robustness
+    kind: experiment
+    series: B
+    question: Does building the shell as multiple structurally-different predictors that reach the same output give better robustness to latent perturbation and slower forgetting than a single predictor at matched compute
+    mechanism: Build K structurally-distinct sub-predictors (different widths and activations) trained to agree on outputs, compare to a param-matched single predictor and to K identical copies, test graceful degradation under additive latent perturbation and retention on the stream, and enforce matched FLOPs not just params
+    null_hypothesis: Degeneracy ties the matched-param single predictor and ties pure redundancy on both perturbation robustness and retention (any win was capacity removed by the matched-compute control)
+    falsifier: The degenerate ensemble shows a flatter degradation curve or higher backward transfer than both the matched single predictor and K identical copies, surviving matched compute
+    metrics: [degradation_auc, backward_transfer, degeneracy_vs_baselines]
+    controls: [matched-param single predictor, K identical copies, matched FLOPs check]
+    gates: [matched compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Extends the ensemble module and E4 (disagreement), the robustness side reuses A4 (latent robustness), separates representational from compute effects
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b5_degeneracy_robustness.md", evidence_level: R1}
+  - id: b6_offline_consolidation
+    name: offline_consolidation
+    kind: experiment
+    series: B
+    question: Does an explicit offline consolidation phase (batch interleaved replay between tasks decoupled from online learning) beat purely-online replay at matched total replay budget, and does a noise-injected dreaming variant help or hurt
+    mechanism: A two-stage CLS analogy where an online phase learns the new task and an offline phase replays a balanced interleave of past-task latents at a lower learning rate, with arms online-only, offline-interleaved, and offline-plus-generative dreaming (Gaussian pseudo-latents), all at matched total replayed samples
+    null_hypothesis: Offline interleaving ties online replay at matched replay budget (scheduling does not matter only sample count), and the generative dreaming arm fails to match stored replay
+    falsifier: Offline interleaving beats online at matched budget by more than the seed spread, or the dreaming arm ties stored replay at lower storage
+    metrics: [bwt_online, bwt_offline, bwt_dreaming]
+    controls: [online-only replay at matched budget, generative dreaming arm]
+    gates: [matched total replay budget]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Refines E2 (replay) and EX1 (generative replay), the online versus offline schedule is the new variable
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b6_offline_consolidation.md", evidence_level: R1}
+  - id: b7_developmental_curriculum
+    name: developmental_curriculum
+    kind: experiment
+    series: B
+    question: On the cached latent control families does a developmentally-ordered curriculum (low-separation simple regimes first, high-separation complex later) yield better final competence than the same data in shuffled or hard-first order at matched samples
+    mechanism: Use the separation knob to build difficulty-graded blocks, present them ordered easy-to-hard versus shuffled versus hard-first anti-curriculum at matched total samples, measure final competence on the hardest block, and certify the regime is resolvable with a solo-competence difficulty check before trusting a tie
+    null_hypothesis: Ordered curriculum ties shuffled at matched samples (order does not matter on a frozen pooled substrate, the stream is too uniform or short for staging to bite)
+    falsifier: Ordered beats both shuffled and hard-first by more than the seed spread on final competence at matched data, with the resolvability check confirming the regime is resolvable
+    metrics: [final_competence, ordered_vs_shuffled, ordered_vs_hardfirst]
+    controls: [shuffled order, hard-first anti-curriculum, resolvability check]
+    gates: [matched total samples, regime resolvability]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Extends E3 (critical period) and E5 (curriculum), a clean curriculum-order test gated by a difficulty-calibration check
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b7_developmental_curriculum.md", evidence_level: R1}
+  - id: b9_cerebellar_forward_model
+    name: cerebellar_forward_model
+    kind: experiment
+    series: B
+    question: Does adding a small cerebellum-style forward-model head (predict the next pooled latent and feed its error back as a correction feature) improve online adaptation and rollout predictability over a flat predictor at matched compute
+    mechanism: A dedicated forward-model head predicts the next latent from the current one and its error is concatenated as a correction feature to the main classifier, with arms flat predictor, forward-model-error-as-feature, and forward-model with stop-gradient, gated by a rollout-predictability floor and matched compute
+    null_hypothesis: The forward-model head ties the flat predictor at matched compute (the correction loop is just extra depth), or rollout R2 is below the floor so the model is not predictive enough to correct against
+    falsifier: The forward-model loop improves rollout-conditioned accuracy beyond the matched-compute flat head, with rollout R2 above the floor
+    metrics: [accuracy_flat, accuracy_forward_model, rollout_r2]
+    controls: [matched-compute flat predictor, stop-gradient arm, rollout-predictability floor]
+    gates: [matched compute, rollout R2 floor]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Extends the predictor forward-dynamics targets and EX2 with the rollout gate, the matched-compute control is the load-bearing arm
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b9_cerebellar_forward_model.md", evidence_level: R1}
+  - id: b10_energy_budget
+    name: energy_budget_frontier
+    kind: experiment
+    series: B
+    question: Does adding an explicit activation-energy penalty (L1 on activations as a spike-count proxy) trade a small accuracy loss for a large compute or sparsity gain, tracing a capability-per-FLOP frontier the dense shell does not reach
+    mechanism: Add a tunable L1-activation energy term and sweep its weight, for each setting measure accuracy and effective FLOPs discounted by the measured activation sparsity, then compare the resulting capability-per-FLOP to a dense shell and to a plain width sweep tracing the same accuracy-FLOP line
+    null_hypothesis: The energy penalty only moves accuracy and FLOPs along the same line a width sweep already traces (no special frontier), or sparsity collapses accuracy with no usable operating point at this shell scale
+    falsifier: The energy-regularized shell reaches a strictly better accuracy-per-FLOP operating point than both the dense shell and a matched width sweep
+    metrics: [capability_per_flop, activation_sparsity, frontier_beats_width_sweep]
+    controls: [dense shell, matched width sweep, FLOP accounting]
+    gates: [usable operating point, FLOP accounting]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Extends E7 (sparse and k-WTA) and A3 (compression), the FLOP frontier reuses the compute accounting and the capability-per-bit battery
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b10_energy_budget.md", evidence_level: R1}
+  - id: p1_concept_no_labels
+    name: concept_formation_without_labels
+    kind: experiment
+    series: P
+    question: Does a shell form internal categories matching a held-out factor it was never trained on, more than a frozen-random projection does, under next-latent prediction with no labels
+    mechanism: Train a tiny next-latent predictor on a make_task_stream control family, then run k-means and a linear probe over the shell hidden activations for a held-out class factor never used as a target, comparing purity and probe accuracy against raw latents and a frozen-random substrate
+    null_hypothesis: shell hidden states decode the held-out factor no better than the raw frozen latent, or the same purity appears under frozen-random (projection-invariant geometry, not concept formation)
+    falsifier: shell hidden states decode or cluster the held-out factor above the raw-latent baseline AND above the frozen-random arm by more than the seed spread
+    metrics: [hidden_purity, hidden_probe_acc, delta_over_raw, delta_over_frozen_random]
+    controls: [raw-latent k-means and probe, frozen-random projection arm]
+    gates: [linear-probe gate, frozen-random substrate ablation]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Sharpens ex16_codebook_sr and ex12_atlas by asking what the trained shell encodes, not what the substrate already carries
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p1_concept_no_labels.md", evidence_level: R1}
+  - id: p2_memorize_vs_concept
+    name: memorization_vs_concept_interpolation_extrapolation
+    kind: experiment
+    series: P
+    question: When the shell solves a task is it storing seen latent-target pairs or has it formed a category that generalizes to held-out values of the underlying factor
+    mechanism: On a control family with a continuous generative factor, train on a band of factor values and test on interpolated unseen values and extrapolated out-of-band values, comparing a shell head against a nearest-neighbor memorization lookup over the cached latents
+    null_hypothesis: the shell ties the nearest-neighbor memorization baseline on held-out values (it memorized, did not form a concept), or it fails extrapolation exactly where lookup fails (no rule learned)
+    falsifier: the shell beats the memorization baseline on interpolated values AND retains accuracy on extrapolated values where lookup is at chance
+    metrics: [gen_gap_shell, gen_gap_nn, extrapolation_error_shell, extrapolation_error_nn]
+    controls: [nearest-neighbor memorization lookup baseline]
+    gates: [interpolation generalization gap, extrapolation error vs lookup]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Operationalizes the memorization-vs-concept question and extends ex11_causal_probing extrapolation logic to a continuous factor
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p2_memorize_vs_concept.md", evidence_level: R1}
+  - id: p3_knowledge_is_prediction
+    name: knowledge_is_prediction_dissociation
+    kind: experiment
+    series: P
+    question: Does lowering next-latent prediction error necessarily increase how much task-relevant structure is linearly decodable, or can a model predict well while knowing little
+    mechanism: Train shells across a capacity-rung sweep, measure next-latent prediction R2 and factor-probe decodability at each rung, plot decodability vs prediction, and scan for a dissociation step where prediction rises while decodability does not (or the reverse)
+    null_hypothesis: prediction error and factor decodability are monotonically coupled at this substrate, so the knowledge-is-prediction identity is trivially supported and uninformative
+    falsifier: a regime exists where prediction error keeps dropping while factor decodability stays flat or falls, or decodability rises with prediction flat
+    metrics: [pred_decode_correlation, dissociation_found, max_pred_r2, max_factor_acc]
+    controls: [capacity-rung sweep, raw-latent decodability ceiling]
+    gates: [dissociation-point scan, prediction-decodability correlation]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Reuses the ex12_atlas probe battery and d1_geometry to test the implicit epistemology behind every JEPA-style predictor
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p3_knowledge_is_prediction.md", evidence_level: R1}
+  - id: p4_intelligence_is_compression
+    name: intelligence_is_compression_capability_per_bit
+    kind: experiment
+    series: P
+    question: Does compressing the stored latent representation trade off smoothly against capability, and is there a regime where more compression helps generalization rather than only hurting fidelity
+    mechanism: Quantize stored replay latents to k bits across a bit sweep and measure held-out generalization vs bits, testing for a non-monotone peak where intermediate compression improves generalization versus a monotone fidelity-loss decay
+    null_hypothesis: capability decays monotonically with compression (compression is pure fidelity loss, not abstraction); there is no regime where compressing improves generalization
+    falsifier: an intermediate compression level improves held-out generalization beyond full precision by more than the seed spread
+    metrics: [capability_vs_bits, non_monotone_peak, peak_bits, monotone_decay]
+    controls: [full-precision stored latents, bit-depth sweep]
+    gates: [non-monotone peak test, seed-spread margin]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Operationalizes intelligence-as-compression on a3_buffer_compression and e2_replay, pairing with ex16_codebook_sr
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p4_intelligence_is_compression.md", evidence_level: R1}
+  - id: p5_private_language
+    name: private_language_cross_seed_codes
+    kind: experiment
+    series: P
+    question: Are the shell internal latent codes a stable re-identifiable communicable scheme or a per-seed idiosyncratic basis with no cross-instance correspondence
+    mechanism: Train N shells from different seeds on the same stream and test code correspondence three ways, cross-seed CKA of hidden states versus a frozen-random floor, cross-shell probe transfer (train on shell A decode shell B), and Hungarian-matched cluster stability
+    null_hypothesis: codes are seed-idiosyncratic, cross-seed alignment is at the frozen-random level and cross-shell probes are at chance (the latent code is a private language, not a shareable scheme)
+    falsifier: codes align across seeds and a probe trained on one shell decodes another above chance and above the frozen-random arm
+    metrics: [cross_seed_cka, cross_shell_probe_acc, code_stability, delta_over_frozen_random]
+    controls: [frozen-random projection CKA floor, random-codebook stability floor]
+    gates: [cross-seed CKA vs frozen-random, cross-shell probe transfer, code stability]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Extends d1_geometry CKA to cross-seed shell codes, a new use of the geometry battery for the Wittgenstein private-language test
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p5_private_language.md", evidence_level: R1}
+  - id: p6_meaning_without_symbols
+    name: meaning_without_symbols_continuous_vs_vq
+    kind: experiment
+    series: P
+    question: Does routing meaning through a discrete symbol bottleneck buy any usability or transfer that a continuous latent of matched capacity does not
+    mechanism: Compare a continuous-latent shell code against a VQ-codebook code and a random-codebook control at matched parameter budget, measuring downstream factor-decode utility for each code type
+    null_hypothesis: the discrete-symbol shell ties the matched-capacity continuous shell (symbols add nothing), or it only ties because the random-codebook also ties (structure was the bottleneck, not symbols)
+    falsifier: the VQ-symbol shell beats both the continuous and the random-codebook shells at matched compute on transfer or recombination
+    metrics: [continuous_acc, vq_acc, random_codebook_acc, discrete_minus_continuous]
+    controls: [matched-capacity continuous code, random-codebook code]
+    gates: [discrete-vs-continuous margin, discrete-vs-random margin]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Sharpens ex16_codebook_sr with a matched-capacity continuous control and a meaning-without-symbols framing gated by d5_compute_accounting
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p6_meaning_without_symbols.md", evidence_level: R1}
+  - id: p9_thought_without_language
+    name: thought_without_language_reasoning_gain
+    kind: experiment
+    series: P
+    question: Can iterative latent refinement produce a measurable reasoning gain beyond compute-matched depth in a substrate with no text encoder at all
+    mechanism: Run the weight-tied IterativeRefiner on tasks requiring multi-step latent transformation against a compute-matched untied-depth control at identical block count and hidden width, reporting gain per compute and the adaptive halting-step distribution
+    null_hypothesis: at matched compute the refiner ties the untied-depth control (the gain was depth, not iteration, so there is no language-free reasoning signal, only more parameters)
+    falsifier: refinement beats the compute-matched control by more than the seed spread AND uses input-dependent halting steps
+    metrics: [gain_per_compute, halting_step_mean, refiner_acc, control_acc]
+    controls: [compute-matched untied-depth network, matched forward FLOPs]
+    gates: [matched-compute check, gain-vs-margin]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: Reframes ex17_latent_reasoning and ex18_self_verification as a thought-without-language test gated by d5_compute_accounting
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p9_thought_without_language.md", evidence_level: R1}
+  - id: p10_theory_ladenness
+    name: theory_ladenness_of_perception
+    kind: experiment
+    series: P
+    question: Does a nonlinear probe recover factors a linear probe cannot, and does that gap depend on the encoder (real vs frozen-random), so is decoded structure a property of the substrate or imposed by the readout
+    mechanism: For each factor compute linear-probe and small-MLP-probe decodability on real and frozen-random substrates and form the difference-in-differences readout-contribution index, a positive index means the substrate carries nonlinearly-decodable structure a projection does not
+    null_hypothesis: the nonlinear probe gain is identical on real and frozen-random substrates (the recovered structure is contributed by the probe, not the encoder; perception is theory-laden all the way down)
+    falsifier: the nonlinear probe recovers a factor on the real encoder that it cannot on frozen-random (the structure is genuinely in the substrate, not imposed by the readout)
+    metrics: [readout_contribution_index, nonlinear_gain_real, nonlinear_gain_fr, index_per_factor]
+    controls: [frozen-random projection arm, capacity-capped nonlinear probe]
+    gates: [readout-contribution index vs margin, linear-vs-nonlinear gap]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Extends ex12_atlas and d2_substrate_ablation from linear to nonlinear readouts and operationalizes theory-ladenness
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/p10_theory_ladenness.md", evidence_level: R1}
+  - id: c1_held_out_combination
+    name: held_out_combination_gate
+    kind: experiment
+    series: C
+    question: Are two independently varied generative factors decodable in held-out combinations the probe never saw paired, or only in seen combinations
+    mechanism: Factorized 2-attribute grid encoded to pooled latents; linear probe trained on a strict subset of cells with a held-out diagonal; test per-factor decoding on held-out cells vs a shuffle-label floor and a frozen-random arm
+    null_hypothesis: Held-out-combination accuracy collapses to chance while seen-combination accuracy stays high, or both factors are jointly undecodable so the test is uninterpretable
+    falsifier: Held-out per-factor accuracy within the seed spread of the shuffle-label floor falsifies compositional read-out; a frozen-random arm that ties real means the structure is projection generic
+    metrics: [heldout_minus_seen_gap, per_factor_heldout_vs_shuffle_floor, heldout_vs_frozen_random]
+    controls: [shuffle_label_floor, frozen_random_projection, seen_vs_heldout_cells]
+    gates: [linear_probe_joint_decodability]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Extends ex12_atlas decodability spine and d2_substrate_ablation; the sharpest substrate compositionality gate
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c1_held_out_combination.md", evidence_level: R1}
+  - id: c2_latent_analogy
+    name: latent_analogy_structure_mapping
+    kind: experiment
+    series: C
+    question: Does the pooled-latent difference vector for a controlled transformation transfer across object identities so that z of B-star approximates z of B plus the offset from the A pair
+    mechanism: Aligned clip quads share one relational offset across contents; estimate the offset from held-out contents, add to a target source latent, retrieve nearest cached latent, compare to a shuffled-offset control and a frozen-random arm
+    null_hypothesis: Offset vectors do not transfer across object contents so analogy retrieval ties the shuffled-offset control, or the transform factor is not decodable at all
+    falsifier: Retrieval within the seed spread of the shuffled-offset control falsifies linear structure-mapping; working only when source and target share content means vector arithmetic not relational transfer
+    metrics: [analogy_retrieval_top1, offset_cosine_consistency, delta_over_shuffled_offset]
+    controls: [shuffled_offset, within_content_baseline, frozen_random_projection]
+    gates: [analogy_above_chance_rank]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: Extends ex16_codebook_sr relational transfer and reuses buffer KV retrieval; a positive result is a precursor sign
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c2_latent_analogy.md", evidence_level: R1}
+  - id: c3_prototype_typicality
+    name: prototype_typicality_geometry
+    kind: experiment
+    series: C
+    question: Do pooled latents for a controlled category form a prototype-structured cluster with graded typicality predicting classification margin rather than an exemplar bag
+    mechanism: For a defined category measure distance-to-centroid vs probe margin correlation, silhouette, and whether a nearest-centroid prototype classifier ties a full exemplar k-NN; compare silhouette to a frozen-random projection
+    null_hypothesis: No typicality gradient (latents uniformly distributed within category, an exemplar bag), or a frozen-random projection shows the same cluster geometry so the structure is not V-JEPA specific
+    falsifier: Typicality correlation within noise of zero falsifies schema-as-prototype; frozen-random tying real on silhouette and prototype accuracy means the cluster structure is projection generic
+    metrics: [typicality_correlation, prototype_vs_exemplar_gap, silhouette_vs_frozen_random]
+    controls: [exemplar_knn, frozen_random_projection]
+    gates: [linear_probe_category_decodable]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Reuses d1_geometry and ex12_atlas; sharpens ex16_codebook_sr cluster purity by adding a typicality metric
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c3_prototype_typicality.md", evidence_level: R1}
+  - id: c4_event_segmentation
+    name: event_segmentation_chunking
+    kind: experiment
+    series: C
+    question: Do Chunking module boundaries at high successive-latent distance align with ground-truth event transitions in scripted clips beyond a fixed-rate or random-boundary control
+    mechanism: Run Chunking.boundaries over per-frame pooled latents of scripted multi-event sequences with known transition frames, sweep the threshold for a precision-recall curve, score boundary F1 vs a uniform-rate segmenter and a shuffled-latent control
+    null_hypothesis: Surprise boundaries do not align with true transitions better than a uniform-rate segmenter (pooled clip latents too coarse temporally), or the substrate gives no usable surprise signal
+    falsifier: Boundary F1 within the seed spread of the uniform-rate control falsifies prediction-surprise segmentation; a clear advantage that vanishes under shuffled-latent confirms it is the real signal
+    metrics: [boundary_f1, delta_over_uniform_rate, delta_over_shuffled_latent]
+    controls: [uniform_rate_segmenter, shuffled_latent, threshold_pr_sweep]
+    gates: [surprise_signal_present]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: First real test of the Chunking module in shell modulation; complements e4_neuromod surprise signals
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c4_event_segmentation.md", evidence_level: R1}
+  - id: c5_transfer_matrix
+    name: transfer_matrix_analogical_mapping
+    kind: experiment
+    series: C
+    question: Does a probe trained to read a relational factor on one family decode the same abstract relation on a structurally analogous but surface-different family beyond chance
+    mechanism: Build families that share an abstract relation axis atop family-specific surface codes; train a probe on family i, test on family j, build the T-by-T matrix plus an asymmetry index; compare off-diagonal to a shuffle-label floor and a frozen-random arm
+    null_hypothesis: Off-diagonal transfer is at chance (each family is its own surface code), or transfer is symmetric and content-driven not relation-driven
+    falsifier: Off-diagonal accuracy tying shuffle-label chance falsifies transferable relational abstraction; transfer only between surface-similar families is surface generalization not analogy
+    metrics: [off_diagonal_transfer_accuracy, asymmetry_index, delta_over_shuffle_floor]
+    controls: [shuffle_label_floor, frozen_random_projection, within_family_diagonal]
+    gates: [within_family_relation_decodable]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: Promotes d4_transfer_matrix from registry-only to a run; gives e1 and e2 continual results a cross-task-structure denominator
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c5_transfer_matrix.md", evidence_level: R1}
+  - id: c6_dual_process_halting
+    name: dual_process_halting
+    kind: experiment
+    series: C
+    question: Does adaptive-halting iterative refinement spend more compute on harder items than easy items, and does that difficulty-conditioned allocation beat a single-pass head at matched average compute
+    mechanism: Run the IterativeRefiner confidence-halt mode over a difficulty-graded latent set, correlate halting step with item difficulty, compare accuracy at matched average FLOPs to a single-pass head sized to the refiner average depth
+    null_hypothesis: Halting step is uncorrelated with difficulty (refiner halts on a content-irrelevant signal), or at matched average compute the adaptive policy ties the single-pass head
+    falsifier: Halting not correlating with independent difficulty measures means the dual-process framing adds no mechanism; matched-compute accuracy tying single-pass rejects (the ex17 null)
+    metrics: [halting_vs_difficulty_correlation, accuracy_at_matched_compute, gain_per_compute]
+    controls: [single_pass_matched_compute, frozen_random_substrate, difficulty_grading]
+    gates: [matched_compute_audit]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: Extends ex17_latent_reasoning with a difficulty-conditioned analysis and a cognitive-science framing; mandatory d5 matched compute
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c6_dual_process_halting.md", evidence_level: R1}
+  - id: c7_chunking_expertise
+    name: chunking_as_expertise
+    kind: experiment
+    series: C
+    question: When latent sequences are pre-segmented into surprise-bounded chunks and the shell learns over chunk summaries, does it reach competence in fewer steps than a no-chunking control at matched capacity
+    mechanism: Feed chunk-summary tokens (mean-pooled within surprise boundaries) vs raw uniform windows and random-boundary windows; measure steps-to-competence on a sequence-label task at matched parameters
+    null_hypothesis: Chunked input ties uniform-window input at matched capacity (chunking is a re-binning with no acquisition benefit), or the boundaries are not reliable enough to help
+    falsifier: Chunked steps-to-competence within the seed spread of uniform falsifies expertise-via-chunking; a win that vanishes when boundaries are replaced by random boundaries confirms it is the boundaries
+    metrics: [steps_to_competence_ratio, final_accuracy_gap, delta_over_random_boundaries]
+    controls: [uniform_window_summaries, random_boundary_chunking, matched_capacity]
+    gates: [boundary_reliability]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Depends on c4; exercises WorkingMemory and Chunking together; complements e5_curiosity self-curriculum
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c7_chunking_expertise.md", evidence_level: R1}
+  - id: c8_concept_blending
+    name: concept_blending_interpolation
+    kind: experiment
+    series: C
+    question: Do linear blends of two category prototype centroids land in latent regions that decode as a coherent intermediate, or do they fall off the data manifold into undecodable space
+    mechanism: Interpolate between two category centroids, probe each blended point for parent-A and parent-B membership and off-manifold distance to the nearest real latent, compare to interpolation in a frozen-random projection
+    null_hypothesis: Midpoint blends are off-manifold and undecodable (the latent space is not convex for concepts), or frozen-random shows identical interpolation behavior
+    falsifier: Midpoint decodability collapsing while off-manifold distance spikes falsifies linear concept blending; frozen-random matching real means blendability is a generic linear-space property
+    metrics: [midpoint_decodability, off_manifold_distance_ratio, midpoint_vs_frozen_random]
+    controls: [frozen_random_projection, nearest_neighbour_scale, endpoint_decodability]
+    gates: [category_probe_decodable]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Builds on c3 prototypes and ex16_codebook_sr; a clean falsifiable test of interpolation-as-blending claims
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c8_concept_blending.md", evidence_level: R1}
+  - id: c9_systematicity_sweep
+    name: systematicity_stress_sweep
+    kind: experiment
+    series: C
+    question: As the held-out fraction of factor combinations grows does per-factor decodability degrade gracefully (systematic generalization) or cliff at a threshold (memorized conjunctions)
+    mechanism: Sweep the held-out combination width on the factorized grid, plot per-factor held-out accuracy vs held-out depth, repeat under a frozen-random arm, fit the degradation curve and locate any cliff
+    null_hypothesis: Accuracy cliffs immediately once any combination is held out (pure conjunction memorization), or the curve is identical to frozen-random so the substrate does not buy systematicity
+    falsifier: A graceful non-cliff curve supports partial systematicity; a hard cliff at the first held-out cell falsifies systematic generalization on pooled latents
+    metrics: [systematicity_curve, cliff_location, real_minus_frozen_random_auc]
+    controls: [frozen_random_projection, shuffle_label_floor, held_out_depth_sweep]
+    gates: [factor_decodable_at_zero_holdout]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: The depth-sweep extension of c1; gives ex12_atlas a systematicity axis and supplies a substrate-scaling falsifier
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/c9_systematicity_sweep.md", evidence_level: R1}
+  - id: i1_info_bottleneck
+    name: information_bottleneck_capability_per_bit
+    kind: experiment
+    series: I
+    question: When a tiny shell squeezes the frozen pooled latent through a low-width bottleneck before the head, does decodability of atlas factors stay flat (redundancy free), improve, or collapse
+    mechanism: Insert a width-W linear bottleneck between the frozen latent and a probe, sweep W from 1 to 32, train only the bottleneck and head on cached latents, and compare the accuracy-vs-width curve on real vs a frozen-random projection of equal width
+    null_hypothesis: accuracy vs retained bits is flat down to a tiny width (the factor needs only a handful of bits) or the real curve is indistinguishable from a frozen-random projection of equal width
+    falsifier: a sharp reproducible knee where the real-encoder bottleneck retains accuracy at a width where the frozen-random arm has already collapsed, with the gap exceeding the margin
+    metrics: [probe_accuracy_vs_retained_bits, knee_width_95pct, max_small_width_separation]
+    controls: [frozen_random_projection_equal_width]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: sharpens D2 by adding a learned bottleneck arm over the uniform k-bit quantization the substrate_ablation compressed arm currently does
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i1_info_bottleneck.md", evidence_level: R1}
+  - id: i2_mdl_selection
+    name: mdl_model_selection
+    kind: experiment
+    series: I
+    question: Does the two-part minimum description length of a shell (bits to encode weights plus bits to encode prediction residuals on the cache) select the same capacity that held-out predictive loss selects, giving an overfitting-proof criterion with no validation split
+    mechanism: For predictor shells of varying width and depth compute a two-part MDL score equal to quantized weight bits under a flat prior plus residual code length (the Gaussian negative log-likelihood of next-latent residuals), then compare MDL ranking to held-out next-latent loss across the capacity sweep
+    null_hypothesis: MDL ranks shells differently from held-out loss (low rank correlation) or MDL is monotone in parameter count and adds nothing over counting weights
+    falsifier: MDL ordering matches held-out-loss ordering across rungs above the preregistered rank-correlation threshold and the MDL-selected capacity is not simply the smallest, showing the residual-code term carries signal
+    metrics: [mdl_vs_heldout_corr, capacity_by_mdl, capacity_by_val]
+    controls: [parameter_count_only_ranking]
+    gates: [held_out_loss]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: a diagnostic-style selection layer over the capacity sweeps and the Gaussian head residual code length
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i2_mdl_selection.md", evidence_level: R1}
+  - id: i3_compression_reasoning
+    name: compression_damages_reasoning
+    kind: experiment
+    series: I
+    question: Does quantizing the latent degrade iterative latent reasoning (multi-step refinement before a head) more steeply than it degrades a shallow linear classification head, holding the bit budget identical across both readouts
+    mechanism: Run two readouts off the same uniformly quantized latent at matched bit budgets, a shallow linear classification head and an iterative refiner followed by a head each compared to its compute-matched untied-depth control, sweeping k-bit quantization and reading off accuracy-vs-bits slopes
+    null_hypothesis: the two accuracy-vs-bits slopes are equal within seed spread (reasoning is not specially fragile) or the refiner has no advantage to lose even uncompressed
+    falsifier: the reasoning readout degrades with a steeper accuracy-vs-bits slope than the classification readout at matched bits and the refiner advantage over its compute-matched control vanishes at a bit budget where classification survives
+    metrics: [reasoning_minus_classification_slope, bits_to_lose_refiner_advantage, refiner_gain]
+    controls: [compute_matched_untied_depth, shallow_classification_head]
+    gates: [matched_compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: direct test of the sharp hypothesis that compression damages latent reasoning more than shallow classification
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i3_compression_reasoning.md", evidence_level: R1}
+  - id: i4i_redundancy_reduction
+    name: redundancy_reduction_retention
+    kind: experiment
+    series: I
+    question: Does a redundancy-reduction transform of the frozen latent (decorrelation or whitening) bought before learning improve backward transfer per stored byte in the replay shell, or is the redundancy in pooled latents already benign
+    mechanism: Learn a ZCA-whitening recode of cached latents and store the recoded latents in the replay buffer, compare against raw-latent replay at matched stored-byte budget on a domain-incremental stream, and add a frozen-random arm to test whether any gain is generic whitening
+    null_hypothesis: redundancy reduction ties raw-latent replay at matched bytes (the pooled latent redundancy is not costing retention) or the same gain appears on a frozen-random projection
+    falsifier: a redundancy-reduced code improves retention per byte beyond raw-latent replay at matched bytes on the real encoder while the frozen-random arm shows no such gain
+    metrics: [backward_transfer, retention_per_byte, offdiag_correlation_reduction]
+    controls: [raw_latent_replay, frozen_random_projection]
+    gates: [effective_rank]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: extends the replay shell and replay-buffer compression with an efficient-coding recode reusing effective_rank and the frozen-random control
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i4i_redundancy_reduction.md", evidence_level: R1}
+  - id: i5_rate_distortion_replay
+    name: rate_distortion_replay
+    kind: experiment
+    series: I
+    question: What is the rate-distortion frontier of replay storage (rate is bits per stored latent, distortion is forgetting) and does non-uniform bit allocation giving more bits to high-Fisher exemplars beat uniform quantization on that frontier
+    mechanism: Vary bits-per-stored-latent via uniform quantization and add a non-uniform allocation arm assigning more bits to higher per-exemplar Fisher exemplars, then plot forgetting (negative backward transfer) against total stored bits and compare uniform vs importance-weighted allocation
+    null_hypothesis: importance-weighted allocation lies on the same RD curve as uniform within seed spread (the importance signal does not predict which exemplars need precision) or the RD curve is a flat cliff
+    falsifier: importance-weighted allocation achieves the same backward transfer at strictly fewer total bits than uniform across a range of budgets, tracing a separated and lower RD frontier with a graded (not cliff) shape
+    metrics: [rate_distortion_curve, bits_saved_at_fixed_bwt, area_under_rd_curve]
+    controls: [uniform_quantization_allocation]
+    gates: [backward_transfer]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: turns the replay-buffer compression line into a full rate-distortion experiment coupled to replay and consolidation importance
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i5_rate_distortion_replay.md", evidence_level: R1}
+  - id: i6_mi_audit
+    name: mutual_information_audit
+    kind: experiment
+    series: I
+    question: For each atlas factor how much mutual information between the frozen latent and the factor does the trained shell actually use versus the upper bound the linear probe establishes, exposing the gap between information available and exploited
+    mechanism: Estimate MI decodable via the probe ceiling and MI used via the shell outputs using a plug-in estimator on discretized predictions plus an InfoNCE-style variational lower bound as a cross-check, then report the exploitation ratio (MI used over MI decodable) per factor across capacity rungs
+    null_hypothesis: the exploitation ratio is near 1 for every decodable factor (the shell already uses essentially all available information) or the MI estimators disagree so much that the ratio is uninterpretable
+    falsifier: a stable estimator-agreed gap (ratio well below 1) for at least one factor that shrinks as shell capacity grows, showing the bottleneck is the shell not the substrate
+    metrics: [exploitation_ratio, mi_decodable, mi_used]
+    controls: [probe_ceiling, plugin_vs_infonce_estimator]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: adds an MI-estimation diagnostic on top of the linear probe ceiling to separate substrate-bound from shell-bound failures
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 6
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i6_mi_audit.md", evidence_level: R1}
+  - id: i7_predictive_information
+    name: predictive_information_bottleneck
+    kind: experiment
+    series: I
+    question: How much of a pooled latent information is predictive (shared with the next-clip latent) versus instantaneous, and does a shell trained to keep only the predictive component retain world-model-relevant structure while discarding nuisance
+    mechanism: On forward-dynamics streams with next-latent targets train a width-W code that maximizes prediction of the future latent (a past-future bottleneck) and compare the predictive-only code against the raw latent and a frozen-random projection on next-latent prediction rollout R2 at matched dimension
+    null_hypothesis: the predictive-only code does no better than the raw latent on rollout R2 at matched dimension (predictive and instantaneous information are entangled) or predictive information is near zero
+    falsifier: a predictive-information-maximizing code raises rollout R2 over the raw latent at matched dimension and the predictive fraction is materially above zero while the frozen-random arm shows no such gain
+    metrics: [predictive_information_fraction, rollout_r2_code_vs_raw, next_latent_prediction_error]
+    controls: [raw_latent, frozen_random_projection]
+    gates: [rollout_r2]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: feeds the planning line via the rollout-predictability gate and tests the pooled-latent short-clip temporal limit
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i7_predictive_information.md", evidence_level: R1}
+  - id: i8_quant_robustness
+    name: quantization_robustness
+    kind: experiment
+    series: I
+    question: Is graceful degradation under quantization a property of the V-JEPA latent specifically or does any projection degrade identically, and does a representation quantization robustness predict its downstream usefulness
+    mechanism: Run a degradation battery of per-feature uniform quantization at decreasing bit depths applied to real and frozen-random latents, measure the probe-accuracy degradation curve per substrate, and test whether the real curve separates from the frozen-random curve
+    null_hypothesis: the real encoder degradation curve overlaps the frozen-random curve (robustness is a generic high-dimension property, not a V-JEPA property, consistent with projection-invariant linear decodability)
+    falsifier: the real latent degrades materially more gracefully than a frozen-random projection at matched bits for some factor and quantization robustness predicts downstream transfer across factors
+    metrics: [bits_to_half_accuracy, degradation_curve_area, real_minus_frozen_random]
+    controls: [frozen_random_projection]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: combines latent robustness and the compressed and frozen-random arms into a single battery probing projection-invariance directly
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i8_quant_robustness.md", evidence_level: R1}
+  - id: i9_vq_rate_distortion
+    name: vq_rate_distortion_usability
+    kind: experiment
+    series: I
+    question: On the VQ codebook where does the rate (codebook bits) versus distortion (reconstruction) frontier sit, and does a learned VQ codebook beat k-means and a random codebook on usability per bit (cluster purity per code-bit)
+    mechanism: Sweep codebook size (rate in bits per latent) for a gradient-trained VQ codebook, k-means, and a random codebook, measure distortion (reconstruction error) and usability (cluster purity) at each rate, and plot usability-per-bit against rate with the frozen-random check
+    null_hypothesis: VQ ties k-means and random codebook on usability per bit at matched rate (no decodable structure over raw latents, restating the codebook null in rate-distortion terms) or usability is flat in rate
+    falsifier: the learned VQ codebook achieves higher usability per code-bit than k-means and random at matched rate on the real encoder, tracing a separated usability-rate frontier that random does not reach
+    metrics: [rate_distortion_curve, usability_per_bit, vq_minus_kmeans_margin]
+    controls: [kmeans_codebook, random_codebook]
+    gates: [cluster_purity]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: recasts the codebook successor-representation experiment as a rate-distortion-usability experiment adding a bits axis and a learned VQ arm
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/i9_vq_rate_distortion.md", evidence_level: R1}
+  - id: y1_fixed_point_convergence
+    name: fixed_point_convergence
+    kind: experiment
+    series: Y
+    question: When the EX17 IterativeRefiner is unrolled far past its trained step count N, do the latent trajectories converge to a fixed point where the residual update norm goes to zero, and is that fixed point reached before or after the trained halting horizon
+    mechanism: Train the EX17 refiner (z residual update z + block(LayerNorm(z))) then on held-out cached pooled latents unroll for K much larger than trained N (K=64, N=4), log per-step update norm and head loss, fit the contraction slope of log update-norm, and compare head loss at trained N vs at the unrolled fixed point
+    null_hypothesis: trajectories do not settle (the update norm neither decays geometrically nor stabilizes) or the head loss at the fixed point is no better than at trained N within the margin
+    falsifier: geometric decay of the update norm below epsilon for a majority of samples AND lower head loss at the fixed point than at trained N would show a genuine contractive attractor
+    metrics: [converged_fraction, contraction_factor, head_loss_at_fixed_point_vs_trained_n]
+    controls: [matched-compute trained-N vs fixed-point head loss, per-sample contraction-slope]
+    gates: [linear_probe_gate, compute_matched]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Directly instruments EX17 IterativeRefiner in shell/refine.py, uses substrate-ablation and compute diagnostics, pairs with Y2 and Y3
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y1_fixed_point_convergence.md", evidence_level: R1}
+  - id: y2_basin_stability
+    name: basin_stability
+    kind: experiment
+    series: Y
+    question: If a frozen latent is perturbed by noise before being fed to the EX17 refiner, does the refined output stay within a bounded neighborhood (stable basin) or does small input noise produce large output divergence (sensitive dependence)
+    mechanism: For each held-out latent create perturbed copies z0 + epsilon u (u unit norm, epsilon swept across a grid), run the trained refiner to its fixed point, measure output spread vs input epsilon to estimate a finite-time Lyapunov-like sensitivity coefficient and the basin contraction ratio, and compare perturbed-input accuracy of the refiner head against the raw-latent head
+    null_hypothesis: the refiner shows no basin structure (sensitivity ratio near 1) or amplifies noise (sensitivity above 1) without improving perturbed-input accuracy over the raw-latent head
+    falsifier: a sensitivity coefficient below 1 with a measurable basin radius AND better perturbed-input accuracy than the raw-latent head would show error-correcting attractor dynamics
+    metrics: [sensitivity_coefficient, contraction_ratio, perturbed_acc_vs_raw]
+    controls: [raw-latent head under the same perturbation, basin contraction-ratio readout]
+    gates: [linear_probe_gate]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Extends latent-robustness with a dynamical-systems readout on EX17, pairs with Y1, the basin-radius metric feeds EX18
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y2_basin_stability.md", evidence_level: R1}
+  - id: y3_seed_consistent_fixed_points
+    name: seed_consistent_fixed_points
+    kind: experiment
+    series: Y
+    question: Train the EX17 refiner from K random seeds on the same cached latents, do the converged fixed points land at the same location (single shared attractor up to symmetry) or at seed-dependent locations (an arbitrary basin carved by initialization)
+    mechanism: Train K refiners with identical data and hyperparameters but different seeds, run all K to their fixed points on held-out latents, measure cross-seed CKA of the fixed points (rotation invariant, respecting the projection-invariance fact) against a frozen-random projection floor, plus decision-agreement and the spread ratio of fixed points vs input spread
+    null_hypothesis: fixed points are seed-dependent (cross-seed CKA at the frozen-random floor), the attractor is an artifact of initialization not imposed by task or substrate
+    falsifier: aligned fixed points that cluster tightly across seeds above the frozen-random floor AND agreeing decisions would show a task-determined attractor
+    metrics: [cross_seed_fixed_point_cka, decision_agreement, spread_ratio_vs_frozen_random]
+    controls: [frozen-random projection cross-seed-CKA floor, within-class input spread]
+    gates: [substrate_ablation, seed_consistency]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Uses seed-consistency diagnostics and frozen-random substrate ablation, instruments EX17, the cross-seed alignment respects the projection-invariance fact, pairs with Y1
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y3_seed_consistent_fixed_points.md", evidence_level: R1}
+  - id: y5_homeostatic_lr_loop
+    name: homeostatic_lr_loop
+    kind: experiment
+    series: Y
+    question: Does a closed-loop controller that regulates the shell learning rate to hold a target prediction-error set-point (a homeostat) beat the open-loop tuned-decay schedules on the continual frontier, or is it just a re-parameterized schedule
+    mechanism: Replace the open-loop plasticity schedule with a PI feedback controller whose error signal is the deviation of running prediction error from a set-point and whose actuator is the learning rate (with actuator saturation), compare PI homeostat vs constant LR vs tuned cosine decay on frontier AUC and LR overshoot, and run the noisy-TV guard to check the homeostat does not raise LR on irreducible aleatoric error
+    null_hypothesis: the closed-loop homeostat ties the best tuned open-loop schedule on frontier AUC, or it is unstable and underperforms, or on noisy-TV it chases aleatoric error
+    falsifier: the homeostat beating tuned decay on frontier AUC with a stable settling loop AND rejecting the noisy-TV would show closed-loop regulation is a real win over scheduling
+    metrics: [frontier_auc_pi_minus_tuned, lr_overshoot, gate_on_noisy_tv]
+    controls: [tuned constant and cosine-decay schedules, noisy-TV aleatoric guard]
+    gates: [tuned_baseline, noisy_tv_guard]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Extends the plasticity and neuromod axes with explicit control theory, the set-point uses the noisy-TV diagnostic
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y5_homeostatic_lr_loop.md", evidence_level: R1}
+  - id: y6_free_energy_vs_lp
+    name: free_energy_vs_lp
+    kind: experiment
+    series: Y
+    question: When the free-energy objective is decomposed into epistemic and complexity terms, does the epistemic term alone explain any selection benefit, and does it differ in any measurable way from the learning-progress signal on the learnable-vs-noisy budget
+    mechanism: Decompose the expected-free-energy clip selector into epistemic (disagreement), complexity, and pragmatic terms, run each over the noisy-TV diagnostic regions, and directly compare the EFE-epistemic ranking against the learning-progress ranking on learnable-coverage and noisy-TV rejection plus their rank correlation
+    null_hypothesis: free energy does not beat learning-progress on coverage or noisy-TV rejection and the epistemic term is rank-correlated with learning-progress near 1 (free energy is learning-progress relabeled)
+    falsifier: EFE-epistemic spending near-zero on the noisy-TV AND improving coverage beyond learning-progress while being weakly correlated with it would show free energy adds a distinct epistemic signal
+    metrics: [noisy_tv_rejection_efe, efe_lp_rank_correlation, epistemic_minus_lp_coverage]
+    controls: [learning-progress signal on the same budget, noisy-TV aleatoric guard]
+    gates: [noisy_tv_guard, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Sharpens the active-inference and curiosity bake-off lines, uses noisy-TV and calibration diagnostics, the decomposition isolates the epistemic term
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y6_free_energy_vs_lp.md", evidence_level: R1}
+  - id: y7_controllability_sysid_gate
+    name: controllability_sysid_gate
+    kind: experiment
+    series: Y
+    question: Before any latent-planning claim, is the frozen pooled latent even a controllable state, can a linear next-latent dynamics model fit by system identification on action-conditioned families predict the next latent above the marginal floor, and is the identified system controllable
+    mechanism: On action-conditioned synthetic control families fit a linear state-space model next = A z + B a by least squares, measure one-step and k-step rollout R2 (the rollout floor), test controllability numerically via the rank and condition of the controllability Gramian, and compare against an action-shuffled control where B should collapse
+    null_hypothesis: actions do not linearly move the pooled latent (B indistinguishable from the action-shuffle, controllability Gramian rank-deficient), so the pooled latent is not a controllable state and planning is not licensed
+    falsifier: a non-degenerate B that the action-shuffle collapses and a rollout R2 clearing the floor would show the latent is a controllable system and planning may proceed
+    metrics: [one_step_rollout_r2, controllability_gramian_rank, action_shuffle_delta]
+    controls: [action-shuffled linear fit, marginal next-latent floor]
+    gates: [linear_probe_gate, rollout_floor]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: The system-identification gate under latent planning, formalizes the rollout floor, uses action-conditioned control families
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y7_controllability_sysid_gate.md", evidence_level: R1}
+  - id: y8_recurrent_bibs_stability
+    name: recurrent_bibs_stability
+    kind: experiment
+    series: Y
+    question: If the shell carries a recurrent hidden state across the continual stream, does that state remain bounded (BIBS-stable) over long horizons or does it drift and blow up, and does state-carrying actually improve forward transfer over the stateless head
+    mechanism: Add a leaky recurrent state h_next = (1-alpha) h + alpha f(h, z) to the predictor processing the latent stream in order, track the state norm trajectory and effective rank, and compare forward transfer and adaptation of the stateful vs stateless predictor at matched parameters and matched compute
+    null_hypothesis: the recurrent state diverges or saturates (no useful bounded dynamics) or when stable provides no forward-transfer gain over the stateless head at matched compute (the stream is too uniform to carry usable state)
+    falsifier: a bounded state with a leak that improves forward transfer at matched compute would show stateful recurrence helps
+    metrics: [hidden_state_bounded, effective_rank_of_state, forward_transfer_stateful_minus_stateless]
+    controls: [stateless head at matched compute, state-norm and effective-rank trajectory]
+    gates: [compute_matched]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Extends the predictor and the working-memory modulation slots, pairs with the working-memory line, uses compute-matched diagnostics
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y8_recurrent_bibs_stability.md", evidence_level: R1}
+  - id: y9_verifier_contraction
+    name: verifier_contraction
+    kind: experiment
+    series: Y
+    question: Does the verify-then-revise loop act as a contraction toward a lower-error fixed point, does each verify-revise iteration monotonically reduce a Lyapunov-candidate error functional and converge, at matched compute better than plain EX17 refinement
+    mechanism: Build the verify-revise loop on EX17, train a verifier head to predict per-sample head NLL, revise (apply an extra refine step) where confidence is low and iterate, log the Lyapunov candidate V (head NLL) at every step and test monotone descent and convergence, and compare final error against plain EX17 refinement, a compute-matched single-shot pass, and a shuffled-verifier control
+    null_hypothesis: V does not decrease monotonically (the verifier carries no usable correction direction, the shuffled-verifier control ties it) or verify-revise ties plain EX17 and the compute-matched single-shot head (self-correction was just more depth)
+    falsifier: monotone V descent to a lower fixed point that beats EX17 and the matched single-shot control with the shuffled-verifier control failing would establish verify-revise as genuine error-correcting dynamics
+    metrics: [monotone_descent_fraction, self_correction_gain_vs_ex17, shuffled_verifier_delta]
+    controls: [plain EX17 refinement at matched compute, shuffled-verifier control]
+    gates: [compute_matched]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: high
+    meaningless_risk: low
+    relation: Directly designs EX18 self-verification as a dynamical system, builds on EX17 and the Y1 and Y3 fixed-point machinery, uses compute-matched diagnostics
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y9_verifier_contraction.md", evidence_level: R1}
+  - id: s1_symbol_grounding
+    name: symbol_grounding_gate
+    kind: experiment
+    series: S
+    question: "Does a VQ code over frozen pooled latents function as a grounded sign (its assignment tracks a world variable linearly decodable from the latent) rather than an arbitrary symbol, and can we separate Peircean icon, index, symbol behavior operationally?"
+    mechanism: "Fit a VQ codebook (k-means over pooled latents), measure per-code mutual information with the generative world variable (indexicality), RSA between code-centroid adjacency and stimulus-prototype adjacency (iconicity), and one-hot code probe minus raw-latent probe, with a frozen-random substrate_ablation arm."
+    null_hypothesis: "codes carry no more world-variable information than a random codebook at matched k, and code-adjacency RSA ties the shuffled floor (an arbitrary label, not a grounded index)"
+    falsifier: "if a random codebook ties learned MI AND RSA collapses to the shuffled floor, or frozen-random projection reproduces the MI (needs_real False), the grounding claim is dead"
+    metrics: [code_world_mi, code_world_mi_random, code_rsa, needs_real]
+    controls: [random_codebook_matched_k, shuffled_pairing_rsa_floor, substrate_ablation_frozen_random]
+    gates: [linear_probe_world_decodable]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "direct extension of EX16 codebook, adds the Peircean icon, index, symbol decomposition and the substrate_ablation anti-vacuity guard"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s1_symbol_grounding.md", evidence_level: R1}
+  - id: s3_concept_arithmetic
+    name: latent_concept_arithmetic
+    kind: experiment
+    series: S
+    question: "Do analogy-style vector offsets between frozen pooled latents (a is to b as c is to d) retrieve the correct target above the rate a random offset of matched norm achieves, for relations that first pass the linear-probe gate?"
+    mechanism: "Build two-factor latents, compute the offset proto(ap,b) minus proto(a,b), transport proto(a,bp) by that offset, retrieve nearest cell prototype at rank 1, gated by linear-probe decodability of the factor, with a random matched-norm offset and a frozen-random projection arm."
+    null_hypothesis: "offset arithmetic ties a random matched-norm offset, OR it survives equally under a frozen-random projection (a generic property of any linear space, not of V-JEPA concepts)"
+    falsifier: "random matched-norm offsets match the learned-offset retrieval rate, or frozen-random projection preserves the arithmetic, either kills the meaningful-arithmetic claim"
+    metrics: [retrieval_at1, gain_vs_random_offset, gain_vs_frozen_random, probe_r2]
+    controls: [random_matched_norm_offset, frozen_random_projection]
+    gates: [linear_probe_factor_decodable]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "stress-tests EX16 concept structure and the linear-probe gate, the frozen-random control is the projection-invariance check"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s3_concept_arithmetic.md", evidence_level: R1}
+  - id: s4_latent_vs_discrete
+    name: latent_vs_discrete_reasoning
+    kind: experiment
+    series: S
+    question: "On a multi-step relational task, does reasoning purely in latent space (iterative refinement over latents) match or beat routing the same intermediate states through a discrete symbolic bottleneck, at matched forward FLOPs?"
+    mechanism: "Arm A is an IterativeRefiner over pooled latents end to end, arm B is the same refiner with every intermediate state snapped through a straight-through VQ codebook bottleneck (symbol serialization), FLOPs matched via diagnostics.compute matched_within."
+    null_hypothesis: "at matched compute, latent reasoning ties the discrete-bottleneck arm (symbol serialization is not a measurable bottleneck on this task)"
+    falsifier: "if the discrete-bottleneck arm ties or beats the continuous latent arm at matched FLOPs, the language-is-an-unnecessary-bottleneck claim fails"
+    metrics: [acc_latent, acc_discrete, gain_at_matched_flops, params_ratio]
+    controls: [matched_compute_discrete_bottleneck]
+    gates: [matched_within_flops]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "combines EX17 compute-matched iterative refiner with EX16 codebook to make the discrete-vs-continuous bottleneck the variable"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s4_latent_vs_discrete.md", evidence_level: R1}
+  - id: s5_code_stability
+    name: private_language_stability
+    kind: experiment
+    series: S
+    question: "Is a learned latent code (VQ codebook) stable across random seeds and distinct shell instances, or is each run a private idiolect that does not transfer (the operational private-language test)?"
+    mechanism: "Train K independent codebooks on the same cached latents at different seeds, measure Hungarian-matched cross-seed code agreement (code_stability) and cross-seed linear-CKA of the one-hot codes, both compared against the random-relabeling floor and a frozen-random-projection CKA floor."
+    null_hypothesis: "cross-seed code agreement ties the random / frozen-random floor (a per-run private idiolect, not a stable shared language)"
+    falsifier: "if matched-code agreement and CKA across seeds do not exceed the frozen-random baseline, the stable-shared-code claim is dead and gets the seed-instability badge"
+    metrics: [code_agreement, code_agreement_chance, cross_seed_cka, cka_frozen_random]
+    controls: [random_relabel_floor, frozen_random_cka_floor]
+    gates: [agreement_above_chance, cka_above_frozen_random]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "uses cross-seed CKA and code_stability to test whether EX16 codes are reproducible, a control EX16 does not carry"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s5_code_stability.md", evidence_level: R1}
+  - id: s6_compositionality
+    name: compositionality_probe
+    kind: experiment
+    series: S
+    question: "If single factors are each linearly decodable from the pooled latent, is the latent of a novel combination predictable from a compositional model of its parts, i.e. does the substrate support systematic generalization to unseen combinations?"
+    mechanism: "Generate a factorial set, hold out a diagonal of factor combinations entirely, fit a factor decoder on seen cells and test held-out-combination decode accuracy, compared against a frozen-random projection floor and the seen-combination ceiling."
+    null_hypothesis: "held-out combinations are not decodable above the frozen-random floor (the pooled latent represents whole-scene gestalts, not factors compositionally; taxonomy 3)"
+    falsifier: "if held-out-combination decoding ties chance while seen-combination decoding is high, composition fails and only memorization remains"
+    metrics: [heldout_acc, heldout_acc_frozen_random, gap_to_seen, compositional]
+    controls: [frozen_random_projection_floor, seen_combination_ceiling]
+    gates: [single_factor_linear_decodable]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: "precursor diagnostic for the relational map, flags the pooling blindspot (the named substrate limit) before any dense work"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s6_compositionality.md", evidence_level: R1}
+  - id: s7_learned_vs_designed
+    name: learned_vs_designed_symbols
+    kind: experiment
+    series: S
+    question: "For a fixed downstream task, does an end-to-end learned discrete vocabulary over latents beat a human-designed symbol set (hand-labeled categories from the control generator) at matched code count and matched probe capacity?"
+    mechanism: "Two vocabularies over the same latents, a learned VQ codebook of size k and human-designed symbols (ground-truth generative labels quantized to k), each feed a matched-capacity one-hot probe predicting a derived held-out task target, against a random-codebook floor and a raw-latent ceiling."
+    null_hypothesis: "learned codes tie human-designed symbols at matched capacity (optimizing the vocabulary for use buys nothing over the designer ontology)"
+    falsifier: "if designed symbols tie or beat learned codes at matched k, the learned-beats-designed claim fails"
+    metrics: [acc_learned, acc_designed, acc_random, raw_ceiling]
+    controls: [random_codebook_at_k, raw_latent_ceiling, matched_probe_capacity]
+    gates: [matched_k, matched_probe_params]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "extends EX16 learned-vs-random, adds the learned-vs-human-designed arm and matched-capacity probe discipline"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s7_learned_vs_designed.md", evidence_level: R1}
+  - id: s9_interpretable_vs_useful
+    name: interpretable_vs_useful
+    kind: experiment
+    series: S
+    question: "Are the most task-useful latent directions also the most human-interpretable (alignable to a named generative factor), or are usefulness and interpretability orthogonal in pooled V-JEPA space?"
+    mechanism: "Rank readout dimensions by usefulness (summed absolute probe-weight magnitude), independently score each by interpretability (max absolute correlation with a named generative factor that passed the probe gate), and report the Spearman correlation plus the fraction of top-useful dims that are namable above a random-direction floor with a substrate_ablation arm."
+    null_hypothesis: "usefulness and interpretability are uncorrelated (the useful code is not the namable code, an opaque-but-useful private code)"
+    falsifier: "if top-useful directions map to named factors no better than random directions, interpretability and utility are decoupled"
+    metrics: [spearman_use_interp, frac_top_useful_named, frac_random_named, needs_real]
+    controls: [random_direction_interpretability_floor, substrate_ablation_frozen_random]
+    gates: [named_factor_linear_decodable]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "builds on the atlas of decodable factors and EX16 codes, supplies the interpretability axis the Section-9 hope needs"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s9_interpretable_vs_useful.md", evidence_level: R1}
+  - id: s10_anti_self_deception
+    name: anti_self_deception_meta_test
+    kind: experiment
+    series: S
+    question: "For each Section-9 test (alignment, arithmetic, compositionality, translation), does a frozen-random projection or a structured-synthetic substrate pass the same test, in which case the test is vacuous and must be discarded or tightened?"
+    mechanism: "A reusable harness that runs each S-style decode test through the substrate_ablation arms (real, frozen_random, shuffled, compressed) and reports per-test needs_real, delta_frozen_random, delta_shuffled, and a vacuity verdict (PASS-VACUOUS if frozen-random ties real)."
+    null_hypothesis: "if frozen-random ties real on a given test that test is declared vacuous (the test, not the substrate, fails); we WANT frozen-random to fail every test"
+    falsifier: "any S-test where frozen-random projection reproduces the headline metric within margin is flagged vacuous and cannot be cited (the falsification of the TEST)"
+    metrics: [frac_tests_needs_real, any_vacuous, delta_frozen_random, delta_shuffled]
+    controls: [frozen_random_projection, shuffled_pairing, compressed_quantize]
+    gates: [needs_real_per_test]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: "operationalizes the D2 substrate_ablation lesson (linear decodability is projection-invariant) as a standing gate for the S series"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/s10_anti_self_deception.md", evidence_level: R1}
+  - id: a1_affordance_decode
+    name: affordance_decodability_probe
+    kind: experiment
+    series: A
+    question: Is action-relevant structure (passable vs blocked, container vs surface, graspable-size vs not) linearly decodable from a single pooled latent before any affordance mechanism is claimed
+    mechanism: Relabel control families by an action-relevance contrast and probe each with linear_probe plus a small-MLP probe, comparing the real encoder against a frozen-random projection and the shuffle floor via substrate_ablation.
+    null_hypothesis: action-relevance labels do not exceed the shuffle-label chance floor, OR the real encoder ties a frozen-random projection so any affordance mechanism would read capacity not a substrate affordance
+    falsifier: an affordance contrast decodes above the shuffle floor AND the real encoder beats frozen-random beyond seed spread
+    metrics: [probe_acc_above_shuffle_floor, delta_vs_frozen_random, linear_vs_mlp_gap]
+    controls: [shuffle-label floor, frozen-random-substrate, linear-vs-MLP capacity gap, parameter-matched probe]
+    gates: [linear_probe, substrate_ablation]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: Direct extension of EX12 atlas and D2 substrate ablation; adds affordance-typed targets to the decodability map.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a1_affordance_decode.md", evidence_level: R1}
+  - id: a2_viewpoint_invariance
+    name: viewpoint_motion_invariance
+    kind: experiment
+    series: A
+    question: Does the pooled latent hold object or event identity stable under camera transformations (forward dolly vs yaw rotation) so the same event is decodable invariant of viewpoint
+    mechanism: Train an event-identity probe on one viewpoint condition and test transfer to a held-out rotated condition, reading latent CKA across viewpoints and comparing to a pixel-difference baseline and a frozen-random arm.
+    null_hypothesis: event identity does not transfer across viewpoint conditions beyond a pixel-difference baseline, OR the real encoder invariance ties frozen-random so invariance is trivial averaging not structure
+    falsifier: cross-viewpoint transfer exceeds the pixel baseline AND the real encoder shows higher invariance than frozen-random beyond seed spread
+    metrics: [cross_viewpoint_transfer, cka_across_viewpoints, transfer_gap_vs_frozen_random]
+    controls: [pixel-difference baseline, frozen-random-substrate, shuffled-latent, matched-probe-capacity]
+    gates: [linear_probe, geometry, substrate_ablation]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: Extends D1 geometry and EX12 atlas with a transformation-invariance axis.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a2_viewpoint_invariance.md", evidence_level: R1}
+  - id: a3_what_where_when
+    name: episodic_what_where_when
+    kind: experiment
+    series: A
+    question: Can a tiny retrieval head over the latent store bind what and where and when into a single retrievable record and answer integrated queries above independent single-feature retrieval
+    mechanism: Write control clips to a ReplayBuffer tagged with synthetic where-tokens and when-indices and build a KV retrieval head that answers conjunctive queries, compared to independent-feature retrieve-then-intersect and a recency-only baseline (Clayton-Dickinson criterion).
+    null_hypothesis: integrated what-where-when retrieval does not beat independent single-feature retrieval intersected post hoc, OR the where and when tags are not decodable from the stored latent at all (taxonomy 3)
+    falsifier: conjunctive retrieval exceeds the intersect-independent-features baseline beyond seed spread with where and when both decodable above floor
+    metrics: [integration_gap, recall_at_k, where_when_decodable]
+    controls: [independent-feature-retrieve-then-intersect, recency-only, random-key, matched-slot-budget]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Extends E2 latent hippocampus and EX14 memory bake-off with a binding-structured retrieval task.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a3_what_where_when.md", evidence_level: R1}
+  - id: a4_cognitive_map
+    name: cognitive_map_latent_navigation
+    kind: experiment
+    series: A
+    question: When clips trace trajectories through a synthetic arena does the pooled-latent sequence carry recoverable metric structure sufficient to support a shortcut inference or only the locally observed transitions
+    mechanism: Embed arena cells as latents, probe position decodability and neighborhood preservation against true arena distance, and test whether a successor representation over latents predicts held-out shortcut reachability beyond a transition-frequency baseline.
+    null_hypothesis: latents support only observed-transition prediction; held-out shortcut reachability ties a transition-frequency baseline, OR position is not decodable above floor (taxonomy 3)
+    falsifier: SR-over-latents predicts held-out shortcut reachability beyond the transition-frequency baseline AND latent neighborhood structure tracks arena metric distance beyond frozen-random
+    metrics: [position_decode_r2, neighborhood_arena_corr, shortcut_acc_vs_transition_freq]
+    controls: [transition-frequency baseline, frozen-random-substrate, shuffled-trajectory, random-SR]
+    gates: [linear_probe, geometry, substrate_ablation]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: Builds on EX16 successor representation and D1 geometry; precursor evidence for EX2 latent planning.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 10
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a4_cognitive_map.md", evidence_level: R1}
+  - id: a5_action_loop
+    name: perception_action_loop_necessity
+    kind: experiment
+    series: A
+    question: Does an action-conditioned next-latent predictor beat a passive action-blind predictor and an action-shuffled control at matched compute, certifying that action carries predictive information
+    mechanism: Train action-conditioned, action-blind, and action-shuffled next-latent predictors on forward-dynamics targets at matched FLOPs via diagnostics.compute, where the conditioned gain must collapse under action-shuffle.
+    null_hypothesis: action-conditioning does not reduce next-latent error beyond the action-blind predictor at matched compute, OR the gain survives action-shuffling so it was added capacity (taxonomy 9)
+    falsifier: conditioned beats blind at matched compute AND the gain collapses under action-shuffle proving the action token carries usable predictive structure
+    metrics: [action_information_gap, shuffle_collapse, compute_matched]
+    controls: [action-blind predictor, action-shuffle, matched-compute, frozen-random-substrate]
+    gates: [compute, linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Stresses the action-conditioned predictor and forward_dynamics targets; a cpu-now precursor and gate for EX2 latent planning.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a5_action_loop.md", evidence_level: R1}
+  - id: a6_object_permanence
+    name: object_permanence_persistence
+    kind: experiment
+    series: A
+    question: During the occluded interval does the pooled latent maintain a decodable trace of the hidden object better than a frame-only baseline and distinguish the permanence-holds class from the vanishes class
+    mechanism: Probe object identity from latents sampled during occlusion, comparing a temporal-window shell that carries pre-occlusion state against a single-frame-only probe and a frozen-random arm on the permanence-vs-vanish contrast.
+    null_hypothesis: mid-occlusion the latent carries no decodable trace of the hidden object beyond the empty frame (taxonomy 3), OR a single-frame baseline already separates the classes
+    falsifier: the temporal shell separates permanence vs vanish during occlusion beyond both the frame-only baseline and frozen-random
+    metrics: [mid_occlusion_separation, persistence_vs_frame_only, real_vs_frozen_random]
+    controls: [single-frame-only probe, frozen-random-substrate, capacity-matched-memoryless-head, shuffled-frame-order]
+    gates: [linear_probe, substrate_ablation]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: Uses the object_permanence and occlusion_reveal families directly; extends EX12 atlas with a temporal-persistence target.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a6_object_permanence.md", evidence_level: R1}
+  - id: a7_comm_channel
+    name: symbolic_communication_channel
+    kind: experiment
+    series: A
+    question: Can a tiny discrete code emitted by a sender shell carry navigation-relevant content that a separate receiver shell decodes above chance with a bottleneck small enough that the code must be referential
+    mechanism: A sender emits a k-symbol VQ code over the latent and a receiver predicts target direction or distance from the code alone across a codebook-size sweep, with random-code, sender-receiver-shuffle, and raw-latent-passthrough controls.
+    null_hypothesis: the code transmits no more target information than a random code of the same size, OR target direction or distance is not decodable from the pooled latent at all (taxonomy 3)
+    falsifier: the receiver decodes target content from a small code beyond the random-code baseline AND the signal collapses under sender-receiver shuffle
+    metrics: [receiver_acc_vs_random_code, bits_at_knee, shuffle_collapse]
+    controls: [random-codebook, sender-receiver-shuffle, raw-latent-passthrough-ceiling, bottleneck-sweep]
+    gates: [linear_probe, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: Builds on EX16 VQ codebook and the navigation family; an information-theoretic communication framing of latent abstraction.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a7_comm_channel.md", evidence_level: R1}
+  - id: a8_affordance_curiosity
+    name: affordance_driven_curiosity
+    kind: experiment
+    series: A
+    question: If selection weights clips by affordance-relevance instead of raw learning progress does it improve coverage of action-relevant regions without re-introducing noisy-TV chasing at matched budget
+    mechanism: Add an affordance-weighted selection signal scoring learning_progress times affordance-relevance over control families including noisy_tv, compared to pure learning-progress, a static affordance-prior-only arm, and uniform.
+    null_hypothesis: affordance weighting ties pure learning-progress on coverage, OR it helps only because of the static prior, OR it re-chases the noisy-TV (taxonomy 8 or 2)
+    falsifier: affordance-times-LP beats both LP-only and prior-only on action-relevant coverage while keeping noisy-TV time-share near zero beyond seed spread
+    metrics: [affordance_coverage_gain, noisy_tv_time_share, vs_prior_only]
+    controls: [learning-progress-only, affordance-prior-only, uniform-random, noisy-TV-and-aleatoric-TV-guards]
+    gates: [noisy_tv, linear_probe, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: Extends EX8 curiosity bake-off and E5 curiosity self-curriculum with an ecological affordance prior.
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a8_affordance_curiosity.md", evidence_level: R1}

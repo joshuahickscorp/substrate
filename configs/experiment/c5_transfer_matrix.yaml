@@ -1,0 +1,14 @@
+id: c5_transfer_matrix
+name: transfer_matrix_analogical_mapping
+module: c_cogsci
+metric: [off_diagonal_transfer_accuracy, asymmetry_index, delta_over_shuffle_floor]
+null_hypothesis: "off-diagonal transfer is at chance (each family is its own surface code), or transfer is symmetric and content-driven"
+tier: cpu-now
+
+dim: 48
+n_families: 4
+n_relations: 3
+separation: 2.0
+per: 50
+probe_epochs: 80
+seeds: [0, 1]

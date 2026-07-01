@@ -37,6 +37,7 @@ CANONICAL_MD = (
     "docs/STUDIO_MAXIMIZATION_2026_06_27.md",
 )
 OPERATIONAL_MD = (
+    "GO.md",
     "README.md",
     "STATUS.md",
     "DECISIONS.md",
@@ -45,6 +46,7 @@ OPERATIONAL_MD = (
     "APPLE_SILICON.md",
     "ARCHITECTURE.md",
     "EXPERIMENTS.md",
+    "STUDIO_HANDOFF.md",
 )
 HISTORICAL_MD = ()
 # Frontier 36 proof system (Section 10): the standalone proof instruments and their templates,

@@ -1,0 +1,16 @@
+# Campaign leg sweep config. D4 U-shaped overgeneralization: the null is a curve shape (the exception-item dip), not a scalar. Tier C, cross-disciplinary roots series. Gated on the E1 gate.
+leg: track13_d4_ushaped_overgen
+experiment: d4_ushaped_overgen
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+note: 'D4 U-shaped overgeneralization: the null is a curve shape (the exception-item dip), not a scalar.'
+full_axes: {}
+full_seeds:
+- 0
+- 1

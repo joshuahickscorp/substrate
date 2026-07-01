@@ -1,0 +1,14 @@
+id: a4_cognitive_map
+name: cognitive_map_latent_navigation
+module: a_perception
+metric: [position_decode_r2, neighborhood_arena_corr, shortcut_acc_vs_transition_freq]
+null_hypothesis: "latents support only observed-transition prediction; held-out shortcut reachability ties a transition-frequency baseline, OR position is not decodable above floor (taxonomy 3)"
+tier: cpu-now
+
+dim: 48
+grid: 5
+knn: 4
+walk_steps: 1200
+gamma: 0.9
+n_pairs: 60
+seeds: [0, 1]

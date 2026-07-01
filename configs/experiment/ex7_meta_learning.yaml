@@ -1,0 +1,24 @@
+id: ex7_meta_learning
+name: meta_learning_reptile
+module: ex7_meta_learning
+metric: [adaptation_speed_meta, adaptation_speed_random, adaptation_speed_gain, forward_transfer_meta, forward_transfer_random, forward_transfer_gain]
+null_hypothesis: "the meta-learned init does not reduce adaptation steps vs a control init; the task family is too homogeneous or the shell too small"
+tier: cpu-now
+
+# Reptile outer loop over a stream of task-incremental toy tasks; held-out tasks never seen in meta-training
+dim: 32
+hidden: 48
+n_classes: 4
+n_meta_tasks: 12
+n_holdout_tasks: 6
+samples_per_task: 128
+separation: 2.0
+inner_steps: 5        # inner SGD steps per Reptile meta-iteration
+inner_lr: 0.05
+outer_lr: 0.1          # Reptile step toward the adapted params
+meta_iters: 150
+target_acc: 0.9         # adaptation_speed: steps to cross this accuracy on a held-out task
+max_adapt_steps: 40      # matched-budget ceiling for adaptation_speed on every arm
+fixed_budget_steps: 3    # forward_transfer: accuracy after this many adaptation steps
+margin: 1.5              # tie band in step-count for adaptation_speed
+seeds: [0, 1, 2]

@@ -1,0 +1,14 @@
+id: s5_code_stability
+name: private_language_stability
+module: s_semiotics
+metric: [code_agreement, code_agreement_chance, cross_seed_cka, cka_frozen_random]
+null_hypothesis: "cross-seed code agreement ties the random / frozen-random floor (a per-run private idiolect, not a stable shared language)"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+samples: 240
+separation: 2.0
+codebook_size: 12
+kmeans_iters: 8
+n_runs: 4

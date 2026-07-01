@@ -1,0 +1,14 @@
+id: s10_anti_self_deception
+name: anti_self_deception_meta_test
+module: s_semiotics
+metric: [frac_tests_needs_real, any_vacuous, delta_frozen_random, delta_shuffled]
+null_hypothesis: "if frozen-random ties real on a given test that test is declared vacuous (the test, not the substrate, fails); we WANT frozen-random to fail every test"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+samples: 240
+separation: 2.0
+n_factor: 4
+per_cell: 28
+seeds: [0, 1]

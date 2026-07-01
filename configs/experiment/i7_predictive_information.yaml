@@ -1,0 +1,17 @@
+id: i7_predictive_information
+name: predictive_information_bottleneck
+module: i_infotheory
+metric: [predictive_information_fraction, rollout_r2_code_vs_raw, next_latent_prediction_error]
+null_hypothesis: "the predictive-only code does no better than the raw latent on rollout R2 at matched dimension, or predictive information is near zero"
+tier: cpu-now
+
+dim: 32
+n_classes: 4
+samples: 200
+separation: 2.0
+code_width: 16
+r2_margin: 0.03
+zero_r2: 0.05
+epochs: 80
+lr: 0.02
+seeds: [0, 1]

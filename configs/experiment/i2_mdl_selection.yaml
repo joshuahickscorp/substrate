@@ -1,0 +1,17 @@
+id: i2_mdl_selection
+name: mdl_model_selection
+module: i_infotheory
+metric: [mdl_vs_heldout_corr, capacity_by_mdl, capacity_by_val]
+null_hypothesis: "MDL ranks shells differently from held-out loss (low rank correlation) or MDL is monotone in parameter count and adds nothing"
+tier: cpu-now
+
+dim: 32
+n_classes: 4
+samples: 200
+separation: 2.0
+rungs: [[8, 1], [16, 1], [32, 2], [64, 2]]
+weight_bits: 4.0
+corr_threshold: 0.5
+epochs: 70
+lr: 0.01
+seeds: [0, 1]

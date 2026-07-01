@@ -1,0 +1,17 @@
+id: n8_object_permanence_bound
+name: object_permanence_pooled_latent_bound
+module: n_neuro_replay_reasoning
+metric: [post_reveal_prediction_error, occluded_identity_probe_acc]
+null_hypothesis: "occluded identity is not decodable from the pooled latent (substrate loses it), or the predictor ties the last-frame baseline (the published bound is the result)"
+tier: cpu-now
+
+dim: 40
+hidden: 64
+samples: 220
+n_objects: 4
+separation: 2.0
+occlusion_alpha: 0.85
+margin: 0.02
+epochs: 70
+lr: 0.05
+seeds: [0, 1]

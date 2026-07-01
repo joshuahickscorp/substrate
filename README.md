@@ -149,8 +149,25 @@ python scripts/devel.py ablation --scope local   # next-best experiment by info-
 python scripts/devel.py curriculum      # next-lesson manifest: REAL probes over controls, rejects noisy-TV
 python scripts/devel.py metacognition   # self-monitoring report (gated by the safety rails)
 python scripts/devel.py paperwatch      # offline literature watch
+python scripts/devel.py experiments     # the preregistered experiment bank (registry/experiments.yaml)
 make devel ladder curriculum
 ```
+
+## The experiment bank (preregistered, machine-readable)
+
+`registry/experiments.yaml` is the single source of truth for the whole bank: the conducted
+E1-E10 + I4, the bleeding-edge EX-series (EX1-EX18), and the reusable diagnostics (D) and
+ablations (A). It is a PREREGISTRATION: each row commits a null, a headline metric, a falsifier,
+the controls and gates, the resource tier, the capacity-ladder/paradigm map, the proof linkage
+(atlas factor, null card, R0-R5 evidence level), and the proof/FAILURE_TAXONOMY.md slot a null
+maps to, BEFORE it runs. `EXPERIMENTS.md` is generated from it (`scripts/devel.py experiments
+--render`), so the doc cannot drift; the validator refuses an implemented row that does not map to
+real code, and moonshots stay catalogue-only until a cpu-now MVP exists. Runnable today (cpu-now,
+gated on the E1 gate): EX12 atlas + geometry battery, EX17 latent iterative reasoning (a weight-tied
+refiner vs a COMPUTE-MATCHED untied-depth control), EX8 intrinsic-motivation bake-off, EX16
+codebook/VQ abstraction, EX3 test-time adaptation. New supporting diagnostics: `diagnostics/geometry`
+(CKA/RSA/effective-rank/anisotropy), `diagnostics/compute` (FLOP accounting so matched-compute is
+enforced), `diagnostics/substrate_ablation` (real vs frozen-random vs shuffled vs compressed).
 
 The curriculum engine is real on this device: it generates control corpora, extracts frozen
 latents, and ranks candidates by LEARNING PROGRESS (probe-accuracy gain) gated by a permutation

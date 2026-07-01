@@ -52,6 +52,10 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("paperwatch", help="Frontier 30: offline literature watch")
     sub.add_parser("metacognition", help="Frontier 34: self-monitoring report (safety-rail gated)")
     sub.add_parser("validate", help="validate all developmental registries")
+    pe = sub.add_parser(
+        "experiments", help="list/validate the experiment bank; --render writes EXPERIMENTS.md"
+    )
+    pe.add_argument("--render", action="store_true", help="regenerate EXPERIMENTS.md from the registry")
 
     pa = sub.add_parser("ablation", help="Frontier 29: ranked next-experiment plan")
     pa.add_argument("--scope", default="local", choices=["local", "studio"])
@@ -96,11 +100,28 @@ def main(argv: list[str] | None = None) -> int:
     elif a.cmd == "validate":
         problems = registries.validate_all()
         result = {"problems": problems, "ok": not problems}
+    elif a.cmd == "experiments":
+        from devsys.config import REPO_ROOT
+
+        items = registries.load_experiments()
+        problems = registries.validate_experiments()
+        if a.render:
+            (REPO_ROOT / "EXPERIMENTS.md").write_text(registries.render_experiments_md())
+        result = {
+            "n": len(items),
+            "by_status": {s: sum(1 for e in items if e["status"] == s) for s in registries.EXP_STATUS},
+            "by_series": {
+                s: sum(1 for e in items if e["series"] == s) for s in sorted({e["series"] for e in items})
+            },
+            "problems": problems,
+            "ok": not problems,
+            "rendered": bool(a.render),
+        }
     else:  # unreachable (required subparser)
         ap.error(f"unknown command {a.cmd}")
 
     print(json.dumps(result, indent=2, default=str))
-    if a.cmd == "validate" and not result["ok"]:
+    if a.cmd in ("validate", "experiments") and not result["ok"]:
         return 1
     return 0
 

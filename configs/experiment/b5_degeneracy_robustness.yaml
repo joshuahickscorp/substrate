@@ -1,0 +1,17 @@
+id: b5_degeneracy_robustness
+name: degeneracy_robustness
+module: b_biology
+metric: [degradation_auc, backward_transfer, degeneracy_vs_baselines]
+null_hypothesis: "degeneracy ties the matched-param single predictor and ties pure redundancy on both robustness and retention"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+n_tasks: 3
+samples: 200
+separation: 2.0
+degenerate_widths: [32, 24, 40]
+perturb_strengths: [0.0, 0.5, 1.0, 2.0]
+epochs: 60
+lr: 0.02
+seeds: [0, 1]

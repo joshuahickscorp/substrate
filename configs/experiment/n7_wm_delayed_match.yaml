@@ -1,0 +1,17 @@
+id: n7_wm_delayed_match
+name: working_memory_delayed_match_to_sample
+module: n_neuro_replay_reasoning
+metric: [delayed_match_accuracy, accuracy_vs_delay_length]
+null_hypothesis: "WM slots tie a feedforward head with concatenated cue (the delay is trivial or the task does not need memory across it)"
+tier: cpu-now
+
+dim: 40
+hidden: 64
+n_prototypes: 4
+delay_len: 3
+samples: 200
+separation: 2.0
+wm_slots: 4
+epochs: 60
+lr: 0.05
+seeds: [0, 1]

@@ -1,0 +1,24 @@
+# Campaign leg sweep config. EX17 latent iterative reasoning: tied refiner vs compute-matched untied
+# depth. Tier C, the latent-reasoning line. Gated on the E1 gate.
+leg: track12_ex17_latent_reasoning
+experiment: ex17_latent_reasoning
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+- experiment.samples=160
+- experiment.epochs=40
+note: 'EX17 reasoning: does iteration beat depth at matched compute; reports gain + params ratio.'
+full_axes:
+  experiment.steps:
+  - 2
+  - 4
+  - 8
+full_seeds:
+- 0
+- 1
+- 2

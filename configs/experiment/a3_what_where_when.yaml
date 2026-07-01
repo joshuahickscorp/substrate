@@ -1,0 +1,16 @@
+id: a3_what_where_when
+name: episodic_what_where_when
+module: a_perception
+metric: [integration_gap, recall_at_k, where_when_decodable]
+null_hypothesis: "integrated what-where-when retrieval does not beat independent single-feature retrieval intersected post hoc, OR the where and when tags are not decodable (taxonomy 3)"
+tier: cpu-now
+
+dim: 48
+n_what: 4
+n_where: 4
+samples: 200
+n_queries: 40
+when_window: 6
+intersect_m: 8
+separation: 2.0
+seeds: [0, 1]

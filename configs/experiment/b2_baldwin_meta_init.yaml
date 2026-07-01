@@ -1,0 +1,18 @@
+id: b2_baldwin_meta_init
+name: baldwin_meta_init
+module: b_biology
+metric: [bwt_naive_from_meta, bwt_naive_from_generic, assimilation_gain]
+null_hypothesis: "the meta-init confers no retention advantage to a naive learner over a generic init (nothing assimilated)"
+tier: cpu-now
+
+dim: 40
+n_classes: 3
+n_tasks: 3
+samples: 160
+separation: 2.0
+outer_iters: 8
+inner_epochs: 25
+eval_epochs: 40
+lr: 0.02
+meta_lr: 0.3
+seeds: [0, 1]

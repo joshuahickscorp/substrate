@@ -263,6 +263,200 @@ def validate_paperwatch(path: Path | None = None) -> list[str]:
     return problems
 
 
+# ---------------------------------------------------------------- experiment bank (registry/experiments.yaml)
+EXPERIMENTS_YAML = REGISTRY_DIR / "experiments.yaml"
+EXP_KINDS = ("experiment", "cross-cutting", "diagnostic", "ablation")
+EXP_RESOURCE_TIERS = ("cpu-now", "studio-scale", "environment-needed", "weights-needed", "moonshot")
+EXP_RUN_TIERS = ("cpu-now", "gpu-later", "env-later", "2.1-only")  # the runnable Experiment.tier enum
+EXP_STATUS = ("implemented", "registry-only", "deferred")
+FAILURE_SLOTS = tuple(range(1, 11))  # proof/FAILURE_TAXONOMY.md categories
+EXPERIMENT_REQUIRED = (
+    "id",
+    "name",
+    "kind",
+    "series",
+    "question",
+    "mechanism",
+    "null_hypothesis",
+    "falsifier",
+    "metrics",
+    "controls",
+    "gates",
+    "resource_tier",
+    "exp_tier",
+    "runtime_class",
+    "difficulty",
+    "sci_value",
+    "meaningless_risk",
+    "relation",
+    "capacity_rungs",
+    "paradigm_slugs",
+    "taxonomy_slot",
+    "status",
+    "proof",
+)
+_SCANNED_EXP_FIELDS = ("question", "mechanism", "null_hypothesis", "falsifier", "relation")
+
+
+def load_experiments(path: Path | None = None) -> list[dict]:
+    """The experiment bank, sorted by series then id. Pure read; EXPERIMENTS.md is rendered from this."""
+    out = _load(path or EXPERIMENTS_YAML, "experiments")
+    series_order = {s: i for i, s in enumerate(("E", "EX", "I", "N", "D", "B", "P", "C", "Y", "S", "A"))}
+    out.sort(key=lambda e: (series_order.get(str(e.get("series")), 99), str(e.get("id"))))
+    return out
+
+
+def _registry_ids() -> set[str]:
+    """The ids actually registered as runnable Experiment subclasses (lazy import, never at module load)."""
+    try:
+        from ..experiments import REGISTRY
+
+        return set(REGISTRY)
+    except Exception:
+        return set()
+
+
+def validate_experiment(entry: dict, registry_ids: set[str] | None = None) -> list[str]:
+    """Problems with one experiment-bank row (empty == valid). Schema + closed vocab + the honesty
+    rules that make the file a real preregistration: every row has a null + metric + falsifier + a
+    taxonomy slot; an IMPLEMENTED experiment/cross-cutting row must have a matching runnable id; an
+    implemented diagnostic/ablation must name an existing module; free text passes the sentience rail."""
+    p: list[str] = []
+    eid = entry.get("id", "<no-id>")
+    for k in EXPERIMENT_REQUIRED:
+        # a key must be present and not None/empty-string; an empty LIST is a valid value (e.g. a row
+        # with no paradigm_slugs or no gates), so empty lists do not count as missing.
+        if k not in entry or entry.get(k) is None or entry.get(k) == "":
+            p.append(f"{eid}: missing required field {k!r}")
+    if not entry.get("metrics"):
+        p.append(f"{eid}: metrics must be a non-empty list (the headline metric is preregistered)")
+    if p:
+        return p
+    if entry["kind"] not in EXP_KINDS:
+        p.append(f"{eid}: kind {entry['kind']!r} not in {EXP_KINDS}")
+    if entry["resource_tier"] not in EXP_RESOURCE_TIERS:
+        p.append(f"{eid}: resource_tier {entry['resource_tier']!r} not in {EXP_RESOURCE_TIERS}")
+    if entry["exp_tier"] not in EXP_RUN_TIERS:
+        p.append(f"{eid}: exp_tier {entry['exp_tier']!r} not in {EXP_RUN_TIERS}")
+    if entry["status"] not in EXP_STATUS:
+        p.append(f"{eid}: status {entry['status']!r} not in {EXP_STATUS}")
+    if entry["taxonomy_slot"] not in FAILURE_SLOTS:
+        p.append(f"{eid}: taxonomy_slot {entry['taxonomy_slot']!r} not in 1..10")
+    for listfield in ("metrics", "controls", "capacity_rungs", "paradigm_slugs"):
+        if not isinstance(entry[listfield], list):
+            p.append(f"{eid}: {listfield} must be a list")
+    if not isinstance(entry["proof"], dict) or "evidence_level" not in entry["proof"]:
+        p.append(f"{eid}: proof must be a mapping with an evidence_level (R0-R5)")
+    # honesty: an implemented row must point at something real
+    ids = registry_ids if registry_ids is not None else _registry_ids()
+    if entry["status"] == "implemented":
+        if entry["kind"] in ("experiment", "cross-cutting") and eid not in ids:
+            p.append(f"{eid}: status implemented but not in experiments.REGISTRY {sorted(ids)}")
+        if entry["kind"] in ("diagnostic", "ablation"):
+            mod = entry.get("module")
+            if not mod or not (REPO_ROOT / mod).exists():
+                p.append(f"{eid}: implemented diagnostic/ablation must name an existing module, got {mod!r}")
+    p += _sentience_scan(eid, entry, _SCANNED_EXP_FIELDS)
+    return p
+
+
+def validate_experiments(path: Path | None = None) -> list[str]:
+    """Validate the whole experiment bank, including unique ids and that every runnable REGISTRY id is
+    catalogued here (the registry and the bank file cannot silently diverge)."""
+    items = load_experiments(path)
+    ids = _registry_ids()
+    problems: list[str] = []
+    seen: set = set()
+    for e in items:
+        problems += validate_experiment(e, registry_ids=ids)
+        if e.get("id") in seen:
+            problems.append(f"duplicate experiment id {e.get('id')!r}")
+        seen.add(e.get("id"))
+    catalogued = {e.get("id") for e in items}
+    for rid in ids - catalogued:
+        problems.append(f"REGISTRY id {rid!r} is not catalogued in experiments.yaml")
+    return problems
+
+
+# series titles. Some letters are shared across kinds (D = diagnostics + developmental experiments,
+# I = the I4 comparison + information-theory experiments, A = ablations + perception experiments); the
+# heading names the family and the table lists every row regardless of kind.
+_SERIES_TITLE = {
+    "E": "Conducted bank (E1-E10)",
+    "EX": "Bleeding-edge experiment bank (EX-series)",
+    "I": "Cross-cutting comparisons (I4) + information-theory experiments (I-series)",
+    "N": "Neuroscience + neuroscience-of-thought (N-series)",
+    "D": "Reusable diagnostics (D) + developmental-psychology experiments (D-series)",
+    "B": "Biology and evolution (B-series)",
+    "P": "Philosophy operationalized (P-series)",
+    "C": "Cognitive science (C-series)",
+    "Y": "Dynamical systems and cybernetics (Y-series)",
+    "S": "Semiotics and universal latent language (S-series)",
+    "A": "Reusable ablations (A) + perception and animal-cognition experiments (A-series)",
+}
+_SERIES_ORDER = ("E", "EX", "I", "N", "D", "B", "P", "C", "Y", "S", "A")
+
+
+def render_experiments_md(path: Path | None = None) -> str:
+    """Render EXPERIMENTS.md FROM registry/experiments.yaml so the doc cannot drift from the bank.
+    One table per series with the doctrine + proof contract, plus the failure-taxonomy reference."""
+    items = load_experiments(path)
+    counts = {s: sum(1 for e in items if e["status"] == s) for s in EXP_STATUS}
+    L = [
+        "# EXPERIMENTS",
+        "",
+        "GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` "
+        "(do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline "
+        "metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.",
+        "",
+        f"{len(items)} catalogued: " + ", ".join(f"{k}={v}" for k, v in counts.items()) + ".",
+        "",
+        "Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); "
+        "resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, "
+        "moonshot). status is implemented / registry-only / deferred.",
+        "",
+    ]
+    by_series: dict[str, list] = {}
+    for e in items:
+        by_series.setdefault(e["series"], []).append(e)
+    # preferred order first, then any series not in the order list (so nothing is silently dropped)
+    ordered = list(_SERIES_ORDER) + sorted(s for s in by_series if s not in _SERIES_ORDER)
+    for series in ordered:
+        rows = by_series.get(series, [])
+        if not rows:
+            continue
+        L += [
+            f"## {_SERIES_TITLE.get(series, series)}",
+            "",
+            "| id | name | null hypothesis | exp_tier | status | tax |",
+            "|---|---|---|---|---|---|",
+        ]
+        for e in rows:
+            null = str(e["null_hypothesis"]).replace("|", "\\|")
+            tax = e["taxonomy_slot"]
+            L.append(f"| {e['id']} | {e['name']} | {null} | {e['exp_tier']} | {e['status']} | {tax} |")
+        L.append("")
+    L += [
+        "## Negative-result taxonomy (every null maps to one)",
+        "",
+        "See proof/FAILURE_TAXONOMY.md for the 10 categories. 1 biology-mapping adds nothing; 2 simpler "
+        "control explains it; 3 frozen latent lacks/gains the factor; 4 capacity/estimator too weak; 5 "
+        "stream too uniform/short; 6 tiny shell capacity bound; 7 needs embodiment/action (Tier R); 8 "
+        "only helps combined; 9 representational-vs-compute claim separated; 10 conceptually beyond "
+        "frozen-latent prediction.",
+        "",
+        "## Diagnostics gate the experiments",
+        "",
+        "linear-probe before any X-dependent mechanism; noisy-TV before a curiosity/uncertainty signal "
+        "is trusted; calibration for probabilistic heads; Fisher trace for the critical-period "
+        "signature; determinism before any cross-condition delta; the EX12 atlas + D1 geometry battery "
+        "bound what every mechanism can use; D5 compute-accounting enforces matched compute for the "
+        "reasoning experiments.",
+        "",
+    ]
+    return "\n".join(L)
+
+
 def validate_all() -> list[str]:
-    """Validate all three developmental registries in one call (used by the doctor and tests)."""
-    return validate_paradigms() + validate_capacities() + validate_paperwatch()
+    """Validate every registry in one call (used by the doctor and tests)."""
+    return validate_paradigms() + validate_capacities() + validate_paperwatch() + validate_experiments()

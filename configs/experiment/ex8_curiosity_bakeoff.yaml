@@ -1,0 +1,14 @@
+id: ex8_curiosity_bakeoff
+name: intrinsic_motivation_bakeoff
+module: ex8_curiosity_bakeoff
+metric: [noisy_tv_rejection, learnable_vs_noise_value, rejects_noise_per_signal]
+null_hypothesis: "prediction-error and RND chase the noisy-TV; only disagreement and learning-progress reject it"
+tier: cpu-now
+
+# four selection signals on the noisy-TV split (learnable vs irreducible-noise region)
+dim: 48
+noise_scale: 5.0
+ensemble_size: 5
+steps: 240
+batch: 96
+seeds: [0, 1, 2]

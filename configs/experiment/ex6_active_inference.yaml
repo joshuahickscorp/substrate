@@ -1,0 +1,21 @@
+id: ex6_active_inference
+name: active_inference_free_energy_shell
+module: ex6_active_inference
+metric: [calibration_ece, fraction_time_learnable, noise_rejection]
+null_hypothesis: "the free-energy objective does not improve calibration or selection; the complexity term is a regularizer, or it chases the noisy-TV"
+tier: cpu-now
+
+# free-energy (NLL + KL-complexity) selection vs standard-predictor-loss and learning-progress
+# selection, on the same learnable-vs-noisy-TV region pool ex8_curiosity_bakeoff uses.
+dim: 32
+hidden: 64
+noise_scale: 5.0
+prior_var: 1.0          # fixed zero-mean prior variance the complexity KL term is measured against
+complexity_beta: 0.1    # weight on the KL-complexity term in the free-energy loss/objective
+budget_steps: 60        # sampling-budget steps each selector gets to spend on learnable vs noise
+batch: 32
+warmup_steps: 5         # brief warmup on both regions before selection starts
+lr: 1.0e-3
+calibration_levels: [0.5, 0.8, 0.9]   # nominal central-interval coverage levels for regression ECE
+ece_margin: 0.02        # free-energy calibration must not exceed baseline ECE by more than this
+seeds: [0, 1, 2]

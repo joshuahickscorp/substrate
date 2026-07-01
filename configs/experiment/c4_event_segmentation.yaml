@@ -1,0 +1,13 @@
+id: c4_event_segmentation
+name: event_segmentation_chunking
+module: c_cogsci
+metric: [boundary_f1, delta_over_uniform_rate, delta_over_shuffled_latent]
+null_hypothesis: "surprise boundaries do not align with true transitions better than a uniform-rate segmenter, or no usable surprise signal"
+tier: cpu-now
+
+dim: 48
+n_events: 5
+frames_per_event: 8
+separation: 2.0
+n_thresholds: 25
+seeds: [0, 1]

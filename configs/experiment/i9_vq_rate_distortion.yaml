@@ -1,0 +1,18 @@
+id: i9_vq_rate_distortion
+name: vq_rate_distortion_usability
+module: i_infotheory
+metric: [rate_distortion_curve, usability_per_bit, vq_minus_kmeans_margin]
+null_hypothesis: "VQ ties k-means and random on usability-per-bit at matched rate (no decodable structure over raw latents), or usability is flat in rate"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+samples: 240
+separation: 2.0
+codebook_sizes: [4, 8, 16, 32]
+vq_iters: 30
+kmeans_iters: 10
+flat_margin: 0.03
+upb_margin: 0.02
+lr: 0.05
+seeds: [0, 1]

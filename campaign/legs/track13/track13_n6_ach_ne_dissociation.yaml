@@ -1,0 +1,16 @@
+# Campaign leg sweep config. N6 ACh/NE two-channel uncertainty gating vs a single scalar (boundary-up and noise-down). Tier C, cross-disciplinary roots series. Gated on the E1 gate.
+leg: track13_n6_ach_ne_dissociation
+experiment: n6_ach_ne_dissociation
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+note: 'N6 ACh/NE two-channel uncertainty gating vs a single scalar (boundary-up and noise-down).'
+full_axes: {}
+full_seeds:
+- 0
+- 1

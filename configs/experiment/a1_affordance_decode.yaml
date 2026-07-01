@@ -1,0 +1,13 @@
+id: a1_affordance_decode
+name: affordance_decodability_probe
+module: a_perception
+metric: [probe_acc_above_shuffle_floor, delta_vs_frozen_random, linear_vs_mlp_gap]
+null_hypothesis: "action-relevance labels do not exceed the shuffle floor, OR the real encoder ties a frozen-random projection (decodability projection-invariant)"
+tier: cpu-now
+
+dim: 48
+samples: 200
+separation: 2.0
+mlp_hidden: 64
+epochs: 80
+seeds: [0, 1]

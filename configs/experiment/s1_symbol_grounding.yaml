@@ -1,0 +1,14 @@
+id: s1_symbol_grounding
+name: symbol_grounding_gate
+module: s_semiotics
+metric: [code_world_mi, code_world_mi_random, code_rsa, needs_real]
+null_hypothesis: "codes carry no more world-variable information than a random codebook at matched k, and code-adjacency RSA ties the shuffled floor (an arbitrary label, not a grounded index)"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+samples: 240
+separation: 2.0
+codebook_size: 12
+kmeans_iters: 8
+seeds: [0, 1]

@@ -1,0 +1,15 @@
+id: p10_theory_ladenness
+name: theory_ladenness_of_perception
+module: p_philosophy
+metric: [readout_contribution_index, nonlinear_gain_real, nonlinear_gain_frozen_random, index_per_factor]
+null_hypothesis: "the nonlinear probe gain is identical on real and frozen-random substrates (the recovered structure is contributed by the probe, not the encoder; perception is theory-laden all the way down)"
+tier: cpu-now
+
+dim: 40
+n_classes: 4
+samples: 200
+separation: 2.0
+n_factors: 3
+probe_hidden: 48
+margin: 0.05
+seeds: [0, 1]

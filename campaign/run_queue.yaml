@@ -167,3 +167,238 @@ legs:
   note: Cultural accumulation across an agent population. Lab-scale, Tier R. Disabled
     by default (optional leg).
   toy_run_units: 1
+- name: track12_ex12_atlas
+  track: track12
+  experiment: ex12_atlas
+  tier: C
+  sweep: campaign/legs/track12/track12_ex12_atlas.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 3
+  enabled: true
+  note: EX12 representational atlas. Run FIRST per encoder; bounds the truth-value of
+    every downstream EX. Tier C, cheapest run in the bank.
+  toy_run_units: 1
+- name: track12_ex17_latent_reasoning
+  track: track12
+  experiment: ex17_latent_reasoning
+  tier: C
+  sweep: campaign/legs/track12/track12_ex17_latent_reasoning.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 9
+  enabled: true
+  note: EX17 latent iterative reasoning. Tied refiner vs compute-matched untied depth;
+    the latent-reasoning line. Tier C.
+  toy_run_units: 1
+- name: track12_ex8_curiosity_bakeoff
+  track: track12
+  experiment: ex8_curiosity_bakeoff
+  tier: C
+  sweep: campaign/legs/track12/track12_ex8_curiosity_bakeoff.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 6
+  enabled: true
+  note: EX8 intrinsic-motivation bake-off. Four selection signals, one decisive
+    noisy-TV gate. Tier C, cheap and decisive.
+  toy_run_units: 1
+- name: track12_ex16_codebook_sr
+  track: track12
+  experiment: ex16_codebook_sr
+  tier: C
+  sweep: campaign/legs/track12/track12_ex16_codebook_sr.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 9
+  enabled: true
+  note: EX16 discrete codebook / VQ abstraction over frozen latents. Tier C.
+  toy_run_units: 1
+- name: track12_ex3_test_time_adaptation
+  track: track12
+  experiment: ex3_test_time_adaptation
+  tier: C
+  sweep: campaign/legs/track12/track12_ex3_test_time_adaptation.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 6
+  enabled: true
+  note: EX3 test-time adaptation, label-free fast-weight overlay on a domain shift. Tier C.
+  toy_run_units: 1
+
+- name: track13_n1_replay_ordering
+  track: track13
+  experiment: n1_replay_ordering
+  tier: C
+  sweep: campaign/legs/track13/track13_n1_replay_ordering.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'N1 replay ordering: reverse and surprise-priority samplers vs uniform rehearsal at matched count.'
+  toy_run_units: 1
+- name: track13_n3_pc_refiner
+  track: track13
+  experiment: n3_pc_refiner
+  tier: C
+  sweep: campaign/legs/track13/track13_n3_pc_refiner.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'N3 predictive-coding refiner vs a generic residual refiner at matched compute.'
+  toy_run_units: 1
+- name: track13_n6_ach_ne_dissociation
+  track: track13
+  experiment: n6_ach_ne_dissociation
+  tier: C
+  sweep: campaign/legs/track13/track13_n6_ach_ne_dissociation.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'N6 ACh/NE two-channel uncertainty gating vs a single scalar (boundary-up and noise-down).'
+  toy_run_units: 1
+- name: track13_n9_attractor_convergence
+  track: track13
+  experiment: n9_attractor_convergence
+  tier: C
+  sweep: campaign/legs/track13/track13_n9_attractor_convergence.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'N9 attractor convergence of the latent refiner: contraction factor and fixed-point residual.'
+  toy_run_units: 1
+- name: track13_d4_ushaped_overgen
+  track: track13
+  experiment: d4_ushaped_overgen
+  tier: C
+  sweep: campaign/legs/track13/track13_d4_ushaped_overgen.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'D4 U-shaped overgeneralization: the null is a curve shape (the exception-item dip), not a scalar.'
+  toy_run_units: 1
+- name: track13_d5_lp_self_curriculum
+  track: track13
+  experiment: d5_lp_self_curriculum
+  tier: C
+  sweep: campaign/legs/track13/track13_d5_lp_self_curriculum.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'D5 learning-progress staged self-curriculum recovers a difficulty ordering vs random.'
+  toy_run_units: 1
+- name: track13_p2_memorize_vs_concept
+  track: track13
+  experiment: p2_memorize_vs_concept
+  tier: C
+  sweep: campaign/legs/track13/track13_p2_memorize_vs_concept.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'P2 memorization vs concept: the interpolation-extrapolation cut with a KV-lookup control.'
+  toy_run_units: 1
+- name: track13_p10_theory_ladenness
+  track: track13
+  experiment: p10_theory_ladenness
+  tier: C
+  sweep: campaign/legs/track13/track13_p10_theory_ladenness.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'P10 theory-ladenness: nonlinear-minus-linear probe gain, real minus frozen-random.'
+  toy_run_units: 1
+- name: track13_c1_held_out_combination
+  track: track13
+  experiment: c1_held_out_combination
+  tier: C
+  sweep: campaign/legs/track13/track13_c1_held_out_combination.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'C1 held-out-combination decoding: the compositionality gate above the shuffled floor.'
+  toy_run_units: 1
+- name: track13_i1_info_bottleneck
+  track: track13
+  experiment: i1_info_bottleneck
+  tier: C
+  sweep: campaign/legs/track13/track13_i1_info_bottleneck.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'I1 information-bottleneck capability-per-bit: probe accuracy vs retained bits.'
+  toy_run_units: 1
+- name: track13_i5_rate_distortion_replay
+  track: track13
+  experiment: i5_rate_distortion_replay
+  tier: C
+  sweep: campaign/legs/track13/track13_i5_rate_distortion_replay.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'I5 rate-distortion replay: retention-per-byte frontier vs uniform bit allocation.'
+  toy_run_units: 1
+- name: track13_y1_fixed_point_convergence
+  track: track13
+  experiment: y1_fixed_point_convergence
+  tier: C
+  sweep: campaign/legs/track13/track13_y1_fixed_point_convergence.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'Y1 refiner fixed-point convergence and basin stability.'
+  toy_run_units: 1
+- name: track13_y7_controllability_sysid_gate
+  track: track13
+  experiment: y7_controllability_sysid_gate
+  tier: C
+  sweep: campaign/legs/track13/track13_y7_controllability_sysid_gate.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'Y7 controllability sys-id gate: does action move the pooled latent (licenses EX2).'
+  toy_run_units: 1
+- name: track13_s4_latent_vs_discrete
+  track: track13
+  experiment: s4_latent_vs_discrete
+  tier: C
+  sweep: campaign/legs/track13/track13_s4_latent_vs_discrete.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'S4 latent vs discrete-bottleneck reasoning at matched FLOPs (the thought-without-language meter).'
+  toy_run_units: 1
+- name: track13_s10_anti_self_deception
+  track: track13
+  experiment: s10_anti_self_deception
+  tier: C
+  sweep: campaign/legs/track13/track13_s10_anti_self_deception.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'S10 anti-self-deception meta-test: a test a random projection passes is declared vacuous.'
+  toy_run_units: 1
+- name: track13_a1_affordance_decode
+  track: track13
+  experiment: a1_affordance_decode
+  tier: C
+  sweep: campaign/legs/track13/track13_a1_affordance_decode.yaml
+  depends_on:
+  - track01_e1_gate
+  run_units: 2
+  enabled: true
+  note: 'A1 affordance decodability probe vs the frozen-random floor.'
+  toy_run_units: 1

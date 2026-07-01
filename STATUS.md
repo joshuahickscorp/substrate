@@ -38,7 +38,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 ## Phase 6 experiment scaffolds + local-learning comparison
 - [x] E2-E10 scaffolds (all 9; metric+null baked, toy-runnable, each with its own integration test)
 - [x] I4 backprop-alternatives (full): backprop, FA, DFA, FF, target-prop, eq-prop, predictive-coding + table
-- [x] all 11 experiments registered; full suite green; lint+types clean
+- [x] conducted bank registered (E1-E10, I4, + EX3/EX8/EX12/EX16/EX17); full suite green; lint+types clean
 
 ## Phase 7 polish
 - [x] README, SCALING written (wave 1); ARCHITECTURE/EXPERIMENTS finalized
@@ -123,3 +123,116 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] new commands: scripts/devel.py (paradigms/capacities/ablation/curriculum/metacognition/paperwatch/validate) + make devel/ladder/curriculum
 - [x] 6-dimension adversarial subagent audit of the developmental layer (safety-rails/registries/curriculum/ablation/markdown/integration): 36 agents, 19 confirmed, ALL integrated. Key fixes: HARDENED the sentience scanner (was bypassable) to clause-scoped negation + bidirectional noun/verb + mentalistic predicates + decoy-stripping for rhetorical double-negatives (now flags all audited bypasses, 0 false positives on our own text); curriculum permutation baseline now averaged over the same fold count as acc_full (killed a variance asymmetry that false-rejected a learnable family) + default eval_clips 48; stable sha256 family seeding in controls (Python hash() is PYTHONHASHSEED-salted); registry honesty (result_tag .strip(), capacity tag/provenance closed-vocab, free-text sentience scan at the registry boundary, tags-must-be-list); ablation "redundant" relabelled competing_groups + per-row basis=assumption
 - [x] 378 tests pass (39 new: devel registries/north-star/ablation/metacognition/curriculum + markdown consolidation + audit regressions); ruff + mypy clean; docs-drift + markdown-ledger gate clean; acceptance 10/10
+
+## Experiment-bank expansion + scaffold (this session)
+- [x] registry/experiments.yaml: the machine-readable, PREREGISTERED bank (39 catalogued: E1-E10, I4,
+  EX1-EX18, D1-D6, A1-A4). Every row carries null + headline metric + falsifier + controls + gates +
+  resource_tier + exp_tier + capacity/paradigm map + proof linkage (atlas factor / null card / R-level)
+  + failure-taxonomy slot. Validated by devsys.devel.registries.validate_experiment.
+- [x] loader/validator in devel/registries.py: closed-vocab tiers, implemented rows must map to a real
+  REGISTRY id or an existing module, REGISTRY and bank file cannot diverge, free-text passes the
+  sentience rail. EXPERIMENTS.md is now GENERATED from the registry (no drift); `scripts/devel.py
+  experiments [--render]` lists/validates/regenerates it.
+- [x] new diagnostics: diagnostics/geometry.py (D1: CKA linear+kernel, RSA, effective rank, anisotropy,
+  intrinsic dim, neighbourhood overlap), diagnostics/compute.py (D5: param/FLOP accounting + matched
+  compute), diagnostics/substrate_ablation.py (D2: real / frozen-random / shuffled / compressed arms).
+- [x] new shell primitive: shell/refine.py IterativeRefiner (residual latent refinement, fixed-N +
+  adaptive halting), the latent-reasoning primitive.
+- [x] 5 new runnable cpu-now experiments (configs + campaign legs on track12, gated on the E1 gate):
+  EX12 atlas (self-checking decodability + geometry), EX17 latent iterative reasoning (tied refiner vs
+  compute-matched untied depth, FLOP-matched), EX8 intrinsic-motivation bake-off (LP/disagreement/RND/
+  prediction-error on the noisy-TV), EX16 codebook/VQ abstraction, EX3 test-time adaptation (label-free
+  overlay, base restored on revert). REGISTRY now 16 (was 11).
+- [x] EX1/EX2/EX4/EX5/EX6/EX7/EX9/EX10/EX11/EX13/EX14/EX15/EX18 + D3/D4/D6 + A1-A4 catalogued
+  registry-only/deferred with the full contract (the precise next tranche, not vague).
+- [x] 421 tests pass (46 new: registry validation, geometry math, compute accounting, substrate
+  ablation, refiner determinism, the 5 EX experiments); ruff + mypy clean; docs-drift + markdown-ledger
+  gate clean (GO.md ledgered); acceptance 10/10.
+
+## Cross-disciplinary roots expansion (this session): full-overkill cpu-now build
+- [x] 6 new diagnostics (src/devsys/diagnostics/): convergence.py (contraction factor, fixed-point
+  residual, basin stability; Y1/Y2/N9), nonlinear_probe.py (capacity-capped MLP probe + readout-
+  contribution index, nonlinear-minus-linear real-minus-frozen-random; P10/P1), held_out_combo.py
+  (factorized latents + held-out-combination decoding + systematicity sweep; C1/C9/S6), seed_consistency.py
+  (cross-seed CKA + Hungarian code agreement + code stability; Y3/P5/S5), bottleneck.py (capability-per-bit
+  + quantization robustness; I1/I8), sysid.py (least-squares latent system id, one/k-step R2, controllability
+  Gramian rank, action-shuffle delta, planning_licensed gate for EX2; Y7). 17 known-answer tests green.
+- [x] shell extensions: refine.py IterativeRefiner +mode ("residual"|"predictive_coding") +pc_rate, +unroll()
+  returning per-step update norms (feeds the convergence diagnostics), +Verifier head (N3/N9/N11/Y9).
+- [x] 77 new Experiment subclasses across 9 series files (n_neuro_replay_reasoning, d_developmental,
+  b_biology, p_philosophy, c_cogsci, i_infotheory, y_dynamics, s_semiotics, a_perception), each with a
+  config, a preregistered registry/experiments.yaml row (null + headline metric + falsifier + taxonomy slot
+  + tier), and an integration test; mechanisms implemented INLINE per the established EX pattern. Honest
+  nulls only (the bound IS the result; pooled-latent object/spatial tests record taxonomy-3 and ship the
+  bound). Generated by a parallel-agent workflow, self-verified against the live editable install; the shared
+  files (scaffolds.py, registry, EXPERIMENTS.md) integrated centrally.
+- [x] standing controls wired at the harness level and reused by every relevant experiment: beat frozen-
+  random (substrate_ablation), match compute (diagnostics.compute), beat a tuned baseline, the noisy-TV guard
+  for curiosity signals, the seed-stability harness.
+- [x] registry/experiments.yaml now 116 catalogued (94 implemented, 17 registry-only, 5 deferred); REGISTRY
+  93 registered (was 16); by series A12/B9/C9/D14/E10/EX18/I10/N10/P8/S8/Y8. EXPERIMENTS.md regenerated.
+  Tranche-2 (N2/D6/D10/B8/Y4/Y10/I10, weights-needed P7/S2/S8 + dense-2.1 retargets, environment-needed
+  P8/A9/EX2-live) stays registry-only/deferred with full contracts.
+- [x] 512 tests pass (new: foundation-diagnostics known-answer suite + one integration case per roots
+  experiment, each asserting the doctrine contract + an explicit null check); ruff + mypy clean (109 source
+  files); docs-drift gate clean; acceptance 10/10.
+
+## Pre-Studio maximal push (this session): run everything real, close the remaining scaffolding, stage transfer
+- [x] all 93 cpu-now roots+EX+E experiments RUN FOR REAL (not just scaffolded) on the M3 Pro, 47s wall,
+  0 errors; results persisted per-id at runs/pre_studio/<id>.json + a machine-readable _summary.json.
+- [x] adversarial verification of every null_supported=False candidate positive (2 independent workflow
+  passes, ~28 distinct experiments checked against the standing controls each actually measured): EVERY
+  toy-scale rejected null failed at least one control (frozen-random, matched-compute, tuned-baseline,
+  seed-stability, or the noisy-TV guard). Zero confirmed positives at toy scale; this is the expected,
+  honest result (toy configs are underpowered by design) and is itself the pre-Studio finding: nothing
+  here should be reported as a real effect without a Studio-scale rerun.
+- [x] closed the remaining registry-only cpu-now scaffolding left from the earlier EX-expansion session
+  (14 rows, all resource_tier=cpu-now, previously deferred only for session-scope discipline):
+  - 3 rows pointed at EXISTING standing-control infrastructure already wired into every roots experiment
+    (a1_frozen_random_arm -> diagnostics/substrate_ablation.py, a2_matched_compute_arm ->
+    diagnostics/compute.py, d6_rollout_gate -> diagnostics/sysid.py, metrics corrected to the module's
+    real return keys) and flipped to implemented with no new code, since the mechanism was already real.
+  - 4 new small diagnostic modules (built directly, foundation-first, with known-answer tests):
+    diagnostics/difficulty_calibration.py (D3, certifies a regime via a known-separable reference before
+    trusting a tie), diagnostics/transfer_matrix.py (D4, T-by-T linear-probe transfer + asymmetry index),
+    diagnostics/buffer_compression.py (A3, retention-per-byte, generalizes I5's inline quantize-on-store
+    loop into reusable infra), diagnostics/latent_robustness.py (A4, shuffle/noise/dropout/low-bit
+    degradation curves). tests/unit/test_scaffolding_diagnostics.py, 6 known-answer tests green.
+  - 7 new Experiment subclasses (EX1 generative vs stored-buffer replay, EX4 hypernet fast-weights vs
+    gradient-TTA, EX6 active-inference free-energy objective, EX7 Reptile meta-learning, EX11 causal/
+    interventional probing, EX14 memory bake-off FIFO/Hopfield/uncertainty-indexed, EX18 latent self-
+    verification built on EX17's refiner+Verifier), each with a config + integration test, generated by a
+    parallel-agent workflow (self-verified against the live editable install, one file per agent, no
+    shared-file writes), centrally integrated into scaffolds.py/registry/EXPERIMENTS.md. Honest toy
+    results: EX1/EX7/EX11/EX14/EX18 nulls held; EX4's hypernet beat static-head but did not match
+    gradient-TTA; EX6's free-energy objective beat the baseline selectors and stayed calibrated.
+  - registry/experiments.yaml now 116 catalogued, 108 implemented, 3 registry-only (weights/env-needed:
+    ex2_latent_planning, ex9_slot_attention, ex10_cross_modal), 5 deferred (studio-scale: ex13_long_stream,
+    ex15_rejuvenation, ex5_local_rules_scale, e10_openended's full population form, ex2's live-env form).
+    REGISTRY 100 registered (was 93). tests/integration/test_scaffolding_experiments.py, 8 tests green.
+- [x] real V-JEPA 2 weights confirmed already staged in the local HF cache (ViT-L, ViT-H; neither repo is
+  gated, no HF token needed) and a real-encoder latent cache built from them: scripts/cache_real_encoder.py
+  device=mps overflowed the M3 Pro's ~16GB MPS attention buffer ceiling at 64-frame/256px clips even at
+  batch=1 (a genuine, reproducible Studio-necessary boundary, not a bug); device=cpu succeeded (16 clips,
+  333s, ~21s/clip, backend=vjepa_hf confirming real weights not the frozen-random fallback, linear-probe
+  acc=1.0 vs chance=0.25). Two aux encoders staged and fully transferable (~/.cache/huggingface): DINOv2-
+  large (image, unblocks S2 cross-domain alignment) and VideoMAEv2-Base (video, unblocks S8 multimodal).
+- [x] 526 tests pass; ruff + mypy clean (120 source files); registry validates; docs-drift gate clean
+  (526 tests, 100 experiments, 10 acceptance checks); acceptance 10/10 (31 campaign legs plan clean).
+- [x] full interpretation and adversarial verification of all 100 results: runs/pre_studio/RESULTS_PRE_STUDIO.md
+  (per-series tables, 63 nulls held, 9 taxonomy-3 bounds, 15 ambiguous, and every one of the 25 candidate
+  positives across the first 93 individually re-checked against the SPECIFIC standing control it declares,
+  not just whatever it happened to report; the adversarial-verify workflow ran twice independently after two
+  API rate-limit interruptions, both passes agreeing: zero survive). Failure-mode breakdown: 17 never ran or
+  failed frozen-random, 2 matched-compute, 2 seed-stability, 1 tuned-baseline, 1 the mechanism itself failed
+  on inspection. An addendum covers the 7 later experiments (my own direct check, not the full workflow):
+  EX4 fails the same tuned-baseline pattern; EX6 is the one result in the 100-experiment corpus that survives
+  a clean same-architecture ablation and is flagged top priority for a proper adversarial pass on the Studio.
+- [x] STUDIO_HANDOFF.md (root, ledgered in OPERATIONAL_MD): what transfers (HF weight cache incl. two fully-
+  downloaded aux encoders, the verified non-degenerate 16-clip real-latent cache, the registry, the 4 new
+  diagnostics, the fresh local-max rehearsal), the honest 9-row Studio-gated table (only 3 of 9 are truly
+  gated; the other 6 already run on the laptop or are blocked on unwritten code, not hardware), and a
+  prioritized first-things-to-run list built from the adversarial-review failure modes.
+- [x] scripts/studio_pipeline.py local-max rehearsal re-run against current HEAD (112053b): all 12 stages pass
+  (free_disk_killswitch, doctor, registry_validate, plan, acquire_dryrun, generate_controls, validate_source,
+  build_cache, queue_cost_audit, microbench, gated_run, datacards_ledger). runs/studio_pipeline/latest updated.

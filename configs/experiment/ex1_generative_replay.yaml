@@ -1,0 +1,22 @@
+# EX1: generative latent replay (dreaming) vs stored-buffer replay. Fits a per-class diagonal-
+# Gaussian generator on task-0 latents; compares no-replay, stored-buffer replay, and generated
+# replay at matched replay-sample budget on task-0 backward transfer (BWT) after task 1. Also
+# reports generator_probe_transfer (a linear probe fit on GENERATED latents, tested on REAL
+# task-0 latents), the direct measure of the generator's distribution gap. Tier: cpu-now.
+id: ex1_generative_replay
+name: generative_latent_replay
+module: ex1_generative_replay
+metric: [backward_transfer, frontier_auc, generator_probe_transfer]
+null_hypothesis: "generated replay does not match stored-buffer replay on BWT at matched budget; the distribution gap costs retention"
+tier: cpu-now
+
+dim: 32
+hidden: 64
+n_classes_per_task: 4
+samples: 200
+separation: 2.0
+epochs: 80
+lr: 1.0e-3
+replay_budget: 64     # matched replay-sample budget shared by stored-buffer and generated arms
+tie_tol: 0.02          # BWT gap below this counts as a tie (the null answer)
+seeds: [0, 1, 2]

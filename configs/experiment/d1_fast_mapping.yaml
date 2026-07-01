@@ -1,0 +1,15 @@
+id: d1_fast_mapping
+name: fast_mapping_mutual_exclusivity
+module: d_developmental
+metric: [one_shot_acc, acc_vs_nearest_centroid, retention_drop_gate_vs_softmax]
+null_hypothesis: "1-shot mutual-exclusivity-gated binding ties nearest-centroid on 1-shot accuracy and is no more interference-robust than vanilla softmax"
+tier: cpu-now
+
+dim: 40
+n_distractor_classes: 4
+samples_per_class: 40
+separation: 2.0
+eval_n: 60
+epochs: 60
+lr: 0.05
+seeds: [0, 1]

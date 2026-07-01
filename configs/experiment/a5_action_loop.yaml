@@ -1,0 +1,14 @@
+id: a5_action_loop
+name: perception_action_loop_necessity
+module: a_perception
+metric: [action_information_gap, shuffle_collapse, compute_matched]
+null_hypothesis: "action-conditioning does not reduce next-latent error beyond an action-blind predictor at matched compute, OR the gain survives action-shuffling (added capacity, taxonomy 9)"
+tier: cpu-now
+
+dim: 40
+action_dim: 4
+samples: 220
+hidden: 64
+epochs: 80
+margin: 0.01
+seeds: [0, 1]

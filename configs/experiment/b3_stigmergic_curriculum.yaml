@@ -1,0 +1,13 @@
+id: b3_stigmergic_curriculum
+name: stigmergic_curriculum
+module: b_biology
+metric: [learnable_coverage, noisy_tv_time_share, stigmergic_vs_lp]
+null_hypothesis: "the stigmergic field ties explicit LP, and a raw-error deposit chases the noisy-TV unless the deposit uses LP"
+tier: cpu-now
+
+dim: 40
+batch: 64
+noise_scale: 5.0
+steps: 240
+decay: 0.92
+seeds: [0, 1]

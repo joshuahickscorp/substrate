@@ -1,0 +1,19 @@
+id: p5_private_language
+name: private_language_cross_seed_codes
+module: p_philosophy
+metric: [cross_seed_cka, cross_shell_probe_acc, code_stability, delta_over_frozen_random]
+null_hypothesis: "codes are seed-idiosyncratic: cross-seed alignment is at the frozen-random level and cross-shell probes are at chance (the latent code is a private language, not a shareable scheme)"
+tier: cpu-now
+
+dim: 40
+n_classes: 4
+samples: 200
+separation: 2.0
+hidden: 48
+k_clusters: 4
+kmeans_iters: 8
+n_shells: 3
+data_seed: 0
+margin: 0.05
+epochs: 60
+lr: 0.01

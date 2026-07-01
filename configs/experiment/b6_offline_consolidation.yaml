@@ -1,0 +1,16 @@
+id: b6_offline_consolidation
+name: offline_consolidation
+module: b_biology
+metric: [bwt_online, bwt_offline, bwt_dreaming]
+null_hypothesis: "offline interleaving ties online replay at matched replay budget, and the dreaming arm fails to match stored replay"
+tier: cpu-now
+
+dim: 48
+n_classes: 3
+n_tasks: 4
+samples: 160
+separation: 2.0
+replay_budget: 320
+epochs: 50
+lr: 0.02
+seeds: [0, 1]

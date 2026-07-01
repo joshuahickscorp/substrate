@@ -1,0 +1,17 @@
+id: b10_energy_budget
+name: energy_budget_frontier
+module: b_biology
+metric: [capability_per_flop, activation_sparsity, frontier_beats_width_sweep]
+null_hypothesis: "the energy penalty only moves accuracy and FLOPs along the same line a width sweep already traces, or sparsity collapses accuracy"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+samples: 200
+separation: 2.0
+hidden: 48
+energy_lambdas: [0.0, 0.01, 0.05, 0.2]
+sweep_widths: [4, 8, 16, 32]
+epochs: 60
+lr: 0.02
+seeds: [0, 1]

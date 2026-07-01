@@ -1,0 +1,16 @@
+# Campaign leg sweep config. N9 attractor convergence of the latent refiner: contraction factor and fixed-point residual. Tier C, cross-disciplinary roots series. Gated on the E1 gate.
+leg: track13_n9_attractor_convergence
+experiment: n9_attractor_convergence
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+note: 'N9 attractor convergence of the latent refiner: contraction factor and fixed-point residual.'
+full_axes: {}
+full_seeds:
+- 0
+- 1

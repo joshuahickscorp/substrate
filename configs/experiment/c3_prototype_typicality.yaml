@@ -1,0 +1,13 @@
+id: c3_prototype_typicality
+name: prototype_typicality_geometry
+module: c_cogsci
+metric: [typicality_correlation, prototype_vs_exemplar_gap, silhouette_vs_frozen_random]
+null_hypothesis: "no typicality gradient (an exemplar bag), or a frozen-random projection shows the same cluster geometry"
+tier: cpu-now
+
+dim: 48
+n_cat: 4
+separation: 2.0
+per: 50
+probe_epochs: 80
+seeds: [0, 1]

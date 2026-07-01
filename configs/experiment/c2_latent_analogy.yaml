@@ -1,0 +1,11 @@
+id: c2_latent_analogy
+name: latent_analogy_structure_mapping
+module: c_cogsci
+metric: [analogy_retrieval_top1, offset_cosine_consistency, delta_over_shuffled_offset]
+null_hypothesis: "offset vectors do not transfer across object contents, so analogy retrieval ties the shuffled-offset control, or the transform is not decodable"
+tier: cpu-now
+
+dim: 48
+n_content: 8
+separation: 2.0
+seeds: [0, 1]

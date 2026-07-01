@@ -1,0 +1,14 @@
+id: i8_quant_robustness
+name: quantization_robustness
+module: i_infotheory
+metric: [bits_to_half_accuracy, degradation_curve_area, real_minus_frozen_random]
+null_hypothesis: "the real encoder degradation curve overlaps the frozen-random curve (robustness is a generic high-dimension property, not a V-JEPA property)"
+tier: cpu-now
+
+dim: 48
+n_classes: 4
+samples: 240
+separation: 2.0
+bits: [8, 4, 3, 2]
+gap_margin: 0.05
+seeds: [0, 1]

@@ -1,0 +1,24 @@
+id: ex11_causal_probing
+name: causal_interventional_probing
+module: ex11_causal_probing
+metric: [post_intervention_error, extrapolation_gap, observational_control_error]
+null_hypothesis: "the shell cannot learn an interventional map beyond the observational one; it predicts seen interventions but fails unseen values"
+tier: cpu-now
+
+# the causal-probing toy: do(v=value) sets a scalar factor that drives a cluster center along a fixed
+# axis; the interventional predictor is trained on a bounded v range and tested both in-range (seen)
+# and out-of-range (unseen, extrapolation), against an observational-only control that never sees do().
+dim: 32
+hidden: 64
+depth: 2
+n_train: 200
+n_test: 100
+noise: 0.3
+v_train_lo: -1.0
+v_train_hi: 1.0
+v_extrap_lo: 2.0
+v_extrap_hi: 4.0
+epochs: 100
+lr: 1.0e-3
+margin: 0.5   # extrapolation_gap must exceed margin * post_intervention_error for null_supported
+seeds: [0, 1, 2]

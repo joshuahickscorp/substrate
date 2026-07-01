@@ -1,0 +1,16 @@
+# Campaign leg sweep config. I5 rate-distortion replay: retention-per-byte frontier vs uniform bit allocation. Tier C, cross-disciplinary roots series. Gated on the E1 gate.
+leg: track13_i5_rate_distortion_replay
+experiment: i5_rate_distortion_replay
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+note: 'I5 rate-distortion replay: retention-per-byte frontier vs uniform bit allocation.'
+full_axes: {}
+full_seeds:
+- 0
+- 1

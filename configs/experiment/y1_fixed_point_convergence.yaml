@@ -1,0 +1,19 @@
+id: y1_fixed_point_convergence
+name: fixed_point_convergence
+module: y_dynamics
+metric: [converged_fraction, contraction_factor, head_loss_at_fixed_point_vs_trained_n]
+null_hypothesis: "trajectories do not settle (no geometric decay, no attractor) or the fixed point is no better than trained N"
+tier: cpu-now
+
+dim: 40
+n_classes: 4
+samples: 200
+separation: 2.0
+hidden: 48
+trained_steps: 4
+unroll_steps: 64
+epsilon: 0.02
+epochs: 70
+lr: 0.01
+margin: 0.02
+seeds: [0, 1]

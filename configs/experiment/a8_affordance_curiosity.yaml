@@ -1,0 +1,15 @@
+id: a8_affordance_curiosity
+name: affordance_driven_curiosity
+module: a_perception
+metric: [affordance_coverage_gain, noisy_tv_time_share, vs_prior_only]
+null_hypothesis: "affordance weighting ties pure learning-progress on coverage, OR it helps only via the static prior, OR it re-chases the noisy-TV (taxonomy 8 or 2)"
+tier: cpu-now
+
+dim: 48
+ensemble_size: 4
+steps: 120
+batch: 96
+noise_scale: 5.0
+separation: 2.0
+tv_threshold: 0.3
+seeds: [0, 1]

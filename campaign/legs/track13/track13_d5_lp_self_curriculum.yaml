@@ -1,0 +1,16 @@
+# Campaign leg sweep config. D5 learning-progress staged self-curriculum recovers a difficulty ordering vs random. Tier C, cross-disciplinary roots series. Gated on the E1 gate.
+leg: track13_d5_lp_self_curriculum
+experiment: d5_lp_self_curriculum
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+note: 'D5 learning-progress staged self-curriculum recovers a difficulty ordering vs random.'
+full_axes: {}
+full_seeds:
+- 0
+- 1

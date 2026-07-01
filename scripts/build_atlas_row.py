@@ -12,6 +12,7 @@ Studio). The Studio re-runs this per factor and per encoder over the natural-vid
 Usage:
   .venv/bin/python scripts/build_atlas_row.py
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -98,8 +99,7 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(row, indent=2) + "\n")
     print(json.dumps(row, indent=2))
-    print(f"\nwrote {OUT.relative_to(ROOT)}  (decodable={decodable}, "
-          f"acc={acc_mean} vs floor={floor_mean})")
+    print(f"\nwrote {OUT.relative_to(ROOT)}  (decodable={decodable}, acc={acc_mean} vs floor={floor_mean})")
     # invalidity guard (Section 10.9): a row is INVALID without these
     assert row["chance_floor"] is not None and row["repro_level"] and row["raw_run_id"]
     return 0

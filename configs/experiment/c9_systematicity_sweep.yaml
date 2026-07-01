@@ -1,0 +1,15 @@
+id: c9_systematicity_sweep
+name: systematicity_stress_sweep
+module: c_cogsci
+metric: [systematicity_curve, cliff_location, real_minus_frozen_random_auc]
+null_hypothesis: "accuracy cliffs immediately once any combination is held out, or the curve is identical to frozen-random"
+tier: cpu-now
+
+dim: 48
+n_a: 4
+n_b: 4
+per_cell: 30
+interaction: 0.0
+held_out_widths: [1, 2, 3]
+probe_epochs: 80
+seeds: [0, 1]

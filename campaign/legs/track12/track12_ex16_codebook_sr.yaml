@@ -1,0 +1,22 @@
+# Campaign leg sweep config. EX16 codebook/VQ abstraction over frozen latents. Tier C.
+leg: track12_ex16_codebook_sr
+experiment: ex16_codebook_sr
+tier: C
+seeds:
+- 0
+base_overrides:
+- device=cpu
+axes: {}
+toy_overrides:
+- experiment.seeds=[0]
+- experiment.samples=160
+note: 'EX16 codebook: learned VQ vs random codebook purity; code probe vs raw-latent probe.'
+full_axes:
+  experiment.codebook_size:
+  - 8
+  - 16
+  - 32
+full_seeds:
+- 0
+- 1
+- 2

@@ -1,0 +1,20 @@
+id: n11_self_verification
+name: latent_self_verification_error_monitoring
+module: n_neuro_replay_reasoning
+metric: [accuracy, self_correction_gain, halting_step_distribution]
+null_hypothesis: "verify-revise ties single-shot at matched compute (the verifier carries no usable correction signal)"
+tier: cpu-now
+
+dim: 40
+hidden: 64
+steps: 4
+revise_steps: 2
+revise_threshold: 0.5
+verifier_hidden: 64
+n_classes: 4
+samples: 220
+separation: 1.5
+epochs: 70
+lr: 0.05
+margin: 0.03
+seeds: [0, 1]

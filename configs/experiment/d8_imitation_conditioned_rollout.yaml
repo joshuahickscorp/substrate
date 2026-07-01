@@ -1,0 +1,16 @@
+id: d8_imitation_conditioned_rollout
+name: imitation_demonstration_conditioned_rollout
+module: d_developmental
+metric: [conditioned_vs_unconditioned_rollout_error, terminal_state_decodability, novel_start_gap]
+null_hypothesis: "demonstration conditioning gives no rollout improvement on novel starts (a simpler unconditioned control ties it), or true imitation needs real action"
+tier: cpu-now
+
+dim: 40
+samples: 200
+hidden: 64
+n_goals: 3
+eval_n: 100
+epochs: 70
+lr: 0.01
+margin: 0.02
+seeds: [0, 1]

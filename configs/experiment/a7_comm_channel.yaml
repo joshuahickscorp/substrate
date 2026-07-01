@@ -1,0 +1,14 @@
+id: a7_comm_channel
+name: symbolic_communication_channel
+module: a_perception
+metric: [receiver_acc_vs_random_code, bits_at_knee, shuffle_collapse]
+null_hypothesis: "the code transmits no more target information than a random code of the same size, OR target direction/distance is not decodable from the pooled latent (taxonomy 3)"
+tier: cpu-now
+
+dim: 48
+n_targets: 4
+samples: 200
+codebook_sizes: [4, 8, 16]
+kmeans_iters: 8
+separation: 2.0
+seeds: [0, 1]

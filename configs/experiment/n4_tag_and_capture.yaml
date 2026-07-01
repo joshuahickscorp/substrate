@@ -1,0 +1,17 @@
+id: n4_tag_and_capture
+name: synaptic_tag_and_capture_consolidation
+module: n_neuro_replay_reasoning
+metric: [backward_transfer, retention_per_byte]
+null_hypothesis: "tagged-and-captured consolidation ties uniform consolidation at matched budget (or a simpler confidence-priority already captures it)"
+tier: cpu-now
+
+dim: 40
+n_tasks: 4
+classes_per_task: 4
+samples_per_task: 80
+separation: 2.0
+consolidation_budget: 48
+tag_threshold: 0.7
+epochs: 50
+lr: 0.05
+seeds: [0, 1]

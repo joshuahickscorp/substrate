@@ -1,0 +1,18 @@
+id: p9_thought_without_language
+name: thought_without_language_reasoning_gain
+module: p_philosophy
+metric: [gain_per_compute, halting_step_mean, refiner_acc, control_acc]
+null_hypothesis: "at matched compute the refiner ties the untied-depth control (the gain was depth, not iteration, so there is no language-free reasoning signal, only more parameters)"
+tier: cpu-now
+
+dim: 40
+n_classes: 4
+samples: 200
+separation: 2.0
+hidden: 48
+steps: 4
+adaptive_halt: true
+margin: 0.03
+epochs: 60
+lr: 0.01
+seeds: [0, 1]

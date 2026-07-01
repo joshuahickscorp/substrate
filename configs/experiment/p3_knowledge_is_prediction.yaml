@@ -1,0 +1,17 @@
+id: p3_knowledge_is_prediction
+name: knowledge_is_prediction_dissociation
+module: p_philosophy
+metric: [pred_decode_correlation, dissociation_found, max_pred_r2, max_factor_acc]
+null_hypothesis: "prediction error and factor decodability are monotonically coupled at this substrate, so the knowledge-is-prediction identity is trivially supported and uninformative"
+tier: cpu-now
+
+dim: 40
+n_classes: 4
+samples: 200
+separation: 2.0
+capacity_rungs: [4, 8, 16, 32]
+step_margin: 0.05
+saturate_acc: 0.9
+epochs: 50
+lr: 0.01
+seeds: [0, 1]

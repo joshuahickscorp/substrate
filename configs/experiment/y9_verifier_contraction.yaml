@@ -1,0 +1,20 @@
+id: y9_verifier_contraction
+name: verifier_contraction
+module: y_dynamics
+metric: [monotone_descent_fraction, self_correction_gain_vs_ex17, shuffled_verifier_delta]
+null_hypothesis: "the Lyapunov V does not descend monotonically, or verify-revise ties plain EX17 and the shuffled-verifier control at matched compute"
+tier: cpu-now
+
+dim: 40
+n_classes: 4
+samples: 200
+separation: 2.0
+hidden: 48
+trained_steps: 4
+revise_iters: 4
+verify_threshold: 0.5
+descent_floor: 0.6
+margin: 0.02
+epochs: 70
+lr: 0.01
+seeds: [0, 1]

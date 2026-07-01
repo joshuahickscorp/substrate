@@ -1,0 +1,18 @@
+id: c6_dual_process_halting
+name: dual_process_halting
+module: c_cogsci
+metric: [halting_vs_difficulty_correlation, accuracy_at_matched_compute, gain_per_compute]
+null_hypothesis: "halting step is uncorrelated with difficulty, or at matched average compute the adaptive policy ties the single-pass head"
+tier: cpu-now
+
+dim: 48
+hidden: 64
+steps: 6
+n_classes: 3
+samples: 160
+easy_sep: 3.0
+hard_sep: 0.8
+epochs: 60
+lr: 0.01
+margin: 0.05
+seeds: [0, 1]
