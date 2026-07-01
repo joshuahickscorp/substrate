@@ -473,3 +473,33 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   is the first evidence about whether the real substrate carries compositional structure a random
   projection does not, which is the crux question for both the abstraction doctrine and any eventual
   architecture choice.
+
+## Doctrine-lane experiments via agentic workflow (this session)
+- When the user said "use an agentic workflow" for expanding experimentation, applied it to the highest-
+  leverage remaining work: building the four never-built lane experiments the corpus synthesis flagged as
+  the most direct tests of the two doctrinal questions (D6 sensitive window and B8 growth and Y4 hysteresis
+  for moldability, ex10 cross-modal for language-independent abstraction). Fanned them out one-agent-per-
+  experiment, then integrated the shared files (scaffolds, registry, tests, EXPERIMENTS.md) centrally
+  myself, the same division of labor proven across the earlier builds: agents write uniquely-named files
+  and self-verify against the live editable install, the integrator owns everything shared.
+- The scientific outcome is a coherent, doctrine-strengthening set of clean negatives, not a
+  disappointment. D6 and Y4 both reproduce the corpus's DOMINANT artifact signature: a real, sizable effect
+  exists (late-position recency advantage; a hysteresis loop) but a frozen-random projection reproduces it
+  just as strongly, so it is a generic optimizer/geometry artifact, not a substrate plasticity property.
+  That two more independent mechanisms land on the same signature is itself evidence the signature is
+  systemic to the toy regime, which is the synthesis's central claim. B8 lands the expected capacity-
+  confound null (growth-as-process ties matched-final-capacity). ex10 is the most interesting: the shared
+  code IS genuinely learned (cross-modal transfer 1.0 vs a shuffled-pairing floor of 0.41, a real binding
+  of two views), but it produces no downstream retention gain, so the objective is a regularizer, not a
+  useful binding. That split (real alignment, no benefit) is a more precise negative than a flat null.
+- Named the developmental sensitive-window experiment d6_sensitive_window even though a d6_rollout_gate
+  diagnostic already exists: registry ids are unique full strings (the two do not collide), and the plan's
+  D6 was always the developmental sensitive window, the d6 rollout-gate diagnostic just borrowed the label
+  in the diagnostics sub-family. Keeping the plan's intended name is clearer than inventing a d10/d11.
+- ex10_cross_modal keeps its deferred natural audio-video framing in the catalog while its synthetic cpu-now
+  arm is implemented and flipped to status: implemented, the same pattern used for ex2's synthetic vs live
+  arm. The registry row now documents both explicitly so the weights-needed half is not silently dropped.
+- Fixed the one agent-authored defect the central lint/type pass caught (a dead pg/pff assignment in b8
+  that also tripped mypy by calling a float-typed mean on an int list): removed the dead line rather than
+  papering over it, since the real comparison already used the param-count lists directly. Every agent-
+  written module still passes the same ruff+mypy+registry+test gate as hand-written code before it lands.

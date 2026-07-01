@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-116 catalogued: implemented=113, registry-only=0, deferred=3.
+119 catalogued: implemented=117, registry-only=0, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -25,7 +25,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 
 | id | name | null hypothesis | exp_tier | status | tax |
 |---|---|---|---|---|---|
-| ex10_cross_modal | Cross-modal world model (video latents bound to audio latents) | cross-modal prediction does not improve retention or abstraction; the modalities are not aligned enough to bind, or it is just a regularizer | 2.1-only | deferred | 3 |
+| ex10_cross_modal | Cross-modal / cross-domain binding (synthetic arm) | cross-modal prediction does not improve retention or abstraction; the modalities are not aligned enough to bind, or it is just a regularizer | cpu-now | implemented | 3 |
 | ex11_causal_probing | Causal / interventional probing (do-operations on control families) | the shell cannot learn an interventional map beyond the observational one; it predicts seen interventions but fails unseen values | cpu-now | implemented | 10 |
 | ex12_atlas | Representational atlas (what is decodable, by encoder scale) | probe accuracy does not exceed the shuffle-label floor for a target (not in the latent); bigger frozen perception does not raise decodability beyond seed spread | cpu-now | implemented | 3 |
 | ex13_long_stream | Long-stream continual learning (the forgetting curve) | retention is flat in stream length within the seed spread, or every mechanism degrades identically (protection only delays the same collapse) | cpu-now | implemented | 8 |
@@ -89,6 +89,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | d5_compute_accounting | Compute accounting | a measured gain disappears once compute is matched (it was extra compute, not the mechanism) | cpu-now | implemented | 9 |
 | d5_lp_self_curriculum | lp_self_curriculum_developmental_order | LP-ordering ties random ordering on final accuracy and LP entry order is uncorrelated with measured family difficulty | cpu-now | implemented | 1 |
 | d6_rollout_gate | Rollout-predictability gate | rollout R2 is below the floor, so planning is not licensed | cpu-now | implemented | 7 |
+| d6_sensitive_window | Sensitive / critical developmental window | there is no sensitive window; the same evidence presented early vs late produces the same final competence at matched total data, or any order effect also appears under frozen-random | cpu-now | implemented | 5 |
 | d7_scaffolding | scaffolding_external_frontier_gating | scaffolding ties self-curriculum and unscaffolded training (external frontier gating adds no measured benefit over self-generated learning progress) | cpu-now | implemented | 8 |
 | d8_imitation_conditioned_rollout | imitation_demonstration_conditioned_rollout | demonstration conditioning gives no rollout improvement on novel starts (a simpler unconditioned control ties it), or true imitation needs real action | cpu-now | implemented | 7 |
 | d9_relation_transfer_gate | relation_transfer_gate_precursor | the relation factor is not decodable from pooled latents (taxonomy 3), or there is no transfer beyond surface features | cpu-now | implemented | 3 |
@@ -105,6 +106,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | b5_degeneracy_robustness | degeneracy_robustness | Degeneracy ties the matched-param single predictor and ties pure redundancy on both perturbation robustness and retention (any win was capacity removed by the matched-compute control) | cpu-now | implemented | 9 |
 | b6_offline_consolidation | offline_consolidation | Offline interleaving ties online replay at matched replay budget (scheduling does not matter only sample count), and the generative dreaming arm fails to match stored replay | cpu-now | implemented | 2 |
 | b7_developmental_curriculum | developmental_curriculum | Ordered curriculum ties shuffled at matched samples (order does not matter on a frozen pooled substrate, the stream is too uniform or short for staging to bite) | cpu-now | implemented | 5 |
+| b8_structural_growth | Morphogenetic structural growth vs fixed final capacity | growth-as-process does not beat a fixed shell of the same final capacity; any gain is just the extra capacity, not the growth process | cpu-now | implemented | 4 |
 | b9_cerebellar_forward_model | cerebellar_forward_model | The forward-model head ties the flat predictor at matched compute (the correction loop is just extra depth), or rollout R2 is below the floor so the model is not predictive enough to correct against | cpu-now | implemented | 9 |
 
 ## Philosophy operationalized (P-series)
@@ -141,6 +143,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | y1_fixed_point_convergence | fixed_point_convergence | trajectories do not settle (the update norm neither decays geometrically nor stabilizes) or the head loss at the fixed point is no better than at trained N within the margin | cpu-now | implemented | 9 |
 | y2_basin_stability | basin_stability | the refiner shows no basin structure (sensitivity ratio near 1) or amplifies noise (sensitivity above 1) without improving perturbed-input accuracy over the raw-latent head | cpu-now | implemented | 2 |
 | y3_seed_consistent_fixed_points | seed_consistent_fixed_points | fixed points are seed-dependent (cross-seed CKA at the frozen-random floor), the attractor is an artifact of initialization not imposed by task or substrate | cpu-now | implemented | 2 |
+| y4_hysteresis | Hysteresis / phase transition in retention | retention is a single-valued function of the swept parameter (no hysteresis, no path dependence), or any loop also appears under frozen-random | cpu-now | implemented | 5 |
 | y5_homeostatic_lr_loop | homeostatic_lr_loop | the closed-loop homeostat ties the best tuned open-loop schedule on frontier AUC, or it is unstable and underperforms, or on noisy-TV it chases aleatoric error | cpu-now | implemented | 2 |
 | y6_free_energy_vs_lp | free_energy_vs_lp | free energy does not beat learning-progress on coverage or noisy-TV rejection and the epistemic term is rank-correlated with learning-progress near 1 (free energy is learning-progress relabeled) | cpu-now | implemented | 8 |
 | y7_controllability_sysid_gate | controllability_sysid_gate | actions do not linearly move the pooled latent (B indistinguishable from the action-shuffle, controllability Gramian rank-deficient), so the pooled latent is not a controllable state and planning is not licensed | cpu-now | implemented | 3 |

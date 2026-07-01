@@ -512,28 +512,32 @@ experiments:
     proof: {atlas_factor: relation, null_card: "proof/NULL_CARDS/ex9_slot_attention.md", evidence_level: R1}
 
   - id: ex10_cross_modal
-    name: Cross-modal world model (video latents bound to audio latents)
+    name: Cross-modal / cross-domain binding (synthetic arm)
     kind: experiment
     series: EX
-    question: does binding frozen video latents to frozen audio latents improve retention and abstraction
-    mechanism: tiny cross-modal predictor on paired pooled latents as an auxiliary objective
+    question: does binding two synthetic modalities of the same labels improve retention or abstraction
+    mechanism: a tiny A->B cross-modal predictor as an auxiliary objective binding two synthetic latent
+      views of one label set, vs a single-modality shell and a shuffled-pairing control; the natural
+      audio-video version stays weights-needed (no verified frozen audio encoder id), this is its cpu-now
+      synthetic precursor
     null_hypothesis: cross-modal prediction does not improve retention or abstraction; the modalities are not aligned enough to bind, or it is just a regularizer
-    falsifier: cross-modal auxiliary improves BWT and abstraction-probe beyond the unimodal shell at matched params
-    metrics: [backward_transfer, abstraction_probe]
-    controls: [video-only-shell, matched-params]
+    falsifier: cross-modal auxiliary improves BWT and abstraction-probe beyond the unimodal shell at matched params AND survives a shuffled-pairing control
+    metrics: [cross_modal_transfer, binding_gain, shuffled_pairing_gap]
+    controls: [video-only-shell, matched-params, shuffled-pairing]
     gates: [linear_probe]
-    resource_tier: weights-needed
-    exp_tier: 2.1-only
+    resource_tier: cpu-now
+    exp_tier: cpu-now
     runtime_class: minutes
     difficulty: high
     sci_value: high
     meaningless_risk: high
-    relation: needs a verified frozen audio encoder HF id (none yet)
+    relation: the synthetic cross-domain arm is cpu-now (implemented); the natural audio-video arm stays
+      weights-needed (needs a verified frozen audio encoder id, none yet), catalogued separately
     capacity_rungs: [10, 3]
     paradigm_slugs: [language_conditioned_selection]
     taxonomy_slot: 3
-    status: deferred
-    proof: {atlas_factor: cross_modal, null_card: "proof/NULL_CARDS/ex10.md", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: cross_modal, null_card: "proof/NULL_CARDS/ex10_cross_modal.md", evidence_level: R1}
 
   - id: ex11_causal_probing
     name: Causal / interventional probing (do-operations on control families)
@@ -1307,6 +1311,29 @@ experiments:
     taxonomy_slot: 5
     status: implemented
     proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d4_ushaped_overgen.md", evidence_level: R1}
+  - id: d6_sensitive_window
+    name: Sensitive / critical developmental window
+    kind: experiment
+    series: D
+    question: does the position of a concept block in the training stream (early vs late) shape final competence beyond matched total data, the way a developmental critical period shapes a child
+    mechanism: present a target concept block early vs late in an otherwise identical stream at matched total data and compute; compare final target decodability; rerun on a frozen-random projection to separate a real plasticity window from a generic optimizer-order artifact
+    null_hypothesis: there is no sensitive window; the same evidence presented early vs late produces the same final competence at matched total data, or any order effect also appears under frozen-random
+    falsifier: early exposure yields a different final target competence than late exposure at matched data, and that window exceeds the frozen-random window by the margin
+    metrics: [early_vs_late_advantage, window_effect_size, order_matters]
+    controls: [matched-total-data, frozen-random-substrate]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: the most direct moldability test in the catalog; pairs with e3 plasticity and d7 scaffolding
+    capacity_rungs: [1]
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/d6_sensitive_window.md", evidence_level: R1}
   - id: d5_lp_self_curriculum
     name: lp_self_curriculum_developmental_order
     kind: experiment
@@ -1560,6 +1587,29 @@ experiments:
     taxonomy_slot: 5
     status: implemented
     proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b7_developmental_curriculum.md", evidence_level: R1}
+  - id: b8_structural_growth
+    name: Morphogenetic structural growth vs fixed final capacity
+    kind: experiment
+    series: B
+    question: does a shell that grows capacity in response to experience beat a fixed shell of the same final capacity
+    mechanism: an experience-driven growing head (add hidden units on plateau) vs a fixed-final-capacity head (the matched-capacity control) vs a fixed-initial head, at matched data/seed/budget; growth preserves the current function (zeroed new output columns)
+    null_hypothesis: growth-as-process does not beat a fixed shell of the same final capacity; any gain is just the extra capacity, not the growth process
+    falsifier: the grown shell beats the fixed-final-capacity shell at matched param count, seed-stable
+    metrics: [grown_vs_fixed_final_delta, capacity_matched, growth_events]
+    controls: [matched-final-capacity, fixed-initial-capacity]
+    gates: [compute_accounting]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: the only structural-change moldability test; guards the same capacity confound as b2 and EX4
+    capacity_rungs: [4]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/b8_structural_growth.md", evidence_level: R1}
   - id: b9_cerebellar_forward_model
     name: cerebellar_forward_model
     kind: experiment
@@ -2273,6 +2323,29 @@ experiments:
     taxonomy_slot: 2
     status: implemented
     proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y3_seed_consistent_fixed_points.md", evidence_level: R1}
+  - id: y4_hysteresis
+    name: Hysteresis / phase transition in retention
+    kind: experiment
+    series: Y
+    question: does retention depend on the trajectory (sweep a schedule parameter up then down) or only on its current value
+    mechanism: sweep an interference/difficulty parameter up then back down on one shell whose state is carried forward, measuring retention on both legs; compute the area between the up-sweep and down-sweep curves; rerun on a frozen-random projection to separate a real substrate loop from a generic continual-SGD trajectory artifact
+    null_hypothesis: retention is a single-valued function of the swept parameter (no hysteresis, no path dependence), or any loop also appears under frozen-random
+    falsifier: a hysteresis loop (nonzero area between up and down sweeps) that exceeds the frozen-random loop, seed-stable
+    metrics: [hysteresis_area, path_dependent, up_vs_down_gap]
+    controls: [frozen-random-substrate]
+    gates: [determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: path-dependence moldability signature; pairs with ex13 long-stream and the y1/y2 basin readouts
+    capacity_rungs: [5]
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/y4_hysteresis.md", evidence_level: R1}
   - id: y5_homeostatic_lr_loop
     name: homeostatic_lr_loop
     kind: experiment

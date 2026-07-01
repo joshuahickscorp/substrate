@@ -344,9 +344,9 @@ implementable ones via a parallel-agent workflow:
   follow-ups to promote it. Big-run grind launched.
 - [x] All 3 run through the standard REGISTRY path; tests/integration/test_migrated_experiments.py (4
   tests); scaffolds + registry + EXPERIMENTS.md integrated; ruff + mypy clean (125 source files); registry
-  validates; docs gate clean (533 tests, 105 experiments). REGISTRY 102 -> 105; 113 of 116 rows now
-  implemented, only 3 genuinely deferred. A sequential big-run grind of all 3 (ex15 ~92min, ex9 slot-sweep,
-  ex2 ~95min, ~5h total) is running in the background, comfortably inside the 12h ceiling.
+  validates; docs gate clean at that point. REGISTRY 102 -> 105; 113 of 116 rows then implemented, only 3
+  genuinely deferred. A sequential big-run grind of all 3 (ex15 ~92min, ex9 slot-sweep, ex2 ~95min, ~5h
+  total) is running in the background, comfortably inside the 12h ceiling.
 
 ## DOCTRINE_SYNTHESIS.md: the corpus read through the two central doctrinal questions
 - [x] DOCTRINE_SYNTHESIS.md (root, ledgered): a 4-agent workflow (two theme readers, a gap-analysis agent,
@@ -399,3 +399,36 @@ questions on REAL encoder geometry:
   real_repl_factorized.json. This is the first time the compositional-abstraction question gets asked on
   real V-JEPA geometry rather than a Gaussian toy. 539 tests; ruff + mypy clean (126 source files); docs
   gate clean; registry validates.
+
+## Built the doctrine synthesis's four highest-value never-built lane experiments (agentic workflow)
+Fanned out a parallel-agent workflow to build the four experiments the corpus synthesis (DOCTRINE_
+SYNTHESIS.md) flagged as the highest-value NEVER-built tests of the two doctrinal questions. All four
+came back as clean, honest nulls with their standing controls correctly catching the artifacts, which is
+itself the point.
+- [x] d6_sensitive_window (D6, the synthesis's single most direct moldability test): a real early-vs-late
+  order effect exists (late wins by recency, advantage -0.333) BUT it appears equally under a frozen-random
+  projection (-0.389), so it is a generic optimizer-order / catastrophic-interference artifact, NOT a
+  substrate plasticity window. substrate_specific_window=False. Direct answer to the moldability thesis's
+  cleanest test: no critical/sensitive window on a frozen-latent shell at this scale.
+- [x] b8_structural_growth (B8, the only structural-change moldability test): at a discriminating off-
+  ceiling regime the grown shell (0.698) ties the matched-final-capacity fixed shell (0.691), delta 0.007
+  well inside the 0.087 seed spread, both far above the capacity-starved fixed-initial shell (0.496);
+  capacity_matched=True (all seeds grew to identical param count). Growth-as-process adds nothing over
+  simply being the final size, the exact b2/EX4 capacity-confound prediction.
+- [x] y4_hysteresis (Y4, path-dependence): a large hysteresis loop appears on the real substrate (area
+  0.081, up-vs-down retention gap 0.40) when interference is swept up then down on a carried-forward head,
+  but an equal loop appears under frozen-random (0.095), so substrate-corrected area is ~0 (-0.013). Same
+  artifact signature as d6: the path dependence is a generic continual-SGD trajectory effect, not a
+  substrate property.
+- [x] ex10_cross_modal (EX10, synthetic cross-domain arm, the deferred natural audio-video row stays
+  weights-needed): the A->B binding auxiliary genuinely learns the shared label code (cross_modal_transfer
+  1.0 vs a shuffled-pairing floor 0.41, so the transfer itself is REAL), but the downstream retention
+  binding_gain (+0.037) is within seed spread, so the cross-modal objective acts as a regularizer, not a
+  real binding benefit. An interesting split: real shared code, no downstream gain.
+- [x] Integrated centrally (scaffolds imports/list, 3 new registry rows + ex10 flipped to implemented,
+  EXPERIMENTS.md regenerated, tests/integration/test_doctrine_lane_experiments.py). REGISTRY 105 -> 109;
+  119 catalogued, 117 implemented, only 2 genuinely deferred (e6_relational + e10_openended). ruff + mypy
+  clean (130 source files); registry validates. Doctrine-wise: d6 and y4 both reproduce the corpus's
+  dominant "effect exists but frozen-random matches it" signature, strengthening the synthesis's central
+  finding that this toy regime cannot yet distinguish a substrate property from a generic optimizer/geometry
+  artifact.

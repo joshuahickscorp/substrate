@@ -1,0 +1,30 @@
+id: y4_hysteresis
+name: hysteresis
+module: y4_hysteresis
+metric: [hysteresis_area, path_dependent, up_vs_down_gap]
+null_hypothesis: "retention is a single-valued function of the swept schedule parameter (up-sweep and down-sweep trace the same curve, no path dependence), OR the same loop appears under frozen-random"
+tier: cpu-now
+
+dim: 40
+n_classes: 4
+samples: 160
+separation: 2.0
+
+# the anchor head is trained once, then rides the interference sweep carried forward.
+base_lr: 0.01
+anchor_epochs: 60
+interfere_epochs: 3
+n_interfere_tasks: 3
+
+# the swept schedule parameter: interference intensity (the learning rate spent on the interfering
+# domains). Weak to strong on the up-leg, strong to weak on the down-leg, same carried-forward shell.
+interference_grid: [0.002, 0.01, 0.05, 0.2, 0.5]
+
+# path-dependence gates. The loop must clear a few times the cross-seed std of the area (seed spread of
+# zero), with a small floor so a near-zero area cannot pass on vanishing seed noise, AND must exceed the
+# frozen-random loop by control_margin (per unit parameter span) to count as a substrate property.
+spread_k: 2.0
+area_std_floor: 0.02
+control_margin: 0.05
+
+seeds: [0, 1]
