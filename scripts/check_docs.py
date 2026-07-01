@@ -47,6 +47,7 @@ OPERATIONAL_MD = (
     "ARCHITECTURE.md",
     "EXPERIMENTS.md",
     "STUDIO_HANDOFF.md",
+    "DOCTRINE_SYNTHESIS.md",
 )
 HISTORICAL_MD = ()
 # Frontier 36 proof system (Section 10): the standalone proof instruments and their templates,

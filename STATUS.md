@@ -218,16 +218,17 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   acc=1.0 vs chance=0.25). Two aux encoders staged and fully transferable (~/.cache/huggingface): DINOv2-
   large (image, unblocks S2 cross-domain alignment) and VideoMAEv2-Base (video, unblocks S8 multimodal).
 - [x] 526 tests pass; ruff + mypy clean (120 source files); registry validates; docs-drift gate clean
-  (526 tests, 100 experiments, 10 acceptance checks); acceptance 10/10 (31 campaign legs plan clean).
+  (526 tests collected, REGISTRY size 100 at this point in the build, 10 acceptance checks); acceptance
+  10/10 (31 campaign legs plan clean).
 - [x] full interpretation and adversarial verification of all 100 results: runs/pre_studio/RESULTS_PRE_STUDIO.md
   (per-series tables, 63 nulls held, 9 taxonomy-3 bounds, 15 ambiguous, and every one of the 25 candidate
   positives across the first 93 individually re-checked against the SPECIFIC standing control it declares,
   not just whatever it happened to report; the adversarial-verify workflow ran twice independently after two
   API rate-limit interruptions, both passes agreeing: zero survive). Failure-mode breakdown: 17 never ran or
   failed frozen-random, 2 matched-compute, 2 seed-stability, 1 tuned-baseline, 1 the mechanism itself failed
-  on inspection. An addendum covers the 7 later experiments (my own direct check, not the full workflow):
-  EX4 fails the same tuned-baseline pattern; EX6 is the one result in the 100-experiment corpus that survives
-  a clean same-architecture ablation and is flagged top priority for a proper adversarial pass on the Studio.
+  on inspection. An addendum covers the 7 later experiments: EX4 fails the same tuned-baseline pattern; EX6
+  looked like a clean positive on first read and was later refuted by a proper three-pass adversarial check
+  (see below), so both of the addendum's candidates are now honest negatives.
 - [x] STUDIO_HANDOFF.md (root, ledgered in OPERATIONAL_MD): what transfers (HF weight cache incl. two fully-
   downloaded aux encoders, the verified non-degenerate 16-clip real-latent cache, the registry, the 4 new
   diagnostics, the fresh local-max rehearsal), the honest 9-row Studio-gated table (only 3 of 9 are truly
@@ -236,3 +237,139 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] scripts/studio_pipeline.py local-max rehearsal re-run against current HEAD (112053b): all 12 stages pass
   (free_disk_killswitch, doctor, registry_validate, plan, acquire_dryrun, generate_controls, validate_source,
   build_cache, queue_cost_audit, microbench, gated_run, datacards_ledger). runs/studio_pipeline/latest updated.
+
+## Post-handoff pass (this session): a real corpus-changing finding, disk hygiene, closing more gaps
+- [x] disk hygiene: found and removed 3.5GB of orphaned `.incomplete` HF-cache retry blobs left over from
+  the earlier interrupted vjepa2-vitl-fpc64-256 download attempt (before the working device=cpu recipe was
+  found); verified the real encoder still loads correctly (backend=vjepa_hf) after cleanup.
+- [x] found and fixed a real methodology gap: e4_neuromod.py and e7_sparse.py read a single `cfg.seed`, not
+  `experiment.seeds`, so the earlier "seed_stability REFUTED" verdict for both was based on config overrides
+  that were silent no-ops (still one seed). Re-ran both through devsys.harness.sweep.run_sweep's REAL
+  per-seed/per-axis grid (30 genuine runs each, 6 axis combos x 5 seeds): e4_neuromod's negative finding came
+  back robustly confirmed (all 30 runs show both gates amplify error on noise, the wrong direction, disagreement
+  mean=20.07 std=1.25); e7_sparse's disqualifying seed-stability objection did NOT hold up (sparse beats
+  dense in direction in 27/30 and 26/30 runs, mean gains 0.14-0.18). **e7_sparse is now a provisionally
+  confirmed positive, the one candidate in the full 100-experiment corpus that has cleared its specific
+  standing control.** Wired diagnostics/difficulty_calibration.py (D3) directly into e7_sparse.py as a
+  regime_calibration field (reference_score=1.0 vs chance=0.167, confirming the stream carries real
+  structure, closing the "is this tie/gap meaningful" gap the registry's own relation field named).
+- [x] gave EX6 (active-inference free-energy objective) the proper adversarial pass flagged as outstanding:
+  three independent checks (two code re-analyses, one numerical resimulation) unanimously REFUTED it. The
+  apparent effect (free_energy beats learning_progress on noisy-TV rejection) is a variance-magnitude
+  artifact of the hardcoded noise_scale=5.0 hyperparameter: a trivial zero-learning "avoid the higher-
+  variance region" heuristic reproduces the exact result, and an inversion test (lowering the noise
+  region's variance below the learnable region's own residual scale) flips the "free-energy" selector to
+  pick the irreducible noise 100% of the time. Risk (~=plain NLL) drives ~99% of the effect; the KL-
+  complexity term is negligible or slightly opposing. RESULTS_PRE_STUDIO.md and STUDIO_HANDOFF.md corrected
+  (both had cited EX6 as a plausible/top-priority positive from an earlier, insufficiently adversarial read).
+- [x] RESULTS_PRE_STUDIO.md and STUDIO_HANDOFF.md updated throughout to reflect both findings; corrected a
+  stale disabled-legs example in the handoff's transfer checklist (track04_e4_neuromod/track06_e7_sparse are
+  actually enabled:true Tier C legs that had simply never been executed, not disabled Tier E/R legs).
+- [x] real-encoder latent cache rebuilt larger in the background (64 clips vs the earlier 16, same verified
+  device=cpu/batch=1 recipe) for a stronger real-weight evidence base to hand off.
+- [x] found the studio pipeline's disk kill-switch (min_free_disk_gb=60) now genuinely trips on this
+  machine (free disk drifted from ~63GB to ~53-58GB over the session from system-level activity unrelated
+  to this repo, confirmed by checking pytest tmp usage (~23MB) and runs/ growth (~176MB), both negligible).
+  3 studio_pipeline integration tests that exercise the REAL kill switch against REAL disk_usage() are
+  consequently red at low-disk moments; this is the kill switch correctly refusing to proceed, not a code
+  regression, and is itself a useful live confirmation the safety floor works as designed. At low-disk
+  moments acceptance.py's "full test suite" step (and only that step) goes 9 of 10, purely from
+  test_local_max_smoke; ruff, mypy, the E1 gate, diagnostics, I4, queue dry-run, the toy leg, and the
+  registry check all still pass cleanly regardless of disk state.
+- [x] real-encoder cache quadrupled to 64 real V-JEPA 2 ViT-L latents (8 classes, ~21s/clip, ~23 minutes
+  wall-clock on CPU, backend=vjepa_hf confirmed, linear-probe acc=1.0 vs chance=0.125), same verified
+  device=cpu/batch=1 recipe as the earlier 16-clip build (MPS still overflows its attention buffer
+  regardless of batch size). STUDIO_HANDOFF.md/RESULTS_PRE_STUDIO.md updated with the larger n.
+
+## Genuine studio-scale work landed on this laptop (user request: keep making progress while waiting)
+Of the 9 Studio-gated rows, 2 (ex13_long_stream, ex5_local_rules_scale) were blocked on UNWRITTEN CODE, not
+literal hardware impossibility: their own registry descriptions say the compute-heavy or unavailable-
+encoder parts are what's blocked, while the core mechanism is real and CPU-runnable, just much slower than
+the Studio would give. Implemented both for real via a parallel-agent workflow (same pattern as the earlier
+builds), each shipped with a SCALED (not toy) default config designed to run for real minutes on this
+laptop, then run again at an even larger "grind" scale via overrides to give visible, genuine background
+work. Registry rows flipped to implemented, resource_tier cpu-now (from studio-scale); only ex2_latent_
+planning remains genuinely Studio-gated of the original 9.
+- [x] ex13_long_stream.py (class EX13): naive-sequential vs replay+EWC-protected vs a frozen-random-
+  substrate control arm, over a domain-incremental stream, anchor-task retention curve (not O(T^2)) plus
+  periodic effective-rank sampling. Shipped scale (240 tasks): naive collapses (retention_threshold_length
+  25), protected never collapses, divergence +0.25. Grind scale (3000 tasks, dim 96, hidden 128, ran in
+  50.7s): divergence GREW to +0.53 (a durable, not-shrinking effect). At both scales the advantage does
+  NOT clearly survive the frozen-random control (0.667 vs protected's 0.722 at shipped scale) — an honest
+  null with one caveat found this session: the control arm's stream (n_tasks_control) is shorter than the
+  main arms', not a length-matched comparison, flagged as a Studio follow-up.
+- [x] ex5_local_rules_scale.py (class EX5): three PERSISTENT (weights carried across tasks) rule
+  implementations (backprop ceiling, feedback_alignment with a fixed random backward matrix, predictive_
+  coding via local energy descent) extending I4's from-scratch comparison to real backward-transfer on a
+  continual stream, with a depth-sweep control. Genuine unforced positive at two scales (80 tasks/112s and
+  300 tasks x 4 widths x 3 seeds): feedback_alignment and predictive_coding beat backprop on BOTH accuracy
+  and BWT, stable across the depth sweep; backprop's own ceiling accuracy is barely above chance (0.336 vs
+  0.25) with strongly negative BWT (-0.72). Adversarially checked: PLAUSIBLE-BUT-UNVERIFIED, not confirmed
+  and not refuted, the specific gap being backprop's Adam optimizer vs the local rules' plain delta updates
+  (same nominal lr, not a matched effective step size) — a real, named, actionable Studio follow-up, not a
+  vague caveat.
+- [x] tests/integration/test_studio_gated_implementable.py (3 tests, toy-scale overrides so the suite stays
+  fast); scaffolds.py + registry/experiments.yaml + EXPERIMENTS.md integrated centrally; ruff + mypy clean;
+  REGISTRY 100 -> 102. STUDIO_HANDOFF.md and RESULTS_PRE_STUDIO.md updated with both experiments' results
+  at both scales and the adversarial-review verdicts, including a new priority-0 Studio follow-up item.
+- [x] ex5_local_rules_scale grind (300 tasks x 150 epochs, 24.8 min) FLIPPED the retention finding: the
+  local-rules-beat-backprop-on-BWT effect vanished at larger scale (FA/PC BWT -0.640/-0.649 now slightly
+  WORSE than backprop -0.604; rules_with_bwt_advantage empty). The accuracy advantage persisted. This
+  confirms the adversarial verifier's prediction: the shipped-scale "retention advantage" was a fragile,
+  scale-dependent optimizer artifact, not a durable property. RESULTS doc updated to REFUTE the retention
+  half while keeping the narrower accuracy finding. A cautionary, load-bearing example of why scaling a
+  toy positive up is itself a standing control.
+
+## Migrated 3 more Studio-gated rows to the laptop and ran them for real (user request)
+User asked to migrate every genuinely-implementable Studio-gated experiment to the MacBook and run them
+in sequence, given even hour-long runs fit a 12h ceiling. Audited the 9 originally-gated rows: only
+ex2_latent_planning's LIVE arm, e6_relational, ex10_cross_modal (both need nonexistent real weights), and
+e10_openended (needs multi-agent infra) are truly blocked; the rest were unwritten code. Built the 3
+implementable ones via a parallel-agent workflow:
+- [x] ex15_rejuvenation.py (EX15): shrink-and-perturb rejuvenation on ex13's long-stream harness, 3 arms
+  tracking effective_rank/dead_unit_count/retained_accuracy. Honest null at shipped scale (a small frozen-
+  latent shell shows NO loss of plasticity until pushed to dim256/hidden256/thousands-of-tasks, where the
+  mechanism does activate and rejuvenation measurably restores effective rank). Big-run grind launched.
+- [x] ex9_slot_attention.py (EX9): K learned slots vs a parameter-matched flat-pooled head on synthetic
+  relation-change windows where the pooled latent is the NOISY SUM of both entities (faithful to real
+  pooled V-JEPA output). null_supported=True: slots TIE flat, the expected taxonomy-3 substrate bound
+  (pooling already summed the entities before the shell sees them, so there is no per-slot structure to
+  recover). A clean, citable bound a dense 2.1 retarget of E6 must beat. Slot-count sweep launched.
+- [x] ex2_latent_planning.py (EX2, synthetic arm only, live arm stays deferred): learned latent dynamics
+  + shooting/CEM MPC vs flat-reactive-head + action-shuffle, rollout-predictability gated. Candidate
+  positive (null_supported=False, planner beats both controls). Adversarially checked PLAUSIBLE-BUT-
+  UNVERIFIED leaning weak: real flaw found (planner scored in-belief against its own model, flat head
+  scored in the true env, so not a matched yardstick; flat_head_success=0.0 is a strawman; single-seed);
+  the one clean signal is the action-shuffle gap (1.16, actions carry non-permutable info). Named Studio
+  follow-ups to promote it. Big-run grind launched.
+- [x] All 3 run through the standard REGISTRY path; tests/integration/test_migrated_experiments.py (4
+  tests); scaffolds + registry + EXPERIMENTS.md integrated; ruff + mypy clean (125 source files); registry
+  validates; docs gate clean (533 tests, 105 experiments). REGISTRY 102 -> 105; 113 of 116 rows now
+  implemented, only 3 genuinely deferred. A sequential big-run grind of all 3 (ex15 ~92min, ex9 slot-sweep,
+  ex2 ~95min, ~5h total) is running in the background, comfortably inside the 12h ceiling.
+
+## DOCTRINE_SYNTHESIS.md: the corpus read through the two central doctrinal questions
+- [x] DOCTRINE_SYNTHESIS.md (root, ledgered): a 4-agent workflow (two theme readers, a gap-analysis agent,
+  a synthesizer) interpreted all ~105 real results against the project's two doctrinal questions,
+  developmental plasticity/moldability and abstraction independent of language/symbols, using the original
+  12-agent research map (the joyful-squid plan) as the frame. Not a new run and NOT an implementation plan
+  (explicitly deferred per the user's sequencing); purely an interpretation to ground the eventual
+  architectural decision in real evidence instead of literature-only hypotheses.
+- [x] Honest headline it records: of ~25-27 candidate positives, exactly ONE survives adversarially
+  (e7_sparse, provisional), one is plausible-but-unverified (ex5_local_rules_scale), everything else was
+  refuted or is underpowered/taxonomy-3. Neither doctrinal question has a demonstrated substrate-level
+  positive yet. Plasticity: every biological-signature mechanism (Fisher-triggered windows, ACh/NE
+  gating, tag-and-capture, homeostatic scaling, replay ordering) ties or loses its non-biological baseline;
+  the U-shaped-overgeneralization developmental signature is flat zero; the one plasticity positive
+  (e7_sparse) is structural, not developmental-scheduling. Abstraction: five independent series converge
+  on the same artifact (a frozen-random projection reproduces the effect), with s10_anti_self_deception the
+  load-bearing meta-test showing the toy eval regime currently cannot distinguish real V-JEPA-specific
+  abstraction from generic linear geometry; latent iterative computation behaves like plain unrolled depth;
+  emergent codes are idiolects (below the frozen-random floor across seeds), not shared languages.
+- [x] Proposes 7 concrete NEXT experimentation lanes (not an architecture): real-latent replication of the
+  doctrine-load-bearing P/S/C/D series on the existing 64-clip real cache, a systematic difficulty-
+  recalibration sweep over ceiling-saturated experiments, a never-built developmental-sensitive-window +
+  structural-plasticity lane (D6/B8/Y4, D6 flagged as the single most direct untested test of the
+  moldability thesis), cross-domain/cross-modal alignment (S2/S8/ex10), an object-binding-before-pooling
+  probe via coarse spatial-token pooling, and the two Studio-priority closures (e7_sparse frozen-random
+  arm, ex5 optimizer-matching control). README updated to surface RESULTS/DOCTRINE/HANDOFF docs.

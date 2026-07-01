@@ -1,0 +1,70 @@
+# EX13: the long-stream stress test (the forgetting curve). A domain-incremental stream of HUNDREDS
+# of tasks, walked task-by-task, probing a small fixed set of early-stream anchor tasks after every
+# task (not the full T-by-T matrix: that is O(T^2) and too slow at this length). Two arms at real
+# scale (naive-sequential vs replay+EWC-protected) plus a smaller frozen-random-substrate control.
+#
+# This config's SCALED default is designed to run for real, minutes-to-hours on a CPU laptop (not
+# seconds): 240 tasks x 2 main arms, plus a smaller frozen-random control arm. For a fast dev-loop
+# iteration (seconds, CI/self-test scale), override on the command line or uncomment the toy_smoke
+# block below and copy its values over the top-level keys, e.g.:
+#   devsys.config.compose(["experiment=ex13_long_stream", "device=cpu",
+#     "experiment.stream.n_tasks=12", "experiment.n_tasks_control=6",
+#     "experiment.train.epochs_per_task=1", "experiment.anchor_tasks=2", "experiment.eval_every=3"])
+id: ex13_long_stream
+name: long_stream_forgetting_curve
+module: ex13_long_stream
+metric: [forgetting_curve, retention_threshold_length, effective_rank]
+null_hypothesis: "retention is flat in stream length within the seed spread, or every mechanism degrades identically (protection only delays the same collapse)"
+tier: cpu-now
+
+# --- SCALED default (real run, minutes to hours on a CPU laptop) ---
+stream:
+  kind: synthetic
+  incremental: domain     # shared label space, independent per-domain geometry: reliable forgetting regime
+  n_tasks: 240             # hundreds of tasks, per the corpus guidance for this experiment
+  dim: 48                  # small latent dim keeps hundreds-of-tasks x replay+EWC tractable on CPU
+  classes_per_task: 4
+  samples_per_task: 60
+  separation: 0.5           # low separation -> cross-domain overlap -> interference -> forgetting
+
+train:
+  epochs_per_task: 3
+  batch_size: 32
+
+head:
+  hidden: 64
+  depth: 2
+
+anchor_tasks: 3             # fixed early-stream anchor set (tasks 0, 1, 2), evaluated after every task
+eval_every: 10               # stream positions between effective_rank readings
+retention_threshold_margin: 0.1   # retention_threshold_length = first task index where mean anchor
+                                    # accuracy drops below chance + this margin
+divergence_margin: 0.1       # naive-vs-protected anchor-BWT gap needed to call the curves "different"
+
+# frozen-random-substrate control arm reruns the protected recipe at a SMALLER (still real) scale,
+# to bound its cost while still checking whether any retention advantage is substrate-specific
+n_tasks_control: 80
+
+configs:                    # the two arms compared at full (n_tasks) scale
+  naive:     { replay: false, ewc: false }   # no protection: matches E1's naive arm
+  protected: { replay: true,  ewc: true }    # replay + EWC: matches E1's protected arm
+
+seeds: [0]
+
+# --- toy_smoke override (uncomment / pass as overrides for a fast dev-loop iteration, seconds) ---
+# stream:
+#   n_tasks: 12
+#   dim: 16
+#   classes_per_task: 2
+#   samples_per_task: 20
+#   separation: 0.5
+#   incremental: domain
+# train:
+#   epochs_per_task: 1
+#   batch_size: 16
+# head:
+#   hidden: 16
+#   depth: 1
+# anchor_tasks: 2
+# eval_every: 3
+# n_tasks_control: 6

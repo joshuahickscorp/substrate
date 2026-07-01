@@ -22,14 +22,19 @@ from .e8_dendritic import E8
 from .e9_local import E9
 from .e10_openended import E10
 from .ex1_generative_replay import EX1
+from .ex2_latent_planning import EX2
 from .ex3_test_time_adaptation import EX3
 from .ex4_fast_weights import EX4
+from .ex5_local_rules_scale import EX5
 from .ex6_active_inference import EX6
 from .ex7_meta_learning import EX7
 from .ex8_curiosity_bakeoff import EX8
+from .ex9_slot_attention import EX9
 from .ex11_causal_probing import EX11
 from .ex12_atlas import EX12
+from .ex13_long_stream import EX13
 from .ex14_memory_bakeoff import EX14
+from .ex15_rejuvenation import EX15
 from .ex16_codebook_sr import EX16
 from .ex17_latent_reasoning import EX17
 from .ex18_self_verification import EX18
@@ -50,14 +55,19 @@ SCAFFOLDS: list[type[Experiment]] = [
     E9,
     E10,
     EX1,
+    EX2,
     EX3,
     EX4,
+    EX5,
     EX6,
     EX7,
     EX8,
+    EX9,
     EX11,
     EX12,
+    EX13,
     EX14,
+    EX15,
     EX16,
     EX17,
     EX18,

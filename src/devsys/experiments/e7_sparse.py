@@ -28,6 +28,7 @@ from omegaconf import DictConfig  # noqa: E402
 from torch import nn  # noqa: E402
 
 from ..devices import DeviceInfo, safe_to  # noqa: E402
+from ..diagnostics.difficulty_calibration import reference_separation  # noqa: E402
 from ..metrics import ContinualResult  # noqa: E402
 from ..seeding import seed_everything  # noqa: E402
 from ..substrate.datasets import Task, make_task_stream  # noqa: E402
@@ -155,6 +156,11 @@ class E7(Experiment):
         best_sparse = max(beats, key=lambda n: beats[n])
         sparse_beats_dense = bool(beats[best_sparse] > margin)  # the explicit null check
 
+        # D3 difficulty calibration (registry relation: "makes E7/E8 ties meaningful"): certify the
+        # stream itself carries real, decodable class structure, so a BWT gap between arms reflects a
+        # genuine interference difference rather than noise in an uncalibrated regime.
+        calib = reference_separation(test[-1].x, test[-1].y, seed=int(cfg.seed))
+
         out = {
             "chance": chance,
             "n_params": {n: a["n_params"] for n, a in arms.items()},
@@ -173,6 +179,7 @@ class E7(Experiment):
             "margin": margin,
             "sparse_beats_dense": sparse_beats_dense,  # null answer: False => null supported
             "null_supported": not sparse_beats_dense,
+            "regime_calibration": calib,
             # speedup is a SEPARATE claim, gpu-later, NOT a success criterion (corpus 6.7)
             "speedup": {
                 "wall_clock_s": {n: a["wall_clock_s"] for n, a in arms.items()},

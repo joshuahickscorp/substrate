@@ -1,0 +1,88 @@
+# EX15: shrink-and-perturb rejuvenation against loss of plasticity. Builds on EX13's long-stream
+# harness (same domain-incremental stream, anchor-task retention curve, periodic effective_rank).
+# Adds a third comparison axis: a shrink-and-perturb schedule applied on top of the protected
+# (replay+EWC) arm, tracking effective_rank + dead_unit_count + retained_accuracy across three
+# arms (protected, protected+rejuvenated, frozen-random-substrate+rejuvenated).
+#
+# This config's SCALED default mirrors ex13_long_stream.yaml's scaled defaults (hundreds of
+# tasks, small dim/hidden) with a rejuvenation_interval frequent enough (every 25 tasks) to fire
+# roughly a dozen times within the stream, so the effective_rank/dead-unit trace can actually show
+# a restoration pattern (or the lack of one) rather than firing once or twice. Runs for real,
+# minutes on a CPU laptop. For a fast dev-loop iteration (seconds), override on the command line
+# or copy the toy_smoke block below over the top-level keys, e.g.:
+#   devsys.config.compose(["experiment=ex15_rejuvenation", "device=cpu",
+#     "experiment.stream.n_tasks=12", "experiment.n_tasks_control=6",
+#     "experiment.train.epochs_per_task=1", "experiment.anchor_tasks=2", "experiment.eval_every=3",
+#     "experiment.rejuvenation_interval=4"])
+id: ex15_rejuvenation
+name: shrink_and_perturb_rejuvenation
+module: ex15_rejuvenation
+metric: [effective_rank, dead_unit_count, retained_accuracy]
+null_hypothesis: "rejuvenation does not restore plasticity, or it restores plasticity at the cost of retention; the frozen-latent shell does not suffer loss of plasticity at this scale"
+tier: cpu-now
+
+# --- SCALED default (real run, minutes on a CPU laptop) ---
+stream:
+  kind: synthetic
+  incremental: domain     # shared label space, independent per-domain geometry: the reliable
+                            # catastrophic-forgetting / plasticity-loss regime (matches EX13)
+  n_tasks: 240              # hundreds of tasks, matching EX13's scaled scope
+  dim: 48                   # small latent dim keeps hundreds-of-tasks x replay+EWC tractable on CPU
+  classes_per_task: 4
+  samples_per_task: 60
+  separation: 0.5            # low separation -> cross-domain overlap -> interference -> forgetting
+                              # and, at this scale, the plasticity pressure rejuvenation targets
+
+train:
+  epochs_per_task: 3
+  batch_size: 32
+
+head:
+  hidden: 64
+  depth: 2
+
+anchor_tasks: 3              # fixed early-stream anchor set (tasks 0, 1, 2), evaluated after every task
+eval_every: 10                # stream positions between effective_rank / dead_unit_count readings
+
+# shrink-and-perturb schedule: every rejuvenation_interval tasks, shrink the head's weights
+# toward init by shrink_factor and add noise_std gaussian noise, leaving optimizer/buffer/EWC
+# state untouched. 240 tasks / 25 = 9 rejuvenation events across the stream: frequent enough to
+# show a restoration (or non-restoration) pattern in the effective_rank / dead-unit trace.
+rejuvenation_interval: 25
+shrink_factor: 0.6            # theta <- shrink_factor*theta + (1-shrink_factor)*theta_init + noise
+noise_std: 0.02
+
+# thresholds used to call plasticity-loss / restoration / retention-cost, honestly (not tuned to
+# force a positive): see ex15_rejuvenation.py for how each is used.
+rank_collapse_margin: 0.1     # peak-to-final effective_rank drop (fraction of peak) that counts
+                                # as "plasticity loss observed" on the no-rejuvenation arm
+rank_restore_margin: 0.05     # rejuvenated final effective_rank must exceed the no-rejuvenation
+                                # arm's final effective_rank by this fraction to count as "restored"
+retention_cost_margin: 0.1    # anchor-accuracy drop (no-rejuvenation minus rejuvenated) that
+                                # counts as a meaningful retention cost paid for any restoration
+
+# frozen-random-substrate control arm (rejuvenation applied on top of a fixed random projection of
+# the input latents) reruns at a SMALLER (still real) scale, to bound its cost while still
+# checking whether any rejuvenation effect is substrate-specific.
+n_tasks_control: 80
+
+seeds: [0]
+
+# --- toy_smoke override (uncomment / pass as overrides for a fast dev-loop iteration, seconds) ---
+# stream:
+#   n_tasks: 12
+#   dim: 16
+#   classes_per_task: 2
+#   samples_per_task: 20
+#   separation: 0.5
+#   incremental: domain
+# train:
+#   epochs_per_task: 1
+#   batch_size: 16
+# head:
+#   hidden: 16
+#   depth: 1
+# anchor_tasks: 2
+# eval_every: 3
+# rejuvenation_interval: 4
+# n_tasks_control: 6

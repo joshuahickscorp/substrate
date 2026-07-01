@@ -313,28 +313,30 @@ experiments:
     proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex1_generative_replay.md", evidence_level: R1}
 
   - id: ex2_latent_planning
-    name: Model-based planning in latent space (Dreamer/MuZero-style)
+    name: Model-based planning in latent space (Dreamer/MuZero-style), synthetic arm
     kind: experiment
     series: EX
     question: do short-horizon latent rollouts enable goal-reaching a flat reactive head cannot
-    mechanism: learned latent dynamics g(z,a)->z' + MPC rollout on synthetic action-conditioned families
+    mechanism: learned latent dynamics g(z,a)->z' + shooting/CEM MPC rollout on a SYNTHETIC action-conditioned
+      dynamical family, gated on rollout-predictability (reuses sysid.py); the live interactive-environment
+      arm stays deferred (Tier R), only the synthetic cpu-now precursor is implemented here
     null_hypothesis: the learned dynamics does not enable planning the flat shell cannot do, or rollout error is too high to plan against
     falsifier: planner reduces goal-latent distance beyond the flat head at acceptable rollout error
     metrics: [goal_success, goal_distance_reduction, rollout_error]
     controls: [flat-reactive-head, action-shuffle]
     gates: [rollout_predictability]
-    resource_tier: environment-needed
-    exp_tier: env-later
+    resource_tier: cpu-now
+    exp_tier: cpu-now
     runtime_class: minutes
     difficulty: high
     sci_value: high
     meaningless_risk: high
-    relation: synthetic arm cpu-now precursor; live planning Tier R
+    relation: synthetic arm cpu-now (implemented); live planning stays Tier R / environment-needed, catalogued
     capacity_rungs: [8]
     paradigm_slugs: [latent_rollout_mpc]
     taxonomy_slot: 7
-    status: deferred
-    proof: {atlas_factor: controllability, null_card: "proof/NULL_CARDS/ex2.md", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: controllability, null_card: "proof/NULL_CARDS/ex2_latent_planning.md", evidence_level: R1}
 
   - id: ex3_test_time_adaptation
     name: Test-time training / adaptation on frozen latents
@@ -389,24 +391,27 @@ experiments:
     kind: cross-cutting
     series: EX
     question: which local rule gives the best continual-learning/locality tradeoff at depth and scale
-    mechanism: extend I4 (PC/eq-prop/FF/target-prop) to multi-encoder probes + BWT on the continual stream
+    mechanism: extend I4 (feedback-alignment, predictive-coding, backprop) to persistent-weight BWT on a real
+      domain-incremental continual stream, at a matched-budget depth sweep; the multi-encoder axis of the
+      original design stays weights-needed (no dense V-JEPA 2.1 exists) and is documented as a scope cut
     null_hypothesis: no local rule comes within the accuracy margin of backprop AND none offers a continual-learning or memory advantage that justifies the gap
     falsifier: a local rule ties backprop accuracy or shows a retention/memory advantage at matched budget
     metrics: [accuracy_gap, activation_memory, locality, backward_transfer]
     controls: [backprop-ceiling, matched-budget, depth-sweep]
     gates: [determinism]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: hours
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: extends I4; promotes predictive_coding/forward_forward to scale
+    relation: extends I4; promotes predictive_coding/forward_forward to scale; the multi-encoder half stays
+      weights-needed, catalogued separately, not part of this cpu-now row
     capacity_rungs: [4]
     paradigm_slugs: [predictive_coding, forward_forward]
     taxonomy_slot: 9
-    status: registry-only
-    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex5.md", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex5_local_rules_scale.md", evidence_level: R1}
 
   - id: ex6_active_inference
     name: Active-inference / free-energy shell objective
@@ -485,24 +490,26 @@ experiments:
     kind: experiment
     series: EX
     question: can temporal slot attention over pooled per-clip latents recover coarse relation/event structure
-    mechanism: slots over a window of pooled latents on relation-change/containment families vs a flat-pooled head
+    mechanism: K learned slot queries cross-attending over a window of synthetic pooled per-clip latents on a
+      relation-change task vs a parameter-matched flat-pooled head, plus a frozen-random control; pooled-only
+      (no dense 2.1 encoder needed, the weights-needed tag was inherited from E6, not earned by this row)
     null_hypothesis: slot attention over pooled latents ties the parameter-matched flat baseline; pooled features carry no per-slot structure to factor
     falsifier: slot assignments decode relation identity beyond the flat-pooled baseline
     metrics: [relation_decoding, pooled_ceiling_gap]
     controls: [parameter-matched-flat]
     gates: [linear_probe]
-    resource_tier: weights-needed
-    exp_tier: 2.1-only
+    resource_tier: cpu-now
+    exp_tier: cpu-now
     runtime_class: minutes
     difficulty: high
     sci_value: medium
     meaningless_risk: high
-    relation: pooled precursor to E6; full within-frame slots need 2.1 dense
+    relation: pooled precursor to E6; full within-frame slots still need 2.1 dense (that arm stays catalogued)
     capacity_rungs: [2, 7]
     paradigm_slugs: [object_slot_probe]
     taxonomy_slot: 3
-    status: deferred
-    proof: {atlas_factor: relation, null_card: "proof/NULL_CARDS/ex9.md", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: relation, null_card: "proof/NULL_CARDS/ex9_slot_attention.md", evidence_level: R1}
 
   - id: ex10_cross_modal
     name: Cross-modal world model (video latents bound to audio latents)
@@ -581,24 +588,28 @@ experiments:
     kind: experiment
     series: EX
     question: where does each mechanism's retention break across hundreds of sequential tasks
-    mechanism: E1-E4 + Level-5 over a long domain/class-incremental stream; retention vs stream position + effective rank
+    mechanism: naive-sequential vs replay+EWC-protected over a domain-incremental stream of hundreds of
+      tasks, anchor-task retention curve (not O(T^2)) + periodic effective rank, plus a frozen-random-
+      substrate control arm; genuinely cpu-now at this scale on synthetic latents, real thousands-of-tasks
+      studio-scale stress (paired with EX15) and a real-latent rerun remain the natural follow-on
     null_hypothesis: retention is flat in stream length within the seed spread, or every mechanism degrades identically (protection only delays the same collapse)
     falsifier: mechanisms separate or break at a stream length the short stream cannot reveal
     metrics: [forgetting_curve, retention_threshold_length, effective_rank]
     controls: [naive-sequential, frozen-random-substrate]
     gates: [linear_probe, determinism]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: days
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: the scale stress test unlimited wall-clock unlocks; pairs with EX15
+    relation: the scale stress test unlimited wall-clock unlocks; pairs with EX15; a real-latent, thousands-
+      of-tasks rerun on the Studio is the natural next step, not required for this cpu-now row's result
     capacity_rungs: [4, 5]
     paradigm_slugs: [shrink_and_perturb]
     taxonomy_slot: 8
-    status: registry-only
-    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex13.md", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex13_long_stream.md", evidence_level: R1}
 
   - id: ex14_memory_bakeoff
     name: Uncertainty-indexed and associative memory at scale (memory bake-off)
@@ -635,18 +646,19 @@ experiments:
     metrics: [effective_rank, dead_unit_count, retained_accuracy]
     controls: [no-rejuvenation, frozen-random-substrate]
     gates: [determinism]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: days
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: medium
     sci_value: medium
     meaningless_risk: medium
-    relation: promotes shrink_and_perturb; depends on EX13 long stream
+    relation: promotes shrink_and_perturb; built directly on EX13's long-stream harness; a thousands-of-tasks
+      rerun to force real loss of plasticity is the natural Studio-scale extension
     capacity_rungs: [4]
     paradigm_slugs: [shrink_and_perturb]
     taxonomy_slot: 8
-    status: registry-only
-    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex15.md", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/ex15_rejuvenation.md", evidence_level: R1}
 
   - id: ex16_codebook_sr
     name: Discrete codebook / VQ abstraction and successor representation

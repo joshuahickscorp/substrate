@@ -359,3 +359,86 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   such claim was verified against the actual current filesystem state before being corrected in the final
   documents, rather than trusted at face value — the same standing-control discipline applied to the science
   applies to the hand-off prose itself: a claim about repo state is only as good as the moment it was checked.
+
+## Post-handoff pass (this session)
+- When the user asked whether there was "absolutely any more progress" possible pre-Studio, the honest
+  answer was checked rather than assumed: re-audited disk/memory headroom, re-read the 9 Studio-gated rows
+  and the "not yet wired" diagnostics flagged in the handoff, and looked for methodology gaps in the two
+  seed_stability-refuted candidates rather than treating that verdict as settled. This surfaced a genuine
+  bug in the refutation itself (e4_neuromod.py and e7_sparse.py read `cfg.seed`, not `experiment.seeds`;
+  the earlier "increase seeds via override" attempt was a silent no-op), which is exactly the kind of thing
+  a second, more skeptical pass is for: the doctrine's adversarial-verification standard applies to the
+  VERIFICATION process too, not just the original experiments.
+- Re-running e4_neuromod and e7_sparse required going through devsys.harness.sweep.run_sweep (which
+  generates a genuine `seed={s}` override per run, matching how the modules actually read seeds) rather
+  than a `experiment.seeds=[...]` config override (which the modules never read). This is worth remembering
+  for any future seed-stability re-check: verify HOW an experiment consumes its seed config before trusting
+  that an override changed anything, since the roots-expansion series use `experiment.seeds` as a real list
+  but the older E1-E10 bank uses a single `cfg.seed` per invocation, swept externally by the harness.
+- e7_sparse's promotion to "provisionally confirmed" is deliberately hedged, not upgraded to a clean win:
+  the 30-run grid is still on synthetic Gaussian-cluster latents, not real V-JEPA 2 features, and no formal
+  significance test was run (mean/std/min/max were reported, not a p-value or CI). The doctrine's own
+  caution against overclaiming applies here as much as to the 24 refuted candidates; "survives its specific
+  objection" is a narrower, more honest claim than "confirmed."
+- EX6 was flagged in the earlier handoff pass as "the one result that survives a clean same-architecture
+  ablation" based on a single quick read, not a real adversarial check. When the user asked for more
+  progress, that flag was treated as an open commitment to resolve, not a settled fact to build on. Three
+  independent agents (two code re-analyses, one numerical resimulation) were run and unanimously refuted it:
+  the "ablation" was not actually isolating the complexity term (the control arm differed in a second way,
+  an opposite-polarity selection rule, that the first quick read missed), and a numerical resimulation
+  showed the effect is fully explained by the noisy-TV region's hardcoded variance being large relative to
+  the learnable region's residual scale, confirmed by an inversion test that flips the effect's direction.
+  This is the exact failure mode the house doctrine's own "renamed-scalar" and "iteration-is-just-depth"
+  categories warn about, in a new guise (variance-magnitude-just-relabeled-as-complexity), and it shipped
+  in an earlier document version before being caught. Lesson: an "I checked it informally" note in a
+  results document is not the same claim as "adversarially verified," and should not be allowed to read
+  like one; the correction here is as important as the original finding.
+- Declined to author the full proof/NULL_CARDS/*.md set for the ~31 experiments still missing one (7 newly
+  implemented, ~24 refuted candidates). The schema requires a probe_dependency block citing a specific atlas
+  factor/row and a decodability verdict; doing this properly means cross-referencing proof/atlas/ per card,
+  and a rushed pass risks shipping invalid or misleading cards, which the schema's own voiding rules treat
+  as worse than no card at all. Flagged as real remaining work in the handoff rather than done badly.
+- Cleaned 3.5GB of orphaned `.incomplete` HF-cache blobs left from the earlier interrupted MPS-then-CPU
+  download attempt, but did not chase the disk pressure further once it was confirmed to be system-level
+  (pytest tmp and this repo's own runs/ growth were both negligible, well under 200MB combined). The disk
+  kill-switch tripping live during this session is reported as a genuine finding, not silently worked
+  around; forcing more headroom by touching files outside this repo would have been out of scope.
+
+## Studio-gated-but-implementable pass (this session)
+- The user asked for something to run during a wait, "even if much slower." Read this literally against
+  the actual registry rather than defaulting to "wait for the Studio": of the 9 Studio-gated rows, the
+  handoff document itself already said 2 (ex13_long_stream, ex5_local_rules_scale) were blocked on
+  UNWRITTEN CODE, not a real hardware ceiling. That is exactly the situation "slower is fine" unlocks, so
+  the honest answer was to implement them for real, not to find a smaller substitute task.
+- ex5_local_rules_scale's original mechanism named a second axis (multi-encoder probing) that genuinely
+  needs weights that do not exist. Rather than block the whole row on that missing half, the module
+  documents the scope cut explicitly up front (a deliberate, stated decision, not a silent omission) and
+  implements the half that is real and cpu-now: persistent local-rule BWT on the single available
+  substrate. This is the same "close what's real, defer what's not" discipline used throughout this
+  session (e.g. e6_relational's multi-encoder contrast staying frozen-random-only until 2.1 weights exist).
+- Both experiments ran far faster than the brief anticipated (seconds to ~2 minutes at the shipped "scaled"
+  config, not the "minutes to hours" expected) because the mechanisms reduce to small MLPs once implemented
+  cleanly, and CPU handles thousands of small-MLP epochs quickly. Rather than treat this as done, pushed a
+  second "grind" run at meaningfully larger scale via command-line overrides (not editing the shipped
+  configs, which stay as the citable, reproducible scaled-default result) specifically so the user would
+  have real, visible background compute to watch, matching the spirit of the request rather than just its
+  letter.
+- ex5_local_rules_scale produced a genuinely surprising, UNFORCED positive (local rules beat backprop on
+  both accuracy and retention) that the implementing agent reported honestly rather than suppressing to
+  match the brief's stated prior (that bio-plausible rules would trail backprop). This got the same
+  adversarial scrutiny as e7_sparse and EX6: the verdict was PLAUSIBLE-BUT-UNVERIFIED, not confirmed or
+  refuted, because backprop's Adam optimizer and the local rules' plain delta-rule updates share a nominal
+  learning rate but not a demonstrated matched effective step size. This is a genuinely different, more
+  calibrated finding-class than either of the session's other two verdicts (e7_sparse survives its specific
+  objection; EX6 does not survive at all), and it is reported as such rather than being rounded to the
+  nearest of those two known outcomes.
+- ex13_long_stream's frozen-random control arm ran at a shorter stream length (n_tasks_control) than the
+  main arms (n_tasks) for cost reasons when the module was first written. This was caught during result
+  interpretation, not hidden: the "does not survive frozen-random" verdict is reported as-is, but flagged
+  with the specific fairness gap (unmatched stream length) so a future rerun knows exactly what to fix
+  rather than re-deriving the caveat from scratch.
+- Both registry rows were flipped from studio-scale/gpu-later to cpu-now/minutes to reflect what was
+  actually built and measured, not the original frontier-compute-era estimate. ex13's `relation` field
+  keeps the pointer to a genuine future Studio extension (thousands of tasks, real V-JEPA latents instead
+  of synthetic clusters) without implying the cpu-now result is provisional or lesser; a laptop result and
+  a future Studio-scale confirmation are both real, at different scales, not a placeholder and a "real" one.

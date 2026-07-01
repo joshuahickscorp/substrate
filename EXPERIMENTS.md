@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-116 catalogued: implemented=108, registry-only=3, deferred=5.
+116 catalogued: implemented=113, registry-only=0, deferred=3.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -28,21 +28,21 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | ex10_cross_modal | Cross-modal world model (video latents bound to audio latents) | cross-modal prediction does not improve retention or abstraction; the modalities are not aligned enough to bind, or it is just a regularizer | 2.1-only | deferred | 3 |
 | ex11_causal_probing | Causal / interventional probing (do-operations on control families) | the shell cannot learn an interventional map beyond the observational one; it predicts seen interventions but fails unseen values | cpu-now | implemented | 10 |
 | ex12_atlas | Representational atlas (what is decodable, by encoder scale) | probe accuracy does not exceed the shuffle-label floor for a target (not in the latent); bigger frozen perception does not raise decodability beyond seed spread | cpu-now | implemented | 3 |
-| ex13_long_stream | Long-stream continual learning (the forgetting curve) | retention is flat in stream length within the seed spread, or every mechanism degrades identically (protection only delays the same collapse) | gpu-later | registry-only | 8 |
+| ex13_long_stream | Long-stream continual learning (the forgetting curve) | retention is flat in stream length within the seed spread, or every mechanism degrades identically (protection only delays the same collapse) | cpu-now | implemented | 8 |
 | ex14_memory_bakeoff | Uncertainty-indexed and associative memory at scale (memory bake-off) | associative memory does not beat FIFO capacity and uncertainty indexing ties random eviction, even at scale | cpu-now | implemented | 4 |
-| ex15_rejuvenation | Shrink-and-perturb rejuvenation against loss of plasticity | rejuvenation does not restore plasticity, or it restores plasticity at the cost of retention; the frozen-latent shell does not suffer loss of plasticity at this scale | gpu-later | registry-only | 8 |
+| ex15_rejuvenation | Shrink-and-perturb rejuvenation against loss of plasticity | rejuvenation does not restore plasticity, or it restores plasticity at the cost of retention; the frozen-latent shell does not suffer loss of plasticity at this scale | cpu-now | implemented | 8 |
 | ex16_codebook_sr | Discrete codebook / VQ abstraction and successor representation | the codebook adds no decodable structure over raw latents (random codebook ties it) and the SR provides no transfer over raw-latent features | cpu-now | implemented | 3 |
 | ex17_latent_reasoning | Latent iterative reasoning (refinement + adaptive halting) | at matched compute, N-step refinement ties the depth-and-flop-matched single-pass head (iteration was just depth) | cpu-now | implemented | 4 |
 | ex18_self_verification | Latent self-verification / self-correction | verify-revise ties single-shot at matched compute; the verifier carries no usable correction signal | cpu-now | implemented | 4 |
 | ex1_generative_replay | Generative latent replay vs stored-buffer replay (dreaming) | generated replay does not match stored-buffer replay on BWT at matched budget; the distribution gap costs retention | cpu-now | implemented | 4 |
-| ex2_latent_planning | Model-based planning in latent space (Dreamer/MuZero-style) | the learned dynamics does not enable planning the flat shell cannot do, or rollout error is too high to plan against | env-later | deferred | 7 |
+| ex2_latent_planning | Model-based planning in latent space (Dreamer/MuZero-style), synthetic arm | the learned dynamics does not enable planning the flat shell cannot do, or rollout error is too high to plan against | cpu-now | implemented | 7 |
 | ex3_test_time_adaptation | Test-time training / adaptation on frozen latents | TTA does not beat the frozen head at matched parameters; the unlabeled proxy carries no adaptation signal, or it corrupts the base | cpu-now | implemented | 3 |
 | ex4_fast_weights | Fast-weight / hypernetwork shells (in-context vs gradient plasticity) | in-context plasticity does not match gradient plasticity, or the hypernet collapses to a context-independent average shell | cpu-now | implemented | 4 |
-| ex5_local_rules_scale | Local learning rules at scale (extend I4 to retention) | no local rule comes within the accuracy margin of backprop AND none offers a continual-learning or memory advantage that justifies the gap | gpu-later | registry-only | 9 |
+| ex5_local_rules_scale | Local learning rules at scale (extend I4 to retention) | no local rule comes within the accuracy margin of backprop AND none offers a continual-learning or memory advantage that justifies the gap | cpu-now | implemented | 9 |
 | ex6_active_inference | Active-inference / free-energy shell objective | the free-energy objective does not improve calibration or selection; the complexity term is a regularizer, or it chases the noisy-TV | cpu-now | implemented | 8 |
 | ex7_meta_learning | Meta-learning across the task stream (MAML / Reptile) | the meta-learned init does not reduce adaptation steps vs a control init; the task family is too homogeneous or the shell too small | cpu-now | implemented | 5 |
 | ex8_curiosity_bakeoff | Intrinsic-motivation curriculum bake-off (LP vs RND vs disagreement vs info-gain) | prediction-error and RND equal random on a learnable-vs-noisy budget; only learning-progress and disagreement survive; sharper, even LP ties uniform on a homogeneous stream | cpu-now | implemented | 10 |
-| ex9_slot_attention | Object-centric / slot attention over pooled latents (E6 precursor) | slot attention over pooled latents ties the parameter-matched flat baseline; pooled features carry no per-slot structure to factor | 2.1-only | deferred | 3 |
+| ex9_slot_attention | Object-centric / slot attention over pooled latents (E6 precursor) | slot attention over pooled latents ties the parameter-matched flat baseline; pooled features carry no per-slot structure to factor | cpu-now | implemented | 3 |
 
 ## Cross-cutting comparisons (I4) + information-theory experiments (I-series)
 

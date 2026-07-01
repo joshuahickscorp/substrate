@@ -233,6 +233,13 @@ experiment is a result, not a dead end.
   build-order DAG, the negative-result taxonomy, the diagnostic gates.
 - SCALING.md: exactly what to flip when the Mac Studio or rented CUDA arrives, per tier,
   with first-commands-on-the-new-machine.
+- runs/pre_studio/RESULTS_PRE_STUDIO.md: per-experiment interpretation of the full pre-Studio
+  run, with the adversarial-verification verdict for every candidate positive.
+- DOCTRINE_SYNTHESIS.md: the whole corpus read through the two central doctrinal questions
+  (developmental moldability, language-independent abstraction), with the honest state of the
+  evidence and the proposed next experimentation lanes.
+- STUDIO_HANDOFF.md: what transfers, what is genuinely Studio-gated, and the prioritized
+  first-things-to-run.
 - STATUS.md: live build log (done / scaffolded / not started).
 - DECISIONS.md, ISSUES.md: rationale log and deferred-item ledger.
 
@@ -257,11 +264,12 @@ Apple M2 Max Mac Studio (96 GB), where wall-clock time is not the constraint.
   bit-identical runs, and a proof grammar (atlas rows and null cards).
 - A Studio pipeline (plan, acquire, validate, cache, run, report) that is
   dry-run by default and gated by per-device kill switches.
-- A pre-Studio run across 100 experiments in 9 disciplines, each with a
-  pre-registered null hypothesis and an adversarial verification pass. Result:
-  zero candidate positives survived adversarial re-checking, an honest null
-  corpus rather than a positive finding. That pass also narrowed which of the
-  Studio-gated items are genuinely hardware-gated (3 of 9) versus runnable now.
+- A pre-Studio run across the full registered experiment bank in 9 disciplines,
+  each with a pre-registered null hypothesis and an adversarial verification
+  pass. Result: an honest null corpus, with exactly one candidate (e7_sparse)
+  surviving adversarial re-checking so far. That pass also narrowed which of
+  the originally Studio-gated items are genuinely hardware or environment
+  gated (only one remains: ex2_latent_planning) versus already runnable now.
 
 ### Next (on the Mac Studio)
 - Lift the MPS encoder limit: real-encoder caching hits a hard per-buffer
