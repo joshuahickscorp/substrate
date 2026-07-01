@@ -442,3 +442,34 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   keeps the pointer to a genuine future Studio extension (thousands of tasks, real V-JEPA latents instead
   of synthetic clusters) without implying the cpu-now result is provisional or lesser; a laptop result and
   a future Studio-scale confirmation are both real, at different scales, not a placeholder and a "real" one.
+
+## Real-latent replication lane (this session)
+- The doctrine synthesis named real-latent replication its highest-value next lane for a concrete reason:
+  almost the entire 105-experiment corpus ran on make_task_stream synthetic Gaussian clusters, so even a
+  clean adversarially-verified result is a claim about a tiny shell on an easy toy task, not about the
+  frozen V-JEPA 2 substrate the whole program is built on. Scaffolding this lane is therefore the honest
+  prerequisite to any architectural decision: we do not yet know what the real substrate affords.
+- Immediately on wiring the adapter to the existing 64-clip real cache, the doctrine's own core warning
+  reproduced on real geometry: a bare linear probe of the 8 classes scores 1.0 on both the real latents
+  and a frozen-random projection of them (delta 0.000). Linear decodability is projection-invariant by
+  construction, so a bare linear-probe win proves nothing even on real V-JEPA features. This is not a
+  disappointment, it is confirmation the instrument is honest, and it dictates the design: the replication
+  driver must LEAD with nonlinear (readout-contribution) and compositional (held-out-combination) probes,
+  where real and frozen-random geometry can actually diverge, not with the linear probe.
+- The single-factor real cache (cache_real_encoder.py) entangles frequency, angle, motion, and color into
+  one class index, which is fine for continual-learning experiments but cannot support a compositionality
+  test (held-out-combination needs two INDEPENDENT factors). Rather than contort the existing cache, built
+  a separate factorized generator (hue x orientation at fixed frequency) so the two factors vary
+  independently and any (hue, orientation) combination is realizable. The two factors are stored as a
+  composite label y=a*n_b+b plus a factors.json sidecar, which needs no LatentStore schema change and lets
+  ONE factorized cache serve both the continual experiments (composite class) and the compositional probes
+  (decoded factors).
+- Deliberately built the whole lane as CPU-light code (adapter, generator, driver, tests) validated on the
+  tiny existing cache, and QUEUED the encoder-heavy factorized-cache build to run chained after the current
+  migrated grind rather than concurrently. Two real-encoder jobs at ~21s/clip on the same CPU would halve
+  each other's throughput on an 18GB machine; chaining respects the hardware and still fits the 12h budget.
+- Stopped at scaffolding the lane and queuing its first real run, per the user's explicit sequencing
+  (expand experimentation before any build decision). The factorized replication result, once it lands,
+  is the first evidence about whether the real substrate carries compositional structure a random
+  projection does not, which is the crux question for both the abstraction doctrine and any eventual
+  architecture choice.

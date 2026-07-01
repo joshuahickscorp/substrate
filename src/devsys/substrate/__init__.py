@@ -8,6 +8,7 @@ from .datasets import Task, make_task_stream, noisy_tv_dataset, stream_from_stor
 from .encoder import EncoderSpec, FrozenEncoder, load_encoder
 from .fixtures import generate_video_corpus
 from .latent_store import LatentStore, StoreMeta
+from .real_latent import factorized_arrays, factors_meta, open_real_store, real_task_stream
 from .video import iter_video_clips, preprocess_clip, read_video
 
 __all__ = [
@@ -22,6 +23,10 @@ __all__ = [
     "make_task_stream",
     "noisy_tv_dataset",
     "stream_from_store",
+    "real_task_stream",
+    "factorized_arrays",
+    "factors_meta",
+    "open_real_store",
     "preprocess_clip",
     "read_video",
     "iter_video_clips",

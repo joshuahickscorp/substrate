@@ -373,3 +373,29 @@ implementable ones via a parallel-agent workflow:
   moldability thesis), cross-domain/cross-modal alignment (S2/S8/ex10), an object-binding-before-pooling
   probe via coarse spatial-token pooling, and the two Studio-priority closures (e7_sparse frozen-random
   arm, ex5 optimizer-matching control). README updated to surface RESULTS/DOCTRINE/HANDOFF docs.
+
+## Started lane 1: real-latent replication (the doctrine synthesis's #1 next lane)
+The whole corpus ran on synthetic Gaussian-cluster latents; a clean result there says nothing about the
+real frozen V-JEPA 2 substrate. Scaffolded the infrastructure to re-ask the doctrine-load-bearing
+questions on REAL encoder geometry:
+- [x] src/devsys/substrate/real_latent.py: real_task_stream (class/task/domain-incremental slicing of a
+  real LatentStore, drop-in for make_task_stream) + factorized_arrays (decode a two-factor cache stored as
+  a composite label y=a*n_b+b via a factors.json sidecar) + open_real_store/factors_meta. tests/unit/
+  test_real_latent.py, 6 known-answer tests green. Exported from devsys.substrate.
+- [x] scripts/cache_factorized_encoder.py: builds a FACTORIZED real-encoder cache where TWO independent
+  visual factors vary (hue = A, orientation/drift = B) at fixed spatial frequency, so held-out-combination
+  and compositionality probes have real geometry to test (the single-factor cache_real_encoder.py entangles
+  freq/angle/motion/color into one class index, useless for compositionality). Composite-label + sidecar,
+  no LatentStore schema change.
+- [x] scripts/real_latent_replication.py: the lane driver. Runs the doctrine-load-bearing probes on a real
+  cache vs its frozen-random-projection control, LEADING with the nonlinear (readout_contribution/P10) and
+  compositional (held_out_combination/C1-S6) tests, because a bare linear probe of separable classes is
+  projection-invariant by construction. Reuses the existing diagnostics that were only ever run on
+  synthetic data. Validated on the real 64-clip cache: everything ceiling-saturated (effective rank 3.4 of
+  1024, all probes 1.0), so real is projection-invariant there, exactly the doctrine's predicted result and
+  direct motivation for the harder factorized cache.
+- [x] Queued (chained after the migrated grind, no CPU contention): build a 432-clip factorized real cache
+  (6 hue x 6 orientation x 12, ~2.5h) then run the replication driver, writing runs/pre_studio/
+  real_repl_factorized.json. This is the first time the compositional-abstraction question gets asked on
+  real V-JEPA geometry rather than a Gaussian toy. 539 tests; ruff + mypy clean (126 source files); docs
+  gate clean; registry validates.
