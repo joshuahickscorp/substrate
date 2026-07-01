@@ -62,7 +62,7 @@ rigor and packaging on one sharp question, not compute and not a new mechanism.
   verdict, the DO-NOW checklist that runs on the current 18 GB laptop (env pin, weight download,
   fully-licensed video pre-fetch, the human license-acceptance tasks, the first-artifact proof/
   tree, synthetic control fixtures, the tiny end-to-end smoke), the explicit STUDIO-ONLY boundary,
-  and the single paste-able go-prompt for Claude-on-the-Studio.
+  and the single paste-able go-prompt for running the agent on the Studio.
 
 ## The framing (read first, it changes what "maximize" means)
 
@@ -2131,7 +2131,7 @@ deferred off the M3 Pro:
 
 ### C. THE STUDIO GO-PROMPT
 
-Paste this verbatim into a fresh Claude session on the Mac Studio. It is self-contained, references
+Paste this verbatim into a fresh agent session on the Mac Studio. It is self-contained, references
 the canonical doc, and carries every invariant and boundary.
 
 ```

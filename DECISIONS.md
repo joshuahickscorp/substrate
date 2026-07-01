@@ -3,7 +3,7 @@
 Autonomous-session decisions, each with a one-line rationale. Append-only.
 
 ## Doctrine
-- BLACKHOLE.md (dropped in as CLAUDE.md) governs code FORM (density, flat structure,
+- BLACKHOLE.md (dropped in as the project rules doc) governs code FORM (density, flat structure,
   few load-bearing files, surface every failure). This build prompt governs SCOPE.
   Where they meet: exhaustive coverage written in the compressed BLACKHOLE register.
 - No em dashes or en dashes anywhere (code, comments, docs). Commas/colons/parentheses only.
