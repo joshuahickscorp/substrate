@@ -9,7 +9,7 @@ optional [N]. Append-friendly via a declared capacity, finalized to its true len
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from typing import Literal
 
@@ -33,9 +33,16 @@ class LatentStore:
         self.meta = meta
         self.mode = mode
         mm: Literal["r", "r+"] = "r" if mode == "r" else "r+"
-        self._lat = np.load(self._p("latents.npy"), mmap_mode=mm)
-        self._keys = np.load(self._p("keys.npy"), mmap_mode=mm)
-        self._labels = np.load(self._p("labels.npy"), mmap_mode=mm) if meta.has_labels else None
+        # Native layout is latents.npy/keys.npy/labels.npy. WP-01 provenance caches use features.npy,
+        # no keys.npy, and labels_shape.npy; fall back to those when the native files are absent.
+        lat_path = self._p("latents.npy") if self._p("latents.npy").exists() else self._p("features.npy")
+        self._lat = np.load(lat_path, mmap_mode=mm)
+        self._keys = np.load(self._p("keys.npy"), mmap_mode=mm) if self._p("keys.npy").exists() else None
+        if meta.has_labels:
+            lab = self._p("labels.npy") if self._p("labels.npy").exists() else self._p("labels_shape.npy")
+            self._labels = np.load(lab, mmap_mode=mm)
+        else:
+            self._labels = None
 
     def _p(self, *parts: str) -> Path:
         return self.root.joinpath(*parts)
@@ -63,15 +70,33 @@ class LatentStore:
 
     @classmethod
     def open(cls, root: Path) -> LatentStore:
-        meta = StoreMeta(**json.loads((Path(root) / "meta.json").read_text()))
-        return cls(Path(root), meta, mode="r")
+        root = Path(root)
+        raw = json.loads((root / "meta.json").read_text())
+        allowed = {f.name for f in fields(StoreMeta)}
+        if "feat_shape" in raw:
+            meta = StoreMeta(**{k: v for k, v in raw.items() if k in allowed})
+        else:
+            # WP-01 provenance layout (features.npy + custom meta.json): reconstruct StoreMeta.
+            feat_file = "latents.npy" if (root / "latents.npy").exists() else "features.npy"
+            arr = np.load(root / feat_file, mmap_mode="r")
+            has_labels = (root / "labels.npy").exists() or (root / "labels_shape.npy").exists()
+            meta = StoreMeta(
+                name=str(raw.get("tag", root.name)),
+                feat_shape=list(arr.shape[1:]),
+                dtype=str(arr.dtype),
+                key_dim=0,
+                count=int(arr.shape[0]),
+                has_labels=has_labels,
+            )
+        return cls(root, meta, mode="r")
 
     def write_batch(
         self, start: int, latents: np.ndarray, keys: np.ndarray, labels: np.ndarray | None = None
     ) -> int:
         n = latents.shape[0]
         self._lat[start : start + n] = latents.astype(self.meta.dtype)
-        self._keys[start : start + n] = keys.astype("float32")
+        if self._keys is not None:
+            self._keys[start : start + n] = keys.astype("float32")
         if labels is not None and self._labels is not None:
             self._labels[start : start + n] = labels.astype("int64")
         self.meta.count = max(self.meta.count, start + n)
@@ -79,7 +104,8 @@ class LatentStore:
 
     def finalize(self) -> None:
         self._lat.flush()
-        self._keys.flush()
+        if self._keys is not None:
+            self._keys.flush()
         if self._labels is not None:
             self._labels.flush()
         (self.root / "meta.json").write_text(json.dumps(asdict(self.meta), indent=2))
@@ -91,7 +117,9 @@ class LatentStore:
         a = self._lat[: self.meta.count] if idx is None else self._lat[idx]
         return torch.from_numpy(np.ascontiguousarray(a))
 
-    def keys(self, idx=None) -> torch.Tensor:
+    def keys(self, idx=None) -> torch.Tensor | None:
+        if self._keys is None:
+            return None
         a = self._keys[: self.meta.count] if idx is None else self._keys[idx]
         return torch.from_numpy(np.ascontiguousarray(a))
 
