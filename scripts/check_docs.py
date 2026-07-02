@@ -35,6 +35,20 @@ CANONICAL_MD = (
     "developmental_jepa_corpus_vol3.md",
     "BLACKHOLE.md",
     "docs/STUDIO_MAXIMIZATION_2026_06_27.md",
+    # the Mixture-of-Thinking architecture review (master index + its section files)
+    "docs/mixture_of_thinking/MIXTURE_OF_THINKING.md",
+    "docs/mixture_of_thinking/01_thesis_and_definition.md",
+    "docs/mixture_of_thinking/03_thinking_modes.md",
+    "docs/mixture_of_thinking/04_reasoning_program.md",
+    "docs/mixture_of_thinking/05_plasticity_program.md",
+    "docs/mixture_of_thinking/06_cognitive_currencies_atlas.md",
+    "docs/mixture_of_thinking/07_workspace_layer.md",
+    "docs/mixture_of_thinking/08_09_custom_model_pathway_and_architectures.md",
+    "docs/mixture_of_thinking/10_compute_tiers.md",
+    "docs/mixture_of_thinking/11_experiment_registry.md",
+    "docs/mixture_of_thinking/12_metrics.md",
+    "docs/mixture_of_thinking/13_code_scaffolding.md",
+    "docs/mixture_of_thinking/15_custom_model_skepticism.md",
 )
 OPERATIONAL_MD = (
     "GO.md",
