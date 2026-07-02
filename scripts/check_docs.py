@@ -38,6 +38,7 @@ CANONICAL_MD = (
     # the Mixture-of-Thinking architecture review (master index + its section files)
     "docs/mixture_of_thinking/MIXTURE_OF_THINKING.md",
     "docs/mixture_of_thinking/EXECUTION_MANIFEST.md",
+    "docs/mixture_of_thinking/DEEP_RESEARCH_2026_07.md",
     "docs/mixture_of_thinking/01_thesis_and_definition.md",
     "docs/mixture_of_thinking/03_thinking_modes.md",
     "docs/mixture_of_thinking/04_reasoning_program.md",
