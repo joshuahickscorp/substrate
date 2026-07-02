@@ -1,0 +1,17 @@
+# MoT preregistration mirror (WP-02): registry row mot_mt1_router_vs_best in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_mt123_router_pilots.py
+# writes its verdict json to runs/mot/mt123_router_pilots.json.
+# PILOT: laptop-scale evidence only; the registered claim needs cpu-now
+# (see the row's relation field and STUDIO_HANDOFF.md).
+id: mot_mt1_router_vs_best
+name: router_beats_single_best_mode
+module: scripts/mot_mt123_router_pilots.py
+metric: [capability_density, oracle_router_gap]
+null_hypothesis: "routed density equals or trails its best constituent mode at matched compute, or the gap sits inside the seed spread"
+falsifier: "density delta < seed spread at matched compute"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/mt123_router_pilots.json
+pilot: true

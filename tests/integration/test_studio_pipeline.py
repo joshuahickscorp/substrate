@@ -5,8 +5,23 @@ smoke. Heavy acquisition stays dry-run; the conveyor refuses a disallowed tier."
 import json
 from pathlib import Path
 
+import pytest
+
 from devsys.provenance import RESULT_TAGS
 from devsys.studio import pipeline
+
+
+def _skip_if_disk_below_floor():
+    # The execute-path stages honor the profile's free-disk kill switch (refuse below the floor,
+    # by design). On a machine that is genuinely below the floor those stages can never run, so
+    # the tests that assert a REAL cache build skip cleanly instead of failing on the refusal.
+    profile = pipeline.get_profile("m3pro-local-max")
+    ok, free_gb = profile.free_disk_ok()
+    if not ok:
+        pytest.skip(
+            f"free-disk kill switch active on this machine ({free_gb:.0f} GB free, floor "
+            f"{profile.min_free_disk_gb:.0f} GB): cache/local-max execute paths refuse by design"
+        )
 
 
 def test_plan_writes_artifacts_and_latest(tmp_path):
@@ -46,6 +61,7 @@ def test_acquire_dry_run_then_validate_then_cache_estimate(tmp_path):
 def test_acquire_execute_generates_controls_then_caches(tmp_path):
     # execute on the m3pro plan actually GENERATES the synthetic-controls corpus (safe, on-device),
     # then cache --execute builds and validates a tiny real cache from it.
+    _skip_if_disk_below_floor()
     out = pipeline.cmd_plan("m3pro-local-max", budget_gb=10, label="t", out_root=tmp_path)
     plan_path = Path(out["run_dir"]) / "plan.json"
     acq = pipeline.cmd_acquire(plan_path, execute=True, accept_license=False)
@@ -81,8 +97,14 @@ def test_gated_conveyor_stops_full_over_run_cap(tmp_path):
     assert any(g["name"] == "run_count_cap" and not g["ok"] for g in out["gates"])
 
 
-def test_gated_conveyor_runs_bounded_toy(tmp_path):
-    # a bounded toy Tier C run passes the gates and actually runs one leg
+def test_gated_conveyor_runs_bounded_toy(tmp_path, monkeypatch):
+    # a bounded toy Tier C run passes the gates and actually runs one leg. The free-disk gate is
+    # forced open (the toy leg writes only to tmp_path) so a host genuinely below the floor still
+    # exercises the run path; the gate-stops behavior is covered by
+    # test_gated_conveyor_stops_on_low_free_disk, which forces it shut the same way.
+    from devsys.studio.profiles import Profile
+
+    monkeypatch.setattr(Profile, "free_disk_ok", lambda self, root=None: (True, 1000.0))
     out = pipeline.cmd_run(
         gated=True,
         tiers={"C"},
@@ -177,6 +199,7 @@ def test_acquire_defaults_budget_from_plan(tmp_path):
 
 def test_local_max_smoke(tmp_path):
     # the current-device lane, bounded tiny; every stage passes and kill switches are recorded
+    _skip_if_disk_below_floor()
     s = pipeline.cmd_local_max(
         download_gb=10, time_min=90, cache_clips=16, seed=0, label="lm", out_root=tmp_path
     )

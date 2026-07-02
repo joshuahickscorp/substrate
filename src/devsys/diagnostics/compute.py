@@ -36,6 +36,26 @@ def refiner_flops(dim: int, hidden: int, steps: int, batch: int = 1) -> int:
     return int(steps * per_step)
 
 
+def attention_flops(n_tokens: int, dim: int, batch: int = 1) -> int:
+    """Forward multiply-add FLOPs for one full self-attention layer over `n_tokens` tokens of width
+    `dim`: QKV + output projections (4 Linears, 8*n*d^2) plus score and value matmuls (2 * 2*n^2*d).
+    Head count does not change the total (dim is split across heads). Softmax/scale are O(n^2) and
+    omitted as rounding error. Used by the MT7 scorer, WS slot attention, and any matched-compute
+    check involving an attention arm (WP-02)."""
+    n, d = int(n_tokens), int(dim)
+    proj = 4 * linear_flops(d, d, batch=batch * n)
+    scores = int(2 * batch * n * n * d) * 2  # QK^T plus attn @ V
+    return int(proj + scores)
+
+
+def knn_flops(n_queries: int, n_keys: int, dim: int, batch: int = 1) -> int:
+    """Forward FLOPs for brute-force kNN retrieval: the query-key similarity matmul, 2*q*k*d per batch
+    element (the load-bearing term). Top-k selection is O(q*k) comparisons and omitted as rounding
+    error. This is the retrieval cost DR10/PR8 must charge against their matched baselines: retrieval
+    compute counts, exactly like pruned search branches (WP-02)."""
+    return int(2 * batch * n_queries * n_keys * dim)
+
+
 def matched_within(flops_a: int, flops_b: int, tol: float = 0.10) -> dict:
     """Are two arms matched on compute within a relative tolerance. Returns {matched, ratio, tol}. A
     measured gain is only trustworthy when matched is True (else it may be bought compute, taxonomy 9)."""

@@ -15,3 +15,5 @@ resolution: 256
 dense: true
 pool: none
 frozen: true
+family: vjepa21          # WP-02: substrate family for the cross-substrate grid (AT1/AL2)
+training_objective: masked_latent_prediction   # video JEPA: predict masked spacetime patches in latent space

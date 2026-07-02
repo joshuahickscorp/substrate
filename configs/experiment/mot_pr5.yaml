@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mot_pr5_content_gated_cp in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_pr5_content_gated_cp.py
+# writes its verdict json to runs/mot/pr5_content_gated_cp.json.
+id: mot_pr5_content_gated_cp
+name: content_gated_critical_period
+module: scripts/mot_pr5_content_gated_cp.py
+metric: [backward_transfer_early, forward_transfer_novel, matched_lr_integral]
+null_hypothesis: "at matched LR-integral and shuffled task order, content-gated shows no retention or reopening advantage over cosine decay / tuned constant LR: pure LR annealing (the e3/d6 negative)"
+falsifier: "retention/reopening delta < seed spread at matched LR-integral"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/pr5_content_gated_cp.json
+pilot: false

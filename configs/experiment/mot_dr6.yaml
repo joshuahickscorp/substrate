@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mot_dr6_rollout_planning in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_dr6_rollout_planning.py
+# writes its verdict json to runs/mot/dr6_rollout_planning.json.
+id: mot_dr6_rollout_planning
+name: internal_simulation_rollout_planning
+module: scripts/mot_dr6_rollout_planning.py
+metric: [planning_success_on_true_dynamics]
+null_hypothesis: "planning ties reactive at matched compute OR ties action-shuffle: rollouts carry no usable future info beyond one step"
+falsifier: "planning <= max(reactive, action-shuffle)"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/dr6_rollout_planning.json
+pilot: false

@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mot_mt7_beam_search in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_mt7_beam_search.py
+# writes its verdict json to runs/mot/mt7_beam_search.json.
+id: mot_mt7_beam_search
+name: beam_tree_search_vs_greedy_refinement
+module: scripts/mot_mt7_beam_search.py
+metric: [accuracy_at_matched_total_flops]
+null_hypothesis: "at matched total FLOPs, search ties a deeper greedy chain because the scorer cannot outrank the refiner's own step"
+falsifier: "search <= matched greedy depth"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/mt7_beam_search.json
+pilot: false

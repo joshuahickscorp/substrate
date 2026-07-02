@@ -38,9 +38,12 @@ _ENCODER_DIR = REPO_ROOT / "configs" / "encoder"
 def list_encoders() -> list[dict]:
     """Every shipped encoder config as a flat dict, sorted by name. Pure config read, no network.
 
-    Each entry: {name, hf_id, embed_dim, dense, available, prefer_real}. `available` defaults to
-    True when the key is absent (the shipped vjepa21_* configs set it false); `prefer_real`
-    defaults to False (real weights are opt-in via load_encoder)."""
+    Each entry: {name, hf_id, embed_dim, dense, available, prefer_real, family, training_objective}.
+    `available` defaults to True when the key is absent (the shipped vjepa21_* configs set it false);
+    `prefer_real` defaults to False (real weights are opt-in via load_encoder). `family` and
+    `training_objective` (WP-02) type each substrate for the cross-substrate grid (AT1/AL2): a
+    substrate-specialness verdict must state WHICH family and objective it is about, so both keys
+    travel with every listing and default to "unknown" rather than being silently absent."""
     out: list[dict] = []
     for f in sorted(_ENCODER_DIR.glob("*.yaml")):
         c = OmegaConf.to_container(OmegaConf.load(f), resolve=True)
@@ -53,6 +56,8 @@ def list_encoders() -> list[dict]:
                 "dense": bool(c.get("dense", False)),
                 "available": bool(c.get("available", True)),
                 "prefer_real": bool(c.get("prefer_real", False)),
+                "family": str(c.get("family", "unknown")),
+                "training_objective": str(c.get("training_objective", "unknown")),
             }
         )
     return out

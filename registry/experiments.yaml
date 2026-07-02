@@ -2829,3 +2829,1354 @@ experiments:
     taxonomy_slot: 8
     status: implemented
     proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a8_affordance_curiosity.md", evidence_level: R1}
+
+  # ============================================================ Mixture-of-Thinking bank (WP-02)
+  # The MoT program registry (docs/mixture_of_thinking/11_experiment_registry.md), preregistered here
+  # BEFORE any row runs: null_hypothesis is carried verbatim from section 11, the matched baseline is
+  # the first controls entry (baseline-*), and the falsifier is the section 11 falsification cell.
+  # All rows are status registry-only: they run as scripts/mot_*.py into runs/mot/, not through
+  # devsys.experiments.REGISTRY. Laptop-runnable rows also carry a configs/experiment yaml.
+
+  - id: mot_mt1_router_vs_best
+    name: router_beats_single_best_mode
+    kind: experiment
+    series: MT
+    question: "does a per-episode router over {reactive, planner, sparse} beat the best single mode at matched compute"
+    mechanism: "scalar-difficulty selector cheaper than the cheapest mode dispatches one mode per episode; tuned single-mode baselines at matched compute"
+    null_hypothesis: "routed density equals or trails its best constituent mode at matched compute, or the gap sits inside the seed spread"
+    falsifier: "density delta < seed spread at matched compute"
+    metrics: [capability_density, oracle_router_gap]
+    controls: [baseline-best-single-mode-matched-compute, matched-compute, seed-stability, tuned-single-mode-baseline]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "MoT core thesis; gated by the PR1 error-disjointness verdict (runs/pre_studio/pr1_*.json); real answer blocked on DR1"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_mt2_routing_vs_ensemble
+    name: routing_beats_uniform_ensemble
+    kind: experiment
+    series: MT
+    question: "does learned/measured routing beat an equal-weight blend of the same modes at matched total compute"
+    mechanism: "same modes; arms differ only in router vs fixed uniform blend at matched total FLOPs"
+    null_hypothesis: "equal-weight blend matches the routed system's density at matched total compute; the router adds nothing over averaging"
+    falsifier: "router density <= uniform-blend density"
+    metrics: [capability_density_matched_total_flops]
+    controls: [baseline-uniform-blend, matched-total-flops]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "isolates the coordinator from averaging; PR1-gated like mot_mt1"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_mt3_hetero_vs_homo
+    name: heterogeneous_beats_homogeneous_moe
+    kind: experiment
+    series: MT
+    question: "does a mixture of qualitatively different modes beat k copies of the best mode at equal params and FLOPs"
+    mechanism: "two shells at identical budget, heterogeneous vs k-copy homogeneous MoE, routed identically"
+    null_hypothesis: "homogeneous k-copy MoE matches the heterogeneous mixture at equal param/FLOP; diversity adds nothing beyond generic mixture capacity"
+    falsifier: "hetero density <= homo density at matched budget"
+    metrics: [capability_density_matched_params_and_flops]
+    controls: [baseline-k-copy-homogeneous-moe, matched-params-and-flops]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "diversity-is-load-bearing arm of the MT triad; PR1-gated"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_mt4_reasoning_router
+    name: router_over_reasoning_primitives
+    kind: experiment
+    series: MT
+    question: "does a learned router over {fixed-N, adaptive-halt, beam, memory, plan, verify} beat the single best strategy at matched expected compute"
+    mechanism: "softmax router head selects a primitive per sample; matched_within enforces equal mean FLOPs; shuffled-router control"
+    null_hypothesis: "at matched mean FLOPs the router ties or loses to the single best fixed mode; any win is bought compute or vanishes under seed sweep"
+    falsifier: "router mean-FLOP-matched delta <= 0 or sign-flips"
+    metrics: [accuracy_at_matched_mean_flops, per_mode_selection_entropy]
+    controls: [baseline-best-single-fixed-strategy, matched-mean-flops, shuffled-router-selection, seed-sweep]
+    gates: [compute]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "the synthesis test; HIGH dependency risk on MT5-MT8 producing genuinely distinct strategies"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_mt5_adaptive_halting
+    name: adaptive_halting_vs_fixed_depth
+    kind: experiment
+    series: MT
+    question: "does per-sample adaptive halting beat fixed-N refinement at equal average FLOPs by allocating depth to hard inputs"
+    mechanism: "IterativeRefiner halt path allocates depth per input; fixed-depth control built at the adaptive mean via depth_for_matched_flops"
+    null_hypothesis: "at equal average FLOPs, adaptive halting ties fixed-depth: no exploitable hardness heterogeneity, or the halt head collapses to a constant"
+    falsifier: "adaptive AUC <= fixed-depth at equal mean FLOPs, or halt collapses to constant N"
+    metrics: [accuracy_vs_average_flop_frontier, halting_entropy]
+    controls: [baseline-fixed-n-refinement, matched-average-flops, difficulty-calibration, shuffled-difficulty]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "the only honest iteration-beats-depth framing; halting entropy near zero is an automatic null (appendix threshold, matched mean FLOPs within tol 0.10)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_mt6_confidence_stop
+    name: confidence_stopping_vs_free_early_exit
+    kind: experiment
+    series: MT
+    question: "does a trained halt head beat a free update-norm early-exit rule at matched mean FLOPs"
+    mechanism: "learned halt head vs a free update-norm threshold tuned to the same mean steps"
+    null_hypothesis: "the trained halt head ties the free update-norm rule; confidence is just the latent ceasing to move"
+    falsifier: "trained-halt <= free-rule at matched FLOPs"
+    metrics: [accuracy_at_matched_mean_flops, halt_vs_correctness_auroc]
+    controls: [baseline-free-update-norm-rule, matched-mean-flops, shuffled-halt-labels]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: "companion to mot_mt5; separates a learned stop signal from the free byproduct"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_mt7_beam_search
+    name: beam_tree_search_vs_greedy_refinement
+    kind: experiment
+    series: MT
+    question: "do K scored latent trajectories plus pruning beat greedy single-chain refinement at matched total FLOPs"
+    mechanism: "Verifier scores branches; pruned branches counted in FLOPs; deeper greedy chain at the same total budget"
+    null_hypothesis: "at matched total FLOPs, search ties a deeper greedy chain because the scorer cannot outrank the refiner's own step"
+    falsifier: "search <= matched greedy depth"
+    metrics: [accuracy_at_matched_total_flops]
+    controls: [baseline-deeper-greedy-chain, matched-total-flops-including-pruned-work, random-branch-scorer, oracle-beam-upper-bound]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "needs a verifier that outranks the refiner (DR9); matched on TOTAL FLOPs including discarded work"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_mt8_latent_debate
+    name: latent_debate_vs_single_module
+    kind: experiment
+    series: MT
+    question: "do two seeded modules critiquing via a referee beat one module and a plain ensemble at matched total FLOPs"
+    mechanism: "referee arbitrates iterative critiques between seeded modules; plain-ensemble and self-debate arms; seed-permuted modules"
+    null_hypothesis: "debate ties the single matched module AND ties a plain ensemble; structured exchange is an unrolled ensemble/MoE"
+    falsifier: "debate <= max(single, ensemble)"
+    metrics: [error_at_matched_total_flops]
+    controls: [baseline-single-module-plus-plain-ensemble, matched-total-flops, seed-permuted-modules, self-debate-arm]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "extends the ex17 unrolled-ensemble negative; needs decorrelated seeded modules (PR1 precondition)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr1_video_cache
+    name: real_bound_attribute_video_cache
+    kind: experiment
+    series: DR
+    question: "does caching real non-additively bound video through the frozen encoder yield the first non-ceiling, non-additive test bed"
+    mechanism: "frozen V-JEPA under no_grad emits dense tokens plus pooled vectors for real clips with bound attributes"
+    null_hypothesis: "even on real video the pooled and dense latents ceiling at 1.0 on held-out-combination decode (D3 says still trivially separable), so no compositional mode scores above the random-encoder floor"
+    falsifier: "held-out-combo decode ceilings at 1.0 for real AND random-encoder"
+    metrics: [held_out_combo_decode, d3_certificate, ceiling_check]
+    controls: [baseline-none-prerequisite, d3-difficulty-calibration, random-encoder-floor]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "DECISIVE ENABLER; fork shortlist #1; unblocks DR3/DR4/DR7, CM1, CM3 and the compositional modes"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr2_sparse_real
+    name: sparse_head_forgetting_on_real_latents
+    kind: experiment
+    series: DR
+    question: "do e7 sparse/kWTA/MoE heads halve forgetting vs param-matched dense on REAL latents with a significance test"
+    mechanism: "ContextGating/kWTA/MoE vs param-matched dense over a domain-incremental real-latent stream; matched activation-sparsity dense arm"
+    null_hypothesis: "on real latents with a D3 certificate and a paired significance test, sparse ties param-matched dense (and ties a dense head with matched activation-sparsity penalty); the synthetic win was cluster separability"
+    falsifier: "delta collapses into the 30-run seed spread or is fully explained by substrate"
+    metrics: [backward_transfer, forgetting_area, paired_significance]
+    controls: [baseline-param-matched-dense, matched-activation-sparsity-dense, d3-regime-calibration, matched-compute]
+    gates: [linear_probe, compute]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "cross-referenced as PR3 (one experiment); laptop 528K-cache pilot is mot_dr2 in configs/experiment; frozen_random VALID here (trained-shell dynamics)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr3_latent_scratchpad
+    name: latent_scratchpad_vs_residual_stream
+    kind: experiment
+    series: DR
+    question: "does an addressable slot memory beat residual-only refinement when working-memory load exceeds residual width"
+    mechanism: "K-slot attention memory the refiner reads/writes over dense per-token latents vs residual-only at matched compute"
+    null_hypothesis: "scratchpad ties residual-only at all memory loads: the pooled frozen latent already discarded the detail external memory would store (a substrate bound)"
+    falsifier: "scratchpad delta < seed spread at all loads"
+    metrics: [accuracy_vs_memory_load_at_matched_compute]
+    controls: [baseline-residual-only-refiner, matched-compute, dense-token-control]
+    gates: [compute]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "most likely to expose a substrate bound; blocked on DR1 dense tokens plus a WM-heavy task"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr4_causal_intervention
+    name: counterfactual_causal_latent_intervention
+    kind: experiment
+    series: DR
+    question: "do do-interventions on factor directions match true counterfactuals better than a correlational predictor, with low leakage"
+    mechanism: "identified factor directions perturbed, rollout compared to the true counterfactual clip; cross-factor leakage audit; random-init-ViT control"
+    null_hypothesis: "intervened rollouts do not beat the correlational baseline and single-factor interventions leak into other factors: the frozen latent entangles factors"
+    falsifier: "intervened <= correlational, or leakage high"
+    metrics: [counterfactual_match_error, cross_factor_leakage]
+    controls: [baseline-correlational-predictor, random-init-vit, cross-factor-leakage-audit]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "entanglement probe; blocked on DR1 factor-annotated clips"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 10
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr5_cross_substrate_consistency
+    name: cross_substrate_reasoning_consistency
+    kind: experiment
+    series: DR
+    question: "does any surviving reasoning gain replicate on a second real encoder and beat random-init-ViT"
+    mechanism: "the same shell run on two real encoders plus random-init-ViT; cross-substrate convergence read"
+    null_hypothesis: "the reasoning gain is identical across all substrates (a shell/task property, not substrate-carried) OR vanishes on a second real encoder (fragile)"
+    falsifier: "gain identical across substrates, or gone on encoder #2"
+    metrics: [per_substrate_gain, cross_substrate_correlation]
+    controls: [baseline-best-single-substrate-gain, random-init-vit, cross-substrate-convergence]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "universality verdict; needs a surviving gain plus the dinov2-small cache (WP-01 staged)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr6_rollout_planning
+    name: internal_simulation_rollout_planning
+    kind: experiment
+    series: DR
+    question: "does rollout on the forward model beat reactive plus action-shuffle at matched compute (ex2 extension)"
+    mechanism: "action-conditioned Predictor rollout, act on the imagined endpoint; action-shuffle control; rollout_gate"
+    null_hypothesis: "planning ties reactive at matched compute OR ties action-shuffle: rollouts carry no usable future info beyond one step"
+    falsifier: "planning <= max(reactive, action-shuffle)"
+    metrics: [planning_success_on_true_dynamics]
+    controls: [baseline-flat-reactive-head-plus-matched-depth, action-shuffle, matched-compute, rollout-gate]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "extends the surviving ex2 positive to cached real dynamics"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr7_latent_cot
+    name: latent_chain_of_thought
+    kind: experiment
+    series: DR
+    question: "does a supervised intermediate-latent trace beat one-shot at matched compute, with shuffling hurting"
+    mechanism: "Predictor autoregressive latent rollout with supervised intermediates; chain-shuffle control at matched compute"
+    null_hypothesis: "the latent chain ties one-shot at matched compute and shuffling does not hurt: the chain is a bag of extra layers (ex17 generalized)"
+    falsifier: "chain <= one-shot at matched compute, shuffle harmless"
+    metrics: [final_answer_accuracy, shuffle_delta]
+    controls: [baseline-matched-compute-one-shot, chain-shuffle, matched-compute]
+    gates: [compute]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "blocked on a DR1 multi-step relational task"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr8_fixed_point
+    name: recurrent_refinement_fixed_point_vs_drift
+    kind: experiment
+    series: DR
+    question: "does the weight-tied refiner converge to an input-dependent attractor, and is the property V-JEPA-specific"
+    mechanism: "IterativeRefiner.unroll(K=64) decay curves, past-horizon loss, matched-depth control, on real V-JEPA and random-init-ViT latents"
+    null_hypothesis: "update norms do not decay geometrically and unrolling past N worsens loss: no fixed point, it is unrolled depth (the n9/y1 result)"
+    falsifier: "no geometric decay; loss rises past N"
+    metrics: [update_norm_decay_curve, past_horizon_loss]
+    controls: [baseline-deeper-unrolled-net, random-init-vit, matched-depth]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: "decay on real AND random-init-ViT reads geometry, not substrate; typing arm reruns on the randominit cache (WP-11)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr9_verify_revise
+    name: verify_revise_under_corrected_controls
+    kind: experiment
+    series: DR
+    question: "does a trained verifier beat single-shot, a shuffled verifier, and the free update-norm signal at matched compute"
+    mechanism: "Verifier scores the refined latent and triggers a revise; shuffled/untrained verifier and free update-norm arms at matched compute on a D3 regime"
+    null_hypothesis: "verify-revise ties single-shot at matched compute and the trained verifier ties the shuffled one: no correction-relevant signal (the ex18 result)"
+    falsifier: "verify-revise <= single-shot; trained == shuffled"
+    metrics: [accuracy_at_matched_compute, trained_vs_shuffled_delta]
+    controls: [baseline-single-shot-plus-free-update-norm, shuffled-verifier, matched-compute, d3-calibration]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: "retries ex18 with corrected controls; feeds the MT7 scorer"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr10_retrieve_reason
+    name: memory_first_retrieve_then_reason
+    kind: experiment
+    series: DR
+    question: "does kNN-retrieving cached latents and conditioning the refiner beat from-scratch and random retrieval"
+    mechanism: "ReplayBuffer.retrieve feeds IterativeRefiner; random-retrieval and shuffled-neighbor controls; retrieval FLOPs charged via knn_flops"
+    null_hypothesis: "retrieval ties from-scratch OR ties random retrieval: the frozen neighbor metric is not task-aligned"
+    falsifier: "retrieval <= max(from-scratch, random-retrieval)"
+    metrics: [few_shot_accuracy, adaptation_speed]
+    controls: [baseline-from-scratch-reasoning, random-retrieval, matched-compute]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: "tests whether the frozen neighbor metric is task-aligned; retrieval compute counts like pruned search work"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr11_mc_rollouts
+    name: monte_carlo_latent_rollouts
+    kind: experiment
+    series: DR
+    question: "does averaging many sampled rollouts beat one at matched FLOPs without chasing aleatoric noise"
+    mechanism: "Predictor stochastic rollouts averaged vs one matched longer deterministic rollout; noisy-TV guard; rollout diversity statistic"
+    null_hypothesis: "MC ties the matched single longer rollout (samples collapse to the mean) OR wins only by exploiting irreducible aleatoric noise (fails noisy-TV)"
+    falsifier: "MC <= matched single rollout, or fails noisy-TV"
+    metrics: [accuracy_at_matched_total_flops, noisy_tv_pass]
+    controls: [baseline-single-longer-rollout, matched-total-flops, noisy-tv, shuffled-outcomes]
+    gates: [noisy_tv, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "needs a genuinely stochastic task; guard failure overrides any primary win"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr12_disagreement
+    name: disagreement_as_uncertainty
+    kind: experiment
+    series: DR
+    question: "does inter-module disagreement predict error better than a single head's confidence, and does gating on it beat uniform while passing noisy-TV"
+    mechanism: "multiple seeded shells; disagreement scalar gates compute; disagreement-shuffled and uniform-compute arms; reuses the PR1 correctness matrix"
+    null_hypothesis: "disagreement ties single-head confidence AND gating on it ties uniform compute, OR it chases irreducible noise (fails noisy-TV, the e4 pattern)"
+    falsifier: "disagreement AUROC <= confidence AUROC, or fails noisy-TV"
+    metrics: [error_prediction_auroc, adaptation_per_update, noisy_tv_pass]
+    controls: [baseline-single-head-confidence-plus-uniform-compute, noisy-tv, disagreement-shuffled]
+    gates: [noisy_tv, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "needs decorrelated seeded shells (PR1); a PR1 null demotes this to run-and-report-against-context"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr13_horizon_limit
+    name: planning_horizon_limit
+    kind: experiment
+    series: DR
+    question: "does rollout error compound to a crossover horizon beyond which planning stops beating reactive"
+    mechanism: "Predictor horizon sweep, reactive baseline at each horizon, shuffled-action control"
+    null_hypothesis: "planning never beats reactive at any horizon (contradicts ex2) OR beats it only at horizon 1 (not really planning)"
+    falsifier: "no horizon where planning > reactive, or only H=1"
+    metrics: [accuracy_vs_horizon_crossover]
+    controls: [baseline-reactive-at-each-horizon, rollout-gate, matched-compute, shuffled-actions]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: "bounds internal simulation for the frozen substrate"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr14_corruption
+    name: reasoning_under_corruption_compression
+    kind: experiment
+    series: DR
+    question: "do reasoning primitives degrade with a flatter accuracy-vs-corruption slope than a matched single-pass baseline under VQ/4-bit/noise/dropped-channel"
+    mechanism: "degrade cached latents (VQ, 4-bit quantize_dequantize, noise, dropped-channel), run each surviving primitive and the matched single-pass baseline under identical corruption, compare slopes"
+    null_hypothesis: "reasoning and single-pass degrade at the same rate under every corruption: iteration only processes what survives"
+    falsifier: "equal slopes"
+    metrics: [accuracy_vs_corruption_slope]
+    controls: [baseline-matched-single-pass, noisy-tv, quantize-robustness-controls]
+    gates: [noisy_tv, compute]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "laptop runs the VQ/4-bit/noise arms (WP-13); the dropped-channel arm needs dense latents (Studio)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_dr15_modality_general
+    name: modality_general_reasoning
+    kind: experiment
+    series: DR
+    question: "is a surviving primitive's benefit present on video vs relational vs language encoders, isolating visual-reasoning specificity"
+    mechanism: "the same shell on three encoder families (video, relational, language) with a random-init-ViT control per modality"
+    null_hypothesis: "the gain is identical across all three modalities (a shell/task property) OR present only on the most separable modality (an artifact)"
+    falsifier: "identical across modalities, or single-modality only"
+    metrics: [per_modality_gain]
+    controls: [baseline-best-modality-shell, cross-substrate-convergence, random-init-vit-per-modality]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "needs three encoder families cached (qwen05b and wav2vec2 staged by WP-01)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_pr1_error_disjointness
+    name: mode_error_disjointness_router_precondition
+    kind: experiment
+    series: PR
+    question: "are per-sample errors across modes decorrelated enough that an oracle router beats the single best mode"
+    mechanism: "run reactive/refine/plan/verify heads, compute per-sample loss vectors, correlation plus oracle-selection upper bound; no new module"
+    null_hypothesis: "per-sample errors are highly correlated (oracle-router gain over single-best is within seed spread), so no router can help and MT1/MT4 are not worth building"
+    falsifier: "oracle gain over best mode < seed spread"
+    metrics: [per_mode_loss_correlation, oracle_selection_upper_bound]
+    controls: [baseline-single-best-mode, seed-spread]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: "IN FLIGHT as scripts/pr1_mode_error_disjointness.py (separate workflow, do not rebuild); verdict GREEN (het oracle gain 0.155 vs hom 0.118 + SD 0.014) gates the MT rows"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1}
+
+  - id: mot_pr2_plasticity_substrates
+    name: plasticity_advantage_real_vs_random_encoder
+    kind: experiment
+    series: PR
+    question: "does the plastic shell learn faster and forget less on the special substrate than on random-init-ViT features"
+    mechanism: "identical plastic shell plus continual stream on real V-JEPA vs random-init-ViT features at matched 256px"
+    null_hypothesis: "shell adaptation speed and BWT on real V-JEPA are within the seed spread of the same shell on random-init-ViT (matched resolution): the substrate's structure does not ease trained-shell learning dynamics"
+    falsifier: "real-vs-random-encoder adaptation/BWT delta < seed spread"
+    metrics: [adaptation_speed, backward_transfer]
+    controls: [baseline-same-shell-on-random-init-vit, matched-resolution, matched-shell, seed-sweep]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "DECISIVE learning-eases fork test (shortlist #7); blocked on the random-init-ViT feature cache; never concurrent with another ViT job"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_pr3_modular_real
+    name: modular_plasticity_on_real_latents
+    kind: experiment
+    series: PR
+    question: "do sparse/modular heads halve forgetting vs param-matched dense on real cached latents, significance-tested"
+    mechanism: "cross-reference stub: this is mot_dr2_sparse_real (one experiment listed under both programs per the dedup ledger)"
+    null_hypothesis: "on real latents with a D3 certificate and a paired significance test, sparse ties param-matched dense (and a matched activation-sparsity dense head): synthetic advantage was cluster separability"
+    falsifier: "delta collapses into 30-run spread"
+    metrics: [backward_transfer, forgetting_area, paired_significance]
+    controls: [baseline-param-matched-dense, matched-activation-sparsity-dense, d3-calibration, matched-compute]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "duplicate of mot_dr2_sparse_real, kept so the plasticity program reads complete; runs exactly once"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_pr4_epistemic_gate
+    name: epistemic_gate_vs_noisy_tv
+    kind: experiment
+    series: PR
+    question: "does ensemble-disagreement uncertainty steer plasticity toward reducible structure and ignore aleatoric noise (where e4 failed 30/30)"
+    mechanism: "small ensemble sources disagreement feeding Neuromodulation.gate plus PlasticityController.lr_scale; scored on reducible-vs-noise LR-integral allocation"
+    null_hypothesis: "on the noisy-TV split the disagreement gate allocates no more LR-integral (or query budget) to the reducible partition than an ungated arm: replicates the e4 epistemic/aleatoric conflation"
+    falsifier: "reducible-vs-noise LR-integral allocation delta <= 0"
+    metrics: [reducible_vs_noise_lr_integral, noisy_tv_pass]
+    controls: [baseline-ungated-plasticity, noisy-tv, curriculum-permutation, shuffled-disagreement]
+    gates: [noisy_tv]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "retries the strongest corpus negative (e4) with a distributional signal"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_pr5_content_gated_cp
+    name: content_gated_critical_period
+    kind: experiment
+    series: PR
+    question: "does a surprise-triggered plasticity-reopening schedule beat a clock-gated schedule at matched LR-integral (where e3/d6 lost)"
+    mechanism: "PlasticityController hard/soft/learned plus surprise-triggered reopening vs cosine decay and tuned constant LR at MATCHED LR-integral (LRIntegralAccumulator.matched)"
+    null_hypothesis: "at matched LR-integral and shuffled task order, content-gated shows no retention or reopening advantage over cosine decay / tuned constant LR: pure LR annealing (the e3/d6 negative)"
+    falsifier: "retention/reopening delta < seed spread at matched LR-integral"
+    metrics: [backward_transfer_early, forward_transfer_novel, matched_lr_integral]
+    controls: [baseline-cosine-decay-and-tuned-constant-lr, matched-lr-integral, shuffled-task-order, seed-sign-flips]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "doctrinal question 1 (moldability); the matched-LR-integral precondition is enforced in code"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_pr6_sleep_consolidation
+    name: offline_sleep_consolidation
+    kind: experiment
+    series: PR
+    question: "does wake/sleep phase separation beat interleaved learning at matched total gradient steps"
+    mechanism: "ReplayBuffer wake/sleep loop (encode-to-buffer, then replay-only steps plus EWC refresh) vs interleaved replay at matched total gradient steps"
+    null_hypothesis: "offline replay-only ties online replay at matched total gradient steps: any sleep benefit is added compute, not phase separation"
+    falsifier: "sleep delta <= 0 at matched steps"
+    metrics: [backward_transfer, frontier_auc]
+    controls: [baseline-interleaved-online-replay, matched-total-gradient-steps]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "extends b6/ex1 with the matched-steps control the corpus negatives demand"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_pr7_fast_slow
+    name: fast_slow_two_timescale_weights
+    kind: experiment
+    series: PR
+    question: "does a Hebbian fast-weight adapter plus slow SGD head adapt faster within task at matched capacity and retain after decay"
+    mechanism: "WorkingMemory-style Hebbian outer-product fast store on top of a slow head vs slow-only and a matched-size replay buffer at matched capacity"
+    null_hypothesis: "fast weights tie a slow-only head (and a matched-size replay buffer) on within-task adaptation: the fast store is redundant capacity or a small cache"
+    falsifier: "fast-slow delta <= 0 at matched capacity"
+    metrics: [within_task_adaptation_curve, post_decay_retention]
+    controls: [baseline-slow-only-head, matched-capacity, matched-size-buffer]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "supplies a System-1 mode to the MoT bank; capacity matched via capmatch"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_pr8_retrieval_head
+    name: memory_augmented_retrieval_head
+    kind: experiment
+    series: PR
+    question: "does a retrieval-conditioned head over the frozen-latent KV buffer beat plain kNN AND a matched-param parametric head on few-shot"
+    mechanism: "ReplayBuffer.retrieve conditioning a head; must beat BOTH plain kNN and the matched-param parametric head; random-key retrieval control"
+    null_hypothesis: "retrieval-conditioned head ties plain kNN (parametric part adds nothing) OR ties the no-memory parametric head (memory adds nothing), at matched capacity"
+    falsifier: "head ties kNN or ties parametric"
+    metrics: [few_shot_accuracy, adaptation_speed]
+    controls: [baseline-knn-plus-parametric-head, matched-capacity, random-key-retrieval]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: "frozen-encoder keys never go stale (the doctrinal free lunch under test)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_ws1_agreement_vs_confidence
+    name: agreement_vs_confidence_central_gate
+    kind: experiment
+    series: WS
+    question: "does cross-substrate agreement (V-JEPA + DINOv2) predict correctness better than the best single substrate's confidence"
+    mechanism: "two encoders' pooled latents; agreement scalar vs single-source calibrated confidence as correctness predictors; all five preregistered guards"
+    null_hypothesis: "agreement AUROC minus single-substrate-confidence AUROC <= 0 within seed CI; OR the win fails the invertible-remap vacuity guard (B is a linear remap of A), the shuffled-cross-source control, or noisy-TV"
+    falsifier: "agreement AUROC <= confidence AUROC in CI, or fails remap/shuffle/noisy-TV"
+    metrics: [correct_incorrect_auroc, risk_coverage_curve]
+    controls: [baseline-best-single-substrate-confidence, invertible-remap-guard, shuffled-cross-source, noisy-tv, seed-ci]
+    gates: [noisy_tv, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "gates WS2-WS5; a positive argues two frozen encoders beat one (atlas branch reweight)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_ws2_fusion_tournament
+    name: matched_capacity_fusion_tournament
+    kind: experiment
+    series: WS
+    question: "at matched params/FLOPs does any structured fusion beat the unstructured concat-MLP floor"
+    mechanism: "concat-MLP floor, learned-linear, cross-attention, GWT broadcast at strictly matched params and FLOPs via capmatch"
+    null_hypothesis: "at matched capacity every structured fusion ties the concat-MLP on held-out accuracy and NLL: structure buys nothing beyond param count"
+    falsifier: "every structured arm ties concat-MLP"
+    metrics: [held_out_accuracy, nll_at_matched_capacity]
+    controls: [baseline-concat-mlp-floor, matched-params-and-flops]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "depends on the WS1 substrate cache (WP-01 DINOv2-S)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_ws3_arbitration
+    name: uncertainty_vs_disagreement_arbitration
+    kind: experiment
+    series: WS
+    question: "do precision-weighted fusion and disagreement-driven allocation each beat equal-weight averaging, capacity-neutral"
+    mechanism: "fixed Bayesian inverse-variance rule plus a disagreement router, essentially zero added params; runs ONLY on a positive WS1"
+    null_hypothesis: "precision weights are uninformative so inverse-variance ties equal-weight averaging, and disagreement is uncorrelated with correctness so disagreement routing ties random routing at matched rate; OR disagreement fires on aleatoric noise (fails noisy-TV)"
+    falsifier: "inverse-variance ties averaging AND disagreement ties random routing"
+    metrics: [speed_accuracy_frontier, auroc]
+    controls: [baseline-equal-weight-averaging-plus-concat-mlp, noisy-tv, disagreement-shuffled-router, single-best-source]
+    gates: [noisy_tv]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "gated on a positive WS1 (else logged SKIPPED with the WS1 verdict cited)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_ws4_bandwidth_sweep
+    name: broadcast_bottleneck_bandwidth_sweep
+    kind: experiment
+    series: WS
+    question: "does a narrow shared GWT slot with broadcast beat matched-capacity fusion AND generic regularization at fixed capacity"
+    mechanism: "workspace slot width swept at FIXED total params (fixed_total_params_sweep) vs dropout/weight-decay tuned to the same effective bandwidth"
+    null_hypothesis: "the bottleneck's benefit is indistinguishable from generic regularization at matched capacity, and broadcast-back adds nothing over write-only: narrow-vs-wide is just a capacity effect"
+    falsifier: "bottleneck ties regularization at matched capacity"
+    metrics: [generalization_vs_slot_width_at_fixed_capacity]
+    controls: [baseline-unbottlenecked-matched-capacity-fusion, matched-capacity, tuned-regularization-at-same-bandwidth]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "the preregistered regularization null (corpus vol2 line 975)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_ws5_router_slot
+    name: modular_router_plus_shared_slot
+    kind: experiment
+    series: WS
+    question: "does a shared broadcast slot on top of e7 sparse routing yield a BWT advantage beyond routing alone, slot-ablated"
+    mechanism: "e7 kWTA/MoE routing plus a shared slot; the slot is ablated at fixed routing and capacity on the real-latent stream"
+    null_hypothesis: "the shared slot adds nothing over sparse routing alone: slot-ablation ties the full model on BWT and accuracy at matched capacity; sparse routing does all the work"
+    falsifier: "slot-ablation ties full model"
+    metrics: [backward_transfer, accuracy_at_matched_capacity]
+    controls: [baseline-slot-ablated-sparse-routing, slot-ablation, matched-params]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "extends mot_dr2_sparse_real; laptop pilot on the 528K cache (WP-10); frozen_random VALID (trained-shell metric)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_at1_nuisance_grid
+    name: cross_substrate_nuisance_grid
+    kind: experiment
+    series: AT
+    question: "does the 0.379-vs-0.069 nuisance regime across V-JEPA/DINOv2/single-frame-V-JEPA vs each's random-init control classify the substrate signal as universal, modality-specific, architecture-specific, or artifact"
+    mechanism: "same nuisance clips through each substrate plus its random-init column; nine-verdict decision order applied top-down (random-control-artifact first)"
+    null_hypothesis: "every substrate's decodability delta over its matched-resolution random-init control is within seed spread (random-control-artifact): pretraining bought no nuisance invariance beyond architecture and resolution in any substrate"
+    falsifier: "all deltas < seed spread over random-init"
+    metrics: [per_substrate_decodability_delta_over_random_init]
+    controls: [baseline-random-init-same-arch-per-substrate, matched-resolution, seed-spread]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "DECISIVE (shortlist #4): types the +0.31 signal that reopened the fork; laptop grid pilot is WP-14"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_at2_mode_substrate_dep
+    name: mode_substrate_dependence
+    kind: experiment
+    series: AT
+    question: "does at least one thinking mode's advantage survive the non-vacuous control (real V-JEPA beats random-init-ViT at matched 256px on nuisance content)"
+    mechanism: "run a winning mode on real vs random-init-ViT features at matched resolution"
+    null_hypothesis: "every mode's advantage is reproduced by random-init-ViT (or random-encoder), so no mode depends on the pretrained substrate rather than architecture/resolution or generic separability"
+    falsifier: "every mode gain reproduced by random-init-ViT"
+    metrics: [mode_gain_real_vs_random_init]
+    controls: [baseline-random-init-vit-at-256px, matched-resolution]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "ties a mode's gain to pretraining; needs a mode with a candidate gain; OOM caution with ViT jobs"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_at3_time_axis
+    name: time_axis_ablation
+    kind: experiment
+    series: AT
+    question: "do some factors decode from full-clip V-JEPA but at chance from single-frame V-JEPA (token/frame matched), isolating the temporal currency"
+    mechanism: "full-clip vs single-frame V-JEPA encode with token/frame count matched so a time advantage is not a raw-info advantage"
+    null_hypothesis: "with token/frame count equalized, full-clip and single-frame decodability are within seed spread for every factor: no factor genuinely requires the temporal axis"
+    falsifier: "full-clip == single-frame for all factors"
+    metrics: [full_clip_minus_single_frame_decode]
+    controls: [baseline-single-frame-matched-tokens, token-frame-count-matched]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: "needs the WP-11 single-frame encode pass (Q2.2)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_at4_programmatic_ceiling
+    name: programmatic_ceiling_reference
+    kind: experiment
+    series: AT
+    question: "does a handcrafted-descriptor substrate on the same atlas factors provide a ceiling so a perceptual tie reads as substrate-bounded, not test-too-easy"
+    mechanism: "handcrafted (HOG/hue-hist/flow) and ground-truth scene-program columns scored on the same factors as the perceptual caches (WP-01 featurizers)"
+    null_hypothesis: "the programmatic reference does not exceed the perceptual substrates on any atlas factor (trivially separable everywhere), so no perceptual tie can be attributed to a substrate bound"
+    falsifier: "programmatic never exceeds perceptual"
+    metrics: [programmatic_vs_perceptual_per_factor]
+    controls: [baseline-perceptual-substrates, difficulty-calibration, programmatic-upper-bound]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "DECISIVE (shortlist #5): the only route to reading a tie as a real substrate bound; qualifies every later tie"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_at5_probe_class_sweep
+    name: probe_class_sweep
+    kind: experiment
+    series: AT
+    question: "does running every atlas cell under linear/MLP/nonlinear-gain probes surface probe-specific verdicts before any cell is trusted"
+    mechanism: "linear vs MLP vs nonlinear-gain probes per existing atlas cell"
+    null_hypothesis: "every cell's verdict is invariant to probe class, so probe choice never changes decodability and probe-specific is an empty verdict"
+    falsifier: "verdicts invariant to probe class"
+    metrics: [per_cell_verdict_across_probe_classes]
+    controls: [baseline-cross-probe-comparison]
+    gates: [linear_probe]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: "methodological guard on every atlas verdict (the failure the frozen-random census caught)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_al1_uncertainty_router
+    name: uncertainty_router_with_noisy_tv_guard
+    kind: experiment
+    series: AL
+    question: "does an uncertainty signal used ONLY as a router input (never a LR gate) beat random episode selection on adaptation-per-update while passing noisy-TV"
+    mechanism: "measured uncertainty scalar feeds a router (explicitly NOT an LR gate, e4 refuted that 30/30); random-selection arm; curriculum permutation"
+    null_hypothesis: "the uncertainty router matches random episode selection on adaptation-per-update, OR it chases irreducible aleatoric noise (fails the noisy-TV guard), replicating the e4 negative in router clothing"
+    falsifier: "router == random selection, or fails noisy-TV"
+    metrics: [adaptation_per_update, noisy_tv_pass]
+    controls: [baseline-random-episode-selection, noisy-tv, curriculum-permutation]
+    gates: [noisy_tv]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "the clean mechanism split: uncertainty as router input vs the refuted LR gate"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_al2_shared_latent_alignment
+    name: shared_latent_alignment_vs_random_map_floor
+    kind: experiment
+    series: AL
+    question: "does a thin linear/low-rank map between substrate pairs predict one from another above a random-map-of-equal-rank floor only when they share genuine structure"
+    mechanism: "learned map vs random-map-of-equal-rank per substrate pair on shared clips"
+    null_hypothesis: "a random map of equal rank predicts the target as well as the learned map (alignment-artifact): any apparent cross-substrate agreement is the map's capacity, not shared structure"
+    falsifier: "learned map == random-map-of-equal-rank"
+    metrics: [prediction_r2_over_random_map_floor]
+    controls: [baseline-random-map-of-equal-rank]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "separates real cross-currency exchange from map-induced agreement; laptop pilot is WP-14"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_al3_audio_video_alignment
+    name: audio_video_temporal_alignment
+    kind: experiment
+    series: AL
+    question: "do audio-SSL and V-JEPA event boundaries co-locate above a shuffled-time floor, evidence temporal-predictive invariance is substrate-universal across modality"
+    mechanism: "event-boundary co-location vs a shuffled-time permutation on shared audio-video clips"
+    null_hypothesis: "audio-SSL and V-JEPA event boundaries co-locate no better than under a shuffled-time permutation: temporal-predictive structure is modality-specific, not universal"
+    falsifier: "co-location == shuffled-time"
+    metrics: [boundary_co_location_over_shuffled_floor]
+    controls: [baseline-shuffled-time]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "needs an audio SSL encoder plus aligned audio-video clips (wav2vec2 staged by WP-01)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm1_compositional_gate
+    name: compositional_bound_on_real_video_c1_gate
+    kind: experiment
+    series: CM
+    question: "does frozen V-JEPA factor shape from color on held-out combos off-ceiling, beating random-init-ViT by >+0.05 on a D3 regime"
+    mechanism: "held-out-combination decode on real bound-attribute video, real V-JEPA vs random-init same-arch ViT at matched resolution"
+    null_hypothesis: "held-out-combination accuracy for real V-JEPA ties random-init same-arch ViT (delta < +0.05) on a D3-certified separable regime: the substrate memorizes conjunctions rather than factoring them"
+    falsifier: "real vs random-init-ViT delta < +0.05"
+    metrics: [held_out_combo_accuracy, d3_certificate, off_ceiling_delta]
+    controls: [baseline-random-init-same-arch-vit, d3-calibration]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "DECISIVE keep-frozen gate (shortlist #2); blocked on DR1; the laptop compositional_under_nuisance run is descriptive only and must not close it"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm2_atlas_gate
+    name: multi_substrate_atlas_gate
+    kind: experiment
+    series: CM
+    question: "does a failing gate clear on a different frozen substrate (bound is objective/arch-specific) or fail on all (universal)"
+    mechanism: "rerun the failing compositional/adaptation gate on every frozen atlas substrate with per-substrate random-init controls"
+    null_hypothesis: "all frozen substrates tie their own random-init controls on the failing gate (no substrate exceeds +0.15 off-ceiling where V-JEPA-L did not): no substrate swap helps"
+    falsifier: "no substrate exceeds +0.15 where V-JEPA-L did not"
+    metrics: [per_substrate_off_ceiling_delta_over_random_init]
+    controls: [baseline-best-frozen-atlas-substrate, per-substrate-random-init, difficulty-calibration]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "DECISIVE swap-vs-build decider (shortlist #3); runs only if CM1 fails"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm3_dense_vs_pooled
+    name: dense_vs_pooled_compositional
+    kind: experiment
+    series: CM
+    question: "do dense/coarse-grid latents clear the held-out gate where full mean-pool does not, isolating the bound to the pooling interface"
+    mechanism: "pooled vs 2x2/4x4 coarse-grid vs dense arms on the DR1 held-out-combination gate"
+    null_hypothesis: "dense and coarse-grid tie full mean-pool on held-out combos (delta < +0.1 off-ceiling on a D3 regime): the pooling interface is not the bound (single-factor pooling already refuted, orientation decodes at 1.0 pooled)"
+    falsifier: "dense/coarse vs pooled delta < +0.1"
+    metrics: [dense_coarse_vs_pooled_off_ceiling_delta]
+    controls: [baseline-full-mean-pool, d3-calibration, pooled-dense-coarse-arms]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "interface-vs-weights isolation; only if CM1 fails; laptop dense_vs_pooled probe was ceilinged (commit c6efc74)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm4_workspace_shell
+    name: workspace_shell_routing
+    kind: experiment
+    series: CM
+    question: "does a trained workspace routing shell beat param-matched dense AND matched-compute unrolled depth on BWT and planning, on real latents"
+    mechanism: "WorkspaceShell over frozen features vs a param-matched dense shell and matched-FLOP unrolled depth, across seeds"
+    null_hypothesis: "the workspace shell ties param-matched dense OR ties matched-compute unrolled depth on BWT and planning, or sign-flips across seeds: the win is capacity/depth, not routing"
+    falsifier: "ties dense OR unrolled depth, or sign-flips"
+    metrics: [backward_transfer, planning_gain, seed_sign_flips]
+    controls: [baseline-param-matched-dense-plus-unrolled-depth, matched-flop-unrolled-depth, seed-sweep]
+    gates: [compute]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "a shell win argues against needing a custom encoder; laptop 528K-cache pilot is WP-10; frozen_random VALID (trained-shell metric)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm5_studio_rejuvenation
+    name: studio_scale_rejuvenation_c3
+    kind: experiment
+    series: CM
+    question: "does rejuvenation at studio scale restore plasticity beyond frozen-random and matched compute, and does restoration require an adapting substrate"
+    mechanism: "ex15/b8 harness at dim 256 to low thousands over thousands of tasks; adapting-vs-frozen discriminating arm"
+    null_hypothesis: "plasticity loss never appears at reachable scale, OR rejuvenation ties doing-nothing, OR frozen-substrate restoration ties the adapting-substrate arm (no C3 signal)"
+    falsifier: "no loss at scale, or rejuv==nothing, or frozen==adapting"
+    metrics: [adaptation_speed_restoration_net_of_retention_cost]
+    controls: [baseline-do-nothing-plus-matched-compute, frozen-random, adapting-vs-frozen-arm]
+    gates: [compute]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "the C3 probe; if restoration needs an adapting substrate the frozen encoder is Q1-bounded"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm6_distilled_density
+    name: compressed_capability_density
+    kind: experiment
+    series: CM
+    question: "does a distilled ViT-S student retain the teacher's nuisance-invariance delta at ~10x fewer params, beating same-size random-init and non-distilled"
+    mechanism: "invariance-matching distillation from the teacher cache; same-size random-init and same-size non-distilled controls"
+    null_hypothesis: "a same-size random-init substrate OR a same-size student trained without the invariance-matching loss ties the distilled student on the nuisance-invariance delta: compression bought no capability density"
+    falsifier: "distilled ties random-init or non-distilled"
+    metrics: [invariance_per_parameter]
+    controls: [baseline-same-size-non-distilled-student, same-size-random-init]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "if density transfers, a small student can replace the frozen giant"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm7_min_objective_probe
+    name: minimum_objective_encoder_probe
+    kind: experiment
+    series: CM
+    question: "at tiny capacity, matched data, matched 256px, is the SSL objective a live lever (invariance beats mask, both beat random-init)"
+    mechanism: "1-5M encoders trained on the nuisance clips under mask vs invariance objectives vs random-init same-arch, all else matched"
+    null_hypothesis: "at matched tiny capacity, matched data, matched 256px, both custom objectives tie random-init same-arch AND tie each other; objective is not a lever at this scale and the +0.31 was scale/data/architecture/resolution. A tie is a strong negative closing the custom-encoder line"
+    falsifier: "both objectives tie random-init AND each other"
+    metrics: [nuisance_invariance_per_objective, held_out_combo_per_objective]
+    controls: [baseline-random-init-same-arch, d3-calibration, matched-capacity-data-resolution]
+    gates: [linear_probe]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: low
+    relation: "DECISIVE diagnostic (shortlist #6): the ONLY sanctioned custom-training pilot before a bounding result; never concurrent with a ViT job"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm8_custom_jepa_pilot
+    name: custom_jepa_factoring_pilot
+    kind: experiment
+    series: CM
+    question: "does a small custom JEPA with a bound-factor mask policy beat the best frozen atlas substrate on held-out factoring"
+    mechanism: "small custom JEPA (or frozen backbone plus trainable factoring adapter) with a mask policy targeting the bound factor, at matched shell compute"
+    null_hypothesis: "the custom-JEPA pilot ties both a random-init same-arch ViT and the best frozen atlas substrate on held-out combinations at matched compute: the custom objective bought nothing"
+    falsifier: "ties random-init AND best frozen substrate"
+    metrics: [held_out_factoring_off_ceiling]
+    controls: [baseline-best-frozen-atlas-substrate, random-init-same-arch, matched-compute]
+    gates: [linear_probe]
+    resource_tier: moonshot
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "the build-side decision (shortlist #9); gated behind CM1/CM2/CM7 plus DR1 and a wider box"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm9_slot_jepa_binding
+    name: object_centric_slot_jepa_binding
+    kind: experiment
+    series: CM
+    question: "does trainable slot-attention over frozen dense tokens beat dense-without-slots and an off-the-shelf slot model on multi-object binding"
+    mechanism: "slot-attention over frozen dense V-JEPA tokens; binding-specificity swap test at matched compute"
+    null_hypothesis: "dense tokens without slots tie the slotted model on multi-object held-out combinations, OR the binding-specificity swap shows non-target slots change too: slots add nothing over dense"
+    falsifier: "ties dense OR swap-test leaks"
+    metrics: [multi_object_binding, swap_test_specificity]
+    controls: [baseline-dense-without-slots, off-the-shelf-slot-model, swap-test, matched-compute]
+    gates: [linear_probe]
+    resource_tier: moonshot
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "slots-as-shell vs custom encoder; blocked on DR1 multi-object video plus a wider box"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm10_action_forward_model
+    name: action_conditioned_forward_model
+    kind: experiment
+    series: CM
+    question: "does a trainable action-conditioned model enable planning beating reactive, action-shuffle, unrolled depth, and frozen V-JEPA 2-AC"
+    mechanism: "action-conditioned forward model on frozen latents; planning vs the four controls at matched compute"
+    null_hypothesis: "action-shuffle ties the true-action forward model on planning success: the model ignores actions and is a plain video predictor"
+    falsifier: "action-shuffle ties true-action"
+    metrics: [planning_success_on_true_dynamics]
+    controls: [baseline-reactive-plus-unrolled-depth-plus-vjepa2ac, action-shuffle, matched-compute]
+    gates: [compute]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "blocked on an ENV ADAPTER (a real implementation gap), not compute"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 7
+    status: registry-only
+    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm11_developmental_plasticity
+    name: developmental_scheduled_plasticity
+    kind: experiment
+    series: CM
+    question: "does a scheduled-plasticity substrate show critical-window (d6 True), path-dependence (y4>0), and U-shape (d4 non-flat), seed-stable, beating flat-schedule"
+    mechanism: "small substrate/adapter trained with a scheduled-plasticity developmental curriculum vs a flat-schedule baseline at matched compute"
+    null_hypothesis: "a non-developmental substrate trained on identical data with a flat schedule ties the developmental one on every plasticity signature (window, path-dependence, U-shape): the development is cosmetic"
+    falsifier: "flat-schedule ties developmental on all signatures"
+    metrics: [d6_window, y4_area, d4_u_shape]
+    controls: [baseline-flat-schedule-substrate, matched-compute, noisy-tv-guarded-ordering, seed-sweep]
+    gates: [noisy_tv]
+    resource_tier: moonshot
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: high
+    relation: "the one architecture that genuinely needs an adapting substrate; the highest-risk row"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 1
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: mot_cm12_mot_substrate_capstone
+    name: mixture_of_thinking_substrate_capstone
+    kind: experiment
+    series: CM
+    question: "does a trained workspace router over 2-4 frozen/pilot experts beat the best single expert+workspace and the strongest open model on a combined battery"
+    mechanism: "trained workspace router composing frozen/pilot substrate experts at matched total compute; random-router control"
+    null_hypothesis: "a single best-expert-plus-workspace ties the full mixture at matched total FLOPs: the mixture is pure overhead and should be descoped to the single expert"
+    falsifier: "single-expert+workspace ties the mixture"
+    metrics: [combined_battery_score_at_matched_total_flops]
+    controls: [baseline-best-single-expert-plus-workspace, single-pilot, strongest-open-model, matched-total-flops, random-router]
+    gates: [compute]
+    resource_tier: moonshot
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "the full synthesis of the fork; blocked on multiple pilots plus open-model access"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}

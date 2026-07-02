@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mot_ws1_agreement_vs_confidence in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_ws1_agreement_vs_confidence.py
+# writes its verdict json to runs/mot/ws1_agreement_vs_confidence.json.
+id: mot_ws1_agreement_vs_confidence
+name: agreement_vs_confidence_central_gate
+module: scripts/mot_ws1_agreement_vs_confidence.py
+metric: [correct_incorrect_auroc, risk_coverage_curve]
+null_hypothesis: "agreement AUROC minus single-substrate-confidence AUROC <= 0 within seed CI; OR the win fails the invertible-remap vacuity guard (B is a linear remap of A), the shuffled-cross-source control, or noisy-TV"
+falsifier: "agreement AUROC <= confidence AUROC in CI, or fails remap/shuffle/noisy-TV"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/ws1_agreement_vs_confidence.json
+pilot: false

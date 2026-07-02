@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mot_ws4_bandwidth_sweep in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_ws4_bandwidth_sweep.py
+# writes its verdict json to runs/mot/ws4_bandwidth_sweep.json.
+id: mot_ws4_bandwidth_sweep
+name: broadcast_bottleneck_bandwidth_sweep
+module: scripts/mot_ws4_bandwidth_sweep.py
+metric: [generalization_vs_slot_width_at_fixed_capacity]
+null_hypothesis: "the bottleneck's benefit is indistinguishable from generic regularization at matched capacity, and broadcast-back adds nothing over write-only: narrow-vs-wide is just a capacity effect"
+falsifier: "bottleneck ties regularization at matched capacity"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/ws4_bandwidth_sweep.json
+pilot: false

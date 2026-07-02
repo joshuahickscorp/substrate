@@ -1,0 +1,17 @@
+# MoT preregistration mirror (WP-02): registry row mot_ws5_router_slot in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_ws5_slot_ablation_pilot.py
+# writes its verdict json to runs/mot/ws5_slot_ablation_pilot.json.
+# PILOT: laptop-scale evidence only; the registered claim needs cpu-now
+# (see the row's relation field and STUDIO_HANDOFF.md).
+id: mot_ws5_router_slot
+name: modular_router_plus_shared_slot
+module: scripts/mot_ws5_slot_ablation_pilot.py
+metric: [backward_transfer, accuracy_at_matched_capacity]
+null_hypothesis: "the shared slot adds nothing over sparse routing alone: slot-ablation ties the full model on BWT and accuracy at matched capacity; sparse routing does all the work"
+falsifier: "slot-ablation ties full model"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/ws5_slot_ablation_pilot.json
+pilot: true

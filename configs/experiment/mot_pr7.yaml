@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mot_pr7_fast_slow in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_thinking/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through devsys.experiments.REGISTRY: scripts/mot_pr7_fast_slow.py
+# writes its verdict json to runs/mot/pr7_fast_slow.json.
+id: mot_pr7_fast_slow
+name: fast_slow_two_timescale_weights
+module: scripts/mot_pr7_fast_slow.py
+metric: [within_task_adaptation_curve, post_decay_retention]
+null_hypothesis: "fast weights tie a slow-only head (and a matched-size replay buffer) on within-task adaptation: the fast store is redundant capacity or a small cache"
+falsifier: "fast-slow delta <= 0 at matched capacity"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/pr7_fast_slow.json
+pilot: false
