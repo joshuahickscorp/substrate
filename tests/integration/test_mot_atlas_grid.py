@@ -222,7 +222,9 @@ def test_al2_learned_map_beats_floors_only_with_shared_structure():
     indep = pair_report(xa, xc, seeds=[0, 1, 2], ranks=[4, 8])
     assert indep["verdict"] != "genuine-shared-structure"
     one = learned_vs_floors(xa, xb, seed=0, rank=4)
-    assert set(one) == {"learned_r2", "random_map_r2", "shuffled_fit_r2", "delta"}
+    # re-graded metric: a kNN-topology permutation null (learned vs permuted neighbor recall), the honest
+    # floor, replaces the ridge-R2 floors that rewarded scale over shared structure.
+    assert set(one) == {"learned_r2", "learned_recall", "permuted_recall", "delta"}
 
 
 def test_al2_pilot_end_to_end(tmp_path, capsys):

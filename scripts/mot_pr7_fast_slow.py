@@ -19,19 +19,27 @@ held-out split.
 
 Arms (same slow head, same init, same stream order; only the fast state differs):
   fast_slow : slow SGD head + Hebbian fast store (extra state C*D floats)
+  delta_rule: slow SGD head + DeltaNet-style delta-rule fast store (least-squares / covariance-aware,
+              SAME C*D-float slot matrix A [C, D], written by the error-corrected update
+              A <- decay * A + eta * (onehot(y) - A @ z_hat) x z_hat instead of the raw Hebbian
+              outer product; this decorrelates overlapping keys, which the deep research predicts
+              dominates the pure Hebbian store at matched capacity)
   slow_only : slow SGD head alone (the ablation)
   buffer    : slow SGD head + a matched-size episodic cache, floor(C*D / (D+1)) recent (z, y)
               items read by a distance-weighted kNN vote at the same additive gain (the
               matched-capacity control: is the fast store just a small cache)
 
-Preregistered null (fixed before running): fast_slow ties slow_only AND ties the matched-size
-buffer on within-task online accuracy, or fails retention after decay. Verdict rule, uniform
-across the MoT memory scripts: WIN iff the per-seed delta mean (fast_slow online accuracy minus
-max(slow_only, buffer)) exceeds max(per-seed SD, MIN_MARGIN) with no sign flip AND post-decay
-retention of fast_slow is within RETENTION_MARGIN of slow_only; else null_supported=True.
+Preregistered null (fixed before running): the delta-rule fast store is a real lead ONLY if it beats
+BOTH the slow-only baseline AND the Hebbian floor by more than seed spread at matched capacity (the
+A6-item preregistration). It is scored against max(slow_only, fast_slow=Hebbian): a delta_rule that
+merely ties the Hebbian store is the (deep-research-surprising) null. The legacy fast_slow arm is
+scored against its own preregistered control max(slow_only, buffer). Verdict rule, uniform across the
+MoT memory scripts: WIN iff the per-seed delta mean (arm online accuracy minus its best control)
+exceeds max(per-seed SD, MIN_MARGIN) with no sign flip AND post-decay retention is within
+RETENTION_MARGIN of slow_only; else null_supported=True.
 
-Usage: python scripts/mot_pr7_fast_slow.py --seeds 0-4
-Writes runs/mot/pr7_fast_slow.json. No em or en dashes (BLACKHOLE.md).
+Usage: python scripts/mot_pr7_fast_slow.py --seeds 0-9
+Writes runs/mot/pr7_delta_rule.json (the delta-rule upgrade). No em or en dashes (BLACKHOLE.md).
 """
 
 from __future__ import annotations
@@ -55,7 +63,7 @@ from devsys.substrate.datasets import make_task_stream
 
 MIN_MARGIN = 0.02  # preregistered minimum meaningful online-accuracy delta
 RETENTION_MARGIN = 0.05  # fast_slow post-decay retention may trail slow_only by at most this
-ARMS = ("fast_slow", "slow_only", "buffer")
+ARMS = ("fast_slow", "delta_rule", "slow_only", "buffer")
 
 
 def parse_seeds(spec: str) -> list[int]:
@@ -92,6 +100,40 @@ class HebbianFastStore:
 
     def write(self, z: torch.Tensor, y: torch.Tensor) -> None:
         self.a = self.decay * self.a + self.eta * (F.one_hot(y, self.a.shape[0]).float().t() @ self._hat(z))
+
+    def reset(self) -> None:
+        self.a.zero_()
+
+
+class DeltaRuleFastStore:
+    """The DeltaNet-style delta-rule fast path: SAME per-class slot matrix A [C, D] as the Hebbian
+    store (identical C*D-float capacity, identical additive read z_hat @ A.T), but written by the
+    error-corrected (least-squares / covariance-aware) update instead of the raw outer product:
+
+        A <- decay * A + eta * (onehot(y) - A @ z_hat) x z_hat
+
+    The (onehot(y) - A @ z_hat) term is the prediction error of the current store on z_hat; writing
+    it (not the raw target) subtracts off what overlapping keys already contribute, so correlated
+    keys stop double-counting. This is the DeltaNet / delta-rule recurrence in slot form. State only,
+    no trainable params; capacity is C*D floats, exactly matched to the Hebbian arm."""
+
+    def __init__(self, dim: int, n_classes: int, eta: float, decay: float):
+        self.a = torch.zeros(n_classes, dim)
+        self.eta, self.decay = eta, decay
+
+    @staticmethod
+    def _hat(z: torch.Tensor) -> torch.Tensor:
+        return z / z.norm(dim=-1, keepdim=True).clamp_min(1e-8)
+
+    def read(self, z: torch.Tensor) -> torch.Tensor:
+        return self._hat(z) @ self.a.t()
+
+    def write(self, z: torch.Tensor, y: torch.Tensor) -> None:
+        zh = self._hat(z)  # [B, D]
+        target = F.one_hot(y, self.a.shape[0]).float()  # [B, C]
+        pred = zh @ self.a.t()  # [B, C] current store prediction
+        err = target - pred  # [B, C] delta-rule error signal
+        self.a = self.decay * self.a + self.eta * (err.t() @ zh)  # [C, D]
 
     def reset(self) -> None:
         self.a.zero_()
@@ -141,10 +183,14 @@ class MotPR7FastSlow(Experiment):
     id = "mot_pr7_fast_slow"
     metric = ("online_acc", "adaptation_steps", "post_decay_retention")
     baseline = "the same slow SGD head alone, and the same head plus a matched-size episodic cache"
-    ablation = "Hebbian fast store present vs absent vs replaced by an equal-float-budget cache"
+    ablation = (
+        "Hebbian vs DeltaNet-style delta-rule fast store, present vs absent vs replaced by an "
+        "equal-float-budget cache, all at matched capacity"
+    )
     null_hypothesis = (
-        "fast weights tie the slow-only head and the matched-size cache on within-task adaptation, "
-        "or the slow path fails to retain after the fast store decays"
+        "fast weights (Hebbian or delta-rule) tie the slow-only head and the matched-size cache on "
+        "within-task adaptation, or the delta-rule merely ties the Hebbian floor, or the slow path "
+        "fails to retain after the fast store decays"
     )
     tier = "cpu-now"
 
@@ -171,9 +217,13 @@ class MotPR7FastSlow(Experiment):
             for arm in ARMS:
                 torch.manual_seed(s)  # identical slow-head init across arms
                 head = nn.Linear(dim, n_classes)
-                fast: HebbianFastStore | EpisodicCache | None = None
+                fast: HebbianFastStore | DeltaRuleFastStore | EpisodicCache | None = None
                 if arm == "fast_slow":
                     fast = HebbianFastStore(dim, n_classes, eta=float(e.eta_fast), decay=float(e.fast_decay))
+                elif arm == "delta_rule":
+                    fast = DeltaRuleFastStore(
+                        dim, n_classes, eta=float(e.eta_fast), decay=float(e.fast_decay)
+                    )
                 elif arm == "buffer":
                     fast = EpisodicCache(dim, n_classes, k=int(e.cache_k))
                 arms[arm] = {
@@ -219,6 +269,7 @@ class MotPR7FastSlow(Experiment):
                     steps.append(adaptation_speed(curve, target_frac=0.9)["steps"])
                 adapt[arm].append(sum(steps) / len(steps))
                 retention[arm].append(sum(st["retention"]) / len(st["retention"]))
+        # legacy Hebbian arm: scored against its own preregistered control max(slow_only, buffer)
         deltas = [
             online["fast_slow"][i] - max(online["slow_only"][i], online["buffer"][i])
             for i in range(len(seeds))
@@ -227,6 +278,21 @@ class MotPR7FastSlow(Experiment):
         retention_deltas = [retention["fast_slow"][i] - retention["slow_only"][i] for i in range(len(seeds))]
         retention_ok = bool(seed_ci(retention_deltas)["mean"] >= -RETENTION_MARGIN)
         win = bool(v["win"] and retention_ok)
+        # A6 item: the delta-rule is a real lead ONLY if it beats BOTH slow_only AND the Hebbian floor
+        # by more than seed spread at matched capacity, so its control is max(slow_only, fast_slow).
+        delta_deltas = [
+            online["delta_rule"][i] - max(online["slow_only"][i], online["fast_slow"][i])
+            for i in range(len(seeds))
+        ]
+        v_delta = verdict(delta_deltas)
+        delta_retention_deltas = [
+            retention["delta_rule"][i] - retention["slow_only"][i] for i in range(len(seeds))
+        ]
+        delta_retention_ok = bool(seed_ci(delta_retention_deltas)["mean"] >= -RETENTION_MARGIN)
+        delta_win = bool(v_delta["win"] and delta_retention_ok)
+        # separately record whether delta_rule beats the Hebbian floor alone (the deep-research claim)
+        delta_vs_hebbian = [online["delta_rule"][i] - online["fast_slow"][i] for i in range(len(seeds))]
+        v_delta_vs_hebbian = verdict(delta_vs_hebbian)
         out = {
             "experiment": self.id,
             "contract": self.contract(),
@@ -254,6 +320,28 @@ class MotPR7FastSlow(Experiment):
                 "capacity or a small cache, or parasitizes the slow path) is supported"
             ),
             "null_supported": bool(not win),
+            "delta_rule": {
+                "delta_online_vs_best_control": v_delta,
+                "control_note": (
+                    "delta_rule control = max(slow_only, fast_slow); the A6 preregistration requires it "
+                    "to beat BOTH the slow-only baseline AND the Hebbian floor at matched capacity"
+                ),
+                "vs_hebbian_floor_only": v_delta_vs_hebbian,
+                "retention_delta_vs_slow_only": {
+                    "per_seed": [round(d, 4) for d in delta_retention_deltas],
+                    "ci": seed_ci(delta_retention_deltas),
+                    "margin": RETENTION_MARGIN,
+                    "ok": delta_retention_ok,
+                },
+                "verdict_rule": (
+                    "WIN iff mean per-seed delta (delta_rule online accuracy minus "
+                    f"max(slow_only, fast_slow)) > max(seed SD, {MIN_MARGIN}) with no sign flip AND mean "
+                    f"post-decay retention delta vs slow_only >= -{RETENTION_MARGIN}; else the "
+                    "preregistered null (delta-rule ties the Hebbian floor, the deep-research-surprising "
+                    "result) is supported"
+                ),
+                "null_supported": bool(not delta_win),
+            },
             "seconds": round(time.perf_counter() - t0, 1),
         }
         return out
@@ -261,7 +349,7 @@ class MotPR7FastSlow(Experiment):
 
 def default_cfg(**overrides) -> DictConfig:
     base = {
-        "seeds": [0, 1, 2, 3, 4],
+        "seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         "dim": 64,
         "classes_per_task": 8,
         "n_tasks": 4,
@@ -281,9 +369,11 @@ def default_cfg(**overrides) -> DictConfig:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(description="PR7: Hebbian fast weights + slow SGD vs slow-only and cache")
-    ap.add_argument("--seeds", default="0-4")
-    ap.add_argument("--out", default="runs/mot/pr7_fast_slow.json")
+    ap = argparse.ArgumentParser(
+        description="PR7: delta-rule + Hebbian fast weights + slow SGD vs slow-only and cache"
+    )
+    ap.add_argument("--seeds", default="0-9")
+    ap.add_argument("--out", default="runs/mot/pr7_delta_rule.json")
     a = ap.parse_args(argv)
     cfg = default_cfg(seeds=parse_seeds(a.seeds))
     result = MotPR7FastSlow().run(cfg, resolve("cpu"), Path(a.out).parent)

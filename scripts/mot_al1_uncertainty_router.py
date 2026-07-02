@@ -187,6 +187,46 @@ def run_arm(
     }
 
 
+def build_pool_d3(
+    seed: int,
+    n_pool: int,
+    episode_size: int,
+    dim: int,
+    n_classes: int,
+    noise_frac: float,
+    separation: float,
+    n_eval: int,
+) -> tuple[list[dict], torch.Tensor, torch.Tensor]:
+    """A5 recal pool: learnable episodes and the held-out eval set are drawn from the D3 graded slot
+    task (diagnostics/hardness), whose binary DSL label sits at a CALIBRATED, non-ceiling difficulty
+    (~0.85 best-mode) so the random arm cannot saturate to 1.0 (the degenerate the base al1 hit). Noise
+    episodes stay irreducible (random inputs, uniform random labels, fresh every visit). dim/n_classes
+    are overridden to the D3 task's own (64, 2); the passed separation is ignored (D3 sets difficulty)."""
+    from devsys.diagnostics.hardness import make_graded_slot_task
+
+    n_noise = int(round(n_pool * noise_frac))
+    n_learn_ep = n_pool - n_noise
+    task = make_graded_slot_task(n_learn_ep * episode_size + n_eval, seed=seed)
+    tx, ty = task.x, task.y
+    g = torch.Generator().manual_seed(seed + 3)
+    pool: list[dict] = []
+    cur = 0
+    for i in range(n_pool):
+        if i < n_noise:
+            x = 0.5 * torch.randn(episode_size, dim, generator=g)
+            y = torch.randint(0, n_classes, (episode_size,), generator=g)
+            pool.append({"x": x, "y": y, "noise": True})
+        else:
+            x = tx[cur : cur + episode_size]
+            y = ty[cur : cur + episode_size]
+            cur += episode_size
+            pool.append({"x": x, "y": y, "noise": False})
+    order = torch.randperm(n_pool, generator=g).tolist()
+    pool = [pool[i] for i in order]
+    x_eval, y_eval = tx[cur : cur + n_eval], ty[cur : cur + n_eval]
+    return pool, x_eval, y_eval
+
+
 def run(
     seeds: list[int],
     dim: int = 64,
@@ -204,13 +244,14 @@ def run(
     n_eval: int = 800,
     eval_every: int = 4,
     tv_kwargs: dict | None = None,
+    pool_builder=build_pool,
 ) -> dict:
     t0 = time.perf_counter()
     chance = 1.0 / n_classes
     rows, degenerate = [], []
     deltas, perm_deltas, dis_noise_shares = [], [], []
     for s in seeds:
-        pool, x_eval, y_eval = build_pool(
+        pool, x_eval, y_eval = pool_builder(
             s, n_pool, episode_size, dim, n_classes, noise_frac, separation, n_eval
         )
         arms = {
@@ -340,8 +381,27 @@ def main(argv=None) -> int:
     ap.add_argument("--noise-frac", type=float, default=0.4)
     ap.add_argument("--budget", type=int, default=48)
     ap.add_argument("--rerun", action="store_true", help="Stage 4 rerun, writes *_seeds10.json")
+    ap.add_argument("--recal", action="store_true", help="A5: draw learnable episodes from D3 task")
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
+    if a.recal:
+        # D3 task is binary and 64-dim; learnable content sits at a calibrated non-ceiling difficulty
+        result = run(
+            parse_seeds(a.seeds),
+            dim=64,
+            n_classes=2,
+            n_pool=a.n_pool,
+            episode_size=a.episode_size,
+            noise_frac=a.noise_frac,
+            budget=a.budget,
+            pool_builder=build_pool_d3,
+        )
+        result["recal"] = "D3 graded slot task (diagnostics/hardness.make_graded_slot_task)"
+        out = a.out or "runs/mot/al1_uncertainty_router_recal.json"
+        Path(out).parent.mkdir(parents=True, exist_ok=True)
+        Path(out).write_text(json.dumps(result, indent=2, default=str))
+        print(json.dumps({k: result[k] for k in ("verdict", "null_supported", "seconds")}, indent=2))
+        return 0
     result = run(
         parse_seeds(a.seeds),
         dim=a.dim,

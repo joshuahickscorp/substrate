@@ -147,6 +147,44 @@ def make_mixed_regime(
     return xtr, ytr, ptr, xte, yte, pte
 
 
+def make_mixed_regime_d3(
+    seed: int, n_train: int, n_test: int, dim: int, n_classes: int, separation: float
+) -> tuple[torch.Tensor, ...]:
+    """A5 recal regime: the reducible partitions (blobs, antipodal) are replaced by the D3 graded slot
+    task (diagnostics/hardness), whose binary DSL label sits at a CALIBRATED, non-ceiling difficulty so
+    the single head's reducible accuracy lands in-band (the base dr12 hit 0.999, an automatic
+    DEGENERATE). The noise partition stays irreducible (random inputs, uniform random labels). p keeps
+    the same {0 reducible-easy, 1 reducible-hard, 2 noise} convention: 0/1 are the D3 easy/hard bins,
+    so the guard's noise-share check and the reducible-accuracy calibration are both well defined.
+    dim/n_classes are overridden to the D3 task's own (64, 2); separation is ignored (D3 sets it)."""
+    from devsys.diagnostics.hardness import make_graded_slot_task
+
+    # ONE task instance for train+test so the codebook aligns (the codebook is seed-dependent, so a
+    # separate test task would be a different, unrelated label function and unlearnable by construction).
+    n_red_tr = n_train - int(n_train * PART_FRACS[2])
+    n_red_te = n_test - int(n_test * PART_FRACS[2])
+    # noise=2.8 (D3 default 1.6) pushes the reducible content off the ceiling so the single head's
+    # reducible accuracy lands inside the calibrated band (0.55..0.97), not above it (the base dr12 was
+    # at 0.999, an automatic DEGENERATE; the default D3 noise leaves it at ~0.98, still too easy).
+    task = make_graded_slot_task(n_red_tr + n_red_te, noise=2.8, seed=seed)
+    xr, yr, hr = task.x, task.y, task.hard_mask.long()  # 0 easy bin, 1 hard bin (both reducible)
+
+    def assemble(xr_s, yr_s, hr_s, n_noise: int, s: int):
+        g = torch.Generator().manual_seed(s)
+        xn = 0.5 * torch.randn(n_noise, task.dim, generator=g)
+        yn = torch.randint(0, int(yr.max()) + 1, (n_noise,), generator=g)
+        pn = torch.full((n_noise,), 2)
+        x = torch.cat([xr_s, xn])
+        y = torch.cat([yr_s, yn])
+        p = torch.cat([hr_s, pn]).long()
+        perm = torch.randperm(x.shape[0], generator=g)
+        return x[perm], y[perm], p[perm]
+
+    xtr, ytr, ptr = assemble(xr[:n_red_tr], yr[:n_red_tr], hr[:n_red_tr], n_train - n_red_tr, seed)
+    xte, yte, pte = assemble(xr[n_red_tr:], yr[n_red_tr:], hr[n_red_tr:], n_test - n_red_te, seed + 1)
+    return xtr, ytr, ptr, xte, yte, pte
+
+
 def train_head(model: torch.nn.Module, x: torch.Tensor, y: torch.Tensor, epochs: int, lr: float, seed: int):
     g = torch.Generator().manual_seed(seed + 31)
     opt = torch.optim.Adam(model.parameters(), lr=lr)
@@ -175,6 +213,7 @@ def run(
     budget_frac: float = 0.25,
     tv_kwargs: dict | None = None,
     pr1_path: str | Path = PR1_PATH,
+    regime_builder=make_mixed_regime,
 ) -> dict:
     t0 = time.perf_counter()
     chance = 1.0 / n_classes
@@ -183,7 +222,7 @@ def run(
     rows, degenerate = [], []
     delta_auroc, delta_gate, dis_noise_shares = [], [], []
     for s in seeds:
-        xtr, ytr, ptr, xte, yte, pte = make_mixed_regime(s, n_train, n_test, dim, n_classes, separation)
+        xtr, ytr, ptr, xte, yte, pte = regime_builder(s, n_train, n_test, dim, n_classes, separation)
         members = []
         for j in range(ensemble):
             torch.manual_seed(s * 100 + j)
@@ -348,8 +387,29 @@ def main(argv=None) -> int:
     ap.add_argument("--budget-frac", type=float, default=0.25)
     ap.add_argument("--pr1", default=PR1_PATH)
     ap.add_argument("--rerun", action="store_true", help="Stage 4 rerun, writes *_seeds10.json")
+    ap.add_argument("--recal", action="store_true", help="A5: reducible partitions from D3 task")
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
+    if a.recal:
+        # D3 task is binary and 64-dim; reducible content sits at a calibrated non-ceiling difficulty
+        result = run(
+            parse_seeds(a.seeds),
+            dim=64,
+            n_train=a.n_train,
+            n_test=a.n_test,
+            n_classes=2,
+            ensemble=a.ensemble,
+            epochs=a.epochs,
+            budget_frac=a.budget_frac,
+            pr1_path=a.pr1,
+            regime_builder=make_mixed_regime_d3,
+        )
+        result["recal"] = "D3 graded slot task (diagnostics/hardness.make_graded_slot_task)"
+        out = a.out or "runs/mot/dr12_disagreement_recal.json"
+        Path(out).parent.mkdir(parents=True, exist_ok=True)
+        Path(out).write_text(json.dumps(result, indent=2, default=str))
+        print(json.dumps({k: result[k] for k in ("verdict", "null_supported", "seconds")}, indent=2))
+        return 0
     result = run(
         parse_seeds(a.seeds),
         dim=a.dim,

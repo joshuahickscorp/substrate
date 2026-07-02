@@ -382,12 +382,158 @@ class MT5AdaptiveHalting(Experiment):
         }
 
 
+# ------------------------------------------------------------------------- A5 D3 recalibration driver
+
+
+class MT5AdaptiveHaltingRecal(MT5AdaptiveHalting):
+    """A5 recalibration: the base MT5 self-reported UNREADABLE because its own make_graded_split regime
+    failed the D3 certificate (no calibrated hardness gradient the halt head could allocate toward).
+    This subclass swaps the regime for the D3 graded slot task (diagnostics/hardness), whose per-sample
+    hardness (number of corrupted slots) is a CERTIFIED, decision-relevant gradient, and reuses every
+    control, compute match, and verdict rule verbatim. The easy_mask is hard_mask negated (D3's
+    preregistered hard bin defines the hard subpopulation the halt head should spend steps on)."""
+
+    id = "mot_mt5_adaptive_halting_recal"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        from devsys.diagnostics.hardness import make_graded_slot_task
+
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        max_steps, epochs, lr = int(e.max_steps), int(e.epochs), float(e.lr)
+
+        per_seed: list[dict] = []
+        deltas, entropies, corrs, shuf_corrs = [], [], [], []
+        calibrated_flags, gradient_flags, matched_flags = [], [], []
+        for s in seeds:
+            # noise=2.4 (D3 default 1.6) so the hard bin is genuinely hard for a strong probe and the
+            # certificate clears GRADIENT_MARGIN robustly on every seed, not marginally (honest recal:
+            # a barely-present gradient gives the halt head almost nothing to allocate toward).
+            task = make_graded_slot_task(int(e.samples), noise=2.4, seed=s)
+            x, y, easy = task.x, task.y, ~task.hard_mask
+            dim, nc = task.dim, int(y.max()) + 1
+            hidden = int(e.hidden)
+            cut = int(x.shape[0] * 0.7)
+            xtr, ytr, xte, yte = x[:cut], y[:cut], x[cut:], y[cut:]
+            easy_te = easy[cut:]
+
+            d3 = reference_separation(xtr, ytr, seed=s)
+            grad_cert = hardness_gradient_certificate(xtr, ytr, xte, yte, easy_te, nc, s)
+
+            refiner, head = train_refiner_and_halt(
+                xtr, ytr, nc, dim, hidden, max_steps, epochs, lr,
+                float(e.tau), float(e.halt_threshold), s,
+            )
+            with torch.no_grad():
+                z, used = refiner(xte)
+                adaptive_acc = float((head(z).argmax(-1) == yte).float().mean())
+            mean_steps = float(used.float().mean())
+            entropy = step_entropy_bits(used)
+
+            control_acc, control_mean = random_allocation_eval(
+                refiner, head, xte, yte, mean_steps, max_steps, s
+            )
+            fixed_round_acc = fixed_depth_eval(refiner, head, xte, yte, max(1, round(mean_steps)))
+
+            per_step = refiner_flops(dim, hidden, 1)
+            halt_cost = 2 * dim
+            compute = matched_within(
+                int(mean_steps * (per_step + halt_cost)), int(control_mean * per_step), tol=FLOP_TOL
+            )
+            delta = adaptive_acc - control_acc
+
+            corr = pearson(used.tolist(), (~easy_te).float().tolist())
+            g = torch.Generator().manual_seed(s + 7)
+            shuf = used[torch.randperm(used.shape[0], generator=g)]
+            shuf_corr = pearson(shuf.tolist(), (~easy_te).float().tolist())
+
+            deltas.append(delta)
+            entropies.append(entropy)
+            corrs.append(corr)
+            shuf_corrs.append(shuf_corr)
+            calibrated_flags.append(bool(d3["regime_calibrated"]))
+            gradient_flags.append(bool(grad_cert["gradient_present"]))
+            matched_flags.append(bool(compute["matched"]))
+            per_seed.append(
+                {
+                    "seed": s,
+                    "adaptive_acc": round(adaptive_acc, 4),
+                    "matched_mean_control_acc": round(control_acc, 4),
+                    "fixed_round_acc": round(fixed_round_acc, 4),
+                    "delta": round(delta, 4),
+                    "mean_halt_steps": round(mean_steps, 3),
+                    "control_mean_steps": round(control_mean, 3),
+                    "halt_entropy_bits": round(entropy, 4),
+                    "halt_vs_hardness_corr": round(corr, 4),
+                    "shuffled_corr": round(shuf_corr, 4),
+                    "compute": compute,
+                    "d3": d3,
+                    "hardness_gradient": grad_cert,
+                }
+            )
+
+        ci = seed_ci(deltas)
+        flips = sign_flip_report(deltas)
+        entropy_mean = sum(entropies) / len(entropies)
+        halt_collapsed = entropy_mean <= ENTROPY_FLOOR_BITS
+        matched_all = all(matched_flags)
+        regime_readable = all(calibrated_flags) and all(gradient_flags)
+
+        win = bool(
+            regime_readable and matched_all and not halt_collapsed
+            and ci["lo"] > 0 and flips["consistent_sign"] == 1
+        )
+        if not regime_readable:
+            verdict = "UNREADABLE: D3 slot regime not calibrated or no hardness gradient on some seed"
+        elif halt_collapsed:
+            verdict = "NULL (automatic): halt head collapsed to a constant step count on D3 regime"
+        elif win:
+            verdict = "WIN: adaptive allocation beats random allocation at equal FLOPs on the D3 regime"
+        else:
+            verdict = "NULL: adaptive halting ties fixed depth at equal average FLOPs on the D3 regime"
+
+        return {
+            "experiment": self.id,
+            "recal": "D3 graded slot task (diagnostics/hardness.make_graded_slot_task)",
+            "config": OmegaConf.to_container(cfg.experiment),
+            "per_seed": per_seed,
+            "delta_ci": ci,
+            "sign_flips": flips,
+            "halt_entropy_bits_mean": round(entropy_mean, 4),
+            "halt_collapsed": bool(halt_collapsed),
+            "halt_vs_hardness_corr_mean": round(sum(corrs) / len(corrs), 4),
+            "shuffled_corr_mean": round(sum(shuf_corrs) / len(shuf_corrs), 4),
+            "compute_matched_all_seeds": bool(matched_all),
+            "regime_readable": bool(regime_readable),
+            "preregistered": {
+                "entropy_floor_bits": ENTROPY_FLOOR_BITS,
+                "flop_tol": FLOP_TOL,
+                "gradient_margin": GRADIENT_MARGIN,
+                "win_rule": "delta CI excludes 0, consistent sign, matched mean FLOPs, entropy above "
+                "floor, calibrated D3 regime with a certified hardness gradient",
+            },
+            "verdict": verdict,
+            "null_supported": bool(not win),
+        }
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=MT5AdaptiveHalting.__doc__)
     ap.add_argument("--seeds", default="0-4", help="seed range 0-4 or list 0,1,2")
     ap.add_argument("--out", default="runs/mot/mt5_adaptive_halting.json")
     ap.add_argument("--rerun", action="store_true", help="Q4.1 10-seed rerun naming (_seeds10)")
+    ap.add_argument("--recal", action="store_true", help="A5: run on D3 graded task, write _recal.json")
     args = ap.parse_args(argv)
+    if args.recal:
+        out = Path("runs/mot/mt5_adaptive_halting_recal.json")
+        out.parent.mkdir(parents=True, exist_ok=True)
+        cfg = default_cfg(parse_seeds(args.seeds))
+        t0 = time.time()
+        result = MT5AdaptiveHaltingRecal().run(cfg, resolve("cpu"), out.parent)
+        result["seconds"] = round(time.time() - t0, 1)
+        out.write_text(json.dumps(result, indent=2))
+        print(json.dumps({"experiment": result["experiment"], "verdict": result["verdict"], "out": str(out)}))
+        return 0
     out = resolve_out(args.out, args.rerun)
     out.parent.mkdir(parents=True, exist_ok=True)
     cfg = default_cfg(parse_seeds(args.seeds))

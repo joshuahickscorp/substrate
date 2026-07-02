@@ -160,6 +160,24 @@ def run_seed(za: torch.Tensor, zb: torch.Tensor, y: torch.Tensor, seed: int, cfg
     }
 
 
+def load_dual_source_d3(seed: int, n: int = 2000) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """A5 recal dual source: two distinct views of the D3 graded slot latent over the SAME samples, so
+    per-sample disagreement is decision-relevant (the two views disagree exactly where corruption bites,
+    the D3 hard bin). Source A sees the four slot blocks with independent view-noise; source B sees the
+    same latent under a DIFFERENT independent view-noise draw plus a fixed random rotation, so the two
+    heads land in different solutions and their agreement carries correctness information (the WS1
+    premise that the base ws3 could not establish on the real caches). y is the D3 DSL label."""
+    from devsys.diagnostics.hardness import make_graded_slot_task
+
+    task = make_graded_slot_task(n, noise=2.4, seed=seed)
+    x = task.x
+    g = torch.Generator().manual_seed(seed + 71)
+    za = x + torch.randn_like(x) * 0.5
+    rot = torch.linalg.qr(torch.randn(x.shape[1], x.shape[1], generator=g))[0]
+    zb = (x + torch.randn_like(x) * 0.5) @ rot
+    return za, zb, task.y
+
+
 def _read_ws1(path: str) -> dict:
     p = Path(path)
     if not p.exists():
@@ -228,6 +246,61 @@ def run(cfg=None, device=None, run_dir: Path | None = None) -> dict:
     return out
 
 
+def run_recal(cfg=None, run_dir: Path | None = None) -> dict:
+    """A5 recalibration: the base ws3 self-reported SKIPPED because it was gated on a positive WS1 that
+    never materialized on the real caches (agreement carried no correctness information there). This
+    driver UNGATES arbitration by running the identical arms (equal-weight, inverse-variance,
+    disagreement-routed vs random-routed at matched rate, all controls and the noisy-TV guard verbatim)
+    on the D3 graded slot task, where per-sample hardness IS decision-relevant so agreement/disagreement
+    can in principle carry information. Verdict rule is unchanged: the null is REJECTED only if BOTH the
+    inverse-variance delta and the disagreement-routing delta have CIs excluding zero from below with no
+    sign flips AND noisy-TV passes every seed. A fresh D3 dual source is drawn per seed."""
+    base = {"experiment": WS3Experiment.id, "contract": WS3Experiment().contract()}
+    seeds = list(_get(cfg, "seeds", DEFAULTS["seeds"]))
+    t0 = time.perf_counter()
+    per_seed = []
+    for s in seeds:
+        za, zb, y = load_dual_source_d3(s)
+        per_seed.append(run_seed(za, zb, y, s, cfg))
+    invvar_d = [r["invvar_delta"] for r in per_seed]
+    routing_d = [r["routing_delta"] for r in per_seed]
+    invvar_ci, routing_ci = seed_ci(invvar_d), seed_ci(routing_d)
+    invvar_win = invvar_ci["lo"] > 0 and sign_flip_report(invvar_d)["consistent_sign"] == 1
+    routing_win = routing_ci["lo"] > 0 and sign_flip_report(routing_d)["consistent_sign"] == 1
+    noisy_pass = all(r["noisy_tv_pass"] for r in per_seed)
+    positive = bool(invvar_win and routing_win and noisy_pass)
+    out = dict(base)
+    out.update(
+        {
+            "skipped": False,
+            "recal": "D3 graded slot task (diagnostics/hardness.make_graded_slot_task), WS1 gate removed",
+            "seeds": seeds,
+            "per_seed": per_seed,
+            "invvar_delta_ci": invvar_ci,
+            "routing_delta_ci": routing_ci,
+            "invvar_win": invvar_win,
+            "routing_win": routing_win,
+            "noisy_tv_pass": noisy_pass,
+            "null_supported": not positive,
+            "seconds": round(time.perf_counter() - t0, 1),
+            "verdict": (
+                "NULL REJECTED: inverse-variance beats averaging AND disagreement routing beats random "
+                "routing at matched rate with noisy-TV clean on the D3 regime, arbitration is a "
+                "capacity-neutral win"
+                if positive
+                else "NULL SUPPORTED: precision/disagreement signals uninformative on the D3 regime (or "
+                f"noisy-TV failed={not noisy_pass}), extends the e4 line even where hardness is "
+                "decision-relevant"
+            ),
+        }
+    )
+    if run_dir is not None:
+        run_dir = Path(run_dir)
+        run_dir.mkdir(parents=True, exist_ok=True)
+        (run_dir / "result.json").write_text(json.dumps(out, indent=2, default=str))
+    return out
+
+
 class WS3Experiment(Experiment):
     id = "ws3_arbitration"
     metric = ("invvar_minus_equal_weight_acc", "disagreement_minus_random_routing_acc")
@@ -258,6 +331,7 @@ def main(argv=None) -> int:
     ap.add_argument("--cache-b", default=DEFAULTS["cache_b"])
     ap.add_argument("--ws1-verdict", default=DEFAULTS["ws1_verdict"])
     ap.add_argument("--rerun", action="store_true", help="stage-4 rerun naming (_seeds10 suffix)")
+    ap.add_argument("--recal", action="store_true", help="A5: ungate on D3 task, write _recal.json")
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
     cfg = {
@@ -266,6 +340,16 @@ def main(argv=None) -> int:
         "cache_b": a.cache_b,
         "ws1_verdict": a.ws1_verdict,
     }
+    if a.recal:
+        out_path = a.out or "runs/mot/ws3_arbitration_recal.json"
+        result = run_recal(cfg, None)
+        Path(out_path).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_path).write_text(json.dumps(result, indent=2, default=str))
+        print(json.dumps(
+            {k: result[k] for k in ("invvar_delta_ci", "routing_delta_ci", "null_supported", "verdict")},
+            indent=2,
+        ))
+        return 0
     out_path = a.out or (
         "runs/mot/ws3_arbitration_seeds10.json" if a.rerun else "runs/mot/ws3_arbitration.json"
     )
