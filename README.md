@@ -1,4 +1,4 @@
-# devsys
+# mop
 
 > **Status:** experimental framework and measurement instrument. No real-data results yet; the full campaign runs on a forthcoming Apple M2 Max Mac Studio (96 GB). Results so far are on cached real-encoder latents over structured-synthetic video.
 
@@ -137,7 +137,7 @@ the queue/cost agreement, microbench, run one gated leg, and write a report unde
 
 `scripts/devel.py` is a measurable developmental layer on top of the frozen substrate. It does
 NOT claim sentience, consciousness, feelings, or agency: every capacity is a measurement with a
-null hypothesis, and a code-level safety rail (`devsys.devel.north_star`) scans every rendered
+null hypothesis, and a code-level safety rail (`mop.devel.north_star`) scans every rendered
 report and refuses to ship an affirmative sentience claim. The north star is the loop
 `perceive -> remember -> predict -> notice surprise -> choose what to study -> adapt ->
 consolidate -> abstract -> transfer -> explain what changed -> choose the next lesson`.
@@ -207,11 +207,11 @@ campaign/       synthesized training campaign (legs/tracks/tiers, run queue); se
 configs/        OmegaConf group composition: device/, encoder/, shell/, experiment/
 registry/       machine-readable registries: datasets.yaml (sources), models.yaml (aux encoders),
                 paradigms.yaml (mechanism candidates), capacities.yaml (capacity ladder), paperwatch.yaml
-studio/         the Studio acquisition layer (under src/devsys/): profiles+kill-switches, dataset/
+studio/         the Studio acquisition layer (under src/mop/): profiles+kill-switches, dataset/
                 model registry loader, 1 TB knapsack planner, dry-run downloader, data cards +
                 license ledger, synthetic control expansion, the plan/acquire/validate/cache/run/
                 optimize/report pipeline + local-max
-devel/          the developmental capacities layer (under src/devsys/): north_star + safety rails,
+devel/          the developmental capacities layer (under src/mop/): north_star + safety rails,
                 paradigm/capacity/paperwatch registries, curriculum engine (learning-progress data
                 selection), automated ablation/hypothesis engine, metacognition reports
 scripts/        run_experiment.py, run_queue.py, acceptance.py, studio_pipeline.py, devel.py

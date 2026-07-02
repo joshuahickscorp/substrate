@@ -131,7 +131,7 @@ The nuisance test bed did what three generations of clean synthetic content coul
 
 Two scope limits, both preregistered before the result landed. First, the random-pixel control is resolution-confounded (32px vs 256px), so the SUBSTRATE-SPECIFIC attribution is descriptive only and does not clear the C1/S2 custom-model gates; the gate-clearing rerun swaps in the random-init same-arch ViT-L arm at matched resolution, multi-seed (Studio). Second, single seed. What survives both caveats: the heldout-equals-seen equality is a within-arm property of V-JEPA alone, needing no control, and it is real evidence of factorization.
 
-**Three independent positives now stack on the same nuisance test bed**: the substrate beats untrained features (3d, audited delta ~0.21-0.23), the advantage is attributable to PRETRAINING with architecture and resolution fixed (3d gold test, p=0.029), and the substrate FACTORS bound attributes compositionally off-ceiling (this section, p=1.2e-12). The frozen pooled V-JEPA latent is a genuinely structured, compositional perceptual code. For the Mixture-of-Thinking program this is the load-bearing prerequisite: the modes have something real to consume.
+**Three independent positives now stack on the same nuisance test bed**: the substrate beats untrained features (3d, audited delta ~0.21-0.23), the advantage is attributable to PRETRAINING with architecture and resolution fixed (3d gold test, p=0.029), and the substrate FACTORS bound attributes compositionally off-ceiling (this section, p=1.2e-12). The frozen pooled V-JEPA latent is a genuinely structured, compositional perceptual code. For the Mixture-of-Perspectives program this is the load-bearing prerequisite: the modes have something real to consume.
 
 ---
 

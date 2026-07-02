@@ -18,8 +18,8 @@ from scripts.featurize_programmatic import (
     to_uint8,
     write_factors_sidecar,
 )
-from scripts.mot_al2_alignment_pilot import evaluate_pairs, learned_vs_floors, pair_report
-from scripts.mot_at1_grid_pilot import (
+from scripts.mop_al2_alignment_pilot import evaluate_pairs, learned_vs_floors, pair_report
+from scripts.mop_at1_grid_pilot import (
     classify_column,
     clip_identity_check,
     evaluate_grid,
@@ -27,7 +27,7 @@ from scripts.mot_at1_grid_pilot import (
     parse_seeds,
 )
 
-from devsys.substrate import LatentStore
+from mop.substrate import LatentStore
 
 # ---------------------------------------------------------------- WP-01 clip identity helpers
 

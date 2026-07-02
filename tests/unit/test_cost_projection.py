@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import json
 
-from devsys.harness.queue import load_queue
-from devsys.studies.cost_projection import (
+from mop.harness.queue import load_queue
+from mop.studies.cost_projection import (
     cost_projection,
     load_timings_from_checkpoint,
     render_md,
@@ -26,7 +26,7 @@ def test_covers_every_queued_leg_including_disabled_ER():
 
 def test_measured_vs_assumed_and_full_scale_units():
     # canonical units come from each leg's full_axes x full_seeds (frontier 1), not a global param
-    from devsys.harness.sweep import full_run_units, load_leg
+    from mop.harness.sweep import full_run_units, load_leg
 
     timings = {"e1_baseline": 4.0}
     proj = cost_projection(timings, workers=8, full_seed=5)

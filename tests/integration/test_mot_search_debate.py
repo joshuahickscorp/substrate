@@ -1,4 +1,4 @@
-"""WP-04 search and debate (MT7 beam search, MT8 latent debate). Tiny synthetic tensors only,
+"""WP-04 search and debate (MP7 beam search, MP8 latent debate). Tiny synthetic tensors only,
 seconds, no encoder loads, no caches touched. PR1 is never rebuilt: the gate reader is exercised on
 fixture jsons and the missing-file path. Asserts MECHANICS and contract honesty, never a scientific
 outcome (the preregistered nulls may hold)."""
@@ -9,12 +9,12 @@ from pathlib import Path
 
 import torch
 
-from devsys.devices import resolve
+from mop.devices import resolve
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
-import mot_dr9_verify_revise as dr9  # noqa: E402
-import mot_mt7_beam_search as mt7  # noqa: E402
-import mot_mt8_latent_debate as mt8  # noqa: E402
+import mop_dr9_verify_revise as dr9  # noqa: E402
+import mop_mt7_beam_search as mt7  # noqa: E402
+import mop_mt8_latent_debate as mt8  # noqa: E402
 
 DEV = resolve("cpu")
 

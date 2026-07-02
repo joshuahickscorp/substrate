@@ -4,14 +4,14 @@
 # latent-reasoning line added here), and the reusable diagnostics (D) + ablations (A) that gate and
 # control them. This file IS the preregistration: a row's null, headline metric, falsifier, and
 # failure-taxonomy slot are committed here before it runs. Validated by
-# devsys.devel.registries.validate_experiment; EXPERIMENTS.md is regenerated FROM this file.
+# mop.devel.registries.validate_experiment; EXPERIMENTS.md is regenerated FROM this file.
 #
 # Honesty rules enforced in code:
 #   - kind in {experiment, cross-cutting, diagnostic, ablation}
 #   - exp_tier (runnable Experiment.tier) in {cpu-now, gpu-later, env-later, 2.1-only}
 #   - resource_tier (planning) in {cpu-now, studio-scale, environment-needed, weights-needed, moonshot}
 #   - status in {implemented, registry-only, deferred}; an implemented experiment/cross-cutting row
-#     MUST have a matching id in devsys.experiments.REGISTRY; an implemented diagnostic/ablation MUST
+#     MUST have a matching id in mop.experiments.REGISTRY; an implemented diagnostic/ablation MUST
 #     name an existing module path
 #   - taxonomy_slot in 1..10 (proof/FAILURE_TAXONOMY.md); every row carries null + metric + falsifier
 #   - free-text scanned by the north_star sentience rail (engineering vocabulary only)
@@ -759,7 +759,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 3
     status: implemented
-    module: src/devsys/diagnostics/geometry.py
+    module: src/mop/diagnostics/geometry.py
     proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
 
   - id: d2_substrate_ablation
@@ -784,7 +784,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 3
     status: implemented
-    module: src/devsys/diagnostics/substrate_ablation.py
+    module: src/mop/diagnostics/substrate_ablation.py
     proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
 
   - id: d3_difficulty_calibration
@@ -809,7 +809,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 6
     status: implemented
-    module: src/devsys/diagnostics/difficulty_calibration.py
+    module: src/mop/diagnostics/difficulty_calibration.py
     proof: {atlas_factor: none, null_card: "none", evidence_level: R2}
 
   - id: d4_transfer_matrix
@@ -834,7 +834,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 5
     status: implemented
-    module: src/devsys/diagnostics/transfer_matrix.py
+    module: src/mop/diagnostics/transfer_matrix.py
     proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
 
   - id: d5_compute_accounting
@@ -859,7 +859,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 9
     status: implemented
-    module: src/devsys/diagnostics/compute.py
+    module: src/mop/diagnostics/compute.py
     proof: {atlas_factor: none, null_card: "none", evidence_level: R2}
 
   - id: d6_rollout_gate
@@ -884,7 +884,7 @@ experiments:
     paradigm_slugs: [latent_rollout_mpc]
     taxonomy_slot: 7
     status: implemented
-    module: src/devsys/diagnostics/sysid.py
+    module: src/mop/diagnostics/sysid.py
     proof: {atlas_factor: controllability, null_card: "none", evidence_level: R2}
 
   # ============================================================ reusable ablations (A)
@@ -910,7 +910,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 3
     status: implemented
-    module: src/devsys/diagnostics/substrate_ablation.py
+    module: src/mop/diagnostics/substrate_ablation.py
     proof: {atlas_factor: all, null_card: "none", evidence_level: R2}
 
   - id: a2_matched_compute_arm
@@ -935,7 +935,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 9
     status: implemented
-    module: src/devsys/diagnostics/compute.py
+    module: src/mop/diagnostics/compute.py
     proof: {atlas_factor: none, null_card: "none", evidence_level: R2}
 
   - id: a3_buffer_compression
@@ -961,7 +961,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 4
     status: implemented
-    module: src/devsys/diagnostics/buffer_compression.py
+    module: src/mop/diagnostics/buffer_compression.py
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R2}
 
   - id: a4_latent_robustness
@@ -986,7 +986,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 3
     status: implemented
-    module: src/devsys/diagnostics/latent_robustness.py
+    module: src/mop/diagnostics/latent_robustness.py
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R2}
 
   - id: n1_replay_ordering
@@ -2830,14 +2830,14 @@ experiments:
     status: implemented
     proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/a8_affordance_curiosity.md", evidence_level: R1}
 
-  # ============================================================ Mixture-of-Thinking bank (WP-02)
-  # The MoT program registry (docs/mixture_of_thinking/11_experiment_registry.md), preregistered here
+  # ============================================================ Mixture-of-Perspectives bank (WP-02)
+  # The MoT program registry (docs/mixture_of_perspectives/11_experiment_registry.md), preregistered here
   # BEFORE any row runs: null_hypothesis is carried verbatim from section 11, the matched baseline is
   # the first controls entry (baseline-*), and the falsifier is the section 11 falsification cell.
-  # All rows are status registry-only: they run as scripts/mot_*.py into runs/mot/, not through
-  # devsys.experiments.REGISTRY. Laptop-runnable rows also carry a configs/experiment yaml.
+  # All rows are status registry-only: they run as scripts/mop_*.py into runs/mot/, not through
+  # mop.experiments.REGISTRY. Laptop-runnable rows also carry a configs/experiment yaml.
 
-  - id: mot_mt1_router_vs_best
+  - id: mop_mt1_router_vs_best
     name: router_beats_single_best_mode
     kind: experiment
     series: MT
@@ -2861,7 +2861,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_mt2_routing_vs_ensemble
+  - id: mop_mt2_routing_vs_ensemble
     name: routing_beats_uniform_ensemble
     kind: experiment
     series: MT
@@ -2878,14 +2878,14 @@ experiments:
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "isolates the coordinator from averaging; PR1-gated like mot_mt1"
+    relation: "isolates the coordinator from averaging; PR1-gated like mop_mt1"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_mt3_hetero_vs_homo
+  - id: mop_mt3_hetero_vs_homo
     name: heterogeneous_beats_homogeneous_moe
     kind: experiment
     series: MT
@@ -2909,7 +2909,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_mt4_reasoning_router
+  - id: mop_mt4_reasoning_router
     name: router_over_reasoning_primitives
     kind: experiment
     series: MT
@@ -2926,14 +2926,14 @@ experiments:
     difficulty: high
     sci_value: high
     meaningless_risk: medium
-    relation: "the synthesis test; HIGH dependency risk on MT5-MT8 producing genuinely distinct strategies"
+    relation: "the synthesis test; HIGH dependency risk on MP5-MP8 producing genuinely distinct strategies"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_mt5_adaptive_halting
+  - id: mop_mt5_adaptive_halting
     name: adaptive_halting_vs_fixed_depth
     kind: experiment
     series: MT
@@ -2957,7 +2957,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_mt6_confidence_stop
+  - id: mop_mt6_confidence_stop
     name: confidence_stopping_vs_free_early_exit
     kind: experiment
     series: MT
@@ -2974,14 +2974,14 @@ experiments:
     difficulty: low
     sci_value: medium
     meaningless_risk: low
-    relation: "companion to mot_mt5; separates a learned stop signal from the free byproduct"
+    relation: "companion to mop_mt5; separates a learned stop signal from the free byproduct"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 9
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_mt7_beam_search
+  - id: mop_mt7_beam_search
     name: beam_tree_search_vs_greedy_refinement
     kind: experiment
     series: MT
@@ -3005,7 +3005,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_mt8_latent_debate
+  - id: mop_mt8_latent_debate
     name: latent_debate_vs_single_module
     kind: experiment
     series: MT
@@ -3029,7 +3029,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr1_video_cache
+  - id: mop_dr1_video_cache
     name: real_bound_attribute_video_cache
     kind: experiment
     series: DR
@@ -3053,7 +3053,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr2_sparse_real
+  - id: mop_dr2_sparse_real
     name: sparse_head_forgetting_on_real_latents
     kind: experiment
     series: DR
@@ -3070,14 +3070,14 @@ experiments:
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "cross-referenced as PR3 (one experiment); laptop 528K-cache pilot is mot_dr2 in configs/experiment; frozen_random VALID here (trained-shell dynamics)"
+    relation: "cross-referenced as PR3 (one experiment); laptop 528K-cache pilot is mop_dr2 in configs/experiment; frozen_random VALID here (trained-shell dynamics)"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr3_latent_scratchpad
+  - id: mop_dr3_latent_scratchpad
     name: latent_scratchpad_vs_residual_stream
     kind: experiment
     series: DR
@@ -3101,7 +3101,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr4_causal_intervention
+  - id: mop_dr4_causal_intervention
     name: counterfactual_causal_latent_intervention
     kind: experiment
     series: DR
@@ -3125,7 +3125,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr5_cross_substrate_consistency
+  - id: mop_dr5_cross_substrate_consistency
     name: cross_substrate_reasoning_consistency
     kind: experiment
     series: DR
@@ -3149,7 +3149,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr6_rollout_planning
+  - id: mop_dr6_rollout_planning
     name: internal_simulation_rollout_planning
     kind: experiment
     series: DR
@@ -3173,7 +3173,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr7_latent_cot
+  - id: mop_dr7_latent_cot
     name: latent_chain_of_thought
     kind: experiment
     series: DR
@@ -3197,7 +3197,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr8_fixed_point
+  - id: mop_dr8_fixed_point
     name: recurrent_refinement_fixed_point_vs_drift
     kind: experiment
     series: DR
@@ -3221,7 +3221,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr9_verify_revise
+  - id: mop_dr9_verify_revise
     name: verify_revise_under_corrected_controls
     kind: experiment
     series: DR
@@ -3238,14 +3238,14 @@ experiments:
     difficulty: medium
     sci_value: medium
     meaningless_risk: low
-    relation: "retries ex18 with corrected controls; feeds the MT7 scorer"
+    relation: "retries ex18 with corrected controls; feeds the MP7 scorer"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 4
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr10_retrieve_reason
+  - id: mop_dr10_retrieve_reason
     name: memory_first_retrieve_then_reason
     kind: experiment
     series: DR
@@ -3269,7 +3269,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr11_mc_rollouts
+  - id: mop_dr11_mc_rollouts
     name: monte_carlo_latent_rollouts
     kind: experiment
     series: DR
@@ -3293,7 +3293,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr12_disagreement
+  - id: mop_dr12_disagreement
     name: disagreement_as_uncertainty
     kind: experiment
     series: DR
@@ -3317,7 +3317,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr13_horizon_limit
+  - id: mop_dr13_horizon_limit
     name: planning_horizon_limit
     kind: experiment
     series: DR
@@ -3341,7 +3341,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr14_corruption
+  - id: mop_dr14_corruption
     name: reasoning_under_corruption_compression
     kind: experiment
     series: DR
@@ -3365,7 +3365,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_dr15_modality_general
+  - id: mop_dr15_modality_general
     name: modality_general_reasoning
     kind: experiment
     series: DR
@@ -3389,13 +3389,13 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_pr1_error_disjointness
+  - id: mop_pr1_error_disjointness
     name: mode_error_disjointness_router_precondition
     kind: experiment
     series: PR
     question: "are per-sample errors across modes decorrelated enough that an oracle router beats the single best mode"
     mechanism: "run reactive/refine/plan/verify heads, compute per-sample loss vectors, correlation plus oracle-selection upper bound; no new module"
-    null_hypothesis: "per-sample errors are highly correlated (oracle-router gain over single-best is within seed spread), so no router can help and MT1/MT4 are not worth building"
+    null_hypothesis: "per-sample errors are highly correlated (oracle-router gain over single-best is within seed spread), so no router can help and MP1/MP4 are not worth building"
     falsifier: "oracle gain over best mode < seed spread"
     metrics: [per_mode_loss_correlation, oracle_selection_upper_bound]
     controls: [baseline-single-best-mode, seed-spread]
@@ -3413,7 +3413,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R1}
 
-  - id: mot_pr2_plasticity_substrates
+  - id: mop_pr2_plasticity_substrates
     name: plasticity_advantage_real_vs_random_encoder
     kind: experiment
     series: PR
@@ -3437,12 +3437,12 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_pr3_modular_real
+  - id: mop_pr3_modular_real
     name: modular_plasticity_on_real_latents
     kind: experiment
     series: PR
     question: "do sparse/modular heads halve forgetting vs param-matched dense on real cached latents, significance-tested"
-    mechanism: "cross-reference stub: this is mot_dr2_sparse_real (one experiment listed under both programs per the dedup ledger)"
+    mechanism: "cross-reference stub: this is mop_dr2_sparse_real (one experiment listed under both programs per the dedup ledger)"
     null_hypothesis: "on real latents with a D3 certificate and a paired significance test, sparse ties param-matched dense (and a matched activation-sparsity dense head): synthetic advantage was cluster separability"
     falsifier: "delta collapses into 30-run spread"
     metrics: [backward_transfer, forgetting_area, paired_significance]
@@ -3454,14 +3454,14 @@ experiments:
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "duplicate of mot_dr2_sparse_real, kept so the plasticity program reads complete; runs exactly once"
+    relation: "duplicate of mop_dr2_sparse_real, kept so the plasticity program reads complete; runs exactly once"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_pr4_epistemic_gate
+  - id: mop_pr4_epistemic_gate
     name: epistemic_gate_vs_noisy_tv
     kind: experiment
     series: PR
@@ -3485,7 +3485,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_pr5_content_gated_cp
+  - id: mop_pr5_content_gated_cp
     name: content_gated_critical_period
     kind: experiment
     series: PR
@@ -3509,7 +3509,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_pr6_sleep_consolidation
+  - id: mop_pr6_sleep_consolidation
     name: offline_sleep_consolidation
     kind: experiment
     series: PR
@@ -3533,7 +3533,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_pr7_fast_slow
+  - id: mop_pr7_fast_slow
     name: fast_slow_two_timescale_weights
     kind: experiment
     series: PR
@@ -3557,7 +3557,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_pr8_retrieval_head
+  - id: mop_pr8_retrieval_head
     name: memory_augmented_retrieval_head
     kind: experiment
     series: PR
@@ -3581,7 +3581,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_ws1_agreement_vs_confidence
+  - id: mop_ws1_agreement_vs_confidence
     name: agreement_vs_confidence_central_gate
     kind: experiment
     series: WS
@@ -3605,7 +3605,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_ws2_fusion_tournament
+  - id: mop_ws2_fusion_tournament
     name: matched_capacity_fusion_tournament
     kind: experiment
     series: WS
@@ -3629,7 +3629,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_ws3_arbitration
+  - id: mop_ws3_arbitration
     name: uncertainty_vs_disagreement_arbitration
     kind: experiment
     series: WS
@@ -3653,7 +3653,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_ws4_bandwidth_sweep
+  - id: mop_ws4_bandwidth_sweep
     name: broadcast_bottleneck_bandwidth_sweep
     kind: experiment
     series: WS
@@ -3677,7 +3677,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_ws5_router_slot
+  - id: mop_ws5_router_slot
     name: modular_router_plus_shared_slot
     kind: experiment
     series: WS
@@ -3694,14 +3694,14 @@ experiments:
     difficulty: medium
     sci_value: medium
     meaningless_risk: medium
-    relation: "extends mot_dr2_sparse_real; laptop pilot on the 528K cache (WP-10); frozen_random VALID (trained-shell metric)"
+    relation: "extends mop_dr2_sparse_real; laptop pilot on the 528K cache (WP-10); frozen_random VALID (trained-shell metric)"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_at1_nuisance_grid
+  - id: mop_at1_nuisance_grid
     name: cross_substrate_nuisance_grid
     kind: experiment
     series: AT
@@ -3725,7 +3725,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_at2_mode_substrate_dep
+  - id: mop_at2_mode_substrate_dep
     name: mode_substrate_dependence
     kind: experiment
     series: AT
@@ -3749,7 +3749,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_at3_time_axis
+  - id: mop_at3_time_axis
     name: time_axis_ablation
     kind: experiment
     series: AT
@@ -3773,7 +3773,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_at4_programmatic_ceiling
+  - id: mop_at4_programmatic_ceiling
     name: programmatic_ceiling_reference
     kind: experiment
     series: AT
@@ -3797,7 +3797,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_at5_probe_class_sweep
+  - id: mop_at5_probe_class_sweep
     name: probe_class_sweep
     kind: experiment
     series: AT
@@ -3821,7 +3821,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_al1_uncertainty_router
+  - id: mop_al1_uncertainty_router
     name: uncertainty_router_with_noisy_tv_guard
     kind: experiment
     series: AL
@@ -3845,7 +3845,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_al2_shared_latent_alignment
+  - id: mop_al2_shared_latent_alignment
     name: shared_latent_alignment_vs_random_map_floor
     kind: experiment
     series: AL
@@ -3869,7 +3869,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_al3_audio_video_alignment
+  - id: mop_al3_audio_video_alignment
     name: audio_video_temporal_alignment
     kind: experiment
     series: AL
@@ -3893,7 +3893,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm1_compositional_gate
+  - id: mop_cm1_compositional_gate
     name: compositional_bound_on_real_video_c1_gate
     kind: experiment
     series: CM
@@ -3917,7 +3917,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm2_atlas_gate
+  - id: mop_cm2_atlas_gate
     name: multi_substrate_atlas_gate
     kind: experiment
     series: CM
@@ -3941,7 +3941,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm3_dense_vs_pooled
+  - id: mop_cm3_dense_vs_pooled
     name: dense_vs_pooled_compositional
     kind: experiment
     series: CM
@@ -3965,7 +3965,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm4_workspace_shell
+  - id: mop_cm4_workspace_shell
     name: workspace_shell_routing
     kind: experiment
     series: CM
@@ -3989,7 +3989,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm5_studio_rejuvenation
+  - id: mop_cm5_studio_rejuvenation
     name: studio_scale_rejuvenation_c3
     kind: experiment
     series: CM
@@ -4013,7 +4013,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm6_distilled_density
+  - id: mop_cm6_distilled_density
     name: compressed_capability_density
     kind: experiment
     series: CM
@@ -4037,7 +4037,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm7_min_objective_probe
+  - id: mop_cm7_min_objective_probe
     name: minimum_objective_encoder_probe
     kind: experiment
     series: CM
@@ -4061,7 +4061,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm8_custom_jepa_pilot
+  - id: mop_cm8_custom_jepa_pilot
     name: custom_jepa_factoring_pilot
     kind: experiment
     series: CM
@@ -4085,7 +4085,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm9_slot_jepa_binding
+  - id: mop_cm9_slot_jepa_binding
     name: object_centric_slot_jepa_binding
     kind: experiment
     series: CM
@@ -4109,7 +4109,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm10_action_forward_model
+  - id: mop_cm10_action_forward_model
     name: action_conditioned_forward_model
     kind: experiment
     series: CM
@@ -4133,7 +4133,7 @@ experiments:
     status: registry-only
     proof: {atlas_factor: controllability, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm11_developmental_plasticity
+  - id: mop_cm11_developmental_plasticity
     name: developmental_scheduled_plasticity
     kind: experiment
     series: CM
@@ -4157,8 +4157,8 @@ experiments:
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
-  - id: mot_cm12_mot_substrate_capstone
-    name: mixture_of_thinking_substrate_capstone
+  - id: mop_cm12_mop_substrate_capstone
+    name: mixture_of_perspectives_substrate_capstone
     kind: experiment
     series: CM
     question: "does a trained workspace router over 2-4 frozen/pilot experts beat the best single expert+workspace and the strongest open model on a combined battery"

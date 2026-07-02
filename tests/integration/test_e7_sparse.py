@@ -2,8 +2,8 @@
 answers its null (sparse_beats_dense) with the BWT comparison, at toy scale. The class is
 imported directly, not via the registry."""
 
-from devsys import config, devices
-from devsys.experiments.e7_sparse import E7
+from mop import config, devices
+from mop.experiments.e7_sparse import E7
 
 
 def test_e7_runs_and_answers_null(tmp_path):

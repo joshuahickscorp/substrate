@@ -30,12 +30,12 @@ from pathlib import Path
 
 import torch
 
-from devsys.config import compose
-from devsys.devices import resolve, safe_to
-from devsys.diagnostics import linear_probe
-from devsys.diagnostics.held_out_combo import held_out_combination
-from devsys.diagnostics.substrate_ablation import frozen_random_projection
-from devsys.substrate import load_encoder
+from mop.config import compose
+from mop.devices import resolve, safe_to
+from mop.diagnostics import linear_probe
+from mop.diagnostics.held_out_combo import held_out_combination
+from mop.diagnostics.substrate_ablation import frozen_random_projection
+from mop.substrate import load_encoder
 
 FRAMES, RES = 64, 256
 

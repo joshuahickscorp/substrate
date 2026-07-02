@@ -1,4 +1,4 @@
-"""WP-08 routing tests (DR12, AL1, MT1/MT2/MT3): tiny synthetic tensors only, seconds per test, no
+"""WP-08 routing tests (DR12, AL1, MP1/MP2/MP3): tiny synthetic tensors only, seconds per test, no
 encoder loads, no network. Asserts MECHANICS and preregistered verdict logic (contract declared, PR1
 verdict read from disk at run time and never hardcoded, guard-overrides-win ordering, matched budgets,
 oracle bounds), never a particular scientific outcome."""
@@ -6,16 +6,16 @@ oracle bounds), never a particular scientific outcome."""
 import json
 
 import torch
-from scripts.mot_al1_uncertainty_router import build_pool, run_arm
-from scripts.mot_al1_uncertainty_router import run as al1_run
-from scripts.mot_dr12_disagreement import (
+from scripts.mop_al1_uncertainty_router import build_pool, run_arm
+from scripts.mop_al1_uncertainty_router import run as al1_run
+from scripts.mop_dr12_disagreement import (
     PART_FRACS,
     make_mixed_regime,
     parse_seeds,
     read_pr1_context,
 )
-from scripts.mot_dr12_disagreement import run as dr12_run
-from scripts.mot_mt123_router_pilots import (
+from scripts.mop_dr12_disagreement import run as dr12_run
+from scripts.mop_mt123_router_pilots import (
     MODE_NAMES,
     KWTAHead,
     build_mode,
@@ -26,7 +26,7 @@ from scripts.mot_mt123_router_pilots import (
     train_router,
     verdict_block,
 )
-from scripts.mot_mt123_router_pilots import run as mt123_run
+from scripts.mop_mt123_router_pilots import run as mt123_run
 from scripts.pr1_mode_error_disjointness import SUBPOPS, make_dataset
 
 TINY_TV = {"dim": 16, "steps": 60, "batch": 32, "ensemble_size": 3}
@@ -124,7 +124,7 @@ def test_dr12_end_to_end_contract_and_structure(tmp_path):
 
 
 def test_dr12_guard_failure_overrides_any_win(monkeypatch, tmp_path):
-    import scripts.mot_dr12_disagreement as dr12
+    import scripts.mop_dr12_disagreement as dr12
 
     def failing_tv(seed=0, **kw):
         return {
@@ -230,7 +230,7 @@ def test_al1_end_to_end_contract_and_lr_doctrine():
     assert "fixed in code before running" in r["verdict_rule"]
 
 
-# ---------------------------------------------------------------- MT1/MT2/MT3 mechanics
+# ---------------------------------------------------------------- MP1/MP2/MP3 mechanics
 
 
 def test_kwta_head_is_actually_sparse():
@@ -321,7 +321,7 @@ def test_mt123_end_to_end_reads_pr1_and_matches_capacity(tmp_path):
         assert not block["verdict"].startswith("WIN"), "a NULL PR1 context must demote every win"
     for row in r["per_seed"]:
         match = row["mt3_match"]["params"]
-        assert match["matched"], f"MT3 homogeneous bank must be param-matched, got {match}"
+        assert match["matched"], f"MP3 homogeneous bank must be param-matched, got {match}"
         assert row["routed"]["oracle_acc"] >= row["routed"]["acc"] - 1e-9
     c = r["contract"]
-    assert c["id"] == "MT1/MT2/MT3" and c["null_hypothesis"]
+    assert c["id"] == "MP1/MP2/MP3" and c["null_hypothesis"]

@@ -1,7 +1,7 @@
 # Developmental capacity ladder (Frontier 32). The measurable rungs of the north-star loop
 # (north_star.DEVELOPMENTAL_LOOP). Each rung is a CAPACITY operationalized as a measurement with a
 # null hypothesis, never a sentience claim (see Frontier 35 rails). Validated by
-# devsys.devel.capacities.validate_capability: every rung must carry every contract field.
+# mop.devel.capacities.validate_capability: every rung must carry every contract field.
 #
 # rungs are ordered; a higher rung's promotion_rule may reference a lower rung being green.
 # status in {measured-now, prototype-local, studio-later, deferred}. tag is a capability family.

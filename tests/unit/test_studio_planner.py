@@ -3,8 +3,8 @@ gating, and the hard invariant that full Ego4D is NEVER planned by default."""
 
 import textwrap
 
-from devsys.studio import planner
-from devsys.studio.profiles import M3PRO_LOCAL_MAX, STUDIO, Profile
+from mop.studio import planner
+from mop.studio.profiles import M3PRO_LOCAL_MAX, STUDIO, Profile
 
 
 def _tiny_registry(tmp_path, body: str):

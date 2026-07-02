@@ -9,8 +9,8 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from devsys.substrate import LatentStore, factorized_arrays, real_task_stream
-from devsys.substrate.real_latent import factors_meta, open_real_store
+from mop.substrate import LatentStore, factorized_arrays, real_task_stream
+from mop.substrate.real_latent import factors_meta, open_real_store
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 from cache_factorized_encoder import make_factorized_clip  # noqa: E402

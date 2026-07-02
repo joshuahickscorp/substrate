@@ -1,4 +1,4 @@
-from devsys.studies.negative_registry import (
+from mop.studies.negative_registry import (
     SIGNALS,
     TOY,
     _bool_signals,

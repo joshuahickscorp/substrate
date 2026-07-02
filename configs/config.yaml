@@ -7,7 +7,7 @@ defaults:
   experiment: e1_baseline
 
 # package-wide knobs
-package: devsys
+package: mop
 seed: 0
 deterministic: true
 runs_dir: runs

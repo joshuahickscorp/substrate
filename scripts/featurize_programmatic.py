@@ -35,9 +35,9 @@ if str(_ROOT) not in sys.path:
 
 from scripts.compositional_under_nuisance import make_bound_nuisance_clip  # noqa: E402
 
-from devsys.config import REPO_ROOT  # noqa: E402
-from devsys.diagnostics import linear_probe  # noqa: E402
-from devsys.substrate import LatentStore  # noqa: E402
+from mop.config import REPO_ROOT  # noqa: E402
+from mop.diagnostics import linear_probe  # noqa: E402
+from mop.substrate import LatentStore  # noqa: E402
 
 ENCODE_JSON = REPO_ROOT / "runs" / "pre_studio" / "compositional_under_nuisance.json"
 CACHE_ROOT = REPO_ROOT / "data" / "cache"

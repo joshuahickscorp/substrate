@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import math
 
-from devsys.studies.determinism_study import CONFIGS, _characterize, determinism_study
+from mop.studies.determinism_study import CONFIGS, _characterize, determinism_study
 
 
 def test_study_runs_both_configs_and_reports_spread():

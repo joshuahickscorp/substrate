@@ -2,8 +2,8 @@
 reports per-arm diversity/reuse/collapse, and answers its explicit null (single_agent_plateaus)
 with a saved plot. Imported directly (env-later scaffold, not via the registry)."""
 
-from devsys import config, devices
-from devsys.experiments.e10_openended import ARMS, E10
+from mop import config, devices
+from mop.experiments.e10_openended import ARMS, E10
 
 
 def test_e10_ladder_runs_and_answers_null(tmp_path):

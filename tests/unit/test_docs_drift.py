@@ -42,7 +42,7 @@ def test_collected_count_matches_independent_collection():
 
 
 def test_registry_and_acceptance_ground_truth():
-    from devsys.experiments import REGISTRY
+    from mop.experiments import REGISTRY
 
     assert check_docs.experiment_registry_size() == len(REGISTRY)
     # acceptance.py prints N/N where N is the distinct step() name count; re-derive it independently

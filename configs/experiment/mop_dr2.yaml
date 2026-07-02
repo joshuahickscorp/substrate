@@ -1,0 +1,17 @@
+# MoT preregistration mirror (WP-02): registry row mop_dr2_sparse_real in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_perspectives/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through mop.experiments.REGISTRY: scripts/mop_dr2_sparse_real_pilot.py
+# writes its verdict json to runs/mot/dr2_sparse_real_pilot.json.
+# PILOT: laptop-scale evidence only; the registered claim needs studio-scale
+# (see the row's relation field and STUDIO_HANDOFF.md).
+id: mop_dr2_sparse_real
+name: sparse_head_forgetting_on_real_latents
+module: scripts/mop_dr2_sparse_real_pilot.py
+metric: [backward_transfer, forgetting_area, paired_significance]
+null_hypothesis: "on real latents with a D3 certificate and a paired significance test, sparse ties param-matched dense (and ties a dense head with matched activation-sparsity penalty); the synthetic win was cluster separability"
+falsifier: "delta collapses into the 30-run seed spread or is fully explained by substrate"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/dr2_sparse_real_pilot.json
+pilot: true

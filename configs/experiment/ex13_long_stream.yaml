@@ -7,7 +7,7 @@
 # seconds): 240 tasks x 2 main arms, plus a smaller frozen-random control arm. For a fast dev-loop
 # iteration (seconds, CI/self-test scale), override on the command line or uncomment the toy_smoke
 # block below and copy its values over the top-level keys, e.g.:
-#   devsys.config.compose(["experiment=ex13_long_stream", "device=cpu",
+#   mop.config.compose(["experiment=ex13_long_stream", "device=cpu",
 #     "experiment.stream.n_tasks=12", "experiment.n_tasks_control=6",
 #     "experiment.train.epochs_per_task=1", "experiment.anchor_tasks=2", "experiment.eval_every=3"])
 id: ex13_long_stream

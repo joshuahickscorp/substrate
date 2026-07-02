@@ -6,8 +6,8 @@ Asserts MECHANICS only, never a particular scientific outcome."""
 
 from pathlib import Path
 
-from devsys import config, devices
-from devsys.experiments import get_experiment
+from mop import config, devices
+from mop.experiments import get_experiment
 
 
 def _run(eid, overrides, tmp_path):

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 
-from devsys.studio_rehearsal import DEFAULT_OUT, rehearse
+from mop.studio_rehearsal import DEFAULT_OUT, rehearse
 
 
 def main(argv: list[str] | None = None) -> int:

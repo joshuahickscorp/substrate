@@ -27,7 +27,7 @@ import argparse
 import json
 import sys
 
-from devsys.studio import pipeline, profiles
+from mop.studio import pipeline, profiles
 
 
 def _parse_tiers(s: str) -> set[str]:

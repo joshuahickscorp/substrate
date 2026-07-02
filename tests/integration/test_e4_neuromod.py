@@ -2,8 +2,8 @@
 learnable region, the gate value each mechanism sends to the noise region, a calibration ECE,
 and the explicit null check (point-error chases noisy-TV, disagreement ignores it)."""
 
-from devsys import config, devices
-from devsys.experiments.e4_neuromod import E4
+from mop import config, devices
+from mop.experiments.e4_neuromod import E4
 
 
 def test_e4_neuromod_runs_and_checks_null(tmp_path):

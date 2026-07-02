@@ -26,7 +26,7 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from devsys.diagnostics.linear_probe import linear_probe  # noqa: E402
+from mop.diagnostics.linear_probe import linear_probe  # noqa: E402
 
 CACHE = ROOT / "data" / "cache" / "vjepa2_vitl_fpc64_256_real"
 ENCODER = "vjepa2_vitl_fpc64_256"

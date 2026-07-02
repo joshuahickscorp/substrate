@@ -16,9 +16,9 @@ import argparse
 import json
 from pathlib import Path
 
-from devsys.config import REPO_ROOT
-from devsys.logging_utils import get_logger
-from devsys.studies.cost_projection import (
+from mop.config import REPO_ROOT
+from mop.logging_utils import get_logger
+from mop.studies.cost_projection import (
     cost_projection,
     load_timings_from_checkpoint,
     render_md,

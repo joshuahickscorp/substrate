@@ -3,7 +3,7 @@ read_video is monkeypatched so the clip-batching/labeling logic is tested withou
 
 import torch
 
-from devsys.substrate import video
+from mop.substrate import video
 
 
 def test_preprocess_clip_thwc_shape_and_norm():

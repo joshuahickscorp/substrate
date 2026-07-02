@@ -14,9 +14,9 @@ from __future__ import annotations
 import argparse
 import json
 
-from devsys.bench import render_md, run_benches
-from devsys.config import REPO_ROOT
-from devsys.logging_utils import get_logger
+from mop.bench import render_md, run_benches
+from mop.config import REPO_ROOT
+from mop.logging_utils import get_logger
 
 log = get_logger("bench")
 

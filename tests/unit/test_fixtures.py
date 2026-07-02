@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from devsys.substrate import generate_video_corpus
+from mop.substrate import generate_video_corpus
 
 
 def test_corpus_layout_and_counts(tmp_path):

@@ -1,11 +1,11 @@
 # Auxiliary / optional model registry (Frontier 2). The CANONICAL frozen substrates live in
-# configs/encoder/*.yaml and are read by devsys.substrate.encoder_registry (the single source of
+# configs/encoder/*.yaml and are read by mop.substrate.encoder_registry (the single source of
 # truth for V-JEPA science). This file holds ONLY the optional, clearly-tagged extras that must
 # NEVER silently replace canonical V-JEPA: comparison baselines, distilled students, quantized
-# inference variants. devsys.studio.registry.load_models() merges canonical + these, tagging each
+# inference variants. mop.studio.registry.load_models() merges canonical + these, tagging each
 # row with role so a reader can never confuse an approximation for the real substrate.
 #
-# Honesty rules (enforced in devsys.studio.registry):
+# Honesty rules (enforced in mop.studio.registry):
 #   - role in {canonical, auxiliary, distilled, quantized}
 #   - only role: canonical may carry result_tag real-encoder; everything else is auxiliary/approximate
 #   - available: false until a weight set is actually verified on HF (no pretending)

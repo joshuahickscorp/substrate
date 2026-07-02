@@ -15,7 +15,7 @@ import argparse
 import json
 import sys
 
-from devsys.harness.queue import run_queue
+from mop.harness.queue import run_queue
 
 
 def main(argv: list[str] | None = None) -> int:

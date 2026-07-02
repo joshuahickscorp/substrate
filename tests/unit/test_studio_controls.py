@@ -4,8 +4,8 @@ validate_source contract, honor the byte budget (truncate, never overrun), and s
 import numpy as np
 import pytest
 
-from devsys.studio import controls
-from devsys.substrate.video import validate_source
+from mop.studio import controls
+from mop.substrate.video import validate_source
 
 
 def test_generate_default_families(tmp_path):

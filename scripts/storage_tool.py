@@ -20,9 +20,9 @@ from pathlib import Path
 
 from omegaconf import OmegaConf
 
-from devsys.config import REPO_ROOT
-from devsys.logging_utils import get_logger
-from devsys.substrate.storage import (
+from mop.config import REPO_ROOT
+from mop.logging_utils import get_logger
+from mop.substrate.storage import (
     estimate_cache_bytes,
     estimate_for_encoder,
     human_bytes,

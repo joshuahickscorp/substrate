@@ -33,10 +33,10 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from devsys.config import compose
-from devsys.devices import resolve, safe_to
-from devsys.diagnostics import linear_probe
-from devsys.substrate import load_encoder
+from mop.config import compose
+from mop.devices import resolve, safe_to
+from mop.diagnostics import linear_probe
+from mop.substrate import load_encoder
 
 FRAMES, RES = 64, 256
 

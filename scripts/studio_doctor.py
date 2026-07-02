@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import json
 
-from devsys.config import REPO_ROOT
-from devsys.logging_utils import get_logger
-from devsys.studio_doctor import doctor, render_md
+from mop.config import REPO_ROOT
+from mop.logging_utils import get_logger
+from mop.studio_doctor import doctor, render_md
 
 log = get_logger("studio_doctor")
 

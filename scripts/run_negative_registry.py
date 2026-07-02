@@ -13,8 +13,8 @@ import argparse
 import json
 import sys
 
-from devsys.config import REPO_ROOT
-from devsys.studies.negative_registry import negative_registry, to_markdown
+from mop.config import REPO_ROOT
+from mop.studies.negative_registry import negative_registry, to_markdown
 
 
 def main(argv: list[str] | None = None) -> int:

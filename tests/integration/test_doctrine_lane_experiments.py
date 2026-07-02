@@ -5,8 +5,8 @@ Asserts MECHANICS only, never a particular scientific outcome (the nulls hold; t
 
 import pytest
 
-from devsys import config, devices
-from devsys.experiments import get_experiment
+from mop import config, devices
+from mop.experiments import get_experiment
 
 DOCTRINE_LANE_IDS = ("d6_sensitive_window", "b8_structural_growth", "y4_hysteresis", "ex10_cross_modal")
 

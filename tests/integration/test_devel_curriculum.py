@@ -4,9 +4,9 @@ This is the on-device demonstration of learning-progress data selection (rung 6 
 
 from pathlib import Path
 
-from devsys.devel import curriculum
-from devsys.studio import controls
-from devsys.studio.profiles import M3PRO_LOCAL_MAX
+from mop.devel import curriculum
+from mop.studio import controls
+from mop.studio.profiles import M3PRO_LOCAL_MAX
 
 
 def _sources(tmp_path, families):
@@ -54,7 +54,7 @@ def test_curriculum_manifest_has_required_fields(tmp_path):
 def test_learning_progress_flags_noise_via_permutation(tmp_path):
     # direct check of the permutation-test noise detector on a pure-noise corpus
     sources = _sources(tmp_path, ["aleatoric_tv"])
-    from devsys.devel.curriculum import _encode_source, learning_progress
+    from mop.devel.curriculum import _encode_source, learning_progress
 
     x, y = _encode_source(Path(sources[0]["root"]), "vjepa2_vitl_fpc64_256", 48, 0)
     lp = learning_progress(x, y, seed=0)

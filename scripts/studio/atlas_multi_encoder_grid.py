@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """ATLAS (Process B, Studio-only): the at-scale AT1 + AL2 grid over the FULL multi-encoder cache set. The
-laptop pilots (mot_at1_grid_pilot.py, mot_al2_alignment_pilot.py) type only whatever few columns the
+laptop pilots (mop_at1_grid_pilot.py, mop_al2_alignment_pilot.py) type only whatever few columns the
 18GB pool could cache; this Studio run types the whole atlas -- every real encoder against its own
 random-init control (AT1's nine-verdict nuisance grid) AND every real-encoder pair for shared-latent
 alignment (AL2's permutation-floor topology test) -- in one pass, so the 06_cognitive_currencies_atlas
@@ -51,9 +51,9 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from scripts.featurize_programmatic import CACHE_ROOT  # noqa: E402
-from scripts.mot_al2_alignment_pilot import evaluate_pairs  # noqa: E402
-from scripts.mot_at1_grid_pilot import COLUMNS as AT1_PILOT_COLUMNS  # noqa: E402
-from scripts.mot_at1_grid_pilot import REFERENCE_COLUMNS, evaluate_grid, parse_seeds  # noqa: E402
+from scripts.mop_al2_alignment_pilot import evaluate_pairs  # noqa: E402
+from scripts.mop_at1_grid_pilot import COLUMNS as AT1_PILOT_COLUMNS  # noqa: E402
+from scripts.mop_at1_grid_pilot import REFERENCE_COLUMNS, evaluate_grid, parse_seeds  # noqa: E402
 
 MIN_FREE_RAM_GB = 32.0
 
@@ -134,9 +134,7 @@ def atlas_scope(at1: dict, al2: dict, full_grid: bool, full_pairs: bool) -> dict
     """The at-scale scope typing. Survivors are AT1 columns that cleared the nine-verdict order AND, for
     the alignment axis, pairs that cleared the permutation floor. The UNIVERSAL claim is only admissible
     when the full registered column/pair set was present (no missing cache silently narrowed the set)."""
-    at1_survivors = [
-        c for c in at1.get("grid", []) if c.get("verdict") == "genuine-substrate-signal"
-    ]
+    at1_survivors = [c for c in at1.get("grid", []) if c.get("verdict") == "genuine-substrate-signal"]
     al2_survivors = [
         name for name, p in al2.get("pairs", {}).items() if p.get("verdict") == "genuine-shared-structure"
     ]

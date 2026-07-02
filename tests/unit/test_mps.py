@@ -12,8 +12,8 @@ import warnings
 import torch
 from omegaconf import OmegaConf
 
-from devsys import devices
-from devsys.config import CONFIG_DIR
+from mop import devices
+from mop.config import CONFIG_DIR
 
 MPS_YAML = CONFIG_DIR / "device" / "mps.yaml"
 

@@ -10,7 +10,7 @@ import importlib.util
 import math
 from pathlib import Path
 
-from devsys.studies.report import (
+from mop.studies.report import (
     cohens_d,
     frontier_table,
     mean_ci,

@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from devsys.provenance import RESULT_TAGS
-from devsys.studio import pipeline
+from mop.provenance import RESULT_TAGS
+from mop.studio import pipeline
 
 
 def _skip_if_disk_below_floor():
@@ -102,7 +102,7 @@ def test_gated_conveyor_runs_bounded_toy(tmp_path, monkeypatch):
     # forced open (the toy leg writes only to tmp_path) so a host genuinely below the floor still
     # exercises the run path; the gate-stops behavior is covered by
     # test_gated_conveyor_stops_on_low_free_disk, which forces it shut the same way.
-    from devsys.studio.profiles import Profile
+    from mop.studio.profiles import Profile
 
     monkeypatch.setattr(Profile, "free_disk_ok", lambda self, root=None: (True, 1000.0))
     out = pipeline.cmd_run(
@@ -158,7 +158,7 @@ def test_gated_conveyor_stops_on_invalid_registry(tmp_path, monkeypatch):
 
 def test_gated_conveyor_stops_on_low_free_disk(tmp_path, monkeypatch):
     # free_disk is a kill switch: below the floor must STOP the run
-    from devsys.studio.profiles import Profile
+    from mop.studio.profiles import Profile
 
     monkeypatch.setattr(Profile, "free_disk_ok", lambda self, root=None: (False, 0.0))
     out = pipeline.cmd_run(
@@ -173,8 +173,8 @@ def test_capped_cache_drops_classes_honestly(tmp_path):
     # claiming dropped classes; the cache validates clean and reports the coverage gap.
     from dataclasses import replace
 
-    from devsys.studio import controls
-    from devsys.studio.profiles import M3PRO_LOCAL_MAX
+    from mop.studio import controls
+    from mop.studio.profiles import M3PRO_LOCAL_MAX
 
     controls.generate_controls(
         tmp_path / "c", families=["class_incremental"], clips_per_class=3, frames=4, h=8, w=8, seed=0

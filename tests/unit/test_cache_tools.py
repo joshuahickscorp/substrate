@@ -6,9 +6,9 @@ import json
 
 import numpy as np
 
-from devsys import devices
-from devsys.substrate import EncoderSpec, FrozenEncoder, cache_latents, synthetic_clips
-from devsys.substrate.cache_tools import cache_info, list_caches, validate_cache
+from mop import devices
+from mop.substrate import EncoderSpec, FrozenEncoder, cache_latents, synthetic_clips
+from mop.substrate.cache_tools import cache_info, list_caches, validate_cache
 
 
 def _build(tmp_path, name="cache", n=24, dim=16, n_classes=4):

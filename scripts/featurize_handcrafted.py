@@ -42,8 +42,8 @@ from scripts.featurize_programmatic import (  # noqa: E402
     write_factors_sidecar,
 )
 
-from devsys.diagnostics import linear_probe  # noqa: E402
-from devsys.substrate import LatentStore  # noqa: E402
+from mop.diagnostics import linear_probe  # noqa: E402
+from mop.substrate import LatentStore  # noqa: E402
 
 HOG_CELLS = 8  # cells per side
 HOG_BINS = 9  # unsigned orientation bins over [0, pi)

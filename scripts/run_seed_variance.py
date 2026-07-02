@@ -13,7 +13,7 @@ import argparse
 import json
 import sys
 
-from devsys.studies.seed_variance import seed_variance
+from mop.studies.seed_variance import seed_variance
 
 
 def main(argv: list[str] | None = None) -> int:

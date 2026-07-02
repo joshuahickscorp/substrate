@@ -9,34 +9,34 @@ import json
 import pytest
 import torch
 from scripts.cache_randominit_vitl_features import write_feature_cache
-from scripts.mot_ws1_agreement_vs_confidence import (
+from scripts.mop_ws1_agreement_vs_confidence import (
     DEFAULTS as WS1_DEFAULTS,
 )
-from scripts.mot_ws1_agreement_vs_confidence import (
+from scripts.mop_ws1_agreement_vs_confidence import (
     _signals,
     load_dual_source,
     split_train_test,
 )
-from scripts.mot_ws1_agreement_vs_confidence import (
+from scripts.mop_ws1_agreement_vs_confidence import (
     run as ws1_run,
 )
-from scripts.mot_ws2_fusion_tournament import (
+from scripts.mop_ws2_fusion_tournament import (
     ARM_MAKERS,
     CrossAttention,
     build_matched_arms,
 )
-from scripts.mot_ws2_fusion_tournament import (
+from scripts.mop_ws2_fusion_tournament import (
     DEFAULTS as WS2_DEFAULTS,
 )
-from scripts.mot_ws2_fusion_tournament import (
+from scripts.mop_ws2_fusion_tournament import (
     run as ws2_run,
 )
-from scripts.mot_ws3_arbitration import inverse_variance_fuse, routed_accuracy
-from scripts.mot_ws3_arbitration import run as ws3_run
-from scripts.mot_ws4_bandwidth_sweep import BottleneckFusion
-from scripts.mot_ws4_bandwidth_sweep import run as ws4_run
+from scripts.mop_ws3_arbitration import inverse_variance_fuse, routed_accuracy
+from scripts.mop_ws3_arbitration import run as ws3_run
+from scripts.mop_ws4_bandwidth_sweep import BottleneckFusion
+from scripts.mop_ws4_bandwidth_sweep import run as ws4_run
 
-from devsys.diagnostics.compute import param_count
+from mop.diagnostics.compute import param_count
 
 NTV_FAST = {"noisy_tv_steps": 60, "noisy_tv_dim": 16}
 

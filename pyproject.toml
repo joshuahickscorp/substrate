@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "devsys"
+name = "mop"
 version = "0.1.0"
 description = "Developmental continual-learning system around a frozen V-JEPA perceptual substrate"
 requires-python = ">=3.11"
@@ -28,10 +28,10 @@ video = ["torchvision>=0.19"]
 dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.11"]
 
 [project.scripts]
-devsys = "devsys.harness.cli:main"
+mop = "mop.harness.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/devsys"]
+packages = ["src/mop"]
 
 [tool.ruff]
 line-length = 110
@@ -50,7 +50,7 @@ python_version = "3.12"
 ignore_missing_imports = true
 warn_unused_ignores = false
 disable_error_code = ["import-untyped", "no-redef"]
-files = ["src/devsys"]
+files = ["src/mop"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

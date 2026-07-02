@@ -4,7 +4,7 @@ next-best experiment."""
 
 import pytest
 
-from devsys.devel import ablation, metacognition
+from mop.devel import ablation, metacognition
 
 
 def test_local_plan_ranks_and_names_next_best():

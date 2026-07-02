@@ -1,7 +1,7 @@
 # Paradigm frontier registry (Frontier 20). The stones turned over: scoped candidate learning
 # mechanisms (Frontiers 21-30), each with gates, an expected signature, a null interpretation, and a
 # minimum viable LOCAL test. NOT random experiments, NOT promoted science. Validated by
-# devsys.devel.paradigms.validate_paradigm: every entry carries every contract field, status is in
+# mop.devel.paradigms.validate_paradigm: every entry carries every contract field, status is in
 # the closed set, and a speculative entry can never carry result_tag real/natural-video.
 #
 # changes in {data, memory, optimizer, architecture, objective, routing, inference, curriculum, evaluation}

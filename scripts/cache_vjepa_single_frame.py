@@ -43,9 +43,9 @@ from scripts.cache_randominit_vitl_features import (  # noqa: E402
     write_feature_cache,
 )
 
-from devsys.config import compose  # noqa: E402
-from devsys.devices import resolve, safe_to  # noqa: E402
-from devsys.substrate import load_encoder  # noqa: E402
+from mop.config import compose  # noqa: E402
+from mop.devices import resolve, safe_to  # noqa: E402
+from mop.substrate import load_encoder  # noqa: E402
 
 
 def single_frame_clip(clip: torch.Tensor) -> torch.Tensor:

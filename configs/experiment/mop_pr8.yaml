@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mop_pr8_retrieval_head in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_perspectives/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through mop.experiments.REGISTRY: scripts/mop_pr8_retrieval_head.py
+# writes its verdict json to runs/mot/pr8_retrieval_head.json.
+id: mop_pr8_retrieval_head
+name: memory_augmented_retrieval_head
+module: scripts/mop_pr8_retrieval_head.py
+metric: [few_shot_accuracy, adaptation_speed]
+null_hypothesis: "retrieval-conditioned head ties plain kNN (parametric part adds nothing) OR ties the no-memory parametric head (memory adds nothing), at matched capacity"
+falsifier: "head ties kNN or ties parametric"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/pr8_retrieval_head.json
+pilot: false

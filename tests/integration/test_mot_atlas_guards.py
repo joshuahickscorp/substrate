@@ -6,7 +6,7 @@ probe-specific detection, missing stores skipped honestly), never a particular s
 import json
 
 import torch
-from scripts.mot_at4_programmatic_ceiling import (
+from scripts.mop_at4_programmatic_ceiling import (
     CEILING_COLUMN,
     PERCEPTUAL_STORES,
     clip_identity_check,
@@ -14,21 +14,21 @@ from scripts.mot_at4_programmatic_ceiling import (
     load_column,
     parse_seeds,
 )
-from scripts.mot_at4_programmatic_ceiling import (
+from scripts.mop_at4_programmatic_ceiling import (
     CONTRACT as AT4_CONTRACT,
 )
-from scripts.mot_at4_programmatic_ceiling import run as at4_run
-from scripts.mot_at5_probe_class_sweep import (
+from scripts.mop_at4_programmatic_ceiling import run as at4_run
+from scripts.mop_at5_probe_class_sweep import (
     CONTRACT as AT5_CONTRACT,
 )
-from scripts.mot_at5_probe_class_sweep import (
+from scripts.mop_at5_probe_class_sweep import (
     PROBE_CLASSES,
     cell_verdict,
     nonlinear_gain_probe,
 )
-from scripts.mot_at5_probe_class_sweep import run as at5_run
+from scripts.mop_at5_probe_class_sweep import run as at5_run
 
-from devsys.substrate import LatentStore
+from mop.substrate import LatentStore
 
 SEEDS = [0, 1]
 N = 360

@@ -2,8 +2,8 @@
 frontier, and ACTUALLY answers its null (replay vs no-replay, prioritized vs random) with a
 ran comparison and a saved frontier plot. Class imported directly, not via the registry."""
 
-from devsys import config, devices
-from devsys.experiments.e2_replay import E2
+from mop import config, devices
+from mop.experiments.e2_replay import E2
 
 
 def _toy_cfg():

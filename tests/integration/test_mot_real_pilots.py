@@ -11,8 +11,8 @@ from pathlib import Path
 import pytest
 import torch
 
-from devsys.devices import resolve
-from devsys.substrate.latent_store import LatentStore
+from mop.devices import resolve
+from mop.substrate.latent_store import LatentStore
 
 torch.set_num_threads(2)  # live-state rule: an encode may own the CPU
 
@@ -59,12 +59,12 @@ def cache_dir(tmp_path_factory) -> Path:
 
 
 def test_dr2_sparse_real_pilot_runs(dev, cache_dir, tmp_path):
-    mod = load_script("mot_dr2_sparse_real_pilot")
+    mod = load_script("mop_dr2_sparse_real_pilot")
     cfg = mod.default_cfg(
         **TINY, data_dir=str(cache_dir), hidden=8, kwta_k=2, n_experts=2, l1_grid=[1e-3, 1e-2]
     )
     out = mod.MotDR2SparseRealPilot().run(cfg, dev, tmp_path)
-    assert out["experiment"] == "mot_dr2_sparse_real" and out["pilot"] is True
+    assert out["experiment"] == "mop_dr2_sparse_real" and out["pilot"] is True
     assert out["contract"]["null_hypothesis"]
     assert isinstance(out["null_supported"], bool)
     # capacity matching is by construction, not eyeballing
@@ -79,10 +79,10 @@ def test_dr2_sparse_real_pilot_runs(dev, cache_dir, tmp_path):
 
 
 def test_ws5_slot_ablation_pilot_runs(dev, cache_dir, tmp_path):
-    mod = load_script("mot_ws5_slot_ablation_pilot")
+    mod = load_script("mop_ws5_slot_ablation_pilot")
     cfg = mod.default_cfg(**TINY, data_dir=str(cache_dir), hidden=8, n_experts=2)
     out = mod.MotWS5SlotAblationPilot().run(cfg, dev, tmp_path)
-    assert out["experiment"] == "mot_ws5_router_slot" and out["pilot"] is True
+    assert out["experiment"] == "mop_ws5_router_slot" and out["pilot"] is True
     assert isinstance(out["null_supported"], bool)
     # the ablation is at fixed capacity: identical param counts by construction
     assert out["param_match_ok"] is True
@@ -93,7 +93,7 @@ def test_ws5_slot_ablation_pilot_runs(dev, cache_dir, tmp_path):
 
 def test_ws5_slot_read_actually_ablated(cache_dir):
     """The ablated arm must be invariant to the slot parameters (the read path is severed)."""
-    mod = load_script("mot_ws5_slot_ablation_pilot")
+    mod = load_script("mop_ws5_slot_ablation_pilot")
     torch.manual_seed(0)
     net = mod.SlotRoutedNet(DIM, N_CLASSES, n_experts=2, expert_hidden=3, use_slot=False)
     x = torch.randn(5, DIM)
@@ -110,12 +110,12 @@ def test_ws5_slot_read_actually_ablated(cache_dir):
 
 
 def test_cm4_workspace_pilot_runs(dev, cache_dir, tmp_path):
-    mod = load_script("mot_cm4_workspace_pilot")
+    mod = load_script("mop_cm4_workspace_pilot")
     cfg = mod.default_cfg(
         **TINY, data_dir=str(cache_dir), proj_dim=8, ws_head_hidden=8, wm_slots=2, capmatch_tol=0.06
     )
     out = mod.MotCM4WorkspacePilot().run(cfg, dev, tmp_path)
-    assert out["experiment"] == "mot_cm4_workspace_shell" and out["pilot"] is True
+    assert out["experiment"] == "mop_cm4_workspace_shell" and out["pilot"] is True
     assert isinstance(out["null_supported"], bool)
     rec = out["capacity_and_compute_matching"]
     assert rec["flops_matched_within"]["matched"] is True  # the depth arm is genuinely FLOP-matched
@@ -131,7 +131,7 @@ def test_cm4_workspace_pilot_runs(dev, cache_dir, tmp_path):
 
 
 def test_pilots_fail_loudly_on_missing_cache(dev, tmp_path):
-    mod = load_script("mot_dr2_sparse_real_pilot")
+    mod = load_script("mop_dr2_sparse_real_pilot")
     cfg = mod.default_cfg(**{**TINY, "cache": "no_such_cache"}, data_dir=str(tmp_path))
     with pytest.raises(FileNotFoundError):
         mod.MotDR2SparseRealPilot().run(cfg, dev, tmp_path)

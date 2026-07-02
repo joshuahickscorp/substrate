@@ -14,9 +14,9 @@ import json
 import sys
 import time
 
-from devsys.config import REPO_ROOT
-from devsys.harness.cpu_pool import physical_cores, plan_pool, run_pool
-from devsys.logging_utils import get_logger
+from mop.config import REPO_ROOT
+from mop.harness.cpu_pool import physical_cores, plan_pool, run_pool
+from mop.logging_utils import get_logger
 
 log = get_logger("cpu_campaign")
 OUT = REPO_ROOT / "runs" / "cpu_campaign"
@@ -171,14 +171,14 @@ def tier0(seeds: int) -> dict:
     log.info("T0: determinism (11A) + negative-result registry (11D)")
     res = {}
     try:
-        from devsys.studies.determinism_study import determinism_study
+        from mop.studies.determinism_study import determinism_study
 
         res["determinism_11A"] = determinism_study(reps=3, toy=True)
     except Exception as e:
         res["determinism_11A"] = {"error": repr(e)[:200]}
         log.warning("11A failed: %s", repr(e)[:160])
     try:
-        from devsys.studies.negative_registry import negative_registry
+        from mop.studies.negative_registry import negative_registry
 
         res["negative_registry_11D"] = negative_registry(toy=True)
     except Exception as e:
@@ -209,7 +209,7 @@ def tier1(seeds: int) -> dict:
     except Exception as e:
         res["diagnostics"] = {"error": repr(e)[:200]}
     try:
-        from devsys.studies.seed_variance import seed_variance
+        from mop.studies.seed_variance import seed_variance
 
         res["seed_variance_11B"] = seed_variance(max_seeds=min(8, max(5, seeds)), toy=True)
     except Exception as e:
@@ -235,7 +235,7 @@ def tier2(seeds: int) -> dict:
         ("pc_depth", "pc_depth", {"toy": True}),
     ):
         try:
-            m = __import__(f"devsys.studies.{mod}", fromlist=[fn])
+            m = __import__(f"mop.studies.{mod}", fromlist=[fn])
             res[mod] = getattr(m, fn)(**kw)
         except Exception as e:
             res[mod] = {"error": repr(e)[:200]}
@@ -292,7 +292,7 @@ def main(argv: list[str] | None = None) -> int:
         summary["t3"] = tier3(a.t3_budget, seeds=3)
     # cost projection from measured timings
     try:
-        from devsys.studies.cost_projection import cost_projection
+        from mop.studies.cost_projection import cost_projection
 
         w, _ = plan_pool("heavy")
         summary["cost_projection"] = cost_projection(timings or {}, workers=w, full_seed=a.seeds)

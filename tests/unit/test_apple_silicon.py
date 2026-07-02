@@ -2,7 +2,7 @@
 
 import torch
 
-from devsys import devices
+from mop import devices
 
 
 def test_apple_silicon_info_shape():

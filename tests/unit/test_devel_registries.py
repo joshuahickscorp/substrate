@@ -2,7 +2,7 @@
 completeness (every entry carries baseline/ablation/metric/null/local-test/status), the honesty rule
 that a paradigm candidate cannot claim a canonical result, and offline paper-watch."""
 
-from devsys.devel import registries as R
+from mop.devel import registries as R
 
 
 def test_shipped_registries_validate_clean():

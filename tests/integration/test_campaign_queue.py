@@ -1,7 +1,7 @@
 """The Volume IV campaign queue (synthesized from the corpus DAG) validates, resolves tiers
 and dependencies, and runs one Tier C leg end to end at toy scale."""
 
-from devsys.harness.queue import load_queue, plan, run_queue, topo_order, validate
+from mop.harness.queue import load_queue, plan, run_queue, topo_order, validate
 
 
 def test_manifest_validates():

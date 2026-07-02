@@ -3,7 +3,7 @@ even against a generous budget, and clamps must never exceed the cap."""
 
 import pytest
 
-from devsys.studio.profiles import M3PRO_LOCAL_MAX, STUDIO, get_profile, list_profiles
+from mop.studio.profiles import M3PRO_LOCAL_MAX, STUDIO, get_profile, list_profiles
 
 
 def test_get_profile_by_name_and_alias():

@@ -4,7 +4,7 @@ actually rerun and aggregated (non-vacuous: the per-seed gaps and per-S rows mus
 
 import math
 
-from devsys.studies.seed_variance import (
+from mop.studies.seed_variance import (
     CLAIM_TOL,
     SEED_GRID,
     _aggregate,

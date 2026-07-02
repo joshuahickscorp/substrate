@@ -20,7 +20,7 @@ goal_success, goal_distance_reduction, planner-vs-flat and planner-vs-shuffle on
 scoring, across multiple seeds (the original was single-seed).
 
 This script reuses the shipped experiment's own helpers (imported from
-devsys.experiments.ex2_latent_planning): _true_dynamics_params, _step_true, _sample_actions,
+mop.experiments.ex2_latent_planning): _true_dynamics_params, _step_true, _sample_actions,
 _DynamicsModel, _train_dynamics, _r2, _rollout, _mpc_plan, _mpc_plan_shuffled, _FlatReactiveHead,
 _train_flat_head, _run_flat_head_trial. It does NOT edit the shipped module. It builds the same
 ground-truth system, learned model, flat head and planner, and changes ONLY how the planner's and
@@ -41,7 +41,7 @@ from pathlib import Path
 
 import torch
 
-from devsys.experiments.ex2_latent_planning import (
+from mop.experiments.ex2_latent_planning import (
     _DynamicsModel,
     _FlatReactiveHead,
     _mpc_plan,
@@ -54,7 +54,7 @@ from devsys.experiments.ex2_latent_planning import (
     _train_flat_head,
     _true_dynamics_params,
 )
-from devsys.seeding import seed_everything
+from mop.seeding import seed_everything
 
 # ------------------------------------------------------------------------------------------------
 # scale (matches configs/experiment/ex2_latent_planning.yaml, trimmed n_trials for a bounded

@@ -1,4 +1,4 @@
-"""WP-03 halting and verifier harness (MT5, MT6, DR9, DR8). Tiny synthetic tensors only, seconds,
+"""WP-03 halting and verifier harness (MP5, MP6, DR9, DR8). Tiny synthetic tensors only, seconds,
 no encoder loads, no caches touched (DR8 runs its synthetic arm; the real-cache path is asserted to
 fail loudly, not exercised). Asserts MECHANICS and contract honesty, never a scientific outcome (the
 preregistered nulls may hold)."""
@@ -8,13 +8,13 @@ from pathlib import Path
 
 import pytest
 
-from devsys.devices import resolve
+from mop.devices import resolve
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
-import mot_dr8_fixed_point as dr8  # noqa: E402
-import mot_dr9_verify_revise as dr9  # noqa: E402
-import mot_mt5_adaptive_halting as mt5  # noqa: E402
-import mot_mt6_confidence_stop as mt6  # noqa: E402
+import mop_dr8_fixed_point as dr8  # noqa: E402
+import mop_dr9_verify_revise as dr9  # noqa: E402
+import mop_mt5_adaptive_halting as mt5  # noqa: E402
+import mop_mt6_confidence_stop as mt6  # noqa: E402
 
 DEV = resolve("cpu")
 

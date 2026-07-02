@@ -9,10 +9,10 @@ import json
 import pytest
 import torch
 
-from devsys.devices import resolve
-from devsys.substrate import cache_latents
-from devsys.substrate import video as V
-from devsys.substrate.encoder import EncoderSpec, FrozenEncoder
+from mop.devices import resolve
+from mop.substrate import cache_latents
+from mop.substrate import video as V
+from mop.substrate.encoder import EncoderSpec, FrozenEncoder
 
 # ---- fixtures: build a class-foldered tree + mock the decode ----
 

@@ -3,9 +3,9 @@ adaptive halting never exceeds the budget and stays weight-tied (fewer params th
 
 import torch
 
-from devsys.diagnostics.compute import param_count
-from devsys.seeding import seed_everything
-from devsys.shell.refine import IterativeRefiner
+from mop.diagnostics.compute import param_count
+from mop.seeding import seed_everything
+from mop.shell.refine import IterativeRefiner
 
 
 def test_refiner_preserves_shape():
@@ -28,7 +28,7 @@ def test_refiner_deterministic():
 
 
 def test_weight_tying_is_cheaper_than_untied_depth():
-    from devsys.experiments.ex17_latent_reasoning import _UntiedDepth
+    from mop.experiments.ex17_latent_reasoning import _UntiedDepth
 
     tied = IterativeRefiner(32, 64, steps=4)
     untied = _UntiedDepth(32, 64, steps=4)

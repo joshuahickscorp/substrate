@@ -21,11 +21,11 @@ from __future__ import annotations
 import json
 import sys
 
-from devsys.config import REPO_ROOT, compose
-from devsys.devices import resolve
-from devsys.logging_utils import get_logger
-from devsys.substrate import cache_latents, iter_video_clips, load_encoder
-from devsys.substrate.video import detect_partial_cache, validate_source, write_label_map
+from mop.config import REPO_ROOT, compose
+from mop.devices import resolve
+from mop.logging_utils import get_logger
+from mop.substrate import cache_latents, iter_video_clips, load_encoder
+from mop.substrate.video import detect_partial_cache, validate_source, write_label_map
 
 log = get_logger("cache_video")
 

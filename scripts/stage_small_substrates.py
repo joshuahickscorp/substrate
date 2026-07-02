@@ -24,7 +24,7 @@ from pathlib import Path
 
 from huggingface_hub import snapshot_download
 
-from devsys.config import REPO_ROOT
+from mop.config import REPO_ROOT
 
 MANIFEST_PATH = REPO_ROOT / "runs" / "mot" / "staging_manifest.json"
 MIN_FREE_GB = 10  # refuse to download into a nearly-full disk

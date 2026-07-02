@@ -41,11 +41,11 @@ from scripts.substrate_vs_random_features import (
     random_pixel_features,
 )
 
-from devsys.config import compose
-from devsys.devices import resolve, safe_to
-from devsys.diagnostics import linear_probe
-from devsys.substrate import load_encoder
-from devsys.substrate.encoder import EncoderSpec, FrozenEncoder
+from mop.config import compose
+from mop.devices import resolve, safe_to
+from mop.diagnostics import linear_probe
+from mop.substrate import load_encoder
+from mop.substrate.encoder import EncoderSpec, FrozenEncoder
 
 
 def _random_init_vit(cfg) -> FrozenEncoder | None:

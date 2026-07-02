@@ -49,7 +49,7 @@ determinism_sanity_loop:
     - repeat one fixed configuration several times at the same seed
     - measure the byte-level / metric spread across those repeats (the Metal floor)
     - only deltas LARGER than that spread are trusted as real cross-condition effects
-  diagnostic: src/devsys/diagnostics/determinism.py    # the harness that measures the spread
+  diagnostic: src/mop/diagnostics/determinism.py    # the harness that measures the spread
   metal_byte_identical_approx: 0.5                      # ~50% byte-identical at temperature 0, measured
   order: >-
     Sanity order on any box: make test green, then run this loop to set tolerances, then trust

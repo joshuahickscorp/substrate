@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from devsys.harness.cli import main
+from mop.harness.cli import main
 
 if __name__ == "__main__":
     raise SystemExit(main())

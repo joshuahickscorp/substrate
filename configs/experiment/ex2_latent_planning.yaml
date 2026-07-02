@@ -6,7 +6,7 @@ null_hypothesis: "the learned dynamics does not enable planning the flat shell c
 tier: cpu-now
 
 # SCALED default (real minutes on CPU, not a toy). Synthetic-arm-only precursor: see the module
-# docstring in src/devsys/experiments/ex2_latent_planning.py for the scope cut (live-environment
+# docstring in src/mop/experiments/ex2_latent_planning.py for the scope cut (live-environment
 # planning stays deferred, Tier R).
 seed: 0
 

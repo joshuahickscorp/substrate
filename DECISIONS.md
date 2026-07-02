@@ -129,7 +129,7 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   enabled tiers, and next commands.
 
 ## Mac-Studio rehearsal capsule (this session)
-- One command, `make rehearse` (scripts/studio_rehearsal.py -> src/devsys/studio_rehearsal.py),
+- One command, `make rehearse` (scripts/studio_rehearsal.py -> src/mop/studio_rehearsal.py),
   rehearses the entire future Studio workflow end to end on tiny LOCAL fixtures: no downloads,
   no long runs, no science claims. Writes runs/studio_rehearsal/{report.md,summary.json}.
 - No video codec on this device (torchvision/decord/av/imageio all absent). Decision: the corpus
@@ -151,11 +151,11 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   accumulation): scaffolded + queued disabled; need env + rented CUDA.
 
 ## Studio acquisition layer (this session)
-- ONE pipeline surface (scripts/studio_pipeline.py -> src/devsys/studio/pipeline.py): the goal
+- ONE pipeline surface (scripts/studio_pipeline.py -> src/mop/studio/pipeline.py): the goal
   asked for plan/acquire/validate/cache/run/optimize/report. Built exactly that plus a current
   device local-max lane and a profiles command. Rationale: one obvious operator surface beats a
   scatter of scripts; the raw scripts (cache_video, run_queue) still work underneath for hand control.
-- New src/devsys/studio/ subpackage, NOT more flat top-level modules. The acquisition layer
+- New src/mop/studio/ subpackage, NOT more flat top-level modules. The acquisition layer
   (profiles, registry, planner, downloader, datacards, controls, pipeline) is cohesive; grouping
   it keeps the package map readable. The existing flat studio_doctor/studio_rehearsal stay as-is.
 - Device PROFILE is the single home of every kill switch (Frontier 3B + 15). studio-1tb (900 GB
@@ -195,7 +195,7 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   metacognition.render_md calls assert_no_sentience_claims so a report literally cannot ship a claim.
   "drive"/"curiosity" are engineered objective terms (novelty, uncertainty, learning progress);
   "memory" is a data structure; "self-monitoring" is diagnostics. Never sentience/consciousness/personhood.
-- New src/devsys/devel/ subpackage (parallel to studio/), data in registry/*.yaml. The paradigm,
+- New src/mop/devel/ subpackage (parallel to studio/), data in registry/*.yaml. The paradigm,
   capacity, and paper-watch registries are YAML + a validating loader, mirroring the configs/ + studio
   registry pattern. The capacity ladder and paradigm entries carry the SAME contract as experiments
   (baseline, ablation, metric, null), so a speculative mechanism cannot be promoted to canonical
@@ -369,7 +369,7 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   the earlier "increase seeds via override" attempt was a silent no-op), which is exactly the kind of thing
   a second, more skeptical pass is for: the doctrine's adversarial-verification standard applies to the
   VERIFICATION process too, not just the original experiments.
-- Re-running e4_neuromod and e7_sparse required going through devsys.harness.sweep.run_sweep (which
+- Re-running e4_neuromod and e7_sparse required going through mop.harness.sweep.run_sweep (which
   generates a genuine `seed={s}` override per run, matching how the modules actually read seeds) rather
   than a `experiment.seeds=[...]` config override (which the modules never read). This is worth remembering
   for any future seed-stability re-check: verify HOW an experiment consumes its seed config before trusting

@@ -3,8 +3,8 @@
 import pytest
 from omegaconf import OmegaConf
 
-from devsys import config
-from devsys.harness import validate
+from mop import config
+from mop.harness import validate
 
 
 def test_check_all_clean_on_real_repo():

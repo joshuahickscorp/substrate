@@ -13,10 +13,10 @@ from __future__ import annotations
 
 import sys
 
-from devsys.config import REPO_ROOT, compose
-from devsys.devices import resolve
-from devsys.logging_utils import get_logger
-from devsys.substrate import cache_latents, load_encoder, synthetic_clips
+from mop.config import REPO_ROOT, compose
+from mop.devices import resolve
+from mop.logging_utils import get_logger
+from mop.substrate import cache_latents, load_encoder, synthetic_clips
 
 log = get_logger("cache_latents")
 

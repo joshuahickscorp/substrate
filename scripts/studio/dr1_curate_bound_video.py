@@ -57,10 +57,10 @@ if str(_ROOT) not in sys.path:
 
 from scripts.cache_randominit_vitl_features import assert_encoder_lane_free  # noqa: E402
 
-from devsys.config import REPO_ROOT, compose  # noqa: E402
-from devsys.devices import resolve  # noqa: E402
-from devsys.substrate import cache_latents, iter_video_clips, load_encoder  # noqa: E402
-from devsys.substrate.video import detect_partial_cache, validate_source, write_label_map  # noqa: E402
+from mop.config import REPO_ROOT, compose  # noqa: E402
+from mop.devices import resolve  # noqa: E402
+from mop.substrate import cache_latents, iter_video_clips, load_encoder  # noqa: E402
+from mop.substrate.video import detect_partial_cache, validate_source, write_label_map  # noqa: E402
 
 MIN_FREE_RAM_GB = 32.0  # Studio-only guard: refuse to run on the 18GB laptop pool.
 

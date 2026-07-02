@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mop_dr11_mc_rollouts in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_perspectives/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through mop.experiments.REGISTRY: scripts/mop_dr11_mc_rollouts.py
+# writes its verdict json to runs/mot/dr11_mc_rollouts.json.
+id: mop_dr11_mc_rollouts
+name: monte_carlo_latent_rollouts
+module: scripts/mop_dr11_mc_rollouts.py
+metric: [accuracy_at_matched_total_flops, noisy_tv_pass]
+null_hypothesis: "MC ties the matched single longer rollout (samples collapse to the mean) OR wins only by exploiting irreducible aleatoric noise (fails noisy-TV)"
+falsifier: "MC <= matched single rollout, or fails noisy-TV"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/dr11_mc_rollouts.json
+pilot: false

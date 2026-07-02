@@ -5,8 +5,8 @@ hold (honest toy results). One parametrized case per registered roots experiment
 
 import pytest
 
-from devsys import config, devices
-from devsys.experiments import REGISTRY, get_experiment
+from mop import config, devices
+from mop.experiments import REGISTRY, get_experiment
 
 
 def _roots_ids() -> list[str]:

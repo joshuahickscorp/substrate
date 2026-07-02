@@ -1,7 +1,7 @@
 import torch
 
-from devsys import devices
-from devsys.substrate import (
+from mop import devices
+from mop.substrate import (
     EncoderSpec,
     FrozenEncoder,
     LatentStore,

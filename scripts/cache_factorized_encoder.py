@@ -8,7 +8,7 @@ probes need: train on a subset of (A, B) pairs, test whether unseen (A, B) pairs
 shuffled/frozen-random floor on real encoder features.
 
 Storage: LatentStore has one label channel, so the two factors are encoded as a composite label
-y = a*n_b + b, plus a factors.json sidecar recording n_a/n_b. devsys.substrate.real_latent.factorized_arrays
+y = a*n_b + b, plus a factors.json sidecar recording n_a/n_b. mop.substrate.real_latent.factorized_arrays
 reverses that into (x, y_a, y_b).
 
 Usage: python scripts/cache_factorized_encoder.py [device=cpu] [+n_a=6] [+n_b=6] [+per=8] [+batch=1]
@@ -26,10 +26,10 @@ import time
 
 import torch
 
-from devsys.config import REPO_ROOT, compose
-from devsys.devices import resolve, safe_to
-from devsys.logging_utils import get_logger
-from devsys.substrate import LatentStore, load_encoder
+from mop.config import REPO_ROOT, compose
+from mop.devices import resolve, safe_to
+from mop.logging_utils import get_logger
+from mop.substrate import LatentStore, load_encoder
 
 log = get_logger("cache_factorized")
 FRAMES, RES = 64, 256
@@ -122,8 +122,8 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     # immediate diagnostics: are BOTH factors independently decodable from the real latents?
-    from devsys.diagnostics import linear_probe
-    from devsys.substrate import factorized_arrays
+    from mop.diagnostics import linear_probe
+    from mop.substrate import factorized_arrays
 
     x, ya, yb = factorized_arrays(store)
     pa = linear_probe(x, ya, classification=True, epochs=300)

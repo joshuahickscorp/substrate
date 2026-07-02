@@ -4,8 +4,8 @@ bounded round-trip, and the report exposes the deltas vs real."""
 
 import torch
 
-from devsys.diagnostics import linear_probe
-from devsys.diagnostics.substrate_ablation import (
+from mop.diagnostics import linear_probe
+from mop.diagnostics.substrate_ablation import (
     frozen_random_projection,
     quantize_dequantize,
     shuffled_pairing,

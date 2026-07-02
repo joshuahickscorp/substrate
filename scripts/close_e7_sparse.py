@@ -5,7 +5,7 @@ that holds on any input geometry?
 e7_sparse is the corpus's one provisional positive: sparse / gated heads (kWTA top-k, MoE) roughly
 halve catastrophic forgetting (backward transfer, BWT) versus a parameter-matched dense head on a
 domain-incremental latent stream. It survived a 30-run seed/axis sweep but never ran the standing
-D2 control: the FROZEN-RANDOM-SUBSTRATE ablation (devsys.diagnostics.substrate_ablation.
+D2 control: the FROZEN-RANDOM-SUBSTRATE ablation (mop.diagnostics.substrate_ablation.
 frozen_random_projection). Without it we cannot tell whether the advantage needs the real substrate
 geometry or would appear under any fixed projection of the inputs.
 
@@ -43,11 +43,11 @@ from pathlib import Path
 import torch
 from torch import nn
 
-from devsys.diagnostics.substrate_ablation import frozen_random_projection
-from devsys.experiments.e7_sparse import E7, DenseHead, KWTAHead, MoEHead, _split
-from devsys.metrics import ContinualResult
-from devsys.seeding import seed_everything
-from devsys.substrate.datasets import Task, make_task_stream
+from mop.diagnostics.substrate_ablation import frozen_random_projection
+from mop.experiments.e7_sparse import E7, DenseHead, KWTAHead, MoEHead, _split
+from mop.metrics import ContinualResult
+from mop.seeding import seed_everything
+from mop.substrate.datasets import Task, make_task_stream
 
 REPO = Path(__file__).resolve().parents[1]
 OUT = REPO / "runs" / "pre_studio" / "close_e7_sparse.json"

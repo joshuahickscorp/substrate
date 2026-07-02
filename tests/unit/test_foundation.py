@@ -1,6 +1,6 @@
 import torch
 
-from devsys import config, devices, seeding
+from mop import config, devices, seeding
 
 
 def test_device_resolves_to_real_device():
@@ -40,7 +40,7 @@ def test_variance_utility_quantifies_spread():
 
 def test_config_composition_and_overrides():
     cfg = config.compose(["experiment=e1_baseline", "shell.buffer.capacity=99"])
-    assert cfg.package == "devsys"
+    assert cfg.package == "mop"
     assert cfg.device.kind == "mps"
     assert cfg.encoder.embed_dim == 1024
     assert cfg.shell.buffer.capacity == 99
@@ -60,4 +60,4 @@ def test_snapshot_roundtrip(tmp_path):
     p = config.snapshot(cfg, tmp_path / "cfg.yaml")
     assert p.exists()
     reloaded = config.compose.__globals__["OmegaConf"].load(p)
-    assert reloaded.package == "devsys"
+    assert reloaded.package == "mop"

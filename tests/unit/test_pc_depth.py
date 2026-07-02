@@ -1,6 +1,6 @@
 import math
 
-from devsys.studies.pc_depth import (
+from mop.studies.pc_depth import (
     _init_weights,
     _prep,
     _task,

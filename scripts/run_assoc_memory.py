@@ -12,7 +12,7 @@ import argparse
 import json
 import sys
 
-from devsys.studies.assoc_memory import assoc_memory
+from mop.studies.assoc_memory import assoc_memory
 
 
 def main(argv: list[str] | None = None) -> int:

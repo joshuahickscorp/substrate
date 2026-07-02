@@ -3,10 +3,10 @@
 import pytest
 from omegaconf import OmegaConf
 
-from devsys.config import REPO_ROOT
-from devsys.harness.validate import ConfigError, validate_encoder
-from devsys.substrate import load_encoder
-from devsys.substrate.encoder_registry import (
+from mop.config import REPO_ROOT
+from mop.harness.validate import ConfigError, validate_encoder
+from mop.substrate import load_encoder
+from mop.substrate.encoder_registry import (
     VERIFIED_REAL_IDS,
     is_honest,
     list_encoders,

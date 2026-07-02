@@ -17,20 +17,20 @@ from pathlib import Path
 
 from omegaconf import OmegaConf
 
-from devsys.config import REPO_ROOT
-from devsys.devices import resolve
-from devsys.diagnostics import linear_probe
-from devsys.learning.backprop import Learner, TrainConfig
-from devsys.metrics import ContinualResult
-from devsys.seeding import seed_everything
-from devsys.shell import Consolidation, ReplayBuffer
-from devsys.shell.heads import ClassHead
-from devsys.substrate import LatentStore, stream_from_store
+from mop.config import REPO_ROOT
+from mop.devices import resolve
+from mop.diagnostics import linear_probe
+from mop.learning.backprop import Learner, TrainConfig
+from mop.metrics import ContinualResult
+from mop.seeding import seed_everything
+from mop.shell import Consolidation, ReplayBuffer
+from mop.shell.heads import ClassHead
+from mop.substrate import LatentStore, stream_from_store
 
 
 def _split(task, frac=0.7):
     n = max(1, int(task.x.shape[0] * frac))
-    from devsys.substrate.datasets import Task
+    from mop.substrate.datasets import Task
 
     tr = Task(task.name, task.x[:n], task.y[:n], n_classes=task.n_classes, task_id=task.task_id)
     te = Task(task.name, task.x[n:], task.y[n:], n_classes=task.n_classes, task_id=task.task_id)

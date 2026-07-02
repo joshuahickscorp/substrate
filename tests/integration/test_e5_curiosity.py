@@ -1,8 +1,8 @@
 """E5 runs the data-selection curiosity comparison at toy scale and answers its null:
 prediction-error curiosity chases the noisy-TV, learning-progress curiosity resists it."""
 
-from devsys import config, devices
-from devsys.experiments.e5_curiosity import E5  # direct import, NOT via the registry
+from mop import config, devices
+from mop.experiments.e5_curiosity import E5  # direct import, NOT via the registry
 
 
 def test_e5_curiosity_data_selection(tmp_path):

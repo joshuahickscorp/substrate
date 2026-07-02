@@ -11,9 +11,9 @@ from omegaconf import OmegaConf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
-import mot_dr14_corruption as dr14  # noqa: E402
+import mop_dr14_corruption as dr14  # noqa: E402
 
-from devsys.devices import resolve  # noqa: E402
+from mop.devices import resolve  # noqa: E402
 
 DEV = resolve("cpu")
 

@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 import torch
 
-from devsys.devices import resolve
+from mop.devices import resolve
 
 torch.set_num_threads(2)  # live-state rule: an encode may own the CPU
 
@@ -40,7 +40,7 @@ def dev():
 
 
 def test_pr4_epistemic_gate_runs(dev, tmp_path):
-    mod = load_script("mot_pr4_epistemic_gate")
+    mod = load_script("mop_pr4_epistemic_gate")
     cfg = mod.default_cfg(
         seeds=[0, 1], dim=8, hidden=16, ensemble_size=3, batch=16, n_steps=20, guard_dim=16, guard_steps=40
     )
@@ -77,14 +77,14 @@ def test_pr4_epistemic_gate_runs(dev, tmp_path):
 
 
 def test_pr4_declares_contract():
-    mod = load_script("mot_pr4_epistemic_gate")
+    mod = load_script("mop_pr4_epistemic_gate")
     exp = mod.MotPR4EpistemicGate()
     assert exp.null_hypothesis and exp.metric and exp.baseline and exp.ablation
     assert "e4" in exp.null_hypothesis and exp.tier == "cpu-now"
 
 
 def test_pr5_content_gated_runs(dev, tmp_path):
-    mod = load_script("mot_pr5_content_gated_cp")
+    mod = load_script("mop_pr5_content_gated_cp")
     cfg = mod.default_cfg(**TINY_STREAM, steps_per_task=20, eval_every=5)
     out = mod.MotPR5ContentGatedCP().run(cfg, dev, tmp_path)
     assert isinstance(out["null_supported"], bool)
@@ -104,7 +104,7 @@ def test_pr5_content_gated_runs(dev, tmp_path):
 def test_pr5_matched_integral_solver(dev):
     """The e3/d6 discipline itself: the cosine and constant baselines are SOLVED to the content
     arm's realized LR-integral, and the accumulators agree within the 0.02 matched tolerance."""
-    mod = load_script("mot_pr5_content_gated_cp")
+    mod = load_script("mop_pr5_content_gated_cp")
     e = mod.default_cfg(**TINY_STREAM, steps_per_task=10, eval_every=5).experiment
     order = list(range(int(e.n_tasks)))
     content = mod.run_arm(e, 0, "content", order, budget=None)
@@ -116,13 +116,13 @@ def test_pr5_matched_integral_solver(dev):
 
 
 def test_pr5_declares_contract():
-    mod = load_script("mot_pr5_content_gated_cp")
+    mod = load_script("mop_pr5_content_gated_cp")
     exp = mod.MotPR5ContentGatedCP()
     assert "matched LR-integral" in exp.null_hypothesis and exp.tier == "cpu-now"
 
 
 def test_pr6_sleep_consolidation_runs(dev, tmp_path):
-    mod = load_script("mot_pr6_sleep_consolidation")
+    mod = load_script("mop_pr6_sleep_consolidation")
     cfg = mod.default_cfg(**TINY_STREAM, wake_steps=10, sleep_steps=10, buffer_capacity=100, ewc_samples=2)
     out = mod.MotPR6SleepConsolidation().run(cfg, dev, tmp_path)
     assert isinstance(out["null_supported"], bool)
@@ -140,6 +140,6 @@ def test_pr6_sleep_consolidation_runs(dev, tmp_path):
 
 
 def test_pr6_declares_contract():
-    mod = load_script("mot_pr6_sleep_consolidation")
+    mod = load_script("mop_pr6_sleep_consolidation")
     exp = mod.MotPR6SleepConsolidation()
     assert "matched total gradient steps" in exp.null_hypothesis and exp.tier == "cpu-now"

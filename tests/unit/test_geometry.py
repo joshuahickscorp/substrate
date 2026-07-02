@@ -3,7 +3,7 @@ anisotropy, and neighbourhood overlap."""
 
 import torch
 
-from devsys.diagnostics import geometry as G
+from mop.diagnostics import geometry as G
 
 
 def _rng(seed=0):

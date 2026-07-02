@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mop_dr9_verify_revise in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_perspectives/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through mop.experiments.REGISTRY: scripts/mop_dr9_verify_revise.py
+# writes its verdict json to runs/mot/dr9_verify_revise.json.
+id: mop_dr9_verify_revise
+name: verify_revise_under_corrected_controls
+module: scripts/mop_dr9_verify_revise.py
+metric: [accuracy_at_matched_compute, trained_vs_shuffled_delta]
+null_hypothesis: "verify-revise ties single-shot at matched compute and the trained verifier ties the shuffled one: no correction-relevant signal (the ex18 result)"
+falsifier: "verify-revise <= single-shot; trained == shuffled"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/dr9_verify_revise.json
+pilot: false

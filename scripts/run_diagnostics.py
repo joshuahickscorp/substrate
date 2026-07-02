@@ -13,9 +13,9 @@ import sys
 
 import torch
 
-from devsys.config import compose
-from devsys.devices import resolve
-from devsys.diagnostics import (
+from mop.config import compose
+from mop.devices import resolve
+from mop.diagnostics import (
     critical_period_signature,
     determinism_loop,
     fisher_trace_over_training,
@@ -23,7 +23,7 @@ from devsys.diagnostics import (
     noisy_tv_diagnostic,
     reliability,
 )
-from devsys.substrate.datasets import make_task_stream
+from mop.substrate.datasets import make_task_stream
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -1,5 +1,5 @@
 # Paper-watch registry (Frontier 30). A LIGHTWEIGHT, OFFLINE-first catalog of the literature this
-# project tracks. Normal tests never hit the network: devsys.devel.paperwatch reads this file and
+# project tracks. Normal tests never hit the network: mop.devel.paperwatch reads this file and
 # reports the watch list. An online refresh is opt-in and cached (not implemented as an auto-fetch
 # here; the slots below hold the primary sources / official repos to check by hand or on the Studio).
 #

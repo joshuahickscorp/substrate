@@ -2,8 +2,8 @@
 scale under fixed seeds, with a saved plot. This is the contract that licenses every later
 experiment."""
 
-from devsys import config, devices
-from devsys.experiments import get_experiment
+from mop import config, devices
+from mop.experiments import get_experiment
 
 
 def _toy_cfg():

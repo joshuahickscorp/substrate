@@ -22,10 +22,10 @@ from scripts.cache_randominit_vitl_features import (
     write_feature_cache,
 )
 from scripts.cache_vjepa_single_frame import single_frame_clip
-from scripts.mot_at3_time_axis import run as at3_run
-from scripts.mot_at3_time_axis import temporal_labels
-from scripts.mot_pr2_plasticity_substrates import _parse_seeds, _tasks_from_classes
-from scripts.mot_pr2_plasticity_substrates import run as pr2_run
+from scripts.mop_at3_time_axis import run as at3_run
+from scripts.mop_at3_time_axis import temporal_labels
+from scripts.mop_pr2_plasticity_substrates import _parse_seeds, _tasks_from_classes
+from scripts.mop_pr2_plasticity_substrates import run as pr2_run
 
 # ---------------------------------------------------------------- clip identity (the WP-01/WP-11 law)
 

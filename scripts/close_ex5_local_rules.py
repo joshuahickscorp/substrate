@@ -69,7 +69,7 @@ from pathlib import Path
 
 import torch
 
-from devsys.experiments.ex5_local_rules_scale import (
+from mop.experiments.ex5_local_rules_scale import (
     _anchor_indices,
     _backprop_evaluate,
     _backprop_train_step,
@@ -79,9 +79,9 @@ from devsys.experiments.ex5_local_rules_scale import (
     _pc_evaluate,
     _pc_train_step,
 )
-from devsys.metrics import ContinualResult
-from devsys.seeding import seed_everything
-from devsys.substrate.datasets import make_task_stream
+from mop.metrics import ContinualResult
+from mop.seeding import seed_everything
+from mop.substrate.datasets import make_task_stream
 
 REPO = Path(__file__).resolve().parents[1]
 OUT_PATH = REPO / "runs" / "pre_studio" / "close_ex5_local_rules.json"

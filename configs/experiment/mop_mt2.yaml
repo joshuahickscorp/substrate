@@ -1,0 +1,17 @@
+# MoT preregistration mirror (WP-02): registry row mop_mt2_routing_vs_ensemble in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_perspectives/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through mop.experiments.REGISTRY: scripts/mop_mt123_router_pilots.py
+# writes its verdict json to runs/mot/mt123_router_pilots.json.
+# PILOT: laptop-scale evidence only; the registered claim needs cpu-now
+# (see the row's relation field and STUDIO_HANDOFF.md).
+id: mop_mt2_routing_vs_ensemble
+name: routing_beats_uniform_ensemble
+module: scripts/mop_mt123_router_pilots.py
+metric: [capability_density_matched_total_flops]
+null_hypothesis: "equal-weight blend matches the routed system's density at matched total compute; the router adds nothing over averaging"
+falsifier: "router density <= uniform-blend density"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/mt123_router_pilots.json
+pilot: true

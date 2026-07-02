@@ -5,8 +5,8 @@ returns a dict with an explicit null check. Asserts MECHANICS only, never a part
 
 import pytest
 
-from devsys import config, devices
-from devsys.experiments import get_experiment
+from mop import config, devices
+from mop.experiments import get_experiment
 
 SCAFFOLDING_IDS = (
     "ex1_generative_replay",

@@ -30,10 +30,10 @@ import argparse
 import json
 from pathlib import Path
 
-from devsys.diagnostics import geometry_report, linear_probe, readout_contribution
-from devsys.diagnostics.held_out_combo import held_out_combination
-from devsys.diagnostics.substrate_ablation import frozen_random_projection
-from devsys.substrate import factorized_arrays, factors_meta, open_real_store
+from mop.diagnostics import geometry_report, linear_probe, readout_contribution
+from mop.diagnostics.held_out_combo import held_out_combination
+from mop.diagnostics.substrate_ablation import frozen_random_projection
+from mop.substrate import factorized_arrays, factors_meta, open_real_store
 
 
 def run(store_name: str, data_dir: str, seed: int) -> dict:

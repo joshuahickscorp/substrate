@@ -38,9 +38,9 @@ def main() -> int:
     step("mypy types", ok, tail)
 
     # in-process functional checks
-    from devsys import config, devices
-    from devsys.experiments import REGISTRY, get_experiment
-    from devsys.harness.queue import run_queue
+    from mop import config, devices
+    from mop.experiments import REGISTRY, get_experiment
+    from mop.harness.queue import run_queue
 
     dev = devices.resolve("cpu")
     tmp = Path(tempfile.mkdtemp())
@@ -63,8 +63,8 @@ def main() -> int:
         step("E1 gate (forget then retain)", False, repr(e))
 
     try:
-        from devsys.diagnostics import linear_probe, noisy_tv_diagnostic
-        from devsys.substrate.datasets import make_task_stream
+        from mop.diagnostics import linear_probe, noisy_tv_diagnostic
+        from mop.substrate.datasets import make_task_stream
 
         t = make_task_stream(n_tasks=1, dim=32, classes_per_task=4, samples_per_task=300, separation=3.0)[0]
         lp = linear_probe(t.x, t.y)["decodable"]

@@ -3,7 +3,7 @@ surfaces manual/blocked/deferred blockers, and live plan/acquire state merges in
 
 import json
 
-from devsys.studio import datacards, registry
+from mop.studio import datacards, registry
 
 
 def test_data_card_has_required_fields():

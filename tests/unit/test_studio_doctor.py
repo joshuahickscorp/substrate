@@ -5,9 +5,9 @@ config-validation check tracks the harness validator, proves render_md is a fait
 unreachable HuggingFace are reported, never failures.
 """
 
-import devsys.studio_doctor as sd
-from devsys.harness.validate import check_all
-from devsys.studio_doctor import CHECK_NAMES, doctor, render_md
+import mop.studio_doctor as sd
+from mop.harness.validate import check_all
+from mop.studio_doctor import CHECK_NAMES, doctor, render_md
 
 
 def test_doctor_returns_all_expected_checks():

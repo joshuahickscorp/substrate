@@ -102,7 +102,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
 ## Studio acquisition layer (this session)
 - [x] ONE pipeline surface scripts/studio_pipeline.py: plan -> acquire -> validate -> cache -> run -> optimize -> report, plus local-max + profiles
-- [x] device profiles + kill switches (src/devsys/studio/profiles.py): studio-1tb (900 GB usable) and m3pro-local-max (10/25 GB download, 2 GB fixtures, 128 clips, 60 GB free floor, 90 min, Tier C); hard caps enforced, dry-run by default
+- [x] device profiles + kill switches (src/mop/studio/profiles.py): studio-1tb (900 GB usable) and m3pro-local-max (10/25 GB download, 2 GB fixtures, 128 clips, 60 GB free floor, 90 min, Tier C); hard caps enforced, dry-run by default
 - [x] dataset registry registry/datasets.yaml (11 sources: ssv2, kinetics700, epic, ego4d subset+full, ego-exo4d, howto100m, audioset, laion, synthetic, local) + model registry registry/models.yaml (aux/distilled/quantized, never replace canonical); schema + honesty validated
 - [x] 1 TB knapsack planner (studio/planner.py): breadth-first, budget + per-source + source-count caps, subset scaling, license gating; full Ego4D NEVER planned by default
 - [x] dry-run downloader orchestrator (studio/downloader.py): execute+budget+license gated, resume manifest, hash/dedup, unsafe-archive (path-traversal) refusal, clean remote-block without credentials
@@ -113,10 +113,10 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] 339 tests pass (93 new across profiles/registry/planner/downloader/controls/datacards/pipeline + audit regressions); ruff + mypy clean; docs-drift gate clean; acceptance 10/10
 
 ## Developmental capacities layer (this session)
-- [x] sentience-ADJACENT north star + safety rails (src/devsys/devel/north_star.py): the developmental loop, the allowed engineering vocabulary, and a claim scanner that flags affirmative sentience/consciousness claims while passing disclaimers; gates every rendered report. NO sentience/consciousness/agency claims anywhere
+- [x] sentience-ADJACENT north star + safety rails (src/mop/devel/north_star.py): the developmental loop, the allowed engineering vocabulary, and a claim scanner that flags affirmative sentience/consciousness claims while passing disclaimers; gates every rendered report. NO sentience/consciousness/agency claims anywhere
 - [x] paradigm frontier registry (registry/paradigms.yaml, 17 candidates from Frontiers 21-30: plasticity/fast-weights, abstraction, memory, alt-learning, modularity, active-curriculum, world-model, multimodal) with schema + honesty validation (a candidate can never claim a canonical result tag)
 - [x] developmental capacity ladder (registry/capacities.yaml, 14 rungs: sensory grounding -> permanence -> episodic memory -> plastic adaptation -> consolidation -> curiosity -> abstraction -> causal sketch -> self-monitoring -> language-mediated -> teacher lane -> skill library -> meta-learning -> provenance continuity), each with baseline/ablation/metric/null/local+studio tests/failure interpretation/promotion rule
-- [x] curriculum engine (src/devsys/devel/curriculum.py): REAL on-device learning-progress data selection over generated controls; permutation-test noise detection picks the learnable-but-not-mastered family and REJECTS the aleatoric noisy-TV (verified: chooses hard_motion, rejects aleatoric_tv)
+- [x] curriculum engine (src/mop/devel/curriculum.py): REAL on-device learning-progress data selection over generated controls; permutation-test noise detection picks the learnable-but-not-mastered family and REJECTS the aleatoric noisy-TV (verified: chooses hard_motion, rejects aleatoric_tv)
 - [x] automated ablation/hypothesis engine (ablation.py): ranks paradigm candidates by expected info gain per compute hour, gates on scope, respects an hour budget, flags redundant candidates, names the next-best experiment (local next-best = learning_progress_sampling)
 - [x] paper-watch (offline, registry/paperwatch.yaml, 9 topics) + metacognition self-monitoring report (distinguishes measured capacities from claims; gated by the safety rail)
 - [x] markdown consolidation (Frontier 36): removed dead scripts/_scaffold_api.md (0 refs); consolidated old run reports and maximal-goal prompt into /Users/scammermike/Downloads/PROJECT_RETROSPECTIVE_CHECKPOINTS_2026_06_28.md; added a markdown LEDGER to check_docs so stale docs cannot regrow; canonical doctrine = corpus vols + BLACKHOLE.md + docs/STUDIO_MAXIMIZATION_2026_06_27.md
@@ -128,7 +128,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] registry/experiments.yaml: the machine-readable, PREREGISTERED bank (39 catalogued: E1-E10, I4,
   EX1-EX18, D1-D6, A1-A4). Every row carries null + headline metric + falsifier + controls + gates +
   resource_tier + exp_tier + capacity/paradigm map + proof linkage (atlas factor / null card / R-level)
-  + failure-taxonomy slot. Validated by devsys.devel.registries.validate_experiment.
+  + failure-taxonomy slot. Validated by mop.devel.registries.validate_experiment.
 - [x] loader/validator in devel/registries.py: closed-vocab tiers, implemented rows must map to a real
   REGISTRY id or an existing module, REGISTRY and bank file cannot diverge, free-text passes the
   sentience rail. EXPERIMENTS.md is now GENERATED from the registry (no drift); `scripts/devel.py
@@ -150,7 +150,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   gate clean (GO.md ledgered); acceptance 10/10.
 
 ## Cross-disciplinary roots expansion (this session): full-overkill cpu-now build
-- [x] 6 new diagnostics (src/devsys/diagnostics/): convergence.py (contraction factor, fixed-point
+- [x] 6 new diagnostics (src/mop/diagnostics/): convergence.py (contraction factor, fixed-point
   residual, basin stability; Y1/Y2/N9), nonlinear_probe.py (capacity-capped MLP probe + readout-
   contribution index, nonlinear-minus-linear real-minus-frozen-random; P10/P1), held_out_combo.py
   (factorized latents + held-out-combination decoding + systematicity sweep; C1/C9/S6), seed_consistency.py
@@ -244,7 +244,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   found); verified the real encoder still loads correctly (backend=vjepa_hf) after cleanup.
 - [x] found and fixed a real methodology gap: e4_neuromod.py and e7_sparse.py read a single `cfg.seed`, not
   `experiment.seeds`, so the earlier "seed_stability REFUTED" verdict for both was based on config overrides
-  that were silent no-ops (still one seed). Re-ran both through devsys.harness.sweep.run_sweep's REAL
+  that were silent no-ops (still one seed). Re-ran both through mop.harness.sweep.run_sweep's REAL
   per-seed/per-axis grid (30 genuine runs each, 6 axis combos x 5 seeds): e4_neuromod's negative finding came
   back robustly confirmed (all 30 runs show both gates amplify error on noise, the wrong direction, disagreement
   mean=20.07 std=1.25); e7_sparse's disqualifying seed-stability objection did NOT hold up (sparse beats
@@ -378,10 +378,10 @@ implementable ones via a parallel-agent workflow:
 The whole corpus ran on synthetic Gaussian-cluster latents; a clean result there says nothing about the
 real frozen V-JEPA 2 substrate. Scaffolded the infrastructure to re-ask the doctrine-load-bearing
 questions on REAL encoder geometry:
-- [x] src/devsys/substrate/real_latent.py: real_task_stream (class/task/domain-incremental slicing of a
+- [x] src/mop/substrate/real_latent.py: real_task_stream (class/task/domain-incremental slicing of a
   real LatentStore, drop-in for make_task_stream) + factorized_arrays (decode a two-factor cache stored as
   a composite label y=a*n_b+b via a factors.json sidecar) + open_real_store/factors_meta. tests/unit/
-  test_real_latent.py, 6 known-answer tests green. Exported from devsys.substrate.
+  test_real_latent.py, 6 known-answer tests green. Exported from mop.substrate.
 - [x] scripts/cache_factorized_encoder.py: builds a FACTORIZED real-encoder cache where TWO independent
   visual factors vary (hue = A, orientation/drift = B) at fixed spatial frequency, so held-out-combination
   and compositionality probes have real geometry to test (the single-factor cache_real_encoder.py entangles

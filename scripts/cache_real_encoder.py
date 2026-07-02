@@ -15,11 +15,11 @@ import sys
 
 import torch
 
-from devsys.config import REPO_ROOT, compose
-from devsys.devices import resolve, safe_to
-from devsys.logging_utils import get_logger
-from devsys.substrate import LatentStore, load_encoder
-from devsys.substrate.datasets import make_task_stream  # noqa: F401 (kept for parity)
+from mop.config import REPO_ROOT, compose
+from mop.devices import resolve, safe_to
+from mop.logging_utils import get_logger
+from mop.substrate import LatentStore, load_encoder
+from mop.substrate.datasets import make_task_stream  # noqa: F401 (kept for parity)
 
 log = get_logger("cache_real")
 FRAMES, RES = 64, 256
@@ -99,7 +99,7 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     # immediate real-encoder diagnostic: is class linearly decodable from the real latents?
-    from devsys.diagnostics import linear_probe
+    from mop.diagnostics import linear_probe
 
     probe = linear_probe(store.latents(), store.labels(), classification=True, epochs=300)
     print(

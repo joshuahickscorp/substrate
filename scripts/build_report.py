@@ -3,7 +3,7 @@
 analysis report markdown. Loads runs/cpu_campaign/summary.json if present, else uses a small
 self-contained dummy with the same shape, then assembles effect sizes (Cohen's d) + across-seed
 summaries + an adaptation-retention frontier table + a negative-result registry section via the
-pure renderers in devsys.studies.report. Writes runs/analysis_report.md and prints its path.
+pure renderers in mop.studies.report. Writes runs/analysis_report.md and prints its path.
 
 Usage: python scripts/build_report.py [--summary runs/cpu_campaign/summary.json] [--out PATH]
 """
@@ -14,9 +14,9 @@ import argparse
 import json
 from pathlib import Path
 
-from devsys.config import REPO_ROOT
-from devsys.logging_utils import get_logger
-from devsys.studies.report import (
+from mop.config import REPO_ROOT
+from mop.logging_utils import get_logger
+from mop.studies.report import (
     cohens_d,
     frontier_table,
     null_registry_md,

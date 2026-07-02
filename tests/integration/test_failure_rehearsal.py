@@ -14,16 +14,16 @@ import json
 import numpy as np
 import pytest
 
-from devsys import devices
-from devsys.config import compose
-from devsys.harness import cpu_pool, queue
-from devsys.harness.validate import (
+from mop import devices
+from mop.config import compose
+from mop.harness import cpu_pool, queue
+from mop.harness.validate import (
     ConfigError,
     validate_device,
     validate_encoder,
     validate_experiment,
 )
-from devsys.substrate import video
+from mop.substrate import video
 
 
 # (1) missing video backend -> read_video raises RuntimeError with an install hint.
@@ -159,9 +159,9 @@ def test_empty_class_folder_raises(tmp_path):
 
 # (10) bad cache metadata -> validate_cache flags it (does not pretend the cache is fine).
 def test_bad_cache_metadata_flagged(tmp_path):
-    from devsys import devices
-    from devsys.substrate import EncoderSpec, FrozenEncoder, cache_latents, synthetic_clips
-    from devsys.substrate.cache_tools import validate_cache
+    from mop import devices
+    from mop.substrate import EncoderSpec, FrozenEncoder, cache_latents, synthetic_clips
+    from mop.substrate.cache_tools import validate_cache
 
     enc = FrozenEncoder(EncoderSpec("vjepa2_vitl_fpc64_256", 16, dense=False, pool="mean"))
     store = cache_latents(

@@ -2,7 +2,7 @@
 or DISHONEST entries (signed-terms marked available, full Ego4D not deferred, a non-canonical model
 claiming real-encoder), and the merged model registry must keep canonical V-JEPA protected."""
 
-from devsys.studio import registry
+from mop.studio import registry
 
 
 def test_shipped_datasets_validate_clean():

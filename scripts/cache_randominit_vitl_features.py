@@ -47,8 +47,8 @@ if str(_ROOT) not in sys.path:
 from scripts.compositional_under_nuisance import make_bound_nuisance_clip  # noqa: E402
 from scripts.substrate_vs_random_init_vit import _random_init_vit  # noqa: E402
 
-from devsys.config import compose  # noqa: E402
-from devsys.devices import resolve, safe_to  # noqa: E402
+from mop.config import compose  # noqa: E402
+from mop.devices import resolve, safe_to  # noqa: E402
 
 # Canonical nuisance population: the exact grid the in-flight compositional_under_nuisance run encodes
 # (5 shapes x 5 colors x 8 clips per cell, generator seed 0, cell-major order). Every WP-11/WP-01 cache

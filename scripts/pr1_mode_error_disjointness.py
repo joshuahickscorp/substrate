@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-"""PR1: mode-error disjointness, the cheap precondition for the whole Mixture-of-Thinking router line
-(preregistered in docs/mixture_of_thinking/11_experiment_registry.md, PR full schema part 1).
+"""PR1: mode-error disjointness, the cheap precondition for the whole Mixture-of-Perspectives router line
+(preregistered in docs/mixture_of_perspectives/11_experiment_registry.md, PR full schema part 1).
 
 Thesis: per-sample errors of DISTINCT reasoning modes are decorrelated enough that an ORACLE router
 (pick the best mode per sample) beats the single best mode. If not, no learned router can help and
-MT1/MT4 are not worth building. Pure diagnostic: five heterogeneous heads over the SAME synthetic
+MP1/MP4 are not worth building. Pure diagnostic: five heterogeneous heads over the SAME synthetic
 latents, per-sample 0/1 correctness on a SHARED test set, pairwise phi correlations, oracle bound.
 
 Task: a preregistered MIXTURE of three equal sub-populations over the same 1024-d latent space, each
@@ -37,7 +37,7 @@ reported as advisory only.
 Modes (each distinct on a named MoT axis, all tiny heads on cached/synthetic 1024-d latents):
   reactive_linear (direct feedforward), mlp (different function class), knn (memory system,
   nonparametric), prototype (nearest class centroid, different inductive bias), recurrent_refiner
-  (the existing IterativeRefiner from src/devsys/shell/refine.py driving a linear head).
+  (the existing IterativeRefiner from src/mop/shell/refine.py driving a linear head).
 
 Difficulty is CALIBRATED before the main run: the separation knob is swept until the best CHEAP
 reference mode (max over linear, knn, prototype; on the mixture no single mode is representative)
@@ -66,9 +66,9 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-from devsys.shell.predictor import mlp
-from devsys.shell.refine import IterativeRefiner
-from devsys.substrate import make_task_stream
+from mop.shell.predictor import mlp
+from mop.shell.refine import IterativeRefiner
+from mop.substrate import make_task_stream
 
 MODES = ["reactive_linear", "mlp", "knn", "prototype", "recurrent_refiner"]
 DETERMINISTIC_MODES = {"knn", "prototype"}

@@ -1,8 +1,8 @@
 """I4 produces a full backprop-alternatives comparison table at toy scale."""
 
-from devsys import config, devices
-from devsys.experiments import get_experiment
-from devsys.learning.alternatives import RULES
+from mop import config, devices
+from mop.experiments import get_experiment
+from mop.learning.alternatives import RULES
 
 
 def test_i4_runs_and_tabulates(tmp_path):
@@ -38,7 +38,7 @@ def test_i4_runs_and_tabulates(tmp_path):
 
 def test_i4_rules_locality_contract():
     # the locality taxonomy the corpus cares about
-    from devsys.substrate.datasets import make_task_stream
+    from mop.substrate.datasets import make_task_stream
 
     t = make_task_stream(n_tasks=1, dim=24, classes_per_task=3, samples_per_task=240, separation=2.0, seed=0)[
         0

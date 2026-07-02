@@ -40,23 +40,23 @@ from pathlib import Path
 
 import torch
 import torch.nn.functional as F
-from mot_mt5_adaptive_halting import parse_seeds, resolve_out
+from mop_mt5_adaptive_halting import parse_seeds, resolve_out
 from omegaconf import DictConfig, OmegaConf
 from torch import nn
 
-from devsys.devices import DeviceInfo, resolve
-from devsys.diagnostics.compute import matched_within, mlp_flops, refiner_flops
-from devsys.diagnostics.hardness import (
+from mop.devices import DeviceInfo, resolve
+from mop.diagnostics.compute import matched_within, mlp_flops, refiner_flops
+from mop.diagnostics.hardness import (
     SLOT_CARD,
     SLOT_ORDER,
     hardness_gradient_certificate,
     make_graded_slot_task,
 )
-from devsys.diagnostics.riskcov import seed_ci, sign_flip_report
-from devsys.experiments.base import Experiment
-from devsys.seeding import seed_everything
-from devsys.shell.refine import IterativeRefiner
-from devsys.shell.verifier_exec import ExecutableVerifier
+from mop.diagnostics.riskcov import seed_ci, sign_flip_report
+from mop.experiments.base import Experiment
+from mop.seeding import seed_everything
+from mop.shell.refine import IterativeRefiner
+from mop.shell.verifier_exec import ExecutableVerifier
 
 FLOP_TOL = 0.10  # every arm matched to the feedforward budget on TOTAL FLOPs within this
 
@@ -345,7 +345,7 @@ class D3VerifierReasoning(Experiment):
 def task_slice(task, idx):
     """Return a GradedTask restricted to index tensor `idx` (train split), so train-time supervision
     never sees test samples. Preserves slot_dim/dim and the derived fields."""
-    from devsys.diagnostics.hardness import GradedTask
+    from mop.diagnostics.hardness import GradedTask
 
     return GradedTask(
         x=task.x[idx],

@@ -2,8 +2,8 @@
 satisfy the doctrine contract, and return their explicit null checks. These assert MECHANICS and
 SELF-CHECKS (e.g. the atlas self-check), never a particular scientific outcome (the nulls may hold)."""
 
-from devsys import config, devices
-from devsys.experiments import get_experiment
+from mop import config, devices
+from mop.experiments import get_experiment
 
 
 def _run(eid, overrides, tmp_path):

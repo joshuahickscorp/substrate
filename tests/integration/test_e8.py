@@ -1,8 +1,8 @@
 """E8 runs at toy scale: matched-param MLP vs dendritic head on an online domain stream,
 reporting capacity-per-param, adaptation speed, forgetting, and the explicit null check."""
 
-from devsys import config, devices
-from devsys.experiments.e8_dendritic import E8
+from mop import config, devices
+from mop.experiments.e8_dendritic import E8
 
 
 def test_e8_runs_and_checks_null(tmp_path):

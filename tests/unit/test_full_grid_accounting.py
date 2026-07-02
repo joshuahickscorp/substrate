@@ -2,9 +2,9 @@
 expands (sweep), and what cost_projection projects must agree EXACTLY, all from the leg YAMLs.
 Also guards that every toy axis is a subset of the full grid (no toy knob the full grid lacks)."""
 
-from devsys.harness.queue import load_queue
-from devsys.harness.sweep import expand, full_run_units, load_leg, toy_run_units
-from devsys.studies.cost_projection import TIER_FULL, cost_projection
+from mop.harness.queue import load_queue
+from mop.harness.sweep import expand, full_run_units, load_leg, toy_run_units
+from mop.studies.cost_projection import TIER_FULL, cost_projection
 
 
 def _legs():

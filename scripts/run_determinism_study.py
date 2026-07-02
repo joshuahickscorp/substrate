@@ -14,7 +14,7 @@ import argparse
 import json
 import sys
 
-from devsys.studies.determinism_study import determinism_study
+from mop.studies.determinism_study import determinism_study
 
 
 def main(argv: list[str] | None = None) -> int:

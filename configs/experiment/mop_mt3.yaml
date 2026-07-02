@@ -1,0 +1,17 @@
+# MoT preregistration mirror (WP-02): registry row mop_mt3_hetero_vs_homo in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_perspectives/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through mop.experiments.REGISTRY: scripts/mop_mt123_router_pilots.py
+# writes its verdict json to runs/mot/mt123_router_pilots.json.
+# PILOT: laptop-scale evidence only; the registered claim needs cpu-now
+# (see the row's relation field and STUDIO_HANDOFF.md).
+id: mop_mt3_hetero_vs_homo
+name: heterogeneous_beats_homogeneous_moe
+module: scripts/mop_mt123_router_pilots.py
+metric: [capability_density_matched_params_and_flops]
+null_hypothesis: "homogeneous k-copy MoE matches the heterogeneous mixture at equal param/FLOP; diversity adds nothing beyond generic mixture capacity"
+falsifier: "hetero density <= homo density at matched budget"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/mt123_router_pilots.json
+pilot: true

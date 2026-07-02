@@ -6,8 +6,8 @@ toy-scale integration test in this repo. Asserts MECHANICS only, never a particu
 
 from pathlib import Path
 
-from devsys import config, devices
-from devsys.experiments import get_experiment
+from mop import config, devices
+from mop.experiments import get_experiment
 
 
 def _run(eid, overrides, tmp_path):

@@ -54,9 +54,9 @@ _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from devsys.diagnostics.continual_metrics import LRIntegralAccumulator, adaptation_speed  # noqa: E402
-from devsys.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
-from devsys.substrate import LatentStore  # noqa: E402
+from mop.diagnostics.continual_metrics import LRIntegralAccumulator, adaptation_speed  # noqa: E402
+from mop.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
+from mop.substrate import LatentStore  # noqa: E402
 
 MIN_FREE_RAM_GB = 32.0
 DEAD_UNIT_VAR_THRESHOLD = 1e-3

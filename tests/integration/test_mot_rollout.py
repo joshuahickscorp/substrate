@@ -11,11 +11,11 @@ from omegaconf import OmegaConf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
-import mot_dr6_rollout_planning as dr6  # noqa: E402
-import mot_dr11_mc_rollouts as dr11  # noqa: E402
-import mot_dr13_horizon_limit as dr13  # noqa: E402
+import mop_dr6_rollout_planning as dr6  # noqa: E402
+import mop_dr11_mc_rollouts as dr11  # noqa: E402
+import mop_dr13_horizon_limit as dr13  # noqa: E402
 
-from devsys.devices import resolve  # noqa: E402
+from mop.devices import resolve  # noqa: E402
 
 DEV = resolve("cpu")
 
@@ -101,7 +101,7 @@ def test_dr6_planner_and_greedy_are_flop_matched(tmp_path):
 def test_dr6_true_env_execution_is_deterministic_given_generator():
     g1 = torch.Generator().manual_seed(7)
     g2 = torch.Generator().manual_seed(7)
-    from devsys.experiments.ex2_latent_planning import _true_dynamics_params
+    from mop.experiments.ex2_latent_planning import _true_dynamics_params
 
     params = _true_dynamics_params(8, 2, 0.5, torch.Generator().manual_seed(0))
     seq = torch.randn(3, 2)
@@ -129,7 +129,7 @@ def test_dr11_runs_with_guard_and_matched_flops(tmp_path):
 
 
 def test_dr11_stochastic_rollout_actually_varies():
-    from devsys.experiments.ex2_latent_planning import _DynamicsModel
+    from mop.experiments.ex2_latent_planning import _DynamicsModel
 
     model = _DynamicsModel(8, 2, 16)
     z0 = torch.randn(8)

@@ -5,7 +5,7 @@ benches' own tiny defaults, so this is fast; the benches do not otherwise run du
 
 import math
 
-from devsys import bench
+from mop import bench
 
 _KEYS = {"name", "seconds", "n", "throughput"}
 

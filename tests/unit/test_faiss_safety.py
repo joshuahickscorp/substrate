@@ -4,7 +4,7 @@ Correctness (nearest neighbor) holds either way."""
 
 import torch
 
-from devsys.shell.buffer import KVIndex, ReplayBuffer, faiss_search_safe
+from mop.shell.buffer import KVIndex, ReplayBuffer, faiss_search_safe
 
 
 def test_faiss_probe_returns_bool_and_caches():

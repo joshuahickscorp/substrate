@@ -2,8 +2,8 @@
 null/metric/falsifier/taxonomy slot, implemented rows point at real code, the REGISTRY and the bank
 file cannot diverge, and EXPERIMENTS.md is generated from the registry (no drift)."""
 
-from devsys.devel import registries as R
-from devsys.experiments import REGISTRY
+from mop.devel import registries as R
+from mop.experiments import REGISTRY
 
 
 def test_shipped_bank_validates_clean():
@@ -42,7 +42,7 @@ def test_every_registry_id_is_catalogued():
 
 
 def test_implemented_diagnostics_name_existing_modules():
-    from devsys.config import REPO_ROOT
+    from mop.config import REPO_ROOT
 
     for e in R.load_experiments():
         if e["status"] == "implemented" and e["kind"] in ("diagnostic", "ablation"):

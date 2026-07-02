@@ -43,11 +43,11 @@ import torch
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from cache_factorized_encoder import make_factorized_clip  # noqa: E402
 
-from devsys.config import compose  # noqa: E402
-from devsys.devices import resolve, safe_to  # noqa: E402
-from devsys.diagnostics import linear_probe  # noqa: E402
-from devsys.diagnostics.substrate_ablation import frozen_random_projection  # noqa: E402
-from devsys.substrate import load_encoder  # noqa: E402
+from mop.config import compose  # noqa: E402
+from mop.devices import resolve, safe_to  # noqa: E402
+from mop.diagnostics import linear_probe  # noqa: E402
+from mop.diagnostics.substrate_ablation import frozen_random_projection  # noqa: E402
+from mop.substrate import load_encoder  # noqa: E402
 
 
 def _grid_pool(tokens: torch.Tensor, g: int) -> torch.Tensor:

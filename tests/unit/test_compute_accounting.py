@@ -3,7 +3,7 @@ makes the reasoning experiments' 'matched compute' enforceable rather than asser
 
 from torch import nn
 
-from devsys.diagnostics import compute as C
+from mop.diagnostics import compute as C
 
 
 def test_param_count():

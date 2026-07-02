@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 import sys
 
-from devsys.studies.pc_depth import pc_depth
+from mop.studies.pc_depth import pc_depth
 
 
 def main(argv: list[str] | None = None) -> int:

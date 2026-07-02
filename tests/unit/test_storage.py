@@ -6,7 +6,7 @@ import json
 import numpy as np
 import pytest
 
-from devsys.substrate.storage import (
+from mop.substrate.storage import (
     DENSE_TOKENS_PER_CLIP,
     dir_size,
     estimate_cache_bytes,

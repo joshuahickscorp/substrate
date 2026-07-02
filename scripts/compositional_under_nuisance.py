@@ -36,10 +36,10 @@ from pathlib import Path
 import torch
 from scripts.substrate_vs_random_features import FRAMES, RES, _hue, _shape_mask, random_pixel_features
 
-from devsys.config import compose
-from devsys.devices import resolve, safe_to
-from devsys.diagnostics.held_out_combo import held_out_combination
-from devsys.substrate import load_encoder
+from mop.config import compose
+from mop.devices import resolve, safe_to
+from mop.diagnostics.held_out_combo import held_out_combination
+from mop.substrate import load_encoder
 
 
 def make_bound_nuisance_clip(shape: int, color: int, n_color: int, g: torch.Generator) -> torch.Tensor:

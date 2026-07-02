@@ -3,8 +3,8 @@ arms run, the frontier is computed, the staged-vs-(constant,decay) null comparis
 ran, the Fisher critical-period signature is reported, and the plot is saved. The class is
 imported directly, not via the registry."""
 
-from devsys import config, devices
-from devsys.experiments.e3_plasticity import ARMS, E3
+from mop import config, devices
+from mop.experiments.e3_plasticity import ARMS, E3
 
 
 def _toy_cfg():

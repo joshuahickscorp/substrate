@@ -5,7 +5,7 @@ Verifier). Known-answer checks; these are the shared toolkit every new experimen
 
 import torch
 
-from devsys.diagnostics import (
+from mop.diagnostics import (
     basin_stability,
     capability_per_bit,
     code_stability,
@@ -15,7 +15,7 @@ from devsys.diagnostics import (
     readout_contribution,
     sysid_report,
 )
-from devsys.shell.refine import IterativeRefiner, Verifier
+from mop.shell.refine import IterativeRefiner, Verifier
 
 
 def _g(s=0):

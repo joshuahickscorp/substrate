@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 import torch
 
-from devsys.devices import resolve
+from mop.devices import resolve
 
 torch.set_num_threads(2)  # live-state rule: an encode may own the CPU
 
@@ -46,7 +46,7 @@ def dev():
 
 
 def test_dr10_retrieve_reason_runs(dev, tmp_path):
-    mod = load_script("mot_dr10_retrieve_reason")
+    mod = load_script("mop_dr10_retrieve_reason")
     cfg = mod.default_cfg(**TINY_UNIVERSE, refine_steps=1)
     out = mod.MotDR10RetrieveReason().run(cfg, dev, tmp_path)
     assert isinstance(out, dict) and isinstance(out["null_supported"], bool)
@@ -64,14 +64,14 @@ def test_dr10_retrieve_reason_runs(dev, tmp_path):
 
 
 def test_dr10_declares_contract():
-    mod = load_script("mot_dr10_retrieve_reason")
+    mod = load_script("mop_dr10_retrieve_reason")
     exp = mod.MotDR10RetrieveReason()
     assert exp.null_hypothesis and exp.metric and exp.baseline and exp.ablation
     assert exp.tier == "cpu-now"
 
 
 def test_pr8_retrieval_head_runs_and_matches_params(dev, tmp_path):
-    mod = load_script("mot_pr8_retrieval_head")
+    mod = load_script("mop_pr8_retrieval_head")
     cfg = mod.default_cfg(**TINY_UNIVERSE, attn_dim=8, capmatch_tol=0.10)
     out = mod.MotPR8RetrievalHead().run(cfg, dev, tmp_path)
     assert isinstance(out["null_supported"], bool)
@@ -86,13 +86,13 @@ def test_pr8_retrieval_head_runs_and_matches_params(dev, tmp_path):
 
 
 def test_pr8_declares_contract():
-    mod = load_script("mot_pr8_retrieval_head")
+    mod = load_script("mop_pr8_retrieval_head")
     exp = mod.MotPR8RetrievalHead()
     assert "kNN" in exp.null_hypothesis and exp.tier == "cpu-now"
 
 
 def test_pr7_fast_slow_runs(dev, tmp_path):
-    mod = load_script("mot_pr7_fast_slow")
+    mod = load_script("mop_pr7_fast_slow")
     cfg = mod.default_cfg(seeds=[0, 1], dim=16, classes_per_task=4, n_tasks=2, samples_per_task=80, batch=8)
     out = mod.MotPR7FastSlow().run(cfg, dev, tmp_path)
     assert isinstance(out["null_supported"], bool)
@@ -107,7 +107,7 @@ def test_pr7_fast_slow_runs(dev, tmp_path):
 
 
 def test_pr7_fast_store_mechanics():
-    mod = load_script("mot_pr7_fast_slow")
+    mod = load_script("mop_pr7_fast_slow")
     store = mod.HebbianFastStore(dim=8, n_classes=3, eta=0.5, decay=0.9)
     z = torch.randn(4, 8)
     y = torch.tensor([0, 1, 2, 0])

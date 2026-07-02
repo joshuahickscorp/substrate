@@ -1,7 +1,7 @@
 import torch
 
-from devsys import devices
-from devsys.diagnostics import (
+from mop import devices
+from mop.diagnostics import (
     assert_reproducible,
     critical_period_signature,
     determinism_loop,
@@ -10,7 +10,7 @@ from devsys.diagnostics import (
     noisy_tv_diagnostic,
     reliability,
 )
-from devsys.substrate.datasets import make_task_stream
+from mop.substrate.datasets import make_task_stream
 
 
 # ---- linear probe ----

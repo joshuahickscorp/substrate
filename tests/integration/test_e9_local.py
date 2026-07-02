@@ -3,8 +3,8 @@ local rules, reporting accuracy, activation memory, and online stability, and an
 null (any_local_within_margin, best_local_memory_win) explicitly. Imported directly, not via
 the registry."""
 
-from devsys import config, devices
-from devsys.experiments.e9_local import E9, LOCAL_RULES
+from mop import config, devices
+from mop.experiments.e9_local import E9, LOCAL_RULES
 
 
 def test_e9_streaming_local_learning(tmp_path):

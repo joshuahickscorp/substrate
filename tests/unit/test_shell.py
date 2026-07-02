@@ -1,7 +1,7 @@
 import torch
 from omegaconf import OmegaConf
 
-from devsys.shell import (
+from mop.shell import (
     EWC,
     SI,
     Consolidation,
@@ -13,7 +13,7 @@ from devsys.shell import (
     ReplayBuffer,
     build_modulation,
 )
-from devsys.shell.heads import ClassHead
+from mop.shell.heads import ClassHead
 
 
 # ---- predictor / heads / ensemble ----
@@ -273,7 +273,7 @@ def test_build_modulation_toggles():
 
 
 def test_chunking_detects_boundaries():
-    from devsys.shell import Chunking
+    from mop.shell import Chunking
 
     seq = torch.zeros(1, 5, 4)
     seq[0, 3] = 10.0  # a jump at t=3

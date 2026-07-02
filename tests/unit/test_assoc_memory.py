@@ -1,6 +1,6 @@
 import torch
 
-from devsys.studies.assoc_memory import (
+from mop.studies.assoc_memory import (
     _corrupt,
     _retrieval_acc,
     _store,

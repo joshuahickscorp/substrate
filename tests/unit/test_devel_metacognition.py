@@ -3,8 +3,8 @@ through the sentience rail, and refuses to render if a claim is injected."""
 
 import pytest
 
-from devsys.devel import metacognition
-from devsys.devel.north_star import scan_text
+from mop.devel import metacognition
+from mop.devel.north_star import scan_text
 
 
 def test_report_distinguishes_capacities_from_claims():

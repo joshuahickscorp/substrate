@@ -4,8 +4,8 @@ content is detected. The safety invariants the whole acquisition lane rests on."
 
 import json
 
-from devsys.studio import downloader
-from devsys.studio.profiles import M3PRO_LOCAL_MAX, Profile
+from mop.studio import downloader
+from mop.studio.profiles import M3PRO_LOCAL_MAX, Profile
 
 
 def _plan(*sources):

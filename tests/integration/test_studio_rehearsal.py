@@ -3,8 +3,8 @@ local fixtures, tags real vs mocked honestly, and writes a report + JSON summary
 
 import json
 
-from devsys import studio_rehearsal
-from devsys.provenance import RESULT_TAGS
+from mop import studio_rehearsal
+from mop.provenance import RESULT_TAGS
 
 STAGES = {
     "doctor",

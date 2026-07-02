@@ -4,7 +4,7 @@ itself clean. This is the rail that gates every developmental report."""
 
 import pytest
 
-from devsys.devel import north_star as NS
+from mop.devel import north_star as NS
 
 
 def test_flags_affirmative_claims():

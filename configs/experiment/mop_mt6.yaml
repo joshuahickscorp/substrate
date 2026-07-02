@@ -1,0 +1,15 @@
+# MoT preregistration mirror (WP-02): registry row mop_mt6_confidence_stop in registry/experiments.yaml.
+# The null_hypothesis is carried VERBATIM from the registry row (which mirrors section 11 of
+# docs/mixture_of_perspectives/11_experiment_registry.md). This row runs as a standalone script
+# (status registry-only), not through mop.experiments.REGISTRY: scripts/mop_mt6_confidence_stop.py
+# writes its verdict json to runs/mot/mt6_confidence_stop.json.
+id: mop_mt6_confidence_stop
+name: confidence_stopping_vs_free_early_exit
+module: scripts/mop_mt6_confidence_stop.py
+metric: [accuracy_at_matched_mean_flops, halt_vs_correctness_auroc]
+null_hypothesis: "the trained halt head ties the free update-norm rule; confidence is just the latent ceasing to move"
+falsifier: "trained-halt <= free-rule at matched FLOPs"
+tier: cpu-now
+seeds: '0-4'
+output: runs/mot/mt6_confidence_stop.json
+pilot: false

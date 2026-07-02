@@ -11,7 +11,7 @@
 # the registry tags this experiment resource_tier=studio-scale from its original frontier-
 # compute design, but this build runs the real mechanism now, just slower). For a fast dev-loop
 # iteration (seconds, self-test/CI scale), override on the command line or in compose(), e.g.:
-#   devsys.config.compose(["experiment=ex5_local_rules_scale", "device=cpu",
+#   mop.config.compose(["experiment=ex5_local_rules_scale", "device=cpu",
 #     "experiment.n_tasks=4", "experiment.dim=16", "experiment.classes_per_task=3",
 #     "experiment.samples_per_task=24", "experiment.hidden_widths=[8,16]",
 #     "experiment.epochs_per_task=3", "experiment.n_anchors=3", "experiment.seeds=[0]"])

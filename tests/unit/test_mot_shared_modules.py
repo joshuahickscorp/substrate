@@ -9,15 +9,15 @@ import pytest
 import torch
 from torch import nn
 
-from devsys.diagnostics import continual_metrics as cm
-from devsys.diagnostics import riskcov as rc
-from devsys.diagnostics.alignment import alignment_suite, permutation_pvalue
-from devsys.diagnostics.compute import attention_flops, knn_flops, linear_flops, param_count
-from devsys.diagnostics.cross_substrate import cross_substrate_agreement
-from devsys.shell.capmatch import fixed_total_params_sweep, matched_capacity, width_for_param_count
-from devsys.shell.heads import KWTAHead, MoEHead, moe_expert_hidden_for_dense, routing_entropy
-from devsys.shell.workspace import WorkspaceShell
-from devsys.substrate.adapter import RandomInitViTAdapter, RandomPixelAdapter, SubstrateRegistry
+from mop.diagnostics import continual_metrics as cm
+from mop.diagnostics import riskcov as rc
+from mop.diagnostics.alignment import alignment_suite, permutation_pvalue
+from mop.diagnostics.compute import attention_flops, knn_flops, linear_flops, param_count
+from mop.diagnostics.cross_substrate import cross_substrate_agreement
+from mop.shell.capmatch import fixed_total_params_sweep, matched_capacity, width_for_param_count
+from mop.shell.heads import KWTAHead, MoEHead, moe_expert_hidden_for_dense, routing_entropy
+from mop.shell.workspace import WorkspaceShell
+from mop.substrate.adapter import RandomInitViTAdapter, RandomPixelAdapter, SubstrateRegistry
 
 # ---------------------------------------------------------------- adapter
 
@@ -221,10 +221,10 @@ def test_knn_flops_is_query_key_matmul():
 
 
 def test_package_reexports_land():
-    from devsys.diagnostics import attention_flops as af
-    from devsys.diagnostics import auroc, backward_transfer, cross_substrate_agreement  # noqa: F401
-    from devsys.shell import KWTAHead as kh
-    from devsys.shell import MoEHead, WorkspaceShell, matched_capacity  # noqa: F401
+    from mop.diagnostics import attention_flops as af
+    from mop.diagnostics import auroc, backward_transfer, cross_substrate_agreement  # noqa: F401
+    from mop.shell import KWTAHead as kh
+    from mop.shell import MoEHead, WorkspaceShell, matched_capacity  # noqa: F401
 
     assert af is attention_flops and kh is KWTAHead
 
@@ -243,7 +243,7 @@ def test_matched_capacity_within_tol():
     def make(h):
         return nn.Sequential(nn.Linear(4, h), nn.Linear(h, 4))
 
-    from devsys.diagnostics.compute import param_count
+    from mop.diagnostics.compute import param_count
 
     m = matched_capacity(ref, make, tol=0.05)
     assert abs(param_count(m) - param_count(ref)) <= 0.05 * param_count(ref)
@@ -273,8 +273,8 @@ def test_aggregate_report_collects_verdicts_and_missing(tmp_path):
     from pathlib import Path
 
     spec = importlib.util.spec_from_file_location(
-        "mot_aggregate_report",
-        Path(__file__).resolve().parents[2] / "scripts" / "mot_aggregate_report.py",
+        "mop_aggregate_report",
+        Path(__file__).resolve().parents[2] / "scripts" / "mop_aggregate_report.py",
     )
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -286,10 +286,10 @@ def test_aggregate_report_collects_verdicts_and_missing(tmp_path):
         "win": True,
     }
     (tmp_path / "mt5_adaptive_halting.json").write_text(
-        json.dumps({"experiment": "mot_mt5", "null_supported": False, "delta": win_block, "seconds": 1})
+        json.dumps({"experiment": "mop_mt5", "null_supported": False, "delta": win_block, "seconds": 1})
     )
     (tmp_path / "dr9_verify_revise.json").write_text(
-        json.dumps({"experiment": "mot_dr9", "null_supported": True, "seconds": 2})
+        json.dumps({"experiment": "mop_dr9", "null_supported": True, "seconds": 2})
     )
     (tmp_path / "broken.json").write_text("{not json")
     # a not-evaluable row (missing input): even an old-style null_supported=False must land in the
@@ -297,7 +297,7 @@ def test_aggregate_report_collects_verdicts_and_missing(tmp_path):
     (tmp_path / "at4_programmatic_ceiling.json").write_text(
         json.dumps(
             {
-                "experiment": "mot_at4",
+                "experiment": "mop_at4",
                 "verdict": "NO CEILING: the programmatic_reference store is not on disk",
                 "null_supported": False,
                 "seconds": 1,
@@ -307,12 +307,12 @@ def test_aggregate_report_collects_verdicts_and_missing(tmp_path):
 
     rep = mod.aggregate(tmp_path)
     assert rep["n_jsons"] == 4
-    assert rep["null_rejected_ids"] == ["mot_mt5"]
-    assert rep["not_evaluable_ids"] == ["mot_at4"] and rep["n_not_evaluable"] == 1
-    assert rep["unstable_ci_ids"] == ["mot_mt5"]
+    assert rep["null_rejected_ids"] == ["mop_mt5"]
+    assert rep["not_evaluable_ids"] == ["mop_at4"] and rep["n_not_evaluable"] == 1
+    assert rep["unstable_ci_ids"] == ["mop_mt5"]
     by_id = {r["experiment"]: r for r in rep["rows"]}
-    assert by_id["mot_mt5"]["n_wins"] == 1 and not by_id["mot_mt5"]["any_sign_flip"]
+    assert by_id["mop_mt5"]["n_wins"] == 1 and not by_id["mop_mt5"]["any_sign_flip"]
     assert "error" in by_id["broken"]
     assert "dr10_retrieve_reason" in rep["missing_expected"]
     assert "mt5_adaptive_halting" not in rep["missing_expected"]
-    assert "mot_mt5" in mod.render_table(rep)
+    assert "mop_mt5" in mod.render_table(rep)

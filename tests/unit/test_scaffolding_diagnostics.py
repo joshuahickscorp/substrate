@@ -5,14 +5,14 @@ store loop, the linear_probe-based comparisons), so the tests check the reusable
 
 import torch
 
-from devsys.diagnostics import (
+from mop.diagnostics import (
     calibrated_tie,
     degradation_curve,
     reference_separation,
     retention_per_byte,
     transfer_matrix,
 )
-from devsys.substrate.datasets import make_task_stream
+from mop.substrate.datasets import make_task_stream
 
 
 def _g(s=0):

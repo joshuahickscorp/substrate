@@ -43,9 +43,9 @@ from scripts.featurize_programmatic import (  # noqa: E402
     write_factors_sidecar,
 )
 
-from devsys.config import REPO_ROOT  # noqa: E402
-from devsys.diagnostics import linear_probe  # noqa: E402
-from devsys.substrate import LatentStore  # noqa: E402
+from mop.config import REPO_ROOT  # noqa: E402
+from mop.diagnostics import linear_probe  # noqa: E402
+from mop.substrate import LatentStore  # noqa: E402
 
 STAGING_MANIFEST = REPO_ROOT / "runs" / "mot" / "staging_manifest.json"
 STORE_PREFIX = "qwen05b_textified"

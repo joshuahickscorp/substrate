@@ -2,8 +2,8 @@
 a recombination-generalization task, a structured head vs a parameter-matched flat head per
 substrate, and the explicit null check (structured_beats_flat AND dense_gain_larger)."""
 
-from devsys import config, devices
-from devsys.experiments.e6_relational import E6
+from mop import config, devices
+from mop.experiments.e6_relational import E6
 
 
 def test_e6_relational_comparison(tmp_path):

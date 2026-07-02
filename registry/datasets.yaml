@@ -1,8 +1,8 @@
 # Dataset acquisition registry (Frontier 1). Machine-readable source catalog the Studio planner,
 # downloader, data-card writer, and license ledger all read. ONE schema, validated by
-# devsys.studio.registry.validate_dataset (every entry must carry every required field).
+# mop.studio.registry.validate_dataset (every entry must carry every required field).
 #
-# Honesty rules enforced in code (devsys.studio.registry):
+# Honesty rules enforced in code (mop.studio.registry):
 #   - status in {available, manual, deferred, blocked, metadata-only}
 #   - kind in {natural-video, structured-synthetic, metadata-only, auxiliary, provisional}
 #   - any source needing signed terms is status: manual (planner will not auto-select it unless the
@@ -223,7 +223,7 @@ sources:
     cache_gb_pooled: 0.02
     recommended_subsets: [32, 64, 128]
     license: "generated locally (no third-party license)"
-    citation: "this repo, devsys.studio.controls"
+    citation: "this repo, mop.studio.controls"
     allowed_use: unrestricted (we generated it)
     auth_steps: none
     download_method: generate       # the ONLY method that truly runs on-device without a download

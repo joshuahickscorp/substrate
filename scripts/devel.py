@@ -23,12 +23,12 @@ import sys
 import tempfile
 from pathlib import Path
 
-from devsys.devel import ablation, curriculum, metacognition, paperwatch, registries
+from mop.devel import ablation, curriculum, metacognition, paperwatch, registries
 
 
 def _cmd_curriculum(a: argparse.Namespace) -> dict:
-    from devsys.studio import controls
-    from devsys.studio.profiles import get_profile
+    from mop.studio import controls
+    from mop.studio.profiles import get_profile
 
     fams = a.families.split(",") if a.families else ["moving_object", "hard_motion", "aleatoric_tv"]
     out_root = Path(a.out) if a.out else Path(tempfile.mkdtemp(prefix="devel_curriculum_"))
@@ -101,7 +101,7 @@ def main(argv: list[str] | None = None) -> int:
         problems = registries.validate_all()
         result = {"problems": problems, "ok": not problems}
     elif a.cmd == "experiments":
-        from devsys.config import REPO_ROOT
+        from mop.config import REPO_ROOT
 
         items = registries.load_experiments()
         problems = registries.validate_experiments()

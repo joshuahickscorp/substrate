@@ -1005,7 +1005,7 @@ voice within an existing one." That is the honest, and still very real, ceiling.
 
 ### 7.1 The landscape, and where the white space actually is
 
-Brain (package `devsys`) sits at the intersection of four active fields. Mapping each one
+Brain (package `mop`) sits at the intersection of four active fields. Mapping each one
 honestly is the only way to find a real wedge instead of a flattering one.
 
 Continual learning on frozen pretrained features is a MATURE, CROWDED subfield, not white space.
