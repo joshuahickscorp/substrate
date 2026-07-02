@@ -432,3 +432,27 @@ itself the point.
   dominant "effect exists but frozen-random matches it" signature, strengthening the synthesis's central
   finding that this toy regime cannot yet distinguish a substrate property from a generic optimizer/geometry
   artifact.
+
+## Forced through the live contentions: three decisive controls run (agentic workflow) + the pooling probe
+User goal: iterate and force through the barriers, run the methods that reveal the truth, no failure only
+deviations. Ran the ONE control experiment that resolves each open contention, plus the decisive substrate
+experiment.
+- [x] close_e7_sparse: the corpus's one provisional positive (sparse heads forget less) survives a
+  frozen-random projection of the inputs nearly intact (real BWT gain +0.239 vs frozen-random +0.164,
+  ratio 0.69, both clear the null margin at all 5 seeds). REFRAMED: real but a GENERIC ARCHITECTURAL fact
+  about the shell head, NOT substrate-specific. Still the most useful positive; correctly characterized.
+- [x] close_ex5_local_rules: plain-SGD backprop at a matched effective step size forgets far less than
+  Adam backprop (+0.157 BWT) and ties/beats both local rules. REFUTED: ex5's "local rules beat backprop"
+  was an Adam optimizer artifact (adaptive + cross-task momentum state), not local credit assignment.
+- [x] close_ex2_planning: scored honestly on the TRUE dynamics (planner's selected sequence executed in
+  the real env, graded like the flat/shuffle controls), the MPC planner STILL beats both on all 3 seeds
+  (5.67 vs 6.98 vs 6.97). SURVIVES: latent planning genuinely reaches goals a reactive head cannot; the
+  in-belief optimism (0.83 gap) was real but not the whole story. A genuine positive.
+- [x] Net update: TWO real positives (e7_sparse architectural, ex2 planning), both about the shell's
+  structure/algorithm, neither about the frozen substrate carrying special structure. Consistent signal:
+  mechanism/architecture in the shell is what works; the pooled V-JEPA features are not doing special work.
+- [~] dense_vs_pooled_probe RUNNING (the decisive substrate experiment): does a spatial factor decode from
+  the dense pre-pool token grid but not the mean-pooled vector (pooling is the bottleneck -> dense substrate
+  fork) or fail on both (substrate bounded -> custom fork). Freed RAM by stopping the lower-value grind
+  (ex9 slot-null already confirmed, ex2 resolved) so the real-encoder probe runs clean; the factorized-cache
+  real-latent lane is requeued to run after it.
