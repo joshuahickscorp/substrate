@@ -88,3 +88,75 @@ e6_relational, ex9_slot_attention (dense arm), and any 2.1-only rows are current
 - [ ] **`proof/NULL_CARDS/`**: existing cards transfer directly; note the gaps. ex1, ex4, ex6, ex7, ex11, ex14, ex18 now have `proof.null_card` pointers set in the registry but the `.md` files themselves are not yet written (same for ex5, ex13, ex15, which remain unimplemented). Also missing: cards for the 25 candidate positives now marked REFUTED (a4/a5/a7/a8, b3/b5, c1/c5, d5/d7/d8, e4/e5/e7/e9, ex8/ex16, i4, n8/n10, p2, s1/s5, y6/y7) — authoring these as honest "refuted, here is why" cards is pure text, no compute, and freezes the finding before any Studio result could be back-fitted to it.
 - [ ] **`src/devsys/diagnostics/substrate_ablation.py`, `compute.py`, `sysid.py`, `geometry.py`, `difficulty_calibration.py`, `transfer_matrix.py`, `buffer_compression.py`, `latent_robustness.py`**: the standing-control primitives — confirm these get imported and actually called in every re-run of the 25 candidate positives, since the single most common failure mode in this corpus was a control existing in the codebase but never being wired into the specific experiment that needed it.
 - [ ] **`src/devsys/studio/profiles.py`**: both profiles already exist and transfer directly — `m3pro-local-max` (max_cache_clips=128, max_run_count=64, download_budget_gb=10.0, min_free_disk_gb=60.0) for reference, and `studio-1tb` (disk_total_gb=1000, download_budget_gb=900, max_cache_clips=2000000, allowed_tiers=[C,E]) already configured and ready to use in every `--profile studio-1tb` command referenced above.
+
+---
+
+## Mixture-of-Thinking lane: Studio-gated experiments (appended from EXECUTION_MANIFEST.md)
+
+The MoT laptop lane (runs/mot/, ~30 experiments) is complete or in flight on the M3 Pro. The rows below
+are the MoT experiments the laptop cannot answer. Registry ids are from
+docs/mixture_of_thinking/11_experiment_registry.md. Every input listed as staged is already on the
+laptop and transfers with data/cache/, runs/mot/, and the models/ staging directory. Each row: why the
+laptop cannot do it, the staged inputs, and the slot relative to the numbered priorities above.
+
+- **DR1 real bound-attribute video cache**: real-video curation plus a full encode pass past the
+  128-clip clamp and the 21 s/clip CPU floor. Staged: clip validation pipeline (`substrate/video.py`),
+  factorized cache layout. Slot: run WITH priority item 2 (real-latent caches); it is the #1
+  fork-shortlist item and unblocks most rows below.
+- **CM1 compositional gate on real video**: needs DR1 plus a random-init ViT-L arm at matched 256px,
+  multi-seed. Staged: `scripts/substrate_vs_random_init_vit.py` logic and the laptop single-seed
+  result (p=0.029). Slot: immediately after DR1; this is the C1 gate. The laptop
+  compositional_under_nuisance run is descriptive only and must not close it.
+- **substrate_vs_random_init_vit multi-seed rerun**: the headline number needs 5+ seeds at real scale.
+  Staged: the landed single-seed json and the script itself. Slot: inside priority item 1 (rerun
+  candidates with controls at 5+ seeds); the highest single-number value in the handoff.
+- **DR2/PR3 sparse heads on real latents, 30-run protocol**: DR1-scale stream plus paired significance
+  at 30 runs. Staged: laptop pilot `runs/mot/dr2_sparse_real_pilot.json`, kWTA/MoE heads in
+  `shell/heads.py`. Slot: with priority item 1; the laptop pilot's delta decides how hot this runs.
+- **MT4 router over reasoning primitives**: needs MT5-MT8 distinct strategies plus a D3
+  difficulty-graded regime at scale. Staged: `runs/mot/mt5..mt8` verdicts and the PR1 verdict json.
+  Slot: after the MT5-MT8 laptop verdicts transfer; skip if PR1 nulled and no laptop MT row survived.
+- **DR3 latent scratchpad**: dense per-token latents plus a WM-load task from DR1. Staged: H-SLOTMEM
+  design in the manifest, capmatch module. Slot: after DR1 dense tokens exist; the highest-value
+  substrate-bound probe (14.6 #2).
+- **DR4 causal intervention leakage**: DR1 factor-annotated clips. Staged: rollout harness scripts
+  (mot_dr6/dr11/dr13). Slot: after DR1.
+- **DR5 cross-substrate reasoning consistency**: two real encoder caches plus the random-init cache
+  simultaneously. Staged: dinov2-small weights, randominit_vitl cache. Slot: after any laptop
+  reasoning row survives Stage 4.
+- **DR7 latent chain-of-thought**: DR1 multi-step relational task. Staged: Predictor chain harness
+  design. Slot: after DR1.
+- **DR14 dropped-channel arm**: dense latents. Staged: laptop VQ/4-bit/noise slopes in
+  `runs/mot/dr14_corruption.json`. Slot: with the dense-cache decision (a deliberate budgeted choice
+  on the 2TB box).
+- **DR15 modality-general reasoning**: three encoder families cached at scale. Staged: qwen05b and
+  wav2vec2 caches and weights. Slot: after DR5.
+- **AT1 full cross-substrate nuisance grid**: the multi-encoder grid with per-substrate random-init
+  controls exceeds the laptop queue budget. Staged: laptop grid pilot `runs/mot/at1_grid_pilot.json`
+  and all small-model caches. Slot: with priority item 1; the pilot's nine-verdict table seeds it.
+- **AT2 mode substrate-dependence**: random-init-ViT rerun of any winning mode at 256px on nuisance
+  content. Staged: randominit_vitl cache, winning-mode scripts. Slot: after Stage 4 survivors
+  transfer.
+- **AL2 full shared-latent alignment**: second and third encoder caches on shared clips at scale.
+  Staged: `runs/mot/al2_alignment_pilot.json`. Slot: with AT1.
+- **AL3 audio-video temporal alignment**: aligned audio-video clips are new data plus an audio encode
+  pass. Staged: wav2vec2-base weights and the preregistered sonification mapping. Slot: low priority,
+  after AT1/AL2.
+- **CM2 multi-substrate atlas gate**: multiple frozen substrates on real video. Staged: all staged
+  encoder weights. Slot: only if CM1 FAILS; it is the swap-vs-build decider.
+- **CM3 dense vs pooled compositional**: DR1 dense-token cache. Staged: laptop dense_vs_pooled probe
+  result (ceilinged, commit c6efc74). Slot: only if CM1 fails; interface-vs-weights isolation.
+- **CM4 workspace shell, registered claim**: DR1-scale stream and the 30-run e7/ex2 protocols. Staged:
+  `runs/mot/cm4_workspace_pilot.json`. Slot: after DR2/PR3 lands.
+- **CM5 studio-scale rejuvenation**: dim 256 to low thousands over thousands of tasks (memory and
+  compute). Staged: ex15/b8 harness. Slot: after the plasticity laptop rows transfer; the C3 probe.
+- **CM6 distilled ViT-S density**: trains a student model. Staged: teacher cache. Slot: optional,
+  after any substrate is settled.
+- **CM7 minimum-objective encoder probe**: trains a 1-5M encoder on pixels, out of Tier 0 by doctrine.
+  Staged: the CM1 design doc and the nuisance clip generator. Slot: ONLY if the bounding
+  prerequisites in 14.5 all land; a tie CLOSES the custom-encoder line.
+
+Bottom line: DR1 is the binding constraint for two thirds of this table. Run the multi-seed
+substrate_vs_random_init rerun and DR1 first, then let the CM1 verdict route everything else. Nothing
+in this lane licenses custom training; CM7 is the only sanctioned training pilot and it is a
+diagnostic, not a bet.
