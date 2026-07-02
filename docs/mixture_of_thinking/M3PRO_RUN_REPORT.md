@@ -35,28 +35,42 @@ The through-line: the frozen pooled V-JEPA latent is a genuinely structured, com
 code (not a blank projection), and its heterogeneous readings are complementary enough that a coordinator
 is worth building. Those are the two prerequisites MoP needs, and both held.
 
-## 2. The pilot-held survivors (5 of ~30, held at 10 seeds)
+## 2. The survivors, RE-GRADED after the potential audit (3 hold, 2 fail their own controls)
 
-These beat their non-vacuous baseline and survived the 10-seed rerun. They are cached-latent or
-synthetic-regime pilots: the effect is real, the at-scale claim is a Studio job.
+> Correction (POTENTIAL_AUDIT.md): an earlier version of this report listed 5 pilot-held survivors. The
+> adversarial audit re-graded two of them (al2, ws2) against their OWN preregistered controls and both
+> fail. Verified against the raw JSONs. The honest count is 3 that survive, 2 demoted. This section is
+> corrected below; do not carry al2 or ws2 to the Studio as positives.
 
-- **at3_time_axis (temporal currency exists).** Full-clip latents decode motion direction and speed that a
-  token-matched static frame cannot (needs_time = motion_dir4, speed2). The temporal axis is a genuine
-  perspective carrying decodable structure a static view lacks. Directly supports the multi-perspective
-  thesis.
-- **ws2_fusion_tournament (structure beats capacity).** At matched parameters, a structured fusion beats a
-  concat-MLP: the workspace adds value BEYOND raw capacity. This is the cleanest pilot-scale positive for
-  the core MoP coordinator, because it clears the "just more parameters" confound.
-- **al2_alignment_pilot (perspectives share an alignable code).** A learned rank-32 cross-substrate map
-  predicts a target substrate above the random-map-of-equal-rank floor. This is MoP's empirical
-  precondition: different perspectives can be aligned and translated, above the vacuous floor. Conceptually
-  the most important survivor.
+Genuinely holds at 10 seeds against a non-vacuous control:
+
+- **at3_time_axis (temporal currency exists).** Full-clip latents decode motion direction (+0.200, CI
+  [0.165,0.235]) and speed (+0.245, CI [0.204,0.286]) that a token-matched static frame cannot. A real
+  second perspective axis, though it is the least surprising possible result (a static frame cannot see
+  motion).
 - **at1_grid_pilot (pretraining-invariance is cross-substrate).** The substrate-is-special effect
   generalizes across the laptop columns (image and single-frame video), each beating its OWN random-init
-  control. Not a V-JEPA-only artifact.
-- **pr7_fast_slow (two-timescale plasticity helps).** A fast (Hebbian) plus slow (SGD) store beats the
-  slow-only baseline. The deep research flagged the Hebbian version as a FLOOR that a delta-rule update
-  provably dominates, so this is a real lead to upgrade, not a ceiling.
+  control. Not a V-JEPA-only artifact. (Same family as the substrate-special direction, single split.)
+- **pr7_fast_slow (two-timescale plasticity helps), as a LEAD not a win.** A fast plus slow store beats
+  the slow-only baseline, but the deep research showed the Hebbian version is a FLOOR a delta-rule provably
+  dominates. Real only as a mechanism to upgrade, not a positive to bank.
+
+DEMOTED by the audit re-grade (were reported as positives, are not):
+
+- **al2_alignment_pilot: cross-modal alignment FAILS; only same-modality vision pairs align.** The "null
+  rejected" was carried by vision-to-vision pairs; the cross-modal pairs (vision to text, vision to audio)
+  have NEGATIVE learned-minus-random deltas (e.g. dinov2 to handcrafted learned R2 -0.45 vs random -0.02),
+  and the real V-JEPA nuisance arm (`vjepa2_vitl_nuisance_real`) is MISSING entirely. So this is NOT
+  evidence that perspectives share an alignable code. The honest reading is the opposite and still useful:
+  two frozen VISION encoders of identical content are weakly alignable, and no cross-modal alignment
+  survives the random-map floor. That is a NEGATIVE result for the MoP shared-code precondition, not a
+  positive, and it must be re-run with the missing V-JEPA arm and a topology-permutation null (not ridge
+  R2) before any claim.
+- **ws2_fusion_tournament: fails its own dual acc-AND-NLL contract.** The preregistered null requires a
+  fusion to tie concat-MLP on BOTH accuracy and NLL; rejecting it needs a win on BOTH. No arm does:
+  gwt_broadcast wins accuracy (acc_win True) but loses NLL (nll_win False), and the reported "structure
+  beats capacity" verdict came from an acc-only, max-over-arms pick. On its own contract, ws2 is a NULL.
+  "Structured fusion beats capacity" is not supported by this run.
 
 ## 3. The nulls (24), and why the biggest cluster is the correct result
 
@@ -104,23 +118,38 @@ delivers a large, honest null map (the reasoning lane is regime-correct-null) an
 The binding constraint remains what it has been: almost every cross-modal SEMANTIC question (code, math,
 physics, paired-language) has no runnable test surface yet, because the cached substrate exposes only shape
 and color and we have no DSL/executor, physics, numerosity, or paired-language-encoder caches (per
-SEMANTIC_POSITIONS.md). The Studio priorities, in order:
+SEMANTIC_POSITIONS.md). The Studio priorities, RE-ORDERED per the potential audit (which found the earlier
+ordering was "avoidance dressed as sequencing": it buried the one decisive enabler behind refining a number
+the program already owns):
 
-1. Multi-seed the substrate headline numbers (the +0.276 and the compositional -0.017) with the random-init
-   arm at matched resolution: turn REAL-DECISIVE-single-split into REAL-DECISIVE-multi-seed.
-2. Promote the 3 pilot-held MoP survivors (al2 alignment, ws2 fusion-beats-capacity, at3 temporal currency)
-   to their registered at-scale claims with the full control stack.
-3. Settle dr2 sparse-real with the 30-run protocol.
-4. Build the modality caches (DR1 bound-attribute video, then a DSL/executor, physics, numerosity, and a
-   paired-language cache) so the semantic layer stops being theory without an instrument.
-5. PR9 continual-backprop reinit (the one frontier-certified baseline-beater never run) on a stream long
-   enough to induce plasticity loss.
+1. **Build DR1 (non-additive bound-attribute natural video, with count and relation slots) FIRST**, plus a
+   paired vision+text encoder pass on identical referents (the Qwen cache is text-of-labels, not parallel
+   LLM states). This is the difference between having and not having a science on the multi-perspective
+   ideology, and it unblocks GATE C1 and ~70 semantic positions.
+2. **Re-grade al2 and ws2 against their own controls (zero new compute)** before any promotion: add al2's
+   missing V-JEPA arm and a topology-permutation null; enforce ws2's dual acc-AND-NLL contract with the
+   mean-baseline guard. On current data both demote to null; do not launder them into the Studio.
+3. **Build the D3 hardness gradient and one executable verifier**, then re-run one dead reasoning mechanism
+   (dr8) against it: this converts the 24 reasoning nulls from a prose rescue-list into a live
+   falsification, and fires the standing kill-switch if it still ties.
+4. **Run PR9 continual-backprop** on a long real-latent stream (the one plasticity mechanism certified to
+   beat a tuned baseline on plasticity loss, and the only one never run): it either wins (the first
+   substrate-touching plasticity positive) or ties (moldability is honestly dead at this substrate).
+5. Only THEN multi-seed the substrate headline numbers and settle dr2 sparse-real with the 30-run protocol.
+   These refine what the program already owns and must not come first.
 
 ## 7. Bottom line
 
-The frozen V-JEPA substrate is real, structured, compositional, and its perspectives are alignable and
-complementary: MoP is a live hypothesis, not a refuted one. The mechanism lane is mostly honest nulls (the
-reasoning nulls are the correct regime result), with five real pilot-scale survivors, three of them
-squarely MoP-relevant. Nothing here licenses custom-model training. The deliverable is exactly what the
-doctrine promised: a rigorous map of what a frozen-substrate cognition can and cannot do, with the sharp
-negatives that a scale-first lab has no incentive to publish, and a short list of real positives to scale.
+The frozen V-JEPA substrate is real, structured, and compositional on the two slots it exposes (shape,
+color), and its reasoning modes are complementary enough to license a router (PR1): MoP is a live
+hypothesis, not a refuted one. But after the audit re-grade the honest yield is narrow: 3 holds (at3
+temporal currency, at1 cross-substrate invariance as a same-family restatement of substrate-special, pr7
+only as a lead), the substrate-special direction still single-split and one clip from ambiguity, and the
+two results that looked most MoP-relevant (al2 shared-code, ws2 structure-beats-capacity) fail their own
+controls. The mechanism lane is otherwise honest nulls. Critically, the multi-perspective and moldability
+ideologies are barely instrumented: cross-modal alignment points the wrong way (al2), deep plasticity is
+false-by-construction on a frozen substrate, and the density north star was tested once and nulled. Nothing
+licenses custom-model training. The deliverable is a rigorous map of what a frozen two-slot instrument can
+and cannot do; whether MoP becomes more than that is decided by whether DR1, a paired-text cache, D3, and
+PR9 get built BEFORE the next round of headline multi-seeding. See POTENTIAL_AUDIT.md for the full
+scorecard (3.0/10 on reaching the ideology) and the re-ordered action list.

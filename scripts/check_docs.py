@@ -41,6 +41,7 @@ CANONICAL_MD = (
     "docs/mixture_of_thinking/DEEP_RESEARCH_2026_07.md",
     "docs/mixture_of_thinking/SEMANTIC_POSITIONS.md",
     "docs/mixture_of_thinking/M3PRO_RUN_REPORT.md",
+    "docs/mixture_of_thinking/POTENTIAL_AUDIT.md",
     "docs/mixture_of_thinking/01_thesis_and_definition.md",
     "docs/mixture_of_thinking/03_thinking_modes.md",
     "docs/mixture_of_thinking/04_reasoning_program.md",
