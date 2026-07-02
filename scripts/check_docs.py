@@ -43,6 +43,7 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/M3PRO_RUN_REPORT.md",
     "docs/mixture_of_perspectives/POTENTIAL_AUDIT.md",
     "docs/mixture_of_perspectives/SCAFFOLD.md",
+    "docs/mixture_of_perspectives/HANDOFF.md",
     "docs/mixture_of_perspectives/01_thesis_and_definition.md",
     "docs/mixture_of_perspectives/03_thinking_modes.md",
     "docs/mixture_of_perspectives/04_reasoning_program.md",
