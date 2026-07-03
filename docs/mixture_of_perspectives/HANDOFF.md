@@ -116,9 +116,10 @@ DEAD (kill-switch fired, branch retired):
 
 - `docs/mixture_of_perspectives/HANDOFF.md` (this file).
 - `docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md` (every facet graded on the DELIVERED Studio's
-  theoretical ceiling, M1 Ultra 128 GB / 8 TB; the ~9.0 target and the walls that survive even there).
+  theoretical ceiling, M1 Ultra 128 GB / 8 TB. Part 1: the inherited program, ~9.0. Part 2: the Studio as
+  a NEW instrument, facets 12-17, ~9.3 combined, and the walls that survive even there).
 - `docs/mixture_of_perspectives/STUDIO_GOAL_PROMPT.md` (the cold-start goal-loop prompt for the first
-  session ON the Studio; paste its fenced block verbatim).
+  session ON the Studio; type `/goal` there, or paste its fenced block verbatim).
 - `docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md` (Tracks A/B/C, each proven laptop wall translated
   into its pre-registered off-device experiment with gates).
 - `docs/mixture_of_perspectives/SCAFFOLD.md` (the M3 Pro process vs Studio process, sequenced, verified
