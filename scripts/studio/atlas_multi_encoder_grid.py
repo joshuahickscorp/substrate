@@ -1,39 +1,89 @@
 #!/usr/bin/env python
-"""ATLAS (Process B, Studio-only): the at-scale AT1 + AL2 grid over the FULL multi-encoder cache set. The
-laptop pilots (mop_at1_grid_pilot.py, mop_al2_alignment_pilot.py) type only whatever few columns the
-18GB pool could cache; this Studio run types the whole atlas -- every real encoder against its own
-random-init control (AT1's nine-verdict nuisance grid) AND every real-encoder pair for shared-latent
-alignment (AL2's permutation-floor topology test) -- in one pass, so the 06_cognitive_currencies_atlas
-scope claim is made over the registered column set, not a laptop subset.
+"""ATLAS (Process B, Studio-only), HARDENED: the at-scale AT1 + AL2 grid over the FULL multi-encoder
+cache set, now carrying the two VALIDATED laptop abstraction probes as first-class atlas columns:
 
-WHY STUDIO (not the laptop): the honest scope verdict (modality-specific vs universal) is only meaningful
-once EVERY registered encoder column is present and count-matched on the SAME shared clipset. Building
-all of those caches (V-JEPA ViT-L full-clip and single-frame, DINOv2, Qwen textified, wav2vec2 sonified,
-plus the at-scale additions) and holding them all in memory for the pairwise alignment grid exceeds the
-laptop pool. This orchestrator does NOT encode; it CONSUMES the finished caches the Studio encode jobs
-wrote and runs the two audited evaluators over the full set. It carries a hard >= 32GB free-RAM guard so
-it cannot run on the laptop by accident, and it refuses to start a run whose column set is not the full
-registered atlas unless --allow-partial is passed (so a partial Studio run cannot masquerade as the
-at-scale claim).
+  AB1 (within-encoder systematicity/analogy parallelogram), per encoder, each real column against its
+      OWN matched random-init control. The SHAPE-offset transfer across COLOR plus the novel-conjunction
+      systematic-generalization split, verbatim in mechanism from
+      scripts/mop_abstraction_systematicity.py. Color is the trivial pixel-statistic axis a random net
+      wins for free, so it is NOT the analogy target; shape is the abstract factor.
 
-PREREGISTERED NULLS (both inherited verbatim from the audited pilots, NOT re-invented here):
+  AB2 (cross-substrate transfer / substrate-invariance), every ordered real-encoder pair, each pair
+      against its matched random<->random control. A shape offset in encoder A, carried through a shared
+      LABEL-FREE ridge map A->B, must predict the shape analogy in a DIFFERENT real encoder B beyond what
+      two matched random-init encoders share through the identical pipeline. Mechanism verbatim from
+      scripts/mop_abstraction_cross_substrate.py / mop_abstraction_three_way.py. This is the
+      substrate-invariance axis ACROSS the multi-encoder grid: the atlas asks whether the abstract code
+      is shared by every real substrate pair, not just one hand-picked pair.
+
+WHAT CHANGED vs the pre-authored atlas_multi_encoder_grid.py (the five rounds of laptop learnings this
+Studio script now carries):
+
+  1. ABSTRACTION COLUMNS. AB1 and AB2 are wired in as atlas axes alongside AT1 (nuisance) and AL2
+     (alignment). The scope typing now spans FOUR axes; a survivor on any abstraction axis contributes to
+     the survivor-modality scope exactly like an AT1/AL2 survivor.
+
+  2. MATCHED RANDOM-INIT CONTROLS PER ENCODER, everywhere (control hygiene at falsification 10). AB1 uses
+     each column's OWN random-init cache (the atlas REGISTERED_COLUMNS already carry real+randinit pairs);
+     AB2 uses each real pair's matched random<->random control. There is NO square frozen-random
+     projection anywhere (retired as probe-vacuous). The shuffle/permutation floor and no-sign-flip rule
+     from the laptop win-rules are inherited verbatim.
+
+  3. DENSE V-JEPA 2.1 (8192-token) LATENTS PATH. A registered column (tag "vjepa21_dense_8192") and its
+     matched random-init are declared. If the 2.1 weights / dense cache are absent (they are not on the
+     laptop), the column is REPORTED missing and EXCLUDES the universal-scope claim; it is never silently
+     substituted. This is the documented Studio-time TODO: encode the dense 8192-token cache and its
+     matched random-init ViT before the at-scale run so the dense column joins the grid.
+
+  4. DR1 ACCEPTANCE-GATE HANDSHAKE. The bound-video column (vjepa_bound_video) is only admitted to the
+     abstraction axes when its DR1 acceptance gate passed (the target attribute is label-free-recoverable
+     from the paired caption, probe-verified above chance) BEFORE encode was spent. The atlas reads that
+     gate verdict from the cache sidecar (dr1_gate_passed) and refuses to type the column on AB1/AB2 if
+     the gate did not pass, so encode is never credited to an attribute a caption cannot carry.
+
+  5. CACHE-LAYOUT ROBUSTNESS. The two on-disk layouts (V-JEPA features.npy + labels_*.npy vs
+     DINO/text/audio latents.npy + factors.json) are both handled, and every abstraction column verifies
+     its shape/color labels are row-aligned to the shared clipset before it is typed. A grid-degeneracy
+     guard skips a factorial cell that is missing a (shape,color) sample rather than silently biasing a
+     centroid.
+
+WHY STUDIO (not the laptop), unchanged: the honest scope verdict (modality-specific vs universal) is only
+meaningful once EVERY registered encoder column is present and count-matched on the SAME shared clipset.
+This orchestrator does NOT encode; it CONSUMES the finished caches the Studio encode jobs wrote and runs
+the audited evaluators over the full set. It carries a hard >= 32GB free-RAM guard so it cannot run on the
+laptop by accident (bypass ONLY with --skip-ram-guard for a tiny smoke check), and it refuses to start a
+run whose column set is not the full registered atlas unless --allow-partial is passed.
+
+PREREGISTERED NULLS (inherited verbatim; NOT re-invented here):
   - AT1 null: every substrate's linear-probe decodability delta over its OWN matched random-init control
-    is within seed spread (random-control-artifact); pretraining bought no nuisance invariance. Cleared
-    per column only by a seed-CI lower bound above zero that ALSO survives the capacity-capped MLP probe
-    (probe-specific guard) with no per-seed sign flip. The random-init control is the honest floor; a
-    square latent projection is NOT admissible and is not used.
+    is within seed spread. Cleared per column only by a seed-CI lower bound above zero that ALSO survives
+    the capacity-capped MLP probe with no per-seed sign flip. The random-init control is the honest floor.
   - AL2 null: a rank-k linear map fit on a ROW-SHUFFLED (permuted) target pairing preserves neighbor
-    structure as well as the learned map (alignment-artifact) for every real-encoder pair. Cleared per
-    pair only by a kNN neighbor-recall delta (learned minus permuted) with a seed-CI lower bound strictly
-    above zero and no sign flip. Ridge R^2 is descriptive only, never the win criterion (the A1 regrade).
+    structure as well as the learned map for every real-encoder pair. Cleared per pair only by a kNN
+    neighbor-recall delta (learned minus permuted) with a seed-CI lower bound strictly above zero and no
+    sign flip. Ridge R^2 is descriptive only.
+  - AB1 null (within-encoder abstraction): the shape-offset parallelogram / novel-conjunction split does
+    not beat the column's own matched random-init substrate (real minus random-init CI_lo <= 0), i.e. the
+    apparent abstraction is architecture/geometry-inherited, not learned. Cleared per column only by the
+    laptop win-rule: analogy top1 CI_lo > max(shuffled-offset mean, chance) AND (real - random_init)
+    CI_lo > 0; OR novel-conjunction acc CI_lo > chance+0.15 AND (real - random_init) CI_lo > 0. A tie is
+    a NULL.
+  - AB2 null (cross-substrate transfer): the shape offset carried through the shared label-free map does
+    not beat the matched random<->random pair (delta CI_lo <= 0 or a sign flip). Cleared per ordered pair
+    only by real top1 CI_lo > max(shuffled mean, chance) AND (real - random<->random) delta CI_lo > 0 with
+    no sign flip. A tie is a NULL.
 
-The at-scale verdict is the SCOPE typing over the full column/pair set: random-control-artifact grid-wide,
-modality-specific, or (only if survivors span >= 2 modalities on the full registered set) universal. Any
-column/pair whose cache is missing is REPORTED missing and EXCLUDES the universal claim; it is never
-silently substituted. This orchestrator loads no encoder.
+The at-scale verdict is the SCOPE typing over the full column/pair set across all four axes:
+random-control-artifact grid-wide, modality-specific, or (only if survivors span >= 2 modalities on the
+full registered set) universal. Any column/pair whose cache is missing is REPORTED missing and EXCLUDES
+the universal claim; it is never silently substituted. This orchestrator loads no encoder.
 
 Usage (Studio):
   python scripts/studio/atlas_multi_encoder_grid.py --seeds 0-9   -> runs/mot/atlas_multi_encoder_grid.json
+
+Smoke (laptop, tiny, guards bypassed):
+  python atlas_hardened.py --seeds 0-2 --abstraction-seeds 0-2 --allow-partial --skip-ram-guard
+    --out /tmp/smoke.json
 
 No em dashes or en dashes (BLACKHOLE.md).
 """
@@ -46,19 +96,35 @@ import sys
 import time
 from pathlib import Path
 
-_ROOT = Path(__file__).resolve().parents[2]
-if str(_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ROOT))
+import numpy as np
+import torch
 
+# In-repo this file lives at scripts/studio/atlas_multi_encoder_grid.py, so parents[2] is the repo root.
+# The imports below resolve against that root. When running the hardened copy from an out-of-tree
+# scratchpad, parents[2] is NOT the repo, so we only trust it if it looks like the repo; otherwise we
+# rely on PYTHONPATH=<repo>/src:<repo> (the smoke check sets this). Never a silent wrong root.
+_ROOT = Path(__file__).resolve().parents[2]
+if (_ROOT / "scripts" / "featurize_programmatic.py").exists() and str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
 from scripts.featurize_programmatic import CACHE_ROOT  # noqa: E402
 from scripts.mop_al2_alignment_pilot import evaluate_pairs  # noqa: E402
 from scripts.mop_at1_grid_pilot import COLUMNS as AT1_PILOT_COLUMNS  # noqa: E402
 from scripts.mop_at1_grid_pilot import REFERENCE_COLUMNS, evaluate_grid, parse_seeds  # noqa: E402
 
+from mop.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
+
 MIN_FREE_RAM_GB = 32.0
 
+# The factorial-grid geometry the abstraction probes assume (the bound_nuisance_v1 clipset: 5 shapes x
+# 5 colors x 8 per cell = 200 rows). The Studio DR1 cache may carry MORE factors/cells; the AB probes
+# read N_SHAPE / N_COLOR from the sidecar when present so the grid geometry is not hard-coded to 5x5.
+DEFAULT_N_SHAPE, DEFAULT_N_COLOR = 5, 5
+ALIGN_TRAIN_FRAC = 0.6  # AB2 rows used to fit the shared map; rest are eval rows (verbatim from laptop)
+RANK = 32  # AB2 preregistered shared-map rank (verbatim)
+RIDGE_LAMBDA = 1.0  # AB2 ridge lambda (verbatim)
+
 # The FULL registered atlas: every real-encoder column the at-scale grid must carry (superset of the
-# laptop pilot's COLUMNS). A run that is missing any of these cannot make the universal-scope claim.
+# laptop pilot's COLUMNS). A run missing any of these cannot make the universal-scope claim.
 REGISTERED_COLUMNS = list(AT1_PILOT_COLUMNS) + [
     {
         "tag": "vjepa_bound_video",
@@ -66,7 +132,11 @@ REGISTERED_COLUMNS = list(AT1_PILOT_COLUMNS) + [
         "family": "vit_l_vjepa",
         "real": "vjepa2_vitl_bound_video",
         "randinit": "randominit_vitl_nuisance",
-        "note": "DR1 curated real bound-attribute video; control is the matched random-init ViT-L",
+        "note": "DR1 curated real bound-attribute video; control is the matched random-init ViT-L. Only "
+        "admitted to the abstraction axes when its DR1 acceptance gate passed (dr1_gate_passed in the "
+        "sidecar): target attribute label-free-recoverable from the paired caption, probe-verified above "
+        "chance, BEFORE encode was spent.",
+        "dr1_gated": True,
     },
     {
         "tag": "dinov2b",
@@ -76,10 +146,24 @@ REGISTERED_COLUMNS = list(AT1_PILOT_COLUMNS) + [
         "randinit": "dinov2b_nuisance_randominit",
         "note": "at-scale larger DINOv2 column (Studio encode)",
     },
+    {
+        # STUDIO-TIME TODO: the dense V-JEPA 2.1 (8192-token) latents path. Requires the 2.1 weights and a
+        # dense-token encode of the shared clipset, plus a matched random-init ViT of the same dense
+        # config. Neither is on the laptop; the column is reported missing until the Studio encode writes
+        # both caches, and its absence EXCLUDES the universal-scope claim (never silently substituted).
+        "tag": "vjepa21_dense_8192",
+        "modality": "video_dense",
+        "family": "vit_l_vjepa21_dense",
+        "real": "vjepa21_vitl_dense8192_real",
+        "randinit": "vjepa21_vitl_dense8192_randominit",
+        "note": "STUDIO-TIME: dense V-JEPA 2.1 8192-token latents + matched random-init dense ViT. Absent "
+        "on the laptop; excluded from the universal claim until the Studio dense encode writes both caches.",
+    },
 ]
 
-# Real arms only for the alignment grid: mapping a pretrained substrate onto a random-init one is a
-# context row, not a claim. These are the real-encoder cache names AL2 pairs.
+# Real arms only for the alignment AND cross-substrate abstraction grids: mapping a pretrained substrate
+# onto a random-init one is a context row, not a claim. These are the real-encoder cache names AL2/AB2
+# pair. Each has a KNOWN matched random-init used as its cross-substrate control (see RANDINIT_FOR).
 REGISTERED_ALIGNMENT_ARMS = [
     "vjepa2_vitl_nuisance",
     "vjepa2_vitl_singleframe",
@@ -89,6 +173,37 @@ REGISTERED_ALIGNMENT_ARMS = [
     "qwen05b_textified_real",
     "wav2vec2_sonified_real",
 ]
+
+# The matched random-init substrate for each real arm (control hygiene: every AB2 real pair is scored
+# against its OWN random<->random pair, never a square projection). ViT-L V-JEPA arms all match the same
+# random-init ViT-L cache (correct architecture-matched null, per mop_abstraction_three_way.py's note).
+RANDINIT_FOR = {
+    "vjepa2_vitl_nuisance": "randominit_vitl_nuisance",
+    "vjepa2_vitl_singleframe": "randominit_vitl_nuisance",
+    "vjepa2_vitl_bound_video": "randominit_vitl_nuisance",
+    "dinov2s_nuisance_real": "dinov2s_nuisance_randominit",
+    "dinov2b_nuisance_real": "dinov2b_nuisance_randominit",
+    "qwen05b_textified_real": "qwen05b_textified_randominit",
+    "wav2vec2_sonified_real": "wav2vec2_sonified_randominit",
+}
+
+# The DR1-gated real arms: only admitted to AB1/AB2 when their sidecar records a passed DR1 gate.
+DR1_GATED_ARMS = {"vjepa2_vitl_bound_video"}
+
+# Modality per alignment/abstraction ARM. The arm cache names (e.g. vjepa2_vitl_nuisance) can differ
+# from a REGISTERED_COLUMNS "real" field (the AT1 pilot registers the full-clip real as
+# vjepa2_vitl_nuisance_real), so a real-name lookup would type these "unknown" and leak that token into
+# the survivor-modality scope. This explicit arm map is the honest source of truth for AB2 modality.
+ARM_MODALITY = {
+    "vjepa2_vitl_nuisance": "video",
+    "vjepa2_vitl_singleframe": "video_singleframe",
+    "vjepa2_vitl_bound_video": "video_bound",
+    "dinov2s_nuisance_real": "image",
+    "dinov2b_nuisance_real": "image",
+    "qwen05b_textified_real": "text_rendered",
+    "wav2vec2_sonified_real": "audio_rendered",
+    "vjepa21_vitl_dense8192_real": "video_dense",
+}
 
 
 def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB) -> float:
@@ -110,9 +225,378 @@ def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB) -> float:
     return free_gb
 
 
+# ----------------------------------------------------------------------------------------------------
+# Cache loading (both on-disk layouts) and factorial-grid helpers, shared by the abstraction axes.
+# ----------------------------------------------------------------------------------------------------
+def _load_latents_factors(cache_root: Path, tag: str):
+    """(latents [N,D] float32, shape [N] long, color [N] long, sidecar dict or None) or None if absent.
+    Handles the two layouts: V-JEPA features.npy + labels_*.npy, or latents.npy + factors.json."""
+    b = cache_root / tag
+    if not (b / "meta.json").exists():
+        return None
+    if (b / "features.npy").exists():
+        x = np.load(b / "features.npy")
+        sh = np.load(b / "labels_shape.npy")
+        co = np.load(b / "labels_color.npy")
+        sidecar = None
+        if (b / "factors.json").exists():
+            sidecar = json.loads((b / "factors.json").read_text())
+    elif (b / "latents.npy").exists():
+        x = np.load(b / "latents.npy")
+        if not (b / "factors.json").exists():
+            return None
+        sidecar = json.loads((b / "factors.json").read_text())
+        sh = np.asarray(sidecar["shape"])
+        co = np.asarray(sidecar["color"])
+    else:
+        return None
+    return (
+        torch.tensor(np.asarray(x), dtype=torch.float32),
+        torch.tensor(np.asarray(sh)).long(),
+        torch.tensor(np.asarray(co)).long(),
+        sidecar,
+    )
+
+
+def _grid_dims(sh: torch.Tensor, co: torch.Tensor, sidecar: dict | None) -> tuple[int, int]:
+    """N_SHAPE, N_COLOR read from the sidecar when present, else inferred from the labels. The Studio DR1
+    cache may carry a larger factorial than the laptop 5x5, so this is not hard-coded."""
+    if sidecar is not None and "n_shape" in sidecar and "n_color" in sidecar:
+        return int(sidecar["n_shape"]), int(sidecar["n_color"])
+    return int(sh.max()) + 1, int(co.max()) + 1
+
+
+def _standardize_fit(x_train: torch.Tensor):
+    return x_train.mean(0), x_train.std(0) + 1e-6
+
+
+def _cell_index(sh: torch.Tensor, co: torch.Tensor, n_shape: int, n_color: int, rows=None):
+    """dict (shape,color) -> tensor of row indices, optionally restricted to `rows`."""
+    d: dict[tuple[int, int], list[int]] = {}
+    it = range(sh.shape[0]) if rows is None else rows.tolist()
+    for i in it:
+        d.setdefault((int(sh[i]), int(co[i])), []).append(i)
+    return {k: torch.tensor(v) for k, v in d.items()}
+
+
+def _centroids(x, cells, n_shape, n_color, seed, subsample=True):
+    """cent[s,c] = (bootstrap) centroid of latents at (shape=s, color=c). Returns None if any cell empty."""
+    g = torch.Generator().manual_seed(seed)
+    cent = torch.zeros(n_shape, n_color, x.shape[1])
+    for s in range(n_shape):
+        for c in range(n_color):
+            if (s, c) not in cells:
+                return None
+            idx = cells[(s, c)]
+            pick = idx[torch.randint(0, idx.shape[0], (idx.shape[0],), generator=g)] if subsample else idx
+            cent[s, c] = x[pick].mean(0)
+    return cent
+
+
+def _ridge_fit(xa, xb, lam=RIDGE_LAMBDA):
+    da = xa.shape[1]
+    return torch.linalg.solve(xa.T @ xa + lam * torch.eye(da), xa.T @ xb)
+
+
+def _rank_truncate(w, k):
+    if k >= min(w.shape):
+        return w
+    u, s, vh = torch.linalg.svd(w, full_matrices=False)
+    return u[:, :k] @ torch.diag(s[:k]) @ vh[:k]
+
+
+# ----------------------------------------------------------------------------------------------------
+# AB1: within-encoder systematicity / analogy parallelogram (per column vs its own random-init).
+# Mechanism verbatim from scripts/mop_abstraction_systematicity.py, generalized over the atlas columns
+# and over an arbitrary N_SHAPE x N_COLOR factorial.
+# ----------------------------------------------------------------------------------------------------
+def _analogy_top1(x, sh, co, n_shape, n_color, seed, shuffled=False):
+    """Bootstrap centroids, transfer the SHAPE offset across COLOR, retrieve among the n_shape shape
+    centroids at the held-out target color. Returns mean top-1, or None if a cell was empty this seed."""
+    cells = _cell_index(sh, co, n_shape, n_color)
+    cent = _centroids(x, cells, n_shape, n_color, seed)
+    if cent is None:
+        return None
+    shape_pairs = [(sx, sy) for sx in range(n_shape) for sy in range(n_shape) if sx != sy]
+    hits, total = 0, 0
+    for sx, sy in shape_pairs:
+        offs = cent[sy, :] - cent[sx, :]  # [n_color, dim]
+        for t in range(n_color):
+            donors = [c for c in range(n_color) if c != t]
+            if shuffled:
+                gi = torch.Generator().manual_seed(seed + t + 100 * sx + sy)
+                alt = shape_pairs[int(torch.randint(0, len(shape_pairs), (1,), generator=gi))]
+                offs_alt = cent[alt[1], :] - cent[alt[0], :]
+                transfer = offs_alt[torch.tensor(donors)].mean(0)
+            else:
+                transfer = offs[torch.tensor(donors)].mean(0)
+            pred = cent[sx, t] + transfer
+            d = (cent[:, t] - pred).norm(dim=-1)
+            hits += int(int(d.argmin()) == sy)
+            total += 1
+    return hits / total
+
+
+def ab1_column(x_real, x_rand, sh, co, n_shape, n_color, seeds):
+    """One AB1 column: real vs its own random-init, analogy axis. Preregistered win-rule (verbatim from
+    the laptop): analogy top1 CI_lo > max(shuffled-offset mean, chance) AND (real - random_init) CI_lo>0.
+    A tie is a NULL. (The systematicity split is a heavier probe; the analogy axis is the atlas headline
+    and is what gates the column verdict here; the systematicity delta is reported descriptively.)"""
+    xr = (x_real - x_real.mean(0)) / (x_real.std(0) + 1e-6)
+    xf = (x_rand - x_rand.mean(0)) / (x_rand.std(0) + 1e-6)
+    chance = 1.0 / n_shape
+    real, shuf, rand = [], [], []
+    used = []
+    for s in seeds:
+        r = _analogy_top1(xr, sh, co, n_shape, n_color, s, shuffled=False)
+        sf = _analogy_top1(xr, sh, co, n_shape, n_color, s, shuffled=True)
+        rd = _analogy_top1(xf, sh, co, n_shape, n_color, s, shuffled=False)
+        if r is None or sf is None or rd is None:
+            continue
+        real.append(r)
+        shuf.append(sf)
+        rand.append(rd)
+        used.append(s)
+    if not real:
+        return {"verdict": "no-complete-seed", "seeds_used": []}
+    diff = [a - b for a, b in zip(real, rand, strict=True)]
+    ci_real, ci_shuf, ci_rand, ci_diff = seed_ci(real), seed_ci(shuf), seed_ci(rand), seed_ci(diff)
+    flip = sign_flip_report(diff)
+    beats_shuffle = ci_real["lo"] > max(ci_shuf["mean"], chance)
+    beats_randinit = ci_diff["lo"] > 0.0 and not flip["any_flip"]
+    win = bool(beats_shuffle and beats_randinit)
+    verdict = "genuine-abstraction-signal" if win else "random-control-artifact"
+    return {
+        "verdict": verdict,
+        "seeds_used": used,
+        "chance": round(chance, 4),
+        "analogy_top1_real": ci_real,
+        "analogy_top1_shuffled_offset": ci_shuf,
+        "analogy_top1_random_init": ci_rand,
+        "real_minus_random_init": ci_diff,
+        "sign_flips": flip,
+        "beats_shuffle_floor": bool(beats_shuffle),
+        "beats_random_init_substrate": bool(beats_randinit),
+    }
+
+
+def evaluate_ab1(cache_root: Path, seeds, columns) -> dict:
+    """AB1 axis over the registered columns. DR1-gated columns are only typed when the gate passed."""
+    grid = []
+    skipped = []
+    for col in columns:
+        real = _load_latents_factors(cache_root, col["real"])
+        rand = _load_latents_factors(cache_root, col["randinit"])
+        if real is None or rand is None:
+            skipped.append({"tag": col["tag"], "reason": "missing real or randinit cache"})
+            continue
+        xr, sh, co, sidecar = real
+        xf, shf, cof, _ = rand
+        if col["real"] in DR1_GATED_ARMS and not (sidecar or {}).get("dr1_gate_passed", False):
+            skipped.append({"tag": col["tag"], "reason": "DR1 acceptance gate not passed in sidecar"})
+            continue
+        if xr.shape[0] != xf.shape[0] or not torch.equal(sh, shf) or not torch.equal(co, cof):
+            skipped.append({"tag": col["tag"], "reason": "label/count mismatch real vs randinit"})
+            continue
+        n_shape, n_color = _grid_dims(sh, co, sidecar)
+        rep = ab1_column(xr, xf, sh, co, n_shape, n_color, seeds)
+        grid.append({**{k: col[k] for k in ("tag", "modality", "family")}, **rep})
+        print(f"[AB1 {col['tag']}] verdict={rep.get('verdict')}", flush=True)
+    survivors = [c for c in grid if c.get("verdict") == "genuine-abstraction-signal"]
+    null_supported = (
+        all(c.get("verdict") in ("random-control-artifact", "no-complete-seed") for c in grid)
+        if grid
+        else None
+    )
+    return {
+        "axis": "AB1_within_encoder_systematicity_analogy",
+        "null_hypothesis": "the shape-offset parallelogram does not beat the column's own matched "
+        "random-init substrate (abstraction is architecture/geometry-inherited, not learned)",
+        "grid": grid,
+        "skipped": skipped,
+        "survivors": [c["tag"] for c in survivors],
+        "survivor_modalities": sorted({c["modality"] for c in survivors}),
+        "null_supported": null_supported,
+    }
+
+
+# ----------------------------------------------------------------------------------------------------
+# AB2: cross-substrate transfer / substrate-invariance across the multi-encoder grid.
+# Mechanism verbatim from scripts/mop_abstraction_cross_substrate.py, run over EVERY ordered real pair,
+# each against its matched random<->random control.
+# ----------------------------------------------------------------------------------------------------
+def _cross_encoder_analogy(xa, xb, sh, co, n_shape, n_color, seed, shuffled=False):
+    """Fit W: A->B on align-train rows (label-free), express the SHAPE offset in A, map into B, retrieve
+    among B's shape centroids. Returns mean top-1, or None if this seed's eval split has an empty cell."""
+    g = torch.Generator().manual_seed(seed)
+    n = xa.shape[0]
+    perm = torch.randperm(n, generator=g)
+    cut = int(n * ALIGN_TRAIN_FRAC)
+    align_rows, eval_rows = perm[:cut], perm[cut:]
+
+    mua, sda = _standardize_fit(xa[align_rows])
+    mub, sdb = _standardize_fit(xb[align_rows])
+    za = (xa - mua) / sda
+    zb = (xb - mub) / sdb
+
+    w = _rank_truncate(_ridge_fit(za[align_rows], zb[align_rows]), RANK)
+
+    cellsE = _cell_index(sh, co, n_shape, n_color, rows=eval_rows)
+    centA = _centroids(za, cellsE, n_shape, n_color, seed)
+    centB = _centroids(zb, cellsE, n_shape, n_color, seed)
+    if centA is None or centB is None:
+        return None
+
+    shape_pairs = [(sx, sy) for sx in range(n_shape) for sy in range(n_shape) if sx != sy]
+    hits, total = 0, 0
+    for sx, sy in shape_pairs:
+        offsA = centA[sy, :] - centA[sx, :]
+        for t in range(n_color):
+            donors = torch.tensor([c for c in range(n_color) if c != t])
+            if shuffled:
+                gi = torch.Generator().manual_seed(seed + t + 100 * sx + 7 * sy)
+                alt = shape_pairs[int(torch.randint(0, len(shape_pairs), (1,), generator=gi))]
+                offsA_use = centA[alt[1], :] - centA[alt[0], :]
+            else:
+                offsA_use = offsA
+            transferA = offsA_use[donors].mean(0)
+            predA = centA[sx, t] + transferA
+            predB = predA @ w
+            d = (centB[:, t] - predB).norm(dim=-1)
+            hits += int(int(d.argmin()) == sy)
+            total += 1
+    return hits / total
+
+
+def _ab2_directed(xa, xb, sh, co, n_shape, n_color, seeds):
+    """One directed transfer A->B across seeds: real top1 and shuffled floor (skips incomplete seeds)."""
+    reals, shufs, used = [], [], []
+    for s in seeds:
+        r = _cross_encoder_analogy(xa, xb, sh, co, n_shape, n_color, s, shuffled=False)
+        sf = _cross_encoder_analogy(xa, xb, sh, co, n_shape, n_color, s, shuffled=True)
+        if r is None or sf is None:
+            continue
+        reals.append(r)
+        shufs.append(sf)
+        used.append(s)
+    return {"real": reals, "shuf": shufs, "seeds_used": used}
+
+
+def ab2_pair(xa_real, xb_real, xa_rand, xb_rand, sh, co, n_shape, n_color, seeds):
+    """One AB2 ordered pair A->B: real transfer vs the matched random<->random control. Preregistered
+    win-rule (verbatim): real top1 CI_lo > max(shuffled mean, chance) AND (real - random<->random) delta
+    CI_lo > 0 with no sign flip. A tie is a NULL."""
+    real = _ab2_directed(xa_real, xb_real, sh, co, n_shape, n_color, seeds)
+    rand = _ab2_directed(xa_rand, xb_rand, sh, co, n_shape, n_color, seeds)
+    chance = 1.0 / n_shape
+    if not real["real"] or not rand["real"]:
+        return {"verdict": "no-complete-seed", "seeds_used": []}
+    real_ci = seed_ci(real["real"])
+    shuf_mean = seed_ci(real["shuf"])["mean"]
+    floor = max(shuf_mean, chance)
+    matched = sorted(set(real["seeds_used"]) & set(rand["seeds_used"]))
+    rmap = dict(zip(real["seeds_used"], real["real"], strict=True))
+    cmap = dict(zip(rand["seeds_used"], rand["real"], strict=True))
+    deltas = [rmap[s] - cmap[s] for s in matched]
+    delta_ci = seed_ci(deltas)
+    flip = sign_flip_report(deltas)
+    beats_own_floor = real_ci["lo"] > floor
+    beats_random_pair = (delta_ci["lo"] > 0) and (not flip["any_flip"])
+    win = bool(beats_own_floor and beats_random_pair)
+    verdict = "genuine-substrate-invariant-abstraction" if win else "random-control-artifact"
+    return {
+        "verdict": verdict,
+        "chance": round(chance, 4),
+        "seeds_used": matched,
+        "real_top1": real_ci,
+        "shuffled_mean": round(shuf_mean, 4),
+        "own_floor": round(floor, 4),
+        "random_control_top1": seed_ci(rand["real"]),
+        "delta_real_minus_random": delta_ci,
+        "sign_flips": flip,
+        "beats_own_floor": bool(beats_own_floor),
+        "beats_random_pair": bool(beats_random_pair),
+    }
+
+
+def evaluate_ab2(cache_root: Path, seeds, arms) -> dict:
+    """AB2 axis over every ordered real-encoder pair with a matched random<->random control. Arms whose
+    matched random-init is missing, or whose DR1 gate did not pass, are excluded (reported)."""
+    loaded: dict[str, tuple] = {}
+    rand_loaded: dict[str, tuple] = {}
+    excluded = []
+    for arm in arms:
+        got = _load_latents_factors(cache_root, arm)
+        if got is None:
+            excluded.append({"arm": arm, "reason": "real cache missing"})
+            continue
+        if arm in DR1_GATED_ARMS and not (got[3] or {}).get("dr1_gate_passed", False):
+            excluded.append({"arm": arm, "reason": "DR1 gate not passed"})
+            continue
+        rname = RANDINIT_FOR.get(arm)
+        rgot = _load_latents_factors(cache_root, rname) if rname else None
+        if rgot is None:
+            excluded.append({"arm": arm, "reason": f"matched random-init {rname} missing"})
+            continue
+        loaded[arm] = got
+        rand_loaded[arm] = rgot
+
+    pairs = {}
+    names = sorted(loaded)
+    for a in names:
+        for b in names:
+            if a == b:
+                continue
+            xa, sh_a, co_a, sc_a = loaded[a]
+            xb, sh_b, co_b, _ = loaded[b]
+            if xa.shape[0] != xb.shape[0] or not torch.equal(sh_a, sh_b) or not torch.equal(co_a, co_b):
+                continue
+            # matched random<->random control; ViT-L arms share the same random-init ViT-L, which would
+            # make an A_rand<->B_rand with A_rand IS B_rand a degenerate 1.0 control. Skip that case.
+            ra_name, rb_name = RANDINIT_FOR[a], RANDINIT_FOR[b]
+            if ra_name == rb_name:
+                pairs[f"{a} -> {b}"] = {
+                    "verdict": "within-family-read-only",
+                    "note": "same matched random-init substrate (degenerate random<->random control); "
+                    "excluded from the win verdict per the three-way within-family rule",
+                }
+                continue
+            xar, sh_ar, co_ar, _ = rand_loaded[a]
+            xbr, _, _, _ = rand_loaded[b]
+            n_shape, n_color = _grid_dims(sh_a, co_a, sc_a)
+            rep = ab2_pair(xa, xb, xar, xbr, sh_a, co_a, n_shape, n_color, seeds)
+            pairs[f"{a} -> {b}"] = rep
+            print(f"[AB2 {a} -> {b}] verdict={rep.get('verdict')}", flush=True)
+
+    def _mod(arm: str) -> str:
+        return ARM_MODALITY.get(arm, "unknown")
+
+    survivors = [
+        name for name, p in pairs.items() if p.get("verdict") == "genuine-substrate-invariant-abstraction"
+    ]
+    survivor_mods = sorted({_mod(name.split(" -> ")[0]) for name in survivors})
+    typed = [
+        p for p in pairs.values() if p.get("verdict") not in ("within-family-read-only", "no-complete-seed")
+    ]
+    null_supported = all(p["verdict"] == "random-control-artifact" for p in typed) if typed else None
+    return {
+        "axis": "AB2_cross_substrate_transfer_substrate_invariance",
+        "null_hypothesis": "the shape offset carried through the shared label-free map does not beat the "
+        "matched random<->random pair (transfer is geometry the map buys for free, not learned "
+        "substrate-invariant abstraction)",
+        "arms_present": names,
+        "arms_excluded": excluded,
+        "pairs": pairs,
+        "survivors": survivors,
+        "survivor_modalities": survivor_mods,
+        "null_supported": null_supported,
+    }
+
+
+# ----------------------------------------------------------------------------------------------------
+# Cache presence + scope typing (four axes).
+# ----------------------------------------------------------------------------------------------------
 def _present_columns(cache_root: Path, columns: list[dict]) -> tuple[list[dict], list[str]]:
-    """Split the registered columns into those whose real+randinit caches both exist and those missing.
-    A missing cache excludes the column and, downstream, the universal-scope claim."""
     present, missing = [], []
     for col in columns:
         real_ok = (cache_root / col["real"] / "meta.json").exists()
@@ -130,21 +614,33 @@ def _present_arms(cache_root: Path, arms: list[str]) -> tuple[list[str], list[st
     return present, missing
 
 
-def atlas_scope(at1: dict, al2: dict, full_grid: bool, full_pairs: bool) -> dict:
-    """The at-scale scope typing. Survivors are AT1 columns that cleared the nine-verdict order AND, for
-    the alignment axis, pairs that cleared the permutation floor. The UNIVERSAL claim is only admissible
-    when the full registered column/pair set was present (no missing cache silently narrowed the set)."""
+def atlas_scope(at1, al2, ab1, ab2, full_grid, full_pairs) -> dict:
+    """The at-scale scope typing across FOUR axes. Survivors are AT1 columns that cleared the
+    nine-verdict order, AL2 pairs that cleared the permutation floor, AB1 columns that cleared their
+    random-init parallelogram null, and AB2 pairs that cleared their random<->random transfer null. The
+    UNIVERSAL claim is only admissible when the full registered column/pair set was present."""
     at1_survivors = [c for c in at1.get("grid", []) if c.get("verdict") == "genuine-substrate-signal"]
     al2_survivors = [
         name for name, p in al2.get("pairs", {}).items() if p.get("verdict") == "genuine-shared-structure"
     ]
-    survivor_mods = sorted({c["modality"] for c in at1_survivors})
-    if not at1_survivors and not al2_survivors:
-        scope = "random-control-artifact (atlas-wide): no registered substrate beat its own control"
+    ab1_survivors = ab1.get("survivors", [])
+    ab2_survivors = ab2.get("survivors", [])
+
+    mods = set(c["modality"] for c in at1_survivors)
+    mods |= set(ab1.get("survivor_modalities", []))
+    mods |= set(ab2.get("survivor_modalities", []))
+    survivor_mods = sorted(mods)
+
+    any_survivor = bool(at1_survivors or al2_survivors or ab1_survivors or ab2_survivors)
+    if not any_survivor:
+        scope = (
+            "random-control-artifact (atlas-wide): no registered substrate beat its own control on any axis"
+        )
     elif len(survivor_mods) >= 2 and full_grid and full_pairs:
         scope = (
-            f"universal across {survivor_mods} on the FULL registered atlas (both nuisance and "
-            "alignment axes, no missing cache narrowed the set)"
+            f"universal across {survivor_mods} on the FULL registered atlas (nuisance, alignment, "
+            "within-encoder abstraction, and cross-substrate invariance axes; no missing cache narrowed "
+            "the set)"
         )
     elif len(survivor_mods) >= 2:
         scope = (
@@ -158,13 +654,15 @@ def atlas_scope(at1: dict, al2: dict, full_grid: bool, full_pairs: bool) -> dict
         "scope": scope,
         "at1_survivors": [c["tag"] for c in at1_survivors],
         "al2_survivors": al2_survivors,
+        "ab1_survivors": ab1_survivors,
+        "ab2_survivors": ab2_survivors,
         "survivor_modalities": survivor_mods,
         "full_registered_grid": full_grid,
         "full_registered_pairs": full_pairs,
     }
 
 
-def run(cache_root: Path, seeds: list[int], allow_partial: bool) -> dict:
+def run(cache_root: Path, seeds, abstraction_seeds, allow_partial) -> dict:
     t0 = time.perf_counter()
     present_cols, missing_cols = _present_columns(cache_root, REGISTERED_COLUMNS)
     present_arms, missing_arms = _present_arms(cache_root, REGISTERED_ALIGNMENT_ARMS)
@@ -179,29 +677,40 @@ def run(cache_root: Path, seeds: list[int], allow_partial: bool) -> dict:
         )
     at1 = evaluate_grid(cache_root, seeds, columns=present_cols, reference_columns=REFERENCE_COLUMNS)
     al2 = evaluate_pairs(cache_root, seeds, arms=present_arms)
-    scope = atlas_scope(at1, al2, full_grid, full_pairs)
-    # Null is supported when NEITHER axis rejects its inherited null; not evaluable (None) only when
-    # neither axis had anything to type.
-    at1_null = at1.get("null_supported")
-    al2_null = al2.get("null_supported")
-    if at1_null is None and al2_null is None:
+    ab1 = evaluate_ab1(cache_root, abstraction_seeds, columns=present_cols)
+    ab2 = evaluate_ab2(cache_root, abstraction_seeds, arms=present_arms)
+    scope = atlas_scope(at1, al2, ab1, ab2, full_grid, full_pairs)
+
+    # Null is supported when NO axis rejects its inherited null; not evaluable (None) only when no axis
+    # had anything to type.
+    nulls = [
+        at1.get("null_supported"),
+        al2.get("null_supported"),
+        ab1.get("null_supported"),
+        ab2.get("null_supported"),
+    ]
+    if all(n is None for n in nulls):
         null_supported = None
-        verdict = "NO COLUMNS/PAIRS: nothing on disk to type on either axis"
+        verdict = "NO COLUMNS/PAIRS: nothing on disk to type on any axis"
     else:
-        null_supported = (at1_null in (True, None)) and (al2_null in (True, None))
+        null_supported = all(n in (True, None) for n in nulls)
         verdict = scope["scope"]
     return {
         "experiment": {
             "id": "atlas_multi_encoder_grid",
-            "metric": "at-scale AT1 nine-verdict nuisance grid + AL2 permutation-floor alignment grid",
-            "baseline": "each column's own matched random-init (AT1); permuted-pairing rank-k map (AL2)",
+            "metric": "at-scale AT1 nuisance grid + AL2 alignment grid + AB1 within-encoder abstraction "
+            "+ AB2 cross-substrate invariance",
+            "baseline": "each column's own matched random-init (AT1, AB1); permuted-pairing rank-k map "
+            "(AL2); matched random<->random pair (AB2)",
             "null_hypothesis": (
-                "no registered substrate beats its own random-init control (AT1) and no real-encoder "
-                "pair beats its permutation floor (AL2): the atlas is a random-control/alignment artifact"
+                "no registered substrate beats its own random-init control (AT1, AB1), no real-encoder "
+                "pair beats its permutation floor (AL2), and no real pair beats its random<->random "
+                "transfer floor (AB2): the atlas is a random-control/alignment artifact on every axis"
             ),
-            "tier": "studio (at-scale, full registered atlas)",
+            "tier": "studio (at-scale, full registered atlas, four axes)",
         },
         "seeds": seeds,
+        "abstraction_seeds": abstraction_seeds,
         "registered_columns_present": [c["tag"] for c in present_cols],
         "registered_columns_missing": missing_cols,
         "registered_arms_present": present_arms,
@@ -210,6 +719,8 @@ def run(cache_root: Path, seeds: list[int], allow_partial: bool) -> dict:
         "full_registered_pairs": full_pairs,
         "at1_nuisance_grid": at1,
         "al2_alignment_grid": al2,
+        "ab1_within_encoder_abstraction": ab1,
+        "ab2_cross_substrate_invariance": ab2,
         "atlas_scope": scope,
         "null_supported": null_supported,
         "seconds": round(time.perf_counter() - t0, 1),
@@ -218,19 +729,35 @@ def run(cache_root: Path, seeds: list[int], allow_partial: bool) -> dict:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(description="Atlas at-scale AT1+AL2 multi-encoder grid (Studio)")
-    ap.add_argument("--seeds", default="0-9")
+    ap = argparse.ArgumentParser(description="Atlas at-scale AT1+AL2+AB1+AB2 multi-encoder grid (Studio)")
+    ap.add_argument("--seeds", default="0-9", help="AT1/AL2 probe seeds")
+    ap.add_argument(
+        "--abstraction-seeds",
+        default="0-9",
+        help="AB1/AB2 abstraction-probe seeds (bootstrap/align-split reseeds)",
+    )
     ap.add_argument("--cache-root", default=str(CACHE_ROOT))
     ap.add_argument(
         "--allow-partial",
         action="store_true",
         help="run with a partial registered set (universal-scope claim is then withheld)",
     )
+    ap.add_argument(
+        "--skip-ram-guard",
+        action="store_true",
+        help="bypass the >= 32GB Studio RAM guard (SMOKE-CHECK ONLY; never for a real at-scale run)",
+    )
     ap.add_argument("--out", default="runs/mot/atlas_multi_encoder_grid.json")
     a = ap.parse_args(argv)
 
-    assert_studio_ram()  # Studio-only guard
-    result = run(Path(a.cache_root), parse_seeds(a.seeds), a.allow_partial)
+    if not a.skip_ram_guard:
+        assert_studio_ram()  # Studio-only guard
+    result = run(
+        Path(a.cache_root),
+        parse_seeds(a.seeds),
+        parse_seeds(a.abstraction_seeds),
+        a.allow_partial,
+    )
     p = Path(a.out)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(result, indent=2, default=str))

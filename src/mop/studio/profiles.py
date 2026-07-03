@@ -6,9 +6,11 @@ the numbers differ, never the enforcement path.
 A profile is a frozen dataclass of caps (disk, download, fixtures, clips, free-disk reserve,
 run count, wall time, source counts, allowed tiers, manual-auth allowance, dry-run default). The
 kill-switch helpers (within_budget, free_disk_ok, clamp_*) read those caps and answer one
-question: is this action inside the envelope. They never act; the caller decides. The two shipped
-profiles are STUDIO (1 TB, 900 GB usable) and M3PRO_LOCAL_MAX (the current device, ~18 GB unified
-memory, minutes not hours, dry-run by default for anything heavy).
+question: is this action inside the envelope. They never act; the caller decides. The three shipped
+profiles are M1_ULTRA (the DELIVERED Studio: M1 Ultra, 128 GB unified memory, 8 TB SSD, week-scale
+queues), STUDIO (the earlier conservative 1 TB envelope older docs reference, kept valid), and
+M3PRO_LOCAL_MAX (the laptop, ~18 GB unified memory, minutes not hours, dry-run by default for
+anything heavy).
 
 Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
 """
@@ -151,6 +153,30 @@ STUDIO = Profile(
     dry_run_default=True,
 )
 
+# The DELIVERED Studio: M1 Ultra, 20-core CPU (16P+4E), 48 to 64-core GPU, 128 GB unified memory,
+# 8 TB SSD. Earlier-generation cores than the laptop but ~16x its parallel encode throughput, 7x its
+# memory, and a disk that retires the free-space kill-switch as a daily constraint. Sized so a
+# week-scale gated queue and a ~2 TB dense-token cache both fit with headroom; R stays opt-in
+# (rented CUDA is not this box). See docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md.
+M1_ULTRA = Profile(
+    name="studio-m1ultra",
+    disk_total_gb=8000.0,
+    reserve_gb=800.0,
+    download_budget_gb=4000.0,
+    download_hard_cap_gb=6000.0,
+    fixture_budget_gb=200.0,
+    raw_smoke_gb=2000.0,
+    max_cache_clips=5_000_000,
+    min_free_disk_gb=250.0,
+    max_run_count=500_000,
+    max_wall_min=60 * 24 * 7,
+    max_source_count=48,
+    max_per_source_gb=1500.0,
+    allowed_tiers=frozenset({"C", "E"}),
+    allow_manual_auth=True,
+    dry_run_default=True,
+)
+
 # The current device (M3 Pro class, ~18 GB unified memory). Minutes not hours, tiny downloads,
 # generated controls, smoke caches. Every heavy thing is dry-run by default. These are the goal's
 # stated current-device limits, made enforceable.
@@ -173,9 +199,12 @@ M3PRO_LOCAL_MAX = Profile(
     dry_run_default=True,
 )
 
-PROFILES: dict[str, Profile] = {p.name: p for p in (STUDIO, M3PRO_LOCAL_MAX)}
+PROFILES: dict[str, Profile] = {p.name: p for p in (M1_ULTRA, STUDIO, M3PRO_LOCAL_MAX)}
 # Friendly aliases so a caller need not remember the exact slug.
 _ALIASES = {
+    "m1ultra": "studio-m1ultra",
+    "8tb": "studio-m1ultra",
+    "studio-max": "studio-m1ultra",
     "studio": "studio-1tb",
     "1tb": "studio-1tb",
     "m3pro": "m3pro-local-max",

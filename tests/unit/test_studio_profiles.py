@@ -3,16 +3,19 @@ even against a generous budget, and clamps must never exceed the cap."""
 
 import pytest
 
-from mop.studio.profiles import M3PRO_LOCAL_MAX, STUDIO, get_profile, list_profiles
+from mop.studio.profiles import M1_ULTRA, M3PRO_LOCAL_MAX, STUDIO, get_profile, list_profiles
 
 
 def test_get_profile_by_name_and_alias():
     assert get_profile("studio-1tb") is STUDIO
     assert get_profile("m3pro-local-max") is M3PRO_LOCAL_MAX
+    assert get_profile("studio-m1ultra") is M1_ULTRA
     # aliases resolve to the same object
     assert get_profile("studio") is STUDIO
     assert get_profile("local-max") is M3PRO_LOCAL_MAX
     assert get_profile("M3PRO") is M3PRO_LOCAL_MAX  # case-insensitive
+    assert get_profile("m1ultra") is M1_ULTRA
+    assert get_profile("8tb") is M1_ULTRA
 
 
 def test_get_profile_unknown_raises():
@@ -79,15 +82,28 @@ def test_studio_is_900gb_usable():
     assert STUDIO.allow_manual_auth  # once the user has signed access on the Studio
 
 
+def test_m1ultra_is_the_delivered_envelope():
+    # the ACTUAL delivered box: 8 TB SSD, 128 GB unified memory, week-scale queues
+    p = M1_ULTRA
+    assert p.usable_gb == 7200.0
+    assert p.download_hard_cap_gb == 6000.0
+    assert p.min_free_disk_gb == 250.0
+    assert p.max_wall_min == 60 * 24 * 7  # a week of unattended gated queue
+    assert p.tier_allowed("C") and p.tier_allowed("E")
+    assert not p.tier_allowed("R")  # rented CUDA stays opt-in, it is not this box
+    assert p.allow_manual_auth
+    assert p.dry_run_default  # heavy actions still default to dry-run, even at 8 TB
+
+
 def test_free_disk_ok_returns_bool_and_value(tmp_path):
     ok, free_gb = M3PRO_LOCAL_MAX.free_disk_ok(tmp_path)
     assert isinstance(ok, bool)
     assert free_gb > 0
 
 
-def test_list_profiles_includes_both():
+def test_list_profiles_includes_all():
     names = {p["name"] for p in list_profiles()}
-    assert names == {"studio-1tb", "m3pro-local-max"}
+    assert names == {"studio-1tb", "m3pro-local-max", "studio-m1ultra"}
     # the serialized envelope carries the caps a manifest needs
     studio = next(p for p in list_profiles() if p["name"] == "studio-1tb")
     assert studio["usable_gb"] == 900.0

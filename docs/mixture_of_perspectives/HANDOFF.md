@@ -115,6 +115,12 @@ DEAD (kill-switch fired, branch retired):
 ## 3. Document map (read in this order)
 
 - `docs/mixture_of_perspectives/HANDOFF.md` (this file).
+- `docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md` (every facet graded on the DELIVERED Studio's
+  theoretical ceiling, M1 Ultra 128 GB / 8 TB; the ~9.0 target and the walls that survive even there).
+- `docs/mixture_of_perspectives/STUDIO_GOAL_PROMPT.md` (the cold-start goal-loop prompt for the first
+  session ON the Studio; paste its fenced block verbatim).
+- `docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md` (Tracks A/B/C, each proven laptop wall translated
+  into its pre-registered off-device experiment with gates).
 - `docs/mixture_of_perspectives/SCAFFOLD.md` (the M3 Pro process vs Studio process, sequenced, verified
   disk state; the operational to-do).
 - `docs/mixture_of_perspectives/POTENTIAL_AUDIT.md` (the 3.0/10 scorecard and the re-ordered action list).

@@ -6,6 +6,15 @@
 > Track C density/DR1), each translating a PROVEN laptop wall into a pre-registered off-device experiment with
 > its validated method and decision gate, read `docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md` (and
 > `AXIS_CEILING_RESULT.md` for the proofs). The sections below are the earlier pre-round transfer notes.
+>
+> THE DELIVERED BOX is an M1 Ultra Mac Studio (20-core CPU, 48 to 64-core GPU, 128 GB unified memory, 8 TB
+> SSD), not the hypothetical 1 TB machine the notes below assume. Its enforced envelope is profile
+> `studio-m1ultra` in `src/mop/studio/profiles.py` (7.2 TB usable, week-scale queues); `studio-1tb` commands
+> below remain valid as the conservative envelope. Day 1 on the box: read
+> `docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md` (every facet graded on this machine's theoretical
+> ceiling, ~9.0 target) and start the session by pasting the fenced block in
+> `docs/mixture_of_perspectives/STUDIO_GOAL_PROMPT.md` (the iterative goal loop, wave 0 = transfer checklist
+> + gates + the MPS-vs-parallel-CPU encode microbenchmark that decides the encode path).
 
 ## What Is Done and Transfers
 

@@ -48,6 +48,8 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/LAPTOP_LANES_RESULT.md",
     "docs/mixture_of_perspectives/AXIS_CEILING_RESULT.md",
     "docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md",
+    "docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md",
+    "docs/mixture_of_perspectives/STUDIO_GOAL_PROMPT.md",
     "docs/mixture_of_perspectives/01_thesis_and_definition.md",
     "docs/mixture_of_perspectives/03_thinking_modes.md",
     "docs/mixture_of_perspectives/04_reasoning_program.md",
