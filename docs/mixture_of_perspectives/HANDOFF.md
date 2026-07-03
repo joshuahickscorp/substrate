@@ -118,6 +118,17 @@ INSTRUMENTATION / STUDIO-READY (built and validated on the laptop, not a science
   multi-step planning. PROVISIONAL on content (synthetic OOD clips + OOD masking); the licensed real-scale
   verdict needs the Studio real-corpora re-run (scripts/mop_dr13_predictor_fidelity.py --clip-dir; facet 14
   feeds facet 12). Facet 12 stays 0 on usability. See ROLLOUT_LANE_RESULT.md.
+  WAVE 2 (decodability-retention, the task-relevant criterion): does the rollout keep the moving object's
+  POSITION decodable, beating persistence (hold-still)? VERDICT WALL, correctly null-by-ill-posedness. Under
+  the realistic encoder-trained readout the rollout decodes position at the random floor (R2 ~0.05-0.09 vs
+  persistence ~0.21-0.35), never beats persistence at any horizon. The adversarial re-derive FALSIFIED the
+  build's motion gate (pixel-centroid displacement was extraction NOISE, negatively correlated with the true
+  analytic trajectory; true object motion is SUB-PATCH at every horizon, 0.30 patch at h=8), so the clipset
+  cannot pose the motion question: a null on ill-posed content, not a proven dynamics wall. NEW mechanistic
+  finding (survives adversarial): position SURVIVES the rollout but in a shifted sub-space (in-domain probe
+  R2 0.73 vs encoder-trained 0.09 at h=1), so wave-1's representational gap is a systematic sub-space shift,
+  not noise; the Studio fix is a readout adapter between predictor output and downstream heads. Facet 12
+  stays 0. See ROLLOUT_LANE_RESULT.md section 11.
 
 DEAD (kill-switch fired, branch retired):
 - Test-time compute at this substrate: even with a PERFECT executable DSL oracle verifier on a
