@@ -12,7 +12,7 @@ from dataclasses import dataclass
 import torch
 import torch.nn.functional as F
 
-from ...seeding import seed_everything
+from ..seeding import seed_everything
 
 
 @dataclass
@@ -393,3 +393,32 @@ def train_predictive_coding(x, y, hidden=64, epochs=200, lr=0.05, seed=0, infer=
         0.5,
         1.0 / C,
     )
+
+
+# RULES registry and public surface, merged from the former alternatives/__init__.py when the
+# single-module subpackage learning/alternatives/{__init__,rules}.py collapsed to this module.
+# Import path mop.learning.alternatives is unchanged (module vs package is transparent to callers).
+# Each rule trains the SAME small head on the SAME latents and reports accuracy vs backprop,
+# locality (weight transport, separate backward pass), compute cost, and stability.
+RULES = {
+    "backprop": train_backprop,
+    "feedback_alignment": train_feedback_alignment,
+    "dfa": train_dfa,
+    "forward_forward": train_forward_forward,
+    "target_prop": train_target_prop,
+    "equilibrium_prop": train_equilibrium_prop,
+    "predictive_coding": train_predictive_coding,
+}
+
+__all__ = ["RULES", "RuleResult"] + [
+    f"train_{k}"
+    for k in (
+        "backprop",
+        "feedback_alignment",
+        "dfa",
+        "forward_forward",
+        "target_prop",
+        "equilibrium_prop",
+        "predictive_coding",
+    )
+]
