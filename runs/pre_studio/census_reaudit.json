@@ -1,0 +1,35 @@
+{
+  "reaudit_of": "frozen_random_census.json",
+  "trigger": "vacuous_control_finding.json: frozen_random_projection is a square full-rank (invertible) matrix, so any probe-based metric is invariant to it (the probe absorbs the inverse). Ties measured by probes were forced, not observed.",
+  "principle": "sort each census comparison by WHAT the metric is. Probe-based metrics (linear/MLP accuracy, transfer, nonlinear-gain) are mathematically invariant to an invertible linear map and their frozen-random tie is vacuous. Distance/robustness metrics are only approximately affected. Trained-shell metrics (continual-learning gain, BWT) depend on input conditioning and are NOT invariant, so their deltas are genuine.",
+  "bins": {
+    "guaranteed_vacuous_ties": {
+      "count": 5,
+      "entries": [
+        "a2_viewpoint_invariance:cross_viewpoint_transfer_real",
+        "p10_theory_ladenness:nonlinear_gain_real",
+        "real_repl_64clip:linear_real",
+        "real_repl_64clip:nonlinear_real",
+        "real_repl_64clip:nonlinear_gain_real"
+      ],
+      "why": "linear or MLP probe metric; invariant to invertible linear map; delta 0.000 was forced by the control, says nothing about the substrate",
+      "supports_projection_invariant_substrate": false
+    },
+    "weak_or_ceiling_ties": {
+      "count": 2,
+      "entries": [
+        "c3_prototype_typicality:silhouette_real (distance-ratio, only approximately preserved by a random Gaussian map; tie is weak real evidence of projection-invariance)",
+        "i8_quant_robustness:degradation_curve_area_real (1.0 vs 1.0, ceiling, uninformative)"
+      ]
+    },
+    "genuine_surviving_signal": {
+      "count": 2,
+      "entries": [
+        "close_e7_sparse:mean_gain_real delta +0.075",
+        "close_e7_sparse:mean_dense_bwt_real delta +0.124"
+      ],
+      "why": "trained SGD continual-learning shell; forgetting depends on input geometry, not linear separability; NOT invariant to an invertible linear map, so the delta is real. Architectural (sparse/gated heads), the corpus's one substrate-touching positive."
+    }
+  },
+  "conclusion": "Of the census's 7 ties, 5 were guaranteed by the vacuous control and 1 more is a ceiling; only the silhouette tie is real (weak) evidence of projection-invariance. The 2 e7_sparse beats survive. The census did NOT establish that the pooled substrate is unspecial for what a probe could not, in principle, distinguish. The substrate question is reopened and moved to substrate_vs_random_features.py / substrate_vs_random_init_vit.py."
+}

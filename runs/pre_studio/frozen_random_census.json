@@ -1,0 +1,73 @@
+{
+  "question": "across the whole corpus, does real V-JEPA 2 pooled geometry ever beat a frozen-random projection OF ITSELF (the projection-invariance test)",
+  "n_genuine_substrate_comparisons": 9,
+  "real_beats_frozen_random": [
+    {
+      "experiment": "close_e7_sparse",
+      "metric": "mean_gain_real",
+      "real": 0.2394,
+      "frozen_random": 0.1644,
+      "delta": 0.075
+    },
+    {
+      "experiment": "close_e7_sparse",
+      "metric": "mean_dense_bwt_real",
+      "real": -0.6019,
+      "frozen_random": -0.726,
+      "delta": 0.124
+    }
+  ],
+  "projection_invariant_ties": [
+    {
+      "experiment": "a2_viewpoint_invariance",
+      "metric": "cross_viewpoint_transfer_real",
+      "real": 0.0136,
+      "frozen_random": 0.0136,
+      "delta": 0.0
+    },
+    {
+      "experiment": "c3_prototype_typicality",
+      "metric": "silhouette_real",
+      "real": 0.6285,
+      "frozen_random": 0.6295,
+      "delta": -0.001
+    },
+    {
+      "experiment": "i8_quant_robustness",
+      "metric": "degradation_curve_area_real",
+      "real": 1.0,
+      "frozen_random": 1.0,
+      "delta": 0.0
+    },
+    {
+      "experiment": "p10_theory_ladenness",
+      "metric": "nonlinear_gain_real",
+      "real": 0.0,
+      "frozen_random": 0.0,
+      "delta": 0.0
+    },
+    {
+      "experiment": "real_repl_64clip",
+      "metric": "linear_real",
+      "real": 1.0,
+      "frozen_random": 1.0,
+      "delta": 0.0
+    },
+    {
+      "experiment": "real_repl_64clip",
+      "metric": "nonlinear_real",
+      "real": 1.0,
+      "frozen_random": 1.0,
+      "delta": 0.0
+    },
+    {
+      "experiment": "real_repl_64clip",
+      "metric": "nonlinear_gain_real",
+      "real": 0.0,
+      "frozen_random": 0.0,
+      "delta": 0.0
+    }
+  ],
+  "real_loses": [],
+  "headline": "Of every genuine frozen-random-substrate comparison in the corpus, real V-JEPA pooled geometry beats a random projection of itself in exactly ONE experiment (e7_sparse, and only in continual-forgetting dynamics by +0.075 to +0.124), and ties (adds nothing) in every other case including all decodability, geometry, and abstraction probes. The pooled substrate is projection-invariant almost everywhere; the only sliver of substrate-specific signal is in sparse-head forgetting, which is also the corpus one architectural positive."
+}

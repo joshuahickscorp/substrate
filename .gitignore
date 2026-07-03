@@ -14,6 +14,24 @@ runs/
 runs/cpu_campaign/ckpt/
 runs/studio_rehearsal/
 
+# durability: track the load-bearing verdict evidence in place (the rest of runs/ stays ignored).
+# git cannot re-include a file whose parent dir is excluded, so re-include the dirs, re-exclude their
+# contents, then re-include the specific curated files. See STUDIO_RUN_REPORT.md durability note.
+!runs/
+runs/*
+!runs/pre_studio/
+runs/pre_studio/*
+!runs/pre_studio/close_e7_sparse.json
+!runs/pre_studio/close_ex5_local_rules.json
+!runs/pre_studio/close_ex2_planning.json
+!runs/pre_studio/close_b5_degeneracy.json
+!runs/pre_studio/frozen_random_census.json
+!runs/pre_studio/census_reaudit.json
+!runs/pre_studio/RESULTS_PRE_STUDIO.md
+!runs/mot/
+runs/mot/*
+!runs/mot/dr13_predictor_fidelity.json
+
 # model weights and local AI go-prompt
 *.pt
 *.pth

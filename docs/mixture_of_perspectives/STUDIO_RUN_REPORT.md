@@ -112,6 +112,14 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   turnkey pull + flip steps recorded in STUDIO_TURNKEY_PLAN.md. Remaining: T4.1 encode auto-select,
   T5.1 facet entry points (lower priority, ride the spine).
 
+- WAVE 6 (M3 Pro, 2026-07-03, potential re-audit + gap closure): an adversarial re-audit put honest
+  M3-Pro completion at 86 percent (science ~90, enablement ~72) and caught one over-claim (the facet-12
+  verifier was cited but absent from the repo) plus a cross-cutting durability hole (the evidence base
+  was 100 percent gitignored). Closed: the load-bearing verdict evidence is now git-tracked via a
+  targeted .gitignore negation; `scripts/mop_dr13_verify.py` restored (6/6 PASS in-repo); Tier 4.1 encode
+  auto-select built (`scripts/mop_encode_autoselect.py`); PR9 bare-smoke cache fallback and the stale
+  rehearsal-stage phrasing fixed. Only axis-moving science (Studio-gated) and the T5 facet stubs remain.
+
 ## Next move (per the goal-loop protocol)
 
 On the M1 Ultra, in order:

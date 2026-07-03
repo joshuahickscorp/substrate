@@ -121,7 +121,7 @@ hard, and the raw error is what a downstream rollout consumer would actually see
 
 ## 7. Independent adversarial verification (all pass)
 
-`verify_facet12.py` does NOT import the harness. It re-derives the load-bearing claims by an
+`scripts/mop_dr13_verify.py` does NOT import the harness. It re-derives the load-bearing claims by an
 independent path with DISJOINT seeds (fresh clips seeded 50000+, harness clips seeded 1000+;
 random-init seed 999 vs harness 12345) and tries to break them:
 

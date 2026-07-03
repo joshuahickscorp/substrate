@@ -682,6 +682,14 @@ def main(argv=None) -> int:
             cfg["steps_per_task"] = a.steps_per_task
         if a.n_passes != DEFAULTS["n_passes"]:
             cfg["n_passes"] = a.n_passes
+        # smoke robustness: the DEFAULT cache is the Studio DR1 output (absent on the laptop), so a bare
+        # `--smoke` would crash with FileNotFoundError. Fall back to the real 64-clip cache when the user
+        # did not override --cache and the default is missing, so the laptop smoke runs out of the box.
+        if a.cache == DEFAULTS["cache"] and not (_ROOT / cfg["cache"]).exists():
+            fallback = "data/cache/vjepa2_vitl_fpc64_256_real"
+            if (_ROOT / fallback).exists():
+                print(f"[smoke] default cache {cfg['cache']} absent; using {fallback}", flush=True)
+                cfg["cache"] = fallback
 
     assert_studio_ram(allow_low=a.smoke)  # Studio-only guard (bypassed only for the tiny smoke path)
     assert_encoder_lane_free(skip=a.smoke or a.no_encoder_guard)  # encoder-lane guard

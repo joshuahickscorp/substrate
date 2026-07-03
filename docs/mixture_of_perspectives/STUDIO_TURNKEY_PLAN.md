@@ -38,9 +38,19 @@ back-fit. Priority = de-risk before decorate.
       `prefer_real: true` in both encoder configs (add the line to vjepa2_vitg.yaml, flip it in
       vjepa2_vith.yaml) so the atlas encoder-scale curve (facet 7) loads real weights, not the
       frozen-random fallback.
-- [ ] T4.1 encode auto-select (MPS-vs-CPU by microbench) and T5.1 missing-facet entry points: remaining,
-      lower priority; the spine (DR1, PR9) lands first and these ride its artifacts. Tracked here for the
-      Studio to pick up.
+- [x] T4.1 encode auto-select: `scripts/mop_encode_autoselect.py` microbenches CPU vs MPS and writes
+      `runs/mot/encode_device.json` with the winner (the Studio runs it once, then encodes with
+      `device=$(jq -r .winner ...)`). Smoke-run with `--skip-mps` (picks cpu at 16 s/clip on the laptop);
+      the Studio re-runs without the flag to time MPS at 128 GB.
+- [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
+      DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
+      census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
+      targeted .gitignore negation (was 100 percent gitignored, one disk-loss from gone); the missing
+      facet-12 adversarial verifier is RESTORED as `scripts/mop_dr13_verify.py` (reproduces 6/6 PASS
+      in-repo, fixing the one over-claim); PR9 bare `--smoke` now falls back to the real cache; the stale
+      12-stage rehearsal phrasing is corrected to 9/9.
+- [ ] T5.1 missing-facet (13 to 17) one-command entry points: remaining, lowest priority; each facet's
+      run is Studio-gated (live-encoder throughput, corpora, dense cache), so scaffold after DR1 lands.
 
 ## Tier 1: de-risk the spine scripts (highest leverage)
 
@@ -51,8 +61,10 @@ back-fit. Priority = de-risk before decorate.
   (clip_stems / clip_cells sidecars) -> A6 residual guard. Also run the NEGATIVE fixture (a factor NOT
   caption-recoverable) to confirm the gate REFUSES (a tie is a null), so the gate is proven to gate.
 - T1.2 Re-smoke PR9 and atlas against current HEAD; fix any drift (they carry smoke modes already).
-- T1.3 Re-run the `studio_pipeline.py` local-max rehearsal on HEAD (last validated at 112053b); confirm
-  12/12 stages still pass so the conveyor is trusted before Studio time.
+- T1.3 Re-run the Studio rehearsal on HEAD to confirm the conveyor before Studio time. `make rehearse`
+  (`scripts/studio_rehearsal.py`, the whole workflow on tiny fixtures) passes 9/9 stages on HEAD; the
+  heavier 12-stage `studio_pipeline.py local-max` rehearsal (last validated at 112053b) is the Studio's
+  own WAVE-0 step (download + real encode), not re-run here.
 
 ## Tier 2: freeze preregistration (zero compute, pure honesty)
 

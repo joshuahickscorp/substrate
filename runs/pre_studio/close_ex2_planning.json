@@ -1,0 +1,151 @@
+{
+  "id": "ex2_latent_planning",
+  "contention": "The planner's terminal distance was scored IN-BELIEF (against its own learned dynamics model), while the flat baseline was scored in the TRUE synthetic environment, so they were not on the same yardstick. This closure re-scores the planner AND the shuffle control on the TRUE dynamics (execute the selected action sequence through _step_true), grading all three identically.",
+  "fix": "Search stays in-belief (legitimate planning). Only scoring changes: the SELECTED action sequence is executed through _step_true (noise=0.0) and the real terminal distance is measured, exactly as _run_flat_head_trial already scores the flat baseline.",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "n_trials_per_seed": 120,
+  "scale": {
+    "dim": 32,
+    "action_dim": 8,
+    "horizon": 8,
+    "n_shooting_samples": 400,
+    "cem_iters": 3,
+    "hidden": 256,
+    "epochs": 300,
+    "n_train_transitions": 4000,
+    "nonlinearity": 0.5,
+    "noise": 0.02
+  },
+  "gates": {
+    "success_frac_of_start": 0.5,
+    "planning_margin": 0.05,
+    "r2_floor": 0.5
+  },
+  "true_env_terminal_distance": {
+    "planner": {
+      "mean": 5.667,
+      "stdev": 0.2991,
+      "per_seed": [
+        5.4807,
+        6.089,
+        5.4314
+      ]
+    },
+    "flat": {
+      "mean": 6.9816,
+      "stdev": 0.1676,
+      "per_seed": [
+        6.9163,
+        6.817,
+        7.2116
+      ]
+    },
+    "shuffle": {
+      "mean": 6.9718,
+      "stdev": 0.2236,
+      "per_seed": [
+        6.8295,
+        7.2875,
+        6.7984
+      ]
+    }
+  },
+  "true_env_goal_distance_reduction_planner_minus_flat": {
+    "mean": 1.3146,
+    "stdev": 0.438,
+    "per_seed": [
+      1.4356,
+      0.728,
+      1.7802
+    ]
+  },
+  "true_env_shuffle_gap_shuffle_minus_planner": {
+    "mean": 1.3048,
+    "stdev": 0.0755,
+    "per_seed": [
+      1.3488,
+      1.1985,
+      1.367
+    ]
+  },
+  "in_belief_vs_true_optimism_planner": {
+    "mean": 0.8295,
+    "stdev": 0.2563,
+    "per_seed": [
+      0.6611,
+      1.1917,
+      0.6358
+    ]
+  },
+  "n_seeds_planner_beats_flat_true": 3,
+  "n_seeds_planner_beats_shuffle_true": 3,
+  "n_seeds_rollout_predictable": 3,
+  "n_seeds": 3,
+  "survives": true,
+  "resolution": "survives",
+  "verdict": "Planning survives honest scoring: on the TRUE synthetic dynamics the MPC planner still beats the flat-reactive baseline and the action-shuffle control on terminal distance to goal, on every seed (in-belief scoring was not the whole story).",
+  "per_seed": [
+    {
+      "seed": 0,
+      "one_step_rollout_r2": 0.9683,
+      "kstep_rollout_r2": 0.8782,
+      "rollout_predictable": true,
+      "mean_planner_terminal_dist_true": 5.4807,
+      "mean_flat_terminal_dist_true": 6.9163,
+      "mean_shuffle_terminal_dist_true": 6.8295,
+      "goal_distance_reduction_true": 1.4356,
+      "shuffle_gap_true": 1.3488,
+      "goal_success_true": 0.0083,
+      "flat_head_goal_success_true": 0.0,
+      "planner_beats_flat_head_true": true,
+      "planner_beats_action_shuffle_true": true,
+      "mean_planner_terminal_dist_belief": 4.8196,
+      "mean_shuffle_terminal_dist_belief": 5.9844,
+      "goal_success_belief": 0.15,
+      "planner_belief_minus_true": 0.6611
+    },
+    {
+      "seed": 1,
+      "one_step_rollout_r2": 0.9673,
+      "kstep_rollout_r2": 0.8723,
+      "rollout_predictable": true,
+      "mean_planner_terminal_dist_true": 6.089,
+      "mean_flat_terminal_dist_true": 6.817,
+      "mean_shuffle_terminal_dist_true": 7.2875,
+      "goal_distance_reduction_true": 0.728,
+      "shuffle_gap_true": 1.1985,
+      "goal_success_true": 0.0167,
+      "flat_head_goal_success_true": 0.0,
+      "planner_beats_flat_head_true": true,
+      "planner_beats_action_shuffle_true": true,
+      "mean_planner_terminal_dist_belief": 4.8973,
+      "mean_shuffle_terminal_dist_belief": 5.9829,
+      "goal_success_belief": 0.0917,
+      "planner_belief_minus_true": 1.1917
+    },
+    {
+      "seed": 2,
+      "one_step_rollout_r2": 0.9663,
+      "kstep_rollout_r2": 0.8856,
+      "rollout_predictable": true,
+      "mean_planner_terminal_dist_true": 5.4314,
+      "mean_flat_terminal_dist_true": 7.2116,
+      "mean_shuffle_terminal_dist_true": 6.7984,
+      "goal_distance_reduction_true": 1.7802,
+      "shuffle_gap_true": 1.367,
+      "goal_success_true": 0.025,
+      "flat_head_goal_success_true": 0.0,
+      "planner_beats_flat_head_true": true,
+      "planner_beats_action_shuffle_true": true,
+      "mean_planner_terminal_dist_belief": 4.7955,
+      "mean_shuffle_terminal_dist_belief": 5.9268,
+      "goal_success_belief": 0.0833,
+      "planner_belief_minus_true": 0.6358
+    }
+  ],
+  "wall_clock_s": 27.921
+}
