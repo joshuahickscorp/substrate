@@ -1,0 +1,212 @@
+{
+  "id": "e7_sparse",
+  "question": "Is the sparse-beats-dense BWT advantage substrate-specific (needs the real domain-incremental geometry) or a generic architectural fact (holds under any fixed projection)?",
+  "control": "frozen_random_projection applied to every task's x before training (D2 'any projection')",
+  "config": {
+    "n_tasks": 5,
+    "dim": 128,
+    "classes_per_task": 6,
+    "samples_per_task": 256,
+    "separation": 0.5,
+    "hidden": 64,
+    "kwta_k": 8,
+    "n_experts": 4,
+    "epochs_per_task": 60,
+    "lr": 0.01,
+    "margin": 0.02
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "per_seed": [
+    {
+      "seed": 0,
+      "real": {
+        "bwt": {
+          "dense": -0.6778846066445112,
+          "kwta": -0.38942307233810425,
+          "moe": -0.44711539149284363
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "kwta",
+        "sparse_minus_dense_gain": 0.288461534306407,
+        "gain_kwta": 0.288461534306407,
+        "gain_moe": 0.2307692151516676
+      },
+      "frozen_random": {
+        "bwt": {
+          "dense": -0.6586538478732109,
+          "kwta": -0.5336538441479206,
+          "moe": -0.48076923564076424
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "moe",
+        "sparse_minus_dense_gain": 0.17788461223244667,
+        "gain_kwta": 0.1250000037252903,
+        "gain_moe": 0.17788461223244667
+      }
+    },
+    {
+      "seed": 1,
+      "real": {
+        "bwt": {
+          "dense": -0.697115377523005,
+          "kwta": -0.38942307233810425,
+          "moe": -0.5192307606339455
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "kwta",
+        "sparse_minus_dense_gain": 0.30769230518490076,
+        "gain_kwta": 0.30769230518490076,
+        "gain_moe": 0.17788461688905954
+      },
+      "frozen_random": {
+        "bwt": {
+          "dense": -0.7403846206143498,
+          "kwta": -0.6538461511954665,
+          "moe": -0.7019230793230236
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "kwta",
+        "sparse_minus_dense_gain": 0.08653846941888332,
+        "gain_kwta": 0.08653846941888332,
+        "gain_moe": 0.038461541291326284
+      }
+    },
+    {
+      "seed": 2,
+      "real": {
+        "bwt": {
+          "dense": -0.41826922446489334,
+          "kwta": -0.3990384712815285,
+          "moe": -0.17788460850715637
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "moe",
+        "sparse_minus_dense_gain": 0.24038461595773697,
+        "gain_kwta": 0.019230753183364868,
+        "gain_moe": 0.24038461595773697
+      },
+      "frozen_random": {
+        "bwt": {
+          "dense": -0.6346153765916824,
+          "kwta": -0.5817307680845261,
+          "moe": -0.45192307233810425
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "moe",
+        "sparse_minus_dense_gain": 0.18269230425357819,
+        "gain_kwta": 0.05288460850715637,
+        "gain_moe": 0.18269230425357819
+      }
+    },
+    {
+      "seed": 3,
+      "real": {
+        "bwt": {
+          "dense": -0.6875000018626451,
+          "kwta": -0.4375,
+          "moe": -0.42788460850715637
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "moe",
+        "sparse_minus_dense_gain": 0.2596153933554888,
+        "gain_kwta": 0.25000000186264515,
+        "gain_moe": 0.2596153933554888
+      },
+      "frozen_random": {
+        "bwt": {
+          "dense": -0.7499999972060323,
+          "kwta": -0.6730769164860249,
+          "moe": -0.6009615324437618
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "moe",
+        "sparse_minus_dense_gain": 0.14903846476227045,
+        "gain_kwta": 0.07692308072000742,
+        "gain_moe": 0.14903846476227045
+      }
+    },
+    {
+      "seed": 4,
+      "real": {
+        "bwt": {
+          "dense": -0.5288461670279503,
+          "kwta": -0.4999999925494194,
+          "moe": -0.42788462713360786
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "moe",
+        "sparse_minus_dense_gain": 0.10096153989434242,
+        "gain_kwta": 0.028846174478530884,
+        "gain_moe": 0.10096153989434242
+      },
+      "frozen_random": {
+        "bwt": {
+          "dense": -0.8461538441479206,
+          "kwta": -0.745192302390933,
+          "moe": -0.6201923005282879
+        },
+        "n_params": {
+          "dense": 8646,
+          "kwta": 8646,
+          "moe": 8640
+        },
+        "best_sparse": "moe",
+        "sparse_minus_dense_gain": 0.22596154361963272,
+        "gain_kwta": 0.10096154175698757,
+        "gain_moe": 0.22596154361963272
+      }
+    }
+  ],
+  "mean_gain_real": 0.23942,
+  "mean_gain_frozen_random": 0.16442,
+  "ratio_frozen_over_real": 0.6867,
+  "mean_dense_bwt_real": -0.60192,
+  "mean_dense_bwt_frozen_random": -0.72596,
+  "null_margin": 0.02,
+  "real_gain_clears_margin": true,
+  "frozen_random_gain_clears_margin": true,
+  "resolution": "reframed",
+  "verdict": "GENERIC ARCHITECTURAL effect: sparse heads forget less regardless of substrate. The sparse-minus-dense BWT gain survives frozen-random projection nearly intact (+0.1644 vs real +0.2394, ratio 0.69), so e7_sparse is real but NOT substrate specific (reframed as an architectural fact, not a V-JEPA-geometry claim)."
+}

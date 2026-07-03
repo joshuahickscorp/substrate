@@ -1,0 +1,115 @@
+#!/usr/bin/env python
+"""Encode device auto-select (Tier 4.1): microbench a tiny V-JEPA 2 encode on CPU and MPS and pick the
+faster, so the Studio does not hand-choose the encode device. The M3-Pro microbench found CPU 13.7 vs
+MPS 821 s/clip (MPS paged at 18 GB); the M1 Ultra with 128 GB may make MPS the winner, so this script
+MEASURES on whatever box it runs on rather than assuming.
+
+pick_encode_device() returns {winner, cpu_s_per_clip, mps} and (as a CLI) writes runs/mot/encode_device.json
+so the encode step can read the winner. The Studio flow: run this once, then
+`.venv/bin/python scripts/cache_real_encoder.py device=$(jq -r .winner runs/mot/encode_device.json) ...`.
+
+Form (goal loop): no em or en dashes. MEASURE, never assume.
+
+Usage:
+  PYTHONPATH=src:scripts:. .venv/bin/python scripts/mop_encode_autoselect.py [--n-clips 3]
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+import time
+from pathlib import Path
+
+import torch
+
+_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(_ROOT / "scripts"))
+sys.path.insert(0, str(_ROOT / "src"))
+sys.path.insert(0, str(_ROOT))
+
+from compositional_under_nuisance import make_bound_nuisance_clip  # noqa: E402
+from transformers import AutoModel  # noqa: E402
+
+HF = "facebook/vjepa2-vitl-fpc64-256"
+
+
+def _make_clips(n: int) -> list[torch.Tensor]:
+    return [
+        make_bound_nuisance_clip(i % 5, (i // 5) % 4, 4, torch.Generator().manual_seed(3000 + i))
+        for i in range(n)
+    ]
+
+
+@torch.no_grad()
+def _time_encode(model, clips, device: str) -> float:
+    """Mean seconds per clip encoding on `device`. Raises on a device-specific failure (caught upstream)."""
+    m = model.to(device)
+    ts = []
+    for c in clips:
+        t0 = time.perf_counter()
+        m(pixel_values_videos=c.unsqueeze(0).to(device), skip_predictor=True)
+        ts.append(time.perf_counter() - t0)
+    return sum(ts) / len(ts)
+
+
+def pick_encode_device(n_clips: int = 3, skip_mps: bool = False) -> dict:
+    """Microbench CPU (always) and MPS (if available), return the faster as `winner`. MPS that errors or
+    is unavailable is recorded and CPU wins by default. CUDA is reported as the winner unconditionally on
+    a box that has it, since it is the intended fast path and a full timing is unnecessary to prefer it.
+    skip_mps records MPS availability WITHOUT timing it (for the laptop smoke, where the 18 GB MPS path
+    pages badly, about 821 s/clip; the Studio runs without skip_mps to get the real 128 GB measurement)."""
+    model = AutoModel.from_pretrained(HF, local_files_only=True, dtype=torch.float32).eval()
+    for p in model.parameters():
+        p.requires_grad_(False)
+    clips = _make_clips(n_clips)
+
+    if torch.cuda.is_available():
+        return {
+            "winner": "cuda",
+            "cpu_s_per_clip": None,
+            "mps": "not-tested (cuda present)",
+            "n_clips": n_clips,
+        }
+
+    cpu_s = round(_time_encode(model, clips, "cpu"), 3)
+    mps: str | float
+    if not torch.backends.mps.is_available():
+        mps = "unavailable"
+        winner = "cpu"
+    elif skip_mps:
+        mps = "available-not-timed (skip_mps; the Studio re-runs to time MPS at 128 GB)"
+        winner = "cpu"
+    else:
+        try:
+            mps_s = round(
+                _time_encode(model, clips[:1], "mps"), 3
+            )  # one clip; MPS failure/paging surfaces here
+            mps = mps_s
+            winner = "mps" if mps_s < cpu_s else "cpu"
+        except Exception as e:  # noqa: BLE001
+            mps = f"failed:{type(e).__name__}"
+            winner = "cpu"
+    return {"winner": winner, "cpu_s_per_clip": cpu_s, "mps": mps, "n_clips": n_clips}
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--n-clips", type=int, default=3)
+    ap.add_argument(
+        "--skip-mps", action="store_true", help="record MPS availability without timing it (laptop smoke)"
+    )
+    ap.add_argument("--out", type=str, default=str(_ROOT / "runs" / "mot" / "encode_device.json"))
+    args = ap.parse_args()
+    result = pick_encode_device(args.n_clips, skip_mps=args.skip_mps)
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(result, indent=2))
+    print(json.dumps(result, indent=2))
+    print(f"\nWINNER: {result['winner']} (wrote {out})")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

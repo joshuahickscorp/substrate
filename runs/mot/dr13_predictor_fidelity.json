@@ -1,0 +1,387 @@
+{
+  "facet": 12,
+  "name": "world-model predictor rollout fidelity (DR13 horizon test on real V-JEPA 2)",
+  "device": "cpu",
+  "model": "facebook/vjepa2-vitl-fpc64-256",
+  "clip_source": "synthetic_bound_nuisance",
+  "grid": {
+    "temporal_slots": 32,
+    "spatial_side": 16,
+    "patches_per_slot": 256
+  },
+  "preregistered": {
+    "null": "real predictor never reaches the usability bar at any horizon; a tie is a null",
+    "usable_fraction": 0.5,
+    "usable_rule": "largest contiguous h where real_nmse.hi < every control_nmse.lo AND real_nmse.mean < USABLE_FRACTION * best_control_nmse",
+    "controls": [
+      "persistence",
+      "random_init",
+      "shuffled_target"
+    ],
+    "horizons": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8
+    ],
+    "n_clips": 24,
+    "seed_buckets": 3,
+    "t_start": 4
+  },
+  "encoder_adjacent_slot_nmse_scale": 0.9476,
+  "per_horizon": {
+    "1": {
+      "real_nmse": {
+        "n": 3,
+        "mean": 0.7673,
+        "sd": 0.0008,
+        "ci_half": 0.0009,
+        "lo": 0.7664,
+        "hi": 0.7682,
+        "unstable": false
+      },
+      "real_cosd": {
+        "n": 3,
+        "mean": 0.3491,
+        "sd": 0.0024,
+        "ci_half": 0.0027,
+        "lo": 0.3463,
+        "hi": 0.3518,
+        "unstable": false
+      },
+      "controls_nmse": {
+        "persistence": {
+          "n": 3,
+          "mean": 0.9644,
+          "sd": 0.0073,
+          "ci_half": 0.0082,
+          "lo": 0.9561,
+          "hi": 0.9726,
+          "unstable": false
+        },
+        "random_init": {
+          "n": 3,
+          "mean": 1.0353,
+          "sd": 0.001,
+          "ci_half": 0.0011,
+          "lo": 1.0342,
+          "hi": 1.0364,
+          "unstable": false
+        },
+        "shuffled_target": {
+          "n": 3,
+          "mean": 0.8241,
+          "sd": 0.0023,
+          "ci_half": 0.0026,
+          "lo": 0.8215,
+          "hi": 0.8267,
+          "unstable": false
+        }
+      },
+      "beats_by_seed_ci": {
+        "persistence": true,
+        "random_init": true,
+        "shuffled_target": true
+      },
+      "best_control_nmse": 0.8241,
+      "real_over_best_control": 0.9311,
+      "below_half_of_best_control": false,
+      "usable": false
+    },
+    "2": {
+      "real_nmse": {
+        "n": 3,
+        "mean": 0.8158,
+        "sd": 0.0018,
+        "ci_half": 0.002,
+        "lo": 0.8138,
+        "hi": 0.8178,
+        "unstable": false
+      },
+      "real_cosd": {
+        "n": 3,
+        "mean": 0.4247,
+        "sd": 0.0043,
+        "ci_half": 0.0049,
+        "lo": 0.4198,
+        "hi": 0.4296,
+        "unstable": false
+      },
+      "controls_nmse": {
+        "persistence": {
+          "n": 3,
+          "mean": 0.9056,
+          "sd": 0.007,
+          "ci_half": 0.0079,
+          "lo": 0.8976,
+          "hi": 0.9135,
+          "unstable": false
+        },
+        "random_init": {
+          "n": 3,
+          "mean": 1.0383,
+          "sd": 0.0012,
+          "ci_half": 0.0013,
+          "lo": 1.037,
+          "hi": 1.0396,
+          "unstable": false
+        },
+        "shuffled_target": {
+          "n": 3,
+          "mean": 0.8619,
+          "sd": 0.0024,
+          "ci_half": 0.0027,
+          "lo": 0.8592,
+          "hi": 0.8645,
+          "unstable": false
+        }
+      },
+      "beats_by_seed_ci": {
+        "persistence": true,
+        "random_init": true,
+        "shuffled_target": true
+      },
+      "best_control_nmse": 0.8619,
+      "real_over_best_control": 0.9465,
+      "below_half_of_best_control": false,
+      "usable": false
+    },
+    "3": {
+      "real_nmse": {
+        "n": 3,
+        "mean": 0.8326,
+        "sd": 0.0021,
+        "ci_half": 0.0024,
+        "lo": 0.8303,
+        "hi": 0.835,
+        "unstable": false
+      },
+      "real_cosd": {
+        "n": 3,
+        "mean": 0.4575,
+        "sd": 0.0046,
+        "ci_half": 0.0052,
+        "lo": 0.4524,
+        "hi": 0.4627,
+        "unstable": false
+      },
+      "controls_nmse": {
+        "persistence": {
+          "n": 3,
+          "mean": 0.9056,
+          "sd": 0.0095,
+          "ci_half": 0.0108,
+          "lo": 0.8948,
+          "hi": 0.9164,
+          "unstable": false
+        },
+        "random_init": {
+          "n": 3,
+          "mean": 1.0404,
+          "sd": 0.001,
+          "ci_half": 0.0012,
+          "lo": 1.0392,
+          "hi": 1.0416,
+          "unstable": false
+        },
+        "shuffled_target": {
+          "n": 3,
+          "mean": 0.8725,
+          "sd": 0.0035,
+          "ci_half": 0.004,
+          "lo": 0.8685,
+          "hi": 0.8765,
+          "unstable": false
+        }
+      },
+      "beats_by_seed_ci": {
+        "persistence": true,
+        "random_init": true,
+        "shuffled_target": true
+      },
+      "best_control_nmse": 0.8725,
+      "real_over_best_control": 0.9543,
+      "below_half_of_best_control": false,
+      "usable": false
+    },
+    "4": {
+      "real_nmse": {
+        "n": 3,
+        "mean": 0.8327,
+        "sd": 0.002,
+        "ci_half": 0.0023,
+        "lo": 0.8304,
+        "hi": 0.8349,
+        "unstable": false
+      },
+      "real_cosd": {
+        "n": 3,
+        "mean": 0.454,
+        "sd": 0.0038,
+        "ci_half": 0.0043,
+        "lo": 0.4497,
+        "hi": 0.4583,
+        "unstable": false
+      },
+      "controls_nmse": {
+        "persistence": {
+          "n": 3,
+          "mean": 1.138,
+          "sd": 0.0059,
+          "ci_half": 0.0067,
+          "lo": 1.1313,
+          "hi": 1.1447,
+          "unstable": false
+        },
+        "random_init": {
+          "n": 3,
+          "mean": 1.0437,
+          "sd": 0.0009,
+          "ci_half": 0.001,
+          "lo": 1.0427,
+          "hi": 1.0446,
+          "unstable": false
+        },
+        "shuffled_target": {
+          "n": 3,
+          "mean": 0.8731,
+          "sd": 0.0018,
+          "ci_half": 0.0021,
+          "lo": 0.871,
+          "hi": 0.8751,
+          "unstable": false
+        }
+      },
+      "beats_by_seed_ci": {
+        "persistence": true,
+        "random_init": true,
+        "shuffled_target": true
+      },
+      "best_control_nmse": 0.8731,
+      "real_over_best_control": 0.9537,
+      "below_half_of_best_control": false,
+      "usable": false
+    },
+    "6": {
+      "real_nmse": {
+        "n": 3,
+        "mean": 0.8149,
+        "sd": 0.0003,
+        "ci_half": 0.0003,
+        "lo": 0.8146,
+        "hi": 0.8152,
+        "unstable": false
+      },
+      "real_cosd": {
+        "n": 3,
+        "mean": 0.4068,
+        "sd": 0.0011,
+        "ci_half": 0.0013,
+        "lo": 0.4056,
+        "hi": 0.4081,
+        "unstable": false
+      },
+      "controls_nmse": {
+        "persistence": {
+          "n": 3,
+          "mean": 1.0217,
+          "sd": 0.015,
+          "ci_half": 0.017,
+          "lo": 1.0047,
+          "hi": 1.0387,
+          "unstable": false
+        },
+        "random_init": {
+          "n": 3,
+          "mean": 1.0373,
+          "sd": 0.0012,
+          "ci_half": 0.0013,
+          "lo": 1.0359,
+          "hi": 1.0386,
+          "unstable": false
+        },
+        "shuffled_target": {
+          "n": 3,
+          "mean": 0.8582,
+          "sd": 0.0057,
+          "ci_half": 0.0064,
+          "lo": 0.8518,
+          "hi": 0.8647,
+          "unstable": false
+        }
+      },
+      "beats_by_seed_ci": {
+        "persistence": true,
+        "random_init": true,
+        "shuffled_target": true
+      },
+      "best_control_nmse": 0.8582,
+      "real_over_best_control": 0.9495,
+      "below_half_of_best_control": false,
+      "usable": false
+    },
+    "8": {
+      "real_nmse": {
+        "n": 3,
+        "mean": 0.9714,
+        "sd": 0.0027,
+        "ci_half": 0.003,
+        "lo": 0.9684,
+        "hi": 0.9745,
+        "unstable": false
+      },
+      "real_cosd": {
+        "n": 3,
+        "mean": 0.8235,
+        "sd": 0.0063,
+        "ci_half": 0.0071,
+        "lo": 0.8164,
+        "hi": 0.8307,
+        "unstable": false
+      },
+      "controls_nmse": {
+        "persistence": {
+          "n": 3,
+          "mean": 1.0643,
+          "sd": 0.0088,
+          "ci_half": 0.01,
+          "lo": 1.0543,
+          "hi": 1.0744,
+          "unstable": false
+        },
+        "random_init": {
+          "n": 3,
+          "mean": 1.0334,
+          "sd": 0.0012,
+          "ci_half": 0.0013,
+          "lo": 1.0321,
+          "hi": 1.0348,
+          "unstable": false
+        },
+        "shuffled_target": {
+          "n": 3,
+          "mean": 0.9819,
+          "sd": 0.0054,
+          "ci_half": 0.0061,
+          "lo": 0.9758,
+          "hi": 0.9881,
+          "unstable": false
+        }
+      },
+      "beats_by_seed_ci": {
+        "persistence": true,
+        "random_init": true,
+        "shuffled_target": true
+      },
+      "best_control_nmse": 0.9819,
+      "real_over_best_control": 0.9893,
+      "below_half_of_best_control": false,
+      "usable": false
+    }
+  },
+  "usable_horizon": 0,
+  "verdict": "null",
+  "elapsed_sec": 716.4
+}
