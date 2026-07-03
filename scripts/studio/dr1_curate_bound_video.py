@@ -398,17 +398,30 @@ def encode_leg(
         enc, stream, cache_root, name, total=total, device=dev, result_tag=f"dr1_comp_leg_{start}_{end}"
     )
     write_label_map(cache_root / name, manifest["label_map"])
+    # The store's clip order (walk = sorted class folders then sorted files), so the A6 cross-modal guard
+    # can pair captions and residualize named factors 1:1 against the latent rows. clip_stems is the row
+    # order; clip_cells is the parallel per-clip cell folder.
+    clip_stems, clip_cells = _clip_stems_in_leg(source, factors, min_per_cell, start, end)
     sidecar = {
         "leg": [start, end],
         "n_encoded": len(store),
         "factors": list(factors),
         "cells": cells,
+        "clip_stems": clip_stems,
+        "clip_cells": clip_cells,
         "clip_hashes": hashes,
         "backend": backend,
         "acceptance_report": accept_report,
         "curation": f"composable real video, <{CELL_DELIM.join(factors)}> folders",
     }
     (cache_root / name / "cells.json").write_text(json.dumps(sidecar, indent=2, sort_keys=True))
+    # Persist the two consumer-shaped sidecars beside THIS leg store (a leg dir IS a LatentStore), so a
+    # per-leg A6 guard works; merge_shards concatenates them across legs for a merged store. clip_stems.json
+    # is a list (store-row order); clip_cells.json is a {stem: cell} map, exactly what the guard reads.
+    (cache_root / name / "clip_stems.json").write_text(json.dumps(clip_stems, indent=2))
+    (cache_root / name / "clip_cells.json").write_text(
+        json.dumps(dict(zip(clip_stems, clip_cells, strict=True)), indent=2, sort_keys=True)
+    )
     log = {
         "shard": str(cache_root / name),
         "leg": [start, end],
@@ -448,6 +461,19 @@ def merge_shards(base_name: str) -> dict:
     ranges = [tuple(s_["leg"]) for s_ in legs]
     contiguous = all(ranges[i][1] == ranges[i + 1][0] for i in range(len(ranges) - 1))
     total = sum(s_["n_encoded"] for s_ in legs)
+    # Concatenate the per-leg clip order (in sorted-leg order = merged store-row order) into store-root
+    # sidecars, so the A6 cross-modal guard can run against the merged store. Both consumer-shaped:
+    # clip_stems.json a list, clip_cells.json a {stem: cell} map.
+    order_ok = bool(legs) and all("clip_stems" in s_ and "clip_cells" in s_ for s_ in legs)
+    if order_ok:
+        all_stems: list[str] = []
+        stem_to_cell: dict[str, str] = {}
+        for s_ in legs:
+            for st, ce in zip(s_["clip_stems"], s_["clip_cells"], strict=True):
+                all_stems.append(st)
+                stem_to_cell[st] = ce
+        (cache_root / "clip_stems.json").write_text(json.dumps(all_stems, indent=2))
+        (cache_root / "clip_cells.json").write_text(json.dumps(stem_to_cell, indent=2, sort_keys=True))
     manifest = {
         "base": str(cache_root),
         "legs": ranges,
@@ -455,8 +481,14 @@ def merge_shards(base_name: str) -> dict:
         "total_encoded": total,
         "backends": sorted({s_["backend"] for s_ in legs}),
         "factors": legs[0]["factors"] if legs else [],
+        "clip_order_persisted": order_ok,
     }
     (cache_root / "merge_manifest.json").write_text(json.dumps(manifest, indent=2, default=str))
+    if not order_ok:
+        manifest["clip_order_note"] = (
+            "some legs predate the stem-sidecar wiring; re-encode them so clip_stems.json / clip_cells.json "
+            "cover every clip before the A6 guard runs"
+        )
     if not contiguous:
         manifest["warning"] = "leg ranges are not contiguous; re-encode the gap before the probe runs"
     return manifest
