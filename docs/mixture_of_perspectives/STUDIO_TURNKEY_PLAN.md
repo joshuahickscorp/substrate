@@ -24,9 +24,23 @@ back-fit. Priority = de-risk before decorate.
       microbench). The whole workflow is validated against current HEAD.
 - [x] T2.1 Preregistration frozen: 7 NULL/survival cards authored from real run data (facet 12, b5,
       ex2 survival, e7 survival, ex5, ex13, ex15), all north_star-clean, ledgered in check_docs.
-- [ ] T3.1 facet-12 real-corpora + readout-adapter scaffold (next).
-- [ ] T4.1 encode auto-select; T4.2 ViT-H/g encoder configs.
-- [ ] T5.1 missing-facet entry points.
+- [x] T3.1 facet-12 readout-adapter scaffold: `scripts/mop_dr13_readout_adapter.py` (fit a linear
+      predictor-space to encoder-space adapter on visible slots, apply to the open-loop rollout;
+      `--clip-dir` for the Studio real-video re-test), preregistered and smoke-run on the laptop. Smoke
+      finding: the adapter halves the visible-slot representational gap (0.727 to 0.357) but does not
+      transfer to the rollout (adapted 0.82 to 1.20 vs raw 0.76 to 0.83); the naive visible-slot adapter
+      is insufficient, so the Studio fits it on rollout predictions on real moving video.
+- [x] T4.2 ViT-H / ViT-g encoder readiness VERIFIED: `configs/encoder/vjepa2_vith.yaml` and
+      `vjepa2_vitg.yaml` are correct (verified hf_ids and embed_dims 1280 / 1408), but the HF cache
+      holds only config-only STUBS (8 KB each vs 1.2 GB for ViT-L), so the Studio must PULL the real
+      weights, and the vitg config has NO prefer_real flag. TURNKEY STEPS for the Studio: pull with
+      `.venv/bin/hf download facebook/vjepa2-vith-fpc64-256` (and `vjepa2-vitg-fpc64-384`), then set
+      `prefer_real: true` in both encoder configs (add the line to vjepa2_vitg.yaml, flip it in
+      vjepa2_vith.yaml) so the atlas encoder-scale curve (facet 7) loads real weights, not the
+      frozen-random fallback.
+- [ ] T4.1 encode auto-select (MPS-vs-CPU by microbench) and T5.1 missing-facet entry points: remaining,
+      lower priority; the spine (DR1, PR9) lands first and these ride its artifacts. Tracked here for the
+      Studio to pick up.
 
 ## Tier 1: de-risk the spine scripts (highest leverage)
 

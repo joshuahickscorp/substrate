@@ -104,6 +104,13 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   nulls, atlas withholds on partial caches); the studio rehearsal passes 9/9 stages on HEAD; and
   preregistration frozen with 7 NULL/survival cards (facet 12, b5, ex2, e7, ex5, ex13, ex15). Plan and
   running checklist: `STUDIO_TURNKEY_PLAN.md`.
+- WAVE 5 (M3 Pro, 2026-07-03, turnkey plan Tier 3 to 4): facet-12 readout-adapter scaffold
+  (`scripts/mop_dr13_readout_adapter.py`, `--clip-dir` real video), preregistered + smoke-run: the
+  adapter halves the visible-slot representational gap but does not transfer to the rollout (naive
+  visible-slot adapter insufficient; Studio fits on rollout predictions). ViT-H / ViT-g encoder
+  readiness verified (configs correct, weights are stubs to pull, vitg needs a prefer_real flag);
+  turnkey pull + flip steps recorded in STUDIO_TURNKEY_PLAN.md. Remaining: T4.1 encode auto-select,
+  T5.1 facet entry points (lower priority, ride the spine).
 
 ## Next move (per the goal-loop protocol)
 
