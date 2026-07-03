@@ -106,6 +106,18 @@ INSTRUMENTATION / STUDIO-READY (built and validated on the laptop, not a science
 - Plasticity-loss certificate: VALIDATED (fires on drift gap +0.513 CI[0.498,0.528], dead units 0->0.75;
   quiet on stationary gap ~0). The instrument Studio PR9 needs, de-risked and turnkey. Moldability score
   itself does NOT move on the laptop (cannot induce Studio-scale loss).
+- FACET 12 rollout lane (predictor-fidelity, DR13 on the REAL V-JEPA 2 predictor, M3 Pro 2026-07-03): the
+  program's FIRST use of the predictor (the whole corpus used only the encoder). Instrument built and
+  validated bit-exact to the model's own masked-prediction objective; preregistered null + 3 non-vacuous
+  controls; independently adversarially verified (6/6 checks incl. a leakage probe). VERDICT NULL on
+  usability: the frozen predictor beats persistence, random-init, and shuffled-target by non-overlapping
+  seed CI at every horizon 1..8, but by only ~5-7% (real ~0.93 of best control), never near the 0.5 bar. A
+  leakage probe showed the predictor is lossy even on a VISIBLE slot (0.750), so most of the ~0.77 one-step
+  error is a predictor-vs-encoder representational gap (marginal one-step forecast cost ~0.025); adjacent
+  slots are nearly decorrelated (scale 0.948). Real-but-sub-usable world-model signal: NOT licensed for
+  multi-step planning. PROVISIONAL on content (synthetic OOD clips + OOD masking); the licensed real-scale
+  verdict needs the Studio real-corpora re-run (scripts/mop_dr13_predictor_fidelity.py --clip-dir; facet 14
+  feeds facet 12). Facet 12 stays 0 on usability. See ROLLOUT_LANE_RESULT.md.
 
 DEAD (kill-switch fired, branch retired):
 - Test-time compute at this substrate: even with a PERFECT executable DSL oracle verifier on a
