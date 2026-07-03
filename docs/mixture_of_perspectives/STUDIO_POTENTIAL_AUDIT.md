@@ -198,3 +198,110 @@ already have their named successor (Process C, Tier R).
 
 The single sentence: the Studio's theoretical ceiling is ~9.0/10 with six purchasable facets and two proven
 walls, and the program is designed so that even the nulls on that path are terminal, citable knowledge.
+
+## 6. Part 2: the Studio as a NEW instrument, not the laptop's executor
+
+Everything above grades the Studio against the program the LAPTOP could conceive: the inherited backlog (DR1,
+PR9, B4, B5) run bigger and cleaner. That is necessary and it is not enough, because the laptop's doctrine
+was never chosen on the merits: cached-latent-first, the live-encoder ban, the 10 GB download cap, the
+two-slot synthetic clipset, and the six-perspective plan were all DERIVED from 21 s/clip, 18 GB of memory,
+and a disk living at its kill-switch floor. A device with none of those constraints licenses experiment
+CLASSES the program has never priced, not just larger versions of the ones it has. This part audits the box
+de novo. Same rules: every ceiling names its wall, every bet inherits the falsification engine, and none of
+these lanes may jump the spine (section 7) just because they are new.
+
+### Facet 12, world-model rollouts, the predictor half of V-JEPA 2: 0 -> 8. Bet: rollout fidelity.
+
+Ceiling case. The entire corpus to date uses V-JEPA 2's ENCODER and discards its PREDICTOR, which is a
+learned latent-space simulator of video dynamics. 128 GB holds encoder plus predictor resident, so latent
+ROLLOUTS become a first-class probe: counterfactual and interventional abstraction WITHOUT building an
+environment (roll the latent forward under alternative continuations and probe the divergence), the ex2
+latent-planning precursor (plan by candidate-rollout search, all rollouts counted in FLOPs, exactly as
+EXECUTION_MANIFEST line 171 specifies), and DR7's latent chain-of-thought harness. The acceptance test is
+already in the repo: `scripts/mop_dr13_horizon_limit.py` (rollout error compounding with horizon) runs
+against REAL predictor rollouts instead of synthetic transitions, cheaply, before anything rides the lane.
+This is the single largest untouched capability the program already owns the weights for.
+The wall above. The predictor is frozen too, and its rollout fidelity on our content is unmeasured. If
+compounding error kills usable horizon at 2 to 3 steps, the lane is bounded to one-step counterfactuals, and
+that bound is itself the honest ex2/DR13 verdict at real scale.
+
+### Facet 13, closed-loop and active experiments, the live-encoder ban dissolves: 3 -> 7. Bet: s/clip.
+
+Ceiling case. The live-encoder ban exists because encode cost 21 s/clip on one core; at the Studio's measured
+1 to 2 s/clip the ban is obsolete DOCTRINE, not physics. The learner can finally choose its own data:
+curiosity-driven data selection on real video (e5's rollout arm, disabled in `campaign/run_queue.yaml`
+purely for resources), learning-progress self-curriculum (d5) on real latents, streaming encode where the
+data distribution responds to the learner's state. Every experiment in the corpus where the data was frozen
+BECAUSE encoding was slow gets a live arm.
+The wall above. True interactive embodiment (a robot, a game environment with contingent physics) is still a
+harness that does not exist and doctrine routes its heavy version to Tier R. 7 is closed-loop over real
+video and self-selected data, not embodiment.
+
+### Facet 14, real-corpora residency: 0 -> 9. Bet: licensing labor.
+
+Ceiling case. `registry/datasets.yaml` already catalogs Something-Something V2 (~220k clips of ACTIONS on
+objects, the exact bound-attribute causal content gate b3 wants), Kinetics-700, EPIC-KITCHENS-100, and Ego4D,
+each with a license ledger and acquisition path, and the laptop could host NONE of them (10 GB cap). The 8 TB
+box hosts SSv2 outright, large EPIC/Kinetics subsets, and signed-license Ego4D slices simultaneously
+(`studio-m1ultra` allows manual auth and 1.5 TB per source). DR1 stops meaning "curate one cache" and starts
+meaning "hosted corpora from which MANY caches are curated," with the caption acceptance gate applied per
+attribute. Every abstraction and density gate gets re-posed on real human-scale content.
+The wall above. License terms and annotation quality, not hardware: Kinetics bulk video needs a licensed
+mirror, Ego4D needs the signed agreement, and none of that labor parallelizes onto the GPU.
+
+### Facet 15, the perspective ecology at full width: 2 -> 9. Bet: per-perspective controls.
+
+Ceiling case. The ideology says ecology; the plan says six perspectives; the box supports TEN-plus resident
+at once: the planned six, plus segmentation (a SAM-class model as an OBJECT-CENTRIC perspective, the most
+direct binding probe the program could have), depth, optical flow, audio encoders on real audio-visual
+corpora (AudioSet metadata is already in the planner), and a resident 7 to 14B LLM as a SEMANTIC perspective
+over captions. The mixture-of-perspectives thesis gets tested at the width its name claims, on identical
+referents, with the density frontier plotted across the full ecology.
+The wall above. Discipline, twice over. Each new perspective needs its matched random-init control and its
+A6 residualization pass (the laptop proved apparent cross-perspective structure is usually nuisance-carried).
+And supervised perspectives (SAM, depth models) change the all-self-supervised substrate claim, so they get
+flagged per-perspective in every verdict. The dead test-time-compute branch STAYS dead: an LLM as a
+representation source is licensed, verifier-guided iteration is not.
+
+### Facet 16, the developmental long-run: 0 -> 8. Bet: the daemon holds honest for weeks.
+
+Ceiling case. Moldability's ideology names DEVELOPMENTAL acquisition, and development happens over weeks,
+not inside a 90-minute wall-clock cap. An always-on box runs a persistent continual-learning daemon: a shell
+living on a real video stream for weeks, periodic probe batteries, the plasticity certificate sampled on a
+schedule, checkpoints every 30 minutes. PR9's stream stops being simulated; it is the box's actual life.
+This is the REGIME the laptop could not even sample, and it feeds every plasticity and forgetting question
+the corpus has.
+The wall above. The frozen encoder still caps WHAT can be molded (this facet unlocks the regime, Process C
+remains the mechanism), and weeks-scale unattended operation is where honesty machinery erodes; the
+adversarial pass must be wired into the daemon itself, not left to session hygiene.
+
+### Facet 17, trainable capacity above the doctrine cap: a DECISION, deliberately not graded.
+
+Physically, this box trains 50 to 100M-parameter modules on cached latents in days (MPS training throughput
+is unspectacular but sufficient at that scale, and 128 GB removes every activation-memory excuse). Doctrine
+caps the sanctioned Process C pilot at 1 to 10M. Do not sneak past that: the cap is a reasoned position
+(`15_custom_model_skepticism.md`), not a hardware artifact. But the audit's job is to price the decision: if
+the 1-10M pilot returns an informative result either way, the 10-100M band is a doctrine AMENDMENT to argue
+with evidence in hand, on a box that can actually execute it. Named here so nobody discovers it accidentally
+mid-wave.
+
+## 7. What Part 2 changes, and what it must not change
+
+Supersessions to the Part 1 table: environment/action rises 4 -> 7 (facet 12 gives interventional probes
+without an environment, facet 13 gives closed-loop data; only embodiment stays walled at Tier R), and
+abstraction's gate b3 becomes OVERDETERMINED (real action corpora and predictor counterfactuals attack the
+causal wall from two independent sides). North-star overall theoretical moves from ~9.0 to ~9.3; the last
+0.7 is exactly the three named successors: frozen formation (Process C amendment, facet 17), embodiment
+(Tier R), from-scratch training (off-box by doctrine).
+
+What must not change: the SPINE. DR1 and PR9 stay first, because every Part 2 lane rides their artifacts
+rather than competing with them: facet 14's corpora ARE DR1's curation source, facet 12's predictor encodes
+the same clips, facet 15's perspectives encode the same referents, facets 13 and 16 inherit PR9's stream
+infrastructure. Exactly ONE Part 2 item is licensed to run early, because it is cheap and gates a whole
+lane: the predictor-fidelity test (DR13 on real rollouts, facet 12's acceptance gate), a single afternoon
+that decides whether the rollout lane exists. Everything else slots in behind the spine per section 5.
+
+The upgraded single sentence: the Studio is not the laptop's executor but the first device on which the
+program's doctrine itself (cached-only, live-ban, two slots, six perspectives, 10M params) stops being
+forced, so the audit's standing job there is to RE-DERIVE the doctrine from the new constraints, wave by
+wave, instead of inheriting the old ones unexamined.
