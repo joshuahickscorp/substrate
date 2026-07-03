@@ -98,6 +98,13 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   science is exhausted; every remaining axis-mover is Studio-gated. `DOCTRINE_SYNTHESIS.md`,
   `STUDIO_HANDOFF.md` update.
 
+- WAVE 4 (M3 Pro, 2026-07-03, turnkey plan Tier 1 to 2): de-risked the Studio spine before it spends
+  Studio time. DR1 caption acceptance gate smoke (`scripts/studio/dr1_smoke.py`, passes on carried
+  factors, refuses on a non-recoverable one); PR9 + atlas re-smoked on HEAD (reinit fires, honest
+  nulls, atlas withholds on partial caches); the studio rehearsal passes 9/9 stages on HEAD; and
+  preregistration frozen with 7 NULL/survival cards (facet 12, b5, ex2, e7, ex5, ex13, ex15). Plan and
+  running checklist: `STUDIO_TURNKEY_PLAN.md`.
+
 ## Next move (per the goal-loop protocol)
 
 On the M1 Ultra, in order:

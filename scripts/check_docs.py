@@ -49,6 +49,7 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/AXIS_CEILING_RESULT.md",
     "docs/mixture_of_perspectives/ROLLOUT_LANE_RESULT.md",
     "docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md",
+    "docs/mixture_of_perspectives/STUDIO_TURNKEY_PLAN.md",
     "docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md",
     "docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md",
     "docs/mixture_of_perspectives/STUDIO_GOAL_PROMPT.md",
@@ -96,6 +97,14 @@ PROOF_MD = (
     "proof/NULL_CARDS/EX-AT3-TEMPORAL-CURRENCY.md",
     "proof/NULL_CARDS/EX-ROUTER-DENSITY.md",
     "proof/NULL_CARDS/EX-SUBSTRATE-SPLIT-FRAGILITY.md",
+    # pre-Studio verdict cards + facet 12 (preregistration frozen this session)
+    "proof/NULL_CARDS/FACET12-ROLLOUT-FIDELITY.md",
+    "proof/NULL_CARDS/b5_degeneracy_robustness.md",
+    "proof/NULL_CARDS/ex2_latent_planning.md",
+    "proof/NULL_CARDS/e7.md",
+    "proof/NULL_CARDS/ex5_local_rules_scale.md",
+    "proof/NULL_CARDS/ex13_long_stream.md",
+    "proof/NULL_CARDS/ex15_rejuvenation.md",
 )
 LEDGER_MD = frozenset(CANONICAL_MD + OPERATIONAL_MD + HISTORICAL_MD + PROOF_MD)
 # directories whose markdown is tooling/output, not project docs (excluded from the ledger scan)
