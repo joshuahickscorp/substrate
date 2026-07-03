@@ -50,6 +50,10 @@ import json
 import sys
 import time
 from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import torch
 
 _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
@@ -59,10 +63,33 @@ from scripts.cache_randominit_vitl_features import assert_encoder_lane_free  # n
 
 from mop.config import REPO_ROOT, compose  # noqa: E402
 from mop.devices import resolve  # noqa: E402
+from mop.diagnostics import linear_probe  # noqa: E402
 from mop.substrate import cache_latents, iter_video_clips, load_encoder  # noqa: E402
 from mop.substrate.video import detect_partial_cache, validate_source, write_label_map  # noqa: E402
 
 MIN_FREE_RAM_GB = 32.0  # Studio-only guard: refuse to run on the 18GB laptop pool.
+
+# =========================== PREREGISTERED ACCEPTANCE CRITERION ============================
+# (fixed here IN CODE, before any real-video encode is spent; mirrors the shapecap kill-switch
+# in scripts/cache_qwen_shapecap.py). A tie is a NULL: a target attribute that only reaches
+# chance FAILS the criterion, and the encode is refused rather than tuned toward a pass.
+#
+# WHY: the Studio V-JEPA encode is expensive and one-shot. Before spending it, the target BOUND
+# attribute (shape and color, read off the <shape>_<color> cell folder) must be LABEL-FREE-
+# RECOVERABLE from the PAIRED CAPTION alone: a single linear probe on a cheap, label-free,
+# deterministic featurization of each clip's caption must beat chance on a HELD-OUT split. If the
+# caption cannot even carry the attribute label-free, then no downstream binding result on these
+# clips can be attributed to the substrate rather than to the caption pipeline, and the encode is
+# a waste. This is a pre-encode gate, not a result: it only asserts the caption is informative,
+# exactly as the shapecap kill-switch asserts the shape descriptor is informative before trusting
+# its alignment number.
+#
+# THRESHOLD (preregistered, not tuned): the probe's held-out accuracy must exceed chance by at
+# least ACCEPT_MARGIN on BOTH attributes (shape and color). chance = 1 / n_classes for that
+# attribute. Equality with (or below) chance + margin is a NULL and REFUSES the encode.
+ACCEPT_MARGIN = 0.10  # held-out accuracy must beat chance by this margin (mirrors linear_probe's)
+ACCEPT_PROBE_SEED = 0  # fixed split/seed so the acceptance decision is deterministic
+# ==========================================================================================
 
 
 def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB) -> float:
@@ -120,6 +147,71 @@ def assert_bound_and_stocked(manifest: dict, min_per_cell: int) -> dict:
             "--min-per-cell (with a note that the hold-out is thin)."
         )
     return cells
+
+
+def _caption_features(captions: list[str], dim: int = 256) -> torch.Tensor:
+    """Cheap, LABEL-FREE, deterministic featurization of a caption: a fixed-width hashed character-
+    trigram bag (no learned weights, no external model, no labels). This is deliberately weak, so a
+    probe clearing chance on it means the attribute is recoverable from the caption TEXT itself, not
+    from some heavy encoder. Returns a [n, dim] float tensor."""
+    import torch
+
+    feats = torch.zeros(len(captions), dim)
+    for i, cap in enumerate(captions):
+        s = cap.lower()
+        for j in range(len(s) - 2):
+            tri = s[j : j + 3]
+            feats[i, hash(tri) % dim] += 1.0
+    # L2-normalize rows so caption length does not dominate the probe
+    norms = feats.norm(dim=1, keepdim=True).clamp_min(1e-6)
+    return feats / norms
+
+
+def caption_recoverability(captions: list[str], labels: list[int], seed: int = ACCEPT_PROBE_SEED) -> dict:
+    """PREREGISTERED acceptance probe: fit a single linear layer on cheap label-free caption features to
+    predict an attribute label on a HELD-OUT split. Returns {score, chance, margin, passed}. passed is
+    True only if held-out accuracy beats chance by ACCEPT_MARGIN (a tie is a NULL). Mirrors the shapecap
+    kill-switch: informative-caption gate, not a result."""
+    import torch
+
+    x = _caption_features(captions)
+    y = torch.tensor(labels, dtype=torch.long)
+    out = linear_probe(x, y, classification=True, seed=seed)
+    margin = out["score"] - out["chance"]
+    return {
+        "score": round(float(out["score"]), 4),
+        "chance": round(float(out["chance"]), 4),
+        "margin": round(float(margin), 4),
+        "passed": bool(margin >= ACCEPT_MARGIN),
+    }
+
+
+def assert_caption_recoverable(captions: list[str], cells: list[str]) -> dict:
+    """ACCEPTANCE GATE the Studio run MUST call before spending the encode. Given one caption per clip
+    and its <shape>_<color> cell, verify BOTH bound attributes (shape, color) clear the preregistered
+    above-chance floor on a held-out probe. Raises SystemExit (refusing the encode) if either attribute
+    is at or below the chance+margin floor. Returns the per-attribute acceptance report on success."""
+    if len(captions) != len(cells):
+        raise ValueError(f"captions ({len(captions)}) and cells ({len(cells)}) must be 1:1 per clip")
+    parsed = [parse_bound_cell(c) for c in cells]
+    shapes = sorted({s for s, _ in parsed})
+    colors = sorted({c for _, c in parsed})
+    shape_idx = {s: i for i, s in enumerate(shapes)}
+    color_idx = {c: i for i, c in enumerate(colors)}
+    report = {
+        "shape": caption_recoverability(captions, [shape_idx[s] for s, _ in parsed]),
+        "color": caption_recoverability(captions, [color_idx[c] for _, c in parsed]),
+    }
+    failed = [attr for attr, r in report.items() if not r["passed"]]
+    if failed:
+        raise SystemExit(
+            "ACCEPTANCE CRITERION FAILED: the paired captions do not carry "
+            f"{failed} label-free above chance+{ACCEPT_MARGIN} on a held-out probe "
+            f"(report={report}). The bound attribute is not recoverable from the caption, so the "
+            "Studio encode would be uninterpretable. Refusing to spend the encode; fix the caption "
+            "pipeline (this is a preregistered NULL, not tuned toward a pass)."
+        )
+    return report
 
 
 def shard_name(base: str, start: int, end: int) -> str:

@@ -1,5 +1,12 @@
 # STUDIO_HANDOFF.md
 
+> CURRENT (2026-07-03): the MoP axis-ceiling program has since run five laptop rounds plus an adversarial
+> ceiling audit. The device is at its proven maximum (~6.75/10) and the off-device agenda is now execution
+> ready. For the current, prioritized expand plan (Track A moldability/PR9/Process C, Track B abstraction/DR1,
+> Track C density/DR1), each translating a PROVEN laptop wall into a pre-registered off-device experiment with
+> its validated method and decision gate, read `docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md` (and
+> `AXIS_CEILING_RESULT.md` for the proofs). The sections below are the earlier pre-round transfer notes.
+
 ## What Is Done and Transfers
 
 **100 cpu-now experiments ran for real** on the laptop against a frozen pooled substrate (synthetic Gaussian-cluster proxy for most series; real V-JEPA 2 ViT-L pooled features for a small subset). Full per-experiment JSON output lives in `runs/pre_studio/` (one file per experiment id, e.g. `runs/pre_studio/n8_object_permanence_bound.json`, plus a rollup at `runs/pre_studio/_summary.json`). Every result has an explicit declared null. The first 93's candidate positives (`null_supported=False`) went through a full adversarial verification pass, and two `seed_stability` failures (e4_neuromod, e7_sparse) were then genuinely re-run through the harness's real per-seed sweep: e4_neuromod's negative held up (30/30 runs); **e7_sparse's disqualifying objection did not, and it is now the corpus's one provisionally confirmed positive** (see below, top Studio priority). 7 more experiments (EX1, EX4, EX6, EX7, EX11, EX14, EX18) were completed afterward closing out the remaining registry-only cpu-now rows — 6 are clean nulls; EX4 failed a tuned-baseline check on direct inspection, and EX6 looked promising on a first informal read but was refuted by a full three-pass adversarial check (a variance-magnitude artifact of a hardcoded hyperparameter, confirmed by reproducing it with a trivial no-learning heuristic and an inversion test). See `RESULTS_PRE_STUDIO.md` for the full breakdown including the addendum. Nothing here needs to be redone from scratch on the Studio — it needs to be re-run at real scale with the missing controls actually wired in.

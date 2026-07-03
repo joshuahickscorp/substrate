@@ -44,10 +44,12 @@ is worth building. Those are the two prerequisites MoP needs, and both held.
 
 Genuinely holds at 10 seeds against a non-vacuous control:
 
-- **at3_time_axis (temporal currency exists).** Full-clip latents decode motion direction (+0.200, CI
-  [0.165,0.235]) and speed (+0.245, CI [0.204,0.286]) that a token-matched static frame cannot. A real
-  second perspective axis, though it is the least surprising possible result (a static frame cannot see
-  motion).
+- **at3_time_axis: DEMOTED by the post-audit re-audit (was a survivor).** Full-clip latents decode motion
+  direction (+0.200, CI [0.165,0.235]) and speed (+0.245, CI [0.204,0.286]) that a token-matched static
+  frame cannot. But the temporal labels are DERIVED from the injected (vx,vy) draw, and under the strong
+  nonlinear partial-out (r,vx,vy,vx^2,vy^2,|v|,sin/cos angle) both collapse to chance (shrink 100% and
+  96.6%). So the edge was reading the injected motion parameters, not integrating temporal currency. This is
+  a NULL, not a survivor. See LAPTOP_LANES_RESULT.md and runs/mot/survivor_reaudit.json.
 - **at1_grid_pilot (pretraining-invariance is cross-substrate).** The substrate-is-special effect
   generalizes across the laptop columns (image and single-frame video), each beating its OWN random-init
   control. Not a V-JEPA-only artifact. (Same family as the substrate-special direction, single split.)
@@ -123,8 +125,10 @@ ordering was "avoidance dressed as sequencing": it buried the one decisive enabl
 the program already owns):
 
 1. **Build DR1 (non-additive bound-attribute natural video, with count and relation slots) FIRST**, plus a
-   paired vision+text encoder pass on identical referents (the Qwen cache is text-of-labels, not parallel
-   LLM states). This is the difference between having and not having a science on the multi-perspective
+   paired vision+text encoder pass on identical referents (the Qwen cache is a LABEL-FREE PIXEL-DERIVED
+   textification, color grid + brightest-cell position, already paired to the vision clips, but it lacks
+   SHAPE because shape decodes at chance from cheap label-free features on this clipset). This is the
+   difference between having and not having a science on the multi-perspective
    ideology, and it unblocks GATE C1 and ~70 semantic positions.
 2. **Re-grade al2 and ws2 against their own controls (zero new compute)** before any promotion: add al2's
    missing V-JEPA arm and a topology-permutation null; enforce ws2's dual acc-AND-NLL contract with the

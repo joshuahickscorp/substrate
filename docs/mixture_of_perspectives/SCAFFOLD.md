@@ -26,7 +26,8 @@ Read order for context: M3PRO_RUN_REPORT.md (what the run found, corrected), POT
 
 Verified caches on disk (data/cache/): vjepa2_vitl_nuisance (REAL, vjepa_hf, 200 clips, the arm al2
 omitted), vjepa2_vitl_singleframe, randominit_vitl_nuisance, dinov2s_nuisance_{real,randominit},
-qwen05b_textified_{real,randominit} (text-of-labels, NOT parallel states), wav2vec2_sonified_{real,
+qwen05b_textified_{real,randominit} (LABEL-FREE PIXEL-DERIVED textification: color grid + brightest-cell
+position, already paired to the vision clips, lacks SHAPE which decodes at chance here), wav2vec2_sonified_{real,
 randominit}, handcrafted_descriptors, programmatic_reference (shape+color+nuisance only, no count/relation),
 vjepa2_vitl_fpc64_256_{real,factorized}. Verified ABSENT: any DSL/executor, D3 hardness tooling, physics/
 numerosity/geometry stimulus cache, real bound-attribute natural video, a paired LLM-hidden-state cache on
@@ -75,10 +76,12 @@ gradient / out-of-band control. Once A3 exists, re-run them on the graded task s
 verdict instead of DEGENERATE. Output: the corresponding runs/mot/*_recal.json.
 
 ### A6. Paired vision+text on IDENTICAL referents (M3 Pro, slow but no wall-clock limit).
-The Qwen cache is text-OF-LABELS, not parallel LLM states on the same clips, so it cannot test the
-language-independent-abstraction north star. Generate a caption/description per clip (deterministic,
-pixel-derived) and cache the LLM hidden states on THOSE, paired to the existing vjepa2_vitl_nuisance vision
-cache. This is the smallest instrument for the SEM-LANG cluster. Encoder-lane cost only (a small LLM pass),
+The Qwen cache is a LABEL-FREE PIXEL-DERIVED textification (color grid + brightest-cell position), already
+paired clip-for-clip to the same vision clips, but it lacks SHAPE, which decodes at chance from cheap
+label-free features on this clipset (shape is unverbalizable by such features here), so it cannot yet test
+the language-independent-abstraction north star. Extend the caption/description per clip (deterministic,
+pixel-derived) toward a shape-bearing descriptor and cache the LLM hidden states on THOSE, paired to the
+existing vjepa2_vitl_nuisance vision cache. This is the smallest instrument for the SEM-LANG cluster. Encoder-lane cost only (a small LLM pass),
 one model at a time. Output: data/cache/qwen05b_paired_states + a cross-modal alignment run using A1's
 corrected metric. NOTE: this is the boundary item; if it needs more than the laptop can encode, it drops to
 Process B.

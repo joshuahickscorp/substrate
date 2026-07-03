@@ -44,6 +44,10 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/POTENTIAL_AUDIT.md",
     "docs/mixture_of_perspectives/SCAFFOLD.md",
     "docs/mixture_of_perspectives/HANDOFF.md",
+    "docs/mixture_of_perspectives/A6_RESULT.md",
+    "docs/mixture_of_perspectives/LAPTOP_LANES_RESULT.md",
+    "docs/mixture_of_perspectives/AXIS_CEILING_RESULT.md",
+    "docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md",
     "docs/mixture_of_perspectives/01_thesis_and_definition.md",
     "docs/mixture_of_perspectives/03_thinking_modes.md",
     "docs/mixture_of_perspectives/04_reasoning_program.md",
@@ -83,10 +87,15 @@ PROOF_MD = (
     "proof/DO_NOT_CITE_AS_INTELLIGENCE.md",
     "proof/NULL_CARDS/_TEMPLATE.md",
     "proof/NULL_CARDS/third_party/README.md",
+    # axis-ceiling falsification-lane negative-registry entries
+    "proof/NULL_CARDS/EX-A6-NUISANCE-CARRIER.md",
+    "proof/NULL_CARDS/EX-AT3-TEMPORAL-CURRENCY.md",
+    "proof/NULL_CARDS/EX-ROUTER-DENSITY.md",
+    "proof/NULL_CARDS/EX-SUBSTRATE-SPLIT-FRAGILITY.md",
 )
 LEDGER_MD = frozenset(CANONICAL_MD + OPERATIONAL_MD + HISTORICAL_MD + PROOF_MD)
 # directories whose markdown is tooling/output, not project docs (excluded from the ledger scan)
-_MD_SKIP_DIRS = (".venv", ".git", "runs", ".pytest_cache", ".ruff_cache", ".mypy_cache", "data")
+_MD_SKIP_DIRS = (".venv", ".git", ".claude", "runs", ".pytest_cache", ".ruff_cache", ".mypy_cache", "data")
 
 # the canonical make targets live on the Makefile .PHONY line; these are referenced in prose too
 _PHONY = re.compile(r"^\.PHONY:\s*(.+)$", re.M)

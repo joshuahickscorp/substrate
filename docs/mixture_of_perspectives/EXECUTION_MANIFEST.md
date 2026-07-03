@@ -57,8 +57,10 @@ cached-latent job, encode = needs an encoder forward pass and queues in the enco
   - `scripts/stage_small_substrates.py` (hf download + sha manifest, writes `runs/mot/staging_manifest.json`)
   - `scripts/cache_dinov2s_nuisance.py` (DINOv2-S real + random-init from_config encode of 8 subsampled
     frames per nuisance clip at 224px, pooled, into `data/cache/dinov2s_nuisance_{real,randominit}`)
-  - `scripts/cache_qwen_textified.py` (label-free textification of the same clips, mid-layer mean hidden
-    state, real + from_config random-init, into `data/cache/qwen05b_textified_{real,randominit}`)
+  - `scripts/cache_qwen_textified.py` (LABEL-FREE PIXEL-DERIVED textification of the same clips: a color
+    grid + brightest-cell position, already paired to the vision clips, lacking SHAPE which decodes at
+    chance here; mid-layer mean hidden state, real + from_config random-init, into
+    `data/cache/qwen05b_textified_{real,randominit}`)
   - `scripts/cache_wav2vec2_sonified.py` (preregistered deterministic sonification mapping, real +
     random-init, into `data/cache/wav2vec2_sonified_{real,randominit}`)
   - `scripts/featurize_handcrafted.py` (HOG + hue histogram + frame-difference flow stats computed on

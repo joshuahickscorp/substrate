@@ -58,12 +58,15 @@ def _mean(v: list[float]) -> float:
 class A1(Experiment):
     id = "a1_affordance_decode"
     metric = ("probe_acc_above_shuffle_floor", "delta_vs_frozen_random", "linear_vs_mlp_gap")
-    baseline = "shuffle-label chance floor and a frozen-random-substrate projection at matched probe"
-    ablation = "real encoder vs frozen-random; linear probe vs small-MLP probe per affordance contrast"
+    baseline = "shuffle-label chance floor (the gate); frozen-random projection reported but known-vacuous"
+    ablation = "real vs shuffle-label floor; linear probe vs small-MLP probe per affordance contrast"
     null_hypothesis = (
-        "action-relevance labels do not exceed the shuffle-label chance floor, OR the real encoder ties "
-        "a frozen-random projection (linear decodability is projection-invariant), so any affordance "
-        "mechanism would read capacity not a substrate affordance"
+        "action-relevance labels do not exceed the shuffle-label chance floor: the affordance contrast is "
+        "not decodable from the pooled latent at all (taxonomy 3). Note: clearing this floor establishes "
+        "decodability, NOT encoder-specificity. A frozen-random LINEAR projection is invertible so a "
+        "linear probe re-learns through it (delta_vs_frozen_random ~ 0 by construction); it is reported "
+        "for transparency but cannot license a substrate-specificity claim, which needs a random-init "
+        "encoder comparison that lives in the caching path, not here."
     )
     tier = "cpu-now"
 
@@ -104,19 +107,20 @@ class A1(Experiment):
                 "shuffle_floor_acc": round(sa, 4),
                 "mlp_acc": round(ma, 4),
                 "above_shuffle_floor": bool(ra - sa > 0.05),
+                # descriptive only: ~0 for a linear probe (a full-rank map is invertible), never gated
                 "delta_vs_frozen_random": round(ra - fa, 4),
                 "linear_vs_mlp_gap": round(ma - ra, 4),
-                "needs_real_substrate": bool(ra - fa > 0.05 and ra - sa > 0.05),
             }
         any_above = any(r["above_shuffle_floor"] for r in rows.values())
-        any_needs_real = any(r["needs_real_substrate"] for r in rows.values())
         return {
             "contrasts": rows,
             "seeds": list(seeds),
             "any_contrast_above_floor": bool(any_above),
-            "any_contrast_needs_real_substrate": bool(any_needs_real),
-            # null: nothing clears the shuffle floor while also beating frozen-random
-            "null_supported": bool(not any_needs_real),
+            # honest latent-level verdict: clearing the shuffle floor establishes decodability, not
+            # encoder-specificity (frozen-random is vacuous for a linear probe, see null_hypothesis).
+            "decodable_above_floor": bool(any_above),
+            # null: NOTHING clears the shuffle floor (the affordance contrast is absent from the latent)
+            "null_supported": bool(not any_above),
         }
 
 

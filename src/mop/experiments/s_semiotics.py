@@ -128,7 +128,9 @@ class S1(Experiment):
             # code_probe_R2 minus raw_latent_probe_R2 (does the one-hot code add over the raw latent)
             code_r2.append(linear_probe(_onehot(codes, k), world, seed=s)["score"])
             raw_r2.append(linear_probe(x, world, seed=s)["score"])
-            # anti-self-deception: does a frozen-random projection reproduce the world decodability
+            # sanity: is the world var decodable above the shuffled chance floor at all (taxonomy-3 gate).
+            # needs_real here means "above the shuffled floor", NOT "needed the real encoder": a
+            # frozen-random LINEAR projection is invertible so it is vacuous for this linear metric.
             abl = substrate_ablation(x, world, seed=s)
             needs_real_flags.append(abl["needs_real"])
 
@@ -151,12 +153,17 @@ class S1(Experiment):
             "code_probe_acc": round(cr, 4),
             "raw_latent_probe_acc": round(rr, 4),
             "code_minus_raw": round(cr - rr, 4),
+            # decodability sanity: above the shuffled floor, NOT an encoder-specificity claim (the
+            # frozen-random arm is vacuous for this linear metric, see substrate_ablation module doc)
             "needs_real": needs_real,
             "codebook_size": k,
             "seeds": list(seeds),
-            # null: code is an arbitrary label (MI ties random AND RSA ties shuffled)
+            # null: code is an arbitrary label (MI ties the random-code floor AND RSA ties the shuffled floor)
             "null_supported": bool(mi_gain <= 0.05 and rsa_gain <= 0.1),
-            "grounded_index": bool(mi_gain > 0.05 and needs_real),
+            # grounded index (Peirce): indexicality (MI over the random-code floor) AND iconicity (code
+            # geometry RSA over the shuffled floor). Both are earned controls; frozen-random is NOT used
+            # (it is vacuous for these linear/geometry metrics, see substrate_ablation module doc).
+            "grounded_index": bool(mi_gain > 0.05 and rsa_gain > 0.1),
         }
         return out
 
@@ -605,6 +612,8 @@ class S9(Experiment):
             g = torch.Generator().manual_seed(s + 13)
             rand_idx = torch.randperm(dim, generator=g)[:topk]
             frac_random.append(float((interp[rand_idx] > thresh).float().mean()))
+            # decodability sanity only (above the shuffled floor); reported, not gated. This is NOT an
+            # encoder-specificity claim (frozen-random is vacuous for a linear probe).
             abl = substrate_ablation(x, target, seed=s)
             needs_real_flags.append(abl["needs_real"])
 
@@ -632,12 +641,21 @@ class S9(Experiment):
 # ====================================================================================================
 class S10(Experiment):
     id = "s10_anti_self_deception"
-    metric = ("frac_tests_needs_real", "any_vacuous", "delta_frozen_random", "delta_shuffled")
-    baseline = "frozen-random projection and shuffled-pairing substrate arms per test"
-    ablation = "real vs frozen_random vs shuffled vs compressed substrate over each S-style decode test"
+    metric = (
+        "frac_tests_above_shuffle",
+        "frozen_random_is_vacuous_control",
+        "delta_frozen_random",
+        "delta_shuffled",
+    )
+    baseline = "shuffled-pairing floor (the valid certifier) and a frozen-random projection (known-vacuous)"
+    ablation = "real vs shuffled floor vs frozen_random over each S-style decode test"
     null_hypothesis = (
-        "the intended outcome inverted: we WANT frozen-random to fail. If frozen-random ties real on a "
-        "given test, that test is declared vacuous (the test, not the substrate, fails)"
+        "an S-style decode test carries no genuine signal: its real score does not beat the shuffled "
+        "chance floor. Note on the frozen-random arm: for a LINEAR decode metric a full-rank random "
+        "projection is invertible, so real always ties frozen-random (delta_frozen_random ~ 0) by "
+        "construction. frozen-random therefore cannot certify non-vacuity for these tests; the shuffled "
+        "floor is the valid certifier. This meta-test now REPORTS that frozen-random is a vacuous control "
+        "here rather than mislabeling shuffle-beating signal as vacuous."
     )
     tier = "cpu-now"
 
@@ -674,6 +692,7 @@ class S10(Experiment):
             }
             for name, (xx, yy) in tests.items():
                 abl = substrate_ablation(xx, yy, seed=s)
+                # needs_real now means "real beats the shuffled floor" (genuine signal present)
                 per_test[name]["needs_real"].append(abl["needs_real"])
                 per_test[name]["dfr"].append(abl["delta_frozen_random"])
                 per_test[name]["dsh"].append(abl["delta_shuffled"])
@@ -682,27 +701,38 @@ class S10(Experiment):
             return sum(v) / len(v)
 
         verdicts = {}
-        n_needs_real = 0
+        n_above_shuffle = 0
+        fr_tie_margin = 0.05
         for name, d in per_test.items():
-            nr = bool(sum(d["needs_real"]) > len(d["needs_real"]) / 2)
+            above = bool(sum(d["needs_real"]) > len(d["needs_real"]) / 2)
+            dfr = mean(d["dfr"])
+            ties_fr = bool(abs(dfr) <= fr_tie_margin)  # real ~ frozen_random (expected for a linear metric)
             verdicts[name] = {
-                "needs_real": nr,
-                "delta_frozen_random": round(mean(d["dfr"]), 4),
+                "signal_above_shuffle_floor": above,
+                "delta_frozen_random": round(dfr, 4),
                 "delta_shuffled": round(mean(d["dsh"]), 4),
-                "verdict": "NON-VACUOUS" if nr else "PASS-VACUOUS",
+                "ties_frozen_random": ties_fr,
+                # a test carries real signal iff it beats the shuffled floor; the frozen_random tie is
+                # expected (invertible linear map) and does NOT make a shuffle-beating test vacuous
+                "verdict": "SIGNAL-PRESENT" if above else "NO-SIGNAL",
             }
-            n_needs_real += int(nr)
-        any_vacuous = any(not v["needs_real"] for v in verdicts.values())
-        frac_needs_real = n_needs_real / len(verdicts)
+            n_above_shuffle += int(above)
+        all_tie_frozen_random = all(v["ties_frozen_random"] for v in verdicts.values())
+        all_above_shuffle = all(v["signal_above_shuffle_floor"] for v in verdicts.values())
+        frac_above = n_above_shuffle / len(verdicts)
         out = {
             "per_test": verdicts,
-            "frac_tests_needs_real": round(frac_needs_real, 4),
-            "any_vacuous": bool(any_vacuous),
+            "frac_tests_above_shuffle": round(frac_above, 4),
+            "all_tests_above_shuffle": bool(all_above_shuffle),
+            # the honest meta-finding: for these LINEAR decode tests real always ties frozen_random, so
+            # the frozen_random arm is a vacuous certifier (it cannot fail on an invertible map). The
+            # shuffled floor is the valid certifier and every test clears it.
+            "frozen_random_is_vacuous_control": bool(all_tie_frozen_random),
+            "valid_certifier": "shuffled_floor",
             "n_tests": len(verdicts),
             "seeds": list(seeds),
-            # the meta-null: at least one S-test is vacuous (frozen-random ties real). We WANT this False
-            # (every test non-vacuous). null_supported True means a vacuous test was found (a real risk).
-            "null_supported": bool(any_vacuous),
-            "all_tests_non_vacuous": bool(not any_vacuous),
+            # null: some test carries no genuine signal (does not beat the shuffled floor). With the
+            # corrected certifier this is False here (all tests clear the floor).
+            "null_supported": bool(not all_above_shuffle),
         }
         return out

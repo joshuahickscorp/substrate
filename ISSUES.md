@@ -45,6 +45,23 @@ Empty of hard failures means a clean run.
   large-scale retrieval speed, which is a Studio concern. Unblock: re-probe on the Studio (more
   GPU cores / a faiss build without the OpenMP clash may make faiss.search safe there).
 
+## Methodological defect (found by the axis-ceiling meta-control audit, 2026-07-02): GATE FIXED, arm follow-up remains
+- FIXED (Round 2, 2026-07-03): the vacuous `needs_real` GATE in `src/mop/diagnostics/substrate_ablation.py` is
+  retired. `needs_real` now gates on the shuffled chance floor (`real - shuffled > margin`), the honest
+  latent-level meaning (decodable-above-chance, not encoder-specificity, which needs a random-init-ENCODER
+  comparison). `frozen_random`/`delta_frozen_random` are kept but truthfully labeled known-vacuous-for-linear
+  metrics; a genuinely-lossy `rank_reduced` control was added. Three consumer verdicts flipped, each validated
+  correct with NO manufactured positive: `a_perception` A1 null_supported True->False, `s_semiotics` S1
+  grounded_index False->True (stricter MI+RSA gate), S10 null_supported True->False. Full gates green.
+  Evidence: `runs/mot/falsification_vacuous_fix.diff`, `runs/mot/meta_control_audit.json`. Falsification 9 -> 10.
+- REMAINING (scoped follow-up, deferred to keep the suite honest): the SAME class of vacuity one level down,
+  where experiments read `frozen_random_projection` DIRECTLY as an ablation arm (S3 `gain_vs_frozen_random`,
+  S5, S6 `heldout_above_frozen_random`, plus b_biology/c_cogsci/d6/y4/i_infotheory/n_neuro/p_philosophy). Their
+  frozen-random arm is also transparent to their linear metrics, so those nulls partly rest on a vacuous arm.
+  Fixing that moves ~10 experiments at once and risks the manufactured-positive failure mode, so it is a
+  dedicated reviewed refactor, not a same-session edit. Replace the direct frozen-random arm with the shuffled
+  floor and/or the new `rank_reduced` lossy control.
+
 ## Expected failures (xfail, kept in the suite)
 (none currently; any flaky-on-Metal exact assertion is converted to a tolerance from the
  determinism utility rather than xfailed.)

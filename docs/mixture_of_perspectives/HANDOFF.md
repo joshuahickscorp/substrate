@@ -35,20 +35,77 @@ being mixed; apperception = the shell's binding act (a concept in the docs, not 
 
 PROVEN (real encoder, non-vacuous control, but single-split where noted):
 - Substrate is special because of pretraining: real V-JEPA 0.517 vs random-init same-arch ViT-L 0.241 at
-  matched 256px, p=0.0285 (15/29 vs 7/29, ONE clip from ambiguity, not yet multi-seeded).
+  matched 256px, p=0.0285 (15/29 vs 7/29, ONE clip from ambiguity, not yet multi-seeded). Re-audit HOLD but
+  FRAGILE: a test-clip bootstrap keeps p<0.05 in only 63.7% of resamples (one-clip swing -> p=0.088);
+  direction corroborated by the 200-clip caches (delta CI lo 0.504). Multi-seeding is Studio B5, still LAST.
 - Compositional factoring off ceiling: held-out (shape,color) 0.725 = seen 0.708 (within-arm property).
 - PR1 router-licensing: heterogeneous oracle gain 0.155 vs homogeneous mean-copy 0.118 + spread (an
-  EXISTENCE upper bound, not a trained-router win).
-- at3 temporal currency: full-clip decodes motion/speed a static frame cannot (least-surprising possible).
+  EXISTENCE upper bound, not a trained-router win). NOTE: a TRAINED router on the real cache does NOT reach
+  it (router 0.860 < best-single 0.870 < homo-bank 0.876, both gates fail; density-mechanism null, see below).
+- at1 cross-substrate invariance: re-audit HARDEN (two survivors add independent evidence, per-clip
+  correctness phi 0.329, not one signal double-counted).
 
 NULL / DEMOTED (do not carry these forward as positives):
-- al2 shared-code: cross-modal alignment FAILS a kNN-topology permutation null; only same-modality vision
-  "aligns" (and that was propped by two V-JEPA columns, same encoder same clips). MoP's shared-code
-  precondition is NOT met on current substrates.
+- at3 temporal currency: DEMOTED (was PROVEN). The motion_dir4 (+0.200) and speed2 (+0.245) full-vs-single
+  edge is reading the INJECTED (vx,vy) draw, not integrating time: under the strong nonlinear partial-out
+  (r,vx,vy,vx^2,vy^2,|v|,sin/cos angle) both collapse to chance (shrink 100% / 96.6%). See survivor_reaudit.
+- A6 cross-modal shared-code: vision<->text alignment SURVIVES removing shape+color but COLLAPSES removing
+  the 6 nuisance factors (0 stable survivors at minus_nuisance/minus_all), survived 3 controls. Carrier =
+  spatiotemporal NUISANCE geometry, NOT the semantic abstraction. Shape-axis bet = BOUNDING NULL (shapecap
+  carries shape at 0.617, killswitch did not fire, yet vision->shapecap dies at minus_all). See A6_RESULT.md.
+  This supersedes the older al2 summary: cross-modal alignment is not absent, it is nuisance-carried.
+- al2 shared-code: cross-modal alignment does not survive a kNN-topology permutation null AS SEMANTIC
+  code; same-modality vision pairs align (propped by two V-JEPA columns). Precondition NOT met; see A6.
 - ws2 structure-beats-capacity: fails its own dual acc-AND-NLL contract (was an OR-rule over-claim).
+- density mechanism (trained router, real cache, SHAPE-ALONE): NULL. Router loses to a tuned best-single
+  reader AND a compute-matched homogeneous bank (both gates fail). But this is the REDUNDANT-reader regime;
+  Round 2 found the WIN on a COMPLEMENTARY task (see MECHANISM WINS below). See LAPTOP_LANES_RESULT.md.
 - pr7 delta-rule: NULL, trails the Hebbian floor 10/10 seeds (Hebbian fast-store itself beats slow-only
   +0.029, a modest real signal, the only plasticity flicker).
 - The 24-null reasoning lane, and the 4 recalibrated degenerates (mt5/al1/dr12/ws3), all NULL.
+
+MECHANISM WINS (axis-ceiling push, 2026-07-02/03; see AXIS_CEILING_RESULT.md):
+- DENSITY, the core MoP thesis (Round 2, the strongest result): on a COMPLEMENTARY composite task (color x
+  motion_dir), a matched-FLOP matched-param heterogeneous FACTORED mixture beats the best single reader
+  (+0.170), every homogeneous bank (+0.073 to +0.253), 10/10 seeds, mechanistic guard passed. Negative control
+  (shape x motion, redundant readers) correctly TIES: falsifiable precondition = a mixture wins iff a required
+  factor sharply separates the readers. runs/mot/density_mixture_win.json. FIRST matched-compute mechanism win.
+- CBP plasticity repair: continual-backprop repairs provably-induced plasticity loss on the SYNTHETIC drift
+  stream (SGD gap 0.513 -> ~0, 8/8 seeds; runs/mot/cbp_plasticity_repair.json). BUT it does NOT transfer to the
+  REAL substrate (Round 2): well-tuned plain SGD already retains full plasticity on the real V-JEPA-latent
+  stream, nothing to repair (real-substrate plasticity = NULL). So moldability stays 5, frozen-capped.
+- Abstraction: count/parity decode from image/text/code/math even after area is dissociated by design (Round 2,
+  stronger encoders), but the cross-perspective abstract-code bet is a BOUNDING NULL: dissociating area moves
+  the confound to perimeter/spacing and a random-init encoder reproduces the alignment. Synthetic count is
+  inextricably geometry-confounded; needs DR1 real video.
+- FALSIFICATION reaches 10: the vacuous frozen-random gate is retired (Round 2, applied + gates green); 3
+  experiment verdicts flip, each validated correct, no manufactured positive. runs/mot/falsification_vacuous_fix.diff.
+
+- ABSTRACTION systematicity WIN (Round 3): analogical/compositional abstraction on REAL V-JEPA latents.
+  A shape offset transfers across color contexts (analogy 0.336, random-init 0.0, perm p=0.000) and shape
+  generalizes to NOVEL shape-color conjunctions (0.730 vs untrained-ViT collapse 0.055). Confound-corrected on
+  the shape axis (color is a pixel-statistic the untrained net wins). runs/mot/abstraction_systematicity.json.
+  Abstraction 3 -> 4. Held to 4: real latents but SYNTHETIC content, above 4 needs DR1 real video.
+
+AXIS-CEILING SCORES (honest laptop maxima across 5 rounds, POTENTIAL_AUDIT addendum 1c holds current):
+falsification 6->10, abstraction 2->6, density 3->6, moldability 2->5. Overall 3.0 -> ~6.75. SIX genuine
+positives now (mixture-of-perspectives density win + FOUR abstraction wins [systematicity, pairwise + 3-way
+cross-substrate analogy] + synthetic-stream plasticity repair) where the audit found ZERO mechanism wins.
+Abstraction CLIMBED 2->3->4->5->6 (a controlled win per round), boundary now MAPPED (3-factor compositionality
+breaks; vision->language fails, text is shape-blind). Moldability (5) PROVEN frozen-capped: the joint-training
+ORACLE hits chance (0.300 vs 0.328) on the substrate-specific forgetting stream, frozen features cannot serve
+2 orthogonal tasks in one head. Adversarial verifiers killed FOUR over-claims (R2 mistuned-baseline CBP, R3
+LR-confound developmental, R3b operand-confound lang-math, R4 developmental). Moldability + abstraction-beyond-6
+need the Studio (PR9 real stream, DR1 real video) or un-freezing (Process C). Every ceiling now has a
+MECHANISTIC reason, not an assumption. See AXIS_CEILING_RESULT.md section 8.
+
+INSTRUMENTATION / STUDIO-READY (built and validated on the laptop, not a science claim yet):
+- Density frontier (FIRST plotted): capability/FLOP frontier {reactive, sparse} with the routed mixture
+  DOMINATED; capability/param frontier DINOv2-dominant (0.861 @ 384d readout, ~3x V-JEPA/param). Two axes
+  computable now; retention/byte and adaptation/update are Studio-only, unfaked. See LAPTOP_LANES_RESULT.md.
+- Plasticity-loss certificate: VALIDATED (fires on drift gap +0.513 CI[0.498,0.528], dead units 0->0.75;
+  quiet on stationary gap ~0). The instrument Studio PR9 needs, de-risked and turnkey. Moldability score
+  itself does NOT move on the laptop (cannot induce Studio-scale loss).
 
 DEAD (kill-switch fired, branch retired):
 - Test-time compute at this substrate: even with a PERFECT executable DSL oracle verifier on a
@@ -82,10 +139,13 @@ recalibrations (NULL), and the pre-authored Studio scripts (`scripts/studio/`). 
 item is A6:
 
 - A6 (M3 Pro, do this first in the next chat): the PAIRED vision+text cache on IDENTICAL referents. The
-  Qwen cache is text-OF-LABELS, not parallel LLM states on the same clips, so it cannot test the
-  language-independent-abstraction north star. Generate a deterministic pixel-derived caption per clip and
-  cache the small-LLM hidden states on THOSE, paired to `data/cache/vjepa2_vitl_nuisance` (the real vision
-  cache), then re-run al2's corrected (topology-permutation) metric on the vision<->text pair. This is the
+  Qwen cache is a LABEL-FREE PIXEL-DERIVED textification (a 4x4 palette-color grid + brightest-cell
+  position), already paired clip-for-clip to the same vision clips; what it lacks is SHAPE, which decodes
+  at chance from cheap label-free features on this clipset (shape is unverbalizable by such features here),
+  so it cannot yet test the language-independent-abstraction north star. Extend the pixel-derived caption
+  per clip toward a shape-bearing descriptor and cache the small-LLM hidden states on THOSE, paired to
+  `data/cache/vjepa2_vitl_nuisance` (the real vision cache), then re-run al2's corrected
+  (topology-permutation) metric on the vision<->text pair. This is the
   smallest instrument for the SEM-LANG cluster and the ONLY laptop-runnable probe of the multi-perspective
   ideology. Fast (short-text LLM pass, one model at a time).
 
@@ -117,8 +177,11 @@ comes before multi-seeding. Multi-seeding a p-value already owned while DR1 sits
 
 ## 6. How to run and verify
 
-- Python: `.venv/bin/python`, with `PYTHONPATH=/…/mop` and `OMP_NUM_THREADS=4` for scripts that import
-  `scripts.*`. The venv has no `pip`; the editable install resolves `src/mop` as package `mop`.
+- Python: `.venv/bin/python`. `import mop` REQUIRES `PYTHONPATH=/Users/scammermike/Downloads/mop/src`
+  (the venv has NO `pip` and NO editable install; there is no `__editable__` finder, so `src/mop` is not on
+  the path without it). Scripts self-insert the repo root for `import scripts.*`. Set `OMP_NUM_THREADS=4`.
+  Canonical recipe: `PYTHONPATH=/Users/scammermike/Downloads/mop/src OMP_NUM_THREADS=4
+  .venv/bin/python scripts/<x>.py`.
 - Gates (run before every commit): `.venv/bin/ruff format . && .venv/bin/ruff check . && .venv/bin/mypy
   src/mop && .venv/bin/python -m pytest -q && .venv/bin/python scripts/check_docs.py && .venv/bin/python
   scripts/acceptance.py`. All are currently green (pytest full suite, acceptance 10/10).

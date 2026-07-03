@@ -317,7 +317,7 @@ Is thought language-dependent or language-independent? Language as compression v
 | **operationalization** | WS1/PR1 across V-JEPA and a frozen LLM on parallel content: does cross-substrate DISAGREEMENT predict error better than either substrate's own confidence, with an invertible-remap vacuity guard. Distinct perspective => decorrelated errors; relabeling => LLM ties an invertible remap of V-JEPA. |
 | **null** | The LLM's correctness signal is an invertible remap of V-JEPA's (agreement AUROC <= best single confidence; N2 remap guard fires). |
 | **control** | Invertible-remap vacuity guard (WS1 N2); matched-capacity concat-MLP fusion floor; parallel content. |
-| **tier** | needs-new-cache (needs an LLM-hidden-state cache on parallel content; the Qwen-textified cache is text-of-labels, not parallel LLM states on the same referents) |
+| **tier** | needs-new-cache (needs an LLM-hidden-state cache on parallel content; the Qwen-textified cache is a LABEL-FREE PIXEL-DERIVED textification (color grid + brightest-cell position, already paired to the clips, lacking SHAPE which decodes at chance here), not full parallel LLM states on the same referents) |
 | **coverage** | Partial: WS1 is specified for V-JEPA + DINOv2 (vision-vision); PR1 licenses reasoning modes; neither uses a LANGUAGE substrate as the second perspective. |
 | **gap** | The core MoP claim that language is a distinct perspective is only tested vision-vs-vision. |
 | **priority** | flagship |
@@ -1465,7 +1465,7 @@ The verification pass confirmed the corpus caches are: the 5x5 shape-color bound
 
 - **No numerosity/geometry/ordinal stimulus set.** All math-decoding flagships (SEM-MATH-1/2/11, and the cluster) need rendered stimuli run through the encoder; absent and blocked.
 
-- **No paired language encoder on identical content.** The relativity (SEM-LANG-3/13), grounding-asymmetry PAIR (SEM-LANG-7/8), and LLM-as-perspective (SEM-LANG-10) positions need a language-grounded or LLM-hidden-state cache on parallel referents; the Qwen-textified cache is text-of-labels, not parallel states on the same clips.
+- **No paired language encoder on identical content.** The relativity (SEM-LANG-3/13), grounding-asymmetry PAIR (SEM-LANG-7/8), and LLM-as-perspective (SEM-LANG-10) positions need a language-grounded or LLM-hidden-state cache on parallel referents; the Qwen-textified cache is a LABEL-FREE PIXEL-DERIVED textification (color grid + brightest-cell position, already paired to the clips, lacking SHAPE which decodes at chance here), not full parallel LLM states on the same clips.
 
 - **No event-boundary annotation.** The temporal-meaning positions (SEM-META-14, SEM-PHYS-8, SEM-MATH-12) need annotated event/causal-order boundaries and a predictor-error track; both absent.
 

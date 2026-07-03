@@ -2466,11 +2466,11 @@ experiments:
     kind: experiment
     series: S
     question: "Does a VQ code over frozen pooled latents function as a grounded sign (its assignment tracks a world variable linearly decodable from the latent) rather than an arbitrary symbol, and can we separate Peircean icon, index, symbol behavior operationally?"
-    mechanism: "Fit a VQ codebook (k-means over pooled latents), measure per-code mutual information with the generative world variable (indexicality), RSA between code-centroid adjacency and stimulus-prototype adjacency (iconicity), and one-hot code probe minus raw-latent probe, with a frozen-random substrate_ablation arm."
+    mechanism: "Fit a VQ codebook (k-means over pooled latents), measure per-code mutual information with the generative world variable (indexicality) vs a random-code MI floor, RSA between code-centroid adjacency and stimulus-prototype adjacency (iconicity) vs a shuffled-pairing RSA floor, and one-hot code probe minus raw-latent probe. grounded_index is gated on indexicality (MI over the random-code floor) AND iconicity (RSA over the shuffled floor); a substrate_ablation needs_real is reported as a decodability sanity only."
     null_hypothesis: "codes carry no more world-variable information than a random codebook at matched k, and code-adjacency RSA ties the shuffled floor (an arbitrary label, not a grounded index)"
-    falsifier: "if a random codebook ties learned MI AND RSA collapses to the shuffled floor, or frozen-random projection reproduces the MI (needs_real False), the grounding claim is dead"
+    falsifier: "if a random codebook ties learned MI AND code-adjacency RSA collapses to the shuffled floor, the grounding claim is dead. (Note: a frozen-random LINEAR projection is invertible so it is a VACUOUS control for the linear MI/probe metrics here and is NOT part of the falsifier; the valid floors are the random codebook and the shuffled pairing.)"
     metrics: [code_world_mi, code_world_mi_random, code_rsa, needs_real]
-    controls: [random_codebook_matched_k, shuffled_pairing_rsa_floor, substrate_ablation_frozen_random]
+    controls: [random_codebook_matched_k, shuffled_pairing_rsa_floor]
     gates: [linear_probe_world_decodable]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -2626,13 +2626,13 @@ experiments:
     name: anti_self_deception_meta_test
     kind: experiment
     series: S
-    question: "For each Section-9 test (alignment, arithmetic, compositionality, translation), does a frozen-random projection or a structured-synthetic substrate pass the same test, in which case the test is vacuous and must be discarded or tightened?"
-    mechanism: "A reusable harness that runs each S-style decode test through the substrate_ablation arms (real, frozen_random, shuffled, compressed) and reports per-test needs_real, delta_frozen_random, delta_shuffled, and a vacuity verdict (PASS-VACUOUS if frozen-random ties real)."
-    null_hypothesis: "if frozen-random ties real on a given test that test is declared vacuous (the test, not the substrate, fails); we WANT frozen-random to fail every test"
-    falsifier: "any S-test where frozen-random projection reproduces the headline metric within margin is flagged vacuous and cannot be cited (the falsification of the TEST)"
-    metrics: [frac_tests_needs_real, any_vacuous, delta_frozen_random, delta_shuffled]
-    controls: [frozen_random_projection, shuffled_pairing, compressed_quantize]
-    gates: [needs_real_per_test]
+    question: "For each Section-9 test (alignment, arithmetic, compositionality, translation), does the real score beat the SHUFFLED chance floor (genuine signal), and is the frozen-random projection a valid vacuity certifier for that test or is it vacuous by construction?"
+    mechanism: "A reusable harness that runs each S-style decode test through the substrate_ablation arms and reports per-test signal_above_shuffle_floor (real beats the shuffled floor), delta_frozen_random, delta_shuffled, and ties_frozen_random. For a LINEAR decode metric the frozen-random arm is invertible so real always ties it (delta_frozen_random ~ 0); the harness therefore reports frozen_random_is_vacuous_control and uses the SHUFFLED floor as the valid certifier instead of mislabeling shuffle-beating signal as vacuous."
+    null_hypothesis: "an S-style decode test carries no genuine signal: its real score does not beat the shuffled chance floor (the valid certifier). A frozen-random tie is expected for a linear metric and is not evidence of vacuity."
+    falsifier: "any S-test whose real score fails to beat the shuffled chance floor within margin carries no genuine signal and cannot be cited. (The frozen-random arm is NOT the falsifier: for a linear metric it is invertible and vacuous by construction.)"
+    metrics: [frac_tests_above_shuffle, frozen_random_is_vacuous_control, delta_frozen_random, delta_shuffled]
+    controls: [shuffled_pairing, frozen_random_projection_known_vacuous, compressed_quantize]
+    gates: [signal_above_shuffle_floor_per_test]
     resource_tier: cpu-now
     exp_tier: cpu-now
     runtime_class: seconds
@@ -2650,11 +2650,11 @@ experiments:
     kind: experiment
     series: A
     question: Is action-relevant structure (passable vs blocked, container vs surface, graspable-size vs not) linearly decodable from a single pooled latent before any affordance mechanism is claimed
-    mechanism: Relabel control families by an action-relevance contrast and probe each with linear_probe plus a small-MLP probe, comparing the real encoder against a frozen-random projection and the shuffle floor via substrate_ablation.
-    null_hypothesis: action-relevance labels do not exceed the shuffle-label chance floor, OR the real encoder ties a frozen-random projection so any affordance mechanism would read capacity not a substrate affordance
-    falsifier: an affordance contrast decodes above the shuffle floor AND the real encoder beats frozen-random beyond seed spread
+    mechanism: Relabel control families by an action-relevance contrast and probe each with linear_probe plus a small-MLP probe, comparing the real score against the SHUFFLE floor via substrate_ablation. A frozen-random projection is reported for transparency but is invertible (vacuous for a linear probe), so it does not gate the verdict.
+    null_hypothesis: action-relevance labels do not exceed the shuffle-label chance floor (the affordance contrast is not decodable from the pooled latent at all). Clearing the floor establishes decodability only, NOT encoder-specificity (a frozen-random LINEAR projection is invertible so a linear probe re-learns through it; a substrate-specificity claim needs a random-init encoder comparison that lives in the caching path).
+    falsifier: an affordance contrast decodes above the shuffle floor beyond seed spread (the null of no decodable affordance structure is refuted). Note the frozen-random tie is expected for a linear metric and is not part of the falsifier.
     metrics: [probe_acc_above_shuffle_floor, delta_vs_frozen_random, linear_vs_mlp_gap]
-    controls: [shuffle-label floor, frozen-random-substrate, linear-vs-MLP capacity gap, parameter-matched probe]
+    controls: [shuffle-label floor, frozen-random-substrate-known-vacuous, linear-vs-MLP capacity gap, parameter-matched probe]
     gates: [linear_probe, substrate_ablation]
     resource_tier: cpu-now
     exp_tier: cpu-now
