@@ -18,6 +18,15 @@ content, and that signal is far too weak to support multi-step latent planning. 
 chain-of-thought) is NOT licensed at usable fidelity by this evidence. Facet 12 does not move off
 0 on usability grounds.
 
+A second wave (section 11) tested the sharper, task-relevant criterion (does the rolled-out latent
+keep the moving object's POSITION decodable, the thing counterfactual abstraction and planning
+actually need) and reached the same verdict: WALL, correctly labeled null-by-ill-posedness because
+the synthetic clips move sub-patch at every horizon. It also produced a genuinely new,
+adversarially-survived mechanistic finding: object position SURVIVES the compounded rollout but in a
+representational sub-space the encoder-trained head cannot read (in-domain probe R2 0.73 vs
+encoder-trained 0.09 at h=1), which names a concrete Studio fix (a readout adapter) and confirms the
+representational gap of wave 1 is a systematic sub-space shift, not noise.
+
 This verdict is PROVISIONAL on the clipset. The clips are synthetic and out of distribution for a
 predictor trained on real video, and the whole-future-slot masking is out of distribution for the
 predictor's training mask pattern, so the honest real-scale verdict requires the Studio re-run on
@@ -169,3 +178,59 @@ PYTHONPATH=src:scripts:. OMP_NUM_THREADS=4 \
 Instrument: `scripts/mop_dr13_predictor_fidelity.py` (preregistered, in code). Synthetic-transition
 sibling (the compounding-with-horizon reference): `scripts/mop_dr13_horizon_limit.py`. Audit context:
 `docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md` facet 12.
+
+## 11. Wave 2: decodability-retention (does the rollout track motion?)
+
+Raw nmse (waves above) is not what the rollout lane exists for. Counterfactual/interventional
+abstraction and latent planning need the rolled-out latent to keep TASK CONTENT decodable,
+specifically to track WHERE A MOVING OBJECT GOES. Wave 2 preregistered that criterion: fit a linear
+ridge probe on TRUE encoder latents at slot T_START+h to decode the object centroid (cx, cy), apply
+the same probe unchanged to the compounded open-loop rollout latent, and require the rollout to beat
+PERSISTENCE (hold the last real slot, the "assume nothing moved" floor) plus the random-init and
+shuffled controls by a non-overlapping seed CI, retaining at least half the true-latent
+above-persistence decodability. Persistence is the sharp control: a world model must track motion
+better than assuming nothing moved.
+
+VERDICT: WALL, correctly labeled NULL-by-ill-posedness. Facet 12 does not move off 0.
+
+- Under the realistic encoder-trained readout the rollout decodes position at the random/shuffled
+  floor: position R2 0.09 / 0.06 / 0.06 / 0.07 / 0.05 / -0.005 at h = 1/2/3/4/6/8, versus persistence
+  0.35 / 0.33 / 0.35 / 0.23 / 0.29 / 0.21 and the true ceiling 0.40 / 0.37 / 0.43 / 0.41 / 0.42 /
+  0.32. Retention vs persistence is NEGATIVE at every horizon; beats-persistence by seed CI is FALSE
+  at every horizon; usable_horizon = 0.
+
+The independent adversarial re-derive (fresh seeds, fresh code, shuffled clip-disjoint split) held
+the wall on all four vectors AND corrected one over-claim in the build's own write-up, which is the
+adversarial discipline working as intended:
+
+- MOTION PREMISE FALSIFIED. The build's pixel-centroid motion gate (which reported h=8 displacement
+  18.8 px and set motion_testable = true) was EXTRACTION NOISE. Reconstructing the object's true
+  trajectory analytically from the generator's own RNG draw order (r, rot, x0, y0, vx, vy; _hue
+  consumes no RNG, verified against `scripts/compositional_under_nuisance.py`) shows true
+  displacement is SUB-PATCH at every horizon (median 0.60 / 1.21 / 1.81 / 2.42 / 3.63 / 4.84 px; h=8
+  is 0.30 patch). Pixel-vs-analytic per-clip displacement is NEGATIVELY correlated at every horizon
+  (about -0.55 short, -0.30 at h=8): the clips the extractor thought moved most actually moved least.
+  make_bound_nuisance_clip draws vx, vy in [-0.2, 0.2] normalized (about vx/32 per slot), so motion
+  is intrinsically sub-patch and there is no velocity argument to amplify. Corrected label:
+  motion_testable = FALSE, the clipset cannot pose the motion-tracking question. This is a null on an
+  ill-posed clipset, not a demonstrated dynamics wall.
+- PROBE HONESTY CLEAN: the probe is fit on true encoder latents and applied to predicted latents (not
+  re-fit on predicted latents, so the representational gap is not laundered); the split is
+  clip-disjoint and the wall reproduces under a shuffled split.
+- COMPOUNDING GENUINELY OPEN-LOOP: open-loop vs teacher-forced rollout L2 divergence is 0.0 at h=1
+  and monotone for h>=2 (0.54, 0.61, 1.26 at h=2, 4, 8), so predicted latents are truly fed back.
+
+NEW MECHANISTIC FINDING (survives adversarial). The wall is NOT total content destruction. A probe
+fit IN-DOMAIN on rollout latents recovers position well: R2 0.73 / 0.69 / 0.64 / 0.45 at h =
+1/2/4/8, versus 0.05 to 0.09 for the encoder-trained probe. So object position SURVIVES the
+compounded rollout, but the predictor writes it into a representational sub-space the encoder-trained
+head cannot read zero-shot. This confirms wave 1's representational gap is a systematic sub-space
+shift, not noise. Even the generous in-domain probe beats in-domain persistence by seed CI at ONLY
+h=1 (fragile, sub-patch motion, wide CIs), so it is not a licensing signal; but it names a concrete
+mechanistic fix for the Studio: a per-representation-space READOUT ADAPTER between predictor output
+and any downstream planning/counterfactual head.
+
+Licensed re-test (Studio): real moving video with genuinely supra-patch object motion (facet 14
+corpora), decoded through a readout adapter fit on rollout latents. Method and provenance:
+`scratchpad/facet12b/` (decodability_retention.py, adversarial_pass.py, motion_validation +
+analytic-trajectory correction). No axis score is moved on synthetic ill-posed content.
