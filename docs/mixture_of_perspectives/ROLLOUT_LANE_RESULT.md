@@ -234,3 +234,12 @@ Licensed re-test (Studio): real moving video with genuinely supra-patch object m
 corpora), decoded through a readout adapter fit on rollout latents. Method and provenance:
 `scratchpad/facet12b/` (decodability_retention.py, adversarial_pass.py, motion_validation +
 analytic-trajectory correction). No axis score is moved on synthetic ill-posed content.
+
+ADAPTER SCAFFOLD (turnkey re-test, `scripts/mop_dr13_readout_adapter.py`, `--clip-dir` for real video):
+a linear predictor-space to encoder-space adapter, fit self-supervised on VISIBLE slots, is built and
+smoke-run. Finding (synthetic, provisional): the adapter genuinely HALVES the representational gap on
+visible slots (in-context nmse 0.727 to 0.357) but that correction does NOT transfer to the open-loop
+rollout (adapted rollout nmse 0.82 to 1.20, slightly worse than the raw 0.76 to 0.83), because the
+compounded rollout latents drift out of the visible-slot distribution. So a NAIVE visible-slot adapter
+is insufficient; the Studio should fit the adapter on actual rollout predictions (teacher-forced targets)
+or per-horizon, on real moving video. The scaffold produces this verdict preregistered and de-risked.
