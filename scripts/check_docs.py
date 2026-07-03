@@ -79,6 +79,9 @@ OPERATIONAL_MD = (
     "EXPERIMENTS.md",
     "STUDIO_HANDOFF.md",
     "DOCTRINE_SYNTHESIS.md",
+    "CONDENSE_LEDGER.md",
+    "CONDENSE_AUDIT.md",
+    "CONDENSE_DOCS_REVIEW.md",
 )
 HISTORICAL_MD = ()
 # Frontier 36 proof system (Section 10): the standalone proof instruments and their templates,
