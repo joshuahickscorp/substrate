@@ -8,6 +8,7 @@ The gate path (validate_source -> assert_bound_and_stocked -> load_captions -> _
 assert_caption_recoverable) does no video decode, so empty .mp4 files plus captions.json exercise it
 fully. Run anywhere: PYTHONPATH=src:. .venv/bin/python scripts/studio/dr1_smoke.py
 """
+
 from __future__ import annotations
 
 import sys
@@ -53,8 +54,7 @@ def main() -> int:
         _build(src, carry_object=True)
         report = run_acceptance_gate(str(src), FACTORS, min_per_cell=PER_CELL, start=0, end=end)
         assert all(report[f]["passed"] for f in FACTORS), f"positive fixture should pass: {report}"
-        print(f"[PASS] positive fixture accepted: "
-              f"{ {f: report[f]['score'] for f in FACTORS} }")
+        print(f"[PASS] positive fixture accepted: { {f: report[f]['score'] for f in FACTORS} }")
 
     # (2) NEGATIVE: captions drop the object word -> object not recoverable -> gate must REFUSE.
     with tempfile.TemporaryDirectory() as d:
@@ -68,8 +68,10 @@ def main() -> int:
         assert refused, "negative fixture (object not caption-recoverable) should REFUSE the encode"
         print("[PASS] negative fixture refused (object not caption-recoverable, a tie is a null)")
 
-    print("\nDR1 SMOKE PASS: the caption acceptance gate passes on carried factors and refuses on a "
-          "non-recoverable factor. The spine's pre-encode gate is de-risked.")
+    print(
+        "\nDR1 SMOKE PASS: the caption acceptance gate passes on carried factors and refuses on a "
+        "non-recoverable factor. The spine's pre-encode gate is de-risked."
+    )
     return 0
 
 
