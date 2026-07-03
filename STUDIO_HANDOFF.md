@@ -19,6 +19,26 @@
 > (facets 12-17: predictor rollouts, hosted real corpora, the 10-perspective ecology, the developmental
 > long-run daemon; ~9.3 combined), because completing the laptop's agenda is necessary but not sufficient.
 
+> UPDATE (2026-07-03, M3-Pro ORIENT pass, corrects staleness below): a stack-informed feasibility
+> audit reconciled this doc against the ACTUAL runs/pre_studio/ state (172 files). Corrections to the
+> "Studio-Gated Experiments" table and priority lists further down: ex15_rejuvenation and
+> ex9_slot_attention ARE implemented now (run + grind JSONs exist: ex15_rejuvenation.json,
+> ex9_slot_attention*.json), so their "no implementation exists" rows are stale; both render clean nulls
+> (ex15 substrate_specific=False, ex9 slot_beats_flat=False). The two flagged live leads are CLOSED
+> (DOCTRINE_SYNTHESIS.md section 3a): e7_sparse = real but architectural not substrate-specific
+> (survives frozen-random, ratio 0.69), ex5_local_rules = REFUTED (Adam artifact), plus ex2_latent_planning
+> PROMOTED to a real positive. The LAST open non-vacuous frozen-random gap, b5_degeneracy, was closed this
+> pass (close_b5_degeneracy.py): its degenerate-retention advantage does not replicate at 5 seeds
+> (underpowered null), so no open frozen-random gap remains. Facet 12 (the predictor rollout lane) was
+> measured and walled provisionally (ROLLOUT_LANE_RESULT.md). NET ORIENT VERDICT: axis-moving M3-Pro
+> science is exhausted; every remaining axis-mover (DR1 real video, PR9 long stream, Process C trainable
+> encoder, the 1.7 TB dense cache, the encoder-scale atlas, n-growth encode) is genuinely Studio-gated on a
+> proven resource (21 s/clip encode, 128 GB residency, 8 TB disk, week-scale queue) or Tier R. DURABILITY
+> FLAG: runs/pre_studio/RESULTS_PRE_STUDIO.md (56 KB source-of-record), the close_*.json verdicts, and
+> frozen_random_census.json are on GITIGNORED disk; the interpretive verdicts survive in tracked
+> DOCTRINE_SYNTHESIS.md, but the granular per-id record is one `rm -rf runs/` from loss. Recommend
+> git-tracking them (a targeted .gitignore negation) on the Studio.
+
 ## What Is Done and Transfers
 
 **100 cpu-now experiments ran for real** on the laptop against a frozen pooled substrate (synthetic Gaussian-cluster proxy for most series; real V-JEPA 2 ViT-L pooled features for a small subset). Full per-experiment JSON output lives in `runs/pre_studio/` (one file per experiment id, e.g. `runs/pre_studio/n8_object_permanence_bound.json`, plus a rollup at `runs/pre_studio/_summary.json`). Every result has an explicit declared null. The first 93's candidate positives (`null_supported=False`) went through a full adversarial verification pass, and two `seed_stability` failures (e4_neuromod, e7_sparse) were then genuinely re-run through the harness's real per-seed sweep: e4_neuromod's negative held up (30/30 runs); **e7_sparse's disqualifying objection did not, and it is now the corpus's one provisionally confirmed positive** (see below, top Studio priority). 7 more experiments (EX1, EX4, EX6, EX7, EX11, EX14, EX18) were completed afterward closing out the remaining registry-only cpu-now rows — 6 are clean nulls; EX4 failed a tuned-baseline check on direct inspection, and EX6 looked promising on a first informal read but was refuted by a full three-pass adversarial check (a variance-magnitude artifact of a hardcoded hyperparameter, confirmed by reproducing it with a trivial no-learning heuristic and an inversion test). See `RESULTS_PRE_STUDIO.md` for the full breakdown including the addendum. Nothing here needs to be redone from scratch on the Studio — it needs to be re-run at real scale with the missing controls actually wired in.
