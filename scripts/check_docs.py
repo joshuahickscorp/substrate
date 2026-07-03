@@ -50,6 +50,7 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/ROLLOUT_LANE_RESULT.md",
     "docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md",
     "docs/mixture_of_perspectives/STUDIO_TURNKEY_PLAN.md",
+    "docs/mixture_of_perspectives/CONDENSATION_PLAN.md",
     "docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md",
     "docs/mixture_of_perspectives/STUDIO_POTENTIAL_AUDIT.md",
     "docs/mixture_of_perspectives/STUDIO_GOAL_PROMPT.md",
