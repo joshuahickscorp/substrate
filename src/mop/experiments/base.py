@@ -42,6 +42,36 @@ def _split(task: Task, frac: float = 0.8) -> tuple[Task, Task]:
     return tr, te
 
 
+def _split_xy(x, y, frac: float = 0.7):
+    cut = int(x.shape[0] * frac)
+    return x[:cut], y[:cut], x[cut:], y[cut:]
+
+
+def _spread(v) -> float:
+    return (max(v) - min(v)) / 2.0 if len(v) > 1 else 0.0
+
+
+def _diag_mean(r) -> float:
+    return float(sum(r.R[j][j] for j in range(r.T)) / r.T)
+
+
+def _fit_eval(backbone, head, x, y, xte, yte, epochs: int, lr: float) -> float:
+    import torch
+    import torch.nn.functional as F
+
+    opt = torch.optim.Adam([*backbone.parameters(), *head.parameters()], lr=lr)
+    for _ in range(epochs):
+        opt.zero_grad()
+        z = backbone(x)
+        z = z[0] if isinstance(z, tuple) else z
+        F.cross_entropy(head(z), y).backward()
+        opt.step()
+    with torch.no_grad():
+        z = backbone(xte)
+        z = z[0] if isinstance(z, tuple) else z
+        return float((head(z).argmax(-1) == yte).float().mean())
+
+
 class Experiment(ABC):
     id: str = ""
     metric: tuple[str, ...] = ()

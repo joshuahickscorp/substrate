@@ -37,6 +37,7 @@ from ..seeding import seed_everything
 from ..shell.predictor import mlp
 from ..shell.refine import IterativeRefiner
 from .base import Experiment, _mean
+from .base import _split_xy as _split
 
 
 # ----------------------------------------------------------------------------------------------------
@@ -64,12 +65,6 @@ def _purity(codes: torch.Tensor, y: torch.Tensor, k: int) -> float:
         if m.any():
             correct += int(torch.bincount(y[m]).max())
     return correct / int(y.shape[0])
-
-
-def _split(x: torch.Tensor, y: torch.Tensor, frac: float = 0.7):
-    n = x.shape[0]
-    cut = int(n * frac)
-    return x[:cut], y[:cut], x[cut:], y[cut:]
 
 
 # ----------------------------------------------------------------------------------------------------

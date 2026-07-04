@@ -17,7 +17,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import torch
-import torch.nn.functional as F
 from omegaconf import DictConfig
 from torch import nn
 
@@ -26,7 +25,7 @@ from ..diagnostics.compute import matched_within, param_count, refiner_flops
 from ..seeding import seed_everything
 from ..shell.predictor import mlp
 from ..shell.refine import IterativeRefiner
-from .base import Experiment
+from .base import Experiment, _fit_eval
 
 
 class _UntiedDepth(nn.Module):
@@ -43,20 +42,6 @@ class _UntiedDepth(nn.Module):
         for norm, block in zip(self.norms, self.blocks, strict=True):
             z = z + block(norm(z))
         return z
-
-
-def _fit_eval(backbone: nn.Module, head: nn.Module, x, y, xte, yte, epochs: int, lr: float) -> float:
-    opt = torch.optim.Adam([*backbone.parameters(), *head.parameters()], lr=lr)
-    for _ in range(epochs):
-        opt.zero_grad()
-        z = backbone(x)
-        z = z[0] if isinstance(z, tuple) else z
-        F.cross_entropy(head(z), y).backward()
-        opt.step()
-    with torch.no_grad():
-        z = backbone(xte)
-        z = z[0] if isinstance(z, tuple) else z
-        return float((head(z).argmax(-1) == yte).float().mean())
 
 
 class EX17(Experiment):

@@ -27,12 +27,7 @@ from torch import nn
 from ..devices import DeviceInfo
 from ..seeding import seed_everything
 from ..shell.buffer import ReplayBuffer
-from .base import Experiment, _mean
-
-
-def _spread(v: list[float]) -> float:
-    """Half the seed range, the simple seed-spread tie-tolerance band used elsewhere in the corpus."""
-    return (max(v) - min(v)) / 2.0 if len(v) > 1 else 0.0
+from .base import Experiment, _mean, _spread
 
 
 def _fill_buffer(scheme: str, capacity: int, dim: int, task, head: nn.Module, seed: int) -> ReplayBuffer:

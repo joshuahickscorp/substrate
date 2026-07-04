@@ -25,7 +25,7 @@ from ..seeding import seed_everything  # noqa: E402
 from ..shell import Consolidation, Neuromodulation, PlasticityController, ReplayBuffer  # noqa: E402
 from ..shell.heads import ClassHead  # noqa: E402
 from ..substrate.datasets import make_task_stream  # noqa: E402
-from .base import Experiment, _split  # noqa: E402
+from .base import Experiment, _diag_mean, _split  # noqa: E402
 
 
 class E1(Experiment):
@@ -171,7 +171,3 @@ class E1(Experiment):
         fig.tight_layout()
         fig.savefig(run_dir / "e1_frontier.png", dpi=110)
         plt.close(fig)
-
-
-def _diag_mean(r: ContinualResult) -> float:
-    return float(sum(r.R[j][j] for j in range(r.T)) / r.T)

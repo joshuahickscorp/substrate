@@ -29,12 +29,7 @@ from ..seeding import seed_everything  # noqa: E402
 from ..shell import Consolidation, ReplayBuffer  # noqa: E402
 from ..shell.heads import ClassHead  # noqa: E402
 from ..substrate.datasets import make_task_stream  # noqa: E402
-from .base import Experiment, _split  # noqa: E402
-
-
-def _diag_mean(r: ContinualResult) -> float:
-    return float(sum(r.R[j][j] for j in range(r.T)) / r.T)
-
+from .base import Experiment, _diag_mean, _split  # noqa: E402
 
 # arm spec: (uses_replay, prioritized, uses_ewc). None for prioritized => no buffer at all.
 _ARMS = {

@@ -34,7 +34,7 @@ from ..seeding import seed_everything
 from ..shell.predictor import mlp
 from ..shell.refine import IterativeRefiner
 from ..substrate.datasets import make_task_stream
-from .base import Experiment, _mean
+from .base import Experiment, _fit_eval, _mean
 
 
 # ----------------------------------------------------------------------------------------------------
@@ -587,20 +587,6 @@ class _UntiedDepth(nn.Module):
         for norm, block in zip(self.norms, self.blocks, strict=True):
             z = z + block(norm(z))
         return z
-
-
-def _fit_eval(backbone: nn.Module, head: nn.Module, x, y, xte, yte, epochs: int, lr: float) -> float:
-    opt = torch.optim.Adam([*backbone.parameters(), *head.parameters()], lr=lr)
-    for _ in range(epochs):
-        opt.zero_grad()
-        z = backbone(x)
-        z = z[0] if isinstance(z, tuple) else z
-        F.cross_entropy(head(z), y).backward()
-        opt.step()
-    with torch.no_grad():
-        z = backbone(xte)
-        z = z[0] if isinstance(z, tuple) else z
-        return float((head(z).argmax(-1) == yte).float().mean())
 
 
 class P9(Experiment):
