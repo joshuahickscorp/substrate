@@ -131,3 +131,19 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
   and no tested behavior was removed. Perf - first reps=3 sample had one noisy `retrieve_brute` outlier past
   2x; reps=5 resample stayed inside the red line (`retrieve_brute` 0.000113s vs baseline 0.000106s,
   `learner_step` 0.002893s vs 0.003097s, `manifest_write` 0.199672s vs 0.222949s). PASS.
+
+### iter 9 (DEEP, whole-codebase) - class: duplicate private experiment helpers, second pass
+- Action - centralized the remaining clean private helper duplicates in `src/mop/experiments/base.py`:
+  `_diag_mean` x3, `_spread` x4, tensor `_split_xy` x2 (imported back as `_split` to preserve call sites),
+  and `_fit_eval` x3. The heavier torch imports in `_fit_eval` are local to the helper call, so the base
+  experiment contract does not gain import-time torch/F weight from this pass.
+- Coupling checked - all touched modules already import `.base`; the removed helpers were private and
+  behavior-identical. The remaining `_fit_eval` methods either have extra codebook/None-backbone behavior
+  or live as methods, and the remaining nested mean/spread helpers are local to single experiments, so they
+  were left for a separate risk decision.
+- Before -> after - tracked Python LOC 64,914 -> 64,859 (-55). Files 576 -> 576. Folders 35 -> 35.
+- Gates - BUILD green after ruff import-order and format cleanup. TEST green
+  (`PYTHONPATH=src .venv/bin/python -m pytest -q`, same 703 collected, same visible 2 skips). Surface hash
+  d496a189ca12bc2d unchanged. `scripts/check_docs.py` green. Coverage proxy held. Perf reps=5 stayed inside
+  the 2x red line (`retrieve_brute` 0.000168s vs baseline 0.000106s, `learner_step` 0.003632s vs 0.003097s,
+  `manifest_write` 0.260903s vs 0.222949s). PASS.

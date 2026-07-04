@@ -37,12 +37,8 @@ from ..devices import DeviceInfo
 from ..diagnostics.compute import param_count
 from ..seeding import seed_everything
 from ..substrate.datasets import make_task_stream
-from .base import Experiment, _mean
-
-
-def _spread(v: list[float]) -> float:
-    """Seed spread: half the (max - min) range, the band a gain must clear to count."""
-    return (max(v) - min(v)) / 2.0 if len(v) > 1 else 0.0
+from .base import Experiment, _mean, _spread
+from .base import _split_xy as _split
 
 
 class _GrowableHead(nn.Module):
@@ -92,11 +88,6 @@ class _GrowableHead(nn.Module):
         new_out.weight[:, :w_old].copy_(self.out_proj.weight)
         self.in_proj = new_in
         self.out_proj = new_out
-
-
-def _split(x: torch.Tensor, y: torch.Tensor, frac: float = 0.7):
-    cut = int(x.shape[0] * frac)
-    return x[:cut], y[:cut], x[cut:], y[cut:]
 
 
 def _fresh_opt(head: nn.Module, lr: float) -> torch.optim.Optimizer:

@@ -33,17 +33,12 @@ from ..seeding import seed_everything
 from ..shell.consolidation import EWC
 from ..shell.predictor import mlp
 from ..substrate.datasets import make_task_stream
-from .base import Experiment, _mean
+from .base import Experiment, _mean, _spread
 
 
 # ----------------------------------------------------------------------------------------------
 # shared helpers
 # ----------------------------------------------------------------------------------------------
-def _spread(v: list[float]) -> float:
-    """Seed spread: half the (max - min) range, the band a gain must clear to count."""
-    return (max(v) - min(v)) / 2.0 if len(v) > 1 else 0.0
-
-
 def _domain_stream(dim: int, n_tasks: int, classes: int, samples: int, sep: float, seed: int):
     """The reliable catastrophic-forgetting regime: a domain-incremental stream (shared labels,
     independent geometry per task) is the standard retention testbed E1/E2 use."""
