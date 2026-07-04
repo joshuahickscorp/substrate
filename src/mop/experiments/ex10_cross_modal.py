@@ -52,11 +52,7 @@ from ..diagnostics.compute import matched_within, mlp_flops, param_count
 from ..diagnostics.linear_probe import linear_probe
 from ..seeding import seed_everything
 from ..shell.predictor import mlp
-from .base import Experiment
-
-
-def _mean(v: list[float]) -> float:
-    return sum(v) / max(1, len(v))
+from .base import Experiment, _mean
 
 
 def _stdev(v: list[float]) -> float:

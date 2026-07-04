@@ -34,11 +34,7 @@ from ..diagnostics.substrate_ablation import frozen_random_projection
 from ..seeding import seed_everything
 from ..shell.modulation import Chunking
 from ..shell.refine import IterativeRefiner
-from .base import Experiment
-
-
-def _mean(v):
-    return sum(v) / len(v) if v else 0.0
+from .base import Experiment, _mean
 
 
 # ----------------------------------------------------------------------------------------------------

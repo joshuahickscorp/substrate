@@ -28,15 +28,8 @@ from ..metrics import ContinualResult, FrontierPoint, frontier_auc, retention_fr
 from ..seeding import seed_everything  # noqa: E402
 from ..shell import Consolidation, ReplayBuffer  # noqa: E402
 from ..shell.heads import ClassHead  # noqa: E402
-from ..substrate.datasets import Task, make_task_stream  # noqa: E402
-from .base import Experiment  # noqa: E402
-
-
-def _split(task: Task, frac: float = 0.8) -> tuple[Task, Task]:
-    n = int(task.x.shape[0] * frac)
-    tr = Task(task.name, task.x[:n], task.y[:n], n_classes=task.n_classes, task_id=task.task_id)
-    te = Task(task.name, task.x[n:], task.y[n:], n_classes=task.n_classes, task_id=task.task_id)
-    return tr, te
+from ..substrate.datasets import make_task_stream  # noqa: E402
+from .base import Experiment, _split  # noqa: E402
 
 
 def _diag_mean(r: ContinualResult) -> float:

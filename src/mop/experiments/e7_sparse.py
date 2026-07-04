@@ -31,8 +31,8 @@ from ..devices import DeviceInfo, safe_to  # noqa: E402
 from ..diagnostics.difficulty_calibration import reference_separation  # noqa: E402
 from ..metrics import ContinualResult  # noqa: E402
 from ..seeding import seed_everything  # noqa: E402
-from ..substrate.datasets import Task, make_task_stream  # noqa: E402
-from .base import Experiment  # noqa: E402
+from ..substrate.datasets import make_task_stream  # noqa: E402
+from .base import Experiment, _split  # noqa: E402
 
 
 class DenseHead(nn.Module):
@@ -82,13 +82,6 @@ class MoEHead(nn.Module):
         self.last_gates = gates.detach()
         stacked = torch.stack([e(x) for e in self.experts], dim=1)  # [B, E, C]
         return (gates.unsqueeze(-1) * stacked).sum(dim=1)
-
-
-def _split(task: Task, frac: float = 0.8) -> tuple[Task, Task]:
-    n = int(task.x.shape[0] * frac)
-    tr = Task(task.name, task.x[:n], task.y[:n], n_classes=task.n_classes, task_id=task.task_id)
-    te = Task(task.name, task.x[n:], task.y[n:], n_classes=task.n_classes, task_id=task.task_id)
-    return tr, te
 
 
 def _n_params(m: nn.Module) -> int:

@@ -113,3 +113,21 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
   frozen tests that import _parse_seeds) are untouched, placed after each file's sys.path setup.
 - Gates · BUILD green · TEST green (same pass set) · horizon hash d496a189ca12bc2d unchanged · check_docs
   green · net -LOC (6 dup bodies -> 6 alias imports). PASS.
+
+### iter 8 (DEEP, whole-codebase) - class: duplicate private experiment helpers
+- Action - centralized the repeated private experiment helpers in `src/mop/experiments/base.py`: `_split`
+  for Task train/test splitting, `_mean`, and `_std`. The six `_split` copies were identical; the top-level
+  `_mean` copies either used `sum(v) / max(1, len(v))` or the equivalent empty-list guard
+  `sum(v) / len(v) if v else 0.0`; the two `_std` copies were identical. Importers keep the same private
+  helper names at call sites. No test, registry, config, asset, or public script path changed.
+- Coupling checked - all touched experiment modules already depended on `.base.Experiment`, so this adds no
+  new module boundary. The shared `_split` imports `Task` inside the helper to avoid raising base import-time
+  weight. Remaining `_split` and nested `_mean` helpers are not identical Task splitters/top-level numeric
+  means, so they were left alone.
+- Before -> after - tracked Python LOC 64,998 -> 64,914 (-84). Files 576 -> 576. Folders 35 -> 35.
+- Gates - BUILD green (`ruff check .`, `ruff format --check .`, `mypy`). TEST green
+  (`PYTHONPATH=src .venv/bin/python -m pytest -q`, same 703 collected, same visible 2 skips). Surface hash
+  d496a189ca12bc2d unchanged. `scripts/check_docs.py` green. Coverage proxy held because tests are frozen
+  and no tested behavior was removed. Perf - first reps=3 sample had one noisy `retrieve_brute` outlier past
+  2x; reps=5 resample stayed inside the red line (`retrieve_brute` 0.000113s vs baseline 0.000106s,
+  `learner_step` 0.002893s vs 0.003097s, `manifest_write` 0.199672s vs 0.222949s). PASS.

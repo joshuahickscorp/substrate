@@ -45,11 +45,7 @@ from ..diagnostics.substrate_ablation import frozen_random_projection, substrate
 from ..seeding import seed_everything
 from ..shell.buffer import ReplayBuffer
 from ..shell.predictor import mlp
-from .base import Experiment
-
-
-def _mean(v: list[float]) -> float:
-    return sum(v) / len(v) if v else 0.0
+from .base import Experiment, _mean
 
 
 # ---------------------------------------------------------------------------------------------------
