@@ -14,7 +14,7 @@ rule on. No em/en dashes, middot separators. See CONDENSE_LEDGER.md for the per-
 | YAML files | 199 | 166 | -33 |
 | src/mop files | 139 | 136 | -3 |
 | Python files | 327 | 324 | -3 |
-| Python LOC | 65,180 | 65,171 | -9 (net; -22 src collapses, +13 validate.py mirror-loop) |
+| Python LOC | 65,180 | 64,998 | -182 (src collapses + validate.py loop + parse_seeds dedup x24) |
 | Tests collected | 703 | 703 | 0 (non-decreasing, invariant held) |
 | Assertions | 1,660 | 1,660 | 0 (tests frozen, untouched) |
 | Surface hash (horizon) | d496a189ca12bc2d | d496a189ca12bc2d | EMPTY diff (frozen) |
@@ -60,6 +60,10 @@ None. TEST_CMD run 3x at baseline with an identical pass set; nothing quarantine
   check_all() iterates the merged file; returns 0 problems (behavior identical).
 - iter 5 (DEEP) · flatten campaign/legs/trackNN (13 subfolders) · -13 folders (1e14b04). run_queue.yaml
   sweep paths rewritten; leg names + count preserved.
+- iter 6 (DEEP) · dedup parse_seeds x18 -> mop.seeding canonical · -137 LOC (642f508). All copies AST-exec
+  verified identical; 3 files had import-placement fixed for standalone use.
+- iter 7 (DEEP) · dedup _parse_seeds x6 -> canonical alias · -36 LOC (9dcbc9f). Alias keeps the private name
+  so 7 frozen tests importing _parse_seeds pass unchanged.
 
 ## STOP-AND-REPORT queue (grader decides; each blocked by a named invariant OR the reviewability goal)
 
@@ -72,10 +76,17 @@ The rest are declined with a concrete reason, not left from timidity:
 - DECLINED · diagnostics/ 24 -> ~8 families. 201 by-path importers (4 in frozen tests) would need shims +
   a 201-site rewrite that shreds git-blame and hides 23 named diagnostic gates. Fails "reviewability is the
   goal, smallness the proxy." A LOC/file win that makes the tree HARDER to review is not a win here.
-- DECLINED · duplicate-function hoist (parse_seeds x18, nmse x2, six clip generators). parse_seeds has 6
-  non-identical variants and is imported+tested from 3 frozen tests; behavior-equivalence across variants is
-  not provable without touching tests, and the hoist ADDS a shared file ("nothing up"). Grader may authorize
-  after a per-variant equivalence proof.
+- DONE (iters 6-7) · parse_seeds + _parse_seeds x24 deduped to mop.seeding (verified identical, -173 LOC).
+- HARM-FREE FIXPOINT on function dedup · the remaining duplicate-function groups are NOT clean: _split has 3
+  distinct bodies across 8 experiment modules (merging = behavior risk) AND those modules are DESIGNED
+  self-contained (scaffolds.py: "self-contained Experiment subclass"); verdict/split_task/etc. are
+  standalone-script-local (deduping couples pilots meant to run outside the repo); _mean and other 1-liners
+  are LOC-neutral after imports. Deduping them would trade behavior-safety or the self-contained design for
+  marginal LOC: harm, not a win.
+- CAREFUL-PASS · docs consolidation. Big FILE lever but 11_experiment_registry.md alone has 17 inbound
+  cross-references (some in code) and the RESULT docs 5 to 8 each; a hasty merge breaks references
+  (content-integrity harm). Doable but warrants a dedicated pass that updates every inbound ref + the
+  check_docs CANONICAL_MD ledger. Not rushed at the end of this run.
 - STOP-AND-REPORT · script families -> subcommands (run_* -> run.py; the 4 dr13 facet-12 scripts ->
   mop_dr13_predictor.py; cache_* -> cache.py; the mt/dr cluster). Moves the HORIZON (doc-referenced
   scripts/foo.py paths check_docs enforces) AND frozen-test imports (test_mot_rollout imports
