@@ -1,7 +1,7 @@
 # STUDIO POTENTIAL AUDIT: every facet graded on the Studio's THEORETICAL ceiling
 
 Audit date: 2026-07-03. Companion to `POTENTIAL_AUDIT.md` (which graded the program against its ideology on
-the laptop) and `AXIS_CEILING_RESULT.md` (which proved the laptop ceiling, ~6.75/10). This document answers
+the laptop) and `RESULTS_LEDGER.md` (which proved the laptop ceiling, ~6.75/10). This document answers
 the inverse question: if the program moves to the Mac Studio and EVERY pre-registered bet is pursued to its
 end, what is the maximum each facet can theoretically reach, and what wall stops it going higher even there.
 Maximal by mandate, honest by construction: every ceiling below 10 must name its wall, every ceiling claimed
@@ -43,7 +43,7 @@ interactive environment). Every grade below follows from that split.
 
 ## 1. Scoring rule
 
-Each facet gets: the laptop-proven score (from `AXIS_CEILING_RESULT.md`), the STUDIO THEORETICAL CEILING (the
+Each facet gets: the laptop-proven score (from `RESULTS_LEDGER.md`), the STUDIO THEORETICAL CEILING (the
 score if every named bet converts), the bet(s) that must convert, and the wall above the ceiling. Theoretical
 means exactly that: the program's own history says most bets null. A null at Studio scale is TERMINAL
 knowledge (there is no bigger box behind this one except rented CUDA and Process C), so every null here is a

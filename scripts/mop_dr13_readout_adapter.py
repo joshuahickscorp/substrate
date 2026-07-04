@@ -2,7 +2,7 @@
 """FACET 12 licensed re-test scaffold: does a READOUT ADAPTER recover rollout fidelity net of the
 predictor-vs-encoder representational sub-space shift?
 
-Wave 2 (ROLLOUT_LANE_RESULT.md section 11) found that object content SURVIVES the compounded predictor
+Wave 2 (RESULTS_LEDGER.md section 11) found that object content SURVIVES the compounded predictor
 rollout but in a sub-space the encoder-trained head cannot read zero-shot (in-domain probe R2 0.73 vs
 encoder-trained 0.09). The named fix is a readout adapter: a linear map from predictor-output space to
 encoder space, fit self-supervised on VISIBLE slots (no future labels needed), then applied to the

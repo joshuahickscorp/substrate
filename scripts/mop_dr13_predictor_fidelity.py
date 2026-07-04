@@ -43,7 +43,7 @@ so slots are nearly decorrelated. This is a real-but-sub-usable world-model sign
 SYNTHETIC and out-of-distribution for a predictor trained on real video, and the whole-future-slot
 masking is OOD for the training mask distribution, so the null is PROVISIONAL on this clipset; the
 licensed real-scale verdict requires re-running with --clip-dir on the Studio's hosted real corpora
-(facet 14 feeds facet 12). See docs/mixture_of_perspectives/ROLLOUT_LANE_RESULT.md.
+(facet 14 feeds facet 12). See docs/mixture_of_perspectives/RESULTS_LEDGER.md.
 
 Form (goal loop): no em dashes or en dashes. Preregister before running. A tie is a null. No score
 is faked. A proven wall with a mechanism is success.

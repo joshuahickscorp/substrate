@@ -49,7 +49,7 @@ Genuinely holds at 10 seeds against a non-vacuous control:
   frame cannot. But the temporal labels are DERIVED from the injected (vx,vy) draw, and under the strong
   nonlinear partial-out (r,vx,vy,vx^2,vy^2,|v|,sin/cos angle) both collapse to chance (shrink 100% and
   96.6%). So the edge was reading the injected motion parameters, not integrating temporal currency. This is
-  a NULL, not a survivor. See LAPTOP_LANES_RESULT.md and runs/mot/survivor_reaudit.json.
+  a NULL, not a survivor. See RESULTS_LEDGER.md and runs/mot/survivor_reaudit.json.
 - **at1_grid_pilot (pretraining-invariance is cross-substrate).** The substrate-is-special effect
   generalizes across the laptop columns (image and single-frame video), each beating its OWN random-init
   control. Not a V-JEPA-only artifact. (Same family as the substrate-special direction, single split.)

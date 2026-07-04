@@ -42,14 +42,14 @@ spine.
 | Moldability | 5 | 8 | Frozen-encoder-capped (proven). PR9 real stream then Process C are the levers. |
 | Overall (mean) | ~6.75 | ~9.0 | Studio theoretical ~9.3 including the Part-2 frontier. |
 
-Source of the laptop numbers and their adversarial proofs: `AXIS_CEILING_RESULT.md`,
+Source of the laptop numbers and their adversarial proofs: `RESULTS_LEDGER.md`,
 `HANDOFF.md` verdict ledger.
 
 ## Facet scoreboard (Part 2, the Studio-native frontier)
 
 | Facet | Score | Status |
 |---|---:|---|
-| 12 world-model rollouts | 0 | MEASURED and walled provisionally on the M3 Pro (`ROLLOUT_LANE_RESULT.md`): the frozen predictor carries a real but sub-usable rollout signal; motion-tracking is a wall/null-by-ill-posedness on synthetic near-static clips. Licensed re-test: real moving video + a readout adapter. |
+| 12 world-model rollouts | 0 | MEASURED and walled provisionally on the M3 Pro (`RESULTS_LEDGER.md`): the frozen predictor carries a real but sub-usable rollout signal; motion-tracking is a wall/null-by-ill-posedness on synthetic near-static clips. Licensed re-test: real moving video + a readout adapter. |
 | 13 closed-loop / active | 3 | Not started; needs live-encoder throughput (Studio). |
 | 14 real corpora | 0 | Not started; needs 8 TB disk + licensing (Studio). |
 | 15 perspective ecology | 2 | Not started; needs 10+ resident encoders (128 GB). |
@@ -88,11 +88,11 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
 - WAVE 1 (M3 Pro, 2026-07-03, commit d4abb5a): facet 12 DR13 predictor-fidelity on the real V-JEPA 2
   predictor. VERDICT NULL on usability (real beats all 3 controls by seed CI at every horizon but by
   only 5 to 7 percent; sub-usable). Instrument `scripts/mop_dr13_predictor_fidelity.py`. Adversarially
-  verified 6/6. `ROLLOUT_LANE_RESULT.md`.
+  verified 6/6. `RESULTS_LEDGER.md`.
 - WAVE 2 (M3 Pro, 2026-07-03, commit f447707): facet 12 decodability-retention (does the rollout track
   object position, beating persistence?). VERDICT WALL / null-by-ill-posedness (synthetic clips move
   sub-patch; the build's motion gate was falsified by the adversarial re-derive). New finding: position
-  survives the rollout in a shifted sub-space (readout-adapter target). `ROLLOUT_LANE_RESULT.md` s11.
+  survives the rollout in a shifted sub-space (readout-adapter target). `RESULTS_LEDGER.md` s11.
 - WAVE 3 (M3 Pro, 2026-07-03, commit 4c818e4): stack-informed ORIENT audit + closed b5_degeneracy (the
   last open non-vacuous frozen-random gap) as an underpowered null. Net verdict: axis-moving M3-Pro
   science is exhausted; every remaining axis-mover is Studio-gated. `DOCTRINE_SYNTHESIS.md`,

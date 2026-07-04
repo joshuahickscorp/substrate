@@ -1,7 +1,7 @@
 # EXPAND PHASE PLAN: from the proven laptop ceiling to the off-device moves
 
 The laptop is at its adversarially-proven device ceiling (~6.75/10: falsification 10, abstraction 6, density 6,
-moldability 5; see `AXIS_CEILING_RESULT.md`). This plan translates each PROVEN wall into the specific
+moldability 5; see `RESULTS_LEDGER.md`). This plan translates each PROVEN wall into the specific
 off-device experiment that breaks it, carrying the methods the laptop validated. It is execution, not design:
 the laptop rounds already found what works, what the controls must be, and where each wall is. House style: no
 em or en dashes.
