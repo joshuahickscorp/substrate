@@ -4,9 +4,14 @@ Staged doc deletions for the grader (regenerable or byte-identical duplicates on
 
 ## Status this run: NOTHING STAGED
 
-No documentation was merged, deduped, or deleted this run. No byte-identical duplicate markdown exists (the
-only md5 collision in the tree is between empty package `__init__.py` files, which are code, not docs). The
-docs track was left untouched to keep the run purely code-structural.
+No documentation deletion is staged by the committed condense run. No byte-identical duplicate markdown exists
+(the only md5 collision in the tree is between empty package `__init__.py` files, which are code, not docs).
+The committed continuation stayed code-structural.
+
+After iter 10, an untracked `docs/mixture_of_perspectives/RESULTS_LEDGER.md` and related doc/script edits are
+present in the working tree. They are not part of the committed condense head and are not auto-approved here.
+Treat them as a separate docs-track review item: verify content preservation, update `scripts/check_docs.py`
+canonical markdown references if paths move, and only then commit the docs merge.
 
 ## Deferred doc-consolidation opportunities (merge-only, for a future docs-track run; NO content loss)
 
