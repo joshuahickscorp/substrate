@@ -147,3 +147,15 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
   d496a189ca12bc2d unchanged. `scripts/check_docs.py` green. Coverage proxy held. Perf reps=5 stayed inside
   the 2x red line (`retrieve_brute` 0.000168s vs baseline 0.000106s, `learner_step` 0.003632s vs 0.003097s,
   `manifest_write` 0.260903s vs 0.222949s). PASS.
+
+### iter 10 (DEEP, whole-codebase) - class: duplicate local mean helpers
+- Action - removed nine local `def mean(v): return sum(v) / len(v)` helpers from `s_semiotics`,
+  `ex3_test_time_adaptation`, `ex8_curiosity_bakeoff`, and `ex16_codebook_sr`; call sites now use the
+  shared `_mean` imported from `src/mop/experiments/base.py`. Tensor `.mean()` calls were left untouched.
+- Coupling checked - all helpers computed the same numeric average and were local/private. The one empty-list
+  guarded variant in `S6` is behavior-equivalent to `_mean` for empty input as well as non-empty input.
+- Before -> after - tracked Python LOC 64,859 -> 64,829 (-30). Files 576 -> 576. Folders 35 -> 35.
+- Gates - BUILD green. TEST green (`PYTHONPATH=src .venv/bin/python -m pytest -q`, same 703 collected,
+  same visible 2 skips). Surface hash d496a189ca12bc2d unchanged. `scripts/check_docs.py` green. Coverage
+  proxy held. Perf reps=5 stayed inside the 2x red line (`retrieve_brute` 0.000118s vs baseline 0.000106s,
+  `learner_step` 0.002255s vs 0.003097s, `manifest_write` 0.220672s vs 0.222949s). PASS.

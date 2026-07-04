@@ -25,7 +25,7 @@ from ..devices import DeviceInfo
 from ..diagnostics.noisy_tv import noisy_tv_diagnostic
 from ..seeding import seed_everything
 from ..shell.predictor import mlp
-from .base import Experiment
+from .base import Experiment, _mean
 
 
 def _rnd_novelty(dim: int, noise_scale: float, steps: int, batch: int, seed: int) -> tuple[float, float]:
@@ -100,12 +100,9 @@ class EX8(Experiment):
             agg["rnd"]["learnable"].append(nl)
             agg["rnd"]["noise"].append(nn_)
 
-        def mean(v):
-            return sum(v) / len(v)
-
         table: dict[str, dict] = {}
         for sig, d in agg.items():
-            lm, nm = mean(d["learnable"]), mean(d["noise"])
+            lm, nm = _mean(d["learnable"]), _mean(d["noise"])
             # a signal "rejects" the noisy-TV if it does NOT rank the noise region above the learnable
             # one (it would not spend exploration budget on irreducible noise).
             table[sig] = {

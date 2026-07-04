@@ -33,7 +33,7 @@ from ..diagnostics.seed_consistency import code_stability, cross_seed_cka
 from ..diagnostics.substrate_ablation import frozen_random_projection, substrate_ablation
 from ..seeding import seed_everything
 from ..shell.refine import IterativeRefiner
-from .base import Experiment
+from .base import Experiment, _mean
 
 
 # ----------------------------------------------------------------------------------------------------
@@ -134,12 +134,9 @@ class S1(Experiment):
             abl = substrate_ablation(x, world, seed=s)
             needs_real_flags.append(abl["needs_real"])
 
-        def mean(v):
-            return sum(v) / len(v)
-
-        mil, mir = mean(mi_learned), mean(mi_random)
-        rre, rsh = mean(rsa_real), mean(rsa_shuf)
-        cr, rr = mean(code_r2), mean(raw_r2)
+        mil, mir = _mean(mi_learned), _mean(mi_random)
+        rre, rsh = _mean(rsa_real), _mean(rsa_shuf)
+        cr, rr = _mean(code_r2), _mean(raw_r2)
         needs_real = bool(sum(needs_real_flags) > len(needs_real_flags) / 2)
         mi_gain = mil - mir
         rsa_gain = rre - rsh
@@ -240,10 +237,7 @@ class S3(Experiment):
                 self._retrieval(x, f1, f2, nf, projfn=lambda t, s=s: frozen_random_projection(t, s), seed=s)
             )
 
-        def mean(v):
-            return sum(v) / len(v)
-
-        lm, rm, fm, pm = mean(learned), mean(randoff), mean(frozen), mean(probe)
+        lm, rm, fm, pm = _mean(learned), _mean(randoff), _mean(frozen), _mean(probe)
         gain_rand = lm - rm
         gain_frozen = lm - fm
         out = {
@@ -338,10 +332,7 @@ class S4(Experiment):
             codebook = torch.randn(k, dim, generator=g)
             dis_acc.append(self._fit_eval(refB, headB, codebook, xtr, ytr, xte, yte, epochs, lr, k))
 
-        def mean(v):
-            return sum(v) / len(v)
-
-        am, bm = mean(lat_acc), mean(dis_acc)
+        am, bm = _mean(lat_acc), _mean(dis_acc)
         gain = am - bm
         refA = IterativeRefiner(dim, hidden, steps)
         refB = IterativeRefiner(dim, hidden, steps)
@@ -460,10 +451,7 @@ class S6(Experiment):
             seen.append(real["seen_acc"])
             comp_flags.append(real["compositional"])
 
-        def mean(v):
-            return sum(v) / len(v) if v else 0.0
-
-        hr, hf, sm = mean(ho_real), mean(ho_fr), mean(seen)
+        hr, hf, sm = _mean(ho_real), _mean(ho_fr), _mean(seen)
         above_floor = hr - hf
         out = {
             "heldout_acc": round(hr, 4),
@@ -530,10 +518,7 @@ class S7(Experiment):
             randc.append(linear_probe(_onehot(codes_r, k), target, seed=s)["score"])
             raw.append(linear_probe(x, target, seed=s)["score"])
 
-        def mean(v):
-            return sum(v) / len(v)
-
-        lm, dm, rm, raw_m = mean(learned), mean(designed), mean(randc), mean(raw)
+        lm, dm, rm, raw_m = _mean(learned), _mean(designed), _mean(randc), _mean(raw)
         gain = lm - dm
         out = {
             "acc_learned": round(lm, 4),
@@ -617,10 +602,7 @@ class S9(Experiment):
             abl = substrate_ablation(x, target, seed=s)
             needs_real_flags.append(abl["needs_real"])
 
-        def mean(v):
-            return sum(v) / len(v)
-
-        sm, fu, fr = mean(spear), mean(frac_useful), mean(frac_random)
+        sm, fu, fr = _mean(spear), _mean(frac_useful), _mean(frac_random)
         needs_real = bool(sum(needs_real_flags) > len(needs_real_flags) / 2)
         out = {
             "spearman_use_interp": round(sm, 4),
@@ -697,20 +679,17 @@ class S10(Experiment):
                 per_test[name]["dfr"].append(abl["delta_frozen_random"])
                 per_test[name]["dsh"].append(abl["delta_shuffled"])
 
-        def mean(v):
-            return sum(v) / len(v)
-
         verdicts = {}
         n_above_shuffle = 0
         fr_tie_margin = 0.05
         for name, d in per_test.items():
             above = bool(sum(d["needs_real"]) > len(d["needs_real"]) / 2)
-            dfr = mean(d["dfr"])
+            dfr = _mean(d["dfr"])
             ties_fr = bool(abs(dfr) <= fr_tie_margin)  # real ~ frozen_random (expected for a linear metric)
             verdicts[name] = {
                 "signal_above_shuffle_floor": above,
                 "delta_frozen_random": round(dfr, 4),
-                "delta_shuffled": round(mean(d["dsh"]), 4),
+                "delta_shuffled": round(_mean(d["dsh"]), 4),
                 "ties_frozen_random": ties_fr,
                 # a test carries real signal iff it beats the shuffled floor; the frozen_random tie is
                 # expected (invertible linear map) and does NOT make a shuffle-beating test vacuous
