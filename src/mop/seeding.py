@@ -64,3 +64,12 @@ def variance_of(fn: Callable[[], torch.Tensor], runs: int = 5, seed: int = 0) ->
     max_abs = float(diffs.max()) if diffs.numel() else 0.0
     mean_abs = float(diffs.mean()) if diffs.numel() else 0.0
     return VarianceReport(runs=runs, max_abs=max_abs, mean_abs=mean_abs, bit_identical=max_abs == 0.0)
+
+
+def parse_seeds(spec: str) -> list[int]:
+    """Parse a seed spec: 'lo-hi' -> inclusive range, else a comma list. Canonical single source
+    (was duplicated verbatim across ~18 scripts before the condense dedup)."""
+    if "-" in spec:
+        lo, hi = spec.split("-")
+        return list(range(int(lo), int(hi) + 1))
+    return [int(s) for s in spec.split(",")]

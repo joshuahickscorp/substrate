@@ -40,6 +40,7 @@ from scripts.featurize_programmatic import CACHE_ROOT, CLIPSET  # noqa: E402
 from mop.diagnostics.linear_probe import linear_probe  # noqa: E402
 from mop.diagnostics.nonlinear_probe import nonlinear_probe  # noqa: E402
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
+from mop.seeding import parse_seeds  # noqa: E402
 from mop.substrate import LatentStore  # noqa: E402
 
 EXPERIMENT = {
@@ -98,13 +99,6 @@ COLUMNS = [
     },
 ]
 REFERENCE_COLUMNS = ["handcrafted_descriptors", "programmatic_reference"]  # AT4's, displayed not typed
-
-
-def parse_seeds(spec: str) -> list[int]:
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def load_store(root: Path) -> tuple[torch.Tensor, torch.Tensor, dict | None] | None:

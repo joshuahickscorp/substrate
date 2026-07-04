@@ -42,7 +42,7 @@ from mop.diagnostics.compute import matched_within, refiner_flops
 from mop.diagnostics.difficulty_calibration import reference_separation
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
 from mop.experiments.base import Experiment
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 from mop.shell.refine import IterativeRefiner
 
 # preregistered thresholds, fixed in code before any result exists (honesty doctrine)
@@ -52,15 +52,6 @@ GRADIENT_MARGIN = 0.05  # easy-vs-hard probe accuracy gap certifying a real hard
 
 
 # ------------------------------------------------------------------ shared harness (MP6/DR9 import)
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """Parse the manifest seed syntax: "0-4" (inclusive range) or "0,2,3" (explicit list)."""
-    spec = spec.strip()
-    if "-" in spec and "," not in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(tok) for tok in spec.split(",") if tok]
 
 
 def resolve_out(path: str | Path, rerun: bool) -> Path:

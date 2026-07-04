@@ -60,7 +60,7 @@ from mop.diagnostics.compute import linear_flops, matched_within, mlp_flops, par
 from mop.diagnostics.continual_metrics import backward_transfer, forgetting_area
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
 from mop.experiments.base import Experiment
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 from mop.shell.capmatch import width_for_param_count
 from mop.shell.heads import ClassHead
 from mop.shell.modulation import ContextGating, WorkingMemory
@@ -72,14 +72,6 @@ MIN_MARGIN = 0.02  # preregistered minimum meaningful BWT delta
 ARMS = ("workspace", "dense", "unrolled")
 FLOP_TOL = 0.10  # matched_within tolerance for the unrolled-depth arm
 PROJ_SEED = 1234  # the fixed preprocessing projection, shared by every arm and every seed
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-4' -> [0..4]; '0,2,5' -> [0,2,5]; '3' -> [3]."""
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:

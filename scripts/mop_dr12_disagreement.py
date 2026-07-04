@@ -53,6 +53,7 @@ import torch.nn.functional as F
 
 from mop.diagnostics.noisy_tv import noisy_tv_diagnostic
 from mop.diagnostics.riskcov import auroc, ece_equal_mass, seed_ci, sign_flip_report
+from mop.seeding import parse_seeds  # noqa: E402
 from mop.shell.predictor import mlp
 
 CONTRACT = {
@@ -72,18 +73,6 @@ PART_FRACS = (0.4, 0.3, 0.3)
 DEGENERATE_HIGH = 0.97
 DEGENERATE_LOW_MARGIN = 0.05
 PR1_PATH = "runs/pre_studio/pr1_mode_error_disjointness.json"
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-4' -> [0,1,2,3,4]; '3' -> [3]; '0,2,5' -> [0,2,5]. Seeds are non-negative."""
-    out: list[int] = []
-    for part in spec.split(","):
-        if "-" in part:
-            lo, hi = part.split("-")
-            out.extend(range(int(lo), int(hi) + 1))
-        else:
-            out.append(int(part))
-    return out
 
 
 def read_pr1_context(path: str | Path = PR1_PATH) -> dict:

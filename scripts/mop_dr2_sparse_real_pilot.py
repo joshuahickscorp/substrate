@@ -51,21 +51,13 @@ from mop.diagnostics.compute import param_count
 from mop.diagnostics.continual_metrics import backward_transfer, forgetting_area
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
 from mop.experiments.base import Experiment
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 from mop.shell.heads import KWTAHead, MoEHead, moe_expert_hidden_for_dense
 from mop.substrate.real_latent import real_task_stream
 
 MIN_MARGIN = 0.02  # preregistered minimum meaningful BWT delta
 SPARSE_ARMS = ("kwta", "moe")
 CONTROL_ARMS = ("dense", "dense_sparse")
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-4' -> [0..4]; '0,2,5' -> [0,2,5]; '3' -> [3]."""
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:

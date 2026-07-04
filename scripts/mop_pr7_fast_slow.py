@@ -58,20 +58,12 @@ from mop.devices import DeviceInfo, resolve
 from mop.diagnostics.continual_metrics import adaptation_speed
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
 from mop.experiments.base import Experiment
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 from mop.substrate.datasets import make_task_stream
 
 MIN_MARGIN = 0.02  # preregistered minimum meaningful online-accuracy delta
 RETENTION_MARGIN = 0.05  # fast_slow post-decay retention may trail slow_only by at most this
 ARMS = ("fast_slow", "delta_rule", "slow_only", "buffer")
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-4' -> [0..4]; '0,2,5' -> [0,2,5]; '3' -> [3]."""
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:

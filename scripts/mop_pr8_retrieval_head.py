@@ -51,21 +51,13 @@ from mop.devices import DeviceInfo, resolve
 from mop.diagnostics.continual_metrics import adaptation_speed
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
 from mop.experiments.base import Experiment
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 from mop.shell.buffer import ReplayBuffer
 from mop.shell.capmatch import width_for_param_count
 from mop.shell.predictor import mlp
 
 MIN_MARGIN = 0.02  # preregistered minimum meaningful accuracy delta
 ARMS = ("retrieval_head", "knn", "parametric", "random_key")
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-4' -> [0..4]; '0,2,5' -> [0,2,5]; '3' -> [3]."""
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:

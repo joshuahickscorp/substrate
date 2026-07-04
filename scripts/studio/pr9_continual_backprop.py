@@ -84,6 +84,7 @@ if _SRC.exists() and str(_SRC) not in sys.path:
 
 from mop.diagnostics.continual_metrics import LRIntegralAccumulator, adaptation_speed  # noqa: E402
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
+from mop.seeding import parse_seeds  # noqa: E402
 from mop.substrate import LatentStore  # noqa: E402
 
 MIN_FREE_RAM_GB = 32.0
@@ -381,13 +382,6 @@ def certificate(plain_runs: list[dict]) -> dict:
         "dead_trends_up": dead_up,
         "fired": adapt_down and dead_up,
     }
-
-
-def parse_seeds(spec: str) -> list[int]:
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 # ---------------------------------------------------------------------------

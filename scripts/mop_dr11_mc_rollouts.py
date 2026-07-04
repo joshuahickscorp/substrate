@@ -55,7 +55,7 @@ from mop.experiments.ex2_latent_planning import (
     _train_dynamics,
     _true_dynamics_params,
 )
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 
 # ------------------------------------------------------------------------------------------------
 # preregistered thresholds (in code before any result exists)
@@ -88,15 +88,6 @@ def default_cfg() -> DictConfig:
             "n_exec": 16,  # true-env noise realizations averaged when scoring the selected plan
         }
     )
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-4' -> [0,1,2,3,4]; '0,2,5' -> [0,2,5]; '3' -> [3]."""
-    spec = spec.strip()
-    if "-" in spec and "," not in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",") if s.strip()]
 
 
 def stochastic_rollout(
