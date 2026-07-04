@@ -7,7 +7,7 @@ legs:
   track: track01
   experiment: e1_baseline
   tier: C
-  sweep: campaign/legs/track01/track01_e1_gate.yaml
+  sweep: campaign/legs/track01_e1_gate.yaml
   depends_on: []
   run_units: 30
   enabled: true
@@ -17,7 +17,7 @@ legs:
   track: track02
   experiment: e2_replay
   tier: C
-  sweep: campaign/legs/track02/track02_e2_replay.yaml
+  sweep: campaign/legs/track02_e2_replay.yaml
   depends_on:
   - track01_e1_gate
   run_units: 20
@@ -28,7 +28,7 @@ legs:
   track: track03
   experiment: e3_plasticity
   tier: C
-  sweep: campaign/legs/track03/track03_e3_plasticity.yaml
+  sweep: campaign/legs/track03_e3_plasticity.yaml
   depends_on:
   - track01_e1_gate
   run_units: 15
@@ -39,7 +39,7 @@ legs:
   track: track04
   experiment: e4_neuromod
   tier: C
-  sweep: campaign/legs/track04/track04_e4_neuromod.yaml
+  sweep: campaign/legs/track04_e4_neuromod.yaml
   depends_on:
   - track01_e1_gate
   run_units: 30
@@ -50,7 +50,7 @@ legs:
   track: track05
   experiment: e1_baseline
   tier: C
-  sweep: campaign/legs/track05/track05_level5_integration.yaml
+  sweep: campaign/legs/track05_level5_integration.yaml
   depends_on:
   - track02_e2_replay
   - track03_e3_plasticity
@@ -64,7 +64,7 @@ legs:
   track: track06
   experiment: e7_sparse
   tier: C
-  sweep: campaign/legs/track06/track06_e7_sparse.yaml
+  sweep: campaign/legs/track06_e7_sparse.yaml
   depends_on:
   - track01_e1_gate
   - track03_e3_plasticity
@@ -77,7 +77,7 @@ legs:
   track: track07
   experiment: e8_dendritic
   tier: C
-  sweep: campaign/legs/track07/track07_e8_dendritic.yaml
+  sweep: campaign/legs/track07_e8_dendritic.yaml
   depends_on:
   - track01_e1_gate
   run_units: 15
@@ -88,7 +88,7 @@ legs:
   track: track08
   experiment: e9_local
   tier: C
-  sweep: campaign/legs/track08/track08_e9_local.yaml
+  sweep: campaign/legs/track08_e9_local.yaml
   depends_on:
   - track01_e1_gate
   run_units: 9
@@ -99,7 +99,7 @@ legs:
   track: track08
   experiment: i4_backprop_alts
   tier: C
-  sweep: campaign/legs/track08/track08_i4_backprop_alts.yaml
+  sweep: campaign/legs/track08_i4_backprop_alts.yaml
   depends_on:
   - track01_e1_gate
   run_units: 9
@@ -110,7 +110,7 @@ legs:
   track: track09
   experiment: e6_relational
   tier: C
-  sweep: campaign/legs/track09/track09_e6_relational.yaml
+  sweep: campaign/legs/track09_e6_relational.yaml
   depends_on:
   - track01_e1_gate
   run_units: 10
@@ -122,7 +122,7 @@ legs:
   track: track10
   experiment: e5_curiosity
   tier: E
-  sweep: campaign/legs/track10/track10_e5_curiosity.yaml
+  sweep: campaign/legs/track10_e5_curiosity.yaml
   depends_on:
   - track04_e4_neuromod
   run_units: 10
@@ -134,7 +134,7 @@ legs:
   track: track11
   experiment: e10_openended
   tier: R
-  sweep: campaign/legs/track11/track11_e10_autotelic.yaml
+  sweep: campaign/legs/track11_e10_autotelic.yaml
   depends_on:
   - track05_level5_integration
   - track10_e5_curiosity
@@ -147,7 +147,7 @@ legs:
   track: track11
   experiment: e10_openended
   tier: R
-  sweep: campaign/legs/track11/track11_poet_envgen.yaml
+  sweep: campaign/legs/track11_poet_envgen.yaml
   depends_on:
   - track11_e10_autotelic
   run_units: 3
@@ -159,7 +159,7 @@ legs:
   track: track11
   experiment: e10_openended
   tier: R
-  sweep: campaign/legs/track11/track11_cultural_accumulation.yaml
+  sweep: campaign/legs/track11_cultural_accumulation.yaml
   depends_on:
   - track11_e10_autotelic
   run_units: 3
@@ -171,7 +171,7 @@ legs:
   track: track12
   experiment: ex12_atlas
   tier: C
-  sweep: campaign/legs/track12/track12_ex12_atlas.yaml
+  sweep: campaign/legs/track12_ex12_atlas.yaml
   depends_on:
   - track01_e1_gate
   run_units: 3
@@ -183,7 +183,7 @@ legs:
   track: track12
   experiment: ex17_latent_reasoning
   tier: C
-  sweep: campaign/legs/track12/track12_ex17_latent_reasoning.yaml
+  sweep: campaign/legs/track12_ex17_latent_reasoning.yaml
   depends_on:
   - track01_e1_gate
   run_units: 9
@@ -195,7 +195,7 @@ legs:
   track: track12
   experiment: ex8_curiosity_bakeoff
   tier: C
-  sweep: campaign/legs/track12/track12_ex8_curiosity_bakeoff.yaml
+  sweep: campaign/legs/track12_ex8_curiosity_bakeoff.yaml
   depends_on:
   - track01_e1_gate
   run_units: 6
@@ -207,7 +207,7 @@ legs:
   track: track12
   experiment: ex16_codebook_sr
   tier: C
-  sweep: campaign/legs/track12/track12_ex16_codebook_sr.yaml
+  sweep: campaign/legs/track12_ex16_codebook_sr.yaml
   depends_on:
   - track01_e1_gate
   run_units: 9
@@ -218,7 +218,7 @@ legs:
   track: track12
   experiment: ex3_test_time_adaptation
   tier: C
-  sweep: campaign/legs/track12/track12_ex3_test_time_adaptation.yaml
+  sweep: campaign/legs/track12_ex3_test_time_adaptation.yaml
   depends_on:
   - track01_e1_gate
   run_units: 6
@@ -230,7 +230,7 @@ legs:
   track: track13
   experiment: n1_replay_ordering
   tier: C
-  sweep: campaign/legs/track13/track13_n1_replay_ordering.yaml
+  sweep: campaign/legs/track13_n1_replay_ordering.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -241,7 +241,7 @@ legs:
   track: track13
   experiment: n3_pc_refiner
   tier: C
-  sweep: campaign/legs/track13/track13_n3_pc_refiner.yaml
+  sweep: campaign/legs/track13_n3_pc_refiner.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -252,7 +252,7 @@ legs:
   track: track13
   experiment: n6_ach_ne_dissociation
   tier: C
-  sweep: campaign/legs/track13/track13_n6_ach_ne_dissociation.yaml
+  sweep: campaign/legs/track13_n6_ach_ne_dissociation.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -263,7 +263,7 @@ legs:
   track: track13
   experiment: n9_attractor_convergence
   tier: C
-  sweep: campaign/legs/track13/track13_n9_attractor_convergence.yaml
+  sweep: campaign/legs/track13_n9_attractor_convergence.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -274,7 +274,7 @@ legs:
   track: track13
   experiment: d4_ushaped_overgen
   tier: C
-  sweep: campaign/legs/track13/track13_d4_ushaped_overgen.yaml
+  sweep: campaign/legs/track13_d4_ushaped_overgen.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -285,7 +285,7 @@ legs:
   track: track13
   experiment: d5_lp_self_curriculum
   tier: C
-  sweep: campaign/legs/track13/track13_d5_lp_self_curriculum.yaml
+  sweep: campaign/legs/track13_d5_lp_self_curriculum.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -296,7 +296,7 @@ legs:
   track: track13
   experiment: p2_memorize_vs_concept
   tier: C
-  sweep: campaign/legs/track13/track13_p2_memorize_vs_concept.yaml
+  sweep: campaign/legs/track13_p2_memorize_vs_concept.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -307,7 +307,7 @@ legs:
   track: track13
   experiment: p10_theory_ladenness
   tier: C
-  sweep: campaign/legs/track13/track13_p10_theory_ladenness.yaml
+  sweep: campaign/legs/track13_p10_theory_ladenness.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -318,7 +318,7 @@ legs:
   track: track13
   experiment: c1_held_out_combination
   tier: C
-  sweep: campaign/legs/track13/track13_c1_held_out_combination.yaml
+  sweep: campaign/legs/track13_c1_held_out_combination.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -329,7 +329,7 @@ legs:
   track: track13
   experiment: i1_info_bottleneck
   tier: C
-  sweep: campaign/legs/track13/track13_i1_info_bottleneck.yaml
+  sweep: campaign/legs/track13_i1_info_bottleneck.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -340,7 +340,7 @@ legs:
   track: track13
   experiment: i5_rate_distortion_replay
   tier: C
-  sweep: campaign/legs/track13/track13_i5_rate_distortion_replay.yaml
+  sweep: campaign/legs/track13_i5_rate_distortion_replay.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -351,7 +351,7 @@ legs:
   track: track13
   experiment: y1_fixed_point_convergence
   tier: C
-  sweep: campaign/legs/track13/track13_y1_fixed_point_convergence.yaml
+  sweep: campaign/legs/track13_y1_fixed_point_convergence.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -362,7 +362,7 @@ legs:
   track: track13
   experiment: y7_controllability_sysid_gate
   tier: C
-  sweep: campaign/legs/track13/track13_y7_controllability_sysid_gate.yaml
+  sweep: campaign/legs/track13_y7_controllability_sysid_gate.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -373,7 +373,7 @@ legs:
   track: track13
   experiment: s4_latent_vs_discrete
   tier: C
-  sweep: campaign/legs/track13/track13_s4_latent_vs_discrete.yaml
+  sweep: campaign/legs/track13_s4_latent_vs_discrete.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -384,7 +384,7 @@ legs:
   track: track13
   experiment: s10_anti_self_deception
   tier: C
-  sweep: campaign/legs/track13/track13_s10_anti_self_deception.yaml
+  sweep: campaign/legs/track13_s10_anti_self_deception.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
@@ -395,7 +395,7 @@ legs:
   track: track13
   experiment: a1_affordance_decode
   tier: C
-  sweep: campaign/legs/track13/track13_a1_affordance_decode.yaml
+  sweep: campaign/legs/track13_a1_affordance_decode.yaml
   depends_on:
   - track01_e1_gate
   run_units: 2
