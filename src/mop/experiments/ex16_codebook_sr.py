@@ -21,7 +21,7 @@ from omegaconf import DictConfig
 from ..devices import DeviceInfo
 from ..diagnostics.linear_probe import linear_probe
 from ..seeding import seed_everything
-from .base import Experiment
+from .base import Experiment, _mean
 
 
 def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> torch.Tensor:
@@ -90,11 +90,8 @@ class EX16(Experiment):
             code_acc.append(linear_probe(onehot, y, seed=s)["score"])
             raw_acc.append(linear_probe(x, y, seed=s)["score"])
 
-        def mean(v):
-            return sum(v) / len(v)
-
-        lp, rp = mean(learned_pur), mean(random_pur)
-        ca, ra = mean(code_acc), mean(raw_acc)
+        lp, rp = _mean(learned_pur), _mean(random_pur)
+        ca, ra = _mean(code_acc), _mean(raw_acc)
         out = {
             "cluster_purity_learned": round(lp, 4),
             "cluster_purity_random": round(rp, 4),

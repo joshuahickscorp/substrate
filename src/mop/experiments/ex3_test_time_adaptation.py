@@ -22,7 +22,7 @@ from torch import nn
 
 from ..devices import DeviceInfo
 from ..seeding import seed_everything
-from .base import Experiment
+from .base import Experiment, _mean
 
 
 class _Affine(nn.Module):
@@ -103,15 +103,12 @@ class EX3(Experiment):
             base_ret.append(_acc(head, src.x, src.y))  # revert == drop overlay; base must be intact
             assert abs(base_ret[-1] - base0) < 1e-6  # the overlay never touched the slow head
 
-        def mean(v):
-            return sum(v) / len(v)
-
-        ta, fa = mean(tta_acc), mean(frozen_acc)
+        ta, fa = _mean(tta_acc), _mean(frozen_acc)
         out = {
             "shift_acc_tta": round(ta, 4),
             "shift_acc_frozen": round(fa, 4),
             "tta_gain": round(ta - fa, 4),
-            "base_retention_after_revert": round(mean(base_ret), 4),
+            "base_retention_after_revert": round(_mean(base_ret), 4),
             "margin": float(e.margin),
             "seeds": list(seeds),
             # the explicit null: TTA does not beat the frozen head by more than the margin
