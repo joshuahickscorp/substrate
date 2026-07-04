@@ -1,0 +1,455 @@
+# MoT preregistration mirrors, collapsed from 34 per-id files (condense deep pass). Each entry
+# mirrors a registry-only standalone-script row in registry/experiments.yaml, carrying its
+# null_hypothesis VERBATIM. Not compose-loaded; validate.py checks each entry's null_hypothesis.
+mirrors:
+- id: mop_al1_uncertainty_router
+  name: uncertainty_router_with_noisy_tv_guard
+  module: scripts/mop_al1_uncertainty_router.py
+  metric:
+  - adaptation_per_update
+  - noisy_tv_pass
+  null_hypothesis: the uncertainty router matches random episode selection on adaptation-per-update,
+    OR it chases irreducible aleatoric noise (fails the noisy-TV guard), replicating
+    the e4 negative in router clothing
+  falsifier: router == random selection, or fails noisy-TV
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/al1_uncertainty_router.json
+  pilot: false
+- id: mop_al2_shared_latent_alignment
+  name: shared_latent_alignment_vs_random_map_floor
+  module: scripts/mop_al2_alignment_pilot.py
+  metric:
+  - prediction_r2_over_random_map_floor
+  null_hypothesis: 'a random map of equal rank predicts the target as well as the
+    learned map (alignment-artifact): any apparent cross-substrate agreement is the
+    map''s capacity, not shared structure'
+  falsifier: learned map == random-map-of-equal-rank
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/al2_alignment_pilot.json
+  pilot: true
+- id: mop_at1_nuisance_grid
+  name: cross_substrate_nuisance_grid
+  module: scripts/mop_at1_grid_pilot.py
+  metric:
+  - per_substrate_decodability_delta_over_random_init
+  null_hypothesis: 'every substrate''s decodability delta over its matched-resolution
+    random-init control is within seed spread (random-control-artifact): pretraining
+    bought no nuisance invariance beyond architecture and resolution in any substrate'
+  falsifier: all deltas < seed spread over random-init
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/at1_grid_pilot.json
+  pilot: true
+- id: mop_at3_time_axis
+  name: time_axis_ablation
+  module: scripts/mop_at3_time_axis.py
+  metric:
+  - full_clip_minus_single_frame_decode
+  null_hypothesis: 'with token/frame count equalized, full-clip and single-frame decodability
+    are within seed spread for every factor: no factor genuinely requires the temporal
+    axis'
+  falsifier: full-clip == single-frame for all factors
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/at3_time_axis.json
+  pilot: false
+- id: mop_at4_programmatic_ceiling
+  name: programmatic_ceiling_reference
+  module: scripts/mop_at4_programmatic_ceiling.py
+  metric:
+  - programmatic_vs_perceptual_per_factor
+  null_hypothesis: the programmatic reference does not exceed the perceptual substrates
+    on any atlas factor (trivially separable everywhere), so no perceptual tie can
+    be attributed to a substrate bound
+  falsifier: programmatic never exceeds perceptual
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/at4_programmatic_ceiling.json
+  pilot: false
+- id: mop_at5_probe_class_sweep
+  name: probe_class_sweep
+  module: scripts/mop_at5_probe_class_sweep.py
+  metric:
+  - per_cell_verdict_across_probe_classes
+  null_hypothesis: every cell's verdict is invariant to probe class, so probe choice
+    never changes decodability and probe-specific is an empty verdict
+  falsifier: verdicts invariant to probe class
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/at5_probe_class_sweep.json
+  pilot: false
+- id: mop_cm4_workspace_shell
+  name: workspace_shell_routing
+  module: scripts/mop_cm4_workspace_pilot.py
+  metric:
+  - backward_transfer
+  - planning_gain
+  - seed_sign_flips
+  null_hypothesis: 'the workspace shell ties param-matched dense OR ties matched-compute
+    unrolled depth on BWT and planning, or sign-flips across seeds: the win is capacity/depth,
+    not routing'
+  falsifier: ties dense OR unrolled depth, or sign-flips
+  tier: cpu-now
+  seeds: 0-2
+  output: runs/mot/cm4_workspace_pilot.json
+  pilot: true
+- id: mop_dr10_retrieve_reason
+  name: memory_first_retrieve_then_reason
+  module: scripts/mop_dr10_retrieve_reason.py
+  metric:
+  - few_shot_accuracy
+  - adaptation_speed
+  null_hypothesis: 'retrieval ties from-scratch OR ties random retrieval: the frozen
+    neighbor metric is not task-aligned'
+  falsifier: retrieval <= max(from-scratch, random-retrieval)
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr10_retrieve_reason.json
+  pilot: false
+- id: mop_dr11_mc_rollouts
+  name: monte_carlo_latent_rollouts
+  module: scripts/mop_dr11_mc_rollouts.py
+  metric:
+  - accuracy_at_matched_total_flops
+  - noisy_tv_pass
+  null_hypothesis: MC ties the matched single longer rollout (samples collapse to
+    the mean) OR wins only by exploiting irreducible aleatoric noise (fails noisy-TV)
+  falsifier: MC <= matched single rollout, or fails noisy-TV
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr11_mc_rollouts.json
+  pilot: false
+- id: mop_dr12_disagreement
+  name: disagreement_as_uncertainty
+  module: scripts/mop_dr12_disagreement.py
+  metric:
+  - error_prediction_auroc
+  - adaptation_per_update
+  - noisy_tv_pass
+  null_hypothesis: disagreement ties single-head confidence AND gating on it ties
+    uniform compute, OR it chases irreducible noise (fails noisy-TV, the e4 pattern)
+  falsifier: disagreement AUROC <= confidence AUROC, or fails noisy-TV
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr12_disagreement.json
+  pilot: false
+- id: mop_dr13_horizon_limit
+  name: planning_horizon_limit
+  module: scripts/mop_dr13_horizon_limit.py
+  metric:
+  - accuracy_vs_horizon_crossover
+  null_hypothesis: planning never beats reactive at any horizon (contradicts ex2)
+    OR beats it only at horizon 1 (not really planning)
+  falsifier: no horizon where planning > reactive, or only H=1
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr13_horizon_limit.json
+  pilot: false
+- id: mop_dr14_corruption
+  name: reasoning_under_corruption_compression
+  module: scripts/mop_dr14_corruption.py
+  metric:
+  - accuracy_vs_corruption_slope
+  null_hypothesis: 'reasoning and single-pass degrade at the same rate under every
+    corruption: iteration only processes what survives'
+  falsifier: equal slopes
+  tier: cpu-now
+  seeds: 0-2
+  output: runs/mot/dr14_corruption.json
+  pilot: false
+- id: mop_dr2_sparse_real
+  name: sparse_head_forgetting_on_real_latents
+  module: scripts/mop_dr2_sparse_real_pilot.py
+  metric:
+  - backward_transfer
+  - forgetting_area
+  - paired_significance
+  null_hypothesis: on real latents with a D3 certificate and a paired significance
+    test, sparse ties param-matched dense (and ties a dense head with matched activation-sparsity
+    penalty); the synthetic win was cluster separability
+  falsifier: delta collapses into the 30-run seed spread or is fully explained by
+    substrate
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr2_sparse_real_pilot.json
+  pilot: true
+- id: mop_dr6_rollout_planning
+  name: internal_simulation_rollout_planning
+  module: scripts/mop_dr6_rollout_planning.py
+  metric:
+  - planning_success_on_true_dynamics
+  null_hypothesis: 'planning ties reactive at matched compute OR ties action-shuffle:
+    rollouts carry no usable future info beyond one step'
+  falsifier: planning <= max(reactive, action-shuffle)
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr6_rollout_planning.json
+  pilot: false
+- id: mop_dr8_fixed_point
+  name: recurrent_refinement_fixed_point_vs_drift
+  module: scripts/mop_dr8_fixed_point.py
+  metric:
+  - update_norm_decay_curve
+  - past_horizon_loss
+  null_hypothesis: 'update norms do not decay geometrically and unrolling past N worsens
+    loss: no fixed point, it is unrolled depth (the n9/y1 result)'
+  falsifier: no geometric decay; loss rises past N
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr8_fixed_point_vjepa.json
+  pilot: false
+- id: mop_dr9_verify_revise
+  name: verify_revise_under_corrected_controls
+  module: scripts/mop_dr9_verify_revise.py
+  metric:
+  - accuracy_at_matched_compute
+  - trained_vs_shuffled_delta
+  null_hypothesis: 'verify-revise ties single-shot at matched compute and the trained
+    verifier ties the shuffled one: no correction-relevant signal (the ex18 result)'
+  falsifier: verify-revise <= single-shot; trained == shuffled
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/dr9_verify_revise.json
+  pilot: false
+- id: mop_mt1_router_vs_best
+  name: router_beats_single_best_mode
+  module: scripts/mop_mt123_router_pilots.py
+  metric:
+  - capability_density
+  - oracle_router_gap
+  null_hypothesis: routed density equals or trails its best constituent mode at matched
+    compute, or the gap sits inside the seed spread
+  falsifier: density delta < seed spread at matched compute
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/mt123_router_pilots.json
+  pilot: true
+- id: mop_mt2_routing_vs_ensemble
+  name: routing_beats_uniform_ensemble
+  module: scripts/mop_mt123_router_pilots.py
+  metric:
+  - capability_density_matched_total_flops
+  null_hypothesis: equal-weight blend matches the routed system's density at matched
+    total compute; the router adds nothing over averaging
+  falsifier: router density <= uniform-blend density
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/mt123_router_pilots.json
+  pilot: true
+- id: mop_mt3_hetero_vs_homo
+  name: heterogeneous_beats_homogeneous_moe
+  module: scripts/mop_mt123_router_pilots.py
+  metric:
+  - capability_density_matched_params_and_flops
+  null_hypothesis: homogeneous k-copy MoE matches the heterogeneous mixture at equal
+    param/FLOP; diversity adds nothing beyond generic mixture capacity
+  falsifier: hetero density <= homo density at matched budget
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/mt123_router_pilots.json
+  pilot: true
+- id: mop_mt5_adaptive_halting
+  name: adaptive_halting_vs_fixed_depth
+  module: scripts/mop_mt5_adaptive_halting.py
+  metric:
+  - accuracy_vs_average_flop_frontier
+  - halting_entropy
+  null_hypothesis: 'at equal average FLOPs, adaptive halting ties fixed-depth: no
+    exploitable hardness heterogeneity, or the halt head collapses to a constant'
+  falsifier: adaptive AUC <= fixed-depth at equal mean FLOPs, or halt collapses to
+    constant N
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/mt5_adaptive_halting.json
+  pilot: false
+- id: mop_mt6_confidence_stop
+  name: confidence_stopping_vs_free_early_exit
+  module: scripts/mop_mt6_confidence_stop.py
+  metric:
+  - accuracy_at_matched_mean_flops
+  - halt_vs_correctness_auroc
+  null_hypothesis: the trained halt head ties the free update-norm rule; confidence
+    is just the latent ceasing to move
+  falsifier: trained-halt <= free-rule at matched FLOPs
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/mt6_confidence_stop.json
+  pilot: false
+- id: mop_mt7_beam_search
+  name: beam_tree_search_vs_greedy_refinement
+  module: scripts/mop_mt7_beam_search.py
+  metric:
+  - accuracy_at_matched_total_flops
+  null_hypothesis: at matched total FLOPs, search ties a deeper greedy chain because
+    the scorer cannot outrank the refiner's own step
+  falsifier: search <= matched greedy depth
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/mt7_beam_search.json
+  pilot: false
+- id: mop_mt8_latent_debate
+  name: latent_debate_vs_single_module
+  module: scripts/mop_mt8_latent_debate.py
+  metric:
+  - error_at_matched_total_flops
+  null_hypothesis: debate ties the single matched module AND ties a plain ensemble;
+    structured exchange is an unrolled ensemble/MoE
+  falsifier: debate <= max(single, ensemble)
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/mt8_latent_debate.json
+  pilot: false
+- id: mop_pr2_plasticity_substrates
+  name: plasticity_advantage_real_vs_random_encoder
+  module: scripts/mop_pr2_plasticity_substrates.py
+  metric:
+  - adaptation_speed
+  - backward_transfer
+  null_hypothesis: 'shell adaptation speed and BWT on real V-JEPA are within the seed
+    spread of the same shell on random-init-ViT (matched resolution): the substrate''s
+    structure does not ease trained-shell learning dynamics'
+  falsifier: real-vs-random-encoder adaptation/BWT delta < seed spread
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/pr2_plasticity_substrates.json
+  pilot: false
+- id: mop_pr4_epistemic_gate
+  name: epistemic_gate_vs_noisy_tv
+  module: scripts/mop_pr4_epistemic_gate.py
+  metric:
+  - reducible_vs_noise_lr_integral
+  - noisy_tv_pass
+  null_hypothesis: 'on the noisy-TV split the disagreement gate allocates no more
+    LR-integral (or query budget) to the reducible partition than an ungated arm:
+    replicates the e4 epistemic/aleatoric conflation'
+  falsifier: reducible-vs-noise LR-integral allocation delta <= 0
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/pr4_epistemic_gate.json
+  pilot: false
+- id: mop_pr5_content_gated_cp
+  name: content_gated_critical_period
+  module: scripts/mop_pr5_content_gated_cp.py
+  metric:
+  - backward_transfer_early
+  - forward_transfer_novel
+  - matched_lr_integral
+  null_hypothesis: 'at matched LR-integral and shuffled task order, content-gated
+    shows no retention or reopening advantage over cosine decay / tuned constant LR:
+    pure LR annealing (the e3/d6 negative)'
+  falsifier: retention/reopening delta < seed spread at matched LR-integral
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/pr5_content_gated_cp.json
+  pilot: false
+- id: mop_pr6_sleep_consolidation
+  name: offline_sleep_consolidation
+  module: scripts/mop_pr6_sleep_consolidation.py
+  metric:
+  - backward_transfer
+  - frontier_auc
+  null_hypothesis: 'offline replay-only ties online replay at matched total gradient
+    steps: any sleep benefit is added compute, not phase separation'
+  falsifier: sleep delta <= 0 at matched steps
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/pr6_sleep_consolidation.json
+  pilot: false
+- id: mop_pr7_fast_slow
+  name: fast_slow_two_timescale_weights
+  module: scripts/mop_pr7_fast_slow.py
+  metric:
+  - within_task_adaptation_curve
+  - post_decay_retention
+  null_hypothesis: 'fast weights tie a slow-only head (and a matched-size replay buffer)
+    on within-task adaptation: the fast store is redundant capacity or a small cache'
+  falsifier: fast-slow delta <= 0 at matched capacity
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/pr7_fast_slow.json
+  pilot: false
+- id: mop_pr8_retrieval_head
+  name: memory_augmented_retrieval_head
+  module: scripts/mop_pr8_retrieval_head.py
+  metric:
+  - few_shot_accuracy
+  - adaptation_speed
+  null_hypothesis: retrieval-conditioned head ties plain kNN (parametric part adds
+    nothing) OR ties the no-memory parametric head (memory adds nothing), at matched
+    capacity
+  falsifier: head ties kNN or ties parametric
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/pr8_retrieval_head.json
+  pilot: false
+- id: mop_ws1_agreement_vs_confidence
+  name: agreement_vs_confidence_central_gate
+  module: scripts/mop_ws1_agreement_vs_confidence.py
+  metric:
+  - correct_incorrect_auroc
+  - risk_coverage_curve
+  null_hypothesis: agreement AUROC minus single-substrate-confidence AUROC <= 0 within
+    seed CI; OR the win fails the invertible-remap vacuity guard (B is a linear remap
+    of A), the shuffled-cross-source control, or noisy-TV
+  falsifier: agreement AUROC <= confidence AUROC in CI, or fails remap/shuffle/noisy-TV
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/ws1_agreement_vs_confidence.json
+  pilot: false
+- id: mop_ws2_fusion_tournament
+  name: matched_capacity_fusion_tournament
+  module: scripts/mop_ws2_fusion_tournament.py
+  metric:
+  - held_out_accuracy
+  - nll_at_matched_capacity
+  null_hypothesis: 'at matched capacity every structured fusion ties the concat-MLP
+    on held-out accuracy and NLL: structure buys nothing beyond param count'
+  falsifier: every structured arm ties concat-MLP
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/ws2_fusion_tournament.json
+  pilot: false
+- id: mop_ws3_arbitration
+  name: uncertainty_vs_disagreement_arbitration
+  module: scripts/mop_ws3_arbitration.py
+  metric:
+  - speed_accuracy_frontier
+  - auroc
+  null_hypothesis: precision weights are uninformative so inverse-variance ties equal-weight
+    averaging, and disagreement is uncorrelated with correctness so disagreement routing
+    ties random routing at matched rate; OR disagreement fires on aleatoric noise
+    (fails noisy-TV)
+  falsifier: inverse-variance ties averaging AND disagreement ties random routing
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/ws3_arbitration.json
+  pilot: false
+- id: mop_ws4_bandwidth_sweep
+  name: broadcast_bottleneck_bandwidth_sweep
+  module: scripts/mop_ws4_bandwidth_sweep.py
+  metric:
+  - generalization_vs_slot_width_at_fixed_capacity
+  null_hypothesis: 'the bottleneck''s benefit is indistinguishable from generic regularization
+    at matched capacity, and broadcast-back adds nothing over write-only: narrow-vs-wide
+    is just a capacity effect'
+  falsifier: bottleneck ties regularization at matched capacity
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/ws4_bandwidth_sweep.json
+  pilot: false
+- id: mop_ws5_router_slot
+  name: modular_router_plus_shared_slot
+  module: scripts/mop_ws5_slot_ablation_pilot.py
+  metric:
+  - backward_transfer
+  - accuracy_at_matched_capacity
+  null_hypothesis: 'the shared slot adds nothing over sparse routing alone: slot-ablation
+    ties the full model on BWT and accuracy at matched capacity; sparse routing does
+    all the work'
+  falsifier: slot-ablation ties full model
+  tier: cpu-now
+  seeds: 0-4
+  output: runs/mot/ws5_slot_ablation_pilot.json
+  pilot: true

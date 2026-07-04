@@ -72,3 +72,15 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
 - Before -> after · src/mop 138 -> 136 files · folders 11 -> 10 · 126 -> ~125 LOC
 - Gates · BUILD green · TEST green (same pass set) · horizon hash d496a189ca12bc2d unchanged · check_docs
   green · coverage proxy held · perf n/a · net strictly smaller. PASS.
+
+### iter 4 (DEEP) · class: redundant preregistration-mirror configs · 34 -> 1
+- Action · collapse the 34 `configs/experiment/mop_*.yaml` MoT preregistration mirrors (each a verbatim
+  duplicate of a registry-only row's null_hypothesis, not compose-loaded) into one
+  `configs/experiment/_mot_mirrors.yaml` (a `mirrors:` list). validate.py check_all() updated to iterate
+  the merged file's entries so every mirror's null_hypothesis is still validated.
+- Coupling checked · no test iterates/counts the mirror files; test_shipped_registries_validate_clean
+  validates the DEVEL registries, not the harness config glob; check_all() returns 0 problems (behavior
+  preserved); no script loads a mirror by path (docstring mentions only).
+- Before -> after · configs/experiment 143 -> 110 files · total tracked 609 -> 576 (-33)
+- Gates · BUILD green (ruff + mypy) · TEST green (same 703 pass set) · check_all() clean (0 problems,
+  behavior identical) · horizon hash d496a189ca12bc2d unchanged · check_docs green · net -33 files. PASS.

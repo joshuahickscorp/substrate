@@ -89,7 +89,15 @@ def check_all() -> list[dict]:
         except ConfigError as e:
             problems.append({"where": f"encoder/{f.stem}", "problem": str(e)})
     for f in sorted((cdir / "experiment").glob("*.yaml")):
-        nh = OmegaConf.select(OmegaConf.load(f), "null_hypothesis", default="")
+        cfg = OmegaConf.load(f)
+        if f.name == "_mot_mirrors.yaml":  # collapsed MoT preregistration mirrors: check each entry
+            for m in OmegaConf.select(cfg, "mirrors", default=[]):
+                if not str(OmegaConf.select(m, "null_hypothesis", default="")).strip():
+                    problems.append(
+                        {"where": f"experiment/mirror/{m.get('id')}", "problem": "no null_hypothesis"}
+                    )
+            continue
+        nh = OmegaConf.select(cfg, "null_hypothesis", default="")
         if not str(nh).strip():
             problems.append({"where": f"experiment/{f.stem}", "problem": "no null_hypothesis"})
     known = set(REGISTRY)
