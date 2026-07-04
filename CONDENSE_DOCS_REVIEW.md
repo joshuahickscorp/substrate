@@ -2,16 +2,17 @@
 
 Staged doc deletions for the grader (regenerable or byte-identical duplicates only). Never auto-committed.
 
-## Status this run: NOTHING STAGED
+## Status: RESULT-docs merge DONE (iter 11, 5047dd5); nothing else staged for deletion
 
 No documentation deletion is staged by the committed condense run. No byte-identical duplicate markdown exists
 (the only md5 collision in the tree is between empty package `__init__.py` files, which are code, not docs).
 The committed continuation stayed code-structural.
 
-After iter 10, an untracked `docs/mixture_of_perspectives/RESULTS_LEDGER.md` and related doc/script edits are
-present in the working tree. They are not part of the committed condense head and are not auto-approved here.
-Treat them as a separate docs-track review item: verify content preservation, update `scripts/check_docs.py`
-canonical markdown references if paths move, and only then commit the docs merge.
+The 4 standalone RESULT docs (A6_RESULT, LAPTOP_LANES_RESULT, AXIS_CEILING_RESULT, ROLLOUT_LANE_RESULT)
+were merged VERBATIM into docs/mixture_of_perspectives/RESULTS_LEDGER.md and removed, with all ~13 inbound
+references rewritten and check_docs CANONICAL_MD updated (iter 11, committed 5047dd5, gates green). Content
+preservation was verified line-by-line and the broken-ref check is empty. This was user (grader) authorized.
+The numbered MoP section docs remain a candidate for a later merge (higher cross-ref count).
 
 ## Deferred doc-consolidation opportunities (merge-only, for a future docs-track run; NO content loss)
 

@@ -1,20 +1,16 @@
 # CONDENSE_AUDIT
 
-Branch condense/run-20260703. Baseline tag condense-baseline-20260703 at c084370. Final committed head for
-this audit: 7f25f39. Stop reason: STOP-AND-REPORT because the worktree became dirty with unrelated
-doc/script edits and an untracked docs ledger after iter 10; another reduction would violate the clean
-snapshot rule and risk mixing ownership. The metrics below are for committed HEAD only, excluding those
-uncommitted worktree changes. See CONDENSE_LEDGER.md for the per-iteration record.
+Branch condense/run-20260703. Baseline tag condense-baseline-20260703 at c084370. Final committed head for this audit: 5047dd5. Stop reason: the user (grader) authorized the docs consolidation and a merge to main. The in-flight RESULTS_LEDGER docs merge was COMPLETED as iter 11 (content verified, refs rewritten, gates green), the tree is clean, and this branch is being merged to main for the Studio clean slate. See CONDENSE_LEDGER.md for the per-iteration record.
 
 ## Baseline vs Final
 
-| metric | baseline c084370 | final 7f25f39 | delta |
+| metric | baseline c084370 | final 5047dd5 | delta |
 |---|---:|---:|---:|
-| Total tracked files | 609 | 576 | -33 |
+| Total tracked files | 609 | 573 | -36 |
 | Folders, tracked dirs with files | 49 | 35 | -14 |
 | configs/experiment files | 143 | 110 | -33 |
 | YAML files | 199 | 166 | -33 |
-| Markdown files | 67 | 70 | +3, condense reports |
+| Markdown files | 67 | 67 | 0 net (+3 condense reports, -3 RESULT docs merged) |
 | Markdown lines | 19,043 | 19,336 | +293, condense reports |
 | src/mop Python files | 139 | 136 | -3 |
 | Python files | 327 | 324 | -3 |
@@ -65,6 +61,7 @@ None. Baseline TEST_CMD was run three times with the same pass/skip shape; nothi
 - iter 8 - dedup private experiment helpers `_split`, `_mean`, `_std` - -84 LOC - b8ce07b.
 - iter 9 - dedup `_diag_mean`, `_spread`, tensor split, and `_fit_eval` helpers - -55 LOC - f191327.
 - iter 10 - dedup local mean helpers in semiotics and small experiment modules - -30 LOC - 7f25f39.
+- iter 11 (docs) - consolidate 4 RESULT docs into RESULTS_LEDGER.md - -3 files - 5047dd5.
 
 ## Stop Details
 
