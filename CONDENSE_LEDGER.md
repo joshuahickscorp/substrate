@@ -105,3 +105,11 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
 - Before -> after · Python LOC 65,171 -> 65,034 (-137); no file/folder change (canonical in existing module)
 - Gates · BUILD green · TEST green (same pass set, incl. the 3 parse_seeds tests) · horizon hash
   d496a189ca12bc2d unchanged · check_docs green · pr9 standalone import verified. PASS.
+
+### iter 7 (DEEP, whole-codebase) · class: duplicate functions · _parse_seeds x6 -> canonical (alias)
+- Action · 6 scripts define a private `_parse_seeds` behaviorally identical to the canonical
+  mop.seeding.parse_seeds (AST-exec verified). Replaced each def with
+  `from mop.seeding import parse_seeds as _parse_seeds` so the private NAME (and its call sites + the 7
+  frozen tests that import _parse_seeds) are untouched, placed after each file's sys.path setup.
+- Gates · BUILD green · TEST green (same pass set) · horizon hash d496a189ca12bc2d unchanged · check_docs
+  green · net -LOC (6 dup bodies -> 6 alias imports). PASS.
