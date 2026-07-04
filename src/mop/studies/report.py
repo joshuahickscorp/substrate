@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import math
 
-from ..metrics.frontier import FrontierPoint, frontier_auc, pareto_front
+from ..metrics import FrontierPoint, frontier_auc, pareto_front
 
 # Two-sided t critical values at 95% confidence, indexed by degrees of freedom (n-1). Stops at
 # df=30 where t is already ~2.04; beyond that we use the normal 1.96, which is the t limit. This

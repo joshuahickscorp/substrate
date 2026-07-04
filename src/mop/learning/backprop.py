@@ -19,7 +19,7 @@ import torch.nn.functional as F
 from torch import nn
 
 from ..devices import DeviceInfo, safe_to
-from ..metrics.continual import accuracy
+from ..metrics import accuracy
 from ..shell import Consolidation, Neuromodulation, PlasticityController, ReplayBuffer
 from ..substrate.datasets import Task
 

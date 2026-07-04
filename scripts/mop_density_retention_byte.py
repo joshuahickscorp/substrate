@@ -44,7 +44,7 @@ from torch import nn
 
 from mop.diagnostics.continual_metrics import backward_transfer as bwt_matrix
 from mop.diagnostics.riskcov import pareto_frontier, seed_ci
-from mop.metrics.frontier import FrontierPoint, pareto_front
+from mop.metrics import FrontierPoint, pareto_front
 from mop.seeding import seed_everything
 from mop.shell.buffer import ReplayBuffer
 
