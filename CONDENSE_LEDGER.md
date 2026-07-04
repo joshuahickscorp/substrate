@@ -60,3 +60,15 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
 - Gates · BUILD green · TEST green (same 703-collected pass set, no new skip/xfail) · horizon hash
   d496a189ca12bc2d unchanged · check_docs green · coverage proxy held (no covered code removed) · perf
   n/a (import-structure change, no hot-path touch) · net footprint strictly smaller. PASS.
+
+### iter 3 · class: sibling files sharing one concern · metrics/ package -> module
+- Action · merge `src/mop/metrics/{__init__,continual,frontier}.py` (3 files) into the module
+  `src/mop/metrics.py`. Both submodules are self-contained (no relative imports, no cross-import). Import
+  path `mop.metrics` unchanged; the 5 importers that reached the SUBMODULES
+  (`from ..metrics.continual import accuracy` etc. in learning/backprop.py, studies/report.py, and 3
+  density/shell scripts) rewritten to the package path `from ..metrics import ...`.
+- Coupling checked · NO test imports mop.metrics or its submodules directly (grep empty). The 5 importers
+  are 2 src + 3 scripts, all editable, none frozen.
+- Before -> after · src/mop 138 -> 136 files · folders 11 -> 10 · 126 -> ~125 LOC
+- Gates · BUILD green · TEST green (same pass set) · horizon hash d496a189ca12bc2d unchanged · check_docs
+  green · coverage proxy held · perf n/a · net strictly smaller. PASS.

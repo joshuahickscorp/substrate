@@ -27,7 +27,7 @@ import numpy as np
 import torch
 
 from mop.diagnostics.linear_probe import linear_probe
-from mop.metrics.frontier import FrontierPoint, dominates, pareto_front
+from mop.metrics import FrontierPoint, dominates, pareto_front
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(REPO, "runs", "mot")

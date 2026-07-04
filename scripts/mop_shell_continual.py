@@ -57,7 +57,7 @@ from torch import nn
 
 from mop.diagnostics.continual_metrics import LRIntegralAccumulator
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
-from mop.metrics.continual import ContinualResult
+from mop.metrics import ContinualResult
 from mop.shell import ReplayBuffer
 
 # ---------------------------------------------------------------------------
