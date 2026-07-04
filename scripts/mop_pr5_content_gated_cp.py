@@ -58,7 +58,7 @@ from mop.diagnostics.continual_metrics import (
 )
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
 from mop.experiments.base import Experiment
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 from mop.shell.neuromod import RunningStat
 from mop.shell.plasticity import PlasticityController
 from mop.substrate.datasets import make_task_stream
@@ -67,14 +67,6 @@ MIN_MARGIN = 0.02  # preregistered minimum meaningful BWT delta
 MIN_STEPS = 1.0  # preregistered minimum meaningful adaptation-steps delta (eval units)
 ARMS = ("content", "cosine", "constant", "content_shuffled")
 BASELINES = ("cosine", "constant")
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-4' -> [0..4]; '0,2,5' -> [0,2,5]; '3' -> [3]."""
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def verdict(deltas: list[float], min_margin: float) -> dict:

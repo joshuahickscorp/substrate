@@ -61,7 +61,7 @@ from mop.diagnostics.linear_probe import linear_probe
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report
 from mop.diagnostics.substrate_ablation import quantize_dequantize
 from mop.experiments.base import Experiment
-from mop.seeding import seed_everything
+from mop.seeding import parse_seeds, seed_everything
 from mop.shell.predictor import mlp
 from mop.shell.refine import IterativeRefiner
 
@@ -96,15 +96,6 @@ def default_cfg() -> DictConfig:
             "real_cache_dir": "data/cache/vjepa2_vitl_fpc64_256_real",
         }
     )
-
-
-def parse_seeds(spec: str) -> list[int]:
-    """'0-2' -> [0,1,2]; '0,2' -> [0,2]; '1' -> [1]."""
-    spec = spec.strip()
-    if "-" in spec and "," not in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",") if s.strip()]
 
 
 # ------------------------------------------------------------------------------------------------

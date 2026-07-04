@@ -61,6 +61,7 @@ from scripts.featurize_programmatic import CACHE_ROOT, CLIPSET  # noqa: E402
 from mop.diagnostics.cross_substrate import shuffled_label_null  # noqa: E402
 from mop.diagnostics.linear_probe import linear_probe  # noqa: E402
 from mop.diagnostics.riskcov import seed_ci  # noqa: E402
+from mop.seeding import parse_seeds  # noqa: E402
 
 CONTRACT = {
     "id": "AT4",
@@ -85,13 +86,6 @@ PERCEPTUAL_STORES = [
 ]
 FACTORS = ["shape", "color"]
 CEILING_MIN = 0.99  # the programmatic column carries the one-hot factor, anything less is a broken run
-
-
-def parse_seeds(spec: str) -> list[int]:
-    if "-" in spec:
-        lo, hi = spec.split("-")
-        return list(range(int(lo), int(hi) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def load_column(root: Path) -> dict | None:

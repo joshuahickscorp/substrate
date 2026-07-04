@@ -94,3 +94,14 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
 - Before -> after · campaign/legs folders 13 -> 0 · total tracked folders 48 -> 35 · files unchanged (moves)
 - Gates · BUILD green · TEST green (same pass set) · horizon hash d496a189ca12bc2d unchanged · check_docs
   green · net -13 folders. PASS.
+
+### iter 6 (DEEP, whole-codebase) · class: duplicate functions · parse_seeds x18 -> canonical
+- Action · all 18 script copies of parse_seeds are BEHAVIORALLY IDENTICAL (AST-exec verified across 9 seed
+  specs, 1 distinct behavior). Unified to one canonical in src/mop/seeding.py; the 18 scripts import
+  `from mop.seeding import parse_seeds`. Import placement fixed in 3 files where it landed before a
+  sys.path fallback (mop_at1, mop_at4, pr9) so standalone-outside-repo import still works (pr9 verified).
+- Coupling checked · 3 frozen tests import parse_seeds FROM scripts (mop_at1_grid_pilot, dr14); the name
+  stays in each script's namespace via the re-import, so the tests pass unchanged.
+- Before -> after · Python LOC 65,171 -> 65,034 (-137); no file/folder change (canonical in existing module)
+- Gates · BUILD green · TEST green (same pass set, incl. the 3 parse_seeds tests) · horizon hash
+  d496a189ca12bc2d unchanged · check_docs green · pr9 standalone import verified. PASS.
