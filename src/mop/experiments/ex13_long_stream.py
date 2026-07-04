@@ -37,14 +37,7 @@ from ..seeding import seed_everything
 from ..shell import Consolidation, ReplayBuffer
 from ..shell.heads import ClassHead
 from ..substrate.datasets import Task, make_task_stream
-from .base import Experiment
-
-
-def _split(task: Task, frac: float = 0.8) -> tuple[Task, Task]:
-    n = int(task.x.shape[0] * frac)
-    tr = Task(task.name, task.x[:n], task.y[:n], n_classes=task.n_classes, task_id=task.task_id)
-    te = Task(task.name, task.x[n:], task.y[n:], n_classes=task.n_classes, task_id=task.task_id)
-    return tr, te
+from .base import Experiment, _split
 
 
 @torch.no_grad()

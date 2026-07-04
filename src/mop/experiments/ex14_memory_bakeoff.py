@@ -27,11 +27,7 @@ from torch import nn
 from ..devices import DeviceInfo
 from ..seeding import seed_everything
 from ..shell.buffer import ReplayBuffer
-from .base import Experiment
-
-
-def _mean(v: list[float]) -> float:
-    return sum(v) / len(v) if v else 0.0
+from .base import Experiment, _mean
 
 
 def _spread(v: list[float]) -> float:

@@ -39,18 +39,7 @@ from ..diagnostics.substrate_ablation import frozen_random_projection
 from ..seeding import seed_everything
 from ..shell.heads import ClassHead
 from ..substrate.datasets import make_task_stream
-from .base import Experiment
-
-
-def _mean(v: list[float]) -> float:
-    return sum(v) / max(1, len(v))
-
-
-def _std(v: list[float]) -> float:
-    if len(v) < 2:
-        return 0.0
-    m = _mean(v)
-    return (sum((a - m) ** 2 for a in v) / (len(v) - 1)) ** 0.5
+from .base import Experiment, _mean, _std
 
 
 def _trapz_area(xs: list[float], up: list[float], down: list[float]) -> float:

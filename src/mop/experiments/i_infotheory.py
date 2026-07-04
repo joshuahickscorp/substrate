@@ -36,16 +36,12 @@ from ..diagnostics.substrate_ablation import frozen_random_projection, quantize_
 from ..seeding import seed_everything
 from ..shell.predictor import mlp
 from ..shell.refine import IterativeRefiner
-from .base import Experiment
+from .base import Experiment, _mean
 
 
 # ----------------------------------------------------------------------------------------------------
 # shared toy helpers
 # ----------------------------------------------------------------------------------------------------
-def _mean(v: list[float]) -> float:
-    return sum(v) / max(1, len(v))
-
-
 def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> tuple[torch.Tensor, torch.Tensor]:
     """Lloyd k-means; returns (hard codes, centroids). The VQ assignment in the no-decoder setting."""
     g = torch.Generator().manual_seed(seed)

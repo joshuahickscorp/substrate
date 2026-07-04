@@ -35,16 +35,12 @@ from ..diagnostics.sysid import sysid_report
 from ..seeding import seed_everything
 from ..shell.predictor import mlp
 from ..shell.refine import IterativeRefiner, Verifier
-from .base import Experiment
+from .base import Experiment, _mean
 
 
 # --------------------------------------------------------------------------------------------------
 # small shared helpers
 # --------------------------------------------------------------------------------------------------
-def _mean(v: list[float]) -> float:
-    return sum(v) / max(1, len(v))
-
-
 def _make_stream(e, s: int, forward_dynamics: bool = False):
     from ..substrate.datasets import make_task_stream
 

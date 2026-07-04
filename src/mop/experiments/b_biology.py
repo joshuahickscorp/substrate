@@ -33,16 +33,12 @@ from ..seeding import seed_everything
 from ..shell.consolidation import EWC
 from ..shell.predictor import mlp
 from ..substrate.datasets import make_task_stream
-from .base import Experiment
+from .base import Experiment, _mean
 
 
 # ----------------------------------------------------------------------------------------------
 # shared helpers
 # ----------------------------------------------------------------------------------------------
-def _mean(v: list[float]) -> float:
-    return sum(v) / max(1, len(v))
-
-
 def _spread(v: list[float]) -> float:
     """Seed spread: half the (max - min) range, the band a gain must clear to count."""
     return (max(v) - min(v)) / 2.0 if len(v) > 1 else 0.0

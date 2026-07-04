@@ -9,13 +9,37 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from omegaconf import DictConfig
 
 from ..devices import DeviceInfo
 
+if TYPE_CHECKING:
+    from ..substrate.datasets import Task
+
 CONTRACT = ("id", "metric", "baseline", "ablation", "null_hypothesis", "tier")
 TIERS = {"cpu-now", "gpu-later", "env-later", "2.1-only"}
+
+
+def _mean(v):
+    return sum(v) / len(v) if v else 0.0
+
+
+def _std(v) -> float:
+    if len(v) < 2:
+        return 0.0
+    m = _mean(v)
+    return (sum((a - m) ** 2 for a in v) / (len(v) - 1)) ** 0.5
+
+
+def _split(task: Task, frac: float = 0.8) -> tuple[Task, Task]:
+    from ..substrate.datasets import Task
+
+    n = int(task.x.shape[0] * frac)
+    tr = Task(task.name, task.x[:n], task.y[:n], n_classes=task.n_classes, task_id=task.task_id)
+    te = Task(task.name, task.x[n:], task.y[n:], n_classes=task.n_classes, task_id=task.task_id)
+    return tr, te
 
 
 class Experiment(ABC):

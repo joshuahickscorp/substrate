@@ -37,11 +37,7 @@ from ..devices import DeviceInfo
 from ..diagnostics.compute import param_count
 from ..seeding import seed_everything
 from ..substrate.datasets import make_task_stream
-from .base import Experiment
-
-
-def _mean(v: list[float]) -> float:
-    return sum(v) / max(1, len(v))
+from .base import Experiment, _mean
 
 
 def _spread(v: list[float]) -> float:

@@ -36,11 +36,7 @@ from ..diagnostics.substrate_ablation import frozen_random_projection
 from ..seeding import seed_everything
 from ..shell.modulation import ContextGating, WorkingMemory
 from ..shell.predictor import mlp
-from .base import Experiment
-
-
-def _mean(v: list[float]) -> float:
-    return sum(v) / max(1, len(v))
+from .base import Experiment, _mean
 
 
 # ----------------------------------------------------------------------------------------------------

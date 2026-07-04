@@ -39,11 +39,7 @@ from ..seeding import seed_everything
 from ..shell.modulation import WorkingMemory
 from ..shell.predictor import mlp
 from ..shell.refine import IterativeRefiner, Verifier
-from .base import Experiment
-
-
-def _mean(v: list[float]) -> float:
-    return sum(v) / len(v) if v else 0.0
+from .base import Experiment, _mean
 
 
 def _spread(v: list[float]) -> float:
