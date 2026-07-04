@@ -42,6 +42,7 @@ from scripts.cache_randominit_vitl_features import NUISANCE_COLS, load_feature_c
 from mop.diagnostics.linear_probe import linear_probe  # noqa: E402
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
 from mop.experiments.base import Experiment  # noqa: E402
+from mop.seeding import parse_seeds as _parse_seeds  # noqa: E402
 
 DEFAULTS = {
     "full_cache": "data/cache/vjepa2_vitl_nuisance",
@@ -150,13 +151,6 @@ class AT3Experiment(Experiment):
 
     def run(self, cfg, device, run_dir: Path) -> dict:
         return run(cfg, device, run_dir)
-
-
-def _parse_seeds(spec: str) -> list[int]:
-    if "-" in spec:
-        a, b = spec.split("-")
-        return list(range(int(a), int(b) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def main(argv=None) -> int:

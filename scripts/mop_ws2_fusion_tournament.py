@@ -46,6 +46,7 @@ from scripts.mop_ws1_agreement_vs_confidence import (  # noqa: E402
 from mop.diagnostics.compute import param_count  # noqa: E402
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
 from mop.experiments.base import Experiment  # noqa: E402
+from mop.seeding import parse_seeds as _parse_seeds  # noqa: E402
 from mop.shell.capmatch import width_for_param_count  # noqa: E402
 
 DEFAULTS = {
@@ -254,13 +255,6 @@ class WS2Experiment(Experiment):
 
     def run(self, cfg, device, run_dir: Path) -> dict:
         return run(cfg, device, run_dir)
-
-
-def _parse_seeds(spec: str) -> list[int]:
-    if "-" in spec:
-        a, b = spec.split("-")
-        return list(range(int(a), int(b) + 1))
-    return [int(s) for s in spec.split(",")]
 
 
 def main(argv=None) -> int:
