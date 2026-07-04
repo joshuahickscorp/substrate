@@ -5,7 +5,7 @@
 > ready. For the current, prioritized expand plan (Track A moldability/PR9/Process C, Track B abstraction/DR1,
 > Track C density/DR1), each translating a PROVEN laptop wall into a pre-registered off-device experiment with
 > its validated method and decision gate, read `docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md` (and
-> `AXIS_CEILING_RESULT.md` for the proofs). The sections below are the earlier pre-round transfer notes.
+> `RESULTS_LEDGER.md` for the proofs). The sections below are the earlier pre-round transfer notes.
 >
 > THE DELIVERED BOX is an M1 Ultra Mac Studio (20-core CPU, 48 to 64-core GPU, 128 GB unified memory, 8 TB
 > SSD), not the hypothetical 1 TB machine the notes below assume. Its enforced envelope is profile
@@ -30,7 +30,7 @@
 > PROMOTED to a real positive. The LAST open non-vacuous frozen-random gap, b5_degeneracy, was closed this
 > pass (close_b5_degeneracy.py): its degenerate-retention advantage does not replicate at 5 seeds
 > (underpowered null), so no open frozen-random gap remains. Facet 12 (the predictor rollout lane) was
-> measured and walled provisionally (ROLLOUT_LANE_RESULT.md). NET ORIENT VERDICT: axis-moving M3-Pro
+> measured and walled provisionally (RESULTS_LEDGER.md). NET ORIENT VERDICT: axis-moving M3-Pro
 > science is exhausted; every remaining axis-mover (DR1 real video, PR9 long stream, Process C trainable
 > encoder, the 1.7 TB dense cache, the encoder-scale atlas, n-growth encode) is genuinely Studio-gated on a
 > proven resource (21 s/clip encode, 128 GB residency, 8 TB disk, week-scale queue) or Tier R. DURABILITY

@@ -75,7 +75,7 @@ back-fit. Priority = de-risk before decorate.
 
 ## Tier 3: scaffold the re-tests this session discovered
 
-- T3.1 Facet-12 real-corpora + readout-adapter script (the licensed re-test from ROLLOUT_LANE_RESULT.md
+- T3.1 Facet-12 real-corpora + readout-adapter script (the licensed re-test from RESULTS_LEDGER.md
   section 11): extend the decodability test with a `--clip-dir` real-video path and an ADAPTER arm (fit a
   linear map predictor-space -> encoder-space on visible slots, apply to rollout), preregistered and
   smoke-tested, so the Studio runs the facet-12 licensed re-test with one command on real moving video.

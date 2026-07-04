@@ -52,19 +52,19 @@ NULL / DEMOTED (do not carry these forward as positives):
 - A6 cross-modal shared-code: vision<->text alignment SURVIVES removing shape+color but COLLAPSES removing
   the 6 nuisance factors (0 stable survivors at minus_nuisance/minus_all), survived 3 controls. Carrier =
   spatiotemporal NUISANCE geometry, NOT the semantic abstraction. Shape-axis bet = BOUNDING NULL (shapecap
-  carries shape at 0.617, killswitch did not fire, yet vision->shapecap dies at minus_all). See A6_RESULT.md.
+  carries shape at 0.617, killswitch did not fire, yet vision->shapecap dies at minus_all). See RESULTS_LEDGER.md.
   This supersedes the older al2 summary: cross-modal alignment is not absent, it is nuisance-carried.
 - al2 shared-code: cross-modal alignment does not survive a kNN-topology permutation null AS SEMANTIC
   code; same-modality vision pairs align (propped by two V-JEPA columns). Precondition NOT met; see A6.
 - ws2 structure-beats-capacity: fails its own dual acc-AND-NLL contract (was an OR-rule over-claim).
 - density mechanism (trained router, real cache, SHAPE-ALONE): NULL. Router loses to a tuned best-single
   reader AND a compute-matched homogeneous bank (both gates fail). But this is the REDUNDANT-reader regime;
-  Round 2 found the WIN on a COMPLEMENTARY task (see MECHANISM WINS below). See LAPTOP_LANES_RESULT.md.
+  Round 2 found the WIN on a COMPLEMENTARY task (see MECHANISM WINS below). See RESULTS_LEDGER.md.
 - pr7 delta-rule: NULL, trails the Hebbian floor 10/10 seeds (Hebbian fast-store itself beats slow-only
   +0.029, a modest real signal, the only plasticity flicker).
 - The 24-null reasoning lane, and the 4 recalibrated degenerates (mt5/al1/dr12/ws3), all NULL.
 
-MECHANISM WINS (axis-ceiling push, 2026-07-02/03; see AXIS_CEILING_RESULT.md):
+MECHANISM WINS (axis-ceiling push, 2026-07-02/03; see RESULTS_LEDGER.md):
 - DENSITY, the core MoP thesis (Round 2, the strongest result): on a COMPLEMENTARY composite task (color x
   motion_dir), a matched-FLOP matched-param heterogeneous FACTORED mixture beats the best single reader
   (+0.170), every homogeneous bank (+0.073 to +0.253), 10/10 seeds, mechanistic guard passed. Negative control
@@ -97,12 +97,12 @@ ORACLE hits chance (0.300 vs 0.328) on the substrate-specific forgetting stream,
 2 orthogonal tasks in one head. Adversarial verifiers killed FOUR over-claims (R2 mistuned-baseline CBP, R3
 LR-confound developmental, R3b operand-confound lang-math, R4 developmental). Moldability + abstraction-beyond-6
 need the Studio (PR9 real stream, DR1 real video) or un-freezing (Process C). Every ceiling now has a
-MECHANISTIC reason, not an assumption. See AXIS_CEILING_RESULT.md section 8.
+MECHANISTIC reason, not an assumption. See RESULTS_LEDGER.md section 8.
 
 INSTRUMENTATION / STUDIO-READY (built and validated on the laptop, not a science claim yet):
 - Density frontier (FIRST plotted): capability/FLOP frontier {reactive, sparse} with the routed mixture
   DOMINATED; capability/param frontier DINOv2-dominant (0.861 @ 384d readout, ~3x V-JEPA/param). Two axes
-  computable now; retention/byte and adaptation/update are Studio-only, unfaked. See LAPTOP_LANES_RESULT.md.
+  computable now; retention/byte and adaptation/update are Studio-only, unfaked. See RESULTS_LEDGER.md.
 - Plasticity-loss certificate: VALIDATED (fires on drift gap +0.513 CI[0.498,0.528], dead units 0->0.75;
   quiet on stationary gap ~0). The instrument Studio PR9 needs, de-risked and turnkey. Moldability score
   itself does NOT move on the laptop (cannot induce Studio-scale loss).
@@ -117,7 +117,7 @@ INSTRUMENTATION / STUDIO-READY (built and validated on the laptop, not a science
   slots are nearly decorrelated (scale 0.948). Real-but-sub-usable world-model signal: NOT licensed for
   multi-step planning. PROVISIONAL on content (synthetic OOD clips + OOD masking); the licensed real-scale
   verdict needs the Studio real-corpora re-run (scripts/mop_dr13_predictor_fidelity.py --clip-dir; facet 14
-  feeds facet 12). Facet 12 stays 0 on usability. See ROLLOUT_LANE_RESULT.md.
+  feeds facet 12). Facet 12 stays 0 on usability. See RESULTS_LEDGER.md.
   WAVE 2 (decodability-retention, the task-relevant criterion): does the rollout keep the moving object's
   POSITION decodable, beating persistence (hold-still)? VERDICT WALL, correctly null-by-ill-posedness. Under
   the realistic encoder-trained readout the rollout decodes position at the random floor (R2 ~0.05-0.09 vs
@@ -128,7 +128,7 @@ INSTRUMENTATION / STUDIO-READY (built and validated on the laptop, not a science
   finding (survives adversarial): position SURVIVES the rollout but in a shifted sub-space (in-domain probe
   R2 0.73 vs encoder-trained 0.09 at h=1), so wave-1's representational gap is a systematic sub-space shift,
   not noise; the Studio fix is a readout adapter between predictor output and downstream heads. Facet 12
-  stays 0. See ROLLOUT_LANE_RESULT.md section 11.
+  stays 0. See RESULTS_LEDGER.md section 11.
 
 DEAD (kill-switch fired, branch retired):
 - Test-time compute at this substrate: even with a PERFECT executable DSL oracle verifier on a

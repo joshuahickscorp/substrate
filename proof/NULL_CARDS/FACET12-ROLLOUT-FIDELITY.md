@@ -82,7 +82,7 @@ result:            real/best-control nmse ratio 0.931/0.947/0.954/0.954/0.950/0.
 taxonomy_category: 3
 verdict:           DOWNGRADE-TIE
 badges:            [substrate-blindspot]
-raw_run_id:        runs/mot/dr13_predictor_fidelity.json (facet 12, verdict null, elapsed 716.4s); wave-2 method scratchpad/facet12b/ (decodability_retention.py, adversarial_pass.py, motion_validation); instrument scripts/mop_dr13_predictor_fidelity.py; write-up docs/mixture_of_perspectives/ROLLOUT_LANE_RESULT.md
+raw_run_id:        runs/mot/dr13_predictor_fidelity.json (facet 12, verdict null, elapsed 716.4s); wave-2 method scratchpad/facet12b/ (decodability_retention.py, adversarial_pass.py, motion_validation); instrument scripts/mop_dr13_predictor_fidelity.py; write-up docs/mixture_of_perspectives/RESULTS_LEDGER.md
 repro_level:       R2
 ```
 

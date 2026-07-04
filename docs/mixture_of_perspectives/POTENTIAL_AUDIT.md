@@ -7,7 +7,7 @@ experiment id.
 
 ## 1. The verdict (decision-first)
 
-**Overall reaching-potential score: 3.0 / 10.** (Updated across addenda through five rounds to ~6.75; current scores: falsification 10, abstraction 6, density 6, moldability 5. Abstraction climbed 2->6 via four controlled wins; moldability 5 and density 6 are proven with mechanistic reasons. See addendum 1c and AXIS_CEILING_RESULT.md section 8.) The MoP program is, at this moment, an exceptionally honest
+**Overall reaching-potential score: 3.0 / 10.** (Updated across addenda through five rounds to ~6.75; current scores: falsification 10, abstraction 6, density 6, moldability 5. Abstraction climbed 2->6 via four controlled wins; moldability 5 and density 6 are proven with mechanistic reasons. See addendum 1c and RESULTS_LEDGER.md section 8.) The MoP program is, at this moment, an exceptionally honest
 negative-mapping machine that has not yet won a single bet of the type its own thesis requires. After a full
 M3 Pro run the tally is three "real-decisive" positives, and every one of the three is either a substrate
 READOUT fact (shape decodes under nuisance; held-out (shape,color) factoring equals seen) or an oracle
@@ -25,7 +25,7 @@ address.
 ## 1a. Addendum (2026-07-02, post A6 + laptop lanes): the scorecard, updated
 
 After this audit, four laptop lanes (one per axis) plus the A6 residual-alignment workflow were run and each
-adversarially verified (see `LAPTOP_LANES_RESULT.md`, `A6_RESULT.md`). Updated per-axis scores, one reason each:
+adversarially verified (see `RESULTS_LEDGER.md`, `RESULTS_LEDGER.md`). Updated per-axis scores, one reason each:
 
 - Ideology 1 MOLDABILITY: 2 -> 2 (unchanged). The score cannot move on the laptop, but the Studio PR9
   instrument (a plasticity-loss certificate) is now BUILT and VALIDATED (fires on drift, quiet on
@@ -52,7 +52,7 @@ below are the ORIGINAL audit snapshot; where they differ from this addendum, 1a 
 ## 1b. Addendum (2026-07-02, post axis-ceiling push): each axis driven to its honest laptop ceiling
 
 After 1a, four parallel adversarial workflows pushed each axis to its true laptop ceiling (full detail in
-`AXIS_CEILING_RESULT.md`). This SUPERSEDES 1a on the scores:
+`RESULTS_LEDGER.md`). This SUPERSEDES 1a on the scores:
 
 - Ideology 1 MOLDABILITY: 2 -> **5**. Continual-backprop fully REPAIRS provably-induced plasticity loss
   (SGD gap 0.513 -> ~0 at all 5 rates, 8/8 seeds, reproduced): the program's FIRST mechanism-beats-baseline
@@ -80,7 +80,7 @@ stream, DR1 on real video) or un-freezing.
 ## 1c. Addendum (2026-07-03, Round 2: the levers Round 1 left unpulled): this SUPERSEDES 1b
 
 1b scored each axis against the ideological goal; a stop-check correctly noted that is not the laptop's honest
-MAXIMUM. Round 2 pulled the remaining honest levers (see `AXIS_CEILING_RESULT.md` section 6), adversarially
+MAXIMUM. Round 2 pulled the remaining honest levers (see `RESULTS_LEDGER.md` section 6), adversarially
 verified. Final laptop ceilings:
 
 - Ideology 4 FALSIFICATION: 9 -> **10**. The last vacuous control (`substrate_ablation.delta_frozen_random`)

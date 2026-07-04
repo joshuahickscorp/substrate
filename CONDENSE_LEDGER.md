@@ -159,3 +159,16 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
   same visible 2 skips). Surface hash d496a189ca12bc2d unchanged. `scripts/check_docs.py` green. Coverage
   proxy held. Perf reps=5 stayed inside the 2x red line (`retrieve_brute` 0.000118s vs baseline 0.000106s,
   `learner_step` 0.002255s vs 0.003097s, `manifest_write` 0.220672s vs 0.222949s). PASS.
+
+### iter 11 (DOCS TRACK, user-authorized) · consolidate 4 RESULT docs -> RESULTS_LEDGER.md
+- Action · merge A6_RESULT / LAPTOP_LANES_RESULT / AXIS_CEILING_RESULT / ROLLOUT_LANE_RESULT.md into one
+  docs/mixture_of_perspectives/RESULTS_LEDGER.md (content VERBATIM, headings demoted one level under a top
+  header + TOC + `<!-- merged from X -->` provenance markers). Every inbound reference across docs + code
+  (~13 files: HANDOFF, STUDIO_HANDOFF, STUDIO_RUN_REPORT, STUDIO_TURNKEY_PLAN, POTENTIAL_AUDIT,
+  M3PRO_RUN_REPORT, EXPAND_PHASE_PLAN, STUDIO_POTENTIAL_AUDIT, FACET12 null card, mop_dr13_predictor_fidelity,
+  mop_dr13_readout_adapter) rewritten to RESULTS_LEDGER.md; check_docs CANONICAL_MD updated (4 -> 1).
+- Content preservation · verified every non-heading content line of all 4 originals is present in the ledger;
+  broken-ref check for the 4 old filenames returns EMPTY outside the ledger's provenance comments.
+- Before -> after · md files 70 -> 67 · total tracked 576 -> 573 (-3)
+- Gates · BUILD green · TEST green (703) · check_docs green (RESULTS_LEDGER ledgered, all refs resolve) ·
+  horizon hash d496a189ca12bc2d unchanged. PASS. Docs-track deletion is user-authorized (the grader).
