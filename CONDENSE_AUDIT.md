@@ -6,7 +6,7 @@ rule on. No em/en dashes, middot separators. See CONDENSE_LEDGER.md for the per-
 
 ## Baseline vs final, per metric
 
-| metric | baseline (c084370) | final (f8bba27) | delta |
+| metric | baseline (c084370) | final (1e14b04) | delta |
 |---|---|---|---|
 | Total tracked files | 609 | 576 | **-33** |
 | Folders (tracked) | 50 | 36 | **-14** |
@@ -81,22 +81,12 @@ The rest are declined with a concrete reason, not left from timidity:
   scripts/foo.py paths check_docs enforces) AND frozen-test imports (test_mot_rollout imports
   mop_dr13_horizon_limit; dr14.parse_seeds is tested). Doable with shims + doc-updates if the grader accepts
   the horizon move on internal entrypoints.
-3. diagnostics/ 24 modules -> ~8 family modules (-16 files). BLOCKED: ~135 by-path importers including frozen
-   tests; needs test edits or a shim-per-module hop.
-4. Test consolidation (E-series 11 files -> 1 parametrized; studio 7 -> 2). BLOCKED outright: edits/renames
-   frozen tests. Forbidden by invariant 5.
-5. campaign/legs/trackNN flatten (-13 folders) + track13 16 legs -> 1. BLOCKED: run_queue.yaml path rewrites
-   plus test_cost_projection / test_campaign_queue coupling.
-6. Studio orphan modules (mop.studio_rehearsal, mop.studio_doctor -> studio/ package). BLOCKED:
-   test_studio_rehearsal imports mop.studio_rehearsal (frozen) and DECISIONS.md references it.
-7. devel/ single-consumer tools merge. BLOCKED: test_devel_north_star / test_devel_metacognition couple to
-   the module paths.
-8. Duplicate-function hoist (parse_seeds x17, nmse x2, six synthetic clip generators). BLOCKED under the
-   strict footprint rule: the hoist ADDS a shared module file ("nothing up"); a LOC-only win. Grader may
-   relax "nothing up" to net-LOC.
-9. Doc consolidation (numbered MoP section files, standalone RESULT docs). Docs track, merge-only, staged in
-   CONDENSE_DOCS_REVIEW.md; needs the check_docs CANONICAL_MD ledger updated in the same commit. No content
-   loss; deferred, not executed.
+- STOP-AND-REPORT · test consolidation (E-series 11 -> 1; studio 7 -> 2), studio-orphan module moves, and
+  devel merges. Each edits or renames a frozen test, or moves a module path a frozen test imports. Forbidden
+  by the tests-frozen invariant unless the grader lifts it.
+- DOCS TRACK (merge-only) · numbered MoP section files and the standalone RESULT docs could merge with no
+  content loss (staged in CONDENSE_DOCS_REVIEW.md); needs the check_docs CANONICAL_MD ledger updated in the
+  same commit. Deferred, not executed.
 
 ## One line for the grader
 
