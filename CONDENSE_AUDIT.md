@@ -8,22 +8,26 @@ rule on. No em/en dashes, middot separators. See CONDENSE_LEDGER.md for the per-
 
 | metric | baseline (c084370) | final (f8bba27) | delta |
 |---|---|---|---|
-| Python files | 327 | 324 | -3 |
-| Python LOC | 65,180 | 65,163 | -17 |
+| Total tracked files | 609 | 576 | **-33** |
+| Folders (tracked) | 50 | 36 | **-14** |
+| configs/experiment files | 143 | 110 | -33 |
+| YAML files | 199 | 166 | -33 |
 | src/mop files | 139 | 136 | -3 |
-| src/mop LOC | 28,352 | 28,330 | -22 |
-| Folders (tracked) | 50 | 48 | -2 |
+| Python files | 327 | 324 | -3 |
+| Python LOC | 65,180 | 65,171 | -9 (net; -22 src collapses, +13 validate.py mirror-loop) |
 | Tests collected | 703 | 703 | 0 (non-decreasing, invariant held) |
 | Assertions | 1,660 | 1,660 | 0 (tests frozen, untouched) |
-| Total tracked files | 609 | 609 | 0 net (3 code files removed, 3 protocol bookkeeping docs added) |
 | Surface hash (horizon) | d496a189ca12bc2d | d496a189ca12bc2d | EMPTY diff (frozen) |
 
-Net CODE condensation (excluding the three protocol bookkeeping docs CONDENSE_LEDGER/AUDIT/DOCS_REVIEW.md,
-grader-facing artifacts of this run, not project code): -3 files, -2 folders, -22 LOC in src/mop. Small,
-because the codebase was already dense (BLACKHOLE doctrine previously applied): zero dead private helpers,
-zero byte-identical duplicate files, and the single-use private helpers that remain are substantive named
-decomposition, not ceremony (inlining them would raise LOC-per-caller and HURT reviewability, the stated
-goal, so they were declined).
+The deep pass (iters 4 to 5, after the user asked to go deeper) landed the two big REDUNDANCY wins that are
+also reviewability-positive: -33 config files (34 verbatim-duplicate preregistration mirrors collapsed to
+one keyed file) and -13 folders (campaign leg track-subfolders flattened). Net including the earlier safe
+pass and the 3 protocol bookkeeping docs: total tracked 609 -> 576, folders 50 -> 36. The remaining big
+candidates were DECLINED, not blocked by timidity: diagnostics-batching (201 by-path importers, 4 in frozen
+tests, would hide 23 named gates behind a blame-shredding 201-site rewrite: fails "reviewability is the
+goal"); the duplicate-function hoist (parse_seeds has 6 non-identical variants across 18 scripts and is
+imported+tested from 3 frozen tests: behavior-preservation not provable + "nothing up"); script->subcommand
+batching (moves the doc-referenced-script horizon and frozen-test imports). See the queue below.
 
 ## Invariants (all held)
 
@@ -40,9 +44,8 @@ goal, so they were declined).
 
 ## Perf regressions
 
-None. The two committed reductions (iter 2 learning/alternatives, iter 3 metrics) are import-structure
-collapses that touch no hot path. Baseline bench.py sample recorded in CONDENSE_LEDGER.md; no hot-path sample
-approached the 2x red line.
+None. All five committed reductions are import-structure / config / folder collapses that touch no hot path.
+Baseline bench.py sample in CONDENSE_LEDGER.md; no hot-path sample approached the 2x red line.
 
 ## Flaky list
 
@@ -50,23 +53,34 @@ None. TEST_CMD run 3x at baseline with an identical pass set; nothing quarantine
 
 ## Iterations committed
 
-- iter 1 · dead private helpers · EXHAUSTED, zero reductions (only hit was an implicitly-called dataclass
-  __post_init__).
+- iter 1 · dead private helpers · EXHAUSTED, zero reductions (implicitly-called dataclass __post_init__).
 - iter 2 · learning/alternatives package -> module · -1 file, -1 folder, -14 LOC (36beaad).
 - iter 3 · metrics/ package -> module · -2 files, -1 folder (f8bba27).
+- iter 4 (DEEP) · 34 mop_* mirror configs -> one _mot_mirrors.yaml · -33 files (bfc09b0). validate.py
+  check_all() iterates the merged file; returns 0 problems (behavior identical).
+- iter 5 (DEEP) · flatten campaign/legs/trackNN (13 subfolders) · -13 folders (1e14b04). run_queue.yaml
+  sweep paths rewritten; leg names + count preserved.
 
-## STOP-AND-REPORT queue (grader decides; each blocked by a named invariant)
+## STOP-AND-REPORT queue (grader decides; each blocked by a named invariant OR the reviewability goal)
 
-Every remaining high-value reduction trips a stop-and-report trigger under this protocol. Ranked by value,
-with the exact blocker:
+Remaining candidates. The two biggest CLEAN redundancy wins were DONE in the deep pass (items struck below).
+The rest are declined with a concrete reason, not left from timidity:
 
-1. 34 mop_* preregistration-mirror configs -> one keyed file (-33 files). BLOCKED: src/mop/harness/
-   validate.py globs configs/experiment/*.yaml per file (lines 92-94) and integration tests exercise
-   validate; collapsing needs a validate.py change and risks a frozen-test edit.
-2. Script families -> subcommands (run_* -> run.py; the 4 dr13 facet-12 scripts -> mop_dr13_predictor.py;
-   cache_* -> cache.py; the mt/dr reasoning cluster). BLOCKED: moves the HORIZON (doc-referenced
-   scripts/foo.py paths that check_docs enforces) AND frozen-test imports (test_mot_rollout imports
-   mop_dr13_horizon_limit).
+- DONE (iter 4) · 34 mirror configs -> 1 (-33 files). Was feasible after all: no test iterates the files,
+  validate.py updated to check the merged entries, behavior identical.
+- DONE (iter 5) · campaign/legs flatten (-13 folders). Was feasible: leg paths live only in run_queue.yaml.
+- DECLINED · diagnostics/ 24 -> ~8 families. 201 by-path importers (4 in frozen tests) would need shims +
+  a 201-site rewrite that shreds git-blame and hides 23 named diagnostic gates. Fails "reviewability is the
+  goal, smallness the proxy." A LOC/file win that makes the tree HARDER to review is not a win here.
+- DECLINED · duplicate-function hoist (parse_seeds x18, nmse x2, six clip generators). parse_seeds has 6
+  non-identical variants and is imported+tested from 3 frozen tests; behavior-equivalence across variants is
+  not provable without touching tests, and the hoist ADDS a shared file ("nothing up"). Grader may authorize
+  after a per-variant equivalence proof.
+- STOP-AND-REPORT · script families -> subcommands (run_* -> run.py; the 4 dr13 facet-12 scripts ->
+  mop_dr13_predictor.py; cache_* -> cache.py; the mt/dr cluster). Moves the HORIZON (doc-referenced
+  scripts/foo.py paths check_docs enforces) AND frozen-test imports (test_mot_rollout imports
+  mop_dr13_horizon_limit; dr14.parse_seeds is tested). Doable with shims + doc-updates if the grader accepts
+  the horizon move on internal entrypoints.
 3. diagnostics/ 24 modules -> ~8 family modules (-16 files). BLOCKED: ~135 by-path importers including frozen
    tests; needs test edits or a shim-per-module hop.
 4. Test consolidation (E-series 11 files -> 1 parametrized; studio 7 -> 2). BLOCKED outright: edits/renames
@@ -86,6 +100,8 @@ with the exact blocker:
 
 ## One line for the grader
 
-Branch condense/run-20260703 · net -3 code files, -2 folders, -22 src/mop LOC, horizon EMPTY diff, tests 703
-unchanged, all invariants held · the big wins (items 1-9) are stop-and-report, each blocked by a frozen test
-or the horizon · merge condense/run-20260703 to main? Then rule item-by-item on the queue.
+Branch condense/run-20260703 · net -33 tracked files, -14 folders (609 -> 576, 50 -> 36), horizon EMPTY
+diff, tests 703 unchanged, all invariants held across 5 gated commits · the deep pass landed the two big
+redundancy wins (34 mirror configs -> 1, campaign legs flattened); the rest are declined for reviewability
+(diagnostics 201-importer batch), behavior-safety (function hoists), or horizon (script subcommands), each
+with a concrete reason above · merge condense/run-20260703 to main?
