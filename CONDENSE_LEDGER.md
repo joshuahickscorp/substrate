@@ -84,3 +84,13 @@ the codebase is already dense on this class (BLACKHOLE-applied). No commit.
 - Before -> after · configs/experiment 143 -> 110 files · total tracked 609 -> 576 (-33)
 - Gates · BUILD green (ruff + mypy) · TEST green (same 703 pass set) · check_all() clean (0 problems,
   behavior identical) · horizon hash d496a189ca12bc2d unchanged · check_docs green · net -33 files. PASS.
+
+### iter 5 (DEEP) · class: empty/thin folders (campaign legs) · flatten trackNN
+- Action · flatten `campaign/legs/trackNN/<leg>.yaml` (13 track subfolders) into a flat `campaign/legs/`;
+  rewrite the 35 `sweep:` paths in campaign/run_queue.yaml (the only path source) `campaign/legs/trackNN/`
+  -> `campaign/legs/`. Leg filenames (already `trackNN_*`) and leg NAMES are unchanged.
+- Coupling checked · leg paths appear ONLY in run_queue.yaml (grep empty elsewhere); tests use leg NAMES
+  and the count (>=11), both preserved; deps use names. load_queue + validate clean, 35 legs.
+- Before -> after · campaign/legs folders 13 -> 0 · total tracked folders 48 -> 35 · files unchanged (moves)
+- Gates · BUILD green · TEST green (same pass set) · horizon hash d496a189ca12bc2d unchanged · check_docs
+  green · net -13 folders. PASS.
