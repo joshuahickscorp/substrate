@@ -255,6 +255,16 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: indirectly, by proving the receipt chain and profile envelope before Process C or dense-cache work can start.
 - Doctrine flag: transfer check is not science; failing it blocks the wave instead of downgrading any scientific null.
 
+### StudioWave0Report
+- Status: EXISTS. `studio/wave0_report.py` and `scripts/studio_wave0_report.py` synthesize the Wave-0 transfer, daemon, encode, and memory receipts into one JSON summary plus a bounded Markdown block in `STUDIO_RUN_REPORT.md`.
+- Purpose: make the actual M1 Ultra s/clip and memory envelope land in the scoreboard without a manual rewrite. The report block is bounded by markers and is replaced idempotently on rerun, so a resumed Wave 0 cannot duplicate stale rows.
+- Inputs: transfer-check JSON, daemon state JSON, `encode_device.json`, and `encode_schedule.json`. Outputs: `runs/studio_wave0/wave0_report.json` and, with `--apply`, an auto receipt block in `docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md`.
+- Minimal impl: present. It records transfer pass count, daemon job summary, CPU/MPS s/clip, winner, launch gate, blocked reasons, process RSS peak, minimum available system memory, and MPS driver peak.
+- Full impl (next): after the Studio completes the >=1000-clip cache rebuild, extend the same report with cache-manifest validation and actual cache count.
+- Dependencies: the JSON receipts produced by `studio_transfer_check.py`, `studio_daemon.py`, and `mop_encode_autoselect.py`. Used by: Studio Wave 0 ledgering.
+- Laptop-safe: yes, pure JSON/Markdown. Studio-scale: yes. Prepares-for-custom-model: indirectly, by keeping the Studio scoreboard receipt-driven before DR1/PR9/Process C.
+- Doctrine flag: a missing or blocked receipt renders Wave 0 incomplete. It never converts a failed gate into a scientific null.
+
 ### LongRunDaemon
 - Status: EXISTS. `studio/long_run.py` and `scripts/studio_daemon.py` supervise a JSON job plan under an active Studio profile.
 - Purpose: make week-scale Studio work boring and resumable: profile disk gate before each job, dry-run by default, state checkpoint after every transition, heartbeat events during long subprocesses, per-job stdout/stderr logs, resume-skip for completed jobs, and clean stop on blocked/failed jobs.
@@ -280,7 +290,7 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Summary: EXISTS vs NEW
 
-- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, StudioTransferCheck, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
+- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, StudioTransferCheck, StudioWave0Report, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
 - PARTIAL (primitives exist, needs a thin aggregator or promotion): AlignmentSuite (geometry+seed_consistency exist), WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
 - NEW (justified, no duplicate): CrossSubstrateAgreement (`diagnostics/cross_substrate.py`), the missing outer loop over substrates for standing-control 8; and the substrate-LEVEL variant of MixtureArbitrator, which is the least-committal architectural answer to the reopened dense-vs-custom fork but is gated behind CrossSubstrateAgreement showing complementarity.
 

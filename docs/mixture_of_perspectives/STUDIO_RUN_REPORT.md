@@ -210,6 +210,13 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   rather than dying before artifact creation. Local smoke hit the expected laptop wall (V-JEPA files not
   cached) and still produced valid `mop-memory-envelope/v1` receipts. Verdict: no Studio s/clip was
   measured locally, but the Studio run now has the required memory-envelope instrument.
+- WAVE 17 (M3 Pro, 2026-07-08, Wave-0 report synthesizer): built `src/mop/studio/wave0_report.py`,
+  `scripts/studio_wave0_report.py`, and `tests/unit/test_wave0_report.py`, and added the report step to
+  the daemon template. The synthesizer reads transfer check, daemon state, encode device, and encode
+  schedule receipts, writes `runs/studio_wave0/wave0_report.json`, and idempotently inserts a bounded
+  auto block into `STUDIO_RUN_REPORT.md` with actual CPU/MPS s/clip, winner, blocked reasons, process
+  RSS peak, minimum system memory, and MPS driver peak. Verdict: no Studio evidence was fabricated, but
+  the M1 Ultra Wave 0 now has an executable path from receipts to the required scoreboard entry.
 
 ## Next move (per the goal-loop protocol)
 
