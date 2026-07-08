@@ -247,6 +247,13 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   Dry-run states also no longer count as completed when a later run is executed, so a rehearsal cannot
   accidentally skip the real Wave. Verdict: no science was run, but week-scale Studio jobs now carry the
   falsification and durability gates before any positive ledger mutation can happen.
+- WAVE 22 (M3 Pro, 2026-07-08, DR1 schedule bridge): added `src/mop/studio/dr1_schedule.py`,
+  `scripts/studio/dr1_schedule_plan.py`, and `tests/unit/test_dr1_schedule.py`, then wired
+  `scripts/studio/dr1_curate_bound_video.py --device` so the measured CPU/MPS winner from
+  `encode_schedule.json` is honored by the actual DR1 legs. The bridge refuses blocked schedules, splits
+  DR1 encode legs by checkpoint cadence, emits a caption-gate job, merge job, A6-guard job, and optional
+  long-run daemon plan. Verdict: no real video was encoded on the laptop, but DR1 now consumes the Studio
+  schedule as a receipt instead of relying on a copied command string.
 
 ## Next move (per the goal-loop protocol)
 

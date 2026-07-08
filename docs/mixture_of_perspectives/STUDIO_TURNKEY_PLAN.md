@@ -41,8 +41,10 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.1 encode auto-select: `scripts/mop_encode_autoselect.py` microbenches CPU vs MPS and writes
       `runs/mot/encode_device.json` with the winner and `runs/mot/encode_schedule.json` with the
       profile-aware launch contract (device, CPU workers, dense/pooled cache bytes, disk floors,
-      wall-clock gate, checkpoint cadence, next command). Smoke-run with `--skip-mps` (picks cpu at
-      16 s/clip on the laptop); the Studio re-runs without the flag to time MPS at 128 GB.
+      wall-clock gate, checkpoint cadence, next command). `scripts/studio/dr1_schedule_plan.py` consumes
+      that schedule and emits the DR1 caption gate, checkpoint-sized encode legs, merge, A6 guard, and
+      optional daemon plan. Smoke-run with `--skip-mps` (picks cpu at 16 s/clip on the laptop); the
+      Studio re-runs without the flag to time MPS at 128 GB.
 - [x] T4.3 perspective matrix contract: `src/mop/perspectives/adapter.py` aligns vision/language/audio/
       code/math/control arms by referent id, refuses referent drift, and audits missing matched controls
       plus supervised/derived/license flags. DR1 cache merge should write or consume this contract before
@@ -77,6 +79,10 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.11 artifact bundle/index: `scripts/studio_artifact_bundle.py` writes
       `mop-artifact-bundle/v1` indexes for pre-Studio and Wave-0 receipt sets, hashes every artifact,
       validates JSON receipts, and can copy small untracked receipts into a durable proof bundle.
+- [x] T4.12 DR1 schedule bridge: `scripts/studio/dr1_schedule_plan.py` turns `encode_schedule.json`
+      into a dry JSON plan and optional long-run daemon plan. It refuses blocked schedules, carries the
+      measured CPU/MPS device into `dr1_curate_bound_video.py --device`, and makes checkpoint cadence the
+      source of truth for DR1 shard legs.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -122,7 +128,8 @@ back-fit. Priority = de-risk before decorate.
   18 GB) on the M3 Pro. Wire the encode path to run a tiny microbench and pick the winner automatically,
   then feed that measurement into the profile-aware scheduler, so the Studio does not hand-choose the
   device, CPU workers, checkpoint cadence, or disk reserve (and re-measures MPS at 128 GB where it may
-  win).
+  win). After the Studio schedule exists, materialize DR1 legs with:
+  `PYTHONPATH=src:. python scripts/studio/dr1_schedule_plan.py --source /data/comp_video --daemon-out runs/studio_wave0/dr1_daemon_plan.json`.
 - T4.2 Verify the ViT-H / ViT-g encoder configs and the acquisition commands are Studio-ready (facet 7
   atlas encoder-scale curve); both are config-only stubs today.
 - T4.3 Perspective matrix contract. Multi-arm Studio runs must prove their arms share identical referents
@@ -149,6 +156,8 @@ back-fit. Priority = de-risk before decorate.
   `PYTHONPATH=src:. python scripts/studio_artifact_bundle.py --preset pre-studio --require-durable --out proof/ARTIFACT_INDEX/pre_studio.json`.
   After M1 Ultra Wave 0, preserve ignored run receipts with:
   `PYTHONPATH=src:. python scripts/studio_artifact_bundle.py --preset wave0 --copy-dir proof/ARTIFACT_BUNDLES/wave0 --require-durable --out proof/ARTIFACT_INDEX/wave0.json`.
+- T4.12 DR1 schedule bridge. Validate the generated daemon plan before execution:
+  `PYTHONPATH=src:. python scripts/studio_daemon.py validate --plan runs/studio_wave0/dr1_daemon_plan.json`.
 - T5.1 Native lanes. Safe manifest:
   `PYTHONPATH=src:. python scripts/studio_native_lanes.py list --profile studio-m1ultra`.
   Daemon plan from ready safe lanes:
