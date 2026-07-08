@@ -11,7 +11,7 @@ import json
 import sys
 from pathlib import Path
 
-from mop.studio.long_run import run_daemon, write_plan_template
+from mop.studio.long_run import load_plan, run_daemon, write_plan_template
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -20,6 +20,9 @@ def main(argv: list[str] | None = None) -> int:
 
     pt = sub.add_parser("template", help="write a starter daemon plan")
     pt.add_argument("--out", required=True)
+
+    pv = sub.add_parser("validate", help="validate a daemon plan without running it")
+    pv.add_argument("--plan", required=True)
 
     pr = sub.add_parser("run", help="run or dry-run a daemon plan")
     pr.add_argument("--plan", required=True)
@@ -34,6 +37,14 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "template":
         plan = write_plan_template(a.out)
         print(json.dumps({"out": a.out, "jobs": len(plan["jobs"])}, indent=2))
+        return 0
+    if a.cmd == "validate":
+        try:
+            jobs = load_plan(Path(a.plan))
+        except Exception as e:
+            print(json.dumps({"plan": a.plan, "ok": False, "error": str(e)}, indent=2), file=sys.stderr)
+            return 1
+        print(json.dumps({"plan": a.plan, "ok": True, "jobs": [job.job_id for job in jobs]}, indent=2))
         return 0
 
     state = run_daemon(

@@ -21,6 +21,9 @@ from .profiles import Profile, get_profile
 
 SCHEMA = "mop-long-run-daemon/v1"
 STATE_FILE = "daemon_state.json"
+VERDICT_GATE_KINDS = {"verdict-gate", "verdict_gate"}
+ARTIFACT_BUNDLE_KINDS = {"artifact-bundle", "artifact_bundle"}
+POSITIVE_LEDGER_KINDS = {"positive-ledger", "positive_ledger", "ledger-positive", "ledger_positive"}
 
 
 @dataclass(frozen=True)
@@ -52,7 +55,45 @@ def load_plan(path: Path | str) -> list[DaemonJob]:
     jobs = raw.get("jobs")
     if not isinstance(jobs, list) or not jobs:
         raise ValueError("plan must contain a non-empty jobs list")
-    return [_job_from_obj(obj) for obj in jobs]
+    plan = [_job_from_obj(obj) for obj in jobs]
+    problems = validate_plan_contract(plan)
+    if problems:
+        raise ValueError("; ".join(problems))
+    return plan
+
+
+def validate_plan_contract(jobs: Sequence[DaemonJob]) -> list[str]:
+    """Static honesty contract for daemon plans.
+
+    A positive-ledger job is a doc/ledger mutation that records a candidate positive. It must appear
+    after a verdict-gate job and an artifact-bundle job. Because the daemon stops on failed prior jobs,
+    static ordering plus normal execution makes those gates mandatory without teaching the daemon
+    experiment-specific semantics.
+    """
+    problems: list[str] = []
+    seen_verdict_gate = False
+    seen_artifact_bundle = False
+    seen_ids: set[str] = set()
+    for job in jobs:
+        if job.job_id in seen_ids:
+            problems.append(f"duplicate job id {job.job_id!r}")
+        seen_ids.add(job.job_id)
+        kind = _kind_key(job.kind)
+        if kind in POSITIVE_LEDGER_KINDS:
+            missing = []
+            if not seen_verdict_gate:
+                missing.append("verdict-gate")
+            if not seen_artifact_bundle:
+                missing.append("artifact-bundle")
+            if missing:
+                problems.append(
+                    f"positive-ledger job {job.job_id!r} is missing prior gate(s): {', '.join(missing)}"
+                )
+        if kind in VERDICT_GATE_KINDS:
+            seen_verdict_gate = True
+        if kind in ARTIFACT_BUNDLE_KINDS:
+            seen_artifact_bundle = True
+    return problems
 
 
 def write_plan_template(path: Path | str) -> dict[str, Any]:
@@ -146,6 +187,9 @@ def run_daemon(
     jobs run sequentially and completed jobs are skipped on resume.
     """
     jobs = load_plan(plan) if isinstance(plan, str | Path) else list(plan)
+    problems = validate_plan_contract(jobs)
+    if problems:
+        raise ValueError("; ".join(problems))
     profile = get_profile(profile_name)
     root = Path(disk_root) if disk_root is not None else None
     out = Path(out_dir)
@@ -156,7 +200,8 @@ def run_daemon(
 
     for job in jobs:
         rec = state["jobs"].get(job.job_id, {})
-        if rec.get("status") in {"success", "dry-run"}:
+        completed_statuses = {"success"} if execute else {"success", "dry-run"}
+        if rec.get("status") in completed_statuses:
             _event(state, "resume-skip", job.job_id, f"already {rec['status']}")
             _write_state(out, state)
             continue
@@ -216,6 +261,7 @@ def _load_state(out_dir: Path, profile: Profile, execute: bool) -> dict[str, Any
         state = json.loads(path.read_text())
         if state.get("schema") == SCHEMA:
             state["resumed_at"] = _now()
+            state["execute"] = bool(execute)
             return state
     return {
         "schema": SCHEMA,
@@ -304,6 +350,10 @@ def _summary(state: dict[str, Any]) -> dict[str, int]:
         status = str(rec.get("status", "unknown"))
         counts[status] = counts.get(status, 0) + 1
     return counts
+
+
+def _kind_key(kind: str) -> str:
+    return str(kind).strip().lower().replace(" ", "-")
 
 
 def _now() -> str:

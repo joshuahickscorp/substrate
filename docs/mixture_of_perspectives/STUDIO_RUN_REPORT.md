@@ -240,6 +240,13 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   proof bundle while refusing oversized or non-text artifacts. The transfer checklist now requires the
   tool and the pre-Studio index path before Studio compute starts. Verdict: no new science, but the
   audit's gitignored-artifact risk is now a machine-checkable durability gate for Wave 0 and later waves.
+- WAVE 21 (M3 Pro, 2026-07-08, daemon pre-ledger contract): extended `src/mop/studio/long_run.py`,
+  `scripts/studio_daemon.py`, and `tests/unit/test_long_run_daemon.py`. Daemon plans now reject any
+  `positive-ledger` job unless a `verdict-gate` job and an `artifact-bundle` job appear earlier in the
+  plan; `scripts/studio_daemon.py validate --plan <plan.json>` checks this without running commands.
+  Dry-run states also no longer count as completed when a later run is executed, so a rehearsal cannot
+  accidentally skip the real Wave. Verdict: no science was run, but week-scale Studio jobs now carry the
+  falsification and durability gates before any positive ledger mutation can happen.
 
 ## Next move (per the goal-loop protocol)
 
