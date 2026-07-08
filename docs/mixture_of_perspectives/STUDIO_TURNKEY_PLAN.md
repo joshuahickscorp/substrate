@@ -47,8 +47,9 @@ back-fit. Priority = de-risk before decorate.
       Studio re-runs without the flag to time MPS at 128 GB.
 - [x] T4.3 perspective matrix contract: `src/mop/perspectives/adapter.py` aligns vision/language/audio/
       code/math/control arms by referent id, refuses referent drift, and audits missing matched controls
-      plus supervised/derived/license flags. DR1 cache merge should write or consume this contract before
-      AL2, A6 residualization, or facet-15 claims run.
+      plus supervised/derived/license flags. DR1 cache merge now writes a `perspective_matrix_receipt.json`
+      when paired captions and the merged root store are present, or a blocked receipt when the root store
+      is still only a shard-order manifest.
 - [x] T4.4 gated Process C dense-token module: `src/mop/process_c/dense_tokens.py` provides the sanctioned
       1 to 10M object-centric slot module over frozen dense tokens, dense-without-slots baseline,
       binding-specificity report, and default unlicensed-run refusal. Do not run it until PR9 or DR1
@@ -134,7 +135,7 @@ back-fit. Priority = de-risk before decorate.
   atlas encoder-scale curve); both are config-only stubs today.
 - T4.3 Perspective matrix contract. Multi-arm Studio runs must prove their arms share identical referents
   and matched controls before reporting cross-perspective structure. `PerspectiveAdapter` now supplies
-  the contract; the next DR1 merge pass consumes it.
+  the contract; the DR1 merge pass writes the receipt beside the merged cache when `--source` is provided.
 - T4.4 Process C dense-token module. Process C stays gated, but its first allowed module is ready to import:
   slot attention over frozen dense tokens, dense-without-slots baseline, binding-specificity report, and
   a budget/license refusal by default.
