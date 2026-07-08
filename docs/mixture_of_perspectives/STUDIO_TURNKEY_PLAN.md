@@ -63,6 +63,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.8 encode memory-envelope receipt: `scripts/mop_encode_autoselect.py` now records a
       `mop-memory-envelope/v1` block in both `encode_device.json` and `encode_schedule.json`, and writes
       a blocked receipt if model files are missing.
+- [x] T4.9 Wave-0 report synthesizer: `scripts/studio_wave0_report.py` reads transfer/daemon/encode
+      receipts, writes `runs/studio_wave0/wave0_report.json`, and idempotently applies a bounded auto
+      block to `STUDIO_RUN_REPORT.md` with actual s/clip and memory-envelope values.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -124,6 +127,8 @@ back-fit. Priority = de-risk before decorate.
 - T4.7 Wave-0 daemon template. On the Studio: `PYTHONPATH=src:. python scripts/studio_daemon.py template --out runs/studio_wave0_plan.json`, then inspect it and run with `--execute` only on the M1 Ultra.
 - T4.8 Memory envelope. The Studio microbench must quote both actual s/clip and the emitted memory
   envelope from `runs/mot/encode_device.json` / `runs/mot/encode_schedule.json`.
+- T4.9 Report synthesis. After Wave 0 on the Studio, run
+  `PYTHONPATH=src:. python scripts/studio_wave0_report.py --apply` to convert receipts into the scoreboard.
 
 ## Tier 5: one-command entry points for the missing facets (13 to 17)
 

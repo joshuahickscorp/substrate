@@ -11,6 +11,7 @@ from .long_run import DaemonJob, run_daemon, write_plan_template
 from .memory_envelope import MemorySampler, memory_snapshot, summarize_samples
 from .profiles import M3PRO_LOCAL_MAX, PROFILES, STUDIO, Profile, get_profile, list_profiles
 from .transfer_check import TransferCheckConfig, run_transfer_check, write_transfer_report
+from .wave0_report import build_wave0_report, render_markdown, upsert_report_block
 
 __all__ = [
     "EncodeBenchmark",
@@ -25,6 +26,9 @@ __all__ = [
     "TransferCheckConfig",
     "run_transfer_check",
     "write_transfer_report",
+    "build_wave0_report",
+    "render_markdown",
+    "upsert_report_block",
     "Profile",
     "STUDIO",
     "M3PRO_LOCAL_MAX",

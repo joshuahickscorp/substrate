@@ -62,7 +62,14 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
         "jobs": [
             {
                 "id": "transfer_check",
-                "cmd": ["python", "scripts/studio_transfer_check.py", "--profile", "studio-m1ultra"],
+                "cmd": [
+                    "python",
+                    "scripts/studio_transfer_check.py",
+                    "--profile",
+                    "studio-m1ultra",
+                    "--out",
+                    "runs/studio_wave0/transfer_check.json",
+                ],
                 "kind": "gate",
             },
             {
@@ -103,6 +110,17 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
                     "8",
                 ],
                 "kind": "microbench",
+            },
+            {
+                "id": "wave0_report",
+                "cmd": [
+                    "python",
+                    "scripts/studio_wave0_report.py",
+                    "--daemon-state",
+                    "runs/studio_wave0/daemon_state.json",
+                    "--apply",
+                ],
+                "kind": "report",
             },
         ],
     }

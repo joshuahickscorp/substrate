@@ -15,6 +15,7 @@ def test_template_plan_round_trips(tmp_path):
         "acceptance",
         "dr1_smoke",
         "encode_microbench",
+        "wave0_report",
     ]
 
 
