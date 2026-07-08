@@ -61,6 +61,11 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
         "schema": SCHEMA,
         "jobs": [
             {
+                "id": "transfer_check",
+                "cmd": ["python", "scripts/studio_transfer_check.py", "--profile", "studio-m1ultra"],
+                "kind": "gate",
+            },
+            {
                 "id": "doctor",
                 "cmd": ["python", "scripts/studio_doctor.py", "--profile", "studio-m1ultra"],
                 "kind": "gate",

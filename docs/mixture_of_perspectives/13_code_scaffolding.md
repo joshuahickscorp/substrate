@@ -245,6 +245,16 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Observability and reproducibility layer
 
+### StudioTransferCheck
+- Status: EXISTS. `studio/transfer_check.py` and `scripts/studio_transfer_check.py` implement the read-only Wave-0 transfer checklist.
+- Purpose: prove the Studio received the governing stack and durable receipts before it spends compute. The check validates the active profile is `studio-m1ultra`, confirms the governing audit and required docs/scripts exist, parses the null-card schema, reports git branch/head/dirty state, confirms pre-Studio receipt files are present and git-tracked, and validates any cache manifests already present.
+- Inputs: repo root, profile name, optional audit path, dirty-worktree policy, and receipt requirement flag. Outputs: `mop-studio-transfer-check/v1` JSON with per-check status and summary.
+- Minimal impl: present. The CLI is read-only and writes a report with `--out`; dirty worktrees fail by default unless `--allow-dirty` is explicit.
+- Full impl (next): make `studio_daemon.py` use this as the first required gate in every Wave-0 plan, then archive the emitted JSON beside `STUDIO_RUN_REPORT.md` on the Studio.
+- Dependencies: `studio.profiles`, `substrate.cache_manifest`, git CLI. Used by: Studio Wave 0 transfer receipt and long-run daemon template.
+- Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: indirectly, by proving the receipt chain and profile envelope before Process C or dense-cache work can start.
+- Doctrine flag: transfer check is not science; failing it blocks the wave instead of downgrading any scientific null.
+
 ### LongRunDaemon
 - Status: EXISTS. `studio/long_run.py` and `scripts/studio_daemon.py` supervise a JSON job plan under an active Studio profile.
 - Purpose: make week-scale Studio work boring and resumable: profile disk gate before each job, dry-run by default, state checkpoint after every transition, heartbeat events during long subprocesses, per-job stdout/stderr logs, resume-skip for completed jobs, and clean stop on blocked/failed jobs.
@@ -270,7 +280,7 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Summary: EXISTS vs NEW
 
-- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
+- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, StudioTransferCheck, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
 - PARTIAL (primitives exist, needs a thin aggregator or promotion): AlignmentSuite (geometry+seed_consistency exist), WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
 - NEW (justified, no duplicate): CrossSubstrateAgreement (`diagnostics/cross_substrate.py`), the missing outer loop over substrates for standing-control 8; and the substrate-LEVEL variant of MixtureArbitrator, which is the least-committal architectural answer to the reopened dense-vs-custom fork but is gated behind CrossSubstrateAgreement showing complementarity.
 

@@ -7,7 +7,7 @@ def test_template_plan_round_trips(tmp_path):
     plan_path = tmp_path / "plan.json"
     write_plan_template(plan_path)
     jobs = load_plan(plan_path)
-    assert [j.job_id for j in jobs] == ["doctor", "docs_gate"]
+    assert [j.job_id for j in jobs] == ["transfer_check", "doctor", "docs_gate"]
 
 
 def test_daemon_dry_run_writes_resumable_state(tmp_path):

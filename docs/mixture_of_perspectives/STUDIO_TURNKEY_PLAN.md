@@ -54,6 +54,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.5 long-run daemon: `scripts/studio_daemon.py` supervises a JSON job plan with dry-run default,
       profile disk gates, resumable `daemon_state.json`, per-job logs, heartbeat events, and clean stop on
       blocked/failed jobs. This is the facet-16 execution spine, not a science selector.
+- [x] T4.6 transfer checklist command: `scripts/studio_transfer_check.py` emits a Wave-0 transfer receipt
+      proving the governing audit/docs/scripts, `studio-m1ultra` profile, null-card schema, durable
+      pre-Studio receipts, git state, and cache manifests before any Studio science starts.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -110,6 +113,8 @@ back-fit. Priority = de-risk before decorate.
 - T4.5 Long-run daemon. Week-scale Studio plans can now run under a dry-run-first supervisor with profile
   disk gates, heartbeat, logs, and resumable state. Next extension is making adversarial verification and
   strict null-card validation mandatory job kinds before any positive-ledger step.
+- T4.6 Transfer checklist. Studio Wave 0 now starts with an executable receipt:
+  `PYTHONPATH=src:. python scripts/studio_transfer_check.py --profile studio-m1ultra --out runs/studio_transfer_check.json`.
 
 ## Tier 5: one-command entry points for the missing facets (13 to 17)
 
