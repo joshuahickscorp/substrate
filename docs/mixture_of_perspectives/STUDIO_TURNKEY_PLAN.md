@@ -72,6 +72,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.10 verdict gate: `scripts/verdict_gate.py` writes a `mop-verdict-gate/v1` receipt that refuses
       any `PUBLISH-POSITIVE` verdict unless the null card is strict, the raw run receipt exists, and a
       separate verifier receipt is both passing and independent/adversarial.
+- [x] T4.11 artifact bundle/index: `scripts/studio_artifact_bundle.py` writes
+      `mop-artifact-bundle/v1` indexes for pre-Studio and Wave-0 receipt sets, hashes every artifact,
+      validates JSON receipts, and can copy small untracked receipts into a durable proof bundle.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -139,6 +142,10 @@ back-fit. Priority = de-risk before decorate.
 - T4.10 Verdict gate. Before any positive enters `STUDIO_RUN_REPORT.md` or the verdict ledger, run
   `PYTHONPATH=src:. python scripts/verdict_gate.py --null-card <card.md> --run-receipt <run.json> --verifier-receipt <verify.json> --out <gate.json>`.
   A null/tie may omit `--verifier-receipt`, but still needs the strict card and raw JSON receipt.
+- T4.11 Artifact index. Pre-Studio receipt index:
+  `PYTHONPATH=src:. python scripts/studio_artifact_bundle.py --preset pre-studio --require-durable --out proof/ARTIFACT_INDEX/pre_studio.json`.
+  After M1 Ultra Wave 0, preserve ignored run receipts with:
+  `PYTHONPATH=src:. python scripts/studio_artifact_bundle.py --preset wave0 --copy-dir proof/ARTIFACT_BUNDLES/wave0 --require-durable --out proof/ARTIFACT_INDEX/wave0.json`.
 - T5.1 Native lanes. Safe manifest:
   `PYTHONPATH=src:. python scripts/studio_native_lanes.py list --profile studio-m1ultra`.
   Daemon plan from ready safe lanes:

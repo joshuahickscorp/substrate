@@ -6,6 +6,7 @@ downloads heavy assets by default; heavy acquisition is gated behind execute + b
 
 from __future__ import annotations
 
+from .artifact_bundle import build_artifact_index, preset_paths, write_artifact_index
 from .encode_scheduler import EncodeBenchmark, format_plan, plan_encode
 from .long_run import DaemonJob, run_daemon, write_plan_template
 from .memory_envelope import MemorySampler, memory_snapshot, summarize_samples
@@ -21,6 +22,9 @@ __all__ = [
     "DaemonJob",
     "run_daemon",
     "write_plan_template",
+    "build_artifact_index",
+    "write_artifact_index",
+    "preset_paths",
     "MemorySampler",
     "memory_snapshot",
     "summarize_samples",
