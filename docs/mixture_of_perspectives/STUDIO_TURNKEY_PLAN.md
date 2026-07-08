@@ -66,6 +66,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.9 Wave-0 report synthesizer: `scripts/studio_wave0_report.py` reads transfer/daemon/encode
       receipts, writes `runs/studio_wave0/wave0_report.json`, and idempotently applies a bounded auto
       block to `STUDIO_RUN_REPORT.md` with actual s/clip and memory-envelope values.
+- [x] T5.1 native-lane manifest: `scripts/studio_native_lanes.py` lists the Part 2 Studio-native lanes
+      as receipt-bearing entries, emits ready lanes into a standard daemon plan, and records explicit
+      blocked reasons for live-encoder doctrine, perspective ecology, and Process C licensing.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -73,8 +76,9 @@ back-fit. Priority = de-risk before decorate.
       facet-12 adversarial verifier is RESTORED as `scripts/mop_dr13_verify.py` (reproduces 6/6 PASS
       in-repo, fixing the one over-claim); PR9 bare `--smoke` now falls back to the real cache; the stale
       12-stage rehearsal phrasing is corrected to 9/9.
-- [ ] T5.1 missing-facet (13 to 17) one-command entry points: remaining, lowest priority; each facet's
-      run is Studio-gated (live-encoder throughput, corpora, dense cache), so scaffold after DR1 lands.
+- [ ] T5.2 per-lane science launchers: remaining, lowest priority; `studio_native_lanes.py` now gives
+      every Studio-native lane a manifest entry, but perspective extraction and Process C launchers stay
+      blocked until DR1, PR9, or a named wall licenses them.
 
 ## Tier 1: de-risk the spine scripts (highest leverage)
 
@@ -129,12 +133,21 @@ back-fit. Priority = de-risk before decorate.
   envelope from `runs/mot/encode_device.json` / `runs/mot/encode_schedule.json`.
 - T4.9 Report synthesis. After Wave 0 on the Studio, run
   `PYTHONPATH=src:. python scripts/studio_wave0_report.py --apply` to convert receipts into the scoreboard.
+- T5.1 Native lanes. Safe manifest:
+  `PYTHONPATH=src:. python scripts/studio_native_lanes.py list --profile studio-m1ultra`.
+  Daemon plan from ready safe lanes:
+  `PYTHONPATH=src:. python scripts/studio_native_lanes.py plan --profile studio-m1ultra`.
+  Heavy lanes require explicit preregistration and inputs, for example:
+  `PYTHONPATH=src:. python scripts/studio_native_lanes.py plan --profile studio-m1ultra --include-heavy --clip-dir <real_pt_clips> --dr1-cache data/cache/vjepa2_vitl_comp_video`.
 
 ## Tier 5: one-command entry points for the missing facets (13 to 17)
 
 - T5.1 Scaffold the cheapest missing facet entry points with preregistered nulls and matched controls,
-  so the Studio has a runnable stub per facet rather than a design note. Lowest priority: the spine
-  (DR1, PR9) must land first and these lanes ride its artifacts.
+  so the Studio has a runnable or explicitly blocked manifest entry per facet rather than a design note.
+  Default manifests emit only safe ready lanes; large downloads and science runs require `--include-heavy`
+  plus concrete input paths.
+- T5.2 Add the per-lane launchers only after their receipts exist. Lowest priority: the spine (DR1, PR9)
+  must land first and these lanes ride its artifacts.
 
 ## Order and gates
 
