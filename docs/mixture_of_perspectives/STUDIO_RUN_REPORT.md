@@ -268,6 +268,12 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   pairwise CKA/kernel-CKA/RSA/neighborhood overlap, row-shuffle p-values, metric matrices, and doctrine
   warnings when no random-encoder control tag is present. Verdict: no Studio evidence was scored, but the
   DR1 PerspectiveMatrix now has a reusable falsifiable alignment table instead of ad hoc pair calls.
+- WAVE 25 (M3 Pro, 2026-07-08, claim ledger daemon plan): added `src/mop/studio/claim_plan.py`,
+  `scripts/studio_claim_plan.py`, and `tests/unit/test_claim_plan.py`. Studio claim updates can now be
+  emitted as daemon plans that run `verdict-gate`, then `artifact-bundle`, then the requested ledger
+  command; positive claims mark the final job as `positive-ledger`, so the daemon's static contract
+  rejects any hand-built positive update that omits falsification or durability gates. Verdict: no claim
+  was ledgered, but the path from run receipt to doc mutation now has an executable pre-ledger spine.
 
 ## Next move (per the goal-loop protocol)
 
