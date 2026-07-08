@@ -217,6 +217,14 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   auto block into `STUDIO_RUN_REPORT.md` with actual CPU/MPS s/clip, winner, blocked reasons, process
   RSS peak, minimum system memory, and MPS driver peak. Verdict: no Studio evidence was fabricated, but
   the M1 Ultra Wave 0 now has an executable path from receipts to the required scoreboard entry.
+- WAVE 18 (M3 Pro, 2026-07-08, Studio-native lane manifest): built `src/mop/studio/native_lanes.py`,
+  `scripts/studio_native_lanes.py`, and `tests/unit/test_native_lanes.py`. The manifest turns the Part 2
+  lanes into receipt-bearing entries: runnable commands for DR13 real rollout tests, hosted-corpora
+  planning/acquire, and PR9 on the DR1 cache when their inputs exist, and explicit blocked reasons for
+  live-encoder doctrine, perspective ecology, and Process C licensing. Heavy lanes require
+  `--include-heavy` plus concrete input paths, and acquisition requires an inspected `--plan-path`.
+  Verdict: no new science, but the remaining Studio-native levers are now schedulable or mechanically
+  walled instead of living only in prose.
 
 ## Next move (per the goal-loop protocol)
 

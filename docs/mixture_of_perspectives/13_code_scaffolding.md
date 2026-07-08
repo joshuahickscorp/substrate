@@ -265,6 +265,16 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Laptop-safe: yes, pure JSON/Markdown. Studio-scale: yes. Prepares-for-custom-model: indirectly, by keeping the Studio scoreboard receipt-driven before DR1/PR9/Process C.
 - Doctrine flag: a missing or blocked receipt renders Wave 0 incomplete. It never converts a failed gate into a scientific null.
 
+### StudioNativeLanes
+- Status: EXISTS. `studio/native_lanes.py` and `scripts/studio_native_lanes.py` make the Studio-native facets machine-readable: DR13 rollout fidelity, hosted corpora, live-encoder doctrine, perspective ecology, developmental PR9, and Process C licensing.
+- Purpose: turn the Part 2 audit lanes into concrete daemon jobs when their preregistered inputs exist, and into explicit blocked receipts when a prior artifact is missing. This keeps "not runnable yet" falsifiable instead of leaving it as prose.
+- Inputs: profile name plus optional `clip_dir`, `dr1_cache`, `plan_path`, and `encode_schedule` paths. Outputs: a `mop-studio-native-lanes/v1` manifest and, for ready lanes, a standard long-run daemon plan.
+- Minimal impl: present. Heavy lanes are blocked unless `--include-heavy` is set, large acquisition requires an explicit inspected `--plan-path`, and lanes without a sanctioned launcher record the release condition instead of fabricating a command.
+- Full impl (next): wire perspective feature extraction into the manifest once DR1 has a merged cache and matched language/audio/object-centric feature stores.
+- Dependencies: `LongRunDaemon`, `PerspectiveAdapter`, `ProcessCDenseTokenModule`, DR1 cache receipts, Wave-0 encode schedule. Used by: Studio-native lane planning after Wave 0.
+- Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: directly, by keeping Process C behind an explicit PR9/DR1 licensing receipt.
+- Doctrine flag: blocked lanes are walls-in-progress, not nulls. A lane can only move from blocked to ready when its named receipt exists.
+
 ### LongRunDaemon
 - Status: EXISTS. `studio/long_run.py` and `scripts/studio_daemon.py` supervise a JSON job plan under an active Studio profile.
 - Purpose: make week-scale Studio work boring and resumable: profile disk gate before each job, dry-run by default, state checkpoint after every transition, heartbeat events during long subprocesses, per-job stdout/stderr logs, resume-skip for completed jobs, and clean stop on blocked/failed jobs.
@@ -290,7 +300,7 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Summary: EXISTS vs NEW
 
-- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, StudioTransferCheck, StudioWave0Report, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
+- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, StudioTransferCheck, StudioWave0Report, StudioNativeLanes, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
 - PARTIAL (primitives exist, needs a thin aggregator or promotion): AlignmentSuite (geometry+seed_consistency exist), WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
 - NEW (justified, no duplicate): CrossSubstrateAgreement (`diagnostics/cross_substrate.py`), the missing outer loop over substrates for standing-control 8; and the substrate-LEVEL variant of MixtureArbitrator, which is the least-committal architectural answer to the reopened dense-vs-custom fork but is gated behind CrossSubstrateAgreement showing complementarity.
 
