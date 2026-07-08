@@ -34,6 +34,7 @@ from transformers import AutoModel  # noqa: E402
 
 from mop.config import compose  # noqa: E402
 from mop.studio.encode_scheduler import format_plan, plan_encode  # noqa: E402
+from mop.studio.memory_envelope import MemorySampler  # noqa: E402
 
 HF = "facebook/vjepa2-vitl-fpc64-256"
 
@@ -46,55 +47,97 @@ def _make_clips(n: int) -> list[torch.Tensor]:
 
 
 @torch.no_grad()
-def _time_encode(model, clips, device: str) -> float:
+def _time_encode(model, clips, device: str, memory: MemorySampler | None = None) -> float:
     """Mean seconds per clip encoding on `device`. Raises on a device-specific failure (caught upstream)."""
+    if memory is not None:
+        memory.sample(f"{device}:before_model_to_device")
     m = model.to(device)
+    if memory is not None:
+        memory.sample(f"{device}:after_model_to_device")
     ts = []
-    for c in clips:
+    for i, c in enumerate(clips):
         t0 = time.perf_counter()
         m(pixel_values_videos=c.unsqueeze(0).to(device), skip_predictor=True)
         ts.append(time.perf_counter() - t0)
+        if memory is not None:
+            memory.sample(f"{device}:after_clip_{i}")
     return sum(ts) / len(ts)
 
 
-def pick_encode_device(n_clips: int = 3, skip_mps: bool = False) -> dict:
+def pick_encode_device(n_clips: int = 3, skip_mps: bool = False, allow_download: bool = False) -> dict:
     """Microbench CPU (always) and MPS (if available), return the faster as `winner`. MPS that errors or
     is unavailable is recorded and CPU wins by default. CUDA is reported as the winner unconditionally on
     a box that has it, since it is the intended fast path and a full timing is unnecessary to prefer it.
     skip_mps records MPS availability WITHOUT timing it (for the laptop smoke, where the 18 GB MPS path
     pages badly, about 821 s/clip; the Studio runs without skip_mps to get the real 128 GB measurement)."""
-    model = AutoModel.from_pretrained(HF, local_files_only=True, dtype=torch.float32).eval()
+    memory = MemorySampler("mop_encode_autoselect")
+    memory.sample("start")
+    try:
+        model = AutoModel.from_pretrained(
+            HF,
+            local_files_only=not allow_download,
+            dtype=torch.float32,
+        ).eval()
+    except Exception as e:  # noqa: BLE001
+        memory.sample(f"model_load_failed:{type(e).__name__}")
+        return {
+            "winner": "blocked",
+            "cpu_s_per_clip": None,
+            "mps": "not-tested (model load failed)",
+            "n_clips": n_clips,
+            "error": {
+                "stage": "model_load",
+                "type": type(e).__name__,
+                "detail": str(e).splitlines()[0],
+                "allow_download": bool(allow_download),
+            },
+            "memory_envelope": memory.summary(),
+        }
     for p in model.parameters():
         p.requires_grad_(False)
+    memory.sample("model_loaded_cpu")
     clips = _make_clips(n_clips)
+    memory.sample("clips_ready")
 
     if torch.cuda.is_available():
+        memory.sample("cuda_present_not_timed")
         return {
             "winner": "cuda",
             "cpu_s_per_clip": None,
             "mps": "not-tested (cuda present)",
             "n_clips": n_clips,
+            "memory_envelope": memory.summary(),
         }
 
-    cpu_s = round(_time_encode(model, clips, "cpu"), 3)
+    cpu_s = round(_time_encode(model, clips, "cpu", memory), 3)
     mps: str | float
     if not torch.backends.mps.is_available():
         mps = "unavailable"
         winner = "cpu"
+        memory.sample("mps_unavailable")
     elif skip_mps:
         mps = "available-not-timed (skip_mps; the Studio re-runs to time MPS at 128 GB)"
         winner = "cpu"
+        memory.sample("mps_available_not_timed")
     else:
         try:
             mps_s = round(
-                _time_encode(model, clips[:1], "mps"), 3
+                _time_encode(model, clips[:1], "mps", memory), 3
             )  # one clip; MPS failure/paging surfaces here
             mps = mps_s
             winner = "mps" if mps_s < cpu_s else "cpu"
         except Exception as e:  # noqa: BLE001
             mps = f"failed:{type(e).__name__}"
             winner = "cpu"
-    return {"winner": winner, "cpu_s_per_clip": cpu_s, "mps": mps, "n_clips": n_clips}
+            memory.sample(f"mps_failed:{type(e).__name__}")
+    memory.sample("finished")
+    return {
+        "winner": winner,
+        "cpu_s_per_clip": cpu_s,
+        "mps": mps,
+        "n_clips": n_clips,
+        "memory_envelope": memory.summary(),
+    }
 
 
 def main() -> int:
@@ -110,8 +153,13 @@ def main() -> int:
     ap.add_argument("--encoder", default="vjepa2_vitl_fpc64_256")
     ap.add_argument("--dense", action="store_true", help="plan dense-token cache footprint")
     ap.add_argument("--cpu-workers", type=int, default=None, help="override profile CPU worker default")
+    ap.add_argument(
+        "--allow-download",
+        action="store_true",
+        help="allow transformers to fetch missing model files; default is local cache only",
+    )
     args = ap.parse_args()
-    result = pick_encode_device(args.n_clips, skip_mps=args.skip_mps)
+    result = pick_encode_device(args.n_clips, skip_mps=args.skip_mps, allow_download=args.allow_download)
     enc_cfg = compose([f"encoder={args.encoder}", "device=cpu"]).encoder
     enc_dict = {
         "name": str(enc_cfg.name),
@@ -143,7 +191,7 @@ def main() -> int:
     print(json.dumps(result, indent=2))
     print(f"\nWINNER: {result['winner']} (wrote {out})")
     print(f"SCHEDULE: {format_plan(schedule)} (wrote {sched_out})")
-    return 0
+    return 0 if schedule["ok_to_launch"] and result["winner"] != "blocked" else 1
 
 
 if __name__ == "__main__":

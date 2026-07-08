@@ -55,6 +55,7 @@ def plan_encode(
     `requested_clips` is clamped to the profile cap. Disk gates use the effective clip count and
     block when the estimated cache would leave less than the profile's free-disk floor.
     """
+    memory_envelope = benchmark.get("memory_envelope") if isinstance(benchmark, dict) else None
     profile = get_profile(profile_name)
     bench = _bench(benchmark)
     root = Path(root or REPO_ROOT)
@@ -138,6 +139,7 @@ def plan_encode(
         "profile": profile.as_dict(),
         "machine": apple_silicon_info(),
         "benchmark": asdict(bench),
+        "memory_envelope": memory_envelope,
         "requested_clips": int(requested_clips),
         "effective_clips": int(effective_clips),
         "encoder": {
