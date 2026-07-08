@@ -9,6 +9,7 @@ from .null_cards import (
     render_card,
     validate_card,
 )
+from .verdict_gate import build_verdict_gate, write_verdict_gate
 
 __all__ = [
     "REQUIRED_FIELDS",
@@ -16,4 +17,6 @@ __all__ = [
     "generate_from_experiment",
     "render_card",
     "validate_card",
+    "build_verdict_gate",
+    "write_verdict_gate",
 ]

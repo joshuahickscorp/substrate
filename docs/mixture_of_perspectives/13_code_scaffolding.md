@@ -241,6 +241,16 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Purpose: the corpus is a rigorously honest NEGATIVE map; this is the machinery that files each refuted lever into one of ten categories rather than losing it.
 - Minimal/full impl: present. No duplicate. Dependencies: `experiments`, `harness.runner`. Used by: the whole negative corpus (e4, n4, n5, n6, d4, e3, b4). Laptop-safe/Studio-scale: yes. Prepares-for-custom-model: yes.
 
+### VerdictGate
+- Status: EXISTS. `falsification/verdict_gate.py` and `scripts/verdict_gate.py` gate a final verdict receipt before it can enter the Studio ledger.
+- Purpose: make the rule "no positive without independent adversarial verification" executable. A candidate positive now needs a strict null card, a JSON raw-run receipt, and a separate verifier receipt that marks both passed and independent/adversarial. Nulls and ties still need the strict card plus raw receipt, but do not need a verifier to be honest.
+- Inputs: null-card Markdown, raw-run JSON receipt, optional verifier JSON receipt, optional declared verdict override. Outputs: `mop-verdict-gate/v1` JSON with card/run/verifier hashes, pass/fail flags, and blocker reasons.
+- Minimal impl: present. Positive means `PUBLISH-POSITIVE` by default. The verifier path may not equal the raw-run path, and ambiguous verifier receipts fail closed unless they expose a pass flag and an independence/adversarial flag.
+- Full impl (next): insert `scripts/verdict_gate.py` as a required daemon job before any positive-ledger doc update in DR1/PR9/Process C plans.
+- Dependencies: `NullCardGenerator`, JSON receipts. Used by: Studio ledger updates and long-run daemon plans.
+- Laptop-safe: yes, pure receipt validation. Studio-scale: yes. Prepares-for-custom-model: yes, because Process C positives cannot enter docs without an independent verifier receipt.
+- Doctrine flag: this is a ledger gate, not a science metric. A failed gate blocks a doc update; it does not turn a run into a null.
+
 ---
 
 ## Observability and reproducibility layer
@@ -280,7 +290,7 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Purpose: make week-scale Studio work boring and resumable: profile disk gate before each job, dry-run by default, state checkpoint after every transition, heartbeat events during long subprocesses, per-job stdout/stderr logs, resume-skip for completed jobs, and clean stop on blocked/failed jobs.
 - Inputs: a daemon plan with `schema: mop-long-run-daemon/v1` and `jobs: [{id, cmd, cwd?, kind?}]`. Outputs: `daemon_state.json`, `logs/<job>.stdout.log`, `logs/<job>.stderr.log`, event history, and a summary by status.
 - Minimal impl: present. The daemon is command-level infrastructure, not a science launcher. It does not choose DR1/PR9/Process C order; it enforces the profile and records execution for the chosen plan.
-- Full impl (next): wire the adversarial-verifier stage and null-card strict validation as required job kinds before any positive-ledger job can run, then have the Studio wave report consume `daemon_state.json`.
+- Full impl (next): use `scripts/verdict_gate.py` as the required pre-ledger job before any positive doc update, then have the Studio wave report consume `daemon_state.json`.
 - Dependencies: `studio.profiles`, subprocess. Used by: Studio Wave 0 and week-scale gated queues.
 - Laptop-safe: yes, dry-run by default and tested with injected runners. Studio-scale: yes. Prepares-for-custom-model: yes, Process C jobs can be supervised without loosening the disk/profile gates.
 - Doctrine flag: a daemon failure or disk stop is a wall/blocked artifact, not a half-positive. The profile floor remains a kill switch.
@@ -300,7 +310,7 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Summary: EXISTS vs NEW
 
-- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, StudioTransferCheck, StudioWave0Report, StudioNativeLanes, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
+- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, VerdictGate, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, StudioTransferCheck, StudioWave0Report, StudioNativeLanes, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
 - PARTIAL (primitives exist, needs a thin aggregator or promotion): AlignmentSuite (geometry+seed_consistency exist), WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
 - NEW (justified, no duplicate): CrossSubstrateAgreement (`diagnostics/cross_substrate.py`), the missing outer loop over substrates for standing-control 8; and the substrate-LEVEL variant of MixtureArbitrator, which is the least-committal architectural answer to the reopened dense-vs-custom fork but is gated behind CrossSubstrateAgreement showing complementarity.
 
