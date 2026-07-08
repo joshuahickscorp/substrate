@@ -1,6 +1,14 @@
 import json
 
-from mop.studio.long_run import DaemonJob, load_plan, run_daemon, write_plan_template
+import pytest
+
+from mop.studio.long_run import (
+    DaemonJob,
+    load_plan,
+    run_daemon,
+    validate_plan_contract,
+    write_plan_template,
+)
 
 
 def test_template_plan_round_trips(tmp_path):
@@ -31,6 +39,29 @@ def test_daemon_dry_run_writes_resumable_state(tmp_path):
     assert state["summary"] == {"dry-run": 2}
     saved = json.loads((tmp_path / "daemon_state.json").read_text())
     assert saved["jobs"]["a"]["status"] == "dry-run"
+
+
+def test_execute_does_not_skip_prior_dry_run_state(tmp_path):
+    calls = []
+    jobs = [DaemonJob("a", ("ok",))]
+    run_daemon(
+        jobs,
+        out_dir=tmp_path,
+        profile_name="m3pro-local-max",
+        execute=False,
+        disk_probe=lambda: (True, 100.0),
+    )
+    state = run_daemon(
+        jobs,
+        out_dir=tmp_path,
+        profile_name="m3pro-local-max",
+        execute=True,
+        runner=lambda job, _out: calls.append(job.job_id) or 0,
+        disk_probe=lambda: (True, 100.0),
+    )
+    assert calls == ["a"]
+    assert state["execute"] is True
+    assert state["summary"] == {"success": 1}
 
 
 def test_daemon_resume_skips_successful_jobs(tmp_path):
@@ -91,3 +122,33 @@ def test_daemon_stops_after_failure(tmp_path):
     )
     assert state["summary"] == {"failed": 1}
     assert "b" not in state["jobs"]
+
+
+def test_positive_ledger_requires_verdict_gate_and_artifact_bundle_before_it():
+    jobs = [DaemonJob("ledger", ("ok",), kind="positive-ledger")]
+    problems = validate_plan_contract(jobs)
+    assert "verdict-gate" in problems[0]
+    assert "artifact-bundle" in problems[0]
+
+
+def test_positive_ledger_contract_accepts_prior_gates():
+    jobs = [
+        DaemonJob("verify", ("ok",), kind="verdict-gate"),
+        DaemonJob("bundle", ("ok",), kind="artifact-bundle"),
+        DaemonJob("ledger", ("ok",), kind="positive-ledger"),
+    ]
+    assert validate_plan_contract(jobs) == []
+
+
+def test_load_plan_rejects_positive_ledger_without_prior_gates(tmp_path):
+    path = tmp_path / "bad_plan.json"
+    path.write_text(
+        json.dumps(
+            {
+                "schema": "mop-long-run-daemon/v1",
+                "jobs": [{"id": "ledger", "cmd": ["ok"], "kind": "positive-ledger"}],
+            }
+        )
+    )
+    with pytest.raises(ValueError, match="positive-ledger"):
+        load_plan(path)

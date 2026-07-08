@@ -300,10 +300,10 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Purpose: make week-scale Studio work boring and resumable: profile disk gate before each job, dry-run by default, state checkpoint after every transition, heartbeat events during long subprocesses, per-job stdout/stderr logs, resume-skip for completed jobs, and clean stop on blocked/failed jobs.
 - Inputs: a daemon plan with `schema: mop-long-run-daemon/v1` and `jobs: [{id, cmd, cwd?, kind?}]`. Outputs: `daemon_state.json`, `logs/<job>.stdout.log`, `logs/<job>.stderr.log`, event history, and a summary by status.
 - Minimal impl: present. The daemon is command-level infrastructure, not a science launcher. It does not choose DR1/PR9/Process C order; it enforces the profile and records execution for the chosen plan.
-- Full impl (next): use `scripts/verdict_gate.py` as the required pre-ledger job before any positive doc update, then have the Studio wave report consume `daemon_state.json`.
+- Full impl: the daemon now validates a static pre-ledger contract: any `positive-ledger` job must be ordered after both a `verdict-gate` job and an `artifact-bundle` job. Because execution stops on prior failure, this makes the falsification and durability gates mandatory before a positive doc mutation can run. `scripts/studio_daemon.py validate --plan <plan.json>` checks the contract without running the plan.
 - Dependencies: `studio.profiles`, subprocess. Used by: Studio Wave 0 and week-scale gated queues.
 - Laptop-safe: yes, dry-run by default and tested with injected runners. Studio-scale: yes. Prepares-for-custom-model: yes, Process C jobs can be supervised without loosening the disk/profile gates.
-- Doctrine flag: a daemon failure or disk stop is a wall/blocked artifact, not a half-positive. The profile floor remains a kill switch.
+- Doctrine flag: a daemon failure or disk stop is a wall/blocked artifact, not a half-positive. A dry-run rehearsal is not treated as completed during a later execute run.
 
 ### MetricsLogger
 - Status: EXISTS. `logging_utils.py` (`RunManifest`, `new_run_dir`, JSON-to-stdout / logs-to-stderr discipline) + `metrics/continual.py` (`ContinualResult`, BWT/forgetting) + `metrics/frontier.py` + `harness/runner.py` (writes config snapshot + manifest + metrics per run).
