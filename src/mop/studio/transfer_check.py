@@ -33,6 +33,7 @@ REQUIRED_PATHS = (
     "scripts/studio_transfer_check.py",
     "scripts/studio_artifact_bundle.py",
     "scripts/studio/dr1_smoke.py",
+    "scripts/studio/dr1_schedule_plan.py",
     "scripts/studio/dr1_curate_bound_video.py",
     "scripts/studio/pr9_continual_backprop.py",
     "scripts/mop_encode_autoselect.py",

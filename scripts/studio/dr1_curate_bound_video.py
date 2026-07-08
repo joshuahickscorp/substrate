@@ -68,9 +68,12 @@ leg writes to its own store shard data/cache/<name>/leg_<start>_<end>; a final -
 shards. A leg refuses to overwrite a finished shard unless --force is given.
 
 Usage (Studio):
+  # 0. turn the measured encode schedule into gate/leg/merge commands
+  python scripts/studio/dr1_schedule_plan.py --source /data/comp_video \
+    --daemon-out runs/studio_wave0/dr1_daemon_plan.json
   # 1. pre-encode gate + legs (gate runs automatically inside each leg before any byte is decoded)
-  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 0   --end 256
-  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 256 --end 512
+  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 0   --end 256 --device cpu
+  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 256 --end 512 --device cpu
   # 2. stitch
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --merge
   # 3. cross-modal nuisance guard over the merged store (Studio-time; needs the encoded latents)
@@ -359,6 +362,7 @@ def encode_leg(
     end: int,
     min_per_cell: int,
     factors: tuple[str, ...],
+    device: str,
     force: bool,
 ) -> dict:
     """Encode the half-open clip-index range [start, end) into its own store shard. The preregistered
@@ -379,7 +383,7 @@ def encode_leg(
             f"shard {existing['store_dir']} already finished (count={existing['count']}); pass --force "
             "to re-encode it, or pick a fresh --start/--end range."
         )
-    cfg = compose(["encoder=vjepa2_vitl_fpc64_256", "device=mps", "encoder.prefer_real=true"])
+    cfg = compose(["encoder=vjepa2_vitl_fpc64_256", f"device={device}", "encoder.prefer_real=true"])
     dev = resolve(str(cfg.device.kind))
     enc = load_encoder(cfg.encoder).to(dev.device)
     backend = enc.spec.backend
@@ -427,6 +431,7 @@ def encode_leg(
         "leg": [start, end],
         "n_encoded": len(store),
         "backend": backend,
+        "device": str(cfg.device.kind),
         "acceptance_passed": True,
         "valid": backend == "vjepa_hf",
         "seconds": round(time.perf_counter() - t0, 1),
@@ -709,6 +714,7 @@ def main(argv=None) -> int:
     ap.add_argument("--min-per-cell", type=int, default=16, help="per-cell clip floor for a hold-out")
     ap.add_argument("--merge", action="store_true", help="stitch finished legs into a merge manifest")
     ap.add_argument("--a6-guard", action="store_true", help="run the cross-modal nuisance guard (Studio)")
+    ap.add_argument("--device", default="mps", help="encode device chosen by encode_schedule.json")
     ap.add_argument(
         "--gate-only",
         action="store_true",
@@ -728,11 +734,12 @@ def main(argv=None) -> int:
         print(json.dumps({"acceptance_gate": "PASSED", "report": report}, indent=2))
         return 0
 
-    assert_studio_ram()  # Studio-only: refuses on the laptop pool (encode + guard are heavy)
     if a.merge:
         out = merge_shards(a.name)
         print(json.dumps(out, indent=2, default=str))
         return 0
+
+    assert_studio_ram()  # Studio-only: refuses on the laptop pool (encode + guard are heavy)
     if a.a6_guard:
         if not a.source:
             print("FAIL: --source is required for --a6-guard (to load captions.json)")
@@ -749,7 +756,7 @@ def main(argv=None) -> int:
         print(f"FAIL: empty leg range [{a.start}, {a.end})")
         return 1
     assert_encoder_lane_free()  # one encoder at a time (shared pgrep guard)
-    log = encode_leg(a.source, a.name, a.start, a.end, a.min_per_cell, factors, a.force)
+    log = encode_leg(a.source, a.name, a.start, a.end, a.min_per_cell, factors, a.device, a.force)
     print(json.dumps(log, indent=2, default=str))
     return 0 if log["valid"] else 2
 
