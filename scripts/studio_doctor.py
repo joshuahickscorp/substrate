@@ -8,6 +8,7 @@ Usage: .venv/bin/python scripts/studio_doctor.py
 
 from __future__ import annotations
 
+import argparse
 import json
 
 from mop.config import REPO_ROOT
@@ -18,7 +19,15 @@ log = get_logger("studio_doctor")
 
 
 def main() -> int:
-    report = doctor()
+    ap = argparse.ArgumentParser(description="cheap Studio readiness doctor")
+    ap.add_argument(
+        "--profile",
+        default=None,
+        help="profile floor to enforce (default: infer this host, e.g. m3pro-local-max or studio-m1ultra)",
+    )
+    a = ap.parse_args()
+
+    report = doctor(a.profile)
     out = REPO_ROOT / "runs" / "studio_doctor.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(render_md(report))

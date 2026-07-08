@@ -17,6 +17,7 @@ from pathlib import Path
 import numpy as np
 
 from ..provenance import RESULT_TAGS, cache_id
+from .cache_manifest import DEFAULT_MANIFEST, validate_cache_manifest
 from .latent_store import LatentStore, StoreMeta
 
 DEFAULT_ROOT = Path("data/cache")
@@ -81,6 +82,10 @@ def cache_info(store_dir: Path | str) -> dict:
     facts["recomputed_cache_id"] = _content_cache_id(store_dir, meta)
     if prov is not None:
         facts["cache_id_matches"] = facts["recomputed_cache_id"] == prov.get("cache_id")
+    manifest = store_dir / DEFAULT_MANIFEST
+    facts["cache_manifest_present"] = manifest.exists()
+    if manifest.exists():
+        facts["cache_manifest_clean"] = not validate_cache_manifest(store_dir)
     return {"meta": meta, "provenance": prov, "facts": facts}
 
 
@@ -169,6 +174,12 @@ def validate_cache(store_dir: Path | str) -> list[str]:
             problems.append(
                 f"cache_id mismatch: provenance {prov.get('cache_id')!r} != recomputed {recomputed!r}"
             )
+
+    # cache_manifest.json is optional, but if present it must validate. This lets Studio caches opt in
+    # to stronger receipt guarantees without forcing every old laptop cache to grow a new sidecar.
+    if (store_dir / DEFAULT_MANIFEST).exists():
+        for problem in validate_cache_manifest(store_dir):
+            problems.append(f"{DEFAULT_MANIFEST}: {problem}")
 
     # three random rows must actually be readable through the public store API
     if not problems and count > 0:

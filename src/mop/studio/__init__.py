@@ -6,9 +6,17 @@ downloads heavy assets by default; heavy acquisition is gated behind execute + b
 
 from __future__ import annotations
 
+from .encode_scheduler import EncodeBenchmark, format_plan, plan_encode
+from .long_run import DaemonJob, run_daemon, write_plan_template
 from .profiles import M3PRO_LOCAL_MAX, PROFILES, STUDIO, Profile, get_profile, list_profiles
 
 __all__ = [
+    "EncodeBenchmark",
+    "plan_encode",
+    "format_plan",
+    "DaemonJob",
+    "run_daemon",
+    "write_plan_template",
     "Profile",
     "STUDIO",
     "M3PRO_LOCAL_MAX",

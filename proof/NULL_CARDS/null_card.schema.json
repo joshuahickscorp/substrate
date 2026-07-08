@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://brain.local/proof/null_card.schema.json",
-  "title": "Brain null card / survival card",
-  "description": "The smallest public, citable unit of Brain (Section 10.3). One card per experiment, stored as NULL_CARDS/<exp_id>.md with this field list. A survival card is a null card whose verdict is a rejected null; wins and nulls use the identical template. probe_dependency is REQUIRED: a card making a representational claim with no probe_dependency, or one citing a factor the atlas shows is not decodable, is INVALID. Form per BLACKHOLE.md: no em dashes, no agency/consciousness language.",
+  "$id": "https://mop.local/proof/null_card.schema.json",
+  "title": "MOP null card / survival card",
+  "description": "The smallest public, citable unit of MOP. One card per experiment, stored as NULL_CARDS/<exp_id>.md with this field list. A survival card is a null card whose verdict is a rejected null; wins and nulls use the identical template. probe_dependency is REQUIRED: a card making a representational claim with no probe_dependency, or one citing a factor the atlas shows is not decodable, is INVALID. Form per BLACKHOLE.md: no em dashes, no agency/consciousness language.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -20,6 +20,7 @@
     "result",
     "taxonomy_category",
     "verdict",
+    "badges",
     "raw_run_id",
     "repro_level"
   ],
@@ -43,11 +44,11 @@
     },
     "baseline": {
       "type": "string",
-      "description": "The TUNED baseline, with the tuning named (cosine decay, optimizer, capacity-matched head). An untuned strawman voids the card."
+      "description": "The TUNED baseline, with the tuning named. An untuned strawman voids the card."
     },
     "ablation": {
       "type": "string",
-      "description": "The capacity/LR/seed ablation run and its outcome."
+      "description": "The capacity, LR, or seed ablation run and its outcome."
     },
     "metric": {
       "type": "string",
@@ -57,15 +58,22 @@
         "adaptation_steps_to_threshold",
         "ece",
         "recall_at_k",
-        "probe_acc"
+        "probe_acc",
+        "rollout_error",
+        "interference",
+        "routing_entropy",
+        "backward_transfer",
+        "recombination_generalization",
+        "planning_success",
+        "dense_delta"
       ],
-      "description": "frontier AUC | BWT | adaptation steps-to-threshold | ECE | recall@k | probe acc."
+      "description": "The headline metric, verbatim from the registry or the card."
     },
     "probe_dependency": {
       "type": "object",
-      "description": "REQUIRED. The atlas row (factor + encoder) the claim depends on, and its decodability. A representational claim whose probe_dependency is missing, or which cites a factor the atlas shows is not decodable, is INVALID (the claim is void and becomes a substrate bound, taxonomy entry 3).",
+      "description": "REQUIRED. The atlas row (factor + encoder) the claim depends on, and its decodability. A representational claim whose probe_dependency is missing, or which cites a factor the atlas shows is not decodable, is INVALID.",
       "additionalProperties": false,
-      "required": ["factor", "encoder", "atlas_row", "decodable"],
+      "required": ["factor", "encoder", "atlas_row", "decodable", "acc_above_chance"],
       "properties": {
         "factor": {
           "type": "string",
@@ -79,12 +87,18 @@
             "intervention_effect",
             "cross_modal_correspondence",
             "motion",
-            "temporal_order"
+            "temporal_order",
+            "position"
           ]
         },
         "encoder": {
           "type": "string",
-          "enum": ["vjepa2_vitl_fpc64_256", "vjepa2_vith", "vjepa2_vitg", "all-three"]
+          "enum": [
+            "vjepa2_vitl_fpc64_256",
+            "vjepa2_vith",
+            "vjepa2_vitg",
+            "all-three"
+          ]
         },
         "atlas_row": {
           "type": "string",
@@ -93,7 +107,7 @@
         "decodable": {
           "type": "string",
           "enum": ["yes", "no", "marginal"],
-          "description": "From the atlas row. 'no' voids any representational claim built on this factor (the result is a substrate bound, not a mechanism result)."
+          "description": "From the atlas row. no voids any representational claim built on this factor."
         },
         "acc_above_chance": {
           "type": ["number", "null"],
@@ -123,14 +137,14 @@
     "provenance_tag": {
       "type": "string",
       "enum": ["natural-video", "real-encoder", "structured-synthetic", "provisional"],
-      "description": "A tag richer than the cache supports voids the card (the cache validator refuses it)."
+      "description": "A tag richer than the cache supports voids the card."
     },
     "result": {
       "type": "string",
       "description": "The numbers with confidence intervals."
     },
     "taxonomy_category": {
-      "description": "1..10 (Section 10.5 failure taxonomy) for a null; 'null rejected' for a survival card.",
+      "description": "1..10 for a null; null rejected for a survival card.",
       "oneOf": [
         {"type": "integer", "minimum": 1, "maximum": 10},
         {"type": "string", "enum": ["null rejected"]}
@@ -143,7 +157,8 @@
         "DOWNGRADE-TIE",
         "SUBSTRATE-BOUND",
         "SEED-UNSTABLE",
-        "CAPACITY-ARTIFACT"
+        "CAPACITY-ARTIFACT",
+        "REPLICATION-FAILED"
       ]
     },
     "badges": {
@@ -155,18 +170,19 @@
           "seed-instability",
           "capacity-artifact",
           "substrate-blindspot",
-          "tuned-baseline-tie"
+          "tuned-baseline-tie",
+          "preregistered"
         ]
       }
     },
     "raw_run_id": {
       "type": "string",
-      "description": "The run hash + config path under runs/ that produced this. An id that does not reproduce within tolerance voids the card."
+      "description": "The run hash plus config path under runs/ that produced this."
     },
     "repro_level": {
       "type": "string",
       "enum": ["R0", "R1", "R2", "R3", "R4", "R5"],
-      "description": "Section 10.6 reproducibility gradient."
+      "description": "Reproducibility gradient."
     }
   }
 }
