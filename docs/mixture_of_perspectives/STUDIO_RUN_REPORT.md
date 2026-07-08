@@ -188,6 +188,14 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   stores per-job logs, and stops on disk-block or command failure. Verdict: no long Studio job was
   launched locally, but facet-16/week-scale execution now has a reusable supervisor instead of relying
   on session hygiene.
+- WAVE 14 (M3 Pro, 2026-07-08, Studio transfer checklist): built `src/mop/studio/transfer_check.py`,
+  `scripts/studio_transfer_check.py`, and `tests/unit/test_transfer_check.py`, and made the long-run
+  daemon template start with `transfer_check`. The checklist is read-only: it enforces the
+  `studio-m1ultra` profile, checks the governing audit/docs/scripts, parses the null-card schema,
+  reports git branch/head/dirty state, confirms the pre-Studio durable receipts are present and
+  git-tracked, and validates any cache manifests already present. Local smoke with `--allow-dirty`
+  produced a 28/28 transfer receipt. Verdict: Studio Wave 0 now has an executable transfer receipt
+  before doctor/full gates/microbench; no Studio science was run locally.
 
 ## Next move (per the goal-loop protocol)
 
