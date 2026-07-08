@@ -254,6 +254,14 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   DR1 encode legs by checkpoint cadence, emits a caption-gate job, merge job, A6-guard job, and optional
   long-run daemon plan. Verdict: no real video was encoded on the laptop, but DR1 now consumes the Studio
   schedule as a receipt instead of relying on a copied command string.
+- WAVE 23 (M3 Pro, 2026-07-08, DR1 PerspectiveMatrix receipt): added
+  `src/mop/studio/dr1_perspectives.py` and `tests/unit/test_dr1_perspectives.py`, and wired
+  `dr1_curate_bound_video.py --merge --source ...` to write `perspective_matrix_receipt.json`.
+  When the root merged LatentStore exists, the receipt builds the existing `PerspectiveMatrix` over
+  `vision_vjepa2` and `caption_text`, verifies identical referents, records factor counts, and exposes
+  the `perspective_audit()` missing-control surface. If only shard-order sidecars exist, it writes a
+  blocked receipt instead of implying a merged matrix. Verdict: no science was run, but DR1 plurality now
+  has a verified-or-walled receipt before any alignment or facet-15 claim can lean on it.
 
 ## Next move (per the goal-loop protocol)
 

@@ -43,6 +43,8 @@ def test_dr1_schedule_plan_emits_daemon_jobs_in_execution_order():
         "dr1_merge",
         "dr1_a6_guard",
     ]
+    merge = next(job for job in daemon["jobs"] if job["id"] == "dr1_merge")
+    assert "--source" in merge["cmd"]
     assert daemon["jobs"][0]["kind"] == "verdict-gate"
     assert daemon["jobs"][-1]["kind"] == "verdict-gate"
 

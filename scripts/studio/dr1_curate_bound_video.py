@@ -74,7 +74,7 @@ Usage (Studio):
   # 1. pre-encode gate + legs (gate runs automatically inside each leg before any byte is decoded)
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 0   --end 256 --device cpu
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 256 --end 512 --device cpu
-  # 2. stitch
+  # 2. stitch and write the PerspectiveMatrix receipt when the merged root store exists
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --merge
   # 3. cross-modal nuisance guard over the merged store (Studio-time; needs the encoded latents)
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --a6-guard
@@ -103,6 +103,7 @@ from scripts.cache_randominit_vitl_features import assert_encoder_lane_free  # n
 from mop.config import REPO_ROOT, compose  # noqa: E402
 from mop.devices import resolve  # noqa: E402
 from mop.diagnostics import linear_probe  # noqa: E402
+from mop.studio.dr1_perspectives import write_dr1_perspective_receipt  # noqa: E402
 from mop.substrate import cache_latents, iter_video_clips, load_encoder  # noqa: E402
 from mop.substrate.video import detect_partial_cache, validate_source, write_label_map  # noqa: E402
 
@@ -450,7 +451,9 @@ def _sliced_clip_stream(source, fpc, res, start, end, hashes):
             yield x, y
 
 
-def merge_shards(base_name: str) -> dict:
+def merge_shards(
+    base_name: str, source: str | None = None, factors: tuple[str, ...] = DEFAULT_FACTORS
+) -> dict:
     """Report the finished leg shards for base_name and the merge plan. Validate the legs are contiguous
     and label-consistent and emit a manifest the probe consumer reads. (No encoder is loaded here.)"""
     cache_root = REPO_ROOT / "data" / "cache" / base_name
@@ -487,7 +490,27 @@ def merge_shards(base_name: str) -> dict:
         "backends": sorted({s_["backend"] for s_ in legs}),
         "factors": legs[0]["factors"] if legs else [],
         "clip_order_persisted": order_ok,
+        "perspective_receipt": None,
     }
+    if source is not None and order_ok:
+        if (cache_root / "meta.json").exists():
+            caps = load_captions(source)
+            receipt = write_dr1_perspective_receipt(cache_root, caps, factors=factors)
+        else:
+            receipt = {
+                "schema": "mop-dr1-perspective-matrix-receipt/v1",
+                "ok": False,
+                "store": str(cache_root),
+                "blocked_reason": (
+                    "merged LatentStore meta.json is absent; merge_shards has only stitched row-order "
+                    "sidecars. Create the root merged store, then rerun --merge --source to emit the "
+                    "PerspectiveMatrix receipt."
+                ),
+                "path": str(cache_root / "perspective_matrix_receipt.json"),
+            }
+            (cache_root / "perspective_matrix_receipt.json").write_text(json.dumps(receipt, indent=2))
+        manifest["perspective_receipt"] = receipt["path"]
+        manifest["perspective_audit"] = receipt.get("audit")
     (cache_root / "merge_manifest.json").write_text(json.dumps(manifest, indent=2, default=str))
     if not order_ok:
         manifest["clip_order_note"] = (

@@ -89,7 +89,8 @@ def build_dr1_schedule_plan(
             {
                 "id": "dr1_merge",
                 "kind": "merge",
-                "cmd": [python, script, "--name", cache_name, "--merge"],
+                "cmd": _base_command(python, script, source, cache_name, factors_tuple, min_per_cell)
+                + ["--merge"],
                 "range": [0, effective_clips],
             }
         )
