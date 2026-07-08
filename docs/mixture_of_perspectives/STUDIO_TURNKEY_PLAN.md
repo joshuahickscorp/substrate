@@ -69,6 +69,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T5.1 native-lane manifest: `scripts/studio_native_lanes.py` lists the Part 2 Studio-native lanes
       as receipt-bearing entries, emits ready lanes into a standard daemon plan, and records explicit
       blocked reasons for live-encoder doctrine, perspective ecology, and Process C licensing.
+- [x] T4.10 verdict gate: `scripts/verdict_gate.py` writes a `mop-verdict-gate/v1` receipt that refuses
+      any `PUBLISH-POSITIVE` verdict unless the null card is strict, the raw run receipt exists, and a
+      separate verifier receipt is both passing and independent/adversarial.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -133,6 +136,9 @@ back-fit. Priority = de-risk before decorate.
   envelope from `runs/mot/encode_device.json` / `runs/mot/encode_schedule.json`.
 - T4.9 Report synthesis. After Wave 0 on the Studio, run
   `PYTHONPATH=src:. python scripts/studio_wave0_report.py --apply` to convert receipts into the scoreboard.
+- T4.10 Verdict gate. Before any positive enters `STUDIO_RUN_REPORT.md` or the verdict ledger, run
+  `PYTHONPATH=src:. python scripts/verdict_gate.py --null-card <card.md> --run-receipt <run.json> --verifier-receipt <verify.json> --out <gate.json>`.
+  A null/tie may omit `--verifier-receipt`, but still needs the strict card and raw JSON receipt.
 - T5.1 Native lanes. Safe manifest:
   `PYTHONPATH=src:. python scripts/studio_native_lanes.py list --profile studio-m1ultra`.
   Daemon plan from ready safe lanes:

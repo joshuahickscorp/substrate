@@ -225,6 +225,14 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   `--include-heavy` plus concrete input paths, and acquisition requires an inspected `--plan-path`.
   Verdict: no new science, but the remaining Studio-native levers are now schedulable or mechanically
   walled instead of living only in prose.
+- WAVE 19 (M3 Pro, 2026-07-08, verdict gate): built `src/mop/falsification/verdict_gate.py`,
+  `scripts/verdict_gate.py`, and `tests/unit/test_verdict_gate.py`. The gate writes
+  `mop-verdict-gate/v1` receipts from a strict null card, raw run JSON, and optional verifier JSON. A
+  `PUBLISH-POSITIVE` verdict is refused unless the verifier receipt is separate from the run receipt and
+  exposes both a pass flag and an independent/adversarial flag; nulls and ties need only the strict card
+  plus raw JSON. CLI smoke against `ex2_latent_planning` intentionally refused the historical positive
+  without a verifier receipt. Verdict: no new result, but the pre-ledger falsification rule is now
+  executable instead of relying on memory.
 
 ## Next move (per the goal-loop protocol)
 
