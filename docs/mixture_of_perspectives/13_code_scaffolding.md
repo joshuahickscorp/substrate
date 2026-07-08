@@ -33,10 +33,10 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 ### EncodeScheduler
 - Status: EXISTS. `studio/encode_scheduler.py` consumes the Wave-0 CPU/MPS benchmark, the active profile, an encoder config, a requested clip count, and a dense/pooled flag, then emits an encode launch plan. `scripts/mop_encode_autoselect.py` now writes both `runs/mot/encode_device.json` and `runs/mot/encode_schedule.json`.
 - Purpose: make the Studio encode path profile-owned instead of hand-owned. The scheduler picks MPS vs parallel CPU workers from measured s/clip, estimates cache footprint, enforces the profile's start and post-cache disk floors, checks wall clock against the profile cap, and emits checkpoint cadence.
-- Inputs: benchmark record (`cpu_s_per_clip`, `mps`), `profile_name`, encoder config, requested clips, dense-token flag. Outputs: winner, candidates, cache estimate, disk projection, gates, blocked reasons, checkpoint cadence, and next command.
-- Minimal impl (present): pure planning, no model load and no encode. CPU worker defaults are profile-specific (`m3pro-local-max` 1, `studio-1tb` 8, `studio-m1ultra` 16). Dense-cache disk gates use `storage.estimate_for_encoder`.
+- Inputs: benchmark record (`cpu_s_per_clip`, `mps`), optional `memory_envelope`, `profile_name`, encoder config, requested clips, dense-token flag. Outputs: winner, candidates, cache estimate, disk projection, memory envelope, gates, blocked reasons, checkpoint cadence, and next command.
+- Minimal impl (present): pure planning, no model load and no encode. CPU worker defaults are profile-specific (`m3pro-local-max` 1, `studio-1tb` 8, `studio-m1ultra` 16). Dense-cache disk gates use `storage.estimate_for_encoder`. `mop_encode_autoselect.py` now records process/system/MPS memory snapshots and writes a blocked JSON receipt if model files are absent instead of losing the run to a traceback.
 - Full impl (next): make DR1/cache build consume `encode_schedule.json` directly for worker pools, shard checkpoints, and heartbeat/thermal pacing rather than copying its `next_command`.
-- Dependencies: `profiles.py`, `storage.py`, `devices.py`. Used by: Studio Wave 0 microbench, DR1 cache build, dense cache planning.
+- Dependencies: `profiles.py`, `storage.py`, `devices.py`, `memory_envelope.py`. Used by: Studio Wave 0 microbench, DR1 cache build, dense cache planning.
 - Laptop-safe: yes (pure arithmetic). Studio-scale: yes. Prepares-for-custom-model: yes, a custom encoder cache still prices through the same profile and receipt path.
 
 ### NullCardGenerator

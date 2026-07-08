@@ -202,6 +202,14 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   clips. Verdict: the Studio still must run it with `--execute` on the M1 Ultra to produce actual
   s/clip and memory-envelope evidence, but the Wave-0 command order is now an executable plan rather
   than a prose checklist.
+- WAVE 16 (M3 Pro, 2026-07-08, encode memory-envelope receipt): built
+  `src/mop/studio/memory_envelope.py` and wired `scripts/mop_encode_autoselect.py` so the Wave-0
+  microbench records process RSS, max RSS, system available memory, and MPS allocator counters when
+  available. The scheduler carries the same envelope into `encode_schedule.json`. If model files are
+  absent, the script now writes a blocked JSON receipt with the memory envelope and exits nonzero,
+  rather than dying before artifact creation. Local smoke hit the expected laptop wall (V-JEPA files not
+  cached) and still produced valid `mop-memory-envelope/v1` receipts. Verdict: no Studio s/clip was
+  measured locally, but the Studio run now has the required memory-envelope instrument.
 
 ## Next move (per the goal-loop protocol)
 

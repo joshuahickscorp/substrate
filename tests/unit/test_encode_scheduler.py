@@ -65,3 +65,27 @@ def test_autoselect_benchmark_ignores_failed_mps_string():
     assert bench.cpu_s_per_clip == 12.0
     assert bench.mps_s_per_clip is None
     assert bench.n_clips == 3
+
+
+def test_scheduler_carries_memory_envelope_from_autoselect():
+    envelope = {"schema": "mop-memory-envelope/v1", "n_samples": 2}
+    plan = plan_encode(
+        profile_name="studio-m1ultra",
+        benchmark={"cpu_s_per_clip": 12.0, "mps": None, "n_clips": 2, "memory_envelope": envelope},
+        encoder_config=ENC,
+        requested_clips=100,
+        free_gb=7000.0,
+    )
+    assert plan["memory_envelope"] == envelope
+
+
+def test_scheduler_blocks_when_autoselect_has_no_speed():
+    plan = plan_encode(
+        profile_name="studio-m1ultra",
+        benchmark={"winner": "blocked", "cpu_s_per_clip": None, "mps": "not-tested", "n_clips": 0},
+        encoder_config=ENC,
+        requested_clips=100,
+        free_gb=7000.0,
+    )
+    assert plan["ok_to_launch"] is False
+    assert any("no usable" in r for r in plan["blocked_reasons"])

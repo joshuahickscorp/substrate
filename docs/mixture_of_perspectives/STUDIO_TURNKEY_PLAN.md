@@ -60,6 +60,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.7 Wave-0 daemon template: `scripts/studio_daemon.py template` now emits the full pre-science
       sequence: transfer check, doctor, profiles, docs gate, acceptance, DR1 smoke, and the
       `studio-m1ultra` encode microbench plan for 1000 clips.
+- [x] T4.8 encode memory-envelope receipt: `scripts/mop_encode_autoselect.py` now records a
+      `mop-memory-envelope/v1` block in both `encode_device.json` and `encode_schedule.json`, and writes
+      a blocked receipt if model files are missing.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -119,6 +122,8 @@ back-fit. Priority = de-risk before decorate.
 - T4.6 Transfer checklist. Studio Wave 0 now starts with an executable receipt:
   `PYTHONPATH=src:. python scripts/studio_transfer_check.py --profile studio-m1ultra --out runs/studio_transfer_check.json`.
 - T4.7 Wave-0 daemon template. On the Studio: `PYTHONPATH=src:. python scripts/studio_daemon.py template --out runs/studio_wave0_plan.json`, then inspect it and run with `--execute` only on the M1 Ultra.
+- T4.8 Memory envelope. The Studio microbench must quote both actual s/clip and the emitted memory
+  envelope from `runs/mot/encode_device.json` / `runs/mot/encode_schedule.json`.
 
 ## Tier 5: one-command entry points for the missing facets (13 to 17)
 

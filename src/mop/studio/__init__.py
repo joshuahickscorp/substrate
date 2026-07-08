@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from .encode_scheduler import EncodeBenchmark, format_plan, plan_encode
 from .long_run import DaemonJob, run_daemon, write_plan_template
+from .memory_envelope import MemorySampler, memory_snapshot, summarize_samples
 from .profiles import M3PRO_LOCAL_MAX, PROFILES, STUDIO, Profile, get_profile, list_profiles
 from .transfer_check import TransferCheckConfig, run_transfer_check, write_transfer_report
 
@@ -18,6 +19,9 @@ __all__ = [
     "DaemonJob",
     "run_daemon",
     "write_plan_template",
+    "MemorySampler",
+    "memory_snapshot",
+    "summarize_samples",
     "TransferCheckConfig",
     "run_transfer_check",
     "write_transfer_report",
