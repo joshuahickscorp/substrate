@@ -22,22 +22,49 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Laptop-safe: yes (pure config). Studio-scale: yes. Prepares-for-custom-model: yes, the `family`/`objective` fields are exactly where a custom encoder row would live.
 
 ### LatentStore
-- Status: EXISTS. `substrate/latent_store.py` (memmap-backed `[N, *feat]` store with keys, labels, meta, provenance sidecar), plus `substrate/cache.py` (the encode-once pipeline), `substrate/real_latent.py` (real-encoder-store to stream/factorized-arrays adapters), `substrate/storage.py`, `substrate/cache_tools.py`.
+- Status: EXISTS. `substrate/latent_store.py` (memmap-backed `[N, *feat]` store with keys, labels, meta, provenance sidecar), plus `substrate/cache.py` (the encode-once pipeline), `substrate/real_latent.py` (real-encoder-store to stream/factorized-arrays adapters), `substrate/storage.py`, `substrate/cache_tools.py`, and `substrate/cache_manifest.py` (Studio cache data-plane receipt).
 - Purpose: the disk-backed array the whole shell trains against. Encoder is frozen, so latents are computed once and read forever (the laptop-feasibility keystone). Because the encoder never trains, stored latents never go stale.
-- Inputs: a clip source through `FrozenEncoder.encode`. Outputs: `latents.npy` memmap `[N,*feat]`, `keys.npy` `[N,key_dim]`, optional `labels.npy`, `meta.json`, `provenance.json`, and (factorized caches) a `factors.json` sidecar.
+- Inputs: a clip source through `FrozenEncoder.encode`. Outputs: `latents.npy` memmap `[N,*feat]`, `keys.npy` `[N,key_dim]`, optional `labels.npy`, `meta.json`, `provenance.json`, optional `factors.json` and `splits.json`, and `cache_manifest.json` when a Studio receipt is written.
 - Minimal impl (present): synthetic clips path, pooled `[N,1024]` stores under `data/cache/`.
-- Full impl (gap): the doctrine's #4 deferred prerequisite is DENSE `[N,T,P,1024]` real-video stores with non-additively bound attributes. `feat_shape` already supports dense shapes; the gap is a cache script that ingests natural video with entangled color/shape/position/motion labels. This is a data/acquisition gap, not a store-code gap. The store is ready.
+- Full impl (gap): the doctrine's #4 deferred prerequisite is DENSE `[N,T,P,1024]` real-video stores with non-additively bound attributes. `feat_shape` already supports dense shapes, and `cache_manifest.py` now records array fingerprints, encoder config hash, factor sidecars, split membership, and a columnar index. The remaining gap is a Studio cache script that ingests natural video with entangled color/shape/position/motion labels and writes the receipt at the end. This is now a data/acquisition and scheduler gap, not a store-code gap.
 - Dependencies: numpy memmap, `provenance.py`. Used by: `real_latent`, every real-encoder experiment, `SubstrateAdapter`, `ProbeSuite`.
 - Laptop-safe: yes (memmap, mmap_mode='r'). Studio-scale: yes (append-friendly capacity, finalize to true length). Prepares-for-custom-model: yes, a custom encoder writes the identical store format, so all downstream code is encoder-agnostic.
 
+### EncodeScheduler
+- Status: EXISTS. `studio/encode_scheduler.py` consumes the Wave-0 CPU/MPS benchmark, the active profile, an encoder config, a requested clip count, and a dense/pooled flag, then emits an encode launch plan. `scripts/mop_encode_autoselect.py` now writes both `runs/mot/encode_device.json` and `runs/mot/encode_schedule.json`.
+- Purpose: make the Studio encode path profile-owned instead of hand-owned. The scheduler picks MPS vs parallel CPU workers from measured s/clip, estimates cache footprint, enforces the profile's start and post-cache disk floors, checks wall clock against the profile cap, and emits checkpoint cadence.
+- Inputs: benchmark record (`cpu_s_per_clip`, `mps`), `profile_name`, encoder config, requested clips, dense-token flag. Outputs: winner, candidates, cache estimate, disk projection, gates, blocked reasons, checkpoint cadence, and next command.
+- Minimal impl (present): pure planning, no model load and no encode. CPU worker defaults are profile-specific (`m3pro-local-max` 1, `studio-1tb` 8, `studio-m1ultra` 16). Dense-cache disk gates use `storage.estimate_for_encoder`.
+- Full impl (next): make DR1/cache build consume `encode_schedule.json` directly for worker pools, shard checkpoints, and heartbeat/thermal pacing rather than copying its `next_command`.
+- Dependencies: `profiles.py`, `storage.py`, `devices.py`. Used by: Studio Wave 0 microbench, DR1 cache build, dense cache planning.
+- Laptop-safe: yes (pure arithmetic). Studio-scale: yes. Prepares-for-custom-model: yes, a custom encoder cache still prices through the same profile and receipt path.
+
+### NullCardGenerator
+- Status: EXISTS. `falsification/null_cards.py` and `scripts/null_card_tool.py` generate draft null/survival cards from `registry/experiments.yaml`, validate the fenced YAML block in a card, and expose the schema in `proof/NULL_CARDS/null_card.schema.json`.
+- Purpose: make each preregistered claim's null, metric, falsifier, probe dependency, seed threshold, provenance tag, verdict, and raw-run receipt explicit before Studio compute can turn into narrative drift.
+- Inputs: one experiment id from the registry, or one existing null-card markdown file. Outputs: a draft markdown card, a JSON-schema-like contract, or validation problems.
+- Minimal impl (present): registry -> draft card (`generate`), card -> structural validation (`validate`), strict mode that refuses TODO placeholders, and a tolerant parser for historical cards whose prose values contain colons.
+- Full impl (next): have each Studio claim writer call strict validation before adding a positive/null to docs, then auto-attach the generated receipt path to `STUDIO_RUN_REPORT.md`.
+- Dependencies: `devel.registries`, `provenance.RESULT_TAGS`, `proof/NULL_CARDS/_TEMPLATE.md`. Used by: Studio DR1/PR9 preregistration, adversarial verification receipts, null-card hygiene.
+- Laptop-safe: yes (pure text). Studio-scale: yes. Prepares-for-custom-model: yes, Process C pilots get the same null-card contract before training.
+
 ### SubstrateAdapter
-- Status: PARTIAL. The adapter logic lives in `scripts/substrate_vs_random_features.py` and `scripts/substrate_vs_random_init_vit.py` (real-V-JEPA-features vs random-PIXEL-features vs random-init-ViT-features) and in `substrate/real_latent.py` (store to Task/factorized-array adapters). There is no single reusable `SubstrateAdapter` class yet; the corrected-control feature extraction is script-local.
+- Status: EXISTS. `substrate/adapter.py` now defines `SubstrateAdapter`, `RealEncoderAdapter`, `RandomInitViTAdapter`, `RandomPixelAdapter`, and `SubstrateRegistry`, with tests in `tests/unit/test_mot_shared_modules.py`.
 - Purpose: present ANY substrate (real frozen V-JEPA, random-init ViT, random-pixel projection, a future custom encoder) behind ONE `features(clips) -> [N,D]` interface, so the substrate-is-special comparison is a swap of adapter, not a rewrite. This is the object that makes the corrected control (real-encoder vs random-ENCODER, NOT within-latent projection) a first-class citizen.
 - Inputs: clips or a `LatentStore`. Outputs: `[N,D]` (or dense) features plus a `substrate_tag` (real-encoder / random-init-vit / random-pixel / custom).
-- Minimal impl: promote the three feature extractors in `substrate_vs_random_features.py`/`_init_vit.py` into `substrate/adapter.py` with a common ABC (`extract(clips) -> tensor`, `tag -> str`). Reuse `FrozenEncoder` for the real arm; a `RandomInitViTAdapter` and `RandomPixelAdapter` for the controls.
-- Full impl: register adapters in `SubstrateRegistry` so `AlignmentSuite`/`CrossSubstrateAgreement` iterate substrates generically. Carry the honest-confound metadata (input resolution) so the 256px-vs-32px caveat is machine-readable, not a comment in a script.
+- Minimal impl: done. The corrected controls are reusable adapters with a common ABC (`extract(clips) -> tensor`, `tag -> str`).
+- Full impl: next extension is to connect adapter registration to encoder-family metadata from `SubstrateRegistry`, so `AlignmentSuite`/`CrossSubstrateAgreement` can iterate substrates by family/objective rather than by hand-written scripts.
 - Dependencies: `FrozenEncoder`, `LatentStore`, `SubstrateRegistry`. Used by: `AlignmentSuite`, `ProbeSuite`, `CrossSubstrateAgreement`, and the two landed/in-flight substrate scripts.
 - Laptop-safe: real V-JEPA arm is CPU-bound and heavy (the running encode job); the random-pixel/random-init arms are cheap. MUST honor the hard constraint: never spawn a second torch/encoder job while the V-JEPA encode is running. Studio-scale: yes. Prepares-for-custom-model: this IS the seam a custom encoder plugs into.
+
+### PerspectiveAdapter
+- Status: EXISTS. `perspectives/adapter.py` defines `PerspectiveMeta`, `PerspectiveBatch`, `PerspectiveAdapter`, `TensorPerspectiveAdapter`, `LatentStorePerspectiveAdapter`, `SubstratePerspectiveAdapter`, `PerspectiveRegistry`, `build_perspective_matrix`, and `perspective_audit`.
+- Purpose: present each named perspective (vision-static, vision-motion, language, audio, code, math, and each matched control) as features over IDENTICAL referents. This is the Studio DR1 plurality contract: the matrix builder aligns by referent id, refuses missing or extra referents, carries supervised/derived/license flags, and the audit names substantive perspectives with no matched control.
+- Inputs: cached tensors, a `LatentStore`, or a `SubstrateAdapter` plus clips and referent ids. Outputs: a `PerspectiveMatrix` with `features[tag] -> [N,D]`, metadata, factors, and control mappings.
+- Minimal impl: present. No model loads at construction. Cached/tensor views are immediate, store views read memmaps, and substrate-backed views call the existing `SubstrateAdapter` sequentially.
+- Full impl (next): make DR1 cache merge emit one `PerspectiveMatrix` receipt across vision, caption, audio, code, and math arms, then feed that receipt to `AlignmentSuite`, A6 residualization, and null-card generation before any positive enters docs.
+- Dependencies: `SubstrateAdapter`, `LatentStore`, torch. Used by: DR1 multi-arm encode, AL2/cross-perspective alignment, facet-15 ecology runs, Process C dense-token pilots.
+- Laptop-safe: yes for tensor/store views and random controls. Studio-scale: yes. Prepares-for-custom-model: yes, a Process C or custom-substrate arm is just another perspective with its own control and license/provenance flags.
 
 ---
 
@@ -173,6 +200,16 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Dependencies: `WorkspaceShell`, `heads`, (substrate-level) `SubstrateAdapter`. Used by: e7 (head-level, present). Laptop-safe/Studio-scale: yes. Prepares-for-custom-model: the substrate-level arbitrator is a design that could keep the frozen V-JEPA AND add a custom specialist, arbitrated per input, the least-committal answer to the reopened fork.
 - Doctrine flag: any mixture win must beat a param-matched dense baseline (e7's control) and, for a substrate-level mixture, must beat the single best substrate alone (not just the average), or the arbitration bought nothing.
 
+### ProcessCDenseTokenModule
+- Status: EXISTS, GATED. `process_c/dense_tokens.py` defines `DenseTokenSlotModule`, `ProcessCDenseTokenClassifier`, `DenseTokenMeanBaseline`, matched-baseline width selection, binding-specificity reporting, and `process_c_budget_report`.
+- Purpose: the sanctioned Process C pilot without overreach: a 1 to 10M object-centric trainable shell over frozen dense tokens, only run after PR9 or DR1 licenses it. This keeps Process C inside the audit's rule: remold a small module on dense tokens first, do not sneak into from-scratch V-JEPA-scale training.
+- Inputs: dense frozen tokens `[B,N,D]`, optional token mask, and a task head. Outputs: slot vectors, pooled slot representation, attention over dense tokens, normalized assignment entropy, logits, and budget/license problems.
+- Minimal impl: present. The slot module cross-attends learnable slots over dense tokens, updates slots with a GRU cell, and exposes attention for collapse and binding checks. The dense-token baseline mean-pools tokens and matches capacity with `dense_hidden_for_target_params`.
+- Full impl (next): have CM9 or the licensed Process C launcher train this module on DR1 dense caches, compare to dense-without-slots and an off-the-shelf slot model, then write a null card. The laptop pass only proves tensor mechanics, budget gates, and controls.
+- Dependencies: torch. Used by: CM9 object-centric binding, Process C moldability pilot, dense-token facet-8 follow-up.
+- Laptop-safe: yes for unit tests and tiny tensors. Studio-scale: yes when licensed. Prepares-for-custom-model: yes, this is the first sanctioned trainable dense-token arm.
+- Doctrine flag: `process_c_budget_report` refuses unlicensed runs and enforces the 1 to 10M cap by default. A slot win must beat dense-without-slots at matched capacity and pass binding-specificity checks; a tie is a null.
+
 ---
 
 ## Compression and information layer
@@ -208,6 +245,16 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Observability and reproducibility layer
 
+### LongRunDaemon
+- Status: EXISTS. `studio/long_run.py` and `scripts/studio_daemon.py` supervise a JSON job plan under an active Studio profile.
+- Purpose: make week-scale Studio work boring and resumable: profile disk gate before each job, dry-run by default, state checkpoint after every transition, heartbeat events during long subprocesses, per-job stdout/stderr logs, resume-skip for completed jobs, and clean stop on blocked/failed jobs.
+- Inputs: a daemon plan with `schema: mop-long-run-daemon/v1` and `jobs: [{id, cmd, cwd?, kind?}]`. Outputs: `daemon_state.json`, `logs/<job>.stdout.log`, `logs/<job>.stderr.log`, event history, and a summary by status.
+- Minimal impl: present. The daemon is command-level infrastructure, not a science launcher. It does not choose DR1/PR9/Process C order; it enforces the profile and records execution for the chosen plan.
+- Full impl (next): wire the adversarial-verifier stage and null-card strict validation as required job kinds before any positive-ledger job can run, then have the Studio wave report consume `daemon_state.json`.
+- Dependencies: `studio.profiles`, subprocess. Used by: Studio Wave 0 and week-scale gated queues.
+- Laptop-safe: yes, dry-run by default and tested with injected runners. Studio-scale: yes. Prepares-for-custom-model: yes, Process C jobs can be supervised without loosening the disk/profile gates.
+- Doctrine flag: a daemon failure or disk stop is a wall/blocked artifact, not a half-positive. The profile floor remains a kill switch.
+
 ### MetricsLogger
 - Status: EXISTS. `logging_utils.py` (`RunManifest`, `new_run_dir`, JSON-to-stdout / logs-to-stderr discipline) + `metrics/continual.py` (`ContinualResult`, BWT/forgetting) + `metrics/frontier.py` + `harness/runner.py` (writes config snapshot + manifest + metrics per run).
 - Purpose: every run gets a directory with resolved config, manifest (seed, device, git, timing), and metrics; no silent failures.
@@ -223,8 +270,8 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Summary: EXISTS vs NEW
 
-- EXISTS (extend only): SubstrateRegistry, LatentStore, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, MetricsLogger, ReproducibilityHarness. That is 16 of 24 modules already implemented and tested.
-- PARTIAL (primitives exist, needs a thin aggregator or promotion): SubstrateAdapter (script-local, promote to `substrate/adapter.py`), AlignmentSuite (geometry+seed_consistency exist, add `diagnostics/alignment.py`), WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
+- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
+- PARTIAL (primitives exist, needs a thin aggregator or promotion): AlignmentSuite (geometry+seed_consistency exist), WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
 - NEW (justified, no duplicate): CrossSubstrateAgreement (`diagnostics/cross_substrate.py`), the missing outer loop over substrates for standing-control 8; and the substrate-LEVEL variant of MixtureArbitrator, which is the least-committal architectural answer to the reopened dense-vs-custom fork but is gated behind CrossSubstrateAgreement showing complementarity.
 
-The load-bearing architectural consequence: the ONLY new code the corrected-substrate research actually requires is (1) promoting the corrected control (`SubstrateAdapter` + `CrossSubstrateAgreement`) from scripts into reusable diagnostics, and (2) DENSE real-video bound-attribute caches (a data gap, not a code gap, the `LatentStore` already supports the shape). Everything else is extension and discipline, not new construction. Building parallel WorkspaceShell/ReplayMemory/PlasticityController classes would be a duplicate and is explicitly rejected.
+The load-bearing architectural consequence: the corrected-substrate research now has reusable controls, receipts, and gated dense-token machinery. The remaining axis-moving gap is still DENSE real-video bound-attribute caches plus Studio execution, not laptop science. Building parallel WorkspaceShell/ReplayMemory/PlasticityController classes would be a duplicate and is explicitly rejected.

@@ -15,6 +15,9 @@ real Studio resumes from the "Next move" section.
 - [x] Full gates green on this box: acceptance 10/10 (full pytest suite, ruff lint + format, mypy 139
       files, E1 forget-then-retain gate, diagnostics, I4 table, campaign queue dry-run, one toy Tier-C
       leg, registry 109 experiments). check_docs green.
+- [x] M3-Pro Wave 0 rerun on 2026-07-08: pytest green (704 tests after the doctor-floor test),
+      docs gate green, acceptance 10/10, DR1 smoke green, profile listing green, and profile-aware
+      doctor green once the filesystem reclaimed above the `m3pro-local-max` 60 GB floor.
 - [x] STUDIO_RUN_REPORT.md created (this file) and added to `scripts/check_docs.py` CANONICAL_MD.
 - [x] Encode microbench, M3-Pro baseline: MPS vs single-worker CPU on 8 real clips (V-JEPA 2 ViT-L,
       64 frames / 256 px, transformers path). RESULT: CPU single-worker 13.69 s/clip (stable, 8 clips);
@@ -119,6 +122,72 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   targeted .gitignore negation; `scripts/mop_dr13_verify.py` restored (6/6 PASS in-repo); Tier 4.1 encode
   auto-select built (`scripts/mop_encode_autoselect.py`); PR9 bare-smoke cache fallback and the stale
   rehearsal-stage phrasing fixed. Only axis-moving science (Studio-gated) and the T5 facet stubs remain.
+- WAVE 7 (M3 Pro, 2026-07-08, laptop Wave 0 under the new deep audit): reread the governing audit
+  stack and reran the laptop gates. Initial disk was below the `m3pro-local-max` profile floor (about
+  12 GB free), so no science launched. During gate execution the filesystem reclaimed above the floor
+  (64.5 GB free), enabling the guarded rehearsal: `scripts/studio_pipeline.py local-max --download-gb
+  10 --time-min 90 --cache-clips 64` passed all 12 stages in
+  `runs/studio_pipeline/local_max_20260708_075245`. A full Tier-C laptop run was also probed and
+  correctly stopped at the run-count gate (263 run-units vs cap 64). Custom-build pass: `studio_doctor`
+  now separates basic disk writeability from the active profile floor and supports an explicit
+  `--profile` gate; on this laptop it reports `profile_floor` against `m3pro-local-max`, and on the
+  Studio it can enforce `--profile studio-m1ultra`. Durability check: the load-bearing receipt set
+  remains git-tracked (`runs/pre_studio/RESULTS_PRE_STUDIO.md`, close/census JSONs, and
+  `runs/mot/dr13_predictor_fidelity.json`). Verdict: laptop Wave 0 green, local-max rehearsed, no
+  axis-moving science left locally.
+- WAVE 8 (M3 Pro, 2026-07-08, custom latent-cache data plane): built the first Studio cache receipt
+  layer in `src/mop/substrate/cache_manifest.py`. It writes `cache_manifest.json` beside any
+  `LatentStore`, records array fingerprints for pooled or dense memmaps, persists optional
+  `factors.json` and `splits.json`, records an encoder config hash, and builds a small columnar index
+  for factors/splits/arrays. `cache_tool.py` now has `manifest` and `validate-manifest` subcommands,
+  and `validate_cache()` validates `cache_manifest.json` when present while keeping old caches valid.
+  Tests cover clean receipts, sidecar tampering, factor length mismatches, duplicate/out-of-range or
+  overlapping splits, and cache-tool integration. Verdict: no axis score changes locally, but DR1 and
+  dense-cache artifact durability are stronger before the Studio writes terabyte-scale evidence.
+- WAVE 9 (M3 Pro, 2026-07-08, custom encode scheduler): built `src/mop/studio/encode_scheduler.py`,
+  a profile-aware launch planner for the Studio Wave-0 encode benchmark. It consumes measured
+  CPU/MPS s/clip, applies profile-specific CPU worker defaults (`studio-m1ultra` = 16), estimates
+  pooled or dense cache bytes, enforces both start and post-cache free-disk floors, checks wall clock,
+  chooses MPS vs parallel CPU, and emits checkpoint cadence plus a next command. `scripts/mop_encode_autoselect.py`
+  now writes `runs/mot/encode_schedule.json` alongside the backward-compatible `encode_device.json`.
+  Tests cover CPU-vs-MPS choice, dense-cache disk refusal, clip-cap clamping, and failed-MPS parsing.
+  Verdict: no axis score changes locally, but the M1 Ultra microbench now feeds a falsifiable launch
+  contract instead of a manual operator choice.
+- WAVE 10 (M3 Pro, 2026-07-08, falsification DSL / null-card generator): built
+  `src/mop/falsification/null_cards.py`, `scripts/null_card_tool.py`, and
+  `proof/NULL_CARDS/null_card.schema.json`. The tool generates draft null/survival cards directly
+  from `registry/experiments.yaml`, validates the fenced YAML block in existing cards, supports
+  strict mode that refuses TODO placeholders, and tolerates historical cards whose prose values
+  contain colons. The generated contract carries the null hypothesis, baseline, falsifier/ablation,
+  metric, probe dependency, seed threshold, provenance tag, verdict, taxonomy slot, and raw-run
+  receipt. Tests cover registry generation, round-trip rendering, strict placeholder refusal,
+  existing-card validation (`ex13_long_stream`), bad enums, missing probe dependencies, and schema
+  fields. Verdict: no axis score changes locally, but Studio DR1/PR9 claims now have a code path
+  for preregistered null-card receipts before any positive enters docs.
+- WAVE 11 (M3 Pro, 2026-07-08, custom PerspectiveAdapter): built
+  `src/mop/perspectives/adapter.py` and `tests/unit/test_perspective_adapter.py`. The new
+  `PerspectiveAdapter` layer sits above `SubstrateAdapter`: tensor/store/substrate-backed views all
+  yield a `PerspectiveBatch` with features, referent ids, factors, and provenance flags; the
+  `PerspectiveMatrix` builder aligns every arm by referent id and refuses mismatched referent sets; and
+  `perspective_audit()` names missing matched controls, supervised arms, derived arms, dimensions, and
+  licenses. Verdict: no axis score changes locally, but facet-6/facet-15 perspective plurality now has
+  a reusable evidence contract for DR1's identical-referent multi-arm cache instead of an informal
+  collection of feature arrays.
+- WAVE 12 (M3 Pro, 2026-07-08, gated Process C dense-token module): built
+  `src/mop/process_c/dense_tokens.py` and `tests/unit/test_process_c_dense_tokens.py`. The module
+  implements the sanctioned Process C pilot as a shell-side object-centric slot module over frozen dense
+  tokens, plus a dense-without-slots mean baseline, matched-baseline width selection,
+  binding-specificity reporting, and a `process_c_budget_report()` that refuses unlicensed runs and
+  enforces the default 1 to 10M parameter cap. Verdict: no Process C science was run and no license is
+  implied; PR9/DR1 must still fire the gate. But if the Studio licenses Process C, the first dense-token
+  arm now has tensor mechanics, controls, and budget discipline in place.
+- WAVE 13 (M3 Pro, 2026-07-08, long-run daemon): built `src/mop/studio/long_run.py`,
+  `scripts/studio_daemon.py`, and `tests/unit/test_long_run_daemon.py`. The daemon reads a JSON job
+  plan, dry-runs by default, enforces the active profile disk floor before each job, writes resumable
+  `daemon_state.json`, skips completed jobs on resume, emits heartbeat events during subprocesses,
+  stores per-job logs, and stops on disk-block or command failure. Verdict: no long Studio job was
+  launched locally, but facet-16/week-scale execution now has a reusable supervisor instead of relying
+  on session hygiene.
 
 ## Next move (per the goal-loop protocol)
 

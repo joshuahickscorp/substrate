@@ -39,9 +39,21 @@ back-fit. Priority = de-risk before decorate.
       vjepa2_vith.yaml) so the atlas encoder-scale curve (facet 7) loads real weights, not the
       frozen-random fallback.
 - [x] T4.1 encode auto-select: `scripts/mop_encode_autoselect.py` microbenches CPU vs MPS and writes
-      `runs/mot/encode_device.json` with the winner (the Studio runs it once, then encodes with
-      `device=$(jq -r .winner ...)`). Smoke-run with `--skip-mps` (picks cpu at 16 s/clip on the laptop);
-      the Studio re-runs without the flag to time MPS at 128 GB.
+      `runs/mot/encode_device.json` with the winner and `runs/mot/encode_schedule.json` with the
+      profile-aware launch contract (device, CPU workers, dense/pooled cache bytes, disk floors,
+      wall-clock gate, checkpoint cadence, next command). Smoke-run with `--skip-mps` (picks cpu at
+      16 s/clip on the laptop); the Studio re-runs without the flag to time MPS at 128 GB.
+- [x] T4.3 perspective matrix contract: `src/mop/perspectives/adapter.py` aligns vision/language/audio/
+      code/math/control arms by referent id, refuses referent drift, and audits missing matched controls
+      plus supervised/derived/license flags. DR1 cache merge should write or consume this contract before
+      AL2, A6 residualization, or facet-15 claims run.
+- [x] T4.4 gated Process C dense-token module: `src/mop/process_c/dense_tokens.py` provides the sanctioned
+      1 to 10M object-centric slot module over frozen dense tokens, dense-without-slots baseline,
+      binding-specificity report, and default unlicensed-run refusal. Do not run it until PR9 or DR1
+      licenses Process C.
+- [x] T4.5 long-run daemon: `scripts/studio_daemon.py` supervises a JSON job plan with dry-run default,
+      profile disk gates, resumable `daemon_state.json`, per-job logs, heartbeat events, and clean stop on
+      blocked/failed jobs. This is the facet-16 execution spine, not a science selector.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -84,9 +96,20 @@ back-fit. Priority = de-risk before decorate.
 
 - T4.1 Encode auto-select. The WAVE-0 microbench measured CPU 13.69 s/clip vs MPS 821 s/clip (paged at
   18 GB) on the M3 Pro. Wire the encode path to run a tiny microbench and pick the winner automatically,
-  so the Studio does not hand-choose the device (and re-measures MPS at 128 GB where it may win).
+  then feed that measurement into the profile-aware scheduler, so the Studio does not hand-choose the
+  device, CPU workers, checkpoint cadence, or disk reserve (and re-measures MPS at 128 GB where it may
+  win).
 - T4.2 Verify the ViT-H / ViT-g encoder configs and the acquisition commands are Studio-ready (facet 7
   atlas encoder-scale curve); both are config-only stubs today.
+- T4.3 Perspective matrix contract. Multi-arm Studio runs must prove their arms share identical referents
+  and matched controls before reporting cross-perspective structure. `PerspectiveAdapter` now supplies
+  the contract; the next DR1 merge pass consumes it.
+- T4.4 Process C dense-token module. Process C stays gated, but its first allowed module is ready to import:
+  slot attention over frozen dense tokens, dense-without-slots baseline, binding-specificity report, and
+  a budget/license refusal by default.
+- T4.5 Long-run daemon. Week-scale Studio plans can now run under a dry-run-first supervisor with profile
+  disk gates, heartbeat, logs, and resumable state. Next extension is making adversarial verification and
+  strict null-card validation mandatory job kinds before any positive-ledger step.
 
 ## Tier 5: one-command entry points for the missing facets (13 to 17)
 

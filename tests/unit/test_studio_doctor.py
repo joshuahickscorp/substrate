@@ -63,6 +63,21 @@ def test_encoders_check_lists_configs_with_dim():
     assert "configs" in enc["detail"] and "d=" in enc["detail"]  # name(d=...) rows
 
 
+def test_profile_floor_reports_blocked_profile(monkeypatch):
+    class DummyProfile:
+        name = "m3pro-local-max"
+        min_free_disk_gb = 60.0
+
+        def free_disk_ok(self):
+            return False, 13.3
+
+    monkeypatch.setattr(sd, "get_profile", lambda name: DummyProfile())
+    ok, detail = sd._check_profile_floor("m3pro-local-max")
+    assert not ok
+    assert "m3pro-local-max" in detail
+    assert "PROFILE BLOCKED" in detail
+
+
 def test_python_and_torch_checks_pass_here():
     report = doctor()
     assert _find(report, "python")["ok"]

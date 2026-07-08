@@ -1,11 +1,13 @@
 #!/usr/bin/env python
-"""Cache integrity CLI. Read-only: list, describe, and validate the latent caches under
+"""Cache integrity CLI. Lists, describes, validates, and writes receipts for latent caches under
 data/cache without touching the encoder. JSON to stdout, logs to stderr.
 
 Usage:
   python scripts/cache_tool.py list [--root data/cache]
   python scripts/cache_tool.py info  data/cache/<name>
   python scripts/cache_tool.py validate data/cache/<name>
+  python scripts/cache_tool.py manifest data/cache/<name>
+  python scripts/cache_tool.py validate-manifest data/cache/<name>
 
 `validate` prints {"store_dir","clean","problems"} and exits non-zero if the cache is dirty,
 so it doubles as a CI gate.
@@ -18,6 +20,7 @@ import json
 import sys
 from pathlib import Path
 
+from mop.substrate.cache_manifest import validate_cache_manifest, write_cache_manifest
 from mop.substrate.cache_tools import (
     DEFAULT_ROOT,
     cache_info,
@@ -43,6 +46,18 @@ def main(argv: list[str] | None = None) -> int:
     pv = sub.add_parser("validate", help="integrity check one cache (exit !=0 if dirty)")
     pv.add_argument("store_dir", help="path to one cache dir")
 
+    pm = sub.add_parser("manifest", help="write cache_manifest.json for one cache")
+    pm.add_argument("store_dir", help="path to one cache dir")
+    pm.add_argument(
+        "--full-hash-arrays",
+        action="store_true",
+        help="hash full array files instead of sampled first/last bytes",
+    )
+    pm.add_argument("--encoder-config", default=None, help="optional encoder config JSON file")
+
+    pvm = sub.add_parser("validate-manifest", help="validate cache_manifest.json only")
+    pvm.add_argument("store_dir", help="path to one cache dir")
+
     args = p.parse_args(argv if argv is not None else sys.argv[1:])
 
     if args.cmd == "list":
@@ -53,6 +68,21 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "validate":
         problems = validate_cache(Path(args.store_dir))
+        _emit({"store_dir": str(args.store_dir), "clean": not problems, "problems": problems})
+        return 0 if not problems else 1
+    if args.cmd == "manifest":
+        encoder_config = None
+        if args.encoder_config is not None:
+            encoder_config = json.loads(Path(args.encoder_config).read_text())
+        manifest = write_cache_manifest(
+            Path(args.store_dir),
+            encoder_config=encoder_config,
+            full_hash_arrays=bool(args.full_hash_arrays),
+        )
+        _emit({"store_dir": str(args.store_dir), "manifest": manifest})
+        return 0
+    if args.cmd == "validate-manifest":
+        problems = validate_cache_manifest(Path(args.store_dir))
         _emit({"store_dir": str(args.store_dir), "clean": not problems, "problems": problems})
         return 0 if not problems else 1
     return 2

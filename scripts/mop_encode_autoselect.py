@@ -32,6 +32,9 @@ sys.path.insert(0, str(_ROOT))
 from compositional_under_nuisance import make_bound_nuisance_clip  # noqa: E402
 from transformers import AutoModel  # noqa: E402
 
+from mop.config import compose  # noqa: E402
+from mop.studio.encode_scheduler import format_plan, plan_encode  # noqa: E402
+
 HF = "facebook/vjepa2-vitl-fpc64-256"
 
 
@@ -101,13 +104,45 @@ def main() -> int:
         "--skip-mps", action="store_true", help="record MPS availability without timing it (laptop smoke)"
     )
     ap.add_argument("--out", type=str, default=str(_ROOT / "runs" / "mot" / "encode_device.json"))
+    ap.add_argument("--schedule-out", type=str, default=str(_ROOT / "runs" / "mot" / "encode_schedule.json"))
+    ap.add_argument("--profile", default="m3pro-local-max")
+    ap.add_argument("--planned-clips", type=int, default=64)
+    ap.add_argument("--encoder", default="vjepa2_vitl_fpc64_256")
+    ap.add_argument("--dense", action="store_true", help="plan dense-token cache footprint")
+    ap.add_argument("--cpu-workers", type=int, default=None, help="override profile CPU worker default")
     args = ap.parse_args()
     result = pick_encode_device(args.n_clips, skip_mps=args.skip_mps)
+    enc_cfg = compose([f"encoder={args.encoder}", "device=cpu"]).encoder
+    enc_dict = {
+        "name": str(enc_cfg.name),
+        "embed_dim": int(enc_cfg.embed_dim),
+        "dense": bool(getattr(enc_cfg, "dense", False)),
+    }
+    schedule = plan_encode(
+        profile_name=args.profile,
+        benchmark=result,
+        encoder_config=enc_dict,
+        requested_clips=args.planned_clips,
+        dense=bool(args.dense),
+        cpu_workers=args.cpu_workers,
+    )
+    result["schedule"] = {
+        "ok_to_launch": schedule["ok_to_launch"],
+        "winner": schedule["winner"],
+        "effective_clips": schedule["effective_clips"],
+        "cache_estimate": schedule["cache_estimate"],
+        "blocked_reasons": schedule["blocked_reasons"],
+        "next_command": schedule["next_command"],
+    }
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2))
+    sched_out = Path(args.schedule_out)
+    sched_out.parent.mkdir(parents=True, exist_ok=True)
+    sched_out.write_text(json.dumps(schedule, indent=2))
     print(json.dumps(result, indent=2))
     print(f"\nWINNER: {result['winner']} (wrote {out})")
+    print(f"SCHEDULE: {format_plan(schedule)} (wrote {sched_out})")
     return 0
 
 

@@ -1,10 +1,10 @@
 """Studio readiness doctor. One command answers: is this machine ready to run the campaign at
 scale on Apple Silicon. It probes the things that actually break a real run (wrong python,
-torch without MPS, no disk, no video decoder, a placeholder encoder mistaken for real, a
-malformed leg) and reports each as a green/red check with a detail line. It is deliberately
-non-fatal where the world is allowed to be incomplete this session: a missing video backend or
-an unreachable HuggingFace are REPORTED, not failures, because the cached-latent path runs
-without either and we never download weights here.
+torch without MPS, no basic disk writeability, not enough disk for the active profile, no video
+decoder, a placeholder encoder mistaken for real, a malformed leg) and reports each as a
+green/red check with a detail line. It is deliberately non-fatal where the world is allowed to be
+incomplete this session: a missing video backend or an unreachable HuggingFace are REPORTED, not
+failures, because the cached-latent path runs without either and we never download weights here.
 
 doctor() -> {checks:[{name,ok,detail}], all_ok, summary}. render_md() turns it into a table.
 Nothing here trains, downloads, or runs long: every check is cheap (seconds, no network except
@@ -21,6 +21,7 @@ from omegaconf import OmegaConf
 
 from .config import REPO_ROOT
 from .devices import apple_silicon_info
+from .studio.profiles import get_profile
 
 # the V-JEPA 2 default encoder, used only for a metadata reachability ping (NEVER downloaded)
 _HF_PROBE_ID = "facebook/vjepa2-vitl-fpc64-256"
@@ -32,6 +33,7 @@ CHECK_NAMES = (
     "torch",
     "apple_silicon",
     "disk_space",
+    "profile_floor",
     "video_backend",
     "huggingface",
     "encoders",
@@ -82,9 +84,37 @@ def _check_apple_silicon() -> tuple[bool, str]:
 def _check_disk_space() -> tuple[bool, str]:
     du = shutil.disk_usage(REPO_ROOT)
     free_gb = du.free / 1e9
-    # latent caches + run artifacts are small, but real video ingestion wants headroom
+    # This is only the basic writeability floor. The active profile floor is checked separately,
+    # so a laptop can report "basic disk ok" while still blocking local-max below 60 GB free.
     ok = free_gb >= 5.0
-    return ok, f"{free_gb:.1f} GB free of {du.total / 1e9:.0f} GB at repo"
+    return ok, f"{free_gb:.1f} GB free of {du.total / 1e9:.0f} GB at repo (basic writeability)"
+
+
+def _infer_profile_name() -> str:
+    """Pick the safety profile that best matches this host for the doctor default.
+
+    Operators can still pass an explicit profile. The heuristic exists so the plain doctor command
+    does not call a disk-starved laptop "ready" for local-max by accident.
+    """
+    info = apple_silicon_info()
+    total_gb = shutil.disk_usage(REPO_ROOT).total / 1e9
+    chip = str(info.get("chip", ""))
+    mem = float(info.get("unified_memory_gb") or 0.0)
+    if "Ultra" in chip and mem >= 96.0 and total_gb >= 7000.0:
+        return "studio-m1ultra"
+    return "m3pro-local-max"
+
+
+def _check_profile_floor(profile_name: str | None = None) -> tuple[bool, str]:
+    """Enforce the active profile's free-disk floor. This is the launch gate: unlike the basic
+    disk_space probe, failing it means the matching profile must not start heavy work."""
+    profile = get_profile(profile_name or _infer_profile_name())
+    ok, free_gb = profile.free_disk_ok()
+    status = "profile floor ok" if ok else "PROFILE BLOCKED"
+    return (
+        ok,
+        f"{profile.name}: {free_gb:.1f} GB free, min {profile.min_free_disk_gb:.0f} GB ({status})",
+    )
 
 
 def _check_video_backend() -> tuple[bool, str]:
@@ -160,23 +190,25 @@ def _check_config_validation() -> tuple[bool, str]:
     return False, f"{len(problems)} problems: {head}{more}"
 
 
-_PROBES: tuple[tuple[str, Callable[[], tuple[bool, str]]], ...] = (
-    ("python", _check_python),
-    ("torch", _check_torch),
-    ("apple_silicon", _check_apple_silicon),
-    ("disk_space", _check_disk_space),
-    ("video_backend", _check_video_backend),
-    ("huggingface", _check_huggingface),
-    ("encoders", _check_encoders),
-    ("cache_write", _check_cache_write),
-    ("config_validation", _check_config_validation),
-)
+def _probes(profile_name: str | None = None) -> tuple[tuple[str, Callable[[], tuple[bool, str]]], ...]:
+    return (
+        ("python", _check_python),
+        ("torch", _check_torch),
+        ("apple_silicon", _check_apple_silicon),
+        ("disk_space", _check_disk_space),
+        ("profile_floor", lambda: _check_profile_floor(profile_name)),
+        ("video_backend", _check_video_backend),
+        ("huggingface", _check_huggingface),
+        ("encoders", _check_encoders),
+        ("cache_write", _check_cache_write),
+        ("config_validation", _check_config_validation),
+    )
 
 
-def doctor() -> dict:
+def doctor(profile_name: str | None = None) -> dict:
     """Run every readiness check. Returns {checks, all_ok, summary}. Never raises: a probe that
     throws becomes a failed check. all_ok is the AND over every check's ok."""
-    checks = [_check(name, fn) for name, fn in _PROBES]
+    checks = [_check(name, fn) for name, fn in _probes(profile_name)]
     passed = sum(1 for c in checks if c["ok"])
     return {
         "checks": checks,

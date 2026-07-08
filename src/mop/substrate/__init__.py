@@ -4,6 +4,7 @@ streams. Nothing here trains."""
 from __future__ import annotations
 
 from .cache import cache_latents, synthetic_clips
+from .cache_manifest import validate_cache_manifest, write_cache_manifest
 from .datasets import Task, make_task_stream, noisy_tv_dataset, stream_from_store
 from .encoder import EncoderSpec, FrozenEncoder, load_encoder
 from .fixtures import generate_video_corpus
@@ -19,6 +20,8 @@ __all__ = [
     "StoreMeta",
     "cache_latents",
     "synthetic_clips",
+    "write_cache_manifest",
+    "validate_cache_manifest",
     "Task",
     "make_task_stream",
     "noisy_tv_dataset",
