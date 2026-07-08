@@ -31,12 +31,14 @@ REQUIRED_PATHS = (
     "scripts/studio_pipeline.py",
     "scripts/studio_daemon.py",
     "scripts/studio_transfer_check.py",
+    "scripts/studio_artifact_bundle.py",
     "scripts/studio/dr1_smoke.py",
     "scripts/studio/dr1_curate_bound_video.py",
     "scripts/studio/pr9_continual_backprop.py",
     "scripts/mop_encode_autoselect.py",
     "scripts/null_card_tool.py",
     "proof/NULL_CARDS/null_card.schema.json",
+    "proof/ARTIFACT_INDEX/pre_studio.json",
 )
 
 DURABLE_RECEIPTS = (

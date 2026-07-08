@@ -233,6 +233,13 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   plus raw JSON. CLI smoke against `ex2_latent_planning` intentionally refused the historical positive
   without a verifier receipt. Verdict: no new result, but the pre-ledger falsification rule is now
   executable instead of relying on memory.
+- WAVE 20 (M3 Pro, 2026-07-08, artifact bundle/index): built `src/mop/studio/artifact_bundle.py`,
+  `scripts/studio_artifact_bundle.py`, and `tests/unit/test_artifact_bundle.py`, then generated
+  `proof/ARTIFACT_INDEX/pre_studio.json` as the first durable receipt index. The tool hashes receipt
+  artifacts, validates JSON, reports git tracking, and can copy small untracked text receipts into a
+  proof bundle while refusing oversized or non-text artifacts. The transfer checklist now requires the
+  tool and the pre-Studio index path before Studio compute starts. Verdict: no new science, but the
+  audit's gitignored-artifact risk is now a machine-checkable durability gate for Wave 0 and later waves.
 
 ## Next move (per the goal-loop protocol)
 
