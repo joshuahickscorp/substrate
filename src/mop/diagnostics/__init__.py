@@ -4,7 +4,14 @@ determinism sanity loop."""
 
 from __future__ import annotations
 
-from .alignment import alignment_null, alignment_suite, cross_seed_alignment, permutation_pvalue
+from .alignment import (
+    alignment_null,
+    alignment_suite,
+    alignment_table,
+    cross_seed_alignment,
+    pair_alignment,
+    permutation_pvalue,
+)
 from .bottleneck import capability_per_bit, quantization_robustness
 from .buffer_compression import retention_per_byte
 from .calibration import calibration_plot, reliability
@@ -116,6 +123,8 @@ __all__ = [
     "permutation_pvalue",
     "alignment_null",
     "alignment_suite",
+    "alignment_table",
+    "pair_alignment",
     "cross_seed_alignment",
     # cross-substrate agreement (WP-02, AT1/AL2/WS1)
     "cross_substrate_agreement",
