@@ -71,9 +71,38 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
                 "kind": "gate",
             },
             {
+                "id": "profiles",
+                "cmd": ["python", "scripts/studio_pipeline.py", "profiles"],
+                "kind": "gate",
+            },
+            {
                 "id": "docs_gate",
                 "cmd": ["python", "scripts/check_docs.py"],
                 "kind": "gate",
+            },
+            {
+                "id": "acceptance",
+                "cmd": ["python", "scripts/acceptance.py"],
+                "kind": "gate",
+            },
+            {
+                "id": "dr1_smoke",
+                "cmd": ["python", "scripts/studio/dr1_smoke.py"],
+                "kind": "gate",
+            },
+            {
+                "id": "encode_microbench",
+                "cmd": [
+                    "python",
+                    "scripts/mop_encode_autoselect.py",
+                    "--profile",
+                    "studio-m1ultra",
+                    "--planned-clips",
+                    "1000",
+                    "--n-clips",
+                    "8",
+                ],
+                "kind": "microbench",
             },
         ],
     }

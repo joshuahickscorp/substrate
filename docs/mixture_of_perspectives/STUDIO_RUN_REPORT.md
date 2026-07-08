@@ -196,6 +196,12 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   git-tracked, and validates any cache manifests already present. Local smoke with `--allow-dirty`
   produced a 28/28 transfer receipt. Verdict: Studio Wave 0 now has an executable transfer receipt
   before doctor/full gates/microbench; no Studio science was run locally.
+- WAVE 15 (M3 Pro, 2026-07-08, Studio Wave-0 daemon plan): extended the `scripts/studio_daemon.py`
+  template into a full Wave-0 gate plan: transfer check, profile-aware doctor, profile listing, docs
+  gate, full acceptance, DR1 smoke, and the `studio-m1ultra` encode microbench planning for 1000
+  clips. Verdict: the Studio still must run it with `--execute` on the M1 Ultra to produce actual
+  s/clip and memory-envelope evidence, but the Wave-0 command order is now an executable plan rather
+  than a prose checklist.
 
 ## Next move (per the goal-loop protocol)
 
