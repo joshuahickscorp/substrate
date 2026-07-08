@@ -11,7 +11,7 @@ from torch import nn
 
 from mop.diagnostics import continual_metrics as cm
 from mop.diagnostics import riskcov as rc
-from mop.diagnostics.alignment import alignment_suite, permutation_pvalue
+from mop.diagnostics.alignment import alignment_suite, alignment_table, permutation_pvalue
 from mop.diagnostics.compute import attention_flops, knn_flops, linear_flops, param_count
 from mop.diagnostics.cross_substrate import cross_substrate_agreement
 from mop.shell.capmatch import fixed_total_params_sweep, matched_capacity, width_for_param_count
@@ -82,6 +82,35 @@ def test_alignment_suite_self_alignment():
     x = torch.randn(24, 6, generator=torch.Generator().manual_seed(0))
     rep = alignment_suite(x, x, n_permutations=20)
     assert rep["linear_cka"] > 0.99 and rep["p_value"] < 0.1
+
+
+def test_alignment_suite_mapping_mode_builds_pair_matrices():
+    g = torch.Generator().manual_seed(0)
+    base = torch.randn(24, 6, generator=g)
+    reps = {
+        "vision_vjepa2": base,
+        "caption_text": base[:, :3] + 0.01 * torch.randn(24, 3, generator=g),
+        "randinit_control": torch.randn(24, 6, generator=g),
+    }
+    table = alignment_suite(reps, n_permutations=20, seed=1, k=3)
+    assert table["schema"] == "mop-alignment-suite/v1"
+    assert table["tags"] == ["caption_text", "randinit_control", "vision_vjepa2"]
+    assert table["matrices"]["linear_cka"]["vision_vjepa2"]["caption_text"] > 0.5
+    assert "caption_text__vision_vjepa2" in table["pairs"]
+    assert table["warnings"] == []
+
+
+def test_alignment_table_refuses_mismatched_referent_counts():
+    with pytest.raises(ValueError, match="share N referents"):
+        alignment_table({"a": torch.randn(4, 2), "b": torch.randn(5, 2)})
+
+
+def test_alignment_table_warns_without_random_encoder_control():
+    table = alignment_table(
+        {"a": torch.randn(6, 2), "random_projection": torch.randn(6, 2)}, n_permutations=3
+    )
+    assert any("random projection" in w for w in table["warnings"])
+    assert any("no random-encoder" in w for w in table["warnings"])
 
 
 # ---------------------------------------------------------------- cross_substrate

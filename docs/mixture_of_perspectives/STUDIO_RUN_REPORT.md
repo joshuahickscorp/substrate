@@ -262,6 +262,12 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   the `perspective_audit()` missing-control surface. If only shard-order sidecars exist, it writes a
   blocked receipt instead of implying a merged matrix. Verdict: no science was run, but DR1 plurality now
   has a verified-or-walled receipt before any alignment or facet-15 claim can lean on it.
+- WAVE 24 (M3 Pro, 2026-07-08, AlignmentSuite table): extended `src/mop/diagnostics/alignment.py` and
+  `tests/unit/test_mot_shared_modules.py`. `alignment_suite(x, y)` keeps the pair report, while
+  `alignment_suite({tag: tensor})` now emits a `mop-alignment-suite/v1` table with self-geometry,
+  pairwise CKA/kernel-CKA/RSA/neighborhood overlap, row-shuffle p-values, metric matrices, and doctrine
+  warnings when no random-encoder control tag is present. Verdict: no Studio evidence was scored, but the
+  DR1 PerspectiveMatrix now has a reusable falsifiable alignment table instead of ad hoc pair calls.
 
 ## Next move (per the goal-loop protocol)
 

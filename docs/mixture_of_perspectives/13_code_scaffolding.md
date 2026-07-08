@@ -71,14 +71,14 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 ## Probing and alignment layer
 
 ### AlignmentSuite
-- Status: PARTIAL/NEW-as-aggregator. The pieces exist (`diagnostics/geometry.py` has linear/kernel CKA, RSA, effective rank, anisotropy, intrinsic dim, NN-overlap; `diagnostics/seed_consistency.py` has cross-seed CKA and Hungarian code agreement). There is no single `AlignmentSuite` that runs these across a SET of substrates/seeds and tables them.
+- Status: EXISTS. `diagnostics/alignment.py` wraps `diagnostics/geometry.py` (linear/kernel CKA, RSA, effective rank, anisotropy, intrinsic dim, NN-overlap) and `diagnostics/seed_consistency.py` into a pairwise report and a multi-arm `mop-alignment-suite/v1` table.
 - Purpose: measure representational agreement (between two substrates, between seeds of the same shell, between a substrate and a target RDM). The load-bearing scientific use: quantify whether two DIFFERENT-objective substrates converge (universal structure) or diverge (modality/objective-specific), the newest doctrinal control.
 - Inputs: two or more `[N,D]` representations of the SAME points. Outputs: pairwise CKA matrix, RSA correlations, effective-rank/anisotropy per substrate, cross-seed CKA vs frozen-random floor.
-- Minimal impl: a thin `alignment_suite(reps: dict[str, tensor]) -> dict` in `diagnostics/alignment.py` that calls the existing `geometry` and `seed_consistency` functions and assembles the table. Reuse, do not reimplement, `linear_cka`.
-- Full impl: add Procrustes/CCA alignment and a permutation-test p-value on the CKA so "converged" is a certified claim not an eyeball.
+- Minimal impl: present. `alignment_suite(x, y)` keeps the historical pair report; `alignment_suite({tag: tensor})` assembles self-geometry, pair metrics, metric matrices, row-shuffle p-values, and warnings when no random-encoder control is present.
+- Full impl (next): add Procrustes/CCA alignment and route DR1 `perspective_matrix_receipt.json` into an alignment receipt after the merged cache exists.
 - Dependencies: `geometry`, `seed_consistency`. Used by: EX12 atlas, P5/S5/Y3 idiolect tests, `CrossSubstrateAgreement`.
 - Laptop-safe: yes (CKA is a few matmuls). Studio-scale: yes. Prepares-for-custom-model: yes, comparing a custom encoder's geometry to V-JEPA is exactly a CKA/RSA call.
-- Doctrine flag: CKA is rotation-invariant, so it CANNOT distinguish real from a full-rank random projection either (same vacuous-control trap as probes). Any AlignmentSuite claim of specialness must use a random-ENCODER arm, not frozen_random_projection.
+- Doctrine flag: CKA is rotation-invariant, so it CANNOT distinguish real from a full-rank random projection either (same vacuous-control trap as probes). The suite now warns when a random-encoder control tag is absent; any AlignmentSuite claim of specialness must use a random-ENCODER arm, not frozen_random_projection.
 
 ### ProbeSuite
 - Status: EXISTS. `diagnostics/linear_probe.py`, `diagnostics/nonlinear_probe.py` (with the readout-contribution difference-in-differences index), `diagnostics/held_out_combo.py` (compositionality gate), `diagnostics/bottleneck.py` (capability-per-bit), `diagnostics/difficulty_calibration.py` (D3, certifies a regime is separable before a tie is trusted).
@@ -320,8 +320,8 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Summary: EXISTS vs NEW
 
-- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, VerdictGate, SubstrateAdapter, PerspectiveAdapter, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, ArtifactBundle, StudioTransferCheck, StudioWave0Report, StudioNativeLanes, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
-- PARTIAL (primitives exist, needs a thin aggregator or promotion): AlignmentSuite (geometry+seed_consistency exist), WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
+- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, VerdictGate, SubstrateAdapter, PerspectiveAdapter, AlignmentSuite, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, ArtifactBundle, StudioTransferCheck, StudioWave0Report, StudioNativeLanes, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
+- PARTIAL (primitives exist, needs a thin aggregator or promotion): WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
 - NEW (justified, no duplicate): CrossSubstrateAgreement (`diagnostics/cross_substrate.py`), the missing outer loop over substrates for standing-control 8; and the substrate-LEVEL variant of MixtureArbitrator, which is the least-committal architectural answer to the reopened dense-vs-custom fork but is gated behind CrossSubstrateAgreement showing complementarity.
 
 The load-bearing architectural consequence: the corrected-substrate research now has reusable controls, receipts, and gated dense-token machinery. The remaining axis-moving gap is still DENSE real-video bound-attribute caches plus Studio execution, not laptop science. Building parallel WorkspaceShell/ReplayMemory/PlasticityController classes would be a duplicate and is explicitly rejected.
