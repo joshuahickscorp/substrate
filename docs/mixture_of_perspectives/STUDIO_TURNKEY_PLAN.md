@@ -57,6 +57,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.6 transfer checklist command: `scripts/studio_transfer_check.py` emits a Wave-0 transfer receipt
       proving the governing audit/docs/scripts, `studio-m1ultra` profile, null-card schema, durable
       pre-Studio receipts, git state, and cache manifests before any Studio science starts.
+- [x] T4.7 Wave-0 daemon template: `scripts/studio_daemon.py template` now emits the full pre-science
+      sequence: transfer check, doctor, profiles, docs gate, acceptance, DR1 smoke, and the
+      `studio-m1ultra` encode microbench plan for 1000 clips.
 - [x] Re-audit gaps closed (from the 2026-07-03 potential re-audit, honest combined 86 percent):
       DURABILITY the load-bearing verdict evidence (close_*.json, frozen_random_census.json,
       census_reaudit.json, RESULTS_PRE_STUDIO.md, dr13_predictor_fidelity.json) is now GIT-TRACKED via a
@@ -115,6 +118,7 @@ back-fit. Priority = de-risk before decorate.
   strict null-card validation mandatory job kinds before any positive-ledger step.
 - T4.6 Transfer checklist. Studio Wave 0 now starts with an executable receipt:
   `PYTHONPATH=src:. python scripts/studio_transfer_check.py --profile studio-m1ultra --out runs/studio_transfer_check.json`.
+- T4.7 Wave-0 daemon template. On the Studio: `PYTHONPATH=src:. python scripts/studio_daemon.py template --out runs/studio_wave0_plan.json`, then inspect it and run with `--execute` only on the M1 Ultra.
 
 ## Tier 5: one-command entry points for the missing facets (13 to 17)
 
