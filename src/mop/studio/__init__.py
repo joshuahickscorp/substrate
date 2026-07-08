@@ -7,6 +7,7 @@ downloads heavy assets by default; heavy acquisition is gated behind execute + b
 from __future__ import annotations
 
 from .artifact_bundle import build_artifact_index, preset_paths, write_artifact_index
+from .claim_plan import build_claim_daemon_plan, write_claim_daemon_plan
 from .dr1_perspectives import build_dr1_perspective_receipt, write_dr1_perspective_receipt
 from .dr1_schedule import build_dr1_schedule_plan, daemon_plan_from_dr1_schedule_plan, load_encode_schedule
 from .encode_scheduler import EncodeBenchmark, format_plan, plan_encode
@@ -28,6 +29,8 @@ __all__ = [
     "build_artifact_index",
     "write_artifact_index",
     "preset_paths",
+    "build_claim_daemon_plan",
+    "write_claim_daemon_plan",
     "build_dr1_perspective_receipt",
     "write_dr1_perspective_receipt",
     "build_dr1_schedule_plan",

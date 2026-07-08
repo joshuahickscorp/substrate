@@ -80,6 +80,9 @@ back-fit. Priority = de-risk before decorate.
 - [x] T4.11 artifact bundle/index: `scripts/studio_artifact_bundle.py` writes
       `mop-artifact-bundle/v1` indexes for pre-Studio and Wave-0 receipt sets, hashes every artifact,
       validates JSON receipts, and can copy small untracked receipts into a durable proof bundle.
+- [x] T4.13 claim ledger daemon plan: `scripts/studio_claim_plan.py` writes a daemon-valid plan that
+      runs verdict gate, artifact bundle, and only then the supplied ledger command. Positive claims use
+      `kind=positive-ledger`, so the daemon rejects ungated positive doc updates.
 - [x] T4.12 DR1 schedule bridge: `scripts/studio/dr1_schedule_plan.py` turns `encode_schedule.json`
       into a dry JSON plan and optional long-run daemon plan. It refuses blocked schedules, carries the
       measured CPU/MPS device into `dr1_curate_bound_video.py --device`, and makes checkpoint cadence the
@@ -157,6 +160,9 @@ back-fit. Priority = de-risk before decorate.
   `PYTHONPATH=src:. python scripts/studio_artifact_bundle.py --preset pre-studio --require-durable --out proof/ARTIFACT_INDEX/pre_studio.json`.
   After M1 Ultra Wave 0, preserve ignored run receipts with:
   `PYTHONPATH=src:. python scripts/studio_artifact_bundle.py --preset wave0 --copy-dir proof/ARTIFACT_BUNDLES/wave0 --require-durable --out proof/ARTIFACT_INDEX/wave0.json`.
+- T4.13 Claim ledger plan. For any positive doc update, generate a daemon plan instead of running the
+  ledger command directly:
+  `PYTHONPATH=src:. python scripts/studio_claim_plan.py --null-card <card.md> --run-receipt <run.json> --verifier-receipt <verify.json> --verdict-gate-out <gate.json> --artifact-index-out <index.json> --copy-dir proof/ARTIFACT_BUNDLES/<wave> --ledger-cmd-json '["python","scripts/studio_wave0_report.py","--apply"]' --out runs/studio_claim_plan.json`.
 - T4.12 DR1 schedule bridge. Validate the generated daemon plan before execution:
   `PYTHONPATH=src:. python scripts/studio_daemon.py validate --plan runs/studio_wave0/dr1_daemon_plan.json`.
 - T5.1 Native lanes. Safe manifest:

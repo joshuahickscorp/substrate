@@ -32,6 +32,7 @@ REQUIRED_PATHS = (
     "scripts/studio_daemon.py",
     "scripts/studio_transfer_check.py",
     "scripts/studio_artifact_bundle.py",
+    "scripts/studio_claim_plan.py",
     "scripts/studio/dr1_smoke.py",
     "scripts/studio/dr1_schedule_plan.py",
     "scripts/studio/dr1_curate_bound_video.py",
