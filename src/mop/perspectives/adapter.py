@@ -18,26 +18,23 @@ from typing import Any
 import torch
 
 from ..substrate.adapter import SubstrateAdapter
+from ..substrate.form import _factor_dict, _referent_tuple
 from ..substrate.latent_store import LatentStore
 
-
-def _referent_tuple(referents: Sequence[object]) -> tuple[str, ...]:
-    out = tuple(str(r) for r in referents)
-    if not out:
-        raise ValueError("a perspective batch needs at least one referent")
-    if len(set(out)) != len(out):
-        raise ValueError("referent ids must be unique within a perspective")
-    return out
-
-
-def _factor_dict(factors: Mapping[str, Any] | None, n: int) -> dict[str, torch.Tensor]:
-    out: dict[str, torch.Tensor] = {}
-    for name, values in (factors or {}).items():
-        t = values if isinstance(values, torch.Tensor) else torch.as_tensor(values)
-        if t.shape[0] != n:
-            raise ValueError(f"factor {name!r} length {t.shape[0]} != referent count {n}")
-        out[str(name)] = t.detach().clone()
-    return out
+# One referent-aligned interface: the leaf helpers are defined once in substrate/form.py (the form
+# layer is the interface of record) and reused here. See FORM_SUBSTRATE_CODEMAP.md section 0.
+__all__ = [
+    "PerspectiveMeta",
+    "PerspectiveBatch",
+    "PerspectiveMatrix",
+    "PerspectiveAdapter",
+    "TensorPerspectiveAdapter",
+    "LatentStorePerspectiveAdapter",
+    "SubstratePerspectiveAdapter",
+    "PerspectiveRegistry",
+    "build_perspective_matrix",
+    "perspective_audit",
+]
 
 
 @dataclass(frozen=True)
