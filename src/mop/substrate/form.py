@@ -70,6 +70,28 @@ def _factor_dict(factors: Mapping[str, Any] | None, n: int) -> dict[str, torch.T
     return out
 
 
+def referent_order(referents: Sequence[object], canonical: Sequence[object]) -> list[int] | None:
+    """The single referent-alignment implementation for the whole project.
+
+    Return the index list that reorders `referents` into `canonical` order, or None when they are
+    already identical. Raise with missing/extra detail on a set mismatch. Both the form matrix and the
+    perspective matrix build on this one function, so there is exactly one place referent alignment can
+    be right or wrong (FORM_SUBSTRATE_CODEMAP.md section 0). The dict lookup is O(n) rather than the old
+    per-arm `list.index` scan.
+    """
+    ref = tuple(str(r) for r in referents)
+    can = tuple(str(r) for r in canonical)
+    if ref == can:
+        return None
+    rset, cset = set(ref), set(can)
+    if rset != cset:
+        missing = sorted(cset - rset)
+        extra = sorted(rset - cset)
+        raise ValueError(f"referent mismatch: missing={missing[:5]}, extra={extra[:5]}")
+    pos = {r: i for i, r in enumerate(ref)}
+    return [pos[r] for r in can]
+
+
 @dataclass(frozen=True)
 class FormMeta:
     """Honesty metadata for one form arm.
@@ -282,7 +304,6 @@ def build_form_matrix(adapters: Sequence[FormAdapter]) -> FormMatrix:
         raise ValueError("build_form_matrix needs at least one form adapter")
     tags: set[str] = set()
     canonical = batches[0].referents
-    canonical_set = set(canonical)
     features: dict[str, torch.Tensor] = {}
     metadata: dict[str, FormMeta] = {}
     factors: dict[str, dict[str, torch.Tensor]] = {}
@@ -292,15 +313,15 @@ def build_form_matrix(adapters: Sequence[FormAdapter]) -> FormMatrix:
         if tag in tags:
             raise ValueError(f"duplicate form tag: {tag}")
         tags.add(tag)
-        if set(batch.referents) != canonical_set:
-            raise ValueError(
-                f"form {tag!r} referents do not match canonical set: "
-                f"{len(batch.referents)} vs {len(canonical)}"
-            )
-        order = torch.tensor([batch.referents.index(r) for r in canonical], dtype=torch.long)
-        features[tag] = batch.flattened()[order]
+        idx = referent_order(batch.referents, canonical)
+        if idx is None:
+            features[tag] = batch.flattened()
+            factors[tag] = dict(batch.factors)
+        else:
+            order = torch.tensor(idx, dtype=torch.long)
+            features[tag] = batch.flattened().index_select(0, order)
+            factors[tag] = {name: v.index_select(0, order) for name, v in batch.factors.items()}
         metadata[tag] = batch.meta
-        factors[tag] = {name: values[order] for name, values in batch.factors.items()}
 
     return FormMatrix(canonical, features, metadata, factors)
 
