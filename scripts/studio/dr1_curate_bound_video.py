@@ -69,7 +69,11 @@ shards. A leg refuses to overwrite a finished shard unless --force is given.
 
 Usage (Studio):
   # 0. turn the measured encode schedule into gate/leg/merge commands
+  python scripts/studio/dr1_source_intake.py --source /data/comp_video \
+    --source-card runs/studio_dr1/dr1_source_card.json \
+    --out runs/studio_dr1/dr1_source_intake.json
   python scripts/studio/dr1_schedule_plan.py --source /data/comp_video \
+    --source-intake runs/studio_dr1/dr1_source_intake.json \
     --daemon-out runs/studio_wave0/dr1_daemon_plan.json
   # 1. pre-encode gate + legs (gate runs automatically inside each leg before any byte is decoded)
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 0   --end 256 --device cpu
@@ -758,7 +762,7 @@ def main(argv=None) -> int:
         return 0
 
     if a.merge:
-        out = merge_shards(a.name)
+        out = merge_shards(a.name, source=a.source, factors=factors)
         print(json.dumps(out, indent=2, default=str))
         return 0
 
@@ -770,6 +774,10 @@ def main(argv=None) -> int:
         caps = load_captions(a.source)
         store_dir = REPO_ROOT / "data" / "cache" / a.name
         out = a6_residual_guard(store_dir, caps, factors)
+        receipt_path = store_dir / "a6_residual_guard.json"
+        out["path"] = str(receipt_path)
+        receipt_path.parent.mkdir(parents=True, exist_ok=True)
+        receipt_path.write_text(json.dumps(out, indent=2, default=str) + "\n")
         print(json.dumps(out, indent=2, default=str))
         return 0
     if not a.source:

@@ -23,13 +23,15 @@ def test_native_lane_manifest_requires_inputs_for_heavy_lanes():
     assert "clip_dir" in lanes["dr13_predictor_fidelity_real"]["blocked_reason"]
     assert lanes["hosted_corpora_acquire"]["status"] == "blocked"
     assert "plan_path" in lanes["hosted_corpora_acquire"]["blocked_reason"]
+    assert lanes["process_c_dense_token_decision"]["status"] == "blocked"
+    assert "pr9_verdict" in lanes["process_c_dense_token_decision"]["blocked_reason"]
 
 
 def test_native_lane_manifest_materializes_concrete_commands():
     manifest = build_native_lane_manifest(
         profile_name="studio-m1ultra",
         include_heavy=True,
-        lane_ids=["dr13_predictor_fidelity_real", "pr9_long_stream"],
+        lane_ids=["dr13_predictor_fidelity_real", "pr9_long_stream", "process_c_dense_token_decision"],
         inputs={"clip_dir": "/tmp/real_clips", "dr1_cache": "data/cache/dr1"},
     )
     lanes = _by_id(manifest)
@@ -40,6 +42,22 @@ def test_native_lane_manifest_materializes_concrete_commands():
         "scripts/studio/pr9_continual_backprop.py",
         "--cache",
     ]
+    assert lanes["process_c_dense_token_decision"]["status"] == "blocked"
+
+
+def test_native_lane_manifest_materializes_process_c_license_gate():
+    manifest = build_native_lane_manifest(
+        profile_name="studio-m1ultra",
+        lane_ids=["process_c_dense_token_decision"],
+        inputs={
+            "pr9_verdict": "runs/mot/pr9_verdict_ledger.json",
+            "dr1_verification": "data/cache/vjepa2_vitl_comp_video/dr1_verification.json",
+        },
+    )
+    lane = manifest["lanes"][0]
+    assert lane["status"] == "ready"
+    assert lane["command"][:3] == ["python", "scripts/studio/process_c_license_gate.py", "--pr9-verdict"]
+    assert "runs/mot/process_c_license_gate.json" in lane["command"]
 
 
 def test_native_daemon_plan_contains_ready_jobs_and_blocked_receipts(tmp_path):

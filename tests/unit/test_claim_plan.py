@@ -55,7 +55,7 @@ def test_positive_claim_plan_inserts_verdict_and_artifact_gates_before_ledger(tm
         verdict_gate_out=str(tmp_path / "gate.json"),
         artifact_index_out=str(tmp_path / "index.json"),
         copy_dir=str(tmp_path / "bundle"),
-        ledger_cmd=["python", "scripts/studio_wave0_report.py", "--apply"],
+        ledger_cmd=["python", "-m", "scripts.studio", "wave0-report", "--apply"],
     )
     assert [job["kind"] for job in plan["jobs"]] == [
         "verdict-gate",
@@ -77,7 +77,7 @@ def test_null_claim_plan_uses_non_positive_ledger_kind(tmp_path):
         verdict="DOWNGRADE-TIE",
         verdict_gate_out=str(tmp_path / "gate.json"),
         artifact_index_out=str(tmp_path / "index.json"),
-        ledger_cmd=["python", "scripts/studio_wave0_report.py", "--apply"],
+        ledger_cmd=["python", "-m", "scripts.studio", "wave0-report", "--apply"],
     )
     assert plan["jobs"][-1]["kind"] == "ledger"
 
@@ -113,7 +113,7 @@ def test_claim_plan_cli_writes_daemon_valid_plan(tmp_path):
             "--copy-dir",
             str(tmp_path / "bundle"),
             "--ledger-cmd-json",
-            '["python","scripts/studio_wave0_report.py","--apply"]',
+            '["python","-m","scripts.studio","wave0-report","--apply"]',
             "--out",
             str(out),
         ]

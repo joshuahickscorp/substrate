@@ -46,6 +46,12 @@ def test_existing_card_with_colons_in_values_validates():
     assert validate_card(card) == []
 
 
+def test_dr1_null_card_validates_strict():
+    card = load_card(REPO_ROOT / "proof" / "NULL_CARDS" / "mop_dr1_video_cache.md")
+    assert card["exp_id"] == "mop_dr1_video_cache"
+    assert validate_card(card, strict=True) == []
+
+
 def test_loose_parser_keeps_colon_value():
     text = """
 ```yaml

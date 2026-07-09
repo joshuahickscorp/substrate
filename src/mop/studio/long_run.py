@@ -103,19 +103,46 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
         "jobs": [
             {
                 "id": "transfer_check",
-                "cmd": [
-                    "python",
-                    "scripts/studio_transfer_check.py",
+                "cmd": _studio_cmd(
+                    "transfer-check",
                     "--profile",
                     "studio-m1ultra",
                     "--out",
                     "runs/studio_wave0/transfer_check.json",
-                ],
+                ),
                 "kind": "gate",
             },
             {
+                "id": "disk_recovery",
+                "cmd": _studio_cmd(
+                    "disk-recovery",
+                    "--profile",
+                    "studio-m1ultra",
+                    "--out",
+                    "runs/studio_wave0/disk_recovery.json",
+                ),
+                "kind": "gate",
+            },
+            {
+                "id": "density_receipt",
+                "cmd": _studio_cmd(
+                    "density-receipt",
+                    "--disk-recovery",
+                    "runs/studio_wave0/disk_recovery.json",
+                    "--out",
+                    "runs/studio_wave0/density_receipt.json",
+                ),
+                "kind": "report",
+            },
+            {
                 "id": "doctor",
-                "cmd": ["python", "scripts/studio_doctor.py", "--profile", "studio-m1ultra"],
+                "cmd": _studio_cmd(
+                    "doctor",
+                    "--profile",
+                    "studio-m1ultra",
+                    "--out",
+                    "runs/studio_wave0/studio_doctor.json",
+                ),
                 "kind": "gate",
             },
             {
@@ -153,20 +180,35 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
                 "kind": "microbench",
             },
             {
+                "id": "native_lanes_manifest",
+                "cmd": _studio_cmd(
+                    "native-lanes",
+                    "list",
+                    "--profile",
+                    "studio-m1ultra",
+                    "--out",
+                    "runs/studio_native_lanes_manifest.json",
+                ),
+                "kind": "report",
+            },
+            {
                 "id": "wave0_report",
-                "cmd": [
-                    "python",
-                    "scripts/studio_wave0_report.py",
+                "cmd": _studio_cmd(
+                    "wave0-report",
                     "--daemon-state",
                     "runs/studio_wave0/daemon_state.json",
                     "--apply",
-                ],
+                ),
                 "kind": "report",
             },
         ],
     }
     Path(path).write_text(json.dumps(plan, indent=2) + "\n")
     return plan
+
+
+def _studio_cmd(*parts: str) -> list[str]:
+    return ["python", "-m", "scripts.studio", *parts]
 
 
 def run_daemon(

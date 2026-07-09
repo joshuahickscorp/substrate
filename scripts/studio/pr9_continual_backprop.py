@@ -68,6 +68,7 @@ import json
 import subprocess
 import sys
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 
 import torch
@@ -451,13 +452,20 @@ def _cached_run_stream(legs_dir: Path, seed: int, arm: str, lr: float, rate: flo
     return r
 
 
-def run(cfg: dict, *, legs_dir: Path) -> dict:
+def run(
+    cfg: dict,
+    *,
+    legs_dir: Path,
+    state_path: Path | None = None,
+    out_path: Path | None = None,
+) -> dict:
     store = LatentStore.open(Path(cfg["cache"]))
     y = store.labels()
     if y is None:
         raise SystemExit(f"cache {cfg['cache']} has no labels; PR9 needs a labeled real-latent store.")
     x = store.latents().float()
     seeds = list(cfg["seeds"])
+    _write_run_state(state_path, cfg, legs_dir, out_path, status="running", stage="loaded_cache")
 
     kw_stream = {
         k: cfg[k]
@@ -479,6 +487,15 @@ def run(cfg: dict, *, legs_dir: Path) -> dict:
     tuning_seeds = seeds[:2] if len(seeds) >= 2 else seeds
     lr_tuning = tune_baseline_lr(x, y, cfg, tuning_seeds)
     lr = lr_tuning["best_lr"]
+    _write_run_state(
+        state_path,
+        cfg,
+        legs_dir,
+        out_path,
+        status="running",
+        stage="baseline_lr_tuned",
+        extra={"well_tuned_baseline_lr": lr},
+    )
 
     late_frac = 0.5  # "late stream" = second half of the task sequence
 
@@ -497,8 +514,26 @@ def run(cfg: dict, *, legs_dir: Path) -> dict:
         )
         plain_runs.append(plain)
         plain_by_seed[s] = plain
+        _write_run_state(
+            state_path,
+            cfg,
+            legs_dir,
+            out_path,
+            status="running",
+            stage=f"plain_seed_{s}",
+            extra={"well_tuned_baseline_lr": lr},
+        )
 
     cert = certificate(plain_runs)
+    _write_run_state(
+        state_path,
+        cfg,
+        legs_dir,
+        out_path,
+        status="running",
+        stage="plasticity_certificate",
+        extra={"well_tuned_baseline_lr": lr, "certificate_fired": cert["fired"]},
+    )
 
     # CBP arms, one per swept replacement rate. reinit_count_total must be > 0 for each (no-op-bug guard).
     per_rate = []
@@ -517,6 +552,15 @@ def run(cfg: dict, *, legs_dir: Path) -> dict:
                 ),
             )
             cbp_runs.append(cbp)
+            _write_run_state(
+                state_path,
+                cfg,
+                legs_dir,
+                out_path,
+                status="running",
+                stage=f"cbp_seed_{s}_rate_{rate:g}",
+                extra={"well_tuned_baseline_lr": lr, "replacement_rate": rate},
+            )
             plain = plain_by_seed[s]
             lri_matched = abs(plain["lr_integral"] - cbp["lr_integral"]) <= 0.02 * max(
                 plain["lr_integral"], cbp["lr_integral"], 1e-12
@@ -611,7 +655,7 @@ def run(cfg: dict, *, legs_dir: Path) -> dict:
             f"(CI lo={bd['lo']}). Moldability is dead at a frozen substrate; Process C is licensed."
         )
 
-    return {
+    result = {
         "experiment": PR9_EXPERIMENT,
         "cache": cfg["cache"],
         "seeds": seeds,
@@ -629,6 +673,60 @@ def run(cfg: dict, *, legs_dir: Path) -> dict:
         "seconds": round(time.perf_counter() - t0, 1),
         "verdict": verdict,
     }
+    if state_path is not None:
+        result["run_state_receipt"] = str(state_path)
+    _write_run_state(
+        state_path,
+        cfg,
+        legs_dir,
+        out_path,
+        status="verdict-ready",
+        stage="verdict_ready",
+        result=result,
+        extra={"well_tuned_baseline_lr": lr},
+    )
+    return result
+
+
+def _write_run_state(
+    state_path: Path | None,
+    cfg: dict,
+    legs_dir: Path,
+    out_path: Path | None,
+    *,
+    status: str,
+    stage: str,
+    result: dict | None = None,
+    extra: dict | None = None,
+) -> None:
+    if state_path is None:
+        return
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    leg_files = sorted(legs_dir.glob("*.json")) if legs_dir.exists() else []
+    expected_leg_count = len(tuple(cfg["seeds"])) * (1 + len(tuple(cfg["cbp_rate_grid"])))
+    payload = {
+        "schema": "mop-pr9-run-state/v1",
+        "updated_at": datetime.now(UTC).isoformat(),
+        "status": status,
+        "stage": stage,
+        "cache": cfg["cache"],
+        "seeds": list(cfg["seeds"]),
+        "cbp_rate_grid": list(cfg["cbp_rate_grid"]),
+        "legs_dir": str(legs_dir),
+        "out_path": str(out_path) if out_path is not None else None,
+        "out_exists": bool(out_path and out_path.exists()),
+        "expected_leg_count": expected_leg_count,
+        "completed_leg_count": len(leg_files),
+        "completed_legs": [str(p) for p in leg_files],
+        "resume_behavior": (
+            "rerun the same command; completed per-seed arm legs in legs_dir are loaded and skipped, "
+            "missing or corrupt legs are recomputed"
+        ),
+        "final_verdict": (result or {}).get("verdict"),
+        "null_supported": (result or {}).get("null_supported"),
+        "extra": extra or {},
+    }
+    state_path.write_text(json.dumps(payload, indent=2, default=str) + "\n")
 
 
 PR9_EXPERIMENT = {
@@ -655,6 +753,7 @@ def main(argv=None) -> int:
     ap.add_argument("--steps-per-task", type=int, default=DEFAULTS["steps_per_task"])
     ap.add_argument("--n-passes", type=int, default=DEFAULTS["n_passes"])
     ap.add_argument("--out", default="runs/mot/pr9_continual_backprop.json")
+    ap.add_argument("--state-out", default=None, help="run-state receipt path (default: <out>.state.json)")
     ap.add_argument("--smoke", action="store_true", help="tiny N, bypass RAM/encoder guards (laptop check)")
     ap.add_argument("--no-encoder-guard", action="store_true", help="bypass the pgrep encoder-lane guard")
     a = ap.parse_args(argv)
@@ -690,10 +789,15 @@ def main(argv=None) -> int:
 
     out_path = Path(a.out)
     legs_dir = out_path.with_suffix(out_path.suffix + ".legs")
-    result = run(cfg, legs_dir=legs_dir)
+    state_path = Path(a.state_out) if a.state_out else out_path.with_suffix(out_path.suffix + ".state.json")
+    _write_run_state(state_path, cfg, legs_dir, out_path, status="starting", stage="guards_passed")
+    result = run(cfg, legs_dir=legs_dir, state_path=state_path, out_path=out_path)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(result, indent=2, default=str))
+    _write_run_state(
+        state_path, cfg, legs_dir, out_path, status="complete", stage="result_written", result=result
+    )
     summary_keys = (
         "well_tuned_baseline_lr",
         "certificate",

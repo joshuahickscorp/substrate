@@ -216,13 +216,26 @@ LANES: tuple[NativeLane, ...] = (
         title="Process C dense-token doctrine decision",
         priority=8,
         kind="decision",
-        command_template=None,
+        required_inputs=("pr9_verdict", "dr1_verification"),
+        command_template=(
+            "python",
+            "scripts/studio/process_c_license_gate.py",
+            "--pr9-verdict",
+            "{pr9_verdict}",
+            "--dr1-verification",
+            "{dr1_verification}",
+            "--out",
+            "runs/mot/process_c_license_gate.json",
+        ),
         null_hypothesis="Process C remains unlicensed unless PR9 or DR1 proves the frozen-substrate wall",
         success_gate=(
-            "PR9 kill-switch or DR1 representational wall licenses only the 1 to 10M dense-token pilot"
+            "process_c_license_gate has launch_allowed true, licensing only the 1 to 10M dense-token pilot"
         ),
         wall_if_blocked="requires PR9 tie on a loss-inducing stream or a DR1 representational wall proof",
-        notes="The dense-token module exists; a launcher is intentionally not emitted before licensing.",
+        notes=(
+            "This emits only the license receipt; a Process C training launcher is still intentionally "
+            "absent."
+        ),
     ),
 )
 

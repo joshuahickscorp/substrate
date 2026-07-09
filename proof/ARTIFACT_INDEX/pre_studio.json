@@ -1,6 +1,6 @@
 {
   "schema": "mop-artifact-bundle/v1",
-  "created_at": "2026-07-08T17:03:59.812662+00:00",
+  "created_at": "2026-07-09T16:59:56.046597+00:00",
   "repo_root": "/Users/scammermike/Downloads/mop",
   "copy_dir": null,
   "max_copy_bytes": 5000000,
@@ -11,8 +11,8 @@
       "path": "/Users/scammermike/Downloads/mop/docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md",
       "display_path": "docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md",
       "exists": true,
-      "size_bytes": 21611,
-      "sha256": "d4f32b4054789e4383e3d6b8e3df03774a3fa0fa858ee095027871389c9d32bc",
+      "size_bytes": 47488,
+      "sha256": "94e0c6c33729221f741ba5f822ba78617ad3a82f1a6c476ddbe7ace7d5247836",
       "json_ok": null,
       "git_tracked": true,
       "copied": false,

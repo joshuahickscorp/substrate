@@ -17,6 +17,19 @@ def _schedule(**overrides):
     return schedule
 
 
+def _source_intake(**overrides):
+    intake = {
+        "schema": "mop-dr1-source-intake/v1",
+        "all_ok": True,
+        "source": "/data/dr1",
+        "factors": ["object", "action"],
+        "min_per_cell": 8,
+        "problems": [],
+    }
+    intake.update(overrides)
+    return intake
+
+
 def test_dr1_schedule_plan_splits_by_checkpoint_and_carries_device():
     plan = build_dr1_schedule_plan(
         _schedule(),
@@ -32,6 +45,20 @@ def test_dr1_schedule_plan_splits_by_checkpoint_and_carries_device():
     assert leg["estimated_wall_min"] == 0.8
 
 
+def test_dr1_schedule_plan_requires_clean_source_intake_when_requested():
+    plan = build_dr1_schedule_plan(
+        _schedule(),
+        source="/data/dr1",
+        factors=("object", "action"),
+        min_per_cell=8,
+        source_intake=_source_intake(all_ok=False, problems=["missing source card"]),
+        require_source_intake=True,
+    )
+    assert plan["ok_to_launch"] is False
+    assert plan["jobs"] == []
+    assert any("missing source card" in reason for reason in plan["blocked_reasons"])
+
+
 def test_dr1_schedule_plan_emits_daemon_jobs_in_execution_order():
     plan = build_dr1_schedule_plan(_schedule(effective_clips=5), source="/data/dr1")
     daemon = daemon_plan_from_dr1_schedule_plan(plan)
@@ -42,11 +69,13 @@ def test_dr1_schedule_plan_emits_daemon_jobs_in_execution_order():
         "dr1_encode_000004_000005",
         "dr1_merge",
         "dr1_a6_guard",
+        "dr1_verify",
     ]
     merge = next(job for job in daemon["jobs"] if job["id"] == "dr1_merge")
     assert "--source" in merge["cmd"]
     assert daemon["jobs"][0]["kind"] == "verdict-gate"
-    assert daemon["jobs"][-1]["kind"] == "verdict-gate"
+    assert daemon["jobs"][-2]["kind"] == "verdict-gate"
+    assert daemon["jobs"][-1]["kind"] == "verifier"
 
 
 def test_blocked_schedule_has_no_jobs_and_no_daemon_plan():
