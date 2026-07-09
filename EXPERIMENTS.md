@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-195 catalogued: implemented=125, registry-only=68, deferred=2.
+195 catalogued: implemented=126, registry-only=67, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -186,7 +186,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 |---|---|---|---|---|---|
 | f10_intrinsic_form_curriculum | intrinsic_form_curriculum | learning-progress form selection ties uniform sampling or chases noisy forms, so curriculum is not form-aware | cpu-now | implemented | 8 |
 | f11_form_dream_replay | form_dream_replay | generated form replay underperforms stored replay at matched memory or drifts off the factor manifold | gpu-later | registry-only | 4 |
-| f12_private_form_language_stability | private_form_language_stability | cross-seed code transfer sits at chance or below random-code agreement, so the form language is private | cpu-now | registry-only | 2 |
+| f12_private_form_language_stability | private_form_language_stability | cross-seed code transfer sits at chance or below random-code agreement, so the form language is private | cpu-now | implemented | 2 |
 | f13_form_energy_budget | form_energy_budget | all form interfaces lie on the same density frontier as raw features, so form structure buys no efficiency | cpu-now | registry-only | 2 |
 | f14_lifelong_form_expansion | lifelong_form_expansion | adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable | cpu-now | registry-only | 5 |
 | f15_embodied_affordance_form | embodied_affordance_form | consequence-conditioned form tokens tie passive labels or action-shuffle, so affordance structure is not learned from intervention | env-later | registry-only | 7 |
