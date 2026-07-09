@@ -1,0 +1,21 @@
+id: f13_form_energy_budget
+name: form_energy_budget
+module: f_form_substrate
+metric: [accuracy_per_byte, accuracy_per_param, estimated_energy_per_correct]
+null_hypothesis: "every form interface lies on the same accuracy-versus-cost density frontier as raw features"
+tier: cpu-now
+
+samples: 480
+classes: 6
+world_dim: 24
+feature_dim: 24
+separation: 1.0
+world_noise: 1.0
+form_noise: 1.2
+train_frac: 0.6
+raw_form: vision
+widths: [2, 4, 8, 16]
+epochs: 120
+lr: 0.03
+margin: 0.02
+seeds: [0, 1]
