@@ -1,0 +1,293 @@
+"""Form substrate interface: arbitrary observations behind one referent-aligned contract.
+
+This is intentionally one level more abstract than `SubstrateAdapter`. A substrate adapter knows how to
+turn clips into features. A form adapter knows how to present ANY observation family, vision, audio,
+text-derived metadata, symbolic state, telemetry, code, action traces, or a future learned substrate, as
+features over the same referents with honesty metadata and matched controls.
+
+The module is pure data-plane scaffolding. It never loads a model, never assumes video shape, and never
+claims that alignment is intelligence. It gives experiments a shared place to ask: did this representation
+preserve a factor, align across forms, and survive its controls?
+"""
+
+from __future__ import annotations
+
+from abc import ABC, abstractmethod
+from collections.abc import Mapping, Sequence
+from dataclasses import dataclass, field
+from typing import Any
+
+import torch
+
+FORM_SCHEMA = "mop-form-matrix/v1"
+
+FORM_KINDS = (
+    "vision",
+    "audio",
+    "text",
+    "symbolic",
+    "timeseries",
+    "control",
+    "code",
+    "math",
+    "latent",
+    "mixed",
+)
+
+OBJECTIVE_FAMILIES = (
+    "unknown",
+    "inherited-frozen",
+    "random-control",
+    "handcrafted",
+    "self-supervised",
+    "supervised",
+    "programmatic",
+    "metadata",
+    "learned-shell",
+    "custom-substrate",
+)
+
+
+def _referent_tuple(referents: Sequence[object]) -> tuple[str, ...]:
+    out = tuple(str(r) for r in referents)
+    if not out:
+        raise ValueError("a form batch needs at least one referent")
+    if len(set(out)) != len(out):
+        raise ValueError("referent ids must be unique within a form batch")
+    return out
+
+
+def _factor_dict(factors: Mapping[str, Any] | None, n: int) -> dict[str, torch.Tensor]:
+    out: dict[str, torch.Tensor] = {}
+    for name, values in (factors or {}).items():
+        t = values if isinstance(values, torch.Tensor) else torch.as_tensor(values)
+        if t.shape[0] != n:
+            raise ValueError(f"factor {name!r} length {t.shape[0]} != referent count {n}")
+        out[str(name)] = t.detach().clone()
+    return out
+
+
+@dataclass(frozen=True)
+class FormMeta:
+    """Honesty metadata for one form arm.
+
+    `kind` is the observation family. `objective` states how the features came into being. `control_for`
+    links a control arm to the substantive arm it tests, for example `audio_random_control` controls
+    `audio_ssl`. This keeps a result from quietly comparing a real arm to no floor.
+    """
+
+    tag: str
+    kind: str
+    feature_dim: int
+    source: str
+    objective: str = "unknown"
+    token_shape: tuple[int, ...] = ()
+    time_axis: bool = False
+    trainable: bool = False
+    control_for: str | None = None
+    license: str = "unknown"
+    notes: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.tag:
+            raise ValueError("FormMeta.tag is required")
+        if self.kind not in FORM_KINDS:
+            raise ValueError(f"FormMeta.kind={self.kind!r} not in {FORM_KINDS}")
+        if self.feature_dim <= 0:
+            raise ValueError("FormMeta.feature_dim must be positive")
+        if self.objective not in OBJECTIVE_FAMILIES:
+            raise ValueError(f"FormMeta.objective={self.objective!r} not in {OBJECTIVE_FAMILIES}")
+        if self.control_for == self.tag:
+            raise ValueError("a form arm cannot control itself")
+        if any(int(v) <= 0 for v in self.token_shape):
+            raise ValueError("token_shape entries must be positive")
+
+
+@dataclass(frozen=True)
+class FormBatch:
+    """One extracted form, with referent ids and optional factor labels."""
+
+    meta: FormMeta
+    features: torch.Tensor
+    referents: tuple[str, ...]
+    factors: dict[str, torch.Tensor] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if self.features.ndim < 2:
+            raise ValueError("form features must have shape [N, ...]")
+        if self.features.shape[0] != len(self.referents):
+            raise ValueError(
+                f"feature count {self.features.shape[0]} != referent count {len(self.referents)}"
+            )
+        if len(set(self.referents)) != len(self.referents):
+            raise ValueError("referent ids must be unique within a form batch")
+        flat_dim = int(self.features.flatten(1).shape[1])
+        if flat_dim != self.meta.feature_dim:
+            raise ValueError(f"feature_dim metadata {self.meta.feature_dim} != flattened dim {flat_dim}")
+        for name, values in self.factors.items():
+            if values.shape[0] != len(self.referents):
+                raise ValueError(f"factor {name!r} length {values.shape[0]} != referent count")
+
+    def flattened(self) -> torch.Tensor:
+        """Return [N, D] float features for probes, alignment, and shell heads."""
+        return self.features.flatten(1).float()
+
+
+class FormAdapter(ABC):
+    """ABC: one observation family over one referent set."""
+
+    meta: FormMeta
+
+    @property
+    def tag(self) -> str:
+        return self.meta.tag
+
+    @abstractmethod
+    def extract(self) -> FormBatch:
+        """Return a referent-aligned feature batch."""
+
+
+class TensorFormAdapter(FormAdapter):
+    """A cached tensor form. Useful for tests, toy experiments, and feature stores already on disk."""
+
+    def __init__(
+        self,
+        meta: FormMeta,
+        features: torch.Tensor,
+        referents: Sequence[object],
+        *,
+        factors: Mapping[str, Any] | None = None,
+    ):
+        self.meta = meta
+        self._features = features.detach().clone()
+        self._referents = _referent_tuple(referents)
+        self._factors = _factor_dict(factors, len(self._referents))
+        FormBatch(self.meta, self._features, self._referents, self._factors)
+
+    def extract(self) -> FormBatch:
+        return FormBatch(self.meta, self._features, self._referents, self._factors)
+
+
+@dataclass(frozen=True)
+class FormMatrix:
+    """A referent-aligned set of arbitrary forms."""
+
+    referents: tuple[str, ...]
+    features: dict[str, torch.Tensor]
+    metadata: dict[str, FormMeta]
+    factors: dict[str, dict[str, torch.Tensor]] = field(default_factory=dict)
+    schema: str = FORM_SCHEMA
+
+    def tags(self) -> list[str]:
+        return sorted(self.features)
+
+    def controls(self) -> dict[str, list[str]]:
+        out: dict[str, list[str]] = {}
+        for tag, meta in self.metadata.items():
+            if meta.control_for is not None:
+                out.setdefault(meta.control_for, []).append(tag)
+        return {k: sorted(v) for k, v in sorted(out.items())}
+
+    def kinds(self) -> dict[str, list[str]]:
+        out: dict[str, list[str]] = {}
+        for tag, meta in self.metadata.items():
+            out.setdefault(meta.kind, []).append(tag)
+        return {k: sorted(v) for k, v in sorted(out.items())}
+
+
+def build_form_matrix(adapters: Sequence[FormAdapter]) -> FormMatrix:
+    """Extract and align forms by referent id.
+
+    The first adapter's referent order becomes canonical. Every later form must contain exactly the same
+    referents, but may arrive in a different order. Features are flattened because diagnostics and shell
+    heads operate on `[N, D]`; `FormMeta.token_shape` preserves the original token geometry when needed.
+    """
+    batches = [adapter.extract() for adapter in adapters]
+    if not batches:
+        raise ValueError("build_form_matrix needs at least one form adapter")
+    tags: set[str] = set()
+    canonical = batches[0].referents
+    canonical_set = set(canonical)
+    features: dict[str, torch.Tensor] = {}
+    metadata: dict[str, FormMeta] = {}
+    factors: dict[str, dict[str, torch.Tensor]] = {}
+
+    for batch in batches:
+        tag = batch.meta.tag
+        if tag in tags:
+            raise ValueError(f"duplicate form tag: {tag}")
+        tags.add(tag)
+        if set(batch.referents) != canonical_set:
+            raise ValueError(
+                f"form {tag!r} referents do not match canonical set: "
+                f"{len(batch.referents)} vs {len(canonical)}"
+            )
+        order = torch.tensor([batch.referents.index(r) for r in canonical], dtype=torch.long)
+        features[tag] = batch.flattened()[order]
+        metadata[tag] = batch.meta
+        factors[tag] = {name: values[order] for name, values in batch.factors.items()}
+
+    return FormMatrix(canonical, features, metadata, factors)
+
+
+def form_audit(matrix: FormMatrix, *, require_controls: bool = True) -> dict:
+    """Summarize whether the form matrix is scientifically usable.
+
+    A matrix can be mechanically valid but weak as evidence. The audit names missing controls, single-kind
+    matrices, and trainable arms so downstream claims cannot pretend the substrate was a neutral input.
+    """
+    controls = matrix.controls()
+    substantive = [
+        tag
+        for tag, meta in matrix.metadata.items()
+        if meta.control_for is None and meta.objective != "random-control"
+    ]
+    missing_controls = [tag for tag in substantive if tag not in controls]
+    trainable = sorted(tag for tag, meta in matrix.metadata.items() if meta.trainable)
+    warnings: list[str] = []
+    if len(matrix.kinds()) < 2:
+        warnings.append("only one form kind is present")
+    if require_controls and missing_controls:
+        warnings.append("one or more substantive form arms lack a matched control")
+    if trainable:
+        warnings.append("trainable form arms are present; separate substrate effects from shell effects")
+    return {
+        "schema": matrix.schema,
+        "n": len(matrix.referents),
+        "tags": matrix.tags(),
+        "kinds": matrix.kinds(),
+        "controls": controls,
+        "missing_controls": sorted(missing_controls),
+        "trainable_tags": trainable,
+        "warnings": warnings,
+        "all_ok": bool((not require_controls or not missing_controls) and len(matrix.kinds()) >= 2),
+    }
+
+
+def fit_affine_alignment(
+    source: torch.Tensor,
+    target: torch.Tensor,
+    *,
+    ridge: float = 1.0e-3,
+) -> torch.Tensor:
+    """Fit an affine map `source -> target` from paired referents.
+
+    This is the small, explicit alignment primitive used by toy form experiments. It is not a claim that
+    cognition is linear alignment; it is the matched baseline a stronger form substrate must beat.
+    """
+    x = torch.as_tensor(source).detach().float().flatten(1)
+    y = torch.as_tensor(target).detach().float().flatten(1)
+    if x.shape[0] != y.shape[0]:
+        raise ValueError(f"source rows {x.shape[0]} != target rows {y.shape[0]}")
+    ones = torch.ones(x.shape[0], 1, dtype=x.dtype, device=x.device)
+    x_aug = torch.cat([x, ones], dim=1)
+    reg = torch.eye(x_aug.shape[1], dtype=x.dtype, device=x.device) * float(ridge)
+    reg[-1, -1] = 0.0
+    return torch.linalg.solve(x_aug.T @ x_aug + reg, x_aug.T @ y)
+
+
+def apply_affine_alignment(source: torch.Tensor, weight: torch.Tensor) -> torch.Tensor:
+    """Apply a fitted affine alignment returned by `fit_affine_alignment`."""
+    x = torch.as_tensor(source).detach().float().flatten(1)
+    ones = torch.ones(x.shape[0], 1, dtype=x.dtype, device=x.device)
+    return torch.cat([x, ones], dim=1) @ weight

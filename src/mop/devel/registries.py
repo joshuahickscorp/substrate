@@ -301,7 +301,7 @@ _SCANNED_EXP_FIELDS = ("question", "mechanism", "null_hypothesis", "falsifier", 
 def load_experiments(path: Path | None = None) -> list[dict]:
     """The experiment bank, sorted by series then id. Pure read; EXPERIMENTS.md is rendered from this."""
     out = _load(path or EXPERIMENTS_YAML, "experiments")
-    series_order = {s: i for i, s in enumerate(("E", "EX", "I", "N", "D", "B", "P", "C", "Y", "S", "A"))}
+    series_order = {s: i for i, s in enumerate(("E", "EX", "I", "N", "D", "B", "P", "C", "Y", "S", "A", "F"))}
     out.sort(key=lambda e: (series_order.get(str(e.get("series")), 99), str(e.get("id"))))
     return out
 
@@ -393,8 +393,9 @@ _SERIES_TITLE = {
     "Y": "Dynamical systems and cybernetics (Y-series)",
     "S": "Semiotics and universal latent language (S-series)",
     "A": "Reusable ablations (A) + perception and animal-cognition experiments (A-series)",
+    "F": "Form substrate, any-data interface, and post-V-JEPA experiments (F-series)",
 }
-_SERIES_ORDER = ("E", "EX", "I", "N", "D", "B", "P", "C", "Y", "S", "A")
+_SERIES_ORDER = ("E", "EX", "I", "N", "D", "B", "P", "C", "Y", "S", "A", "F")
 
 
 def render_experiments_md(path: Path | None = None) -> str:
