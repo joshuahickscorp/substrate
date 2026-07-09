@@ -15,9 +15,12 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import torch
+
+if TYPE_CHECKING:
+    from .latent_store import LatentStore
 
 FORM_SCHEMA = "mop-form-matrix/v1"
 
@@ -166,6 +169,78 @@ class TensorFormAdapter(FormAdapter):
 
     def extract(self) -> FormBatch:
         return FormBatch(self.meta, self._features, self._referents, self._factors)
+
+
+class LatentStoreFormAdapter(FormAdapter):
+    """Present a cached `LatentStore` as one form arm, without changing the store format.
+
+    This is the encode-once bridge: real V-JEPA (or any encoder) features are cached to a
+    `LatentStore` once by the cache scripts, then read forever as a form. The adapter never loads a
+    model and never encodes; a form arm that needs live clips-to-features encoding uses the existing
+    `SubstratePerspectiveAdapter` (encode once, cache, then read here), never a re-encode in this
+    data-plane class.
+
+    Dense stores `[N, T, ...]` are flattened to `[N, D]` for probes and alignment; the original
+    per-item geometry is recorded in `FormMeta.token_shape` so it stays recoverable. When the store
+    carries a `factors.json` sidecar and no explicit `factors` are given, it is read as factor labels.
+    """
+
+    def __init__(
+        self,
+        store: LatentStore,
+        *,
+        tag: str | None = None,
+        kind: str = "latent",
+        source: str | None = None,
+        objective: str = "inherited-frozen",
+        referents: Sequence[object] | None = None,
+        factors: Mapping[str, Any] | None = None,
+        trainable: bool = False,
+        control_for: str | None = None,
+        license: str = "unknown",
+        notes: str = "",
+    ):
+        self.store = store
+        feat_shape = tuple(int(v) for v in store.meta.feat_shape)
+        flat_dim = 1
+        for v in feat_shape:
+            flat_dim *= v
+        self.meta = FormMeta(
+            tag=tag or store.meta.name,
+            kind=kind,
+            feature_dim=int(flat_dim),
+            source=source or str(store.root),
+            objective=objective,
+            token_shape=feat_shape if len(feat_shape) > 1 else (),
+            trainable=trainable,
+            control_for=control_for,
+            license=license,
+            notes=notes,
+        )
+        n = len(store)
+        refs = referents if referents is not None else [f"{store.meta.name}:{i}" for i in range(n)]
+        self._referents = _referent_tuple(refs)
+        if len(self._referents) != n:
+            raise ValueError(f"referent count {len(self._referents)} != store count {n}")
+        loaded = factors if factors is not None else _read_store_factors(store)
+        self._factors = _factor_dict(loaded, n)
+
+    def extract(self) -> FormBatch:
+        feats = self.store.latents().flatten(1).float()
+        return FormBatch(self.meta, feats, self._referents, self._factors)
+
+
+def _read_store_factors(store: LatentStore) -> dict[str, Any] | None:
+    """Read a `factors.json` sidecar (column -> list) from the store root, or None if absent."""
+    import json
+
+    path = store.root / "factors.json"
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text())
+    if not isinstance(data, dict):
+        raise ValueError(f"{path} must be a dict of column -> list of per-referent values")
+    return data
 
 
 @dataclass(frozen=True)
