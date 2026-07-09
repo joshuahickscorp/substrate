@@ -745,3 +745,167 @@ class F17(Experiment):
                 params=float(head_params),
             ),
         }
+
+
+def _two_factor_forms(
+    *,
+    samples: int,
+    n_a: int,
+    n_b: int,
+    world_dim: int,
+    separation: float,
+    noise: float,
+    form_noise: float,
+    cross_leak: float,
+    seed: int,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Two independent factors a and b, exposed asymmetrically across two forms.
+
+    Form A encodes a strongly and b weakly (attenuated by `cross_leak`); form B encodes b strongly and
+    a weakly. Compositional binding across forms means reading a from form A and b from form B over the
+    same referent, so a held-out (a, b) combination is decodable even though the pair was never trained.
+    Returns (form_a, form_b, a_labels, b_labels).
+    """
+    g = torch.Generator().manual_seed(seed)
+    a = torch.randint(0, n_a, (samples,), generator=g)
+    b = torch.randint(0, n_b, (samples,), generator=g)
+    ca = torch.randn(n_a, world_dim, generator=g) * separation
+    cb = torch.randn(n_b, world_dim, generator=g) * separation
+    za = ca[a] + noise * torch.randn(samples, world_dim, generator=g)
+    zb = cb[b] + noise * torch.randn(samples, world_dim, generator=g)
+    wa = torch.randn(2 * world_dim, world_dim, generator=g) / math.sqrt(2 * world_dim)
+    wb = torch.randn(2 * world_dim, world_dim, generator=g) / math.sqrt(2 * world_dim)
+    form_a = torch.cat([za, cross_leak * zb], 1) @ wa + form_noise * torch.randn(
+        samples, world_dim, generator=g
+    )
+    form_b = torch.cat([cross_leak * za, zb], 1) @ wb + form_noise * torch.randn(
+        samples, world_dim, generator=g
+    )
+    return form_a.float(), form_b.float(), a.long(), b.long()
+
+
+class F9(Experiment):
+    id = "f9_cross_form_compositional_binding"
+    metric = ("heldout_combo_acc", "seen_combo_acc", "heldout_seen_gap")
+    baseline = "shuffled-label floor and a composite-label head that can only memorize seen conjunctions"
+    ablation = "factored two-head decode (a from form A, b from form B) vs composite-conjunction head"
+    null_hypothesis = (
+        "held-out cross-form combinations collapse toward the shuffle floor while seen pairs stay high, "
+        "so the system memorized form-specific conjunctions instead of binding factors across forms"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        n_a, n_b = _int(e, "n_a", 4), _int(e, "n_b", 4)
+        heldout_acc, seen_acc, shuffle_acc, composite_held = [], [], [], []
+        head_params = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            fa, fb, a, b = _two_factor_forms(
+                samples=_int(e, "samples", 600),
+                n_a=n_a,
+                n_b=n_b,
+                world_dim=_int(e, "world_dim", 16),
+                separation=_float(e, "separation", 1.6),
+                noise=_float(e, "world_noise", 0.5),
+                form_noise=_float(e, "form_noise", 0.1),
+                cross_leak=_float(e, "cross_leak", 0.15),
+                seed=s,
+            )
+            # hold out the "diagonal" combos a==b (each a-value and each b-value still appears elsewhere)
+            held_pairs = {(i, i % n_b) for i in range(min(n_a, n_b))}
+            is_held = torch.tensor([(int(a[i]), int(b[i])) in held_pairs for i in range(a.shape[0])])
+            fused = torch.cat([fa, fb], 1)  # bind the two forms over the shared referent
+            tr = (~is_held).nonzero(as_tuple=True)[0]
+            te_held = is_held.nonzero(as_tuple=True)[0]
+            # seen-combo test split: hold out a fraction of the trained (off-diagonal) rows
+            g = torch.Generator().manual_seed(s + 77)
+            perm = tr[torch.randperm(tr.shape[0], generator=g)]
+            cut = int(perm.shape[0] * 0.85)
+            fit_idx, seen_te = perm[:cut], perm[cut:]
+
+            def _compose_acc(ha, hb, idx, *, x=fused, ya=a, yb=b):
+                with torch.no_grad():
+                    pa = ha(x[idx]).argmax(-1)
+                    pb = hb(x[idx]).argmax(-1)
+                    return float(((pa == ya[idx]) & (pb == yb[idx])).float().mean())
+
+            head_a = _fit_head(
+                fused[fit_idx],
+                a[fit_idx],
+                classes=n_a,
+                epochs=_int(e, "epochs", 120),
+                lr=_float(e, "lr", 0.03),
+                seed=s,
+            )
+            head_b = _fit_head(
+                fused[fit_idx],
+                b[fit_idx],
+                classes=n_b,
+                epochs=_int(e, "epochs", 120),
+                lr=_float(e, "lr", 0.03),
+                seed=s + 5,
+            )
+            head_params = sum(p.numel() for p in head_a.parameters()) + sum(
+                p.numel() for p in head_b.parameters()
+            )
+            heldout_acc.append(_compose_acc(head_a, head_b, te_held))
+            seen_acc.append(_compose_acc(head_a, head_b, seen_te))
+
+            # control 1: composite-conjunction head (n_a*n_b classes) cannot reach unseen combos
+            comp_y = a * n_b + b
+            comp_head = _fit_head(
+                fused[fit_idx],
+                comp_y[fit_idx],
+                classes=n_a * n_b,
+                epochs=_int(e, "epochs", 120),
+                lr=_float(e, "lr", 0.03),
+                seed=s + 9,
+            )
+            composite_held.append(_acc(comp_head, fused[te_held], comp_y[te_held]))
+
+            # control 2: shuffled-label floor for the factored arm
+            gg = torch.Generator().manual_seed(s + 313)
+            a_sh = a[fit_idx][torch.randperm(fit_idx.shape[0], generator=gg)]
+            b_sh = b[fit_idx][torch.randperm(fit_idx.shape[0], generator=gg)]
+            ha_sh = _fit_head(
+                fused[fit_idx],
+                a_sh,
+                classes=n_a,
+                epochs=_int(e, "epochs", 120),
+                lr=_float(e, "lr", 0.03),
+                seed=s + 11,
+            )
+            hb_sh = _fit_head(
+                fused[fit_idx],
+                b_sh,
+                classes=n_b,
+                epochs=_int(e, "epochs", 120),
+                lr=_float(e, "lr", 0.03),
+                seed=s + 13,
+            )
+            shuffle_acc.append(_compose_acc(ha_sh, hb_sh, te_held))
+        chance = 1.0 / (n_a * n_b)
+        gap = _mean(seen_acc) - _mean(heldout_acc)
+        floor = max(chance, _mean(shuffle_acc))
+        return {
+            "n_a": n_a,
+            "n_b": n_b,
+            "heldout_combo_acc": round(_mean(heldout_acc), 4),
+            "seen_combo_acc": round(_mean(seen_acc), 4),
+            "heldout_seen_gap": round(gap, 4),
+            "composite_head_heldout_acc": round(_mean(composite_held), 4),
+            "shuffle_floor_acc": round(_mean(shuffle_acc), 4),
+            "chance": round(chance, 4),
+            "seeds": seeds,
+            "null_supported": bool(
+                gap > _float(e, "gap_margin", 0.15) or _mean(heldout_acc) <= floor + _float(e, "margin", 0.1)
+            ),
+            "density": density_block(
+                {"heldout_combo_acc": _mean(heldout_acc)},
+                seconds=time.perf_counter() - t0,
+                params=float(head_params),
+            ),
+        }
