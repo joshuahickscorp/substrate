@@ -909,3 +909,155 @@ class F9(Experiment):
                 params=float(head_params),
             ),
         }
+
+
+def _run_form_scheduler(
+    forms: dict[str, tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]],
+    *,
+    policy: str,
+    rounds: int,
+    steps: int,
+    classes: int,
+    lr: float,
+    seed: int,
+) -> tuple[dict[str, float], dict[str, int]]:
+    """Train per-form heads under a form-selection policy and return (final test acc, visit counts).
+
+    Each form supplies (x_tr, y_tr, x_te, y_te). A round trains the chosen form's head for `steps`
+    Adam steps. Policies: uniform (round robin), error (highest current loss, chases the noisy form),
+    novelty (least visited), learning_progress (largest recent test-accuracy gain, the only signal
+    that should ignore the unlearnable noisy form).
+    """
+    seed_everything(seed)
+    tags = sorted(forms)
+    heads = {t: nn.Linear(forms[t][0].shape[1], classes) for t in tags}
+    opts = {t: torch.optim.Adam(heads[t].parameters(), lr=lr) for t in tags}
+    visits = dict.fromkeys(tags, 0)
+    acc = {t: _acc(heads[t], forms[t][2], forms[t][3]) for t in tags}
+    progress = dict.fromkeys(tags, 0.1)
+
+    def _loss(t: str) -> float:
+        with torch.no_grad():
+            return float(F.cross_entropy(heads[t](forms[t][0]), forms[t][1]))
+
+    for r in range(rounds):
+        if policy == "uniform":
+            pick = tags[r % len(tags)]
+        elif policy == "novelty":
+            pick = min(tags, key=lambda t: visits[t])
+        elif policy == "error":
+            pick = max(tags, key=_loss)
+        else:  # learning_progress
+            pick = max(tags, key=lambda t: progress[t] + 0.02 / (1 + visits[t]))
+        xt, yt = forms[pick][0], forms[pick][1]
+        for _ in range(steps):
+            opts[pick].zero_grad()
+            F.cross_entropy(heads[pick](xt), yt).backward()
+            opts[pick].step()
+        new = _acc(heads[pick], forms[pick][2], forms[pick][3])
+        progress[pick] = max(0.0, new - acc[pick])
+        acc[pick] = new
+        visits[pick] += 1
+    return acc, visits
+
+
+class F10(Experiment):
+    id = "f10_intrinsic_form_curriculum"
+    metric = ("coverage_per_update", "noisy_form_timeshare", "transfer_gain")
+    baseline = "uniform round-robin form selection and prediction-error selection"
+    ablation = "learning-progress form selection vs uniform, prediction-error, and novelty"
+    null_hypothesis = (
+        "learning-progress form selection ties uniform coverage or spends as much time on the "
+        "unlearnable noisy form as uniform, so the curriculum is not form-aware"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        classes = _int(e, "classes", 4)
+        rounds = _int(e, "rounds", 40)
+        real_kinds = ("vision", "audio", "symbolic")
+        lp_cov, uni_cov, err_cov = [], [], []
+        lp_noisy, uni_noisy, err_noisy = [], [], []
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 320),
+                classes=classes,
+                world_dim=_int(e, "world_dim", 20),
+                separation=_float(e, "separation", 1.8),
+                noise=_float(e, "world_noise", 0.6),
+                seed=s,
+            )
+            feats = _form_features(
+                z,
+                feature_dim=_int(e, "feature_dim", 28),
+                kinds=real_kinds,
+                noise=_float(e, "form_noise", 0.1),
+                seed=s,
+            )
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.6), s)
+            forms: dict[str, tuple] = {}
+            for k in real_kinds:
+                forms[k] = (feats[k][tr], y[tr], feats[k][te], y[te])
+            # several noisy-TV forms: pure-noise features with random labels, all unlearnable (chance).
+            # With many uninformative candidate forms, a form-blind uniform policy wastes most of its
+            # budget, and only a learning-progress scheduler concentrates on the few learnable forms.
+            fd = _int(e, "feature_dim", 28)
+            noisy_tags = []
+            for j in range(_int(e, "n_noisy", 3)):
+                gn = torch.Generator().manual_seed(s + 999 + 37 * j)
+                tag = f"noisy_tv{j}"
+                noisy_tags.append(tag)
+                forms[tag] = (
+                    torch.randn(tr.shape[0], fd, generator=gn),
+                    torch.randint(0, classes, (tr.shape[0],), generator=gn),
+                    torch.randn(te.shape[0], fd, generator=gn),
+                    torch.randint(0, classes, (te.shape[0],), generator=gn),
+                )
+
+            def _cov(policy: str, *, seed: int = s, frm: dict = forms, ntags: list = noisy_tags):
+                acc, visits = _run_form_scheduler(
+                    frm,
+                    policy=policy,
+                    rounds=rounds,
+                    steps=_int(e, "steps", 5),
+                    classes=classes,
+                    lr=_float(e, "lr", 0.05),
+                    seed=seed,
+                )
+                coverage = _mean([acc[k] for k in real_kinds])
+                timeshare = sum(visits[t] for t in ntags) / max(1, sum(visits.values()))
+                return coverage, timeshare
+
+            c_lp, n_lp = _cov("learning_progress")
+            c_uni, n_uni = _cov("uniform")
+            c_err, n_err = _cov("error")
+            lp_cov.append(c_lp)
+            uni_cov.append(c_uni)
+            err_cov.append(c_err)
+            lp_noisy.append(n_lp)
+            uni_noisy.append(n_uni)
+            err_noisy.append(n_err)
+        transfer_gain = _mean(lp_cov) - _mean(uni_cov)
+        return {
+            "coverage_per_update": round(_mean(lp_cov) / rounds, 6),
+            "lp_coverage": round(_mean(lp_cov), 4),
+            "uniform_coverage": round(_mean(uni_cov), 4),
+            "error_coverage": round(_mean(err_cov), 4),
+            "noisy_form_timeshare": round(_mean(lp_noisy), 4),
+            "uniform_noisy_timeshare": round(_mean(uni_noisy), 4),
+            "error_noisy_timeshare": round(_mean(err_noisy), 4),
+            "transfer_gain": round(transfer_gain, 4),
+            "seeds": seeds,
+            "null_supported": bool(
+                transfer_gain <= _float(e, "margin", 0.02)
+                or _mean(lp_noisy) >= _mean(uni_noisy) - _float(e, "noisy_margin", 0.02)
+            ),
+            "density": density_block(
+                {"lp_coverage": _mean(lp_cov)},
+                seconds=time.perf_counter() - t0,
+                updates=float(rounds * _int(e, "steps", 5)),
+            ),
+        }

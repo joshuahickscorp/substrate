@@ -4418,7 +4418,7 @@ experiments:
     capacity_rungs: [5, 8]
     paradigm_slugs: [learning_progress_sampling]
     taxonomy_slot: 8
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: active_curriculum, null_card: "none", evidence_level: R0}
 
   - id: f11_form_dream_replay
