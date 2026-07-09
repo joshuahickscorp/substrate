@@ -88,3 +88,45 @@ def test_manifest_missing_is_a_manifest_problem_not_a_cache_problem(tmp_path):
     root = _store(tmp_path)
     assert validate_cache_manifest(root) == ["cache_manifest.json missing"]
     assert validate_cache(root) == []
+
+
+def test_manifest_records_form_declaration(tmp_path):
+    root = _store(tmp_path)
+    manifest = write_cache_manifest(
+        root,
+        form_kind="vision",
+        form_objective="inherited-frozen",
+        referent_scheme="clip-id",
+    )
+    assert manifest["schema"] == SCHEMA
+    assert manifest["form"] == {
+        "kind": "vision",
+        "objective": "inherited-frozen",
+        "referent_scheme": "clip-id",
+    }
+    assert validate_cache_manifest(root) == []
+
+
+def test_manifest_without_form_block_is_valid(tmp_path):
+    root = _store(tmp_path)
+    manifest = write_cache_manifest(root)
+    assert manifest["form"] is None
+    assert validate_cache_manifest(root) == []
+
+
+def test_manifest_rejects_bad_form_fields(tmp_path):
+    root = _store(tmp_path)
+    with pytest.raises(ValueError, match="form_kind"):
+        write_cache_manifest(root, form_kind="not_a_kind")
+    with pytest.raises(ValueError, match="form_objective"):
+        write_cache_manifest(root, form_objective="not_an_objective")
+
+
+def test_v1_manifest_still_validates(tmp_path):
+    root = _store(tmp_path)
+    write_cache_manifest(root)
+    manifest = json.loads((root / "cache_manifest.json").read_text())
+    manifest["schema"] = "mop-cache-data-plane/v1"
+    manifest.pop("form")  # a genuine v1 manifest has no form block
+    (root / "cache_manifest.json").write_text(json.dumps(manifest, indent=2))
+    assert validate_cache_manifest(root) == []
