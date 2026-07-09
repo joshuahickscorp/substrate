@@ -483,3 +483,143 @@ class F5(Experiment):
                 bytes=float(store_bytes),
             ),
         }
+
+
+def _hetero_payloads(
+    z: torch.Tensor,
+    *,
+    dims: dict[str, int],
+    noise: float,
+    seed: int,
+) -> dict[str, torch.Tensor]:
+    """Per-form RAW payloads of DIFFERENT dimensionality (heterogeneous ad hoc featurizers).
+
+    Unlike `_form_features` (a common width), each form gets its own raw dim and its own random
+    geometry, so a naive flatten cannot line them up. This is the bed for F4: the question is whether
+    a canonical, referent-aligned token layer beats these raw payloads and handcrafted per-form stats.
+    """
+    out: dict[str, torch.Tensor] = {}
+    for i, (kind, d) in enumerate(sorted(dims.items())):
+        g = torch.Generator().manual_seed(seed + 2003 * (i + 1))
+        w = torch.randn(z.shape[1], d, generator=g) / math.sqrt(z.shape[1])
+        bias = 0.15 * torch.randn(d, generator=g)
+        x = z @ w + bias + noise * torch.randn(z.shape[0], d, generator=g)
+        if kind == "symbolic":
+            x = torch.sign(x) * torch.sqrt(torch.abs(x) + 1.0e-6)
+        out[kind] = x.float()
+    return out
+
+
+def _to_dim(x: torch.Tensor, dim: int) -> torch.Tensor:
+    """Pad with zeros or truncate a raw payload to a fixed width (the honest raw-featurizer control)."""
+    n, d = x.shape
+    if d == dim:
+        return x
+    if d > dim:
+        return x[:, :dim]
+    return torch.cat([x, torch.zeros(n, dim - d)], dim=1)
+
+
+def _handcrafted(x: torch.Tensor, dim: int) -> torch.Tensor:
+    """Per-form pooled statistics (mean, std, min, max) tiled to a fixed width."""
+    stats = torch.stack([x.mean(1), x.std(1), x.amin(1), x.amax(1)], dim=1)  # [N, 4]
+    reps = (dim + 3) // 4
+    return stats.repeat(1, reps)[:, :dim]
+
+
+class F4(Experiment):
+    id = "f4_raw_payload_vs_form_tokens"
+    metric = ("cross_form_transfer_per_dim", "retention_per_dim", "control_delta")
+    baseline = "raw zero-padded payloads and handcrafted per-form statistics at matched dimension"
+    ablation = "canonical referent-aligned form tokens vs raw and handcrafted featurizers"
+    null_hypothesis = (
+        "canonical form tokens tie raw flattened or handcrafted per-form features on cross-form "
+        "transfer, so the form-token layer is ceremony over arbitrary tensors"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        classes = _int(e, "classes", 4)
+        dim = _int(e, "matched_dim", 16)
+        reference = _str(e, "reference_form", "vision")
+        dims = {
+            "vision": _int(e, "vision_dim", 20),
+            "audio": _int(e, "audio_dim", 12),
+            "symbolic": _int(e, "symbolic_dim", 28),
+            "timeseries": _int(e, "timeseries_dim", 8),
+        }
+        canon_cross, raw_cross, hand_cross, canon_same = [], [], [], []
+        t0 = time.perf_counter()
+        head_params = 0
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 240),
+                classes=classes,
+                world_dim=_int(e, "world_dim", 24),
+                separation=_float(e, "separation", 1.8),
+                noise=_float(e, "world_noise", 0.7),
+                seed=s,
+            )
+            payloads = _hetero_payloads(z, dims=dims, noise=_float(e, "form_noise", 0.1), seed=s)
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.55), s)
+
+            # three encoders to the SAME matched dim, evaluated on the same head-fit protocol
+            def _encode(
+                kind: str,
+                mode: str,
+                *,
+                pay: dict[str, torch.Tensor] = payloads,
+                train_idx: torch.Tensor = tr,
+            ) -> torch.Tensor:
+                x = pay[kind]
+                if mode == "raw":
+                    return _to_dim(x, dim)
+                if mode == "handcrafted":
+                    return _handcrafted(x, dim)
+                # canonical: affine-align each form into the reference form's dim on paired referents
+                ref = _to_dim(pay[reference], dim)
+                if kind == reference:
+                    return ref
+                w = fit_affine_alignment(_to_dim(x, dim)[train_idx], ref[train_idx])
+                return apply_affine_alignment(_to_dim(x, dim), w)
+
+            others = [k for k in dims if k != reference]
+            per_mode = {}
+            for mode in ("canonical", "raw", "handcrafted"):
+                ref_repr = _encode(reference, mode)
+                head = _fit_head(
+                    ref_repr[tr],
+                    y[tr],
+                    classes=classes,
+                    epochs=_int(e, "epochs", 80),
+                    lr=_float(e, "lr", 0.03),
+                    seed=s,
+                )
+                head_params = sum(p.numel() for p in head.parameters())
+                cross = _mean([_acc(head, _encode(k, mode)[te], y[te]) for k in others])
+                per_mode[mode] = (cross, _acc(head, ref_repr[te], y[te]))
+            canon_cross.append(per_mode["canonical"][0])
+            raw_cross.append(per_mode["raw"][0])
+            hand_cross.append(per_mode["handcrafted"][0])
+            canon_same.append(per_mode["canonical"][1])
+        best_control = max(_mean(raw_cross), _mean(hand_cross))
+        delta = _mean(canon_cross) - best_control
+        return {
+            "reference_form": reference,
+            "matched_dim": dim,
+            "canonical_cross_form_acc": round(_mean(canon_cross), 4),
+            "raw_cross_form_acc": round(_mean(raw_cross), 4),
+            "handcrafted_cross_form_acc": round(_mean(hand_cross), 4),
+            "cross_form_transfer_per_dim": round(_mean(canon_cross) / dim, 6),
+            "retention_per_dim": round(_mean(canon_same) / dim, 6),
+            "control_delta": round(delta, 4),
+            "seeds": seeds,
+            "null_supported": bool(delta <= _float(e, "margin", 0.05)),
+            "density": density_block(
+                {"canonical_cross_form_acc": _mean(canon_cross)},
+                seconds=time.perf_counter() - t0,
+                params=float(head_params),
+            ),
+        }
