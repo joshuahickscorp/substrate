@@ -1264,9 +1264,9 @@ class F13(Experiment):
         classes = _int(e, "classes", 6)
         feature_dim = _int(e, "feature_dim", 24)
         widths = [int(w) for w in getattr(e, "widths", [2, 4, 8, 16])]
-        form_acc = {w: [] for w in widths}
-        raw_acc = {w: [] for w in widths}
-        rand_acc = {w: [] for w in widths}
+        form_acc: dict[int, list[float]] = {w: [] for w in widths}
+        raw_acc: dict[int, list[float]] = {w: [] for w in widths}
+        rand_acc: dict[int, list[float]] = {w: [] for w in widths}
         head_params = {w: 0 for w in widths}
         t0 = time.perf_counter()
         for s in seeds:
