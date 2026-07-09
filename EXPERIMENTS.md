@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-195 catalogued: implemented=127, registry-only=66, deferred=2.
+195 catalogued: implemented=130, registry-only=63, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -187,15 +187,15 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | f10_intrinsic_form_curriculum | intrinsic_form_curriculum | learning-progress form selection ties uniform sampling or chases noisy forms, so curriculum is not form-aware | cpu-now | implemented | 8 |
 | f11_form_dream_replay | form_dream_replay | generated form replay underperforms stored replay at matched memory or drifts off the factor manifold | gpu-later | registry-only | 4 |
 | f12_private_form_language_stability | private_form_language_stability | cross-seed code transfer sits at chance or below random-code agreement, so the form language is private | cpu-now | implemented | 2 |
-| f13_form_energy_budget | form_energy_budget | all form interfaces lie on the same density frontier as raw features, so form structure buys no efficiency | cpu-now | registry-only | 2 |
+| f13_form_energy_budget | form_energy_budget | all form interfaces lie on the same density frontier as raw features, so form structure buys no efficiency | cpu-now | implemented | 2 |
 | f14_lifelong_form_expansion | lifelong_form_expansion | adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable | cpu-now | registry-only | 5 |
 | f15_embodied_affordance_form | embodied_affordance_form | consequence-conditioned form tokens tie passive labels or action-shuffle, so affordance structure is not learned from intervention | env-later | registry-only | 7 |
 | f16_perfect_slate_null | perfect_slate_null | the blank substrate ties frozen inherited features plus a larger shell, or ties random-init same-arch, so the perfect-slate story bought nothing at this scale | gpu-later | registry-only | 10 |
 | f17_missing_form_recovery | missing_form_recovery | recovery ties the best remaining single form, or confidence does not predict correctness under a missing form, so the forms were redundant channels and the monitor is uninformative | cpu-now | implemented | 2 |
-| f18_counterfactual_form_intervention | counterfactual_form_intervention | the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure | cpu-now | registry-only | 10 |
+| f18_counterfactual_form_intervention | counterfactual_form_intervention | the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure | cpu-now | implemented | 10 |
 | f19_cross_scale_referent_binding | cross_scale_referent_binding | hierarchical referent memory ties flat clip memory or single-scale stores at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped | cpu-now | implemented | 3 |
 | f1_form_alignment_gate | form_alignment_gate | paired referent alignment ties raw transfer or shuffled-anchor alignment, so the form interface is just a coordinate relabeling and not a usable cross-form bridge | cpu-now | implemented | 2 |
-| f20_substrate_crisis_test | substrate_crisis_test | the crisis detector ties the raw error signal or triggers on aleatoric noise, so substrate insufficiency is not predictable from the exposed signals | cpu-now | registry-only | 4 |
+| f20_substrate_crisis_test | substrate_crisis_test | the crisis detector ties the raw error signal or triggers on aleatoric noise, so substrate insufficiency is not predictable from the exposed signals | cpu-now | implemented | 4 |
 | f2_heldout_form_transfer | heldout_form_transfer | multi-form training ties the single-form baseline on a held-out observation family, or the held-out family stays near chance after alignment | cpu-now | implemented | 2 |
 | f3_form_bottleneck_capacity | form_bottleneck_capacity | the wide canonical bottleneck ties the small bottleneck, so interface width is not the bound, or both sit near the shuffled-label floor | cpu-now | implemented | 4 |
 | f4_raw_payload_vs_form_tokens | raw_payload_vs_canonical_form_tokens | canonical form tokens tie raw flattened or handcrafted per-form features on every factor, so the form layer is ceremony | cpu-now | implemented | 2 |

@@ -1229,3 +1229,544 @@ class F19(Experiment):
                 bytes=float(store_bytes),
             ),
         }
+
+
+def _f13_project(x: torch.Tensor, width: int, *, seed: int) -> torch.Tensor:
+    """Fixed (label-free) random projection of x to `width` columns, matched across arms."""
+    g = torch.Generator().manual_seed(seed)
+    p = torch.randn(x.shape[1], width, generator=g) / math.sqrt(x.shape[1])
+    return x @ p
+
+
+class F13(Experiment):
+    id = "f13_form_energy_budget"
+    metric = ("accuracy_per_byte", "accuracy_per_param", "estimated_energy_per_correct")
+    baseline = (
+        "a single raw form projected to the same width, matched-width random features, and the "
+        "identical linear head shell"
+    )
+    ablation = (
+        "fused referent-aligned form tokens projected to a swept width vs a single raw form at "
+        "matched width, bytes, and head"
+    )
+    null_hypothesis = (
+        "every form interface lies on the same accuracy-versus-cost density frontier as raw features, so "
+        "form structure buys no capability per byte, per parameter, or per estimated joule"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        from ..diagnostics.compute import mlp_flops
+        from ..diagnostics.riskcov import pareto_area
+
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        classes = _int(e, "classes", 6)
+        feature_dim = _int(e, "feature_dim", 24)
+        widths = [int(w) for w in getattr(e, "widths", [2, 4, 8, 16])]
+        form_acc = {w: [] for w in widths}
+        raw_acc = {w: [] for w in widths}
+        rand_acc = {w: [] for w in widths}
+        head_params = {w: 0 for w in widths}
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 480),
+                classes=classes,
+                world_dim=_int(e, "world_dim", 24),
+                separation=_float(e, "separation", 1.2),
+                noise=_float(e, "world_noise", 0.8),
+                seed=s,
+            )
+            forms = _form_features(
+                z,
+                feature_dim=feature_dim,
+                noise=_float(e, "form_noise", 0.9),
+                seed=s,
+            )
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.6), s)
+            aligned = _aligned_forms(forms, tr)
+            # Fuse by averaging referent-aligned forms: alignment puts every form in one frame, so the
+            # shared class signal adds coherently while independent form noise averages down. Without
+            # alignment the forms live in different frames and cannot be averaged, so the raw control
+            # keeps one form's full noise. Both arms then see the identical random projection.
+            fused = torch.stack([aligned[k] for k in FORM_KINDS], dim=0).mean(dim=0)
+            raw = forms[_str(e, "raw_form", "vision")]
+            g = torch.Generator().manual_seed(s + 4242)
+            noise_bank = torch.randn(y.shape[0], feature_dim, generator=g)
+            epochs = _int(e, "epochs", 120)
+            lr = _float(e, "lr", 0.03)
+            for w in widths:
+                proj_seed = s + 31 * w
+                xf = _f13_project(fused, w, seed=proj_seed)
+                xr = _f13_project(raw, w, seed=proj_seed)
+                xn = _f13_project(noise_bank, w, seed=proj_seed + 13)
+                hf = _fit_head(xf[tr], y[tr], classes=classes, epochs=epochs, lr=lr, seed=s)
+                hr = _fit_head(xr[tr], y[tr], classes=classes, epochs=epochs, lr=lr, seed=s + 1)
+                hn = _fit_head(xn[tr], y[tr], classes=classes, epochs=epochs, lr=lr, seed=s + 2)
+                head_params[w] = sum(p.numel() for p in hf.parameters())
+                form_acc[w].append(_acc(hf, xf[te], y[te]))
+                raw_acc[w].append(_acc(hr, xr[te], y[te]))
+                rand_acc[w].append(_acc(hn, xn[te], y[te]))
+        fA = {w: _mean(form_acc[w]) for w in widths}
+        rA = {w: _mean(raw_acc[w]) for w in widths}
+        nA = {w: _mean(rand_acc[w]) for w in widths}
+        bytes_w = {w: float(w * 4) for w in widths}
+        energy_w = {w: float(mlp_flops([w, classes])) for w in widths}
+        x_max = max(bytes_w.values())
+        form_pts = [(bytes_w[w], fA[w]) for w in widths]
+        raw_pts = [(bytes_w[w], rA[w]) for w in widths]
+        rand_pts = [(bytes_w[w], nA[w]) for w in widths]
+        form_area = pareto_area(form_pts, x_max=x_max)
+        raw_area = pareto_area(raw_pts, x_max=x_max)
+        rand_area = pareto_area(rand_pts, x_max=x_max)
+        best_byte_w = max(widths, key=lambda w: fA[w] / bytes_w[w])
+        best_param_w = max(widths, key=lambda w: fA[w] / head_params[w])
+        acc_per_byte = fA[best_byte_w] / bytes_w[best_byte_w]
+        acc_per_param = fA[best_param_w] / head_params[best_param_w]
+        energy_per_correct = min(energy_w[w] / max(fA[w], 1.0e-6) for w in widths)
+        chance = 1.0 / classes
+        margin = _float(e, "margin", 0.02)
+        return {
+            "widths": widths,
+            "form_acc_by_width": {w: round(fA[w], 4) for w in widths},
+            "raw_acc_by_width": {w: round(rA[w], 4) for w in widths},
+            "random_acc_by_width": {w: round(nA[w], 4) for w in widths},
+            "accuracy_per_byte": round(acc_per_byte, 6),
+            "accuracy_per_param": round(acc_per_param, 6),
+            "estimated_energy_per_correct": round(energy_per_correct, 4),
+            "form_pareto_area": round(form_area, 4),
+            "raw_pareto_area": round(raw_area, 4),
+            "random_pareto_area": round(rand_area, 4),
+            "best_byte_width": best_byte_w,
+            "best_param_width": best_param_w,
+            "chance": round(chance, 4),
+            "seeds": seeds,
+            "null_supported": bool(form_area <= raw_area + margin),
+            "density": density_block(
+                {"form_acc": fA[best_byte_w]},
+                primary="form_acc",
+                seconds=time.perf_counter() - t0,
+                params=float(head_params[best_byte_w]),
+                bytes=bytes_w[best_byte_w],
+                flops=energy_w[best_byte_w],
+            ),
+        }
+
+
+def _f18_state_form(
+    a: torch.Tensor,
+    c: torch.Tensor,
+    extra: torch.Tensor,
+    *,
+    a_scale: float,
+    c_scale: float,
+    feature_dim: int,
+    form_noise: float,
+    seed: int,
+) -> torch.Tensor:
+    """Render a world state (factor a, confounder c, nuisance extra) through one random form
+    projection. Factor a lands on axis 0 and the confounder on axis 1 before mixing, so both are
+    linearly present in the state but entangled by the projection into the observed form."""
+    state = extra.clone()
+    state[:, 0] = state[:, 0] + a_scale * a.float()
+    state[:, 1] = state[:, 1] + c_scale * c.float()
+    g = torch.Generator().manual_seed(seed)
+    w = torch.randn(state.shape[1], feature_dim, generator=g) / math.sqrt(state.shape[1])
+    bias = 0.1 * torch.randn(feature_dim, generator=g)
+    noise = form_noise * torch.randn(state.shape[0], feature_dim, generator=g)
+    return (state @ w + bias + noise).float()
+
+
+def _f18_fit_reg(x: torch.Tensor, y: torch.Tensor, *, epochs: int, lr: float, seed: int) -> nn.Linear:
+    seed_everything(seed)
+    head = nn.Linear(x.shape[1], 1)
+    opt = torch.optim.Adam(head.parameters(), lr=lr)
+    for _ in range(epochs):
+        opt.zero_grad()
+        F.mse_loss(head(x).squeeze(-1), y.float()).backward()
+        opt.step()
+    return head
+
+
+def _f18_reg_acc(head: nn.Linear, x: torch.Tensor, y_int: torch.Tensor) -> float:
+    with torch.no_grad():
+        pred = head(x).squeeze(-1).round().long()
+    return float((pred == y_int).float().mean())
+
+
+class F18(Experiment):
+    id = "f18_counterfactual_form_intervention"
+    metric = (
+        "counterfactual_match_acc",
+        "correlational_baseline_acc",
+        "unseen_value_gap",
+        "counterfactual_acc_per_param",
+    )
+    baseline = "correlational predictor over observational before-and-after pairs at matched compute"
+    ablation = "do-delta intervention predictor vs correlational, random-delta, and shuffled-pair controls"
+    null_hypothesis = (
+        "the intervention predictor leaks (predicts only seen intervention values) or ties the "
+        "correlational predictor, so the matrix binds appearances rather than intervention structure"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        from ..diagnostics.compute import matched_within, mlp_flops
+
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        a_values = _int(e, "a_values", 5)
+        contexts = _int(e, "contexts", 3)
+        train_deltas = [int(d) for d in getattr(e, "train_deltas", [1, 2])]
+        test_delta = _int(e, "test_delta", 3)
+        all_deltas = sorted(set(train_deltas) | {test_delta})
+        chance = 1.0 / (a_values - 1 + max(all_deltas))
+
+        cf, corr, seen_gap, rand_dir, shuf, xform = [], [], [], [], [], []
+        head_params = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            gen = torch.Generator().manual_seed(s + 1301)
+            samples = _int(e, "samples", 320)
+            world_dim = _int(e, "world_dim", 16)
+            a_before = torch.randint(0, a_values, (samples,), generator=gen)
+            c = torch.randint(0, contexts, (samples,), generator=gen)  # confounder sets natural delta
+            extra = _float(e, "nuisance", 0.6) * torch.randn(samples, world_dim, generator=gen)
+            x_before = _f18_state_form(
+                a_before,
+                c,
+                extra,
+                a_scale=_float(e, "a_scale", 1.0),
+                c_scale=_float(e, "c_scale", 1.0),
+                feature_dim=_int(e, "feature_dim", 24),
+                form_noise=_float(e, "form_noise", 0.9),
+                seed=s + 11,
+            )
+            # form B renders the after-state as the readout channel for the same referent
+            after_form = _f18_state_form(
+                a_before + test_delta,
+                c,
+                extra,
+                a_scale=_float(e, "a_scale", 1.0),
+                c_scale=_float(e, "c_scale", 1.0),
+                feature_dim=_int(e, "feature_dim", 24),
+                form_noise=_float(e, "form_noise", 0.9),
+                seed=s + 977,
+            )
+            tr, te = _split(samples, _float(e, "train_frac", 0.6), s)
+            zeros_tr = torch.zeros(tr.shape[0], 1)
+
+            # interventional training: do(delta) applied independent of the confounder c
+            xs, ys = [], []
+            for d in train_deltas:
+                xs.append(torch.cat([x_before[tr], torch.full((tr.shape[0], 1), float(d))], dim=1))
+                ys.append((a_before[tr] + d).float())
+            x_int = torch.cat(xs, dim=0)
+            y_int = torch.cat(ys, dim=0)
+            epochs, lr = _int(e, "epochs", 260), _float(e, "lr", 0.05)
+            iv = _f18_fit_reg(x_int, y_int, epochs=epochs, lr=lr, seed=s + 3)
+            head_params = sum(p.numel() for p in iv.parameters())
+
+            # correlational training: observational pairs, natural delta = c + 1, no do-handle
+            nat = c[tr] + 1
+            x_corr = torch.cat([x_before[tr], zeros_tr], dim=1)
+            cr = _f18_fit_reg(x_corr, (a_before[tr] + nat).float(), epochs=epochs, lr=lr, seed=s + 5)
+
+            # shuffled-counterfactual-pairs: decouple before from after in interventional training
+            g2 = torch.Generator().manual_seed(s + 707)
+            y_shuf = y_int[torch.randperm(y_int.shape[0], generator=g2)]
+            sh = _f18_fit_reg(x_int, y_shuf, epochs=epochs, lr=lr, seed=s + 7)
+
+            # unseen delta test
+            x_te_test = torch.cat([x_before[te], torch.full((te.shape[0], 1), float(test_delta))], dim=1)
+            y_after = a_before[te] + test_delta
+            cf.append(_f18_reg_acc(iv, x_te_test, y_after))
+            corr.append(
+                _f18_reg_acc(cr, torch.cat([x_before[te], torch.zeros(te.shape[0], 1)], dim=1), y_after)
+            )
+            shuf.append(_f18_reg_acc(sh, x_te_test, y_after))
+
+            # random-intervention-direction: feed a random delta instead of the true do-value
+            g3 = torch.Generator().manual_seed(s + 909)
+            rd = all_deltas[0] + torch.randint(0, len(all_deltas), (te.shape[0], 1), generator=g3)
+            rand_dir.append(_f18_reg_acc(iv, torch.cat([x_before[te], rd.float()], dim=1), y_after))
+
+            # seen-delta accuracy for the leakage gap (predict trained deltas on held-out samples)
+            seen = []
+            for d in train_deltas:
+                xd = torch.cat([x_before[te], torch.full((te.shape[0], 1), float(d))], dim=1)
+                seen.append(_f18_reg_acc(iv, xd, a_before[te] + d))
+            seen_gap.append(_mean(seen) - _f18_reg_acc(iv, x_te_test, y_after))
+
+            # referent readout: the after-state factor is recoverable through form B (cross-form)
+            probe = _f18_fit_reg(
+                after_form[tr], (a_before[tr] + test_delta).float(), epochs=epochs, lr=lr, seed=s + 13
+            )
+            xform.append(_f18_reg_acc(probe, after_form[te], y_after))
+
+        din = _int(e, "feature_dim", 24) + 1
+        match = matched_within(mlp_flops([din, 1], 1), mlp_flops([din, 1], 1))
+        cf_acc, corr_acc, gap = _mean(cf), _mean(corr), _mean(seen_gap)
+        best_control = max(corr_acc, _mean(shuf), _mean(rand_dir))
+        margin = _float(e, "margin", 0.05)
+        leak_margin = _float(e, "leak_margin", 0.15)
+        acc_per_param = cf_acc / head_params if head_params else 0.0
+        return {
+            "counterfactual_match_acc": round(cf_acc, 4),
+            "correlational_baseline_acc": round(corr_acc, 4),
+            "unseen_value_gap": round(gap, 4),
+            "counterfactual_acc_per_param": round(acc_per_param, 8),
+            "random_direction_acc": round(_mean(rand_dir), 4),
+            "shuffled_pair_acc": round(_mean(shuf), 4),
+            "cross_form_readout_acc": round(_mean(xform), 4),
+            "chance": round(chance, 4),
+            "matched_compute": match,
+            "train_deltas": train_deltas,
+            "test_delta": test_delta,
+            "seeds": seeds,
+            "null_supported": bool(cf_acc <= best_control + margin or gap > leak_margin),
+            "density": density_block(
+                {
+                    "counterfactual_match_acc": cf_acc,
+                    "counterfactual_acc_per_param": acc_per_param,
+                },
+                primary="counterfactual_match_acc",
+                params=float(head_params),
+                seconds=time.perf_counter() - t0,
+            ),
+        }
+
+
+def _f20_arm(
+    *,
+    n: int,
+    dim: int,
+    classes: int,
+    nuis_classes: int,
+    signal: float,
+    nuisance: float,
+    rho: float,
+    noise: float,
+    seed: int,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    """One fixture arm: in-distribution features x, target y, recorded nuisance factor g, and a
+    decorrelated shell copy xdec whose nuisance is redrawn independent of y. signal weights the true
+    target subspace, nuisance weights a factor subspace that tracks y in distribution with rate rho.
+    A crisis arm sets signal to zero (all apparent competence is nuisance-carried, the A6 pattern),
+    a predictor-wall arm keeps signal below the pass threshold on its own, a healthy arm keeps it
+    above, and a noisy arm sets both to zero (pure aleatoric stream)."""
+    g = torch.Generator().manual_seed(seed)
+    y = torch.randint(0, classes, (n,), generator=g)
+    track = torch.rand(n, generator=g) < rho
+    free = torch.randint(0, nuis_classes, (n,), generator=g)
+    nuis = torch.where(track, y % nuis_classes, free)
+    signal_dirs = torch.randn(classes, dim, generator=g)
+    nuis_dirs = torch.randn(nuis_classes, dim, generator=g)
+    x = signal * signal_dirs[y] + nuisance * nuis_dirs[nuis] + noise * torch.randn(n, dim, generator=g)
+    nuis_dec = torch.randint(0, nuis_classes, (n,), generator=g)
+    xdec = signal * signal_dirs[y] + nuisance * nuis_dirs[nuis_dec] + noise * torch.randn(n, dim, generator=g)
+    return x.float(), y.long(), nuis.long(), xdec.float()
+
+
+def _f20_score(
+    x: torch.Tensor,
+    y: torch.Tensor,
+    g: torch.Tensor,
+    xdec: torch.Tensor,
+    *,
+    classes: int,
+    epochs: int,
+    lr: float,
+    train_frac: float,
+    seed: int,
+) -> dict:
+    """Monitor read-outs for one arm, using only in-distribution data plus the recorded factor.
+
+    The crisis score is the held-out accuracy drop between the standard split and the off-diagonal
+    slice, the samples where the recorded nuisance factor disagrees with the target. A probe that is
+    riding the nuisance scores near chance on that slice while its standard accuracy stays high (the
+    A6 pattern); a probe with genuine target signal keeps the slice, so its drop is small; a pure
+    noise stream sits at chance on both, so its drop is near zero (no false trigger). raw_error is
+    the plain in-distribution held-out error; confidence is the mean max-softmax; decorr_acc is the
+    realized accuracy of the in-distribution probe on the decorrelated shell (the ground-truth verdict
+    for whether the substrate actually reaches the target)."""
+    tr, te = _split(y.shape[0], train_frac, seed)
+    head = _fit_head(x[tr], y[tr], classes=classes, epochs=epochs, lr=lr, seed=seed)
+    acc_in = _acc(head, x[te], y[te])
+    with torch.no_grad():
+        conf = float(F.softmax(head(x[te]), dim=-1).max(dim=-1).values.mean())
+    off = te[g[te] != y[te]]
+    off_acc = _acc(head, x[off], y[off]) if off.numel() > 0 else acc_in
+    acc_dec = _acc(head, xdec[te], y[te])
+    return {
+        "crisis_score": acc_in - off_acc,
+        "raw_error": 1.0 - acc_in,
+        "confidence": conf,
+        "decorr_acc": acc_dec,
+    }
+
+
+class F20(Experiment):
+    id = "f20_substrate_crisis_test"
+    metric = (
+        "crisis_auroc",
+        "raw_error_auroc",
+        "false_trigger_rate",
+        "avoided_wasted_compute_per_monitor_flop",
+    )
+    baseline = "raw held-out error signal and a fixed confidence threshold as the crisis predictors"
+    ablation = (
+        "off-diagonal factor slice accuracy drop vs raw error, fixed confidence, and a rate-matched "
+        "random trigger, with a noisy-TV false-alarm bed"
+    )
+    null_hypothesis = (
+        "the crisis detector ties the raw error signal or triggers on aleatoric noise, so substrate "
+        "insufficiency is not predictable from the exposed signals"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        from ..diagnostics.compute import mlp_flops
+        from ..diagnostics.operational_awareness import crisis_detection, rewrite_caution
+        from ..diagnostics.riskcov import auroc
+
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        classes = _int(e, "classes", 4)
+        nuis_classes = _int(e, "nuis_classes", 4)
+        n = _int(e, "samples", 240)
+        dim = _int(e, "dim", 24)
+        epochs = _int(e, "epochs", 120)
+        lr = _float(e, "lr", 0.05)
+        train_frac = _float(e, "train_frac", 0.6)
+        rho = _float(e, "rho", 0.9)
+        wnoise = _float(e, "world_noise", 0.7)
+        tau = _float(e, "crisis_trigger_threshold", 0.20)
+        fail_th = _float(e, "fail_threshold", 0.42)
+        error_th = _float(e, "error_threshold", 0.5)
+        nuis_side = _float(e, "nuisance_side", 1.6)
+        families = (
+            ("crisis", _int(e, "n_crisis", 8), 0.0, _float(e, "nuisance_crisis", 2.4), wnoise),
+            (
+                "wall",
+                _int(e, "n_wall", 8),
+                _float(e, "signal_wall", 0.7),
+                _float(e, "nuisance_wall", 1.2),
+                _float(e, "wall_noise", 2.6),
+            ),
+            ("healthy", _int(e, "n_healthy", 8), _float(e, "signal_healthy", 1.4), nuis_side, wnoise),
+        )
+        scores, raw_errors, confidences, failed = [], [], [], []
+        noise_scores, noise_errors = [], []
+        n_probes = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            aseed = s * 1000
+            for _kind, count, sig, nui, fnoise in families:
+                for _ in range(count):
+                    aseed += 1
+                    x, y, g, xdec = _f20_arm(
+                        n=n,
+                        dim=dim,
+                        classes=classes,
+                        nuis_classes=nuis_classes,
+                        signal=sig,
+                        nuisance=nui,
+                        rho=rho,
+                        noise=fnoise,
+                        seed=aseed,
+                    )
+                    r = _f20_score(
+                        x,
+                        y,
+                        g,
+                        xdec,
+                        classes=classes,
+                        epochs=epochs,
+                        lr=lr,
+                        train_frac=train_frac,
+                        seed=aseed,
+                    )
+                    n_probes += 1
+                    scores.append(r["crisis_score"])
+                    raw_errors.append(r["raw_error"])
+                    confidences.append(r["confidence"])
+                    failed.append(1.0 if r["decorr_acc"] < fail_th else 0.0)
+            for _ in range(_int(e, "n_noise", 10)):
+                aseed += 1
+                x, y, g, xdec = _f20_arm(
+                    n=n,
+                    dim=dim,
+                    classes=classes,
+                    nuis_classes=nuis_classes,
+                    signal=0.0,
+                    nuisance=0.0,
+                    rho=rho,
+                    noise=wnoise,
+                    seed=aseed,
+                )
+                r = _f20_score(
+                    x,
+                    y,
+                    g,
+                    xdec,
+                    classes=classes,
+                    epochs=epochs,
+                    lr=lr,
+                    train_frac=train_frac,
+                    seed=aseed,
+                )
+                n_probes += 1
+                noise_scores.append(r["crisis_score"])
+                noise_errors.append(r["raw_error"])
+
+        crisis = crisis_detection(scores, failed, raw_error=raw_errors)
+        crisis_auroc = crisis["auroc"]
+        raw_error_auroc = crisis["raw_error_auroc"]
+        fixed_conf_auroc = auroc([1.0 - c for c in confidences], failed)
+        triggered_on_noise = [1.0 if sc > tau else 0.0 for sc in noise_scores]
+        triggered_on_real = [sc > tau for sc, f in zip(scores, failed, strict=True) if f > 0.5]
+        triggered_on_real = [1.0 if t else 0.0 for t in triggered_on_real]
+        caution = rewrite_caution(triggered_on_noise, triggered_on_real)
+        false_trigger_rate = caution["false_trigger_rate"]
+        crisis_trigger_rate = _mean([1.0 if sc > tau else 0.0 for sc in scores])
+        fixed_error_false_rate = _mean([1.0 if er > error_th else 0.0 for er in noise_errors])
+        rg = torch.Generator().manual_seed(int(seeds[0]) + 977)
+        random_scores = torch.rand(len(failed), generator=rg).tolist()
+        random_trigger_auroc = auroc(random_scores, failed)
+
+        per_probe_flops = mlp_flops([dim, classes], batch=int(n * train_frac)) * epochs * 3
+        monitor_flops = float(per_probe_flops * n_probes)
+        shell_flops = _float(e, "shell_scaleup_flops", 1.0e10)
+        n_caught = sum(triggered_on_real)
+        avoided = n_caught * shell_flops
+        avoided_per_monitor_flop = avoided / monitor_flops if monitor_flops > 0 else 0.0
+        margin = _float(e, "margin", 0.1)
+        noise_margin = _float(e, "noise_margin", 0.12)
+        null_supported = bool(crisis_auroc <= raw_error_auroc + margin or false_trigger_rate > noise_margin)
+        return {
+            "crisis_auroc": round(crisis_auroc, 4),
+            "raw_error_auroc": round(raw_error_auroc, 4),
+            "false_trigger_rate": round(false_trigger_rate, 4),
+            "avoided_wasted_compute_per_monitor_flop": round(avoided_per_monitor_flop, 4),
+            "fixed_confidence_auroc": round(fixed_conf_auroc, 4),
+            "random_trigger_auroc": round(random_trigger_auroc, 4),
+            "random_trigger_matched_rate": round(crisis_trigger_rate, 4),
+            "fixed_error_noise_false_rate": round(fixed_error_false_rate, 4),
+            "true_trigger_rate": round(caution["true_trigger_rate"], 4),
+            "auroc_over_raw_error": round(crisis["auroc_over_raw_error"], 4),
+            "failure_rate": round(crisis["failure_rate"], 4),
+            "monitor_flops": monitor_flops,
+            "seeds": seeds,
+            "null_supported": null_supported,
+            "density": density_block(
+                {
+                    "crisis_auroc": crisis_auroc,
+                    "avoided_wasted_compute_per_monitor_flop": avoided_per_monitor_flop,
+                },
+                primary="crisis_auroc",
+                flops=monitor_flops,
+                seconds=time.perf_counter() - t0,
+            ),
+        }

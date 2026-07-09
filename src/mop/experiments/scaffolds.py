@@ -41,7 +41,7 @@ from .ex15_rejuvenation import EX15
 from .ex16_codebook_sr import EX16
 from .ex17_latent_reasoning import EX17
 from .ex18_self_verification import EX18
-from .f_form_substrate import F1, F2, F3, F4, F5, F9, F10, F12, F17, F19
+from .f_form_substrate import F1, F2, F3, F4, F5, F9, F10, F12, F13, F17, F18, F19, F20
 from .i_infotheory import I1, I2, I3, I5, I6, I7, I8, I9, I4i
 from .n_neuro_replay_reasoning import N1, N3, N4, N5, N6, N7, N8, N9, N10, N11
 from .p_philosophy import P1, P2, P3, P4, P5, P6, P9, P10
@@ -165,6 +165,9 @@ SCAFFOLDS: list[type[Experiment]] = [
     F9,
     F10,
     F12,
+    F13,
     F17,
+    F18,
     F19,
+    F20,
 ]

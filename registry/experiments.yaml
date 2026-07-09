@@ -4490,7 +4490,7 @@ experiments:
     capacity_rungs: [6]
     paradigm_slugs: []
     taxonomy_slot: 2
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: density, null_card: "none", evidence_level: R0}
 
   - id: f14_lifelong_form_expansion
@@ -4610,7 +4610,7 @@ experiments:
     capacity_rungs: [8]
     paradigm_slugs: []
     taxonomy_slot: 10
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: intervention_effect, null_card: "none", evidence_level: R0}
 
   - id: f19_cross_scale_referent_binding
@@ -4658,5 +4658,5 @@ experiments:
     capacity_rungs: [9]
     paradigm_slugs: []
     taxonomy_slot: 4
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: crisis_detection, null_card: "none", evidence_level: R0}
