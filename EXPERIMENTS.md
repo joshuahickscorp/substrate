@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-195 catalogued: implemented=122, registry-only=71, deferred=2.
+195 catalogued: implemented=123, registry-only=70, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -191,7 +191,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | f14_lifelong_form_expansion | lifelong_form_expansion | adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable | cpu-now | registry-only | 5 |
 | f15_embodied_affordance_form | embodied_affordance_form | consequence-conditioned form tokens tie passive labels or action-shuffle, so affordance structure is not learned from intervention | env-later | registry-only | 7 |
 | f16_perfect_slate_null | perfect_slate_null | the blank substrate ties frozen inherited features plus a larger shell, or ties random-init same-arch, so the perfect-slate story bought nothing at this scale | gpu-later | registry-only | 10 |
-| f17_missing_form_recovery | missing_form_recovery | recovery ties the best remaining single form, or confidence fails to change under a missing form, so the forms were redundant channels and the monitoring signal is uninformative | cpu-now | registry-only | 2 |
+| f17_missing_form_recovery | missing_form_recovery | recovery ties the best remaining single form, or confidence does not predict correctness under a missing form, so the forms were redundant channels and the monitor is uninformative | cpu-now | implemented | 2 |
 | f18_counterfactual_form_intervention | counterfactual_form_intervention | the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure | cpu-now | registry-only | 10 |
 | f19_cross_scale_referent_binding | cross_scale_referent_binding | hierarchical referent memory ties flat clip memory or single-scale stores at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped | cpu-now | registry-only | 3 |
 | f1_form_alignment_gate | form_alignment_gate | paired referent alignment ties raw transfer or shuffled-anchor alignment, so the form interface is just a coordinate relabeling and not a usable cross-form bridge | cpu-now | implemented | 2 |

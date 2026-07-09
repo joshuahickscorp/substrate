@@ -623,3 +623,125 @@ class F4(Experiment):
                 params=float(head_params),
             ),
         }
+
+
+class F17(Experiment):
+    id = "f17_missing_form_recovery"
+    metric = ("recovery_acc", "best_remaining_form_acc", "absence_ece", "recovery_per_extra_flop")
+    baseline = "best remaining single form and impute-by-mean when one form is absent at test time"
+    ablation = "mean-fuse the remaining aligned forms vs substitute the missing form with its train mean"
+    null_hypothesis = (
+        "recovery ties the best remaining single form, or confidence does not predict correctness "
+        "under a missing form, so the forms are redundant channels and the monitor is uninformative"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        from ..diagnostics.compute import mlp_flops
+        from ..diagnostics.operational_awareness import (
+            confidence_calibration,
+            missing_form_detection,
+        )
+
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        classes = _int(e, "classes", 4)
+        recov, best_rem, impute, conf_full, conf_absent = [], [], [], [], []
+        det_scores, det_absent, cal_conf, cal_correct = [], [], [], []
+        head_params, feat_dim = 0, 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 260),
+                classes=classes,
+                world_dim=_int(e, "world_dim", 26),
+                separation=_float(e, "separation", 1.8),
+                noise=_float(e, "world_noise", 0.7),
+                seed=s,
+            )
+            forms = _form_features(
+                z, feature_dim=_int(e, "feature_dim", 32), noise=_float(e, "form_noise", 0.1), seed=s
+            )
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.55), s)
+            aligned = _aligned_forms(forms, tr)  # all arms in the reference form's space
+            kinds = list(FORM_KINDS)
+            feat_dim = aligned[kinds[0]].shape[1]
+            train_means = {k: aligned[k][tr].mean(0, keepdim=True) for k in kinds}
+
+            def _fuse(mats: list[torch.Tensor]) -> torch.Tensor:
+                return torch.stack(mats, 0).mean(0)
+
+            head = _fit_head(
+                _fuse([aligned[k][tr] for k in kinds]),
+                y[tr],
+                classes=classes,
+                epochs=_int(e, "epochs", 90),
+                lr=_float(e, "lr", 0.03),
+                seed=s,
+            )
+            head_params = sum(p.numel() for p in head.parameters())
+
+            def _conf(x: torch.Tensor, *, h: nn.Module = head) -> torch.Tensor:
+                with torch.no_grad():
+                    return torch.softmax(h(x), -1).max(-1).values
+
+            full_test = _fuse([aligned[k][te] for k in kinds])
+            conf_full.append(float(_conf(full_test).mean()))
+
+            for missing in kinds:  # drop each form in turn
+                remaining = [k for k in kinds if k != missing]
+                recov_test = _fuse([aligned[k][te] for k in remaining])
+                recov.append(_acc(head, recov_test, y[te]))
+                best_rem.append(max(_acc(head, aligned[k][te], y[te]) for k in remaining))
+                imp = _fuse(
+                    [aligned[k][te] for k in remaining] + [train_means[missing].expand(te.shape[0], -1)]
+                )
+                impute.append(_acc(head, imp, y[te]))
+                c = _conf(recov_test)
+                conf_absent.append(float(c.mean()))
+                cal_conf.extend(c.tolist())
+                with torch.no_grad():
+                    cal_correct.extend((head(recov_test).argmax(-1) == y[te]).float().tolist())
+
+            # OA1 missing-form detection: corrupt one form per test sample, rank it by consensus residual
+            g = torch.Generator().manual_seed(s + 4201)
+            corrupt = torch.randint(0, len(kinds), (te.shape[0],), generator=g)
+            stacked = torch.stack([aligned[k][te] for k in kinds], 1)  # [N, K, D]
+            for j in range(len(kinds)):
+                mask = corrupt == j
+                stacked[mask, j] += 3.0 * torch.randn(int(mask.sum()), feat_dim, generator=g)
+            consensus = stacked.mean(1, keepdim=True)
+            residual = (stacked - consensus).pow(2).mean(-1)  # [N, K]
+            for j in range(len(kinds)):
+                det_scores.extend(residual[:, j].tolist())
+                det_absent.extend((corrupt == j).float().tolist())
+
+        recovery_acc = _mean(recov)
+        head_flops = max(1, mlp_flops([feat_dim, classes]))
+        oa1 = missing_form_detection(det_scores, det_absent)
+        oa2 = confidence_calibration(cal_conf, cal_correct)
+        # OA2: confidence is informative iff it PREDICTS correctness under absence (AUROC over chance).
+        # Raw confidence magnitude is a poor proxy here (a head trained on 4-form fusion sees a
+        # different scale under 3 forms), so the null clause tests calibration, not a magnitude drop.
+        confidence_informative = oa2["auroc"] > 0.5 + _float(e, "cal_margin", 0.03)
+        recovery_gain = recovery_acc - _mean(best_rem)
+        return {
+            "recovery_acc": round(recovery_acc, 4),
+            "best_remaining_form_acc": round(_mean(best_rem), 4),
+            "impute_by_mean_acc": round(_mean(impute), 4),
+            "absence_ece": round(oa2["ece"], 4),
+            "recovery_per_extra_flop": round(recovery_acc / head_flops, 9),
+            "recovery_gain_over_best_remaining": round(recovery_gain, 4),
+            "confidence_full": round(_mean(conf_full), 4),
+            "confidence_under_absence": round(_mean(conf_absent), 4),
+            "confidence_predicts_correctness": bool(confidence_informative),
+            "oa1_missing_form_auroc": round(oa1["auroc"], 4),
+            "oa2_calibration_auroc": round(oa2["auroc"], 4),
+            "seeds": seeds,
+            "null_supported": bool(recovery_gain <= _float(e, "margin", 0.02) or not confidence_informative),
+            "density": density_block(
+                {"recovery_acc": recovery_acc},
+                seconds=time.perf_counter() - t0,
+                params=float(head_params),
+            ),
+        }

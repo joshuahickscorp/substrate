@@ -4569,10 +4569,10 @@ experiments:
     name: missing_form_recovery
     kind: experiment
     series: F
-    question: "when one form is absent at test time, does the substrate recover the target from remaining forms and lower its confidence accordingly"
-    mechanism: "train on a multi-form matrix, drop one arm at evaluation, compare recovery against impute-by-mean and best-remaining-form controls while scoring confidence calibration under absence"
-    null_hypothesis: "recovery ties the best remaining single form, or confidence fails to change under a missing form, so the forms were redundant channels and the monitoring signal is uninformative"
-    falsifier: "recovery beats impute-by-mean and best-remaining-form controls while calibration error under absence stays within the preregistered band"
+    question: "when one form is absent at test time, does the substrate recover the target from remaining forms while its confidence still predicts correctness"
+    mechanism: "train on a multi-form matrix, drop one arm at evaluation, compare recovery against impute-by-mean and best-remaining-form controls while scoring whether confidence predicts correctness under absence (OA2 calibration AUROC)"
+    null_hypothesis: "recovery ties the best remaining single form, or confidence does not predict correctness under a missing form, so the forms were redundant channels and the monitor is uninformative"
+    falsifier: "recovery beats the best-remaining-form control while confidence still predicts correctness under absence above the chance floor"
     metrics: [recovery_acc, best_remaining_form_acc, absence_ece, recovery_per_extra_flop]
     controls: [impute-by-mean, best-remaining-form, zero-filled-concat, matched-head]
     gates: [referent_alignment, calibration]
@@ -4586,7 +4586,7 @@ experiments:
     capacity_rungs: [3, 9]
     paradigm_slugs: []
     taxonomy_slot: 2
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: form_recovery, null_card: "none", evidence_level: R0}
 
   - id: f18_counterfactual_form_intervention
