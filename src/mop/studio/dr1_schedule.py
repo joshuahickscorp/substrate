@@ -37,6 +37,9 @@ def build_dr1_schedule_plan(
     python: str = ".venv/bin/python",
     script: str = DEFAULT_DR1_SCRIPT,
     include_a6_guard: bool = True,
+    include_verifier: bool = True,
+    source_intake: dict[str, Any] | None = None,
+    require_source_intake: bool = False,
 ) -> dict[str, Any]:
     """Convert an encode schedule into a DR1 command plan.
 
@@ -44,7 +47,14 @@ def build_dr1_schedule_plan(
     blocked, the returned plan records the wall and emits no runnable jobs.
     """
     factors_tuple = tuple(str(f) for f in factors if str(f))
-    gates = _schedule_gates(schedule, source=source, factors=factors_tuple, min_per_cell=min_per_cell)
+    gates = _schedule_gates(
+        schedule,
+        source=source,
+        factors=factors_tuple,
+        min_per_cell=min_per_cell,
+        source_intake=source_intake,
+        require_source_intake=require_source_intake,
+    )
     ok_to_launch = all(g["ok"] for g in gates)
     winner_obj = schedule.get("winner")
     winner: dict[str, Any] = winner_obj if isinstance(winner_obj, dict) else {}
@@ -104,6 +114,22 @@ def build_dr1_schedule_plan(
                     "range": [0, effective_clips],
                 }
             )
+        if include_verifier:
+            jobs.append(
+                {
+                    "id": "dr1_verify",
+                    "kind": "verifier",
+                    "cmd": [
+                        python,
+                        "scripts/studio/dr1_verify.py",
+                        "--cache",
+                        str(Path("data") / "cache" / cache_name),
+                        "--out",
+                        str(Path("data") / "cache" / cache_name / "dr1_verification.json"),
+                    ],
+                    "range": [0, effective_clips],
+                }
+            )
 
     blocked_reasons = [g["detail"] for g in gates if not g["ok"]]
     return {
@@ -124,6 +150,7 @@ def build_dr1_schedule_plan(
             "thermal_pacing": schedule.get("thermal_pacing"),
             "blocked_reasons": schedule.get("blocked_reasons", []),
         },
+        "source_intake": _source_intake_summary(source_intake),
         "gates": gates,
         "ranges": [list(r) for r in ranges],
         "jobs": jobs,
@@ -133,6 +160,7 @@ def build_dr1_schedule_plan(
             "clips": effective_clips,
             "checkpoint_every_clips": every_clips,
             "device": device or None,
+            "verifier": bool(include_verifier),
         },
     }
 
@@ -161,7 +189,13 @@ def write_json(data: dict[str, Any], path: Path | str) -> None:
 
 
 def _schedule_gates(
-    schedule: dict[str, Any], *, source: str, factors: Sequence[str], min_per_cell: int
+    schedule: dict[str, Any],
+    *,
+    source: str,
+    factors: Sequence[str],
+    min_per_cell: int,
+    source_intake: dict[str, Any] | None,
+    require_source_intake: bool,
 ) -> list[dict[str, Any]]:
     winner_obj = schedule.get("winner")
     winner: dict[str, Any] | None = winner_obj if isinstance(winner_obj, dict) else None
@@ -209,7 +243,53 @@ def _schedule_gates(
             f"{every_clips} clips" if every_clips > 0 else "checkpoint.every_clips must be positive",
         ),
     ]
+    gates.append(_source_intake_gate(source_intake, source, factors, min_per_cell, require_source_intake))
     return gates
+
+
+def _source_intake_summary(source_intake: dict[str, Any] | None) -> dict[str, Any] | None:
+    if source_intake is None:
+        return None
+    return {
+        "schema": source_intake.get("schema"),
+        "all_ok": bool(source_intake.get("all_ok")),
+        "source": source_intake.get("source"),
+        "problems": source_intake.get("problems", []),
+    }
+
+
+def _source_intake_gate(
+    source_intake: dict[str, Any] | None,
+    source: str,
+    factors: Sequence[str],
+    min_per_cell: int,
+    required: bool,
+) -> dict[str, Any]:
+    if source_intake is None:
+        return _gate(
+            "source_intake",
+            not required,
+            "source intake not required for this metadata-only plan"
+            if not required
+            else "missing DR1 source intake receipt",
+        )
+    if source_intake.get("schema") != "mop-dr1-source-intake/v1":
+        return _gate(
+            "source_intake",
+            False,
+            f"unexpected source intake schema {source_intake.get('schema')!r}",
+        )
+    problems: list[str] = []
+    if not source_intake.get("all_ok"):
+        problems.extend(str(p) for p in source_intake.get("problems", []))
+    if str(source_intake.get("source")) != str(source):
+        problems.append(f"source intake covers {source_intake.get('source')!r}, not {source!r}")
+    if tuple(str(f) for f in source_intake.get("factors", [])) != tuple(str(f) for f in factors):
+        problems.append("source intake factors do not match schedule factors")
+    if int(source_intake.get("min_per_cell", -1)) != int(min_per_cell):
+        problems.append("source intake min_per_cell does not match schedule")
+    detail = "DR1 source intake all_ok true" if not problems else "; ".join(problems)
+    return _gate("source_intake", not problems, detail)
 
 
 def _base_command(

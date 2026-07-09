@@ -31,13 +31,37 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Laptop-safe: yes (memmap, mmap_mode='r'). Studio-scale: yes (append-friendly capacity, finalize to true length). Prepares-for-custom-model: yes, a custom encoder writes the identical store format, so all downstream code is encoder-agnostic.
 
 ### EncodeScheduler
-- Status: EXISTS. `studio/encode_scheduler.py` consumes the Wave-0 CPU/MPS benchmark, the active profile, an encoder config, a requested clip count, and a dense/pooled flag, then emits an encode launch plan. `scripts/mop_encode_autoselect.py` now writes both `runs/mot/encode_device.json` and `runs/mot/encode_schedule.json`; `scripts/studio/dr1_schedule_plan.py` turns that schedule into DR1 gate, leg, merge, and A6-guard commands.
+- Status: EXISTS. `studio/encode_scheduler.py` consumes the Wave-0 CPU/MPS benchmark, the active profile, an encoder config, a requested clip count, and a dense/pooled flag, then emits an encode launch plan. `scripts/mop_encode_autoselect.py` now writes both `runs/mot/encode_device.json` and `runs/mot/encode_schedule.json`; `scripts/studio/dr1_schedule_plan.py` turns that schedule into DR1 gate, leg, merge, and A6-guard commands after `scripts/studio/dr1_source_intake.py` proves the source receipt is clean.
 - Purpose: make the Studio encode path profile-owned instead of hand-owned. The scheduler picks MPS vs parallel CPU workers from measured s/clip, estimates cache footprint, enforces the profile's start and post-cache disk floors, checks wall clock against the profile cap, and emits checkpoint cadence.
 - Inputs: benchmark record (`cpu_s_per_clip`, `mps`), optional `memory_envelope`, `profile_name`, encoder config, requested clips, dense-token flag. Outputs: winner, candidates, cache estimate, disk projection, memory envelope, gates, blocked reasons, checkpoint cadence, and next command.
 - Minimal impl (present): pure planning, no model load and no encode. CPU worker defaults are profile-specific (`m3pro-local-max` 1, `studio-1tb` 8, `studio-m1ultra` 16). Dense-cache disk gates use `storage.estimate_for_encoder`. `mop_encode_autoselect.py` now records process/system/MPS memory snapshots and writes a blocked JSON receipt if model files are absent instead of losing the run to a traceback.
 - Full impl: `src/mop/studio/dr1_schedule.py` consumes `encode_schedule.json` directly, splits DR1 shard legs by the checkpoint cadence, carries the measured device into `dr1_curate_bound_video.py --device`, and can emit a `mop-long-run-daemon/v1` plan. The daemon supplies heartbeat/resume; the DR1 merge and A6 guard remain explicit post-encode jobs.
 - Dependencies: `profiles.py`, `storage.py`, `devices.py`, `memory_envelope.py`. Used by: Studio Wave 0 microbench, DR1 cache build, dense cache planning.
 - Laptop-safe: yes (pure arithmetic). Studio-scale: yes. Prepares-for-custom-model: yes, a custom encoder cache still prices through the same profile and receipt path.
+
+### DR1SourceCard
+- Status: EXISTS. `studio/dr1_source_intake.py` exposes the source-card builder/validator, and
+  `scripts/studio/dr1_source_card.py` writes or validates `mop-dr1-source-card/v1`.
+- Purpose: turn the human provenance handoff into a receipt before the source tree is traversed. The
+  validation receipt refuses TODO/unknown source ids, licenses, allowed-use text, non-natural provenance
+  tags, missing non-overlap proof, manual-license cards without accepted terms, and clip-count mismatch
+  when an expected count is supplied.
+- Inputs: source id, license, allowed use, provenance tag, non-overlap proof, manual-license flag,
+  accepted terms, optional URLs/notes, and optional expected clip count. Outputs:
+  `runs/studio_dr1/dr1_source_card.json` plus `runs/studio_dr1/dr1_source_card_validation.json`.
+- Minimal/full impl: present. The CLI has `template` and `validate` modes; the Studio spine runs
+  validation before `dr1_source_intake`.
+- Dependencies: `provenance.RESULT_TAGS`. Used by: DR1 source intake, DR1 spine, DR1 artifact bundle.
+- Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: yes, any future source can reuse the
+  same provenance card before producing cache evidence.
+
+### DR1SourceIntake
+- Status: EXISTS. `studio/dr1_source_intake.py` and `scripts/studio/dr1_source_intake.py` write a `mop-dr1-source-intake/v1` receipt before DR1 scheduling.
+- Purpose: make the real-video source a launch gate, not an operator assumption. The receipt checks class-foldered bound cells, the per-cell floor, factor value counts, unique clip stems, `captions.json` coverage, the cheap label-free caption-recoverability probe, and a validated source card with license/provenance/non-overlap proof.
+- Inputs: source dir, factor list, min clips per cell, and a source-card JSON. Outputs: manifest summary, cell summary, caption coverage, caption recoverability, duplicate-stem list, source-card summary, problems, and `all_ok`.
+- Minimal/full impl: present. The gate is filesystem-only plus a cheap text probe; it does not decode video, download data, or load an encoder. The Studio spine runs it before `dr1_schedule_build`; `dr1_schedule_plan.py --source-intake` refuses to emit runnable jobs when it is blocked.
+- Dependencies: `DR1SourceCard`, `substrate.video.validate_source`, `provenance.RESULT_TAGS`. Used by: DR1 spine, DR1 artifact bundle, and the source/license pre-compute gate.
+- Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: yes, every later source can reuse the same source-card contract before producing cache evidence.
 
 ### NullCardGenerator
 - Status: EXISTS. `falsification/null_cards.py` and `scripts/null_card_tool.py` generate draft null/survival cards from `registry/experiments.yaml`, validate the fenced YAML block in a card, and expose the schema in `proof/NULL_CARDS/null_card.schema.json`.
@@ -205,10 +229,62 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Purpose: the sanctioned Process C pilot without overreach: a 1 to 10M object-centric trainable shell over frozen dense tokens, only run after PR9 or DR1 licenses it. This keeps Process C inside the audit's rule: remold a small module on dense tokens first, do not sneak into from-scratch V-JEPA-scale training.
 - Inputs: dense frozen tokens `[B,N,D]`, optional token mask, and a task head. Outputs: slot vectors, pooled slot representation, attention over dense tokens, normalized assignment entropy, logits, and budget/license problems.
 - Minimal impl: present. The slot module cross-attends learnable slots over dense tokens, updates slots with a GRU cell, and exposes attention for collapse and binding checks. The dense-token baseline mean-pools tokens and matches capacity with `dense_hidden_for_target_params`.
-- Full impl (next): have CM9 or the licensed Process C launcher train this module on DR1 dense caches, compare to dense-without-slots and an off-the-shelf slot model, then write a null card. The laptop pass only proves tensor mechanics, budget gates, and controls.
+- Full impl (next): have CM9 or the licensed Process C launcher train this module on DR1 dense caches,
+  compare to dense-without-slots and an off-the-shelf slot model, then promote
+  `proof/NULL_CARDS/process_c_dense_token_pilot.md` from preregistration to a scored null/survival card.
+  The laptop pass only proves tensor mechanics, budget gates, controls, and the launch-license receipt.
 - Dependencies: torch. Used by: CM9 object-centric binding, Process C moldability pilot, dense-token facet-8 follow-up.
 - Laptop-safe: yes for unit tests and tiny tensors. Studio-scale: yes when licensed. Prepares-for-custom-model: yes, this is the first sanctioned trainable dense-token arm.
 - Doctrine flag: `process_c_budget_report` refuses unlicensed runs and enforces the 1 to 10M cap by default. A slot win must beat dense-without-slots at matched capacity and pass binding-specificity checks; a tie is a null.
+
+### PR9RunStateReceipt
+- Status: EXISTS. `scripts/studio/pr9_continual_backprop.py` writes a `mop-pr9-run-state/v1` JSON receipt beside the PR9 result.
+- Purpose: make long-stream plasticity evidence resumable and durable. The PR9 script already checkpoints each `(seed, arm, lr, rate)` leg under `<out>.legs/`; the state receipt now records the cache, seed grid, CBP rate grid, expected leg count, completed legs, output path, final verdict when available, and the exact resume behavior.
+- Inputs: PR9 output path, optional `--state-out`, generated leg directory, and the long-stream config. Outputs: `<out>.state.json` by default, plus the final PR9 result JSON.
+- Minimal impl: present. The state is written after guards pass, after baseline LR tuning, after each plain/CBP leg, at verdict-ready time, and after the final result file is written.
+- Full impl: present. The state receipt is included in the post-PR9 verdict ledger, artifact bundle, and
+  scorecard path before any moldability score moves.
+- Dependencies: PR9 leg cache, `StudioArtifactBundle` `pr9` preset. Used by: PR9 long-stream plasticity evidence and Process C licensing.
+- Laptop-safe: yes for smoke or unit-level receipt checks. Studio-scale: yes. Prepares-for-custom-model: directly, because Process C is only allowed after PR9/DR1 evidence and this receipt proves whether PR9 completed or where it was interrupted.
+- Doctrine flag: an interrupted PR9 is not a hidden failure or a positive; it is a resumable run state until the verdict gate and artifact bundle close it.
+
+### PR9VerdictLedger
+- Status: EXISTS. `studio/pr9_verdict.py` and `scripts/studio/pr9_verdict_ledger.py` synthesize
+  `mop-pr9-verdict-ledger/v1` from the PR9 result plus `mop-pr9-run-state/v1`.
+- Purpose: give PR9 the explicit verdict ledger required by the Studio prompt. The ledger rejects local
+  smoke caches as non-scoring, requires the dedicated PR9 null card, classifies config errors,
+  compute-mismatch nulls, no-certificate nulls, CBP-no-win nulls, and candidate positives, and records
+  whether Process C is licensed by the PR9 wall.
+- Inputs: `runs/mot/pr9_continual_backprop.json`, `runs/mot/pr9_continual_backprop.json.state.json`,
+  `proof/NULL_CARDS/pr9_long_stream_plasticity.md`, and expected DR1 cache path. Outputs:
+  `runs/mot/pr9_verdict_ledger.json`.
+- Minimal/full impl: present. A candidate positive remains `candidate-positive-needs-verdict-gate`; the
+  ledger does not publish it by itself. Nulls and walls are still durable, scoring receipts.
+- Dependencies: PR9 raw result, PR9 run-state receipt, PR9 null card, ArtifactBundle. Used by:
+  StudioSpinePlan, StudioScorecard, and the `pr9` artifact preset.
+- Laptop-safe: yes, pure JSON/Markdown. Studio-scale: yes. Prepares-for-custom-model: directly, because
+  Process C can only proceed after PR9 or DR1 licenses it with a receipt.
+
+### ProcessCLicenseGate
+- Status: EXISTS. `studio/process_c_gate.py` and `scripts/studio/process_c_license_gate.py` synthesize
+  `mop-process-c-license-gate/v1`.
+- Purpose: turn the "Process C only if licensed" doctrine into an artifact decision instead of a prose
+  memory. The gate reads the PR9 verdict ledger and DR1 adversarial verifier, checks the dedicated
+  Process C null card, records whether either source licenses the sanctioned 1 to 10M dense-token pilot,
+  and leaves an evidence-supported "not licensed" state as a completed wall.
+- Inputs: `runs/mot/pr9_verdict_ledger.json`,
+  `data/cache/vjepa2_vitl_comp_video/dr1_verification.json`, and
+  `proof/NULL_CARDS/process_c_dense_token_pilot.md`. Outputs:
+  `runs/mot/process_c_license_gate.json`.
+- Minimal/full impl: present. PR9 licenses only through `process_c_licensed: true`; DR1 licenses only
+  when artifact integrity is clean, the verifier is independent/adversarial, and the decisive A6 survival
+  flag is explicitly false. Missing or invalid upstream receipts make the gate undecidable, not licensed.
+- Dependencies: PR9VerdictLedger, DR1AdversarialVerifier, NullCardGenerator, StudioArtifactBundle.
+  Used by: StudioSpinePlan, StudioScorecard, StudioNativeLanes, and the `pr9` artifact preset.
+- Laptop-safe: yes, pure JSON/Markdown. Studio-scale: yes. Prepares-for-custom-model: directly, by
+  making the Process C launch bit receipt-backed.
+- Doctrine flag: `launch_allowed: true` is the only Process C authorization bit. A clean `not_licensed`
+  receipt is a wall, not a failure, and no Process C training launcher is emitted by this gate.
 
 ---
 
@@ -246,7 +322,7 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Purpose: make the rule "no positive without independent adversarial verification" executable. A candidate positive now needs a strict null card, a JSON raw-run receipt, and a separate verifier receipt that marks both passed and independent/adversarial. Nulls and ties still need the strict card plus raw receipt, but do not need a verifier to be honest.
 - Inputs: null-card Markdown, raw-run JSON receipt, optional verifier JSON receipt, optional declared verdict override. Outputs: `mop-verdict-gate/v1` JSON with card/run/verifier hashes, pass/fail flags, and blocker reasons.
 - Minimal impl: present. Positive means `PUBLISH-POSITIVE` by default. The verifier path may not equal the raw-run path, and ambiguous verifier receipts fail closed unless they expose a pass flag and an independence/adversarial flag.
-- Full impl: `src/mop/studio/claim_plan.py` and `scripts/studio_claim_plan.py` now generate daemon plans that run `scripts/verdict_gate.py`, then `scripts/studio_artifact_bundle.py`, then the requested ledger command. Positive plans mark the final job as `positive-ledger`, so the daemon's static contract rejects any hand-built plan that omits the two gates.
+- Full impl: `src/mop/studio/claim_plan.py` and `python -m scripts.studio claim-plan` now generate daemon plans that run `scripts/verdict_gate.py`, then `python -m scripts.studio artifact-bundle`, then the requested ledger command. Positive plans mark the final job as `positive-ledger`, so the daemon's static contract rejects any hand-built plan that omits the two gates.
 - Dependencies: `NullCardGenerator`, JSON receipts, `ArtifactBundle`, `LongRunDaemon`. Used by: Studio ledger updates and long-run daemon plans.
 - Laptop-safe: yes, pure receipt validation. Studio-scale: yes. Prepares-for-custom-model: yes, because Process C positives cannot enter docs without an independent verifier receipt.
 - Doctrine flag: this is a ledger gate, not a science metric. A failed gate blocks a doc update; it does not turn a run into a null.
@@ -255,10 +331,17 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Observability and reproducibility layer
 
+### StudioCommandSurface
+- Status: EXISTS. `scripts/studio/__main__.py` is the canonical wrapper-script surface: `python -m scripts.studio <command>`.
+- Purpose: collapse top-level Studio wrapper sprawl into one command grammar while preserving historical receipt paths.
+- Minimal/full impl: present. The old `scripts/studio_*.py` entrypoints remain as thin compatibility shims only; newly generated daemon and spine plans use `python -m scripts.studio ...`.
+- Commands: `artifact-bundle`, `claim-plan`, `daemon`, `density-receipt`, `disk-recovery`, `doctor`, `native-lanes`, `objective-audit`, `rehearse`, `scorecard`, `spine-plan`, `transfer-check`, and `wave0-report`.
+- Doctrine flag: the compatibility shims are intentionally not deleted because existing run receipts and operator notes name those paths.
+
 ### ArtifactBundle
-- Status: EXISTS. `studio/artifact_bundle.py` and `scripts/studio_artifact_bundle.py` write durable artifact indexes and optional small-receipt bundles.
+- Status: EXISTS. `studio/artifact_bundle.py` and `python -m scripts.studio artifact-bundle` write durable artifact indexes and optional small-receipt bundles.
 - Purpose: close the audit's result-durability hole. A Studio wave should not leave load-bearing JSON/Markdown only under ignored `runs/`; the bundle indexes receipt paths, hashes, sizes, JSON validity, git tracking, copy status, and whether each artifact is durable.
-- Inputs: explicit paths or presets (`pre-studio`, `wave0`), optional copy directory, copy-size cap, missing-artifact policy, and durability requirement. Outputs: `mop-artifact-bundle/v1` JSON plus optional copied small-text receipts.
+- Inputs: explicit paths or presets (`pre-studio`, `wave0`, `dr1`, `pr9`, `spine`), optional copy directory, copy-size cap, missing-artifact policy, and durability requirement. Outputs: `mop-artifact-bundle/v1` JSON plus optional copied small-text receipts.
 - Minimal impl: present. Text receipts (`.json`, `.md`, `.txt`, `.yaml`, `.yml`, `.csv`, `.tsv`) can be copied into a durable directory; oversized or non-text artifacts are refused with a blocker reason. Large caches stay out of the bundle and must be represented by cache manifests.
 - Full impl (next): after the M1 Ultra completes Wave 0, regenerate the `wave0` preset index with `--copy-dir proof/ARTIFACT_BUNDLES/wave0` and commit the index or otherwise transfer it with the Studio report.
 - Dependencies: git CLI, `StudioTransferCheck` durable receipt list. Used by: pre-Studio transfer, Wave-0 artifact preservation, long-run daemon handoff bundles.
@@ -266,41 +349,189 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Doctrine flag: a missing artifact or failed copy is a durability blocker, not a scientific null.
 
 ### StudioTransferCheck
-- Status: EXISTS. `studio/transfer_check.py` and `scripts/studio_transfer_check.py` implement the read-only Wave-0 transfer checklist.
-- Purpose: prove the Studio received the governing stack and durable receipts before it spends compute. The check validates the active profile is `studio-m1ultra`, confirms the governing audit and required docs/scripts exist, parses the null-card schema, reports git branch/head/dirty state, confirms pre-Studio receipt files are present and git-tracked, and validates any cache manifests already present.
+- Status: EXISTS. `studio/transfer_check.py` and `python -m scripts.studio transfer-check` implement the read-only Wave-0 transfer checklist.
+- Purpose: prove the Studio received the governing stack and durable receipts before it spends compute. The check validates the active profile is `studio-m1ultra`, confirms the governing audit and required docs/scripts exist, including the disk-recovery CLI, parses the null-card schema, reports git branch/head/dirty state, confirms pre-Studio receipt files are present and git-tracked, and validates any cache manifests already present.
 - Inputs: repo root, profile name, optional audit path, dirty-worktree policy, and receipt requirement flag. Outputs: `mop-studio-transfer-check/v1` JSON with per-check status and summary.
 - Minimal impl: present. The CLI is read-only and writes a report with `--out`; dirty worktrees fail by default unless `--allow-dirty` is explicit.
-- Full impl (next): after the M1 Ultra emits Wave-0 receipts, run `studio_artifact_bundle.py --preset wave0` and archive the emitted JSON beside `STUDIO_RUN_REPORT.md` on the Studio.
+- Full impl (next): after the M1 Ultra emits Wave-0 receipts, run `python -m scripts.studio artifact-bundle --preset wave0` and archive the emitted JSON beside `STUDIO_RUN_REPORT.md` on the Studio.
 - Dependencies: `studio.profiles`, `substrate.cache_manifest`, git CLI. Used by: Studio Wave 0 transfer receipt and long-run daemon template.
 - Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: indirectly, by proving the receipt chain and profile envelope before Process C or dense-cache work can start.
 - Doctrine flag: transfer check is not science; failing it blocks the wave instead of downgrading any scientific null.
 
+### StudioDiskRecovery
+- Status: EXISTS. `studio/disk_recovery.py` and `python -m scripts.studio disk-recovery` emit a Wave-0 disk recovery receipt.
+- Purpose: make launch cleanup auditable without risking evidence loss. The planner scans only known generated/tool-cache paths by default, classifies candidates, refuses tracked files, and blocks ignored run deletion when unbundled receipt-like text artifacts are present.
+- Inputs: profile name, optional scan paths, defaults toggle, execute flag, explicit allowed classes or paths, and max receipt examples. Outputs: `mop-disk-recovery-plan/v1` JSON with free-disk status, safe/protected candidates, would-delete bytes, and performed deletions when execute is explicitly allowed.
+- Minimal impl: present. Dry-run is default; execute requires at least one `--allow-class` or `--allow-path`.
+- Full impl (next): before large Studio waves, run the receipt, bundle any protected receipts if cleanup is needed, then rerun with explicit allow rules only for safe generated classes.
+- Dependencies: `studio.profiles`, git CLI, `StudioArtifactBundle` text-extension policy. Used by: Studio Wave 0 daemon template and Wave 0 report synthesis.
+- Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: indirectly, by protecting dense-cache and PR9 receipts from cleanup loss.
+- Doctrine flag: deleting an unbundled receipt is a launch failure, not a cleanup success.
+
+### StudioDensityReceipt
+- Status: EXISTS. `studio/density_receipt.py` and `python -m scripts.studio density-receipt` emit
+  `mop-studio-density-receipt/v1`.
+- Purpose: satisfy the shared Studio 10/10 density-receipt requirement without confusing cleanup with
+  science. The receipt records workspace size, tracked text/code LOC, largest files, artifact-mass
+  buckets (`runs`, `data/cache`, proof bundles/indexes/null cards), and before/after cleanup deltas from
+  the disk-recovery receipt.
+- Inputs: repo root, disk-recovery receipt, and largest-file limit. Outputs:
+  `runs/studio_wave0/density_receipt.json`.
+- Minimal/full impl: present. The module is read-only and never deletes files. Missing disk recovery is
+  recorded as absent; an invalid disk-recovery schema makes the density receipt fail. The Wave-0 daemon
+  writes it after disk recovery, transfer check requires the CLI, artifact-bundle presets preserve it,
+  and the objective audit counts it only as durable-report launch prep.
+- Dependencies: git CLI for tracked LOC. Used by: Studio Wave 0 daemon, transfer check, artifact bundle,
+  and objective audit.
+- Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: indirectly, by exposing artifact mass
+  before large DR1/PR9/dense-cache runs.
+- Doctrine flag: density is operational hygiene. It cannot move abstraction, density/substrate, or
+  moldability science scores.
+
 ### StudioWave0Report
-- Status: EXISTS. `studio/wave0_report.py` and `scripts/studio_wave0_report.py` synthesize the Wave-0 transfer, daemon, encode, and memory receipts into one JSON summary plus a bounded Markdown block in `STUDIO_RUN_REPORT.md`.
-- Purpose: make the actual M1 Ultra s/clip and memory envelope land in the scoreboard without a manual rewrite. The report block is bounded by markers and is replaced idempotently on rerun, so a resumed Wave 0 cannot duplicate stale rows.
-- Inputs: transfer-check JSON, daemon state JSON, `encode_device.json`, and `encode_schedule.json`. Outputs: `runs/studio_wave0/wave0_report.json` and, with `--apply`, an auto receipt block in `docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md`.
-- Minimal impl: present. It records transfer pass count, daemon job summary, CPU/MPS s/clip, winner, launch gate, blocked reasons, process RSS peak, minimum available system memory, and MPS driver peak.
+- Status: EXISTS. `studio/wave0_report.py` and `python -m scripts.studio wave0-report` synthesize the Wave-0 launch, transfer, daemon, encode, and memory receipts into one JSON summary plus a bounded Markdown block in `STUDIO_RUN_REPORT.md`.
+- Purpose: make the actual M1 Ultra hardware, disk, MPS, encoder, cache path, transfer status, s/clip, and memory envelope land in the scoreboard without a manual rewrite. The report block is bounded by markers and is replaced idempotently on rerun, so a resumed Wave 0 cannot duplicate stale rows.
+- Inputs: transfer-check JSON, doctor JSON, disk-recovery JSON, daemon state JSON, `encode_device.json`, and `encode_schedule.json`. Outputs: `runs/studio_wave0/wave0_report.json` and, with `--apply`, an auto receipt block in `docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md`.
+- Minimal impl: present. It records launch profile, hardware detail, profile disk floor, MPS availability, encoder config availability, cache write path, disk-recovery summary, transfer pass count, daemon job summary, CPU/MPS s/clip, winner, launch gate, blocked reasons, process RSS peak, minimum available system memory, and MPS driver peak.
 - Full impl (next): after the Studio completes the >=1000-clip cache rebuild, extend the same report with cache-manifest validation and actual cache count.
-- Dependencies: the JSON receipts produced by `studio_transfer_check.py`, `studio_daemon.py`, and `mop_encode_autoselect.py`. Used by: Studio Wave 0 ledgering.
+- Dependencies: the JSON receipts produced by `transfer-check`, `daemon`, and `mop_encode_autoselect.py`. Used by: Studio Wave 0 ledgering.
 - Laptop-safe: yes, pure JSON/Markdown. Studio-scale: yes. Prepares-for-custom-model: indirectly, by keeping the Studio scoreboard receipt-driven before DR1/PR9/Process C.
 - Doctrine flag: a missing or blocked receipt renders Wave 0 incomplete. It never converts a failed gate into a scientific null.
 
+### DR1AdversarialVerifier
+- Status: EXISTS. `studio/dr1_verifier.py` and `scripts/studio/dr1_verify.py` read the completed DR1 sidecars and emit `mop-dr1-adversarial-verification/v1`.
+- Purpose: make DR1 positives pass one independent receipt before they can feed downstream claims. The verifier reads the merge manifest, per-leg `cells.json` acceptance reports, clip hashes, PerspectiveMatrix receipt, and A6 residual guard receipt. It sets `independent: true` and `adversarial: true`; `passed/all_ok` are true only when integrity is clean and the decisive A6 condition survives.
+- Inputs: DR1 cache directory, A6 requirement flag, PerspectiveMatrix requirement flag. Outputs: `data/cache/<dr1>/dr1_verification.json`.
+- Minimal impl: present. Missing caption gates, frozen-random backends, non-contiguous legs, missing perspective receipts, and A6 collapse all refuse positive verification.
+- Full impl (next): after the Studio DR1 run, feed this verifier receipt into `studio_claim_plan.py` for any DR1-dependent positive and bundle it with the `dr1` artifact preset.
+- Dependencies: DR1 merge sidecars, `PerspectiveAdapter` receipt, A6 residual guard. Used by: DR1 real bound-attribute video, CM1/CM3 cache gates, and dense/atlas follow-up claims.
+- Laptop-safe: yes, pure JSON checks. Studio-scale: yes. Prepares-for-custom-model: directly, because DR1 is the keep-frozen versus custom-training gate.
+- Doctrine flag: artifact integrity can pass while the positive verifier fails. In that case the cache is preserved as a null or wall, not used as positive evidence.
+
+### DenseAtlasCacheGate
+- Status: EXISTS. `studio/dense_atlas_gate.py` and `scripts/studio/dense_atlas_gate.py` write
+  `mop-dense-atlas-cache-gate/v1`.
+- Purpose: stop the full atlas before launch unless the dense V-JEPA 2.1 real cache and its matched
+  random-init dense control are both present, manifest-clean, dense-shaped, and referent-aligned.
+- Inputs: real dense cache path, random-init dense cache path, min clip count, min dense-token count,
+  and expected embedding dim. Outputs: `runs/mot/dense_atlas_cache_gate.json` with per-cache summaries,
+  pair checks, problems, and `all_ok`.
+- Minimal/full impl: present. The gate validates `cache_manifest.json`, cache integrity, dense token
+  count, embedding dim, count match, referent-key fingerprint match, and factor/split sidecar match.
+- Dependencies: `substrate.cache_tools`, `substrate.cache_manifest`. Used by: StudioSpinePlan,
+  StudioScorecard, and the atlas artifact bundle.
+- Laptop-safe: yes, read-only manifest/header checks. Studio-scale: yes. Prepares-for-custom-model:
+  yes, because Process C and dense-token claims depend on the same dense-cache pair being honest.
+- Doctrine flag: a single real dense cache is not enough. The matched random-init dense cache is part of
+  the null, and missing or mismatched controls block density claims rather than becoming partial wins.
+
+### AtlasVerdictLedger
+- Status: EXISTS. `studio/atlas_verdict.py` and `scripts/studio/atlas_verdict_ledger.py` write
+  `mop-atlas-verdict-ledger/v1`.
+- Purpose: turn the raw atlas JSON into a publishability receipt before density score movement. The
+  ledger checks the dedicated atlas null card, the paired dense-cache gate, full registered grid/pair
+  status, and the atlas null verdict.
+- Inputs: `runs/mot/dense_atlas_cache_gate.json`, `runs/mot/atlas_multi_encoder_grid.json`, and
+  `proof/NULL_CARDS/atlas_dense_multiencoder.md`. Outputs: `runs/mot/atlas_verdict_ledger.json`.
+- Minimal/full impl: present. Dense-gate missing/blocked, partial registered grid, missing atlas result,
+  and indeterminate null state are non-scoring; null support is a publishable wall; null rejection is a
+  candidate positive that still needs the generic verdict-gate and durable artifact path.
+- Dependencies: DenseAtlasCacheGate, Atlas runner, NullCardGenerator. Used by: StudioSpinePlan,
+  StudioScorecard, and the atlas artifact bundle.
+- Laptop-safe: yes, pure JSON/Markdown. Studio-scale: yes. Prepares-for-custom-model: yes, because
+  dense-token Process C claims should not inherit density movement from an ungated atlas.
+- Doctrine flag: an atlas JSON alone never moves density. The ledger is the first scoring receipt.
+
+### StudioSpinePlan
+- Status: EXISTS. `studio/spine_plan.py` and `python -m scripts.studio spine-plan` emit `mop-studio-spine-plan/v1`.
+- Purpose: turn the Studio order into one staged, resumable operator receipt instead of a prose list of commands. Wave 0 and DR1 remain subdaemons so their `daemon_state.json` receipts stay local to the wave.
+- Inputs: DR1 source directory, profile, DR1 cache name, dense cache name, PR9 seeds, atlas seeds. Outputs: `runs/studio_spine/spine_plan.json` and `runs/studio_spine/wave0_daemon_plan.json`.
+- Minimal impl: present. The staged plan orders Wave 0, Wave 0 bundling, DR1 source-card validation,
+  DR1 intake/schedule/run/bundle, PR9 run/verdict/Process C license gate/bundle, dense-cache planning,
+  paired dense real/random-init validation, full atlas without `--allow-partial`, atlas verdict ledger,
+  atlas bundle, scorecard, spine status receipt, objective audit, and final spine artifact index.
+- Full impl (next): after the actual Studio run, append any new Studio-native lanes only as receipt-bearing steps with explicit null or wall conditions.
+- Dependencies: `LongRunDaemon`, `StudioArtifactBundle`, DR1 scheduler/verifier, PR9 run-state/verdict
+  receipts, ProcessCLicenseGate, cache manifests, atlas runner. Used by: the M1 Ultra launch path.
+- Laptop-safe: yes, plan-writing only. Studio-scale: yes. Prepares-for-custom-model: indirectly, by keeping Process C behind DR1/PR9 receipts and preserving dense-cache walls.
+- Doctrine flag: the dense/atlas phase stops at missing, invalid, or mismatched dense real/control cache
+  manifests and never converts a partial atlas into a scope claim.
+  `python -m scripts.studio spine-plan --status` is read-only and reports the next command from receipts, so a
+  resumed Studio session does not depend on memory or manual checklist reconstruction.
+
+### StudioScorecard
+- Status: EXISTS. `studio/scorecard.py` and `python -m scripts.studio scorecard` emit
+  `mop-studio-scorecard/v1` and can update a bounded block in `STUDIO_RUN_REPORT.md`.
+- Purpose: turn final Studio score movement into a receipt-backed synthesis instead of a manual table
+  edit. The scorecard reads Wave 0, DR1 verification, PR9 result/state/verdict ledger, Process C license
+  gate, dense cache gate, atlas result/verdict ledger, artifact indexes, and spine status.
+- Inputs: Wave 0 report, DR1 verifier, PR9 result, PR9 run-state receipt, PR9 verdict ledger, Process C
+  license gate, dense atlas cache gate, atlas result, atlas verdict ledger, artifact indexes, and spine
+  status. Outputs: `runs/studio_scorecard.json` plus, with `--apply`,
+  the report block.
+- Minimal impl: present. Missing receipts are blockers, local PR9 smoke is non-scoring, DR1-cache PR9
+  cannot score without the verdict ledger, Process C launch state is reported from its own gate,
+  dense/atlas evidence cannot score without the paired cache gate and atlas verdict ledger, partial atlas
+  runs are non-scoring, and proven walls stay in the scorecard instead of becoming positives. The CLI
+  exits nonzero by default on incomplete receipts; the spine uses `--allow-incomplete` for its final
+  preservation pass so an honest blocker does not prevent the status, objective-audit, or artifact-bundle
+  receipts from being written.
+- Full impl (next): after real Studio waves, extend axis details with the exact downstream verdict-gate
+  receipts for any claim promoted into `HANDOFF.md` or `RESULTS_LEDGER.md`.
+- Dependencies: Wave0Report, DR1AdversarialVerifier, PR9RunStateReceipt, PR9VerdictLedger,
+  DenseAtlasCacheGate, AtlasVerdictLedger, ArtifactBundle, StudioSpinePlan. Used by: final Studio run
+  reports and stop-checks.
+- Laptop-safe: yes, pure JSON/Markdown. Studio-scale: yes. Prepares-for-custom-model: yes, because
+  Process C licensing stays tied to PR9/DR1 receipt states.
+- Doctrine flag: the scorecard can report a completed wall, but it cannot make a missing or partial run
+  look like evidence.
+
+### StudioObjectiveAudit
+- Status: EXISTS. `studio/objective_audit.py` and `python -m scripts.studio objective-audit` emit
+  `mop-studio-objective-audit/v1`.
+- Purpose: re-evaluate the active Studio 10/10 prompt as requirement checklist points without
+  confusing local launch prep with scientific evidence. It names which points are complete, prepared,
+  pending, or blocked, and keeps the score kind explicit: checklist coverage, not an axis score.
+- Inputs: Wave 0 transfer/report receipts, spine plan/status, DR1 verifier, PR9 verdict ledger, dense
+  gate, atlas verdict ledger, Process C license gate, scorecard, native-lane manifest, and artifact
+  indexes. Outputs: `runs/studio_objective_audit_local.json` on the laptop or
+  `runs/studio_objective_audit.json` on the Studio.
+- Minimal/full impl: present. The current local audit earns only launch-prep/checklist credit and leaves
+  DR1, PR9, dense/atlas, Process C decisiveness, and final artifact indexes incomplete until real Studio
+  receipts exist. The CLI exits nonzero by default when `studio_10_ready` is false, but the spine uses
+  `--allow-not-ready` so a not-ready or walled audit receipt is still bundled.
+- Dependencies: StudioScorecard, StudioSpinePlan, NativeLanes, ArtifactBundle, DR1/PR9/atlas/Process C
+  verdict receipts. Used by: run-report reevaluations and final readiness decisions.
+- Laptop-safe: yes, pure JSON. Studio-scale: yes. Prepares-for-custom-model: indirectly, by making the
+  Process C and dense-token prerequisite gaps explicit before launch.
+- Doctrine flag: a prepared point is not a scientific point. The audit is allowed to say "not ready" even
+  when every local test is green. Not-ready audits must still be preserved as artifacts.
+
 ### StudioNativeLanes
-- Status: EXISTS. `studio/native_lanes.py` and `scripts/studio_native_lanes.py` make the Studio-native facets machine-readable: DR13 rollout fidelity, hosted corpora, live-encoder doctrine, perspective ecology, developmental PR9, and Process C licensing.
+- Status: EXISTS. `studio/native_lanes.py` and `python -m scripts.studio native-lanes` make the Studio-native facets machine-readable: DR13 rollout fidelity, hosted corpora, live-encoder doctrine, perspective ecology, developmental PR9, and Process C licensing.
 - Purpose: turn the Part 2 audit lanes into concrete daemon jobs when their preregistered inputs exist, and into explicit blocked receipts when a prior artifact is missing. This keeps "not runnable yet" falsifiable instead of leaving it as prose.
-- Inputs: profile name plus optional `clip_dir`, `dr1_cache`, `plan_path`, and `encode_schedule` paths. Outputs: a `mop-studio-native-lanes/v1` manifest and, for ready lanes, a standard long-run daemon plan.
-- Minimal impl: present. Heavy lanes are blocked unless `--include-heavy` is set, large acquisition requires an explicit inspected `--plan-path`, and lanes without a sanctioned launcher record the release condition instead of fabricating a command.
+- Inputs: profile name plus optional `clip_dir`, `dr1_cache`, `plan_path`, `encode_schedule`,
+  `pr9_verdict`, and `dr1_verification` paths. Outputs: a `mop-studio-native-lanes/v1` manifest and,
+  for ready lanes, a standard long-run daemon plan.
+- Minimal impl: present. Heavy lanes are blocked unless `--include-heavy` is set, large acquisition
+  requires an explicit inspected `--plan-path`, Process C materializes only the license-gate command
+  when PR9/DR1 receipt paths are supplied, and lanes without a sanctioned launcher record the release
+  condition instead of fabricating a command.
 - Full impl (next): wire perspective feature extraction into the manifest once DR1 has a merged cache and matched language/audio/object-centric feature stores.
 - Dependencies: `LongRunDaemon`, `PerspectiveAdapter`, `ProcessCDenseTokenModule`, DR1 cache receipts, Wave-0 encode schedule. Used by: Studio-native lane planning after Wave 0.
 - Laptop-safe: yes. Studio-scale: yes. Prepares-for-custom-model: directly, by keeping Process C behind an explicit PR9/DR1 licensing receipt.
 - Doctrine flag: blocked lanes are walls-in-progress, not nulls. A lane can only move from blocked to ready when its named receipt exists.
 
 ### LongRunDaemon
-- Status: EXISTS. `studio/long_run.py` and `scripts/studio_daemon.py` supervise a JSON job plan under an active Studio profile.
+- Status: EXISTS. `studio/long_run.py` and `python -m scripts.studio daemon` supervise a JSON job plan under an active Studio profile.
 - Purpose: make week-scale Studio work boring and resumable: profile disk gate before each job, dry-run by default, state checkpoint after every transition, heartbeat events during long subprocesses, per-job stdout/stderr logs, resume-skip for completed jobs, and clean stop on blocked/failed jobs.
 - Inputs: a daemon plan with `schema: mop-long-run-daemon/v1` and `jobs: [{id, cmd, cwd?, kind?}]`. Outputs: `daemon_state.json`, `logs/<job>.stdout.log`, `logs/<job>.stderr.log`, event history, and a summary by status.
-- Minimal impl: present. The daemon is command-level infrastructure, not a science launcher. It does not choose DR1/PR9/Process C order; it enforces the profile and records execution for the chosen plan.
-- Full impl: the daemon now validates a static pre-ledger contract: any `positive-ledger` job must be ordered after both a `verdict-gate` job and an `artifact-bundle` job. Because execution stops on prior failure, this makes the falsification and durability gates mandatory before a positive doc mutation can run. `scripts/studio_daemon.py validate --plan <plan.json>` checks the contract without running the plan.
+- Minimal impl: present. The daemon is command-level infrastructure, not a science launcher. It does
+  not choose DR1/PR9/Process C order; it enforces the profile and records execution for the chosen plan.
+  The Wave-0 template now emits the transfer check, disk recovery, density receipt, doctor,
+  docs/acceptance gates, DR1 smoke, encode microbench, Studio-native lane manifest, and Wave-0 report in
+  one resumable plan.
+- Full impl: the daemon now validates a static pre-ledger contract: any `positive-ledger` job must be ordered after both a `verdict-gate` job and an `artifact-bundle` job. Because execution stops on prior failure, this makes the falsification and durability gates mandatory before a positive doc mutation can run. `python -m scripts.studio daemon validate --plan <plan.json>` checks the contract without running the plan.
 - Dependencies: `studio.profiles`, subprocess. Used by: Studio Wave 0 and week-scale gated queues.
 - Laptop-safe: yes, dry-run by default and tested with injected runners. Studio-scale: yes. Prepares-for-custom-model: yes, Process C jobs can be supervised without loosening the disk/profile gates.
 - Doctrine flag: a daemon failure or disk stop is a wall/blocked artifact, not a half-positive. A dry-run rehearsal is not treated as completed during a later execute run.
@@ -320,7 +551,7 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 
 ## Summary: EXISTS vs NEW
 
-- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, VerdictGate, StudioClaimPlan, SubstrateAdapter, PerspectiveAdapter, AlignmentSuite, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, ArtifactBundle, StudioTransferCheck, StudioWave0Report, StudioNativeLanes, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule.
+- EXISTS (extend only): SubstrateRegistry, LatentStore, EncodeScheduler, NullCardGenerator, VerdictGate, StudioClaimPlan, SubstrateAdapter, PerspectiveAdapter, AlignmentSuite, ProbeSuite, ReplayMemory, PlasticityController, NeuromodulationGate, ConsolidationEngine, CuriositySelector, UncertaintyEstimator, ReasoningLoop, CompressionDoctor, ExperimentRegistry, NullHypothesisRegistry, NegativeResultTaxonomy, ArtifactBundle, StudioTransferCheck, StudioDiskRecovery, StudioWave0Report, DR1SourceCard, DR1SourceIntake, DR1AdversarialVerifier, DenseAtlasCacheGate, AtlasVerdictLedger, StudioSpinePlan, StudioScorecard, StudioNativeLanes, LongRunDaemon, MetricsLogger, ReproducibilityHarness, ProcessCDenseTokenModule, PR9RunStateReceipt, PR9VerdictLedger.
 - PARTIAL (primitives exist, needs a thin aggregator or promotion): WorkspaceShell (compose existing shell modules), LatentScratchpad (WorkingMemory exists), FastWeightMemory (ex4-local), CriticalPeriodScheduler (controller knobs), MixtureArbitrator (e7 MoE router, promote only when reused).
 - NEW (justified, no duplicate): CrossSubstrateAgreement (`diagnostics/cross_substrate.py`), the missing outer loop over substrates for standing-control 8; and the substrate-LEVEL variant of MixtureArbitrator, which is the least-committal architectural answer to the reopened dense-vs-custom fork but is gated behind CrossSubstrateAgreement showing complementarity.
 

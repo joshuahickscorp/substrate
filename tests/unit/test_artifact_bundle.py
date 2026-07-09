@@ -69,4 +69,48 @@ def test_write_artifact_index_round_trips(tmp_path):
 def test_wave0_preset_names_expected_receipts():
     paths = preset_paths("wave0")
     assert "runs/studio_wave0/transfer_check.json" in paths
+    assert "runs/studio_wave0/disk_recovery.json" in paths
+    assert "runs/studio_wave0/density_receipt.json" in paths
+    assert "runs/studio_wave0/studio_doctor.json" in paths
     assert "runs/mot/encode_device.json" in paths
+
+
+def test_pr9_preset_names_run_state_receipt():
+    paths = preset_paths("pr9")
+    assert "proof/NULL_CARDS/pr9_long_stream_plasticity.md" in paths
+    assert "proof/NULL_CARDS/process_c_dense_token_pilot.md" in paths
+    assert "runs/mot/pr9_continual_backprop.json.state.json" in paths
+    assert "runs/mot/pr9_verdict_ledger.json" in paths
+    assert "runs/mot/process_c_license_gate.json" in paths
+
+
+def test_dr1_preset_names_verification_receipts():
+    paths = preset_paths("dr1")
+    assert "proof/NULL_CARDS/mop_dr1_video_cache.md" in paths
+    assert "runs/studio_dr1/dr1_source_card.json" in paths
+    assert "runs/studio_dr1/dr1_source_card_validation.json" in paths
+    assert "runs/studio_dr1/dr1_source_intake.json" in paths
+    assert "data/cache/vjepa2_vitl_comp_video/a6_residual_guard.json" in paths
+    assert "data/cache/vjepa2_vitl_comp_video/dr1_verification.json" in paths
+
+
+def test_atlas_preset_names_dense_gate_and_verdict_receipts():
+    paths = preset_paths("atlas")
+    assert "proof/NULL_CARDS/atlas_dense_multiencoder.md" in paths
+    assert "runs/mot/dense_atlas_cache_gate.json" in paths
+    assert "data/cache/vjepa21_vitl_dense8192_randominit/cache_manifest.json" in paths
+    assert "runs/mot/atlas_multi_encoder_grid.json" in paths
+    assert "runs/mot/atlas_verdict_ledger.json" in paths
+
+
+def test_spine_preset_names_stage_indexes():
+    paths = preset_paths("spine")
+    assert "runs/studio_spine/spine_plan.json" in paths
+    assert "runs/studio_spine/wave0_daemon_plan.json" in paths
+    assert "runs/studio_wave0/density_receipt.json" in paths
+    assert "runs/studio_spine/spine_status.json" in paths
+    assert "runs/studio_scorecard.json" in paths
+    assert "runs/studio_objective_audit.json" in paths
+    assert "proof/ARTIFACT_INDEX/dr1.json" in paths
+    assert "proof/ARTIFACT_INDEX/pr9.json" in paths
+    assert "proof/ARTIFACT_INDEX/atlas.json" in paths

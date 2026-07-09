@@ -11,6 +11,7 @@ def test_transfer_check_passes_on_current_repo_when_dirty_allowed():
     assert "profile" in names
     assert "git_state" in names
     assert "cache_manifests" in names
+    assert "path:scripts/studio/__main__.py" in names
 
 
 def test_transfer_check_requires_studio_m1ultra_profile():

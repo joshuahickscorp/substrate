@@ -104,6 +104,10 @@ PROOF_MD = (
     "proof/NULL_CARDS/ex2_latent_planning.md",
     "proof/NULL_CARDS/e7.md",
     "proof/NULL_CARDS/ex5_local_rules_scale.md",
+    "proof/NULL_CARDS/atlas_dense_multiencoder.md",
+    "proof/NULL_CARDS/mop_dr1_video_cache.md",
+    "proof/NULL_CARDS/pr9_long_stream_plasticity.md",
+    "proof/NULL_CARDS/process_c_dense_token_pilot.md",
     "proof/NULL_CARDS/ex13_long_stream.md",
     "proof/NULL_CARDS/ex15_rejuvenation.md",
 )

@@ -126,7 +126,7 @@ def _artifact_bundle_cmd(
     copy_dir: str | None,
     require_durable: bool,
 ) -> list[str]:
-    cmd = [python, "scripts/studio_artifact_bundle.py", "--only-paths", "--out", out]
+    cmd = [python, "-m", "scripts.studio", "artifact-bundle", "--only-paths", "--out", out]
     for path in paths:
         cmd.extend(["--path", path])
     if copy_dir is not None:

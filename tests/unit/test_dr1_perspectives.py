@@ -93,3 +93,39 @@ def test_dr1_merge_writes_blocked_perspective_receipt_without_root_store(tmp_pat
     assert manifest["perspective_receipt"] == str(receipt_path)
     assert receipt["ok"] is False
     assert "merged LatentStore" in receipt["blocked_reason"]
+
+
+def test_dr1_a6_guard_main_writes_receipt(tmp_path, monkeypatch):
+    monkeypatch.setattr(dr1, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(dr1, "assert_studio_ram", lambda: 128.0)
+
+    source = tmp_path / "source"
+    source.mkdir()
+    (source / "captions.json").write_text(json.dumps({"clip0": "a dog is running"}))
+
+    def fake_guard(store_dir, captions_map, factors):
+        return {
+            "guard": "a6_residual_alignment (cross-modal caption<->vision nuisance control)",
+            "store": str(store_dir),
+            "conditions": {"minus_factors": {"survives": True}},
+            "decisive_condition": "minus_factors",
+            "verdict": "GENUINE-SHARED-STRUCTURE",
+        }
+
+    monkeypatch.setattr(dr1, "a6_residual_guard", fake_guard)
+
+    rc = dr1.main(
+        [
+            "--a6-guard",
+            "--source",
+            str(source),
+            "--name",
+            "dr1_smoke",
+            "--factors",
+            "object,action",
+        ]
+    )
+
+    path = tmp_path / "data" / "cache" / "dr1_smoke" / "a6_residual_guard.json"
+    assert rc == 0
+    assert json.loads(path.read_text())["path"] == str(path)
