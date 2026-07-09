@@ -1,0 +1,19 @@
+id: f19_cross_scale_referent_binding
+name: cross_scale_referent_binding
+module: f_form_substrate
+metric: [cross_scale_recall_at_k, flat_memory_recall_at_k, recall_per_byte]
+null_hypothesis: "the multi-scale store ties the flat exemplar store at matched bytes"
+tier: cpu-now
+
+# High object noise so a single stored exemplar is unreliable while an episode centroid (mean of all
+# its objects) stays robust: this is the regime where a multi-scale store beats a flat one at matched
+# bytes. Low noise makes flat nearest-exemplar retrieval already sufficient (a meaningless tie).
+episodes: 16
+objects_per_episode: 12
+world_dim: 16
+separation: 1.1
+object_noise: 2.4
+store_vectors: 64
+queries: 300
+margin: 0.05
+seeds: [0, 1, 2]

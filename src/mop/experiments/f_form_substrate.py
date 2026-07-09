@@ -1168,3 +1168,64 @@ class F12(Experiment):
                 params=float(k * (_int(e, "feature_dim", 24) * len(FORM_KINDS))),
             ),
         }
+
+
+class F19(Experiment):
+    id = "f19_cross_scale_referent_binding"
+    metric = ("cross_scale_recall_at_k", "flat_memory_recall_at_k", "recall_per_byte")
+    baseline = "a flat exemplar store of the same byte budget, matched on stored vectors"
+    ablation = "a multi-scale store (episode centroids plus object exemplars) vs a flat exemplar store"
+    null_hypothesis = (
+        "the multi-scale store ties the flat exemplar store at matched bytes, so allocating memory "
+        "across referent scales buys no cross-scale retrieval and memory stays single-scale"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        n_ep = _int(e, "episodes", 12)
+        o_per = _int(e, "objects_per_episode", 10)
+        dim = _int(e, "world_dim", 16)
+        budget = _int(e, "store_vectors", 60)  # both memories occupy this many vectors (matched bytes)
+        hier_recall, flat_recall = [], []
+        t0 = time.perf_counter()
+        for s in seeds:
+            g = torch.Generator().manual_seed(s)
+            centers = torch.randn(n_ep, dim, generator=g) * _float(e, "separation", 1.4)
+            noise = _float(e, "object_noise", 1.1)
+            # stored objects: o_per per episode
+            ep_ids = torch.arange(n_ep).repeat_interleave(o_per)
+            store_obj = centers[ep_ids] + noise * torch.randn(n_ep * o_per, dim, generator=g)
+            # fresh queries at OBJECT scale, retrieve the EPISODE referent (cross-scale)
+            q_ep = torch.randint(0, n_ep, (_int(e, "queries", 240),), generator=g)
+            queries = centers[q_ep] + noise * torch.randn(q_ep.shape[0], dim, generator=g)
+
+            # hierarchical store: n_ep episode centroids (denoised) + remaining budget as exemplars.
+            # episode retrieval matches the coarse centroids.
+            centroids = torch.stack([store_obj[ep_ids == c].mean(0) for c in range(n_ep)])
+            pred_h_ep = torch.cdist(queries, centroids).argmin(1)  # nearest coarse centroid
+            hier_recall.append(float((pred_h_ep == q_ep).float().mean()))
+
+            # flat store: the SAME byte budget spent entirely on raw object exemplars, no centroids.
+            perm = torch.randperm(store_obj.shape[0], generator=g)[:budget]
+            flat_vecs, flat_ep = store_obj[perm], ep_ids[perm]
+            pred_f_ep = flat_ep[torch.cdist(queries, flat_vecs).argmin(1)]
+            flat_recall.append(float((pred_f_ep == q_ep).float().mean()))
+        store_bytes = budget * dim * 4
+        gain = _mean(hier_recall) - _mean(flat_recall)
+        return {
+            "episodes": n_ep,
+            "cross_scale_recall_at_k": round(_mean(hier_recall), 4),
+            "flat_memory_recall_at_k": round(_mean(flat_recall), 4),
+            "hier_minus_flat": round(gain, 4),
+            "recall_per_byte": round(_mean(hier_recall) / store_bytes, 9),
+            "store_vectors": budget,
+            "seeds": seeds,
+            "null_supported": bool(gain <= _float(e, "margin", 0.05)),
+            "density": density_block(
+                {"cross_scale_recall_at_k": _mean(hier_recall)},
+                seconds=time.perf_counter() - t0,
+                bytes=float(store_bytes),
+            ),
+        }
