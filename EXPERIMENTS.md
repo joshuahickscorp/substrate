@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-195 catalogued: implemented=130, registry-only=63, deferred=2.
+195 catalogued: implemented=131, registry-only=62, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -188,7 +188,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | f11_form_dream_replay | form_dream_replay | generated form replay underperforms stored replay at matched memory or drifts off the factor manifold | gpu-later | registry-only | 4 |
 | f12_private_form_language_stability | private_form_language_stability | cross-seed code transfer sits at chance or below random-code agreement, so the form language is private | cpu-now | implemented | 2 |
 | f13_form_energy_budget | form_energy_budget | all form interfaces lie on the same density frontier as raw features, so form structure buys no efficiency | cpu-now | implemented | 2 |
-| f14_lifelong_form_expansion | lifelong_form_expansion | adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable | cpu-now | registry-only | 5 |
+| f14_lifelong_form_expansion | lifelong_form_expansion | adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable | cpu-now | implemented | 5 |
 | f15_embodied_affordance_form | embodied_affordance_form | consequence-conditioned form tokens tie passive labels or action-shuffle, so affordance structure is not learned from intervention | env-later | registry-only | 7 |
 | f16_perfect_slate_null | perfect_slate_null | the blank substrate ties frozen inherited features plus a larger shell, or ties random-init same-arch, so the perfect-slate story bought nothing at this scale | gpu-later | registry-only | 10 |
 | f17_missing_form_recovery | missing_form_recovery | recovery ties the best remaining single form, or confidence does not predict correctness under a missing form, so the forms were redundant channels and the monitor is uninformative | cpu-now | implemented | 2 |
