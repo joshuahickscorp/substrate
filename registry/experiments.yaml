@@ -4466,7 +4466,7 @@ experiments:
     capacity_rungs: [8, 12]
     paradigm_slugs: [codebook_abstraction]
     taxonomy_slot: 2
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: code_stability, null_card: "none", evidence_level: R0}
 
   - id: f13_form_energy_budget

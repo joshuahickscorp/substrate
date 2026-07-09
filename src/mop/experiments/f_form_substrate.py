@@ -1061,3 +1061,110 @@ class F10(Experiment):
                 updates=float(rounds * _int(e, "steps", 5)),
             ),
         }
+
+
+def _kmeans_codes(x: torch.Tensor, k: int, *, seed: int, iters: int = 25) -> torch.Tensor:
+    """A tiny Lloyd k-means (no new dependency). Returns hard code assignments [N] in 0..k-1.
+
+    The codebook init is seeded, so two seeds that recover the SAME partition means the code is a
+    stable language over the data, not a per-run idiolect (the Wittgenstein private-language question
+    at the form layer). Well-separated form clusters give init-stable codes; overlapping ones do not.
+    """
+    g = torch.Generator().manual_seed(seed)
+    centers = x[torch.randperm(x.shape[0], generator=g)[:k]].clone()
+    codes = torch.zeros(x.shape[0], dtype=torch.long)
+    for _ in range(iters):
+        d = torch.cdist(x, centers)
+        codes = d.argmin(1)
+        for c in range(k):
+            m = codes == c
+            if bool(m.any()):
+                centers[c] = x[m].mean(0)
+    return codes
+
+
+class F12(Experiment):
+    id = "f12_private_form_language_stability"
+    metric = ("cross_seed_code_transfer", "code_agreement", "random_code_floor")
+    baseline = "random-codebook agreement floor and chance cross-seed probe transfer"
+    ablation = "seeded k-means form codes vs random codebooks; cross-seed Hungarian-matched transfer"
+    null_hypothesis = (
+        "cross-seed code agreement sits at or below the random-codebook floor and cross-seed probe "
+        "transfer is at chance, so the form codes are private idiolects rather than a shared language"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        from ..diagnostics.seed_consistency import code_stability
+
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        classes = _int(e, "classes", 5)
+        k = _int(e, "codebook_k", 5)
+        # one shared set of referents (fixed), re-observed per seed with independent form noise, so
+        # code assignments are comparable point-by-point across seeds.
+        z, y = _balanced_world(
+            samples=_int(e, "samples", 300),
+            classes=classes,
+            world_dim=_int(e, "world_dim", 20),
+            separation=_float(e, "separation", 1.6),
+            noise=_float(e, "world_noise", 0.5),
+            seed=_int(e, "base_seed", 999),
+        )
+        code_lists, rand_lists = [], []
+        t0 = time.perf_counter()
+        for s in seeds:
+            feats = _form_features(
+                z, feature_dim=_int(e, "feature_dim", 24), noise=_float(e, "form_noise", 0.3), seed=s
+            )
+            fused = torch.cat([feats[kd] for kd in FORM_KINDS], 1)
+            code_lists.append(_kmeans_codes(fused, k, seed=s))
+            gr = torch.Generator().manual_seed(s + 4242)
+            rand_lists.append(torch.randint(0, k, (fused.shape[0],), generator=gr))
+        agreement = code_stability(code_lists, k)
+        rand_floor = code_stability(rand_lists, k)
+
+        # cross-seed probe transfer: fit a probe on seed-0 codes -> class, test on seed-1 codes
+        # after Hungarian relabeling into seed-0's code space
+        def _onehot(c: torch.Tensor) -> torch.Tensor:
+            return F.one_hot(c, k).float()
+
+        tr, te = _split(y.shape[0], _float(e, "train_frac", 0.6), 0)
+        probe = _fit_head(
+            _onehot(code_lists[0])[tr],
+            y[tr],
+            classes=classes,
+            epochs=_int(e, "epochs", 120),
+            lr=_float(e, "lr", 0.05),
+            seed=0,
+        )
+        transfer = []
+        for j in range(1, len(code_lists)):
+            # map seed-j codes onto seed-0 codes via the best Hungarian assignment
+            conf = torch.zeros(k, k)
+            for a in range(k):
+                for b in range(k):
+                    conf[a, b] = float(((code_lists[0] == a) & (code_lists[j] == b)).sum())
+            remap = conf.argmax(0)  # seed-j code b -> seed-0 code remap[b]
+            mapped = remap[code_lists[j]]
+            transfer.append(_acc(probe, _onehot(mapped)[te], y[te]))
+        chance = 1.0 / classes
+        cross_transfer = _mean(transfer) if transfer else 0.0
+        codes_are_language = agreement["mean_agreement"] > rand_floor["mean_agreement"] + _float(
+            e, "margin", 0.15
+        ) and cross_transfer > chance + _float(e, "transfer_margin", 0.1)
+        return {
+            "codebook_k": k,
+            "code_agreement": round(agreement["mean_agreement"], 4),
+            "random_code_floor": round(rand_floor["mean_agreement"], 4),
+            "cross_seed_code_transfer": round(cross_transfer, 4),
+            "chance": round(chance, 4),
+            "codes_recur_across_seeds": bool(codes_are_language),
+            "seeds": seeds,
+            "null_supported": bool(not codes_are_language),
+            "density": density_block(
+                {"code_agreement": agreement["mean_agreement"]},
+                seconds=time.perf_counter() - t0,
+                params=float(k * (_int(e, "feature_dim", 24) * len(FORM_KINDS))),
+            ),
+        }
