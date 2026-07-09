@@ -522,3 +522,31 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   dict-lookup implementation. Full PerspectiveMeta=FormMeta aliasing is deferred to a change where the DR1
   lanes can be run on real caches (MIGRATION_PHASES.md Phase 5). Form is the interface of record for new
   work; the perspective layer is the DR1-wired instance sharing the form layer's alignment machinery.
+
+## 2026-07-09 (Form Substrate implementation, workstream C: the cpu-now F-series is now runnable)
+
+- Implemented all 14 cpu-now F experiments end to end (F1/F2/F3/F5 pre-existed; this run added F4, F9,
+  F10, F12, F13, F14, F17, F18, F19, F20). Each carries the full doctrine contract, its registry-named
+  controls, a performance-density block, and difficulty calibration so no reported tie or win sits at the
+  accuracy ceiling or the chance floor. The 6 still registry-only (F6, F7, F8, F11, F15, F16) are genuinely
+  off this hardware: F6/F15 need an environment, F7/F8/F11/F16 need Studio GPU or a trainable-substrate
+  license (doc 15 gates). No encoder was trained; workstreams D (Studio real forms) and F (plastic branch)
+  stay closed on the M3 Pro per their gates.
+- Difficulty calibration was the load-bearing effort, not the mechanics. Several experiments ceilinged on
+  the first pass and were retuned to a non-vacuous regime: F17 (single-form redundancy at ceiling ->
+  noise-limited fusion; also switched the OA2 null from a raw confidence-drop proxy to calibration AUROC,
+  since a head trained on 4-form fusion sees a different confidence scale under 3 forms), F10 (real forms
+  saturated regardless of schedule -> scarce budget plus many noisy-TV distractor forms so learning-progress
+  concentration beats uniform), F19 (flat exemplar retrieval already sufficient -> high object noise so the
+  episode centroid denoises where a single exemplar cannot), F14 (new-form transfer at 1.0 -> harder world
+  so transfer lands below ceiling and can be compared to the retrain-from-scratch upper bound).
+- F13/F18/F20 were built by a parallel agent workflow: three implementer agents in isolated git worktrees
+  (branched from the F19 commit) each coded, wired, calibrated, and self-verified one experiment, each
+  followed by an adversarial reviewer checking for ceiling traps, vacuous controls, and metric mismatches.
+  All three came back reviewed-clean and non-null. Their artifacts were re-integrated and RE-VERIFIED in the
+  main tree (not trusted on self-report): the central mypy pass caught 3 missing dict annotations in the
+  F13 code that the worktree lint did not, fixed here. Every agent-written experiment passes the same
+  ruff+mypy+registry+integration+acceptance gate as hand-written code before it lands.
+- Added tests/integration/test_f_series.py, which discovers the implemented F rows live from the registry
+  (never a hardcoded list), so every cpu-now F experiment is exercised through the runner and asserted to
+  carry its declared metrics plus a density block. Registry runnable count 113 -> 123; acceptance 10/10.
