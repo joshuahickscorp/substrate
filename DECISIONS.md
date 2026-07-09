@@ -503,3 +503,22 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
   that also tripped mypy by calling a float-typed mean on an int list): removed the dead line rather than
   papering over it, since the real comparison already used the param-count lists directly. Every agent-
   written module still passes the same ruff+mypy+registry+test gate as hand-written code before it lands.
+
+## 2026-07-09 (Form Substrate implementation, workstream B: one referent-aligned stack)
+
+- B1 store-backed form adapter: implemented LatentStoreFormAdapter only, NOT the SubstrateFormAdapter the
+  plan also listed. Reason: SubstratePerspectiveAdapter already turns clips into features (encode path),
+  and a form twin would either duplicate it (against the codemap refusal table) or violate encode-once by
+  re-encoding in a data-plane class. The honest bridge is: cache once via the existing substrate adapter,
+  then read the store as a form arm. Documented in the LatentStoreFormAdapter docstring.
+- B3 merge scope: kept the measured version, one shared referent-alignment implementation
+  (substrate/form.referent_order) that both build_form_matrix and build_perspective_matrix call, rather
+  than aliasing PerspectiveMeta to FormMeta. Reason: the perspective stack has 9 consumers including 4
+  production DR1/studio lanes (dr1_perspectives, dr1_verifier, native_lanes, dr1_curate_bound_video) whose
+  fields differ from FormMeta (modality/supervised/derived vs kind/objective) and which cannot be
+  exercised on the M3 Pro box (studio caches absent). Full dataclass unification would ship an unverified
+  change to that production code, exactly the revert-not-patch hazard the plan flags. The verifiable B3
+  goal (grep referents.index shows one ordering impl) is met: zero list.index scans remain, one O(n)
+  dict-lookup implementation. Full PerspectiveMeta=FormMeta aliasing is deferred to a change where the DR1
+  lanes can be run on real caches (MIGRATION_PHASES.md Phase 5). Form is the interface of record for new
+  work; the perspective layer is the DR1-wired instance sharing the form layer's alignment machinery.
