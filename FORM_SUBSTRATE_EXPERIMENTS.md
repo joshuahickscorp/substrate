@@ -17,28 +17,30 @@ metric, a cost metric, and a matched-cost baseline).
 | F1 | form_alignment_gate | 2 | implemented | cpu-now | paired referents align forms beyond raw and shuffled controls |
 | F2 | heldout_form_transfer | 2-4 | implemented | cpu-now | multi-form training transfers to an unseen observation family |
 | F3 | form_bottleneck_capacity | 4 | implemented | cpu-now | canonical form width is load-bearing |
-| F4 | raw_payload_vs_form_tokens | 1-4 | registry-only | cpu-now | form tokens beat raw ad hoc featurizers |
+| F4 | raw_payload_vs_form_tokens | 1-4 | implemented | cpu-now | form tokens beat raw ad hoc featurizers |
 | F5 | cross_form_memory_binding | 6 | implemented | cpu-now | memory retrieves the same referent across forms |
 | F6 | sensorimotor_form_closure | 8 | registry-only | env-later | action as a form improves prediction and planning |
 | F7 | developmental_form_growth | 10 | registry-only | gpu-later | growth beats matched-final-capacity controls |
 | F8 | plastic_substrate_rewrite | 10 | registry-only | gpu-later | trainable substrate beats frozen plus larger shell |
-| F9 | cross_form_compositional_binding | 2-4 | registry-only | cpu-now | held-out factor combos survive across forms |
-| F10 | intrinsic_form_curriculum | 7 | registry-only | cpu-now | learning progress chooses which form to study |
+| F9 | cross_form_compositional_binding | 2-4 | implemented | cpu-now | held-out factor combos survive across forms |
+| F10 | intrinsic_form_curriculum | 7 | implemented | cpu-now | learning progress chooses which form to study |
 | F11 | form_dream_replay | 6 | registry-only | gpu-later | generated replay protects referents at lower bytes |
-| F12 | private_form_language_stability | 4 | registry-only | cpu-now | form codes recur across seeds (vs idiolects) |
-| F13 | form_energy_budget | 9 | registry-only | cpu-now | capability per byte, param, FLOP, energy proxy |
-| F14 | lifelong_form_expansion | 1-6 | registry-only | cpu-now | new form added without remapping old memory |
+| F12 | private_form_language_stability | 4 | implemented | cpu-now | form codes recur across seeds (vs idiolects) |
+| F13 | form_energy_budget | 9 | implemented | cpu-now | capability per byte, param, FLOP, energy proxy |
+| F14 | lifelong_form_expansion | 1-6 | implemented | cpu-now | new form added without remapping old memory |
 | F15 | embodied_affordance_form | 8 | registry-only | env-later | affordances from consequences, not labels |
 | F16 | perfect_slate_null | 10 | registry-only | gpu-later | blank trainable substrate vs inherited frozen controls |
-| F17 | missing_form_recovery | 7 | registry-only | cpu-now | recovery and calibration when a form is absent |
-| F18 | counterfactual_form_intervention | 2-8 | registry-only | cpu-now | one form's factor change predicts another form's change |
-| F19 | cross_scale_referent_binding | 6 | registry-only | cpu-now | one referent bound at object, scene, episode, task scale |
-| F20 | substrate_crisis_test | 7-10 | registry-only | cpu-now | detect when the form interface is insufficient |
+| F17 | missing_form_recovery | 7 | implemented | cpu-now | recovery and calibration when a form is absent |
+| F18 | counterfactual_form_intervention | 2-8 | implemented | cpu-now | one form's factor change predicts another form's change |
+| F19 | cross_scale_referent_binding | 6 | implemented | cpu-now | one referent bound at object, scene, episode, task scale |
+| F20 | substrate_crisis_test | 7-10 | implemented | cpu-now | detect when the form interface is insufficient |
 
-F1/F2/F3/F5 run today (src/mop/experiments/f_form_substrate.py, configs/experiment/f*.yaml) as toy
-mechanics with sharp controls; their job is falsification plumbing, not headline science. F17-F20
-are added by this migration (registry rows preregistered; implementations follow the order in
-MIGRATION_PHASES.md).
+All 14 cpu-now F experiments run today (src/mop/experiments/f_form_substrate.py, configs/experiment/f*.yaml)
+as toy mechanics with sharp controls and difficulty calibration; their job is falsification plumbing and
+mechanics, not headline science. The 6 still registry-only are gated off this hardware: F6/F15 need an
+environment, F7/F8/F11/F16 need Studio-scale GPU or a trainable substrate license (doc 15 gates). Each
+result carries a performance-density block and every candidate positive is a toy-scale R0 mechanic, not a
+promoted scientific claim.
 
 ## 2. The four new experiments (added by Master Plan v2)
 
