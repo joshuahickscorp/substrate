@@ -1,0 +1,26 @@
+id: f14_lifelong_form_expansion
+name: lifelong_form_expansion
+module: f_form_substrate
+metric: [old_form_bwt, new_form_transfer, alignment_budget]
+null_hypothesis: "adding the new form forgets the old forms or fails to transfer above the alignment floors"
+tier: cpu-now
+
+# Harder world so the new form transfers below ceiling (real dynamic range on new_form_transfer)
+# while the no-alignment and shuffled-referent floors stay low and old-form BWT stays near zero:
+# a ceilinged new-form transfer could not distinguish expansion from an easy task.
+samples: 320
+classes: 6
+world_dim: 20
+feature_dim: 22
+separation: 1.0
+world_noise: 0.9
+form_noise: 0.55
+new_form: timeseries
+train_frac: 0.55
+epochs: 90
+lr: 0.03
+adapt_lr: 0.01
+adapt_epochs: 25
+forget_margin: 0.1
+margin: 0.1
+seeds: [0, 1, 2]

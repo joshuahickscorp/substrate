@@ -4514,7 +4514,7 @@ experiments:
     capacity_rungs: [3, 4, 8]
     paradigm_slugs: []
     taxonomy_slot: 5
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: continual_expansion, null_card: "none", evidence_level: R0}
 
   - id: f15_embodied_affordance_form

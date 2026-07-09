@@ -1770,3 +1770,92 @@ class F20(Experiment):
                 seconds=time.perf_counter() - t0,
             ),
         }
+
+
+class F14(Experiment):
+    id = "f14_lifelong_form_expansion"
+    metric = ("old_form_bwt", "new_form_transfer", "alignment_budget")
+    baseline = "retrain-from-scratch upper bound, plus no-alignment and shuffled-referent floors"
+    ablation = (
+        "insert a new form by aligning it to the reference and gently adapting, vs retrain from scratch"
+    )
+    null_hypothesis = (
+        "adding the new form forgets the old forms beyond the retention band, or the new form fails to "
+        "transfer above the no-alignment and shuffled-referent floors, so the interface is not expandable"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        classes = _int(e, "classes", 4)
+        old_kinds = ("vision", "audio")
+        new_kind = _str(e, "new_form", "timeseries")
+        bwt, new_transfer, scratch_t, noalign_t, shuf_t = [], [], [], [], []
+        budget = 0
+        head_params = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 320),
+                classes=classes,
+                world_dim=_int(e, "world_dim", 22),
+                separation=_float(e, "separation", 1.4),
+                noise=_float(e, "world_noise", 0.7),
+                seed=s,
+            )
+            forms = _form_features(
+                z, feature_dim=_int(e, "feature_dim", 28), noise=_float(e, "form_noise", 0.2), seed=s
+            )
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.55), s)
+            budget = int(tr.shape[0])  # paired referents spent on alignment
+            aligned = _aligned_forms(forms, tr)  # vision reference; audio, symbolic, timeseries aligned
+            epochs, lr = _int(e, "epochs", 90), _float(e, "lr", 0.03)
+
+            # phase 1: learn on the OLD forms only
+            x_old = torch.cat([aligned[k][tr] for k in old_kinds], 0)
+            y_old = torch.cat([y[tr] for _ in old_kinds], 0)
+            head = _fit_head(x_old, y_old, classes=classes, epochs=epochs, lr=lr, seed=s)
+            head_params = sum(p.numel() for p in head.parameters())
+            old_before = _mean([_acc(head, aligned[k][te], y[te]) for k in old_kinds])
+
+            # phase 2: EXPAND by gently adapting the same head on the new aligned form (no full remap)
+            opt = torch.optim.Adam(head.parameters(), lr=_float(e, "adapt_lr", 0.01))
+            for _ in range(_int(e, "adapt_epochs", 25)):
+                opt.zero_grad()
+                F.cross_entropy(head(aligned[new_kind][tr]), y[tr]).backward()
+                opt.step()
+            old_after = _mean([_acc(head, aligned[k][te], y[te]) for k in old_kinds])
+            bwt.append(old_after - old_before)
+            new_transfer.append(_acc(head, aligned[new_kind][te], y[te]))
+
+            # controls
+            x_all = torch.cat([aligned[k][tr] for k in (*old_kinds, new_kind)], 0)
+            y_all = torch.cat([y[tr] for _ in range(3)], 0)
+            scratch_head = _fit_head(x_all, y_all, classes=classes, epochs=epochs, lr=lr, seed=s + 7)
+            scratch_t.append(_acc(scratch_head, aligned[new_kind][te], y[te]))
+            noalign_t.append(_acc(head, forms[new_kind][te], y[te]))  # new form NOT aligned
+            g = torch.Generator().manual_seed(s + 808)
+            shuf_src = aligned["vision"][tr[torch.randperm(tr.shape[0], generator=g)]]
+            w_shuf = fit_affine_alignment(forms[new_kind][tr], shuf_src)
+            shuf_t.append(_acc(head, apply_affine_alignment(forms[new_kind][te], w_shuf), y[te]))
+        floor = max(_mean(noalign_t), _mean(shuf_t))
+        expansion_gain = _mean(new_transfer) - floor
+        forgot = _mean(bwt) < -_float(e, "forget_margin", 0.1)
+        return {
+            "new_form": new_kind,
+            "old_form_bwt": round(_mean(bwt), 4),
+            "new_form_transfer": round(_mean(new_transfer), 4),
+            "alignment_budget": budget,
+            "retrain_from_scratch_transfer": round(_mean(scratch_t), 4),
+            "no_alignment_floor": round(_mean(noalign_t), 4),
+            "shuffled_referent_floor": round(_mean(shuf_t), 4),
+            "expansion_gain_over_floor": round(expansion_gain, 4),
+            "seeds": seeds,
+            "null_supported": bool(forgot or expansion_gain <= _float(e, "margin", 0.1)),
+            "density": density_block(
+                {"new_form_transfer": _mean(new_transfer)},
+                seconds=time.perf_counter() - t0,
+                params=float(head_params),
+            ),
+        }
