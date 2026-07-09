@@ -1,0 +1,23 @@
+id: f17_missing_form_recovery
+name: missing_form_recovery
+module: f_form_substrate
+metric: [recovery_acc, best_remaining_form_acc, absence_ece, recovery_per_extra_flop]
+null_hypothesis: "recovery ties best remaining form, or confidence does not predict correctness under absence"
+tier: cpu-now
+
+# Deliberately noise-limited so a single form is below ceiling and fusing remaining forms denoises:
+# this is the regime where multi-form recovery can beat the best single remaining form (difficulty
+# calibration; a ceilinged world would make the forms trivially redundant and the tie meaningless).
+samples: 320
+classes: 6
+world_dim: 24
+feature_dim: 24
+separation: 0.9
+world_noise: 0.6
+form_noise: 2.1
+train_frac: 0.55
+epochs: 60
+lr: 0.03
+margin: 0.02
+cal_margin: 0.03
+seeds: [0, 1]
