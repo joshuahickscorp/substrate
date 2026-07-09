@@ -63,6 +63,17 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/12_metrics.md",
     "docs/mixture_of_perspectives/13_code_scaffolding.md",
     "docs/mixture_of_perspectives/15_custom_model_skepticism.md",
+    "docs/mixture_of_perspectives/16_form_substrate_program.md",
+    # the Form Substrate Program root docs (the active paradigm; see PARADIGM_MIGRATION.md)
+    "FORM_SUBSTRATE_PROGRAM.md",
+    "FORM_SUBSTRATE_DOCTRINE.md",
+    "FORM_SUBSTRATE_CODEMAP.md",
+    "FORM_SUBSTRATE_EXPERIMENTS.md",
+    "PERFORMANCE_DENSITY_DOCTRINE.md",
+    "OPERATIONAL_AWARENESS.md",
+    "PARADIGM_MIGRATION.md",
+    "MIGRATION_PHASES.md",
+    "LEGACY_INDEX.md",
 )
 OPERATIONAL_MD = (
     "GO.md",
@@ -80,7 +91,12 @@ OPERATIONAL_MD = (
     "CONDENSE_AUDIT.md",
     "CONDENSE_DOCS_REVIEW.md",
 )
-HISTORICAL_MD = ()
+# archive pointer indexes (legacy docs are archived IN PLACE; statuses live in LEGACY_INDEX.md)
+HISTORICAL_MD = (
+    "docs/archive/mop_legacy/README.md",
+    "docs/archive/vjepa_legacy/README.md",
+    "docs/archive/biology_levers_legacy/README.md",
+)
 # Frontier 36 proof system (Section 10): the standalone proof instruments and their templates,
 # registered deliberately so a missing instrument is caught while a new unledgered doc is still flagged.
 PROOF_MD = (

@@ -1,0 +1,21 @@
+id: f1_form_alignment_gate
+name: form_alignment_gate
+module: f_form_substrate
+metric: [aligned_transfer, raw_transfer, shuffled_anchor_transfer]
+null_hypothesis: "paired referent alignment ties raw transfer or shuffled-anchor alignment"
+tier: cpu-now
+
+samples: 220
+classes: 4
+world_dim: 24
+feature_dim: 32
+separation: 2.0
+world_noise: 0.6
+form_noise: 0.08
+train_frac: 0.55
+source_form: vision
+target_form: audio
+epochs: 80
+lr: 0.03
+margin: 0.05
+seeds: [0, 1]

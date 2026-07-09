@@ -1,0 +1,485 @@
+"""Series F: form-substrate experiments, one level above V-JEPA-shaped video latents.
+
+These are cpu-now toy scaffolds for the user's "perfect substrate / any data" direction. They do not
+train an encoder and do not claim a brain. They test whether arbitrary observation forms can be put behind
+one referent-aligned interface, whether cross-form transfer needs real alignment, and whether the shared
+form bottleneck itself is load-bearing.
+
+F1 form alignment gate: can paired referents align one form to another better than raw or shuffled anchors.
+F2 held-out form transfer: can a concept learned through several forms transfer to an unseen form.
+F3 bottleneck capacity: does a too-small canonical form collapse capability relative to a wider form.
+F5 cross-form memory binding: can memory retrieve the same referent through a different form.
+"""
+
+from __future__ import annotations
+
+import math
+import time
+from pathlib import Path
+
+import torch
+import torch.nn.functional as F
+from omegaconf import DictConfig
+from torch import nn
+
+from ..devices import DeviceInfo
+from ..diagnostics.performance_density import density_block
+from ..seeding import seed_everything
+from ..substrate.form import (
+    FormMeta,
+    TensorFormAdapter,
+    apply_affine_alignment,
+    build_form_matrix,
+    fit_affine_alignment,
+    form_audit,
+)
+from .base import Experiment, _mean
+
+FORM_KINDS = ("vision", "audio", "symbolic", "timeseries")
+
+
+def _int(e: DictConfig, name: str, default: int) -> int:
+    return int(getattr(e, name, default))
+
+
+def _float(e: DictConfig, name: str, default: float) -> float:
+    return float(getattr(e, name, default))
+
+
+def _str(e: DictConfig, name: str, default: str) -> str:
+    return str(getattr(e, name, default))
+
+
+def _balanced_world(
+    *,
+    samples: int,
+    classes: int,
+    world_dim: int,
+    separation: float,
+    noise: float,
+    seed: int,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    g = torch.Generator().manual_seed(seed)
+    y = torch.arange(samples) % classes
+    y = y[torch.randperm(samples, generator=g)]
+    centers = torch.randn(classes, world_dim, generator=g) * separation
+    z = centers[y] + noise * torch.randn(samples, world_dim, generator=g)
+    return z.float(), y.long()
+
+
+def _form_features(
+    z: torch.Tensor,
+    *,
+    feature_dim: int,
+    kinds: tuple[str, ...] = FORM_KINDS,
+    noise: float,
+    seed: int,
+) -> dict[str, torch.Tensor]:
+    out: dict[str, torch.Tensor] = {}
+    for i, kind in enumerate(kinds):
+        g = torch.Generator().manual_seed(seed + 1009 * (i + 1))
+        w = torch.randn(z.shape[1], feature_dim, generator=g) / math.sqrt(z.shape[1])
+        bias = 0.15 * torch.randn(feature_dim, generator=g)
+        form_noise = noise * torch.randn(z.shape[0], feature_dim, generator=g)
+        x = z @ w + bias + form_noise
+        if kind == "symbolic":
+            x = torch.sign(x) * torch.sqrt(torch.abs(x) + 1.0e-6)
+        elif kind == "timeseries":
+            x = torch.roll(x, shifts=1, dims=1)
+        out[kind] = x.float()
+    return out
+
+
+def _referents(n: int) -> list[str]:
+    return [f"r{i:04d}" for i in range(n)]
+
+
+def _matrix(features: dict[str, torch.Tensor], y: torch.Tensor) -> dict:
+    refs = _referents(y.shape[0])
+    adapters = []
+    for kind, x in sorted(features.items()):
+        meta = FormMeta(
+            tag=kind,
+            kind=kind,
+            feature_dim=int(x.shape[1]),
+            source="synthetic-form-world",
+            objective="handcrafted",
+        )
+        adapters.append(TensorFormAdapter(meta, x, refs, factors={"class": y}))
+    return form_audit(build_form_matrix(adapters), require_controls=False)
+
+
+def _split(n: int, train_frac: float, seed: int) -> tuple[torch.Tensor, torch.Tensor]:
+    g = torch.Generator().manual_seed(seed + 811)
+    perm = torch.randperm(n, generator=g)
+    cut = int(n * train_frac)
+    return perm[:cut], perm[cut:]
+
+
+def _fit_head(
+    x: torch.Tensor,
+    y: torch.Tensor,
+    *,
+    classes: int,
+    epochs: int,
+    lr: float,
+    seed: int,
+) -> nn.Linear:
+    seed_everything(seed)
+    head = nn.Linear(x.shape[1], classes)
+    opt = torch.optim.Adam(head.parameters(), lr=lr)
+    for _ in range(epochs):
+        opt.zero_grad()
+        F.cross_entropy(head(x), y).backward()
+        opt.step()
+    return head
+
+
+def _acc(head: nn.Module, x: torch.Tensor, y: torch.Tensor) -> float:
+    with torch.no_grad():
+        return float((head(x).argmax(-1) == y).float().mean())
+
+
+def _aligned_forms(
+    features: dict[str, torch.Tensor],
+    train_idx: torch.Tensor,
+    *,
+    reference: str = "vision",
+) -> dict[str, torch.Tensor]:
+    ref = features[reference]
+    aligned = {reference: ref}
+    for kind, x in features.items():
+        if kind == reference:
+            continue
+        w = fit_affine_alignment(x[train_idx], ref[train_idx])
+        aligned[kind] = apply_affine_alignment(x, w)
+    return aligned
+
+
+class F1(Experiment):
+    id = "f1_form_alignment_gate"
+    metric = ("aligned_transfer", "raw_transfer", "shuffled_anchor_transfer")
+    baseline = "source-form head tested directly on the target form without alignment"
+    ablation = "paired-referent affine alignment vs shuffled-referent alignment"
+    null_hypothesis = (
+        "paired referent alignment ties raw transfer or shuffled-anchor alignment, so the form interface "
+        "is just a coordinate relabeling and not a usable cross-form bridge"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        aligned, raw, shuffled, source = [], [], [], []
+        head_params = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 220),
+                classes=_int(e, "classes", 4),
+                world_dim=_int(e, "world_dim", 24),
+                separation=_float(e, "separation", 2.0),
+                noise=_float(e, "world_noise", 0.6),
+                seed=s,
+            )
+            forms = _form_features(
+                z,
+                feature_dim=_int(e, "feature_dim", 32),
+                noise=_float(e, "form_noise", 0.08),
+                seed=s,
+            )
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.55), s)
+            src, tgt = _str(e, "source_form", "vision"), _str(e, "target_form", "audio")
+            head = _fit_head(
+                forms[src][tr],
+                y[tr],
+                classes=_int(e, "classes", 4),
+                epochs=_int(e, "epochs", 80),
+                lr=_float(e, "lr", 0.03),
+                seed=s,
+            )
+            head_params = sum(p.numel() for p in head.parameters())
+            source.append(_acc(head, forms[src][te], y[te]))
+            raw.append(_acc(head, forms[tgt][te], y[te]))
+            w = fit_affine_alignment(forms[tgt][tr], forms[src][tr])
+            aligned.append(_acc(head, apply_affine_alignment(forms[tgt][te], w), y[te]))
+            g = torch.Generator().manual_seed(s + 515)
+            shuffled_src = forms[src][tr[torch.randperm(tr.shape[0], generator=g)]]
+            w_shuf = fit_affine_alignment(forms[tgt][tr], shuffled_src)
+            shuffled.append(_acc(head, apply_affine_alignment(forms[tgt][te], w_shuf), y[te]))
+        best_control = max(_mean(raw), _mean(shuffled))
+        gain = _mean(aligned) - best_control
+        return {
+            "source_form": _str(e, "source_form", "vision"),
+            "target_form": _str(e, "target_form", "audio"),
+            "source_acc": round(_mean(source), 4),
+            "raw_transfer": round(_mean(raw), 4),
+            "aligned_transfer": round(_mean(aligned), 4),
+            "shuffled_anchor_transfer": round(_mean(shuffled), 4),
+            "aligned_gain_over_best_control": round(gain, 4),
+            "seeds": seeds,
+            "null_supported": bool(gain <= _float(e, "margin", 0.05)),
+            "density": density_block(
+                {"aligned_transfer": _mean(aligned)},
+                seconds=time.perf_counter() - t0,
+                params=float(head_params),
+            ),
+        }
+
+
+class F2(Experiment):
+    id = "f2_heldout_form_transfer"
+    metric = ("heldout_form_acc", "single_form_baseline", "multi_form_gain")
+    baseline = "single reference-form head, with the held-out form aligned by unlabeled referents"
+    ablation = "train the head on several aligned forms vs only the reference form"
+    null_hypothesis = (
+        "multi-form training ties the single-form baseline on a held-out observation family, or the "
+        "held-out family stays near chance after alignment"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        heldout = _str(e, "heldout_form", "timeseries")
+        multi_acc, single_acc, audits = [], [], []
+        head_params = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 240),
+                classes=_int(e, "classes", 4),
+                world_dim=_int(e, "world_dim", 28),
+                separation=_float(e, "separation", 1.8),
+                noise=_float(e, "world_noise", 0.7),
+                seed=s,
+            )
+            forms = _form_features(
+                z,
+                feature_dim=_int(e, "feature_dim", 36),
+                noise=_float(e, "form_noise", 0.12),
+                seed=s,
+            )
+            audits.append(_matrix(forms, y))
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.55), s)
+            aligned = _aligned_forms(forms, tr)
+            train_forms = [k for k in FORM_KINDS if k != heldout]
+            x_multi = torch.cat([aligned[k][tr] for k in train_forms], dim=0)
+            y_multi = torch.cat([y[tr] for _ in train_forms], dim=0)
+            head_multi = _fit_head(
+                x_multi,
+                y_multi,
+                classes=_int(e, "classes", 4),
+                epochs=_int(e, "epochs", 80),
+                lr=_float(e, "lr", 0.03),
+                seed=s,
+            )
+            head_single = _fit_head(
+                aligned["vision"][tr],
+                y[tr],
+                classes=_int(e, "classes", 4),
+                epochs=_int(e, "epochs", 80),
+                lr=_float(e, "lr", 0.03),
+                seed=s + 91,
+            )
+            head_params = sum(p.numel() for p in head_multi.parameters())
+            multi_acc.append(_acc(head_multi, aligned[heldout][te], y[te]))
+            single_acc.append(_acc(head_single, aligned[heldout][te], y[te]))
+        chance = 1.0 / _int(e, "classes", 4)
+        gain = _mean(multi_acc) - _mean(single_acc)
+        return {
+            "heldout_form": heldout,
+            "heldout_form_acc": round(_mean(multi_acc), 4),
+            "single_form_baseline": round(_mean(single_acc), 4),
+            "multi_form_gain": round(gain, 4),
+            "chance": round(chance, 4),
+            "audit_all_ok": bool(all(a["all_ok"] for a in audits)),
+            "seeds": seeds,
+            "null_supported": bool(gain <= _float(e, "margin", 0.03) or _mean(multi_acc) <= chance + 0.1),
+            "density": density_block(
+                {"heldout_form_acc": _mean(multi_acc)},
+                seconds=time.perf_counter() - t0,
+                params=float(head_params),
+            ),
+        }
+
+
+class F3(Experiment):
+    id = "f3_form_bottleneck_capacity"
+    metric = ("wide_form_acc", "small_form_acc", "wide_minus_small")
+    baseline = "small canonical bottleneck and shuffled-label floor"
+    ablation = "wide canonical form bottleneck vs small bottleneck at matched data and head"
+    null_hypothesis = (
+        "the wide canonical bottleneck ties the small bottleneck, so interface width is not the bound, "
+        "or both sit near the shuffled-label floor"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        wide_acc, small_acc, shuffle_acc = [], [], []
+        head_params = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 260),
+                classes=_int(e, "classes", 6),
+                world_dim=_int(e, "world_dim", 32),
+                separation=_float(e, "separation", 1.5),
+                noise=_float(e, "world_noise", 0.9),
+                seed=s,
+            )
+            forms = _form_features(
+                z,
+                feature_dim=_int(e, "feature_dim", 40),
+                noise=_float(e, "form_noise", 0.1),
+                seed=s,
+            )
+            tr, te = _split(y.shape[0], _float(e, "train_frac", 0.55), s)
+            aligned = _aligned_forms(forms, tr)
+            x_train = torch.cat([aligned[k][tr] for k in FORM_KINDS], dim=0)
+            y_train = torch.cat([y[tr] for _ in FORM_KINDS], dim=0)
+            x_test = torch.cat([aligned[k][te] for k in FORM_KINDS], dim=0)
+            y_test = torch.cat([y[te] for _ in FORM_KINDS], dim=0)
+
+            def _project(
+                width: int,
+                offset: int,
+                *,
+                seed: int = s,
+                train: torch.Tensor = x_train,
+                test: torch.Tensor = x_test,
+            ) -> tuple[torch.Tensor, torch.Tensor]:
+                g = torch.Generator().manual_seed(seed + offset)
+                p = torch.randn(train.shape[1], width, generator=g) / math.sqrt(train.shape[1])
+                return train @ p, test @ p
+
+            xw, xw_te = _project(_int(e, "wide_dim", 18), 700)
+            xs, xs_te = _project(_int(e, "small_dim", 2), 701)
+            hw = _fit_head(
+                xw,
+                y_train,
+                classes=_int(e, "classes", 6),
+                epochs=_int(e, "epochs", 90),
+                lr=_float(e, "lr", 0.03),
+                seed=s,
+            )
+            hs = _fit_head(
+                xs,
+                y_train,
+                classes=_int(e, "classes", 6),
+                epochs=_int(e, "epochs", 90),
+                lr=_float(e, "lr", 0.03),
+                seed=s + 1,
+            )
+            g = torch.Generator().manual_seed(s + 912)
+            y_shuf = y_train[torch.randperm(y_train.shape[0], generator=g)]
+            hf = _fit_head(
+                xw,
+                y_shuf,
+                classes=_int(e, "classes", 6),
+                epochs=_int(e, "epochs", 90),
+                lr=_float(e, "lr", 0.03),
+                seed=s + 2,
+            )
+            head_params = sum(p.numel() for p in hw.parameters())
+            wide_acc.append(_acc(hw, xw_te, y_test))
+            small_acc.append(_acc(hs, xs_te, y_test))
+            shuffle_acc.append(_acc(hf, xw_te, y_test))
+        gain = _mean(wide_acc) - _mean(small_acc)
+        chance = 1.0 / _int(e, "classes", 6)
+        return {
+            "wide_dim": _int(e, "wide_dim", 18),
+            "small_dim": _int(e, "small_dim", 2),
+            "wide_form_acc": round(_mean(wide_acc), 4),
+            "small_form_acc": round(_mean(small_acc), 4),
+            "shuffle_floor_acc": round(_mean(shuffle_acc), 4),
+            "wide_minus_small": round(gain, 4),
+            "chance": round(chance, 4),
+            "seeds": seeds,
+            "null_supported": bool(
+                gain <= _float(e, "margin", 0.05) or _mean(wide_acc) <= max(chance, _mean(shuffle_acc)) + 0.1
+            ),
+            "density": density_block(
+                {"wide_form_acc": _mean(wide_acc)},
+                seconds=time.perf_counter() - t0,
+                params=float(head_params),
+            ),
+        }
+
+
+class F5(Experiment):
+    id = "f5_cross_form_memory_binding"
+    metric = ("cross_form_recall_at_1", "raw_recall_at_1", "shuffled_anchor_recall_at_1")
+    baseline = "same memory queried through the target form without alignment"
+    ablation = "paired-referent alignment vs shuffled-referent alignment before nearest-neighbor retrieval"
+    null_hypothesis = (
+        "cross-form retrieval ties per-form nearest neighbor or shuffled referents, so memory is "
+        "form-local rather than referent-bound"
+    )
+    tier = "cpu-now"
+
+    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
+        e = cfg.experiment
+        seeds = list(e.seeds)
+        aligned, raw, shuffled, local = [], [], [], []
+        store_form = _str(e, "store_form", "vision")
+        query_form = _str(e, "query_form", "audio")
+        store_bytes = 0
+        t0 = time.perf_counter()
+        for s in seeds:
+            z, y = _balanced_world(
+                samples=_int(e, "samples", 220),
+                classes=_int(e, "classes", 5),
+                world_dim=_int(e, "world_dim", 28),
+                separation=_float(e, "separation", 1.7),
+                noise=_float(e, "world_noise", 0.7),
+                seed=s,
+            )
+            forms = _form_features(
+                z,
+                feature_dim=_int(e, "feature_dim", 36),
+                noise=_float(e, "form_noise", 0.08),
+                seed=s,
+            )
+            tr, te = _split(y.shape[0], _float(e, "anchor_frac", 0.45), s)
+            store = forms[store_form]
+            query = forms[query_form]
+
+            def _recall(
+                q: torch.Tensor,
+                *,
+                test_idx: torch.Tensor = te,
+                store_memory: torch.Tensor = store,
+            ) -> float:
+                pred = torch.cdist(q[test_idx], store_memory).argmin(dim=1)
+                return float((pred == test_idx).float().mean())
+
+            store_bytes = store.element_size() * store.nelement()
+            raw.append(_recall(query))
+            w = fit_affine_alignment(query[tr], store[tr])
+            aligned.append(_recall(apply_affine_alignment(query, w)))
+            g = torch.Generator().manual_seed(s + 619)
+            shuf_store = store[tr[torch.randperm(tr.shape[0], generator=g)]]
+            w_shuf = fit_affine_alignment(query[tr], shuf_store)
+            shuffled.append(_recall(apply_affine_alignment(query, w_shuf)))
+            local.append(_recall(store))
+        best_control = max(_mean(raw), _mean(shuffled))
+        gain = _mean(aligned) - best_control
+        return {
+            "store_form": store_form,
+            "query_form": query_form,
+            "cross_form_recall_at_1": round(_mean(aligned), 4),
+            "raw_recall_at_1": round(_mean(raw), 4),
+            "shuffled_anchor_recall_at_1": round(_mean(shuffled), 4),
+            "same_form_local_recall_at_1": round(_mean(local), 4),
+            "aligned_gain_over_best_control": round(gain, 4),
+            "seeds": seeds,
+            "null_supported": bool(gain <= _float(e, "margin", 0.05)),
+            "density": density_block(
+                {"cross_form_recall_at_1": _mean(aligned)},
+                seconds=time.perf_counter() - t0,
+                bytes=float(store_bytes),
+            ),
+        }

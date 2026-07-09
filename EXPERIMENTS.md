@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-175 catalogued: implemented=117, registry-only=56, deferred=2.
+195 catalogued: implemented=121, registry-only=72, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -154,7 +154,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 
 | id | name | null hypothesis | exp_tier | status | tax |
 |---|---|---|---|---|---|
-| s10_anti_self_deception | anti_self_deception_meta_test | if frozen-random ties real on a given test that test is declared vacuous (the test, not the substrate, fails); we WANT frozen-random to fail every test | cpu-now | implemented | 2 |
+| s10_anti_self_deception | anti_self_deception_meta_test | an S-style decode test carries no genuine signal: its real score does not beat the shuffled chance floor (the valid certifier). A frozen-random tie is expected for a linear metric and is not evidence of vacuity. | cpu-now | implemented | 2 |
 | s1_symbol_grounding | symbol_grounding_gate | codes carry no more world-variable information than a random codebook at matched k, and code-adjacency RSA ties the shuffled floor (an arbitrary label, not a grounded index) | cpu-now | implemented | 3 |
 | s3_concept_arithmetic | latent_concept_arithmetic | offset arithmetic ties a random matched-norm offset, OR it survives equally under a frozen-random projection (a generic property of any linear space, not of V-JEPA concepts) | cpu-now | implemented | 9 |
 | s4_latent_vs_discrete | latent_vs_discrete_reasoning | at matched compute, latent reasoning ties the discrete-bottleneck arm (symbol serialization is not a measurable bottleneck on this task) | cpu-now | implemented | 9 |
@@ -167,7 +167,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 
 | id | name | null hypothesis | exp_tier | status | tax |
 |---|---|---|---|---|---|
-| a1_affordance_decode | affordance_decodability_probe | action-relevance labels do not exceed the shuffle-label chance floor, OR the real encoder ties a frozen-random projection so any affordance mechanism would read capacity not a substrate affordance | cpu-now | implemented | 3 |
+| a1_affordance_decode | affordance_decodability_probe | action-relevance labels do not exceed the shuffle-label chance floor (the affordance contrast is not decodable from the pooled latent at all). Clearing the floor establishes decodability only, NOT encoder-specificity (a frozen-random LINEAR projection is invertible so a linear probe re-learns through it; a substrate-specificity claim needs a random-init encoder comparison that lives in the caching path). | cpu-now | implemented | 3 |
 | a1_frozen_random_arm | Frozen-random substrate arm | the effect is unchanged under a frozen-random projection | cpu-now | implemented | 3 |
 | a2_matched_compute_arm | Matched-compute arm | the gain disappears at matched compute | cpu-now | implemented | 9 |
 | a2_viewpoint_invariance | viewpoint_motion_invariance | event identity does not transfer across viewpoint conditions beyond a pixel-difference baseline, OR the real encoder invariance ties frozen-random so invariance is trivial averaging not structure | cpu-now | implemented | 3 |
@@ -179,6 +179,31 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | a6_object_permanence | object_permanence_persistence | mid-occlusion the latent carries no decodable trace of the hidden object beyond the empty frame (taxonomy 3), OR a single-frame baseline already separates the classes | cpu-now | implemented | 3 |
 | a7_comm_channel | symbolic_communication_channel | the code transmits no more target information than a random code of the same size, OR target direction or distance is not decodable from the pooled latent at all (taxonomy 3) | cpu-now | implemented | 3 |
 | a8_affordance_curiosity | affordance_driven_curiosity | affordance weighting ties pure learning-progress on coverage, OR it helps only because of the static prior, OR it re-chases the noisy-TV (taxonomy 8 or 2) | cpu-now | implemented | 8 |
+
+## Form substrate, any-data interface, and post-V-JEPA experiments (F-series)
+
+| id | name | null hypothesis | exp_tier | status | tax |
+|---|---|---|---|---|---|
+| f10_intrinsic_form_curriculum | intrinsic_form_curriculum | learning-progress form selection ties uniform sampling or chases noisy forms, so curriculum is not form-aware | cpu-now | registry-only | 8 |
+| f11_form_dream_replay | form_dream_replay | generated form replay underperforms stored replay at matched memory or drifts off the factor manifold | gpu-later | registry-only | 4 |
+| f12_private_form_language_stability | private_form_language_stability | cross-seed code transfer sits at chance or below random-code agreement, so the form language is private | cpu-now | registry-only | 2 |
+| f13_form_energy_budget | form_energy_budget | all form interfaces lie on the same density frontier as raw features, so form structure buys no efficiency | cpu-now | registry-only | 2 |
+| f14_lifelong_form_expansion | lifelong_form_expansion | adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable | cpu-now | registry-only | 5 |
+| f15_embodied_affordance_form | embodied_affordance_form | consequence-conditioned form tokens tie passive labels or action-shuffle, so affordance structure is not learned from intervention | env-later | registry-only | 7 |
+| f16_perfect_slate_null | perfect_slate_null | the blank substrate ties frozen inherited features plus a larger shell, or ties random-init same-arch, so the perfect-slate story bought nothing at this scale | gpu-later | registry-only | 10 |
+| f17_missing_form_recovery | missing_form_recovery | recovery ties the best remaining single form, or confidence fails to change under a missing form, so the forms were redundant channels and the monitoring signal is uninformative | cpu-now | registry-only | 2 |
+| f18_counterfactual_form_intervention | counterfactual_form_intervention | the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure | cpu-now | registry-only | 10 |
+| f19_cross_scale_referent_binding | cross_scale_referent_binding | hierarchical referent memory ties flat clip memory or single-scale stores at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped | cpu-now | registry-only | 3 |
+| f1_form_alignment_gate | form_alignment_gate | paired referent alignment ties raw transfer or shuffled-anchor alignment, so the form interface is just a coordinate relabeling and not a usable cross-form bridge | cpu-now | implemented | 2 |
+| f20_substrate_crisis_test | substrate_crisis_test | the crisis detector ties the raw error signal or triggers on aleatoric noise, so substrate insufficiency is not predictable from the exposed signals | cpu-now | registry-only | 4 |
+| f2_heldout_form_transfer | heldout_form_transfer | multi-form training ties the single-form baseline on a held-out observation family, or the held-out family stays near chance after alignment | cpu-now | implemented | 2 |
+| f3_form_bottleneck_capacity | form_bottleneck_capacity | the wide canonical bottleneck ties the small bottleneck, so interface width is not the bound, or both sit near the shuffled-label floor | cpu-now | implemented | 4 |
+| f4_raw_payload_vs_form_tokens | raw_payload_vs_canonical_form_tokens | canonical form tokens tie raw flattened or handcrafted per-form features on every factor, so the form layer is ceremony | cpu-now | registry-only | 2 |
+| f5_cross_form_memory_binding | cross_form_memory_binding | cross-form retrieval ties per-form nearest neighbor or shuffled referents, so memory is form-local rather than referent-bound | cpu-now | implemented | 2 |
+| f6_sensorimotor_form_closure | sensorimotor_form_closure | action-shuffle or action-blind controls tie true action-conditioned form closure, so the substrate is still a passive recorder | env-later | registry-only | 7 |
+| f7_developmental_form_growth | developmental_form_growth | fixed-final-size or random-growth schedules tie developmental growth, so structural plasticity is cosmetic | gpu-later | registry-only | 1 |
+| f8_plastic_substrate_rewrite | plastic_substrate_rewrite | a larger frozen-shell control ties the plastic substrate, so the gain is shell capacity rather than representation rewrite | gpu-later | registry-only | 9 |
+| f9_cross_form_compositional_binding | cross_form_compositional_binding | held-out cross-form combinations collapse to chance while seen pairs remain high, so the system memorized form-specific conjunctions | cpu-now | registry-only | 3 |
 
 ## AL
 

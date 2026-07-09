@@ -3051,7 +3051,7 @@ experiments:
     paradigm_slugs: []
     taxonomy_slot: 5
     status: registry-only
-    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: identity, null_card: "proof/NULL_CARDS/mop_dr1_video_cache.md", evidence_level: R0}
 
   - id: mop_dr2_sparse_real
     name: sparse_head_forgetting_on_real_latents
@@ -4180,3 +4180,483 @@ experiments:
     taxonomy_slot: 2
     status: registry-only
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: f1_form_alignment_gate
+    name: form_alignment_gate
+    kind: experiment
+    series: F
+    question: "can paired referents align one observation form to another better than raw transfer and shuffled-anchor alignment"
+    mechanism: "synthetic shared referents are rendered into vision/audio/symbolic/timeseries feature forms; an affine target-to-source map is fit from unlabeled paired referents"
+    null_hypothesis: "paired referent alignment ties raw transfer or shuffled-anchor alignment, so the form interface is just a coordinate relabeling and not a usable cross-form bridge"
+    falsifier: "aligned transfer beats both raw target transfer and shuffled-anchor alignment by the preregistered margin"
+    metrics: [aligned_transfer, raw_transfer, shuffled_anchor_transfer]
+    controls: [raw-target-transfer, shuffled-referent-anchor-map, source-form-ceiling]
+    gates: [referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: low
+    sci_value: high
+    meaningless_risk: low
+    relation: "first runnable post-V-JEPA form-substrate gate; tests the interface contract without assuming video latents"
+    capacity_rungs: [2, 8]
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: cross_form_alignment, null_card: "none", evidence_level: R0}
+
+  - id: f2_heldout_form_transfer
+    name: heldout_form_transfer
+    kind: experiment
+    series: F
+    question: "does a concept trained through several aligned forms transfer to a held-out observation family"
+    mechanism: "train a classifier over multiple referent-aligned forms, hold one form out of labeled training, and test that form after unlabeled alignment"
+    null_hypothesis: "multi-form training ties the single-form baseline on a held-out observation family, or the held-out family stays near chance after alignment"
+    falsifier: "multi-form training improves held-out-form accuracy over the single-form baseline beyond seed spread"
+    metrics: [heldout_form_acc, single_form_baseline, multi_form_gain]
+    controls: [single-reference-form-baseline, chance-floor, referent-alignment-audit]
+    gates: [referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "tests whether form generalization is a property of the shared interface or only the source form"
+    capacity_rungs: [2, 8]
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: cross_form_transfer, null_card: "none", evidence_level: R0}
+
+  - id: f3_form_bottleneck_capacity
+    name: form_bottleneck_capacity
+    kind: experiment
+    series: F
+    question: "is the canonical form bottleneck itself load-bearing, or can an arbitrarily narrow interface preserve the useful factors"
+    mechanism: "align several observation forms to a canonical reference, project through small and wide bottlenecks, and compare matched heads"
+    null_hypothesis: "the wide canonical bottleneck ties the small bottleneck, so interface width is not the bound, or both sit near the shuffled-label floor"
+    falsifier: "wide bottleneck beats small bottleneck and shuffled-label floor under matched data and head"
+    metrics: [wide_form_acc, small_form_acc, wide_minus_small]
+    controls: [small-bottleneck, shuffled-label-floor, matched-head]
+    gates: [referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: low
+    relation: "makes the perfect-substrate interface falsifiable: too little form capacity should fail"
+    capacity_rungs: [2, 6]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: implemented
+    proof: {atlas_factor: bottleneck, null_card: "none", evidence_level: R0}
+
+  - id: f4_raw_payload_vs_form_tokens
+    name: raw_payload_vs_canonical_form_tokens
+    kind: experiment
+    series: F
+    question: "does a canonical form-token layer beat ad hoc raw featurizers across vision, audio, symbols, and telemetry at matched dimension"
+    mechanism: "normalize arbitrary payloads into token sequences with shared referent metadata; compare to raw flattened features and per-form handcrafted features"
+    null_hypothesis: "canonical form tokens tie raw flattened or handcrafted per-form features on every factor, so the form layer is ceremony"
+    falsifier: "canonical tokens improve cross-form transfer or retention per dimension over both raw controls"
+    metrics: [cross_form_transfer_per_dim, retention_per_dim, control_delta]
+    controls: [raw-flattened-payload, handcrafted-per-form-features, matched-dimension]
+    gates: [difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "separates a real form substrate from a naming convention over arbitrary tensors"
+    capacity_rungs: [2, 8]
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: form_tokenization, null_card: "none", evidence_level: R0}
+
+  - id: f5_cross_form_memory_binding
+    name: cross_form_memory_binding
+    kind: experiment
+    series: F
+    question: "can memory retrieve the same referent when queried through a different form than the one stored"
+    mechanism: "store referents through one form, query through another, and compare content-addressed retrieval to per-form nearest neighbor and shuffled-referent controls"
+    null_hypothesis: "cross-form retrieval ties per-form nearest neighbor or shuffled referents, so memory is form-local rather than referent-bound"
+    falsifier: "cross-form retrieval beats form-local and shuffled controls at matched memory slots"
+    metrics: [cross_form_recall_at_k, shuffled_referent_floor, recall_per_slot]
+    controls: [per-form-nearest-neighbor, shuffled-referent-pairs, matched-memory-slots]
+    gates: [referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: low
+    relation: "tests whether the substrate stores objects/events as shared referents rather than modality-specific traces"
+    capacity_rungs: [3, 8]
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: implemented
+    proof: {atlas_factor: memory_binding, null_card: "none", evidence_level: R0}
+
+  - id: f6_sensorimotor_form_closure
+    name: sensorimotor_form_closure
+    kind: experiment
+    series: F
+    question: "does adding action traces as a first-class form improve next-state prediction and planning beyond passive observation forms"
+    mechanism: "joint observation-action form stream with action-shuffle and action-blind controls, evaluated by rollout predictability and goal reachability"
+    null_hypothesis: "action-shuffle or action-blind controls tie true action-conditioned form closure, so the substrate is still a passive recorder"
+    falsifier: "true action form improves rollout R2 and goal success beyond action-shuffle and action-blind controls"
+    metrics: [rollout_r2, goal_success, action_shuffle_delta]
+    controls: [action-blind, action-shuffle, matched-compute]
+    gates: [rollout_predictability]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "moves the project from passive video substrate toward active perception without pretending offline clips are embodiment"
+    capacity_rungs: [7, 9]
+    paradigm_slugs: [latent_rollout_mpc]
+    taxonomy_slot: 7
+    status: registry-only
+    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R0}
+
+  - id: f7_developmental_form_growth
+    name: developmental_form_growth
+    kind: experiment
+    series: F
+    question: "does a substrate that can add or prune form capacity during a curriculum beat a fixed-size substrate at matched final parameters"
+    mechanism: "grow/prune token slots or subspaces in response to learning progress, then compare to fixed-final-size and random-growth schedules"
+    null_hypothesis: "fixed-final-size or random-growth schedules tie developmental growth, so structural plasticity is cosmetic"
+    falsifier: "learning-progress growth beats fixed and random schedules on adaptation-retention frontier at matched final parameters"
+    metrics: [frontier_auc_gain, growth_efficiency, retained_capacity]
+    controls: [fixed-final-size, random-growth-schedule, matched-final-params]
+    gates: [difficulty_calibration, noisy_tv]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "directly tests the user's blank-slate/orb intuition as structural change, not just readout training"
+    capacity_rungs: [4, 6, 11]
+    paradigm_slugs: [learning_progress_sampling]
+    taxonomy_slot: 1
+    status: registry-only
+    proof: {atlas_factor: plasticity, null_card: "none", evidence_level: R0}
+
+  - id: f8_plastic_substrate_rewrite
+    name: plastic_substrate_rewrite
+    kind: experiment
+    series: F
+    question: "when the substrate itself is allowed to update, does it acquire factors a frozen form interface cannot expose"
+    mechanism: "train a small form encoder under a self-supervised objective, compare to frozen features plus a larger shell at matched total compute"
+    null_hypothesis: "a larger frozen-shell control ties the plastic substrate, so the gain is shell capacity rather than representation rewrite"
+    falsifier: "plastic substrate beats frozen-shell and random-init same-arch controls on held-out factors at matched total compute"
+    metrics: [heldout_factor_acc, representation_rewrite_delta, matched_compute_delta]
+    controls: [larger-frozen-shell, random-init-same-arch, matched-total-compute]
+    gates: [compute, difficulty_calibration]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "the first disciplined break from inherited frozen perception; licensed only if shell controls fail"
+    capacity_rungs: [4, 6, 11]
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: representation_rewrite, null_card: "none", evidence_level: R0}
+
+  - id: f9_cross_form_compositional_binding
+    name: cross_form_compositional_binding
+    kind: experiment
+    series: F
+    question: "do factors learned in one form bind compositionally with factors introduced only in another form"
+    mechanism: "hold out cross-form factor pairs, train on diagonal complements, and test held-out combinations after referent alignment"
+    null_hypothesis: "held-out cross-form combinations collapse to chance while seen pairs remain high, so the system memorized form-specific conjunctions"
+    falsifier: "held-out cross-form combinations match seen-combination accuracy above shuffle floor"
+    metrics: [heldout_combo_acc, seen_combo_acc, heldout_seen_gap]
+    controls: [shuffle-label-floor, single-form-conjunction-baseline, shuffled-referent-pairs]
+    gates: [difficulty_calibration, referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "re-asks compositionality without assuming all evidence is visual"
+    capacity_rungs: [2, 8]
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: compositionality, null_card: "none", evidence_level: R0}
+
+  - id: f10_intrinsic_form_curriculum
+    name: intrinsic_form_curriculum
+    kind: experiment
+    series: F
+    question: "does learning-progress selection choose which form to study next better than error, novelty, or uniform sampling"
+    mechanism: "candidate lessons span observation forms; scheduler chooses form and item by learning progress with noisy-TV and nuisance controls"
+    null_hypothesis: "learning-progress form selection ties uniform sampling or chases noisy forms, so curriculum is not form-aware"
+    falsifier: "learning-progress improves coverage per update and rejects noisy forms better than error and novelty"
+    metrics: [coverage_per_update, noisy_form_timeshare, transfer_gain]
+    controls: [uniform-form-sampling, prediction-error-sampling, novelty-sampling, noisy-tv-form]
+    gates: [noisy_tv]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "turns curiosity into a scheduler over data forms rather than a scalar over video clips"
+    capacity_rungs: [5, 8]
+    paradigm_slugs: [learning_progress_sampling]
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: active_curriculum, null_card: "none", evidence_level: R0}
+
+  - id: f11_form_dream_replay
+    name: form_dream_replay
+    kind: experiment
+    series: F
+    question: "can a generator replay canonical form states across modalities without storing every raw observation"
+    mechanism: "learn a tiny prior over canonical form tokens, replay generated tokens into the shell, compare to stored form memory and raw exemplar replay"
+    null_hypothesis: "generated form replay underperforms stored replay at matched memory or drifts off the factor manifold"
+    falsifier: "generated form replay matches stored replay within the preregistered retention band at lower bytes"
+    metrics: [retention_per_byte, manifold_validity, generated_vs_stored_gap]
+    controls: [stored-form-replay, raw-exemplar-replay, random-generator]
+    gates: [linear_probe, calibration]
+    resource_tier: studio-scale
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "moves dreaming/replay from latent video vectors to the canonical form substrate"
+    capacity_rungs: [3, 10]
+    paradigm_slugs: [generative_latent_replay]
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: memory, null_card: "none", evidence_level: R0}
+
+  - id: f12_private_form_language_stability
+    name: private_form_language_stability
+    kind: experiment
+    series: F
+    question: "do form codes recur across seeds and data families, or are they private idiolects"
+    mechanism: "learn discrete form codes across multiple forms, then test cross-seed probe transfer, code agreement, and referent retrieval"
+    null_hypothesis: "cross-seed code transfer sits at chance or below random-code agreement, so the form language is private"
+    falsifier: "code transfer and agreement beat random-code floors across seeds and forms"
+    metrics: [cross_seed_code_transfer, code_agreement, random_code_floor]
+    controls: [random-codebook, shuffled-referents, seed-sweep]
+    gates: [seed_consistency]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: high
+    relation: "revives the private-language question at the form layer, with the old idiolect control retained"
+    capacity_rungs: [8, 12]
+    paradigm_slugs: [codebook_abstraction]
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: code_stability, null_card: "none", evidence_level: R0}
+
+  - id: f13_form_energy_budget
+    name: form_energy_budget
+    kind: experiment
+    series: F
+    question: "which form interfaces buy the most capability per byte, parameter, and estimated joule"
+    mechanism: "sweep form width, token count, replay bytes, and shell size; report Pareto frontier instead of peak accuracy"
+    null_hypothesis: "all form interfaces lie on the same density frontier as raw features, so form structure buys no efficiency"
+    falsifier: "at least one form interface Pareto-dominates raw features over multiple density axes"
+    metrics: [accuracy_per_byte, accuracy_per_param, estimated_energy_per_correct]
+    controls: [raw-features, matched-width-random-features, matched-shell]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: low
+    sci_value: medium
+    meaningless_risk: low
+    relation: "keeps the program honest on density, the axis a small lab can actually win"
+    capacity_rungs: [6]
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: density, null_card: "none", evidence_level: R0}
+
+  - id: f14_lifelong_form_expansion
+    name: lifelong_form_expansion
+    kind: experiment
+    series: F
+    question: "can the system add a new observation family after training without remapping old form memories"
+    mechanism: "train on two forms, introduce a third form later, align through shared referents, and measure old retention plus new-form transfer"
+    null_hypothesis: "adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable"
+    falsifier: "new form is inserted with bounded forgetting and above-floor transfer at matched alignment budget"
+    metrics: [old_form_bwt, new_form_transfer, alignment_budget]
+    controls: [retrain-from-scratch, no-alignment, shuffled-referents]
+    gates: [referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "tests the perfect-slate idea as an expandable interface, not a closed video encoder"
+    capacity_rungs: [3, 4, 8]
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: registry-only
+    proof: {atlas_factor: continual_expansion, null_card: "none", evidence_level: R0}
+
+  - id: f15_embodied_affordance_form
+    name: embodied_affordance_form
+    kind: experiment
+    series: F
+    question: "do affordances become more decodable when action consequences are represented as form tokens rather than passive labels"
+    mechanism: "paired observation/action/outcome episodes, compare passive affordance labels to consequence-conditioned form tokens"
+    null_hypothesis: "consequence-conditioned form tokens tie passive labels or action-shuffle, so affordance structure is not learned from intervention"
+    falsifier: "consequence-conditioned tokens improve affordance decoding and planning under action-shuffle control"
+    metrics: [affordance_decode_acc, intervention_gain, action_shuffle_delta]
+    controls: [passive-labels, action-shuffle, matched-compute]
+    gates: [rollout_predictability]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "the embodied branch of form substrates, staged after passive cross-form gates"
+    capacity_rungs: [7, 9]
+    paradigm_slugs: [latent_rollout_mpc]
+    taxonomy_slot: 7
+    status: registry-only
+    proof: {atlas_factor: affordance, null_card: "none", evidence_level: R0}
+
+  - id: f16_perfect_slate_null
+    name: perfect_slate_null
+    kind: experiment
+    series: F
+    question: "does a blank trainable substrate trained on the same small curriculum actually beat inherited frozen substrates plus shell controls"
+    mechanism: "small randomly initialized substrate trained from scratch or self-supervised on the same curriculum, compared to frozen V-JEPA, random-init same-arch, and a larger shell"
+    null_hypothesis: "the blank substrate ties frozen inherited features plus a larger shell, or ties random-init same-arch, so the perfect-slate story bought nothing at this scale"
+    falsifier: "blank substrate beats inherited-frozen and random-init controls on held-out transfer at matched total compute"
+    metrics: [blank_vs_inherited_delta, heldout_transfer, matched_compute_delta]
+    controls: [frozen-inherited-substrate, larger-shell-on-frozen, random-init-same-arch, matched-total-compute]
+    gates: [compute, difficulty_calibration, seed_consistency]
+    resource_tier: moonshot
+    exp_tier: gpu-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "the sci-fi blank-orb claim made falsifiable: if it cannot beat inherited features under controls, we do not mythologize it"
+    capacity_rungs: [4, 6, 11]
+    paradigm_slugs: []
+    taxonomy_slot: 10
+    status: registry-only
+    proof: {atlas_factor: blank_slate, null_card: "none", evidence_level: R0}
+
+  - id: f17_missing_form_recovery
+    name: missing_form_recovery
+    kind: experiment
+    series: F
+    question: "when one form is absent at test time, does the substrate recover the target from remaining forms and lower its confidence accordingly"
+    mechanism: "train on a multi-form matrix, drop one arm at evaluation, compare recovery against impute-by-mean and best-remaining-form controls while scoring confidence calibration under absence"
+    null_hypothesis: "recovery ties the best remaining single form, or confidence fails to change under a missing form, so the forms were redundant channels and the monitoring signal is uninformative"
+    falsifier: "recovery beats impute-by-mean and best-remaining-form controls while calibration error under absence stays within the preregistered band"
+    metrics: [recovery_acc, best_remaining_form_acc, absence_ece, recovery_per_extra_flop]
+    controls: [impute-by-mean, best-remaining-form, zero-filled-concat, matched-head]
+    gates: [referent_alignment, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "the first operational-awareness experiment (OA1 missing-form detection, OA2 calibration): degradation must be graceful and self-reported"
+    capacity_rungs: [3, 9]
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: form_recovery, null_card: "none", evidence_level: R0}
+
+  - id: f18_counterfactual_form_intervention
+    name: counterfactual_form_intervention
+    kind: experiment
+    series: F
+    question: "does intervening on a factor observed through one form predict the induced change in another form over the same referent, beyond a correlational map"
+    mechanism: "programmatic factor interventions rendered into paired forms as before-and-after referents; an intervention predictor is compared to a correlational predictor at matched compute on unseen intervention values"
+    null_hypothesis: "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure"
+    falsifier: "counterfactual match on unseen intervention values beats correlational and shuffled-counterfactual controls at matched compute"
+    metrics: [counterfactual_match_acc, correlational_baseline_acc, unseen_value_gap, counterfactual_acc_per_param]
+    controls: [correlational-predictor, random-intervention-direction, shuffled-counterfactual-pairs, matched-compute]
+    gates: [difficulty_calibration, referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "re-asks ex11 causal probing at the form layer: cross-form claims may use intervention language only after this gate"
+    capacity_rungs: [8]
+    paradigm_slugs: []
+    taxonomy_slot: 10
+    status: registry-only
+    proof: {atlas_factor: intervention_effect, null_card: "none", evidence_level: R0}
+
+  - id: f19_cross_scale_referent_binding
+    name: cross_scale_referent_binding
+    kind: experiment
+    series: F
+    question: "can the same referent be stored and retrieved at object, scene, episode, and task scale without a separate memory per scale"
+    mechanism: "nested referent ids (object within scene within episode within task) enforced at intake; store at one scale, query at another, compare hierarchical memory to flat and single-scale stores at matched bytes"
+    null_hypothesis: "hierarchical referent memory ties flat clip memory or single-scale stores at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped"
+    falsifier: "cross-scale retrieval beats flat and single-scale controls at matched memory bytes"
+    metrics: [cross_scale_recall_at_k, flat_memory_recall_at_k, recall_per_byte]
+    controls: [single-scale-memory, flat-clip-memory, random-hierarchy, matched-memory-bytes]
+    gates: [referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "extends F5 memory binding across referent granularity: episodic structure becomes testable instead of assumed"
+    capacity_rungs: [3, 8]
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: registry-only
+    proof: {atlas_factor: scale_binding, null_card: "none", evidence_level: R0}
+
+  - id: f20_substrate_crisis_test
+    name: substrate_crisis_test
+    kind: experiment
+    series: F
+    question: "can a monitor over the form matrix detect ahead of time that frozen forms plus larger shells will fail a target, while staying quiet on irreducible noise"
+    mechanism: "build matrices containing known-insufficient arms (nuisance-carrier and predictor-wall exemplars) plus noisy-TV false-alarm streams; score crisis predictions against realized probe failure"
+    null_hypothesis: "the crisis detector ties the raw error signal or triggers on aleatoric noise, so substrate insufficiency is not predictable from the exposed signals"
+    falsifier: "crisis detection beats raw-error and fixed-threshold controls on AUROC while holding the false-trigger rate on noise below the preregistered bound"
+    metrics: [crisis_auroc, raw_error_auroc, false_trigger_rate, avoided_wasted_compute_per_monitor_flop]
+    controls: [raw-error-signal, fixed-confidence-threshold, random-trigger-matched-rate, noisy-tv-stream]
+    gates: [noisy_tv, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "OA6 and OA7 as an experiment: the only honest evidence stream for opening the plastic rewrite gate ahead of a completed failure, feeding F8 and F16 licensing"
+    capacity_rungs: [9]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: crisis_detection, null_card: "none", evidence_level: R0}

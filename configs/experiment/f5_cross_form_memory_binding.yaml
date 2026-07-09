@@ -1,0 +1,19 @@
+id: f5_cross_form_memory_binding
+name: cross_form_memory_binding
+module: f_form_substrate
+metric: [cross_form_recall_at_1, raw_recall_at_1, shuffled_anchor_recall_at_1]
+null_hypothesis: "cross-form retrieval ties raw target-form retrieval or shuffled-referent alignment"
+tier: cpu-now
+
+samples: 220
+classes: 5
+world_dim: 28
+feature_dim: 36
+separation: 1.7
+world_noise: 0.7
+form_noise: 0.08
+anchor_frac: 0.45
+store_form: vision
+query_form: audio
+margin: 0.05
+seeds: [0, 1]

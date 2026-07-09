@@ -1,0 +1,20 @@
+id: f2_heldout_form_transfer
+name: heldout_form_transfer
+module: f_form_substrate
+metric: [heldout_form_acc, single_form_baseline, multi_form_gain]
+null_hypothesis: "multi-form training ties the single-form baseline on a held-out observation family"
+tier: cpu-now
+
+samples: 240
+classes: 4
+world_dim: 28
+feature_dim: 36
+separation: 1.8
+world_noise: 0.7
+form_noise: 0.12
+train_frac: 0.55
+heldout_form: timeseries
+epochs: 80
+lr: 0.03
+margin: 0.03
+seeds: [0, 1]

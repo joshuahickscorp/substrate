@@ -50,6 +50,19 @@ from .latent_robustness import degradation_curve
 from .linear_probe import linear_probe
 from .noisy_tv import noisy_tv_diagnostic
 from .nonlinear_probe import nonlinear_probe, readout_contribution
+from .operational_awareness import (
+    compute_value,
+    confidence_calibration,
+    crisis_detection,
+    memory_availability,
+    missing_form_detection,
+    mode_selection,
+    oa_suite,
+    render_oa_md,
+    report_grounding,
+    rewrite_caution,
+)
+from .performance_density import density_block, timed
 from .riskcov import (
     auroc,
     ece_equal_mass,
@@ -147,4 +160,18 @@ __all__ = [
     # attention / retrieval FLOP counters (WP-02)
     "attention_flops",
     "knn_flops",
+    # performance-density block (Layer 9, PERFORMANCE_DENSITY_DOCTRINE.md)
+    "density_block",
+    "timed",
+    # operational-awareness suite (OA1-OA8, OPERATIONAL_AWARENESS.md)
+    "missing_form_detection",
+    "confidence_calibration",
+    "memory_availability",
+    "mode_selection",
+    "compute_value",
+    "crisis_detection",
+    "rewrite_caution",
+    "report_grounding",
+    "oa_suite",
+    "render_oa_md",
 ]

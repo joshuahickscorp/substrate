@@ -1,11 +1,19 @@
 # mop
 
-> **Status:** experimental framework and measurement instrument. No real-data results yet; the full campaign runs on a forthcoming Apple M2 Max Mac Studio (96 GB). Results so far are on cached real-encoder latents over structured-synthetic video.
+> **Status:** experimental framework and measurement instrument. Active paradigm: the Form
+> Substrate Program (FORM_SUBSTRATE_PROGRAM.md). Results so far are on cached real-encoder latents
+> over structured-synthetic video; the natural-video campaign runs on the delivered Apple M1 Ultra
+> Mac Studio (128 GB, profile studio-m1ultra).
 
-A developmental continual-learning system built around a frozen V-JEPA perceptual
-substrate. The headline question: how far can a trainable shell go on top of inherited,
-fixed perception, learning continually without forgetting, on a laptop today and a GPU
-later, with every experiment forced to declare its null.
+The Form Substrate Program: a referent-bound, form-receiving, memory-bearing,
+performance-measured substrate for intelligence. Any observation family (video, audio, text,
+symbols, telemetry, action traces) enters as a form over shared referents; capabilities are earned
+through preregistered experiments with nulls, controls, and density accounting. The default regime
+remains a frozen inherited encoder (V-JEPA 2 among others) with a tiny trainable shell over cached
+latents; trainable-substrate branches open only behind evidence gates. Root docs:
+FORM_SUBSTRATE_PROGRAM.md (worldview), FORM_SUBSTRATE_DOCTRINE.md (methods),
+FORM_SUBSTRATE_EXPERIMENTS.md (F-series bank), FORM_SUBSTRATE_CODEMAP.md (code map),
+PERFORMANCE_DENSITY_DOCTRINE.md, OPERATIONAL_AWARENESS.md, PARADIGM_MIGRATION.md, LEGACY_INDEX.md.
 
 ## What this is (and is not)
 
