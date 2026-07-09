@@ -4634,7 +4634,7 @@ experiments:
     capacity_rungs: [3, 8]
     paradigm_slugs: []
     taxonomy_slot: 3
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: scale_binding, null_card: "none", evidence_level: R0}
 
   - id: f20_substrate_crisis_test
