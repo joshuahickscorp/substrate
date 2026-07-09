@@ -18,7 +18,7 @@ from typing import Any
 import torch
 
 from ..substrate.adapter import SubstrateAdapter
-from ..substrate.form import _factor_dict, _referent_tuple
+from ..substrate.form import _factor_dict, _referent_tuple, referent_order
 from ..substrate.latent_store import LatentStore
 
 # One referent-aligned interface: the leaf helpers are defined once in substrate/form.py (the form
@@ -303,12 +303,9 @@ def _extract_sequence(adapters: Sequence[PerspectiveAdapter]) -> dict[str, Persp
 
 
 def _align_batch(batch: PerspectiveBatch, master: tuple[str, ...]) -> PerspectiveBatch:
-    if batch.referents == master:
+    order = referent_order(batch.referents, master)  # one shared alignment impl (substrate/form.py)
+    if order is None:
         return batch
-    if set(batch.referents) != set(master):
-        missing = sorted(set(master).difference(batch.referents))
-        extra = sorted(set(batch.referents).difference(master))
-        raise ValueError(f"referent mismatch for {batch.meta.tag}: missing={missing[:5]}, extra={extra[:5]}")
-    idx = torch.tensor([batch.referents.index(r) for r in master], dtype=torch.long)
+    idx = torch.tensor(order, dtype=torch.long)
     factors = {name: values.index_select(0, idx) for name, values in batch.factors.items()}
     return replace(batch, features=batch.features.index_select(0, idx), referents=master, factors=factors)
