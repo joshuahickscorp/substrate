@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-195 catalogued: implemented=121, registry-only=72, deferred=2.
+195 catalogued: implemented=122, registry-only=71, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -198,7 +198,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | f20_substrate_crisis_test | substrate_crisis_test | the crisis detector ties the raw error signal or triggers on aleatoric noise, so substrate insufficiency is not predictable from the exposed signals | cpu-now | registry-only | 4 |
 | f2_heldout_form_transfer | heldout_form_transfer | multi-form training ties the single-form baseline on a held-out observation family, or the held-out family stays near chance after alignment | cpu-now | implemented | 2 |
 | f3_form_bottleneck_capacity | form_bottleneck_capacity | the wide canonical bottleneck ties the small bottleneck, so interface width is not the bound, or both sit near the shuffled-label floor | cpu-now | implemented | 4 |
-| f4_raw_payload_vs_form_tokens | raw_payload_vs_canonical_form_tokens | canonical form tokens tie raw flattened or handcrafted per-form features on every factor, so the form layer is ceremony | cpu-now | registry-only | 2 |
+| f4_raw_payload_vs_form_tokens | raw_payload_vs_canonical_form_tokens | canonical form tokens tie raw flattened or handcrafted per-form features on every factor, so the form layer is ceremony | cpu-now | implemented | 2 |
 | f5_cross_form_memory_binding | cross_form_memory_binding | cross-form retrieval ties per-form nearest neighbor or shuffled referents, so memory is form-local rather than referent-bound | cpu-now | implemented | 2 |
 | f6_sensorimotor_form_closure | sensorimotor_form_closure | action-shuffle or action-blind controls tie true action-conditioned form closure, so the substrate is still a passive recorder | env-later | registry-only | 7 |
 | f7_developmental_form_growth | developmental_form_growth | fixed-final-size or random-growth schedules tie developmental growth, so structural plasticity is cosmetic | gpu-later | registry-only | 1 |

@@ -4274,7 +4274,7 @@ experiments:
     capacity_rungs: [2, 8]
     paradigm_slugs: []
     taxonomy_slot: 2
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: form_tokenization, null_card: "none", evidence_level: R0}
 
   - id: f5_cross_form_memory_binding
