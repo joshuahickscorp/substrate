@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-195 catalogued: implemented=123, registry-only=70, deferred=2.
+195 catalogued: implemented=124, registry-only=69, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -203,7 +203,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | f6_sensorimotor_form_closure | sensorimotor_form_closure | action-shuffle or action-blind controls tie true action-conditioned form closure, so the substrate is still a passive recorder | env-later | registry-only | 7 |
 | f7_developmental_form_growth | developmental_form_growth | fixed-final-size or random-growth schedules tie developmental growth, so structural plasticity is cosmetic | gpu-later | registry-only | 1 |
 | f8_plastic_substrate_rewrite | plastic_substrate_rewrite | a larger frozen-shell control ties the plastic substrate, so the gain is shell capacity rather than representation rewrite | gpu-later | registry-only | 9 |
-| f9_cross_form_compositional_binding | cross_form_compositional_binding | held-out cross-form combinations collapse to chance while seen pairs remain high, so the system memorized form-specific conjunctions | cpu-now | registry-only | 3 |
+| f9_cross_form_compositional_binding | cross_form_compositional_binding | held-out cross-form combinations collapse to chance while seen pairs remain high, so the system memorized form-specific conjunctions | cpu-now | implemented | 3 |
 
 ## AL
 

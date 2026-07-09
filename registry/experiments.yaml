@@ -4394,7 +4394,7 @@ experiments:
     capacity_rungs: [2, 8]
     paradigm_slugs: []
     taxonomy_slot: 3
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: compositionality, null_card: "none", evidence_level: R0}
 
   - id: f10_intrinsic_form_curriculum
