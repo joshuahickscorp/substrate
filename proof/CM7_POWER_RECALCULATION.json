@@ -1,0 +1,166 @@
+{
+  "all_ok": true,
+  "alpha_two_sided": 0.01,
+  "claim_boundary": {
+    "scientific_promotion": false,
+    "statement": "planning arithmetic from a closed receipt chain; no new evidence"
+  },
+  "comparisons": [
+    {
+      "comparison": "invariance_vs_frozen_random",
+      "margin": 0.03,
+      "margin_d_z": 0.309436018185746,
+      "mean_delta": -0.109375,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 126,
+      "n_observed": 5,
+      "observed_d_z": -1.1281521496355325,
+      "sd": 0.09695057535930357
+    },
+    {
+      "comparison": "invariance_vs_predictive",
+      "margin": 0.03,
+      "margin_d_z": 0.33172547542324227,
+      "mean_delta": -0.015625,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 110,
+      "n_observed": 5,
+      "observed_d_z": -0.17277368511627203,
+      "sd": 0.09043622580304864
+    },
+    {
+      "comparison": "invariance_vs_random_target",
+      "margin": 0.03,
+      "margin_d_z": 0.2554330004112919,
+      "mean_delta": -0.125,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 183,
+      "n_observed": 5,
+      "observed_d_z": -1.0643041683803829,
+      "sd": 0.11744762795603834
+    },
+    {
+      "comparison": "invariance_vs_reconstruction",
+      "margin": 0.03,
+      "margin_d_z": 0.5711655526163804,
+      "mean_delta": -0.084375,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 40,
+      "n_observed": 5,
+      "observed_d_z": -1.60640311673357,
+      "sd": 0.052524175981161283
+    },
+    {
+      "comparison": "predictive_vs_frozen_random",
+      "margin": 0.03,
+      "margin_d_z": 0.215336507171345,
+      "mean_delta": -0.09375,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 256,
+      "n_observed": 5,
+      "observed_d_z": -0.6729265849104532,
+      "sd": 0.13931683203224224
+    },
+    {
+      "comparison": "predictive_vs_invariance",
+      "margin": 0.03,
+      "margin_d_z": 0.33172547542324227,
+      "mean_delta": 0.015625,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 110,
+      "n_observed": 5,
+      "observed_d_z": 0.17277368511627203,
+      "sd": 0.09043622580304864
+    },
+    {
+      "comparison": "predictive_vs_random_target",
+      "margin": 0.03,
+      "margin_d_z": 0.22170250336881625,
+      "mean_delta": -0.109375,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 241,
+      "n_observed": 5,
+      "observed_d_z": -0.808290376865476,
+      "sd": 0.13531646934131855
+    },
+    {
+      "comparison": "predictive_vs_reconstruction",
+      "margin": 0.03,
+      "margin_d_z": 0.223497694646265,
+      "mean_delta": -0.06875,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 238,
+      "n_observed": 5,
+      "observed_d_z": -0.5121822168976907,
+      "sd": 0.13422957246821582
+    },
+    {
+      "comparison": "reconstruction_vs_frozen_random",
+      "margin": 0.03,
+      "margin_d_z": 0.34880276136612454,
+      "mean_delta": -0.025,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 100,
+      "n_observed": 5,
+      "observed_d_z": -0.2906689678051038,
+      "sd": 0.08600849340326804
+    },
+    {
+      "comparison": "reconstruction_vs_invariance",
+      "margin": 0.03,
+      "margin_d_z": 0.5711655526163804,
+      "mean_delta": 0.084375,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 40,
+      "n_observed": 5,
+      "observed_d_z": 1.60640311673357,
+      "sd": 0.052524175981161283
+    },
+    {
+      "comparison": "reconstruction_vs_predictive",
+      "margin": 0.03,
+      "margin_d_z": 0.223497694646265,
+      "mean_delta": 0.06875,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 238,
+      "n_observed": 5,
+      "observed_d_z": 0.5121822168976907,
+      "sd": 0.13422957246821582
+    },
+    {
+      "comparison": "reconstruction_vs_random_target",
+      "margin": 0.03,
+      "margin_d_z": 0.22126042415851233,
+      "mean_delta": -0.040625,
+      "n_for_d_z_.5": 51,
+      "n_for_d_z_.8": 22,
+      "n_for_margin_at_alpha_.01_power_.80": 242,
+      "n_observed": 5,
+      "observed_d_z": -0.29962349104798547,
+      "sd": 0.13558683218697898
+    }
+  ],
+  "composite_sha256": "d83861bebd498fec17dde0c02125f4d34b6d01b09a6d8a5c285845947c7555e6",
+  "created_at": "2026-07-10T07:36:01.553351+00:00",
+  "power": 0.8,
+  "problems": [],
+  "schema": "mop-cm7-power-recalculation/v1",
+  "summary": {
+    "margin_0.03_in_d_z_units_at_median_sd": 0.2554330004112919,
+    "median_paired_sd": 0.11744762795603834,
+    "n_to_detect_margin_0.03_at_median_sd": 183,
+    "statement": "Observed CM7 paired sds run 0.053 to 0.139 on heldout_combo_score, so detecting the preregistered 0.03 margin at alpha .01 and power .80 would need 40 to 256 paired seeds per comparison (183 at the median sd). CM7 schedules no such campaign: the simultaneous bounds already exclude the margin in the wrong direction and the regime is retired. Successors (P4, CM8-class) must either register a larger SESOI or reduce seed variance by design; at the plan's sensitivity anchors the same arithmetic reproduces 22 seeds for d_z .8 and 51 for d_z .5."
+  },
+  "verifier_sha256": "81fbe0543c4d9e17a590fe473618e65dc880061cfc9e981c1834e83695591c30"
+}

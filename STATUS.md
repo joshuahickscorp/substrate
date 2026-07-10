@@ -2,6 +2,29 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 control integrity + planning arithmetic + P9 accounting (light-lane wave)
+
+- [x] Stimulus identity PROVED for every learned/control pair without a rebuild:
+  proof/FACTORIZED_STIMULUS_IDENTITY.json (all_ok). Generator functions hash-identical between
+  the pre-build commit and the working tree; regenerated seed-0 clips reproduce the random
+  control's recorded hashes exactly; and re-encoding regenerated clip 0 through each exact
+  frozen encoder on CPU reproduces the stored latent row 0 BITWISE for ViT-L, ViT-H, and ViT-g
+  (max abs diff 0 at 1024/1280/1408 dims; 29.6/44.6/193.7 s). This closes the scale atlas's
+  "byte-identical stimuli are not proven" eligibility reason with measured evidence; the atlas
+  code can consume it on its next hardening pass.
+- [x] Power targets recalculated from observed CM7 five-seed variance
+  (proof/CM7_POWER_RECALCULATION.json, scripts/cm7_power_recalculation.py, scipy-free numerics
+  validated against the plan's own anchors: 22 seeds at d_z .8, 51 at d_z .5, alpha .01).
+  Detecting the 0.03 margin at the observed paired sds (0.053 to 0.139) would take 40 to 256
+  paired seeds per comparison; no CM7 confirmatory campaign is scheduled since the bounds
+  already exclude the margin in the wrong direction. Successors must register a larger SESOI
+  or reduce seed variance by design.
+- [x] P9 end-to-end accounting implemented (0-30 day plan item):
+  src/mop/studies/p9_accounting.py (WorkloadAccountant: phase-scoped wall/CPU/RSS/accelerator/
+  storage/retry accounting; energy permanently marked unmeasured until a metered boundary
+  exists), 6 known-answer unit tests green, mechanics receipt over a real bounded workload at
+  proof/P9_ACCOUNTING_MECHANICS.json. Lint and types clean.
+
 ## 2026-07-10 E6 ViT-B integrated + P2 attribute map (dual-session wave, receipts interleaved)
 
 - [x] E6 upstream integration closed to its preregistered boundary: pinned official V-JEPA 2.1
