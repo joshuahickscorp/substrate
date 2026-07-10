@@ -66,12 +66,12 @@
   "calculations": {
     "c_active_disk_floor": {
       "free_needed_for_10000_dense_fp16_plus_floor_gb_decimal": 207.77216,
-      "hypothetical_dense_fp16_clips_before_floor": 3823,
+      "hypothetical_dense_fp16_clips_before_floor": 3525,
       "interpretation": "active storage floor, not accelerator-memory evidence",
       "kind": "calculation-from-measured-receipt",
-      "receipt_free_gb_decimal": 104.145,
+      "receipt_free_gb_decimal": 99.151,
       "required_floor_gb_decimal": 40.0,
-      "safe_headroom_gb_decimal": 64.145
+      "safe_headroom_gb_decimal": 59.150999999999996
     },
     "c_adam_trainable_state": {
       "cm7_high_mb_decimal": 29.62944,
@@ -217,7 +217,14 @@
       "checks": 19,
       "mismatches": [
         {
-          "actual_sha256": "74d0f262e1b780f6ef7e65ab6d87ff3649ccc2724cc647f95efe10057be4520d",
+          "actual_sha256": "bb3bde8005dceee98387b135b404ba074d3ce5efc4141c9054ece55dd48b34b9",
+          "expected_sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e",
+          "occurrences": 3,
+          "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
+          "pointer": "/entries/0/scale_atlas_receipt"
+        },
+        {
+          "actual_sha256": "404d98fc65320a729a1f51ad4636602f235abc92289f95c340c0401ad33ad77c",
           "expected_sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1",
           "occurrences": 1,
           "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
@@ -757,7 +764,7 @@
       "record_type": "measurement",
       "schema_validated_role": true,
       "source_ref": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "source_sha256": "74d0f262e1b780f6ef7e65ab6d87ff3649ccc2724cc647f95efe10057be4520d"
+      "source_sha256": "404d98fc65320a729a1f51ad4636602f235abc92289f95c340c0401ad33ad77c"
     },
     "m_vitg_cache": {
       "current_hash_verified": true,
@@ -789,7 +796,7 @@
       "record_type": "measurement",
       "schema_validated_role": true,
       "source_ref": "local:proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "source_sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+      "source_sha256": "bb3bde8005dceee98387b135b404ba074d3ce5efc4141c9054ece55dd48b34b9"
     }
   },
   "hardware_enablement_gate": {
@@ -883,18 +890,18 @@
       "sha256": "6d9aa4c228bf29b4d272d7849934481fd64478511bce1d193fe4c79d8f59decf"
     },
     {
-      "bytes": 4035,
+      "bytes": 4019,
       "exists": true,
       "id": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
       "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "sha256": "74d0f262e1b780f6ef7e65ab6d87ff3649ccc2724cc647f95efe10057be4520d"
+      "sha256": "404d98fc65320a729a1f51ad4636602f235abc92289f95c340c0401ad33ad77c"
     },
     {
-      "bytes": 23736,
+      "bytes": 29604,
       "exists": true,
       "id": "local:proof/VJEPA_SCALE_ATLAS_LOCAL.json",
       "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+      "sha256": "bb3bde8005dceee98387b135b404ba074d3ce5efc4141c9054ece55dd48b34b9"
     },
     {
       "bytes": 21044,
@@ -953,11 +960,11 @@
       "sha256": "21eb7ed2259d302ff69d6f8ea8d088a260bb76e07eac1e49bbbb6bc3c9350d1c"
     },
     {
-      "bytes": 19151,
+      "bytes": 19224,
       "exists": true,
       "id": "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
       "path": "proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
-      "sha256": "6426d772a2344d22fc38a5ed0f2aa11946688f4707cacac67a37de78fc17faa1"
+      "sha256": "92d21352a64bfa57b0fe9b1104e1aea4ba15f8e6fe8d35931b99518308400696"
     },
     {
       "bytes": 43449,
@@ -1093,11 +1100,11 @@
       "sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
     },
     {
-      "bytes": 54572,
+      "bytes": 57195,
       "exists": true,
       "id": "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
       "path": "EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
-      "sha256": "2f413f2bcb50a66192986c1340a11ddaf17e6941d98d2bed893487d2b2179646"
+      "sha256": "80f81688369a2d246f5a6d8900a92495c9377e607c883590cfc7fb4afffd3add"
     },
     {
       "bytes": 52476,
@@ -3764,7 +3771,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_atlas"
     }
   },
-  "payload_sha256": "e8743284bdbe1bde986e9af8d2ad4a4544ba1e2ecd313e7b4f1e10b8d659cd74",
+  "payload_sha256": "065061e4af451a0ec54f59f204f69ed19e973274fec1057194c191c73bac0b23",
   "row_referenced_json_audits": {
     "proof/CUSTOM_SUBSTRATE_CALIBRATION.json": {
       "all_current": true,

@@ -103,7 +103,7 @@
     "problems": [],
     "sha256": "d146eda4648a83635f8b24d6a6605e3d8d99c3b79172b8d8114a7126f73441c9"
   },
-  "created_at": "2026-07-10T05:53:53.876345+00:00",
+  "created_at": "2026-07-10T07:20:39.482855+00:00",
   "dependencies": {
     "accelerator_warning": "Meta strongly recommends CUDA. CPU and MPS compatibility on this host remain unmeasured until supervised load/forward receipts exist.",
     "decode": [
@@ -158,21 +158,21 @@
     "checkpoint_bytes": 1664223428,
     "download_feasible_now": true,
     "floor_bytes": 40000000000,
-    "free_bytes": 43960930304,
+    "free_bytes": 99153858560,
     "path": "/Users/scammermike/Downloads/mop",
-    "projected_free_after_checkpoint_bytes": 42296706876,
+    "projected_free_after_checkpoint_bytes": 97489635132,
     "required_before_download_bytes": 42176223428,
     "working_headroom_bytes": 512000000
   },
   "fresh_doctor": {
-    "age_seconds": 58.249688,
-    "created_at": "2026-07-10T05:52:55.575641+00:00",
+    "age_seconds": 3.391733,
+    "created_at": "2026-07-10T07:20:36.081021+00:00",
     "fresh_and_green": true,
     "max_age_seconds": 900,
     "path": "/Users/scammermike/Downloads/mop/proof/STUDIO_READINESS_CURRENT_HOST.json",
     "problems": [],
     "profile": "m3pro-local-max",
-    "sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1",
+    "sha256": "404d98fc65320a729a1f51ad4636602f235abc92289f95c340c0401ad33ad77c",
     "summary": {
       "all_ok": true,
       "failed": 0,
@@ -183,8 +183,8 @@
   "gates": {
     "download_permission_note": "ready_to_download becomes true only when the official source/object/disk checks pass, the local doctor is green and no more than 15 minutes old, and no known heavy lane is active",
     "ready_to_construct_after_download": true,
-    "ready_to_download": false,
-    "ready_to_load_now": false,
+    "ready_to_download": true,
+    "ready_to_load_now": true,
     "required_sequence": [
       "install missing encoder-only dependencies without importing the full decord data path",
       "download ViT-B while preserving the 40 GB disk floor",
@@ -197,16 +197,9 @@
     "vitl_vitg_vitG_allowed": false
   },
   "heavy_lane": {
-    "active": [
-      {
-        "matched_patterns": [
-          "custom_substrate_workbench.py cm7"
-        ],
-        "pid": 30056
-      }
-    ],
-    "active_count": 1,
-    "clear_for_new_heavy_lane": false,
+    "active": [],
+    "active_count": 0,
+    "clear_for_new_heavy_lane": true,
     "known_heavy_patterns": [
       "custom_substrate_workbench.py cm7",
       "cache_factorized_encoder.py",
@@ -243,20 +236,26 @@
   ],
   "local_checkpoint_validation": {
     "actual_sha256": null,
-    "all_ok": false,
+    "all_ok": true,
     "path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt",
-    "problems": [
-      "checkpoint missing: /Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt",
-      "checkpoint receipt missing: /Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt.receipt.json",
-      "checkpoint receipt schema does not match pinned authority",
-      "checkpoint receipt source_url does not match pinned authority",
-      "checkpoint receipt source_etag does not match pinned authority",
-      "checkpoint receipt source_version_id does not match pinned authority",
-      "checkpoint receipt size does not match pinned authority",
-      "checkpoint receipt repository_commit does not match pinned authority",
-      "checkpoint receipt lacks a full local SHA256"
-    ],
-    "receipt": {},
+    "problems": [],
+    "receipt": {
+      "all_ok": true,
+      "checkpoint_key": "ema_encoder",
+      "created_at": "2026-07-10T07:15:19.666116+00:00",
+      "first_range_sha256": "61efdf5f03e06d7d4dd6c4b35566dede6523453def98d51369e616093b23fbaf",
+      "last_range_sha256": "cc219dadd7ab9e7dcb37121380e1a6ec24a7d8684fef2a8438e0e64e5c23ae59",
+      "official_full_sha256_published": false,
+      "repository": "https://github.com/facebookresearch/vjepa2",
+      "repository_commit": "204698b45b3712590f06245fbfba32d3be539812",
+      "schema": "mop-vjepa21-official-checkpoint/v1",
+      "sha256": "848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d",
+      "size": 1664223428,
+      "source_etag": "\"be0dc26f052ae6a7476714cd53176836-199\"",
+      "source_last_modified": "Mon, 16 Mar 2026 09:12:19 GMT",
+      "source_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+      "source_version_id": "xJBU4AkoA4gv5boeC6gOA7eElzWcubxY"
+    },
     "receipt_path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt.receipt.json"
   },
   "model": {
