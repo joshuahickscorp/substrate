@@ -55,6 +55,12 @@ CATEGORIES = {
 # two non-F env-later classes typed by their observed first blocker so a local implementation gap
 # is not laundered into an external-data requirement and a model dependency is not called an env.
 ENV_LATER_CLASS_BLOCKERS: dict[str, tuple[str, str]] = {
+    "e6_relational": (
+        DATA_BLOCKED,
+        "official runtime and cache/control integration are verified; the registered claim now "
+        "requires a rights-clean annotated natural cohort, untouched test membership, serial "
+        "learned/random caches, and independent verification",
+    ),
     "e10_openended": (
         IMPLEMENTATION_BLOCKED,
         "persistent action mechanics now exist; the registered capstone still needs bounded "
@@ -69,11 +75,18 @@ ENV_LATER_CLASS_BLOCKERS: dict[str, tuple[str, str]] = {
 
 DEFAULT_EXECUTION_ROOT = REPO_ROOT / "runs" / "project_exhaustion" / "current"
 DEFAULT_LEDGER_PATH = REPO_ROOT / "proof" / "PROJECT_EXPERIMENT_EXHAUSTION.json"
+EMBEDDED_COMMITTED_RECEIPTS = frozenset({"proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json"})
 BLOCKED_SMOKE_IDS = {
-    "e6_relational",
     "e10_openended",
     "mop_cm8_custom_jepa_pilot",
 }
+
+E6_RUNTIME_EVIDENCE = (
+    "proof/VJEPA21_VITB_LOAD.json",
+    "proof/VJEPA21_VITB_FORWARD.json",
+    "proof/VJEPA21_VITB_FORWARD_64F.json",
+)
+E6_INTEGRATION_EVIDENCE = (*E6_RUNTIME_EVIDENCE, "proof/E6_VITB_DENSE_PREFLIGHT.json")
 
 # These are prior CPU executions produced by standalone scripts.  A digest lets a reviewer
 # detect later mutation.  It does not reconstruct missing caches or promote a pilot to a full
@@ -123,7 +136,7 @@ STANDALONE_EVIDENCE: dict[str, tuple[str, ...]] = {
     "mop_cm5_studio_rejuvenation": ("runs/frontier_localization/local_preflights.json",),
     "mop_cm11_developmental_plasticity": ("runs/frontier_localization/local_preflights.json",),
     "mop_cm12_mop_substrate_capstone": ("runs/frontier_localization/local_preflights.json",),
-    "mop_cm10_action_forward_model": ("runs/local_action_environment/preflight.json",),
+    "mop_cm10_action_forward_model": ("proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",),
 }
 
 STANDALONE_SCRIPTS: dict[str, str] = {
@@ -163,7 +176,7 @@ STANDALONE_SCRIPTS: dict[str, str] = {
     "mop_cm5_studio_rejuvenation": "scripts/frontier_localization.py",
     "mop_cm11_developmental_plasticity": "scripts/frontier_localization.py",
     "mop_cm12_mop_substrate_capstone": "scripts/frontier_localization.py",
-    "mop_cm10_action_forward_model": "scripts/local_action_environment.py",
+    "mop_cm10_action_forward_model": "scripts/p7_action_world_model_preflight.py",
 }
 
 STANDALONE_SCIENTIFIC_BLOCKERS: dict[str, str] = {
@@ -188,10 +201,10 @@ STANDALONE_SCIENTIFIC_BLOCKERS: dict[str, str] = {
         "a shared battery, and the declared open-model control"
     ),
     "mop_cm10_action_forward_model": (
-        "the deterministic environment, paired intervention records, and action-forward planning mechanics "
-        "run locally; the registered substrate claim still needs rendered action-conditioned observations, "
-        "a citable substrate cache, the exact frozen V-JEPA 2-AC control, and the declared matched-compute "
-        "depth control"
+        "the deterministic rendering, paired same-parent interventions, and eight-arm action-forward "
+        "comparison run locally with matched controls, calibration, horizons, planning, and mutations; "
+        "the fixture supports the null, and the registered scientific claim now needs independently "
+        "sourced action trajectories, an exact-referent action control, and predeclared replication"
     ),
 }
 
@@ -219,17 +232,18 @@ REGISTRY_ONLY_BLOCKERS: dict[str, tuple[str, str]] = {
     ),
     "mop_dr5_cross_substrate_consistency": (
         MODEL_BLOCKED,
-        "three real-weight encoder caches now execute locally on eight shared programmatic referents; "
-        "the registered reasoning claim still needs a verified gain on one compatible task, expanded "
-        "same-task rows, and the matched random-architecture control",
+        "the registered reasoning claim first needs a verified gain on one compatible task, a "
+        "rights-clean same-task cohort, and active ViT-B/custom matched controls; the retired scale "
+        "pilot is not a current dependency",
     ),
     "mop_dr7_latent_cot": (
         DATA_BLOCKED,
         "requires a DR1 multi-step relational task with supervised intermediate states",
     ),
     "mop_dr14_corruption": (
-        MODEL_BLOCKED,
-        "laptop pilot exists, but the registered dropped-channel arm requires a citable dense-token cache",
+        DATA_BLOCKED,
+        "the registered deterministic nested dropped-channel path is implemented; it now requires "
+        "the citable dense natural-task cache and independent verification",
     ),
     "mop_dr15_modality_general": (
         MODEL_BLOCKED,
@@ -241,10 +255,10 @@ REGISTRY_ONLY_BLOCKERS: dict[str, tuple[str, str]] = {
         "are not citable active inputs",
     ),
     "mop_al2_shared_latent_alignment": (
-        MODEL_BLOCKED,
-        "a citable three-scale atlas now runs locally on eight shared programmatic referents; the "
-        "registered alignment claim still needs an expanded meaningful shared-content set and its "
-        "preregistered equal-rank random-map controls",
+        DATA_BLOCKED,
+        "requires an expanded meaningful shared-content cohort with session-level units, then "
+        "equal-rank active ViT-B/custom and random-map controls; the retired scale pilot is not a "
+        "current dependency",
     ),
     "mop_al3_audio_video_alignment": (
         DATA_BLOCKED,
@@ -281,9 +295,10 @@ REGISTRY_ONLY_BLOCKERS: dict[str, tuple[str, str]] = {
         "requires DR1 multi-object dense-token video and binding annotations",
     ),
     "mop_cm10_action_forward_model": (
-        MODEL_BLOCKED,
-        "the local environment adapter exists; the remaining registered claim requires a citable rendered "
-        "action/substrate cache plus the exact frozen V-JEPA 2-AC control",
+        DATA_BLOCKED,
+        "the P7 rendered action/world-model mechanics pass with a fixture null; the remaining "
+        "registered claim requires independently sourced trajectories, an exact-referent action "
+        "control, and replication",
     ),
 }
 
@@ -320,6 +335,41 @@ def file_evidence(path: Path) -> dict[str, Any]:
             out["json_parse_ok"] = False
             out["json_error"] = str(exc)
     return out
+
+
+def _vjepa21_vitb_runtime_ready() -> tuple[bool, list[dict[str, Any]]]:
+    """Validate the retained official ViT-B load and both bounded CPU forwards.
+
+    This retires upstream runtime availability only.  It deliberately does not claim that E6's
+    task wiring, inputs, cache manifest, or controls exist.
+    """
+
+    evidence = [file_evidence(REPO_ROOT / relative) for relative in E6_RUNTIME_EVIDENCE]
+    if not all(row.get("exists") and row.get("json_parse_ok") for row in evidence):
+        return False, evidence
+    receipts = [json.loads((REPO_ROOT / relative).read_text()) for relative in E6_RUNTIME_EVIDENCE]
+    load, forward_8f, forward_64f = receipts
+    checkpoint_hashes = {
+        str((receipt.get("authority") or {}).get("checkpoint_sha256") or "") for receipt in receipts
+    }
+    ready = bool(
+        len(checkpoint_hashes) == 1
+        and all(len(value) == 64 for value in checkpoint_hashes)
+        and load.get("status") == "passed"
+        and (load.get("child") or {}).get("strict_load") is True
+        and (load.get("child") or {}).get("parameters") == 86_833_152
+        and (load.get("child") or {}).get("trainable_parameters") == 0
+        and all(
+            receipt.get("status") == "passed"
+            and receipt.get("hardware_limit_reached") is False
+            and (receipt.get("child") or {}).get("completed") is True
+            and (receipt.get("child") or {}).get("output_finite") is True
+            and (receipt.get("child") or {}).get("shape_matches") is True
+            and (receipt.get("claim_boundary") or {}).get("vitb_runtime_evidence_gate_passed") is True
+            for receipt in (forward_8f, forward_64f)
+        )
+    )
+    return ready, evidence
 
 
 def registry_rows() -> list[dict[str, Any]]:
@@ -920,11 +970,11 @@ def _walk_evidence(value: Any):
 
 
 def _embed_runtime_artifacts(ledger: dict[str, Any]) -> None:
-    """Embed exact text receipts so proof survives deletion of ignored ``runs/`` files."""
+    """Embed ignored run receipts and selected committed receipts for self-contained verification."""
     artifacts: dict[str, dict[str, Any]] = {}
     for evidence in _walk_evidence(ledger):
         rel = str(evidence["path"])
-        if not rel.startswith("runs/") or not evidence.get("exists"):
+        if not (rel.startswith("runs/") or rel in EMBEDDED_COMMITTED_RECEIPTS) or not evidence.get("exists"):
             continue
         path = REPO_ROOT / rel
         raw = path.read_bytes()
@@ -1108,17 +1158,36 @@ def build_ledger(execution_root: Path = DEFAULT_EXECUTION_ROOT) -> dict[str, Any
                 )
                 remaining_scientific_blocker = reason
             elif cls.tier == "2.1-only":
-                classification = MODEL_BLOCKED
-                reason = (
-                    "the registered claim requires dense V-JEPA 2.1 representations, "
-                    "not its frozen-random fallback"
-                )
-                remaining_scientific_blocker = "citable upstream dense-token model cache"
+                runtime_ready, runtime_evidence = _vjepa21_vitb_runtime_ready()
+                evidence = list(fresh["evidence"]) if fresh else []
+                evidence.extend(runtime_evidence)
+                if runtime_ready:
+                    classification = IMPLEMENTATION_BLOCKED
+                    reason = (
+                        "official V-JEPA 2.1 ViT-B runtime availability is verified locally; the "
+                        "registered E6 study still needs task wiring, citable referents, a dense "
+                        "cache manifest, and matched scientific controls"
+                    )
+                    remaining_scientific_blocker = (
+                        "E6 task wiring plus citable dense-token inputs and matched controls"
+                    )
+                else:
+                    classification = MODEL_BLOCKED
+                    reason = (
+                        "the registered claim requires a verified official dense V-JEPA 2.1 runtime, "
+                        "not its frozen-random fallback"
+                    )
+                    remaining_scientific_blocker = "verified official dense-token model runtime"
             else:
                 classification = PENDING
                 reason = f"runnable class tier {cls.tier!r} has not been freshly executed"
             if fresh and not evidence:
                 evidence = list(fresh["evidence"])
+            if experiment_id == "e6_relational":
+                by_path = {str(item.get("path")): item for item in evidence}
+                for item in [file_evidence(REPO_ROOT / path) for path in E6_INTEGRATION_EVIDENCE]:
+                    by_path[str(item.get("path"))] = item
+                evidence = list(by_path.values())
         elif surface == "diagnostic-module":
             diagnostic = _diagnostic_evidence(execution_root, experiment_id)
             if diagnostic:

@@ -1,5 +1,10 @@
 # Extended-compute deep research: Form Substrate
 
+> LIVE INTEGRATION 2026-07-10: `MOP_MAXIMUM_POTENTIAL_RESEARCH_2026_07.md` and the current proof
+> matrix govern. Explicit inherited-scale names below are historical measurement inventory, not an
+> active architecture or hardware dependency. The operational maximum is now 300 minutes; frozen
+> scientific shards retain their registered identity.
+
 Snapshot: 2026-07-10, America/Toronto  
 Decision: **do not procure or rent extended compute yet**  
 Machine-readable scope: `proof/EXTENDED_COMPUTE_REQUIREMENTS.json`
@@ -8,13 +13,14 @@ Machine-readable scope: `proof/EXTENDED_COMPUTE_REQUIREMENTS.json`
 
 Nothing in the current Form Substrate program is empirically Studio-scale, accelerator-required, or distributed-compute-required.
 
-The complete current registry has 195 rows. After correcting stale tier labels and the now-published V-JEPA 2.1 checkpoints, their first blockers are:
+The complete current registry has 197 rows. After correcting stale tier labels and integrating the
+official dense ViT-B path, their first blockers are:
 
 | Primary category | Current registry rows | Meaning |
 |---|---:|---|
-| 1 | 167 | Already runnable on the measured M3 Pro envelope |
+| 1 | 168 | Already runnable on the measured M3 Pro envelope |
 | 2 | 11 | Local implementation or matched-control work |
-| 3 | 17 | Data, cache, rights, or provenance intake |
+| 3 | 18 | Data, cache, rights, or provenance intake |
 | 4 | 0 | Runnable only as a slow serial job |
 | 5 | 0 | Requires local factorization to fit |
 | 6 | 0 | External environment or interaction infrastructure is not the first blocker for a current registry row |
@@ -22,7 +28,13 @@ The complete current registry has 195 rows. After correcting stale tier labels a
 | 8 | 0 | Measured larger-compute benefit, not necessity |
 | 9 | 0 | Measured larger-compute scientific necessity |
 
-The wider 289-row planning matrix, which adds F21-F66, 17 cross-cutting frontiers, W0-W11, and dossier pillars 7-25, also has zero category 8 or 9 rows. That is stricter than saying a GPU would be convenient. No next-rung benchmark has yet measured the benefit, so even category 8 is unearned. It is also stricter than saying every future experiment will remain local: category 9 is available, but only after a named fidelity, power, or real-time target survives the local feasibility attack and a bounded next-rung parity pilot.
+The wider 291-row planning matrix, which adds F21-F66, 17 cross-cutting frontiers, W0-W11, and
+dossier pillars 7-25, has 168 category-1, 90 category-2, 29 category-3, and four category-6 rows.
+It has zero category 8 or 9 rows. That is stricter than saying a GPU would be convenient. No
+next-rung benchmark has yet measured the benefit, so even category 8 is unearned. It is also
+stricter than saying every future experiment will remain local: category 9 is available, but only
+after a named fidelity, power, or real-time target survives the local feasibility attack and a
+bounded next-rung parity pilot.
 
 The best use of additional compute today is not a larger inherited encoder. It is more independent referents and environments, stronger controls, longer developmental histories, interventions, architecture diversity at matched active FLOPs, and exact failure discovery. The immediate program is therefore a capability-density program, not a parameter-scaling program.
 
@@ -38,31 +50,47 @@ This report uses five evidence tags:
 
 No execution receipt here is evidence of consciousness, sentience, general intelligence, or intrinsic agency. Workspace, self-model, confidence, report, curiosity, and broadcast are theory-neutral operational variables only.
 
-The snapshot was taken in a dirty working tree with two unrelated long-running local jobs. No large sizing probe, cloud rental, corpus download, dataset-term acceptance, or external mutation was performed for this research. In-progress CM7 and SANPO outputs are not used as durable evidence until their final receipts close.
+The snapshot was taken in a dirty working tree while the resumable P4 campaign occupied the one
+heavy lane. No cloud rental, corpus download, dataset-term acceptance, or external mutation was
+performed for this research. CM7 is now a closed five-seed bound null; partial or source-drifted
+historical outputs remain excluded.
 
 ## Repository audit
 
 ### What the current host has actually demonstrated
 
-**[M]** `proof/STUDIO_READINESS_CURRENT_HOST.json` records an Apple M3 Pro with 19.3 GB unified memory, MPS available, a 180-minute bounded wall, one-heavy-process discipline, and a fail-closed 40 GB free-disk floor. Unified memory is not interchangeable with dedicated VRAM. PyTorch exposes current MPS allocation, driver allocation, and Metal's recommended working set separately; allocator watermarks are ratios of that working set, not promises that every installed byte is safe for GPU residency ([MPS memory APIs](https://docs.pytorch.org/docs/main/mps.html), [MPS allocator variables](https://docs.pytorch.org/docs/stable/mps_environment_variables.html)).
+**[M]** `proof/STUDIO_READINESS_CURRENT_HOST.json` records an Apple M3 Pro with 19.3 GB unified memory, MPS available, a 300-minute adaptive operational maximum, one-heavy-process discipline, and a fail-closed 40 GB free-disk floor. Frozen experiment shards keep their registered budgets. Unified memory is not interchangeable with dedicated VRAM. PyTorch exposes current MPS allocation, driver allocation, and Metal's recommended working set separately; allocator watermarks are ratios of that working set, not promises that every installed byte is safe for GPU residency ([MPS memory APIs](https://docs.pytorch.org/docs/main/mps.html), [MPS allocator variables](https://docs.pytorch.org/docs/stable/mps_environment_variables.html)).
 
-**[M]** ViT-L, ViT-H, and ViT-g all encode locally and serially:
+**[M]** The retained ViT-L control encodes locally and serially:
 
 | Frozen encoder | Shared clips | Seconds/clip | Peak RSS | 10,000-clip serial projection |
 |---|---:|---:|---:|---:|
 | ViT-L | 8 | 22.335 | 2.589 GB | 62.0 h / 2.58 d |
-| ViT-H | 8 | 34.728 | 4.000 GB | 96.5 h / 4.02 d |
-| ViT-g | 8 | 187.333 | 6.616 GB | 520.4 h / 21.7 d |
 
-The first three columns come from the citable cache run receipts. The last is **[C]** `10,000 * measured seconds/clip / 3,600`. The result is a serious throughput cost, not a resident-memory failure. A learned-plus-random cache at all three scales would take about 1,358 serial hours at those rates if random initialization had identical throughput. That extrapolation is a planning upper bound, not evidence for buying a machine.
+The first three columns come from the citable cache run receipt. The last is **[C]** `10,000 *
+measured seconds/clip / 3,600`. The result is a serious throughput cost, not a resident-memory
+failure. Larger legacy scale controls and their cache receipts remain immutable historical evidence
+but are no longer executable options, active ledger inputs, or roadmap dependencies.
 
-**[M]** The eight-referent scale atlas scores ViT-L/H/g identically at the programmatic factor-probe ceiling while ViT-g costs about 8.4 times ViT-L's encode time and 2.6 times its RSS. This is evidence against assuming a scale benefit. It is not a scientific null: the atlas has only eight programmatic referents, no byte-identical cross-resolution stimuli, no matched random-architecture cache, and no seed distribution.
+**[M]** The eight-referent scale atlas scores its three legacy scale-control instruments identically
+at the programmatic factor-probe ceiling. Strict cross-resolution stimulus identity and nine
+same-architecture random controls now pass. This is evidence against assuming a scale benefit. It
+is not a scientific null because the generated cohort has only eight referents, only four held-out
+items, and no natural-session external validity.
 
-**[M]** `proof/CUSTOM_SUBSTRATE_CALIBRATION.json` demonstrates a teacher-independent CM7 mechanics path with 1,646,080 parameters, 256 dense spatiotemporal tokens, four matched objectives, exact frozen initialization, checkpoints, and finite MPS execution. Its one seed and three updates per arm are calibration only. The historical `cm7_local180` and `cm7_local180_citable` directories are not promotable: one was aborted for source drift, and one stopped after a transient Metal command-buffer recovery. Exact CPU and isolated-MPS replay were finite, so that event is a recovery/software issue, not a memory boundary. The source-snapshotted v3 campaign was still in progress at audit time and is excluded from the durable conclusion.
+**[M]** `proof/CUSTOM_SUBSTRATE_PILOT.json` binds a teacher-independent CM7 path with 1,646,080
+parameters, 256 dense spatiotemporal tokens, four matched objectives, exact frozen initialization,
+checkpoints, and five complete 1,000-update seeds. The independent familywise-corrected verifier
+returned `not-promoted`. The exact regime is retired as a bound null. Historical source-drift and
+transient-recovery directories remain nonpromotable and visible for forensic use only.
 
-**[M]** A newer `proof/LOCAL_ACTION_ENVIRONMENT.json` verifies three deterministic programmatic seeds, exact replay, action-blind/shuffled controls, and local E5/F6/F15/CM10 mechanics in 1.79 seconds at about 263 MB peak RSS. Its own scope forbids scientific promotion. E10 still needs population search, environment generation, transfer, and a non-plateau horizon. CM10 still needs rendered observations, a citable substrate cache, the exact frozen V-JEPA 2-AC control, and the matched-compute unrolled-depth control. This receipt demotes the environment adapter from a hardware concern; it does not establish embodiment, open-endedness, or a real-time requirement.
+**[M]** `proof/LOCAL_ACTION_ENVIRONMENT.json` verifies three deterministic programmatic seeds, exact replay, action-blind/shuffled controls, and local E5/F6/F15/CM10 adapter mechanics in 1.79 seconds at about 263 MB peak RSS. P7 then closes rendered observations, same-parent branches, eight arms, equal-core/depth controls, calibration, horizon, planning, and mutation checks. Both receipts forbid scientific promotion, and the P7 fixture loses to reactive. E10 still needs population search, environment generation, transfer, and a non-plateau horizon. CM10 now needs independently sourced trajectories, an exact-referent action control, and replication. These receipts demote the software and hardware questions; they do not establish embodiment, open-endedness, or a real-time requirement.
 
-**[M]** The project-exhaustion ledger accounts for all 175 non-F rows exactly once and reports zero measured hardware blockers. Its generation-time `self_verification.verified` must not be read as a live guarantee; current-source auditing finds stale embedded hashes described below.
+**[M]** The project-exhaustion ledger accounts for all 177 non-F rows exactly once and reports zero
+measured hardware blockers. Its current partition is 120 freshly executed class paths, 37 durable
+existing results, one implementation blocker, 11 rights/data blockers, and eight upstream/model
+prerequisites. Generation-time verification is still checked against live source hashes by the
+requirements builder.
 
 ### Natural intake and F-chain limits
 
@@ -80,7 +108,7 @@ Generated artifacts were treated as stale whenever an embedded hash disagreed wi
 |---|---|---|
 | `proof/PROJECT_EXPERIMENT_EXHAUSTION.json` | Current embedded-hash audit finds changed experiment/config, preflight, generator, and registry paths; repeated references are deduplicated in the matrix | Preserve generation-time context only; authoritative row evidence points to currently hashed direct receipts instead |
 | `proof/FRONTIER_LOCALIZATION.json` | Three references retain the old scale-atlas hash | Its fail-closed conclusion survives; its embedded atlas identity does not |
-| ViT-H/g standalone CPU-forward receipts | Their encoder config hashes predate random-init/revision fields | The self-contained forward and cache receipts prove local execution; the old config binding is stale |
+| Retired legacy scale-forward receipts | Their encoder config hashes predate later config fields | Preserve as historical execution evidence only; exclude from current rows and active selectors |
 | `proof/FORM_SUBSTRATE/SCORECARD.json` | F8/F16 still carry old GPU/Studio labels | Current registry, configs, classes, campaign, and refreshed contract audit govern: environment/data, not hardware |
 | `proof/ARTIFACT_INDEX/form_substrate.json` | 26 of 66 hashes differ; bundle says `all_ok=false`, durable 0, missing 2 | Do not cite the bundle as a current durable chain |
 | Old random-init ViT-L artifact | Quarantined because no `cache_manifest.json` existed | Superseded 2026-07-10: a citable seed-0 matched random-architecture ViT-L cache now exists (`data/cache/vjepa2_vitl_local8_random_s0`, backend `vjepa_hf_random_init`, manifest and state-dict hash recorded) and the refreshed scale atlas consumes it |
@@ -89,30 +117,30 @@ The exact current hashes and audit pointers are emitted under `embedded_hash_aud
 
 ### Upstream correction: V-JEPA 2.1 is available
 
-The registry and local `configs/encoder/vjepa21_vit{b,l}.yaml` still describe placeholder or unpublished weights. That is now false. Meta's official repository records a V-JEPA 2.1 release on 2026-03-16 with four dense encoders at 384 px ([official V-JEPA 2 repository](https://github.com/facebookresearch/vjepa2), [V-JEPA 2.1 paper](https://arxiv.org/abs/2603.14482)):
+The retained dense ViT-B config is no longer a placeholder. Meta's official repository records the
+release and the exact retained checkpoint at 384 px ([official V-JEPA 2 repository](https://github.com/facebookresearch/vjepa2), [V-JEPA 2.1 paper](https://arxiv.org/abs/2603.14482)):
 
 | torch.hub entrypoint | Parameters | Direct checkpoint |
 |---|---:|---|
 | `vjepa2_1_vit_base_384` | 80M | `dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt` |
-| `vjepa2_1_vit_large_384` | 300M | `dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt` |
-| `vjepa2_1_vit_giant_384` | 1B | `dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitg_384.pt` |
-| `vjepa2_1_vit_gigantic_384` | 2B | `dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitG_384.pt` |
 
-The code and weights are majority-MIT with Apache-2.0 portions, and the download path needs no manual terms acceptance. Two access cautions: the official Hugging Face release is still an open upstream request ([vjepa2#137](https://github.com/facebookresearch/vjepa2/issues/137), [transformers#45496](https://github.com/huggingface/transformers/issues/45496)), so the repo's `vjepa_hf` backend cannot load 2.1 first-party yet; and the community conversion `Dev-Jahn/vjepa2.1-vitl-fpc64-384` is not first-party and may be cited only after a receipted feature-parity check against the torch.hub checkpoint. The B and L checkpoints are distillations from ViT-G (the `dist_vitG` suffix), which any scale-comparison design must declare: 2.1 B/L are not independent scale points.
+The code and weights are majority-MIT with Apache-2.0 portions, and the download path needs no
+manual terms acceptance. The exact `dist_vitG` suffix is retained because it is part of the official
+ViT-B object name and records teacher provenance; it does not select or load another model. No
+larger inherited variant remains in the active discovery surface.
 
-Therefore E6 and the dense part of DR14 are category 2, not category 7. **[M]** Measured 2026-07-10: the full 1.664 GB ViT-B checkpoint was acquired against the pinned ETag/version (sha256 `848a77c3...`, `data/models/vjepa21/`), strict `ema_encoder` load passed (`proof/VJEPA21_VITB_LOAD.json`), and finite dense forwards passed at 8 frames ([1, 2304, 768], 0.88 s forward, 0.83 GB peak child RSS, `proof/VJEPA21_VITB_FORWARD.json`) and native 64 frames ([1, 18432, 768], 25.2 s forward, 1.33 GB peak child RSS, `proof/VJEPA21_VITB_FORWARD_64F.json`), all CPU. The 2.1 dense lane is measurably local at B scale; the encoder config's `available` flip and experiment routing stay with the E6 loader wiring, which remains the category-2 blocker. None of this is a reason to rent hardware.
+E6 and the dense part of DR14 moved from historical category 7 to local implementation, and now to category 3 after that implementation completed. **[M]** The full 1.664 GB ViT-B checkpoint was acquired against the pinned ETag/version (sha256 `848a77c3...`, `data/models/vjepa21/`), strict `ema_encoder` load passed (`proof/VJEPA21_VITB_LOAD.json`), and finite dense forwards passed at 8 frames ([1, 2304, 768], 0.88 s forward, 0.83 GB peak child RSS, `proof/VJEPA21_VITB_FORWARD.json`) and native 64 frames ([1, 18432, 768], 25.2 s forward, 1.33 GB peak child RSS, `proof/VJEPA21_VITB_FORWARD_64F.json`), all CPU. `proof/E6_VITB_DENSE_PREFLIGHT.json` now verifies the cache-first learned/random manifest, E6 consumer, and DR14 nested-view interfaces without loading the model. The first blocker is a citable annotated natural task cohort and cache materialization, not implementation or hardware.
 
 ## Complete current-registry blocker reclassification
 
-All current rows not named below are category 1. This defines all 195 rows without hiding a historical tier behind a summary count.
+All current rows not named below are category 1. This defines all 197 rows without hiding a
+historical tier behind a summary count.
 
 ### Category 2: eleven local implementation/control rows
 
 | ID | First blocker | Why not hardware |
 |---|---|---|
-| `e6_relational` | Integrate and verify an official dense V-JEPA 2.1 checkpoint | Checkpoint is now published; L/H/g already execute serially locally |
 | `mop_dr5_cross_substrate_consistency` | Citable same-architecture random controls and compatible-task grid | Independent caches and seeds serialize |
-| `mop_dr14_corruption` | Dense-token cache integration for the dropped-channel arm | Released checkpoint plus streaming cache; no measured resident failure |
 | `mop_at1_nuisance_grid` | Complete citable encoder × random-init columns | A control-construction problem |
 | `mop_cm6_distilled_density` | Trainable student plus same-size non-distilled/random controls | Frozen teacher can be cached; 1.65M-scale students are local |
 | `e10_openended` | Integrate a bounded local persistent environment and fixed horizon | MiniGrid/Crafter-class mechanics do not require external hardware |
@@ -121,21 +149,33 @@ All current rows not named below are category 1. This defines all 195 rows witho
 | `mop_at2_mode_substrate_dep` | Verified winning-mode input and complete real/random cache condition | Cache/control integration, not memory |
 | `mop_cm11_developmental_plasticity` | Calibrated curriculum and independent signature recomputation | Local implementation and verification |
 | `mop_cm12_mop_substrate_capstone` | Compatible experts, shared battery, and open-model control | Input/control assembly before any scale question |
+| `ex5_local_rules_scale` | Rebind the live source and execute the registered local scale path | Source identity and local execution, not hardware |
 
-### Category 3: seventeen data/cache/rights rows
+### Category 3: nineteen current-registry data/cache/rights rows
 
 | IDs | First blocker |
 |---|---|
 | `mop_dr1`, `mop_dr2`, `mop_dr3`, `mop_dr4`, `mop_dr7`, `mop_dr15` | Rights-cleared natural/causal/compatible modality streams and citable caches |
 | `mop_al2`, `mop_al3` | Meaningful shared content and native aligned audiovisual data |
-| `mop_cm1`, `mop_cm2`, `mop_cm3`, `mop_cm4`, `mop_cm8`, `mop_cm9`, `mop_cm10` | Natural/action-rendered cache dependency chain, dense tokens, binding annotations, or the exact frozen action-conditioned control |
+| `e6_relational`, `mop_dr14_corruption` | Rights-clean annotated natural task cohort, strict dense cache pair, and independent verification |
+| `mop_cm1`, `mop_cm2`, `mop_cm3`, `mop_cm4`, `mop_cm8`, `mop_cm9` | Natural cache dependency chain, dense tokens, or binding annotations |
+| `mop_cm10` | Programmatic P7 mechanics support the null; independently sourced action trajectories, an exact-referent control, and replication remain |
 | `f8`, `f16` | Trusted natural trajectories and provenance |
 
 The table uses shortened prefixes for readability; exact IDs and row-specific reasons are in the JSON matrix.
 
 ### Category 6: zero current rows
 
-The currently registered E5 variant is implemented and the three-seed `proof/LOCAL_ACTION_ENVIRONMENT.json` now verifies bounded deterministic action mechanics locally, so E5 remains category 1. E10 first needs population search, environment generation, sustained horizons, and transfer implementation, so it is category 2. CM10's adapter mechanics now run, but its registered claim still needs rendered action-conditioned observations, a citable substrate cache, and the exact frozen V-JEPA 2-AC control, so it is category 3. Later real sensors, participants, robots, or non-replayable environments are separate category-6 promotion stages; no accelerator supplies those intervention surfaces.
+The currently registered E5 variant is implemented and the three-seed
+`proof/LOCAL_ACTION_ENVIRONMENT.json` verifies bounded deterministic action mechanics locally, so
+E5 remains category 1. E10 first needs population search, environment generation, sustained
+horizons, and transfer implementation, so it is category 2. P7 now closes CM10's programmatic
+rendering, same-parent interventions, eight arms, matched-depth/equal-core controls, calibration,
+horizons, planning, and replay attacks. The learned planners lost to the reactive baseline, so the
+fixture is a mechanics-level null. CM10's first remaining blocker is independently sourced
+trajectories plus an exact-referent action control and replication. Later real sensors, participants,
+robots, or non-replayable environments are separate category-6 promotion stages; no accelerator
+supplies those intervention surfaces.
 
 ### Categories 4, 5, 7, 8, and 9: zero current rows
 
@@ -160,8 +200,8 @@ The machine matrix also covers every explicit expansion workstream and the exper
 |---|---:|---|
 | W0 Real-evidence completion | 3 | Rights-cleared real and natively aligned data |
 | W1 Temporal referents and event identity | 2 | Controlled temporal mechanics |
-| W2 Active multimodal perception | 6 | Acquisition-capable environment or sensor interface |
-| W3 Boundary, agency, and body model | 6 | Causal action/body/tool intervention environment |
+| W2 Active multimodal perception | 2 | Local selective-acquisition simulator and sensor-cost controls |
+| W3 Boundary, agency, and body model | 2 | Extend the verified local action contract with simulated body/tool interventions and yoked controls |
 | W4 Memory lifecycle and continuity | 2 | Local lifecycle implementation and controls |
 | W5 Multiscale plasticity and morphogenesis | 2 | Local growth/plasticity implementation and capacity matching |
 | W6 Workspace and operational self-model | 2 | Broadcast, telemetry, lesion, and report-grounding hooks |
@@ -182,17 +222,17 @@ Dossier pillars 7-25 are represented as 19 source-derived rows. Vision, audio, a
 | Dense high-resolution long context | Masking, tubelets, local windows, recurrence/SSM, cached memory | 2 | First implement all attacks; category 5 requires a measured local factorization need |
 | Learned versus random scale controls | Same bytes/referents, architecture, seed, precision, resolution | 2 | Implement citable controls before measuring serial slowness or a next-rung speedup |
 | Multi-seed objective/ablation matrix | Paired sequential seeds with anytime-valid or fixed design | 2 | Name endpoint, SESOI, variance, dependence, and harness before calling the matrix slow |
-| Million-event continual learning | Stream input, disk replay, bounded state, resumable checkpoints | 2 | Implement and profile the harness; a non-replayable live deadline could later change the rung |
-| Action-conditioned world model | MiniGrid-scale adapter, action shuffle, blind model, tiny latent model | 2 | Measured p95 latency misses an environment deadline that cannot be slowed |
+| Million-event continual learning | Run the implemented disk stream at 10k, 100k, and conditional 1m rungs | 2 | Replicated local profiles come first; only an irreducible live deadline could change the rung |
+| Action-conditioned world model | Reuse the verified P7 harness on independently sourced trajectories and an exact-referent control | 3 | Measured p95 latency misses an environment deadline that cannot be slowed |
 | Active perception | Simulated camera/sensor choices and sensor-cost curve | 2 | Real sensor/actuator validation is category 6, not a compute rung |
 | Native multimodal binding | Compact bottleneck fusion on aligned A/V; telemetry as a local modality | 3 | Full modality × objective replication only after compatible data exist |
 | Natural objects/events/causal state | MOVi/CLEVRER mechanics then natural multi-object sessions and interventions | 3 | Compute cannot resolve observational non-identifiability |
 | Population/open-ended/social | Small QD/multi-agent population with fixed horizon | 2 | Measured throughput benefit; human/physical partners remain category 6 |
-| Workspace/operational self-model | Logged telemetry, calibrated failure prediction, causal ablations | 2 | Ensembles serialize; a live deadline must be measured |
+| Workspace/operational self-model | Reuse verified P9 telemetry, calibration, causal ablations, and relief control on independent natural failures | 3 | Ensembles serialize; a live deadline must be measured |
 | Small-substrate architecture search | Query/proxy screen, random search, exact shortlist retraining | 2 | Category 8 only after proxy rank validity and campaign timing |
 | Digital material simulation | Small simulator, drift/damage controls, digital reservoir baseline | 2 | Device claims require specimens, not more simulation compute |
 | Robustness sweeps | Minimal corruption × severity screen, adaptive expansion | 2 | Implement the adaptive screen; category 4/8 only after measured expansion |
-| Full-system density accounting | Ingest/cache/train/eval/retry/storage accounting | 2 | Instrumented wall-power work is category 6 until a meter exists |
+| Full-system density accounting | Run the implemented accountant on independent natural end-to-end workloads | 3 | Instrumented wall-power work is category 6 until a meter exists |
 | Physical/sensor/participant validation | Named external unit and preregistered protocol | 6 | No compute purchase removes this blocker |
 
 ### Why efficient temporal methods are compulsory controls
@@ -406,7 +446,10 @@ The three genuine enablement tests are:
 
 More seeds, frames, referents, or independent jobs alone are throughput, not enablement.
 
-## The Studio-necessity facet: what could actually consume the studio-m1ultra envelope
+## Historical next-host scenario audit
+
+> This section preserves earlier scenario arithmetic for auditability. It does not define the
+> current queue or a procurement case. The survivor-only prompt and measured category gate govern.
 
 Added 2026-07-10 as the goal-loop fold-in. Everything above answers "is anything category 8 or 9 today" (no). This facet answers the inverse question the program keeps asking: if a host satisfying the `studio-m1ultra` envelope materializes (128 GB unified memory, 8 TB disk with an 800 GB reserve and 250 GB free floor, tiers C+E, week-scale wall clock, 16-worker CPU default; `src/mop/studio/profiles.py`, `procurement_status: unverified-procurement-scenario`), which workloads would honestly consume it, in what order, and what receipt must exist before each may claim Studio time. Nothing here weakens the executive answer: every row below is category 1-6 today, and the envelope stays hypothetical until a strict doctor measures a real host against its floors.
 
@@ -414,8 +457,9 @@ Added 2026-07-10 as the goal-loop fold-in. Everything above answers "is anything
 
 - **[M]** Wave-0 encode microbench (2026-07-03, `STUDIO_RUN_REPORT.md`): V-JEPA 2 ViT-L, 64 frames at 256 px, one CPU worker, 13.69 s/clip stable over 8 real clips. A later auto receipt measured 16.191 s/clip and the earlier citable cache builds measured 21-22.3 s/clip on the same path, so the honest planning band is 13.7-22.3 s/clip.
 - **[M]** The same microbench ran MPS to completion at about 821 s/clip on one clip: roughly 60x slower than CPU, memory-pressured at 18 GB. The historical hard `Invalid buffer size` overflow recorded in `STUDIO_HANDOFF.md` did not reproduce on this path. The measured laptop MPS wall is paging pressure, not a proven per-buffer ceiling, so the old claim "more unified memory would not help MPS" is retired. Whether 128 GB makes MPS the encode winner is an open measurement that only the target host can settle (the pending Wave-0 microbench).
-- **[M]** ViT-H 34.7 s/clip at 4.0 GB peak RSS; ViT-g 187.3 s/clip at 6.6 GB peak RSS, serial CPU, citable cache receipts.
-- **[M]** Host: 19.3 GB unified memory, 460 GB disk whose free space measured between 60 and 97 GB this week against the fail-closed 40 GB floor, a 180-minute shard wall, one-heavy-process discipline, and the host is the operator's daily machine.
+- **[M]** Retired scale-control receipts prove that those historical instruments also ran locally,
+  but they are excluded from current selectors, requirements, and frontier conclusions.
+- **[M]** Host: 19.3 GB unified memory, 460 GB disk whose free space measured between 60 and 97 GB this week against the fail-closed 40 GB floor, a 300-minute adaptive operational maximum, one-heavy-process discipline, and the host is the operator's daily machine.
 
 ### The four measurable Studio quantities
 
@@ -424,9 +468,9 @@ Every honest Studio claim in this program reduces to one of four quantities, eac
 | Quantity | Laptop measured | studio-m1ultra envelope | Who consumes it |
 |---|---|---|---|
 | Encode throughput | 13.7-22.3 s/clip serial CPU; MPS 821 s/clip at 18 GB | **[E]** 1-2 s/clip aggregate at 14-16 workers; MPS unknown until measured | S2 natural corpora, S3 control caches, S6 scale atlas |
-| Resident working set | 19.3 GB installed; safe MPS working set below that | 128 GB installed (floor 120) | S5 perspective ecology, S6 ViT-G, any future P5 boundary |
+| Resident working set | 19.3 GB installed; safe MPS working set below that | 128 GB installed (floor 120) | S5 perspective ecology or a future measured P5 survivor |
 | Durable artifact bytes | 460 GB total, 60-97 GB free, 40 GB floor | 8 TB total, 7.2 TB usable, 250 GB floor | S1 dense caches, hosted corpora |
-| Dedicated calendar | 180-minute shards on a daily-driver machine | week-scale wall (`max_wall_min` = 7 days), always-on | S4 long streams, S8 seed retrofits, every powered campaign |
+| Dedicated calendar | 300-minute operational legs on a daily-driver machine | week-scale wall (`max_wall_min` = 7 days), always-on | S4 long streams, S8 seed retrofits, every powered campaign |
 
 Parallel workers on the laptop are bounded by memory as well as discipline: at the measured 2.6-4.0 GB per ViT-L/H worker, 18 GB minus OS headroom supports at most 2-3 concurrent encoders, so the 16-worker projection is a genuine envelope difference, not a scheduling choice.
 
@@ -438,7 +482,13 @@ Each row states the arithmetic from measured constants, the local attack that mu
 **[C]** At the measured band, 1,000 clips cost 3.8-6.2 serial CPU hours (locally feasible in 2-3 shards); 10,000 cost 38-62 hours (a week-plus of daily shards); 100,000 cost 380-620 hours, which is 16-26 days of continuous single-worker compute and not schedulable on a daily-driver laptop. **[E]** The 16-worker projection puts 100k clips at 2.5-6 days. The scientific need for more than about 1,000 clips is not yet earned: session-level variance from the first natural pilot must set the confirmatory n, and rights intake precedes everything. Gate: measured session variance, a named corpus size from the power calculation, and a measured local calendar that exceeds a preregistered decision deadline. Demotion: if the pilot's endpoints sit at ceiling or the session effect is resolvable at 1k clips, the scale claim dies.
 
 **S4. Long-stream continual learning at loss-inducing length (P6, PR9, facet 16).**
-Streams replay from disk and checkpoints resume exactly, so laptop shards remain scientifically valid at any length; the measured blocker is dedicated calendar, an operational-availability boundary rather than a validity one. Gate: the local 100k-event calibration (P6 card) plus a certificate that the loss-inducing stream length exceeds what 180-minute shards can traverse before the preregistered decision date. The one honest exception: a preregistered estimand coupled to wall clock (a live, non-replayable stream) would convert this to enablement; no current card names one. Demotion: if 100k events resolve the horizon question, the million-event rung is never bought.
+The 384-event preflight now proves disk-backed hash-chain identity, exact cursor resume, both
+transition schedules, all three controls, and six metric families without model weights or an
+accelerator. It does not measure a calendar blocker. Gate: admitted 10k and 100k profiles across
+independent seeds, followed by one million events only if the shorter rung leaves the horizon
+decision unresolved. A live non-replayable deadline could later change the necessity class, but no
+current card names one. Demotion: if 100k events resolves the decision, the million-event rung and
+any next-host claim close.
 
 **S1. The dense-token cache lane (DR3 scratchpad, CM3, DR14 dense arm, ex9 dense arm, facet 8).**
 **[C]** Dense V-JEPA tokens at 64 f/256 px are 8,192 x 1,024 x 2 bytes = 16.78 MB/clip fp16; 384 px multiplies by 2.25 (18,432 tokens, 37.7 MB/clip). So 10k clips = 168 GB and 100k = 1.68 TB at 256 px. **[M/C]** Against 60-97 GB free and the 40 GB floor, the honest local dense ceiling is roughly 1,200-3,400 clips; a 10k-clip dense cache is physically impossible on this disk regardless of scheduling. Local attack: pooled screening first (2 KB/clip), dense-on-demand recompute (trades disk for the measured s/clip and multiplies under multi-pass access), sharded rotation under the floor. Gate: a named dense-token experiment whose power analysis needs more than the local dense ceiling and whose access pattern defeats recompute (repeated random access across the whole corpus). Demotion: dense endpoints at ceiling/floor in the small-dense pilot kill the terabyte artifact permanently.
@@ -446,8 +496,12 @@ Streams replay from disk and checkpoints resume exactly, so laptop shards remain
 **S3. Learned-versus-random control caches beyond ViT-L (P3).**
 **[C]** A 64-clip cache costs about 24 min (L), 37 min (H), 3.3 h (g) serial; a 22-session paired campaign across three scales and two arms lands near 60-90 serial hours, L1-feasible but calendar-hostile. Category 8 candidate at a named calendar target only after the L-scale delta leaves a scale-dependent uncertainty. Demotion: random ties learned at L on natural referents.
 
-**S6. V-JEPA 2.1 ViT-G and the atlas top rung.**
-**[P]** ViT-G is 2B parameters at 384 px, roughly 8 GB of fp32 weights. **[E]** Extrapolating measured ViT-g 187 s/clip, a ViT-G 384 px CPU forward plausibly costs 6-12 minutes/clip, and its peak RSS is the one integration where a local memory boundary is plausible but unmeasured. Probe order: ViT-B 2.1 one-clip forward locally (**[M]** passed 2026-07-10: 25.2 s/clip forward, 1.33 GB peak at native 64 f/384 px dense geometry), then ViT-L 2.1 only when an experiment names it, ViT-G only after an off-ceiling endpoint requires a fourth scale point. The current eight-referent atlas ties L/H/g at ceiling, so a fourth point is scientifically unearned today. Note the distillation caveat: 2.1 B/L are ViT-G distillates, not independent scale points.
+**S6. Retired inherited-scale expansion lane.**
+The old scale ladder is closed as an active program. Historical receipts showed local execution and
+an eight-referent ceiling, not a scientific scale benefit. Current work uses the retained dense
+ViT-B instrument and owned custom substrates. A future inherited-scale proposal would require a new
+off-ceiling scientific endpoint, a preregistered reason that the custom and compact controls cannot
+answer it, and a fresh measured necessity gate. No such proposal is queued.
 
 **S5. The resident perspective ecology (facet 15).**
 **[C]** Ten-plus encoders plus a 7B-class captioner are about 30 GB fp16 of weights alone, above the 18 GB host and comfortably inside 128 GB. Local attack: cached features on identical referents make simultaneity unnecessary for every currently registered alignment claim; the ecology evidence object is the `PerspectiveMatrix`, which is storage, not residency. Category 5-then-8. It becomes category 9 only if a closed-loop multi-perspective interaction with a latency deadline is preregistered; none is.
@@ -481,10 +535,12 @@ The Form Substrate extended-compute lane (P1-P10) and the MoP goal-loop spine (D
 
 ## Unresolved questions and uncertainty register
 
-1. The corrected SANPO execute intake was still running at the evidence snapshot; its final receipt may change the immediate data plan, not the hardware decision.
-2. CM7 v3 was still running. Completed five-seed results may change objective ranking and variance estimates, not the already measured fit of its 1.65M-parameter mechanics.
-3. Resolved 2026-07-10 at B scale: the official V-JEPA 2.1 ViT-B checkpoint is acquired, hash-receipted, strict-loaded, and forward-verified at 8 and 64 frames on CPU (25.2 s/clip forward, 1.33 GB peak at native dense geometry). E6/DR14 remain category 2 on experiment-side loader wiring; ViT-L/g/G stay unprobed until an experiment names them.
-4. Partially resolved 2026-07-10: a citable seed-0 architecture-matched random ViT-L control now exists and the refreshed atlas consumes it. **[M]** At the eight-referent programmatic ceiling the random control ties learned on the hue factor (both 1.0) and sits at chance (0.5) on the motion factor while learned L/H/g score 1.0. Direction only: one control seed, four held-out referents, non-promotable by the receipt's own eligibility gate. H/g random controls, more seeds, and byte-identical stimulus hashes remain open.
+1. The corrected SANPO dry-run and verifier are green, but the authoritative execute receipt is not
+   present. That may change the immediate data plan, not the hardware decision.
+2. Resolved 2026-07-10: CM7 closed as a five-seed, 1,000-update, familywise-corrected
+   `not-promoted` null. Its exact regime is retired.
+3. Resolved 2026-07-10 at B scale: the official V-JEPA 2.1 ViT-B checkpoint is acquired, hash-receipted, strict-loaded, forward-verified at 8 and 64 frames on CPU, and connected to cache-first E6/DR14 interfaces. The remaining gate is citable natural task data, cache materialization, and independent verification.
+4. Resolved as mechanics 2026-07-10: nine architecture-matched random controls exist and the scale atlas strictly consumes their shared stimulus-identity receipt. The generated eight-referent cohort remains nonpromotable for natural representation claims.
 5. Local wall energy is unmeasured. Any joule or carbon comparison is provisional until plug-level instrumentation defines the system boundary.
 6. The paired-effect variance for decisive natural-video outcomes is unknown. Five seeds estimate it; confirmatory `n` must be recalculated from the pilot.
 7. Cloud prices, inventory, and Apple configurations are unstable. Refresh official pages and obtain a quote only after the scientific gate passes.
@@ -494,4 +550,9 @@ The Form Substrate extended-compute lane (P1-P10) and the MoP goal-loop spine (D
 
 ## Bottom line
 
-The repository has already falsified the easy version of the Studio story: ViT-H and ViT-g run locally, CM7 is tiny and trainable, the ledger has no measured hardware blocker, F8/F16 are data-gated, and the only apparent unpublished dense checkpoint is now officially released. The decisive next work is to repair evidence identity, finish small local campaigns, acquire rights-clean independent data, build matched controls, and measure response surfaces. Hardware escalation remains a gated experimental result, not a planning assumption.
+The repository has already falsified the easy version of the Studio story: retired inherited-scale
+instruments ran locally, CM7 is tiny and trainable, the ledger has no measured hardware blocker,
+F8/F16 are data-gated, and the retained dense checkpoint runs locally. The decisive next work is to
+repair evidence identity, finish small local campaigns, acquire rights-clean independent data,
+build matched controls, and measure response surfaces. Hardware escalation remains a gated
+experimental result, not a planning assumption.

@@ -1,10 +1,14 @@
 # FORM SUBSTRATE DEEP EXPANSION PLAN
 
+> LIVE INTEGRATION 2026-07-10: the current queue and hardware gate are in
+> `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`. The operational maximum is 300 minutes; explicit larger
+> inherited-scale names below are historical control inventory, not active dependencies.
+
 > **Live execution note, 2026-07-10:** Sections 0-20 preserve the research program as it was
 > scoped before the local ceiling campaign. Section 21 is the authoritative execution addendum.
 > Where an older line says that an encoder scale is unavailable, that encoder training must not
 > begin, or that a planning tier implies Studio/GPU hardware, Section 21 supersedes it with measured
-> local receipts, the 180-minute M3-Pro profile, and the teacher-independent custom-substrate lane.
+> local receipts, the 300-minute adaptive M3-Pro profile, and the teacher-independent custom-substrate lane.
 
 Status: proposed successor plan, research-complete enough for preregistration
 Date: 2026-07-09
@@ -1437,12 +1441,11 @@ treated as a likely remote boundary:
 | Question | Measured answer | Consequence |
 |---|---|---|
 | Can ViT-L run locally? | yes, strict offline load, forward, and citable shared-referent cache | ordinary local baseline/teacher |
-| Can ViT-H run locally? | yes, finite supervised CPU forward and eight-referent cache | model name no longer implies remote work |
-| Can ViT-g run locally? | yes, finite supervised CPU forward and serial cache | largest published scale is locally available, though slow |
+| Did the retired inherited-scale controls run locally? | yes, finite supervised CPU forwards and eight-referent caches | preserve as historical execution evidence, not a live selector or roadmap lane |
 | Does any non-F row have a measured M3-Pro hardware boundary? | no | historical compute tiers are not blockers |
 | Does any active non-F registry row still require `studio-scale`, `moonshot`, or `gpu-later`? | no | use causal input classifications instead |
 | Can the project train an owned video encoder locally? | yes, approximately 1.65M parameters on MPS | the inherited format is no longer the platform |
-| Is the old 90-minute wall authoritative? | no, the approved bounded wall is 180 minutes | long local calibration is a first-class rung |
+| Is the old 90-minute wall authoritative? | no, the approved operational maximum is 300 minutes | long local calibration is a first-class rung |
 
 The durable audit is `docs/LOCAL_CEILING_RESIDUAL_AUDIT_2026_07_10.md`. Exact load, forward,
 cache, host, frontier, and project-exhaustion receipts remain the authority for individual facts.
@@ -1592,7 +1595,7 @@ This bridge changes several old blocker classifications:
 The approved CM7 campaign is:
 
 - device: MPS on the current M3 Pro;
-- wall budget: 180 minutes per invocation;
+- operational wall budget: 300 minutes per invocation, unless a frozen scientific config specifies a shorter shard;
 - seeds: five;
 - objectives: predictive, invariance, reconstruction, random target;
 - updates: 1,000 per seed/objective;
@@ -1629,7 +1632,7 @@ The old “GPU or license-gated” summary is retired. The current first blocker
 | rights-clean natural content | DR1, CM1, F8, F16 | bounded official intake, provenance, frozen splits |
 | compatible native modalities | AL3, DR15 | stage small audio/language caches over shared tasks |
 | interactive/action environment | F6, F15, CM10, open-ended rows | implement smallest persistent local environment first |
-| matched architecture controls | AT1, AL2, DR5 | serial random-init L/H/g queue |
+| matched architecture controls | AT1, AL2, DR5 | active ViT-B/custom learned-random queue |
 | owned dense cache/runner | CM3, CM6, DR14 | export verified custom tokens and implement matched local runner |
 | long-horizon task design | scratchpad, latent reasoning, cultural/open-ended rows | build bounded mechanics before scaling lifetime |
 | physical specimen or sensor | bench material line | simulation and protocol first; compute does not supply matter |
@@ -1650,7 +1653,7 @@ The queue is:
 3. run the registered CM7 harness path so project exhaustion records actual execution;
 4. validate the bounded natural-video intake and compact consumption manifest;
 5. run ViT-L random-init architecture control and validate all hashes;
-6. only then run ViT-H and ViT-g controls serially while disk doctor remains green;
+6. only then run active ViT-B/custom controls serially while the disk doctor remains green;
 7. refresh the scale atlas with explicit pilot-only scope;
 8. refresh frontier localization;
 9. pin the official V-JEPA 2.1 repository/checkpoint authority and probe the 80M dense ViT-B

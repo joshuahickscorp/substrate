@@ -1,0 +1,468 @@
+schema: mop-local-execution-throttle-policy/v1
+profile: m3pro-local-max
+
+execution_order:
+  p5_cpu:
+    - p5smoke_cpu
+    - p5_traingrid_memory_probe_cpu
+    - p5pilot_cpu
+  p6_cpu:
+    - p6_10k_resource_probe_cpu
+    - p6_10k_replication_cpu
+    - p6_100k_replication_cpu
+    - p6_1m_replication_cpu
+
+# This is an operational envelope. Experiment-internal wall budgets remain unchanged when they are
+# part of a hashed config. Exit code 2 means "durably checkpointed and resumable" for P4 and P5, so
+# the supervisor may invoke the exact same command again inside one five-hour operational leg.
+limits:
+  hard_wall_minutes: 300
+  disk_floor_gb: 40.0
+  forecast_uncertainty_fraction: 0.25
+  minimum_write_reserve_gb: 0.5
+  minimum_unified_memory_headroom_gb: 2.0
+  minimum_mps_headroom_gb: 1.0
+  maximum_active_lanes: 2
+  maximum_heavy_lanes: 1
+
+monitor:
+  sample_interval_seconds: 15.0
+  admission_good_samples: 3
+  pause_bad_samples: 2
+  resume_good_samples: 3
+  cooldown_seconds: 60.0
+  graceful_stop_seconds: 30.0
+  require_memory_pressure: true
+  require_thermal: true
+  require_power: true
+  foreground_markers:
+    - Blender
+    - Final Cut Pro
+    - DaVinci Resolve
+    - Adobe Premiere
+    - HandBrake
+  known_heavy_markers:
+    - cache_factorized_encoder.py
+    - cache_real_encoder.py
+    - custom_substrate_workbench.py
+    - p4_capability_density.py
+    - p5_context_capability.py
+    - p5_traingrid_memory_probe.py
+    - continual_million_event_rung.py
+
+thresholds:
+  first_lane:
+    maximum_load_per_logical_cpu: 0.85
+    maximum_cpu_utilization_fraction: 0.85
+    minimum_memory_available_percent: 20.0
+    maximum_swap_used_gb: 8.0
+  second_lane:
+    maximum_load_per_logical_cpu: 0.45
+    maximum_cpu_utilization_fraction: 0.45
+    minimum_memory_available_percent: 45.0
+    maximum_swap_used_gb: 2.0
+
+tasks:
+  p4_resume_mps:
+    lane: heavy
+    accelerator: mps
+    cpu_cores: 4
+    # The in-progress CPU screen measured 1.212 GB peak RSS. Four GB is a conservative first-MPS
+    # declaration, with another 2 GB unified and 1 GB MPS headroom enforced by the scheduler.
+    estimated_unified_memory_gb: 4.0
+    estimated_mps_gb: 4.0
+    resource_basis: "clean MPS-only trajectory; P4 CPU screen max RSS 1.212 GB and provisional MPS cap 4 GB"
+    forecast_write_gb: 4.0
+    atomic_write_gb: 0.15
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/p4_screen/p4screen_mps_clean/cells/*/seed_*/*/checkpoint.pt
+      - runs/p4_screen/p4screen_mps_clean/cells/*/seed_*/seed_result.json
+      - runs/p4_screen/p4screen_mps_clean/cells/*/cell_receipt.json
+    restart_exit_codes: [2]
+    command:
+      - .venv/bin/python
+      - scripts/p4_capability_density.py
+      - --profile
+      - p4screen
+      - --device
+      - mps
+      - --run-dir
+      - runs/p4_screen/p4screen_mps_clean
+      - --out
+      - proof/P4_CAPABILITY_DENSITY_SCREEN_MPS_CLEAN.json
+
+  p4_resume_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 10
+    estimated_unified_memory_gb: 2.5
+    estimated_mps_gb: 0.0
+    resource_basis: "P4 CPU screen measured 1.212 GB max RSS; declaration keeps more than 2x margin"
+    forecast_write_gb: 4.0
+    atomic_write_gb: 0.15
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/p4_screen/p4screen/cells/*/seed_*/*/checkpoint.pt
+      - runs/p4_screen/p4screen/cells/*/seed_*/seed_result.json
+      - runs/p4_screen/p4screen/cells/*/cell_receipt.json
+    restart_exit_codes: [2]
+    command:
+      - .venv/bin/python
+      - scripts/p4_capability_density.py
+      - --profile
+      - p4screen
+      - --device
+      - cpu
+      - --run-dir
+      - runs/p4_screen/p4screen
+      - --out
+      - proof/P4_CAPABILITY_DENSITY_SCREEN.json
+
+  p5smoke_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 10
+    estimated_unified_memory_gb: 8.0
+    estimated_mps_gb: 0.0
+    resource_basis: "P5 boundary probe measured 4.8474 GB max RSS at a larger exact-token cell; 8 GB is conservative"
+    forecast_write_gb: 1.0
+    atomic_write_gb: 0.15
+    wall_minutes: 180
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/p5_context/p5smoke/frames/f*/seed_*/*/checkpoint.pt
+      - runs/p5_context/p5smoke/frames/f*/seed_*/seed_result.json
+      - runs/p5_context/p5smoke/frames/f*/frame_receipt.json
+    restart_exit_codes: [2]
+    command:
+      - .venv/bin/python
+      - scripts/p5_context_capability.py
+      - --profile
+      - p5smoke
+      - --device
+      - cpu
+      - --run-dir
+      - runs/p5_context/p5smoke
+      - --out
+      - proof/P5_CONTEXT_CAPABILITY_SMOKE.json
+
+  p5_traingrid_memory_probe_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 12
+    estimated_unified_memory_gb: 12.0
+    estimated_mps_gb: 0.0
+    resource_basis: "probe preregisters a 12 GB child guard; prior boundary trace peaked at 4.8474 GB"
+    forecast_write_gb: 0.2
+    atomic_write_gb: 0.02
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - proof/P5_TRAINGRID_MEMORY_TRACE.json.progress.json
+      - proof/P5_TRAINGRID_MEMORY_TRACE.json
+    restart_exit_codes: []
+    command:
+      - .venv/bin/python
+      - scripts/p5_traingrid_memory_probe.py
+      - --out
+      - proof/P5_TRAINGRID_MEMORY_TRACE.json
+      - --repeats
+      - "3"
+      - --seed
+      - "0"
+
+  p5pilot_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 10
+    estimated_unified_memory_gb: 8.0
+    estimated_mps_gb: 0.0
+    resource_basis: "P5 boundary probe measured 4.8474 GB max RSS at a larger exact-token cell; 8 GB is conservative"
+    forecast_write_gb: 4.0
+    atomic_write_gb: 0.15
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/p5_context/p5pilot/frames/f*/seed_*/*/checkpoint.pt
+      - runs/p5_context/p5pilot/frames/f*/seed_*/seed_result.json
+      - runs/p5_context/p5pilot/frames/f*/frame_receipt.json
+    restart_exit_codes: [2]
+    command:
+      - .venv/bin/python
+      - scripts/p5_context_capability.py
+      - --profile
+      - p5pilot
+      - --device
+      - cpu
+      - --run-dir
+      - runs/p5_context/p5pilot
+      - --out
+      - proof/P5_CONTEXT_CAPABILITY_PILOT.json
+
+  p6_10k_resource_probe_cpu:
+    lane: cpu
+    accelerator: none
+    cpu_cores: 1
+    # Deliberately null: the 384-event receipt did not measure process RSS. This one-cell probe is
+    # admitted only as an exclusive lane and remains protected by live pressure/swap/thermal gates.
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      P6 384-event payload 081808500267145d5e40b2db84cb38baf72f0ba40a8e7b71d5a463a03a789a89;
+      19,584 stream bytes and 22,612 max serialized-state bytes; process RSS unmeasured, so this is
+      the exclusive 10k resource probe rather than a claimed memory estimate
+    forecast_write_gb: 0.001065224
+    atomic_write_gb: 0.000045224
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/continual_million_event/rung_010000_probe/streams/seed_20260710/abrupt/chunk_*.bin
+      - runs/continual_million_event/rung_010000_probe/streams/seed_20260710/abrupt/manifest.json
+      - runs/continual_million_event/rung_010000_probe/checkpoints/seed_20260710/abrupt/replay.json
+      - runs/continual_million_event/rung_010000_probe/progress.json
+      - proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json
+    restart_exit_codes: []
+    depends_on: []
+    prerequisites: []
+    resource_probe: true
+    requires_empty_lanes: true
+    command:
+      - .venv/bin/python
+      - scripts/continual_million_event_rung.py
+      - --config
+      - configs/experiment/continual_million_event_rungs.yaml
+      - --rung
+      - "10000"
+      - --work-root
+      - runs/continual_million_event/rung_010000_probe
+      - --out
+      - proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json
+      - --resource-probe
+      - --seed-count
+      - "1"
+      - --schedules
+      - abrupt
+      - --arms
+      - replay
+
+  p6_10k_replication_cpu:
+    lane: cpu
+    accelerator: none
+    cpu_cores: 1
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      P6 384-event payload 081808500267145d5e40b2db84cb38baf72f0ba40a8e7b71d5a463a03a789a89;
+      disk projection is exact-event scaling with a 2x evidence margin, while unified-memory peak
+      must come from the completed exclusive 10k resource-probe receipt
+    forecast_write_gb: 0.01155672
+    atomic_write_gb: 0.000045224
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/continual_million_event/rung_010000/streams/seed_*/abrupt/chunk_*.bin
+      - runs/continual_million_event/rung_010000/streams/seed_*/abrupt/manifest.json
+      - runs/continual_million_event/rung_010000/streams/seed_*/gradual/chunk_*.bin
+      - runs/continual_million_event/rung_010000/streams/seed_*/gradual/manifest.json
+      - runs/continual_million_event/rung_010000/checkpoints/seed_*/abrupt/replay.json
+      - runs/continual_million_event/rung_010000/checkpoints/seed_*/abrupt/no-replay.json
+      - runs/continual_million_event/rung_010000/checkpoints/seed_*/abrupt/fresh-init.json
+      - runs/continual_million_event/rung_010000/checkpoints/seed_*/gradual/replay.json
+      - runs/continual_million_event/rung_010000/checkpoints/seed_*/gradual/no-replay.json
+      - runs/continual_million_event/rung_010000/checkpoints/seed_*/gradual/fresh-init.json
+      - runs/continual_million_event/rung_010000/progress.json
+      - proof/P6_CONTINUAL_10K.json
+    restart_exit_codes: []
+    depends_on: [p6_10k_resource_probe_cpu]
+    prerequisites:
+      - path: proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json
+        schema: mop-continual-progressive-rung/v1
+        fields:
+          mode: resource-probe
+          rung: 10000
+          all_mechanics_ok: true
+          resource_measurement.measured_after_complete: true
+          identity.config_sha256: 8452b7a3d7b99a42f48576cf1bddc758079e4b4f09c24214cef6e75e7ca6ec59
+          identity.runner_sha256: 043131b19fe0d7447ecb347a58c46132add17f6a6a4bc3e5c83ed235bd420fdc
+          identity.source_preflight_file_sha256: fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03
+    resource_probe: false
+    requires_empty_lanes: true
+    resource_receipt_path: proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json
+    resource_receipt_schema: mop-continual-progressive-rung/v1
+    resource_receipt_rung: 10000
+    command:
+      - .venv/bin/python
+      - scripts/continual_million_event_rung.py
+      - --config
+      - configs/experiment/continual_million_event_rungs.yaml
+      - --rung
+      - "10000"
+      - --work-root
+      - runs/continual_million_event/rung_010000
+      - --out
+      - proof/P6_CONTINUAL_10K.json
+
+  p6_100k_replication_cpu:
+    lane: cpu
+    accelerator: none
+    cpu_cores: 1
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      P6 384-event payload 081808500267145d5e40b2db84cb38baf72f0ba40a8e7b71d5a463a03a789a89;
+      disk projection is exact-event scaling with a 2x evidence margin, and memory admission uses
+      the measured completed 10k replication peak plus the scheduler uncertainty fraction
+    forecast_write_gb: 0.10335672
+    atomic_write_gb: 0.000045224
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/continual_million_event/rung_100000/streams/seed_*/abrupt/chunk_*.bin
+      - runs/continual_million_event/rung_100000/streams/seed_*/abrupt/manifest.json
+      - runs/continual_million_event/rung_100000/streams/seed_*/gradual/chunk_*.bin
+      - runs/continual_million_event/rung_100000/streams/seed_*/gradual/manifest.json
+      - runs/continual_million_event/rung_100000/checkpoints/seed_*/abrupt/replay.json
+      - runs/continual_million_event/rung_100000/checkpoints/seed_*/abrupt/no-replay.json
+      - runs/continual_million_event/rung_100000/checkpoints/seed_*/abrupt/fresh-init.json
+      - runs/continual_million_event/rung_100000/checkpoints/seed_*/gradual/replay.json
+      - runs/continual_million_event/rung_100000/checkpoints/seed_*/gradual/no-replay.json
+      - runs/continual_million_event/rung_100000/checkpoints/seed_*/gradual/fresh-init.json
+      - runs/continual_million_event/rung_100000/progress.json
+      - proof/P6_CONTINUAL_100K.json
+    restart_exit_codes: []
+    depends_on: [p6_10k_replication_cpu]
+    prerequisites:
+      - path: proof/P6_CONTINUAL_10K.json
+        schema: mop-continual-progressive-rung/v1
+        fields:
+          mode: replication
+          rung: 10000
+          all_mechanics_ok: true
+          replication_execution_complete: true
+          identity.config_sha256: 8452b7a3d7b99a42f48576cf1bddc758079e4b4f09c24214cef6e75e7ca6ec59
+          identity.runner_sha256: 043131b19fe0d7447ecb347a58c46132add17f6a6a4bc3e5c83ed235bd420fdc
+          identity.source_preflight_file_sha256: fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03
+    resource_probe: false
+    requires_empty_lanes: true
+    resource_receipt_path: proof/P6_CONTINUAL_10K.json
+    resource_receipt_schema: mop-continual-progressive-rung/v1
+    resource_receipt_rung: 10000
+    command:
+      - .venv/bin/python
+      - scripts/continual_million_event_rung.py
+      - --config
+      - configs/experiment/continual_million_event_rungs.yaml
+      - --rung
+      - "100000"
+      - --work-root
+      - runs/continual_million_event/rung_100000
+      - --out
+      - proof/P6_CONTINUAL_100K.json
+
+  p6_1m_replication_cpu:
+    lane: cpu
+    accelerator: none
+    cpu_cores: 1
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      P6 384-event payload 081808500267145d5e40b2db84cb38baf72f0ba40a8e7b71d5a463a03a789a89;
+      disk projection is exact-event scaling with a 2x evidence margin, and memory admission uses
+      the measured completed 100k replication peak plus the scheduler uncertainty fraction
+    forecast_write_gb: 1.02135672
+    atomic_write_gb: 0.000045224
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - runs/continual_million_event/rung_1000000/streams/seed_*/abrupt/chunk_*.bin
+      - runs/continual_million_event/rung_1000000/streams/seed_*/abrupt/manifest.json
+      - runs/continual_million_event/rung_1000000/streams/seed_*/gradual/chunk_*.bin
+      - runs/continual_million_event/rung_1000000/streams/seed_*/gradual/manifest.json
+      - runs/continual_million_event/rung_1000000/checkpoints/seed_*/abrupt/replay.json
+      - runs/continual_million_event/rung_1000000/checkpoints/seed_*/abrupt/no-replay.json
+      - runs/continual_million_event/rung_1000000/checkpoints/seed_*/abrupt/fresh-init.json
+      - runs/continual_million_event/rung_1000000/checkpoints/seed_*/gradual/replay.json
+      - runs/continual_million_event/rung_1000000/checkpoints/seed_*/gradual/no-replay.json
+      - runs/continual_million_event/rung_1000000/checkpoints/seed_*/gradual/fresh-init.json
+      - runs/continual_million_event/rung_1000000/progress.json
+      - proof/P6_CONTINUAL_1M.json
+    restart_exit_codes: []
+    depends_on: [p6_100k_replication_cpu]
+    prerequisites:
+      - path: proof/P6_CONTINUAL_100K.json
+        schema: mop-continual-progressive-rung/v1
+        fields:
+          mode: replication
+          rung: 100000
+          all_mechanics_ok: true
+          replication_execution_complete: true
+          identity.config_sha256: 8452b7a3d7b99a42f48576cf1bddc758079e4b4f09c24214cef6e75e7ca6ec59
+          identity.runner_sha256: 043131b19fe0d7447ecb347a58c46132add17f6a6a4bc3e5c83ed235bd420fdc
+          identity.source_preflight_file_sha256: fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03
+    resource_probe: false
+    requires_empty_lanes: true
+    resource_receipt_path: proof/P6_CONTINUAL_100K.json
+    resource_receipt_schema: mop-continual-progressive-rung/v1
+    resource_receipt_rung: 100000
+    command:
+      - .venv/bin/python
+      - scripts/continual_million_event_rung.py
+      - --config
+      - configs/experiment/continual_million_event_rungs.yaml
+      - --rung
+      - "1000000"
+      - --work-root
+      - runs/continual_million_event/rung_1000000
+      - --out
+      - proof/P6_CONTINUAL_1M.json
+
+  sanpo_intake_resume:
+    lane: network
+    accelerator: none
+    cpu_cores: 2
+    estimated_unified_memory_gb: 1.0
+    estimated_mps_gb: 0.0
+    resource_basis: "network acquisition path imports no Torch and verifies one object at a time"
+    forecast_write_gb: 2.0
+    atomic_write_gb: 0.02
+    wall_minutes: 120
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - data/raw/sanpo_real_smoke_v0/**/*
+      - proof/SANPO_REAL_SMOKE_INTAKE.json
+    restart_exit_codes: []
+    command:
+      - .venv/bin/python
+      - scripts/studio/sanpo_real_intake.py
+      - --execute
+
+  docs_verification:
+    lane: light
+    accelerator: none
+    cpu_cores: 2
+    estimated_unified_memory_gb: 1.0
+    estimated_mps_gb: 0.0
+    resource_basis: "light static verification declaration"
+    forecast_write_gb: 0.1
+    atomic_write_gb: 0.01
+    wall_minutes: 30
+    pause_safe: false
+    atomic_checkpoints: false
+    checkpoint_globs: []
+    restart_exit_codes: []
+    command:
+      - .venv/bin/python
+      - scripts/check_docs.py

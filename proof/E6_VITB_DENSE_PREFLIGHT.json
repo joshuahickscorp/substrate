@@ -1,0 +1,261 @@
+{
+  "active_heavy_processes": [],
+  "all_ok": true,
+  "checkpoint_tensor_bytes_read": false,
+  "created_at": "2026-07-10T23:40:07.709933+00:00",
+  "forward_executed": false,
+  "gates": {
+    "dr14_scientific_ready": false,
+    "e6_scientific_ready": false,
+    "encode_allowed_now": false,
+    "heavy_lane_clear": true,
+    "implementation_ready": true,
+    "input_manifest_ready": false
+  },
+  "implementation": {
+    "path": "/Users/scammermike/Downloads/mop/src/mop/substrate/vjepa21_dense_tasks.py",
+    "sha256": "4ab608255014b6eed7a634a73dc3abe22574a8e3ea79634f8a018558003d2f99"
+  },
+  "input_manifest": {
+    "mechanics_ok": false,
+    "problems": [
+      "input manifest missing: /Users/scammermike/Downloads/mop/data/manifests/e6_vitb_natural_inputs.json"
+    ],
+    "promotion_problems": [
+      "rights-clean natural task cohort not materialized"
+    ],
+    "promotion_ready": false
+  },
+  "interfaces": {
+    "dr14_dense_drop_views": true,
+    "e6_pair_gate_consumer": true,
+    "official_learned_encoder": true,
+    "official_random_encoder": true,
+    "same_input_cache_plan": true,
+    "strict_cache_finalizer": true
+  },
+  "mode": "no-heavy-preflight",
+  "model_constructed": false,
+  "registration": {
+    "all_ok": true,
+    "artifacts": {
+      "dr14_runner": {
+        "path": "/Users/scammermike/Downloads/mop/scripts/mop_dr14_corruption.py",
+        "sha256": "7046bece390cbb1b668ef57967898d7b3f42a1fd79e67152d2eb5f35b9e97bef"
+      },
+      "e6_cache_consumer": {
+        "path": "/Users/scammermike/Downloads/mop/src/mop/experiments/e6_dense_relational.py",
+        "sha256": "0f86418692010ccf50c72001718036bd696aced8545964b1a91563e0a21e86b6"
+      },
+      "task_cli": {
+        "path": "/Users/scammermike/Downloads/mop/scripts/vjepa21_dense_tasks.py",
+        "sha256": "aa1a3b0f92a66bd677541ac3dcd1acf302c3bf56e8ebfc2522bc0683f26ab01d"
+      }
+    },
+    "authorities": {
+      "e6_config": {
+        "path": "/Users/scammermike/Downloads/mop/configs/experiment/e6_relational.yaml",
+        "sha256": "920fc0b0c1b55a03f6b4339d59e06fee7129a101c67132d9ee9f518b143f7444"
+      },
+      "mot_mirrors": {
+        "path": "/Users/scammermike/Downloads/mop/configs/experiment/_mot_mirrors.yaml",
+        "sha256": "5c668a99620469f26ebe13548a55323ba5faed343c9d0266747d51292c46272d"
+      },
+      "registry": {
+        "path": "/Users/scammermike/Downloads/mop/registry/experiments.yaml",
+        "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
+      }
+    },
+    "expectations": {
+      "dr14.mirror.pilot": {
+        "expected": true,
+        "observed": true
+      },
+      "dr14.mirror.tier": {
+        "expected": "env-later",
+        "observed": "env-later"
+      },
+      "dr14.registry.exp_tier": {
+        "expected": "env-later",
+        "observed": "env-later"
+      },
+      "dr14.registry.resource_tier": {
+        "expected": "environment-needed",
+        "observed": "environment-needed"
+      },
+      "dr14.task.execution_path": {
+        "expected": "dense-cache-optional",
+        "observed": "dense-cache-optional"
+      },
+      "e6.config.allow_legacy_fixture": {
+        "expected": false,
+        "observed": false
+      },
+      "e6.config.cache_task_config": {
+        "expected": "configs/experiment/e6_dense_cache.yaml",
+        "observed": "configs/experiment/e6_dense_cache.yaml"
+      },
+      "e6.config.execution_path": {
+        "expected": "cache-first",
+        "observed": "cache-first"
+      },
+      "e6.config.learned_cache": {
+        "expected": "data/cache/vjepa21_vitb_e6_learned",
+        "observed": "data/cache/vjepa21_vitb_e6_learned"
+      },
+      "e6.config.random_cache": {
+        "expected": "data/cache/vjepa21_vitb_e6_random_seed20260710",
+        "observed": "data/cache/vjepa21_vitb_e6_random_seed20260710"
+      },
+      "e6.registry.exp_tier": {
+        "expected": "env-later",
+        "observed": "env-later"
+      },
+      "e6.registry.resource_tier": {
+        "expected": "environment-needed",
+        "observed": "environment-needed"
+      },
+      "e6.registry.status": {
+        "expected": "implemented",
+        "observed": "implemented"
+      },
+      "task.cache_dtype": {
+        "expected": "float32",
+        "observed": "float32"
+      },
+      "task.min_free_disk_gb": {
+        "expected": 40.0,
+        "observed": 40.0
+      },
+      "task.runtime.forward_64f": {
+        "expected": "proof/VJEPA21_VITB_FORWARD_64F.json",
+        "observed": "proof/VJEPA21_VITB_FORWARD_64F.json"
+      },
+      "task.runtime.forward_8f": {
+        "expected": "proof/VJEPA21_VITB_FORWARD.json",
+        "observed": "proof/VJEPA21_VITB_FORWARD.json"
+      },
+      "task.runtime.load": {
+        "expected": "proof/VJEPA21_VITB_LOAD.json",
+        "observed": "proof/VJEPA21_VITB_LOAD.json"
+      },
+      "task.schema": {
+        "expected": "mop-vjepa21-dense-task-config/v1",
+        "observed": "mop-vjepa21-dense-task-config/v1"
+      },
+      "task.serial_only": {
+        "expected": true,
+        "observed": true
+      }
+    },
+    "problems": [],
+    "schema": "mop-vjepa21-dense-registration-audit/v1"
+  },
+  "remaining_gates": [
+    "input manifest missing: /Users/scammermike/Downloads/mop/data/manifests/e6_vitb_natural_inputs.json",
+    "rights-clean natural task cohort not materialized",
+    "encode learned and matched random caches serially from the exact input manifest",
+    "run independent E6 and DR14 statistical verifiers on natural task labels"
+  ],
+  "runtime_authority": {
+    "all_ok": true,
+    "checkpoint": {
+      "bytes": 1664223428,
+      "full_checkpoint_rehashed_this_preflight": false,
+      "path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt",
+      "prior_probe_authority_reused": true,
+      "receipt_path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt.receipt.json",
+      "receipt_sha256": "0b05640429930128f9e8f5b4d046dd747377d1e128472a82a6bca436761743f6",
+      "sha256": "848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d"
+    },
+    "config": {
+      "arch": "vit_base",
+      "availability_state": "local_hash_strict_load_and_8f_64f_forward_verified",
+      "available": true,
+      "cache_first_only": true,
+      "checkpoint_content_length": 1664223428,
+      "checkpoint_etag": "\"be0dc26f052ae6a7476714cd53176836-199\"",
+      "checkpoint_sha256": "848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d",
+      "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+      "checkpoint_version_id": "xJBU4AkoA4gv5boeC6gOA7eElzWcubxY",
+      "dense": true,
+      "dense_tokens_per_clip": 18432,
+      "embed_dim": 768,
+      "family": "vjepa21",
+      "frames_per_clip": 64,
+      "frozen": true,
+      "hf_id": "official-pytorch-only-vjepa21-vitb",
+      "hub": "facebookresearch/vjepa2",
+      "hub_entrypoint": "vjepa2_1_vit_base_384",
+      "loader": "mop.substrate.vjepa21_official.load_vitb_encoder",
+      "name": "vjepa21_vitb",
+      "official_repo": "https://github.com/facebookresearch/vjepa2",
+      "official_repo_commit": "204698b45b3712590f06245fbfba32d3be539812",
+      "patch_size": 16,
+      "pool": "none",
+      "prefer_real": false,
+      "release_available": true,
+      "require_real": false,
+      "resolution": 384,
+      "runtime_receipts": {
+        "forward_64f": "proof/VJEPA21_VITB_FORWARD_64F.json",
+        "forward_8f": "proof/VJEPA21_VITB_FORWARD.json",
+        "load": "proof/VJEPA21_VITB_LOAD.json"
+      },
+      "source_kind": "official_pytorch_checkpoint",
+      "training_objective": "masked_latent_prediction",
+      "tubelet": 2
+    },
+    "created_at": "2026-07-10T23:40:07.326833+00:00",
+    "frozen_invariant": {
+      "parameters": 86833152,
+      "strict_load": true,
+      "trainable_parameters": 0
+    },
+    "problems": [],
+    "receipts": {
+      "forward_64f": {
+        "path": "/Users/scammermike/Downloads/mop/proof/VJEPA21_VITB_FORWARD_64F.json",
+        "sha256": "902422b7c042969076bccbbcf283a9b1b80639a9d9e4a9e24c2ca703fcd5c6bf"
+      },
+      "forward_8f": {
+        "path": "/Users/scammermike/Downloads/mop/proof/VJEPA21_VITB_FORWARD.json",
+        "sha256": "06ed0d097a50b2638d0209b991c0710574a750edb4a5ddfb3a5dace722581601"
+      },
+      "load": {
+        "path": "/Users/scammermike/Downloads/mop/proof/VJEPA21_VITB_LOAD.json",
+        "sha256": "c60eb456726e02773c30f42af093727b600e5a6eb67d5d3d094adb17cee241da"
+      }
+    },
+    "repository": {
+      "all_ok": true,
+      "commit": "204698b45b3712590f06245fbfba32d3be539812",
+      "path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/official_repo",
+      "vision_transformer": {
+        "meaning": "official dense encoder and final-token forward interface",
+        "path": "app/vjepa_2_1/models/vision_transformer.py",
+        "sha256": "d2932eabeba684d8f558302a13cfd4be70a0170ee5112f5a794652d0a29089b9",
+        "size": 18195
+      }
+    },
+    "schema": "mop-vjepa21-vitb-runtime-authority/v1",
+    "verified_shapes": {
+      "64": [
+        1,
+        18432,
+        768
+      ],
+      "8": [
+        1,
+        2304,
+        768
+      ]
+    }
+  },
+  "schema": "mop-vjepa21-dense-task-preflight/v1",
+  "scientific_promotion": false,
+  "task_config": {
+    "path": "/Users/scammermike/Downloads/mop/configs/experiment/e6_dense_cache.yaml",
+    "sha256": "95f7edd3b09868aa20451d58816f43793bbc1d37561b7b32e3a880431365b5d3"
+  }
+}

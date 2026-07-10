@@ -25,7 +25,10 @@ def _write_config(path):
                 "official_repo_commit": vj.OFFICIAL_REPOSITORY_COMMIT,
                 "hub_entrypoint": vj.VITB["hub_entrypoint"],
                 "checkpoint_url": vj.VITB["checkpoint_url"],
-                "available": False,
+                "available": True,
+                "availability_state": "local_hash_strict_load_and_8f_64f_forward_verified",
+                "cache_first_only": True,
+                "checkpoint_sha256": ("848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d"),
                 "prefer_real": False,
             }
         )
@@ -40,12 +43,12 @@ def test_dense_token_contract_is_spatiotemporal_and_exact():
         vj.expected_dense_tokens(7)
 
 
-def test_config_validation_binds_official_source_and_rejects_fake_availability(tmp_path):
+def test_config_validation_binds_official_source_and_rejects_unavailable_regression(tmp_path):
     path = tmp_path / "config.yaml"
     _write_config(path)
     assert vj.validate_vitb_config(path)["all_ok"] is True
     raw = yaml.safe_load(path.read_text())
-    raw["available"] = True
+    raw["available"] = False
     path.write_text(yaml.safe_dump(raw))
     report = vj.validate_vitb_config(path)
     assert report["all_ok"] is False
@@ -175,10 +178,6 @@ def test_checkpoint_receipt_binds_full_local_sha(monkeypatch, tmp_path):
     assert vj.validate_checkpoint_receipt(checkpoint)["all_ok"] is False
 
 
-def test_larger_variants_are_discovery_only_until_vitb_forward():
-    assert {row["slug"] for row in vj.LARGER_VARIANTS} == {
-        "vjepa21_vitl",
-        "vjepa21_vitg",
-        "vjepa21_vitG",
-    }
-    assert all(row["status"] == "gated-behind-vitb-load-and-forward" for row in vj.LARGER_VARIANTS)
+def test_live_official_seam_has_no_larger_variant_catalog():
+    assert not hasattr(vj, "LARGER_VARIANTS")
+    assert vj.VITB["slug"] == "vjepa21_vitb"

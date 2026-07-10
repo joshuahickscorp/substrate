@@ -143,7 +143,6 @@ CANONICAL_MD = (
     "GOLD_PROMPT.md",
 )
 OPERATIONAL_MD = (
-    "GO.md",
     "README.md",
     "STATUS.md",
     "DECISIONS.md",
@@ -220,6 +219,9 @@ PROOF_MD = (
 LEDGER_MD = frozenset(CANONICAL_MD + OPERATIONAL_MD + HISTORICAL_MD + PROOF_MD)
 # directories whose markdown is tooling/output, not project docs (excluded from the ledger scan)
 _MD_SKIP_DIRS = (".venv", ".git", ".claude", "runs", ".pytest_cache", ".ruff_cache", ".mypy_cache", "data")
+# GO.md is an ignored, optional local operator prompt. Scan it for active hardware drift when it is
+# present, but do not require it in a clean checkout or treat it as canonical project doctrine.
+_MD_OPTIONAL = frozenset({"GO.md"})
 
 # the canonical make targets live on the Makefile .PHONY line; these are referenced in prose too
 _PHONY = re.compile(r"^\.PHONY:\s*(.+)$", re.M)
@@ -302,7 +304,10 @@ def _project_markdown() -> list[str]:
         rel = p.relative_to(ROOT)
         if any(part in _MD_SKIP_DIRS for part in rel.parts):
             continue
-        out.append(str(rel))
+        rel_text = str(rel)
+        if rel_text in _MD_OPTIONAL:
+            continue
+        out.append(rel_text)
     return out
 
 

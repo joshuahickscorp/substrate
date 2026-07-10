@@ -322,19 +322,19 @@
   },
   "receipt_chain": {
     "current_evidence_attestation": {
-      "path": "current_evidence_attestation.json",
-      "sha256": "1d52d5b6986b429ab45f1777adf1217b50a131b0da6caf2ef34188bf38ec41cd"
+      "path": "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/current_evidence_attestation.json",
+      "sha256": "ebdeb9da44f57c3ffc97a7ae0b8b3406f7379c9e75010a78669f847f8492dba6"
     },
     "environment_receipt": {
-      "path": "environment_receipt.json",
-      "sha256": "eec3acd35999c08a711824b5824826319aea17d5308621eddd49cfc2d6b51dc3"
+      "path": "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/environment_receipt.json",
+      "sha256": "b9fbfb009e2958e41b0e8bcba58d037d13c40e4af217b6f1d02334a884628b56"
     },
     "independent_verifier": {
-      "path": "independent_verifier.json",
-      "sha256": "81fbe0543c4d9e17a590fe473618e65dc880061cfc9e981c1834e83695591c30"
+      "path": "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/independent_verifier.json",
+      "sha256": "afc9e81098b09465a999aaeaabd541da8367c90414bf80171f6d4ac8e9b6524c"
     },
     "raw_training_receipt": {
-      "path": "raw_workbench_receipt.json",
+      "path": "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/raw_workbench_receipt.json",
       "sha256": "ff0bc5ba2f9cc47534ee53cce8062f6563f4303dc9441852d7474ec2d747e81c"
     }
   },

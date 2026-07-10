@@ -1,6 +1,6 @@
 {
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-  "core_payload_sha256": "283ecb84fc8735df439fe9ef7849390f1f1efd6a71213b0bd72a9a4d4b5a9f3d",
+  "core_payload_sha256": "a605210e3325771b36693f4cef1b33af8502363bf0c3e39ce4ed4a8fa8bb2a60",
   "difficulty_calibration": {
     "calibrated": true,
     "ceilinged_tie_promoted": false,
@@ -1836,11 +1836,11 @@
   "implementation": [
     {
       "path": "registry/experiments.yaml",
-      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
       "path": "src/mop/studies/material_twin_scaffold.py",
-      "sha256": "e368c2d9e4393403054b5815da3ad693976a25c9079c5213f163f2b77e39764c"
+      "sha256": "e4ba14cf0975bd2e0cd4dc1b57a66ac0b7de1003a58e889b859f8f19fe4ef008"
     },
     {
       "path": "scripts/run_material_twin_batteries.py",
@@ -1862,7 +1862,7 @@
       "live_implementation_checked": true
     },
     "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-    "core_payload_sha256": "283ecb84fc8735df439fe9ef7849390f1f1efd6a71213b0bd72a9a4d4b5a9f3d",
+    "core_payload_sha256": "a605210e3325771b36693f4cef1b33af8502363bf0c3e39ce4ed4a8fa8bb2a60",
     "errors": [],
     "fresh_seed_challenges": [
       {
@@ -2022,7 +2022,7 @@
     "schema": "mop-material-twin-independent-verifier/v1",
     "verified": true
   },
-  "payload_sha256": "6facb26fe619d4a890246f605e2a2f67bc1e6d86619e822475b3ebf1c08f2037",
+  "payload_sha256": "840301573859b28e9c5148d28d1c0411f08118d5181307ae1168145f7893a98d",
   "preregistration": {
     "primary_seeds": [
       19,

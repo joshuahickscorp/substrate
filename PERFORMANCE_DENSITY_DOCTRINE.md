@@ -80,12 +80,15 @@ efficiency and the program says so.
 
 ## 5. Measured reality (the numbers the doctrine starts from)
 
-- Encode is the wall: V-JEPA encode measured at 13.69 s/clip on M3 Pro CPU; MPS paged at 18 GB ran
-  ~821 s/clip. Encode once, cache to memmap, never re-encode (substrate/latent_store.py).
+- Encode and cache construction are measured costs, not assumed walls. The official dense ViT-B
+  instrument strictly loads and completes a finite 64-frame CPU forward in about 25.2 seconds with
+  about 1.33 GB maximum observed process-tree RSS. Encode once when scientific identity permits,
+  stream caches, and retain full manifests.
 - Dense tokens cost 8192 tokens per clip (storage.DENSE_TOKENS_PER_CLIP): dense caches dominate
   byte budgets; any dense claim reports alignment or transfer per cache GB.
-- Studio target: M1 Ultra, 128 GB unified memory, 8 TB disk, profile studio-m1ultra (7.2 TB usable,
-  250 GB min-free). The open microbenchmark: does 128 GB lift the 64-frame MPS buffer wall.
+- Hardware escalation target: none until a survivor repeatedly fails a named non-factorizable
+  memory, intrinsic-latency, or inseparable synchronized-state requirement after local reductions.
+  The current operational profile is a 300-minute adaptive leg with a 40 GB free-disk floor.
 - The shell is tiny by doctrine; experiment cost is dominated by encode and cache I/O, so density
   wins come from interface and routing choices, not shell shrinkage.
 

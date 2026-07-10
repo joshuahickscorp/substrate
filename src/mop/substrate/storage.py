@@ -12,25 +12,21 @@ widths: float32=4, float16=2, int64=8 (labels are always int64).
 Expected disk for natural-video caches (per clip), pooled vs dense
 ------------------------------------------------------------------
 Pooled = one embed_dim vector per clip; the keys array duplicates it (key_dim==embed_dim), so
-pooled latents+keys cost 2*embed_dim*4 bytes/clip in float32. Dense keeps every token: a
-64-frame ViT-L/16 at 256px tiles to 16x16=256 spatial patches over 64/2=32 tubelets ~= 8192
-tokens/clip (DENSE_TOKENS_PER_CLIP default below); keys stay pooled (one vector). So dense
-latents dwarf the pooled vector by the token factor (~8192x for ViT-L).
+pooled latents+keys cost 2*embed_dim*4 bytes/clip in float32. Dense keeps every token and therefore
+scales with the exact configured token count. The default 8192-token estimate is a conservative
+sizing fixture, while official dense ViT-B at 64 frames uses 18432 tokens. Callers with an owned
+or alternative substrate must pass its measured token count explicitly.
 
-Per-clip cost, float32 latents (keys+labels included), at the documented token estimates:
+Per-clip cost, float32 latents with keys and labels included:
 
-  encoder       embed_dim  pooled/clip   dense latents/clip   dense total/clip
-  ViT-L/16        1024       ~8.0 KB        ~32.0 MB (8192 tok)   ~32.0 MB
-  ViT-H/16        1280       ~10.0 KB       ~40.0 MB (8192 tok)   ~40.0 MB
-  ViT-g/16 384    1408       ~11.0 KB       ~58.7 MB (10976 tok)  ~58.7 MB
+  substrate role         embed_dim  tokens   pooled/clip   dense total/clip
+  pooled control             1024         1      ~8.0 KB          ~8.0 KB
+  sizing fixture             1024      8192      ~8.0 KB         ~32.0 MB
+  official dense ViT-B        768     18432      ~6.0 KB         ~56.6 MB
 
-(ViT-g at 384px tiles to 24x24=576 patches * 32 tubelets ~= 18432 tokens; the table uses the
-conservative shared 8192/10976 estimates documented at DENSE_TOKENS_PER_CLIP. Adjust per encoder
-via estimate_for_encoder(..., dense_tokens=...).) At scale: 10k pooled ViT-L clips ~= 78 MB;
-10k dense ViT-L clips ~= 313 GB. Pooled is laptop-cheap; a full 10k dense corpus exceeds the
-current local disk envelope, while bounded dense shards remain locally testable. E6 is deferred
-because its registered V-JEPA 2.1 dense checkpoint is unavailable, not because ViT-H or ViT-g
-cannot execute locally.
+At scale, 10k clips at the 8192-token sizing fixture need about 313 GB in float32. Pooled stores
+remain local-disk cheap, and bounded dense shards are locally testable. Scientific readiness is a
+separate data, control, and evidence question; model naming never changes this byte calculation.
 """
 
 from __future__ import annotations
@@ -41,8 +37,8 @@ from pathlib import Path
 # bytes per element by numpy dtype name (the dtypes a LatentStore can write).
 _DTYPE_BYTES = {"float32": 4, "float16": 2, "fp16": 2, "int64": 8, "int32": 4, "uint8": 1}
 
-# Default dense tokens/clip: 64-frame ViT-L/16 at 256px -> 16*16 spatial * (64/2) tubelets = 8192.
-# A single, documented stand-in so dense estimates are explicit and tunable, not magic.
+# Default dense tokens per clip used only as a documented sizing fixture. Real callers should pass
+# their exact token geometry, such as 18432 for the retained official dense ViT-B 64-frame path.
 DENSE_TOKENS_PER_CLIP = 8192
 
 

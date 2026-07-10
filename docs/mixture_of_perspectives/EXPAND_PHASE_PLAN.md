@@ -1,5 +1,8 @@
 # EXPAND PHASE PLAN: from the proven laptop ceiling to the off-device moves
 
+> SUPERSEDED 2026-07-10: the claimed off-device boundary was not measured. Current expansion runs
+> locally through `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`; external escalation requires its gate.
+
 The laptop is at its adversarially-proven device ceiling (~6.75/10: falsification 10, abstraction 6, density 6,
 moldability 5; see `RESULTS_LEDGER.md`). This plan translates each PROVEN wall into the specific
 off-device experiment that breaks it, carrying the methods the laptop validated. It is execution, not design:

@@ -9,20 +9,20 @@
     "samples_observed": 3
   },
   "command_executed": false,
-  "created_at": "2026-07-10T21:27:11.528682+00:00",
+  "created_at": "2026-07-10T23:14:27.927562+00:00",
   "decisions": [
     {
       "active_lanes": [],
       "allowed": false,
-      "created_at": "2026-07-10T21:26:41.216972+00:00",
+      "created_at": "2026-07-10T23:13:57.582721+00:00",
       "critical": false,
       "denied_reasons": [
         "measured available unified memory covers candidate peak plus headroom"
       ],
       "disk_forecast": {
         "floor_gb": 40.0,
-        "free_gb": 86.505250816,
-        "projected_free_gb": 85.105250816,
+        "free_gb": 85.706534912,
+        "projected_free_gb": 84.30653491199999,
         "reserved_write_gb": 1.4
       },
       "gates": [
@@ -115,7 +115,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_load",
-          "observed": 0.371826171875,
+          "observed": 0.4280598958333333,
           "ok": true,
           "reason": "first_lane normalized one-minute load ceiling"
         },
@@ -123,7 +123,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_utilization",
-          "observed": 0.16899999999999998,
+          "observed": 0.44799999999999995,
           "ok": true,
           "reason": "first_lane instantaneous CPU ceiling"
         },
@@ -139,7 +139,7 @@
           "critical": false,
           "limit": 20.0,
           "name": "memory_pressure",
-          "observed": 46.9,
+          "observed": 46.6,
           "ok": true,
           "reason": "first_lane available-memory floor from both VM and memory_pressure"
         },
@@ -147,7 +147,7 @@
           "critical": false,
           "limit": 10.0,
           "name": "candidate_memory_headroom",
-          "observed": 9.071755264,
+          "observed": 8.99751936,
           "ok": false,
           "reason": "measured available unified memory covers candidate peak plus headroom"
         },
@@ -163,7 +163,7 @@
           "critical": false,
           "limit": 8.0,
           "name": "swap",
-          "observed": 3.046047744,
+          "observed": 2.76922368,
           "ok": true,
           "reason": "first_lane swap-use ceiling"
         },
@@ -188,8 +188,8 @@
           "limit": 40.0,
           "name": "forecasted_disk",
           "observed": {
-            "free_gb": 86.505250816,
-            "projected_free_gb": 85.105250816,
+            "free_gb": 85.706534912,
+            "projected_free_gb": 84.30653491199999,
             "reserve_gb": 1.4
           },
           "ok": true,
@@ -204,15 +204,15 @@
     {
       "active_lanes": [],
       "allowed": false,
-      "created_at": "2026-07-10T21:26:56.375231+00:00",
+      "created_at": "2026-07-10T23:14:12.759662+00:00",
       "critical": false,
       "denied_reasons": [
         "measured available unified memory covers candidate peak plus headroom"
       ],
       "disk_forecast": {
         "floor_gb": 40.0,
-        "free_gb": 86.512836608,
-        "projected_free_gb": 85.112836608,
+        "free_gb": 85.706563584,
+        "projected_free_gb": 84.30656358399999,
         "reserved_write_gb": 1.4
       },
       "gates": [
@@ -297,12 +297,7 @@
           "critical": false,
           "limit": [],
           "name": "foreground_second_lane",
-          "observed": [
-            {
-              "name": "Blender",
-              "pid": 99573
-            }
-          ],
+          "observed": [],
           "ok": true,
           "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
         },
@@ -310,7 +305,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_load",
-          "observed": 0.3991292317708333,
+          "observed": 0.447998046875,
           "ok": true,
           "reason": "first_lane normalized one-minute load ceiling"
         },
@@ -318,7 +313,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_utilization",
-          "observed": 0.32299999999999995,
+          "observed": 0.284,
           "ok": true,
           "reason": "first_lane instantaneous CPU ceiling"
         },
@@ -334,7 +329,7 @@
           "critical": false,
           "limit": 20.0,
           "name": "memory_pressure",
-          "observed": 44.5,
+          "observed": 46.2,
           "ok": true,
           "reason": "first_lane available-memory floor from both VM and memory_pressure"
         },
@@ -342,7 +337,7 @@
           "critical": false,
           "limit": 10.0,
           "name": "candidate_memory_headroom",
-          "observed": 8.594407424,
+          "observed": 8.924741632,
           "ok": false,
           "reason": "measured available unified memory covers candidate peak plus headroom"
         },
@@ -358,7 +353,7 @@
           "critical": false,
           "limit": 8.0,
           "name": "swap",
-          "observed": 3.046047744,
+          "observed": 2.76922368,
           "ok": true,
           "reason": "first_lane swap-use ceiling"
         },
@@ -383,8 +378,8 @@
           "limit": 40.0,
           "name": "forecasted_disk",
           "observed": {
-            "free_gb": 86.512836608,
-            "projected_free_gb": 85.112836608,
+            "free_gb": 85.706563584,
+            "projected_free_gb": 84.30656358399999,
             "reserve_gb": 1.4
           },
           "ok": true,
@@ -399,15 +394,15 @@
     {
       "active_lanes": [],
       "allowed": false,
-      "created_at": "2026-07-10T21:27:11.528662+00:00",
+      "created_at": "2026-07-10T23:14:27.927537+00:00",
       "critical": false,
       "denied_reasons": [
         "measured available unified memory covers candidate peak plus headroom"
       ],
       "disk_forecast": {
         "floor_gb": 40.0,
-        "free_gb": 86.51061248,
-        "projected_free_gb": 85.11061248,
+        "free_gb": 85.706432512,
+        "projected_free_gb": 84.306432512,
         "reserved_write_gb": 1.4
       },
       "gates": [
@@ -500,7 +495,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_load",
-          "observed": 0.4050699869791667,
+          "observed": 0.4693196614583333,
           "ok": true,
           "reason": "first_lane normalized one-minute load ceiling"
         },
@@ -508,7 +503,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_utilization",
-          "observed": 0.273,
+          "observed": 0.444,
           "ok": true,
           "reason": "first_lane instantaneous CPU ceiling"
         },
@@ -524,7 +519,7 @@
           "critical": false,
           "limit": 20.0,
           "name": "memory_pressure",
-          "observed": 44.5,
+          "observed": 45.6,
           "ok": true,
           "reason": "first_lane available-memory floor from both VM and memory_pressure"
         },
@@ -532,7 +527,7 @@
           "critical": false,
           "limit": 10.0,
           "name": "candidate_memory_headroom",
-          "observed": 8.591867904,
+          "observed": 8.809938944,
           "ok": false,
           "reason": "measured available unified memory covers candidate peak plus headroom"
         },
@@ -548,7 +543,7 @@
           "critical": false,
           "limit": 8.0,
           "name": "swap",
-          "observed": 3.046047744,
+          "observed": 2.76922368,
           "ok": true,
           "reason": "first_lane swap-use ceiling"
         },
@@ -573,8 +568,8 @@
           "limit": 40.0,
           "name": "forecasted_disk",
           "observed": {
-            "free_gb": 86.51061248,
-            "projected_free_gb": 85.11061248,
+            "free_gb": 85.706432512,
+            "projected_free_gb": 84.306432512,
             "reserve_gb": 1.4
           },
           "ok": true,
@@ -594,7 +589,7 @@
   "mode": "run-dry-run",
   "policy": {
     "path": "/Users/scammermike/Downloads/mop/configs/local_execution_throttle.yaml",
-    "sha256": "9a4fbcfdd9ba39a163282f1dc562673536f1847821d0fb3407a0b70c82f9fbe6"
+    "sha256": "8e3c97bbb841f85a2b501df9d170adb500f10d407dafa62c95b52ace19f0376e"
   },
   "profile": {
     "allow_manual_auth": false,
@@ -621,7 +616,7 @@
     "reserve_gb": 10.0,
     "usable_gb": 70.0
   },
-  "run_id": "p5smoke_20260710_preflight",
+  "run_id": "p5smoke_20260710_final_preflight",
   "schema": "mop-local-throttle-receipt/v1",
   "task": {
     "accelerator": "none",
@@ -669,29 +664,29 @@
       "all_required_available": true,
       "cpu": {
         "available": true,
-        "load_15m": 5.115234375,
-        "load_1m": 4.4619140625,
-        "load_1m_per_logical_cpu": 0.371826171875,
-        "load_5m": 4.6884765625,
+        "load_15m": 4.5712890625,
+        "load_1m": 5.13671875,
+        "load_1m_per_logical_cpu": 0.4280598958333333,
+        "load_5m": 4.57861328125,
         "logical_cpus": 12,
-        "utilization_fraction": 0.16899999999999998
+        "utilization_fraction": 0.44799999999999995
       },
-      "created_at": "2026-07-10T21:26:41.207563+00:00",
+      "created_at": "2026-07-10T23:13:57.573019+00:00",
       "disk": {
         "available": true,
-        "free_bytes": 86505250816,
-        "free_gb": 86.505250816,
+        "free_bytes": 85706534912,
+        "free_gb": 85.706534912,
         "root": "/Users/scammermike/Downloads/mop",
         "total_bytes": 494353338368
       },
       "memory": {
         "available": true,
-        "available_bytes": 9071755264,
-        "available_percent": 46.9,
+        "available_bytes": 8997519360,
+        "available_percent": 46.6,
         "pressure": {
           "available": true,
-          "free_percent": 68.0,
-          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 68%"
+          "free_percent": 62.0,
+          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 62%"
         },
         "total_bytes": 19327352832
       },
@@ -726,11 +721,11 @@
       "schema": "mop-local-host-telemetry/v1",
       "swap": {
         "available": true,
-        "free_bytes": 1248919552,
-        "percent": 70.9,
+        "free_bytes": 1525743616,
+        "percent": 64.5,
         "total_bytes": 4294967296,
-        "used_bytes": 3046047744,
-        "used_gb": 3.046047744
+        "used_bytes": 2769223680,
+        "used_gb": 2.76922368
       },
       "thermal": {
         "available": true,
@@ -742,110 +737,29 @@
       "all_required_available": true,
       "cpu": {
         "available": true,
-        "load_15m": 5.1298828125,
-        "load_1m": 4.78955078125,
-        "load_1m_per_logical_cpu": 0.3991292317708333,
-        "load_5m": 4.75146484375,
+        "load_15m": 4.60107421875,
+        "load_1m": 5.3759765625,
+        "load_1m_per_logical_cpu": 0.447998046875,
+        "load_5m": 4.66259765625,
         "logical_cpus": 12,
-        "utilization_fraction": 0.32299999999999995
+        "utilization_fraction": 0.284
       },
-      "created_at": "2026-07-10T21:26:56.374717+00:00",
+      "created_at": "2026-07-10T23:14:12.759274+00:00",
       "disk": {
         "available": true,
-        "free_bytes": 86512836608,
-        "free_gb": 86.512836608,
+        "free_bytes": 85706563584,
+        "free_gb": 85.706563584,
         "root": "/Users/scammermike/Downloads/mop",
         "total_bytes": 494353338368
       },
       "memory": {
         "available": true,
-        "available_bytes": 8594407424,
-        "available_percent": 44.5,
+        "available_bytes": 8924741632,
+        "available_percent": 46.2,
         "pressure": {
           "available": true,
-          "free_percent": 69.0,
-          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 69%"
-        },
-        "total_bytes": 19327352832
-      },
-      "missing_required_telemetry": [],
-      "mps": {
-        "available": true,
-        "built": true,
-        "current_allocated_bytes": 0,
-        "declared_headroom_bytes": 14301773824,
-        "driver_allocated_bytes": 475136,
-        "recommended_working_set_bytes": 14302248960,
-        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
-        "telemetry_available": true
-      },
-      "power": {
-        "available": true,
-        "battery_percent": 100,
-        "on_ac": true,
-        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=22937699)\t100%; charged; 0:00 remaining present: true",
-        "source": "AC Power"
-      },
-      "processes": {
-        "available": true,
-        "foreground_resource_processes": [
-          {
-            "command": "/Applications/Blender.app/Contents/MacOS/Blender -b -P render/build_scene.py -- --verify studio-front",
-            "name": "Blender",
-            "pid": 99573,
-            "ppid": 99571,
-            "username": "scammermike"
-          }
-        ],
-        "frontmost_application": {
-          "available": true,
-          "name": "ChatGPT"
-        },
-        "inaccessible_processes": 0,
-        "unmanaged_known_heavy": []
-      },
-      "schema": "mop-local-host-telemetry/v1",
-      "swap": {
-        "available": true,
-        "free_bytes": 1248919552,
-        "percent": 70.9,
-        "total_bytes": 4294967296,
-        "used_bytes": 3046047744,
-        "used_gb": 3.046047744
-      },
-      "thermal": {
-        "available": true,
-        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
-        "status": "normal"
-      }
-    },
-    {
-      "all_required_available": true,
-      "cpu": {
-        "available": true,
-        "load_15m": 5.126953125,
-        "load_1m": 4.86083984375,
-        "load_1m_per_logical_cpu": 0.4050699869791667,
-        "load_5m": 4.76416015625,
-        "logical_cpus": 12,
-        "utilization_fraction": 0.273
-      },
-      "created_at": "2026-07-10T21:27:11.528415+00:00",
-      "disk": {
-        "available": true,
-        "free_bytes": 86510612480,
-        "free_gb": 86.51061248,
-        "root": "/Users/scammermike/Downloads/mop",
-        "total_bytes": 494353338368
-      },
-      "memory": {
-        "available": true,
-        "available_bytes": 8591867904,
-        "available_percent": 44.5,
-        "pressure": {
-          "available": true,
-          "free_percent": 68.0,
-          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 68%"
+          "free_percent": 63.0,
+          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 63%"
         },
         "total_bytes": 19327352832
       },
@@ -880,11 +794,84 @@
       "schema": "mop-local-host-telemetry/v1",
       "swap": {
         "available": true,
-        "free_bytes": 1248919552,
-        "percent": 70.9,
+        "free_bytes": 1525743616,
+        "percent": 64.5,
         "total_bytes": 4294967296,
-        "used_bytes": 3046047744,
-        "used_gb": 3.046047744
+        "used_bytes": 2769223680,
+        "used_gb": 2.76922368
+      },
+      "thermal": {
+        "available": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+        "status": "normal"
+      }
+    },
+    {
+      "all_required_available": true,
+      "cpu": {
+        "available": true,
+        "load_15m": 4.63037109375,
+        "load_1m": 5.6318359375,
+        "load_1m_per_logical_cpu": 0.4693196614583333,
+        "load_5m": 4.74560546875,
+        "logical_cpus": 12,
+        "utilization_fraction": 0.444
+      },
+      "created_at": "2026-07-10T23:14:27.927146+00:00",
+      "disk": {
+        "available": true,
+        "free_bytes": 85706432512,
+        "free_gb": 85.706432512,
+        "root": "/Users/scammermike/Downloads/mop",
+        "total_bytes": 494353338368
+      },
+      "memory": {
+        "available": true,
+        "available_bytes": 8809938944,
+        "available_percent": 45.6,
+        "pressure": {
+          "available": true,
+          "free_percent": 63.0,
+          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 63%"
+        },
+        "total_bytes": 19327352832
+      },
+      "missing_required_telemetry": [],
+      "mps": {
+        "available": true,
+        "built": true,
+        "current_allocated_bytes": 0,
+        "declared_headroom_bytes": 14301773824,
+        "driver_allocated_bytes": 475136,
+        "recommended_working_set_bytes": 14302248960,
+        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+        "telemetry_available": true
+      },
+      "power": {
+        "available": true,
+        "battery_percent": 100,
+        "on_ac": true,
+        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=22937699)\t100%; charged; 0:00 remaining present: true",
+        "source": "AC Power"
+      },
+      "processes": {
+        "available": true,
+        "foreground_resource_processes": [],
+        "frontmost_application": {
+          "available": true,
+          "name": "ChatGPT"
+        },
+        "inaccessible_processes": 0,
+        "unmanaged_known_heavy": []
+      },
+      "schema": "mop-local-host-telemetry/v1",
+      "swap": {
+        "available": true,
+        "free_bytes": 1525743616,
+        "percent": 64.5,
+        "total_bytes": 4294967296,
+        "used_bytes": 2769223680,
+        "used_gb": 2.76922368
       },
       "thermal": {
         "available": true,

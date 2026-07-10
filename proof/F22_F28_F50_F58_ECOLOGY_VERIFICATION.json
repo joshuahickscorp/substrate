@@ -22,7 +22,7 @@
     "unit_count": 5
   },
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-  "core_payload_sha256": "1a5c0b61fbc31643c08e279fc25ed5172a1cf6f5f04905b60cdd4413cf60c594",
+  "core_payload_sha256": "9416a8c71c1d4d0888599d9751d597bf0fef8f520d1680b4df6197945af13aad",
   "errors": [],
   "favorable_candidates_all_fresh_verified": true,
   "fresh_outcomes_stable_by_experiment": {

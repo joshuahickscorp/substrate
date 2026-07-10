@@ -11,6 +11,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 # scripts/ is not an installed package and there is no conftest path hook, so put it on sys.path,
 # then load the gate module by name (import_module keeps isort out of a runtime-path import).
 _SCRIPTS = Path(__file__).resolve().parents[2] / "scripts"
@@ -158,6 +160,50 @@ def test_present_make_target_is_clean(monkeypatch, tmp_path):
     _patch_truth(monkeypatch, targets=("test", "accept", "e1"))
     _docs(monkeypatch, tmp_path, readme="run make e1 then make accept")
     assert check_docs.check_docs() == []
+
+
+def test_active_hardware_drift_flags_historical_scale_name(monkeypatch, tmp_path):
+    monkeypatch.setattr(check_docs, "ROOT", tmp_path)
+    (tmp_path / "GO.md").write_text("Make ViT-H the active Studio-gated path.")
+    probs = check_docs._active_hardware_drift_problems()
+    assert any("GO.md" in problem and "ViT-H" in problem for problem in probs)
+    assert any("GO.md" in problem and "Studio-gated" in problem for problem in probs)
+
+
+def test_active_hardware_drift_allows_measured_gate_language(monkeypatch, tmp_path):
+    monkeypatch.setattr(check_docs, "ROOT", tmp_path)
+    (tmp_path / "GO.md").write_text(
+        "A Studio is considered only after a measured non-factorizable requirement."
+    )
+    assert check_docs._active_hardware_drift_problems() == []
+
+
+@pytest.mark.parametrize(
+    "stale",
+    (
+        "vjepa2_vith",
+        "vjepa2_vitg",
+        "vit_huge",
+        "L/H/g",
+        "H/g",
+        "proof/ENCODER_SCALE_VITH_CPU_FORWARD.json",
+        "proof/REAL_ENCODER_VITG_LOCAL8.json",
+        "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
+        "proof/FACTORIZED_STIMULUS_IDENTITY.json",
+    ),
+)
+def test_active_hardware_drift_flags_retired_variants(monkeypatch, tmp_path, stale):
+    monkeypatch.setattr(check_docs, "ROOT", tmp_path)
+    (tmp_path / "GO.md").write_text(f"Make {stale} the current execution path.")
+    assert check_docs._active_hardware_drift_problems()
+
+
+def test_active_hardware_drift_allows_exact_vitb_provenance(monkeypatch, tmp_path):
+    monkeypatch.setattr(check_docs, "ROOT", tmp_path)
+    (tmp_path / "GO.md").write_text(
+        "Retain vjepa2_1_vitb_dist_vitG_384.pt as the exact official ViT-B object."
+    )
+    assert check_docs._active_hardware_drift_problems() == []
 
 
 def test_main_returns_zero_on_clean_repo():

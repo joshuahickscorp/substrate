@@ -45,7 +45,13 @@ def repaired_results(tmp_path_factory):
 def test_all_f_contract_surfaces_are_exactly_equal():
     audit = build_contract_audit(series="F", implemented_only=False)
     assert audit["all_ok"], audit["problems"]
-    assert audit["summary"] == {"total": 20, "aligned": 20, "misaligned": 0}
+    assert audit["summary"] == {
+        "total": 50,
+        "aligned": 50,
+        "misaligned": 0,
+        "implemented": 18,
+        "preregistration_only": 32,
+    }
 
 
 def test_f1_uses_disjoint_rows_and_non_ceiling_fixture(repaired_results):

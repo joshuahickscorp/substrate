@@ -1,15 +1,14 @@
 # STUDIO_HANDOFF.md
 
-> LOCALIZATION UPDATE (2026-07-09): `proof/FRONTIER_LOCALIZATION.json` now audits every non-F row
-> that carried `studio-scale`, `gpu-later`, or `moonshot`. None has an experiment-specific measured
-> M3 Pro hardware boundary. MT4, AT2, CM5, CM11, and CM12 now have three-seed local control/dataflow
-> preflights under `proof/LOCAL_FRONTIER_PREFLIGHTS.json`; MT4/CM5/CM11 are planned `cpu-now`, while
-> AT2/CM12 are `weights-needed` because their first blockers are upstream evidence. The remaining
-> rows are rights/task-data, citable-cache/model, or implementation gated. The active local wall is
-> 180 minutes. All 24 historical rows have been reclassified, leaving zero non-F registry rows with
-> those three hardware-flavored tags. This correction supersedes any lower section that treats a planning label, absent
-> implementation, or absent input as hardware proof. See
-> `docs/mixture_of_perspectives/17_local_frontier_localization.md` for the row-by-row map.
+> CURRENT SUPERSESSION (2026-07-10): this file is a historical transfer and procurement scenario,
+> not the active execution plan. The live 291-row requirements matrix has zero category-8 or
+> category-9 rows and zero measured hardware blockers. The official dense ViT-B instrument runs
+> locally, CM7 is a bound five-seed null, P4 and P5 are local, and the operational governor permits
+> 300-minute legs while preserving frozen scientific shard identities. No receipt proves that a Mac
+> Studio was delivered or is required. `MOP_MAXIMUM_POTENTIAL_GOAL.md`,
+> `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`, and current proof artifacts supersede every lower
+> sentence that treats a planning label, absent implementation, absent input, or faster runtime as
+> hardware proof.
 
 > CURRENT (2026-07-03): the MoP axis-ceiling program has since run five laptop rounds plus an adversarial
 > ceiling audit. The device is at its proven maximum (~6.75/10) and the off-device agenda is now execution

@@ -151,8 +151,8 @@ the program (thousands of cheap shell experiments over a paid-once cache) is des
 Before any custom weights, four cheap moves extract most of what a custom model would tell us, at Tier 0 or
 Tier 1 cost, on cached latents.
 
-**3.1 Multi-encoder frozen census (already staged).** The repo has dinov2-large, VideoMAEv2-Base, and
-full pinned V-JEPA 2 ViT-L, ViT-H, and ViT-g safetensors snapshots. Running the nuisance-invariance and
+**3.1 Multi-encoder frozen census.** The repo has the official dense ViT-B instrument, a pooled
+control, owned artifacts, and distinct-objective frozen comparison baselines. Running nuisance-invariance and
 held-out-combination tests across these DIFFERENT frozen encoders (different objectives: image-SSL DINOv2,
 masked-video VideoMAE, mask-prediction V-JEPA) is the frozen, cheap, doctrine-compliant version of "does the
 pretraining objective matter". This is the cross-substrate-convergence standing control (the newest one). If
@@ -161,10 +161,10 @@ either universal or universally absent, and a custom objective is unlikely to ad
 by objective, that is the FIRST real evidence that objective matters, and it costs zero training. This is
 strictly dominant over training a custom encoder to test the same hypothesis.
 
-**3.2 Encoder-SCALE falsifier (ex12_atlas).** ViT-H and ViT-g acquisition and strict offline loads are
-complete. Ask whether bigger frozen perception raises decodability on the non-ceiling
-nuisance test. If scale helps, the answer to "we need a better encoder" is "use a bigger FROZEN one", not
-"train our own". If scale does not help, a custom SAME-SIZE encoder is very unlikely to help either.
+**3.2 Registered-substrate falsifier (ex12_atlas).** Ask whether official dense ViT-B or a
+distinct-objective frozen baseline raises decodability on the non-ceiling nuisance test. If a frozen
+control clears the gate, use it rather than training a new substrate. If every properly matched
+frozen control ties, an owned artifact needs a stronger objective-specific rationale.
 
 **3.3 The adapter ceiling (class B).** Before training an encoder, train a small ADAPTER on the frozen cache
 (a learned re-projection or slot front end) and measure how far it moves the non-ceiling metric. If a cheap

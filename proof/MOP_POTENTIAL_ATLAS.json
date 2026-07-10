@@ -76,11 +76,11 @@
     },
     {
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "43056e20957ca197163b6dccba99fd62d6860fb9ea80dad4212cb1e3cf2cf3da"
+      "sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317"
     },
     {
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "924f7c63e0ed92f4829f4252fcecc208f9617dc4f3aa2c93623003bc2b657ceb"
+      "sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84"
     },
     {
       "path": "proof/LOCAL_ACTION_ENVIRONMENT.json",
@@ -100,23 +100,23 @@
     },
     {
       "path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
-      "sha256": "76cde906e4663fe9a5444371d0c3af08ae6b455c72c18a31772711bd510e1766"
+      "sha256": "efa875cf01b9da0bd546b9860576c5488b092bae9facb8943373b4d5d40f52af"
     },
     {
       "path": "proof/EXPANSION_WAVE0.json",
-      "sha256": "a463da8cf345b0c50682ee5af5ba81aa9c032f471b317467c4964988e33f5a91"
+      "sha256": "653f6f3da22da1dc0cf446217e9726f81c23a59f9193556bb881f8b1052f97b9"
     },
     {
       "path": "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
-      "sha256": "efa319969601287e29331fdb352fb2a3690f23f881985d2174010ea7c5883e7f"
+      "sha256": "fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03"
     },
     {
       "path": "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
-      "sha256": "ddbbaa41c1c94ff8395d396dce92bb43209c0dcc635dd954e00b5fd14ecc5f29"
+      "sha256": "5f69a3f6bf8e68d0710e2d180288109068ab1adca5cb273edb5105a36b6b1ca9"
     },
     {
       "path": "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
-      "sha256": "f87d4700f291f07747a66311da57a3f8bc586ff68a18e9035f74b762ca790e3a"
+      "sha256": "bb159720a641acb0b8f66503591e4ea879a761787cfe35a5aff94d99a91c9797"
     },
     {
       "path": "proof/SANPO_REAL_SMOKE_VERIFICATION.json",
@@ -136,7 +136,7 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824"
+      "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff"
     },
     {
       "path": "proof/P4_CAPABILITY_DENSITY_SCREEN.json",
@@ -148,7 +148,7 @@
     },
     {
       "path": "proof/COMPLETION_CLAIM_AUDIT.json",
-      "sha256": "f230692ee31b0f89462141ab10e34b7b4f2faadf267553b4a15236fa7b19bc7e"
+      "sha256": "01f472be310d9f7ebb911ffe16378d0008d7936a094f85ced7b95f9e0c8ae395"
     },
     {
       "path": "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -156,15 +156,15 @@
     },
     {
       "path": "proof/LOCAL_EXECUTION_THROTTLE_P4_CPU_DRY_RUN.json",
-      "sha256": "701eb792bc47ee762005013ef539cf8b7db42ed3d57563e23c6b73fa6a258d68"
+      "sha256": "84f6aad23b5205b367a08c375d1730ff3c4b248f429ccce446b4feb5684679e7"
     },
     {
       "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
-      "sha256": "65e38c78186640add987b6e88ef6366ea6dc642fa6a1f8c4bb8a07803021a0d6"
+      "sha256": "5c44afdc87b90c821480eccc2729a8b70f19dde7c23eac346cbbd18cd0e8933c"
     },
     {
       "path": "configs/local_execution_throttle.yaml",
-      "sha256": "9a4fbcfdd9ba39a163282f1dc562673536f1847821d0fb3407a0b70c82f9fbe6"
+      "sha256": "8e3c97bbb841f85a2b501df9d170adb500f10d407dafa62c95b52ace19f0376e"
     },
     {
       "path": "src/mop/studio/local_throttle.py",
@@ -192,7 +192,7 @@
     },
     {
       "path": "registry/experiments.yaml",
-      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
       "path": "proof/LOCAL_THROTTLE_P4_RUN.json",
@@ -204,51 +204,51 @@
     },
     {
       "path": "src/mop/studies/potential_atlas_driver.py",
-      "sha256": "f2289f20516302a0671296a4c3ef1a9fe938a3b5b142d48cb5ffd080d908e643"
+      "sha256": "8006cfa70ab5d7261684f245361ca6ca6332fe059e28fb4ea5bb7b1fbd9810ca"
     },
     {
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "sha256": "82bea5e841bf0f8a1c36cbe5ec0921cd6efdd27d2e8e8631b521c3b2a88bb604"
+      "sha256": "f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_RUN.json",
-      "sha256": "cc357375a16638f76995854ab5c1db92eaefbcc125f48a5a80f6327229bbc1d7"
+      "sha256": "870a3b81ba436fff9f70b63df87917b3b07ee8537ce33a3995452d7f10e3a5f6"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_VERIFICATION.json",
-      "sha256": "9c18f75c155a5d4c1d53e5a087f247c6f412e1f62925100abeb749ae0cea627e"
+      "sha256": "d0b62927ec225af9264e46e0e0806d52cbcd6e302d9711cbe1d63b6274e09d08"
     },
     {
       "path": "proof/INTEGRATION_BROADCAST_RUN.json",
-      "sha256": "a5cb1200b7a79bc578aa9cde7d2ed4f9ecb66e72c2ff3b95f70e972c94317fdc"
+      "sha256": "b3dc04a94f3a59ae2783785812db7a0914139cf2366f2fe122288d0a58cd4360"
     },
     {
       "path": "proof/INTEGRATION_BROADCAST_VERIFICATION.json",
-      "sha256": "fd45c76d02315ce515633150acb41c21a36edb7efa724a6d58b6b35cff0966e5"
+      "sha256": "6f2369a185504b66e3ff6e92e0e40c3538aa4e18259dca229bcfa49443a8b8e6"
     },
     {
       "path": "proof/F59_F60_INTEGRITY_SCAFFOLD_RUN.json",
-      "sha256": "fbf5124b254b1ef2f21533326c527dec437c07b241d508687f01031d38850c21"
+      "sha256": "30570a10b75d8ecf5448bf0bc94623177833a73dd10a67d54a2f37e397d3e6f3"
     },
     {
       "path": "proof/F59_F60_INTEGRITY_VERIFICATION.json",
-      "sha256": "930469128983dcd341a4ed6c5f17db9eaced0305628d17989bcb185208318866"
+      "sha256": "e448859db6f8487c5532d5a76f470efe54a1b7ddcc4606008c65fb7424658265"
     },
     {
       "path": "proof/F61_F64_MATERIAL_TWIN_RUN.json",
-      "sha256": "c8bc3ff87a855b5e8688603c53d9d80425aa9be658bbd6ef49a7594254090c68"
+      "sha256": "34dc8c763d1f4b9f419eba2942009447c6d26b9a4d3f27228ef9dbfa34e22aad"
     },
     {
       "path": "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json",
-      "sha256": "4726d7a772613fed205e42075f684db38737c9e15d4ce7cb3f78b4c27e3d5028"
+      "sha256": "ca1e8041a938974db1bfe3c1bd8d9d849c26153002141c90252656e521d323c8"
     },
     {
       "path": "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
-      "sha256": "9da8041151149f005e8b4f91d69386c619344d546af8acd09044a5406a7ad17f"
+      "sha256": "cab92d6c629a9601d88ec8ca27e61b7d07c64ed27546db13e1bcb5a56a49c1e1"
     },
     {
       "path": "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
-      "sha256": "45eed7a1cf5abc1044c8e832e94fd9236e2e693c188c0b3127855e744ee27645"
+      "sha256": "fedfb423da6ea44017aa8de31d71fe637e76d732007b4db4ad6f57edbe5dca2e"
     }
   ],
   "portfolio": {

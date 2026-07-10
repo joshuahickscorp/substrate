@@ -44,9 +44,7 @@ EXPERIMENT_IDS = (
 
 
 def _stable_unit(seed: int, label: str, index: int) -> float:
-    digest = hashlib.sha256(
-        canonical_bytes({"seed": seed, "label": label, "index": index})
-    ).digest()
+    digest = hashlib.sha256(canonical_bytes({"seed": seed, "label": label, "index": index})).digest()
     return int.from_bytes(digest[:8], "big") / float(2**64)
 
 
@@ -232,9 +230,9 @@ def _f50(seed: int) -> dict[str, Any]:
     ]
     count = min(6, len(selectable))
     selections = {
-        "goldilocks-learning-progress": sorted(
-            selectable, key=lambda row: (-row["transfer"], row["task"])
-        )[:count],
+        "goldilocks-learning-progress": sorted(selectable, key=lambda row: (-row["transfer"], row["task"]))[
+            :count
+        ],
         "random-task": sorted(
             tasks, key=lambda row: (_stable_unit(seed, "f50:random", row["task"]), row["task"])
         )[:count],
@@ -340,17 +338,12 @@ def _f51(seed: int) -> dict[str, Any]:
         ],
         "none": [{"new_cells": 1, "distinct_cells": 3, "archive_size": 3, "unsafe_flag": False}],
     }
-    audit = {
-        name: evaluate_stop_rules(bundle.ecology.stop, history) for name, history in histories.items()
-    }
+    audit = {name: evaluate_stop_rules(bundle.ecology.stop, history) for name, history in histories.items()}
     audit_ok = all(
-        observed == (None if expected == "none" else expected)
-        for expected, observed in audit.items()
+        observed == (None if expected == "none" else expected) for expected, observed in audit.items()
     )
     trace = run_goal_babbling_fixture(bundle.ecology, seed=seed, steps=24)
-    refusal_rates = {
-        rule: _rounded(count / len(candidates)) for rule, count in refusal_counts.items()
-    }
+    refusal_rates = {rule: _rounded(count / len(candidates)) for rule, count in refusal_counts.items()}
     return {
         "experiment_id": "f51_safe_play_goal_babbling",
         "primary_arm": "guarded-goal-babbling",
@@ -367,9 +360,7 @@ def _f51(seed: int) -> dict[str, Any]:
                 "accepted": len(random_rows),
                 "metrics": {
                     "external_task_acceleration": _rounded(acceleration(random_rows)),
-                    "guard_violation_rate": _rounded(
-                        mean(not validity[row.goal_ref] for row in random_rows)
-                    ),
+                    "guard_violation_rate": _rounded(mean(not validity[row.goal_ref] for row in random_rows)),
                 },
             },
             "ungated-curiosity": {
@@ -405,8 +396,7 @@ def _f52(seed: int) -> dict[str, Any]:
     capacity = bundle.ecology.archive_capacity
     qd_targets = list(range(capacity))
     random_targets = [
-        _stable_int(seed, "f52:random-target", index, max(2, capacity // 2))
-        for index in range(capacity)
+        _stable_int(seed, "f52:random-target", index, max(2, capacity // 2)) for index in range(capacity)
     ]
 
     def context_scores(arm: str, targets: list[int]) -> list[float]:
@@ -635,9 +625,7 @@ def _f57(seed: int) -> dict[str, Any]:
         stability = _rate(seed, f"f57:{arm}:stability", probabilities[2], 128)
         axes = {
             axis: _rounded(
-                _rate(seed, f"f57:{arm}:axis:{axis}", 0.35 + 0.5 * probabilities[index % 3], 96)[
-                    "rate"
-                ]
+                _rate(seed, f"f57:{arm}:axis:{axis}", 0.35 + 0.5 * probabilities[index % 3], 96)["rate"]
             )
             for index, axis in enumerate(bundle.communication.score_axes)
         }
@@ -694,9 +682,7 @@ def _f58(seed: int) -> dict[str, Any]:
     arms: dict[str, Any] = {}
     for arm, (base, increment, retention_probability) in profiles.items():
         scores = [
-            _rate(seed, f"f58:{arm}:generation:{generation}", base + increment * generation, 128)[
-                "rate"
-            ]
+            _rate(seed, f"f58:{arm}:generation:{generation}", base + increment * generation, 128)["rate"]
             for generation in range(6)
         ]
         retention = _rate(seed, f"f58:{arm}:retention", retention_probability, 128)

@@ -160,35 +160,6 @@ VITB: dict[str, Any] = {
     "last_range_sha256": "cc219dadd7ab9e7dcb37121380e1a6ec24a7d8684fef2a8438e0e64e5c23ae59",
 }
 
-# Discovery is recorded, but none of these may be acquired or constructed through this seam until
-# ViT-B has a passing strict-load and real forward receipt on the current host.
-LARGER_VARIANTS = (
-    {
-        "slug": "vjepa21_vitl",
-        "official_table_name": "ViT-L/16",
-        "parameter_label": "300M",
-        "resolution": 384,
-        "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
-        "status": "gated-behind-vitb-load-and-forward",
-    },
-    {
-        "slug": "vjepa21_vitg",
-        "official_table_name": "ViT-g/16",
-        "parameter_label": "1B",
-        "resolution": 384,
-        "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitg_384.pt",
-        "status": "gated-behind-vitb-load-and-forward",
-    },
-    {
-        "slug": "vjepa21_vitG",
-        "official_table_name": "ViT-G/16",
-        "parameter_label": "2B",
-        "resolution": 384,
-        "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitG_384.pt",
-        "status": "gated-behind-vitb-load-and-forward",
-    },
-)
-
 MIN_FREE_DISK_BYTES = 40_000_000_000
 DOWNLOAD_WORKING_HEADROOM_BYTES = 512_000_000
 DEFAULT_REPOSITORY_DIR = Path("data/models/vjepa21/official_repo")
@@ -511,8 +482,8 @@ def dependency_report() -> dict[str, Any]:
             "to users. This seam bypasses decord; it does not claim the full official data pipeline works."
         ),
         "accelerator_warning": (
-            "Meta strongly recommends CUDA. CPU and MPS compatibility on this host remain unmeasured "
-            "until supervised load/forward receipts exist."
+            "Meta strongly recommends CUDA. Retained receipts verify CPU strict load and 8-frame "
+            "plus 64-frame forwards on this host; MPS remains unmeasured."
         ),
     }
 
@@ -639,7 +610,10 @@ def validate_vitb_config(path: Path | str = DEFAULT_CONFIG) -> dict[str, Any]:
         "official_repo_commit": OFFICIAL_REPOSITORY_COMMIT,
         "hub_entrypoint": VITB["hub_entrypoint"],
         "checkpoint_url": VITB["checkpoint_url"],
-        "available": False,
+        "available": True,
+        "availability_state": "local_hash_strict_load_and_8f_64f_forward_verified",
+        "cache_first_only": True,
+        "checkpoint_sha256": "848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d",
         "prefer_real": False,
     }
     problems = [
@@ -826,24 +800,20 @@ def download_vitb_checkpoint(
     return receipt
 
 
-def load_vitb_encoder(
+def build_vitb_encoder(
     repository: Path | str = DEFAULT_REPOSITORY_DIR,
-    checkpoint: Path | str = DEFAULT_CHECKPOINT,
+    *,
+    random_seed: int | None = None,
 ):
-    """Construct only the pinned official ViT-B encoder and strict-load ``ema_encoder``.
+    """Construct the pinned official ViT-B architecture without loading pretrained weights.
 
-    This is intentionally lazy and is expected to run in a supervised child process.  The loader
-    refuses a repository or checkpoint without exact authority receipts and never calls the pinned
-    torch.hub download path.
+    ``random_seed`` is required by the matched-control path. The realized state must still be
+    hashed by the caller before it can become a citable random-control cache. This function is
+    intentionally lazy and must run only in a supervised heavy child.
     """
     repo_validation = validate_repository(repository)
     if not repo_validation["all_ok"]:
-        raise VJEPA21IntegrationError("official repository validation failed before model load")
-    checkpoint_validation = validate_checkpoint_receipt(checkpoint, rehash=True)
-    if not checkpoint_validation["all_ok"]:
-        raise VJEPA21IntegrationError(
-            "checkpoint validation failed before model load: " + "; ".join(checkpoint_validation["problems"])
-        )
+        raise VJEPA21IntegrationError("official repository validation failed before model construction")
     deps = dependency_report()
     if not deps["encoder_only_ready"]:
         missing = [row["module"] for row in deps["encoder_only_required"] if not row["present"]]
@@ -856,21 +826,49 @@ def load_vitb_encoder(
         sys.path.insert(0, repo)
     from app.vjepa_2_1.models import vision_transformer as official_vit
 
-    # Exact encoder kwargs from Meta's pinned _make_vjepa2_1_model.  We do not instantiate the
-    # predictor or the ViT-G distillation teacher carried in the training archive.
-    encoder = official_vit.vit_base(
-        patch_size=int(VITB["patch_size"]),
-        img_size=(int(VITB["resolution"]), int(VITB["resolution"])),
-        num_frames=int(VITB["configured_frames"]),
-        tubelet_size=int(VITB["tubelet_size"]),
-        use_sdpa=True,
-        use_SiLU=False,
-        wide_SiLU=True,
-        uniform_power=False,
-        use_rope=True,
-        img_temporal_dim_size=1,
-        interpolate_rope=True,
-    )
+    # Exact encoder kwargs from Meta's pinned _make_vjepa2_1_model. We construct only the
+    # official dense ViT-B encoder and ignore every training-only archive component.
+    with torch.random.fork_rng(devices=[]):
+        if random_seed is not None:
+            torch.manual_seed(int(random_seed))
+        encoder = official_vit.vit_base(
+            patch_size=int(VITB["patch_size"]),
+            img_size=(int(VITB["resolution"]), int(VITB["resolution"])),
+            num_frames=int(VITB["configured_frames"]),
+            tubelet_size=int(VITB["tubelet_size"]),
+            use_sdpa=True,
+            use_SiLU=False,
+            wide_SiLU=True,
+            uniform_power=False,
+            use_rope=True,
+            img_temporal_dim_size=1,
+            interpolate_rope=True,
+        )
+    encoder.eval()
+    for parameter in encoder.parameters():
+        parameter.requires_grad_(False)
+    return encoder
+
+
+def load_vitb_encoder(
+    repository: Path | str = DEFAULT_REPOSITORY_DIR,
+    checkpoint: Path | str = DEFAULT_CHECKPOINT,
+):
+    """Construct only the pinned official ViT-B encoder and strict-load ``ema_encoder``.
+
+    This is intentionally lazy and is expected to run in a supervised child process.  The loader
+    refuses a repository or checkpoint without exact authority receipts and never calls the pinned
+    torch.hub download path.
+    """
+    checkpoint_validation = validate_checkpoint_receipt(checkpoint, rehash=True)
+    if not checkpoint_validation["all_ok"]:
+        raise VJEPA21IntegrationError(
+            "checkpoint validation failed before model load: " + "; ".join(checkpoint_validation["problems"])
+        )
+
+    encoder = build_vitb_encoder(repository)
+    import torch
+
     payload = torch.load(
         Path(checkpoint).resolve(),
         map_location="cpu",
@@ -893,9 +891,6 @@ def load_vitb_encoder(
             f"strict state load reported missing={incompatible.missing_keys}, "
             f"unexpected={incompatible.unexpected_keys}"
         )
-    encoder.eval()
-    for parameter in encoder.parameters():
-        parameter.requires_grad_(False)
     return encoder
 
 
@@ -916,11 +911,18 @@ def build_preflight(
     doctor = doctor_receipt_report(doctor_receipt)
     heavy_lanes = active_heavy_lane_report()
     checkpoint = validate_checkpoint_receipt(DEFAULT_CHECKPOINT, rehash=False)
+    checkpoint_available = bool(checkpoint["all_ok"])
     source_and_disk_preflight_ok = bool(
-        repo["all_ok"] and remote["all_ok"] and config_report["all_ok"] and disk["download_feasible_now"]
+        repo["all_ok"]
+        and remote["all_ok"]
+        and config_report["all_ok"]
+        and (checkpoint_available or disk["download_feasible_now"])
     )
     ready_to_download = bool(
-        source_and_disk_preflight_ok and doctor["fresh_and_green"] and heavy_lanes["clear_for_new_heavy_lane"]
+        not checkpoint_available
+        and source_and_disk_preflight_ok
+        and doctor["fresh_and_green"]
+        and heavy_lanes["clear_for_new_heavy_lane"]
     )
     ready_to_construct_after_download = bool(repo["all_ok"] and dependencies["encoder_only_ready"])
     ready_to_load_now = bool(ready_to_construct_after_download and checkpoint["all_ok"])
@@ -964,24 +966,21 @@ def build_preflight(
         "disk": disk,
         "fresh_doctor": doctor,
         "heavy_lane": heavy_lanes,
-        "larger_variants": list(LARGER_VARIANTS),
         "gates": {
             "ready_to_download": ready_to_download,
             "source_and_disk_preflight_ok": source_and_disk_preflight_ok,
             "download_permission_note": (
-                "ready_to_download becomes true only when the official source/object/disk checks pass, "
-                "the local doctor is green and no more than 15 minutes old, and no known heavy lane is active"
+                "ready_to_download stays false when the retained checkpoint receipt is already valid; "
+                "otherwise it requires official source/object/disk checks, a fresh green local doctor, "
+                "and no known heavy lane"
             ),
             "ready_to_construct_after_download": ready_to_construct_after_download,
             "ready_to_load_now": ready_to_load_now,
-            "vitl_vitg_vitG_allowed": False,
             "required_sequence": [
-                "install missing encoder-only dependencies without importing the full decord data path",
-                "download ViT-B while preserving the 40 GB disk floor",
-                "compute and receipt the full local checkpoint SHA256",
-                "strict-load ema_encoder in a supervised CPU child",
-                "run an 8-frame 384px tensor forward and verify [1,2304,768] finite output",
-                "only then schedule a 64-frame forward/cache and reconsider ViT-L",
+                "reuse the retained hash-verified ViT-B checkpoint and prior strict-load receipts",
+                "build immutable rights-clean task tensors and one canonical input manifest",
+                "encode learned and official seeded-random caches serially with resumable row hashes",
+                "run E6 and DR14 verification without treating larger variants as prerequisites",
             ],
         },
         "claim_boundary": {
@@ -991,8 +990,8 @@ def build_preflight(
             "e6_scientific_compatibility_proven": False,
             "dr14_scientific_compatibility_proven": False,
             "interpretation": (
-                "upstream availability is retired; local integration, full-byte acquisition, strict load, "
-                "tensor forward, natural referents, and task controls remain separate fail-closed gates"
+                "upstream availability and local ViT-B CPU runtime are retired; natural referents, "
+                "paired task caches, and task-level scientific controls remain separate fail-closed gates"
             ),
         },
         # all_ok means the cheap source/object/config/disk preflight is green. The stricter

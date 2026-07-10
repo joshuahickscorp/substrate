@@ -36,6 +36,7 @@ language.
 
 from __future__ import annotations
 
+import argparse
 import json
 import time
 from pathlib import Path
@@ -50,7 +51,8 @@ from mop.seeding import seed_everything
 from mop.substrate.datasets import Task, make_task_stream
 
 REPO = Path(__file__).resolve().parents[1]
-OUT = REPO / "runs" / "pre_studio" / "close_e7_sparse.json"
+DEFAULT_OUT = REPO / "runs" / "pre_studio" / "close_e7_sparse.json"
+OUT = DEFAULT_OUT
 
 # Stream / head config, matched to configs/experiment/e7_sparse.yaml. Kept identical so the BWT
 # numbers here are the same regime the corpus positive was measured in (only the substrate variant
@@ -154,7 +156,20 @@ def _run_substrate(tasks: list[Task], dim: int, n_classes: int, chance: float, s
     }
 
 
-def main() -> None:
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=DEFAULT_OUT,
+        help=f"receipt output path (default: {DEFAULT_OUT})",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = _parse_args(argv)
+    out_path: Path = args.out
     dim = CFG["dim"]
     per_seed: list[dict] = []
     for seed in SEEDS:
@@ -246,11 +261,11 @@ def main() -> None:
         "resolution": resolution,
         "verdict": verdict,
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(out, indent=2))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, indent=2))
     print("\n" + verdict)
     print(f"resolution={resolution}")
-    print(f"wrote {OUT}")
+    print(f"wrote {out_path}")
 
 
 if __name__ == "__main__":

@@ -76,6 +76,8 @@ def load_config(path: Path = DEFAULT_CONFIG) -> dict[str, Any]:
         raise ValueError("sensing scaffold run config schema drift")
     if config.get("claim_scope") != CLAIM_SCOPE:
         raise ValueError("sensing scaffold run claim scope drift")
+    if not isinstance(config.get("null_hypothesis"), str) or not config["null_hypothesis"].strip():
+        raise ValueError("sensing scaffold run null hypothesis is required")
     units = config.get("independent_units", {})
     seeds = tuple(int(value) for value in units.get("seeds", ()))
     fresh = tuple(int(value) for value in units.get("fresh_verifier_seeds", ()))
@@ -507,6 +509,11 @@ def build_receipt(config_path: Path = DEFAULT_CONFIG) -> dict[str, Any]:
     config = load_config(config_path)
     units = [evaluate_seed(int(seed), config) for seed in config["independent_units"]["seeds"]]
     aggregate = _aggregate(units, config)
+    registry_bindings = _registry_bindings()
+    per_experiment_nulls = {
+        experiment_id: str(registry_bindings[experiment_id]["null_hypothesis"])
+        for experiment_id in EXPERIMENT_IDS
+    }
     receipt = {
         "schema": RECEIPT_SCHEMA,
         "claim_scope": CLAIM_SCOPE,
@@ -514,7 +521,12 @@ def build_receipt(config_path: Path = DEFAULT_CONFIG) -> dict[str, Any]:
         "scientific_capability_claim": False,
         "config": _file_receipt(str(config_path.relative_to(REPO_ROOT))),
         "source_receipts": [_file_receipt(path) for path in SOURCE_PATHS],
-        "registry_bindings": _registry_bindings(),
+        "registry_bindings": registry_bindings,
+        "null_contract": {
+            "aggregate": config["null_hypothesis"],
+            "per_experiment": per_experiment_nulls,
+            "per_experiment_sha256": canonical_sha256(per_experiment_nulls),
+        },
         "independent_units": units,
         "aggregate": aggregate,
         "favorable_experiments_requiring_fresh_verification": sorted(
@@ -546,6 +558,15 @@ def assert_receipt(payload: dict[str, Any]) -> None:
         raise ValueError("sensing run receipt payload digest mismatch")
     if payload.get("scientific_capability_claim") is not False:
         raise ValueError("sensing toy receipt cannot make a scientific capability claim")
+    null_contract = payload.get("null_contract", {})
+    per_experiment = null_contract.get("per_experiment", {})
+    if (
+        not isinstance(null_contract.get("aggregate"), str)
+        or not null_contract["aggregate"].strip()
+        or set(per_experiment) != set(EXPERIMENT_IDS)
+        or null_contract.get("per_experiment_sha256") != canonical_sha256(per_experiment)
+    ):
+        raise ValueError("sensing receipt null contract is incomplete")
     for experiment_id in EXPERIMENT_IDS:
         if experiment_id not in payload.get("aggregate", {}):
             raise ValueError(f"sensing receipt misses {experiment_id}")

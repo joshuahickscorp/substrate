@@ -3,7 +3,7 @@
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
   "config": {
     "path": "configs/experiment/integration_broadcast_runs.yaml",
-    "sha256": "6ed71093ad4b32ded1849eae009a5ced983b4fec3303036acb48bb430475f404"
+    "sha256": "4cd8e2114853ef741fb2788d7f1b04cb4663b32c33ba92246dec85211a7ef4b0"
   },
   "evidence_class": "R1 independently re-executed programmatic toy mechanics",
   "fresh_units": [
@@ -274,7 +274,7 @@
     "changed_seed": true,
     "erased_tie_null": true
   },
-  "payload_sha256": "656d1ee3a48204aca24f071830f9bd117a2ebde179ca9200208da77327548825",
+  "payload_sha256": "0d12456d28b5ce421f60cecb09d7670a58e4d590cfa420dd4df880b18eb03704",
   "per_experiment": {
     "f36_limited_broadcast_necessity": {
       "fresh_seed_favorable": true,
@@ -297,8 +297,8 @@
   "problems": [],
   "run_receipt": {
     "path": "proof/INTEGRATION_BROADCAST_RUN.json",
-    "payload_sha256": "f34f30aec7f8b35f6b2506e31c7a6c06a114c663803ab26bba166b59cbb1b4d0",
-    "sha256": "a5cb1200b7a79bc578aa9cde7d2ed4f9ecb66e72c2ff3b95f70e972c94317fdc"
+    "payload_sha256": "99edf62bb3aeef6dcd70fd603c5474a54ed2fa6f59e81e631dfe1d9d3ffd60d0",
+    "sha256": "b3dc04a94f3a59ae2783785812db7a0914139cf2366f2fe122288d0a58cd4360"
   },
   "schema": "mop-integration-broadcast-verifier/v1",
   "scientific_capability_claim": false

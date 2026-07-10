@@ -9,10 +9,10 @@ consciousness, or sentience language; the frozen encoder is never trained; the
 linear-probe gate precedes every mechanism claim.
 
 This tree started as scaffold and now also carries durable local receipts. The per-factor
-`atlas/` directories remain the publication-oriented row format, while
-`VJEPA_SCALE_ATLAS_LOCAL.json` records the current eight-referent serial scale pilot. ViT-L,
-ViT-H, and ViT-g availability is locally verified; that pilot remains non-promotable because
-it is programmatic, tiny, and lacks every matched random-architecture cache.
+`atlas/` directories remain the publication-oriented row format. The inherited-scale pilot is
+retained as immutable history and is not a live dependency. Its input identity and matched controls
+are closed, but eight generated referents and weak held-out cells keep it non-promotable. Current
+rows center official dense ViT-B, pooled controls, and independently verified owned artifacts.
 
 ## The tree
 
@@ -23,9 +23,7 @@ proof/
   atlas/
     _TEMPLATE.factor.json       # the per-(encoder x factor) row template
     atlas_summary.csv           # the flat matrix header (encoder x factor x probe-type x decodability)
-    vjepa2_vitl_fpc64_256/      # publication rows, separate from the local scale-pilot receipt
-    vjepa2_vith/                # publication rows, model availability verified locally
-    vjepa2_vitg/                # publication rows, model availability verified locally
+    <registered-substrate>/     # one live row namespace per registered substrate or owned artifact
   NULL_CARDS/
     null_card.schema.json       # the machine-checkable Section 10.3 field list (probe_dependency REQUIRED)
     _TEMPLATE.md                # the human-readable card template
@@ -49,9 +47,9 @@ Nothing that is not proof-shaped goes above these five.
 
 ## Minimum-viable first artifact
 
-ViT-L only, on the EPIC 5k licensed shard, with linear-probe atlas rows for
-identity/action/relation, plus null cards for E1 and EX12, plus one reproduce-one-plot
-path. This scaffold is the structure that holds those.
+Official dense ViT-B plus the pooled control on one rights-clean development shard, with
+linear-probe atlas rows for identity/action/relation, matched random controls, and one
+reproduce-one-plot path. This scaffold is the structure that holds those.
 
 ---
 

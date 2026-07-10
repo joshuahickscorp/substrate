@@ -41,6 +41,9 @@ def test_f_series_is_non_empty():
 def test_f_series_registry_class_and_config_contracts_are_exact():
     audit = build_contract_audit(series="F", implemented_only=False)
     assert audit["all_ok"], "\n".join(audit["problems"])
+    preregistrations = [record for record in audit["records"] if record.get("preregistration_only") is True]
+    assert preregistrations
+    assert all(not record["required"] and not record["comparisons"] for record in preregistrations)
 
 
 @pytest.mark.parametrize("eid", F_IDS)

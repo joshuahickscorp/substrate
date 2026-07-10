@@ -1,15 +1,21 @@
 # V-JEPA 2.1 ViT-B, dense token output. Meta released this checkpoint on 2026-03-16.
-# `available` means locally hash-verified and strict-loaded, not merely published upstream, so it
-# stays false until the post-CM7 load/forward receipts pass. The legacy hf_id field is an explicit
-# non-HF sentinel: real loading goes only through mop.substrate.vjepa21_official.
+# `available` means locally hash-verified, strict-loaded, and forward-verified on the current host.
+# The legacy hf_id field is an explicit non-HF sentinel: real loading goes only through
+# mop.substrate.vjepa21_official and cache-first task runners.
 name: vjepa21_vitb
 arch: vit_base
 hf_id: official-pytorch-only-vjepa21-vitb
-available: false
+available: true
 release_available: true
-availability_state: released_not_local_verified
+availability_state: local_hash_strict_load_and_8f_64f_forward_verified
 prefer_real: false
 require_real: false
+cache_first_only: true
+checkpoint_sha256: 848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d
+runtime_receipts:
+  load: proof/VJEPA21_VITB_LOAD.json
+  forward_8f: proof/VJEPA21_VITB_FORWARD.json
+  forward_64f: proof/VJEPA21_VITB_FORWARD_64F.json
 source_kind: official_pytorch_checkpoint
 hub: facebookresearch/vjepa2
 official_repo: https://github.com/facebookresearch/vjepa2

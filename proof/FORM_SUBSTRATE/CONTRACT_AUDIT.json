@@ -1,6 +1,6 @@
 {
   "schema": "mop-experiment-contract-audit/v1",
-  "created_at": "2026-07-10T07:04:48.300544+00:00",
+  "created_at": "2026-07-10T20:38:05.579960+00:00",
   "series": "F",
   "implemented_only": false,
   "records": [
@@ -339,44 +339,8 @@
     {
       "experiment_id": "f16_perfect_slate_null",
       "required": false,
-      "comparisons": {
-        "id": {
-          "registry": "f16_perfect_slate_null",
-          "class": "f16_perfect_slate_null",
-          "config": "f16_perfect_slate_null",
-          "equal": true
-        },
-        "metric": {
-          "registry": [
-            "blank_vs_inherited_delta",
-            "heldout_transfer",
-            "matched_compute_delta"
-          ],
-          "class": [
-            "blank_vs_inherited_delta",
-            "heldout_transfer",
-            "matched_compute_delta"
-          ],
-          "config": [
-            "blank_vs_inherited_delta",
-            "heldout_transfer",
-            "matched_compute_delta"
-          ],
-          "equal": true
-        },
-        "null_hypothesis": {
-          "registry": "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget",
-          "class": "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget",
-          "config": "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget",
-          "equal": true
-        },
-        "tier": {
-          "registry": "env-later",
-          "class": "env-later",
-          "config": "env-later",
-          "equal": true
-        }
-      },
+      "preregistration_only": true,
+      "comparisons": {},
       "canonical": {
         "id": "f16_perfect_slate_null",
         "metric": [
@@ -673,6 +637,91 @@
       "all_ok": true
     },
     {
+      "experiment_id": "f21_asynchronous_temporal_binding",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f21_asynchronous_temporal_binding",
+        "metric": [
+          "binding_f1_across_delay_and_jitter",
+          "shuffled_time_rejection_rate"
+        ],
+        "null_hypothesis": "the learned binding window ties the fixed window on binding F1 across delay and jitter, or it binds shuffled-time pairs, so context-dependent binding adds nothing over a constant",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f22_active_form_acquisition",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f22_active_form_acquisition",
+        "metric": [
+          "capability_per_sensor_cost",
+          "acquisition_regret_vs_full_observation"
+        ],
+        "null_hypothesis": "no matched-cost gain: the information-gain chooser fails to beat random, uncertainty, saliency, or full-observation acquisition on held-out worlds, or the gain vanishes when downstream training is untouched",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f26_cross_form_contradiction_triangulation",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f26_cross_form_contradiction_triangulation",
+        "metric": [
+          "source_localization_auroc",
+          "fused_estimate_error"
+        ],
+        "null_hypothesis": "source localization AUROC ties the raw per-source residual and the majority-vote and mean-fusion baselines, so contradiction handling reduces to averaging",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f27_causal_crossmodal_binding",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f27_causal_crossmodal_binding",
+        "metric": [
+          "unseen_intervention_prediction_error",
+          "synchronous_unrelated_rejection_rate"
+        ],
+        "null_hypothesis": "the intervention-trained model ties the temporal-correlation model on unseen-intervention prediction, or it also binds the synchronous-but-unrelated pair, so intervention adds nothing beyond synchrony",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f28_sensor_value_forecast",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f28_sensor_value_forecast",
+        "metric": [
+          "payoff_calibration_error",
+          "forecast_rank_correlation"
+        ],
+        "null_hypothesis": "the forecast does not rank realized gains: entropy, historical average, or hindsight scoring matches or beats the committed forecast, so sensor value is not predictable before payment",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
       "experiment_id": "f2_heldout_form_transfer",
       "required": true,
       "comparisons": {
@@ -721,6 +770,151 @@
           "multi_form_gain"
         ],
         "null_hypothesis": "matched-exposure multi-form training fails to beat the strongest single-reference or matched-noise control by the preregistered margin, the held-out form remains near chance, or referent-shuffled alignment ties the treatment",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f31_body_hardware_self_model",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f31_body_hardware_self_model",
+        "metric": [
+          "target_hit_rate_within_tolerance",
+          "delta_vs_boundary_shuffled",
+          "delta_vs_constant_report"
+        ],
+        "null_hypothesis": "own-telemetry predictions do not beat the boundary-shuffled or constant-report control within the declared tolerances, so the declared body and hardware model carries nothing beyond channel base rates",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f32_tool_incorporation",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f32_tool_incorporation",
+        "metric": [
+          "post_tool_accuracy_gain",
+          "detached_control_gain",
+          "selectivity_margin"
+        ],
+        "null_hypothesis": "post-tool prediction accuracy on tool-coupled fields does not separate from the tool-detached or wrong-tool control, so no boundary shift beyond generic drift is established",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f33_internal_telemetry_prediction",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f33_internal_telemetry_prediction",
+        "metric": [
+          "forecast_hit_rate_within_tolerance",
+          "delta_vs_persistence",
+          "delta_vs_rolling_mean"
+        ],
+        "null_hypothesis": "forecasts do not beat persistence or rolling-mean baselines at any declared horizon, so the monitor restates the last value and adds no forward information",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f34_homeostatic_resource_control",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f34_homeostatic_resource_control",
+        "metric": [
+          "band_occupancy_fraction",
+          "delta_vs_matched_random_actuation",
+          "actuation_count"
+        ],
+        "null_hypothesis": "band occupancy under the declared policy does not beat matched random actuation at the same actuation rate, so the setpoint coupling adds no control beyond acting at all",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f35_self_report_grounding",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f35_self_report_grounding",
+        "metric": [
+          "grounded_fraction",
+          "shared_fields",
+          "intervention_selectivity"
+        ],
+        "null_hypothesis": "grounded_fraction under the true trace does not separate from the shuffled-report or wrong-trace control, or reports do not change under state intervention, so reports are not grounded in the trace",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f36_limited_broadcast_necessity",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f36_limited_broadcast_necessity",
+        "metric": [
+          "lesion_drop",
+          "restoration_recovery",
+          "delay_slope",
+          "delta_vs_unrestricted_bus"
+        ],
+        "null_hypothesis": "lesioning or delaying the limited broadcast link does not hurt shared-task performance beyond the unrestricted-bus and message-shuffled controls, so the link is not necessary",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f37_broadcast_sufficiency",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f37_broadcast_sufficiency",
+        "metric": [
+          "shared_task_score",
+          "delta_vs_best_comparator",
+          "capacity_frontier_area"
+        ],
+        "null_hypothesis": "at matched compute at least one comparator matches or beats the limited-broadcast arm on shared-task performance, so limited broadcast is not selectively sufficient",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f38_metacognitive_efficiency",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f38_metacognitive_efficiency",
+        "metric": [
+          "benefit_per_monitor_flop",
+          "delta_vs_matched_cost_null",
+          "monitor_flops_spent"
+        ],
+        "null_hypothesis": "no declared OA component yields benefit per monitor FLOP above its matched-cost null and random-monitor control, so monitoring does not pay for its own compute",
         "tier": "cpu-now"
       },
       "problems": [],
@@ -835,6 +1029,181 @@
       "all_ok": true
     },
     {
+      "experiment_id": "f50_curriculum_goldilocks_test",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f50_curriculum_goldilocks_test",
+        "metric": [
+          "downstream_transfer_per_sample",
+          "band_occupancy_rate"
+        ],
+        "null_hypothesis": "no transfer gain, or the selector is captured by irreducible noise: banded selection matches random or ordered schedules on downstream transfer per sample",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f51_safe_play_goal_babbling",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f51_safe_play_goal_babbling",
+        "metric": [
+          "external_task_acceleration",
+          "refusal_rate_by_rule"
+        ],
+        "null_hypothesis": "discovered skills are not reused: external-task acceleration is absent or matched by random exploration or ungated curiosity, so guarded babbling adds nothing over noise",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f52_quality_diverse_mode_ecology",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f52_quality_diverse_mode_ecology",
+        "metric": [
+          "archive_coverage",
+          "utility_per_maintenance_cost",
+          "redundancy"
+        ],
+        "null_hypothesis": "diversity is decorative or costly: the archive fails to beat the monolithic optimum at matched compute, or a stop rule fires before the declared horizon",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f53_joint_referent_establishment",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f53_joint_referent_establishment",
+        "metric": [
+          "joint_referent_agreement",
+          "held_out_partner_transfer"
+        ],
+        "null_hypothesis": "no partner-general alignment: agreement on held-out partner policies falls to the cue-blind or pattern-matching control level, so apparent alignment is regularity matching over the training policy family",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f54_communicative_repair",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f54_communicative_repair",
+        "metric": [
+          "recovery_per_bit",
+          "recovery_per_turn"
+        ],
+        "null_hypothesis": "no efficiency or accuracy gain: repetition or matched extra bandwidth recovers failed reference as well as the dedicated repair channel",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f55_selective_imitation",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f55_selective_imitation",
+        "metric": [
+          "causal_action_fidelity",
+          "task_success_rate"
+        ],
+        "null_hypothesis": "same overimitation or lower success: fidelity or task success does not beat indiscriminate cloning, so step selection adds nothing",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f56_teaching_value",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f56_teaching_value",
+        "metric": [
+          "learner_gain_per_message",
+          "held_out_learner_advantage"
+        ],
+        "null_hypothesis": "no held-out learner advantage: equal information or generic selection matches taught progress, so teaching is relabeled data volume",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f57_emergent_symbol_grounding",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f57_emergent_symbol_grounding",
+        "metric": [
+          "compositional_transfer",
+          "causal_grounding_score",
+          "code_stability"
+        ],
+        "null_hypothesis": "private idiolect or noncausal code: the code fails cross-seed, cross-partner, cross-generation, or cross-referent transfer, or a direct-state channel matches it at equal bandwidth",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f58_cultural_accumulation",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f58_cultural_accumulation",
+        "metric": [
+          "generation_trend_external_tasks",
+          "convention_retention"
+        ],
+        "null_hypothesis": "no ratchet: the generation trend is flat or negative, or gains are convention-only and vanish on external tasks",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f59_memory_poisoning_resistance",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f59_memory_poisoning_resistance",
+        "metric": [
+          "quarantine_closes_availability",
+          "rollback_restores_clean_content",
+          "consolidated_content_token_free",
+          "deletion_closes_availability",
+          "chain_verifies_after_drill"
+        ],
+        "null_hypothesis": "an injected adversarial revision stays readable after the quarantine mark, rollback fails to restore the exact pre-injection content, a consolidated summary carries a declared private token forward, or deletion after consolidation leaves the memory readable, so resistance is not established",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
       "experiment_id": "f5_cross_form_memory_binding",
       "required": true,
       "comparisons": {
@@ -887,6 +1256,140 @@
           "recall_per_slot"
         ],
         "null_hypothesis": "cross-form retrieval fails to beat raw or shuffled controls, or remains materially below same-form independent-view retrieval, so memory is form-local rather than referent-bound",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f60_transactional_self_rewrite",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f60_transactional_self_rewrite",
+        "metric": [
+          "authority_confusion_refusal",
+          "receipt_gap_refusal",
+          "evaluator_conflict_refusal",
+          "wellformed_promotion_allowed"
+        ],
+        "null_hypothesis": "the gate allows a promotion when the executor requests it, when any stage receipt is missing or truncated, when fewer than two distinct evaluators sign, or when evaluators disagree, so transactional discipline is not established",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f61_physical_reservoir_digital_twin",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f61_physical_reservoir_digital_twin",
+        "metric": [
+          "interface_conformance_rate",
+          "seed_reproducibility_rate",
+          "lineage_digest_stability",
+          "energy_accounting_monotonicity"
+        ],
+        "null_hypothesis": "no shared interface survives all three priors without a per-prior special case, or the priors are nondeterministic under seed, so a common physical-reservoir twin is not established",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f62_material_native_dynamics_value",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f62_material_native_dynamics_value",
+        "metric": [
+          "matched_cost_gap",
+          "retained_win_margin",
+          "replication_count",
+          "control_family_coverage"
+        ],
+        "null_hypothesis": "the material prior fails to beat every tuned matched-cost control on a retained win, or the win does not replicate, so native-dynamics value is not established",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f63_drift_and_aging_adaptation",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f63_drift_and_aging_adaptation",
+        "metric": [
+          "drift_rate",
+          "adaptation_lag",
+          "retained_function",
+          "adaptation_energy"
+        ],
+        "null_hypothesis": "adaptation does not retain function above the no-adapt floor at lower cost than oracle-reset or full-retraining, so drift-aware adaptation is not established",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f64_damage_and_reattachment_recovery",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f64_damage_and_reattachment_recovery",
+        "metric": [
+          "repair_time",
+          "restored_function",
+          "future_plasticity",
+          "repair_energy",
+          "topology_change"
+        ],
+        "null_hypothesis": "no repair policy restores selectively lesioned function under novel inputs above the fixed-final and restart controls at lower cost than full-retraining, so restoration-without-retraining is not established",
+        "tier": "cpu-now"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f65_specimen_to_specimen_transfer",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f65_specimen_to_specimen_transfer",
+        "metric": [
+          "transfer_margin_over_within",
+          "transfer_margin_over_random",
+          "refit_cost_ratio",
+          "gate_refusal_enforced"
+        ],
+        "null_hypothesis": "readout transfer between specimens does not exceed within-specimen and random-specimen controls, or the contract permits local physical execution, so specimen-to-specimen transfer is not established and not safely gated",
+        "tier": "env-later"
+      },
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f66_cross_substrate_form_portability",
+      "required": false,
+      "preregistration_only": true,
+      "comparisons": {},
+      "canonical": {
+        "id": "f66_cross_substrate_form_portability",
+        "metric": [
+          "portability_refit_cost",
+          "retained_function_after_carry",
+          "identity_gap",
+          "random_remap_gap"
+        ],
+        "null_hypothesis": "a readout carried across simulated forms does not beat the identity and random-remap controls at lower refit cost than full-retrain, so cross-form portability is not established",
         "tier": "cpu-now"
       },
       "problems": [],
@@ -1003,44 +1506,8 @@
     {
       "experiment_id": "f8_plastic_substrate_rewrite",
       "required": false,
-      "comparisons": {
-        "id": {
-          "registry": "f8_plastic_substrate_rewrite",
-          "class": "f8_plastic_substrate_rewrite",
-          "config": "f8_plastic_substrate_rewrite",
-          "equal": true
-        },
-        "metric": {
-          "registry": [
-            "heldout_factor_acc",
-            "representation_rewrite_delta",
-            "matched_compute_delta"
-          ],
-          "class": [
-            "heldout_factor_acc",
-            "representation_rewrite_delta",
-            "matched_compute_delta"
-          ],
-          "config": [
-            "heldout_factor_acc",
-            "representation_rewrite_delta",
-            "matched_compute_delta"
-          ],
-          "equal": true
-        },
-        "null_hypothesis": {
-          "registry": "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget",
-          "class": "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget",
-          "config": "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget",
-          "equal": true
-        },
-        "tier": {
-          "registry": "env-later",
-          "class": "env-later",
-          "config": "env-later",
-          "equal": true
-        }
-      },
+      "preregistration_only": true,
+      "comparisons": {},
       "canonical": {
         "id": "f8_plastic_substrate_rewrite",
         "metric": [
@@ -1110,9 +1577,11 @@
     }
   ],
   "summary": {
-    "total": 20,
-    "aligned": 20,
-    "misaligned": 0
+    "total": 50,
+    "aligned": 50,
+    "misaligned": 0,
+    "implemented": 18,
+    "preregistration_only": 32
   },
   "problems": [],
   "all_ok": true

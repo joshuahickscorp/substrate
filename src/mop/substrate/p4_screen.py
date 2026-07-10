@@ -169,8 +169,7 @@ class SparseGatedEncoderLayer(nn.Module):
         self.mlp_norm = nn.LayerNorm(dim)
         self.gate = nn.Linear(dim, experts)
         self.experts = nn.ModuleList(
-            nn.Sequential(nn.Linear(dim, 4 * dim), nn.GELU(), nn.Linear(4 * dim, dim))
-            for _ in range(experts)
+            nn.Sequential(nn.Linear(dim, 4 * dim), nn.GELU(), nn.Linear(4 * dim, dim)) for _ in range(experts)
         )
 
     def forward(self, hidden: torch.Tensor) -> torch.Tensor:
@@ -618,9 +617,7 @@ def run_p4_screen(
             seed_dir = cell_dir / f"seed_{seed}"
             torch.manual_seed(_stable_seed(cell.cell_id, seed))
             probe = build_substrate(cell)
-            initial_state = {
-                key: value.detach().cpu().clone() for key, value in probe.state_dict().items()
-            }
+            initial_state = {key: value.detach().cpu().clone() for key, value in probe.state_dict().items()}
             initial_hash = _state_sha256(initial_state)
             del probe
             identity = {
@@ -871,9 +868,8 @@ def run_p4_screen(
         if stopped_for_wall or stopped_for_disk or stopped_for_required_arm:
             break
 
-    complete = (
-        not (stopped_for_wall or stopped_for_disk or stopped_for_required_arm)
-        and all(cell_receipts.get(cell.cell_id, {}).get("complete") for cell in ordered)
+    complete = not (stopped_for_wall or stopped_for_disk or stopped_for_required_arm) and all(
+        cell_receipts.get(cell.cell_id, {}).get("complete") for cell in ordered
     )
     if required_arm_failure is not None:
         problems.append(

@@ -33,6 +33,7 @@ Usage: .venv/bin/python scripts/close_ex2_planning.py
 
 from __future__ import annotations
 
+import argparse
 import json
 import statistics
 import sys
@@ -55,6 +56,9 @@ from mop.experiments.ex2_latent_planning import (
     _true_dynamics_params,
 )
 from mop.seeding import seed_everything
+
+REPO = Path(__file__).resolve().parents[1]
+DEFAULT_OUT = REPO / "runs" / "pre_studio" / "close_ex2_planning.json"
 
 # ------------------------------------------------------------------------------------------------
 # scale (matches configs/experiment/ex2_latent_planning.yaml, trimmed n_trials for a bounded
@@ -257,7 +261,20 @@ def _run_seed(seed: int) -> dict:
     }
 
 
-def main() -> int:
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=DEFAULT_OUT,
+        help=f"receipt output path (default: {DEFAULT_OUT})",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parse_args(argv)
+    out_path: Path = args.out
     t0 = time.time()
     per_seed = []
     for seed in SEEDS:
@@ -369,7 +386,6 @@ def main() -> int:
         "wall_clock_s": round(time.time() - t0, 3),
     }
 
-    out_path = Path("runs/pre_studio/close_ex2_planning.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(out, indent=2))
     print(f"[close_ex2_planning] wrote {out_path}", file=sys.stderr)

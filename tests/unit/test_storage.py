@@ -79,14 +79,14 @@ def test_estimate_for_encoder_pooled_vs_dense_differ_by_token_factor():
 
 
 def test_estimate_for_encoder_honors_config_dense_flag():
-    cfg = {"name": "vjepa21_vitl", "embed_dim": 1024, "dense": True}
+    cfg = {"name": "dense_fixture", "embed_dim": 1024, "dense": True}
     out = estimate_for_encoder(cfg, n_clips=10)  # dense=False default, but config says dense
     assert out["dense"] is True
     assert out["tokens_per_clip"] == DENSE_TOKENS_PER_CLIP
 
 
 def test_estimate_for_encoder_dense_tokens_override():
-    cfg = {"name": "vjepa2_vitg", "embed_dim": 1408}
+    cfg = {"name": "wide_fixture", "embed_dim": 1408}
     out = estimate_for_encoder(cfg, n_clips=5, dense=True, dense_tokens=10976)
     assert out["tokens_per_clip"] == 10976
     assert out["embed_dim"] == 1408

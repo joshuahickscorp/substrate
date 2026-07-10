@@ -145,28 +145,28 @@
     },
     {
       "path": "registry/experiments.yaml",
-      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe",
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64",
       "use": "227 current experiment contracts"
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824",
-      "payload_sha256": "f61c506949fc523448c3f9c21c56f335aa40f2ec6c33d8d0f0a71cc9ac5c7019",
+      "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff",
+      "payload_sha256": "df5d0e4c976004db197c6f14ba9b3ccdf4e1a0dc1f06050895e54af899a4c0ca",
       "use": "321 requirements rows; categories 1/2/3/6 are 168/119/29/5, categories 8 and 9 are empty, and no hardware row is required"
     },
     {
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "43056e20957ca197163b6dccba99fd62d6860fb9ea80dad4212cb1e3cf2cf3da",
+      "sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317",
       "use": "177 non-F entries; counts 120 fresh, 37 durable, 1 implementation, 11 rights/data, 8 upstream/model, 0 hardware; all scientific_claim_ready fields false"
     },
     {
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "924f7c63e0ed92f4829f4252fcecc208f9617dc4f3aa2c93623003bc2b657ceb",
+      "sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84",
       "use": "24 tagged non-F frontier rows; five local mechanics, one CM7 bound null, one CM8 upstream-blocked preflight, one dense-integration data blocker, 16 external-input blockers, and zero measured hardware blockers"
     },
     {
       "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "sha256": "e573c1a8ee8445cb908312cb5f576c872262dcaede470a8fb469c8faf8e3c5a3",
+      "sha256": "f2bae49ad43b9e5f389ee8d05829c9dd14cbe54b1e3610168e1f591ddeebe30d",
       "use": "current local frontier preflights after P7/P9 integration; mechanics only and science fails closed"
     },
     {
@@ -186,37 +186,37 @@
     },
     {
       "path": "proof/EXPANSION_WAVE0.json",
-      "sha256": "a463da8cf345b0c50682ee5af5ba81aa9c032f471b317467c4964988e33f5a91",
-      "payload_sha256": "3b427c0485741617e9db12f148799b1293263386cbe94c107fbb1f87aa12fbc5",
+      "sha256": "653f6f3da22da1dc0cf446217e9726f81c23a59f9193556bb881f8b1052f97b9",
+      "payload_sha256": "bfddb64aca5f3b83bb44d9a3eb07b8f72ec6de2595592231d2910fd41a0f1400",
       "use": "Wave E0 event, intervention, identity, and lifecycle mechanics; three units, nine controls, 72 recomputed metrics, nine rejected mutations; no capability claim"
     },
     {
       "path": "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
-      "sha256": "efa319969601287e29331fdb352fb2a3690f23f881985d2174010ea7c5883e7f",
-      "payload_sha256": "a667e20be5cafa531ae769276e0b10377bb915ab2b3cd6059e2ca5d421dbe8b1",
+      "sha256": "fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03",
+      "payload_sha256": "081808500267145d5e40b2db84cb38baf72f0ba40a8e7b71d5a463a03a789a89",
       "use": "P6 disk-backed 384-event mechanics and declared 10k, 100k, conditional-1m ladder; no capability or hardware claim"
     },
     {
       "path": "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
-      "sha256": "ddbbaa41c1c94ff8395d396dce92bb43209c0dcc635dd954e00b5fd14ecc5f29",
-      "deterministic_core_sha256": "430b333fbdf269355adff13e5f0e71058dabaf560400613df10755fd9d86f2c8",
-      "use": "P7 action-conditioned rendered-fixture mechanics; R1 programmatic, R0 external; fixture null supported; no scientific or capability claim"
+      "sha256": "5f69a3f6bf8e68d0710e2d180288109068ab1adca5cb273edb5105a36b6b1ca9",
+      "deterministic_core_sha256": "e3d2f9bdb9ee88aa10a67cdcaea2090e2a9cb7c02ce3f54170f9810c60d114ec",
+      "use": "P7 action-conditioned rendered-fixture mechanics with a fail-closed runtime import guard; R1 programmatic, R0 external; fixture null supported; no scientific or capability claim"
     },
     {
       "path": "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
-      "sha256": "f87d4700f291f07747a66311da57a3f8bc586ff68a18e9035f74b762ca790e3a",
-      "deterministic_core_sha256": "a9bd342e3ad4b65072a2970e53283108ddc71071904265b81108b8636119936f",
-      "use": "P9 causal-monitoring fixture mechanics; R1 programmatic, R0 natural-external; five units, 260 lineages, 1,300 branches, eight rejected mutations, exact resume; no scientific or energy claim"
+      "sha256": "bb159720a641acb0b8f66503591e4ea879a761787cfe35a5aff94d99a91c9797",
+      "deterministic_core_sha256": "e6fdd287a01edd87771dcbd67746b9e83fd5686c2984e5b835257b86dbe7dffa",
+      "use": "P9 causal-monitoring fixture mechanics with a fail-closed runtime import guard; R1 programmatic, R0 natural-external; five units, 260 lineages, 1,300 branches, eight rejected mutations, exact resume; no scientific or energy claim"
     },
     {
       "path": "proof/GOVERNED_REWRITE_PREFLIGHT.json",
-      "sha256": "77f1470b47350bf5d48f6741e20db8128bd386c4a132fbfd0e104ba633e8fe36",
-      "deterministic_core_sha256": "abecf1fd7806c5939f907ed6bc47f855efa764293331ecf2e9f4c3bb704fec5d",
+      "sha256": "d94e046b0a3ae7843f490a41e992145e0e79405f2c9ace5ab49bc8a29b715df0",
+      "deterministic_core_sha256": "d2a93c28edd5ceed3f0db7d254ec0dfc26c406e20996309fe7648673f8441b94",
       "use": "governed-rewrite transaction mechanics; R1 fixture, R0 production; canary/shadow improvement, exact resume and atomic commit, rollback, eight fail-closed adversarial transactions, 14 rejected mutations; no scientific or production-safety claim"
     },
     {
       "path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
-      "sha256": "76cde906e4663fe9a5444371d0c3af08ae6b455c72c18a31772711bd510e1766",
+      "sha256": "efa875cf01b9da0bd546b9860576c5488b092bae9facb8943373b4d5d40f52af",
       "use": "E6 and DR14 task/cache/control integration complete; natural cohort, caches, untouched test, and independent verifiers absent"
     },
     {
@@ -232,6 +232,9 @@
     {
       "path": "proof/LOCAL_THROTTLE_P4_RUN.json",
       "sha256": "709e077bc0665176585f656a1a5d1eb654ccfe5e588fc012cb342ad7aa4c299a",
+      "binding_scope": "immutable-execution-receipt",
+      "embedded_policy_scope": "execution-time",
+      "current_policy_equivalence_claim": false,
       "use": "governor-owned P4 leg5 closure with one successful invocation, 156 atomic checkpoint publications, and an empty final active-lane set"
     },
     {
@@ -241,32 +244,32 @@
     },
     {
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "sha256": "82bea5e841bf0f8a1c36cbe5ec0921cd6efdd27d2e8e8631b521c3b2a88bb604",
+      "sha256": "f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794",
       "use": "three-sample governed P5 smoke denial on current available-memory headroom only; no command executed and no hardware-necessity claim"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_VERIFICATION.json",
-      "sha256": "9c18f75c155a5d4c1d53e5a087f247c6f412e1f62925100abeb749ae0cea627e",
-      "use": "independent fresh-seed verification of f21, f26, and f27 toy nulls"
+      "sha256": "d0b62927ec225af9264e46e0e0806d52cbcd6e302d9711cbe1d63b6274e09d08",
+      "use": "independent fresh-seed verification of f21, f26, and f27 toy nulls with aggregate and per-experiment null bindings"
     },
     {
       "path": "proof/INTEGRATION_BROADCAST_VERIFICATION.json",
-      "sha256": "fd45c76d02315ce515633150acb41c21a36edb7efa724a6d58b6b35cff0966e5",
-      "use": "fresh-seed verified f36 toy necessity pattern and exact f37 unrestricted-bus tie null; scientific promotion false"
+      "sha256": "6f2369a185504b66e3ff6e92e0e40c3538aa4e18259dca229bcfa49443a8b8e6",
+      "use": "fresh-seed verified f36 toy necessity pattern and exact f37 unrestricted-bus tie null with aggregate and per-experiment null bindings; scientific promotion false"
     },
     {
       "path": "proof/F59_F60_INTEGRITY_VERIFICATION.json",
-      "sha256": "930469128983dcd341a4ed6c5f17db9eaced0305628d17989bcb185208318866",
+      "sha256": "e448859db6f8487c5532d5a76f470efe54a1b7ddcc4606008c65fb7424658265",
       "use": "independent replay and fresh-seed verification of poisoning, recovery, consolidation, deletion, and rewrite-authority drills"
     },
     {
       "path": "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json",
-      "sha256": "4726d7a772613fed205e42075f684db38737c9e15d4ce7cb3f78b4c27e3d5028",
+      "sha256": "ca1e8041a938974db1bfe3c1bd8d9d849c26153002141c90252656e521d323c8",
       "use": "independent twin verification; f61 mechanics pass, f62 and f64 null, f63 favorable programmatic adaptation pattern, no physical claim"
     },
     {
       "path": "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
-      "sha256": "45eed7a1cf5abc1044c8e832e94fd9236e2e693c188c0b3127855e744ee27645",
+      "sha256": "fedfb423da6ea44017aa8de31d71fe637e76d732007b4db4ad6f57edbe5dca2e",
       "use": "independent toy-world verification of eight favorable patterns and three nulls across f22, f28, and f50-f58; promotion false"
     }
   ],
@@ -295,7 +298,7 @@
         "id": "wave_e0_mechanics",
         "classification": "mechanics_only",
         "evidence_path": "proof/EXPANSION_WAVE0.json",
-        "evidence_sha256": "a463da8cf345b0c50682ee5af5ba81aa9c032f471b317467c4964988e33f5a91",
+        "evidence_sha256": "653f6f3da22da1dc0cf446217e9726f81c23a59f9193556bb881f8b1052f97b9",
         "result": "F23, F29, and F39 event/lifecycle mechanics pass over three programmatic units; 72 metrics recompute and nine semantic mutations are rejected",
         "scientific_claim_ready": false
       },
@@ -303,7 +306,7 @@
         "id": "p6_continual_stream_mechanics",
         "classification": "mechanics_only",
         "evidence_path": "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
-        "evidence_sha256": "efa319969601287e29331fdb352fb2a3690f23f881985d2174010ea7c5883e7f",
+        "evidence_sha256": "fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03",
         "result": "384-event abrupt/gradual disk stream passes replay, no-replay, fresh-init, atomic resume, deletion, identity, and matched-update mechanics",
         "progressive_rungs": [10000, 100000, 1000000],
         "million_event_rung_conditional": true,
@@ -314,12 +317,12 @@
         "classification": "mechanics_only",
         "mechanics_only": true,
         "evidence_path": "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
-        "evidence_sha256": "ddbbaa41c1c94ff8395d396dce92bb43209c0dcc635dd954e00b5fd14ecc5f29",
-        "deterministic_core_sha256": "430b333fbdf269355adff13e5f0e71058dabaf560400613df10755fd9d86f2c8",
+        "evidence_sha256": "5f69a3f6bf8e68d0710e2d180288109068ab1adca5cb273edb5105a36b6b1ca9",
+        "deterministic_core_sha256": "e3d2f9bdb9ee88aa10a67cdcaea2090e2a9cb7c02ce3f54170f9810c60d114ec",
         "resource_observation": {
           "device": "cpu",
-          "elapsed_seconds": 7.231113,
-          "max_rss_bytes": 298549248,
+          "elapsed_seconds": 7.696731,
+          "max_rss_bytes": 302596096,
           "accelerator_required": false
         },
         "evidence_ceiling": {
@@ -336,8 +339,8 @@
         "classification": "mechanics_only",
         "mechanics_only": true,
         "evidence_path": "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
-        "evidence_sha256": "f87d4700f291f07747a66311da57a3f8bc586ff68a18e9035f74b762ca790e3a",
-        "deterministic_core_sha256": "a9bd342e3ad4b65072a2970e53283108ddc71071904265b81108b8636119936f",
+        "evidence_sha256": "bb159720a641acb0b8f66503591e4ea879a761787cfe35a5aff94d99a91c9797",
+        "deterministic_core_sha256": "e6fdd287a01edd87771dcbd67746b9e83fd5686c2984e5b835257b86dbe7dffa",
         "evidence_ceiling": {
           "programmatic": "R1",
           "natural_external": "R0"
@@ -360,12 +363,12 @@
         "classification": "mechanics_only",
         "mechanics_only": true,
         "evidence_path": "proof/GOVERNED_REWRITE_PREFLIGHT.json",
-        "evidence_sha256": "77f1470b47350bf5d48f6741e20db8128bd386c4a132fbfd0e104ba633e8fe36",
-        "deterministic_core_sha256": "abecf1fd7806c5939f907ed6bc47f855efa764293331ecf2e9f4c3bb704fec5d",
+        "evidence_sha256": "d94e046b0a3ae7843f490a41e992145e0e79405f2c9ace5ab49bc8a29b715df0",
+        "deterministic_core_sha256": "d2a93c28edd5ceed3f0db7d254ec0dfc26c406e20996309fe7648673f8441b94",
         "resource_observation": {
           "device": "cpu",
-          "elapsed_seconds": 0.024279,
-          "max_rss_bytes": 204308480,
+          "elapsed_seconds": 0.022589667001739144,
+          "max_rss_bytes": 204423168,
           "accelerator_required": false
         },
         "evidence_ceiling": {
@@ -394,7 +397,7 @@
         "id": "e6_dr14_dense_integration",
         "classification": "implementation_complete_data_blocked",
         "evidence_path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
-        "evidence_sha256": "76cde906e4663fe9a5444371d0c3af08ae6b455c72c18a31772711bd510e1766",
+        "evidence_sha256": "efa875cf01b9da0bd546b9860576c5488b092bae9facb8943373b4d5d40f52af",
         "implementation_ready": true,
         "remaining_blockers": [
           "rights-clean annotated natural cohort",
@@ -408,7 +411,7 @@
         "id": "project_exhaustion_refresh",
         "classification": "ledger_mechanics",
         "evidence_path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-        "evidence_sha256": "43056e20957ca197163b6dccba99fd62d6860fb9ea80dad4212cb1e3cf2cf3da",
+        "evidence_sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317",
         "classification_counts": {
           "freshly_executed_verified": 120,
           "already_durable_hash_verifiable": 37,
@@ -446,7 +449,7 @@
         "p5_full_receipt_present": false,
         "p5_admission_receipt": {
           "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-          "sha256": "82bea5e841bf0f8a1c36cbe5ec0921cd6efdd27d2e8e8631b521c3b2a88bb604",
+          "sha256": "f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794",
           "allowed": false,
           "first_blocker_category": "transient-current-host-memory-headroom"
         },
@@ -505,9 +508,9 @@
     "source_hash_publication": {
       "status": "complete",
       "pending_paths": [],
-      "project_exhaustion_sha256": "43056e20957ca197163b6dccba99fd62d6860fb9ea80dad4212cb1e3cf2cf3da",
-      "frontier_localization_sha256": "924f7c63e0ed92f4829f4252fcecc208f9617dc4f3aa2c93623003bc2b657ceb",
-      "extended_compute_requirements_sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824",
+      "project_exhaustion_sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317",
+      "frontier_localization_sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84",
+      "extended_compute_requirements_sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff",
       "final_binding_complete": true
     }
   },
@@ -731,7 +734,7 @@
       "path": "proof/FRONTIER_LOCALIZATION.json",
       "finding": "The audit found that CM7 and CM8 still referred to the old one-seed calibration state.",
       "resolution": "The hardened frontier receipt consumes the five-seed familywise-corrected CM7 null, verifies E6/DR14 dense integration, and removes the retired scale pilot from current AL2/DR5 classification. CM8 states that positive objective-lever evidence is absent and a successor design is required.",
-      "current_receipt_sha256": "924f7c63e0ed92f4829f4252fcecc208f9617dc4f3aa2c93623003bc2b657ceb"
+      "current_receipt_sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84"
     },
     {
       "severity": "resolved-high",
@@ -739,8 +742,8 @@
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
       "finding": "The audit found an E6 row that still instructed already-completed model acquisition and forward probing.",
       "resolution": "The requirements matrix and exhaustion ledger bind official runtime and task/cache/control integration, classify E6 and DR14 as natural data/cache/verification blocked, and remove retired-scale requirements. Implementation is complete for the registered seam.",
-      "current_requirements_sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824",
-      "current_exhaustion_sha256": "43056e20957ca197163b6dccba99fd62d6860fb9ea80dad4212cb1e3cf2cf3da"
+      "current_requirements_sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff",
+      "current_exhaustion_sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317"
     },
     {
       "severity": "resolved-high",
@@ -749,6 +752,13 @@
       "finding": "The inherited-scale pilot had complete identity/control mechanics but was still consumed as current frontier and requirements evidence.",
       "resolution": "The immutable pilot and identity receipts remain historical evidence. Active selectors are absent, frontier and requirements no longer depend on the pilot, and its n=8 generated result remains non-promotable.",
       "current_receipt_sha256": "3a8db134fd1b06940f090ed9a6be2efef6dbf16f280014040072da8e0a649ec7"
+    },
+    {
+      "severity": "resolved-low",
+      "id": "f36_recurrent_relation_not_composed",
+      "path": "registry/experiments.yaml",
+      "finding": "The final provenance audit found that the f36 relation metadata described composition of an unlanded recurrent_broadcast preflight, while the executed toy bed used a separate integration_broadcast_runs fixture.",
+      "resolution": "The canonical registry now carries an explicitly dated post-hoc implementation-path correction. Every registry-bound run, independent verifier, ledger, requirements artifact, claim binding, and atlas artifact was regenerated. The result remains mechanics-only."
     },
     {
       "severity": "high",

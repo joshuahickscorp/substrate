@@ -44,13 +44,17 @@ def test_every_shipped_encoder_is_honest():
         assert is_honest(e), f"{e['name']} is not honest: {e}"
 
 
-def test_vjepa21_configs_are_unavailable():
+def test_vjepa21_configs_distinguish_verified_vitb_from_larger_placeholders():
     by_name = {e["name"]: e for e in list_encoders()}
     v21 = [name for name in by_name if name.startswith("vjepa21_")]
     assert v21, "expected vjepa21_* configs to ship"
     for name in v21:
-        assert by_name[name]["available"] is False, f"{name} must carry available:false"
-        # unavailable + opt-out of real weights == honest (cannot pretend to be real)
+        if name == "vjepa21_vitb":
+            assert by_name[name]["available"] is True
+            assert OmegaConf.load(_ENCODER_DIR / "vjepa21_vitb.yaml").cache_first_only is True
+        else:
+            assert by_name[name]["available"] is False, f"{name} must carry available:false"
+        # Generic loading remains opt-out: the verified ViT-B uses its official cache-first seam.
         assert by_name[name]["prefer_real"] is False
 
 

@@ -1,8 +1,9 @@
 # FORM SUBSTRATE CODEMAP
 
-Status note (2026-07-09): this is a migration-time audit, not the live implementation inventory.
-Use `FORM_SUBSTRATE_EXPERIMENTS.md`, `DECISIONS.md`, and
-`FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md` for current state and next work.
+Status note (2026-07-10): this began as a migration-time audit. The live implementation order is
+`MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`; the scored state is `MOP_POTENTIAL_ATLAS_2026_07.md`.
+The table now records the shared Wave E0, dense ViT-B, and adaptive-governor seams added by the
+maximum-potential run.
 
 The code audit behind the paradigm migration: every existing module mapped to its form-substrate role.
 Companion docs: FORM_SUBSTRATE_PROGRAM.md (worldview), PARADIGM_MIGRATION.md (doc migration),
@@ -67,6 +68,10 @@ Priority: P0 (this phase), P1 (next), P2 (later), P3 (gated/optional).
 | substrate/real_latent.py, video.py, datasets.py, fixtures.py | real video decode, streams, synthetic worlds | vision-form and toy-form sources | keep | none | test_real_latent, test_video | decode throughput | P2 |
 | substrate/encoder_registry.py | encoder honesty registry | form-arm honesty registry input | keep | none | test_encoder_registry | none | P2 |
 | environments/persistent_grid.py | deterministic persistent local actions, consequences, and cloned-state alternatives | shared causal trajectory instrument for F6, F15, E5, and CM10 mechanics | keep, programmatic-only | synthetic evidence overclaim | test_persistent_grid_environment | bounded CPU, content-addressed | P0 |
+| substrate/events.py | immutable event/entity/observation/branch/sensor-clock graph | shared referent, clock, lineage, and intervention identity for Wave E0 and later forms | keep, extend only through schema versioning | identity fork or silent ambiguity | test_expansion_wave0 | canonical JSON and hashes, CPU-only | P0 |
+| substrate/lifecycle.py | hash-linked append-only memory lifecycle | shared revision, availability, deletion, conflict, poisoning, and rollback journal | keep, event-bound | ungoverned mutation or false deletion | test_expansion_wave0 | bounded replay, CPU-only | P0 |
+| substrate/vjepa21_official.py, vjepa21_dense_tasks.py | official dense ViT-B loader plus cache/control seam | frozen dense measurement instrument, exact random architecture control, and strict same-input cache pair | keep frozen, cache-first | inherited instrument re-centers the platform | test_vjepa21_official, test_vjepa21_dense_tasks | serial CPU path measured | P1 |
+| environments/scenario_factory.py | deterministic occlusion, transform, split, merge, delay, and intervention fixtures | shared event/intervention mechanics factory | keep, programmatic-only | fixture result overclaimed as natural transfer | test_expansion_wave0 | tiny CPU fixture | P0 |
 
 ### 1.2 Shell, memory, routing, plasticity (the mode ecology)
 
@@ -114,8 +119,10 @@ Priority: P0 (this phase), P1 (next), P2 (later), P3 (gated/optional).
 | experiments/e*_.py, ex*.py | conducted bank + bleeding edge | evidence record + reusable harnesses | keep | P2 |
 | experiments/a_,b_,c_,d_,i_,n_,p_,s_,y_ files | lens families (perception, biology, cogsci, developmental, infotheory, neuro, philosophy, semiotics, dynamics) | lens banks re-pointed at form matrices where they survive | keep, demote per PARADIGM_MIGRATION.md | P2 |
 | experiments/scaffolds.py | registers ~95 scaffolds | unchanged registrar | keep | P0 |
+| experiments/expansion_harness.py | shared arm/control/resource/unit/stop contract | Wave E0 and later thin F specifications over one evidence plane | keep, mechanics-first | bespoke experiments fork identity or controls | P0 |
+| experiments/e6_relational.py | relational dense-token experiment | strict cache-first learned/random dense readout with no default legacy fallback | keep, natural-input-gated | availability promoted as a result | P1 |
 
-### 1.5 Studio governance (unchanged by the paradigm; it is the paradigm's enforcement arm)
+### 1.5 Execution and evidence governance
 
 | Module | Role | Action |
 |---|---|---|
@@ -130,10 +137,12 @@ Priority: P0 (this phase), P1 (next), P2 (later), P3 (gated/optional).
 | devel/metacognition.py | inspectable self-monitoring report, rail-gated | seed of diagnostics/operational_awareness.py |
 | devel/north_star.py | sentience rail + engineering vocabulary | keep (OA doctrine depends on it) |
 | devel/curriculum.py | learning-progress lesson selection | F10 backend |
+| studio/local_throttle.py | adaptive admission, monitoring, pause/resume, and atomic run receipts | current-host resource governor; signals only its owned process group |
+| studies/potential_atlas_validation.py | recompute scores, evidence hashes, queue, dependency, partition, and hardware gates | fail-closed atlas validator and opt-in atomic source-hash refresh |
 
 ---
 
-## 2. New modules required (four shared seams)
+## 2. Shared seams and implemented expansions
 
 Everything else in the master plan's proposed file list already exists under another name. Refusals
 first, so the duplicates never get written:
@@ -186,6 +195,67 @@ programmatic mechanics instrument, never evidence of natural embodiment or open-
 preflight: proof/LOCAL_ACTION_ENVIRONMENT.json. Tests: test_persistent_grid_environment.py and
 test_local_action_environment.py.
 
+### 2.5 Wave E0 event, scenario, lifecycle, and harness seams (P0, implemented)
+
+`substrate/events.py`, `environments/scenario_factory.py`, `substrate/lifecycle.py`, and
+`experiments/expansion_harness.py` implement one immutable evidence plane for F23, F29, and F39.
+`proof/EXPANSION_WAVE0.json` binds three shared units, nine controls, exact replay, and a separately
+implemented mutation verifier. Scope remains deterministic mechanics only.
+
+### 2.6 Official dense ViT-B task and cache seam (P1, implemented)
+
+`substrate/vjepa21_official.py` and `substrate/vjepa21_dense_tasks.py` validate the retained official
+bytes, frozen strict load, same-input learned/random plans, atomic row progress, cache manifests, and
+E6/DR14 consumers. The no-heavy preflight is green. Natural task inputs and final cache/verifier
+receipts remain deliberately absent.
+
+### 2.7 Adaptive local governor (P0, implemented)
+
+`studio/local_throttle.py` and `scripts/local_execution_throttle.py` enforce the 300-minute
+operational maximum, one-heavy/two-total lane policy, three-sample admission, memory/swap/thermal/
+power/MPS/disk/foreground gates, hysteresis, checkpoint capture, and process-group ownership. It
+never signals discovered user processes.
+
+### 2.8 Potential-atlas validator (P0, implemented)
+
+`studies/potential_atlas_validation.py` recomputes all 37 facets, weights, S/I/E/C formulas and caps,
+source hashes, evidence paths, queue and dependency references, category-2 partition, and hardware
+gate agreement. Source-hash refresh is explicit, candidate-validated, and atomic.
+
+### 2.9 Continual-stream data plane (P1, mechanics implemented)
+
+`substrate/continual_stream.py` and `studies/continual_million_event.py` add fixed-width,
+hash-chained disk chunks, atomic publication, exact cursor and learner-state resume, abrupt and
+gradual schedules, replay, compute-matched no-replay, and fresh-init controls. The preflight binds
+retention, acquisition, future learnability, stale-memory, deletion, and resource metrics to the
+shared Wave E0 event and lifecycle primitives. `proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json`
+passes at 384 events per stream and remains mechanics-only. Progressive 10k, 100k, and conditional
+one-million-event execution plus independent metric replay remain. The progressive runner and four
+governor declarations require an empty lane for the first 10k RSS probe and bind every later rung to
+the measured prior receipt with 25 percent memory margin.
+
+### 2.10 Rendered action and world-model plane (P1, mechanics implemented)
+
+`studies/action_world_model.py` binds the persistent grid, Wave E0 event identities, deterministic
+RGB rendering, and the shell predictor into one eight-arm P7 surface. Three independent worlds carry
+same-parent action branches, disjoint train/intervention/planning splits, prediction, calibration,
+horizon, planning, and exact compute ledgers. The compact, object-centered, blind, shuffled, and
+matched-depth arms share exact core parameter and counted-MAC budgets. The proof rejects six replay
+mutations and records a fixture null because neither learned planner beats the reactive baseline.
+`proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json` licenses mechanics reuse only. External trajectories,
+an exact-referent action control, and replication remain the scientific gate.
+
+### 2.11 Causal operational-monitoring plane (P1, mechanics implemented)
+
+`studies/p9_causal_monitoring.py` extends `studies/p9_accounting.py` from passive cost measurement to
+prospective failure monitoring and bounded intervention. Five independent structural workloads bind
+disjoint lineages, same-parent queue/memory/retry/relief branches, a held-out confounder reversal,
+seven matched-capacity monitor arms, fixed-threshold and oracle controls, rational calibration, and
+paired relief utility. Atomic four-chunk resume, a fifteen-chunk provenance chain, exact replay, and
+eight mutation attacks pass. `proof/P9_CAUSAL_MONITORING_PREFLIGHT.json` remains mechanics-only;
+natural workload/failure episodes, replicated prospective calibration, and a physical energy meter
+remain external gates.
+
 ---
 
 ## 3. Known gaps this map creates work for
@@ -198,12 +268,24 @@ test_local_action_environment.py.
    preserve the same hashes, referents, split guards, compute ledger, and fail-closed behavior.
 4. No F8/F16 M3 OOM, timeout, or disk-limit attempt exists. Resource projections cannot be upgraded to
    Studio boundary evidence without that measurement.
+5. E6/DR14 implementation is complete, but the rights-clean annotated natural input manifest,
+   untouched test membership, serial learned/random caches, and independent verifier are not.
+6. Wave E0 closes shared mechanics for three sentinels, not natural event identity, long-stream
+   validity, or external transfer.
+7. The continual-stream implementation blocker is closed. Scale, at least five independent seeds,
+   full-rung interruption recovery, and independent metric verification remain execution gates.
+8. P7 rendering, interventions, controls, and cost accounting are closed locally, but the tiny
+   generated fixture supports the null. External action trajectories and exact-referent control
+   validity remain before any capability claim.
+9. P9 causal monitoring and full workload accounting are closed locally at structural-fixture
+   scope. Independent natural failures, real interventions, replication, and metered energy remain.
 
 ---
 
 ## 4. Performance concerns carried into the density doctrine
 
-- Encode cost dominates everything real: encode once, cache forever, mmap reads (latent_store).
+- Encode cost is measured per instrument: cache only under a complete checkpoint/input/view/split
+  identity and invalidate on any source or transform drift.
 - Dense tokens are 8192 tokens per clip (storage.DENSE_TOKENS_PER_CLIP): dense caches are the
   single largest byte cost; F-series must report alignment per cache GB when it touches them.
 - MoEHead routing claims need active-FLOP accounting, not just parameter counts (compute.py).

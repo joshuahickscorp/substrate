@@ -23,8 +23,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "proof" / "EXTENDED_COMPUTE_REQUIREMENTS.json"
-EXPECTED_REGISTRY_COUNT = 197
-EXPECTED_REGISTRY_ID_SHA256 = "c9da139beaddf87de48adca66bb39b279e3acb35547aaf048f2a0ef58afc8b9e"
+EXPECTED_REGISTRY_COUNT = 227
+EXPECTED_REGISTRY_ID_SHA256 = "53de3591be3ba7e8eeb7bf644e6b57063ee8d3a615898976b007b8fb7404b1c6"
 
 CATEGORY_LABELS = {
     1: "already runnable locally",
@@ -41,7 +41,7 @@ CATEGORY_LABELS = {
 RUNG_DEFINITIONS = {
     "L0": {
         "kind": "current-local",
-        "summary": "M3 Pro bounded shard, one heavy process, 180 minutes, 40 GB free-disk floor",
+        "summary": "M3 Pro bounded shard, one heavy process, 300 minutes, 40 GB free-disk floor",
     },
     "L1": {
         "kind": "current-local-resumable",
@@ -72,10 +72,7 @@ RUNG_DEFINITIONS = {
 MEASUREMENT_IDS = {
     "m_host_profile",
     "m_vitl_cache",
-    "m_vith_cache",
-    "m_vitg_cache",
-    "m_vjepa_scale_atlas",
-    "m_cm7_calibration",
+    "m_cm7_pilot",
 }
 
 CALCULATION_IDS = {
@@ -107,25 +104,10 @@ GATE_EVIDENCE_SPECS: dict[str, dict[str, Any]] = {
         "gate_roles": [],
         "source_ref": "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
     },
-    "m_vith_cache": {
+    "m_cm7_pilot": {
         "record_type": "measurement",
         "gate_roles": [],
-        "source_ref": "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-    },
-    "m_vitg_cache": {
-        "record_type": "measurement",
-        "gate_roles": [],
-        "source_ref": "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
-    },
-    "m_vjepa_scale_atlas": {
-        "record_type": "measurement",
-        "gate_roles": [],
-        "source_ref": "local:proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-    },
-    "m_cm7_calibration": {
-        "record_type": "measurement",
-        "gate_roles": [],
-        "source_ref": "local:proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
+        "source_ref": "local:proof/CUSTOM_SUBSTRATE_PILOT.json",
     },
     **{
         identifier: {
@@ -137,14 +119,16 @@ GATE_EVIDENCE_SPECS: dict[str, dict[str, Any]] = {
     },
 }
 
-# These are the only current registry rows that are not category 1.  The
-# V-JEPA 2.1 release on 2026-03-16 changes e6 from historical category 7 to
-# category 2: the weights now exist, while the repository integration does not.
+# These are explicit exceptions to evidence-derived registry classification. Registry-only F rows
+# are preregistration-only category 2 by default, or category 6 when their declared resource tier
+# is environment-needed. The official ViT-B runtime and E6/DR14 cache-control interfaces are
+# verified locally, so their first remaining blocker is a citable natural task cohort rather than
+# hardware.
 REGISTRY_OVERRIDES: dict[str, tuple[int, str, str]] = {
     "e6_relational": (
-        2,
-        "after the active heavy lane exits, acquire the pinned official ViT-B checkpoint, compute its full SHA-256, strict-load ema_encoder, and execute a supervised 8-frame 384px dense forward",
-        "hash-pinned-vjepa21-preflight",
+        3,
+        "materialize a rights-clean annotated natural-video cohort with untouched test membership, then encode the declared learned/random cache pair serially",
+        "verified-e6-integration-plus-citable-natural-input-gap",
     ),
     "mop_dr5_cross_substrate_consistency": (
         2,
@@ -152,13 +136,13 @@ REGISTRY_OVERRIDES: dict[str, tuple[int, str, str]] = {
         "registry-relation-plus-cache-audit",
     ),
     "mop_dr14_corruption": (
-        2,
-        "complete the pinned ViT-B strict-load/forward gate and generate the registered dropped-channel dense cache locally",
-        "hash-pinned-vjepa21-preflight-plus-registry-relation",
+        3,
+        "materialize the citable dense natural-task cache consumed by the implemented deterministic nested corruption views",
+        "verified-dr14-integration-plus-citable-natural-input-gap",
     ),
     "mop_at1_nuisance_grid": (
         2,
-        "complete the citable multi-encoder grid and matched random-init columns",
+        "complete the citable active ViT-B/custom instrument grid and matched random-init columns",
         "registry-relation-plus-random-control-quarantine-audit",
     ),
     "mop_cm6_distilled_density": (
@@ -266,9 +250,9 @@ REGISTRY_OVERRIDES: dict[str, tuple[int, str, str]] = {
         "local-action-environment-plus-registry",
     ),
     "mop_cm10_action_forward_model": (
-        2,
-        "implement rendered action-conditioned observations, a citable substrate cache, the exact frozen V-JEPA 2-AC control, and matched-depth control",
-        "local-action-environment-proof-plus-registry",
+        3,
+        "obtain independently sourced action-conditioned trajectories with an exact-referent action control and predeclared replication, then reuse the verified local P7 harness",
+        "verified-p7-programmatic-mechanics-plus-external-validity-gate",
     ),
 }
 
@@ -337,13 +321,13 @@ THEMATIC_FRONTIERS = [
         "continual_million_event_learning",
         "Continual learning over millions of events",
         2,
-        "implement streaming, disk replay, resumable state, and bounded-memory controls, then measure",
+        "run the implemented disk stream at 10,000 and 100,000 events, then one million only if the shorter rung leaves the horizon decision unresolved",
     ),
     (
         "action_conditioned_world_models",
         "Action-conditioned persistent world models",
-        2,
-        "implement rendered observations, a citable substrate cache, the exact frozen action-conditioned control, and matched-depth control",
+        3,
+        "obtain independently sourced action-conditioned rendered or natural trajectories with an exact-referent control and predeclared replication, then run the existing local harness before any scale campaign",
     ),
     (
         "active_perception",
@@ -372,8 +356,8 @@ THEMATIC_FRONTIERS = [
     (
         "workspace_operational_self_model",
         "Calibrated workspace and operational self-model",
-        2,
-        "telemetry logging, intervention hooks, and calibration implementation",
+        3,
+        "obtain independent natural workload and failure episodes with prospectively registered telemetry, real bounded interventions, and replicated held-out calibration",
     ),
     (
         "small_substrate_architecture_search",
@@ -396,8 +380,8 @@ THEMATIC_FRONTIERS = [
     (
         "full_system_density_accounting",
         "Full-system performance-density accounting",
-        2,
-        "local end-to-end ingest/cache/train/eval/retry/storage accounting implementation, with energy explicitly estimated",
+        3,
+        "run the implemented accountant over independent natural end-to-end workloads and failures; attach a meter with an explicit system boundary before any energy claim",
     ),
     (
         "physical_sensor_participant_validation",
@@ -490,8 +474,8 @@ LOCAL_SOURCE_PATHS = [
     "proof/FRONTIER_LOCALIZATION.json",
     "proof/LOCAL_ACTION_ENVIRONMENT.json",
     "proof/STUDIO_READINESS_CURRENT_HOST.json",
-    "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
     "proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
+    "proof/CUSTOM_SUBSTRATE_PILOT.json",
     "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json",
     "proof/CUSTOM_SUBSTRATE_ABORTED_MPS_RECOVERY.json",
     "proof/CUSTOM_SUBSTRATE_ABORTED_SOURCE_DRIFT.json",
@@ -499,25 +483,48 @@ LOCAL_SOURCE_PATHS = [
     "proof/SANPO_REAL_SMOKE_INTAKE.json",
     "proof/SANPO_REAL_SMOKE_INTAKE_DRY_RUN.json",
     "proof/SANPO_REAL_SMOKE_VERIFICATION.json",
-    "proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
+    "proof/VJEPA21_VITB_LOAD.json",
+    "proof/VJEPA21_VITB_FORWARD.json",
+    "proof/VJEPA21_VITB_FORWARD_64F.json",
+    "proof/E6_VITB_DENSE_PREFLIGHT.json",
+    "proof/EXPANSION_WAVE0.json",
+    "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+    "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+    "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+    "proof/P9_ACCOUNTING_MECHANICS.json",
+    "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
     "proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
     "proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json",
     "proof/FORM_SUBSTRATE/SCORECARD.json",
     "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
     "proof/ARTIFACT_INDEX/form_substrate.json",
-    "proof/ENCODER_SCALE_VITH_CPU_FORWARD.json",
-    "proof/ENCODER_SCALE_VITG_CPU_FORWARD.json",
     "configs/encoder/vjepa21_vitb.yaml",
-    "configs/encoder/vjepa21_vitl.yaml",
+    "configs/experiment/e6_dense_cache.yaml",
+    "configs/experiment/continual_million_event_preflight.yaml",
+    "configs/experiment/continual_million_event_rungs.yaml",
+    "configs/experiment/p7_action_world_model_preflight.yaml",
+    "configs/experiment/p9_causal_monitoring_preflight.yaml",
+    "configs/local_execution_throttle.yaml",
     "src/mop/substrate/vjepa21_official.py",
+    "src/mop/substrate/vjepa21_dense_tasks.py",
     "scripts/vjepa21_official.py",
+    "scripts/vjepa21_dense_tasks.py",
+    "scripts/continual_million_event_preflight.py",
+    "scripts/continual_million_event_rung.py",
+    "scripts/p7_action_world_model_preflight.py",
+    "scripts/p9_causal_monitoring_preflight.py",
     "docs/VJEPA21_LOCAL_INTEGRATION.md",
+    "docs/E6_DENSE_RELATIONAL_CACHE.md",
+    "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
+    "docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
+    "docs/P9_CAUSAL_MONITORING_PREFLIGHT.md",
+    "src/mop/substrate/continual_stream.py",
+    "src/mop/studies/continual_million_event.py",
+    "src/mop/studies/action_world_model.py",
+    "src/mop/studies/p9_accounting.py",
+    "src/mop/studies/p9_causal_monitoring.py",
     "data/cache/vjepa2_vitl_local8_citable/cache_manifest.json",
     "data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
-    "data/cache/vjepa2_vith_local8_citable/cache_manifest.json",
-    "data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-    "data/cache/vjepa2_vitg_local8_citable/cache_manifest.json",
-    "data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
     "scripts/build_extended_compute_requirements.py",
     "EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
     "EXTENDED_COMPUTE_EXECUTION_PLAN.md",
@@ -527,7 +534,7 @@ EXTERNAL_SOURCES = [
     {
         "id": "meta-vjepa21",
         "url": "https://github.com/facebookresearch/vjepa2",
-        "fact": "V-JEPA 2.1 release dated 2026-03-16 and official dense ViT-B/L/g/G checkpoint links",
+        "fact": "V-JEPA 2.1 release dated 2026-03-16 and the retained official dense ViT-B checkpoint",
     },
     {
         "id": "meta-vjepa2-paper",
@@ -861,6 +868,17 @@ def embedded_hash_audit(relative: str) -> dict[str, Any]:
         result["missing"].append({"path": relative, "reason": f"JSON parse failed: {exc}"})
         return result
 
+    repository_roots: list[Path] = []
+    repository_candidates = (
+        ((payload.get("runtime_authority") or {}).get("repository") or {}).get("path"),
+        (payload.get("repository_validation") or {}).get("local_path"),
+    )
+    for candidate in repository_candidates:
+        if isinstance(candidate, str):
+            candidate_path = Path(candidate)
+            if candidate_path.is_dir():
+                repository_roots.append(candidate_path)
+
     def walk(node: Any, pointer: str = "") -> None:
         if isinstance(node, dict):
             candidate = node.get("path")
@@ -870,7 +888,17 @@ def embedded_hash_audit(relative: str) -> dict[str, Any]:
                 and isinstance(expected, str)
                 and re.fullmatch(r"[0-9a-f]{64}", expected)
             ):
-                path = normalize_evidence_path(candidate)
+                raw_path = Path(candidate)
+                possible_paths = (
+                    [raw_path]
+                    if raw_path.is_absolute()
+                    else [ROOT / raw_path, *(root / raw_path for root in repository_roots)]
+                )
+                existing_paths = [path for path in possible_paths if path.is_file()]
+                path = next(
+                    (path for path in existing_paths if sha256_path(path) == expected),
+                    existing_paths[0] if existing_paths else possible_paths[0],
+                )
                 result["checks"] += 1
                 if not path.is_file():
                     result["missing"].append(
@@ -1010,14 +1038,29 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
     for item in experiments:
         identifier = item["id"]
         ids.append(identifier)
-        category, blocker, basis = REGISTRY_OVERRIDES.get(
-            identifier,
-            (
+        override = REGISTRY_OVERRIDES.get(identifier)
+        if override is not None:
+            category, blocker, basis = override
+        elif item.get("series") == "F" and item.get("status") == "registry-only":
+            if item.get("resource_tier") == "environment-needed":
+                category = 6
+                blocker = (
+                    "satisfy the preregistered external environment, participant, sensor, or "
+                    "physical-specimen gate; compute cannot substitute"
+                )
+            else:
+                category = 2
+                blocker = (
+                    "implement the preregistered local experiment, difficulty-calibrate it, and "
+                    "run its declared controls plus an independent verifier"
+                )
+            basis = "registry-preregistration-only"
+        else:
+            category, blocker, basis = (
                 1,
                 "none beyond executing or extending an already local implementation",
                 "registry-plus-project-exhaustion-ledger",
-            ),
-        )
+            )
         ledger_entry = ledger.get(identifier)
         if ledger_entry is not None:
             measured = {
@@ -1049,24 +1092,39 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                     ["local:proof/LOCAL_FRONTIER_PREFLIGHTS.json", "local:scripts/frontier_localization.py"]
                 )
             if identifier == "mop_cm7_min_objective_probe":
-                refs.append("local:proof/CUSTOM_SUBSTRATE_CALIBRATION.json")
+                refs.append("local:proof/CUSTOM_SUBSTRATE_PILOT.json")
                 measured["present"] = True
                 measured["evidence_scope"] = (
-                    "current one-seed/three-update calibration mechanics only; active v3 campaign excluded until closure"
+                    "five-seed, 1,000-update-per-arm teacher-independent programmatic-video pilot; "
+                    "the bound independent verifier returned not-promoted after familywise correction"
                 )
             if identifier == "e5_curiosity":
                 refs.append("local:proof/LOCAL_ACTION_ENVIRONMENT.json")
             if identifier == "mop_cm10_action_forward_model":
                 refs.extend(
-                    ["local:proof/LOCAL_ACTION_ENVIRONMENT.json", "local:scripts/local_action_environment.py"]
+                    [
+                        "local:proof/LOCAL_ACTION_ENVIRONMENT.json",
+                        "local:proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+                        "local:configs/experiment/p7_action_world_model_preflight.yaml",
+                        "local:src/mop/studies/action_world_model.py",
+                        "local:scripts/p7_action_world_model_preflight.py",
+                        "local:docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
+                    ]
                 )
             if identifier in {"e6_relational", "mop_dr14_corruption"}:
                 refs.extend(
                     [
-                        "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
+                        "local:proof/VJEPA21_VITB_LOAD.json",
+                        "local:proof/VJEPA21_VITB_FORWARD.json",
+                        "local:proof/VJEPA21_VITB_FORWARD_64F.json",
+                        "local:proof/E6_VITB_DENSE_PREFLIGHT.json",
                         "local:configs/encoder/vjepa21_vitb.yaml",
+                        "local:configs/experiment/e6_dense_cache.yaml",
                         "local:src/mop/substrate/vjepa21_official.py",
+                        "local:src/mop/substrate/vjepa21_dense_tasks.py",
+                        "local:scripts/vjepa21_dense_tasks.py",
                         "local:docs/VJEPA21_LOCAL_INTEGRATION.md",
+                        "local:docs/E6_DENSE_RELATIONAL_CACHE.md",
                     ]
                 )
             if identifier in {
@@ -1079,8 +1137,6 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                     [
                         "local:proof/CACHE_QUARANTINE_AUDIT.json",
                         "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
-                        "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-                        "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
                     ]
                 )
             source_current = True
@@ -1098,7 +1154,7 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                 direct_current = len(refs) > 1
                 calibrated_exception = (
                     identifier == "mop_cm7_min_objective_probe"
-                    and "local:proof/CUSTOM_SUBSTRATE_CALIBRATION.json" in refs
+                    and "local:proof/CUSTOM_SUBSTRATE_PILOT.json" in refs
                 )
                 if not (
                     (bool(ledger_entry.get("execution_verified")) and source_current and direct_current)
@@ -1109,18 +1165,32 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                     )
         else:
             # The exhaustion ledger intentionally covers non-F rows only.
-            measured = {
-                "present": identifier.startswith("f")
-                and identifier not in {"f8_plastic_substrate_rewrite", "f16_perfect_slate_null"},
-                "execution_verified_at_generation": None,
-                "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
-            }
-            promotion_blocker = None
-            refs = [
-                "local:registry/experiments.yaml",
-                "local:proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
-                "local:proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json",
-            ]
+            if item.get("series") == "F" and item.get("status") == "registry-only":
+                measured = {
+                    "present": False,
+                    "execution_verified_at_generation": False,
+                    "evidence_scope": (
+                        "preregistration contract only; no experiment execution or result receipt"
+                    ),
+                }
+                promotion_blocker = blocker
+                refs = ["local:registry/experiments.yaml"]
+            else:
+                measured = {
+                    "present": identifier.startswith("f"),
+                    "execution_verified_at_generation": None,
+                    "evidence_scope": (
+                        "implemented F-chain mechanics are covered by the current contract audit, "
+                        "not the non-F exhaustion ledger"
+                    ),
+                }
+                promotion_blocker = None
+                refs = [
+                    "local:registry/experiments.yaml",
+                    "local:proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
+                    "local:proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json",
+                ]
+        refs = list(dict.fromkeys(refs))
         rows.append(
             row(
                 identifier=identifier,
@@ -1133,7 +1203,11 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                 series=str(item.get("series")) if item.get("series") is not None else None,
                 registry_resource_tier=item.get("resource_tier"),
                 registry_runtime_class=item.get("runtime_class"),
-                classified_stage="current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
+                classified_stage=(
+                    "current registry preregistration; no execution receipt"
+                    if item.get("series") == "F" and item.get("status") == "registry-only"
+                    else "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict"
+                ),
                 promotion_blocker=promotion_blocker,
                 evidence_refs=refs,
                 measured=measured,
@@ -1193,6 +1267,53 @@ def thematic_rows() -> list[dict[str, Any]]:
             promotion = "instrumented comparable wall energy requires a plug-level meter or equivalent category-6 measurement boundary"
         elif identifier in {"active_perception", "action_conditioned_world_models"}:
             promotion = "real sensor/robot or non-replayable latency validation is a later category-6 stage"
+        evidence_refs = [
+            "local:EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
+            "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
+        ]
+        basis = "local-feasibility-attack-plus-primary-source-review"
+        if identifier == "continual_million_event_learning":
+            evidence_refs.extend(
+                [
+                    "local:proof/EXPANSION_WAVE0.json",
+                    "local:proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+                    "local:proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+                    "local:configs/experiment/continual_million_event_preflight.yaml",
+                    "local:configs/experiment/continual_million_event_rungs.yaml",
+                    "local:configs/local_execution_throttle.yaml",
+                    "local:src/mop/substrate/continual_stream.py",
+                    "local:src/mop/studies/continual_million_event.py",
+                    "local:scripts/continual_million_event_preflight.py",
+                    "local:scripts/continual_million_event_rung.py",
+                    "local:docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
+                ]
+            )
+            basis = "verified-continual-stream-mechanics-plus-progressive-local-execution-gate"
+        elif identifier == "action_conditioned_world_models":
+            evidence_refs.extend(
+                [
+                    "local:proof/EXPANSION_WAVE0.json",
+                    "local:proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+                    "local:configs/experiment/p7_action_world_model_preflight.yaml",
+                    "local:src/mop/studies/action_world_model.py",
+                    "local:scripts/p7_action_world_model_preflight.py",
+                    "local:docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
+                ]
+            )
+            basis = "verified-programmatic-action-world-model-mechanics-plus-external-validity-gate"
+        elif identifier in {"workspace_operational_self_model", "full_system_density_accounting"}:
+            evidence_refs.extend(
+                [
+                    "local:proof/P9_ACCOUNTING_MECHANICS.json",
+                    "local:proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+                    "local:configs/experiment/p9_causal_monitoring_preflight.yaml",
+                    "local:src/mop/studies/p9_accounting.py",
+                    "local:src/mop/studies/p9_causal_monitoring.py",
+                    "local:scripts/p9_causal_monitoring_preflight.py",
+                    "local:docs/P9_CAUSAL_MONITORING_PREFLIGHT.md",
+                ]
+            )
+            basis = "verified-causal-monitoring-and-accounting-mechanics-plus-external-workload-gate"
         rows.append(
             row(
                 identifier=f"frontier_{identifier}",
@@ -1200,15 +1321,12 @@ def thematic_rows() -> list[dict[str, Any]]:
                 scope="candidate_frontier",
                 category=category,
                 blocker=blocker,
-                basis="local-feasibility-attack-plus-primary-source-review",
+                basis=basis,
                 status="proposed",
                 series="frontier",
                 classified_stage="smallest scientifically meaningful falsification attack, before a scale campaign",
                 promotion_blocker=promotion,
-                evidence_refs=[
-                    "local:EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
-                    "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
-                ],
+                evidence_refs=evidence_refs,
             )
         )
     return rows
@@ -1265,7 +1383,7 @@ def pillar_rows() -> list[dict[str, Any]]:
 
 def load_cache_measurements() -> dict[str, Any]:
     output: dict[str, Any] = {}
-    for label in ("vitl", "vith", "vitg"):
+    for label in ("vitl",):
         path = ROOT / "data" / "cache" / f"vjepa2_{label}_local8_citable" / "run_receipt.json"
         receipt = json.loads(path.read_text())
         output[label] = {
@@ -1292,7 +1410,7 @@ def authoritative_receipt_checks() -> dict[str, Any]:
         from mop.substrate.cache_tools import validate_cache
 
         cache_results: dict[str, Any] = {}
-        for label in ("vitl", "vith", "vitg"):
+        for label in ("vitl",):
             relative = f"data/cache/vjepa2_{label}_local8_citable"
             problems = list(validate_cache(ROOT / relative, citable=True))
             cache_results[label] = {
@@ -1307,7 +1425,7 @@ def authoritative_receipt_checks() -> dict[str, Any]:
         errors.append(f"cache schema validation failed to execute: {exc}")
         checks["citable_caches"] = {"all_ok": False, "error": str(exc)}
 
-    for relative in ("proof/CUSTOM_SUBSTRATE_CALIBRATION.json", "proof/LOCAL_ACTION_ENVIRONMENT.json"):
+    for relative in ("proof/CUSTOM_SUBSTRATE_PILOT.json", "proof/LOCAL_ACTION_ENVIRONMENT.json"):
         audit = embedded_hash_audit(relative)
         checks[relative] = audit
         if not audit["all_current"]:
@@ -1339,34 +1457,290 @@ def authoritative_receipt_checks() -> dict[str, Any]:
     if not checks["cache_quarantine"]["all_ok"]:
         errors.append("cache quarantine audit is not all_ok")
 
-    vjepa21 = json.loads((ROOT / "proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json").read_text())
-    config_path = ROOT / "configs/encoder/vjepa21_vitb.yaml"
-    vjepa21_ok = all(
-        (
-            vjepa21.get("all_ok") is True,
-            vjepa21.get("checkpoint_remote_validation", {}).get("all_ok") is True,
-            vjepa21.get("config_validation", {}).get("all_ok") is True,
-            vjepa21.get("config_validation", {}).get("sha256") == sha256_path(config_path),
-            vjepa21.get("repository_validation", {}).get("all_ok") is True,
-            all(
-                item.get("verified") is True
-                for item in vjepa21.get("repository_validation", {}).get("artifacts", [])
-            ),
-            vjepa21.get("claim_boundary", {}).get("model_loaded") is False,
-            vjepa21.get("claim_boundary", {}).get("forward_executed") is False,
+    runtime_paths = {
+        "load": ROOT / "proof/VJEPA21_VITB_LOAD.json",
+        "forward_8f": ROOT / "proof/VJEPA21_VITB_FORWARD.json",
+        "forward_64f": ROOT / "proof/VJEPA21_VITB_FORWARD_64F.json",
+    }
+    runtime_receipts = {name: json.loads(path.read_text()) for name, path in runtime_paths.items()}
+    runtime_hashes = {
+        str((receipt.get("authority") or {}).get("checkpoint_sha256") or "")
+        for receipt in runtime_receipts.values()
+    }
+    load_receipt = runtime_receipts["load"]
+    forward_receipts = [runtime_receipts["forward_8f"], runtime_receipts["forward_64f"]]
+    runtime_ok = bool(
+        len(runtime_hashes) == 1
+        and all(len(value) == 64 for value in runtime_hashes)
+        and load_receipt.get("status") == "passed"
+        and (load_receipt.get("child") or {}).get("strict_load") is True
+        and (load_receipt.get("child") or {}).get("parameters") == 86_833_152
+        and (load_receipt.get("child") or {}).get("trainable_parameters") == 0
+        and all(
+            receipt.get("status") == "passed"
+            and receipt.get("hardware_limit_reached") is False
+            and (receipt.get("child") or {}).get("output_finite") is True
+            and (receipt.get("child") or {}).get("shape_matches") is True
+            and (receipt.get("claim_boundary") or {}).get("vitb_runtime_evidence_gate_passed") is True
+            for receipt in forward_receipts
         )
     )
-    checks["vjepa21_vitb_preflight"] = {
-        "all_ok": vjepa21_ok,
-        "repository_commit": vjepa21.get("official_release", {}).get("repository_commit"),
-        "remote_ranges_verified": vjepa21.get("checkpoint_remote_validation", {})
-        .get("ranges", {})
-        .get("verified"),
-        "local_model_loaded": vjepa21.get("claim_boundary", {}).get("model_loaded"),
-        "forward_executed": vjepa21.get("claim_boundary", {}).get("forward_executed"),
+    checks["vjepa21_vitb_runtime"] = {
+        "all_ok": runtime_ok,
+        "checkpoint_sha256": next(iter(runtime_hashes), None),
+        "parameters": (load_receipt.get("child") or {}).get("parameters"),
+        "forward_frames": [(receipt.get("probe") or {}).get("frames") for receipt in forward_receipts],
+        "max_process_tree_rss_bytes": max(
+            int(receipt.get("max_process_tree_rss_bytes") or 0) for receipt in runtime_receipts.values()
+        ),
     }
-    if not vjepa21_ok:
-        errors.append("V-JEPA 2.1 pinned preflight validation failed")
+    if not runtime_ok:
+        errors.append("V-JEPA 2.1 ViT-B local load/forward evidence failed")
+
+    e6_preflight = json.loads((ROOT / "proof/E6_VITB_DENSE_PREFLIGHT.json").read_text())
+    e6_gates = e6_preflight.get("gates") or {}
+    e6_integration_ok = bool(
+        e6_preflight.get("schema") == "mop-vjepa21-dense-task-preflight/v1"
+        and e6_preflight.get("all_ok") is True
+        and e6_preflight.get("mode") == "no-heavy-preflight"
+        and e6_preflight.get("model_constructed") is False
+        and e6_preflight.get("checkpoint_tensor_bytes_read") is False
+        and e6_preflight.get("forward_executed") is False
+        and e6_gates.get("implementation_ready") is True
+        and e6_gates.get("input_manifest_ready") is False
+        and e6_gates.get("encode_allowed_now") is False
+        and e6_preflight.get("scientific_promotion") is False
+        and (e6_preflight.get("registration") or {}).get("all_ok") is True
+    )
+    checks["e6_dense_integration"] = {
+        "all_ok": e6_integration_ok,
+        "mode": e6_preflight.get("mode"),
+        "implementation_ready": e6_gates.get("implementation_ready"),
+        "input_manifest_ready": e6_gates.get("input_manifest_ready"),
+        "model_constructed": e6_preflight.get("model_constructed"),
+        "scientific_promotion": e6_preflight.get("scientific_promotion"),
+        "remaining_gates": e6_preflight.get("remaining_gates"),
+    }
+    if not e6_integration_ok:
+        errors.append("E6/DR14 dense task integration preflight failed")
+
+    wave0 = json.loads((ROOT / "proof/EXPANSION_WAVE0.json").read_text())
+    wave0_verifier = wave0.get("independent_verifier") or {}
+    wave0_ok = bool(
+        wave0.get("schema") == "mop-expansion-wave0/v1"
+        and wave0.get("status") == "mechanics-pass"
+        and wave0.get("all_sentinels_pass") is True
+        and len(wave0.get("shared_units") or []) == 3
+        and wave0_verifier.get("verified") is True
+        and wave0_verifier.get("all_mutations_rejected") is True
+        and (wave0_verifier.get("checks") or {}).get("metric_count") == 72
+        and (wave0_verifier.get("checks") or {}).get("unit_count") == 3
+    )
+    checks["expansion_wave0"] = {
+        "all_ok": wave0_ok,
+        "status": wave0.get("status"),
+        "shared_units": len(wave0.get("shared_units") or []),
+        "metric_count": (wave0_verifier.get("checks") or {}).get("metric_count"),
+        "all_mutations_rejected": wave0_verifier.get("all_mutations_rejected"),
+        "claim_scope": wave0.get("claim_scope"),
+    }
+    if not wave0_ok:
+        errors.append("Wave E0 shared-mechanics receipt failed")
+
+    p6 = json.loads((ROOT / "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json").read_text())
+    p6_checks = p6.get("checks") or {}
+    p6_gate = p6.get("remaining_full_run_gate") or {}
+    p6_ok = bool(
+        p6.get("schema") == "mop-continual-million-event-preflight/v1"
+        and p6.get("status") == "mechanics-pass"
+        and p6.get("all_mechanics_ok") is True
+        and p6.get("no_heavy_preflight") is True
+        and all(value is True for value in p6_checks.values())
+        and p6_gate.get("status") == "not-run"
+        and p6_gate.get("hardware_boundary_earned") is False
+        and p6_gate.get("progressive_rungs") == [10_000, 100_000, 1_000_000]
+        and p6_gate.get("minimum_independent_seeds") == 5
+    )
+    checks["continual_million_event_preflight"] = {
+        "all_ok": p6_ok,
+        "status": p6.get("status"),
+        "no_heavy_preflight": p6.get("no_heavy_preflight"),
+        "progressive_rungs": p6_gate.get("progressive_rungs"),
+        "minimum_independent_seeds": p6_gate.get("minimum_independent_seeds"),
+        "hardware_boundary_earned": p6_gate.get("hardware_boundary_earned"),
+        "claim_scope": p6.get("claim_scope"),
+    }
+    if not p6_ok:
+        errors.append("P6 continual-stream mechanics receipt failed")
+
+    p7 = json.loads((ROOT / "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json").read_text())
+    p7_units = p7.get("units") or []
+    p7_resource = p7.get("resource_observation") or {}
+    p7_boundary = p7.get("claim_boundary") or {}
+    expected_p7_arms = {
+        "reactive_rendered",
+        "model_free_recurrent",
+        "compact_latent_transition",
+        "object_centered_transition",
+        "oracle_state",
+        "action_blind",
+        "action_shuffled",
+        "matched_depth_reactive",
+    }
+    p7_ok = bool(
+        p7.get("schema") == "mop-p7-action-world-model-preflight/v1"
+        and p7.get("status") == "mechanics-pass"
+        and p7.get("all_mechanics_ok") is True
+        and p7_boundary.get("mechanics_only") is True
+        and p7_boundary.get("scientific_promotion_allowed") is False
+        and p7_boundary.get("natural_data") is False
+        and p7_boundary.get("sentience_or_cognition_claim") is False
+        and len(p7_units) == 3
+        and len({(unit.get("independent_unit") or {}).get("seed") for unit in p7_units}) == 3
+        and all(
+            unit.get("all_mechanics_ok") is True
+            and set((unit.get("arms") or {}).keys()) == expected_p7_arms
+            and (unit.get("mutation_suite") or {}).get("all_rejected") is True
+            and (unit.get("dataset_verification") or {}).get("verified") is True
+            and (unit.get("equal_core_compute") or {}).get("matched") is True
+            for unit in p7_units
+        )
+        and p7_resource.get("device") == "cpu"
+        and p7_resource.get("torch_threads") == 1
+        and p7_resource.get("accelerator_required") is False
+        and p7_resource.get("model_weights_loaded") is False
+        and p7_resource.get("model_downloads_performed") is False
+        and p7_resource.get("command_executed_heavy_work") is False
+    )
+    checks["p7_action_world_model_preflight"] = {
+        "all_ok": p7_ok,
+        "status": p7.get("status"),
+        "independent_units": len(p7_units),
+        "arms_per_unit": sorted({len(unit.get("arms") or {}) for unit in p7_units}),
+        "all_mutations_rejected": all(
+            (unit.get("mutation_suite") or {}).get("all_rejected") is True for unit in p7_units
+        ),
+        "scientific_promotion_allowed": p7_boundary.get("scientific_promotion_allowed"),
+        "remaining_external_validity_gate": p7_boundary.get("remaining_external_validity_gate"),
+        "elapsed_seconds": p7_resource.get("elapsed_seconds"),
+        "max_rss_bytes": p7_resource.get("max_rss_bytes"),
+        "claim_scope": p7.get("claim_scope"),
+    }
+    if not p7_ok:
+        errors.append("P7 action-conditioned world-model mechanics receipt failed")
+
+    p9 = json.loads((ROOT / "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json").read_text())
+    p9_units = p9.get("units") or []
+    p9_dataset = p9.get("dataset") or {}
+    p9_budget = p9_dataset.get("budget_contract") or {}
+    p9_mutations = p9.get("mutation_suite") or {}
+    p9_resume = p9.get("resume") or {}
+    p9_resource = p9.get("resource_observation") or {}
+    p9_boundary = p9.get("claim_boundary") or {}
+    p9_aggregate = p9.get("causal_vs_correlational_aggregate") or {}
+    p9_ok = bool(
+        p9.get("schema") == "mop-p9-causal-monitoring-preflight/v1"
+        and p9.get("status") == "mechanics-pass"
+        and p9.get("all_mechanics_ok") is True
+        and p9_boundary.get("mechanics_only") is True
+        and p9_boundary.get("scientific_promotion_allowed") is False
+        and p9_boundary.get("natural_workloads") is False
+        and p9_boundary.get("energy_measured") is False
+        and p9_boundary.get("cognition_or_sentience_claim") is False
+        and len(p9_units) == 5
+        and all(unit.get("all_mechanics_ok") is True for unit in p9_units)
+        and p9_budget.get("independent_units") == 5
+        and p9_budget.get("total_lineages") == 260
+        and p9_budget.get("total_branches") == 1300
+        and (p9_dataset.get("verification") or {}).get("verified") is True
+        and p9_mutations.get("count") == 8
+        and p9_mutations.get("rejected") == 8
+        and p9_mutations.get("all_rejected") is True
+        and p9_resume.get("interrupted_after_chunks") == 4
+        and p9_resume.get("completed_chunks") == 15
+        and p9_resume.get("exact") is True
+        and p9_resume.get("corrupt_checkpoint_rejected") is True
+        and all(
+            (p9_aggregate.get(metric) or {}).get("positive_units") == 5
+            for metric in (
+                "brier_improvement",
+                "roc_auc_delta",
+                "intervention_sign_agreement_delta",
+                "controller_utility_delta",
+            )
+        )
+        and p9_resource.get("device") == "cpu"
+        and p9_resource.get("cpu_threads") == 1
+        and p9_resource.get("accelerator_required") is False
+        and p9_resource.get("model_weights_loaded") is False
+        and p9_resource.get("model_downloads_performed") is False
+        and p9_resource.get("external_data_loaded") is False
+        and p9_resource.get("command_executed_heavy_work") is False
+        and ((p9_resource.get("workload_accounting") or {}).get("energy") or {}).get("measured")
+        is False
+    )
+    checks["p9_causal_monitoring_preflight"] = {
+        "all_ok": p9_ok,
+        "status": p9.get("status"),
+        "independent_units": len(p9_units),
+        "total_lineages": p9_budget.get("total_lineages"),
+        "total_branches": p9_budget.get("total_branches"),
+        "mutations_rejected": p9_mutations.get("rejected"),
+        "interrupted_resume_exact": p9_resume.get("exact"),
+        "scientific_promotion_allowed": p9_boundary.get("scientific_promotion_allowed"),
+        "energy_measured": p9_boundary.get("energy_measured"),
+        "remaining_evidence_gate": p9_boundary.get("remaining_evidence_gate"),
+        "elapsed_seconds": p9_resource.get("elapsed_seconds"),
+        "max_rss_bytes": p9_resource.get("max_rss_bytes"),
+        "claim_scope": p9.get("claim_scope"),
+    }
+    if not p9_ok:
+        errors.append("P9 causal-monitoring mechanics receipt failed")
+
+    p6_dry = json.loads((ROOT / "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json").read_text())
+    p6_dry_task = p6_dry.get("task") or {}
+    p6_dry_decisions = p6_dry.get("decisions") or []
+    p6_dry_allowed = [decision.get("allowed") is True for decision in p6_dry_decisions]
+    p6_dry_exclusive_consistent = all(
+        any(
+            gate.get("name") == "exclusive_lane"
+            and gate.get("ok") is (len(decision.get("active_lanes") or []) == 0)
+            for gate in decision.get("gates") or []
+        )
+        for decision in p6_dry_decisions
+    )
+    p6_dry_ok = bool(
+        p6_dry.get("schema") == "mop-local-throttle-receipt/v1"
+        and p6_dry.get("mode") in {"dry-run", "run-dry-run"}
+        and p6_dry.get("command_executed") is False
+        and p6_dry_task.get("task_id") == "p6_10k_resource_probe_cpu"
+        and p6_dry_task.get("resource_probe") is True
+        and p6_dry_task.get("requires_empty_lanes") is True
+        and p6_dry_task.get("estimated_unified_memory_gb") is None
+        and p6_dry_task.get("wall_minutes") == 300
+        and p6_dry_task.get("depends_on") == []
+        and len(p6_dry_decisions) == 3
+        and (p6_dry.get("admission") or {}).get("allowed") is all(p6_dry_allowed)
+        and p6_dry_exclusive_consistent
+        and all(
+            any(gate.get("name") == "resource_measurement" and gate.get("ok") is True for gate in decision.get("gates") or [])
+            and any(gate.get("name") == "receipt_prerequisites" and gate.get("ok") is True for gate in decision.get("gates") or [])
+            and any(gate.get("name") == "forecasted_disk" and gate.get("ok") is True for gate in decision.get("gates") or [])
+            for decision in p6_dry_decisions
+        )
+    )
+    checks["p6_10k_scheduler_dry_run"] = {
+        "all_ok": p6_dry_ok,
+        "command_executed": p6_dry.get("command_executed"),
+        "admission_allowed": (p6_dry.get("admission") or {}).get("allowed"),
+        "task_id": p6_dry_task.get("task_id"),
+        "resource_probe": p6_dry_task.get("resource_probe"),
+        "estimated_unified_memory_gb": p6_dry_task.get("estimated_unified_memory_gb"),
+        "decision_count": len(p6_dry_decisions),
+        "exclusive_lane_state_consistent": p6_dry_exclusive_consistent,
+    }
+    if not p6_dry_ok:
+        errors.append("P6 10k scheduler dry-run receipt failed")
 
     try:
         from mop.studio.sanpo_real_intake import verify_existing_intake
@@ -1575,12 +1949,25 @@ def validation(
     if source_pillars != declared_pillars:
         errors.append("source-derived dossier pillar heading inventory drift")
     prompt_text = (ROOT / "EXTENDED_COMPUTE_RESEARCH_PROMPT.md").read_text()
-    prompt_frontier_section = prompt_text.split("## Candidate frontiers to investigate, not assume", 1)[
-        1
-    ].split("## Required extended-compute ladder", 1)[0]
-    prompt_frontier_count = len(re.findall(r"^- ", prompt_frontier_section, flags=re.MULTILINE))
-    if prompt_frontier_count != 16 or len(THEMATIC_FRONTIERS) != prompt_frontier_count + 1:
-        errors.append("prompt candidate-frontier inventory drift")
+    expected_prompt_sections = (
+        "Read first",
+        "Current corrections to preserve",
+        "Research question",
+        "Required per-survivor audit",
+        "Mandatory local feasibility attack",
+        "Candidate necessity classes",
+        "Rung calculation",
+        "Adversarial questions",
+        "Required deliverables",
+        "Final decision language",
+    )
+    prompt_sections = tuple(
+        match.group(1).strip() for match in re.finditer(r"^## (.+)$", prompt_text, flags=re.MULTILINE)
+    )
+    if prompt_sections != expected_prompt_sections:
+        errors.append("survivor-only extended-compute prompt section inventory drift")
+    if not re.search(r"no measured hardware\s+blocker", prompt_text):
+        errors.append("survivor-only prompt no longer preserves the measured-boundary correction")
     valid_gate_evidence = resolved_gate_evidence_catalog()
     for evidence_id, record in valid_gate_evidence.items():
         if record.get("source_ref") not in source_ids:
@@ -1692,8 +2079,9 @@ def validation(
         "workstreams_covered": len(workstream_ids),
         "research_pillars_expected": len(PILLARS),
         "research_pillars_covered": len(pillar_ids),
-        "prompt_frontiers_expected": prompt_frontier_count,
-        "additional_frontiers": len(THEMATIC_FRONTIERS) - prompt_frontier_count,
+        "prompt_required_sections_expected": len(expected_prompt_sections),
+        "prompt_required_sections_covered": len(prompt_sections),
+        "thematic_frontiers_matrix_count": len(THEMATIC_FRONTIERS),
         "category_8_or_9_rows": sum(item["primary_category"] in (8, 9) for item in rows),
         "hardware_required_rows": sum(item["hardware_required"] for item in rows),
         "negative_gate_tests": {
@@ -1727,8 +2115,6 @@ def build() -> dict[str, Any]:
     audits = [
         embedded_hash_audit("proof/PROJECT_EXPERIMENT_EXHAUSTION.json"),
         embedded_hash_audit("proof/FRONTIER_LOCALIZATION.json"),
-        embedded_hash_audit("proof/ENCODER_SCALE_VITH_CPU_FORWARD.json"),
-        embedded_hash_audit("proof/ENCODER_SCALE_VITG_CPU_FORWARD.json"),
         embedded_hash_audit("proof/ARTIFACT_INDEX/form_substrate.json"),
     ]
 
@@ -1741,11 +2127,8 @@ def build() -> dict[str, Any]:
         validations["passed"] = False
 
     schema_special = {
-        "proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
         "proof/CACHE_QUARANTINE_AUDIT.json",
         "data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
-        "data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-        "data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
     }
     row_json_audits: dict[str, Any] = {}
     for item in rows:
@@ -1801,15 +2184,15 @@ def build() -> dict[str, Any]:
     ]
     for source in external_sources:
         if source["id"] in {"meta-vjepa21", "meta-vjepa21-paper"}:
-            source["pinned_local_evidence_ref"] = "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json"
+            source["pinned_local_evidence_ref"] = "local:proof/VJEPA21_VITB_LOAD.json"
             source["pinned_repository_commit"] = "204698b45b3712590f06245fbfba32d3be539812"
             source["hash_note"] = (
-                "classification-critical release facts are pinned and hash-validated in the local preflight"
+                "classification-critical runtime authority is pinned in the strict-load receipt"
             )
     matrix: dict[str, Any] = {
         "schema": "mop-extended-compute-requirements/v1",
         "snapshot_date": "2026-07-10",
-        "scope": "all 197 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
+        "scope": "all 227 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
         "decision": {
             "procurement": procurement,
             "studio_scale_required_now": required_count > 0,
@@ -1837,28 +2220,15 @@ def build() -> dict[str, Any]:
         },
         "measured_ceiling_evidence": {
             "vjepa_serial_cache": cache_measurements,
-            "vjepa_atlas": {
-                "models": ["ViT-L", "ViT-H", "ViT-g"],
-                "referents": 8,
-                "all_factor_probe_scores": 1.0,
-                "promotion_ready": False,
-                "limitations": [
-                    "programmatic referents",
-                    "no byte-identical cross-resolution stimuli",
-                    "no matched random-architecture caches",
-                    "no seed distribution",
-                ],
-                "evidence_path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-                "kind": "measured",
-            },
-            "cm7_calibration": {
+            "cm7_pilot": {
                 "parameters": 1_646_080,
                 "dense_tokens": 256,
                 "matched_objectives": 4,
-                "seeds": 1,
-                "updates_per_arm": 3,
+                "seeds": 5,
+                "updates_per_arm": 1000,
                 "promotion_ready": False,
-                "evidence_path": "proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
+                "verdict": "not-promoted",
+                "evidence_path": "proof/CUSTOM_SUBSTRATE_PILOT.json",
                 "kind": "measured",
             },
         },
@@ -1872,18 +2242,9 @@ def build() -> dict[str, Any]:
                 "kind": "measured",
                 "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitl",
             },
-            "m_vith_cache": {
+            "m_cm7_pilot": {
                 "kind": "measured",
-                "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vith",
-            },
-            "m_vitg_cache": {
-                "kind": "measured",
-                "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitg",
-            },
-            "m_vjepa_scale_atlas": {"kind": "measured", "pointer": "/measured_ceiling_evidence/vjepa_atlas"},
-            "m_cm7_calibration": {
-                "kind": "measured",
-                "pointer": "/measured_ceiling_evidence/cm7_calibration",
+                "pointer": "/measured_ceiling_evidence/cm7_pilot",
             },
         },
         "gate_evidence_catalog": resolved_gate_evidence_catalog(),
@@ -1891,8 +2252,6 @@ def build() -> dict[str, Any]:
             "c_cache_10000": {
                 "formula": "clips * measured_seconds_per_clip / 3600",
                 "vitl": 10_000 * cache_measurements["vitl"]["seconds_per_clip"] / 3600,
-                "vith": 10_000 * cache_measurements["vith"]["seconds_per_clip"] / 3600,
-                "vitg": 10_000 * cache_measurements["vitg"]["seconds_per_clip"] / 3600,
                 "kind": "calculation-from-measurement",
                 "limitations": "extrapolated from eight CPU-encoded programmatic clips; no timing variance, cold/warm-cache band, natural-video decode sensitivity, CUDA calibration, or retry overhead",
                 "interpretation": "multi-day serial throughput hypothesis, not a resident-memory impossibility",
@@ -1903,7 +2262,7 @@ def build() -> dict[str, Any]:
                 "example_vitl_64f_256_fp16_bytes_per_clip": 8192 * 1024 * 2,
                 "example_vitl_10000_clips_fp16_gb_decimal": 10_000 * 8192 * 1024 * 2 / 1e9,
                 "kind": "engineering-calculation",
-                "actual_cache_note": "current local ViT-L/H/g artifacts are pooled FP32 vectors; this is a hypothetical dense FP16 cache and precision/pooling can change the estimand",
+                "actual_cache_note": "the current local ViT-L control artifact is a pooled FP32 vector; this is a hypothetical dense FP16 cache and precision/pooling can change the estimand",
                 "interpretation": "storage/fidelity sizing, not attention-activation or simultaneous-residency evidence",
             },
             "c_adam_trainable_state": {

@@ -13,10 +13,11 @@ once and shared, never re-drawn per arm):
     reasoning primitive from the EX17 line) + linear head.
   single-pass baseline: untied residual blocks at depth_for_matched_flops (equal block count,
     equal forward FLOPs; parameter counts differ by construction and are reported honestly).
-The dropped-channel arm needs a citable dense-token cache and is not implemented in this runner;
-that is a local integration/data-path blocker, not a measured Studio hardware boundary. Which
-OTHER primitives survived their own WP rows is read from runs/mot/*.json at run time and recorded
-as context only (their
+The dropped-channel arm is implemented cache-first over a strict citable dense-token cache. It
+uses nested deterministic channel-group masks and the exact same materialized view for both arms.
+When the natural task cache is absent it fails closed as a skipped environment/data gate, not a
+Studio compute gate. Which OTHER primitives survived their own WP rows is read from runs/mot/*.json
+at run time and recorded as context only (their
 scripts are separate lanes; this script owns the corruption mechanics, not their harnesses).
 
 Corruption families (severity normalized to [0, 1] per family, slopes fit on the degradation
@@ -66,6 +67,7 @@ from mop.experiments.base import Experiment
 from mop.seeding import parse_seeds, seed_everything
 from mop.shell.predictor import mlp
 from mop.shell.refine import IterativeRefiner
+from mop.substrate.vjepa21_dense_tasks import DenseTaskError, build_dr14_dense_views
 
 # ------------------------------------------------------------------------------------------------
 # preregistered thresholds (in code before any result exists)
@@ -96,6 +98,11 @@ def default_cfg() -> DictConfig:
             "noise_levels": [0.0, 0.25, 0.5, 1.0, 2.0],
             "use_real_cache": True,
             "real_cache_dir": "data/cache/vjepa2_vitl_fpc64_256_real",
+            "use_dense_cache": True,
+            "dense_cache_dir": "data/cache/vjepa21_vitb_e6_learned",
+            "dense_drop_fractions": [0.0, 0.25, 0.5, 0.75],
+            "dense_channel_group_width": 16,
+            "allow_dense_fixture": False,
         }
     )
 
@@ -242,6 +249,115 @@ def load_real_cache(cache_dir: Path) -> tuple[torch.Tensor, torch.Tensor] | None
         return None
 
 
+def run_dense_drop_sweep(cfg: DictConfig, cache_dir: Path, seed: int) -> dict:
+    """Run the registered dense dropped-channel arm from one strict shared-view receipt."""
+
+    try:
+        bundle = build_dr14_dense_views(
+            cache_dir,
+            fractions=tuple(float(value) for value in cfg.dense_drop_fractions),
+            seed=seed,
+            group_width=int(cfg.dense_channel_group_width),
+            strict_run_identity=not bool(cfg.get("allow_dense_fixture", False)),
+        )
+    except (DenseTaskError, FileNotFoundError, OSError, ValueError) as exc:
+        return {
+            "skipped": str(exc),
+            "cache": str(cache_dir),
+            "verdict_setting": False,
+            "scientific_promotion": False,
+        }
+
+    splits = bundle["splits"]
+    train_indices = torch.tensor([int(index) for index in splits.get("train", [])])
+    test_indices = torch.tensor([int(index) for index in splits.get("test", [])])
+    if train_indices.numel() < 2 or test_indices.numel() < 2:
+        return {
+            "skipped": "dense cache train/test splits are too small",
+            "cache": str(cache_dir),
+            "verdict_setting": False,
+            "scientific_promotion": False,
+        }
+    labels = torch.from_numpy(bundle["labels"]).long()
+    ytr, yte = labels[train_indices], labels[test_indices]
+    if labels.numel() == 0 or set(labels.tolist()) != set(range(int(labels.max()) + 1)):
+        return {
+            "skipped": "dense cache labels must be contiguous nonnegative integers",
+            "cache": str(cache_dir),
+            "verdict_setting": False,
+            "scientific_promotion": False,
+        }
+    if not set(yte.tolist()) <= set(ytr.tolist()):
+        return {
+            "skipped": "dense cache test labels are absent from training",
+            "cache": str(cache_dir),
+            "verdict_setting": False,
+            "scientific_promotion": False,
+        }
+
+    keys = [f"{float(value):.6f}" for value in bundle["fractions"]]
+    clean = torch.from_numpy(bundle["views"][keys[0]]).float()
+    xtr = clean[train_indices]
+    dim = int(clean.shape[1])
+    classes = int(labels.max()) + 1
+    hidden, steps = int(cfg.hidden), int(cfg.refiner_steps)
+    blocks = depth_for_matched_flops(dim, hidden, steps)
+    seed_everything(seed)
+    reasoning = ReasoningArm(dim, hidden, steps, classes)
+    single = SinglePassArm(dim, hidden, blocks, classes)
+    _train_arm(reasoning, xtr, ytr, int(cfg.epochs), float(cfg.lr))
+    _train_arm(single, xtr, ytr, int(cfg.epochs), float(cfg.lr))
+
+    acc_reasoning: list[float] = []
+    acc_single: list[float] = []
+    for key in keys:
+        shared_test = torch.from_numpy(bundle["views"][key]).float()[test_indices]
+        acc_reasoning.append(round(_acc(reasoning, shared_test, yte), 4))
+        acc_single.append(round(_acc(single, shared_test, yte), 4))
+    severities = [float(value) for value in bundle["fractions"]]
+    clean_reasoning, clean_single = acc_reasoning[0], acc_single[0]
+    slope_reasoning = fit_slope(severities, [clean_reasoning - value for value in acc_reasoning])
+    slope_single = fit_slope(severities, [clean_single - value for value in acc_single])
+    r_flops = refiner_flops(dim, hidden, steps)
+    s_flops = refiner_flops(dim, hidden, blocks)
+    view_receipt = {
+        key: value
+        for key, value in bundle.items()
+        if key not in {"views", "labels", "splits", "source_row_sha256s"}
+    }
+    return {
+        "cache": str(cache_dir),
+        "n": int(bundle["count"]),
+        "train_n": int(train_indices.numel()),
+        "test_n": int(test_indices.numel()),
+        "levels": severities,
+        "severity": severities,
+        "acc_reasoning": acc_reasoning,
+        "acc_single_pass": acc_single,
+        "slope_reasoning": round(slope_reasoning, 4),
+        "slope_single_pass": round(slope_single, 4),
+        "slope_diff": round(slope_single - slope_reasoning, 4),
+        "reasoning_flatter": bool(slope_single - slope_reasoning > SLOPE_MARGIN),
+        "shared_view_receipt": view_receipt,
+        "compute": {
+            "refiner_blocks": steps,
+            "single_pass_blocks": blocks,
+            "forward_flops": {"reasoning": r_flops, "single_pass": s_flops},
+            "matched": matched_within(r_flops, s_flops, tol=FLOP_TOL),
+            "params": {
+                "reasoning": param_count(reasoning),
+                "single_pass": param_count(single),
+            },
+        },
+        "verdict_setting": False,
+        "scientific_promotion": False,
+        "claim_boundary": (
+            "registered mechanics are runnable; a rights-clean powered natural task cache and "
+            "independent statistical verification are still required"
+        ),
+    }
+
+
 # ------------------------------------------------------------------------------------------------
 # the sweep (one train/test split, both arms, all families, identical corrupted tensors)
 # ------------------------------------------------------------------------------------------------
@@ -361,19 +477,34 @@ def _run_seed(cfg: DictConfig, seed: int) -> dict:
                 else "at power",
                 "sweep": run_sweep(cfg, x[perm[:cut]], y[perm[:cut]], x[perm[cut:]], y[perm[cut:]], seed),
             }
-    return {"seed": seed, "calibration": cal, "synthetic": synth, "real_cache_pilot": real}
+    dense: dict = {"skipped": "use_dense_cache=False", "verdict_setting": False}
+    if bool(cfg.use_dense_cache):
+        dense = run_dense_drop_sweep(cfg, Path(str(cfg.dense_cache_dir)), seed)
+    return {
+        "seed": seed,
+        "calibration": cal,
+        "synthetic": synth,
+        "real_cache_pilot": real,
+        "dense_drop_pilot": dense,
+    }
 
 
 class DR14Corruption(Experiment):
     id = "mop_dr14_corruption"
-    metric = ("accuracy_vs_corruption_slope", "slope_diff_per_family", "noisy_tv_guard")
+    metric = (
+        "accuracy_vs_corruption_slope",
+        "dense_drop_slope",
+        "slope_diff_per_family",
+        "noisy_tv_guard",
+        "scientific_promotion",
+    )
     baseline = "single-pass untied residual net at matched forward FLOPs under IDENTICAL corruption"
-    ablation = "corruption family sweep (low-rank/VQ, 4-bit quantize, additive noise)"
+    ablation = "corruption family sweep (low-rank/VQ, quantize, noise, and nested dense-channel drop)"
     null_hypothesis = (
         "Reasoning and single-pass degrade at the same rate under every corruption family (slope "
         "difference within SLOPE_MARGIN): iteration only processes what survives corruption."
     )
-    tier = "cpu-now"
+    tier = "env-later"
 
     def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
         t0 = time.time()
@@ -407,7 +538,7 @@ class DR14Corruption(Experiment):
                 "survival_rule": "at least one corruption family shows the reasoning arm flatter by "
                 "SLOPE_MARGIN on EVERY seed, the noisy-TV guard holds on every "
                 "seed, and every seed's regime is calibrated in-band; the real "
-                "cache (n < MIN_REAL_N) is a pilot and never sets the verdict",
+                "cache and dense dropped-channel cache are pilots and never set the verdict",
             },
             "cfg": OmegaConf.to_container(cfg),
             "upstream_verdicts_present": _upstream_context(),
@@ -418,6 +549,13 @@ class DR14Corruption(Experiment):
             "n_seeds": n_seeds,
             "survives": survives,
             "null_supported": not survives,
+            "scientific_promotion": False,
+            "claim_boundary": {
+                "synthetic_result_is_mechanics_only": True,
+                "pooled_real_pilot_sets_verdict": False,
+                "dense_drop_pilot_sets_verdict": False,
+                "registered_dense_drop_interface_implemented": True,
+            },
             "wall_clock_s": round(time.time() - t0, 3),
         }
         run_dir.mkdir(parents=True, exist_ok=True)
@@ -429,9 +567,13 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="DR14 corruption/compression laptop arms")
     ap.add_argument("--seeds", type=str, default="0-2")
     ap.add_argument("--out", type=str, default=str(OUT_PATH))
+    ap.add_argument("--dense-cache", type=str)
     args = ap.parse_args()
     cfg = default_cfg()
     cfg.seeds = parse_seeds(args.seeds)
+    if args.dense_cache:
+        cfg.use_dense_cache = True
+        cfg.dense_cache_dir = args.dense_cache
     out_path = Path(args.out)
     result = DR14Corruption().run(cfg, resolve("cpu"), out_path.parent)
     written = out_path.parent / "dr14_corruption.json"

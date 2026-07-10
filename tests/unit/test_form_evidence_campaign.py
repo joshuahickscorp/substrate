@@ -1,3 +1,4 @@
+import copy
 import json
 
 import yaml
@@ -8,6 +9,7 @@ from mop.experiments import REGISTRY
 from mop.falsification.experiment_contracts import compare_contract_sources
 from mop.falsification.form_evidence import (
     CAMPAIGN_SCHEMA,
+    FORM_CAMPAIGN_IDS,
     build_density_input,
     build_null_card,
     build_oa_input,
@@ -17,7 +19,11 @@ from mop.falsification.form_evidence import (
 )
 from mop.falsification.null_cards import load_card, validate_card
 from mop.studio.artifact_bundle import preset_paths
-from mop.studio.form_boundary import BOUNDARY_EVIDENCE_SCHEMA, validate_scale_boundary_evidence
+from mop.studio.form_boundary import (
+    BOUNDARY_EVIDENCE_SCHEMA,
+    _studio_only_boundary,
+    validate_scale_boundary_evidence,
+)
 
 
 class _Contract:
@@ -53,6 +59,23 @@ def test_live_form_campaign_is_complete_and_acyclic():
     assert campaign["schema"] == CAMPAIGN_SCHEMA
     assert validate_form_campaign(campaign) == []
     assert len(campaign["legs"]) == 20
+
+
+def test_form_campaign_membership_is_frozen_not_numeric_prefix_inferred():
+    campaign = load_form_campaign()
+    rows = load_experiments()
+    assert tuple(leg["id"] for leg in campaign["legs"]) == FORM_CAMPAIGN_IDS
+
+    alias_rows = [*copy.deepcopy(rows), {"id": "f1_variant", "series": "F"}]
+    problems = validate_form_campaign(campaign, registry_rows=alias_rows)
+    assert any("unfrozen F1-F20 aliases" in problem for problem in problems)
+
+    later_rows = [*copy.deepcopy(rows), {"id": "f67_future_scaffold", "series": "F"}]
+    assert validate_form_campaign(campaign, registry_rows=later_rows) == []
+
+    missing_rows = [row for row in copy.deepcopy(rows) if row["id"] != FORM_CAMPAIGN_IDS[0]]
+    problems = validate_form_campaign(campaign, registry_rows=missing_rows)
+    assert any("exactly once; found 0" in problem for problem in problems)
 
 
 def test_registry_backed_form_null_card_is_strict():
@@ -188,6 +211,22 @@ def test_scale_boundary_requires_measurement_and_command():
     assert any(
         "method" in problem for problem in validate_scale_boundary_evidence(receipt, receipt["experiment_id"])
     )
+
+
+def test_studio_only_boundary_cannot_pass_vacuously_or_with_non_hardware_blockers():
+    base = {
+        "local_exhausted": True,
+        "scientific_ledger_ready": True,
+        "verified_studio_boundaries": [],
+        "unproved_studio_boundaries": [],
+        "non_hardware_blockers": [],
+        "beyond_studio": [],
+    }
+    assert _studio_only_boundary(**base) is False
+    base["verified_studio_boundaries"] = ["f7_developmental_form_growth"]
+    assert _studio_only_boundary(**base) is True
+    base["non_hardware_blockers"] = [{"experiment_id": "f8_plastic_substrate_rewrite"}]
+    assert _studio_only_boundary(**base) is False
 
 
 def test_form_artifact_preset_names_durable_campaign_surfaces():

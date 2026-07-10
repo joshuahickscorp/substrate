@@ -93,12 +93,8 @@
         },
         "encoder": {
           "type": "string",
-          "enum": [
-            "vjepa2_vitl_fpc64_256",
-            "vjepa2_vith",
-            "vjepa2_vitg",
-            "all-three"
-          ]
+          "minLength": 1,
+          "description": "Registered live substrate id, custom artifact id, or archive-qualified historical id. The schema does not privilege a named model scale."
         },
         "atlas_row": {
           "type": "string",
@@ -117,8 +113,8 @@
     },
     "encoder_scale": {
       "type": "string",
-      "enum": ["L", "H", "g", "all-three"],
-      "description": "Per-scale verdict required if it differs across L/H/g."
+      "minLength": 1,
+      "description": "Legacy field name retained for card compatibility. Record the substrate role or registered id, for example primary, control, custom, cross-substrate, or archive-only."
     },
     "seeds": {
       "type": "object",

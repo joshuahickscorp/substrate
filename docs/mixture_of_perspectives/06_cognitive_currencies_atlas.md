@@ -78,10 +78,10 @@ matched baseline. All framing is provisional until run; every claim carries an i
 - **Matched baseline.** Random-pixel features at matched resolution; a tuned linear probe on raw
   downsampled pixels.
 
-### 1.2 V-JEPA 2 (ViT-H / ViT-G scale variants)
+### 1.2 Retired same-family scale pilot
 
-- **Naturally represents.** Same currency as ViT-L, more of it: the question is whether scale buys MORE
-  nuisance-invariance or the same asymptote. A pure scaling arm.
+- **Historical scope.** The archived pilot asked whether width bought more nuisance-invariance or the
+  same asymptote. It is retained as mechanics evidence and is not a live model-selection arm.
 - **Likely cannot.** Change modality or objective; scaling does not add a caption or a text axis.
 - **Reasoning supported.** Same as ViT-L; the experiment is whether the +0.31 nuisance delta grows.
 - **Plasticity shell / memory.** Identical to ViT-L; the shell must not grow with the substrate (doctrine:

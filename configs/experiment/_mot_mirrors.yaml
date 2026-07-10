@@ -152,13 +152,15 @@ mirrors:
   module: scripts/mop_dr14_corruption.py
   metric:
   - accuracy_vs_corruption_slope
+  - dense_drop_slope
+  - scientific_promotion
   null_hypothesis: 'reasoning and single-pass degrade at the same rate under every
     corruption: iteration only processes what survives'
   falsifier: equal slopes
-  tier: cpu-now
+  tier: env-later
   seeds: 0-2
   output: runs/mot/dr14_corruption.json
-  pilot: false
+  pilot: true
 - id: mop_dr2_sparse_real
   name: sparse_head_forgetting_on_real_latents
   module: scripts/mop_dr2_sparse_real_pilot.py

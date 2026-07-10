@@ -25,6 +25,11 @@ def main() -> int:
     parser.add_argument("--audit-proof", type=Path, default=DEFAULT_AUDIT_PROOF)
     parser.add_argument("--seeds", type=int, nargs="+", default=[20260709, 20260710, 20260711])
     parser.add_argument(
+        "--reuse-existing-preflight",
+        action="store_true",
+        help="rebuild the audit from the existing timing-bearing preflight without rerunning it",
+    )
+    parser.add_argument(
         "--assert-scientific-ready",
         choices=sorted(PREFLIGHTS),
         help="fail closed unless receipt-backed scientific prerequisites are supplied",
@@ -55,6 +60,7 @@ def main() -> int:
         preflight_proof=args.preflight_proof,
         audit_proof=args.audit_proof,
         seeds=tuple(args.seeds),
+        reuse_existing_preflight=bool(args.reuse_existing_preflight),
     )
     print(
         json.dumps(

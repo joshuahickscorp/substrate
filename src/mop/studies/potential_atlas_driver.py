@@ -116,12 +116,7 @@ def _round_one_decimal(value: float) -> float:
 
 
 def _score(scaffolding: int, implementation: int, experiment: int, confirmation: int) -> dict[str, Any]:
-    raw = (
-        0.20 * scaffolding
-        + 0.25 * implementation
-        + 0.30 * experiment
-        + 0.25 * confirmation
-    )
+    raw = 0.20 * scaffolding + 0.25 * implementation + 0.30 * experiment + 0.25 * confirmation
     capped = min(
         raw,
         scaffolding + 2.5,
@@ -264,9 +259,7 @@ def _update_conflated_facets(facets: dict[str, dict[str, Any]]) -> None:
     pa6 = facets["PA6"]
     pa6.update(
         {
-            "title": (
-                "Broadcast, information-integration, recurrent-processing, and higher-order probes"
-            ),
+            "title": ("Broadcast, information-integration, recurrent-processing, and higher-order probes"),
             "evidence_states": ["implemented-contract-scaffold"],
             "demonstrated_components": [
                 "broadcast necessity and sufficiency contracts",
@@ -729,8 +722,7 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
     queue = [
         copy.deepcopy(row)
         for row in atlas.get("highest_leverage_local_queue") or []
-        if row.get("id")
-        not in {"complete_p4_through_governor", "operationalize_missing_atlas_facets"}
+        if row.get("id") not in {"complete_p4_through_governor", "operationalize_missing_atlas_facets"}
     ]
     queue.append(
         {

@@ -14,15 +14,14 @@ fit a STRUCTURED head (MLP over pairwise/relational features of the two latents)
 parameter-matched FLAT head (MLP over the plain concatenation), and report structured-minus-
 flat on pooled vs dense plus the headline 2-vs-2.1 delta of those deltas.
 
-Meta's official V-JEPA 2.1 weights now exist, but this legacy direct runner is not wired to the
-pinned PyTorch loader or a citable dense cache. Both encoders therefore still fall back to
-frozen-random (honest, recorded). The comparison structure runs end to end; its headline number is
-not a claim about the released substrate. The current dense flattening also scales as N*D and must
-be replaced by a token-aware, cache-first readout before a full 384px/64-frame cache is admissible.
+The registered path is now cache-first and token-aware. The old direct synthetic comparison remains
+only behind an explicit ``allow_legacy_fixture=true`` override for regression tests. It can never
+be entered as a fallback when the official learned/random cache pair is absent.
 """
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import matplotlib
@@ -76,18 +75,25 @@ def _matched_hidden(dim: int, flat_hidden: int) -> int:
 
 class E6(Experiment):
     id = "e6_relational"
-    metric = ("pooled_delta", "dense_delta", "headline_2_vs_21_delta")
-    baseline = "parameter-matched flat head over concatenated latents [a||b]"
-    ablation = "structured (relational features a,b,a*b,a-b) vs flat, on pooled (2) vs dense (2.1)"
+    metric = ("dense_primary_delta", "position_specificity_delta", "scientific_promotion")
+    baseline = "strongest parameter-matched learned-flat, token-shuffle, or random-init cache control"
+    ablation = "fixed token-position bins versus token-blind pooling on exact matched ViT-B caches"
     null_hypothesis = (
-        "the structured head ties the parameter-matched flat head on recombination "
-        "generalization, AND its gain on dense (2.1) is no larger than on pooled (2); "
-        "structure adds capacity, not relational generalization"
+        "the learned token-aware readout ties the strongest parameter-matched learned-flat, "
+        "token-shuffle, or exact-architecture random-init control on held-out combinations"
     )
-    tier = "2.1-only"
+    tier = "env-later"
 
     def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
         e = cfg.experiment
+        execution_path = str(e.get("execution_path", "cache-first"))
+        if execution_path == "cache-first":
+            return self._run_cache_first(e, run_dir)
+        if execution_path != "legacy-fixture" or not bool(e.get("allow_legacy_fixture", False)):
+            raise RuntimeError(
+                "E6 refuses legacy encoder fallback; use cache-first or explicitly authorize "
+                "the non-promotable legacy fixture"
+            )
         seed = int(cfg.seed)
         seed_everything(seed)
 
@@ -119,7 +125,63 @@ class E6(Experiment):
             "backends": {"pooled": pooled_enc.spec.backend, "dense": dense_enc.spec.backend},
         }
         self._plot(out, run_dir)
+        out["scientific_promotion"] = False
+        out["claim_boundary"] = {
+            "legacy_fixture": True,
+            "official_vitb_result": False,
+            "registered_e6_result": False,
+        }
         return out
+
+    def _run_cache_first(self, e: DictConfig, run_dir: Path) -> dict:
+        from .e6_dense_relational import TokenReadoutSpec, build_pair_gate, run_dense_relational
+
+        learned = Path(str(e.learned_cache))
+        random = Path(str(e.random_cache))
+        gate = build_pair_gate(learned, random)
+        run_dir.mkdir(parents=True, exist_ok=True)
+        if not gate["mechanics_ok"]:
+            gate.pop("_learned_private", None)
+            gate.pop("_random_private", None)
+            output = {
+                "execution_path": "cache-first",
+                "execution_status": "blocked-missing-or-invalid-cache-pair",
+                "dense_primary_delta": None,
+                "position_specificity_delta": None,
+                "scientific_promotion": False,
+                "pair_gate": gate,
+                "claim_boundary": {
+                    "legacy_fallback_used": False,
+                    "model_loaded": False,
+                    "forward_executed": False,
+                    "registered_e6_result": False,
+                },
+            }
+            (run_dir / "e6_relational.json").write_text(json.dumps(output, indent=2) + "\n")
+            return output
+        readout = e.cache_readout
+        result = run_dense_relational(
+            learned,
+            random,
+            spec=TokenReadoutSpec(
+                bins=int(readout.bins),
+                feature_rank=int(readout.feature_rank),
+                summary_dim=int(readout.summary_dim),
+                ridge=float(readout.ridge),
+                seeds=tuple(int(value) for value in readout.seeds),
+                min_margin=float(readout.min_margin),
+                ceiling=float(readout.ceiling),
+            ),
+        )
+        output = {
+            **result,
+            "execution_path": "cache-first",
+            "execution_status": "complete",
+            "dense_primary_delta": result["confidence"]["primary_delta"]["mean"],
+            "position_specificity_delta": result["confidence"]["position_specificity_delta"]["mean"],
+        }
+        (run_dir / "e6_relational.json").write_text(json.dumps(output, indent=2) + "\n")
+        return output
 
     def _eval_encoder(self, tag, enc, e, device: DeviceInfo, seed: int) -> dict:
         latents, comp_y, attr_a, attr_b = self._encode_latents(tag, enc, e, device, seed)

@@ -151,8 +151,8 @@
       "sd": 0.13558683218697898
     }
   ],
-  "composite_sha256": "d83861bebd498fec17dde0c02125f4d34b6d01b09a6d8a5c285845947c7555e6",
-  "created_at": "2026-07-10T07:36:01.553351+00:00",
+  "composite_sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2",
+  "created_at": "2026-07-10T20:35:47.959102+00:00",
   "power": 0.8,
   "problems": [],
   "schema": "mop-cm7-power-recalculation/v1",
@@ -162,5 +162,5 @@
     "n_to_detect_margin_0.03_at_median_sd": 183,
     "statement": "Observed CM7 paired sds run 0.053 to 0.139 on heldout_combo_score, so detecting the preregistered 0.03 margin at alpha .01 and power .80 would need 40 to 256 paired seeds per comparison (183 at the median sd). CM7 schedules no such campaign: the simultaneous bounds already exclude the margin in the wrong direction and the regime is retired. Successors (P4, CM8-class) must either register a larger SESOI or reduce seed variance by design; at the plan's sensitivity anchors the same arithmetic reproduces 22 seeds for d_z .8 and 51 for d_z .5."
   },
-  "verifier_sha256": "81fbe0543c4d9e17a590fe473618e65dc880061cfc9e981c1834e83695591c30"
+  "verifier_sha256": "afc9e81098b09465a999aaeaabd541da8367c90414bf80171f6d4ac8e9b6524c"
 }

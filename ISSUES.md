@@ -16,7 +16,7 @@ Empty of hard failures means a clean run.
   can produce random-weight outputs labeled by intent as real. The established cache scripts
   refuse this by asserting `enc.spec.backend`; every new consumer must do the same
   (`+encoder.prefer_real=true +encoder.require_real=true` plus a backend assertion). Caught
-  fail-closed in scripts/factorized_stimulus_identity.py this session.
+  fail-closed in the archived inherited-scale identity generator this session.
 
 ## Deferred (environment, not a defect)
 - Real V-JEPA latent caching: encoder weights not fetched in this session (no model
@@ -26,10 +26,9 @@ Empty of hard failures means a clean run.
 - Tier R campaign legs (env rollouts + capstone): queued with enabled=false; need a
   rented CUDA box and a real environment. Unblock: set enabled=true on the Studio and
   connect the existing local action adapter to the exact rendered/substrate evidence required by the row.
-- V-JEPA 2.1 dense weights: NOT published on HF under any verified id (probed 2026-06; the
-  `vjepa21_*` configs carry placeholder ids + `available: false`). The 2.1-only experiments
-  (E6 dense vs pooled) stay deferred. Unblock: when 2.1 ships, set the real hf_id +
-  `available: true` + `prefer_real: true`. Real V-JEPA 2 ViT-L/H/g ids ARE verified present.
+- V-JEPA 2.1 dense task data: the official ViT-B checkpoint is retained, hash-verified,
+  strict-loaded, and finite at 8 and 64 frames. E6 and DR14 now wait on a rights-clean natural
+  tensor manifest plus matched learned/random caches, not model publication or larger variants.
 - Real natural-video decode: `substrate/video.py` is backend-agnostic and lazy-imports
   torchvision/decord; neither is a hard dep. Unblock: `uv pip install -e ".[video]"`. The
   preprocessing core is tested today; full decode is exercised on the Studio with real clips.

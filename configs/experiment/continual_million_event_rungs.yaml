@@ -1,0 +1,48 @@
+schema: mop-continual-progressive-rungs-config/v1
+claim_scope: disk-backed programmatic continual-stream mechanics only; no capability claim
+null_hypothesis: >-
+  replay does not improve preregistered retention and future learnability over both no-replay and
+  fresh-init controls at matched updates across five independent seeds and both schedules, or any
+  apparent gain depends on stale or deleted memory; mechanics and resource completion alone cannot
+  reject this scientific null
+
+# Immutable source evidence. The progressive runner validates both the file hash and the receipt's
+# self-digest before it creates any stream bytes.
+source_preflight:
+  path: proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json
+  file_sha256: fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03
+  payload_sha256: 081808500267145d5e40b2db84cb38baf72f0ba40a8e7b71d5a463a03a789a89
+  observed_events_per_stream: 384
+  observed_stream_disk_bytes: 19584
+  observed_max_checkpoint_state_bytes: 22612
+
+replication:
+  rungs: [10000, 100000, 1000000]
+  seeds: [20260710, 20260711, 20260712, 20260713, 20260714]
+  schedules: [abrupt, gradual]
+  arms: [replay, no-replay, fresh-init]
+  minimum_independent_seeds: 5
+  independent_metric_verifier_required: true
+
+# Mutable metric windows stay at the measured 384-event sizes. Checkpoint cadence scales to the
+# 10k ratio (48 / 384 = 1 / 8) and then remains fixed, so later rungs do not grow checkpoint state.
+profile:
+  replay_capacity: 128
+  future_accuracy_threshold: 0.50
+  matched_updates_per_event: 2
+  minimum_chunk_events: 64
+  chunks_per_stream: 100
+  checkpoint_every_events: 1250
+  future_window_events: 48
+  threshold_window_events: 16
+  gradual_width_divisor: 12
+  deletion_numerator: 3
+  deletion_denominator: 8
+
+resource_projection:
+  # This factor covers JSON/container overhead beyond the exact stream and serialized-state bytes.
+  # The throttle independently adds its global 25 percent forecast uncertainty and 0.5 GB reserve.
+  evidence_multiplier: 2.0
+  memory_policy: >-
+    process RSS was not recorded by the 384-event receipt; run the exclusive 10k resource probe,
+    then admit each full rung only from the previous measured max-RSS receipt

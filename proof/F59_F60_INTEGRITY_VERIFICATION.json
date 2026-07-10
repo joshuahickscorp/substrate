@@ -7,7 +7,7 @@
     "live_implementation_checked": true
   },
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-  "core_payload_sha256": "4142fd1ce8e482b241deb0509aaacb413907d6df833a178e65c1ecfde3c509a9",
+  "core_payload_sha256": "711eeb4a8a0dee09ebe96d6722cb30cfbb6e9f77247cde87ca6976783ad98fdd",
   "errors": [],
   "fresh_seed_challenges": [
     {
@@ -99,8 +99,8 @@
     }
   ],
   "payload_sha256_verified": true,
-  "receipt_file_sha256": "fbf5124b254b1ef2f21533326c527dec437c07b241d508687f01031d38850c21",
-  "receipt_payload_sha256": "eee75ac9b93bc5210aa447adf63f44d034986e8d4e0fcaccc2fed3f2cd35684a",
+  "receipt_file_sha256": "30570a10b75d8ecf5448bf0bc94623177833a73dd10a67d54a2f37e397d3e6f3",
+  "receipt_payload_sha256": "e7f997bab3db5f15abb50a485f6da7304149759b311fdf41c178d2539f4a902e",
   "schema": "mop-integrity-scaffold-independent-verifier/v1",
   "verified": true
 }

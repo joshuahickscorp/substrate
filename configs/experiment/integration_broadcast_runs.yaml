@@ -1,5 +1,6 @@
 schema: mop-integration-broadcast-run-config/v1
 claim_scope: deterministic programmatic mechanics only; no capability or natural-data claim
+null_hypothesis: limited broadcast fails a necessity or sufficiency gate against the strongest matched comparator
 independent_units:
   seeds: [103, 223, 337, 449, 557]
   fresh_verifier_seeds: [661, 773, 887, 991, 1097]

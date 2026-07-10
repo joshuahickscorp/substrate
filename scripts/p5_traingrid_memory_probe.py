@@ -16,6 +16,8 @@ Claim boundary, preregistered here before any run:
   ledger entries, never allocation evidence.
 - The receipt is written ONLY when every cell finishes with a finite loss; any failed or
   non-finite cell blocks the artifact entirely (fail closed).
+- Every successful child row is atomically checkpointed to an identity-bound progress receipt.
+  Rerunning the exact command skips only verified complete rows and retries failed rows.
 - It cites the existing P5 memory-boundary trace by content hash so the two instruments stay
   bound; a missing boundary trace refuses the run.
 - One heavy process discipline: cells run serially in short-lived child processes; the probe
@@ -39,6 +41,7 @@ from pathlib import Path
 from typing import Any
 
 RECEIPT_SCHEMA = "mop-p5-traingrid-memory-trace/v1"
+PROGRESS_SCHEMA = "mop-p5-traingrid-memory-progress/v1"
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO_ROOT / "proof/P5_TRAINGRID_MEMORY_TRACE.json"
 BOUNDARY_TRACE = REPO_ROOT / "proof/P5_MEMORY_BOUNDARY_TRACE.json"
@@ -62,6 +65,30 @@ def _sha256_file(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _json_sha256(payload: Any) -> str:
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _atomic_json(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n")
+    os.replace(temporary, path)
+
+
+def _display_path(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(resolved)
+
+
+def _row_key(frames: int, mechanism: str, batch: int, repeat: int) -> str:
+    return f"f{frames}:{mechanism}:b{batch}:r{repeat}"
 
 
 def _memory_pressure_level() -> int | None:
@@ -245,29 +272,90 @@ def main() -> int:
         print(f"refusing: free disk {free_gb:.1f} GB below the {MIN_FREE_DISK_GB} GB floor")
         return 1
 
+    if args.repeats < 1:
+        print("refusing: --repeats must be at least one")
+        return 1
+    identity = {
+        "script_sha256": _sha256_file(Path(__file__).resolve()),
+        "boundary_trace_sha256": boundary_sha256,
+        "cells": [{"frames": cell.frames, "mechanism": cell.mechanism} for cell in P5_CELLS],
+        "batch_rows": list(BATCH_ROWS),
+        "repeats": args.repeats,
+        "seed": args.seed,
+        "mask_ratio": MASK_RATIO,
+        "ema_decay": EMA_DECAY,
+        "child_memory_guard_gb": CHILD_MEMORY_GUARD_GB,
+        "device": "cpu",
+    }
+    identity_sha256 = _json_sha256(identity)
+    progress_path = args.out.with_suffix(args.out.suffix + ".progress.json")
+    if progress_path.is_file():
+        try:
+            progress = json.loads(progress_path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            print(f"refusing: unreadable progress receipt {progress_path}: {exc}")
+            return 1
+        if (
+            progress.get("schema") != PROGRESS_SCHEMA
+            or progress.get("identity_sha256") != identity_sha256
+            or progress.get("identity") != identity
+            or not isinstance(progress.get("rows"), dict)
+        ):
+            print(f"refusing: progress identity drift at {progress_path}")
+            return 1
+        progress["resumed_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    else:
+        progress = {
+            "schema": PROGRESS_SCHEMA,
+            "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "identity": identity,
+            "identity_sha256": identity_sha256,
+            "rows": {},
+            "complete": False,
+        }
+        _atomic_json(progress_path, progress)
+
     results: list[dict[str, Any]] = []
     for cell in P5_CELLS:
         for batch in BATCH_ROWS:
             for repeat in range(args.repeats):
-                row = run_child(
-                    {
-                        "frames": cell.frames,
-                        "mechanism": cell.mechanism,
-                        "batch": batch,
-                        "seed": args.seed + repeat,
-                        "model_overrides": None,
-                    }
-                )
-                row.update(
-                    {
-                        "frames": cell.frames,
-                        "mechanism": cell.mechanism,
-                        "batch": batch,
-                        "repeat": repeat,
-                    }
-                )
+                key = _row_key(cell.frames, cell.mechanism, batch, repeat)
+                prior = progress["rows"].get(key)
+                if isinstance(prior, dict) and prior.get("ok") and prior.get("loss_finite"):
+                    row = dict(prior)
+                    row["resumed_from_atomic_progress"] = True
+                else:
+                    row = run_child(
+                        {
+                            "frames": cell.frames,
+                            "mechanism": cell.mechanism,
+                            "batch": batch,
+                            "seed": args.seed + repeat,
+                            "model_overrides": None,
+                        }
+                    )
+                    row.update(
+                        {
+                            "frames": cell.frames,
+                            "mechanism": cell.mechanism,
+                            "batch": batch,
+                            "repeat": repeat,
+                        }
+                    )
+                    progress["rows"][key] = row
+                    progress["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+                    progress["completed_rows"] = sum(
+                        1
+                        for value in progress["rows"].values()
+                        if isinstance(value, dict) and value.get("ok") and value.get("loss_finite")
+                    )
+                    _atomic_json(progress_path, progress)
                 results.append(row)
-                status = "ok" if row.get("ok") else "FAILED"
+                status = (
+                    "resumed"
+                    if row.get("resumed_from_atomic_progress")
+                    else ("ok" if row.get("ok") else "FAILED")
+                )
                 print(
                     f"{row['cell']} repeat {repeat}: {status} "
                     f"peak_rss_gb={row.get('peak_rss_gb')} wall_step={row.get('wall_seconds_step')}s"
@@ -277,6 +365,11 @@ def main() -> int:
     if not all_finite:
         print("refusing to write the trace: one or more cells failed or produced a non-finite loss")
         return 1
+
+    progress["complete"] = True
+    progress["completed_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    progress["completed_rows"] = len(results)
+    _atomic_json(progress_path, progress)
 
     receipt = {
         "schema": RECEIPT_SCHEMA,
@@ -293,8 +386,14 @@ def main() -> int:
             ),
         },
         "cited_boundary_trace": {
-            "path": str(BOUNDARY_TRACE.relative_to(REPO_ROOT)),
+            "path": _display_path(BOUNDARY_TRACE),
             "sha256": boundary_sha256,
+        },
+        "atomic_progress": {
+            "path": str(progress_path.resolve()),
+            "sha256": _sha256_file(progress_path),
+            "identity_sha256": identity_sha256,
+            "completed_rows": len(results),
         },
         "config": {
             "cells": [{"frames": cell.frames, "mechanism": cell.mechanism} for cell in P5_CELLS],
@@ -314,10 +413,7 @@ def main() -> int:
         "cells": results,
         "all_ok": all_finite and not any(row.get("memory_guard_exceeded") for row in results),
     }
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    tmp = args.out.with_suffix(args.out.suffix + ".tmp")
-    tmp.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
-    os.replace(tmp, args.out)
+    _atomic_json(args.out, receipt)
     print(f"wrote {args.out} rows={len(results)} all_ok={receipt['all_ok']}")
     return 0 if receipt["all_ok"] else 1
 

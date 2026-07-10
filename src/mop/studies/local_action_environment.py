@@ -420,9 +420,9 @@ def build_preflight(
                 "or trajectories"
             ),
             "mop_cm10_action_forward_model": (
-                "the registered claim still needs rendered action-conditioned observations with a "
-                "citable substrate cache, the exact frozen V-JEPA 2-AC control, and the declared "
-                "matched-compute unrolled-depth control"
+                "the P7 successor now closes programmatic rendering, same-parent interventions, "
+                "and matched controls; the registered scientific claim still needs independently "
+                "sourced trajectories, an exact-referent action control, and replication"
             ),
             "e10_openended": (
                 "persistent action mechanics now exist, but sustained open-endedness still needs "

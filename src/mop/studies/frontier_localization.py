@@ -44,7 +44,7 @@ from .project_exhaustion import (
 PREFLIGHT_SCHEMA = "mop-local-frontier-preflights/v1"
 AUDIT_SCHEMA = "mop-frontier-localization/v1"
 PREREQUISITE_SCHEMA = "mop-scientific-prerequisite/v1"
-USER_WALL_MINUTES = 180
+USER_WALL_MINUTES = 300
 
 TARGET_IDS = (
     "mop_mt4_reasoning_router",
@@ -86,6 +86,13 @@ HISTORICAL_FRONTIER_IDS = (
 DEFAULT_RUN_RECEIPT = REPO_ROOT / "runs" / "frontier_localization" / "local_preflights.json"
 DEFAULT_PREFLIGHT_PROOF = REPO_ROOT / "proof" / "LOCAL_FRONTIER_PREFLIGHTS.json"
 DEFAULT_AUDIT_PROOF = REPO_ROOT / "proof" / "FRONTIER_LOCALIZATION.json"
+CM7_PILOT_PATH = REPO_ROOT / "proof" / "CUSTOM_SUBSTRATE_PILOT.json"
+VJEPA21_VITB_RECEIPTS = {
+    "load": REPO_ROOT / "proof" / "VJEPA21_VITB_LOAD.json",
+    "forward_8f": REPO_ROOT / "proof" / "VJEPA21_VITB_FORWARD.json",
+    "forward_64f": REPO_ROOT / "proof" / "VJEPA21_VITB_FORWARD_64F.json",
+}
+E6_DENSE_PREFLIGHT_PATH = REPO_ROOT / "proof" / "E6_VITB_DENSE_PREFLIGHT.json"
 
 
 class ScientificLaunchBlocked(RuntimeError):
@@ -833,6 +840,298 @@ def _load_json(path: Path) -> dict[str, Any]:
     return payload if isinstance(payload, dict) else {}
 
 
+def _validate_cm7_bound_pilot(path: Path = CM7_PILOT_PATH) -> dict[str, Any]:
+    """Verify the five-seed CM7 null and its hash-bound independent verifier chain."""
+    payload = _load_json(path)
+    problems: list[str] = []
+    chain = payload.get("receipt_chain") or {}
+    chain_payloads: dict[str, dict[str, Any]] = {}
+    for name in (
+        "raw_training_receipt",
+        "environment_receipt",
+        "current_evidence_attestation",
+        "independent_verifier",
+    ):
+        binding = chain.get(name) or {}
+        rel = binding.get("path")
+        digest = binding.get("sha256")
+        bound_path = REPO_ROOT / str(rel) if isinstance(rel, str) else REPO_ROOT / "missing"
+        if not (
+            isinstance(rel, str)
+            and bound_path.is_file()
+            and isinstance(digest, str)
+            and len(digest) == 64
+            and _sha256(bound_path) == digest
+        ):
+            problems.append(f"CM7 receipt-chain binding {name} is absent or stale")
+            continue
+        chain_payloads[name] = _load_json(bound_path)
+
+    raw = chain_payloads.get("raw_training_receipt", {})
+    verifier = chain_payloads.get("independent_verifier", {})
+    verifier_bindings = verifier.get("bindings") or {}
+    chain_digests = {
+        name: (chain.get(name) or {}).get("sha256")
+        for name in ("raw_training_receipt", "environment_receipt", "current_evidence_attestation")
+    }
+    seed_results = raw.get("seed_results") or {}
+    expected_arms = {"predictive", "invariance", "reconstruction", "random_target", "frozen_random"}
+    five_complete = bool(
+        isinstance(seed_results, dict)
+        and set(seed_results) == {"0", "1", "2", "3", "4"}
+        and all(isinstance(arms, dict) and set(arms) == expected_arms for arms in seed_results.values())
+        and all(
+            (arm.get("training") or {}).get("complete") is True
+            and (name == "frozen_random" or (arm.get("training") or {}).get("completed_steps") == 1000)
+            for arms in seed_results.values()
+            for name, arm in arms.items()
+        )
+    )
+    verifier_comparisons = verifier.get("paired_comparisons") or {}
+    verifier_bound = bool(
+        verifier.get("schema") == "mop-custom-substrate-cm7-independent-verifier/v1"
+        and verifier.get("verification_complete") is True
+        and verifier.get("null_valid") is True
+        and verifier.get("all_ok") is False
+        and verifier.get("problems") == ["winner_clears_all_corrected_comparisons"]
+        and verifier.get("promotion") is False
+        and verifier.get("verdict") == "not-promoted"
+        and (verifier.get("gates") or {}).get("five_complete_seeds") is True
+        and (verifier.get("gates") or {}).get("winner_clears_all_corrected_comparisons") is False
+        and (verifier.get("selection") or {}).get("correction")
+        == "Holm one-sided tests plus simultaneous Bonferroni Student-t lower bounds"
+        and (verifier.get("selection") or {}).get("df") == 4
+        and len(verifier_comparisons) == 12
+        and all(comparison.get("n") == 5 for comparison in verifier_comparisons.values())
+        and verifier_bindings.get("raw_training_receipt_sha256") == chain_digests["raw_training_receipt"]
+        and verifier_bindings.get("environment_receipt_sha256") == chain_digests["environment_receipt"]
+        and verifier_bindings.get("current_evidence_attestation_sha256")
+        == chain_digests["current_evidence_attestation"]
+    )
+    composite_bound = bool(
+        payload.get("schema") == "mop-custom-substrate-workbench/v1"
+        and payload.get("complete") is True
+        and (payload.get("requirements") or {}).get("all_ok") is True
+        and (payload.get("compute_match") or {}).get("all_ok") is True
+        and (payload.get("promotion") or {}).get("cm7_local_objective_lever_promotable") is False
+        and (payload.get("promotion") or {}).get("cm8_custom_build_promotable") is False
+        and (raw.get("model") or {}).get("trainable_parameters") == 1_646_080
+        and (raw.get("model") or {}).get("token_count") == 256
+        and (raw.get("model") or {}).get("teacher_independent") is True
+    )
+    if not composite_bound:
+        problems.append("CM7 composite does not bind a complete compute-matched nonpromotion")
+    if not five_complete:
+        problems.append("CM7 raw receipt does not contain five complete 1,000-update arms")
+    if not verifier_bound:
+        problems.append("CM7 independent verifier does not bind the familywise-corrected null")
+    telemetry = payload.get("resource_telemetry") or raw.get("resource_telemetry") or {}
+    return {
+        "valid": not problems,
+        "receipt": _file_receipt(path),
+        "seed_count": 5 if five_complete else None,
+        "updates_per_learned_arm": 1000 if five_complete else None,
+        "trainable_parameters": (raw.get("model") or {}).get("trainable_parameters"),
+        "verdict": verifier.get("verdict"),
+        "familywise_correction": (verifier.get("selection") or {}).get("correction"),
+        "wall_seconds_this_invocation": telemetry.get("wall_seconds_this_invocation"),
+        "max_rss_bytes": telemetry.get("max_rss_bytes"),
+        "problems": problems,
+        "claim_boundary": (
+            "bound null at the exact 1.646M-parameter, programmatic-video regime; it neither "
+            "promotes a learned objective nor generalizes to natural video or another capacity rung"
+        ),
+    }
+
+
+def _bound_repo_file_ok(row: Any) -> bool:
+    """Return whether a receipt row binds a current repository-local regular file."""
+    if not isinstance(row, dict):
+        return False
+    raw_path = row.get("path")
+    digest = row.get("sha256")
+    if not isinstance(raw_path, str) or not isinstance(digest, str) or len(digest) != 64:
+        return False
+    path = Path(raw_path)
+    if not path.is_absolute():
+        path = REPO_ROOT / path
+    try:
+        path = path.resolve(strict=True)
+    except OSError:
+        return False
+    return bool(path.is_relative_to(REPO_ROOT.resolve()) and path.is_file() and _sha256(path) == digest)
+
+
+def _validate_e6_dense_preflight(path: Path = E6_DENSE_PREFLIGHT_PATH) -> dict[str, Any]:
+    """Validate the no-heavy E6/DR14 task, cache, and control integration receipt."""
+    payload = _load_json(path)
+    gates = payload.get("gates") or {}
+    registration = payload.get("registration") or {}
+    interfaces = payload.get("interfaces") or {}
+    runtime_authority = payload.get("runtime_authority") or {}
+    input_manifest = payload.get("input_manifest") or {}
+    bound_rows = [payload.get("implementation"), payload.get("task_config")]
+    bound_rows.extend((registration.get("artifacts") or {}).values())
+    bound_rows.extend((registration.get("authorities") or {}).values())
+    expected_interfaces = {
+        "dr14_dense_drop_views",
+        "e6_pair_gate_consumer",
+        "official_learned_encoder",
+        "official_random_encoder",
+        "same_input_cache_plan",
+        "strict_cache_finalizer",
+    }
+    remaining_gates = payload.get("remaining_gates")
+    valid = bool(
+        payload.get("schema") == "mop-vjepa21-dense-task-preflight/v1"
+        and payload.get("all_ok") is True
+        and payload.get("mode") == "no-heavy-preflight"
+        and payload.get("model_constructed") is False
+        and payload.get("checkpoint_tensor_bytes_read") is False
+        and payload.get("forward_executed") is False
+        and payload.get("scientific_promotion") is False
+        and gates.get("implementation_ready") is True
+        and gates.get("input_manifest_ready") is False
+        and gates.get("encode_allowed_now") is False
+        and gates.get("e6_scientific_ready") is False
+        and gates.get("dr14_scientific_ready") is False
+        and registration.get("schema") == "mop-vjepa21-dense-registration-audit/v1"
+        and registration.get("all_ok") is True
+        and registration.get("problems") == []
+        and runtime_authority.get("schema") == "mop-vjepa21-vitb-runtime-authority/v1"
+        and runtime_authority.get("all_ok") is True
+        and runtime_authority.get("problems") == []
+        and input_manifest.get("mechanics_ok") is False
+        and input_manifest.get("promotion_ready") is False
+        and set(interfaces) == expected_interfaces
+        and all(interfaces.get(key) is True for key in expected_interfaces)
+        and isinstance(remaining_gates, list)
+        and len(remaining_gates) >= 4
+        and all(_bound_repo_file_ok(row) for row in bound_rows)
+    )
+    problems = [] if valid else ["E6/DR14 dense-task no-heavy integration receipt failed validation"]
+    return {
+        "valid": valid,
+        "receipt": _file_receipt(path),
+        "task_cache_control_integration_verified": valid,
+        "heavy_model_work_executed": bool(
+            payload.get("model_constructed")
+            or payload.get("checkpoint_tensor_bytes_read")
+            or payload.get("forward_executed")
+        ),
+        "input_manifest_ready": gates.get("input_manifest_ready"),
+        "scientific_promotion": payload.get("scientific_promotion"),
+        "remaining_gates": remaining_gates if isinstance(remaining_gates, list) else [],
+        "problems": problems,
+        "claim_boundary": (
+            "local task, cache, matched-control, and DR14 dropped-channel mechanics only; no natural "
+            "cohort, cache result, E6 effect, DR14 effect, or scientific promotion is inferred"
+        ),
+    }
+
+
+def _validate_vjepa21_vitb_runtime() -> dict[str, Any]:
+    """Validate ViT-B runtime plus the bounded E6/DR14 integration without widening claims."""
+    receipts = {name: _load_json(path) for name, path in VJEPA21_VITB_RECEIPTS.items()}
+    problems: list[str] = []
+    authorities = [receipt.get("authority") or {} for receipt in receipts.values()]
+    checkpoint_hashes = {authority.get("checkpoint_sha256") for authority in authorities}
+    repository_commits = {authority.get("repository_commit") for authority in authorities}
+    checkpoint_hash = next(iter(checkpoint_hashes), None)
+    repository_commit = next(iter(repository_commits), None)
+    load = receipts["load"]
+    forward_rows = [receipts["forward_8f"], receipts["forward_64f"]]
+    valid = bool(
+        all(receipt.get("schema") == "mop-vjepa21-official-probe/v1" for receipt in receipts.values())
+        and len(checkpoint_hashes) == 1
+        and all(isinstance(value, str) and len(value) == 64 for value in checkpoint_hashes)
+        and len(repository_commits) == 1
+        and all(isinstance(value, str) and len(value) == 40 for value in repository_commits)
+        and all(authority.get("repository_validation_ok") is True for authority in authorities)
+        and all(
+            (receipt.get("child") or {}).get("checkpoint_sha256") == checkpoint_hash
+            and (receipt.get("child") or {}).get("repository_commit") == repository_commit
+            and (receipt.get("child") or {}).get("completed") is True
+            and (receipt.get("child") or {}).get("parameters") == 86_833_152
+            and (receipt.get("child") or {}).get("trainable_parameters") == 0
+            for receipt in receipts.values()
+        )
+        and load.get("status") == "passed"
+        and load.get("hardware_limit_reached") is False
+        and (load.get("child") or {}).get("strict_load") is True
+        and (load.get("child") or {}).get("parameters") == 86_833_152
+        and (load.get("child") or {}).get("trainable_parameters") == 0
+        and {(receipt.get("probe") or {}).get("frames") for receipt in forward_rows} == {8, 64}
+        and all(
+            receipt.get("status") == "passed"
+            and receipt.get("hardware_limit_reached") is False
+            and (receipt.get("child") or {}).get("strict_load") is True
+            and (receipt.get("child") or {}).get("output_finite") is True
+            and (receipt.get("child") or {}).get("shape_matches") is True
+            and (receipt.get("claim_boundary") or {}).get("vitb_runtime_evidence_gate_passed") is True
+            and (receipt.get("claim_boundary") or {}).get("e6_scientific_compatibility_proven") is False
+            for receipt in forward_rows
+        )
+    )
+    if not valid:
+        problems.append("official ViT-B load/forward receipt chain failed validation")
+    e6: dict[str, Any] = next(
+        (
+            row
+            for row in _load_json(REPO_ROOT / "proof" / "PROJECT_EXPERIMENT_EXHAUSTION.json").get(
+                "entries", []
+            )
+            if row.get("id") == "e6_relational"
+        ),
+        {},
+    )
+    dense_preflight = _validate_e6_dense_preflight()
+    if not dense_preflight["valid"]:
+        problems.extend(dense_preflight["problems"])
+    return {
+        "valid": valid,
+        "runtime_availability_blocker_retired": valid,
+        "checkpoint_sha256": checkpoint_hash,
+        "repository_commit": repository_commit,
+        "parameters": (load.get("child") or {}).get("parameters"),
+        "forward_frames": sorted(
+            int((receipt.get("probe") or {}).get("frames") or 0) for receipt in forward_rows
+        ),
+        "forward_seconds": {
+            str((receipt.get("probe") or {}).get("frames")): (receipt.get("child") or {}).get(
+                "forward_seconds"
+            )
+            for receipt in forward_rows
+        },
+        "max_process_tree_rss_bytes": max(
+            (
+                max(
+                    int(receipt.get("max_process_tree_rss_bytes") or 0),
+                    int((receipt.get("child") or {}).get("child_max_rss_bytes") or 0),
+                )
+                for receipt in receipts.values()
+            ),
+            default=0,
+        ),
+        "receipts": {name: _file_receipt(path) for name, path in VJEPA21_VITB_RECEIPTS.items()},
+        "dense_task_preflight": dense_preflight,
+        "task_cache_control_integration_verified": dense_preflight["valid"],
+        "e6_scientific_compatibility_proven": False,
+        "e6_remaining_classification": e6.get("classification"),
+        "e6_remaining_scientific_blocker": e6.get("remaining_scientific_blocker"),
+        "remaining_gaps": [
+            "rights-clean annotated natural-video cohort with immutable splits",
+            "serial learned and matched frozen-random dense-token caches",
+            "independent E6 and DR14 statistical verification",
+        ],
+        "problems": problems,
+        "claim_boundary": (
+            "official ViT-B runtime availability plus local task/cache/control integration only; no "
+            "E6 effect, DR14 effect, natural-data adequacy, or larger-model need is inferred"
+        ),
+    }
+
+
 def _tagged_non_f_rows() -> list[dict[str, Any]]:
     payload = yaml.safe_load((REPO_ROOT / "registry" / "experiments.yaml").read_text())
     rows = []
@@ -887,15 +1186,8 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
     encoder_receipt = _load_json(encoder_receipt_path)
     doctor_path = REPO_ROOT / "proof" / "STUDIO_READINESS_CURRENT_HOST.json"
     doctor = _load_json(doctor_path)
-    scale_atlas_path = REPO_ROOT / "proof" / "VJEPA_SCALE_ATLAS_LOCAL.json"
-    scale_atlas = _load_json(scale_atlas_path)
-    scale_atlas_valid = bool(
-        scale_atlas.get("schema") == "mop-vjepa-scale-atlas-local/v1"
-        and scale_atlas.get("all_ok") is True
-        and (scale_atlas.get("migration_use") or {}).get("local_serial_execution_proven") is True
-        and (scale_atlas.get("migration_use") or {}).get("model_availability_blocker_retired") is True
-        and (scale_atlas.get("alignment") or {}).get("n") == 8
-    )
+    cm7_pilot = _validate_cm7_bound_pilot()
+    vjepa21_vitb_runtime = _validate_vjepa21_vitb_runtime()
     seconds_per_clip = float(encoder_receipt.get("seconds_per_clip") or 0.0)
     safe_sequential_clips = (
         math.floor(USER_WALL_MINUTES * 60 / seconds_per_clip * 0.80) if seconds_per_clip > 0 else None
@@ -917,7 +1209,7 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
         custom_receipts = []
         custom_sources = []
         custom_paths = {
-            "mop_cm7_min_objective_probe": ("proof/CUSTOM_SUBSTRATE_CALIBRATION.json",),
+            "mop_cm7_min_objective_probe": ("proof/CUSTOM_SUBSTRATE_PILOT.json",),
             "mop_cm8_custom_jepa_pilot": ("proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json",),
         }
         for rel in custom_paths.get(experiment_id, ()):
@@ -953,22 +1245,16 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
             hardware_conclusion = "not measured: planning metadata cannot establish a boundary"
             first_blocker = blocker_reason
         custom_payload = _load_json(REPO_ROOT / custom_paths.get(experiment_id, ("missing",))[0])
-        if experiment_id == "mop_cm7_min_objective_probe" and bool(
-            custom_payload.get("schema") == "mop-custom-substrate-workbench/v1"
-            and custom_payload.get("complete") is True
-            and (custom_payload.get("requirements") or {}).get("all_ok") is True
-            and (custom_payload.get("compute_match") or {}).get("all_ok") is True
-        ):
-            telemetry = custom_payload.get("resource_telemetry") or {}
-            localization = "local-custom-training-calibration-proven"
+        if experiment_id == "mop_cm7_min_objective_probe" and cm7_pilot["valid"]:
+            localization = "local-custom-training-five-seed-null-bound"
             hardware_conclusion = (
-                "demoted by measured local training: one complete calibration seed executed in "
-                f"{float(telemetry.get('wall_seconds_this_invocation') or 0.0):.2f}s at "
-                f"{int(telemetry.get('max_rss_bytes') or 0)} peak RSS bytes"
+                "demoted by measured local training: five complete 1,000-update seeds at the exact "
+                "1.646M-parameter regime were independently verified locally as not-promoted"
             )
             first_blocker = (
-                "four additional complete seeds and independent verification; the current receipt "
-                "is programmatic-video objective-lever calibration, not natural-video evidence"
+                "the exact programmatic-video objective regime is a bound familywise-corrected null; "
+                "a successor must change the preregistered estimand via capacity, data, or architecture "
+                "rather than add seeds to rescue this regime"
             )
         elif experiment_id == "mop_cm8_custom_jepa_pilot" and bool(
             custom_payload.get("schema") == "mop-custom-substrate-cm8-preflight/v1"
@@ -978,8 +1264,9 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
             localization = "local-custom-preflight-proven-upstream-blocked"
             hardware_conclusion = "demoted by a measured fail-closed local execution preflight"
             first_blocker = (
-                "CM7 still needs four complete seeds; teacher join has 8 of 64 required referents "
-                "and is programmatic; CM1, CM2, and DR1 natural-data receipts remain absent"
+                "CM7's exact regime is a bound not-promoted null, so positive objective-lever evidence "
+                "is absent; the teacher join also has only 8 of 64 required programmatic referents, "
+                "and CM1, CM2, and DR1 natural-data receipts remain absent"
             )
         elif experiment_id == "mop_cm7_min_objective_probe" and all(
             receipt.get("exists") for receipt in custom_sources
@@ -993,24 +1280,18 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
                 "fresh multi-seed workbench execution and durable receipt under the local resource gate"
             )
         if (
-            experiment_id in {"mop_al2_shared_latent_alignment", "mop_dr5_cross_substrate_consistency"}
-            and scale_atlas_valid
+            experiment_id == "mop_dr14_corruption"
+            and vjepa21_vitb_runtime["task_cache_control_integration_verified"]
         ):
-            localization = "local-multi-encoder-availability-proven"
+            localization = "local-dense-task-integration-proven-data-blocked"
             hardware_conclusion = (
-                "three real-weight frozen encoders executed serially on the same eight local referents; "
-                "model availability is retired as a blocker"
+                "not a hardware boundary: deterministic nested dense-channel masks, identical shared "
+                "views, and the learned/random cache seam are implemented and verified locally"
             )
-            if experiment_id == "mop_al2_shared_latent_alignment":
-                first_blocker = (
-                    "expand beyond eight programmatic referents onto meaningful shared content and "
-                    "complete the preregistered equal-rank/matched-random control set"
-                )
-            else:
-                first_blocker = (
-                    "supply a verified reasoning gain on one compatible task, expand same-task rows, "
-                    "and add the matched random-architecture control"
-                )
+            first_blocker = (
+                "materialize the rights-clean annotated natural-video cohort and its immutable splits, "
+                "then encode serial learned/random caches and run independent DR14 verification"
+            )
         reclassified = bool(
             row.get("resource_tier") not in {"studio-scale", "moonshot"}
             and row.get("exp_tier") != "gpu-later"
@@ -1034,14 +1315,17 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
                 "project_exhaustion_fresh_class_codepath_verified": bool(
                     prior.get("fresh_class_codepath_verified")
                 ),
-                "preflight_mechanics_verified": bool(preflight and preflight.get("mechanics_verified")),
+                "preflight_mechanics_verified": bool(
+                    (preflight and preflight.get("mechanics_verified"))
+                    or (
+                        experiment_id == "mop_dr14_corruption"
+                        and vjepa21_vitb_runtime["task_cache_control_integration_verified"]
+                    )
+                ),
                 "custom_substrate_receipts": custom_receipts,
                 "custom_substrate_sources": custom_sources,
-                "scale_atlas_receipt": (
-                    _file_receipt(scale_atlas_path)
-                    if experiment_id
-                    in {"mop_al2_shared_latent_alignment", "mop_dr5_cross_substrate_consistency"}
-                    else None
+                "dense_task_integration_receipt": (
+                    _file_receipt(E6_DENSE_PREFLIGHT_PATH) if experiment_id == "mop_dr14_corruption" else None
                 ),
             }
         )
@@ -1088,14 +1372,8 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
             "mps_available": (doctor.get("host") or {}).get("mps_available"),
         },
         "measured_real_encoder": measured_encoder,
-        "measured_multi_encoder_atlas": {
-            "receipt": _file_receipt(scale_atlas_path),
-            "valid_local_availability_evidence": scale_atlas_valid,
-            "scope": scale_atlas.get("scope"),
-            "shared_referents": (scale_atlas.get("alignment") or {}).get("n"),
-            "scientific_promotable": (scale_atlas.get("claim_eligibility") or {}).get("promotable"),
-            "remaining_reasons": (scale_atlas.get("claim_eligibility") or {}).get("reasons"),
-        },
+        "measured_cm7_bound_null": cm7_pilot,
+        "measured_vjepa21_vitb_runtime": vjepa21_vitb_runtime,
         "local_preflights": {
             "receipt_schema": preflights.get("schema"),
             "all_mechanics_verified": preflights.get("all_mechanics_verified"),
@@ -1116,9 +1394,12 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
         },
         "conclusion": (
             "No audited non-F frontier row has an experiment-specific measured M3 Pro hardware "
-            "boundary. Five cross-pillar mechanics now run locally, CM7 has a registered local "
-            "implementation, and CM8 has a fail-closed local preflight receipt. Every historical "
-            "hardware planning tag was replaced by the observed execution or input dependency. "
+            "boundary. Five cross-pillar mechanics run locally, CM7 is a bound five-seed "
+            "familywise-corrected not-promoted null, and CM8 has a fail-closed local preflight. "
+            "Official V-JEPA 2.1 ViT-B load plus 8/64-frame forwards retire E6 runtime availability. "
+            "The E6/DR14 task, cache, and matched-control seam is verified locally; a rights-clean "
+            "annotated natural cohort, serial caches, and independent statistics remain open. Every "
+            "historical hardware planning tag was replaced by observed execution or input dependency. "
             "This demotes planning labels, not scientific standards."
         ),
         "entries": entries,
@@ -1127,6 +1408,7 @@ def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
             _file_receipt(REPO_ROOT / "scripts" / "frontier_localization.py"),
             _file_receipt(REPO_ROOT / "registry" / "experiments.yaml"),
             _file_receipt(REPO_ROOT / "src" / "mop" / "studies" / "project_exhaustion.py"),
+            _file_receipt(E6_DENSE_PREFLIGHT_PATH),
         ],
     }
     if not accounted_exactly_once:
@@ -1144,9 +1426,17 @@ def write_frontier_receipts(
     preflight_proof: Path = DEFAULT_PREFLIGHT_PROOF,
     audit_proof: Path = DEFAULT_AUDIT_PROOF,
     seeds: tuple[int, ...] = (20260709, 20260710, 20260711),
+    reuse_existing_preflight: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    preflights = run_local_preflights(seeds=seeds)
-    _atomic_json(run_receipt, preflights)
+    if reuse_existing_preflight:
+        preflights = _load_json(run_receipt)
+        if not preflights:
+            raise ValueError(f"existing frontier preflight is absent or invalid: {run_receipt}")
+        if tuple(int(seed) for seed in preflights.get("seeds", ())) != seeds:
+            raise ValueError("existing frontier preflight seed contract differs from --seeds")
+    else:
+        preflights = run_local_preflights(seeds=seeds)
+        _atomic_json(run_receipt, preflights)
     _atomic_json(preflight_proof, preflights)
     audit = build_frontier_audit(preflights)
     audit["preflight_receipts"] = [

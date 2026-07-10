@@ -1,0 +1,85 @@
+schema: mop-p7-action-world-model-config/v1
+id: p7_action_world_model_preflight
+name: action_world_model_shared_mechanics_preflight
+claim_scope: deterministic rendered fixture mechanics only; no natural-data, embodiment, or capability claim
+null_hypothesis: >-
+  action-conditioned compact or object-centered transition mechanics do not improve held-out
+  same-state intervention prediction or true-dynamics planning over the strongest action-blind,
+  action-shuffled, reactive, model-free recurrent, or matched-depth equal-core-compute control;
+  this bounded fixture cannot reject a natural-world or substrate-capability null
+
+environment:
+  grid_size: 6
+  horizon: 8
+  cell_pixels: 2
+  trajectory_policy: seeded-random
+  train_episode_count: 12
+  heldout_episode_count: 6
+  planning_episode_count: 4
+  train_event_budget: 32
+  heldout_event_budget: 16
+  rollout_root_budget: 8
+  counterfactual_actions_per_event: 4
+  independent_units:
+    - unit_id: layout-alpha
+      seed: 20260710
+      walls: [[2, 3], [3, 2], [3, 3]]
+      noisy_tv_cell: [5, 5]
+    - unit_id: layout-beta
+      seed: 20260711
+      walls: [[1, 2], [2, 2], [2, 3]]
+      noisy_tv_cell: [5, 0]
+    - unit_id: layout-gamma
+      seed: 20260712
+      walls: [[2, 2], [2, 3], [3, 2]]
+      noisy_tv_cell: [0, 5]
+
+model:
+  representation_dim: 12
+  hidden_dim: 24
+  depth: 2
+  action_dim: 4
+  train_updates: 60
+  learning_rate: 0.02
+  recurrent_decay: 0.55
+  calibration_temperature: 0.20
+
+evaluation:
+  rollout_horizons: [1, 2, 3]
+  planner_depth: 3
+  calibration_bins: 5
+  primary_arms:
+    - compact_latent_transition
+    - object_centered_transition
+  baselines:
+    - reactive_rendered
+    - model_free_recurrent
+    - oracle_state
+  negative_controls:
+    - action_blind
+    - action_shuffled
+    - matched_depth_reactive
+  equal_core_compute_group:
+    - compact_latent_transition
+    - object_centered_transition
+    - action_blind
+    - action_shuffled
+    - matched_depth_reactive
+
+resource_envelope:
+  device: cpu
+  cpu_threads: 1
+  maximum_wall_seconds: 45
+  maximum_rss_bytes: 1073741824
+  accelerator_required: false
+  model_weights_loaded: false
+  model_downloads_allowed: false
+
+stop_contract:
+  minimum_independent_units: 3
+  require_exact_budget: true
+  require_all_action_classes: true
+  require_same_parent_branches: true
+  require_all_mutations_rejected: true
+  stop_on_nonfinite_metric: true
+  scientific_promotion_allowed: false

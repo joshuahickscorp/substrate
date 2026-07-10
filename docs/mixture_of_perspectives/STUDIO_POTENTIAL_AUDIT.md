@@ -1,5 +1,8 @@
 # STUDIO POTENTIAL AUDIT: every facet graded on the Studio's THEORETICAL ceiling
 
+> SUPERSEDED 2026-07-10: preserve hypotheses and historical calculations only. The 37-facet atlas,
+> live requirements matrix, and current receipts govern potential and hardware decisions.
+
 Audit date: 2026-07-03. Companion to `POTENTIAL_AUDIT.md` (which graded the program against its ideology on
 the laptop) and `RESULTS_LEDGER.md` (which proved the laptop ceiling, ~6.75/10). This document answers
 the inverse question: if the program moves to the Mac Studio and EVERY pre-registered bet is pursued to its

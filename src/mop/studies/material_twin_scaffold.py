@@ -259,9 +259,7 @@ class _ToyMaterialPrior:
     def apply_damage(self, lesion: LesionSpec) -> None:
         realized_fraction = len(lesion.unit_indices) / self.units
         if not np.isclose(realized_fraction, lesion.fraction, rtol=0.0, atol=1e-12):
-            raise ValueError(
-                "lesion fraction must equal the fraction of uniquely selected twin units"
-            )
+            raise ValueError("lesion fraction must equal the fraction of uniquely selected twin units")
         for i in lesion.unit_indices:
             if i >= self.units:
                 raise ValueError("lesion unit index out of range for this prior")

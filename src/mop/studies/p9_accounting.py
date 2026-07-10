@@ -147,8 +147,7 @@ class WorkloadAccountant:
                     accelerator_start=acc0,
                     accelerator_end=_accelerator_bytes(),
                     storage_delta_bytes={
-                        label: _tree_bytes(path) - storage0[label]
-                        for label, path in self.watch_paths.items()
+                        label: _tree_bytes(path) - storage0[label] for label, path in self.watch_paths.items()
                     },
                 )
             )

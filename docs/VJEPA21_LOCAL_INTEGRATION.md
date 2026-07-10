@@ -3,14 +3,16 @@
 ## Outcome
 
 V-JEPA 2.1 is not unpublished and is not a Studio-only model-availability problem. Meta released
-four official 384px PyTorch checkpoints on 2026-03-16. The smallest is the approximately 80M
-parameter ViT-B/16. Its exact source repository is pinned locally at commit
-`204698b45b3712590f06245fbfba32d3be539812`, and its 1.664 GB checkpoint has a live, range-capable
-official object. The remaining honest gate is local integration: full-byte acquisition, a locally
-computed SHA256, strict `ema_encoder` load, and a real finite forward receipt.
+the official 384px PyTorch ViT-B checkpoint on 2026-03-16. This approximately 80M parameter
+instrument is the only live model in the integration seam. Its exact source repository is pinned at
+`204698b45b3712590f06245fbfba32d3be539812`. Its 1.664 GB checkpoint is retained locally with full
+SHA256 `848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d`.
 
-This does not yet make E6 or DR14 scientifically complete. It retires only the stale upstream
-availability premise.
+Local integration is complete for the official ViT-B encoder seam: strict `ema_encoder` load
+passed, all 86,833,152 parameters remained frozen, and finite CPU forwards passed at both 8 frames
+(`[1,2304,768]`) and the configured 64 frames (`[1,18432,768]`). The task layer is also wired for
+serial resumable learned/random dense caches. The first remaining E6/DR14 boundary is a citable
+rights-clean natural task cohort, not checkpoint availability or Studio compute.
 
 Primary sources:
 
@@ -31,6 +33,7 @@ Primary sources:
 | ETag | `"be0dc26f052ae6a7476714cd53176836-199"` |
 | S3 version | `xJBU4AkoA4gv5boeC6gOA7eElzWcubxY` |
 | Last-Modified | `Mon, 16 Mar 2026 09:12:19 GMT` |
+| Retained full local SHA256 | `848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d` |
 | First 64 KiB SHA256 | `61efdf5f03e06d7d4dd6c4b35566dede6523453def98d51369e616093b23fbaf` |
 | Last 64 KiB SHA256 | `cc219dadd7ab9e7dcb37121380e1a6ec24a7d8684fef2a8438e0e64e5c23ae59` |
 
@@ -102,56 +105,53 @@ the SANPO smoke corpus is a sequence of individual PNG frames. The selected loca
 
 This bypasses decord without changing model code. The encoder-only imports need `torch`, `timm`,
 and `einops`. MPS remains unverified: Meta strongly recommends CUDA, and neither the repository nor
-paper guarantees Apple GPU support. CPU strict load comes first; an 8-frame CPU forward comes next;
-MPS is a later measured rung, never an assumption.
+paper guarantees Apple GPU support. CPU is already sufficient for strict load and measured 8-frame
+and 64-frame forwards. MPS remains an optional measured optimization, never a prerequisite.
 
 ## Host and disk feasibility
 
-The repository checkout occupies about 11 MB. The checkpoint transfer writes one resumable `.part`
-file and atomically renames it, so it does not require two checkpoint-sized copies. The preflight
-requires:
+The repository checkout occupies about 11 MB. The checkpoint was acquired through one resumable
+`.part` file and atomically renamed, so it did not require two checkpoint-sized copies. The
+acquisition preflight required:
 
 `40.000 GB floor + 1.664 GB remaining checkpoint + 0.512 GB working headroom = 42.176 GB free`
 
-The live preflight records the current value rather than freezing it in prose. Download must be
-delayed or aborted if the projected post-transfer free space falls below 40 GB. ViT-L, ViT-g, and
-ViT-G are discovery-only rows until ViT-B passes strict load and forward.
+That gate is historical for the retained ViT-B bytes. Dense cache construction independently keeps
+a 40 GB floor and projects each arm before allocation. No larger model is part of the live E6 or
+DR14 roadmap.
 
 ## E6 impact
 
-E6's registry classification changes from “unpublished model” to “weights-needed local
-integration.” Its current runner is not ready for the real dense model:
+E6 is now classified `environment-needed`, not `weights-needed` or Studio-scale. The registered
+runner defaults to cache-first and refuses a legacy fallback. Its bounded readout preserves fixed
+token-position bins, uses frozen low-rank projections, and compares against parameter-matched
+learned-flat, token-shuffle, and exact-architecture seeded random-init controls.
 
-- it calls the general Hugging Face/frozen-random loader, not the pinned official loader;
-- it creates 4-frame 16px synthetic tensors rather than a citable 384px natural-video cache;
-- it flattens dense `[B,N,D]` features to `[B,N*D]`;
-- at the configured 64-frame grid that is 14,155,776 features per clip, making the current first
-  linear layer enormous and destroying token structure;
-- it directly encodes all 192 examples rather than streaming a bounded cache;
-- its current structured features are elementwise products/differences between two flattened clip
-  vectors, not an object/relation readout over spatial-temporal tokens.
+One immutable preprocessed tensor manifest supplies both encoders in exact referent order. The
+manifest hashes source authority, view recipe, split membership, annotations, every tensor file,
+and every decoded tensor. Cache progress hashes every output row and resumes only when the full
+identity matches. This retires the former generic-loader, flattening, and direct-encode flaws.
 
-So the correct E6 migration is cache-first and token-aware: stream small batches, preserve the
-token grid and referents, use a preregistered bounded readout (for example fixed-rank spatial bins or
-slots), parameter/compute-match the flat control, and retain a matched random-architecture cache.
-The official ViT-B forward is requirements evidence and an integration milestone, not an E6 result.
+It does not turn the forward receipts into an E6 result. Scientific promotion still needs at least
+200 rights-clean natural clips, nondegenerate annotated factors, disjoint combination splits,
+untouched test membership, serial learned/random cache materialization, and independent statistical
+verification.
 
 ## DR14 impact
 
-DR14's existing runner implements low-rank, quantization, and noise corruption on 2D pooled
-features. Its prose mentions a dropped-channel dense arm, but that arm is not implemented. The
-remaining blocker is therefore twofold: a citable dense cache and local corruption mechanics that
-preserve token layout while dropping preregistered channel/token groups. It is not a measured
-hardware boundary.
+DR14 now implements low-rank, quantization, noise, and dense dropped-channel arms. The dense arm
+accepts only a citable cache by default, verifies the exact ordered output-row hashes, constructs
+deterministic nested channel groups, and gives both reasoning arms the same materialized corrupted
+view. It trains the tied iterative and FLOP-matched untied single-pass controls on the clean view.
 
-A safe first dense pilot can use the ViT-B 8- or 16-frame cache, but scientific promotion still
-requires DR14's power floor, natural referents, shared corruption tensors, difficulty calibration,
-and matched single-pass control.
+The runner remains a pilot surface and explicitly refuses scientific promotion. A natural task
+cache, power floor, difficulty calibration, and independent statistics remain required. This is an
+environment/evidence boundary, not an unimplemented mechanics or measured hardware boundary.
 
-## Exact command sequence after CM7
+## Completed integration sequence and current task preflight
 
-The source checkout and metadata preflight are light and can run during CM7. Keep weight transfer
-and every model command serial after CM7 exits:
+The following serial sequence produced the retained checkpoint and runtime receipts. It is
+historical evidence, not work that remains to be repeated:
 
 ```bash
 # 1. Refresh the local doctor immediately before the acquisition decision.
@@ -180,19 +180,30 @@ PYTHONPATH=src .venv/bin/python scripts/vjepa21_official.py probe \
 # 7. Smallest real 384px dense forward, expected finite [1,2304,768].
 PYTHONPATH=src .venv/bin/python scripts/vjepa21_official.py probe \
   --mode forward --device cpu --frames 8 --timeout 3600
+
+# 8. Configured-grid dense forward, expected finite [1,18432,768].
+PYTHONPATH=src .venv/bin/python scripts/vjepa21_official.py probe \
+  --mode forward --device cpu --frames 64 --timeout 3600
 ```
 
-Only after both proof files pass should the queue consider a 16-frame cache, a 64-frame forward,
-or ViT-L metadata/download. No ViT-L/g/G command is exposed by the downloader today.
+The current safe task command is metadata-only and can run while another heavy lane owns compute:
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/vjepa21_dense_tasks.py preflight \
+  --proof proof/E6_VITB_DENSE_PREFLIGHT.json
+```
+
+It does not construct a model, read checkpoint tensor bytes, or execute a forward. No additional
+model acquisition command is exposed by this integration.
 
 ## Proof semantics
 
-`proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json` is metadata/source/disk evidence only. `all_ok` means the
-cheap official source/object/config/disk checks pass. It is not download permission. The separate
-`gates.ready_to_download` field additionally requires a green local doctor no more than 15 minutes
-old and no active heavy lane; it must stay false while CM7 runs. The proof explicitly records
-`model_loaded=false`, `forward_executed=false`, and both E6/DR14 compatibility claims as false.
+`proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json` remains metadata/source/disk evidence only. The runtime
+claims are instead supported by `proof/VJEPA21_VITB_LOAD.json`,
+`proof/VJEPA21_VITB_FORWARD.json`, and `proof/VJEPA21_VITB_FORWARD_64F.json`. They bind one retained
+checkpoint hash to strict load, frozen parameters, and the two measured finite shapes.
 
-Future load and forward receipts will be `proof/VJEPA21_VITB_LOAD.json` and
-`proof/VJEPA21_VITB_FORWARD.json`. A timeout alone is not an out-of-memory result. Larger variants
-remain gated unless the finite-shape forward passes.
+`proof/E6_VITB_DENSE_PREFLIGHT.json` is task-integration evidence only. Its `all_ok` means runtime
+authority, registration, cache/control interfaces, and no-heavy behavior are coherent. It does not
+mean the natural input manifest or either dense cache exists, and it always records
+`scientific_promotion=false` until those independent evidence gates are satisfied.

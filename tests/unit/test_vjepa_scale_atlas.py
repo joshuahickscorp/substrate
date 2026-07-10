@@ -158,9 +158,7 @@ def _identity_fixture():
             for name in ("make_factorized_clip", "_hue_tint")
         },
         "regenerated_stimulus_hashes": {
-            "256": [
-                {"index": index, "sha256": digest} for index, digest in enumerate(clip_hashes)
-            ]
+            "256": [{"index": index, "sha256": digest} for index, digest in enumerate(clip_hashes)]
         },
         "learned_latent_rebinding": [
             {

@@ -1,5 +1,9 @@
 # STUDIO TURNKEY PLAN: make the M1 Ultra runs one-command, de-risked, and maximalist
 
+> SUPERSEDED 2026-07-10: historical procurement scenario. Reusable safety procedures now live in
+> the adaptive local governor. Hardware escalation requires the measured gate in
+> `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`.
+
 The M3 Pro cannot run the Studio science (no real corpora, no 128 GB residency, no 1.7 TB dense cache),
 but it CAN make the Studio's first days turnkey: every Studio script SMOKE-VALIDATED end-to-end here so
 it cannot crash on expensive Studio time, preregistration FROZEN before any Studio result exists, and

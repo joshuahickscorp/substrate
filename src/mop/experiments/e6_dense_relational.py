@@ -32,6 +32,7 @@ from ..substrate.vjepa21_official import OFFICIAL_REPOSITORY_COMMIT, VITB, expec
 SCHEMA = "mop-e6-dense-relational-cache/v1"
 FIXTURE_SCHEMA = "mop-e6-dense-relational-fixture/v1"
 SOURCE_SCHEMA = "mop-e6-dense-source/v1"
+OFFICIAL_CACHE_RUN_SCHEMA = "mop-vjepa21-dense-cache-run/v1"
 MIN_SCIENCE_COUNT = 200
 MIN_SEEDS = 5
 T_CRITICAL_DF4_95 = 2.776
@@ -170,8 +171,12 @@ def _split_combo_sets(
     }
 
 
-def inspect_dense_cache(root: Path | str) -> dict[str, Any]:
-    """Read and validate one citable dense cache without flattening its arrays."""
+def inspect_dense_cache(root: Path | str, *, verify_output_rows: bool = False) -> dict[str, Any]:
+    """Read and validate one citable dense cache without flattening its arrays.
+
+    Official scientific promotion also recomputes each dense output row hash. Programmatic fixture
+    receipts remain valid mechanics but fail the separate strict-run-identity gate.
+    """
     path = Path(root).resolve()
     problems = list(validate_cache(path, citable=True)) if path.exists() else ["cache directory missing"]
     required = (
@@ -235,6 +240,49 @@ def inspect_dense_cache(root: Path | str) -> dict[str, Any]:
     if not isinstance(source, dict) or source.get("schema") != SOURCE_SCHEMA:
         problems.append(f"run_receipt.e6_source must use {SOURCE_SCHEMA}")
         source = {}
+    strict_run_identity_problems: list[str] = []
+    if run_receipt.get("schema") != OFFICIAL_CACHE_RUN_SCHEMA:
+        strict_run_identity_problems.append(
+            f"official cache run receipt must use {OFFICIAL_CACHE_RUN_SCHEMA}"
+        )
+    if run_receipt.get("frozen_encoder") is not True:
+        strict_run_identity_problems.append("official cache run receipt must preserve frozen_encoder")
+    input_hashes = run_receipt.get("ordered_input_tensor_sha256s")
+    source_inputs = source.get("input_tensor_sha256_by_referent")
+    source_hashes = (
+        [row.get("sha256") for row in source_inputs if isinstance(row, dict)]
+        if isinstance(source_inputs, list)
+        else []
+    )
+    if (
+        not isinstance(input_hashes, list)
+        or len(input_hashes) != count
+        or not all(_valid_sha256(value) for value in input_hashes)
+    ):
+        strict_run_identity_problems.append("ordered input tensor hashes must cover every cache row")
+    elif input_hashes != source_hashes:
+        strict_run_identity_problems.append("run and source ordered input tensor hashes differ")
+    output_hashes = run_receipt.get("ordered_output_tensor_sha256s")
+    if (
+        not isinstance(output_hashes, list)
+        or len(output_hashes) != count
+        or not all(_valid_sha256(value) for value in output_hashes)
+    ):
+        strict_run_identity_problems.append("ordered output tensor hashes must cover every cache row")
+    elif verify_output_rows:
+        store = LatentStore.open(path)
+        for index, expected_hash in enumerate(output_hashes):
+            if _tensor_sha256(store.latents(index).numpy()) != expected_hash:
+                strict_run_identity_problems.append(f"dense output row {index} hash drift")
+                break
+    for field in (
+        "input_manifest_file_sha256",
+        "input_manifest_content_sha256",
+    ):
+        if not _valid_sha256(run_receipt.get(field)):
+            strict_run_identity_problems.append(f"official cache run receipt {field} must be SHA256")
+    if run_receipt.get("input_manifest_content_sha256") != source.get("content_set_sha256"):
+        strict_run_identity_problems.append("run input content hash differs from E6 source content hash")
     config = manifest.get("encoder_config")
     if not isinstance(config, dict):
         problems.append("manifest encoder_config must be a mapping")
@@ -276,6 +324,8 @@ def inspect_dense_cache(root: Path | str) -> dict[str, Any]:
             _json_sha256(initialization_receipt) if initialization_receipt else None
         ),
         "source": source,
+        "strict_run_identity_problems": strict_run_identity_problems,
+        "strict_run_identity_ok": not strict_run_identity_problems,
         "problems": problems,
         "mechanics_ok": not problems,
     }
@@ -395,8 +445,8 @@ def build_pair_gate(
     min_science_count: int = MIN_SCIENCE_COUNT,
 ) -> dict[str, Any]:
     """Validate mechanics and separately enumerate every promotion blocker."""
-    learned = inspect_dense_cache(learned_cache)
-    random = inspect_dense_cache(random_cache)
+    learned = inspect_dense_cache(learned_cache, verify_output_rows=True)
+    random = inspect_dense_cache(random_cache, verify_output_rows=True)
     mechanics_problems = [
         *(f"learned: {problem}" for problem in learned.get("problems", [])),
         *(f"random: {problem}" for problem in random.get("problems", [])),
@@ -424,6 +474,10 @@ def build_pair_gate(
 
     promotion_problems = list(mechanics_problems)
     if mechanics_ok:
+        promotion_problems.extend(
+            f"learned: {problem}" for problem in learned["strict_run_identity_problems"]
+        )
+        promotion_problems.extend(f"random: {problem}" for problem in random["strict_run_identity_problems"])
         if learned["count"] < int(min_science_count):
             promotion_problems.append(
                 f"cache count {learned['count']} below preregistered science floor {min_science_count}"
@@ -497,6 +551,8 @@ def _public_cache_summary(cache: dict[str, Any]) -> dict[str, Any]:
         "encoder_receipt_sha256",
         "initialization_receipt_sha256",
         "source",
+        "strict_run_identity_problems",
+        "strict_run_identity_ok",
         "problems",
         "mechanics_ok",
     )

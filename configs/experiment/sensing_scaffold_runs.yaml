@@ -1,5 +1,6 @@
 schema: mop-sensing-scaffold-run-config/v1
 claim_scope: deterministic programmatic mechanics only; no capability or natural-data claim
+null_hypothesis: none of the three sensing toy primaries clears every strongest declared control and calibration gate
 independent_units:
   seeds: [101, 211, 307, 401, 503]
   fresh_verifier_seeds: [607, 701, 809, 907, 1009]

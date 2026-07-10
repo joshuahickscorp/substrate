@@ -3,8 +3,11 @@
 ## What changed
 
 E6 now has a bounded token-aware execution path that never loads an encoder and never flattens a
-full dense clip into a learned layer. The legacy runner remains a frozen-random mechanics scaffold;
-the new path is `scripts/e6_dense_relational_cache.py` backed by
+full dense clip into a learned layer. The registered `e6_relational` runner defaults to this
+cache-first path and fails closed when the pair is absent. The former frozen-random comparison is
+available only as an explicitly authorized, non-promotable regression fixture. It is never a
+fallback. Cache construction and no-heavy preflight live in `scripts/vjepa21_dense_tasks.py`; the
+readout remains `scripts/e6_dense_relational_cache.py` backed by
 `mop.experiments.e6_dense_relational`.
 
 The redesign also corrects a task flaw. Predicting a composite class that is wholly absent from
@@ -82,31 +85,71 @@ ViT-B, and lacks real/random weight receipts. This is the intended fail-closed r
 
 ## Remaining blockers
 
-1. Finish the separate ViT-B checkpoint download, hash, strict-load, and 8-frame forward sequence
-   after CM7 and only if the disk gate remains green.
-2. Build an official-architecture seeded random-init ViT-B loader and receipt; do not reuse the
-   V-JEPA 2 Hugging Face architecture as a 2.1 control.
-3. Expand a development-only SANPO train-pool cohort to at least 200 clips selected before pixel
+The retained checkpoint is complete and hash-bound. Strict load, frozen parameter count, and real
+8-frame and 64-frame CPU forwards have passed. The exact official architecture can also be
+constructed from a fixed seed for the random-init control, with the realized state and pinned
+source hashed before cache promotion. Those are no longer blockers.
+
+1. Expand a development-only SANPO train-pool cohort to at least 200 clips selected before pixel
    inspection for two nondegenerate annotated factors and disjoint combination splits. The current
    ten-session smoke cohort is intake evidence, not an adequately powered E6 design.
-4. Preprocess each selected clip once at 384px, hash the exact tensor, and feed those byte-identical
+2. Preprocess each selected clip once at 384px, hash the exact tensor, and feed those byte-identical
    tensors to learned and random encoders. Keep the official SANPO test split sealed from tuning.
-5. Cache dense tokens serially, one heavy process at a time, with full encoder/init/source receipts.
-6. Run the command below, inspect all source and statistical gates, then let the independent E6
+3. Cache dense tokens serially, one heavy process at a time, with full encoder/init/source receipts.
+4. Run the command below, inspect all source and statistical gates, then let the independent E6
    verifier decide promotion. ViT-L/g/G remain locked.
 
-## Future command
+This boundary is environmental and evidentiary, not a measured Studio-compute requirement. Both
+official ViT-B forwards completed locally; cache construction is resumable one row at a time.
+
+## Runnable sequence
+
+The default command is guaranteed no-heavy: it validates retained receipts, registration, configs,
+and optional manifest bytes without constructing a model or reading checkpoint tensors.
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/vjepa21_dense_tasks.py preflight \
+  --proof proof/E6_VITB_DENSE_PREFLIGHT.json
+
+PYTHONPATH=src .venv/bin/python scripts/vjepa21_dense_tasks.py build-input \
+  --records data/manifests/e6_records.json \
+  --source data/manifests/e6_source.json \
+  --out data/manifests/e6_vitb_natural_inputs.json
+
+PYTHONPATH=src .venv/bin/python scripts/vjepa21_dense_tasks.py plan \
+  --input-manifest data/manifests/e6_vitb_natural_inputs.json \
+  --learned-cache data/cache/vjepa21_vitb_e6_learned \
+  --random-cache data/cache/vjepa21_vitb_e6_random_seed20260710 \
+  --out proof/E6_VITB_DENSE_CACHE_PLAN.json
+```
+
+Only after the input and lane gates pass, encode the two arms serially. `encode` is the sole heavy
+entrypoint and never runs implicitly:
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/vjepa21_dense_tasks.py encode \
+  --arm learned --device cpu --dtype float32 \
+  --input-manifest data/manifests/e6_vitb_natural_inputs.json \
+  --cache data/cache/vjepa21_vitb_e6_learned
+
+PYTHONPATH=src .venv/bin/python scripts/vjepa21_dense_tasks.py encode \
+  --arm random --device cpu --dtype float32 --random-seed 20260710 \
+  --input-manifest data/manifests/e6_vitb_natural_inputs.json \
+  --cache data/cache/vjepa21_vitb_e6_random_seed20260710
+```
+
+Then run the bounded readout:
 
 ```bash
 PYTHONPATH=src .venv/bin/python scripts/e6_dense_relational_cache.py \
-  --learned-cache data/cache/vjepa21_vitb_sanpo_e6_real \
-  --random-cache data/cache/vjepa21_vitb_sanpo_e6_randominit \
+  --learned-cache data/cache/vjepa21_vitb_e6_learned \
+  --random-cache data/cache/vjepa21_vitb_e6_random_seed20260710 \
   --bins 8 --feature-rank 16 --summary-dim 32 \
   --seeds 0-4 --min-margin 0.02 \
   --proof proof/E6_DENSE_RELATIONAL_NATURAL.json
 ```
 
-Until both input caches exist, the only authorized command is the tiny mechanics fixture:
+The tiny mechanics fixture remains useful for readout regression only:
 
 ```bash
 PYTHONPATH=src .venv/bin/python scripts/e6_dense_relational_cache.py --fixture
