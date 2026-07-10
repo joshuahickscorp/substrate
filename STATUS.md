@@ -2,6 +2,115 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 landing wave closed; P4 closed; P5 admission held
+
+- [x] The 30 staged F21-F66 contracts are live preregistration-only rows. The registry now has
+  227 rows, including 50 F rows split into 18 implemented rows and 32 preregistration-only rows.
+  The rendered experiment bank and dependent proof chain were regenerated in execution-plan order.
+- [x] The rebuilt requirements matrix has 321 rows with primary-category counts 168, 119, 29, and
+  5 for categories 1, 2, 3, and 6. Categories 8 and 9 remain empty. The evidence does not justify
+  a Studio purchase.
+- [x] Defects D1, D2, D3, D7, D8, D9, and D10 are closed at their declared boundaries. The
+  completion-claim audit and inherited-encoder retirement are committed. CM7 now distinguishes a
+  complete verifier from a valid null, Wave E0 always attacks its verifier, closure scripts accept
+  redirected outputs, the throttle list command serializes correctly, and the retired scale atlas
+  was rebuilt through its archived driver with nine independently bound random controls.
+- [x] P4 is governor-closed: all 12 cells completed across five registered seeds, six cells used the
+  preregistered futility stop, and the response surface contains 48 observations. This is a bounded
+  programmatic pilot. Confirmatory promotion remains refused by construction.
+- [!] P5 smoke admission failed closed on three consecutive samples only because current available
+  unified memory was 8.59 to 9.07 GB against the unchanged 10.0 GB requirement. Disk, power,
+  thermal, lane, swap, and unmanaged-heavy gates passed. This is a transient current-host admission
+  blocker, not measured hardware necessity.
+- [x] The generated potential atlas now has 41 facets. EV6, OP5, SG4, and SG5 enter at the honest
+  low score S=2, I=0, E=0, C=0. PA6 separates broadcast, integration, recurrence, and higher-order
+  probes, while SG2 is limited to classical security, privacy, and memory integrity. After binding
+  the executed scaffold batteries, the exact weighted score is 5.736 with 45 source files and 197
+  evidence references; the displayed score remains 5.7.
+- [x] Twenty-two preregistered scaffold rows now have driver-generated R1 toy or mechanics receipts
+  plus independent adversarial verification. Sensing f21/f26/f27 and broadcast sufficiency f37 are
+  nulls; f36 has a fresh-seed verified broadcast-necessity toy pattern. Integrity f59/f60 passes its
+  allow/refuse mechanics. Material f61 is a twin mechanics pass, f62 and f64 are nulls, and f63 is a
+  fresh-seed verified toy adaptation pattern. Ecology produced eight fresh-seed verified toy
+  patterns and three nulls across f22, f28, and f50-f58. Promotion remains false for every row.
+- [x] The strongest killing controls remained active: raw residual for f26, synchronous-unrelated
+  rejection for f27, unrestricted-bus lesion invariance for f36, forged stage artifacts for f60,
+  Fourier features for f62, no-adapt for f63, the exact restart tie for f64, post-hoc value for f28,
+  uncertainty selection for f56, and direct state for f57.
+- [ ] Exact next heavy-lane boot command, to run only when the unchanged admission gate is healthy:
+
+  ```bash
+  PYTHONPATH=src .venv/bin/python scripts/local_execution_throttle.py run \
+    --task p5smoke_cpu \
+    --run-id p5smoke_20260710_leg1 \
+    --execute \
+    --out proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json
+  ```
+
+## 2026-07-10 maximum-potential audit and five-hour local governor
+
+- [x] All 199 checked claims were audited at their actual evidence class. The audit separates 110
+  scaffolds, 29 mechanics results, 16 pilots, 10 nulls/refutations, and 29 stale or incomplete
+  claims. A checked box is no longer treated as automatic scientific completion.
+- [x] The potential atlas scores 41 facets with separate scaffolding, implementation, experiment,
+  and confirmation subscores plus bottleneck caps. Weighted actionable realization is 5.7/10. The
+  complete local-to-10 queue is in `proof/MOP_POTENTIAL_ATLAS.json`.
+- [x] The false Form Studio-only boundary was repaired. The live boundary refuses escalation because
+  there is no measured enabling boundary, the scientific ledger is not ready, and F8/F16 have
+  non-hardware prerequisites.
+- [x] CM7's five-seed null is materialized through four repository-relative chain artifacts and the
+  frontier now consumes its actual 1,000-update familywise-corrected result.
+- [x] The historical scale-control atlas consumed strict stimulus identity and all nine random
+  controls but remained nonpromotable at generated n=8. Its larger legacy instruments are now
+  retired from active selectors, frontier conclusions, requirements, and roadmap work while the
+  immutable receipts remain auditable.
+- [x] The official dense ViT-B runtime path is complete through strict load and finite 8-frame and
+  64-frame CPU forwards. E6/DR14 task, cache, matched-control, and nested-corruption wiring is also
+  verified locally. The first remaining blocker is the rights-clean annotated natural cohort and
+  its immutable split, not implementation or hardware.
+- [x] The adaptive local governor supports a 300-minute operational maximum, three-sample admission,
+  one exclusive heavy lane, declared safe second lanes, foreground-work awareness, memory/swap/
+  thermal/power/MPS/disk gates, atomic reservation, and pause/resume of its own process group only.
+  P4/P5 scientific shard identities remain 10,800 seconds.
+- [x] Full P4 completed under the corrected CPU governor and was closed by the governor after C12.
+  P5 remains ordered as smoke, cold-process training-grid, then pilot, with smoke currently held by
+  the unchanged memory-headroom admission gate.
+- [x] The integrated research, execution plan, and durable standing goal are
+  `MOP_MAXIMUM_POTENTIAL_RESEARCH_2026_07.md`,
+  `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`, and `MOP_MAXIMUM_POTENTIAL_GOAL.md`.
+- [x] Current cold-start and scaling entrypoints no longer contain an active larger-inherited-
+  encoder conveyor, old hardware tier label, presumed M1 Ultra, or Studio-gated instruction. The
+  docs gate now rejects those regressions while historical audits retain exact inventory names.
+- [x] Wave E0 produced one shared mechanics substrate for F23/F29/F39: three deterministic units,
+  nine common controls, 72 independently recomputed booleans, and 9/9 rejected semantic mutations.
+  `proof/EXPANSION_WAVE0.json` is explicitly programmatic mechanics only.
+- [x] E6/DR14 official dense ViT-B task/cache/control wiring is implemented and its no-heavy
+  preflight is green without constructing a model or reading checkpoint tensor bytes. The first
+  blocker is now a rights-clean annotated natural cohort, untouched test membership, serial
+  learned/random cache materialization, and independent verification.
+- [x] The P6 continual-stream frontier now has a disk-backed hash-chained event plane, atomic chunk
+  and cursor resume, abrupt and gradual schedules, replay/no-replay/fresh-init controls, and six
+  metric families. The 384-event preflight processed 2,304 total arm events and reproduced
+  byte-identically without model weights or an accelerator. The remaining ladder is admitted 10k,
+  100k, and conditional 1m runs across at least five independent seeds.
+- [x] P6 now has four fail-closed governor tasks: exclusive 10k RSS probe, full 10k, full 100k, and
+  full 1m. Later rungs require exact prior receipts and use measured peak RSS plus 25 percent. The
+  live dry run correctly refused admission while P4 owned the lane and executed no command.
+- [x] P7 now has a project-owned rendered action/world-model mechanics surface over three independent
+  seed/layout worlds and eight arms. Same-parent counterfactual branches, held-out prediction,
+  calibration, horizons, planning, exact equal-core accounting, and six mutation attacks all pass.
+  The 7.1-second CPU receipt is mechanics-only: object-centered prediction was stronger than the
+  compact transition model, but both learned planners lost to the reactive baseline in every unit.
+  The fixture null is therefore preserved, and external trajectories plus an exact-referent control
+  are the next data gate, not hardware.
+- [x] P9 causal-monitoring mechanics now bind five independent workload families, 260 disjoint
+  lineages, 1,300 same-parent intervention branches, seven capacity-matched monitor arms, two
+  structural controls, calibration, paired resource relief, exact four-chunk resume, and 8/8
+  rejected mutations. The 2.63-second CPU fixture favors causal telemetry over the shifted
+  correlational proxy in all five units, but does not establish natural-workload or universal
+  controller benefit. External workload/failure episodes and a physical meter for energy are the
+  remaining gates; no larger machine is implicated.
+
 ## 2026-07-10 P4 campaign launched; P5 implemented and preregistered
 
 - [x] P4 smoke shard: 12/12 registered cells mechanics-complete in 414 s, compute match green in
@@ -22,14 +131,16 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   bumped through the drift gate), class smoke freshly-executed-verified via the exhaustion
   executor; ledgers rebuilt: exhaustion 177 entries, matrix 291 rows byte-verified, zero
   category 8/9, zero measured hardware blockers.
-- [ ] P5 pilot execution queued on lane 0 behind the P4 campaign (staging: p5smoke, then
-  stage-1 seed 0 with the traingrid memory pass, then seeds on off-ceiling frame counts).
+- [!] P5 execution is next on lane 0 (staging: p5smoke, then the cold-process training-grid memory
+  pass, then pilot seeds on off-ceiling frame counts), but its three-sample smoke admission is
+  currently held by the unchanged memory-headroom gate.
 
 ## 2026-07-10 P3 three-seed controls closed; P4 implemented, preregistered, smoked
 
-- [x] P3 CLOSED at the atlas gate's full demand: nine matched random-init control caches (seeds
-  0/1/2 at ViT-L/H/g), every one verified (vjepa_hf_random_init backend, distinct state hashes
-  per seed, identical parameter counts per architecture, stimulus sets exactly the canonical
+- [x] P3's historical scale-control campaign closed with nine matched random-init caches (three
+  seeds across three frozen legacy instruments), every one verified at its original scope with
+  distinct state hashes per seed, identical parameter counts per architecture, and stimulus sets
+  exactly matching the canonical
   256px/384px hashes). Atlas refreshed to 12 citable columns; matched_random_architecture true
   and three random seeds per architecture satisfied. Remaining eligibility reasons are the honest
   residue: natural data (P2 full intake), n=8 pilot, and learned-cache stimulus hashing (proven
@@ -50,13 +161,14 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
 ## 2026-07-10 P3 controls completed at all three scales + atlas control columns
 
-- [x] ViT-H and ViT-g matched random-init control caches built serially (seed 0, CPU, 277.0 s and
-  1387.8 s) and verified: backend vjepa_hf_random_init, exact state hashes pinned
+- [x] The two retired larger legacy instruments received matched random-init controls serially
+  (seed 0, CPU, 277.0 s and 1387.8 s) and verified: backend vjepa_hf_random_init, exact state hashes pinned
   (4bfa7f45..., 2c3c3ee7...), stimulus hashes byte-identical to the identity receipt's 256px and
   384px regenerated sets respectively. Together with the sibling session's ViT-L control this
   completes the residual audit's serial P3 order at seed 0.
 - [x] Scale atlas refreshed with all three control columns: 6 citable scales,
-  matched_random_architecture TRUE at L/H/g (that eligibility reason is retired). Remaining
+  matched_random_architecture true across the historical three-instrument pilot. That eligibility
+  reason is retired, and the pilot is no longer an active dependency. Remaining
   honest reasons: programmatic renders, n=8 pilot, learned caches predate per-input stimulus
   hashing (externally closed by proof/FACTORIZED_STIMULUS_IDENTITY.json; atlas consumption of
   that receipt queued as a hardening chip), and fewer than three random seeds per architecture.
@@ -69,7 +181,8 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   proof/FACTORIZED_STIMULUS_IDENTITY.json (all_ok). Generator functions hash-identical between
   the pre-build commit and the working tree; regenerated seed-0 clips reproduce the random
   control's recorded hashes exactly; and re-encoding regenerated clip 0 through each exact
-  frozen encoder on CPU reproduces the stored latent row 0 BITWISE for ViT-L, ViT-H, and ViT-g
+  frozen encoder on CPU reproduces the stored latent row 0 bitwise for all three historical
+  instruments
   (max abs diff 0 at 1024/1280/1408 dims; 29.6/44.6/193.7 s). This closes the scale atlas's
   "byte-identical stimuli are not proven" eligibility reason with measured evidence; the atlas
   code can consume it on its next hardening pass.
@@ -128,8 +241,8 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   full default 288-clip build; it froze after store preallocation with stdout pipe closed). Its
   receiptless partial store (meta count 0, no manifest) was removed; doctor back to green 15/15.
   Known trap recorded in ISSUES.md: never pass --help to compose()-driven cache scripts.
-- [ ] P3 remainder (ViT-H, ViT-g random caches, atlas refresh with control columns) left to the
-  active sibling session; verify receipts on next scan before citing.
+- [x] P3's historical scale-control remainder and control columns closed. The lane is now retired
+  from active execution; dense ViT-B and owned/custom controls govern new work.
 
 ## 2026-07-10 ledger wave: exhaustion, frontier, F chain, requirements all regenerated
 
@@ -255,7 +368,8 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] re-verified 10/10 after the Apple Silicon reframe; 103 tests green
 
 ## Plug-and-play hardening (this session)
-- [x] encoder ids verified on HF (vitl/vith/vitg real; added vjepa2_vith); 2.1 dense not on HF -> placeholder+deferred
+- [x] Historical encoder IDs were verified at the time. The later official dense ViT-B path is now
+  locally strict-load and forward verified, replacing the old placeholder state.
 - [x] real-video ingestion: substrate/video.py (decode + tested preprocessing core) + scripts/cache_video.py + [video] extra
 - [x] campaign legs carry full_axes/full_seeds (217 full-scale run-units); run_queue --full runs genuine factorials
 - [x] 108 tests green; acceptance re-verified 10/10; em-dash clean
@@ -390,11 +504,13 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
     ex2_latent_planning, ex9_slot_attention, ex10_cross_modal), 5 deferred (studio-scale: ex13_long_stream,
     ex15_rejuvenation, ex5_local_rules_scale, e10_openended's full population form, ex2's live-env form).
     REGISTRY 100 registered (was 93). tests/integration/test_scaffolding_experiments.py, 8 tests green.
-- [x] real V-JEPA 2 weights staged in the local HF cache for ViT-L, ViT-H, and ViT-g at pinned revisions;
-  H/g local hashes match their Hub LFS digests and strict offline loads pass. A real-encoder latent cache built from ViT-L via scripts/cache_real_encoder.py
-  device=mps overflowed the M3 Pro's ~16GB MPS attention buffer ceiling at 64-frame/256px clips even at
-  batch=1 (a genuine, reproducible Studio-necessary boundary, not a bug); device=cpu succeeded (16 clips,
-  333s, ~21s/clip, backend=vjepa_hf confirming real weights not the frozen-random fallback, linear-probe
+- [x] Three historical frozen instruments were staged at pinned revisions; their local hashes and
+  strict offline loads passed. The two larger instruments are now archived from every active
+  selector. A real-encoder latent cache built from ViT-L via scripts/cache_real_encoder.py on MPS
+  overflowed the M3 Pro's attention buffer at 64-frame/256px clips even at
+  batch=1; device=cpu succeeded locally, so this was a backend-specific failure and not a measured
+  Studio necessity: 16 clips, 333s, ~21s/clip, backend=vjepa_hf confirming real weights rather than
+  the frozen-random fallback, linear-probe
   acc=1.0 vs chance=0.25). Two aux encoders staged and fully transferable (~/.cache/huggingface): DINOv2-
   large (image, unblocks S2 cross-domain alignment) and VideoMAEv2-Base (video, unblocks S8 multimodal).
 - [x] 526 tests pass; ruff + mypy clean (120 source files); registry validates; docs-drift gate clean
@@ -477,7 +593,7 @@ planning remains genuinely Studio-gated of the original 9.
   periodic effective-rank sampling. Shipped scale (240 tasks): naive collapses (retention_threshold_length
   25), protected never collapses, divergence +0.25. Grind scale (3000 tasks, dim 96, hidden 128, ran in
   50.7s): divergence GREW to +0.53 (a durable, not-shrinking effect). At both scales the advantage does
-  NOT clearly survive the frozen-random control (0.667 vs protected's 0.722 at shipped scale) — an honest
+  NOT clearly survive the frozen-random control (0.667 vs protected's 0.722 at shipped scale), an honest
   null with one caveat found this session: the control arm's stream (n_tasks_control) is shorter than the
   main arms', not a length-matched comparison, flagged as a Studio follow-up.
 - [x] ex5_local_rules_scale.py (class EX5): three PERSISTENT (weights carried across tasks) rule
@@ -488,7 +604,7 @@ planning remains genuinely Studio-gated of the original 9.
   and BWT, stable across the depth sweep; backprop's own ceiling accuracy is barely above chance (0.336 vs
   0.25) with strongly negative BWT (-0.72). Adversarially checked: PLAUSIBLE-BUT-UNVERIFIED, not confirmed
   and not refuted, the specific gap being backprop's Adam optimizer vs the local rules' plain delta updates
-  (same nominal lr, not a matched effective step size) — a real, named, actionable Studio follow-up, not a
+  (same nominal lr, not a matched effective step size), a real, named, actionable Studio follow-up, not a
   vague caveat.
 - [x] tests/integration/test_studio_gated_implementable.py (3 tests, toy-scale overrides so the suite stays
   fast); scaffolds.py + registry/experiments.yaml + EXPERIMENTS.md integrated centrally; ruff + mypy clean;

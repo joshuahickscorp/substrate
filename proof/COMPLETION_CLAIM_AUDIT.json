@@ -238,6 +238,41 @@
       "path": "proof/P5_MEMORY_BOUNDARY_TRACE.json",
       "sha256": "78db1cfa4ac6343484e3eeefd95a2461328d2396d3fb5b6a7a88fb25fc4d6b24",
       "use": "P5 mechanics-only cold-process memory probe"
+    },
+    {
+      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+      "sha256": "82bea5e841bf0f8a1c36cbe5ec0921cd6efdd27d2e8e8631b521c3b2a88bb604",
+      "use": "three-sample governed P5 smoke denial on current available-memory headroom only; no command executed and no hardware-necessity claim"
+    },
+    {
+      "path": "proof/SENSING_SCAFFOLD_VERIFICATION.json",
+      "sha256": "9c18f75c155a5d4c1d53e5a087f247c6f412e1f62925100abeb749ae0cea627e",
+      "use": "independent fresh-seed verification of f21, f26, and f27 toy nulls"
+    },
+    {
+      "path": "proof/INTEGRATION_BROADCAST_VERIFICATION.json",
+      "sha256": "fd45c76d02315ce515633150acb41c21a36edb7efa724a6d58b6b35cff0966e5",
+      "use": "fresh-seed verified f36 toy necessity pattern and exact f37 unrestricted-bus tie null; scientific promotion false"
+    },
+    {
+      "path": "proof/F59_F60_INTEGRITY_VERIFICATION.json",
+      "sha256": "930469128983dcd341a4ed6c5f17db9eaced0305628d17989bcb185208318866",
+      "use": "independent replay and fresh-seed verification of poisoning, recovery, consolidation, deletion, and rewrite-authority drills"
+    },
+    {
+      "path": "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json",
+      "sha256": "4726d7a772613fed205e42075f684db38737c9e15d4ce7cb3f78b4c27e3d5028",
+      "use": "independent twin verification; f61 mechanics pass, f62 and f64 null, f63 favorable programmatic adaptation pattern, no physical claim"
+    },
+    {
+      "path": "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
+      "sha256": "45eed7a1cf5abc1044c8e832e94fd9236e2e693c188c0b3127855e744ee27645",
+      "use": "independent toy-world verification of eight favorable patterns and three nulls across f22, f28, and f50-f58; promotion false"
+    },
+    {
+      "path": "proof/MOP_POTENTIAL_ATLAS_VALIDATION.json",
+      "sha256": "fd57a8bae9cb791ec2ea2d37b19cc24be241eda7673cfb309c2986ca9bb7b28f",
+      "use": "41-facet generated atlas validation; weighted score 5.736, 45 bound sources, 197 evidence references, zero category 8 or 9 rows"
     }
   ],
   "historical_evidence": [
@@ -411,9 +446,64 @@
         "id": "active_heavy_queue",
         "classification": "execution_state",
         "p4_state": "complete-governor-closed",
-        "p5_state": "next-heavy-sequence",
+        "p5_state": "next-heavy-sequence-admission-held",
         "p4_full_receipt_complete": true,
         "p5_full_receipt_present": false,
+        "p5_admission_receipt": {
+          "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+          "sha256": "82bea5e841bf0f8a1c36cbe5ec0921cd6efdd27d2e8e8631b521c3b2a88bb604",
+          "allowed": false,
+          "first_blocker_category": "transient-current-host-memory-headroom"
+        },
+        "scientific_claim_ready": false
+      },
+      {
+        "id": "sensing_and_broadcast_toy_execution",
+        "classification": "mechanics_only_with_verified_toy_pattern_and_nulls",
+        "run_paths": [
+          "proof/SENSING_SCAFFOLD_RUN.json",
+          "proof/INTEGRATION_BROADCAST_RUN.json"
+        ],
+        "verification_paths": [
+          "proof/SENSING_SCAFFOLD_VERIFICATION.json",
+          "proof/INTEGRATION_BROADCAST_VERIFICATION.json"
+        ],
+        "result": "f21, f26, f27, and f37 are nulls; f36 is a fresh-seed verified programmatic necessity pattern",
+        "scientific_claim_ready": false
+      },
+      {
+        "id": "integrity_and_material_toy_execution",
+        "classification": "mechanics_only_with_verified_toy_pattern_and_nulls",
+        "run_paths": [
+          "proof/F59_F60_INTEGRITY_SCAFFOLD_RUN.json",
+          "proof/F61_F64_MATERIAL_TWIN_RUN.json"
+        ],
+        "verification_paths": [
+          "proof/F59_F60_INTEGRITY_VERIFICATION.json",
+          "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json"
+        ],
+        "result": "f59, f60, and f61 pass mechanics; f62 and f64 are nulls; f63 is a fresh-seed verified programmatic adaptation pattern",
+        "scientific_claim_ready": false
+      },
+      {
+        "id": "ecology_toy_execution",
+        "classification": "mechanics_only_with_verified_toy_patterns_and_nulls",
+        "run_path": "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
+        "verification_path": "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
+        "result": "eight fresh-seed verified toy patterns and three nulls across eleven rows; all promotion flags false",
+        "scientific_claim_ready": false
+      },
+      {
+        "id": "potential_atlas_41_facet_revision",
+        "classification": "ledger_mechanics",
+        "evidence_path": "proof/MOP_POTENTIAL_ATLAS_VALIDATION.json",
+        "evidence_sha256": "fd57a8bae9cb791ec2ea2d37b19cc24be241eda7673cfb309c2986ca9bb7b28f",
+        "facet_count": 41,
+        "weighted_score": 5.736,
+        "source_count": 45,
+        "evidence_reference_count": 197,
+        "category8_count": 0,
+        "category9_count": 0,
         "scientific_claim_ready": false
       }
     ],
@@ -637,8 +727,8 @@
     {
       "severity": "high",
       "id": "P5_not_run",
-      "finding": "P5 code, preregistration, class smoke, and a mechanics-only memory trace exist, but the full pilot proof is absent.",
-      "required_correction": "Run p5smoke, the cold-process training-grid memory pass, then p5pilot after P4 releases the heavy lane."
+      "finding": "P5 code, preregistration, class smoke, and a mechanics-only memory trace exist, but the full pilot proof is absent. After P4 released the lane, three governed smoke samples failed only the current available-memory headroom gate.",
+      "required_correction": "When three consecutive unchanged admission samples are healthy, run p5smoke, the cold-process training-grid memory pass, then p5pilot. Do not weaken the memory gate or infer hardware necessity from this transient denial."
     },
     {
       "severity": "resolved-high",
@@ -697,7 +787,7 @@
     {
       "priority": 0,
       "item": "P5 full pilot sequence",
-      "reason": "P4 is complete and governor-closed. P5 is implemented and preregistered, but only smoke and mechanics evidence exist."
+      "reason": "P4 is complete and governor-closed. P5 is implemented and preregistered, but full execution is absent and the latest smoke admission was held only by current available-memory headroom."
     },
     {
       "priority": 1,
@@ -729,7 +819,7 @@
     "scientific_completion_is_not_equivalent_to_checked": true,
     "studio_is_currently_the_only_boundary": false,
     "measured_hardware_blocker_count": 0,
-    "statement": "The repository has substantial local implementation, mechanics, pilots, and several tightly scoped bound results. It has not exhausted all local scientific work. P4 is complete and governor-closed. The active boundary is the P5 sequence, the progressive P6 ladder, one bounded implementation row, the new preregistration-only F rows, and rights-clean citable-input work for E6/DR14 and other studies, not a measured Studio requirement."
+    "statement": "The repository has substantial local implementation, mechanics, pilots, and several tightly scoped bound results. It has not exhausted all local scientific work. P4 is complete and governor-closed. Twenty-two new F rows now have independently verified toy or mechanics receipts, but retain their natural, environmental, social, or physical evidence ceilings. The active boundary is the memory-gated P5 sequence, the progressive P6 ladder, one bounded implementation row, remaining preregistration-only science, and rights-clean citable-input work for E6/DR14 and other studies, not a measured Studio requirement."
   },
   "self_verification": {
     "checkbox_claims_accounted_exactly_once": true,
@@ -747,7 +837,7 @@
     "E6_DR14_integration_receipt_hash_checks_passed": 1,
     "E6_current_classification": "rights-data-blocked",
     "DR14_current_classification": "rights-data-blocked",
-    "post_inventory_item_count": 9,
+    "post_inventory_item_count": 13,
     "post_inventory_checked_claim_delta": 0,
     "P7_preflight_hash_verified": true,
     "P7_deterministic_core_hash_verified": true,
@@ -776,6 +866,16 @@
     },
     "requirements_stale_artifact_count": 0,
     "retired_scale_active_selector_count": 0,
+    "p5_smoke_admission_sample_count": 3,
+    "p5_smoke_command_executed": false,
+    "p5_first_blocker_category": "transient-current-host-memory-headroom",
+    "new_scaffold_verification_receipt_count": 5,
+    "new_scaffold_verified_row_count": 22,
+    "new_scaffold_scientific_promotion_count": 0,
+    "potential_atlas_facet_count": 41,
+    "potential_atlas_weighted_score": 5.736,
+    "potential_atlas_category8_count": 0,
+    "potential_atlas_category9_count": 0,
     "final_source_hash_binding_complete": true,
     "pending_final_source_hash_count": 0
   }
