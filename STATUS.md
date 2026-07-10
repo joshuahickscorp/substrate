@@ -2,6 +2,29 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 P3 three-seed controls closed; P4 implemented, preregistered, smoked
+
+- [x] P3 CLOSED at the atlas gate's full demand: nine matched random-init control caches (seeds
+  0/1/2 at ViT-L/H/g), every one verified (vjepa_hf_random_init backend, distinct state hashes
+  per seed, identical parameter counts per architecture, stimulus sets exactly the canonical
+  256px/384px hashes). Atlas refreshed to 12 citable columns; matched_random_architecture true
+  and three random seeds per architecture satisfied. Remaining eligibility reasons are the honest
+  residue: natural data (P2 full intake), n=8 pilot, and learned-cache stimulus hashing (proven
+  externally by the identity receipt; atlas consumption queued as a chip).
+- [x] P4 capability-density response-surface screen implemented and preregistered from the design
+  agent's code-verified draft: twelve matched cells (0.5x to 4x budgets x dense/recurrent/
+  sparse-gated families, balanced diversity/temporal assignment, realized parameter counts exact
+  at all twelve), per-cell frozen-init and compute-matched random-target controls, random-search
+  control, seed-paired OLS with bootstrap CIs against the 0.10 SESOI registered from measured CM7
+  variance, resumable 180-minute shards, promotion refusing confirmatory claims by construction.
+  Registry row mop_p4_capability_density_screen (REGISTRY 132), class smoke verified through the
+  exhaustion executor (22.7 s, bounded C10 cell), 7 unit tests plus workbench regressions green,
+  lint/types/docs gates clean.
+- [x] Ledgers rebuilt in dependency order: exhaustion 176 entries (P4 freshly-executed-verified,
+  runnable-not-yet-run 0), frontier localization regenerated, requirements matrix rebuilt to 290
+  rows and byte-verified after the sanctioned registry-snapshot pin update (196 rows,
+  fbf69a66...). P4 classifies category 1, hardware_required false; zero category 8/9 anywhere.
+
 ## 2026-07-10 P3 controls completed at all three scales + atlas control columns
 
 - [x] ViT-H and ViT-g matched random-init control caches built serially (seed 0, CPU, 277.0 s and

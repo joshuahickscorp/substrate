@@ -38,10 +38,10 @@
       "project_exhaustion_fresh_class_codepath_verified": false,
       "reclassified_away_from_hardware_planning_tags": true,
       "scale_atlas_receipt": {
-        "bytes": 23736,
+        "bytes": 76393,
         "exists": true,
         "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-        "sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+        "sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
       }
     },
     {
@@ -536,10 +536,10 @@
       "project_exhaustion_fresh_class_codepath_verified": false,
       "reclassified_away_from_hardware_planning_tags": true,
       "scale_atlas_receipt": {
-        "bytes": 23736,
+        "bytes": 76393,
         "exists": true,
         "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-        "sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+        "sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
       }
     },
     {
@@ -585,26 +585,26 @@
       "scale_atlas_receipt": null
     }
   ],
-  "generated_at_unix": 1783666295.871465,
-  "git_revision": "be7b5d9",
+  "generated_at_unix": 1783674564.909889,
+  "git_revision": "165b4df",
   "host_readiness": {
     "all_ok": true,
     "chip": "Apple M3 Pro",
     "mps_available": true,
     "receipt": {
-      "bytes": 4032,
+      "bytes": 4022,
       "exists": true,
       "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1"
+      "sha256": "9ec4966c118550267c5d5b7b65131746bac3eded6c68c35abf1066e250f6cad6"
     },
     "unified_memory_gb": 19.3
   },
   "local_preflights": {
     "all_mechanics_verified": true,
     "all_scientific_paths_fail_closed": true,
-    "max_rss_bytes": 316915712,
+    "max_rss_bytes": 322404352,
     "receipt_schema": "mop-local-frontier-preflights/v1",
-    "seconds": 0.778942,
+    "seconds": 0.549743,
     "target_ids": [
       "mop_mt4_reasoning_router",
       "mop_at2_mode_substrate_dep",
@@ -615,15 +615,14 @@
   },
   "measured_multi_encoder_atlas": {
     "receipt": {
-      "bytes": 23736,
+      "bytes": 76393,
       "exists": true,
       "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+      "sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
     },
     "remaining_reasons": [
       "programmatic native-resolution renders rather than rights-clean natural video",
       "n=8 is a mechanics and scale-signal pilot",
-      "matched random-architecture cache is not present for every learned scale",
       "byte-identical stimuli are not proven for every learned/control pair"
     ],
     "scientific_promotable": false,
@@ -649,16 +648,16 @@
   },
   "preflight_receipts": [
     {
-      "bytes": 31498,
+      "bytes": 31500,
       "exists": true,
       "path": "runs/frontier_localization/local_preflights.json",
-      "sha256": "71eca005da3cdbc671b06710be6fd7209ee654e4ecb0fc9ec924441881261b6d"
+      "sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424"
     },
     {
-      "bytes": 31498,
+      "bytes": 31500,
       "exists": true,
       "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "sha256": "71eca005da3cdbc671b06710be6fd7209ee654e4ecb0fc9ec924441881261b6d"
+      "sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424"
     }
   ],
   "schema": "mop-frontier-localization/v1",
@@ -677,10 +676,10 @@
       "sha256": "26c43eb039b3c5deb30ac1f4a48c79cf249e791f21ad41542fb20289209e8d07"
     },
     {
-      "bytes": 283783,
+      "bytes": 286006,
       "exists": true,
       "path": "registry/experiments.yaml",
-      "sha256": "5977f2895e6b743d44d49e4ac76fef0deed4cff54992419053f7eaa61e9a915a"
+      "sha256": "0b25346aeb32e9778278d43775c524d6abc93a99ec534a0a8878f8bcddc08340"
     },
     {
       "bytes": 57906,
