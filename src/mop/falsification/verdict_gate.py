@@ -146,8 +146,8 @@ def _verifier_summary(path: Path | None, run_path: Path) -> dict[str, Any]:
     # Promotion flags are top-level assertions. Recursively searching a receipt allowed a failed
     # verifier to pass merely because one nested check said ``passed: true``. Legacy verifier
     # formats retain their aliases, but nested truth cannot override an explicit top-level failure.
-    out["passed"] = _truthy_top_level(data, PASS_KEYS)
-    out["independent"] = _truthy_top_level(data, INDEPENDENCE_KEYS)
+    out["passed"] = truthy_top_level(data, PASS_KEYS)
+    out["independent"] = truthy_top_level(data, INDEPENDENCE_KEYS)
     if data.get("schema") == FORM_VERIFIER_SCHEMA:
         out["problems"].extend(_form_verifier_problems(data, run_path))
         if out["problems"]:
@@ -156,7 +156,8 @@ def _verifier_summary(path: Path | None, run_path: Path) -> dict[str, Any]:
     return out
 
 
-def _truthy_top_level(obj: Any, keys: tuple[str, ...]) -> bool:
+def truthy_top_level(obj: Any, keys: tuple[str, ...]) -> bool:
+    """Return true only when a named top-level flag is the boolean true value."""
     if not isinstance(obj, dict):
         return False
     normalized = {str(key).strip().lower(): value for key, value in obj.items()}
