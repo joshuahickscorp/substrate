@@ -2,14 +2,14 @@
   "all_mechanics_verified": true,
   "all_scientific_paths_fail_closed": true,
   "claim_boundary": "no fixture metric is a registered-result estimate; every scientific path remains receipt-gated and currently fails closed",
-  "generated_at_unix": 1783666295.2545469,
+  "generated_at_unix": 1783674564.3335009,
   "host": {
     "machine": "arm64",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "processor": "arm",
     "python": "3.12.13"
   },
-  "max_rss_bytes": 316915712,
+  "max_rss_bytes": 322404352,
   "results": {
     "mop_at2_mode_substrate_dep": {
       "mechanics_verified": true,
@@ -55,7 +55,7 @@
         "ready": false
       },
       "scope": "bounded generated fixture; mechanics only, never scientific evidence",
-      "seconds": 0.0035,
+      "seconds": 0.002697,
       "seed_count": 3,
       "seed_results": [
         {
@@ -172,7 +172,7 @@
         "ready": false
       },
       "scope": "bounded generated fixture; mechanics only, never scientific evidence",
-      "seconds": 0.027395,
+      "seconds": 0.029315,
       "seed_count": 3,
       "seed_results": [
         {
@@ -429,7 +429,7 @@
         "ready": false
       },
       "scope": "bounded generated fixture; mechanics only, never scientific evidence",
-      "seconds": 0.026123,
+      "seconds": 0.027939,
       "seed_count": 3,
       "seed_results": [
         {
@@ -529,7 +529,7 @@
         "ready": false
       },
       "scope": "bounded generated fixture; mechanics only, never scientific evidence",
-      "seconds": 0.030434,
+      "seconds": 0.042972,
       "seed_count": 3,
       "seed_results": [
         {
@@ -752,7 +752,7 @@
         "ready": false
       },
       "scope": "bounded generated fixture; mechanics only, never scientific evidence",
-      "seconds": 0.669465,
+      "seconds": 0.430549,
       "seed_count": 3,
       "seed_results": [
         {
@@ -850,7 +850,7 @@
   },
   "schema": "mop-local-frontier-preflights/v1",
   "scope": "local executable preflight over generated fixtures; proves control/dataflow mechanics and resource feasibility only",
-  "seconds": 0.778942,
+  "seconds": 0.549743,
   "seeds": [
     20260709,
     20260710,
