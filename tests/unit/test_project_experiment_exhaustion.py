@@ -75,6 +75,33 @@ def test_ledger_categories_are_exhaustive_and_hardware_is_not_inferred_from_tier
     assert all(entry["scientific_claim_ready"] is False for entry in entries)
 
 
+def test_e6_runtime_and_integration_are_local_and_the_remaining_blocker_is_data():
+    ledger = json.loads(LEDGER_PATH.read_text())
+    e6 = next(entry for entry in ledger["entries"] if entry["id"] == "e6_relational")
+    assert e6["classification"] == "rights-data-blocked"
+    assert "rights-clean annotated natural cohort" in e6["remaining_scientific_blocker"]
+    paths = {row["path"] for row in e6["evidence"]}
+    assert {
+        "proof/VJEPA21_VITB_LOAD.json",
+        "proof/VJEPA21_VITB_FORWARD.json",
+        "proof/VJEPA21_VITB_FORWARD_64F.json",
+        "proof/E6_VITB_DENSE_PREFLIGHT.json",
+    } <= paths
+
+
+def test_alignment_and_consistency_rows_do_not_depend_on_retired_scale_pilot():
+    ledger = json.loads(LEDGER_PATH.read_text())
+    by_id = {entry["id"]: entry for entry in ledger["entries"]}
+    al2 = by_id["mop_al2_shared_latent_alignment"]
+    dr5 = by_id["mop_dr5_cross_substrate_consistency"]
+    assert al2["classification"] == "rights-data-blocked"
+    assert dr5["classification"] == "upstream-model-blocked"
+    assert "active ViT-B/custom" in al2["remaining_scientific_blocker"]
+    assert "active ViT-B/custom" in dr5["remaining_scientific_blocker"]
+    assert "three-scale atlas" not in al2["remaining_scientific_blocker"]
+    assert "three real-weight encoder" not in dr5["remaining_scientific_blocker"]
+
+
 def test_ledger_self_verifies_without_reading_runs_tree():
     ledger = json.loads(LEDGER_PATH.read_text())
     assert ledger["self_verification"]["verified"] is True

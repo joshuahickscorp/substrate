@@ -63,6 +63,7 @@ sentience or agency language.
 
 from __future__ import annotations
 
+import argparse
 import json
 import time
 from pathlib import Path
@@ -84,7 +85,8 @@ from mop.seeding import seed_everything
 from mop.substrate.datasets import make_task_stream
 
 REPO = Path(__file__).resolve().parents[1]
-OUT_PATH = REPO / "runs" / "pre_studio" / "close_ex5_local_rules.json"
+DEFAULT_OUT = REPO / "runs" / "pre_studio" / "close_ex5_local_rules.json"
+OUT_PATH = DEFAULT_OUT
 
 # Bounded-but-real scale: a genuine domain-incremental forgetting stream, small MLPs, single
 # hidden width (the shipped primary), sized to run in seconds-to-a-couple-minutes on CPU.
@@ -232,7 +234,20 @@ def _run_arm_on_stream(arm, tasks, dim, hidden, n_classes, epochs, seed, anchor_
     return ContinualResult(R=R, chance=1.0 / n_classes), elapsed
 
 
-def main() -> None:
+def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=DEFAULT_OUT,
+        help=f"receipt output path (default: {DEFAULT_OUT})",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = _parse_args(argv)
+    out_path: Path = args.out
     n_classes = CLASSES_PER_TASK  # domain-incremental: shared label space
     anchor_idx = _anchor_indices(N_TASKS, N_ANCHORS)
     arms = ("backprop_adam", "backprop_sgd", "feedback_alignment", "predictive_coding")
@@ -395,8 +410,8 @@ def main() -> None:
         "resolution": resolution,
         "verdict": verdict,
     }
-    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUT_PATH.write_text(json.dumps(out, indent=2))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, indent=2))
 
     print("=== close_ex5_local_rules ===")
     print(f"seeds={SEEDS}  n_tasks={N_TASKS}  hidden={HIDDEN}  epochs/task={EPOCHS_PER_TASK}")

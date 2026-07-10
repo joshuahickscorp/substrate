@@ -1,0 +1,1662 @@
+{
+  "all_mechanics_ok": true,
+  "audit": {
+    "already_owned": {
+      "f20": "prospective insufficiency scoring against raw-error, confidence, random, and aleatoric noise controls; its durable fixture result remains a null with zero measured avoided compute",
+      "f8": "content-hashed scientific rewrite packages, learned and control arms, matched estimated compute, refusal receipts, and a fixture-tainted nonpromotion boundary",
+      "lifecycle": "immutable append-only revision, conflict, poisoning, availability, deletion, and rollback mechanics with exact hash-linked replay",
+      "local_governor": "resource admission, pause, stop, and atomic resume authority for long local processes",
+      "provenance": "run and cache environment stamping with explicit evidence tags"
+    },
+    "files": [
+      {
+        "bytes": 86070,
+        "path": "src/mop/experiments/form_rewrite_engine.py",
+        "sha256": "ace4351d298b6317ad9427d3af97b2ed0e4bb4790d34fddf470bafa635b97125"
+      },
+      {
+        "bytes": 42114,
+        "path": "src/mop/experiments/f_form_substrate_missing.py",
+        "sha256": "35e4fd0f6829e8f4a887ccb6af16f3d8c794df2d7fcb489bcf19111aa9af06b9"
+      },
+      {
+        "bytes": 165067,
+        "path": "src/mop/experiments/f_form_substrate.py",
+        "sha256": "f921c8f12ed6bb47da700698ad4865835f9eb3789e219e14ce65ea3f8e525c88"
+      },
+      {
+        "bytes": 1487,
+        "path": "configs/experiment/f8_plastic_substrate_rewrite.yaml",
+        "sha256": "f70037037b4dccb8d08fcafa66d4907cb7bcc586f7b2126bee5996d2331b42de"
+      },
+      {
+        "bytes": 821,
+        "path": "configs/experiment/f20_substrate_crisis_test.yaml",
+        "sha256": "77ffab6197fe00035e97d5d830a916ec17f1574a6c50cfedd915f8b776379b4e"
+      },
+      {
+        "bytes": 3321,
+        "path": "proof/FORM_SUBSTRATE/PREFLIGHT/f8_plastic_substrate_rewrite.json",
+        "sha256": "304bcad83c2fbf18dce6f450bdd28dfe4afaea76643b0f7bc92e151317f7179f"
+      },
+      {
+        "bytes": 6886,
+        "path": "proof/FORM_SUBSTRATE/RECEIPTS/f20_substrate_crisis_test.json",
+        "sha256": "91bcd72301bfee822b416daec1112e02c48e81dc4faf0cb0078dfc1f6980e696"
+      },
+      {
+        "bytes": 2744,
+        "path": "src/mop/provenance.py",
+        "sha256": "6fb14d336d14bcd457e46629449ce10d7923dfeb4beb0feb5f08a3407a9810dd"
+      },
+      {
+        "bytes": 75604,
+        "path": "src/mop/studio/local_throttle.py",
+        "sha256": "e63300d3546e54a711c9ccd07c97b3406adb2bf089faeccbb50e93a020e81201"
+      }
+    ],
+    "gap_closed": "none of the audited surfaces issued scoped single-use authority for a state rewrite or joined proposal, immutable base identity, canary, shadow, commit, rollback, and crash recovery into one project-owned transaction",
+    "nonduplication": [
+      "FrozenJSON and canonical_sha256 provide immutable identity",
+      "LifecycleJournal supplies availability and poisoned-memory quarantine semantics",
+      "the new module adds only rewrite-specific authority, evaluation, transaction, and verification"
+    ]
+  },
+  "checks": {
+    "all_adversarial_attempts_fail_closed": true,
+    "all_mutations_rejected": true,
+    "atomic_commit_verified": true,
+    "before_after_capability_recorded": true,
+    "canary_passed": true,
+    "config_identity_immutable": true,
+    "exact_interrupted_resume": true,
+    "independent_verifier_passed": true,
+    "mechanics_claim_only": true,
+    "minimum_adversarial_attempts": true,
+    "minimum_mutations": true,
+    "no_weights_downloads_or_external_data": true,
+    "proposal_scoped_to_one_policy_path": true,
+    "protected_regressions_zero": true,
+    "resource_rss_envelope": true,
+    "resource_rss_sampling_complete": true,
+    "resource_wall_envelope": true,
+    "shadow_passed": true,
+    "single_use_authority_committed": true,
+    "source_identity_immutable": true,
+    "state_identity_immutable": true
+  },
+  "claim_boundary": {
+    "cognition_or_sentience": false,
+    "general_capability": false,
+    "hardware_boundary": "none for transaction mechanics; data, authority, evaluator independence, and external validity are the current blockers",
+    "learned_rewrite": false,
+    "mechanics_only": true,
+    "natural_data": false,
+    "production_security_or_safety": false,
+    "remaining_evidence_gate": "an externally governed production authority root, independently specified evaluators, rights-clean natural workloads, preregistered protected capabilities, real candidate artifacts, multi-process durability tests, and replicated post-commit surveillance",
+    "scientific_promotion_allowed": false
+  },
+  "claim_scope": "deterministic project-owned transaction mechanics over a structural fixture only; no natural-data, learned-rewrite, capability, cognition, sentience, security, or production-safety claim",
+  "config": {
+    "path": "configs/experiment/governed_rewrite_preflight.yaml",
+    "payload": {
+      "authority": {
+        "execution_tick": 110,
+        "expires_tick": 120,
+        "issued_tick": 100,
+        "issuer": "mop-project-rewrite-governor",
+        "key_id": "mop-fixture-hmac-sha256-v1",
+        "key_sha256": "daf9db0a1dc3ea3eae105670e3110610c596695fc5b79f1dac1ca806694393b4",
+        "max_uses": 1,
+        "proposal_paths": [
+          "policy.adaptation_threshold"
+        ],
+        "transaction_side_effect_paths": [
+          "revision",
+          "governance.consumed_authority_tokens"
+        ]
+      },
+      "claim_scope": "deterministic project-owned transaction mechanics over a structural fixture only; no natural-data, learned-rewrite, capability, cognition, sentience, security, or production-safety claim",
+      "evaluation": {
+        "canary_cases": [
+          {
+            "case_id": "canary-adaptive-positive-boundary",
+            "evidence": 2,
+            "route": "adaptive",
+            "target": 1
+          },
+          {
+            "case_id": "canary-adaptive-positive-clear",
+            "evidence": 4,
+            "route": "adaptive",
+            "target": 1
+          },
+          {
+            "case_id": "canary-adaptive-negative-near",
+            "evidence": 1,
+            "route": "adaptive",
+            "target": 0
+          },
+          {
+            "case_id": "canary-adaptive-negative-zero",
+            "evidence": 0,
+            "route": "adaptive",
+            "target": 0
+          },
+          {
+            "case_id": "canary-protected-positive-boundary",
+            "evidence": 3,
+            "route": "protected",
+            "target": 1
+          },
+          {
+            "case_id": "canary-protected-positive-clear",
+            "evidence": 5,
+            "route": "protected",
+            "target": 1
+          },
+          {
+            "case_id": "canary-protected-negative-near",
+            "evidence": 2,
+            "route": "protected",
+            "target": 0
+          },
+          {
+            "case_id": "canary-protected-negative-zero",
+            "evidence": 0,
+            "route": "protected",
+            "target": 0
+          }
+        ],
+        "comparison": "greater-than-or-equal",
+        "evaluator_id": "mop-exact-threshold-evaluator-v1",
+        "gates": {
+          "canary": {
+            "maximum_protected_regressions": 0,
+            "maximum_regressions": 0,
+            "minimum_after_correct": 8,
+            "minimum_capability_gain": 1
+          },
+          "shadow": {
+            "maximum_protected_regressions": 0,
+            "maximum_regressions": 0,
+            "minimum_after_correct": 12,
+            "minimum_capability_gain": 3
+          }
+        },
+        "memory_field": "calibration_offset",
+        "shadow_cases": [
+          {
+            "case_id": "shadow-adaptive-positive-boundary-a",
+            "evidence": 2,
+            "route": "adaptive",
+            "target": 1
+          },
+          {
+            "case_id": "shadow-adaptive-positive-boundary-b",
+            "evidence": 2,
+            "route": "adaptive",
+            "target": 1
+          },
+          {
+            "case_id": "shadow-adaptive-positive-boundary-c",
+            "evidence": 2,
+            "route": "adaptive",
+            "target": 1
+          },
+          {
+            "case_id": "shadow-adaptive-positive-clear",
+            "evidence": 3,
+            "route": "adaptive",
+            "target": 1
+          },
+          {
+            "case_id": "shadow-adaptive-negative-near-a",
+            "evidence": 1,
+            "route": "adaptive",
+            "target": 0
+          },
+          {
+            "case_id": "shadow-adaptive-negative-near-b",
+            "evidence": 1,
+            "route": "adaptive",
+            "target": 0
+          },
+          {
+            "case_id": "shadow-adaptive-negative-zero-a",
+            "evidence": 0,
+            "route": "adaptive",
+            "target": 0
+          },
+          {
+            "case_id": "shadow-adaptive-negative-zero-b",
+            "evidence": 0,
+            "route": "adaptive",
+            "target": 0
+          },
+          {
+            "case_id": "shadow-protected-positive-boundary",
+            "evidence": 3,
+            "route": "protected",
+            "target": 1
+          },
+          {
+            "case_id": "shadow-protected-positive-clear",
+            "evidence": 6,
+            "route": "protected",
+            "target": 1
+          },
+          {
+            "case_id": "shadow-protected-negative-near",
+            "evidence": 2,
+            "route": "protected",
+            "target": 0
+          },
+          {
+            "case_id": "shadow-protected-negative-zero",
+            "evidence": 0,
+            "route": "protected",
+            "target": 0
+          }
+        ]
+      },
+      "id": "governed_rewrite_preflight",
+      "initial_state": {
+        "governance": {
+          "consumed_authority_tokens": []
+        },
+        "policy": {
+          "adaptation_threshold": 3,
+          "protected_threshold": 3
+        },
+        "revision": 1
+      },
+      "memory": {
+        "available_from_tick": 0,
+        "available_until_tick": 500,
+        "content": {
+          "allowed_use": "rewrite-evaluation-only",
+          "calibration_offset": 0,
+          "provenance": "deterministic-project-fixture"
+        },
+        "ref": "memory:governed-rewrite/calibration"
+      },
+      "metric": [
+        "atomic_commit_or_rollback",
+        "canary_capability_gain",
+        "shadow_capability_gain",
+        "protected_regressions",
+        "adversarial_rejections"
+      ],
+      "module": "governed_rewrite",
+      "name": "governed_rewrite_transaction_preflight",
+      "null_hypothesis": "a project-owned rewrite transaction cannot improve the bounded adaptation fixture while preserving protected capability, or cannot fail closed under stale state, forged, expired, or replayed authority, evaluator tampering, poisoned memory, interruption, and partial-write recovery",
+      "proposal": {
+        "proposal_id": "proposal:governed-rewrite/adaptation-threshold-v2",
+        "reason": "lower the adaptation threshold by one bounded unit without changing the protected route",
+        "target_adaptation_threshold": 2,
+        "token_id": "authority:governed-rewrite/adaptation-threshold-v2"
+      },
+      "resource_envelope": {
+        "accelerator_required": false,
+        "cpu_threads": 1,
+        "device": "cpu",
+        "external_data_allowed": false,
+        "maximum_rss_bytes": 1073741824,
+        "maximum_wall_seconds": 10.0,
+        "model_downloads_allowed": false,
+        "model_weights_loaded": false
+      },
+      "rollback_probe": {
+        "proposal_id": "proposal:governed-rewrite/regression-probe",
+        "reason": "deliberately over-broad authorized proposal used to prove canary rollback",
+        "target_adaptation_threshold": 0,
+        "token_id": "authority:governed-rewrite/regression-probe"
+      },
+      "schema": "mop-governed-rewrite-config/v1",
+      "stop_contract": {
+        "minimum_adversarial_attempts": 7,
+        "minimum_mutations": 12,
+        "require_atomic_commit_and_rollback": true,
+        "require_exact_interrupted_resume": true,
+        "require_independent_verifier": true
+      },
+      "tier": "cpu-now"
+    },
+    "payload_sha256": "149ee0b3429ec91f1cfaea612b135dabacc642629f1c922687faef50056e7b75",
+    "sha256": "e4395bec61e68c3a16e7c95b91c9b7475dcc4bb3f840387941dcefbb55bd3d85"
+  },
+  "deterministic_core_sha256": "d2a93c28edd5ceed3f0db7d254ec0dfc26c406e20996309fe7648673f8441b94",
+  "drills": {
+    "adversarial_attempts": {
+      "authorized_regressing_proposal": {
+        "after_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "8b4137149fec4f367637d760863b4d2551776511c89cc90489eb479cf2bb5df3",
+        "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "canary_gate": {
+          "after_correct": 6,
+          "before_correct": 7,
+          "capability_gain": -1,
+          "checks": {
+            "maximum_protected_regressions": true,
+            "maximum_regressions": false,
+            "minimum_after_correct": false,
+            "minimum_capability_gain": false
+          },
+          "passed": false,
+          "protected_regressions": [],
+          "regressions": [
+            "canary-adaptive-negative-near",
+            "canary-adaptive-negative-zero"
+          ]
+        },
+        "reason_codes": [
+          "canary-regression-gate"
+        ],
+        "state_unchanged": true,
+        "status": "rolled-back"
+      },
+      "conflicting_base_state": {
+        "after_state_sha256": "ab25d941eff343e50d6242ed1de5cf6d3355c4871dc192d87b85632c9fef635e",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "4b27d73a32ef7a28fc47310d15081da8916d3c8b4f3be2123e04c603dcf1b484",
+        "before_state_sha256": "ab25d941eff343e50d6242ed1de5cf6d3355c4871dc192d87b85632c9fef635e",
+        "reason_codes": [
+          "state-conflict"
+        ],
+        "state_unchanged": true,
+        "status": "refused"
+      },
+      "expired_authority": {
+        "after_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "d506dc3714deabf8b534ec800b49ee1e63e8c3cb2dd127ccdc3509122b72ea06",
+        "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "reason_codes": [
+          "authority-expired"
+        ],
+        "state_unchanged": true,
+        "status": "refused"
+      },
+      "forged_authority": {
+        "after_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "fa107b9e19b89379cbf247ced06598803bf320f77eb68ff529f0dd7571d3bebb",
+        "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "reason_codes": [
+          "authority-forged"
+        ],
+        "state_unchanged": true,
+        "status": "refused"
+      },
+      "poisoned_memory": {
+        "after_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "3478ab7d0e630bd9fca074cdf0b89a5b6988e4d911099d4ba080ca1b9ee492fa",
+        "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "reason_codes": [
+          "authority-memory_journal_sha256-mismatch",
+          "memory-binding-drift",
+          "memory-poisoned"
+        ],
+        "state_unchanged": true,
+        "status": "refused"
+      },
+      "replayed_authority": {
+        "after_state_sha256": "dc2cbd8e30bc146e9457b4ff463604f30da11d11dc400d60de559971413bff82",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "d69f85fa63eac32e368ccc3b9b78f48fa946369b378ba5ef31947ffcb0ddc75d",
+        "before_state_sha256": "dc2cbd8e30bc146e9457b4ff463604f30da11d11dc400d60de559971413bff82",
+        "reason_codes": [
+          "authority-replayed"
+        ],
+        "state_unchanged": true,
+        "status": "refused"
+      },
+      "scope_escalation_with_valid_signature": {
+        "after_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "e311334b5c903302f4daf9203d8a954846471a1ecca2319d30741538082f4fb9",
+        "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "reason_codes": [
+          "authority-scope-escalation"
+        ],
+        "state_unchanged": true,
+        "status": "refused"
+      },
+      "tampered_evaluator": {
+        "after_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "audit_chain_verified": true,
+        "audit_head_sha256": "4678872548201ef30b662a2ed415de86801d9d05885eb611b90215f87c8daf80",
+        "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "reason_codes": [
+          "authority-evaluator_sha256-mismatch",
+          "evaluator-tampered"
+        ],
+        "state_unchanged": true,
+        "status": "refused"
+      }
+    },
+    "authority_token": {
+      "claims": {
+        "allowed_paths": [
+          "policy.adaptation_threshold",
+          "revision",
+          "governance.consumed_authority_tokens"
+        ],
+        "base_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "config_payload_sha256": "149ee0b3429ec91f1cfaea612b135dabacc642629f1c922687faef50056e7b75",
+        "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+        "expires_tick": 120,
+        "issued_tick": 100,
+        "issuer": "mop-project-rewrite-governor",
+        "key_id": "mop-fixture-hmac-sha256-v1",
+        "max_uses": 1,
+        "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+        "nonce": "66dccf74b1facd395cb8cf46453a095d781573c1e6518fcb3da02904129a107c",
+        "proposal_sha256": "38c85e71497f2340ee9822c2fa14f22501fd492de4c7872391b0d9f9fd6657a4",
+        "schema": "mop-governed-rewrite-authority/v1",
+        "source_identity_sha256": "6dea7b0c8c3212c38166360a4bd3524bda1cba08d1b93af5893651988f5fd664",
+        "token_id": "authority:governed-rewrite/adaptation-threshold-v2"
+      },
+      "signature": "db51f1a78ab15f4c5f3f50622f830d504765664a2fd7c0f2024fe40920b153dd"
+    },
+    "canonical_transaction": {
+      "after_state_sha256": "dc2cbd8e30bc146e9457b4ff463604f30da11d11dc400d60de559971413bff82",
+      "audit": [
+        {
+          "details": {
+            "current_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+            "proposal_sha256": "38c85e71497f2340ee9822c2fa14f22501fd492de4c7872391b0d9f9fd6657a4"
+          },
+          "entry_sha256": "af6e236c04d1a8f37a43367649a2eb25b9e71b9fe02421fb6e9ad343718b1dae",
+          "phase": "proposal-received",
+          "previous_entry_sha256": null,
+          "sequence": 0
+        },
+        {
+          "details": {
+            "allowed_paths": [
+              "policy.adaptation_threshold",
+              "revision",
+              "governance.consumed_authority_tokens"
+            ],
+            "proposal_sha256": "38c85e71497f2340ee9822c2fa14f22501fd492de4c7872391b0d9f9fd6657a4",
+            "token_id": "authority:governed-rewrite/adaptation-threshold-v2"
+          },
+          "entry_sha256": "5b66114e07ef4c8c199d116ab100c6b6e4f1cab8636f4eb68edfb7d320590703",
+          "phase": "authority-validated",
+          "previous_entry_sha256": "af6e236c04d1a8f37a43367649a2eb25b9e71b9fe02421fb6e9ad343718b1dae",
+          "sequence": 1
+        },
+        {
+          "details": {
+            "evaluation_sha256": "c46f69319f94185e02aa1904ad191dd7bc1fe45f366f655f520055840468f3af",
+            "passed": true
+          },
+          "entry_sha256": "70438bd6df654d84ff9ad6b043a9dccaf0a44280893ca0ae6c2742d81cb9fc06",
+          "phase": "canary-evaluated",
+          "previous_entry_sha256": "5b66114e07ef4c8c199d116ab100c6b6e4f1cab8636f4eb68edfb7d320590703",
+          "sequence": 2
+        },
+        {
+          "details": {
+            "partial_write_sha256": "bac5ada16ff00777ebb5b1d6b01715ce76b537bd7e386b8b7f42a542d7b94040",
+            "phase": "after-canary-before-shadow"
+          },
+          "entry_sha256": "5435cc4194afeef9bad4abdb57728873235597fedaaee3439e4fcb720844d598",
+          "phase": "interrupted",
+          "previous_entry_sha256": "70438bd6df654d84ff9ad6b043a9dccaf0a44280893ca0ae6c2742d81cb9fc06",
+          "sequence": 3
+        },
+        {
+          "details": {
+            "checkpoint_sha256": "57cbce2aab6846a46b0e60ebd091ef9680f85dbfb5ddcc677e4938b5e21fb83f",
+            "committed_base_reverified": true,
+            "partial_write_sha256": "bac5ada16ff00777ebb5b1d6b01715ce76b537bd7e386b8b7f42a542d7b94040"
+          },
+          "entry_sha256": "ba4e9a08c86f7d2c0b9e04e872db404545943f24fa40a55e28764270ed9bfaaa",
+          "phase": "recovered",
+          "previous_entry_sha256": "5435cc4194afeef9bad4abdb57728873235597fedaaee3439e4fcb720844d598",
+          "sequence": 4
+        },
+        {
+          "details": {
+            "evaluation_sha256": "2c55c45b14a5ef25760cddeceb7e78384c1410bd9a5b341f90d0b6ddb1ec701d",
+            "passed": true
+          },
+          "entry_sha256": "58bf9c502cceb4901ce22d2f96cf72d1f49a10368c09a078f55b56ab4437886d",
+          "phase": "shadow-evaluated",
+          "previous_entry_sha256": "ba4e9a08c86f7d2c0b9e04e872db404545943f24fa40a55e28764270ed9bfaaa",
+          "sequence": 5
+        },
+        {
+          "details": {
+            "atomic_replace_verified": true,
+            "state_sha256": "dc2cbd8e30bc146e9457b4ff463604f30da11d11dc400d60de559971413bff82",
+            "token_id": "authority:governed-rewrite/adaptation-threshold-v2"
+          },
+          "entry_sha256": "29a305a0c30a877b82c283433c9d1e64eec043998eedb49914df30562fc9992e",
+          "phase": "committed",
+          "previous_entry_sha256": "58bf9c502cceb4901ce22d2f96cf72d1f49a10368c09a078f55b56ab4437886d",
+          "sequence": 6
+        }
+      ],
+      "audit_chain_verified": true,
+      "audit_head_sha256": "29a305a0c30a877b82c283433c9d1e64eec043998eedb49914df30562fc9992e",
+      "authority_token": {
+        "claims": {
+          "allowed_paths": [
+            "policy.adaptation_threshold",
+            "revision",
+            "governance.consumed_authority_tokens"
+          ],
+          "base_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+          "config_payload_sha256": "149ee0b3429ec91f1cfaea612b135dabacc642629f1c922687faef50056e7b75",
+          "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+          "expires_tick": 120,
+          "issued_tick": 100,
+          "issuer": "mop-project-rewrite-governor",
+          "key_id": "mop-fixture-hmac-sha256-v1",
+          "max_uses": 1,
+          "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+          "nonce": "66dccf74b1facd395cb8cf46453a095d781573c1e6518fcb3da02904129a107c",
+          "proposal_sha256": "38c85e71497f2340ee9822c2fa14f22501fd492de4c7872391b0d9f9fd6657a4",
+          "schema": "mop-governed-rewrite-authority/v1",
+          "source_identity_sha256": "6dea7b0c8c3212c38166360a4bd3524bda1cba08d1b93af5893651988f5fd664",
+          "token_id": "authority:governed-rewrite/adaptation-threshold-v2"
+        },
+        "signature": "db51f1a78ab15f4c5f3f50622f830d504765664a2fd7c0f2024fe40920b153dd"
+      },
+      "before_state": {
+        "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+        "governance": {
+          "consumed_authority_tokens": []
+        },
+        "memory_binding": {
+          "content_sha256": "22e5213cc84cc3a2bb0143aa03c3ddab9e8e705892a4559869d18d526f7028ab",
+          "journal_head_sha256": "1289aca561c8f229d4920b2b49cf608ae790f6cdfaebdadf599fbce862a63a82",
+          "journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+          "memory_ref": "memory:governed-rewrite/calibration",
+          "revision": 1
+        },
+        "policy": {
+          "adaptation_threshold": 3,
+          "protected_threshold": 3
+        },
+        "revision": 1,
+        "schema": "mop-governed-rewrite-state/v1"
+      },
+      "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+      "canary": {
+        "after": {
+          "by_route": {
+            "adaptive": {
+              "accuracy": {
+                "decimal": 1.0,
+                "denominator": 4,
+                "numerator": 4
+              },
+              "correct": 4,
+              "total": 4
+            },
+            "protected": {
+              "accuracy": {
+                "decimal": 1.0,
+                "denominator": 4,
+                "numerator": 4
+              },
+              "correct": 4,
+              "total": 4
+            }
+          },
+          "capability": {
+            "decimal": 1.0,
+            "denominator": 8,
+            "numerator": 8
+          },
+          "correct": 8,
+          "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+          "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+          "rows": [
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-positive-boundary",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "64c682f88fa48b9ac60c60a7fe30b010ded7c679b9a60296db9fac91d21f1581",
+              "target": 1,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-positive-clear",
+              "correct": true,
+              "evidence": 4,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "26c459a4e7bc868d73fc3c5ef29e6a5fd4ebfa9f2580c456cf36e3d0717af6a3",
+              "target": 1,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-negative-near",
+              "correct": true,
+              "evidence": 1,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "e6a09dffe9fc9a835641730142b770a3c9dd94534215779fc38c741412d63eb5",
+              "target": 0,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-negative-zero",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "facf8a5b4dcab1be99dfdcfce10d0f4a5a475fb1ca49320c0a9e1d0d3607c4e5",
+              "target": 0,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-positive-boundary",
+              "correct": true,
+              "evidence": 3,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "cd1d3588de1525d478aa4bf866d23847dc84c2b62d99be3ca2ed7463deb58a81",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-positive-clear",
+              "correct": true,
+              "evidence": 5,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "7744d865a6090104cb8c75645000f29acf5a850e8bc3fa62244cec6e39137a80",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-negative-near",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "28a1cfae2f533849fa72f682019ecc43e3c37a15a385aee259682f82c06249b5",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-negative-zero",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "567c27fb6f5b61df4c0fbda9cf7fa7c4c327249f0e8840df0da9e29fa268a730",
+              "target": 0,
+              "threshold": 3
+            }
+          ],
+          "schema": "mop-governed-rewrite-evaluation/v1",
+          "sha256": "566cc215297193740766f2c75d163b3f65a22351628a59dd91fc987ef95a58ae",
+          "state_sha256": "d3998e9f6072f8bc3bf13fff130fc4ffd125115b80272ca5fd413289239b5ee0",
+          "tick": 110,
+          "total": 8
+        },
+        "before": {
+          "by_route": {
+            "adaptive": {
+              "accuracy": {
+                "decimal": 0.75,
+                "denominator": 4,
+                "numerator": 3
+              },
+              "correct": 3,
+              "total": 4
+            },
+            "protected": {
+              "accuracy": {
+                "decimal": 1.0,
+                "denominator": 4,
+                "numerator": 4
+              },
+              "correct": 4,
+              "total": 4
+            }
+          },
+          "capability": {
+            "decimal": 0.875,
+            "denominator": 8,
+            "numerator": 7
+          },
+          "correct": 7,
+          "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+          "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+          "rows": [
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-positive-boundary",
+              "correct": false,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "2fbf960714271ab4641ee5908dcf76cd83bab1bea1782eb9d85110ebf55bdc2a",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-positive-clear",
+              "correct": true,
+              "evidence": 4,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "d5ae432b082c921dc1c3abe7cdc3305d8d8ab8b49234239644fbdbfceb4f6ba6",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-negative-near",
+              "correct": true,
+              "evidence": 1,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "da62d54b3a16d900d9f579dc779b0d3b0ce02c9999ba92fda165910dbfd21f28",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-adaptive-negative-zero",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "cc20e439e9b8f72f9c3e439ecec130d97880466e3ab23a6f92f6d531c5267641",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-positive-boundary",
+              "correct": true,
+              "evidence": 3,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "cd1d3588de1525d478aa4bf866d23847dc84c2b62d99be3ca2ed7463deb58a81",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-positive-clear",
+              "correct": true,
+              "evidence": 5,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "7744d865a6090104cb8c75645000f29acf5a850e8bc3fa62244cec6e39137a80",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-negative-near",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "28a1cfae2f533849fa72f682019ecc43e3c37a15a385aee259682f82c06249b5",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "canary-protected-negative-zero",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "567c27fb6f5b61df4c0fbda9cf7fa7c4c327249f0e8840df0da9e29fa268a730",
+              "target": 0,
+              "threshold": 3
+            }
+          ],
+          "schema": "mop-governed-rewrite-evaluation/v1",
+          "sha256": "5d75eda1c1f7f8c790ed13aa1d669e201c924c3a4a2290e5651e81ecc899febd",
+          "state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+          "tick": 110,
+          "total": 8
+        },
+        "gate": {
+          "after_correct": 8,
+          "before_correct": 7,
+          "capability_gain": 1,
+          "checks": {
+            "maximum_protected_regressions": true,
+            "maximum_regressions": true,
+            "minimum_after_correct": true,
+            "minimum_capability_gain": true
+          },
+          "passed": true,
+          "protected_regressions": [],
+          "regressions": []
+        },
+        "sha256": "c46f69319f94185e02aa1904ad191dd7bc1fe45f366f655f520055840468f3af",
+        "split": "canary"
+      },
+      "claim_scope": "deterministic project-owned transaction mechanics over a structural fixture only; no natural-data, learned-rewrite, capability, cognition, sentience, security, or production-safety claim",
+      "commit": {
+        "after_file_sha256": "1a3ac20a956e5ebef75e9f684858cf4b57050be65577bc6831f6b055a55424a2",
+        "atomic_replace_verified": true,
+        "before_file_sha256": "41a6003d2a14eecccbffd567a07c7cbb85ad0072fb9caad804e7a988828faf54",
+        "committed_state_sha256": "dc2cbd8e30bc146e9457b4ff463604f30da11d11dc400d60de559971413bff82",
+        "method": "same-directory temporary plus os.replace",
+        "token_consumed_once": true,
+        "write_receipt": {
+          "bytes": 925,
+          "sha256": "1a3ac20a956e5ebef75e9f684858cf4b57050be65577bc6831f6b055a55424a2",
+          "temporary_absent_after_replace": true
+        }
+      },
+      "config_payload_sha256": "149ee0b3429ec91f1cfaea612b135dabacc642629f1c922687faef50056e7b75",
+      "evaluator": {
+        "adaptive_rule": "evidence + calibration_offset compared with adaptation_threshold",
+        "case_source": "immutable config payload",
+        "comparison": "greater-than-or-equal",
+        "evaluator_id": "mop-exact-threshold-evaluator-v1",
+        "protected_rule": "evidence compared with protected_threshold",
+        "schema": "mop-governed-rewrite-evaluator/v1",
+        "sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d"
+      },
+      "memory_journal": {
+        "entries": [
+          {
+            "availability_enabled": true,
+            "available_from_tick": 0,
+            "available_until_tick": 500,
+            "content": {
+              "sha256": "22e5213cc84cc3a2bb0143aa03c3ddab9e8e705892a4559869d18d526f7028ab",
+              "value": {
+                "allowed_use": "rewrite-evaluation-only",
+                "calibration_offset": 0,
+                "provenance": "deterministic-project-fixture"
+              }
+            },
+            "entry_sha256": "1289aca561c8f229d4920b2b49cf608ae790f6cdfaebdadf599fbce862a63a82",
+            "event_ref": "event:governed-rewrite/memory-record",
+            "memory_ref": "memory:governed-rewrite/calibration",
+            "operation": "record",
+            "previous_entry_sha256": null,
+            "reason": "bind clean calibration memory to the rewrite evaluator",
+            "revision": 1,
+            "sequence": 0,
+            "target_revision": null
+          }
+        ],
+        "head_sha256": "1289aca561c8f229d4920b2b49cf608ae790f6cdfaebdadf599fbce862a63a82",
+        "memory_ref": "memory:governed-rewrite/calibration",
+        "schema": "mop-lifecycle-journal/v1"
+      },
+      "proposal": {
+        "base_revision": 1,
+        "base_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+        "changes": [
+          {
+            "after": 2,
+            "before": 3,
+            "path": "policy.adaptation_threshold"
+          }
+        ],
+        "config_payload_sha256": "149ee0b3429ec91f1cfaea612b135dabacc642629f1c922687faef50056e7b75",
+        "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+        "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+        "proposal_id": "proposal:governed-rewrite/adaptation-threshold-v2",
+        "proposal_sha256": "38c85e71497f2340ee9822c2fa14f22501fd492de4c7872391b0d9f9fd6657a4",
+        "reason": "lower the adaptation threshold by one bounded unit without changing the protected route",
+        "schema": "mop-governed-rewrite-proposal/v1",
+        "source_identity_sha256": "6dea7b0c8c3212c38166360a4bd3524bda1cba08d1b93af5893651988f5fd664"
+      },
+      "proposal_sha256": "38c85e71497f2340ee9822c2fa14f22501fd492de4c7872391b0d9f9fd6657a4",
+      "reason_codes": [],
+      "resume": {
+        "base_state_reverified": true,
+        "canary_rebuilt_exactly": true,
+        "candidate_rebuilt_exactly": true,
+        "checkpoint_sha256": "57cbce2aab6846a46b0e60ebd091ef9680f85dbfb5ddcc677e4938b5e21fb83f",
+        "interruption_phase": "after-canary-before-shadow",
+        "partial_write_detected": true,
+        "partial_write_digest_verified": true,
+        "partial_write_removed": true,
+        "was_resumed": true
+      },
+      "schema": "mop-governed-rewrite-transaction/v1",
+      "scientific_promotion_allowed": false,
+      "shadow": {
+        "after": {
+          "by_route": {
+            "adaptive": {
+              "accuracy": {
+                "decimal": 1.0,
+                "denominator": 8,
+                "numerator": 8
+              },
+              "correct": 8,
+              "total": 8
+            },
+            "protected": {
+              "accuracy": {
+                "decimal": 1.0,
+                "denominator": 4,
+                "numerator": 4
+              },
+              "correct": 4,
+              "total": 4
+            }
+          },
+          "capability": {
+            "decimal": 1.0,
+            "denominator": 12,
+            "numerator": 12
+          },
+          "correct": 12,
+          "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+          "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+          "rows": [
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-boundary-a",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "c0cdfeffd9048e5867bc8ac93cdf5c8039a4237036a59ecb90e8e2e4ee842c34",
+              "target": 1,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-boundary-b",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "0378669149f329871aba916da5879b441234038a9375169edd6441586233372d",
+              "target": 1,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-boundary-c",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "6407e44c131253375faef381a2b8cbdf566a08f0b398a701bec8760487b0cc53",
+              "target": 1,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-clear",
+              "correct": true,
+              "evidence": 3,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "7e940cb57334b457b1c1f01b95cf081d1e6b68aa8b57bddcea75e0c511d8520e",
+              "target": 1,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-near-a",
+              "correct": true,
+              "evidence": 1,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "a5698c668b3bfb2884ca9ce0ce942ae7e96767919cd81f3e609cad5868bd4005",
+              "target": 0,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-near-b",
+              "correct": true,
+              "evidence": 1,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "4ecb794231998dbf8123530b537c7ece056e8022d722652e3a0a0a99f45f3ef4",
+              "target": 0,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-zero-a",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "7a94275ca38312a0ab7e990115d6c099976ca440a5f30dd7813180b4c32e71af",
+              "target": 0,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-zero-b",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "bd3f3189aab7f4040a071786cf966c1566d8bcdf57be833446f8d9b5814c4859",
+              "target": 0,
+              "threshold": 2
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-positive-boundary",
+              "correct": true,
+              "evidence": 3,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "5c6eff263bd234d600d5a70bd15194a1cf9b2d5993e2b16f6208460319dafde3",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-positive-clear",
+              "correct": true,
+              "evidence": 6,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "cd118fbd50babb30df457204d78a33b0932945c9408c35fc1f76c29614b1b6c9",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-negative-near",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "2358cf878de88fb3ce02c56dda63d480a1295cc8e277ff3572e55a2d56a550ad",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-negative-zero",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "5b404825f1c48da916ce7aae5b2eaa1dedb19419acf6b108f48d8f2bac4040fe",
+              "target": 0,
+              "threshold": 3
+            }
+          ],
+          "schema": "mop-governed-rewrite-evaluation/v1",
+          "sha256": "fea730bcf876f2ad699798b561df7b3acfdac48d3348dba9bdd25f868e7a60bc",
+          "state_sha256": "d3998e9f6072f8bc3bf13fff130fc4ffd125115b80272ca5fd413289239b5ee0",
+          "tick": 110,
+          "total": 12
+        },
+        "before": {
+          "by_route": {
+            "adaptive": {
+              "accuracy": {
+                "decimal": 0.625,
+                "denominator": 8,
+                "numerator": 5
+              },
+              "correct": 5,
+              "total": 8
+            },
+            "protected": {
+              "accuracy": {
+                "decimal": 1.0,
+                "denominator": 4,
+                "numerator": 4
+              },
+              "correct": 4,
+              "total": 4
+            }
+          },
+          "capability": {
+            "decimal": 0.75,
+            "denominator": 12,
+            "numerator": 9
+          },
+          "correct": 9,
+          "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+          "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+          "rows": [
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-boundary-a",
+              "correct": false,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "4581e214bdd25e1536a81d904fb6f56948e0fe7cc720d1e5773fc4fd4bdf4192",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-boundary-b",
+              "correct": false,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "bf6337fb4155766ada50c57ce9f6eed3ff67e749790750b0e538ef5e14113253",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-boundary-c",
+              "correct": false,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "bbffbc3b4888dea22835dfa9110bb51094a46cc415863751a3472f004b57c947",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-positive-clear",
+              "correct": true,
+              "evidence": 3,
+              "prediction": 1,
+              "route": "adaptive",
+              "row_sha256": "2788575a772850d2d114398ba76c1c1544fe68b2b5a50a31b43cd1c1bc61c617",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-near-a",
+              "correct": true,
+              "evidence": 1,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "c4db71d90db475068d2fb847bbbf38db6a39ab85e0c80339e5e6d95f35880b91",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-near-b",
+              "correct": true,
+              "evidence": 1,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "0ec87b659b03b2088e82931d7ebe7a95689119839ebf5bccb32879f1338d7441",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-zero-a",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "b6488831de258fd6acc157bb2757abda7d731307235d2cdbcd392dcac2cfb8db",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-adaptive-negative-zero-b",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "adaptive",
+              "row_sha256": "22d2f5cfdbec2c85dc6b90293d8e53b310a0d6dbf2db8ba99a26649326cd0f4a",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-positive-boundary",
+              "correct": true,
+              "evidence": 3,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "5c6eff263bd234d600d5a70bd15194a1cf9b2d5993e2b16f6208460319dafde3",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-positive-clear",
+              "correct": true,
+              "evidence": 6,
+              "prediction": 1,
+              "route": "protected",
+              "row_sha256": "cd118fbd50babb30df457204d78a33b0932945c9408c35fc1f76c29614b1b6c9",
+              "target": 1,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-negative-near",
+              "correct": true,
+              "evidence": 2,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "2358cf878de88fb3ce02c56dda63d480a1295cc8e277ff3572e55a2d56a550ad",
+              "target": 0,
+              "threshold": 3
+            },
+            {
+              "calibration_offset_applied": 0,
+              "case_id": "shadow-protected-negative-zero",
+              "correct": true,
+              "evidence": 0,
+              "prediction": 0,
+              "route": "protected",
+              "row_sha256": "5b404825f1c48da916ce7aae5b2eaa1dedb19419acf6b108f48d8f2bac4040fe",
+              "target": 0,
+              "threshold": 3
+            }
+          ],
+          "schema": "mop-governed-rewrite-evaluation/v1",
+          "sha256": "f7c5e825f7ea9da9ba1dab78dae6e61112f6e2d1dcc3fb45590e1d88f6ba5e32",
+          "state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+          "tick": 110,
+          "total": 12
+        },
+        "gate": {
+          "after_correct": 12,
+          "before_correct": 9,
+          "capability_gain": 3,
+          "checks": {
+            "maximum_protected_regressions": true,
+            "maximum_regressions": true,
+            "minimum_after_correct": true,
+            "minimum_capability_gain": true
+          },
+          "passed": true,
+          "protected_regressions": [],
+          "regressions": []
+        },
+        "sha256": "2c55c45b14a5ef25760cddeceb7e78384c1410bd9a5b341f90d0b6ddb1ec701d",
+        "split": "shadow"
+      },
+      "source_identity": {
+        "files": [
+          {
+            "bytes": 70587,
+            "path": "src/mop/studies/governed_rewrite.py",
+            "sha256": "83ad277c9bb75cfb40d604a2b4f2ae76b26f23dbadb45fd8154ebcd041a8fa95"
+          },
+          {
+            "bytes": 2585,
+            "path": "src/mop/studies/process_resources.py",
+            "sha256": "313bace0076ecb1a6221435cd3c055e84ea4253c529ab5be7532fabb9b78a5d7"
+          },
+          {
+            "bytes": 17942,
+            "path": "src/mop/substrate/events.py",
+            "sha256": "cc0562fe8a3e5bd8caa67987e5be7581734e660e0f728619e44e4dc2d34fff48"
+          },
+          {
+            "bytes": 20817,
+            "path": "src/mop/substrate/lifecycle.py",
+            "sha256": "2bdc54987741e507eda17835057febd76fce2b425da6abef8572becfe00b30e2"
+          }
+        ],
+        "schema": "mop-governed-rewrite-source-identity/v1",
+        "sha256": "6dea7b0c8c3212c38166360a4bd3524bda1cba08d1b93af5893651988f5fd664"
+      },
+      "state_unchanged": false,
+      "status": "committed",
+      "token_id": "authority:governed-rewrite/adaptation-threshold-v2"
+    },
+    "evaluator": {
+      "adaptive_rule": "evidence + calibration_offset compared with adaptation_threshold",
+      "case_source": "immutable config payload",
+      "comparison": "greater-than-or-equal",
+      "evaluator_id": "mop-exact-threshold-evaluator-v1",
+      "protected_rule": "evidence compared with protected_threshold",
+      "schema": "mop-governed-rewrite-evaluator/v1",
+      "sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d"
+    },
+    "exact_resume": {
+      "all_ok": true,
+      "canary_exact": true,
+      "committed_state_exact": true,
+      "interruption_reached": true,
+      "partial_write_never_became_committed_state": true,
+      "resumed_committed": true,
+      "shadow_exact": true,
+      "uninterrupted_committed": true
+    },
+    "independent_verifier": {
+      "problems": [],
+      "verified": true
+    },
+    "initial_state_identity": {
+      "payload": {
+        "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+        "governance": {
+          "consumed_authority_tokens": []
+        },
+        "memory_binding": {
+          "content_sha256": "22e5213cc84cc3a2bb0143aa03c3ddab9e8e705892a4559869d18d526f7028ab",
+          "journal_head_sha256": "1289aca561c8f229d4920b2b49cf608ae790f6cdfaebdadf599fbce862a63a82",
+          "journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+          "memory_ref": "memory:governed-rewrite/calibration",
+          "revision": 1
+        },
+        "policy": {
+          "adaptation_threshold": 3,
+          "protected_threshold": 3
+        },
+        "revision": 1,
+        "schema": "mop-governed-rewrite-state/v1"
+      },
+      "sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09"
+    },
+    "interrupted_reference": {
+      "after_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+      "audit_chain_verified": true,
+      "audit_head_sha256": "5435cc4194afeef9bad4abdb57728873235597fedaaee3439e4fcb720844d598",
+      "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+      "canary_gate": {
+        "after_correct": 8,
+        "before_correct": 7,
+        "capability_gain": 1,
+        "checks": {
+          "maximum_protected_regressions": true,
+          "maximum_regressions": true,
+          "minimum_after_correct": true,
+          "minimum_capability_gain": true
+        },
+        "passed": true,
+        "protected_regressions": [],
+        "regressions": []
+      },
+      "reason_codes": [
+        "planned-interrupt-after-canary"
+      ],
+      "state_unchanged": true,
+      "status": "interrupted"
+    },
+    "memory_journal": {
+      "entries": [
+        {
+          "availability_enabled": true,
+          "available_from_tick": 0,
+          "available_until_tick": 500,
+          "content": {
+            "sha256": "22e5213cc84cc3a2bb0143aa03c3ddab9e8e705892a4559869d18d526f7028ab",
+            "value": {
+              "allowed_use": "rewrite-evaluation-only",
+              "calibration_offset": 0,
+              "provenance": "deterministic-project-fixture"
+            }
+          },
+          "entry_sha256": "1289aca561c8f229d4920b2b49cf608ae790f6cdfaebdadf599fbce862a63a82",
+          "event_ref": "event:governed-rewrite/memory-record",
+          "memory_ref": "memory:governed-rewrite/calibration",
+          "operation": "record",
+          "previous_entry_sha256": null,
+          "reason": "bind clean calibration memory to the rewrite evaluator",
+          "revision": 1,
+          "sequence": 0,
+          "target_revision": null
+        }
+      ],
+      "head_sha256": "1289aca561c8f229d4920b2b49cf608ae790f6cdfaebdadf599fbce862a63a82",
+      "memory_ref": "memory:governed-rewrite/calibration",
+      "schema": "mop-lifecycle-journal/v1"
+    },
+    "mutation_suite": {
+      "all_rejected": true,
+      "count": 14,
+      "mutations": {
+        "atomic_commit_receipt": {
+          "problems": [
+            "atomic replacement was not verified"
+          ],
+          "rejected": true
+        },
+        "audit_semantics_with_valid_chain": {
+          "problems": [
+            "transaction audit canary-evaluated semantics drift"
+          ],
+          "rejected": true
+        },
+        "authority_scope_with_valid_signature": {
+          "problems": [
+            "transaction authority identity drift"
+          ],
+          "rejected": true
+        },
+        "authority_signature": {
+          "problems": [
+            "transaction authority identity drift"
+          ],
+          "rejected": true
+        },
+        "base_state": {
+          "problems": [
+            "transaction before-state identity drift"
+          ],
+          "rejected": true
+        },
+        "canary_metric": {
+          "problems": [
+            "transaction canary reconstruction drift"
+          ],
+          "rejected": true
+        },
+        "claim_boundary": {
+          "problems": [
+            "transaction illegally permits scientific promotion"
+          ],
+          "rejected": true
+        },
+        "committed_state": {
+          "problems": [
+            "transaction committed-state digest drift"
+          ],
+          "rejected": true
+        },
+        "evaluator_rule": {
+          "problems": [
+            "transaction evaluator identity drift"
+          ],
+          "rejected": true
+        },
+        "memory_content": {
+          "problems": [
+            "transaction memory journal identity drift"
+          ],
+          "rejected": true
+        },
+        "proposal_change": {
+          "problems": [
+            "transaction proposal identity drift"
+          ],
+          "rejected": true
+        },
+        "resume_provenance": {
+          "problems": [
+            "resume invariant candidate_rebuilt_exactly failed"
+          ],
+          "rejected": true
+        },
+        "shadow_metric": {
+          "problems": [
+            "transaction shadow reconstruction drift"
+          ],
+          "rejected": true
+        },
+        "source_identity": {
+          "problems": [
+            "transaction source identity drift"
+          ],
+          "rejected": true
+        }
+      },
+      "rejected": 14
+    },
+    "proposal": {
+      "base_revision": 1,
+      "base_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+      "changes": [
+        {
+          "after": 2,
+          "before": 3,
+          "path": "policy.adaptation_threshold"
+        }
+      ],
+      "config_payload_sha256": "149ee0b3429ec91f1cfaea612b135dabacc642629f1c922687faef50056e7b75",
+      "evaluator_sha256": "4e21d05f098c4072da2bace313ecc36ca4bb9b02890057ac7524cfd7ec3bbd9d",
+      "memory_journal_sha256": "2badad845ec3d58381749585727b16d3fb5235a4b12585850c3332215d514d19",
+      "proposal_id": "proposal:governed-rewrite/adaptation-threshold-v2",
+      "proposal_sha256": "38c85e71497f2340ee9822c2fa14f22501fd492de4c7872391b0d9f9fd6657a4",
+      "reason": "lower the adaptation threshold by one bounded unit without changing the protected route",
+      "schema": "mop-governed-rewrite-proposal/v1",
+      "source_identity_sha256": "6dea7b0c8c3212c38166360a4bd3524bda1cba08d1b93af5893651988f5fd664"
+    },
+    "uninterrupted_reference": {
+      "after_state_sha256": "dc2cbd8e30bc146e9457b4ff463604f30da11d11dc400d60de559971413bff82",
+      "audit_chain_verified": true,
+      "audit_head_sha256": "136e11804c5a7c1f740d34e408a08ab894cb154616094659b42378376f63220f",
+      "before_state_sha256": "ef9f7b2cf080c499fbd65c4a6cbe1432b3d81709bc4d2b44a63c6bed9ae34d09",
+      "canary_gate": {
+        "after_correct": 8,
+        "before_correct": 7,
+        "capability_gain": 1,
+        "checks": {
+          "maximum_protected_regressions": true,
+          "maximum_regressions": true,
+          "minimum_after_correct": true,
+          "minimum_capability_gain": true
+        },
+        "passed": true,
+        "protected_regressions": [],
+        "regressions": []
+      },
+      "reason_codes": [],
+      "state_unchanged": false,
+      "status": "committed"
+    }
+  },
+  "implementation": [
+    {
+      "bytes": 4800,
+      "path": "configs/experiment/governed_rewrite_preflight.yaml",
+      "sha256": "e4395bec61e68c3a16e7c95b91c9b7475dcc4bb3f840387941dcefbb55bd3d85"
+    },
+    {
+      "bytes": 70587,
+      "path": "src/mop/studies/governed_rewrite.py",
+      "sha256": "83ad277c9bb75cfb40d604a2b4f2ae76b26f23dbadb45fd8154ebcd041a8fa95"
+    },
+    {
+      "bytes": 1449,
+      "path": "scripts/governed_rewrite_preflight.py",
+      "sha256": "4d490c0efae395421c5ef1490c5847419fef857553266865613b8f5d189cb2f8"
+    },
+    {
+      "bytes": 10003,
+      "path": "tests/unit/test_governed_rewrite.py",
+      "sha256": "a5434e2eb98517612dd305a6204321e72034096bacf42f691aa81c1504a4fbda"
+    },
+    {
+      "bytes": 5679,
+      "path": "docs/GOVERNED_REWRITE_PREFLIGHT.md",
+      "sha256": "9bb349ba125df368ff8b7ec010691c616a8d736dfa14f031b019184d6b5b82b8"
+    },
+    {
+      "bytes": 2585,
+      "path": "src/mop/studies/process_resources.py",
+      "sha256": "313bace0076ecb1a6221435cd3c055e84ea4253c529ab5be7532fabb9b78a5d7"
+    },
+    {
+      "bytes": 17942,
+      "path": "src/mop/substrate/events.py",
+      "sha256": "cc0562fe8a3e5bd8caa67987e5be7581734e660e0f728619e44e4dc2d34fff48"
+    },
+    {
+      "bytes": 20817,
+      "path": "src/mop/substrate/lifecycle.py",
+      "sha256": "2bdc54987741e507eda17835057febd76fce2b425da6abef8572becfe00b30e2"
+    }
+  ],
+  "null_hypothesis": "a project-owned rewrite transaction cannot improve the bounded adaptation fixture while preserving protected capability, or cannot fail closed under stale state, forged, expired, or replayed authority, evaluator tampering, poisoned memory, interruption, and partial-write recovery",
+  "resource_observation": {
+    "cpu_threads": 1,
+    "device": "cpu",
+    "downloads_attempted": false,
+    "external_data_loaded": false,
+    "maximum_rss_bytes": 204423168,
+    "model_weights_loaded": false,
+    "phase_local_peak_rss_increment_bytes": 425984,
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "rss_limit_bytes": 1073741824,
+    "rss_limit_scope": "phase-local sampled peak increment above phase-start RSS",
+    "rss_measurement": {
+      "all_ok": true,
+      "end_rss_bytes": 204423168,
+      "interval_seconds": 0.002,
+      "method": "phase-local psutil current-RSS sampler",
+      "peak_increment_bytes": 425984,
+      "peak_rss_bytes": 204423168,
+      "sample_count": 9,
+      "sampling_error": null,
+      "start_rss_bytes": 203997184
+    },
+    "wall_limit_seconds": 10.0,
+    "wall_seconds": 0.022589667001739144
+  },
+  "schema": "mop-governed-rewrite-preflight/v1",
+  "source_identity": {
+    "files": [
+      {
+        "bytes": 70587,
+        "path": "src/mop/studies/governed_rewrite.py",
+        "sha256": "83ad277c9bb75cfb40d604a2b4f2ae76b26f23dbadb45fd8154ebcd041a8fa95"
+      },
+      {
+        "bytes": 2585,
+        "path": "src/mop/studies/process_resources.py",
+        "sha256": "313bace0076ecb1a6221435cd3c055e84ea4253c529ab5be7532fabb9b78a5d7"
+      },
+      {
+        "bytes": 17942,
+        "path": "src/mop/substrate/events.py",
+        "sha256": "cc0562fe8a3e5bd8caa67987e5be7581734e660e0f728619e44e4dc2d34fff48"
+      },
+      {
+        "bytes": 20817,
+        "path": "src/mop/substrate/lifecycle.py",
+        "sha256": "2bdc54987741e507eda17835057febd76fce2b425da6abef8572becfe00b30e2"
+      }
+    ],
+    "schema": "mop-governed-rewrite-source-identity/v1",
+    "sha256": "6dea7b0c8c3212c38166360a4bd3524bda1cba08d1b93af5893651988f5fd664"
+  },
+  "status": "mechanics-pass"
+}

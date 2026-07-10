@@ -23,9 +23,9 @@
   },
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
   "config": {
-    "bytes": 1533,
+    "bytes": 1651,
     "path": "configs/experiment/sensing_scaffold_runs.yaml",
-    "sha256": "b6f4933d450c2e874d6a6cf6ef68d8679b890a23b131a08894e16df8fbd80e71"
+    "sha256": "bcd4c6982ec45cac6e04df76cfc560cd0b98bf1d814456a26bf99b4724785c0d"
   },
   "evidence_class": "R1 deterministic programmatic toy execution",
   "favorable_experiments_requiring_fresh_verification": [],
@@ -422,7 +422,16 @@
     "f26 remains blocked on genuinely independent forms over shared referents",
     "a favorable toy pattern is not a capability result"
   ],
-  "payload_sha256": "45ace11482bf586354e053aa44ef25cca5f32f069fa86cf0401de0ba98571014",
+  "null_contract": {
+    "aggregate": "none of the three sensing toy primaries clears every strongest declared control and calibration gate",
+    "per_experiment": {
+      "f21_asynchronous_temporal_binding": "the learned binding window ties the fixed window on binding F1 across delay and jitter, or it binds shuffled-time pairs, so context-dependent binding adds nothing over a constant",
+      "f26_cross_form_contradiction_triangulation": "source localization AUROC ties the raw per-source residual and the majority-vote and mean-fusion baselines, so contradiction handling reduces to averaging",
+      "f27_causal_crossmodal_binding": "the intervention-trained model ties the temporal-correlation model on unseen-intervention prediction, or it also binds the synchronous-but-unrelated pair, so intervention adds nothing beyond synchrony"
+    },
+    "per_experiment_sha256": "5c4b63209b4552787f1f1cbea0689bb64a6cbd65ba52df944ee66631f5a42dce"
+  },
+  "payload_sha256": "f17cb2d240b104636865c7cacf03f3080da3f9d0c66e2023f9bb1e08a23678ee",
   "registry_bindings": {
     "f21_asynchronous_temporal_binding": {
       "controls": [
@@ -480,14 +489,14 @@
   "scientific_capability_claim": false,
   "source_receipts": [
     {
-      "bytes": 1533,
+      "bytes": 1651,
       "path": "configs/experiment/sensing_scaffold_runs.yaml",
-      "sha256": "b6f4933d450c2e874d6a6cf6ef68d8679b890a23b131a08894e16df8fbd80e71"
+      "sha256": "bcd4c6982ec45cac6e04df76cfc560cd0b98bf1d814456a26bf99b4724785c0d"
     },
     {
-      "bytes": 340982,
+      "bytes": 341090,
       "path": "registry/experiments.yaml",
-      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
       "bytes": 49862,
@@ -495,14 +504,14 @@
       "sha256": "d9f1d892cdf6a852fbe16b40410b85aa642c4686309d0e6b7445bedd6f181db4"
     },
     {
-      "bytes": 25441,
+      "bytes": 26494,
       "path": "src/mop/studies/sensing_scaffold_runs.py",
-      "sha256": "1e3f580fa70d72ce713cb7b0ea90440c8be906508905f4e12326d2f7cf1d6915"
+      "sha256": "650a80605096b3c86acf5e22f97033e3b48dda7d429d37c4cd0b0a540b485d97"
     },
     {
-      "bytes": 22422,
+      "bytes": 23635,
       "path": "src/mop/studies/sensing_scaffold_verify.py",
-      "sha256": "01b84197074f9a1ac7289a77ae6fd77faac10a64b9a8c7b88cb33997af40c78e"
+      "sha256": "5f4ff1798ba41d5e32b84b78743630af0dabfe0a506887990a36163d5476c55a"
     },
     {
       "bytes": 734,
@@ -515,9 +524,9 @@
       "sha256": "d46b0fdb0a3297326847565ca5700b4dfe19ac7b0800541de2bae5c6cb696a8f"
     },
     {
-      "bytes": 3690,
+      "bytes": 5063,
       "path": "tests/unit/test_sensing_scaffold_runs.py",
-      "sha256": "f525bf333adb92fd0dcb0ae39b91b30092e62a7f1fe4d6f9a5592958e6337a62"
+      "sha256": "25c08fd2ab06ba7788254bebfad17cbecef058a9e125507accaa1671d7179531"
     }
   ]
 }

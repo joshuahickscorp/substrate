@@ -17,12 +17,13 @@ actual chip, memory, and disk and rejects a profile/host mismatch. Procurement r
 The scientific sizing below remains useful as a scenario, but measured hardware replaces every
 throughput or residency projection before launch.
 
-Current correction (2026-07-10): all three published V-JEPA 2 scale points now load and execute
-locally in serial. ViT-H and ViT-g have finite supervised CPU-forward receipts and shared
-eight-referent caches. The 180-minute M3-Pro profile therefore replaces the old blanket encoder
-prohibitions below. Large-corpus throughput, raw-video storage, and rights-cleared inputs may still
-justify a larger rung, but an encoder name, a 32 GB policy guard, or a historical planning label is
-not a measured hardware boundary.
+Current correction (2026-07-10): the published scale-control inventory and the official dense ViT-B
+instrument execute locally in serial. The 300-minute adaptive M3-Pro operational profile replaces
+the old blanket encoder prohibitions below while frozen scientific shards retain their registered
+identity. Large-corpus throughput may eventually earn a benefit case, but an encoder name, a policy
+guard, raw-input volume, rights gap, or historical planning label is not a measured hardware
+boundary. This document remains a historical sizing scenario; the maximum-potential goal and live
+requirements matrix govern.
 
 This is additive to the canonical docs (corpus volumes + BLACKHOLE.md + this Studio plan)
 and the operational docs (README, SCALING, APPLE_SILICON, EXPERIMENTS, STATUS). Older goal and

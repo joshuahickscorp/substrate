@@ -1,12 +1,19 @@
 # Extended-compute execution plan
 
+> LIVE INTEGRATION 2026-07-10: this portfolio remains design context. The active order is
+> `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`. The operational maximum is 300 minutes; registered
+> scientific shards remain unchanged.
+
 Snapshot: 2026-07-10  
 Decision owner: Form Substrate program  
 Current decision: **no procurement, no cloud rental, no distributed campaign**
 
 ## Outcome and operating rule
 
-The next 180 days should spend compute only on evidence that can change a scientific decision. The current registry has 167 category-1 rows, 11 category-2 rows, 17 category-3 rows, and no category 4-9 rows. The complete 289-row planning matrix has zero category 8/9 and zero `hardware_required:true` rows.
+The next 180 days should spend compute only on evidence that can change a scientific decision. The
+current registry has 168 category-1 rows, 10 category-2 rows, 19 category-3 rows, and no category
+4-9 rows. The complete 291-row planning matrix has 168/90/29/4 rows in categories 1/2/3/6, zero
+category 8/9 rows, and zero `hardware_required:true` rows.
 
 The escalation rule is:
 
@@ -39,15 +46,15 @@ State 1 cannot be described as a scientific verdict. State 3 cannot be described
 | Rank | ID | Experiment/program | First rung now | Primary blocker now | Decision value |
 |---:|---|---|---|---|---|
 | 0 | R0 | Evidence identity and stale-chain repair | L0 | Implementation/integrity | Makes every later result citable |
-| 1 | P1 | CM7 four-objective paired tournament | L0/L1 | Finish source-snapshotted campaign, then estimate variance | Selects a project-owned objective without a teacher |
+| 1 | P1 | CM7 four-objective paired tournament | Closed exact rung | Five-seed familywise null is bound | Retire this regime and carry its platform contracts forward |
 | 2 | P2 | Session-diverse natural referent pack | L0 after intake | Rights/provenance/data | Removes the largest shared blocker |
 | 3 | P3 | Learned versus same-architecture random controls | L1 serial | Implementation/control | Separates pretraining from architecture/resolution |
 | 4 | P4 | Small-substrate capability-density response surface | L1 | Design/implementation | Tests alternatives to parameter scaling |
 | 5 | P5 | Exact dense context versus factorized memory | L0/L1 | Implementation, then measurement | Strongest possible future resident-memory gate |
-| 6 | P6 | Million-event bounded continual stream | L1 | Streaming/replay/resume implementation | Tests plasticity and lifetime density |
-| 7 | P7 | Action-conditioned and active-perception loop | L0/L1 after inputs | Rendered action observations, citable substrate cache, and exact frozen action control | Tests intervention and real-time claims cheaply |
+| 6 | P6 | Million-event bounded continual stream | L0/L1 | 384-event mechanics pass; 10k calibration is next | Tests plasticity and lifetime density |
+| 7 | P7 | Action-conditioned and active-perception loop | L0/L1 after external inputs | Programmatic mechanics pass with a fixture null; independently sourced trajectories and an exact-referent control remain | Tests intervention and real-time claims cheaply |
 | 8 | P8 | Native audiovisual binding | L0/L1 after data | Aligned A/V rights and split discipline | Tests temporal binding rather than pooled proxy forms |
-| 9 | P9 | Operational self-model plus full-system density | L0, later L6 meter | Instrumentation/implementation | Measures failure prediction and actual resource cost |
+| 9 | P9 | Operational self-model plus full-system density | L0 after external workload intake, later L6 meter | Structural mechanics pass; independent workload/failure episodes and metered energy remain | Measures failure prediction and actual resource cost |
 | 10 | P10 | Material simulation, then specimen validation | L0 simulation, L6 bench | Simulator first; specimens later | Separates algorithm value from material value |
 
 R0 is not a scientific experiment and receives no promotion claim. P1-P10 are the candidate experiments subjected to the twelve adversarial questions below.
@@ -67,12 +74,15 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 
 ### Tasks
 
-1. Let the active CM7 v3 job finish or fail; do not cite partial arms. Require final aggregate receipt, exact source snapshot, arm hashes, recovery state, and the five requested seeds before pilot interpretation.
+1. Preserve the closed CM7 five-seed portable chain and its familywise-corrected null. Do not revive
+   the exact regime with more seeds after its preregistered decision closed.
 2. Preserve the completed SANPO execute receipt and verify it against its current plan identity. Do not convert an 80-frame smoke set into a scientific-data claim.
 3. Regenerate or explicitly retire the stale project-exhaustion, frontier-localization, standalone encoder-forward, and F artifact-index chains.
 4. Rebuild the F scorecard so F8/F16 carry current data/environment semantics; retain F10's failed independent-verifier gate and the F13/F18/F20 redesign warnings.
 5. Validate all current cache manifests with their schema-aware digest rules. The quarantined random-init ViT-L artifact remains uncitable.
-6. Pin the official V-JEPA 2.1 upstream commit, checkpoint digest, 384 px preprocessing, and dense-token geometry when implementing E6/DR14. The local placeholder configs must not be silently reused.
+6. Preserve the verified official dense ViT-B strict-load, 8/64-frame forwards, and E6/DR14
+   cache/control integration. Its next gate is the rights-clean annotated natural cohort, not more
+   model integration.
 7. Run the requirements builder and its negative gate tests after sources settle.
 8. Preserve `proof/LOCAL_ACTION_ENVIRONMENT.json` as programmatic mechanics only; use its explicit remaining-blocker map for E10/CM10 rather than promoting an embodiment/open-endedness claim.
 
@@ -127,7 +137,7 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 | Hypothesis | Effects that survive session-disjoint natural referents differ materially from programmatic-ceiling results and expose the real objective/control ranking |
 | Independent unit | Source session or creator/source collection, not frame or crop |
 | Inputs | Start with completed SANPO smoke mechanics; separately audit AViD, per-item CC YFCC/Wikimedia, or another approved source. No terms are accepted by this plan |
-| Smallest model | Frozen ViT-L and CM7 readout first; do not start with ViT-g |
+| Smallest model | Frozen ViT-L control and CM7 readout first; no inherited-scale expansion |
 | Controls | Session-disjoint split, source/creator grouping, duplicate and near-duplicate removal, pixels/random architecture, byte-identical referent manifest |
 | Seeds/power | Dataset diversity is not a substitute for training seeds. Power the primary model contrast over the declared session population using hierarchical/bootstrap analysis |
 | Memory/storage/time | SANPO smoke is roughly 289 MB planned. Preserve ≥40 GB free. Derived caches are sharded; dense fp16 64f/256 ViT-L is 16.78 MB/clip before metadata, so the receipt's 2.135 GB safe headroom would hold only about 127 such hypothetical clips |
@@ -161,14 +171,14 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 |---|---|
 | Hypothesis | Learned weights improve the named transfer/invariance endpoint over architecture-matched random initialization at identical bytes, preprocessing, geometry, and readout budget |
 | Independent unit | Paired training/random seed and independent referent session; analyze crossed structure rather than treating clips as n |
-| Inputs | Existing citable L/H/g learned caches plus P2 referents; generate new random caches with manifests |
-| Smallest model | ViT-L first; expand to H/g only if L is off-ceiling and the learned-random delta is unresolved |
+| Inputs | Existing citable ViT-L control plus P2 referents; build active ViT-B/custom learned and random controls only for named tasks |
+| Smallest model | One retained frozen control and one owned compact substrate; no legacy scale ladder |
 | Controls | Same architecture, resolution, frame count, preprocessing, precision, seed ledger, and readout rank; pixels and shuffled labels |
 | Seeds/power | Start with 3 random-weight seeds × P2 sessions; estimate variance before scale expansion |
-| Memory/storage/time | Existing CPU learned timings: L 22.335, H 34.728, g 187.333 s/clip. A 64-clip random cache is estimated at 23.8 min, 37.0 min, and 3.33 h respectively if timing matches learned weights; g must be split under the 180-minute shard limit |
+| Memory/storage/time | The retained ViT-L pooled control measured 22.335 s/clip on eight programmatic clips. The dense ViT-B 64-frame forward measured 25.2 s after strict load. Re-measure complete natural-cache construction, including decode, finalization, and verification |
 | Local optimization | Sequential model/seed caches, content-addressed manifests, frozen inference, pooled screening before dense tokens |
 | Rung | L1 serial |
-| Promotion gate | Valid L-scale delta and measured campaign wall make H/g scientifically informative rather than decorative |
+| Promotion gate | Valid natural-session learned/random delta, active custom control, and measured complete campaign wall |
 | Null rule | Learned-random delta is inside SESOI at L on natural referents |
 | Kill rule | Kill scale expansion if endpoints remain at ceiling/floor or random weights tie learned weights across two referent budgets |
 | Reusable artifact | Same-referent learned/random cache family with checkpoint/state-dict, preprocessing, and referent hashes |
@@ -176,13 +186,13 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 ### Twelve adversarial answers
 
 1. It identifies whether pretraining, not architecture or resolution, carries the signal.
-2. The current atlas has no citable random architecture and is nonpromotable.
+2. Historical scale controls are retired; the active ViT-B/custom natural-task controls are not yet materialized.
 3. ViT-L, a small natural packet, and three random seeds answer first.
 4. Every model/seed serializes and caches.
 5. Parallelism affects elapsed time only.
 6. Random same-architecture weights are the compute-matched scientific control.
 7. A null demotes inherited-encoder claims and favors smaller project-owned substrates.
-8. H/g are justified only when L leaves a scale-dependent uncertainty.
+8. A new inherited scale is not justified by this card; structural successors are tested in P4.
 9. Kill any cache whose weights, preprocessing, source bytes, or manifest cannot be verified.
 10. Hold resolution and token/readout geometry fixed where possible; otherwise declare the interaction.
 11. Independent units are weight seed and source session under a crossed model.
@@ -200,7 +210,7 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 | Smallest model | Log-spaced around CM7: 0.5×, 1×, 2×, 4× parameter budgets; shortlist recurrent, sparse, cellular/reservoir, and dense controls |
 | Controls | Matched active FLOPs, updates, data bytes, objective, optimizer, context access, and final readout budget; mandatory random search |
 | Seeds/power | Fractional-factorial 5-seed screen; exact confirmatory retraining of surviving contrasts with recalculated n |
-| Memory/storage/time | Engineering screen: 12 configurations × 5 seeds × 20 min ≈20 serial hours before 20% validation/retry overhead; measure rather than assume. Shard each run under 180 minutes |
+| Memory/storage/time | Engineering screen: 12 configurations × 5 seeds × 20 min ≈20 serial hours before 20% validation/retry overhead; measure rather than assume. The active P4 study retains its registered 180-minute scientific shard within the 300-minute operational envelope |
 | Local optimization | Proxy/query benchmarks, early futility, exact retraining of shortlist, streamed data, atomic checkpoints |
 | Rung | L1 |
 | Promotion gate | A powered response coefficient survives matched budgets and local campaign time becomes the limiting decision cost |
@@ -270,7 +280,7 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 | Smallest model | CM7-scale recurrent/sparse substrate with bounded replay and checkpoint state |
 | Controls | Tuned SGD/cosine, EWC, reservoir/uniform/recency replay, shrink-and-perturb, matched final capacity, replay-byte and active-FLOP matching |
 | Seeds/power | Five lineages for variance; confirmatory n from lifetime AUC paired differences and worst-case forgetting |
-| Memory/storage/time | Begin 100k events, then 1M only if the response is unresolved. Engineering range 15-45 serial hours for a 3-arm ×5-lineage pilot must be replaced by measured 10k-event calibration. Count replay/checkpoint bytes and retry overhead |
+| Memory/storage/time | The 384-event mechanics run covers 2,304 total arm events without weights or an accelerator. Measure 10k first, then 100k, and run 1M only if the response remains unresolved. Count replay/checkpoint bytes and retry overhead |
 | Local optimization | Iterable stream, disk replay, bounded state, periodic atomic checkpoints, evaluation windows, early futility |
 | Rung | L1 |
 | Promotion gate | Positive lifetime-density effect, powered lineage count, and measured campaign calendar cost; live real-time promotion requires an unrepeatable clock |
@@ -282,7 +292,7 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 
 1. It tests long-lived learning, not short task-end accuracy.
 2. Existing short streams cannot estimate transient forgetting or plasticity loss.
-3. A 100k-event bounded stream precedes one million events.
+3. A 10k resource calibration precedes 100k, and 100k precedes one million events.
 4. Streams, replay, evaluation, and checkpoints serialize.
 5. Parallel lineages shorten wall time only.
 6. Tuned fixed capacity, replay policies, EWC, and shrink-and-perturb match budget.
@@ -301,13 +311,13 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 |---|---|
 | Hypothesis | Action conditioning and selective sensor acquisition improve unseen-intervention prediction or capability-cost area over blind, shuffled-action, random, and uncertainty-only controls |
 | Independent unit | Environment seed/layout; policy seed paired within environment family |
-| Inputs | The new three-seed deterministic `LOCAL_ACTION_ENVIRONMENT` trajectories establish local mechanics; next render action-conditioned observations and bind a citable substrate cache plus exact frozen V-JEPA 2-AC control. Later sensor/robot work is a separate L6 protocol |
+| Inputs | The three-unit P7 receipt now renders exact action-conditioned observations and binds same-parent counterfactual branches. Its fixture null is closed; next use independently sourced trajectories with an exact-referent action control. Later sensor/robot work is a separate L6 protocol |
 | Smallest model | Compact latent forward model and discrete action/sensor policy |
 | Controls | Action-blind, shuffled/yoked action, random/round-robin acquisition, uncertainty-only, same observation and sensor-cost budgets |
 | Seeds/power | 5 environment families × paired policy seeds for variance; hierarchical confirmatory analysis |
 | Memory/storage/time | Start with ≤4 environments, ≤100k steps, compact observations; estimate 5-20 serial hours only after a 10k-step timing receipt |
 | Local optimization | Vectorization only after single-env determinism; log/replay trajectories; decouple model and environment clocks; checkpoint policy/model/RNG |
-| Rung | Category 3 until rendered/citable inputs and the action-conditioned control exist, then L0/L1; L6 only for real sensors |
+| Rung | Category 3 until independently sourced trajectories, exact-referent control validity, and replication exist; then reuse the local L0/L1 harness. L6 applies only to real sensors |
 | Promotion gate | Simulated effect survives controls; for hardware latency, p95 capture+decode+model+policy+actuation misses a necessary action interval and slowing changes the estimand |
 | Null rule | Conditioning/acquisition ties blind/random at matched cost |
 | Kill rule | Kill if gains vanish under action shuffle/yoking, exploit simulator artifacts, or need a changed task clock |
@@ -317,7 +327,7 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 
 1. It tests causal action information and value of selective observation.
 2. Offline synthetic action probes cannot establish closed-loop behavior.
-3. The existing compact local grid mechanics are sufficient first; rendered substrate inputs and controls are the next smallest step.
+3. The rendered compact local grid mechanics are complete and support the null; external trajectories plus the exact-referent control are the next smallest step.
 4. Most trajectories replay; a true live deadline must be separately proved non-replayable.
 5. Parallel environments usually alter elapsed time only.
 6. Blind, shuffled/yoked, random, and uncertainty-only controls match compute/cost.
@@ -371,13 +381,13 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 |---|---|
 | Hypothesis | Causal internal telemetry improves pre-failure calibration, selective abstention, and resource allocation over raw task error, fixed thresholds, and fluent-report baselines at lower total system cost |
 | Independent unit | Independent workload/failure episode; seeds paired within episode family |
-| Inputs | Host/model telemetry, injected bounded failures, workload phases; later plug-level power meter |
+| Inputs | The structural telemetry/intervention fixture is complete; next use independent natural workload/failure episodes with prospective registration; later add a plug-level power meter |
 | Smallest model | Calibrated lightweight forecaster/controller/report head |
 | Controls | External-error only, fixed thresholds/PID, final-output decoder, random telemetry, telemetry lesions/interventions |
 | Seeds/power | Five workload/failure lineages for variance; endpoint is pre-failure calibration/utility at matched capability |
-| Memory/storage/time | Log decode, input, cache, model, checkpoint, retry, idle, RSS/MPS allocation, storage, and wall time. Energy remains estimated until a meter establishes wall-system boundary |
+| Memory/storage/time | The existing accountant logs decode, input, cache, model, checkpoint, retry, idle, RSS/MPS allocation, storage, and wall time. Energy remains unmeasured until a meter establishes the wall-system boundary |
 | Local optimization | Low-rate telemetry, bounded history, offline calibration, serialized ensembles, fixed report bandwidth |
-| Rung | L0 implementation; L6 for instrumented wall power or physical failure |
+| Rung | Category 3 until independent workload/failure episodes and replication exist; reuse the local L0 harness, with L6 only for instrumented wall power or physical failure |
 | Promotion gate | Prospective calibrated gain survives telemetry ablation/intervention; energy claim requires meter uncertainty and matched task target |
 | Null rule | Telemetry adds no prospective information beyond external error/threshold controls |
 | Kill rule | Kill reports that remain unchanged when claimed internal state is ablated, or controllers that oscillate/reduce capability |
@@ -387,7 +397,7 @@ The alpha .01 value is the conservative Bonferroni/first-step Holm planning thre
 
 1. It tests prospective internal-state usefulness and honest system cost.
 2. Existing analytical energy and fluent outputs do not prove either.
-3. A tiny forecaster on local telemetry and injected failures suffices.
+3. The tiny local monitor and injected structural failures are complete; independent workload/failure episodes are next.
 4. Histories and ensembles serialize; telemetry streams.
 5. Parallelism changes time, while live failure latency needs explicit testing.
 6. Fixed thresholds/PID, external error, random telemetry, and lesion controls match budget.
@@ -468,7 +478,7 @@ The scientific critical path is R0 → P2 → P3 → P4. P1 can proceed in paral
 
 | Rung | Entry test | Required instrumentation | Exit/stop test |
 |---|---|---|---|
-| L0 | Row is local and one shard fits the 180-minute/40 GB guards | Config/source hashes, RSS, MPS allocation where used, wall, storage delta, retry state | Complete shard, null/futility, disk floor, or unstable recovery |
+| L0 | Row is local and one operational leg fits the 300-minute/40 GB guards | Config/source hashes, RSS, MPS allocation where used, wall, storage delta, retry state | Complete shard, null/futility, disk floor, or unstable recovery |
 | L1 | Same experiment is valid when resumed/serialized | Atomic model/optimizer/RNG/sampler checkpoint; data cursor; identical metric parity | Finish powered units or stop for futility; do not escalate for patience alone |
 | L2 | Three repeated MPS working-set failures after valid attacks; predicted fit on larger UMA | `recommended_max_memory`, current/driver allocations, pressure, full peak components | ≥20% working-set headroom and parity; stop if CUDA-only/runtime issue remains |
 | L3 | Named CUDA or 96-141 GB need; bounded same-workload pilot budget approved | Exact container/runtime, GPU/host memory, decode/utilization, numerical/data-order parity, billed cost | Stop if parity fails, I/O dominates, or bottleneck does not move |
@@ -486,29 +496,31 @@ Commands are to be run only when the active heavy process has exited and the dis
 .venv/bin/python scripts/build_extended_compute_requirements.py --check
 ```
 
-Expected behavior: exact 289-row coverage; W0-W11 and pillars 7-25 present; category 8/9 counts derived; fabricated-ID and incomplete-category-9 negative tests pass; all known stale artifacts are excluded from authoritative row evidence.
+Expected behavior: exact 291-row coverage; W0-W11 and pillars 7-25 present; category 8/9 counts
+derived; fabricated-ID and incomplete-category-9 negative tests pass; all known stale artifacts are
+excluded from authoritative row evidence.
 
-### CM7 completion specification
+### CM7 closed-regime contract
 
-Use the existing `scripts/custom_substrate_workbench.py cm7` interface with:
+`proof/CUSTOM_SUBSTRATE_PILOT.json` binds five seeds, 1,000 updates per arm, exact initialization,
+four matched objective arms, the environment, current-source attestation, and the independent
+familywise verifier. Its verdict is `not-promoted`. Do not add seeds to rescue that estimand. A
+successor must change one preregistered structural premise and retain the portable receipt, resume,
+control, and verifier contracts. Historical source-drift and transient-recovery checkpoints remain
+forensic inputs only.
 
-- profile `local180`;
-- device `mps`, with exact CPU replay only for forensic failures;
-- a new immutable source-snapshotted run directory per attempt;
-- seeds declared before launch;
-- four arms, exact shared initialization, equal updates/tokens;
-- one shard under 180 minutes and ≥40 GB free at all checkpoints;
-- final aggregate proof only after every requested arm closes.
+### Dense ViT-B integration status and natural-cache specification
 
-Do not reuse the source-drift or transient-recovery checkpoints as scientific inputs.
-
-### V-JEPA 2.1 integration specification
-
-1. Pin the official `facebookresearch/vjepa2` commit and checkpoint digest. First-party access is torch.hub plus direct URLs, not Hugging Face: entrypoints `vjepa2_1_vit_base_384` (80M), `vjepa2_1_vit_large_384` (300M), `vjepa2_1_vit_giant_384` (1B), `vjepa2_1_vit_gigantic_384` (2B), checkpoints under `dl.fbaipublicfiles.com/vjepa2/`, MIT license with Apache-2.0 portions, no manual terms. The official HF release is an open upstream issue; community conversions are non-citable without a receipted parity check.
-2. Replace placeholder `available:false`, fake model IDs, old repository, and 256 px assumptions in a reviewable change.
-3. Verify 384 px preprocessing, frame/tubelet/patch geometry, dense output shape (24 x 24 spatial patches, 18,432 dense tokens at fpc64), finite batch-1 forward, peak RSS/MPS values, and exact checkpoint identity.
-4. Start with ViT-B (about 320 MB, inside the local 10 GB budget) and one clip, no large corpus. Stop before downloading another model scale, and declare the distillation caveat: 2.1 B/L are ViT-G distillates, not independent scale points.
-5. Produce a receipt whose claim is availability/geometry only, not relational performance.
+1. The pinned official repository, 1.664 GB checkpoint, full digest, strict load, and finite CPU
+   forwards at 8 and 64 frames are complete and receipted.
+2. The cache-first E6 consumer, serial learned/random cache plans, strict finalizer, and DR14 nested
+   dense-channel views are implemented and pass a no-heavy preflight.
+3. Materialize a rights-clean annotated natural-video cohort with immutable train, validation, and
+   untouched test membership. Bind every row to the exact preprocessing and task label.
+4. Encode learned and matched frozen-random caches serially from the same manifest. Do not acquire
+   another model scale unless an off-ceiling endpoint first names the unresolved scale question.
+5. Run independent E6 and DR14 verifiers. Runtime and mechanics receipts cannot be described as
+   relational or robustness effects.
 
 ### Memory-boundary benchmark specification
 
@@ -546,22 +558,26 @@ No category 8 is awarded from vendor specifications alone.
 
 ### Days 0-30: make the local evidence trustworthy
 
-- Close R0, including the active CM7 and completed SANPO receipt identities.
+- Close remaining R0 drift after preserving the CM7 null and current SANPO receipt identities.
 - Regenerate or retire stale ledgers and the F chain.
-- Integrate one official V-JEPA 2.1 checkpoint with a one-clip geometry receipt; no corpus download.
-- Finish P1's five-seed variance pilot if host guards permit.
+- Preserve the completed official dense ViT-B runtime and task integration receipts; no new scale
+  download.
+- Treat P1's exact regime as closed by its five-seed null and select a structurally changed successor
+  only through a new preregistration.
 - Generate a small ViT-L architecture-matched random control with a valid manifest.
 - Finish rights/provenance review for one P2 smoke source and define session-level splits.
-- Implement P9 end-to-end time/memory/storage logging; energy remains estimated.
+- Preserve P9's completed end-to-end accounting and causal-monitoring mechanics; intake independent
+  workload/failure episodes next. Energy remains unmeasured.
 - Recalculate every power target from observed variance. No procurement review.
 
 ### Days 31-90: run the smallest decisive local tests
 
 - Run P2 off-ceiling/session-diversity validation.
-- Expand P3 only from L to H/g when L leaves a named scale uncertainty.
+- Complete P3 on active ViT-B/custom natural-task controls; do not reopen the retired scale ladder.
 - Run P4 fractional-factorial five-seed screen around CM7.
 - Implement and profile P5's exact/factorized 16/32/64-frame grid.
-- Start P6 at 100k events and P7 in a bounded local environment.
+- Run P6 at 10k events, then 100k only after its measured resource declaration is accepted. Continue
+  P7 in a bounded local environment.
 - Start P8 only if a rights-audited native A/V source exists.
 - Start P10 F61-F64 simulation; do not acquire specimens.
 - Record any category 4/5 only after measured harness evidence; none is assumed now.
@@ -626,7 +642,8 @@ This annex binds the plan to the MoP goal-loop spine so the two lanes cannot dri
 | P9 self-model and accounting | facet 11 conveyor, density receipt, memory envelope | wave receipts, `encode_schedule.json` |
 | P10 material line | W9/W10 (unchanged) | simulation receipts before any specimen |
 
-The spine's standing order (DR1 first, PR9 second, dense plus atlas on the same conveyor, B5 last) is the execution order of this plan's Studio rungs: S2, then S4, then S1/S3/S6, then S8.
+The spine's standing order (DR1 first, PR9 second, dense controls on the same conveyor, B5 last) is
+the execution order of this plan's measured-boundary candidates: S2, then S4, then S1/S3, then S8.
 
 ### The Studio boundary table
 
@@ -634,10 +651,9 @@ The spine's standing order (DR1 first, PR9 second, dense plus atlas on the same 
 |---|---|---|---|---:|
 | S1 dense-token caches | disk | ~1,200-3,400 dense clips against the 40 GB floor | named dense experiment with power above the local ceiling and recompute-defeating access | 2/3 |
 | S2 natural-corpus encode | throughput | 1k clips in 2-3 shards; 10k a week-plus; 100k infeasible on a daily driver | measured session variance, named n, calendar past a preregistered deadline | 3 |
-| S3 H/g control caches | throughput | 60-90 serial hours for a 22-pair three-scale campaign | L-scale delta leaves a named scale uncertainty | 2 |
-| S4 long streams / daemon | calendar | 180-minute shards, daily-driver duty cycle | loss-inducing length past the shardable calendar, or a preregistered wall-clock-coupled estimand | 2 |
+| S3 active learned/random/custom controls | throughput | not yet measured on the rights-clean natural cohort | named session-powered contrast plus complete local profile | 2/3 |
+| S4 long streams / daemon | calendar | 300-minute operational legs, daily-driver duty cycle | loss-inducing length past the shardable calendar, or a preregistered wall-clock-coupled estimand | 2 |
 | S5 resident ecology | memory | ~30 GB fp16 of weights vs 18 GB host | preregistered closed-loop multi-perspective deadline (none exists) | 5-then-8 shape |
-| S6 ViT-G fourth scale point | memory + throughput | unmeasured; plausibly 6-12 min/clip CPU | an off-ceiling endpoint that needs a fourth scale point | 2 |
 | S7 MPS at 128 GB | measurement | 821 s/clip at 18 GB (paging) | none; it is Wave 0 instrumentation | n/a |
 | S8 seed retrofits | calendar | shardable without validity loss | named calendar target after instruments exist | 8 candidate |
 
@@ -648,7 +664,8 @@ No row is category 9. The three enablement tests (non-factorizable resident stat
 1. Wave 0: strict doctor, transfer check, disk recovery, density receipt, MPS-vs-16-worker microbench, the 1,000-clip rebuild. Pure measurement; no science claim.
 2. DR1/P2: requires the validated source card and intake receipt (rights first), then the caption acceptance gate before any encode spend.
 3. PR9/P6: requires the local 100k-event calibration and the plasticity certificate wiring; verdict flows through `pr9_verdict_ledger` and `process_c_license_gate`.
-4. Dense pair, atlas, and any S1/S3/S6 expansion: requires DR1 session variance, a dense endpoint card, and the `dense_atlas_cache_gate`.
+4. Dense pair and any S1/S3 expansion: requires DR1 session variance, a dense endpoint card, and the
+   `dense_atlas_cache_gate`.
 5. B5 and 30-seed retrofits: last, per the standing anti-comfort rule.
 
 ### Local work this annex adds now (no Studio required)
@@ -665,7 +682,7 @@ No row is category 9. The three enablement tests (non-factorizable resident stat
 3. F10 before an independent verifier; F13 before measured energy; F18 before causal transport; F20 before measured avoided compute.
 4. F8/F16 before trusted natural provenance.
 5. A learned encoder without a citable same-architecture random control.
-6. ViT-g merely because it is larger; the current eight-row atlas ties L/H/g while cost rises sharply.
+6. Any inherited scale merely because it is larger; the retired pilot never established a scientific benefit.
 7. Parameter count without matched data, active FLOPs, context, optimizer, and control capacity.
 8. Dense global attention before exact/windowed/recurrent/SSM/checkpoint comparisons.
 9. More frames from one session as a substitute for more sessions.

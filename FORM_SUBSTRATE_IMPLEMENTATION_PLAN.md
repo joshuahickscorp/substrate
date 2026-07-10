@@ -1,9 +1,11 @@
 # FORM SUBSTRATE IMPLEMENTATION PLAN
 
-Status note (2026-07-09): this is the original execution snapshot. Its CPU-now implementation list
-is stale. Use `FORM_SUBSTRATE_EXPERIMENTS.md` and `DECISIONS.md` for live F-series status, then use
-`FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md` for the additive successor plan. Unfinished real-data,
-Studio, unification, environment, and plasticity obligations in this file remain relevant.
+Status note (2026-07-10): this is the original execution snapshot, corrected by the claim-level and
+local-ceiling audits. Its implementation list and embedded goal prompt are historical. Use
+`MOP_MAXIMUM_POTENTIAL_GOAL.md`, `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`, current receipts, and
+`FORM_SUBSTRATE_EXPERIMENTS.md` for live order. Unfinished real-data, unification, environment, and
+plasticity obligations remain relevant. The old Studio gate does not. No current receipt establishes
+a hardware prerequisite for this plan.
 
 The detailed scaffolding and execution plan for building out the Form Substrate Program from the
 state the paradigm migration left behind. MIGRATION_PHASES.md is the phase law; this document is
@@ -285,12 +287,12 @@ crisis_auroc against realized probe failure with raw-error and fixed-threshold b
 triggers on noise. The verdict wires into the F8/F16 licensing evidence stream; a positive here is
 an input to the process_c-style gate, never a bypass of it.
 
-## 5. Workstream D: Studio real forms (gated on the M1 Ultra spine, do not start locally)
+## 5. Workstream D: natural real forms (local, serialized, and input-gated)
 
-Preconditions: DR1 cache built and verified on the Studio (source intake, caption acceptance,
-merge manifest, PerspectiveMatrix receipt, A6 residual guard, adversarial verification all pass).
-The spine order (DR1 first, PR9 second, dense/atlas conveyor, B5 last) is not reordered by this
-plan; D-tasks ride behind it.
+Preconditions: a citable natural cache, source intake, caption acceptance where used, merge manifest,
+FormMatrix receipt, A6 residual guard, and adversarial verification all pass. Build and verify these
+serially on the current host through the adaptive governor. Input authority, identity, and matched
+controls are the first gates. A larger machine is not a prerequisite.
 
 ### D1. DR1 as a FormMatrix
 
@@ -300,7 +302,7 @@ control arm (the matched random-init cache). Then run the real variants of F1, F
 same experiment ids, provenance tag natural-video distinguishes them, null cards either way.
 Every alignment claim passes the A6 residualization before the word semantic appears anywhere.
 
-### D2. OA block in the studio scorecard
+### D2. OA block in the evidence scorecard
 
 Extend src/mop/studio/scorecard.py with an operational-awareness section reading a
 runs/mot/oa_suite.json receipt (produced by F17/F20 real runs). Missing receipt stays pending;
@@ -365,7 +367,7 @@ re-render travel in the same commit.
 | Toy F-beds ceiling and fake positives | C1-C9 | difficulty calibration gate before trusting any tie or win; the F3 width probe doubles as the bed check |
 | OA metrics overclaimed into awareness language | C2, C9, D2 | rail on render paths; no composite OA score exists by design; recorded-null comparisons mandatory |
 | Density ratios cited without matched cost | C7, everywhere | acceptance rule: density claims name their matched-cost control or they are bookkeeping |
-| Studio contention: F-work steals spine time | D | D-tasks ride BEHIND the spine; no F encode jobs before DR1/PR9 receipts exist |
+| Heavy-lane contention corrupts attribution | D | serialize encode/training jobs through the governor; light verification may run in parallel |
 | Ledger drift from new docs | all | check_docs in the protocol; new .md and its ledger line in the same commit |
 | Sign-flip positives in memory/binding toys | C3, C6 | seeds [0..4] minimum for any candidate positive; riskcov seed_ci + sign_flip_report in the result |
 
@@ -378,56 +380,20 @@ C1, C2                              (parallel-safe after B1; each about a sessio
 C3 -> C4 -> C5                      (compositional, curriculum, codes)
 C6 -> C7                            (memory scale, density frontier)
 C8 -> C9                            (intervention, crisis)
-D1 -> D2 -> D3                      (Studio-gated; behind the spine)
+D1 -> D2 -> D3                      (local, serialized, after citable input and control receipts)
 E                                   (after B3 soaks)
 F                                   (license-gated; possibly never; a clean never is a result)
 ```
 
 Definition of done for this plan: F4, F9, F10, F12, F13, F17, F18, F19, F20 flipped to implemented
 with green gates and receipts; one matrix stack; DR1 matrix running real F1/F5/F9/F12; OA and
-density blocks in the studio scorecard; zero unledgered docs; acceptance 10/10 throughout.
+density blocks in the evidence scorecard; zero unledgered docs; acceptance 10/10 throughout.
 
 ---
 
-## 11. Goal prompt (paste into a fresh session)
+## 11. Current standing goal
 
-```text
-Read /Users/scammermike/Downloads/mop/FORM_SUBSTRATE_IMPLEMENTATION_PLAN.md in full. It is the
-work order for the Form Substrate Program and this session executes it. Context stack, in order:
-FORM_SUBSTRATE_PROGRAM.md (worldview), FORM_SUBSTRATE_DOCTRINE.md (methods law),
-FORM_SUBSTRATE_CODEMAP.md (module map + refusal table), FORM_SUBSTRATE_EXPERIMENTS.md (F-series
-bank), PERFORMANCE_DENSITY_DOCTRINE.md, OPERATIONAL_AWARENESS.md. PARADIGM_MIGRATION.md and
-LEGACY_INDEX.md fix what older docs now mean; do not take doctrine from archived-status docs.
-
-Environment: run with the editable package installed in `.venv`; `PYTHONPATH=src` is no longer required.
-Verify the baseline before touching anything: unit suite green, scripts/acceptance.py 10/10,
-scripts/check_docs.py clean, scripts/devel.py experiments valid (195 rows, 20 F-series).
-
-Execute the plan's workstreams in order: A1 (tests/integration/test_f_series.py), then B1-B4 (one
-referent-aligned stack: store-backed form adapters, helper collapse, the perspectives/form merge
-by the blast-radius rule, manifest v2), then C1-C9 (implement F4, F17, F9, F10, F12, F19, F13,
-F18, F20, in that order, each with config + registry flip + re-render + density block + tests +
-smoke receipt). Workstream D is Studio-gated: do not start it unless the DR1 receipts exist.
-Workstream F natural evidence (F8/F16) is license and provenance gated. The local fixture-scientific
-engine is allowed and permanently nonpromotable; natural execution still requires every receipt in
-plan section 7. F7 is implemented locally. No Studio tier may be inferred without a measured M3 wall.
-
-Hard rules that override convenience: no new module without the codemap refusal check (no
-referent.py, no form_store.py, no third adapter ABC); every result carries a density block; every
-candidate positive faces its matched controls, shuffled floors, and seed stability before being
-called anything; nulls are results, file them cleanly; engineering vocabulary only, the sentience
-rail must stay green; no em or en dashes in any file; every new markdown goes into the
-check_docs.py ledger in the same change.
-
-Per task: green before and after (plan section 8 protocol), one task per commit, imperative
-one-line commit message in the repo's style, no AI attribution in commits or PRs, registry edits
-and EXPERIMENTS.md re-render in the same commit. If a task breaks a gate, revert it and record
-the failure in ISSUES.md instead of patching forward. Append binding design decisions to
-DECISIONS.md as you make them.
-
-Work autonomously through as many tasks as the session allows, in order, and stop cleanly at a
-task boundary: finish the current task's verification, commit, then report. Report format: what
-landed (files + commits), gate status (unit / acceptance / docs / registry), any verdicts or
-receipts produced, what is next in the sequence, and any blockers. If the M1 Ultra spine work is
-running on this machine, do not launch encode jobs or long daemons; cpu-now F-series work only.
-```
+The original embedded prompt is retired because it encoded a false Studio gate and stale completion
+counts. Use `MOP_MAXIMUM_POTENTIAL_GOAL.md` as the standing execution prompt. It preserves the valid
+constraints in this plan, adds the claim-level audit, 37-facet scoring contract, 300-minute adaptive
+governor, P4/P5 heavy-lane order, Wave E0 shared substrate, and measured hardware gate.

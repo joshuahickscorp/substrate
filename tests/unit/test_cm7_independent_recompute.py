@@ -93,7 +93,7 @@ def _recompute() -> tuple[dict, dict, list[str]]:
     comparisons: dict[str, dict] = {}
     for cand in CANDIDATES:
         for opp in (*CONTROLS, *(a for a in CANDIDATES if a != cand)):
-            deltas = [x - y for x, y in zip(scores[cand], scores[opp])]
+            deltas = [x - y for x, y in zip(scores[cand], scores[opp], strict=True)]
             n = len(deltas)
             mean = sum(deltas) / n
             sd = math.sqrt(sum((d - mean) ** 2 for d in deltas) / (n - 1))
@@ -162,6 +162,9 @@ def test_not_promoted_verdict_reproduces_from_raw_data() -> None:
     assert ver["promotion"] is False
     assert ver["verdict"] == "not-promoted"
     assert ver["gates"]["winner_clears_all_corrected_comparisons"] is False
+    assert ver["verification_complete"] is True
+    assert ver["null_valid"] is True
+    assert ver["all_ok"] is False
 
 
 def test_compute_match_reproduces() -> None:

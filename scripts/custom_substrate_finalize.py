@@ -46,12 +46,131 @@ def _sha_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
-def freeze_raw(run_dir: Path) -> tuple[dict[str, Any], str]:
+def _atomic_copy_exact(
+    source: Path,
+    target: Path,
+    expected_sha256: str,
+    *,
+    replace_existing: bool = False,
+    previously_bound_sha256: str | None = None,
+) -> None:
+    raw = source.read_bytes()
+    actual = _sha_bytes(raw)
+    if actual != expected_sha256:
+        raise RuntimeError(f"receipt-chain source hash drift at {source}: {actual} != {expected_sha256}")
+    if target.exists():
+        existing = sha256_file(target)
+        if existing == expected_sha256:
+            return
+        if not replace_existing or existing != previously_bound_sha256:
+            raise RuntimeError(f"durable receipt-chain target already exists with a different hash: {target}")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    tmp = target.with_suffix(target.suffix + ".tmp")
+    tmp.write_bytes(raw)
+    os.replace(tmp, target)
+
+
+def materialize_proof_chain(
+    run_dir: Path,
+    proof_path: Path,
+    *,
+    replace_existing: bool = False,
+) -> dict[str, Any]:
+    """Copy a finalized run's exact chain into a durable proof-relative directory.
+
+    The run-local composite keeps short sibling links for checkpoint resume and forensic work.  A
+    proof copied out of that directory must not retain those unresolved names, so this function
+    verifies every link, copies the exact bytes, and writes a second composite whose links are
+    repository-relative (or absolute only when a caller deliberately targets another root).
+    """
+
+    run_composite_path = run_dir / "workbench_receipt.json"
+    composite = json.loads(run_composite_path.read_text())
+    if composite.get("schema") != RAW_SCHEMA or composite.get("receipt_chain_schema") != CHAIN_SCHEMA:
+        raise RuntimeError("run receipt is not a finalized CM7 composite")
+    links = composite.get("receipt_chain")
+    if not isinstance(links, dict) or not links:
+        raise RuntimeError("finalized CM7 composite has no receipt chain")
+
+    proof = proof_path if proof_path.is_absolute() else REPO_ROOT / proof_path
+    chain_dir = proof.parent / f"{proof.stem}_CHAIN"
+    prior_links: dict[str, dict[str, str]] = {}
+    if replace_existing:
+        if not proof.is_file():
+            raise RuntimeError("cannot replace a durable chain without its existing composite")
+        prior = json.loads(proof.read_text())
+        if prior.get("receipt_chain_schema") != CHAIN_SCHEMA:
+            raise RuntimeError("existing durable composite has no valid receipt chain")
+        prior_links = prior.get("receipt_chain") or {}
+    durable_links: dict[str, dict[str, str]] = {}
+    for role, raw_link in links.items():
+        if not isinstance(raw_link, dict):
+            raise RuntimeError(f"invalid receipt-chain link for {role}")
+        filename = Path(str(raw_link.get("path") or "")).name
+        expected = str(raw_link.get("sha256") or "")
+        if not filename or filename in {".", ".."} or len(expected) != 64:
+            raise RuntimeError(f"unsafe or incomplete receipt-chain link for {role}")
+        source = run_dir / filename
+        target = chain_dir / filename
+        previously_bound_sha256: str | None = None
+        if replace_existing:
+            prior_link = prior_links.get(str(role))
+            if not isinstance(prior_link, dict):
+                raise RuntimeError(f"existing durable composite has no link for {role}")
+            prior_path = Path(str(prior_link.get("path") or ""))
+            if not prior_path.is_absolute():
+                prior_path = REPO_ROOT / prior_path
+            if prior_path.resolve() != target.resolve():
+                raise RuntimeError(f"existing durable composite path drift for {role}")
+            previously_bound_sha256 = str(prior_link.get("sha256") or "")
+        _atomic_copy_exact(
+            source,
+            target,
+            expected,
+            replace_existing=replace_existing,
+            previously_bound_sha256=previously_bound_sha256,
+        )
+        try:
+            display_path = str(target.relative_to(REPO_ROOT))
+        except ValueError:
+            display_path = str(target)
+        durable_links[str(role)] = {"path": display_path, "sha256": expected}
+
+    durable = dict(composite)
+    durable["receipt_chain"] = durable_links
+    _atomic_json(proof, durable)
+    return durable
+
+
+def freeze_raw(run_dir: Path, *, allow_finalized: bool = False) -> tuple[dict[str, Any], str]:
     current_path = run_dir / "workbench_receipt.json"
     current = json.loads(current_path.read_text())
     embedded = current.pop("evidence_attestation", None)
     if not isinstance(embedded, dict):
-        raise RuntimeError("completed receipt has no embedded launch-time attestation")
+        if not allow_finalized:
+            raise RuntimeError("completed receipt has no embedded launch-time attestation")
+        if current.get("receipt_chain_schema") != CHAIN_SCHEMA:
+            raise RuntimeError("existing receipt is not a finalized CM7 composite")
+        links = current.get("receipt_chain") or {}
+        raw_link = links.get("raw_training_receipt")
+        if not isinstance(raw_link, dict):
+            raise RuntimeError("existing receipt has no bound raw training receipt")
+        raw_path = run_dir / Path(str(raw_link.get("path") or "")).name
+        expected = str(raw_link.get("sha256") or "")
+        if not raw_path.is_file() or len(expected) != 64 or sha256_file(raw_path) != expected:
+            raise RuntimeError("existing raw training receipt does not match the finalized binding")
+        raw_bytes = raw_path.read_bytes()
+        raw = json.loads(raw_bytes)
+        reconstructed = {
+            key: value
+            for key, value in current.items()
+            if key not in {"receipt_chain_schema", "receipt_chain", "authoritative_promotion"}
+        }
+        if _json_bytes(reconstructed) != raw_bytes:
+            raise RuntimeError("finalized composite does not reconstruct its bound raw receipt")
+        if raw.get("schema") != RAW_SCHEMA or not raw.get("complete"):
+            raise RuntimeError("bound raw receipt is not a complete workbench result")
+        return raw, expected
     raw_bytes = _json_bytes(current)
     raw_hash = _sha_bytes(raw_bytes)
     expected = str(embedded.get("original_receipt_sha256", ""))
@@ -381,6 +500,9 @@ def build_verifier(
     }
     promotion = all(gates.values())
     problems = [name for name, ok in gates.items() if not ok]
+    verification_complete = all(
+        ok for name, ok in gates.items() if name != "winner_clears_all_corrected_comparisons"
+    )
     return {
         "schema": VERIFIER_SCHEMA,
         "created_at": datetime.now(UTC).isoformat(),
@@ -404,13 +526,21 @@ def build_verifier(
         "gates": gates,
         "verdict": "promote-local-objective-lever" if promotion else "not-promoted",
         "promotion": promotion,
+        "verification_complete": verification_complete,
+        "null_valid": verification_complete and not promotion,
         "problems": problems,
-        "all_ok": True,
+        "all_ok": not problems,
     }
 
 
-def finalize(run_dir: Path, proof_path: Path) -> dict[str, Any]:
-    raw, raw_hash = freeze_raw(run_dir)
+def finalize(
+    run_dir: Path,
+    proof_path: Path,
+    *,
+    allow_finalized: bool = False,
+    replace_durable_chain: bool = False,
+) -> dict[str, Any]:
+    raw, raw_hash = freeze_raw(run_dir, allow_finalized=allow_finalized)
     attestation = build_attestation(run_dir, raw_hash)
     attestation_path = run_dir / "current_evidence_attestation.json"
     _atomic_json(attestation_path, attestation)
@@ -467,7 +597,7 @@ def finalize(run_dir: Path, proof_path: Path) -> dict[str, Any]:
     )
     _atomic_json(run_dir / "workbench_receipt.json", composite)
     proof = proof_path if proof_path.is_absolute() else REPO_ROOT / proof_path
-    _atomic_json(proof, composite)
+    materialize_proof_chain(run_dir, proof, replace_existing=replace_durable_chain)
     return composite
 
 
@@ -475,10 +605,32 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--proof", type=Path, default=Path("proof/CUSTOM_SUBSTRATE_PILOT.json"))
+    parser.add_argument(
+        "--materialize-existing",
+        action="store_true",
+        help="materialize the durable chain from an already-finalized run without recomputing it",
+    )
+    parser.add_argument(
+        "--refinalize-existing",
+        action="store_true",
+        help="recompute a finalized run's generated chain while preserving its bound raw receipt",
+    )
     args = parser.parse_args()
     if abs(student_t_ppf(0.95, 4) - 2.131846786) > 1e-6:
         raise RuntimeError("dependency-free Student-t implementation failed its df=4 reference")
-    composite = finalize(args.run_dir, args.proof)
+    if args.materialize_existing and args.refinalize_existing:
+        parser.error("--materialize-existing and --refinalize-existing are mutually exclusive")
+    if args.materialize_existing:
+        composite = materialize_proof_chain(args.run_dir, args.proof)
+    elif args.refinalize_existing:
+        composite = finalize(
+            args.run_dir,
+            args.proof,
+            allow_finalized=True,
+            replace_durable_chain=True,
+        )
+    else:
+        composite = finalize(args.run_dir, args.proof)
     print(json.dumps(composite["authoritative_promotion"], indent=2))
     return 0
 

@@ -1,175 +1,200 @@
 # SCALING
 
-What to flip when the Mac Studio (Apple Silicon) or a rented CUDA box arrives. Nothing here is
-a code change: the system is built cached-latent-first and device-flag-driven on purpose, so
-scale is config plus two scripts. The frozen substrate never trains, so scaling means a bigger
-frozen encoder, real latent caches, larger batches/datasets, and unlocking the tiers that need
-more compute or an environment. Read APPLE_SILICON.md (the MPS-first story), ARCHITECTURE.md
-(device boundary, frozen invariant), and EXPERIMENTS.md (tier tags) alongside this.
+Scaling in MOP means expanding controlled evidence per parameter, byte, joule, and hour. It does not
+mean selecting a larger inherited encoder or machine by default.
 
-> CURRENT LOCALIZATION (2026-07-10): encoder scale is no longer an off-device boundary. Pinned
-> ViT-L, ViT-H, and ViT-g weights all load offline and complete supervised local CPU forwards;
-> eight shared referents have been cached serially through every scale. Use the 180-minute
-> `m3pro-local-max` envelope and one heavy model at a time. A larger machine buys throughput and
-> corpus capacity only after a measured local rung, while natural-video rights, unpublished dense
-> V-JEPA 2.1 weights, and interactive environments remain separate input blockers. This note
-> supersedes lower historical wording that treats an encoder name or planning tier as hardware proof.
+The active sequence is:
 
-## The flips, in order
+1. improve referent, event, branch, clock, and lifecycle identity;
+2. add appropriate independent units and stronger controls;
+3. extend temporal depth, action, memory, and environment diversity;
+4. vary one owned-substrate premise at matched active resources;
+5. measure the complete local path;
+6. attack it with streaming, caching, factorization, recurrence, precision, and sequential designs;
+7. escalate hardware only if a named scientific requirement survives.
 
-### 1. Device: measure CPU vs MPS per workload
-The Mac Studio is an M-series Apple Silicon machine, NOT a CUDA box: more GPU cores and far
-more unified memory than the laptop, same Metal backend. The headline scale-up is therefore
-not an automatic device flip. Everything
-device-touching goes through `devices.resolve(cfg.device.kind)`; `auto` already prefers mps on
-Apple Silicon. `configs/device/mps.yaml` carries the Apple-Silicon knobs (`amp: true` fp16,
-`pin_memory: false` unified memory, `allow_cpu_fallback: true`). On this M3 Pro, serial CPU is the
-verified path for the large V-JEPA forwards. Re-benchmark MPS on any future host before selecting it.
+## Current measured envelope
 
-`device=cuda` remains an optional rented-box throughput path. `configs/device/cuda.yaml` carries
-`amp: true`, `pin_memory: true`, `num_workers: 8`, `allow_cpu_fallback: false`. An environment
-dependency does not itself require CUDA: first supply the adapter and run a bounded local rung.
+- host: Apple M3 Pro, 12 logical CPUs, 19.3 GB unified memory;
+- operational leg maximum: 300 minutes;
+- scientific shard wall: each registered experiment retains its frozen configuration;
+- heavy lanes: one;
+- total scheduler-owned lanes: at most two, with only declared safe light/CPU/network work beside a
+  heavy lane;
+- free-disk floor: 40 GB after forecast output and atomic-write margin;
+- power: AC required for heavy work;
+- thermal, memory, swap, MPS, disk, foreground, and unmanaged-process gates: active;
+- user processes: observed only and never signaled.
 
-### 2. Larger encoder: vjepa2_vitl -> vjepa2_vitg
-Default substrate is `vjepa2_vitl_fpc64_256` (ViT-L, embed_dim 1024, 256px). To run the largest
-verified local scale serially:
+The official dense ViT-B instrument strictly loads and completes finite CPU forwards at 8 and 64
+frames. The 64-frame result produces 18,432 dense tokens in about 25.2 seconds with about 1.33 GB
+maximum observed process-tree RSS. This proves local availability, not a scientific result.
 
-```
-encoder=vjepa2_vitg     # ViT-g, embed_dim 1408, 384px, 64 frames per clip
-```
+## Scientific scaling axes
 
-The shell reads `latent_dim` off the selected encoder config, so the predictor and heads
-resize automatically. No shell code changes. The dense 2.1 encoders
-(`vjepa21_vitb`, `vjepa21_vitl`, both `dense: true`, per-patch tokens) exist for the
-`2.1-only` experiments (E6); see the tier table below.
+Every response surface should name and vary only justified axes.
 
-### 3. Real latent caching: synthetic -> real V-JEPA
-Today the substrate defaults to frozen-random + the synthetic latent generator (the grids run
-on these, tagged provisional). Real V-JEPA 2 ViT-L weights load and a real-encoder cache has
-been validated (see STATUS.md and the retrospective ledger). The remaining step for REAL natural-video science is
-just dropping real clips and running the video cache:
+### Evidence axes
 
-```
-uv pip install -e ".[encoder,video]"    # transformers + huggingface-hub + torchvision (decode)
-# drop class-foldered clips under <dir>/<class>/*.mp4, then:
-.venv/bin/python scripts/cache_video.py +source=<dir> encoder=vjepa2_vitl_fpc64_256 device=mps +total=N
-```
+- independent sessions, episodes, worlds, partners, or specimens;
+- held-out referents and factor combinations;
+- intervention count and diversity;
+- control strength;
+- confirmation and transfer environments.
 
-`substrate/video.py` decodes + preprocesses (frame-sample, resize, ImageNet-normalize) to
-V-JEPA's `[B,64,3,256,256]`; `cache_video.py` runs the frozen encoder once and writes the
-memmap store (`substrate/cache.py`, `substrate/latent_store.py`). Because the encoder is frozen
-the cache never goes stale. Every experiment then reads the real cache with no change; the
-`backend` field flips `frozen_random` -> `vjepa_hf`, your proof the latents are real. The
-structured-synthetic real-encoder cache (`scripts/cache_real_encoder.py`, no video files
-needed) is the bridge until natural clips are on disk.
+### Temporal axes
 
-Verified encoder ids (HF, probed 2026-06): real and present are `vjepa2-vitl-fpc64-256` (1024),
-`vjepa2-vith-fpc64-256` (1280), `vjepa2-vitg-fpc64-384` (1408). V-JEPA 2.1 dense is NOT yet on
-HF under any verified id, so the `vjepa21_*` configs are placeholders (`available: false`) and
-the 2.1-only experiments (E6 dense) stay deferred until 2.1 ships.
+- frames and event count;
+- context duration;
+- lifetime updates;
+- memory and replay budget;
+- delay and clock uncertainty;
+- prediction and planning horizon.
 
-### 4. Batch / dataset scale-up knobs
-All overridable as CLI dotlist (`group.key=value`), no edits to source:
+### Topology axes
 
-- `shell.buffer.capacity=<N>`: bigger latent hippocampus (laptop runs small; Studio can
-  hold the real stream).
-- `cfg.device.num_workers` (via `device=cuda`): real dataloader parallelism.
-- experiment params under `cfg.experiment.*`: samples_per_task, n_tasks, classes_per_task,
-  epochs_per_task, batch_size, replay_batch (the toy scale baked into scaffolds is seconds
-  on mps; scale these up on cuda).
-- seeds: 5 minimum for the real run (3 to 5 for E10); run the determinism sanity loop first
-  (`diagnostics/determinism`) and trust no cross-condition delta inside the Metal spread.
-  On cuda determinism is tighter, so the tolerances loosen back toward exact.
+- state dimension;
+- object or event slots;
+- recurrence depth;
+- external and hierarchical memory;
+- routing or mode count;
+- growth and pruning budget;
+- trainable parameters.
 
-### 5. AMP / precision
-`device=cuda` turns on `amp: true` and tf32. Nothing else to do. The frozen encoder is
-already `no_grad`, so AMP only touches the trainable shell.
+### Resource axes
 
-## What unlocks per tier
+- active FLOPs;
+- peak resident bytes;
+- cache and replay bytes;
+- ingest, encode, train, evaluate, and verify wall time;
+- latency distribution;
+- physical energy where metered;
+- retry and failure overhead.
 
-Tier tags come straight from EXPERIMENTS.md. Each experiment carries one.
+No axis moves at the same time as an uncontrolled data, precision, objective, or optimizer change.
 
-| Tier | Means | Needs | Unlocks |
-|---|---|---|---|
-| `cpu-now` | runs now, laptop, cached latents or bounded local trajectories | nothing extra | E1-E5 where registered, E7-E9, I4, and local action mechanics |
-| `gpu-later` | legacy runnable enum, no current registry row uses it | no implied device | preserve only for backward compatibility |
-| `env-later` | needs evidence or ecology beyond the bounded local adapter | rendered/substrate trajectories or a generated population ecology | E10 capstone, substrate-grounded CM10 |
-| `2.1-only` | needs V-JEPA 2.1 dense weights | encoder=vjepa21_vitl + real cache | E6 relational-map dense-vs-pooled |
+## Inherited instruments
 
-Reading: the whole `cpu-now` column runs today and is what the laptop session built and
-tested. The retained `gpu-later` value is schema compatibility, not an active hardware label;
-the current registry contains zero rows with it. `env-later` now means the bounded local adapter is
-scientifically insufficient: E10 needs a generated population ecology and substrate-grounded CM10
-needs rendered/citable action referents and exact controls. `2.1-only` is E6, which needs the dense per-patch tokens
-the 2.1 encoders emit (`dense: true`); on the pooled 2 encoders E6 has nothing to factorize.
+Inherited encoders remain frozen. They provide teachers, dense and pooled measurement surfaces, and
+matched learned-versus-random controls. The active program has no dependency on a larger inherited
+variant. A new instrument is added only if the smallest current instrument fails a named
+representational requirement and the new instrument is compared on the same input bytes with exact
+architecture, random, handcrafted, and owned controls.
 
-## Optional rented-CUDA throughput path (only after local evidence gates)
+Frozen outputs may be cached only when checkpoint, revision, source bytes, preprocessing, view,
+precision, layer, geometry, referent, event, split, and RNG identity are complete. A frozen encoder
+does not make a cache timeless. Any change to those fields invalidates the cache for citation.
 
-The synthesized campaign's historical Tier R legs remain queued disabled. The local adapter exists;
-a rented CUDA box is only an optional higher-throughput rung after an exact row exceeds local bounds:
+## Local reductions before hardware
 
-- E10 capstone (env-later): extend the existing bounded adapter with population/environment generation, run a bounded
-  local rung, then move only a measured throughput remainder.
-- Tier R campaign legs (E10, POET env-generation, cultural accumulation) sit in the run queue with
-  `enabled: false`. First implement and measure a bounded local rung; only then consider enabling one.
+Every candidate larger-compute workload must attempt the relevant reductions.
 
-Tier mapping (from DECISIONS.md, synthesized from Vol I Section 9 tractability): Tier C =
-laptop-feasible cached-latent legs, Tier E = environment-needed, Tier R = rented-GPU /
-lab-scale. C runs now; E and R wait for scientific gates and local measurements, not merely a rental.
+| Reduction | Resource attacked | Required parity check |
+|---|---|---|
+| Stream inputs | corpus residency | split, order, duplication, and transform identity |
+| Cache frozen instruments | repeated encode and simultaneous residency | checkpoint, input, view, precision, layer, and output identity |
+| Batch 1 or microbatch | activations | loss normalization, update, RNG, and normalization behavior |
+| Gradient accumulation | resident batch | effective update and data order |
+| Activation checkpointing | saved activations | RNG and numerical parity |
+| Lower precision | weights, activations, bandwidth | endpoint geometry and decision parity |
+| Masking, tubelets, windows, merging | token count and attention | exact small-context control and matched active FLOPs |
+| Recurrence or state-space memory | long dense context | history access, state budget, and endpoint parity |
+| External or hierarchical memory | resident history | matched bytes, retrieval rights, and stale-memory controls |
+| Sequential seeds | parallel residency | unchanged units, stopping rule, and common inputs |
+| Sequential power and futility | fixed replication | preregistered alpha spending and stop rule |
+| Compact probes | readout cost | ranking and conclusion against an exact subset |
+| Generated controlled worlds | natural acquisition cost | claim remains mechanics or causal-control scope until natural transfer |
 
-## First commands on the new machine
+A rejected reduction needs a receipt proving that it changes the estimand, reverses the decision,
+breaks numerical parity, or misses an intrinsic deadline.
 
-Mac Studio (Apple Silicon -- stay on mps, scale up the cached-latent bank). The ONE pipeline
-surface drives the whole acquisition + run path; the raw scripts below it still work for hand
-control:
+## Data and environment scaling
 
-```
-uv venv --python 3.12 .venv
-uv pip install -e ".[dev,ann,encoder,video,apple]"   # video=torchvision decode, apple=mlx (optional)
-make test                                            # confirm green on the new box first
-make doctor                                          # readiness (python/torch/mps/disk/video/hf/encoders/cache/config)
-# --- the one Studio pipeline (plan/acquire/validate/cache/run/optimize/report) ---
-python scripts/studio_pipeline.py plan --profile studio-1tb --budget-gb 900   # writes runs/studio_pipeline/latest/
-# REVIEW runs/studio_pipeline/latest/license_ledger.md (resolve manual/blocked sources first), then:
-python scripts/studio_pipeline.py acquire  --plan runs/studio_pipeline/latest/plan.json \
-    --execute --budget-gb 900 --accept-license       # REAL downloads, gated + budgeted
-python scripts/studio_pipeline.py validate --plan runs/studio_pipeline/latest/plan.json
-python scripts/studio_pipeline.py cache    --plan runs/studio_pipeline/latest/plan.json --execute
-python scripts/studio_pipeline.py run --gated --tiers C --full   # gated conveyor (gates are kill switches)
-python scripts/studio_pipeline.py optimize --cache <cache_id>    # throughput lane (not science)
-python scripts/studio_pipeline.py report
-# --- raw scripts (hand control, still supported) ---
-make diag                                            # determinism + diagnostics; set tolerances
-# verify the 64-frame ViT-L forward runs on Metal here (it hangs the M3; more GPU cores should lift it):
-.venv/bin/python scripts/cache_real_encoder.py device=mps +classes=2 +per_class=1   # smoke
-.venv/bin/python scripts/cache_video.py +source=<dir> encoder=vjepa2_vitl_fpc64_256 device=mps +total=N
-.venv/bin/python scripts/run_queue.py --tiers C --full   # full factorials (217 run-units; see cost projection)
-# E6 (dense 2.1) waits for V-JEPA 2.1 to ship on HF (vjepa21_* configs are placeholders today).
-# Tier R env rollouts (E5/E10) are the only cuda path: rent a GPU and `--tiers C,E,R --full`.
-```
+Natural inputs enter only through rights, privacy, provenance, split, referent, event, and clock
+gates. The first native audiovisual cohort should be small and session-disjoint. Original waveform
+and video clocks, wrong-time and wrong-event controls, unimodal baselines, and a sealed test are more
+valuable than immediate corpus volume.
 
-Current M3 Pro before the Studio arrives: `make local-max` (profile m3pro-local-max) does the
-most real work that is SAFE here (plan, dry-run acquire, generate control corpora, validate,
-tiny real cache, queue/cost audit, microbench, one gated leg, report) under hard kill switches
-(10 GB download default / 25 GB cap, 2 GB fixtures, 128 clips, a derived 40 GB free-disk floor
-equal to 10 GB OS reserve + 25 GB maximum pending download + 5 GB working headroom, 180 min,
-Tier C only). It never downloads heavy assets or starts a long sweep.
+Generated worlds are the correct first rung for exact hidden state, counterfactual branches, action
+effects, object lifecycle, damage, repair, developmental order, and partner populations. Natural
+transfer is added after the mechanism survives its exact controls.
 
-Rented CUDA (env rollouts, Tier R):
+## Owned-substrate scaling
 
-```
-uv venv --python 3.12 .venv && uv pip install -e ".[dev,ann,encoder]"
-make test
-# after the local adapter, exact evidence, and scientific gates are satisfied, enable the Tier R legs:
-make queue-dry                                    # confirm the plan with no compute spent
-.venv/bin/python scripts/run_queue.py             # after flipping enabled:true on Tier R legs
-make accept                                        # end-to-end acceptance
+The five-seed 1.646M-parameter CM7 objective regime closed with a null. Scaling that exact regime is
+not authorized. A successor changes one premise at a time:
+
+- immutable event state;
+- object-centered state;
+- recurrence;
+- factorized or external memory;
+- local eligibility or homeostatic update rules;
+- growth or pruning;
+- routing topology;
+- native audiovisual prediction;
+- action-conditioned prediction.
+
+P4 measures capability density across small owned substrates. P5 compares exact context with
+factorized memory. Their receipts determine which structural cells, if any, enter a larger response
+surface. Null cells are retired rather than scaled.
+
+## Runtime scaling
+
+All heavy tasks are declared in `configs/local_execution_throttle.yaml` and launched through:
+
+```bash
+.venv/bin/python scripts/local_execution_throttle.py decide \
+  --task <task-id> --samples 3 --interval-seconds 2 --out <decision.json>
+
+PYTHONPATH=src .venv/bin/python scripts/local_execution_throttle.py run \
+  --task <task-id> --run-id <unique-id> --execute --out <run.json>
 ```
 
-Sanity order on any new box: `make test` green, then determinism to set tolerances, then
-cache real latents once, then run. Never trust a cross-condition delta before the
-determinism loop, never trust a downstream result before E1 the gate passes.
+The governor uses admission hysteresis and runtime pressure gates. CPU saturation caused by its own
+declared task is expected after admission. Memory, swap, thermal, power, MPS, disk, foreground, and
+unmanaged-work gates remain live. Only the owned process group may be paused or resumed.
 
-## Form
+## Hardware ladder
 
-No em dashes or en dashes anywhere (commas, colons, parentheses only), per BLACKHOLE.md.
+Hardware is classified after measurement, not before.
+
+| Class | Meaning |
+|---|---|
+| L0 | current host, adaptive 300-minute operational legs, resumable serial work |
+| L1 | current host over overnight or multi-day serial execution |
+| L2 | smallest larger-memory Apple Silicon single node |
+| L3 | one high-memory accelerator |
+| L4 | small multi-accelerator node |
+| L5 | distributed or population-scale throughput |
+| L6 | external sensors, environments, participants, or physical specimens |
+
+L6 is not a compute upgrade. It records an intrinsically external unit.
+
+### Throughput-benefit gate
+
+- a scientific effect survives;
+- required independent units or context are named;
+- the complete local path is measured;
+- a real decision deadline is named;
+- a parity-preserving next-rung pilot measures the speedup.
+
+### Scientific-necessity gate
+
+- three valid local failures;
+- all equivalent reductions attempted;
+- at least one reduction changes the estimand or decision;
+- smallest enabling memory, bandwidth, or latency rung calculated;
+- parity pilot proves that the required experiment becomes possible.
+
+Only non-factorizable resident state, intrinsic real-time latency, or synchronized interaction that
+cannot be serialized without changing the estimand can normally earn necessity. Faster seeds,
+clips, cache builds, or search earn throughput benefit only.
+
+## Current decision
+
+The live requirements matrix has zero extended-compute-beneficial rows, zero extended-compute-
+required rows, and zero measured hardware blockers. The active path is P4, P5, Wave E0, dense ViT-B
+integration, native audiovisual intake, natural same-input controls, long-stream memory, action world
+models, monitoring and rewrite drills, bounded ecologies, and the material digital twin.
+
+No Studio purchase is currently justified by project evidence.

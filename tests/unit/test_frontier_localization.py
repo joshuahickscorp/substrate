@@ -18,6 +18,7 @@ from mop.studies.frontier_localization import (
     build_frontier_audit,
     run_local_preflights,
     scientific_readiness,
+    write_frontier_receipts,
 )
 
 
@@ -110,24 +111,58 @@ def test_frontier_audit_accounts_for_every_historical_tag_without_hardware_infer
     assert not any(row["hardware_boundary_proven"] for row in audit["entries"])
     assert all(row["reclassified_away_from_hardware_planning_tags"] for row in audit["entries"])
     assert audit["measured_real_encoder"]["receipt"]["path"] == ("proof/REAL_ENCODER_LOCAL_ATTEMPT.json")
-    assert audit["measured_multi_encoder_atlas"]["valid_local_availability_evidence"] is True
-    assert audit["measured_multi_encoder_atlas"]["scientific_promotable"] is False
     assert by_id["mop_cm7_min_objective_probe"]["localization"] == (
-        "local-custom-training-calibration-proven"
+        "local-custom-training-five-seed-null-bound"
     )
+    assert "four additional" not in by_id["mop_cm7_min_objective_probe"]["first_remaining_scientific_blocker"]
     assert by_id["mop_cm8_custom_jepa_pilot"]["localization"] == (
         "local-custom-preflight-proven-upstream-blocked"
     )
-    for experiment_id in (
-        "mop_al2_shared_latent_alignment",
-        "mop_dr5_cross_substrate_consistency",
-    ):
-        assert by_id[experiment_id]["localization"] == ("local-multi-encoder-availability-proven")
+    assert (
+        "four complete seeds" not in by_id["mop_cm8_custom_jepa_pilot"]["first_remaining_scientific_blocker"]
+    )
+    assert audit["measured_cm7_bound_null"]["valid"] is True
+    assert audit["measured_cm7_bound_null"]["seed_count"] == 5
+    assert audit["measured_cm7_bound_null"]["verdict"] == "not-promoted"
+    runtime = audit["measured_vjepa21_vitb_runtime"]
+    assert runtime["runtime_availability_blocker_retired"] is True
+    assert runtime["e6_scientific_compatibility_proven"] is False
+    assert runtime["forward_frames"] == [8, 64]
+    assert runtime["task_cache_control_integration_verified"] is True
+    assert runtime["dense_task_preflight"]["heavy_model_work_executed"] is False
+    assert runtime["e6_remaining_classification"] == "rights-data-blocked"
+    assert "natural" in runtime["e6_remaining_scientific_blocker"]
+    assert by_id["mop_dr14_corruption"]["preflight_mechanics_verified"] is True
+    assert by_id["mop_dr14_corruption"]["localization"] == (
+        "local-dense-task-integration-proven-data-blocked"
+    )
+    assert by_id["mop_al2_shared_latent_alignment"]["localization"] == "external-input-blocked"
+    assert by_id["mop_dr5_cross_substrate_consistency"]["localization"] == "external-input-blocked"
+    assert "scale_atlas_receipt" not in by_id["mop_al2_shared_latent_alignment"]
 
 
 def test_frontier_audit_rejects_partial_or_promoted_fixture_receipts():
     with pytest.raises(ValueError, match="complete, verified, fail-closed"):
         build_frontier_audit({"schema": PREFLIGHT_SCHEMA, "results": {}})
+
+
+def test_e6_dense_preflight_rejects_promoted_or_heavy_mutation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    source = json.loads(localization.E6_DENSE_PREFLIGHT_PATH.read_text())
+    source["scientific_promotion"] = True
+    source["forward_executed"] = True
+    mutated = tmp_path / "mutated-e6.json"
+    mutated.write_text(json.dumps(source))
+    monkeypatch.setattr(
+        localization,
+        "_file_receipt",
+        lambda path: {"path": str(path), "exists": path.is_file()},
+    )
+    result = localization._validate_e6_dense_preflight(mutated)
+    assert result["valid"] is False
+    assert result["task_cache_control_integration_verified"] is False
+    assert result["heavy_model_work_executed"] is True
 
 
 def test_shipped_frontier_receipts_are_durable_and_parseable():
@@ -139,3 +174,45 @@ def test_shipped_frontier_receipts_are_durable_and_parseable():
         assert path.is_file()
         payload = json.loads(path.read_text())
         assert payload["schema"] == schema
+
+
+def test_frontier_audit_can_reuse_preflight_without_invalidating_upstream_hash(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    preflight = run_local_preflights(seeds=(101,))
+    run_path = tmp_path / "local-preflights.json"
+    proof_path = tmp_path / "proof-preflights.json"
+    audit_path = tmp_path / "audit.json"
+    run_path.write_text(json.dumps(preflight, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    before = hashlib.sha256(run_path.read_bytes()).hexdigest()
+    monkeypatch.setattr(
+        localization,
+        "run_local_preflights",
+        lambda **_: pytest.fail("reuse mode must not rerun timing-bearing preflights"),
+    )
+    real_file_receipt = localization._file_receipt
+
+    def file_receipt(path: Path):
+        if path.is_relative_to(REPO_ROOT):
+            return real_file_receipt(path)
+        return {
+            "path": str(path),
+            "exists": path.is_file(),
+            "bytes": path.stat().st_size,
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
+
+    monkeypatch.setattr(localization, "_file_receipt", file_receipt)
+
+    reused, audit = write_frontier_receipts(
+        run_receipt=run_path,
+        preflight_proof=proof_path,
+        audit_proof=audit_path,
+        seeds=(101,),
+        reuse_existing_preflight=True,
+    )
+
+    assert hashlib.sha256(run_path.read_bytes()).hexdigest() == before
+    assert reused == preflight
+    assert json.loads(proof_path.read_text(encoding="utf-8")) == preflight
+    assert audit["schema"] == AUDIT_SCHEMA

@@ -5,7 +5,7 @@
       "bytes": 122457,
       "exists": true,
       "path": "proof/MOP_POTENTIAL_ATLAS.json",
-      "sha256": "27dae1b5dc559ffeb22c37537e98bc4558abb0356d7f95485fcb0cca72dd18bd"
+      "sha256": "231a5672dc3d5fb0de6de90a6b89452fc54daba4eb72206a0ff4ed4ab17f6a6c"
     },
     "cli": {
       "bytes": 432,
@@ -17,13 +17,13 @@
       "bytes": 76020,
       "exists": true,
       "path": "MOP_POTENTIAL_ATLAS_2026_07.md",
-      "sha256": "f7995981976bdb3adcc317579aa4826bcca3273abd9f9b3302dc03e4e84a0a43"
+      "sha256": "94484102d15b3cea5692908226afebb70ffecbf027bff83a9f0941bc0af1c25f"
     },
     "requirements": {
-      "bytes": 1274965,
+      "bytes": 1274982,
       "exists": true,
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824"
+      "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff"
     },
     "validator": {
       "bytes": 103333,
@@ -130,10 +130,10 @@
     },
     {
       "detail": {
-        "bytes": 1274965,
+        "bytes": 1274982,
         "exists": true,
         "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-        "sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824"
+        "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff"
       },
       "name": "requirements_binding",
       "ok": true,
@@ -246,15 +246,15 @@
       "detail": {
         "bytes": 76020,
         "facet_score_rows": 41,
-        "sha256": "f7995981976bdb3adcc317579aa4826bcca3273abd9f9b3302dc03e4e84a0a43"
+        "sha256": "94484102d15b3cea5692908226afebb70ffecbf027bff83a9f0941bc0af1c25f"
       },
       "name": "markdown_binding",
       "ok": true,
       "problems": []
     }
   ],
-  "created_at": "2026-07-10T22:02:16.955765+00:00",
-  "payload_sha256": "e06f181af9daac30dae8eff47e84c7d040da960cc1e65e21cccc5c1d97d8d4a1",
+  "created_at": "2026-07-10T23:44:29.559171+00:00",
+  "payload_sha256": "6da9030d6fd83fb1fe21e8caf795a323bc94656e5fd9a8dfc10b66f8276e01ce",
   "problems": [],
   "schema": "mop-potential-atlas-validation/v1",
   "scope": "Structural and evidence-integrity validation only. A passing receipt does not promote any facet, experiment, hardware purchase, or external claim.",

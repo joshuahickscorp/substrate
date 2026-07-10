@@ -80,8 +80,8 @@ linear probe acc 1.0 vs chance 0.125).
 
 - Do NOT infer an MPS limit from an unsupervised crash or stale report. Run each 64-frame forward
   through `scripts/encoder_scale_probe.py`; only a durable measured receipt may establish a wall.
-- ViT-H and ViT-g weights are already pinned, hash-verified, and staged. Do NOT load either beside
-  another encoder process: acquisition fits the derived disk envelope, concurrent residency does not.
+- Retired inherited-scale weights remain archived as historical evidence. They are not live cache
+  targets and must not be loaded by the active campaign.
 - Do NOT run a second torch/encoder job while a CPU-bound V-JEPA encode is in flight: an 18 GB
   pool OOMs on two encoders.
 - Do NOT cache DENSE latents here: dense ViT-L is ~32 MB/clip (8192 tokens), so 10k dense clips is
@@ -165,15 +165,12 @@ experiment (never on the science hot path, never a yak-shave).
 
 ### Top experiments this tier enables
 
-- The permanent multi-encoder cached-latent corpus (the single highest-value job): real
-  natural-video cached through ViT-L (1024), ViT-H (1280), and ViT-g (1408), three parallel pooled
-  stores over the SAME validated raw corpus. Pooled is tiny: a 100k-clip corpus across all three
-  encoders is ~3 GB of latents; even 1M clips across three encoders is ~30 GB. The cost is raw
-  video on disk (tens to a few hundred GB) and ENCODE TIME, not latent footprint. Because the
-  encoder is frozen, this corpus NEVER goes stale: a one-time permanent asset.
-- The encoder-scale experiment (the over-engineering centerpiece): does bigger frozen perception
-  change WHICH shell mechanisms help? Same shell, same experiments, same clips, same seeds, only
-  the latent source differs (the shell auto-resizes latent_dim per encoder config). Null: substrate
+- The permanent multi-substrate cached-latent corpus: exact natural-video referents cached through
+  official dense ViT-B, the pooled control, and an independently verified owned artifact. Every arm
+  uses its measured geometry and remains serial under the disk governor. The cost is raw video,
+  dense token storage, and encode time, not a presumed machine class.
+- The substrate-family experiment: does representation source change WHICH shell mechanisms help?
+  Same shell, experiments, clips, and seeds, only the registered latent source differs. Null: substrate
   scale does not change which mechanisms win; a sign-flip or a help-on-g-not-L is the interesting
   positive. This is science the laptop literally cannot produce.
 - The corrected substrate test at 256px at REAL scale: this is the cleanest early Studio win.
@@ -205,11 +202,10 @@ experiment (never on the science hot path, never a yak-shave).
 The full studio_pipeline.py conveyor under studio-1tb (plan -> acquire -> validate -> cache ->
 gated run -> report), with the gated kill-switch chain (validate source -> cache -> validate cache
 -> linear probe -> noisy-TV/diagnostics -> E1 smoke -> Tier C toy -> Tier C full only if gates
-pass). Multi-encoder cache stage (--encoder flag, three runs over one corpus). All standing
+pass). Multi-encoder cache stage (--encoder flag, serial runs over one corpus). All standing
 controls wired at real scale (the handoff's most important lesson: the most common corpus failure
-was a control existing in code but never wired into the specific experiment). ViT-L, ViT-H, and ViT-g
-weights are already pinned and staged; Tier 1 owns the shared natural-corpus caches and scale grid, not
-their acquisition.
+was a control existing in code but never wired into the specific experiment). The active ViT-B,
+pooled-control, and owned-artifact rows each require exact authority and shared-input receipts.
 
 ### What NOT to attempt here
 
@@ -267,7 +263,7 @@ design problem, not a compute one).
 Everything from Tier 0 plus: scripts/studio_pipeline.py (plan/acquire/validate/cache/run/report/
 optimize/local-max lanes), scripts/studio_doctor.py, scripts/studio_rehearsal.py,
 src/mop/studio/profiles.py (studio-1tb), campaign/run_queue.yaml and campaign/legs/ (tiered leg
-definitions), configs/encoder/{vjepa2_vitl_fpc64_256, vjepa2_vith, vjepa2_vitg}.yaml, the report
+definitions), the live pooled-control and official dense ViT-B configs, the owned-artifact loader, the report
 scaffolds (seed summaries, CIs, effect sizes, adaptation-retention frontiers, null-result registry),
 and the north_star safety scanner that gates every rendered report against sentience/agency claims.
 
@@ -277,8 +273,8 @@ The Studio covers essentially everything the doctrine sanctions, because the doc
 training perception. So Tier 2 is justified ONLY by a result that forces the program to question
 the frozen-substrate doctrine itself. Concretely: if the corrected controls show the frozen
 substrate is BOUNDED (a target that a real natural-video, non-additive, non-ceiling test needs but
-that neither ViT-L nor ViT-H nor ViT-g decodes off-ceiling, i.e. the pooled/dense fork resolves
-against pooling AND dense 2.1 still cannot factor it), THEN and only then does a from-scratch or
+that neither official dense ViT-B, the pooled control, nor an independently verified owned artifact
+decodes off-ceiling), THEN and only then does a from-scratch or
 fine-tuned encoder become a justified hypothesis to test, and that needs a training box. Absent
 such a bounding result, Tier 2 is out of scope by doctrine. A weaker trigger: rented CUDA for the
 genuinely env-gated Tier R legs (E5 live-rollout, E10 capstone), which need a procedural environment

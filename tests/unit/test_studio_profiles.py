@@ -92,7 +92,7 @@ def test_m3pro_is_the_documented_envelope():
     assert p.min_free_disk_gb == 40.0
     assert p.min_free_disk_gb == M3PRO_LOCAL_MIN_FREE_DISK_GB
     assert p.min_free_disk_gb == p.reserve_gb + p.download_hard_cap_gb + 5.0
-    assert p.max_wall_min == 180
+    assert p.max_wall_min == 300
     assert not p.allow_manual_auth  # laptop never auto-selects signed-terms sources
 
 

@@ -37,9 +37,7 @@ def test_seed_unit_is_deterministic_and_complete() -> None:
 
 
 def test_registry_controls_are_exercised_exactly(receipt: dict) -> None:
-    registry = yaml.safe_load(
-        (REPO_ROOT / "registry" / "experiments.yaml").read_text(encoding="utf-8")
-    )
+    registry = yaml.safe_load((REPO_ROOT / "registry" / "experiments.yaml").read_text(encoding="utf-8"))
     rows = {row["id"]: row for row in registry["experiments"] if row.get("id") in EXPERIMENT_IDS}
     for experiment_id, row in receipt["experiments"].items():
         assert row["registry_binding"]["controls"] == rows[experiment_id]["controls"]
@@ -114,9 +112,7 @@ def test_all_partner_fixtures_and_controls_execute(receipt: dict) -> None:
         row = unit[experiment_id]
         assert row["primary_arm"] in row["arms"]
         assert set(row["controls"]).issubset(set(row["arms"]))
-    assert unit["f53_joint_referent_establishment"]["mechanism_checks"][
-        "private_observation_leak"
-    ] is False
+    assert unit["f53_joint_referent_establishment"]["mechanism_checks"]["private_observation_leak"] is False
     assert unit["f54_communicative_repair"]["mechanism_checks"]["matched_extra_bits"] is True
     assert unit["f55_selective_imitation"]["mechanism_checks"]["decorative_steps_present"] is True
     assert unit["f58_cultural_accumulation"]["mechanism_checks"]["external_tasks_used"] is True
@@ -163,7 +159,9 @@ def test_verifier_fails_closed_on_receipt_mutation(receipt: dict) -> None:
     mutated["experiments"]["f56_teaching_value"]["candidate_result"] = "favorable-candidate"
     report = verify_receipt(mutated, check_live_files=False, run_mutations=False)
     assert report["verified"] is False
-    assert any("candidate result drift" in error or "payload digest drift" in error for error in report["errors"])
+    assert any(
+        "candidate result drift" in error or "payload digest drift" in error for error in report["errors"]
+    )
 
 
 def test_receipt_payload_is_bound_and_sentience_rail_clean(receipt: dict, tmp_path: Path) -> None:

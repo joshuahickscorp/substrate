@@ -1,5 +1,9 @@
 # STUDIO RUN REPORT: the accumulating scoreboard for the goal loop
 
+> SUPERSEDED 2026-07-10: historical scenario only. The current host remains the active execution
+> surface, no Studio boundary is measured, and `MOP_MAXIMUM_POTENTIAL_GOAL.md` plus live receipts
+> govern. Pending-machine instructions below are not authorization or current requirements.
+
 This is the single accumulating artifact the goal loop (`STUDIO_GOAL_PROMPT.md`) writes each wave, so
 a dead session loses at most one wave and the next session resumes from here. House style: no em or en
 dashes. A tie is a null. No positive enters a doc without an independent adversarial verification pass.

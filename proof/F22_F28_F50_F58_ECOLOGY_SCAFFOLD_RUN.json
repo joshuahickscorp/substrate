@@ -20,7 +20,7 @@
     "promotion_count": 0
   },
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-  "core_payload_sha256": "1a5c0b61fbc31643c08e279fc25ed5172a1cf6f5f04905b60cdd4413cf60c594",
+  "core_payload_sha256": "9416a8c71c1d4d0888599d9751d597bf0fef8f520d1680b4df6197945af13aad",
   "evidence_class": "R1 deterministic programmatic toy-world experiment",
   "experiments": {
     "f22_active_form_acquisition": {
@@ -1315,7 +1315,7 @@
   "implementation": [
     {
       "path": "registry/experiments.yaml",
-      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
       "path": "src/mop/environments/ecology_scaffold.py",
@@ -1323,7 +1323,7 @@
     },
     {
       "path": "src/mop/environments/ecology_battery.py",
-      "sha256": "0cada29ba078465e7b54ec27d2394a65c9e1b79ce0d744dd28aafdbd89cc9328"
+      "sha256": "5a6368978c25fdb0c4b561fd80c6efab7161a84ec5f3a1b04059485ed832be9c"
     },
     {
       "path": "scripts/run_ecology_scaffold_batteries.py",
@@ -1358,7 +1358,7 @@
       "unit_count": 5
     },
     "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-    "core_payload_sha256": "1a5c0b61fbc31643c08e279fc25ed5172a1cf6f5f04905b60cdd4413cf60c594",
+    "core_payload_sha256": "9416a8c71c1d4d0888599d9751d597bf0fef8f520d1680b4df6197945af13aad",
     "errors": [],
     "favorable_candidates_all_fresh_verified": true,
     "fresh_outcomes_stable_by_experiment": {
@@ -1490,7 +1490,7 @@
     "schema": "mop-ecology-scaffold-independent-verifier/v1",
     "verified": true
   },
-  "payload_sha256": "61215533bb37efc87ca7684c67d87fed6726746a7e9c1d5f6900c546357161b7",
+  "payload_sha256": "572c96aa24ca41ae75ea29de1059f467fa3807e7ffb2155e53735c9e33bdab51",
   "primary_seeds": [
     11,
     29,

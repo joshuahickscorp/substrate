@@ -1,5 +1,8 @@
 # POTENTIAL AUDIT: is MoP/MoT reaching its potential and fulfilling its ideology
 
+> SUPERSEDED 2026-07-10: historical MoP score only. The live 37-facet score and local-to-10 paths
+> are in `MOP_POTENTIAL_ATLAS_2026_07.md`.
+
 Audit date: 2026-07-02. Scope: the M3 Pro run against the four north-star ideological goals. Adversarial by
 mandate: the default assumption is that we are NOT reaching potential, and the burden is on the evidence to
 overturn it. House style: no em or en dashes. Every claim below is grounded in a named file, number, or

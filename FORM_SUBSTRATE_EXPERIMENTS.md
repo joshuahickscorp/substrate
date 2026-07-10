@@ -62,8 +62,8 @@ Unlock: OA1/OA2 become experimental facts; licenses missing-form routing in Laye
 
 Hypothesis: intervening on a factor visible in form A predicts the induced change in form B over the
 same referent, beyond correlation.
-Forms: paired forms with programmatic factor control (synthetic first; DR1 bound-attribute video
-plus captions at Studio scale). Referents: before-and-after intervention pairs.
+Forms: paired forms with programmatic factor control first, followed by a citable natural bound-
+attribute video and caption cohort serialized locally. Referents: before-and-after intervention pairs.
 Modules: f_form_substrate.py, diagnostics/held_out_combo.py, ex11 causal-probing harness (reused).
 Capability metric: counterfactual match accuracy on unseen intervention values.
 Cost metric: intervention-model FLOPs vs correlational predictor FLOPs (matched).

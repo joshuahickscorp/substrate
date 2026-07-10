@@ -74,13 +74,7 @@ def _reg_inc_beta(a: float, b: float, x: float) -> float:
         return 0.0
     if x >= 1.0:
         return 1.0
-    ln_front = (
-        math.lgamma(a + b)
-        - math.lgamma(a)
-        - math.lgamma(b)
-        + a * math.log(x)
-        + b * math.log1p(-x)
-    )
+    ln_front = math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log1p(-x)
     front = math.exp(ln_front)
     if x < (a + 1.0) / (a + b + 2.0):
         return front * _betacf(a, b, x) / a

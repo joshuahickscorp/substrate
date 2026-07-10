@@ -1,53 +1,149 @@
-# APPLE_SILICON
+# APPLE SILICON
 
-This project is Apple-Silicon-native. The frozen V-JEPA substrate and the whole trainable shell
-run on Metal (MPS) as the primary target: an M3 Pro laptop today, a bigger M-series Mac Studio
-later. The Studio is NOT a CUDA box. cuda stays supported only for rented GPUs used by Tier R
-environment rollouts (E5/E10), which Metal cannot cover cheaply.
+MOP is Apple-Silicon-native on the current M3 Pro. CPU and MPS are workload choices selected by
+measurement. A larger Apple Silicon host is not an assumed destination.
 
-## Why MPS-first
-- Unified memory. There is no host/device copy and no pinning: the encoder, the cached latents,
-  and the shell share one pool. `pin_memory: false` on Apple Silicon. A Mac Studio M-series Ultra
-  has far more unified memory than the 18 GB laptop, so the scale-up is "same MPS code, bigger
-  chip", not a port.
-- fp16 on Metal is fast and halves memory. `devices.autocast(info)` wraps inference (the frozen
-  encoder, probes) in fp16 on mps/cuda and is a no-op on cpu. `configs/device/mps.yaml: amp=true`.
-- The device layer detects the machine: `devices.apple_silicon_info()` returns chip, performance
-  and efficiency core counts, and unified memory. On this machine: Apple M3 Pro, 6P + 6E, ~19 GB.
+## Current host
 
-## The device boundary
-Everything device-touching goes through `devices.resolve(cfg.device.kind)`. `auto` picks mps on
-Apple Silicon (then cuda, then cpu). Unsupported Metal ops fall back to cpu via
-`PYTORCH_ENABLE_MPS_FALLBACK=1` (set automatically) and `devices.safe_to` / `autofallback`, so a
-patchy op degrades, never crashes. `device=cpu` forces the deterministic, bit-identical path
-(see the determinism study: CPU is bit-identical run-to-run, Metal is ~50% at temp 0).
+- chip: Apple M3 Pro;
+- logical CPUs: 12;
+- unified memory: about 19.3 GB;
+- MPS: available;
+- active heavy lanes: one;
+- operational maximum: 300 minutes;
+- free-disk floor: 40 GB after forecast and atomic-write margin;
+- heavy power source: AC;
+- runtime governor: `scripts/local_execution_throttle.py`.
 
-## CPU parallelism (the campaign harness)
-`harness/cpu_pool.py` saturates the CPU as a process pool sized to the physical cores (6P + 6E =
-12 here), with per-worker BLAS thread caps so workers x threads stays near the core count (the
-oversubscription trap). Heavy legs use fewer workers x more threads; small-head legs use many
-workers x 1 thread. Sustained load thermal-throttles a laptop, so measured CPU timings are
-conservative versus the better-cooled Studio (the cost projection labels them laptop-throttled).
+Unified memory is shared by the OS, applications, CPU tensors, MPS allocations, file cache, and
+other processes. Installed memory is not usable accelerator memory. The governor separately observes
+available memory, memory pressure, swap, MPS allocation where visible, and the recommended MPS
+working set.
 
-## Known Metal limitation (measured)
-A 64-frame ViT-L forward (8192 tokens) hangs the MPS graph compiler on this M3 Pro. Real-encoder
-latent caching therefore runs on cpu (measured 24 to 32 s/clip; see STATUS.md and the
-retrospective ledger). The
-`mps_safe_token_cap` knob in `configs/device/mps.yaml` documents the threshold above which an
-encoder forward should be routed to cpu. Standard heads, predictors, ensembles, and the shell run
-fine on mps. On a Mac Studio with more GPU cores this limit is expected to lift; verify before
-trusting MPS for large-token encoder forwards.
+## Device boundary
 
-## MLX (optional, future)
-Apple's MLX can accelerate encoder inference throughput on Apple Silicon and is installable via
-the `apple` extra (`uv pip install -e ".[apple]"`). It is NOT a dependency and not on the hot
-path: PyTorch-MPS is the safe default (the V-JEPA HF integration is PyTorch). Treat MLX as a
-profiled-bottleneck throughput experiment for encoder caching, not a rewrite. Do not let it become
-a yak-shave.
+Device selection goes through `devices.resolve(cfg.device.kind)`. `auto` may prefer MPS, but a
+scientific command pins the measured path explicitly. CPU remains the deterministic fallback and is
+the active P4 path. Unsupported Metal operations may fall back to CPU only when the experiment's
+device and numerical contract permits it.
 
-## What to flip for the Studio (Apple Silicon)
-- Keep `device=mps`. Raise batch sizes and dataset/cache sizes to use the larger unified memory.
-- Use the bigger encoder (`encoder=vjepa2_vitg`) and the 2.1 dense variants; with more GPU cores
-  the 64-frame forward should run on Metal directly.
-- Rented CUDA (`device=cuda`) is only for the Tier R env-rollout legs. Everything else stays MPS.
-See SCALING.md for the full flip-list.
+Every device comparison records:
+
+- exact source and configuration;
+- tensor geometry and precision;
+- warmup and synchronization policy;
+- output finiteness and numerical parity;
+- process-tree RSS;
+- MPS current and driver allocation where available;
+- wall-time distribution;
+- failures, fallbacks, and retries;
+- thermal and power state.
+
+A faster device path is rejected if it changes the scientific decision beyond the preregistered
+parity tolerance.
+
+## Current dense-instrument result
+
+The official dense ViT-B checkpoint is retained locally and strictly loads into 86.8M parameters.
+Finite CPU forwards pass at 8 and 64 frames. The native 64-frame forward produces shape
+`[1, 18432, 768]` in about 25.2 seconds with about 1.33 GB maximum observed process-tree RSS.
+
+This establishes local runtime availability. It does not establish learned-code value, natural-data
+performance, task integration, or a reason to scale the inherited instrument.
+
+## CPU execution
+
+CPU is appropriate when:
+
+- deterministic replay is the priority;
+- the MPS graph or allocator path is less stable;
+- a workload is small or memory-bound;
+- the model executes serially within the scientific deadline;
+- CPU leaves MPS available for user applications.
+
+Thread and process counts must be declared. Do not infer useful parallelism from logical CPU count.
+Measure oversubscription, BLAS threads, memory bandwidth, and thermal behavior. The adaptive governor
+allows declared task CPU saturation after admission while retaining memory, swap, thermal, power,
+disk, and foreground gates.
+
+## MPS execution
+
+MPS is appropriate only after a workload-specific parity and stability pilot. Use explicit
+synchronization around measured work. Record fallback behavior and refuse silent device changes.
+
+For training:
+
+- checkpoint at exact arm and update boundaries;
+- synchronize before publishing progress;
+- write crash and refusal receipts atomically;
+- use a separate run directory when CPU and MPS trajectories cannot share exact state;
+- do not recover a transient failure into a citable trajectory unless the registered policy and
+  verifier allow it.
+
+The governor sees only its own process MPS counters plus declared child peak. macOS does not supply a
+single project-wide per-process Metal accounting API through PyTorch, so headroom remains
+conservative.
+
+## Precision
+
+Lower precision is a scientific intervention, not a free optimization. BF16, FP16, INT8, or lower
+precision requires:
+
+- finite outputs and gradients;
+- no overflow or underflow beyond the declared rule;
+- representation geometry parity on held-out referents;
+- endpoint and decision parity;
+- objective-by-precision interaction check where training is involved.
+
+If parity fails, use the exact precision or treat the precision change as a separate experiment.
+
+## Caching
+
+Frozen instruments should be encoded once only when caching preserves the intended stochastic and
+view contract. A citable cache binds:
+
+- checkpoint and revision;
+- source object bytes;
+- decode and preprocessing code;
+- frame indices, crop, view, resolution, and normalization;
+- RNG and precision;
+- layer, pooling, token shape, and time axis;
+- referent, event, split, and independent-unit identity;
+- output hashes and manifest schema.
+
+Frozen weights do not make a cache timeless. Any identity change requires a new cache or an explicit
+parity receipt.
+
+## Adaptive governor
+
+Heavy tasks use a declared entry in `configs/local_execution_throttle.yaml`.
+
+```bash
+.venv/bin/python scripts/local_execution_throttle.py decide \
+  --task <task-id> --samples 3 --interval-seconds 2 --out <decision.json>
+
+PYTHONPATH=src .venv/bin/python scripts/local_execution_throttle.py run \
+  --task <task-id> --run-id <unique-id> --execute --out <run.json>
+```
+
+Admission requires three good samples. Runtime monitoring may pause only the scheduler-owned process
+group. It never signals user processes. Known foreground work may coexist with at most one experiment
+lane, and resource pressure can pause that lane until hysteresis clears.
+
+## Larger-host gate
+
+A larger Apple Silicon host is considered only after a survivor supplies:
+
+1. a named scientific requirement;
+2. three valid measured local failures;
+3. failed or scientifically invalid streaming, caching, factorization, recurrence, precision, and
+   sequential alternatives;
+4. proof that a reduction changes the estimand or decision;
+5. the smallest enabling memory, bandwidth, or latency calculation;
+6. a parity-preserving next-host pilot.
+
+More unified memory or GPU cores can buy throughput. They establish scientific necessity only when a
+non-factorizable resident state, intrinsic real-time deadline, or inseparable synchronized
+interaction cannot be preserved locally.
+
+The current requirements matrix has no such row.

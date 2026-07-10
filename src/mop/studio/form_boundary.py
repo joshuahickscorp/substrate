@@ -57,6 +57,33 @@ def validate_scale_boundary_evidence(receipt: dict[str, Any], experiment_id: str
     return problems
 
 
+def _studio_only_boundary(
+    *,
+    local_exhausted: bool,
+    scientific_ledger_ready: bool,
+    verified_studio_boundaries: list[str],
+    unproved_studio_boundaries: list[str],
+    non_hardware_blockers: list[dict[str, Any]],
+    beyond_studio: list[str],
+) -> bool:
+    """Return true only for an evidenced, exclusive Studio hardware boundary.
+
+    Absence of an unproved Studio claim is not proof of a Studio boundary.  At least one measured
+    and validated Studio boundary must exist, the scientific ledger must be ready, and no data,
+    rights, environment, or beyond-Studio blocker may remain.  This prevents a fully local or
+    externally blocked campaign from satisfying the hardware conclusion vacuously.
+    """
+
+    return bool(
+        local_exhausted
+        and scientific_ledger_ready
+        and verified_studio_boundaries
+        and not unproved_studio_boundaries
+        and not non_hardware_blockers
+        and not beyond_studio
+    )
+
+
 def build_form_pre_studio_boundary(
     *, repo_root: Path | str = REPO_ROOT, scorecard: dict[str, Any] | None = None
 ) -> dict[str, Any]:
@@ -67,6 +94,7 @@ def build_form_pre_studio_boundary(
     score_states = {str(state["experiment_id"]): state for state in score.get("legs", [])}
     classifications: list[dict[str, Any]] = []
     non_hardware_blockers: list[dict[str, Any]] = []
+    verified_studio_boundaries: list[str] = []
     unproved_studio_boundaries: list[str] = []
     beyond_studio: list[str] = []
     for leg in campaign.get("legs", []):
@@ -101,6 +129,7 @@ def build_form_pre_studio_boundary(
                 classification = "local-scaffold-or-run-remaining"
             elif boundary_verified:
                 classification = "studio-scale-only"
+                verified_studio_boundaries.append(eid)
             else:
                 classification = "studio-scale-claim-unproved"
                 unproved_studio_boundaries.append(eid)
@@ -149,7 +178,28 @@ def build_form_pre_studio_boundary(
         and artifact_index.get("all_ok")
     )
     local_exhausted = bool(score.get("local_obligations_exhausted"))
-    studio_only = bool(local_exhausted and not unproved_studio_boundaries and not beyond_studio)
+    scientific_ledger_ready = bool(score.get("scientific_ledger_ready"))
+    studio_only = _studio_only_boundary(
+        local_exhausted=local_exhausted,
+        scientific_ledger_ready=scientific_ledger_ready,
+        verified_studio_boundaries=verified_studio_boundaries,
+        unproved_studio_boundaries=unproved_studio_boundaries,
+        non_hardware_blockers=non_hardware_blockers,
+        beyond_studio=beyond_studio,
+    )
+    boundary_reasons: list[str] = []
+    if not local_exhausted:
+        boundary_reasons.append("local obligations remain")
+    if not scientific_ledger_ready:
+        boundary_reasons.append("scientific verdict ledger is not ready")
+    if not verified_studio_boundaries:
+        boundary_reasons.append("no measured and validated Studio hardware boundary exists")
+    if unproved_studio_boundaries:
+        boundary_reasons.append("one or more Studio boundary claims are unproved")
+    if non_hardware_blockers:
+        boundary_reasons.append("data, rights, environment, or provenance blockers remain")
+    if beyond_studio:
+        boundary_reasons.append("one or more campaign legs are beyond Studio scope")
     disk = shutil.disk_usage(root)
     return {
         "schema": SCHEMA,
@@ -165,10 +215,11 @@ def build_form_pre_studio_boundary(
             "schema": score.get("schema"),
             "valid_schema": score.get("schema") == SCORECARD_SCHEMA,
             "local_obligations_exhausted": local_exhausted,
-            "scientific_ledger_ready": bool(score.get("scientific_ledger_ready")),
+            "scientific_ledger_ready": scientific_ledger_ready,
         },
         "classifications": classifications,
         "non_hardware_blockers": non_hardware_blockers,
+        "verified_studio_boundaries": verified_studio_boundaries,
         "unproved_studio_boundaries": unproved_studio_boundaries,
         "beyond_studio_scope": beyond_studio,
         "artifact_index": {
@@ -177,6 +228,7 @@ def build_form_pre_studio_boundary(
         },
         "local_resources_exhausted": local_exhausted,
         "studio_is_only_remaining_hardware_boundary": studio_only,
+        "boundary_decision_reasons": boundary_reasons,
         "ready_for_studio_handoff": bool(studio_only and artifact_index_ok),
         "all_ok": bool(studio_only and artifact_index_ok),
     }

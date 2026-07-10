@@ -38,9 +38,7 @@ def assert_heavy_lane_free(markers: tuple[str, ...] = HEAVY_PROCESS_MARKERS) -> 
     excluded (the launching shell's command line echoes this script's name)."""
 
     mine = {os.getpid(), os.getppid()}
-    listing = subprocess.run(
-        ["ps", "-axo", "pid=,command="], capture_output=True, text=True, check=True
-    )
+    listing = subprocess.run(["ps", "-axo", "pid=,command="], capture_output=True, text=True, check=True)
     offenders: list[str] = []
     for line in listing.stdout.splitlines():
         stripped = line.strip()

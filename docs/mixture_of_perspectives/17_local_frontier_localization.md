@@ -11,7 +11,7 @@ The current M3 Pro has **zero experiment-specific, measured hardware-blocked non
 strict host doctor passes, the frozen video encoder has executed locally over eight 64-frame,
 256-pixel programmatic clips in 178.7 seconds (22.34 seconds per clip, 2.59 GB peak RSS), and five
 formerly registry-only frontier mechanisms now execute across three seeds in about 1.2 seconds at
-fixture scale. Under the user-authorized 180-minute wall, the measured encoder rate projects to 386
+fixture scale. Under the user-authorized 300-minute wall, the measured encoder rate projects to 644
 sequential clips after reserving 20% of the wall. That last number is a linear projection from eight
 programmatic clips, not a throughput guarantee and not natural-video evidence.
 

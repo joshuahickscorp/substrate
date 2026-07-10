@@ -209,9 +209,7 @@ def test_e6_dr14_reclassification_is_bound_to_category_three(canonical_atlas: Pa
 
 def test_p7_reclassification_is_bound_to_category_three(canonical_atlas: Path) -> None:
     payload = _load(canonical_atlas)
-    payload["category2_harness_clusters"]["p7_reclassified_after_local_integration"][
-        "to_category"
-    ] = 2
+    payload["category2_harness_clusters"]["p7_reclassified_after_local_integration"]["to_category"] = 2
     _write(canonical_atlas, payload)
     report = _validate(canonical_atlas)
     problems = " ".join(_check(report, "category2_partition")["problems"])
@@ -221,9 +219,7 @@ def test_p7_reclassification_is_bound_to_category_three(canonical_atlas: Path) -
 
 def test_p9_reclassification_is_bound_to_category_three(canonical_atlas: Path) -> None:
     payload = _load(canonical_atlas)
-    payload["category2_harness_clusters"]["p9_reclassified_after_local_integration"][
-        "to_category"
-    ] = 2
+    payload["category2_harness_clusters"]["p9_reclassified_after_local_integration"]["to_category"] = 2
     _write(canonical_atlas, payload)
     report = _validate(canonical_atlas)
     problems = " ".join(_check(report, "category2_partition")["problems"])

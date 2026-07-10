@@ -1,6 +1,4 @@
-"""E6 runs the relational 2-vs-2.1 (pooled-vs-dense) comparison at toy scale: two encoders,
-a recombination-generalization task, a structured head vs a parameter-matched flat head per
-substrate, and the explicit null check (structured_beats_flat AND dense_gain_larger)."""
+"""E6 cache-first behavior plus the explicitly authorized legacy mechanics fixture."""
 
 from mop import config, devices
 from mop.experiments.e6_relational import E6
@@ -11,6 +9,8 @@ def test_e6_relational_comparison(tmp_path):
         [
             "experiment=e6_relational",
             "device=cpu",
+            "experiment.execution_path=legacy-fixture",
+            "experiment.allow_legacy_fixture=true",
             "experiment.samples=96",  # toy: keep it fast
             "experiment.epochs=40",
             "experiment.n_attr=4",
@@ -45,3 +45,27 @@ def test_e6_relational_comparison(tmp_path):
 
     # plot saved
     assert (tmp_path / "e6_relational" / "e6_relational.png").exists()
+    assert out["scientific_promotion"] is False
+    assert out["claim_boundary"]["legacy_fixture"] is True
+
+
+def test_e6_default_fails_closed_without_cache_pair(monkeypatch, tmp_path):
+    cfg = config.compose(
+        [
+            "experiment=e6_relational",
+            f"experiment.learned_cache={tmp_path / 'missing-learned'}",
+            f"experiment.random_cache={tmp_path / 'missing-random'}",
+        ]
+    )
+
+    def forbid_encoder_load(*args, **kwargs):
+        raise AssertionError("cache-first E6 must not enter the generic encoder loader")
+
+    monkeypatch.setattr("mop.experiments.e6_relational.load_encoder", forbid_encoder_load)
+    run_dir = tmp_path / "cache-first"
+    out = E6().run(cfg, devices.resolve("cpu"), run_dir)
+    assert out["execution_status"] == "blocked-missing-or-invalid-cache-pair"
+    assert out["scientific_promotion"] is False
+    assert out["claim_boundary"]["legacy_fallback_used"] is False
+    assert out["claim_boundary"]["model_loaded"] is False
+    assert (run_dir / "e6_relational.json").is_file()

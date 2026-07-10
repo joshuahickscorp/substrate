@@ -25,7 +25,7 @@ probe_dependency:                            # REQUIRED
   atlas_row:       atlas/vjepa2_vitl_fpc64_256/identity.json
   decodable:       yes                       # yes | no | marginal (from the atlas row)
   acc_above_chance: null                     # probe acc minus chance floor
-encoder_scale:     L                         # L | H | g | all-three (per-scale verdict if it differs)
+encoder_scale:     primary                   # substrate role or registered id; archive-only for history
 seeds:
   n:               5                          # >= 3 (the measured sign-stability threshold)
   sem:             null

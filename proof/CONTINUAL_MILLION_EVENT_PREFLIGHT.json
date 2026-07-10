@@ -1,0 +1,1201 @@
+{
+  "all_mechanics_ok": true,
+  "audit": {
+    "already_existed": [
+      "EX13 registered forgetting-curve contract with replay and no-replay arms",
+      "EX15 long-stream plasticity and rejuvenation traces",
+      "PR9 per-seed and per-arm leg resume files",
+      "Wave E0 typed events and append-only lifecycle journal",
+      "in-memory ReplayBuffer with bounded capacity"
+    ],
+    "harness_reuse": "EX13 and EX15 remain the registered scientific contracts. This preflight adds a shared stream and cursor layer and does not register a competing experiment harness.",
+    "missing_before_this_preflight": [
+      "disk-backed deterministic event stream",
+      "hash-chained atomic event cursor resume",
+      "gradual and abrupt schedule fixtures",
+      "fresh-init fixed-topology control",
+      "future-learnability, stale-memory, deletion, and exact resource metrics"
+    ]
+  },
+  "checks": {
+    "all_arms_resumed_atomically": true,
+    "all_compute_matched": true,
+    "all_deletions_complete": true,
+    "all_identity_replicas_match": true,
+    "all_metric_families_present": true,
+    "all_streams_verified": true,
+    "both_transition_schedules": true,
+    "no_model_weights_loaded": true
+  },
+  "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+  "config": {
+    "path": "configs/experiment/continual_million_event_preflight.yaml",
+    "payload": {
+      "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+      "full_run_gate": {
+        "arms": [
+          "replay",
+          "no-replay",
+          "fresh-init"
+        ],
+        "hardware_promotion_from_this_smoke": false,
+        "minimum_independent_seeds": 5,
+        "require_atomic_interruption_replay": true,
+        "require_governor_lane_admission": true,
+        "require_independent_metric_verifier": true,
+        "schedules": [
+          "abrupt",
+          "gradual"
+        ],
+        "target_events_per_stream": 1000000
+      },
+      "no_heavy_guard": {
+        "accelerator_required": false,
+        "maximum_events_per_stream": 512,
+        "maximum_total_arm_events": 4096,
+        "model_weights_loaded": false
+      },
+      "null_hypothesis": "the bounded stream cannot preserve exact identity, atomic interruption recovery, deletion, preregistered metric presence, and matched update budgets across abrupt and gradual schedules and all three controls; a mechanics pass at 384 events does not reject any million-event capability null",
+      "preregistered_metrics": [
+        "retention",
+        "acquisition",
+        "future_learnability",
+        "stale_memory",
+        "deletion",
+        "resources"
+      ],
+      "profile_name": "preregistered-smoke",
+      "runner": {
+        "arms": [
+          "replay",
+          "no-replay",
+          "fresh-init"
+        ],
+        "checkpoint_every": 48,
+        "future_accuracy_threshold": 0.5,
+        "future_window_events": 48,
+        "interruption_after_events": 73,
+        "matched_updates_per_event": 2,
+        "replay_capacity": 128,
+        "threshold_window_events": 16
+      },
+      "schema": "mop-continual-million-event-preflight-config/v1",
+      "stream": {
+        "chunk_events": 64,
+        "deletion_event": 144,
+        "gradual_width_events": 32,
+        "n_classes": 4,
+        "n_domains": 4,
+        "schedules": [
+          "abrupt",
+          "gradual"
+        ],
+        "seed": 20260710,
+        "total_events": 384
+      }
+    },
+    "profile_sha256": "1edff252093d233ab7313f3ab86fabe7c97889942e71b5e5c76e3b453c39d35b",
+    "sha256": "1107019e264a323a5fb40883f338564eca843d6acff273ff79e9766685b2633f"
+  },
+  "implementation": [
+    {
+      "path": "src/mop/substrate/continual_stream.py",
+      "sha256": "c658d95f6f9d1fcae9c498a933b415306032e9d157cc18d05dc9038f5b1d3c44"
+    },
+    {
+      "path": "src/mop/studies/continual_million_event.py",
+      "sha256": "2ddf85ad7e5834c33983046d2690d0b9b11f1aa005cb4aeeb9aefb0b27a19de8"
+    },
+    {
+      "path": "scripts/continual_million_event_preflight.py",
+      "sha256": "2f224a67b7e8c5953cac7ea827c5cd4700f11d0e71a27ecc58d48d0d1da0c5d5"
+    },
+    {
+      "path": "configs/experiment/continual_million_event_preflight.yaml",
+      "sha256": "1107019e264a323a5fb40883f338564eca843d6acff273ff79e9766685b2633f"
+    },
+    {
+      "path": "src/mop/substrate/events.py",
+      "sha256": "cc0562fe8a3e5bd8caa67987e5be7581734e660e0f728619e44e4dc2d34fff48"
+    },
+    {
+      "path": "src/mop/substrate/lifecycle.py",
+      "sha256": "2bdc54987741e507eda17835057febd76fce2b425da6abef8572becfe00b30e2"
+    },
+    {
+      "path": "src/mop/experiments/ex13_long_stream.py",
+      "sha256": "954899c7061522b8f488ab8cc939fe8f37d3b048df4590f0b99d75a3a3ed0599"
+    },
+    {
+      "path": "src/mop/experiments/ex15_rejuvenation.py",
+      "sha256": "51a48ab5dc334242c5f9959c20bf53bfc117d90c76bf8d953a296cfc8fe39ea7"
+    },
+    {
+      "path": "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
+      "sha256": "a6b99f2517947a9e5514804acc4f89e0d944a2b6bd0e692f0d6cba9f151bb482"
+    }
+  ],
+  "no_heavy_preflight": true,
+  "payload_sha256": "081808500267145d5e40b2db84cb38baf72f0ba40a8e7b71d5a463a03a789a89",
+  "registry_contracts": {
+    "ex13_long_stream": {
+      "ablation": "naive-sequential vs replay+EWC-protected vs frozen-random-substrate control, over a long domain-incremental stream (hundreds of tasks)",
+      "baseline": "naive-sequential (no replay, no consolidation, no plasticity scheduling)",
+      "id": "ex13_long_stream",
+      "metric": [
+        "forgetting_curve",
+        "retention_threshold_length",
+        "effective_rank"
+      ],
+      "null_hypothesis": "retention is flat in stream length within the seed spread, or every mechanism degrades identically (protection only delays the same collapse)",
+      "tier": "cpu-now"
+    },
+    "ex15_rejuvenation": {
+      "ablation": "protected-no-rejuvenation vs protected+shrink-and-perturb-rejuvenation vs frozen-random-substrate+rejuvenation, over the same long domain-incremental stream",
+      "baseline": "protected (replay+EWC), no rejuvenation (the EX13 protected arm, standing control)",
+      "id": "ex15_rejuvenation",
+      "metric": [
+        "effective_rank",
+        "dead_unit_count",
+        "retained_accuracy"
+      ],
+      "null_hypothesis": "rejuvenation does not restore plasticity, or it restores plasticity at the cost of retention; the frozen-latent shell does not suffer loss of plasticity at this scale",
+      "tier": "cpu-now"
+    }
+  },
+  "remaining_full_run_gate": {
+    "current_blocker": "execution scale and independent replication, not local implementation",
+    "current_events_per_stream": 384,
+    "hardware_boundary_earned": false,
+    "minimum_independent_seeds": 5,
+    "progressive_rungs": [
+      10000,
+      100000,
+      1000000
+    ],
+    "required_before_claim": [
+      "run every schedule and control through the admitted resource governor lane",
+      "independently replay metrics from immutable checkpoints",
+      "demonstrate interruption recovery at the full rung",
+      "separate useful retention from replay volume and extra compute"
+    ],
+    "status": "not-run",
+    "target_events_per_stream": 1000000
+  },
+  "resource_envelope": {
+    "configured_stream_events": 384,
+    "configured_total_arm_events": 2304,
+    "guard": {
+      "accelerator_required": false,
+      "maximum_events_per_stream": 512,
+      "maximum_total_arm_events": 4096,
+      "model_weights_loaded": false
+    },
+    "lane": "light CPU and disk mechanics only"
+  },
+  "schedules": [
+    {
+      "arms": [
+        {
+          "arm": "replay",
+          "interruption_checkpoint_observed": true,
+          "result": {
+            "all_mechanics_ok": true,
+            "arm": "replay",
+            "checkpoint_sha256": "3664e4b49f37c10374ea2d4923e21acd5300e4065f7d6be2920e60cd6b785501",
+            "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+            "complete": true,
+            "controls": {
+              "actual_updates_per_event": 2.0,
+              "fixed_topology": true,
+              "fresh_init_on_transition": false,
+              "matched_updates_per_event": 2,
+              "replay_enabled": true,
+              "reset_count": 0
+            },
+            "lifecycle": {
+              "entries": [
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "59ed7ec0d89dd72ffbd153807549bc97d17559109a660528543026fcb831994b",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "bf31c53f4ad5d750c8d49136e716ce62f3059bc06e85268e482df775a31dc00e",
+                      "stage": 0
+                    }
+                  },
+                  "entry_sha256": "a7f2f33e349d6f8717a95afdb316a771d4249952b77eff3d3743644c84556853",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000000",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "record",
+                  "previous_entry_sha256": null,
+                  "reason": "record initial stream mapping",
+                  "revision": 1,
+                  "sequence": 0,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "f226626bb5d0b5e2db738d2decfa8c493f8cc50a8bd4539e8496052ea2cbf3db",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "f2ca868dfb1f4504e6a29adafbbacf5afc41762f879347ead23e226e77e24f63",
+                      "stage": 1
+                    }
+                  },
+                  "entry_sha256": "5046799bd85c95e433f96bb1bbd405f48b3c0463fe1ed6b9088925327f4eda6b",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000096",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "revise",
+                  "previous_entry_sha256": "a7f2f33e349d6f8717a95afdb316a771d4249952b77eff3d3743644c84556853",
+                  "reason": "revise mapping at transition",
+                  "revision": 2,
+                  "sequence": 1,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": null,
+                  "available_from_tick": null,
+                  "available_until_tick": null,
+                  "content": null,
+                  "entry_sha256": "257204fd9b84c260da0a03ee4930969b05ae6a8dd7dd1485fc0e7950d16ebd36",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000144",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "delete",
+                  "previous_entry_sha256": "5046799bd85c95e433f96bb1bbd405f48b3c0463fe1ed6b9088925327f4eda6b",
+                  "reason": "delete superseded continual anchor",
+                  "revision": 3,
+                  "sequence": 2,
+                  "target_revision": null
+                }
+              ],
+              "head_sha256": "257204fd9b84c260da0a03ee4930969b05ae6a8dd7dd1485fc0e7950d16ebd36",
+              "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+              "schema": "mop-lifecycle-journal/v1"
+            },
+            "lifecycle_errors": [],
+            "lifecycle_sha256": "797e45286bbeb99f311bfcc681fac5ce34096acc47db04af7c5d4e23b6cc82d4",
+            "metrics": {
+              "acquisition": {
+                "per_domain_accuracy": [
+                  0.96875,
+                  0.13541666666666666,
+                  0.21875,
+                  0.0
+                ],
+                "stream_accuracy": 0.3307291666666667
+              },
+              "deletion": {
+                "complete": true,
+                "lifecycle_available_after_delete": false,
+                "lifecycle_deleted": true,
+                "remaining_deleted_domain_records": 0,
+                "replay_records_removed": 80,
+                "requested": true
+              },
+              "future_learnability": {
+                "events_to_threshold": null,
+                "first_window_accuracy": 0.0,
+                "threshold": 0.5,
+                "threshold_window_events": 16,
+                "window_events": 48
+              },
+              "resources": {
+                "accelerator_required": false,
+                "checkpoint_state_bytes": 22612,
+                "events_processed": 384,
+                "max_replay_records": 128,
+                "model_weights_loaded": false,
+                "replay_capacity": 128,
+                "replay_samples": 383,
+                "stream_disk_bytes": 19584,
+                "updates": 768,
+                "updates_per_event": 2.0
+              },
+              "retention": {
+                "domain_zero_final_accuracy": 0.25,
+                "transition_snapshots": [
+                  {
+                    "domain_zero_accuracy": 1.0,
+                    "sequence": 96,
+                    "stage": 1
+                  },
+                  {
+                    "domain_zero_accuracy": 0.5,
+                    "sequence": 192,
+                    "stage": 2
+                  },
+                  {
+                    "domain_zero_accuracy": 0.25,
+                    "sequence": 288,
+                    "stage": 3
+                  }
+                ]
+              },
+              "stale_memory": {
+                "harm_count": 0,
+                "harm_rate": 0.0,
+                "opportunities": 129
+              }
+            },
+            "resumed_from_atomic_checkpoint": true,
+            "schema": "mop-continual-smoke-result/v1",
+            "state_sha256": "34d8076c9bcfc4820198dd7592111855d8457c1bc33c87bf45cde83e9004658b",
+            "stream_identity_sha256": "2aa40464341905bbcb823fd36d340ab977e61ff898fe5e686455b7b9bf5afa8e",
+            "stream_sha256": "c8988c9bd4396d3cfc5df97e5cb30a343a74d563fdb44fe5cebe9dd45d688cfe"
+          }
+        },
+        {
+          "arm": "no-replay",
+          "interruption_checkpoint_observed": true,
+          "result": {
+            "all_mechanics_ok": true,
+            "arm": "no-replay",
+            "checkpoint_sha256": "4df3341866075cdc25c5899acd42bd47e0e56aeb9d00d3aec972c81e5d55305d",
+            "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+            "complete": true,
+            "controls": {
+              "actual_updates_per_event": 2.0,
+              "fixed_topology": true,
+              "fresh_init_on_transition": false,
+              "matched_updates_per_event": 2,
+              "replay_enabled": false,
+              "reset_count": 0
+            },
+            "lifecycle": {
+              "entries": [
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "59ed7ec0d89dd72ffbd153807549bc97d17559109a660528543026fcb831994b",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "bf31c53f4ad5d750c8d49136e716ce62f3059bc06e85268e482df775a31dc00e",
+                      "stage": 0
+                    }
+                  },
+                  "entry_sha256": "a7f2f33e349d6f8717a95afdb316a771d4249952b77eff3d3743644c84556853",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000000",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "record",
+                  "previous_entry_sha256": null,
+                  "reason": "record initial stream mapping",
+                  "revision": 1,
+                  "sequence": 0,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "f226626bb5d0b5e2db738d2decfa8c493f8cc50a8bd4539e8496052ea2cbf3db",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "f2ca868dfb1f4504e6a29adafbbacf5afc41762f879347ead23e226e77e24f63",
+                      "stage": 1
+                    }
+                  },
+                  "entry_sha256": "5046799bd85c95e433f96bb1bbd405f48b3c0463fe1ed6b9088925327f4eda6b",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000096",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "revise",
+                  "previous_entry_sha256": "a7f2f33e349d6f8717a95afdb316a771d4249952b77eff3d3743644c84556853",
+                  "reason": "revise mapping at transition",
+                  "revision": 2,
+                  "sequence": 1,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": null,
+                  "available_from_tick": null,
+                  "available_until_tick": null,
+                  "content": null,
+                  "entry_sha256": "257204fd9b84c260da0a03ee4930969b05ae6a8dd7dd1485fc0e7950d16ebd36",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000144",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "delete",
+                  "previous_entry_sha256": "5046799bd85c95e433f96bb1bbd405f48b3c0463fe1ed6b9088925327f4eda6b",
+                  "reason": "delete superseded continual anchor",
+                  "revision": 3,
+                  "sequence": 2,
+                  "target_revision": null
+                }
+              ],
+              "head_sha256": "257204fd9b84c260da0a03ee4930969b05ae6a8dd7dd1485fc0e7950d16ebd36",
+              "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+              "schema": "mop-lifecycle-journal/v1"
+            },
+            "lifecycle_errors": [],
+            "lifecycle_sha256": "797e45286bbeb99f311bfcc681fac5ce34096acc47db04af7c5d4e23b6cc82d4",
+            "metrics": {
+              "acquisition": {
+                "per_domain_accuracy": [
+                  0.96875,
+                  0.08333333333333333,
+                  0.07291666666666667,
+                  0.0
+                ],
+                "stream_accuracy": 0.28125
+              },
+              "deletion": {
+                "complete": true,
+                "lifecycle_available_after_delete": false,
+                "lifecycle_deleted": true,
+                "remaining_deleted_domain_records": 0,
+                "replay_records_removed": 0,
+                "requested": true
+              },
+              "future_learnability": {
+                "events_to_threshold": null,
+                "first_window_accuracy": 0.0,
+                "threshold": 0.5,
+                "threshold_window_events": 16,
+                "window_events": 48
+              },
+              "resources": {
+                "accelerator_required": false,
+                "checkpoint_state_bytes": 843,
+                "events_processed": 384,
+                "max_replay_records": 0,
+                "model_weights_loaded": false,
+                "replay_capacity": 128,
+                "replay_samples": 0,
+                "stream_disk_bytes": 19584,
+                "updates": 768,
+                "updates_per_event": 2.0
+              },
+              "retention": {
+                "domain_zero_final_accuracy": 0.25,
+                "transition_snapshots": [
+                  {
+                    "domain_zero_accuracy": 1.0,
+                    "sequence": 96,
+                    "stage": 1
+                  },
+                  {
+                    "domain_zero_accuracy": 0.5,
+                    "sequence": 192,
+                    "stage": 2
+                  },
+                  {
+                    "domain_zero_accuracy": 0.25,
+                    "sequence": 288,
+                    "stage": 3
+                  }
+                ]
+              },
+              "stale_memory": {
+                "harm_count": 0,
+                "harm_rate": 0.0,
+                "opportunities": 0
+              }
+            },
+            "resumed_from_atomic_checkpoint": true,
+            "schema": "mop-continual-smoke-result/v1",
+            "state_sha256": "614a2b390f0665651ff54f5b0005d96be3d1bcfd6c244fcd56f52b8b03fef602",
+            "stream_identity_sha256": "2aa40464341905bbcb823fd36d340ab977e61ff898fe5e686455b7b9bf5afa8e",
+            "stream_sha256": "c8988c9bd4396d3cfc5df97e5cb30a343a74d563fdb44fe5cebe9dd45d688cfe"
+          }
+        },
+        {
+          "arm": "fresh-init",
+          "interruption_checkpoint_observed": true,
+          "result": {
+            "all_mechanics_ok": true,
+            "arm": "fresh-init",
+            "checkpoint_sha256": "f498910bc99d289a3f66c717599bc76cf9d20322489588ade4d61b962b15c581",
+            "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+            "complete": true,
+            "controls": {
+              "actual_updates_per_event": 2.0,
+              "fixed_topology": true,
+              "fresh_init_on_transition": true,
+              "matched_updates_per_event": 2,
+              "replay_enabled": false,
+              "reset_count": 3
+            },
+            "lifecycle": {
+              "entries": [
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "59ed7ec0d89dd72ffbd153807549bc97d17559109a660528543026fcb831994b",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "bf31c53f4ad5d750c8d49136e716ce62f3059bc06e85268e482df775a31dc00e",
+                      "stage": 0
+                    }
+                  },
+                  "entry_sha256": "a7f2f33e349d6f8717a95afdb316a771d4249952b77eff3d3743644c84556853",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000000",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "record",
+                  "previous_entry_sha256": null,
+                  "reason": "record initial stream mapping",
+                  "revision": 1,
+                  "sequence": 0,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "f226626bb5d0b5e2db738d2decfa8c493f8cc50a8bd4539e8496052ea2cbf3db",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "f2ca868dfb1f4504e6a29adafbbacf5afc41762f879347ead23e226e77e24f63",
+                      "stage": 1
+                    }
+                  },
+                  "entry_sha256": "5046799bd85c95e433f96bb1bbd405f48b3c0463fe1ed6b9088925327f4eda6b",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000096",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "revise",
+                  "previous_entry_sha256": "a7f2f33e349d6f8717a95afdb316a771d4249952b77eff3d3743644c84556853",
+                  "reason": "revise mapping at transition",
+                  "revision": 2,
+                  "sequence": 1,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": null,
+                  "available_from_tick": null,
+                  "available_until_tick": null,
+                  "content": null,
+                  "entry_sha256": "257204fd9b84c260da0a03ee4930969b05ae6a8dd7dd1485fc0e7950d16ebd36",
+                  "event_ref": "event:2aa40464341905bb/stream:000000000144",
+                  "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+                  "operation": "delete",
+                  "previous_entry_sha256": "5046799bd85c95e433f96bb1bbd405f48b3c0463fe1ed6b9088925327f4eda6b",
+                  "reason": "delete superseded continual anchor",
+                  "revision": 3,
+                  "sequence": 2,
+                  "target_revision": null
+                }
+              ],
+              "head_sha256": "257204fd9b84c260da0a03ee4930969b05ae6a8dd7dd1485fc0e7950d16ebd36",
+              "memory_ref": "memory:2aa40464341905bb/continual-anchor",
+              "schema": "mop-lifecycle-journal/v1"
+            },
+            "lifecycle_errors": [],
+            "lifecycle_sha256": "797e45286bbeb99f311bfcc681fac5ce34096acc47db04af7c5d4e23b6cc82d4",
+            "metrics": {
+              "acquisition": {
+                "per_domain_accuracy": [
+                  0.96875,
+                  0.96875,
+                  0.96875,
+                  0.96875
+                ],
+                "stream_accuracy": 0.96875
+              },
+              "deletion": {
+                "complete": true,
+                "lifecycle_available_after_delete": false,
+                "lifecycle_deleted": true,
+                "remaining_deleted_domain_records": 0,
+                "replay_records_removed": 0,
+                "requested": true
+              },
+              "future_learnability": {
+                "events_to_threshold": 16,
+                "first_window_accuracy": 0.9375,
+                "threshold": 0.5,
+                "threshold_window_events": 16,
+                "window_events": 48
+              },
+              "resources": {
+                "accelerator_required": false,
+                "checkpoint_state_bytes": 831,
+                "events_processed": 384,
+                "max_replay_records": 0,
+                "model_weights_loaded": false,
+                "replay_capacity": 128,
+                "replay_samples": 0,
+                "stream_disk_bytes": 19584,
+                "updates": 768,
+                "updates_per_event": 2.0
+              },
+              "retention": {
+                "domain_zero_final_accuracy": 0.0,
+                "transition_snapshots": [
+                  {
+                    "domain_zero_accuracy": 1.0,
+                    "sequence": 96,
+                    "stage": 1
+                  },
+                  {
+                    "domain_zero_accuracy": 0.0,
+                    "sequence": 192,
+                    "stage": 2
+                  },
+                  {
+                    "domain_zero_accuracy": 0.0,
+                    "sequence": 288,
+                    "stage": 3
+                  }
+                ]
+              },
+              "stale_memory": {
+                "harm_count": 0,
+                "harm_rate": 0.0,
+                "opportunities": 0
+              }
+            },
+            "resumed_from_atomic_checkpoint": true,
+            "schema": "mop-continual-smoke-result/v1",
+            "state_sha256": "e9c7804a003046305e17d4107e7619fdde033905be83bffea2d723a53c0d8808",
+            "stream_identity_sha256": "2aa40464341905bbcb823fd36d340ab977e61ff898fe5e686455b7b9bf5afa8e",
+            "stream_sha256": "c8988c9bd4396d3cfc5df97e5cb30a343a74d563fdb44fe5cebe9dd45d688cfe"
+          }
+        }
+      ],
+      "atomic_chunk_checkpoint_observed": true,
+      "identity_sha256": "2aa40464341905bbcb823fd36d340ab977e61ff898fe5e686455b7b9bf5afa8e",
+      "independent_replica_identity_match": true,
+      "schedule": "abrupt",
+      "spec": {
+        "chunk_events": 64,
+        "deletion_event": 144,
+        "gradual_width_events": 32,
+        "n_classes": 4,
+        "n_domains": 4,
+        "schema": "mop-continual-stream-spec/v1",
+        "seed": 20260710,
+        "total_events": 384,
+        "transition_schedule": "abrupt"
+      },
+      "stream_audit": {
+        "chain_head_sha256": "8847a1254c2c27145946ec996451e73cd725ee86228f24eb59bcdd317435be2b",
+        "chunk_count": 6,
+        "complete": true,
+        "disk_bytes": 19584,
+        "errors": [],
+        "identity_sha256": "2aa40464341905bbcb823fd36d340ab977e61ff898fe5e686455b7b9bf5afa8e",
+        "record_count": 384,
+        "stream_sha256": "c8988c9bd4396d3cfc5df97e5cb30a343a74d563fdb44fe5cebe9dd45d688cfe",
+        "verified": true
+      },
+      "stream_sha256": "c8988c9bd4396d3cfc5df97e5cb30a343a74d563fdb44fe5cebe9dd45d688cfe"
+    },
+    {
+      "arms": [
+        {
+          "arm": "replay",
+          "interruption_checkpoint_observed": true,
+          "result": {
+            "all_mechanics_ok": true,
+            "arm": "replay",
+            "checkpoint_sha256": "e12bfe9a9b7a73851aed43ac4a57c5782b8594e9c57d2a88a3672aabdac81478",
+            "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+            "complete": true,
+            "controls": {
+              "actual_updates_per_event": 2.0,
+              "fixed_topology": true,
+              "fresh_init_on_transition": false,
+              "matched_updates_per_event": 2,
+              "replay_enabled": true,
+              "reset_count": 0
+            },
+            "lifecycle": {
+              "entries": [
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "e10efe1bb55c1f5e7f30d5fb199993abc0baa13c432e6a1d86e6fbf86aa6f3ae",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "04b92d77a242403be02d32df21395f07c0a1b340c3906b5c96b046dffe036205",
+                      "stage": 0
+                    }
+                  },
+                  "entry_sha256": "4f300d7f14ad1c9659a8300568285f22869fffc73b445be4285f0c8b517bc1aa",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000000",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "record",
+                  "previous_entry_sha256": null,
+                  "reason": "record initial stream mapping",
+                  "revision": 1,
+                  "sequence": 0,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "8d4d9ea95fca9759f2e46fb9c77c89a41523b5be6976db4b44c6eae2ffdc9bb9",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "fd5c5d97eeef3df026abb67eed9b4d4aad9f352a1affedb383e8347c54c91bf6",
+                      "stage": 1
+                    }
+                  },
+                  "entry_sha256": "459e7c1a296a9c192f2f80e512afbe9c220e311d25ab67b8d0a08ac06051cd2c",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000080",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "revise",
+                  "previous_entry_sha256": "4f300d7f14ad1c9659a8300568285f22869fffc73b445be4285f0c8b517bc1aa",
+                  "reason": "revise mapping at transition",
+                  "revision": 2,
+                  "sequence": 1,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": null,
+                  "available_from_tick": null,
+                  "available_until_tick": null,
+                  "content": null,
+                  "entry_sha256": "86807be9e295100d5bb0b83d20433e72e4ea5b22f2733c4e266ab3a73fd0b96a",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000144",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "delete",
+                  "previous_entry_sha256": "459e7c1a296a9c192f2f80e512afbe9c220e311d25ab67b8d0a08ac06051cd2c",
+                  "reason": "delete superseded continual anchor",
+                  "revision": 3,
+                  "sequence": 2,
+                  "target_revision": null
+                }
+              ],
+              "head_sha256": "86807be9e295100d5bb0b83d20433e72e4ea5b22f2733c4e266ab3a73fd0b96a",
+              "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+              "schema": "mop-lifecycle-journal/v1"
+            },
+            "lifecycle_errors": [],
+            "lifecycle_sha256": "1dc3435242e3cfde9747ac1cff58418e8cfe45a4782c94a1c6b9dd0acdafb158",
+            "metrics": {
+              "acquisition": {
+                "per_domain_accuracy": [
+                  0.967391304347826,
+                  0.11224489795918367,
+                  0.20202020202020202,
+                  0.0
+                ],
+                "stream_accuracy": 0.3125
+              },
+              "deletion": {
+                "complete": true,
+                "lifecycle_available_after_delete": false,
+                "lifecycle_deleted": true,
+                "remaining_deleted_domain_records": 0,
+                "replay_records_removed": 76,
+                "requested": true
+              },
+              "future_learnability": {
+                "events_to_threshold": null,
+                "first_window_accuracy": 0.0,
+                "threshold": 0.5,
+                "threshold_window_events": 16,
+                "window_events": 48
+              },
+              "resources": {
+                "accelerator_required": false,
+                "checkpoint_state_bytes": 22612,
+                "events_processed": 384,
+                "max_replay_records": 128,
+                "model_weights_loaded": false,
+                "replay_capacity": 128,
+                "replay_samples": 383,
+                "stream_disk_bytes": 19584,
+                "updates": 768,
+                "updates_per_event": 2.0
+              },
+              "retention": {
+                "domain_zero_final_accuracy": 0.25,
+                "transition_snapshots": [
+                  {
+                    "domain_zero_accuracy": 1.0,
+                    "sequence": 80,
+                    "stage": 1
+                  },
+                  {
+                    "domain_zero_accuracy": 0.5,
+                    "sequence": 176,
+                    "stage": 2
+                  },
+                  {
+                    "domain_zero_accuracy": 0.25,
+                    "sequence": 272,
+                    "stage": 3
+                  }
+                ]
+              },
+              "stale_memory": {
+                "harm_count": 0,
+                "harm_rate": 0.0,
+                "opportunities": 138
+              }
+            },
+            "resumed_from_atomic_checkpoint": true,
+            "schema": "mop-continual-smoke-result/v1",
+            "state_sha256": "4fd3031e61e73d29f5007019fb7a15a0d01cd430ddc1a5d09cdf147f6184d5ff",
+            "stream_identity_sha256": "1e69f19a32771508ea51e501596387e877c83ceccfda7b28385cc59e6b5fdb81",
+            "stream_sha256": "aaf0a3892a4b873811ff2a2f2d744c1239d23ac9d9c4f660cb5617e351be6fdd"
+          }
+        },
+        {
+          "arm": "no-replay",
+          "interruption_checkpoint_observed": true,
+          "result": {
+            "all_mechanics_ok": true,
+            "arm": "no-replay",
+            "checkpoint_sha256": "0ef226511566f65c353c8efb216aa87e6a0aa379563ba15f397164d84f0b0130",
+            "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+            "complete": true,
+            "controls": {
+              "actual_updates_per_event": 2.0,
+              "fixed_topology": true,
+              "fresh_init_on_transition": false,
+              "matched_updates_per_event": 2,
+              "replay_enabled": false,
+              "reset_count": 0
+            },
+            "lifecycle": {
+              "entries": [
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "e10efe1bb55c1f5e7f30d5fb199993abc0baa13c432e6a1d86e6fbf86aa6f3ae",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "04b92d77a242403be02d32df21395f07c0a1b340c3906b5c96b046dffe036205",
+                      "stage": 0
+                    }
+                  },
+                  "entry_sha256": "4f300d7f14ad1c9659a8300568285f22869fffc73b445be4285f0c8b517bc1aa",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000000",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "record",
+                  "previous_entry_sha256": null,
+                  "reason": "record initial stream mapping",
+                  "revision": 1,
+                  "sequence": 0,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "8d4d9ea95fca9759f2e46fb9c77c89a41523b5be6976db4b44c6eae2ffdc9bb9",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "fd5c5d97eeef3df026abb67eed9b4d4aad9f352a1affedb383e8347c54c91bf6",
+                      "stage": 1
+                    }
+                  },
+                  "entry_sha256": "459e7c1a296a9c192f2f80e512afbe9c220e311d25ab67b8d0a08ac06051cd2c",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000080",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "revise",
+                  "previous_entry_sha256": "4f300d7f14ad1c9659a8300568285f22869fffc73b445be4285f0c8b517bc1aa",
+                  "reason": "revise mapping at transition",
+                  "revision": 2,
+                  "sequence": 1,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": null,
+                  "available_from_tick": null,
+                  "available_until_tick": null,
+                  "content": null,
+                  "entry_sha256": "86807be9e295100d5bb0b83d20433e72e4ea5b22f2733c4e266ab3a73fd0b96a",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000144",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "delete",
+                  "previous_entry_sha256": "459e7c1a296a9c192f2f80e512afbe9c220e311d25ab67b8d0a08ac06051cd2c",
+                  "reason": "delete superseded continual anchor",
+                  "revision": 3,
+                  "sequence": 2,
+                  "target_revision": null
+                }
+              ],
+              "head_sha256": "86807be9e295100d5bb0b83d20433e72e4ea5b22f2733c4e266ab3a73fd0b96a",
+              "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+              "schema": "mop-lifecycle-journal/v1"
+            },
+            "lifecycle_errors": [],
+            "lifecycle_sha256": "1dc3435242e3cfde9747ac1cff58418e8cfe45a4782c94a1c6b9dd0acdafb158",
+            "metrics": {
+              "acquisition": {
+                "per_domain_accuracy": [
+                  0.967391304347826,
+                  0.07142857142857142,
+                  0.04040404040404041,
+                  0.0
+                ],
+                "stream_accuracy": 0.2604166666666667
+              },
+              "deletion": {
+                "complete": true,
+                "lifecycle_available_after_delete": false,
+                "lifecycle_deleted": true,
+                "remaining_deleted_domain_records": 0,
+                "replay_records_removed": 0,
+                "requested": true
+              },
+              "future_learnability": {
+                "events_to_threshold": null,
+                "first_window_accuracy": 0.0,
+                "threshold": 0.5,
+                "threshold_window_events": 16,
+                "window_events": 48
+              },
+              "resources": {
+                "accelerator_required": false,
+                "checkpoint_state_bytes": 842,
+                "events_processed": 384,
+                "max_replay_records": 0,
+                "model_weights_loaded": false,
+                "replay_capacity": 128,
+                "replay_samples": 0,
+                "stream_disk_bytes": 19584,
+                "updates": 768,
+                "updates_per_event": 2.0
+              },
+              "retention": {
+                "domain_zero_final_accuracy": 0.25,
+                "transition_snapshots": [
+                  {
+                    "domain_zero_accuracy": 1.0,
+                    "sequence": 80,
+                    "stage": 1
+                  },
+                  {
+                    "domain_zero_accuracy": 1.0,
+                    "sequence": 176,
+                    "stage": 2
+                  },
+                  {
+                    "domain_zero_accuracy": 0.5,
+                    "sequence": 272,
+                    "stage": 3
+                  }
+                ]
+              },
+              "stale_memory": {
+                "harm_count": 0,
+                "harm_rate": 0.0,
+                "opportunities": 0
+              }
+            },
+            "resumed_from_atomic_checkpoint": true,
+            "schema": "mop-continual-smoke-result/v1",
+            "state_sha256": "ed67e78a00b8a0c348b8f6a484edca63890a4a5c0b14900e9e3bd6b9958469dd",
+            "stream_identity_sha256": "1e69f19a32771508ea51e501596387e877c83ceccfda7b28385cc59e6b5fdb81",
+            "stream_sha256": "aaf0a3892a4b873811ff2a2f2d744c1239d23ac9d9c4f660cb5617e351be6fdd"
+          }
+        },
+        {
+          "arm": "fresh-init",
+          "interruption_checkpoint_observed": true,
+          "result": {
+            "all_mechanics_ok": true,
+            "arm": "fresh-init",
+            "checkpoint_sha256": "275c2d8c008fcb0cce93c1dc94e905ebf97a0695e584aa3d897c0f4cbf1d4011",
+            "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+            "complete": true,
+            "controls": {
+              "actual_updates_per_event": 2.0,
+              "fixed_topology": true,
+              "fresh_init_on_transition": true,
+              "matched_updates_per_event": 2,
+              "replay_enabled": false,
+              "reset_count": 3
+            },
+            "lifecycle": {
+              "entries": [
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "e10efe1bb55c1f5e7f30d5fb199993abc0baa13c432e6a1d86e6fbf86aa6f3ae",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "04b92d77a242403be02d32df21395f07c0a1b340c3906b5c96b046dffe036205",
+                      "stage": 0
+                    }
+                  },
+                  "entry_sha256": "4f300d7f14ad1c9659a8300568285f22869fffc73b445be4285f0c8b517bc1aa",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000000",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "record",
+                  "previous_entry_sha256": null,
+                  "reason": "record initial stream mapping",
+                  "revision": 1,
+                  "sequence": 0,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": true,
+                  "available_from_tick": 0,
+                  "available_until_tick": null,
+                  "content": {
+                    "sha256": "8d4d9ea95fca9759f2e46fb9c77c89a41523b5be6976db4b44c6eae2ffdc9bb9",
+                    "value": {
+                      "mapping": "cue-plus-domain",
+                      "source_event": "fd5c5d97eeef3df026abb67eed9b4d4aad9f352a1affedb383e8347c54c91bf6",
+                      "stage": 1
+                    }
+                  },
+                  "entry_sha256": "459e7c1a296a9c192f2f80e512afbe9c220e311d25ab67b8d0a08ac06051cd2c",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000080",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "revise",
+                  "previous_entry_sha256": "4f300d7f14ad1c9659a8300568285f22869fffc73b445be4285f0c8b517bc1aa",
+                  "reason": "revise mapping at transition",
+                  "revision": 2,
+                  "sequence": 1,
+                  "target_revision": null
+                },
+                {
+                  "availability_enabled": null,
+                  "available_from_tick": null,
+                  "available_until_tick": null,
+                  "content": null,
+                  "entry_sha256": "86807be9e295100d5bb0b83d20433e72e4ea5b22f2733c4e266ab3a73fd0b96a",
+                  "event_ref": "event:1e69f19a32771508/stream:000000000144",
+                  "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+                  "operation": "delete",
+                  "previous_entry_sha256": "459e7c1a296a9c192f2f80e512afbe9c220e311d25ab67b8d0a08ac06051cd2c",
+                  "reason": "delete superseded continual anchor",
+                  "revision": 3,
+                  "sequence": 2,
+                  "target_revision": null
+                }
+              ],
+              "head_sha256": "86807be9e295100d5bb0b83d20433e72e4ea5b22f2733c4e266ab3a73fd0b96a",
+              "memory_ref": "memory:1e69f19a32771508/continual-anchor",
+              "schema": "mop-lifecycle-journal/v1"
+            },
+            "lifecycle_errors": [],
+            "lifecycle_sha256": "1dc3435242e3cfde9747ac1cff58418e8cfe45a4782c94a1c6b9dd0acdafb158",
+            "metrics": {
+              "acquisition": {
+                "per_domain_accuracy": [
+                  0.9347826086956522,
+                  0.7959183673469388,
+                  0.797979797979798,
+                  0.7894736842105263
+                ],
+                "stream_accuracy": 0.828125
+              },
+              "deletion": {
+                "complete": true,
+                "lifecycle_available_after_delete": false,
+                "lifecycle_deleted": true,
+                "remaining_deleted_domain_records": 0,
+                "replay_records_removed": 0,
+                "requested": true
+              },
+              "future_learnability": {
+                "events_to_threshold": 29,
+                "first_window_accuracy": 0.5833333333333334,
+                "threshold": 0.5,
+                "threshold_window_events": 16,
+                "window_events": 48
+              },
+              "resources": {
+                "accelerator_required": false,
+                "checkpoint_state_bytes": 833,
+                "events_processed": 384,
+                "max_replay_records": 0,
+                "model_weights_loaded": false,
+                "replay_capacity": 128,
+                "replay_samples": 0,
+                "stream_disk_bytes": 19584,
+                "updates": 768,
+                "updates_per_event": 2.0
+              },
+              "retention": {
+                "domain_zero_final_accuracy": 0.0,
+                "transition_snapshots": [
+                  {
+                    "domain_zero_accuracy": 1.0,
+                    "sequence": 80,
+                    "stage": 1
+                  },
+                  {
+                    "domain_zero_accuracy": 0.0,
+                    "sequence": 176,
+                    "stage": 2
+                  },
+                  {
+                    "domain_zero_accuracy": 0.0,
+                    "sequence": 272,
+                    "stage": 3
+                  }
+                ]
+              },
+              "stale_memory": {
+                "harm_count": 0,
+                "harm_rate": 0.0,
+                "opportunities": 0
+              }
+            },
+            "resumed_from_atomic_checkpoint": true,
+            "schema": "mop-continual-smoke-result/v1",
+            "state_sha256": "f7ccd2b68500a28db312f736876b04f06d31df2fd970e1f664dc17e4179cfc2a",
+            "stream_identity_sha256": "1e69f19a32771508ea51e501596387e877c83ceccfda7b28385cc59e6b5fdb81",
+            "stream_sha256": "aaf0a3892a4b873811ff2a2f2d744c1239d23ac9d9c4f660cb5617e351be6fdd"
+          }
+        }
+      ],
+      "atomic_chunk_checkpoint_observed": true,
+      "identity_sha256": "1e69f19a32771508ea51e501596387e877c83ceccfda7b28385cc59e6b5fdb81",
+      "independent_replica_identity_match": true,
+      "schedule": "gradual",
+      "spec": {
+        "chunk_events": 64,
+        "deletion_event": 144,
+        "gradual_width_events": 32,
+        "n_classes": 4,
+        "n_domains": 4,
+        "schema": "mop-continual-stream-spec/v1",
+        "seed": 20260710,
+        "total_events": 384,
+        "transition_schedule": "gradual"
+      },
+      "stream_audit": {
+        "chain_head_sha256": "052bb98f0efb816b0e36196c9f64293e30997ee8b25637ced70a285a3f43c910",
+        "chunk_count": 6,
+        "complete": true,
+        "disk_bytes": 19584,
+        "errors": [],
+        "identity_sha256": "1e69f19a32771508ea51e501596387e877c83ceccfda7b28385cc59e6b5fdb81",
+        "record_count": 384,
+        "stream_sha256": "aaf0a3892a4b873811ff2a2f2d744c1239d23ac9d9c4f660cb5617e351be6fdd",
+        "verified": true
+      },
+      "stream_sha256": "aaf0a3892a4b873811ff2a2f2d744c1239d23ac9d9c4f660cb5617e351be6fdd"
+    }
+  ],
+  "schema": "mop-continual-million-event-preflight/v1",
+  "status": "mechanics-pass",
+  "wave_e0": {
+    "path": "proof/EXPANSION_WAVE0.json",
+    "reused_primitives": [
+      "EventRef",
+      "EntityRef",
+      "LifecycleJournal"
+    ],
+    "sha256": "653f6f3da22da1dc0cf446217e9726f81c23a59f9193556bb881f8b1052f97b9"
+  }
+}

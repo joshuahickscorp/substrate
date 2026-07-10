@@ -1,61 +1,57 @@
 # mop
 
 > **Status:** experimental framework and measurement instrument. Active paradigm: the Form
-> Substrate Program (FORM_SUBSTRATE_PROGRAM.md). Results so far are on cached real-encoder latents
-> over structured-synthetic video; the natural-video campaign runs on the delivered Apple M1 Ultra
-> Mac Studio (128 GB, profile studio-m1ultra).
+> Substrate Program (FORM_SUBSTRATE_PROGRAM.md). The local M3 Pro is the active execution host.
+> Natural-video work is serialized locally after input, rights, identity, and control gates pass.
+> No receipt proves that a Mac Studio was delivered or that one is currently required.
 
 The Form Substrate Program: a referent-bound, form-receiving, memory-bearing,
 performance-measured substrate for intelligence. Any observation family (video, audio, text,
 symbols, telemetry, action traces) enters as a form over shared referents; capabilities are earned
-through preregistered experiments with nulls, controls, and density accounting. The default regime
-remains a frozen inherited encoder (V-JEPA 2 among others) with a tiny trainable shell over cached
-latents; trainable-substrate branches open only behind evidence gates. Root docs:
+through preregistered experiments with nulls, controls, and density accounting. Frozen inherited
+encoders are measurement instruments and controls while the owned trainable substrate develops
+behind evidence gates. Root docs:
 FORM_SUBSTRATE_PROGRAM.md (worldview), FORM_SUBSTRATE_DOCTRINE.md (methods),
 FORM_SUBSTRATE_EXPERIMENTS.md (F-series bank), FORM_SUBSTRATE_CODEMAP.md (code map),
-PERFORMANCE_DENSITY_DOCTRINE.md, OPERATIONAL_AWARENESS.md, PARADIGM_MIGRATION.md, LEGACY_INDEX.md.
+MOP_MAXIMUM_POTENTIAL_GOAL.md (standing execution loop), MOP_POTENTIAL_ATLAS_2026_07.md (37-facet
+audit), PERFORMANCE_DENSITY_DOCTRINE.md, PARADIGM_MIGRATION.md, and LEGACY_INDEX.md.
 
 ## What this is (and is not)
 
-This is NOT a JEPA. We do not train a JEPA, we do not pretrain an encoder, we do not touch
-encoder weights. V-JEPA is ONE module here: a frozen perceptual substrate, loaded once,
-called only under `no_grad`, never receiving a gradient. It lives under `substrate/` and is
-inference-only. A unit test asserts no encoder parameter ever gets a gradient
-(`Frozen-substrate invariant`, see ARCHITECTURE.md).
+This is not an inherited JEPA training project. Inherited encoders remain frozen, are called under
+`no_grad`, and serve as teachers, controls, and measurement instruments. A unit test asserts that no
+inherited encoder parameter receives a gradient.
 
-Everything else is the trainable shell plus the research surface around it: the latent
-predictor and heads, the latent hippocampus (replay buffer), staged plasticity,
-consolidation, neuromodulation, the learning rules, the metrics, the diagnostics, the
-experiment bank (E1..E10 + I4), and the campaign harness. That is the part we build, train,
-and study. The encoder is a fixed boundary condition the shell learns against.
+The owned custom substrate is a separate trainable lane with no inherited code or weights in its
+artifact. It includes dense event state, prediction, memory, plasticity, action, performance, and
+evidence interfaces. The five-seed CM7 objective regime has already run locally and closed with a
+null. Its checkpoint and verifier contracts survive; its architecture is not treated as canonical.
 
-You cannot recover information the frozen encoder discarded. Any mechanism that needs a
-variable X must first prove X is linearly decodable from the frozen latent
-(`diagnostics/linear_probe`). That gate is the spine of the whole program.
+Any claim about a frozen instrument first proves that the required variable is decodable from its
+output. Any owned-substrate claim additionally beats frozen, random, restart, stronger-shell, and
+matched-resource controls. Neither lane may claim information that its input or event identity did
+not preserve.
 
 ## Cached-latent-first design
 
-The encoder is the one large, slow, fixed object. So it runs once. Video clips go through
-`substrate.encoder` a single time, the latents land in a memmap cache
-(`substrate/cache.py`, `substrate/latent_store.py`), and all learning iterates on the cache,
-never on pixels. Because the encoder is frozen, cached latents never go stale: there is no
-retraining that would invalidate them. This is what makes the laptop feasible and the GPU
-optional for most of the bank.
+Frozen instruments encode once when the scientific view contract permits caching. Video tensors go
+through the selected instrument, and outputs land in a manifest-bound memmap cache. Caches are
+invalidated by checkpoint, source-byte, decode, preprocessing, view, resolution, precision, layer,
+geometry, RNG, referent, event, or split drift even when weights are frozen.
 
-When real weights are not present (this session), the substrate falls back to a frozen
-deterministic random projection and a synthetic latent generator (`substrate/datasets.py`),
-and the store records `backend` so synthetic-substrate latents are never mistaken for real
-V-JEPA latents. Every downstream experiment is built and tested on this path. Swapping in
-real latents is a config + script flip, not a code change (see SCALING.md).
+Exact-architecture random controls and deterministic programmatic inputs remain available for
+mechanics and learned-code controls. Their manifests record backend and evidence scope so generated
+or random-control latents are never mistaken for natural learned evidence. The owned substrate may
+also train directly on citable inputs without an inherited teacher when its experiment contract
+licenses that path.
 
 ## Device flag (Apple-Silicon-native)
 
-This project targets Metal (MPS) first. Everything device-touching goes through
-`devices.resolve(cfg.device.kind)`, which prefers mps on Apple Silicon. The same code runs on
-the M3 laptop today and a bigger M-series Mac Studio later (more GPU cores, more unified
-memory) with NO device change: the Studio is Apple Silicon, not CUDA. fp16 autocast
-(`devices.autocast`), unified memory (no pinning), and graceful MPS->CPU op fallback are built
-in. `device=cuda` is the rented-box path used ONLY for Tier R environment rollouts.
+The current M3 Pro supports both CPU and Metal (MPS). Everything device-touching goes through
+`devices.resolve(cfg.device.kind)`, but scientific commands pin the measured path. CPU is the active
+P4 path and the verified official dense ViT-B path. MPS is used only after workload-specific
+stability and numerical-parity checks. A larger host is considered only through the measured gate in
+SCALING.md.
 
 ```
 .venv/bin/python scripts/run_experiment.py experiment=e1_baseline device=mps
@@ -250,8 +246,8 @@ experiment is a result, not a dead end.
 - DOCTRINE_SYNTHESIS.md: the whole corpus read through the two central doctrinal questions
   (developmental moldability, language-independent abstraction), with the honest state of the
   evidence and the proposed next experimentation lanes.
-- STUDIO_HANDOFF.md: what transfers, what is genuinely Studio-gated, and the prioritized
-  first-things-to-run.
+- STUDIO_HANDOFF.md: historical transfer and procurement scenarios. Current hardware decisions are
+  governed by MOP_MAXIMUM_POTENTIAL_GOAL.md and proof/EXTENDED_COMPUTE_REQUIREMENTS.json.
 - STATUS.md: live build log (done / scaffolded / not started).
 - DECISIONS.md, ISSUES.md: rationale log and deferred-item ledger.
 
@@ -265,9 +261,10 @@ every failure). No em dashes or en dashes anywhere (commas, colons, parentheses 
 Brain is an experimental framework for continual and developmental learning on
 top of frozen perception encoders and a trainable custom-substrate workbench. It
 is a measurement instrument, not a finished result. The current M3 Pro is an
-active 180-minute local execution target; no Mac Studio purchase or hardware
-boundary is assumed. Real natural-video scientific coverage is still limited by
-rights-clean task data, not by ViT-H or ViT-g availability.
+active 300-minute adaptive local execution target; frozen scientific shards keep
+their registered identity. No Mac Studio purchase or hardware boundary is
+assumed. Real natural-video scientific coverage is limited by rights-clean task
+  data, independent units, cache materialization, and verification, not inherited-model availability.
 
 ### Now (works today)
 - The full shell of mechanisms: EWC and Synaptic Intelligence consolidation,
@@ -275,24 +272,29 @@ rights-clean task data, not by ViT-H or ViT-g availability.
   real numerical tests.
 - A reproducibility spine: null-hypothesis contracts, provenance manifests,
   bit-identical runs, and a proof grammar (atlas rows and null cards).
-- A Studio pipeline (plan, acquire, validate, cache, run, report) that is
-  dry-run by default and gated by per-device kill switches.
+- A host-aware pipeline for plan, acquire, validate, cache, run, and report that
+  is dry-run by default and gated by resource and evidence kill switches.
 - A pre-Studio run across the full registered experiment bank in 9 disciplines,
   each with a pre-registered null hypothesis and an adversarial verification
-  pass. Result: an honest null corpus, with exactly one candidate (e7_sparse)
-  surviving adversarial re-checking so far. That pass also narrowed which of
-  the originally Studio-gated items are genuinely hardware or environment
-  gated (only one remains: ex2_latent_planning) versus already runnable now.
+  pass. Result: an honest null corpus with bounded survivors and refutations.
+  The claim-level audit now separates scientific results from mechanics and
+  shows zero measured hardware-blocked rows.
 
 ### Next (local first, move only a measured remainder)
-- Continue serial local encoder-scale work: ViT-L, ViT-H, and ViT-g strict
-  offline loads, supervised CPU forwards, and shared eight-referent caches all
-  pass. CPU is the measured local path; MPS is optional and must be re-benchmarked.
-- Build the permanent multi-encoder cached-latent corpus over rights-cleared natural
-  video (frozen V-JEPA L / H / g), breadth-first and fully licensed. No
-  bound-attribute natural-video science has yet cleared the registered gates;
-  two auxiliary encoders (DINOv2-large, VideoMAEv2-Base) are downloaded and
-  staged but not yet wired into a citable matched-control experiment.
+- Finish P4 and P5 through the adaptive governor, run P6's progressive ladder, and admit P7/P9's
+  next independently sourced trajectory and workload cohorts through their existing local harnesses.
+- Extend Wave E0's verified shared event, intervention, and memory-lifecycle substrate, then run the
+  P6 disk stream through its 10k, 100k, and conditional one-million-event ladder.
+- Reuse P7's verified rendered action, same-parent intervention, eight-arm world-model, and exact
+  compute ledgers for independently sourced action trajectories. Its tiny fixture supported the
+  null and earned no capability claim.
+- Reuse P9's verified causal telemetry, shifted-confounder, calibration, relief-controller, resume,
+  and accounting mechanics on independent natural workloads. Keep energy unmeasured until an
+  explicit wall-power boundary exists.
+- Integrate the official dense ViT-B instrument into a small same-input natural
+  cache and matched learned, random, handcrafted, pooled, and owned controls.
+- Build a rights-aware native audiovisual cohort with original clocks, session
+  units, frozen splits, and wrong-time/wrong-event controls.
 - Grow the representational atlas factor by factor, including the rows that are
   not linearly decodable (the substrate's blind spots). A first real-weight
   atlas row exists; growing it is ongoing.

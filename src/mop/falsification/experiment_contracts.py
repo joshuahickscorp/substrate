@@ -85,8 +85,9 @@ def build_contract_audit(
 ) -> dict[str, Any]:
     """Audit live runnable contracts against their registry rows and config files.
 
-    Missing class/config sources are explicit failures for implemented rows.  Registry-only rows are
-    omitted by default because they do not yet have a runnable contract to compare.
+    Missing class/config sources are explicit failures for implemented rows. Registry-only and
+    deferred rows are preregistration-only records when ``implemented_only`` is false. They do not
+    require a runnable class or config until their status changes to implemented.
     """
     from ..devel.registries import load_experiments
     from ..experiments import REGISTRY
@@ -99,6 +100,19 @@ def build_contract_audit(
         if implemented_only and row.get("status") != "implemented":
             continue
         eid = str(row.get("id") or "")
+        if row.get("status") != "implemented":
+            records.append(
+                {
+                    "experiment_id": eid,
+                    "required": False,
+                    "preregistration_only": True,
+                    "comparisons": {},
+                    "canonical": _canonical_from_row(row),
+                    "problems": [],
+                    "all_ok": True,
+                }
+            )
+            continue
         cls = REGISTRY.get(eid)
         cfg_path = root / "configs" / "experiment" / f"{eid}.yaml"
         if cls is None or not cfg_path.exists():
@@ -143,6 +157,10 @@ def build_contract_audit(
             "total": len(records),
             "aligned": sum(1 for record in records if record["all_ok"]),
             "misaligned": sum(1 for record in records if not record["all_ok"]),
+            "implemented": sum(1 for record in records if record.get("required") is True),
+            "preregistration_only": sum(
+                1 for record in records if record.get("preregistration_only") is True
+            ),
         },
         "problems": problems,
         "all_ok": not problems,

@@ -1,5 +1,8 @@
 # Section 13: Code Scaffolding (research to architecture)
 
+> ERA SCAFFOLD 2026-07-10: useful module history only. Current shared implementation order is Wave
+> E0 and the harness families in `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`; no Studio gate is active.
+
 This section converts the research program into a concrete module architecture and, crucially, reconciles the spec's proposed module list against the code that ALREADY EXISTS in `src/mop/`. The single most important finding of this section: most of the spec's modules are already implemented under different names, and the honest job is to EXTEND them, not to duplicate them. Building parallel `WorkspaceShell`/`ReplayMemory`/`PlasticityController` classes when `shell/modulation.py`/`shell/buffer.py`/`shell/plasticity.py` already exist would fork the codebase and split the test suite. Where a spec module has no code counterpart (`CrossSubstrateAgreement`, `MixtureArbitrator` as a first-class object), this section says NEW and justifies it.
 
 The tree audited (read-only, no code executed): `src/mop/{substrate,shell,learning,experiments,harness,diagnostics,metrics,studies,studio,devel}` plus top-level `config.py`, `provenance.py`, `seeding.py`, `logging_utils.py`, and `scripts/`.
@@ -17,7 +20,10 @@ Legend for each module: EXISTS (extend), PARTIAL (some of it exists, gap named),
 - Purpose: answer "which frozen substrates exist, which are HONEST about having real weights" without ever touching the network. Guards the failure mode where a config silently lets frozen-random latents masquerade as V-JEPA latents.
 - Inputs: `configs/encoder/*.yaml`, `registry/models.yaml`. Outputs: `list_encoders()` (name, hf_id, embed_dim, dense, available, prefer_real), `is_honest()`, `verified_real_ids()`.
 - Minimal impl (present): the hand-verified `VERIFIED_REAL_IDS` frozenset plus a config read.
-- Full impl (extension needed for cross-substrate): today the registry knows ONE architecture family (V-JEPA 2 ViT-L/H/g). The cross-substrate convergence control (standing control 8) needs it to enumerate DISTINCT-objective/distinct-modality encoders (e.g. a DINOv2, an image-JEPA, an audio encoder) as first-class rows, each with a `family` and `objective` field so `CrossSubstrateAgreement` can group by them. Add `family` and `training_objective` keys to the encoder schema and to `list_encoders()`.
+- Full impl (extension needed for cross-substrate): the active registry needs distinct-objective and
+  distinct-modality instruments, not a same-family scale ladder. Enumerate the retained ViT-B,
+  owned/custom, image, and audio controls as first-class rows with `family` and
+  `training_objective`, so `CrossSubstrateAgreement` groups them without treating size as diversity.
 - Dependencies: `config.py`, `omegaconf`. Used by: every cache script, `validate.validate_encoder`, `studio/*`, and (after extension) `CrossSubstrateAgreement`.
 - Laptop-safe: yes (pure config). Studio-scale: yes. Prepares-for-custom-model: yes, the `family`/`objective` fields are exactly where a custom encoder row would live.
 

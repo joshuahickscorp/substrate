@@ -254,8 +254,8 @@ full-rank map between two 1024-d encoders absorbs almost all shared structure, s
 zero" is the expected outcome and the null is nearly unfalsifiable. Prefer the rank-limited-map +
 kNN-topology formulations (AL2-kNN, AT1-relrep); downgrade the global-residual version. And the
 AL2 positive control must be runnable: V-JEPA full-clip to single-frame (both scriptable via
-cache_vjepa_single_frame.py). ViT-H is now a verified local second scale, but same-family scale is
-not the registered positive control: it does not replace the full-clip to single-frame control or
+cache_vjepa_single_frame.py). The retired same-family scale pilot is not the registered positive
+control: it does not replace the full-clip to single-frame control or
 the matched random-architecture and permutation floors.
 
 ---
@@ -280,8 +280,8 @@ modality-synergy assertion in Zheng-MoT. The experts are reasoning MODES over a 
 not FFN blocks or LoRA adapters, and the router is licensed by error-decorrelation, not
 load-balancing. That is a defensible but narrow novelty and should be stated as such.
 
-Custom-model sizing (positioning, not an experiment to run now): V-JEPA 2 (Assran et al. 2025,
-ViT-g, ~1M hours video) is a body-reported ~60 GPU-years full-resolution / ~7 with progressive
+Custom-model sizing (positioning, not an experiment to run now): the largest 2025 V-JEPA 2
+configuration, trained on about 1M hours of video, is a body-reported ~60 GPU-years full-resolution / ~7 with progressive
 training, so a from-scratch video substrate is a moonshot outside doctrine. The doctrine-adjacent
 minimum pilot the field actually uses is Arch B (an object-centric slot module on FROZEN dense
 tokens, DINOSAUR-style, single-GPU), and even that is now being published by others (SlotContrast
@@ -330,7 +330,7 @@ five guards) is the first to run, 5 then 10 seeds.
 | external_verifier_self_correction | Verify-revise beats single-shot ONLY with a genuine external symbolic relation checker, off-ceiling (Kamoi condition-a) | ties single-shot at matched FLOPs even with the external checker | intrinsic-confidence verifier (Huang negative control); shuffled-verifier; single-shot at matched FLOPs; random-init substrate control | rescue | MED: localizes the null to the missing-verifier axis |
 | PR9 continual-backprop reinit | CBP utility-reinit maintains plasticity across a long real-latent stream where SGD/EWC/L2-init lose it, and beats tuned L2-Init | ties tuned L2-Init and tuned SGD at matched compute (no plasticity loss to fix at our scale) | tuned SGD, EWC, L2-to-zero, L2-Init; report late-vs-early gap and BWT; needs a stream long enough to induce loss | new | MED-HIGH: the one frontier-certified baseline-beater never run, but only if D3 plasticity-loss certificate ships |
 | AL2-kNN local-topology alignment | Rank-k cross-map preserves kNN neighbors above random-map AND width nulls, where global R^2 does not | kNN overlap within CI of max(random-map, shuffled-fit, isotropic-Gaussian-at-matched-d) | random-map-of-equal-rank; shuffled-fit; isotropic-Gaussian target at matched d,n | rescue | MED: operationalizes Groger 2026 (local survives calibration) |
-| AL2 same-family positive control | V-JEPA full-clip to single-frame aligns above the random-map floor (harness can detect real convergence) | same-family map ties random-map floor (pipeline broken, not substrates) | random-map + shuffled-fit; use single-frame cache NOT a ViT-H second scale | rescue | MED: without this the AL2 cluster cannot distinguish "no alignment" from "harness cannot detect" |
+| AL2 same-family positive control | V-JEPA full-clip to single-frame aligns above the random-map floor (harness can detect real convergence) | same-family map ties random-map floor (pipeline broken, not substrates) | random-map + shuffled-fit; use the single-frame cache, not the retired scale pilot | rescue | MED: without this the AL2 cluster cannot distinguish "no alignment" from "harness cannot detect" |
 
 Sequencing rulings (from verification):
 - difficulty_gradient_certification_D3 ranks FIRST within the halting cluster. The four
@@ -385,8 +385,8 @@ paper but are not visible in the abstract.
    abstract-visible).
 10. Joseph, S., Garrido, Q., Balestriero, R., et al. (2026). "Interpreting Physics in Video World
     Models." arXiv:2602.07050. VERIFIED (per corpus fetch + verification). Scalar speed linearly
-    decodable early; direction is a distributed circular population code; probes V-JEPA 2
-    L/H/G (body-only, not abstract-visible).
+    decodable early; direction is a distributed circular population code; probes multiple
+    same-family model sizes (body-only, not abstract-visible).
 11. Dohare, S., Hernandez-Garcia, J.F., Lan, Q., Rahman, P., Mahmood, A.R., Sutton, R.S. (2024).
     "Loss of plasticity in deep continual learning." Nature 632(8026):768-774.
     DOI:10.1038/s41586-024-07711-7. VERIFIED via PMC mirror

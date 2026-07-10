@@ -1,5 +1,5 @@
 {
-  "conclusion": "No audited non-F frontier row has an experiment-specific measured M3 Pro hardware boundary. Five cross-pillar mechanics now run locally, CM7 has a registered local implementation, and CM8 has a fail-closed local preflight receipt. Every historical hardware planning tag was replaced by the observed execution or input dependency. This demotes planning labels, not scientific standards.",
+  "conclusion": "No audited non-F frontier row has an experiment-specific measured M3 Pro hardware boundary. Five cross-pillar mechanics run locally, CM7 is a bound five-seed familywise-corrected not-promoted null, and CM8 has a fail-closed local preflight. Official V-JEPA 2.1 ViT-B load plus 8/64-frame forwards retire E6 runtime availability. The E6/DR14 task, cache, and matched-control seam is verified locally; a rights-clean annotated natural cohort, serial caches, and independent statistics remain open. Every historical hardware planning tag was replaced by observed execution or input dependency. This demotes planning labels, not scientific standards.",
   "coverage": {
     "accounted_exactly_once": true,
     "all_historical_rows_reclassified": true,
@@ -7,11 +7,11 @@
     "current_stale_planning_tag_ids": [],
     "historical_frontier_count": 24,
     "localization_counts": {
-      "external-input-blocked": 15,
+      "external-input-blocked": 16,
       "local-custom-preflight-proven-upstream-blocked": 1,
-      "local-custom-training-calibration-proven": 1,
-      "local-mechanics-proven": 5,
-      "local-multi-encoder-availability-proven": 2
+      "local-custom-training-five-seed-null-bound": 1,
+      "local-dense-task-integration-proven-data-blocked": 1,
+      "local-mechanics-proven": 5
     },
     "measured_hardware_blocked_count": 0,
     "tagged_non_f_count": 24
@@ -27,22 +27,17 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
-      "first_remaining_scientific_blocker": "expand beyond eight programmatic referents onto meaningful shared content and complete the preregistered equal-rank/matched-random control set",
+      "dense_task_integration_receipt": null,
+      "first_remaining_scientific_blocker": "requires an expanded meaningful shared-content cohort with session-level units, then equal-rank active ViT-B/custom and random-map controls; the retired scale pilot is not a current dependency",
       "hardware_boundary_proven": false,
-      "hardware_conclusion": "three real-weight frozen encoders executed serially on the same eight local referents; model availability is retired as a blocker",
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
       "historical_frontier_tag_in_scope": true,
       "id": "mop_al2_shared_latent_alignment",
-      "localization": "local-multi-encoder-availability-proven",
+      "localization": "external-input-blocked",
       "preflight_mechanics_verified": false,
-      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": {
-        "bytes": 76393,
-        "exists": true,
-        "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-        "sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
-      }
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -53,6 +48,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires rights-cleared temporally aligned audio-video clips and their citable caches",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -62,8 +58,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -74,6 +69,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "pilot exists, but the registered multi-encoder grid and matched random-init columns are not citable active inputs",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -83,8 +79,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -95,6 +90,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "verified_winning_mode, real_substrate_cache, matched_random_cache, independent_verifier",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
@@ -104,8 +100,7 @@
       "preflight_mechanics_verified": true,
       "project_exhaustion_classification": "already-durable-hash-verifiable",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -116,6 +111,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "developmental_regime_gate, signature_verifier",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
@@ -125,8 +121,7 @@
       "preflight_mechanics_verified": true,
       "project_exhaustion_classification": "already-durable-hash-verifiable",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -137,6 +132,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "cleared_experts, compatible_battery, open_model_control, independent_verifier",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
@@ -146,8 +142,7 @@
       "preflight_mechanics_verified": true,
       "project_exhaustion_classification": "already-durable-hash-verifiable",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -158,6 +153,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires DR1 rights-cleared bound-attribute natural video",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -167,8 +163,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -179,6 +174,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires CM1 failure plus a complete citable multi-encoder atlas",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -188,8 +184,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -200,6 +195,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires DR1 dense natural-video tokens on the held-out-combination task",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -209,8 +205,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -221,6 +216,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "laptop pilot exists, but the registered full real-cache grid is not present as citable evidence",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -230,8 +226,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -242,6 +237,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "plasticity_loss_gate, adapting_frozen_pair, independent_verifier",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
@@ -251,8 +247,7 @@
       "preflight_mechanics_verified": true,
       "project_exhaustion_classification": "already-durable-hash-verifiable",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -263,6 +258,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires a citable teacher cache and matched trainable student checkpoints",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -272,8 +268,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -284,10 +279,10 @@
       },
       "custom_substrate_receipts": [
         {
-          "bytes": 21044,
+          "bytes": 74504,
           "exists": true,
-          "path": "proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
-          "sha256": "47d51810d52dde86dfb767bc82f26d4b77fb0fb588add78c9399784a51bc029a"
+          "path": "proof/CUSTOM_SUBSTRATE_PILOT.json",
+          "sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2"
         }
       ],
       "custom_substrate_sources": [
@@ -310,17 +305,17 @@
           "sha256": "d8eba2572b7616d2db6a36ea46b5d606b6a0a52510bf0176824b237c13a848f8"
         }
       ],
-      "first_remaining_scientific_blocker": "four additional complete seeds and independent verification; the current receipt is programmatic-video objective-lever calibration, not natural-video evidence",
+      "dense_task_integration_receipt": null,
+      "first_remaining_scientific_blocker": "the exact programmatic-video objective regime is a bound familywise-corrected null; a successor must change the preregistered estimand via capacity, data, or architecture rather than add seeds to rescue this regime",
       "hardware_boundary_proven": false,
-      "hardware_conclusion": "demoted by measured local training: one complete calibration seed executed in 17.31s at 582057984 peak RSS bytes",
+      "hardware_conclusion": "demoted by measured local training: five complete 1,000-update seeds at the exact 1.646M-parameter regime were independently verified locally as not-promoted",
       "historical_frontier_tag_in_scope": true,
       "id": "mop_cm7_min_objective_probe",
-      "localization": "local-custom-training-calibration-proven",
+      "localization": "local-custom-training-five-seed-null-bound",
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "freshly-executed-verified",
       "project_exhaustion_fresh_class_codepath_verified": true,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -331,10 +326,10 @@
       },
       "custom_substrate_receipts": [
         {
-          "bytes": 2367,
+          "bytes": 2455,
           "exists": true,
           "path": "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json",
-          "sha256": "51412571d0aa8fd9ebd562e9682f45b9ba0b79024840bc2d520a18c96f4ba1a1"
+          "sha256": "af3cb3d915acb8fdf21c8dcdf6ce59e68034b7e24814cde6397d552668bd39e3"
         }
       ],
       "custom_substrate_sources": [
@@ -357,7 +352,8 @@
           "sha256": "d8eba2572b7616d2db6a36ea46b5d606b6a0a52510bf0176824b237c13a848f8"
         }
       ],
-      "first_remaining_scientific_blocker": "CM7 still needs four complete seeds; teacher join has 8 of 64 required referents and is programmatic; CM1, CM2, and DR1 natural-data receipts remain absent",
+      "dense_task_integration_receipt": null,
+      "first_remaining_scientific_blocker": "CM7's exact regime is a bound not-promoted null, so positive objective-lever evidence is absent; the teacher join also has only 8 of 64 required programmatic referents, and CM1, CM2, and DR1 natural-data receipts remain absent",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "demoted by a measured fail-closed local execution preflight",
       "historical_frontier_tag_in_scope": true,
@@ -366,8 +362,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": true,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -378,6 +373,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires DR1 multi-object dense-token video and binding annotations",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -387,29 +383,33 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
         "exp_tier": "env-later",
-        "resource_tier": "weights-needed",
+        "resource_tier": "environment-needed",
         "runtime_class": "hours",
         "status": "registry-only"
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
-      "first_remaining_scientific_blocker": "laptop pilot exists, but the registered dropped-channel arm requires a citable dense-token cache",
+      "dense_task_integration_receipt": {
+        "bytes": 9466,
+        "exists": true,
+        "path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
+        "sha256": "efa875cf01b9da0bd546b9860576c5488b092bae9facb8943373b4d5d40f52af"
+      },
+      "first_remaining_scientific_blocker": "materialize the rights-clean annotated natural-video cohort and its immutable splits, then encode serial learned/random caches and run independent DR14 verification",
       "hardware_boundary_proven": false,
-      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "hardware_conclusion": "not a hardware boundary: deterministic nested dense-channel masks, identical shared views, and the learned/random cache seam are implemented and verified locally",
       "historical_frontier_tag_in_scope": true,
       "id": "mop_dr14_corruption",
-      "localization": "external-input-blocked",
-      "preflight_mechanics_verified": false,
-      "project_exhaustion_classification": "upstream-model-blocked",
+      "localization": "local-dense-task-integration-proven-data-blocked",
+      "preflight_mechanics_verified": true,
+      "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -420,6 +420,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires citable video, relational/language, and audio encoder families",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -429,8 +430,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -441,6 +441,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires rights-cleared natural clips with bound attributes; programmatic clips do not satisfy the row",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -450,8 +451,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -462,6 +462,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "a durable small-cache pilot exists, but the registered full real-latent stream is absent",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -471,8 +472,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -483,6 +483,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires DR1 dense tokens and a working-memory-heavy natural-video task",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -492,8 +493,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -504,6 +504,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires factor-annotated clips and true counterfactual clips from DR1",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -513,8 +514,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -525,22 +525,17 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
-      "first_remaining_scientific_blocker": "supply a verified reasoning gain on one compatible task, expand same-task rows, and add the matched random-architecture control",
+      "dense_task_integration_receipt": null,
+      "first_remaining_scientific_blocker": "the registered reasoning claim first needs a verified gain on one compatible task, a rights-clean same-task cohort, and active ViT-B/custom matched controls; the retired scale pilot is not a current dependency",
       "hardware_boundary_proven": false,
-      "hardware_conclusion": "three real-weight frozen encoders executed serially on the same eight local referents; model availability is retired as a blocker",
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
       "historical_frontier_tag_in_scope": true,
       "id": "mop_dr5_cross_substrate_consistency",
-      "localization": "local-multi-encoder-availability-proven",
+      "localization": "external-input-blocked",
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "upstream-model-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": {
-        "bytes": 76393,
-        "exists": true,
-        "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-        "sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
-      }
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -551,6 +546,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "requires a DR1 multi-step relational task with supervised intermediate states",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
@@ -560,8 +556,7 @@
       "preflight_mechanics_verified": false,
       "project_exhaustion_classification": "rights-data-blocked",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     },
     {
       "current_registry": {
@@ -572,6 +567,7 @@
       },
       "custom_substrate_receipts": [],
       "custom_substrate_sources": [],
+      "dense_task_integration_receipt": null,
       "first_remaining_scientific_blocker": "compatible_primitives, distinct_strategy_gate, independent_verifier",
       "hardware_boundary_proven": false,
       "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
@@ -581,54 +577,54 @@
       "preflight_mechanics_verified": true,
       "project_exhaustion_classification": "already-durable-hash-verifiable",
       "project_exhaustion_fresh_class_codepath_verified": false,
-      "reclassified_away_from_hardware_planning_tags": true,
-      "scale_atlas_receipt": null
+      "reclassified_away_from_hardware_planning_tags": true
     }
   ],
-  "generated_at_unix": 1783677958.5174348,
-  "git_revision": "8b0e532",
+  "generated_at_unix": 1783726845.244098,
+  "git_revision": "276c477",
   "host_readiness": {
     "all_ok": true,
     "chip": "Apple M3 Pro",
     "mps_available": true,
     "receipt": {
-      "bytes": 4025,
+      "bytes": 3973,
       "exists": true,
       "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "sha256": "f0572a67186d56352b1325ba143e2f3e990a1ac42f97b649dcf1d6122bbc16bb"
+      "sha256": "f759a831aac8f8e081d4bb2d3bb19b65ad324fdc5fea8852c2675957ce7a1a80"
     },
     "unified_memory_gb": 19.3
   },
   "local_preflights": {
     "all_mechanics_verified": true,
     "all_scientific_paths_fail_closed": true,
-    "max_rss_bytes": 324222976,
+    "max_rss_bytes": 322519040,
     "receipt_schema": "mop-local-frontier-preflights/v1",
-    "seconds": 0.582679,
+    "seconds": 0.670079,
     "target_ids": [
-      "mop_mt4_reasoning_router",
       "mop_at2_mode_substrate_dep",
-      "mop_cm5_studio_rejuvenation",
       "mop_cm11_developmental_plasticity",
-      "mop_cm12_mop_substrate_capstone"
+      "mop_cm12_mop_substrate_capstone",
+      "mop_cm5_studio_rejuvenation",
+      "mop_mt4_reasoning_router"
     ]
   },
-  "measured_multi_encoder_atlas": {
+  "measured_cm7_bound_null": {
+    "claim_boundary": "bound null at the exact 1.646M-parameter, programmatic-video regime; it neither promotes a learned objective nor generalizes to natural video or another capacity rung",
+    "familywise_correction": "Holm one-sided tests plus simultaneous Bonferroni Student-t lower bounds",
+    "max_rss_bytes": 665288704,
+    "problems": [],
     "receipt": {
-      "bytes": 76393,
+      "bytes": 74504,
       "exists": true,
-      "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
+      "path": "proof/CUSTOM_SUBSTRATE_PILOT.json",
+      "sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2"
     },
-    "remaining_reasons": [
-      "programmatic native-resolution renders rather than rights-clean natural video",
-      "n=8 is a mechanics and scale-signal pilot",
-      "byte-identical stimuli are not proven for every learned/control pair"
-    ],
-    "scientific_promotable": false,
-    "scope": "serial local V-JEPA scale atlas on shared generative referents rendered at each model's native resolution",
-    "shared_referents": 8,
-    "valid_local_availability_evidence": true
+    "seed_count": 5,
+    "trainable_parameters": 1646080,
+    "updates_per_learned_arm": 1000,
+    "valid": true,
+    "verdict": "not-promoted",
+    "wall_seconds_this_invocation": 4878.539152708952
   },
   "measured_real_encoder": {
     "claim_scope": "real frozen encoder over programmatic video; not natural-video evidence",
@@ -643,50 +639,124 @@
       "path": "proof/REAL_ENCODER_LOCAL_ATTEMPT.json",
       "sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
     },
-    "safe_sequential_clips_projected_at_80pct_wall": 386,
+    "safe_sequential_clips_projected_at_80pct_wall": 644,
     "seconds_per_clip": 22.335431624989724
+  },
+  "measured_vjepa21_vitb_runtime": {
+    "checkpoint_sha256": "848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d",
+    "claim_boundary": "official ViT-B runtime availability plus local task/cache/control integration only; no E6 effect, DR14 effect, natural-data adequacy, or larger-model need is inferred",
+    "dense_task_preflight": {
+      "claim_boundary": "local task, cache, matched-control, and DR14 dropped-channel mechanics only; no natural cohort, cache result, E6 effect, DR14 effect, or scientific promotion is inferred",
+      "heavy_model_work_executed": false,
+      "input_manifest_ready": false,
+      "problems": [],
+      "receipt": {
+        "bytes": 9466,
+        "exists": true,
+        "path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
+        "sha256": "efa875cf01b9da0bd546b9860576c5488b092bae9facb8943373b4d5d40f52af"
+      },
+      "remaining_gates": [
+        "input manifest missing: /Users/scammermike/Downloads/mop/data/manifests/e6_vitb_natural_inputs.json",
+        "rights-clean natural task cohort not materialized",
+        "encode learned and matched random caches serially from the exact input manifest",
+        "run independent E6 and DR14 statistical verifiers on natural task labels"
+      ],
+      "scientific_promotion": false,
+      "task_cache_control_integration_verified": true,
+      "valid": true
+    },
+    "e6_remaining_classification": "rights-data-blocked",
+    "e6_remaining_scientific_blocker": "official runtime and cache/control integration are verified; the registered claim now requires a rights-clean annotated natural cohort, untouched test membership, serial learned/random caches, and independent verification",
+    "e6_scientific_compatibility_proven": false,
+    "forward_frames": [
+      8,
+      64
+    ],
+    "forward_seconds": {
+      "64": 25.238470916985534,
+      "8": 0.8360565420007333
+    },
+    "max_process_tree_rss_bytes": 1326989312,
+    "parameters": 86833152,
+    "problems": [],
+    "receipts": {
+      "forward_64f": {
+        "bytes": 3863,
+        "exists": true,
+        "path": "proof/VJEPA21_VITB_FORWARD_64F.json",
+        "sha256": "902422b7c042969076bccbbcf283a9b1b80639a9d9e4a9e24c2ca703fcd5c6bf"
+      },
+      "forward_8f": {
+        "bytes": 3859,
+        "exists": true,
+        "path": "proof/VJEPA21_VITB_FORWARD.json",
+        "sha256": "06ed0d097a50b2638d0209b991c0710574a750edb4a5ddfb3a5dace722581601"
+      },
+      "load": {
+        "bytes": 2993,
+        "exists": true,
+        "path": "proof/VJEPA21_VITB_LOAD.json",
+        "sha256": "c60eb456726e02773c30f42af093727b600e5a6eb67d5d3d094adb17cee241da"
+      }
+    },
+    "remaining_gaps": [
+      "rights-clean annotated natural-video cohort with immutable splits",
+      "serial learned and matched frozen-random dense-token caches",
+      "independent E6 and DR14 statistical verification"
+    ],
+    "repository_commit": "204698b45b3712590f06245fbfba32d3be539812",
+    "runtime_availability_blocker_retired": true,
+    "task_cache_control_integration_verified": true,
+    "valid": true
   },
   "preflight_receipts": [
     {
       "bytes": 31500,
       "exists": true,
       "path": "runs/frontier_localization/local_preflights.json",
-      "sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd"
+      "sha256": "f2bae49ad43b9e5f389ee8d05829c9dd14cbe54b1e3610168e1f591ddeebe30d"
     },
     {
       "bytes": 31500,
       "exists": true,
       "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd"
+      "sha256": "f2bae49ad43b9e5f389ee8d05829c9dd14cbe54b1e3610168e1f591ddeebe30d"
     }
   ],
   "schema": "mop-frontier-localization/v1",
   "scope": "every non-F registry row historically or currently labeled studio-scale, gpu-later, or moonshot; F-series is audited separately",
   "source_evidence": [
     {
-      "bytes": 50669,
+      "bytes": 65252,
       "exists": true,
       "path": "src/mop/studies/frontier_localization.py",
-      "sha256": "696ab225f481c455367f60e80bf533f32f0b175e209267edab72910ce8fb20b7"
+      "sha256": "f61d5ee544dc9d70a4d42cd58a08c2c963670d8e4a03280494993d813867e859"
     },
     {
-      "bytes": 3093,
+      "bytes": 3359,
       "exists": true,
       "path": "scripts/frontier_localization.py",
-      "sha256": "26c43eb039b3c5deb30ac1f4a48c79cf249e791f21ad41542fb20289209e8d07"
+      "sha256": "977945884edbc639927f82431bf8f0d0816b17f73c1452376cad6162b856b5d5"
     },
     {
-      "bytes": 288284,
+      "bytes": 341090,
       "exists": true,
       "path": "registry/experiments.yaml",
-      "sha256": "e4459f91e546c5cc69f3791587343c3d7df6927ec510af5685608cfb04275897"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
-      "bytes": 57906,
+      "bytes": 61567,
       "exists": true,
       "path": "src/mop/studies/project_exhaustion.py",
-      "sha256": "5df4a6014c2fccfaabf2ff9f36fea628646d50dad72cb9e6521a24ccdce25582"
+      "sha256": "397189a2d6b5cbd7874847f91777d067fd3187ab817417d515fbf9d3c2df3ca0"
+    },
+    {
+      "bytes": 9466,
+      "exists": true,
+      "path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
+      "sha256": "efa875cf01b9da0bd546b9860576c5488b092bae9facb8943373b4d5d40f52af"
     }
   ],
-  "user_wall_minutes": 180
+  "user_wall_minutes": 300
 }

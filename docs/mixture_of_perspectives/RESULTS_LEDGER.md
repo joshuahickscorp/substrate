@@ -1,5 +1,9 @@
 # RESULTS LEDGER
 
+> HISTORICAL EVIDENCE NOTE 2026-07-10: preserve experiment values and nulls, but ignore lower
+> hardware labels and pending-machine conclusions. Live receipts, the completion audit, and the
+> current requirements matrix govern classification.
+
 The lane-result records, merged from the former standalone A6_RESULT / LAPTOP_LANES_RESULT /
 AXIS_CEILING_RESULT / ROLLOUT_LANE_RESULT files (condense docs consolidation, content verbatim). Each
 section is one lane's result. No em or en dashes.
@@ -839,4 +843,3 @@ rollout (adapted rollout nmse 0.82 to 1.20, slightly worse than the raw 0.76 to 
 compounded rollout latents drift out of the visible-slot distribution. So a NAIVE visible-slot adapter
 is insufficient; the Studio should fit the adapter on actual rollout predictions (teacher-forced targets)
 or per-horizon, on real moving video. The scaffold produces this verdict preregistered and de-risked.
-

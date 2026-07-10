@@ -1,0 +1,38 @@
+schema: mop-vjepa21-dense-task-config/v1
+id: e6_dense_cache_pair
+encoder_config: configs/encoder/vjepa21_vitb.yaml
+null_hypothesis: >-
+  On the rights-clean held-out natural cohort, the learned dense-token readout ties the strongest
+  parameter-matched learned-flat, token-shuffle, and exact-architecture random-init controls, and
+  deterministic nested channel corruption changes it no more than the matched single-pass arm.
+runtime_receipts:
+  load: proof/VJEPA21_VITB_LOAD.json
+  forward_8f: proof/VJEPA21_VITB_FORWARD.json
+  forward_64f: proof/VJEPA21_VITB_FORWARD_64F.json
+
+# This file deliberately names absent scientific inputs. The no-heavy preflight remains green for
+# implementation/runtime authority while encode_allowed_now and scientific gates fail closed.
+input_manifest: data/manifests/e6_vitb_natural_inputs.json
+learned_cache: data/cache/vjepa21_vitb_e6_learned
+random_cache: data/cache/vjepa21_vitb_e6_random_seed20260710
+random_seed: 20260710
+cache_dtype: float32
+min_free_disk_gb: 40.0
+serial_only: true
+
+consumers:
+  e6_relational:
+    execution_path: cache-first
+    learned_control: fixed token bins versus global pool and per-referent token shuffle
+    substrate_control: exact official ViT-B architecture with seeded random initialization
+  mop_dr14_corruption:
+    execution_path: dense-cache-optional
+    corruption: deterministic nested 16-channel groups, one shared tensor for both reasoning arms
+
+promotion:
+  minimum_rows: 200
+  natural_video: true
+  rights_clean: true
+  byte_identical_inputs_across_arms: true
+  untouched_test_split: true
+  independent_verifier_required: true

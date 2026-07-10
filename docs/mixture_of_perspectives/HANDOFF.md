@@ -1,5 +1,9 @@
 # HANDOFF: continue Mixture of Perspectives in a fresh context
 
+> SUPERSEDED 2026-07-10: historical MoP handoff. Use `MOP_MAXIMUM_POTENTIAL_GOAL.md` and the Form
+> Substrate root documents. Any lower Studio gate is non-authoritative unless reproduced by a live
+> measured receipt.
+
 Read this first. It is the cold-start brief for continuing the Mixture of Perspectives (MoP) program in a
 new chat. Paths are relative to the repo root. House style: no em or en dashes anywhere. Never attribute
 Claude in git (no Co-Authored-By, no Generated-with footer). Today is 2026-07-02.

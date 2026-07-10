@@ -8,6 +8,7 @@ from mop.experiments.e6_dense_relational import (
     TokenReadoutSpec,
     build_mechanics_fixture,
     build_pair_gate,
+    inspect_dense_cache,
     run_dense_relational,
 )
 from mop.substrate.cache_manifest import (
@@ -30,6 +31,7 @@ def test_fixture_pair_is_citable_but_never_promotion_ready(dense_pair):
     gate = build_pair_gate(learned, random)
     assert gate["mechanics_ok"] is True
     assert gate["promotion_ready"] is False
+    assert inspect_dense_cache(learned)["strict_run_identity_ok"] is False
     joined = " ".join(gate["promotion_problems"])
     assert "natural-video" in joined
     assert "inherited-frozen" in joined

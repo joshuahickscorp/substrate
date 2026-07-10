@@ -347,9 +347,7 @@ class TestTransactionalRewrite:
         return {
             "requested_by": contract.authority("promotion").principal,
             "executed_by": contract.authority("execution").principal,
-            "stage_receipts": {
-                stage: canonical_sha256(artifact) for stage, artifact in artifacts.items()
-            },
+            "stage_receipts": {stage: canonical_sha256(artifact) for stage, artifact in artifacts.items()},
             "stage_artifacts": artifacts,
             "evaluator_verdicts": [
                 {"evaluator": "evaluator:a", "verdict": "pass"},

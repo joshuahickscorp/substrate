@@ -12,6 +12,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 import tempfile
 import time
 from datetime import UTC, datetime
@@ -48,6 +49,29 @@ LOCAL_REQUIREMENTS = {
     "fail-closed-preflight-and-smoke",
 }
 SCALE_BOUNDARIES = {"local", "studio", "environment", "beyond-studio"}
+FORM_CAMPAIGN_IDS = (
+    "f1_form_alignment_gate",
+    "f2_heldout_form_transfer",
+    "f3_form_bottleneck_capacity",
+    "f4_raw_payload_vs_form_tokens",
+    "f5_cross_form_memory_binding",
+    "f6_sensorimotor_form_closure",
+    "f7_developmental_form_growth",
+    "f8_plastic_substrate_rewrite",
+    "f9_cross_form_compositional_binding",
+    "f10_intrinsic_form_curriculum",
+    "f11_form_dream_replay",
+    "f12_private_form_language_stability",
+    "f13_form_energy_budget",
+    "f14_lifelong_form_expansion",
+    "f15_embodied_affordance_form",
+    "f16_perfect_slate_null",
+    "f17_missing_form_recovery",
+    "f18_counterfactual_form_intervention",
+    "f19_cross_scale_referent_binding",
+    "f20_substrate_crisis_test",
+)
+_LEGACY_FORM_ID = re.compile(r"^f(?:[1-9]|1[0-9]|20)_")
 
 
 def load_form_campaign(
@@ -79,7 +103,28 @@ def validate_form_campaign(
     if not isinstance(legs, list) or not legs:
         return [*problems, "campaign legs must be a non-empty list"]
     rows = registry_rows if registry_rows is not None else load_experiments()
-    expected = {str(row["id"]) for row in rows if row.get("series") == "F"}
+    # This durable campaign is frozen to the original F1-F20 contracts. Numeric inference would
+    # silently admit an alias such as ``f1_variant`` and would make later F-series scaffolds mutate
+    # an already published campaign.
+    expected = set(FORM_CAMPAIGN_IDS)
+    registry_counts = {
+        experiment_id: sum(str(row.get("id") or "") == experiment_id for row in rows)
+        for experiment_id in FORM_CAMPAIGN_IDS
+    }
+    for experiment_id, count in registry_counts.items():
+        if count != 1:
+            problems.append(f"registry must contain {experiment_id} exactly once; found {count}")
+            continue
+        row = next(row for row in rows if str(row.get("id") or "") == experiment_id)
+        if row.get("series") != "F":
+            problems.append(f"registry row {experiment_id} must retain series F")
+    legacy_aliases = sorted(
+        str(row.get("id") or "")
+        for row in rows
+        if _LEGACY_FORM_ID.match(str(row.get("id") or "")) and str(row.get("id") or "") not in expected
+    )
+    if legacy_aliases:
+        problems.append(f"unfrozen F1-F20 aliases are not campaign members: {legacy_aliases}")
     ids = [str(leg.get("id") or "") for leg in legs if isinstance(leg, dict)]
     if len(ids) != len(set(ids)):
         problems.append("campaign leg ids must be unique")

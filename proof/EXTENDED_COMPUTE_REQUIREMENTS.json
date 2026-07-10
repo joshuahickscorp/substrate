@@ -8,18 +8,6 @@
         "uncitable": 15
       },
       "citable_caches": {
-        "vitg": {
-          "all_ok": true,
-          "citable": true,
-          "path": "data/cache/vjepa2_vitg_local8_citable",
-          "problems": []
-        },
-        "vith": {
-          "all_ok": true,
-          "citable": true,
-          "path": "data/cache/vjepa2_vith_local8_citable",
-          "problems": []
-        },
         "vitl": {
           "all_ok": true,
           "citable": true,
@@ -27,16 +15,90 @@
           "problems": []
         }
       },
+      "continual_million_event_preflight": {
+        "all_ok": true,
+        "claim_scope": "disk-backed programmatic continual-stream mechanics only; no capability claim",
+        "hardware_boundary_earned": false,
+        "minimum_independent_seeds": 5,
+        "no_heavy_preflight": true,
+        "progressive_rungs": [
+          10000,
+          100000,
+          1000000
+        ],
+        "status": "mechanics-pass"
+      },
+      "e6_dense_integration": {
+        "all_ok": true,
+        "implementation_ready": true,
+        "input_manifest_ready": false,
+        "mode": "no-heavy-preflight",
+        "model_constructed": false,
+        "remaining_gates": [
+          "input manifest missing: /Users/scammermike/Downloads/mop/data/manifests/e6_vitb_natural_inputs.json",
+          "rights-clean natural task cohort not materialized",
+          "encode learned and matched random caches serially from the exact input manifest",
+          "run independent E6 and DR14 statistical verifiers on natural task labels"
+        ],
+        "scientific_promotion": false
+      },
+      "expansion_wave0": {
+        "all_mutations_rejected": true,
+        "all_ok": true,
+        "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+        "metric_count": 72,
+        "shared_units": 3,
+        "status": "mechanics-pass"
+      },
       "form_substrate": {
         "contract_all_ok": true,
-        "contract_total": 20,
+        "contract_total": 50,
         "local_runs_all_ok": true,
         "local_runs_completed": 18
       },
-      "proof/CUSTOM_SUBSTRATE_CALIBRATION.json": {
+      "p6_10k_scheduler_dry_run": {
+        "admission_allowed": true,
+        "all_ok": true,
+        "command_executed": false,
+        "decision_count": 3,
+        "estimated_unified_memory_gb": null,
+        "exclusive_lane_state_consistent": true,
+        "resource_probe": true,
+        "task_id": "p6_10k_resource_probe_cpu"
+      },
+      "p7_action_world_model_preflight": {
+        "all_mutations_rejected": true,
+        "all_ok": true,
+        "arms_per_unit": [
+          8
+        ],
+        "claim_scope": "deterministic rendered fixture mechanics only; no natural-data, embodiment, or capability claim",
+        "elapsed_seconds": 7.696731,
+        "independent_units": 3,
+        "max_rss_bytes": 302596096,
+        "remaining_external_validity_gate": "independently sourced action-conditioned rendered or natural trajectories with an exact-referent control and predeclared replication",
+        "scientific_promotion_allowed": false,
+        "status": "mechanics-pass"
+      },
+      "p9_causal_monitoring_preflight": {
+        "all_ok": true,
+        "claim_scope": "deterministic structural-fixture mechanics only; no natural-workload, capability, cognition, sentience, or energy claim",
+        "elapsed_seconds": 2.18432,
+        "energy_measured": false,
+        "independent_units": 5,
+        "interrupted_resume_exact": true,
+        "max_rss_bytes": 271122432,
+        "mutations_rejected": 8,
+        "remaining_evidence_gate": "independent natural workload and failure episodes, prospectively registered telemetry, real bounded interventions, replicated calibration, and a metered boundary for energy",
+        "scientific_promotion_allowed": false,
+        "status": "mechanics-pass",
+        "total_branches": 1300,
+        "total_lineages": 260
+      },
+      "proof/CUSTOM_SUBSTRATE_PILOT.json": {
         "all_current": true,
-        "artifact": "proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
-        "checks": 4,
+        "artifact": "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "checks": 24,
         "mismatches": [],
         "missing": []
       },
@@ -53,12 +115,15 @@
         "content_set_sha256": "48896f6545ce0b9b2e4c1a338f55447dceac628eb321479fbcdd9ccc79c66afa",
         "official_files_verified": 94
       },
-      "vjepa21_vitb_preflight": {
+      "vjepa21_vitb_runtime": {
         "all_ok": true,
-        "forward_executed": false,
-        "local_model_loaded": false,
-        "remote_ranges_verified": true,
-        "repository_commit": "204698b45b3712590f06245fbfba32d3be539812"
+        "checkpoint_sha256": "848a77c33cc9e6649ed2119c9bea1e2c569bcdab9539ff3e7c02ccc2959ddf4d",
+        "forward_frames": [
+          8,
+          64
+        ],
+        "max_process_tree_rss_bytes": 1326776320,
+        "parameters": 86833152
       }
     },
     "errors": []
@@ -66,12 +131,12 @@
   "calculations": {
     "c_active_disk_floor": {
       "free_needed_for_10000_dense_fp16_plus_floor_gb_decimal": 207.77216,
-      "hypothetical_dense_fp16_clips_before_floor": 3704,
+      "hypothetical_dense_fp16_clips_before_floor": 3094,
       "interpretation": "active storage floor, not accelerator-memory evidence",
       "kind": "calculation-from-measured-receipt",
-      "receipt_free_gb_decimal": 102.145,
+      "receipt_free_gb_decimal": 91.917,
       "required_floor_gb_decimal": 40.0,
-      "safe_headroom_gb_decimal": 62.144999999999996
+      "safe_headroom_gb_decimal": 51.917
     },
     "c_adam_trainable_state": {
       "cm7_high_mb_decimal": 29.62944,
@@ -87,8 +152,6 @@
       "interpretation": "multi-day serial throughput hypothesis, not a resident-memory impossibility",
       "kind": "calculation-from-measurement",
       "limitations": "extrapolated from eight CPU-encoded programmatic clips; no timing variance, cold/warm-cache band, natural-video decode sensitivity, CUDA calibration, or retry overhead",
-      "vitg": 520.3703172451545,
-      "vith": 96.46662044271781,
       "vitl": 62.042865624971455
     },
     "c_campaign_time_spec": {
@@ -117,7 +180,7 @@
       ]
     },
     "c_dense_cache_storage": {
-      "actual_cache_note": "current local ViT-L/H/g artifacts are pooled FP32 vectors; this is a hypothetical dense FP16 cache and precision/pooling can change the estimand",
+      "actual_cache_note": "the current local ViT-L control artifact is a pooled FP32 vector; this is a hypothetical dense FP16 cache and precision/pooling can change the estimand",
       "example_vitl_10000_clips_fp16_gb_decimal": 167.77216,
       "example_vitl_64f_256_fp16_bytes_per_clip": 16777216,
       "formula": "N_clips * temporal_tokens * spatial_tokens * embedding_dim * bytes_per_value; simple example assumes divisible non-overlapping tubelet/patch convolution and no special tokens",
@@ -177,11 +240,11 @@
   },
   "classification_counts": {
     "1": 168,
-    "2": 96,
-    "3": 23,
+    "2": 119,
+    "3": 29,
     "4": 0,
     "5": 0,
-    "6": 4,
+    "6": 5,
     "7": 0,
     "8": 0,
     "9": 0
@@ -197,55 +260,17 @@
   },
   "embedded_hash_audits": [
     {
-      "all_current": false,
+      "all_current": true,
       "artifact": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "checks": 667,
-      "mismatches": [
-        {
-          "actual_sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd",
-          "expected_sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424",
-          "occurrences": 5,
-          "path": "runs/frontier_localization/local_preflights.json",
-          "pointer": "/entries/122/evidence/0"
-        }
-      ],
+      "checks": 671,
+      "mismatches": [],
       "missing": []
     },
     {
       "all_current": true,
       "artifact": "proof/FRONTIER_LOCALIZATION.json",
-      "checks": 19,
+      "checks": 23,
       "mismatches": [],
-      "missing": []
-    },
-    {
-      "all_current": false,
-      "artifact": "proof/ENCODER_SCALE_VITH_CPU_FORWARD.json",
-      "checks": 1,
-      "mismatches": [
-        {
-          "actual_sha256": "b72a6dc4624ac7d04e2dceb39ac1d490cc1ef7e68b72812deb6b44a8d664b68a",
-          "expected_sha256": "8c4b49f293012aa791b4bb5d6ccf8a3b98ac79edf670fe40400310bcb4498278",
-          "occurrences": 1,
-          "path": "configs/encoder/vjepa2_vith.yaml",
-          "pointer": "/config"
-        }
-      ],
-      "missing": []
-    },
-    {
-      "all_current": false,
-      "artifact": "proof/ENCODER_SCALE_VITG_CPU_FORWARD.json",
-      "checks": 1,
-      "mismatches": [
-        {
-          "actual_sha256": "cb8115ff59c5afc378d52dbe91f2866e820d8a75f09e4af8d896b7b27058450d",
-          "expected_sha256": "f81eda56d9111512a21a18ae07e6b015d1c7e8052df28fce7b822c7431b531bd",
-          "occurrences": 1,
-          "path": "configs/encoder/vjepa2_vitg.yaml",
-          "pointer": "/config"
-        }
-      ],
       "missing": []
     },
     {
@@ -260,10 +285,10 @@
     {
       "checked": "2026-07-10",
       "content_hash": null,
-      "fact": "V-JEPA 2.1 release dated 2026-03-16 and official dense ViT-B/L/g/G checkpoint links",
-      "hash_note": "classification-critical release facts are pinned and hash-validated in the local preflight",
+      "fact": "V-JEPA 2.1 release dated 2026-03-16 and the retained official dense ViT-B checkpoint",
+      "hash_note": "classification-critical runtime authority is pinned in the strict-load receipt",
       "id": "meta-vjepa21",
-      "pinned_local_evidence_ref": "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
+      "pinned_local_evidence_ref": "local:proof/VJEPA21_VITB_LOAD.json",
       "pinned_repository_commit": "204698b45b3712590f06245fbfba32d3be539812",
       "url": "https://github.com/facebookresearch/vjepa2"
     },
@@ -279,9 +304,9 @@
       "checked": "2026-07-10",
       "content_hash": null,
       "fact": "V-JEPA 2.1 dense representation evidence",
-      "hash_note": "classification-critical release facts are pinned and hash-validated in the local preflight",
+      "hash_note": "classification-critical runtime authority is pinned in the strict-load receipt",
       "id": "meta-vjepa21-paper",
-      "pinned_local_evidence_ref": "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
+      "pinned_local_evidence_ref": "local:proof/VJEPA21_VITB_LOAD.json",
       "pinned_repository_commit": "204698b45b3712590f06245fbfba32d3be539812",
       "url": "https://arxiv.org/abs/2603.14482"
     },
@@ -661,7 +686,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_adam_trainable_state": {
       "current_hash_verified": true,
@@ -669,7 +694,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_cache_10000": {
       "current_hash_verified": true,
@@ -677,7 +702,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_campaign_time_spec": {
       "current_hash_verified": true,
@@ -685,7 +710,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_checkpoint_volume_spec": {
       "current_hash_verified": true,
@@ -693,7 +718,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_cloud_cost_spec": {
       "current_hash_verified": true,
@@ -701,7 +726,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_dense_cache_storage": {
       "current_hash_verified": true,
@@ -709,7 +734,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_energy_scope": {
       "current_hash_verified": true,
@@ -717,7 +742,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_paired_seed_power": {
       "current_hash_verified": true,
@@ -725,7 +750,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     "c_peak_memory_spec": {
       "current_hash_verified": true,
@@ -733,15 +758,15 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
-    "m_cm7_calibration": {
+    "m_cm7_pilot": {
       "current_hash_verified": true,
       "gate_roles": [],
       "record_type": "measurement",
       "schema_validated_role": true,
-      "source_ref": "local:proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
-      "source_sha256": "47d51810d52dde86dfb767bc82f26d4b77fb0fb588add78c9399784a51bc029a"
+      "source_ref": "local:proof/CUSTOM_SUBSTRATE_PILOT.json",
+      "source_sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2"
     },
     "m_host_profile": {
       "current_hash_verified": true,
@@ -749,23 +774,7 @@
       "record_type": "measurement",
       "schema_validated_role": true,
       "source_ref": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "source_sha256": "f0572a67186d56352b1325ba143e2f3e990a1ac42f97b649dcf1d6122bbc16bb"
-    },
-    "m_vitg_cache": {
-      "current_hash_verified": true,
-      "gate_roles": [],
-      "record_type": "measurement",
-      "schema_validated_role": true,
-      "source_ref": "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
-      "source_sha256": "872cc520f3fbdc5fc8d07b778581706a3fa2e3da3ba817cb1c0844c2796eb6a4"
-    },
-    "m_vith_cache": {
-      "current_hash_verified": true,
-      "gate_roles": [],
-      "record_type": "measurement",
-      "schema_validated_role": true,
-      "source_ref": "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-      "source_sha256": "7eed24391552256c13a59bb969d31b40744e56c9dbb542de0256950378bdf2f5"
+      "source_sha256": "f759a831aac8f8e081d4bb2d3bb19b65ad324fdc5fea8852c2675957ce7a1a80"
     },
     "m_vitl_cache": {
       "current_hash_verified": true,
@@ -774,14 +783,6 @@
       "schema_validated_role": true,
       "source_ref": "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
       "source_sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
-    },
-    "m_vjepa_scale_atlas": {
-      "current_hash_verified": true,
-      "gate_roles": [],
-      "record_type": "measurement",
-      "schema_validated_role": true,
-      "source_ref": "local:proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "source_sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
     }
   },
   "hardware_enablement_gate": {
@@ -802,7 +803,7 @@
     "chip": "Apple M3 Pro",
     "evidence_path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
     "kind": "measured-repository-receipt",
-    "max_wall_minutes": 180,
+    "max_wall_minutes": 300,
     "memory_semantics": "shared unified memory, not dedicated VRAM; safe MPS working set must be measured at runtime",
     "min_free_disk_gb": 40.0,
     "mps_available": true,
@@ -812,25 +813,25 @@
   },
   "local_source_evidence": [
     {
-      "bytes": 14467,
+      "bytes": 9278,
       "exists": true,
       "id": "local:EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
       "path": "EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
-      "sha256": "5218e6673b2989b72b5ee682619c8c5c89f1c11e3e8615d4c0929b9dce0e5dd0"
+      "sha256": "6e4d36bbc6a589825f83b7302f055d5d357a557eb11583c47882d351c6751c84"
     },
     {
-      "bytes": 129159,
+      "bytes": 129542,
       "exists": true,
       "id": "local:FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
       "path": "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
-      "sha256": "5ca8f6fb405e08ddeee52bb919fda03f5da26abe950db0e70f0b1d7f667d1021"
+      "sha256": "70bb8333fbcf9218f82e7c9d0625866c22b40f7796531d37b8fbd3d53572ba82"
     },
     {
-      "bytes": 87443,
+      "bytes": 87745,
       "exists": true,
       "id": "local:FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md",
       "path": "FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md",
-      "sha256": "14f8843ef2843c20011944c900c65144fb7d27043f5b4215459eb49f37e8110b"
+      "sha256": "88ed3d98ca0aa4c0ebe4de8cc11a8e63ea2d88c643916dc10a68b9a8fe56c337"
     },
     {
       "bytes": 6361,
@@ -840,53 +841,46 @@
       "sha256": "97f7ab20149d2e14ff22f91e73646aec1ce03d54ccf436b71993d8ddbbd0a254"
     },
     {
-      "bytes": 10872,
+      "bytes": 9522,
       "exists": true,
       "id": "local:docs/LOCAL_CEILING_RESIDUAL_AUDIT_2026_07_10.md",
       "path": "docs/LOCAL_CEILING_RESIDUAL_AUDIT_2026_07_10.md",
-      "sha256": "d252cb4812dd7770c8e875b6a8b1fc65320bd2eecd2832847e92a2f723c369bc"
+      "sha256": "349fb28d8d1ed63dd8373ef7fa19dad85d9c6fdf310132a901892d8752945c46"
     },
     {
-      "bytes": 288284,
+      "bytes": 341090,
       "exists": true,
       "id": "local:registry/experiments.yaml",
       "path": "registry/experiments.yaml",
-      "sha256": "e4459f91e546c5cc69f3791587343c3d7df6927ec510af5685608cfb04275897"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
-      "bytes": 1948443,
+      "bytes": 2010717,
       "exists": true,
       "id": "local:proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "3e7c561aeafe10f080ac90cf8900a1b0242438e67b6c9c13ab40fbc7823dfcc6"
+      "sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317"
     },
     {
-      "bytes": 30487,
+      "bytes": 34469,
       "exists": true,
       "id": "local:proof/FRONTIER_LOCALIZATION.json",
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "d6a8cddb2aa9cffe5ae1a4df0e71bde64f7350df7ca5c5152875992a7191379c"
+      "sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84"
     },
     {
-      "bytes": 16373,
+      "bytes": 16404,
       "exists": true,
       "id": "local:proof/LOCAL_ACTION_ENVIRONMENT.json",
       "path": "proof/LOCAL_ACTION_ENVIRONMENT.json",
-      "sha256": "6d9aa4c228bf29b4d272d7849934481fd64478511bce1d193fe4c79d8f59decf"
+      "sha256": "df67dfb4334bf4647c7c2c164ad3f2aee5374cbd574aca227ff4f8058dd0c426"
     },
     {
-      "bytes": 4025,
+      "bytes": 3973,
       "exists": true,
       "id": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
       "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "sha256": "f0572a67186d56352b1325ba143e2f3e990a1ac42f97b649dcf1d6122bbc16bb"
-    },
-    {
-      "bytes": 76393,
-      "exists": true,
-      "id": "local:proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "sha256": "c699d09718e9cc492d70a79401b915f8108104994e2026ac99dd531d2d92cec1"
+      "sha256": "f759a831aac8f8e081d4bb2d3bb19b65ad324fdc5fea8852c2675957ce7a1a80"
     },
     {
       "bytes": 21044,
@@ -896,11 +890,18 @@
       "sha256": "47d51810d52dde86dfb767bc82f26d4b77fb0fb588add78c9399784a51bc029a"
     },
     {
-      "bytes": 2367,
+      "bytes": 74504,
+      "exists": true,
+      "id": "local:proof/CUSTOM_SUBSTRATE_PILOT.json",
+      "path": "proof/CUSTOM_SUBSTRATE_PILOT.json",
+      "sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2"
+    },
+    {
+      "bytes": 2455,
       "exists": true,
       "id": "local:proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json",
       "path": "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json",
-      "sha256": "51412571d0aa8fd9ebd562e9682f45b9ba0b79024840bc2d520a18c96f4ba1a1"
+      "sha256": "af3cb3d915acb8fdf21c8dcdf6ce59e68034b7e24814cde6397d552668bd39e3"
     },
     {
       "bytes": 3947,
@@ -945,18 +946,81 @@
       "sha256": "21eb7ed2259d302ff69d6f8ea8d088a260bb76e07eac1e49bbbb6bc3c9350d1c"
     },
     {
-      "bytes": 19224,
+      "bytes": 2993,
       "exists": true,
-      "id": "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
-      "path": "proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
-      "sha256": "92d21352a64bfa57b0fe9b1104e1aea4ba15f8e6fe8d35931b99518308400696"
+      "id": "local:proof/VJEPA21_VITB_LOAD.json",
+      "path": "proof/VJEPA21_VITB_LOAD.json",
+      "sha256": "c60eb456726e02773c30f42af093727b600e5a6eb67d5d3d094adb17cee241da"
     },
     {
-      "bytes": 43449,
+      "bytes": 3859,
+      "exists": true,
+      "id": "local:proof/VJEPA21_VITB_FORWARD.json",
+      "path": "proof/VJEPA21_VITB_FORWARD.json",
+      "sha256": "06ed0d097a50b2638d0209b991c0710574a750edb4a5ddfb3a5dace722581601"
+    },
+    {
+      "bytes": 3863,
+      "exists": true,
+      "id": "local:proof/VJEPA21_VITB_FORWARD_64F.json",
+      "path": "proof/VJEPA21_VITB_FORWARD_64F.json",
+      "sha256": "902422b7c042969076bccbbcf283a9b1b80639a9d9e4a9e24c2ca703fcd5c6bf"
+    },
+    {
+      "bytes": 9466,
+      "exists": true,
+      "id": "local:proof/E6_VITB_DENSE_PREFLIGHT.json",
+      "path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
+      "sha256": "efa875cf01b9da0bd546b9860576c5488b092bae9facb8943373b4d5d40f52af"
+    },
+    {
+      "bytes": 130678,
+      "exists": true,
+      "id": "local:proof/EXPANSION_WAVE0.json",
+      "path": "proof/EXPANSION_WAVE0.json",
+      "sha256": "653f6f3da22da1dc0cf446217e9726f81c23a59f9193556bb881f8b1052f97b9"
+    },
+    {
+      "bytes": 50751,
+      "exists": true,
+      "id": "local:proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+      "path": "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+      "sha256": "fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03"
+    },
+    {
+      "bytes": 28437,
+      "exists": true,
+      "id": "local:proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+      "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+      "sha256": "5c44afdc87b90c821480eccc2729a8b70f19dde7c23eac346cbbd18cd0e8933c"
+    },
+    {
+      "bytes": 72696,
+      "exists": true,
+      "id": "local:proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+      "path": "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+      "sha256": "5f69a3f6bf8e68d0710e2d180288109068ab1adca5cb273edb5105a36b6b1ca9"
+    },
+    {
+      "bytes": 3628,
+      "exists": true,
+      "id": "local:proof/P9_ACCOUNTING_MECHANICS.json",
+      "path": "proof/P9_ACCOUNTING_MECHANICS.json",
+      "sha256": "3f7340383cf2c7521355a5ae1e607497fe989f801316d80009f057e3ed66fd06"
+    },
+    {
+      "bytes": 378720,
+      "exists": true,
+      "id": "local:proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+      "path": "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+      "sha256": "bb159720a641acb0b8f66503591e4ea879a761787cfe35a5aff94d99a91c9797"
+    },
+    {
+      "bytes": 59860,
       "exists": true,
       "id": "local:proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
       "path": "proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
-      "sha256": "8e27b4d525620fc46cdfaa62862b8edc1b502809b917c174ec175d903a5c1f80"
+      "sha256": "da8837257f8889d7e408fc09df6000f250b85a3a976282c338618eb708cdb990"
     },
     {
       "bytes": 6626,
@@ -970,70 +1034,196 @@
       "exists": true,
       "id": "local:proof/FORM_SUBSTRATE/SCORECARD.json",
       "path": "proof/FORM_SUBSTRATE/SCORECARD.json",
-      "sha256": "532bda3dccad763d371594b8a31d774b0d74b907153b50a5f756283e156a602a"
+      "sha256": "ddd686a1027c27dd1c9816c87b250f4a0db483e9805756096c262e7fa0169cd1"
     },
     {
-      "bytes": 11448,
+      "bytes": 11699,
       "exists": true,
       "id": "local:proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
       "path": "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
-      "sha256": "9fe7b6ff94073eedc1c02ebdef7787165d30b3ad1f045a0fe92ccef926416666"
+      "sha256": "b9ae786ad93f74ee58e4f389ac1ad84ffea64801997832c6dfe35a5c64a9e11e"
     },
     {
       "bytes": 38440,
       "exists": true,
       "id": "local:proof/ARTIFACT_INDEX/form_substrate.json",
       "path": "proof/ARTIFACT_INDEX/form_substrate.json",
-      "sha256": "36c7aaefe2638b0b2fc5dde3048122350ce45ef11a7724ad564ff51a5bcb3da3"
+      "sha256": "8bf3ac6e9951e97f7cbff376fd963841c4479c05594076bdab1af5c7b43e09e3"
     },
     {
-      "bytes": 2876,
-      "exists": true,
-      "id": "local:proof/ENCODER_SCALE_VITH_CPU_FORWARD.json",
-      "path": "proof/ENCODER_SCALE_VITH_CPU_FORWARD.json",
-      "sha256": "ee7df520b99ca1344d2281c59665ab4815ef4bf3c6ee9d51e42a73a73f795721"
-    },
-    {
-      "bytes": 2856,
-      "exists": true,
-      "id": "local:proof/ENCODER_SCALE_VITG_CPU_FORWARD.json",
-      "path": "proof/ENCODER_SCALE_VITG_CPU_FORWARD.json",
-      "sha256": "6e6a531370b997c600f20634e6d432abbaab703825d174200e2a6591d3e7935d"
-    },
-    {
-      "bytes": 1474,
+      "bytes": 1727,
       "exists": true,
       "id": "local:configs/encoder/vjepa21_vitb.yaml",
       "path": "configs/encoder/vjepa21_vitb.yaml",
-      "sha256": "d146eda4648a83635f8b24d6a6605e3d8d99c3b79172b8d8114a7126f73441c9"
+      "sha256": "5f326dcebc2e1459c785c526028418346e3990b79523f9e7d33a7272b0ac3803"
     },
     {
-      "bytes": 1198,
+      "bytes": 1611,
       "exists": true,
-      "id": "local:configs/encoder/vjepa21_vitl.yaml",
-      "path": "configs/encoder/vjepa21_vitl.yaml",
-      "sha256": "99f5dd596abac21feea3cd6a85039dd8d1c3629449e59b3b8f29a8338da4cd33"
+      "id": "local:configs/experiment/e6_dense_cache.yaml",
+      "path": "configs/experiment/e6_dense_cache.yaml",
+      "sha256": "95f7edd3b09868aa20451d58816f43793bbc1d37561b7b32e3a880431365b5d3"
     },
     {
-      "bytes": 43253,
+      "bytes": 1511,
+      "exists": true,
+      "id": "local:configs/experiment/continual_million_event_preflight.yaml",
+      "path": "configs/experiment/continual_million_event_preflight.yaml",
+      "sha256": "1107019e264a323a5fb40883f338564eca843d6acff273ff79e9766685b2633f"
+    },
+    {
+      "bytes": 2195,
+      "exists": true,
+      "id": "local:configs/experiment/continual_million_event_rungs.yaml",
+      "path": "configs/experiment/continual_million_event_rungs.yaml",
+      "sha256": "8452b7a3d7b99a42f48576cf1bddc758079e4b4f09c24214cef6e75e7ca6ec59"
+    },
+    {
+      "bytes": 2421,
+      "exists": true,
+      "id": "local:configs/experiment/p7_action_world_model_preflight.yaml",
+      "path": "configs/experiment/p7_action_world_model_preflight.yaml",
+      "sha256": "54f4435229685b0ba72ba3711ddcbb7920f01bd0237a315ddbf8916ff45b900a"
+    },
+    {
+      "bytes": 2958,
+      "exists": true,
+      "id": "local:configs/experiment/p9_causal_monitoring_preflight.yaml",
+      "path": "configs/experiment/p9_causal_monitoring_preflight.yaml",
+      "sha256": "e91f3dc36532e451c4135e444b514d0f7bcc160b3c1ef4de6167d73eb457e81c"
+    },
+    {
+      "bytes": 17392,
+      "exists": true,
+      "id": "local:configs/local_execution_throttle.yaml",
+      "path": "configs/local_execution_throttle.yaml",
+      "sha256": "8e3c97bbb841f85a2b501df9d170adb500f10d407dafa62c95b52ace19f0376e"
+    },
+    {
+      "bytes": 43134,
       "exists": true,
       "id": "local:src/mop/substrate/vjepa21_official.py",
       "path": "src/mop/substrate/vjepa21_official.py",
-      "sha256": "b40fb89d3e46dbdd101f6da2525477f7a8f2eb505e63eabf2d3b0d99d9cafe2d"
+      "sha256": "d59afc08edaa7c796e952571011ef5344a50e15ed4c84ec2f5d41eabfc3c7d87"
     },
     {
-      "bytes": 13506,
+      "bytes": 55312,
+      "exists": true,
+      "id": "local:src/mop/substrate/vjepa21_dense_tasks.py",
+      "path": "src/mop/substrate/vjepa21_dense_tasks.py",
+      "sha256": "4ab608255014b6eed7a634a73dc3abe22574a8e3ea79634f8a018558003d2f99"
+    },
+    {
+      "bytes": 13256,
       "exists": true,
       "id": "local:scripts/vjepa21_official.py",
       "path": "scripts/vjepa21_official.py",
-      "sha256": "65c5e04fbb2df821543a8cb32cf9ea856d4c2083c2606dd65341e6f4cde368fc"
+      "sha256": "42ec8274c31d7bad00e5da3b0bb84f0c96a847074d7ea34834c5ead857087a11"
     },
     {
-      "bytes": 10675,
+      "bytes": 5949,
+      "exists": true,
+      "id": "local:scripts/vjepa21_dense_tasks.py",
+      "path": "scripts/vjepa21_dense_tasks.py",
+      "sha256": "aa1a3b0f92a66bd677541ac3dcd1acf302c3bf56e8ebfc2522bc0683f26ab01d"
+    },
+    {
+      "bytes": 14374,
+      "exists": true,
+      "id": "local:scripts/continual_million_event_preflight.py",
+      "path": "scripts/continual_million_event_preflight.py",
+      "sha256": "2f224a67b7e8c5953cac7ea827c5cd4700f11d0e71a27ecc58d48d0d1da0c5d5"
+    },
+    {
+      "bytes": 18258,
+      "exists": true,
+      "id": "local:scripts/continual_million_event_rung.py",
+      "path": "scripts/continual_million_event_rung.py",
+      "sha256": "043131b19fe0d7447ecb347a58c46132add17f6a6a4bc3e5c83ed235bd420fdc"
+    },
+    {
+      "bytes": 902,
+      "exists": true,
+      "id": "local:scripts/p7_action_world_model_preflight.py",
+      "path": "scripts/p7_action_world_model_preflight.py",
+      "sha256": "faf1d3c59533b877fd57885d1a3530cab5cdb071ee2f093de16ca60b19e3e830"
+    },
+    {
+      "bytes": 1425,
+      "exists": true,
+      "id": "local:scripts/p9_causal_monitoring_preflight.py",
+      "path": "scripts/p9_causal_monitoring_preflight.py",
+      "sha256": "2a7ed51d0a96fdca62714e94c0b05b02b1ca9a5936da46411ee5a22da4cf1bb1"
+    },
+    {
+      "bytes": 11383,
       "exists": true,
       "id": "local:docs/VJEPA21_LOCAL_INTEGRATION.md",
       "path": "docs/VJEPA21_LOCAL_INTEGRATION.md",
-      "sha256": "d748ab85bf7fabfa176d0e0d4591c70afbe398fb3ec52807d2bfd0312ec139e1"
+      "sha256": "6a10a29176be06b2e43ba42f04933a55518bc334a2d20dcd4e39d72966da4e6b"
+    },
+    {
+      "bytes": 7715,
+      "exists": true,
+      "id": "local:docs/E6_DENSE_RELATIONAL_CACHE.md",
+      "path": "docs/E6_DENSE_RELATIONAL_CACHE.md",
+      "sha256": "3f887159cceedb7ff5b868df410b46fee5a9b4fd4ec77e333229cc2f0475911c"
+    },
+    {
+      "bytes": 3280,
+      "exists": true,
+      "id": "local:docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
+      "path": "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
+      "sha256": "a6b99f2517947a9e5514804acc4f89e0d944a2b6bd0e692f0d6cba9f151bb482"
+    },
+    {
+      "bytes": 10340,
+      "exists": true,
+      "id": "local:docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
+      "path": "docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
+      "sha256": "b11c3abf23d4ddae705a740403af4d82c85d67835cc124b1ad11c484efc2c13e"
+    },
+    {
+      "bytes": 4154,
+      "exists": true,
+      "id": "local:docs/P9_CAUSAL_MONITORING_PREFLIGHT.md",
+      "path": "docs/P9_CAUSAL_MONITORING_PREFLIGHT.md",
+      "sha256": "d5914f706f6e458f57769bd49d11dfcb7273943692ba3995753df2ac8b490792"
+    },
+    {
+      "bytes": 18636,
+      "exists": true,
+      "id": "local:src/mop/substrate/continual_stream.py",
+      "path": "src/mop/substrate/continual_stream.py",
+      "sha256": "c658d95f6f9d1fcae9c498a933b415306032e9d157cc18d05dc9038f5b1d3c44"
+    },
+    {
+      "bytes": 18538,
+      "exists": true,
+      "id": "local:src/mop/studies/continual_million_event.py",
+      "path": "src/mop/studies/continual_million_event.py",
+      "sha256": "2ddf85ad7e5834c33983046d2690d0b9b11f1aa005cb4aeeb9aefb0b27a19de8"
+    },
+    {
+      "bytes": 70325,
+      "exists": true,
+      "id": "local:src/mop/studies/action_world_model.py",
+      "path": "src/mop/studies/action_world_model.py",
+      "sha256": "2e1d528d9db7d07b12df65f752b6aa9c1dbfa7fa732e62d10e142b4aa6032b03"
+    },
+    {
+      "bytes": 7899,
+      "exists": true,
+      "id": "local:src/mop/studies/p9_accounting.py",
+      "path": "src/mop/studies/p9_accounting.py",
+      "sha256": "eaa1ac24730ce3c8bbbb2f7f01e71e65dbb5a9697e415f12ca4bbb1a1e97a560"
+    },
+    {
+      "bytes": 53507,
+      "exists": true,
+      "id": "local:src/mop/studies/p9_causal_monitoring.py",
+      "path": "src/mop/studies/p9_causal_monitoring.py",
+      "sha256": "a89986cbf656d65a52fc75610ad30b780bb2a46758b898202a3948ea81d3293a"
     },
     {
       "bytes": 5054,
@@ -1050,53 +1240,25 @@
       "sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
     },
     {
-      "bytes": 5043,
-      "exists": true,
-      "id": "local:data/cache/vjepa2_vith_local8_citable/cache_manifest.json",
-      "path": "data/cache/vjepa2_vith_local8_citable/cache_manifest.json",
-      "sha256": "80227b163100ccc5986bfbae72d6e6002abca0c95d86ab3969053a710a81e218"
-    },
-    {
-      "bytes": 1682,
-      "exists": true,
-      "id": "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-      "path": "data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-      "sha256": "7eed24391552256c13a59bb969d31b40744e56c9dbb542de0256950378bdf2f5"
-    },
-    {
-      "bytes": 5044,
-      "exists": true,
-      "id": "local:data/cache/vjepa2_vitg_local8_citable/cache_manifest.json",
-      "path": "data/cache/vjepa2_vitg_local8_citable/cache_manifest.json",
-      "sha256": "dc4d2f6596e883da6c9192e120c900d433b40425e8553afdf12196829e290a97"
-    },
-    {
-      "bytes": 1683,
-      "exists": true,
-      "id": "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
-      "path": "data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
-      "sha256": "872cc520f3fbdc5fc8d07b778581706a3fa2e3da3ba817cb1c0844c2796eb6a4"
-    },
-    {
-      "bytes": 91115,
+      "bytes": 109591,
       "exists": true,
       "id": "local:scripts/build_extended_compute_requirements.py",
       "path": "scripts/build_extended_compute_requirements.py",
-      "sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
+      "sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
     },
     {
-      "bytes": 57195,
+      "bytes": 56837,
       "exists": true,
       "id": "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
       "path": "EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
-      "sha256": "80f81688369a2d246f5a6d8900a92495c9377e607c883590cfc7fb4afffd3add"
+      "sha256": "4bac93620485a7d8f75edbb8bba871fc7a5f2c6f4464079a1af341a7bb8f6f1a"
     },
     {
-      "bytes": 52476,
+      "bytes": 53270,
       "exists": true,
       "id": "local:EXTENDED_COMPUTE_EXECUTION_PLAN.md",
       "path": "EXTENDED_COMPUTE_EXECUTION_PLAN.md",
-      "sha256": "c55525d2167e47b24c1a527c74ca5f6e851fc46cf6b43352f89c3035571f473f"
+      "sha256": "e2ef18dfce531c0e9864a6287fe27e0afa52181d0643fed410be290e717f5a44"
     },
     {
       "bytes": 2070,
@@ -3374,6 +3536,13 @@
       "sha256": "29b195298e627f92d6817ba33e180ca8fd277483651f21d45f0726a7e7d93986"
     },
     {
+      "bytes": 31500,
+      "exists": true,
+      "id": "local:runs/frontier_localization/local_preflights.json",
+      "path": "runs/frontier_localization/local_preflights.json",
+      "sha256": "f2bae49ad43b9e5f389ee8d05829c9dd14cbe54b1e3610168e1f591ddeebe30d"
+    },
+    {
       "bytes": 9282,
       "exists": true,
       "id": "local:runs/mot/mt5_adaptive_halting_recal.json",
@@ -3595,14 +3764,14 @@
       "exists": true,
       "id": "local:proof/LOCAL_FRONTIER_PREFLIGHTS.json",
       "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd"
+      "sha256": "f2bae49ad43b9e5f389ee8d05829c9dd14cbe54b1e3610168e1f591ddeebe30d"
     },
     {
-      "bytes": 3093,
+      "bytes": 3359,
       "exists": true,
       "id": "local:scripts/frontier_localization.py",
       "path": "scripts/frontier_localization.py",
-      "sha256": "26c43eb039b3c5deb30ac1f4a48c79cf249e791f21ad41542fb20289209e8d07"
+      "sha256": "977945884edbc639927f82431bf8f0d0816b17f73c1452376cad6162b856b5d5"
     },
     {
       "bytes": 2342,
@@ -3687,76 +3856,21 @@
       "id": "local:runs/project_exhaustion/current/classes/mop_cm8_custom_jepa_pilot/attempt_001/attempt_receipt.json",
       "path": "runs/project_exhaustion/current/classes/mop_cm8_custom_jepa_pilot/attempt_001/attempt_receipt.json",
       "sha256": "0a5ed57d6c303824718875f20cac398e7f298bd05270945eeb256ecdd195e1fe"
-    },
-    {
-      "bytes": 16373,
-      "exists": true,
-      "id": "local:runs/local_action_environment/preflight.json",
-      "path": "runs/local_action_environment/preflight.json",
-      "sha256": "6d9aa4c228bf29b4d272d7849934481fd64478511bce1d193fe4c79d8f59decf"
-    },
-    {
-      "bytes": 1440,
-      "exists": true,
-      "id": "local:scripts/local_action_environment.py",
-      "path": "scripts/local_action_environment.py",
-      "sha256": "3bd718c6e5f91d7796169c9e51c7e87bd08ce8ae07a8fe3b6e6a629d1cf884c4"
     }
   ],
   "measured_ceiling_evidence": {
-    "cm7_calibration": {
+    "cm7_pilot": {
       "dense_tokens": 256,
-      "evidence_path": "proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
+      "evidence_path": "proof/CUSTOM_SUBSTRATE_PILOT.json",
       "kind": "measured",
       "matched_objectives": 4,
       "parameters": 1646080,
       "promotion_ready": false,
-      "seeds": 1,
-      "updates_per_arm": 3
-    },
-    "vjepa_atlas": {
-      "all_factor_probe_scores": 1.0,
-      "evidence_path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-      "kind": "measured",
-      "limitations": [
-        "programmatic referents",
-        "no byte-identical cross-resolution stimuli",
-        "no matched random-architecture caches",
-        "no seed distribution"
-      ],
-      "models": [
-        "ViT-L",
-        "ViT-H",
-        "ViT-g"
-      ],
-      "promotion_ready": false,
-      "referents": 8
+      "seeds": 5,
+      "updates_per_arm": 1000,
+      "verdict": "not-promoted"
     },
     "vjepa_serial_cache": {
-      "vitg": {
-        "claim_scope": "real frozen encoder over programmatic video; not natural-video evidence",
-        "clips": 8,
-        "encode_seconds": 1498.666513666045,
-        "evidence_path": "data/cache/vjepa2_vitg_local8_citable/run_receipt.json",
-        "frames_per_sample": 64,
-        "host_device": "cpu",
-        "kind": "measured",
-        "max_rss_bytes": 6615810048,
-        "resolution": 384,
-        "seconds_per_clip": 187.33331420825562
-      },
-      "vith": {
-        "claim_scope": "real frozen encoder over programmatic video; not natural-video evidence",
-        "clips": 8,
-        "encode_seconds": 277.8238668750273,
-        "evidence_path": "data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-        "frames_per_sample": 64,
-        "host_device": "cpu",
-        "kind": "measured",
-        "max_rss_bytes": 3999842304,
-        "resolution": 256,
-        "seconds_per_clip": 34.72798335937841
-      },
       "vitl": {
         "claim_scope": "real frozen encoder over programmatic video; not natural-video evidence",
         "clips": 8,
@@ -3772,38 +3886,47 @@
     }
   },
   "measurement_catalog": {
-    "m_cm7_calibration": {
+    "m_cm7_pilot": {
       "kind": "measured",
-      "pointer": "/measured_ceiling_evidence/cm7_calibration"
+      "pointer": "/measured_ceiling_evidence/cm7_pilot"
     },
     "m_host_profile": {
       "kind": "measured",
       "pointer": "/host",
       "source": "proof/STUDIO_READINESS_CURRENT_HOST.json"
     },
-    "m_vitg_cache": {
-      "kind": "measured",
-      "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitg"
-    },
-    "m_vith_cache": {
-      "kind": "measured",
-      "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vith"
-    },
     "m_vitl_cache": {
       "kind": "measured",
       "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitl"
-    },
-    "m_vjepa_scale_atlas": {
-      "kind": "measured",
-      "pointer": "/measured_ceiling_evidence/vjepa_atlas"
     }
   },
-  "payload_sha256": "384473198a305a1185c31be5252a91fa21b142f80cc18884f1b18a5b15c9a7a9",
+  "payload_sha256": "df5d0e4c976004db197c6f14ba9b3ccdf4e1a0dc1f06050895e54af899a4c0ca",
   "row_referenced_json_audits": {
-    "proof/CUSTOM_SUBSTRATE_CALIBRATION.json": {
+    "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json": {
       "all_current": true,
-      "artifact": "proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
-      "checks": 4,
+      "artifact": "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+      "checks": 11,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/CUSTOM_SUBSTRATE_PILOT.json": {
+      "all_current": true,
+      "artifact": "proof/CUSTOM_SUBSTRATE_PILOT.json",
+      "checks": 24,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/E6_VITB_DENSE_PREFLIGHT.json": {
+      "all_current": true,
+      "artifact": "proof/E6_VITB_DENSE_PREFLIGHT.json",
+      "checks": 13,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/EXPANSION_WAVE0.json": {
+      "all_current": true,
+      "artifact": "proof/EXPANSION_WAVE0.json",
+      "checks": 6,
       "mismatches": [],
       "missing": []
     },
@@ -3828,6 +3951,13 @@
       "mismatches": [],
       "missing": []
     },
+    "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json": {
+      "all_current": true,
+      "artifact": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+      "checks": 2,
+      "mismatches": [],
+      "missing": []
+    },
     "proof/LOCAL_FRONTIER_PREFLIGHTS.json": {
       "all_current": true,
       "artifact": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
@@ -3835,10 +3965,52 @@
       "mismatches": [],
       "missing": []
     },
-    "runs/local_action_environment/preflight.json": {
+    "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json": {
       "all_current": true,
-      "artifact": "runs/local_action_environment/preflight.json",
-      "checks": 7,
+      "artifact": "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+      "checks": 18,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/P9_ACCOUNTING_MECHANICS.json": {
+      "all_current": true,
+      "artifact": "proof/P9_ACCOUNTING_MECHANICS.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json": {
+      "all_current": true,
+      "artifact": "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+      "checks": 12,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/VJEPA21_VITB_FORWARD.json": {
+      "all_current": true,
+      "artifact": "proof/VJEPA21_VITB_FORWARD.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/VJEPA21_VITB_FORWARD_64F.json": {
+      "all_current": true,
+      "artifact": "proof/VJEPA21_VITB_FORWARD_64F.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/VJEPA21_VITB_LOAD.json": {
+      "all_current": true,
+      "artifact": "proof/VJEPA21_VITB_LOAD.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/frontier_localization/local_preflights.json": {
+      "all_current": true,
+      "artifact": "runs/frontier_localization/local_preflights.json",
+      "checks": 0,
       "mismatches": [],
       "missing": []
     },
@@ -5986,7 +6158,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "hash-pinned-vjepa21-preflight",
+      "classification_basis": "verified-e6-integration-plus-citable-natural-input-gap",
       "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -5997,10 +6169,17 @@
         "local:registry/experiments.yaml",
         "local:runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json",
         "local:runs/project_exhaustion/current/classes/e6_relational/attempt_001/config.yaml",
-        "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
+        "local:proof/VJEPA21_VITB_LOAD.json",
+        "local:proof/VJEPA21_VITB_FORWARD.json",
+        "local:proof/VJEPA21_VITB_FORWARD_64F.json",
+        "local:proof/E6_VITB_DENSE_PREFLIGHT.json",
         "local:configs/encoder/vjepa21_vitb.yaml",
+        "local:configs/experiment/e6_dense_cache.yaml",
         "local:src/mop/substrate/vjepa21_official.py",
-        "local:docs/VJEPA21_LOCAL_INTEGRATION.md"
+        "local:src/mop/substrate/vjepa21_dense_tasks.py",
+        "local:scripts/vjepa21_dense_tasks.py",
+        "local:docs/VJEPA21_LOCAL_INTEGRATION.md",
+        "local:docs/E6_DENSE_RELATIONAL_CACHE.md"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -6039,24 +6218,24 @@
         "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
         "execution_verified_at_generation": false,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "upstream-model-blocked",
+        "ledger_classification": "rights-data-blocked",
         "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Relational map over latents",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "after the active heavy lane exits, acquire the pinned official ViT-B checkpoint, compute its full SHA-256, strict-load ema_encoder, and execute a supervised 8-frame 384px dense forward",
-      "primary_category": 2,
-      "primary_category_label": "locally runnable after implementation",
-      "promotion_blocker": "citable upstream dense-token model cache",
+      "primary_blocker": "materialize a rights-clean annotated natural-video cohort with untouched test membership, then encode the declared learned/random cache pair serially",
+      "primary_category": 3,
+      "primary_category_label": "locally runnable after data or rights intake",
+      "promotion_blocker": "official runtime and cache/control integration are verified; the registered claim now requires a rights-clean annotated natural cohort, untouched test membership, serial learned/random caches, and independent verification",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
-      "registry_resource_tier": "weights-needed",
-      "registry_runtime_class": "minutes",
+      "registry_resource_tier": "environment-needed",
+      "registry_runtime_class": "hours",
       "required_rung": null,
       "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
       "scope": "current_registry",
       "series": "E",
-      "status": "deferred"
+      "status": "implemented"
     },
     {
       "calculation_refs": [],
@@ -14276,7 +14455,8 @@
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml"
+        "local:registry/experiments.yaml",
+        "local:runs/frontier_localization/local_preflights.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -14894,9 +15074,7 @@
       "evidence_refs": [
         "local:registry/experiments.yaml",
         "local:proof/CACHE_QUARANTINE_AUDIT.json",
-        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json"
+        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -14944,7 +15122,7 @@
       "primary_blocker": "implement citable same-architecture random controls and the expanded compatible-task grid",
       "primary_category": 2,
       "primary_category_label": "locally runnable after implementation",
-      "promotion_blocker": "three real-weight encoder caches now execute locally on eight shared programmatic referents; the registered reasoning claim still needs a verified gain on one compatible task, expanded same-task rows, and the matched random-architecture control",
+      "promotion_blocker": "the registered reasoning claim first needs a verified gain on one compatible task, a rights-clean same-task cohort, and active ViT-B/custom matched controls; the retired scale pilot is not a current dependency",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
       "registry_resource_tier": "weights-needed",
       "registry_runtime_class": "hours",
@@ -15510,7 +15688,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "hash-pinned-vjepa21-preflight-plus-registry-relation",
+      "classification_basis": "verified-dr14-integration-plus-citable-natural-input-gap",
       "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -15519,10 +15697,17 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json",
+        "local:proof/VJEPA21_VITB_LOAD.json",
+        "local:proof/VJEPA21_VITB_FORWARD.json",
+        "local:proof/VJEPA21_VITB_FORWARD_64F.json",
+        "local:proof/E6_VITB_DENSE_PREFLIGHT.json",
         "local:configs/encoder/vjepa21_vitb.yaml",
+        "local:configs/experiment/e6_dense_cache.yaml",
         "local:src/mop/substrate/vjepa21_official.py",
-        "local:docs/VJEPA21_LOCAL_INTEGRATION.md"
+        "local:src/mop/substrate/vjepa21_dense_tasks.py",
+        "local:scripts/vjepa21_dense_tasks.py",
+        "local:docs/VJEPA21_LOCAL_INTEGRATION.md",
+        "local:docs/E6_DENSE_RELATIONAL_CACHE.md"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -15561,18 +15746,18 @@
         "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
         "execution_verified_at_generation": false,
         "implementation_surface": "registry-only",
-        "ledger_classification": "upstream-model-blocked",
+        "ledger_classification": "rights-data-blocked",
         "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "reasoning_under_corruption_compression",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "complete the pinned ViT-B strict-load/forward gate and generate the registered dropped-channel dense cache locally",
-      "primary_category": 2,
-      "primary_category_label": "locally runnable after implementation",
-      "promotion_blocker": "laptop pilot exists, but the registered dropped-channel arm requires a citable dense-token cache",
+      "primary_blocker": "materialize the citable dense natural-task cache consumed by the implemented deterministic nested corruption views",
+      "primary_category": 3,
+      "primary_category_label": "locally runnable after data or rights intake",
+      "promotion_blocker": "the registered deterministic nested dropped-channel path is implemented; it now requires the citable dense natural-task cache and independent verification",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
-      "registry_resource_tier": "weights-needed",
+      "registry_resource_tier": "environment-needed",
       "registry_runtime_class": "hours",
       "required_rung": null,
       "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
@@ -15730,9 +15915,7 @@
         "local:registry/experiments.yaml",
         "local:runs/mot/pr2_plasticity_substrates.json",
         "local:proof/CACHE_QUARANTINE_AUDIT.json",
-        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json"
+        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -16561,9 +16744,7 @@
       "evidence_refs": [
         "local:registry/experiments.yaml",
         "local:proof/CACHE_QUARANTINE_AUDIT.json",
-        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json"
+        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -16608,7 +16789,7 @@
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "cross_substrate_nuisance_grid",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "complete the citable multi-encoder grid and matched random-init columns",
+      "primary_blocker": "complete the citable active ViT-B/custom instrument grid and matched random-init columns",
       "primary_category": 2,
       "primary_category_label": "locally runnable after implementation",
       "promotion_blocker": "pilot exists, but the registered multi-encoder grid and matched random-init columns are not citable active inputs",
@@ -16632,10 +16813,9 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
+        "local:runs/frontier_localization/local_preflights.json",
         "local:proof/CACHE_QUARANTINE_AUDIT.json",
-        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
-        "local:data/cache/vjepa2_vitg_local8_citable/run_receipt.json"
+        "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -17018,7 +17198,7 @@
         "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
         "execution_verified_at_generation": false,
         "implementation_surface": "registry-only",
-        "ledger_classification": "upstream-model-blocked",
+        "ledger_classification": "rights-data-blocked",
         "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
@@ -17027,7 +17207,7 @@
       "primary_blocker": "expanded meaningful shared content with split-safe provenance",
       "primary_category": 3,
       "primary_category_label": "locally runnable after data or rights intake",
-      "promotion_blocker": "a citable three-scale atlas now runs locally on eight shared programmatic referents; the registered alignment claim still needs an expanded meaningful shared-content set and its preregistered equal-rank random-map controls",
+      "promotion_blocker": "requires an expanded meaningful shared-content cohort with session-level units, then equal-rank active ViT-B/custom and random-map controls; the retired scale pilot is not a current dependency",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
       "registry_resource_tier": "weights-needed",
       "registry_runtime_class": "hours",
@@ -17388,6 +17568,7 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
+        "local:runs/frontier_localization/local_preflights.json",
         "local:proof/LOCAL_FRONTIER_PREFLIGHTS.json",
         "local:scripts/frontier_localization.py"
       ],
@@ -17529,7 +17710,7 @@
         "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/manifest.json",
         "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/config.yaml",
         "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json",
-        "local:proof/CUSTOM_SUBSTRATE_CALIBRATION.json"
+        "local:proof/CUSTOM_SUBSTRATE_PILOT.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -17565,7 +17746,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "current one-seed/three-update calibration mechanics only; active v3 campaign excluded until closure",
+        "evidence_scope": "five-seed, 1,000-update-per-arm teacher-independent programmatic-video pilot; the bound independent verifier returned not-promoted after familywise correction",
         "execution_verified_at_generation": true,
         "implementation_surface": "experiment-class",
         "ledger_classification": "freshly-executed-verified",
@@ -17870,7 +18051,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "local-action-environment-proof-plus-registry",
+      "classification_basis": "verified-p7-programmatic-mechanics-plus-external-validity-gate",
       "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -17879,9 +18060,12 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/local_action_environment/preflight.json",
+        "local:proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
         "local:proof/LOCAL_ACTION_ENVIRONMENT.json",
-        "local:scripts/local_action_environment.py"
+        "local:configs/experiment/p7_action_world_model_preflight.yaml",
+        "local:src/mop/studies/action_world_model.py",
+        "local:scripts/p7_action_world_model_preflight.py",
+        "local:docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -17926,12 +18110,12 @@
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "action_conditioned_forward_model",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "implement rendered action-conditioned observations, a citable substrate cache, the exact frozen V-JEPA 2-AC control, and matched-depth control",
-      "primary_category": 2,
-      "primary_category_label": "locally runnable after implementation",
-      "promotion_blocker": "the deterministic environment, paired intervention records, and action-forward planning mechanics run locally; the registered substrate claim still needs rendered action-conditioned observations, a citable substrate cache, the exact frozen V-JEPA 2-AC control, and the declared matched-compute depth control",
+      "primary_blocker": "obtain independently sourced action-conditioned trajectories with an exact-referent action control and predeclared replication, then reuse the verified local P7 harness",
+      "primary_category": 3,
+      "primary_category_label": "locally runnable after data or rights intake",
+      "promotion_blocker": "the deterministic rendering, paired same-parent interventions, and eight-arm action-forward comparison run locally with matched controls, calibration, horizons, planning, and mutations; the fixture supports the null, and the registered scientific claim now needs independently sourced action trajectories, an exact-referent action control, and predeclared replication",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
-      "registry_resource_tier": "weights-needed",
+      "registry_resource_tier": "environment-needed",
       "registry_runtime_class": "hours",
       "required_rung": null,
       "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
@@ -17950,6 +18134,7 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
+        "local:runs/frontier_localization/local_preflights.json",
         "local:proof/LOCAL_FRONTIER_PREFLIGHTS.json",
         "local:scripts/frontier_localization.py"
       ],
@@ -18019,7 +18204,8 @@
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml"
+        "local:registry/experiments.yaml",
+        "local:runs/frontier_localization/local_preflights.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -18125,7 +18311,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18193,7 +18379,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18261,7 +18447,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18329,7 +18515,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18397,7 +18583,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18465,7 +18651,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18533,7 +18719,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18556,16 +18742,14 @@
     {
       "calculation_refs": [],
       "classification_basis": "form-contract-audit",
-      "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
+      "classified_stage": "current registry preregistration; no execution receipt",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
       "estimated": {
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml",
-        "local:proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
-        "local:proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json"
+        "local:registry/experiments.yaml"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -18601,8 +18785,8 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
-        "execution_verified_at_generation": null,
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
         "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
@@ -18611,7 +18795,7 @@
       "primary_blocker": "trusted natural trajectories and provenance; its configured 6 GB cap has not failed",
       "primary_category": 3,
       "primary_category_label": "locally runnable after data or rights intake",
-      "promotion_blocker": null,
+      "promotion_blocker": "trusted natural trajectories and provenance; its configured 6 GB cap has not failed",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
       "registry_resource_tier": "environment-needed",
       "registry_runtime_class": "hours",
@@ -18669,7 +18853,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18737,7 +18921,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18805,7 +18989,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18873,7 +19057,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -18941,7 +19125,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -19009,7 +19193,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -19077,7 +19261,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -19100,16 +19284,14 @@
     {
       "calculation_refs": [],
       "classification_basis": "form-contract-audit",
-      "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
+      "classified_stage": "current registry preregistration; no execution receipt",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
       "estimated": {
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml",
-        "local:proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
-        "local:proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json"
+        "local:registry/experiments.yaml"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -19145,8 +19327,8 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
-        "execution_verified_at_generation": null,
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
         "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
@@ -19155,7 +19337,7 @@
       "primary_blocker": "trusted natural trajectories and provenance; its configured 6 GB cap has not failed",
       "primary_category": 3,
       "primary_category_label": "locally runnable after data or rights intake",
-      "promotion_blocker": null,
+      "promotion_blocker": "trusted natural trajectories and provenance; its configured 6 GB cap has not failed",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
       "registry_resource_tier": "environment-needed",
       "registry_runtime_class": "hours",
@@ -19213,7 +19395,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -19281,7 +19463,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -19349,7 +19531,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -19417,7 +19599,7 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
+        "evidence_scope": "implemented F-chain mechanics are covered by the current contract audit, not the non-F exhaustion ledger",
         "execution_verified_at_generation": null,
         "present": true
       },
@@ -19436,6 +19618,1986 @@
       "scope": "current_registry",
       "series": "F",
       "status": "implemented"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f61_physical_reservoir_digital_twin",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "physical_reservoir_digital_twin",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "seconds",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f62_material_native_dynamics_value",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "material_native_dynamics_value",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f63_drift_and_aging_adaptation",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "drift_and_aging_adaptation",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "seconds",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f64_damage_and_reattachment_recovery",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "damage_and_reattachment_recovery",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "seconds",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f65_specimen_to_specimen_transfer",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "specimen_to_specimen_transfer",
+      "post_blocker_local_rung": null,
+      "primary_blocker": "satisfy the preregistered external environment, participant, sensor, or physical-specimen gate; compute cannot substitute",
+      "primary_category": 6,
+      "primary_category_label": "external environment, sensor, participant, or physical specimen",
+      "promotion_blocker": "satisfy the preregistered external environment, participant, sensor, or physical-specimen gate; compute cannot substitute",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "environment-needed",
+      "registry_runtime_class": "external",
+      "required_rung": "L6",
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f66_cross_substrate_form_portability",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "cross_substrate_form_portability",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "seconds",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f21_asynchronous_temporal_binding",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "asynchronous_temporal_binding",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f26_cross_form_contradiction_triangulation",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "cross_form_contradiction_triangulation",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f27_causal_crossmodal_binding",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "causal_crossmodal_binding",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f22_active_form_acquisition",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "active_form_acquisition",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f28_sensor_value_forecast",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "sensor_value_forecast",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f50_curriculum_goldilocks_test",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "curriculum_goldilocks_test",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f51_safe_play_goal_babbling",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "safe_play_goal_babbling",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f52_quality_diverse_mode_ecology",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "quality_diverse_mode_ecology",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f53_joint_referent_establishment",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "joint_referent_establishment",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f54_communicative_repair",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "communicative_repair",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f55_selective_imitation",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "selective_imitation",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f56_teaching_value",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "teaching_value",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f57_emergent_symbol_grounding",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "emergent_symbol_grounding",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f58_cultural_accumulation",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "cultural_accumulation",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f59_memory_poisoning_resistance",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "memory_poisoning_resistance",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f60_transactional_self_rewrite",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "transactional_self_rewrite",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f31_body_hardware_self_model",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "body_and_hardware_self_model",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f32_tool_incorporation",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "tool_incorporation_boundary_shift",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f33_internal_telemetry_prediction",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "internal_telemetry_prediction",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f34_homeostatic_resource_control",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "homeostatic_resource_control",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f35_self_report_grounding",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "self_report_grounding",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f36_limited_broadcast_necessity",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "limited_broadcast_necessity",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f37_broadcast_sufficiency",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "limited_broadcast_sufficiency",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-preregistration-only",
+      "classified_stage": "current registry preregistration; no execution receipt",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "f38_metacognitive_efficiency",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "preregistration contract only; no experiment execution or result receipt",
+        "execution_verified_at_generation": false,
+        "present": false
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "metacognitive_efficiency",
+      "post_blocker_local_rung": "L0",
+      "primary_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "primary_category": 2,
+      "primary_category_label": "locally runnable after implementation",
+      "promotion_blocker": "implement the preregistered local experiment, difficulty-calibrate it, and run its declared controls plus an independent verifier",
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "minutes",
+      "required_rung": null,
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "F",
+      "status": "registry-only"
     },
     {
       "calculation_refs": [],
@@ -22708,7 +24870,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "local-feasibility-attack-plus-primary-source-review",
+      "classification_basis": "verified-continual-stream-mechanics-plus-progressive-local-execution-gate",
       "classified_stage": "smallest scientifically meaningful falsification attack, before a scale campaign",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -22717,7 +24879,18 @@
       },
       "evidence_refs": [
         "local:EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
-        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md"
+        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
+        "local:proof/EXPANSION_WAVE0.json",
+        "local:proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+        "local:proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+        "local:configs/experiment/continual_million_event_preflight.yaml",
+        "local:configs/experiment/continual_million_event_rungs.yaml",
+        "local:configs/local_execution_throttle.yaml",
+        "local:src/mop/substrate/continual_stream.py",
+        "local:src/mop/studies/continual_million_event.py",
+        "local:scripts/continual_million_event_preflight.py",
+        "local:scripts/continual_million_event_rung.py",
+        "local:docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -22758,7 +24931,7 @@
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Continual learning over millions of events",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "implement streaming, disk replay, resumable state, and bounded-memory controls, then measure",
+      "primary_blocker": "run the implemented disk stream at 10,000 and 100,000 events, then one million only if the shorter rung leaves the horizon decision unresolved",
       "primary_category": 2,
       "primary_category_label": "locally runnable after implementation",
       "promotion_blocker": null,
@@ -22773,7 +24946,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "local-feasibility-attack-plus-primary-source-review",
+      "classification_basis": "verified-programmatic-action-world-model-mechanics-plus-external-validity-gate",
       "classified_stage": "smallest scientifically meaningful falsification attack, before a scale campaign",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -22782,7 +24955,13 @@
       },
       "evidence_refs": [
         "local:EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
-        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md"
+        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
+        "local:proof/EXPANSION_WAVE0.json",
+        "local:proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+        "local:configs/experiment/p7_action_world_model_preflight.yaml",
+        "local:src/mop/studies/action_world_model.py",
+        "local:scripts/p7_action_world_model_preflight.py",
+        "local:docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -22823,9 +25002,9 @@
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Action-conditioned persistent world models",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "implement rendered observations, a citable substrate cache, the exact frozen action-conditioned control, and matched-depth control",
-      "primary_category": 2,
-      "primary_category_label": "locally runnable after implementation",
+      "primary_blocker": "obtain independently sourced action-conditioned rendered or natural trajectories with an exact-referent control and predeclared replication, then run the existing local harness before any scale campaign",
+      "primary_category": 3,
+      "primary_category_label": "locally runnable after data or rights intake",
       "promotion_blocker": "real sensor/robot or non-replayable latency validation is a later category-6 stage",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
       "registry_resource_tier": null,
@@ -23098,7 +25277,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "local-feasibility-attack-plus-primary-source-review",
+      "classification_basis": "verified-causal-monitoring-and-accounting-mechanics-plus-external-workload-gate",
       "classified_stage": "smallest scientifically meaningful falsification attack, before a scale campaign",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -23107,7 +25286,14 @@
       },
       "evidence_refs": [
         "local:EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
-        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md"
+        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
+        "local:proof/P9_ACCOUNTING_MECHANICS.json",
+        "local:proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+        "local:configs/experiment/p9_causal_monitoring_preflight.yaml",
+        "local:src/mop/studies/p9_accounting.py",
+        "local:src/mop/studies/p9_causal_monitoring.py",
+        "local:scripts/p9_causal_monitoring_preflight.py",
+        "local:docs/P9_CAUSAL_MONITORING_PREFLIGHT.md"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -23148,9 +25334,9 @@
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Calibrated workspace and operational self-model",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "telemetry logging, intervention hooks, and calibration implementation",
-      "primary_category": 2,
-      "primary_category_label": "locally runnable after implementation",
+      "primary_blocker": "obtain independent natural workload and failure episodes with prospectively registered telemetry, real bounded interventions, and replicated held-out calibration",
+      "primary_category": 3,
+      "primary_category_label": "locally runnable after data or rights intake",
       "promotion_blocker": null,
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
       "registry_resource_tier": null,
@@ -23358,7 +25544,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "local-feasibility-attack-plus-primary-source-review",
+      "classification_basis": "verified-causal-monitoring-and-accounting-mechanics-plus-external-workload-gate",
       "classified_stage": "smallest scientifically meaningful falsification attack, before a scale campaign",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -23367,7 +25553,14 @@
       },
       "evidence_refs": [
         "local:EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
-        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md"
+        "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
+        "local:proof/P9_ACCOUNTING_MECHANICS.json",
+        "local:proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+        "local:configs/experiment/p9_causal_monitoring_preflight.yaml",
+        "local:src/mop/studies/p9_accounting.py",
+        "local:src/mop/studies/p9_causal_monitoring.py",
+        "local:scripts/p9_causal_monitoring_preflight.py",
+        "local:docs/P9_CAUSAL_MONITORING_PREFLIGHT.md"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -23408,9 +25601,9 @@
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Full-system performance-density accounting",
       "post_blocker_local_rung": "L0",
-      "primary_blocker": "local end-to-end ingest/cache/train/eval/retry/storage accounting implementation, with energy explicitly estimated",
-      "primary_category": 2,
-      "primary_category_label": "locally runnable after implementation",
+      "primary_blocker": "run the implemented accountant over independent natural end-to-end workloads and failures; attach a meter with an explicit system boundary before any energy claim",
+      "primary_category": 3,
+      "primary_category_label": "locally runnable after data or rights intake",
       "promotion_blocker": "instrumented comparable wall energy requires a plug-level meter or equivalent category-6 measurement boundary",
       "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
       "registry_resource_tier": null,
@@ -25474,7 +27667,7 @@
   "rung_definitions": {
     "L0": {
       "kind": "current-local",
-      "summary": "M3 Pro bounded shard, one heavy process, 180 minutes, 40 GB free-disk floor"
+      "summary": "M3 Pro bounded shard, one heavy process, 300 minutes, 40 GB free-disk floor"
     },
     "L1": {
       "kind": "current-local-resumable",
@@ -25502,16 +27695,15 @@
     }
   },
   "schema": "mop-extended-compute-requirements/v1",
-  "scope": "all 197 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
+  "scope": "all 227 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
   "scope_counts": {
     "candidate_frontier": 17,
-    "current_registry": 197,
+    "current_registry": 227,
     "expansion_workstream": 12,
     "proposed_F21_F66": 46,
     "research_pillar": 19
   },
   "self_verification": {
-    "additional_frontiers": 1,
     "authoritative_receipt_checks_passed": true,
     "category_8_or_9_rows": 0,
     "decision_counts_derived": true,
@@ -25525,19 +27717,21 @@
       "specification_only_category9_rejected": true
     },
     "passed": true,
-    "prompt_frontiers_expected": 16,
+    "prompt_required_sections_covered": 10,
+    "prompt_required_sections_expected": 10,
     "proposed_F21_F66_covered": 46,
     "proposed_F21_F66_expected": 46,
-    "registry_covered": 197,
-    "registry_expected": 197,
-    "registry_id_sha256": "c9da139beaddf87de48adca66bb39b279e3acb35547aaf048f2a0ef58afc8b9e",
+    "registry_covered": 227,
+    "registry_expected": 227,
+    "registry_id_sha256": "53de3591be3ba7e8eeb7bf644e6b57063ee8d3a615898976b007b8fb7404b1c6",
     "research_pillars_covered": 19,
     "research_pillars_expected": 19,
-    "row_count": 291,
+    "row_count": 321,
     "row_referenced_json_audits_passed": true,
-    "stale_artifacts_detected": 3,
+    "stale_artifacts_detected": 0,
     "stale_artifacts_excluded_from_row_evidence": true,
-    "unique_row_ids": 291,
+    "thematic_frontiers_matrix_count": 17,
+    "unique_row_ids": 321,
     "workstreams_covered": 12,
     "workstreams_expected": 12
   },
@@ -25545,11 +27739,7 @@
   "stale_evidence_policy": {
     "all_stale_artifacts_excluded_from_row_evidence": true,
     "handling": "excluded from authoritative row evidence; retained only as byte-hashed audit inputs and generation-time context",
-    "known_stale_artifacts": [
-      "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "proof/ENCODER_SCALE_VITH_CPU_FORWARD.json",
-      "proof/ENCODER_SCALE_VITG_CPU_FORWARD.json"
-    ],
+    "known_stale_artifacts": [],
     "warning": "a raw hash of a stale generated artifact proves only the bytes audited, not the freshness of its embedded claims"
   }
 }

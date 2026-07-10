@@ -1,6 +1,6 @@
 {
   "schema": "mop-form-pre-studio-boundary/v1",
-  "created_at": "2026-07-10T07:05:01.039908+00:00",
+  "created_at": "2026-07-10T17:46:27.307023+00:00",
   "scope": "F1-F20 form-substrate campaign; this is not a project-wide boundary claim",
   "repo_root": "/Users/scammermike/Downloads/mop",
   "host": {
@@ -11,7 +11,7 @@
     "unified_memory_gb": 19.3,
     "mps_available": true,
     "disk_total_gb": 494.353,
-    "disk_free_gb": 97.457
+    "disk_free_gb": 91.909
   },
   "scorecard": {
     "schema": "mop-form-campaign-scorecard/v1",
@@ -295,6 +295,7 @@
       "local_ready": true
     }
   ],
+  "verified_studio_boundaries": [],
   "unproved_studio_boundaries": [],
   "beyond_studio_scope": [],
   "artifact_index": {
@@ -302,7 +303,12 @@
     "all_ok": true
   },
   "local_resources_exhausted": true,
-  "studio_is_only_remaining_hardware_boundary": true,
-  "ready_for_studio_handoff": true,
-  "all_ok": true
+  "studio_is_only_remaining_hardware_boundary": false,
+  "boundary_decision_reasons": [
+    "scientific verdict ledger is not ready",
+    "no measured and validated Studio hardware boundary exists",
+    "data, rights, environment, or provenance blockers remain"
+  ],
+  "ready_for_studio_handoff": false,
+  "all_ok": false
 }

@@ -6,13 +6,13 @@
     "f6_sensorimotor_form_closure": "environment mechanics and exact action controls are locally executable",
     "mop_cm10_action_forward_model": "the environment adapter and action-forward-model mechanics are locally executable"
   },
-  "elapsed_seconds": 1.716465,
+  "elapsed_seconds": 1.234355,
   "host": {
     "machine": "arm64",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "python": "3.12.13"
   },
-  "max_rss_bytes": 263176192,
+  "max_rss_bytes": 261210112,
   "profile": {
     "episodes": 24,
     "grid_size": 6,
@@ -37,7 +37,7 @@
     "e5_curiosity": "generalization beyond this programmatic ecology requires independent environments or trajectories",
     "f15_embodied_affordance_form": "natural-object affordance claims require rights-cleared embodied interventions",
     "f6_sensorimotor_form_closure": "natural sensorimotor or physical-embodiment claims require external evidence",
-    "mop_cm10_action_forward_model": "the registered claim still needs rendered action-conditioned observations with a citable substrate cache, the exact frozen V-JEPA 2-AC control, and the declared matched-compute unrolled-depth control"
+    "mop_cm10_action_forward_model": "the P7 successor now closes programmatic rendering, same-parent interventions, and matched controls; the registered scientific claim still needs independently sourced trajectories, an exact-referent action control, and replication"
   },
   "schema": "mop-local-action-environment-preflight/v1",
   "scientific_promotion_allowed": false,
@@ -446,10 +446,10 @@
       "sha256": "81ca4aa648efc3632c7636c9b5327febd0e94776d6dc6231e19f88795d62f09f"
     },
     {
-      "bytes": 18595,
+      "bytes": 18626,
       "exists": true,
       "path": "src/mop/studies/local_action_environment.py",
-      "sha256": "fbc45bec9ab9aa73dfa971096c6c564190894c985ffb62bc4e1975cceaa7e4d6"
+      "sha256": "dd4f843f90432179d14e40905f32fc03cc6b730d72c729ce57961a9260704f0d"
     },
     {
       "bytes": 1440,

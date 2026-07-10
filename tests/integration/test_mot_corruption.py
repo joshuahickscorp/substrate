@@ -3,9 +3,11 @@ no network, no real-cache reads (use_real_cache=False in the tiny cfg). Asserts 
 machinery structurally: identical corruption for both arms, FLOP matching, preregistered nulls,
 the noisy-TV guard and the destroyed-structure floor, and the corruption operators' identities."""
 
+import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import torch
 from omegaconf import OmegaConf
 
@@ -14,6 +16,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 import mop_dr14_corruption as dr14  # noqa: E402
 
 from mop.devices import resolve  # noqa: E402
+from mop.experiments.e6_dense_relational import build_mechanics_fixture  # noqa: E402
+from mop.substrate.cache_manifest import write_cache_manifest  # noqa: E402
+from mop.substrate.cache_tools import validate_cache  # noqa: E402
 
 DEV = resolve("cpu")
 
@@ -33,6 +38,7 @@ def _tiny_cfg():
         "bits": [32, 3],
         "noise_levels": [0.0, 1.0],
         "use_real_cache": False,
+        "use_dense_cache": False,
     }
     return OmegaConf.merge(dr14.default_cfg(), OmegaConf.create(over))
 
@@ -84,7 +90,7 @@ def test_fit_slope_recovers_linear_trend():
 def test_contract_declared():
     c = dr14.DR14Corruption().contract()
     assert c["null_hypothesis"] and c["baseline"] and c["ablation"]
-    assert c["tier"] == "cpu-now"
+    assert c["tier"] == "env-later"
 
 
 def test_dr14_runs_end_to_end(tmp_path):
@@ -128,3 +134,39 @@ def test_parse_seeds_forms():
     assert dr14.parse_seeds("0-2") == [0, 1, 2]
     assert dr14.parse_seeds("0,2") == [0, 2]
     assert dr14.parse_seeds("1") == [1]
+
+
+def test_dense_drop_runner_uses_one_nested_shared_view_for_both_arms(tmp_path):
+    fixture = build_mechanics_fixture(tmp_path / "fixture")
+    cache = Path(fixture["stores"]["learned"])
+    factors = json.loads((cache / "factors.json").read_text())
+    columns = factors.get("columns", factors)
+    labels = np.load(cache / "labels.npy", mmap_mode="r+")
+    labels[:] = np.asarray(columns["factor_a"], dtype="int64")
+    labels.flush()
+    manifest = json.loads((cache / "cache_manifest.json").read_text())
+    form = manifest["form"]
+    write_cache_manifest(
+        cache,
+        encoder_config=manifest["encoder_config"],
+        form_kind=form["kind"],
+        form_objective=form["objective"],
+        referent_scheme=form["referent_scheme"],
+        full_hash_arrays=True,
+    )
+    assert validate_cache(cache, citable=True) == []
+
+    cfg = _tiny_cfg()
+    cfg.allow_dense_fixture = True
+    cfg.dense_drop_fractions = [0.0, 0.25, 0.5, 0.75]
+    cfg.dense_channel_group_width = 2
+    cfg.epochs = 15
+    result = dr14.run_dense_drop_sweep(cfg, cache, seed=4)
+    assert "skipped" not in result
+    assert result["scientific_promotion"] is False
+    assert result["verdict_setting"] is False
+    assert result["shared_view_receipt"]["shared_corrupted_tensor_for_both_arms"] is True
+    masks = result["shared_view_receipt"]["masks"]
+    assert set(masks["0.250000"]["dropped_groups"]) < set(masks["0.500000"]["dropped_groups"])
+    assert len(result["acc_reasoning"]) == len(result["acc_single_pass"]) == 4
+    assert result["compute"]["matched"]["matched"] is True

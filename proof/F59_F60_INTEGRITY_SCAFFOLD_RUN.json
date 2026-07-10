@@ -1,6 +1,6 @@
 {
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-  "core_payload_sha256": "4142fd1ce8e482b241deb0509aaacb413907d6df833a178e65c1ecfde3c509a9",
+  "core_payload_sha256": "711eeb4a8a0dee09ebe96d6722cb30cfbb6e9f77247cde87ca6976783ad98fdd",
   "difficulty_calibration": {
     "bed": "binary fail-closed boundary",
     "calibrated": true,
@@ -2382,7 +2382,7 @@
   "implementation": [
     {
       "path": "registry/experiments.yaml",
-      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
       "path": "src/mop/substrate/events.py",
@@ -2390,7 +2390,7 @@
     },
     {
       "path": "src/mop/substrate/lifecycle.py",
-      "sha256": "3539835531cbcfa50881bca8baa5148392827bd42a58be8413b2c990a6b2e161"
+      "sha256": "2bdc54987741e507eda17835057febd76fce2b425da6abef8572becfe00b30e2"
     },
     {
       "path": "src/mop/falsification/verdict_gate.py",
@@ -2418,7 +2418,7 @@
       "live_implementation_checked": true
     },
     "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
-    "core_payload_sha256": "4142fd1ce8e482b241deb0509aaacb413907d6df833a178e65c1ecfde3c509a9",
+    "core_payload_sha256": "711eeb4a8a0dee09ebe96d6722cb30cfbb6e9f77247cde87ca6976783ad98fdd",
     "errors": [],
     "fresh_seed_challenges": [
       {
@@ -2512,7 +2512,7 @@
     "schema": "mop-integrity-scaffold-independent-verifier/v1",
     "verified": true
   },
-  "payload_sha256": "eee75ac9b93bc5210aa447adf63f44d034986e8d4e0fcaccc2fed3f2cd35684a",
+  "payload_sha256": "e7f997bab3db5f15abb50a485f6da7304149759b311fdf41c178d2539f4a902e",
   "schema": "mop-integrity-scaffold-run/v1",
   "scientific_scope": {
     "byte_level_history_erasure_claimed": false,

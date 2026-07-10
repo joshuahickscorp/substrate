@@ -1,0 +1,51 @@
+schema: mop-continual-million-event-preflight-config/v1
+profile_name: preregistered-smoke
+claim_scope: disk-backed programmatic continual-stream mechanics only; no capability claim
+null_hypothesis: >-
+  the bounded stream cannot preserve exact identity, atomic interruption recovery, deletion,
+  preregistered metric presence, and matched update budgets across abrupt and gradual schedules and
+  all three controls; a mechanics pass at 384 events does not reject any million-event capability null
+
+stream:
+  seed: 20260710
+  total_events: 384
+  chunk_events: 64
+  n_domains: 4
+  n_classes: 4
+  schedules: [abrupt, gradual]
+  gradual_width_events: 32
+  deletion_event: 144
+
+runner:
+  arms: [replay, no-replay, fresh-init]
+  checkpoint_every: 48
+  replay_capacity: 128
+  future_window_events: 48
+  threshold_window_events: 16
+  future_accuracy_threshold: 0.50
+  matched_updates_per_event: 2
+  interruption_after_events: 73
+
+no_heavy_guard:
+  maximum_events_per_stream: 512
+  maximum_total_arm_events: 4096
+  accelerator_required: false
+  model_weights_loaded: false
+
+preregistered_metrics:
+  - retention
+  - acquisition
+  - future_learnability
+  - stale_memory
+  - deletion
+  - resources
+
+full_run_gate:
+  target_events_per_stream: 1000000
+  minimum_independent_seeds: 5
+  schedules: [abrupt, gradual]
+  arms: [replay, no-replay, fresh-init]
+  require_independent_metric_verifier: true
+  require_atomic_interruption_replay: true
+  require_governor_lane_admission: true
+  hardware_promotion_from_this_smoke: false

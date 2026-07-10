@@ -3,7 +3,7 @@
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
   "config": {
     "path": "configs/experiment/sensing_scaffold_runs.yaml",
-    "sha256": "b6f4933d450c2e874d6a6cf6ef68d8679b890a23b131a08894e16df8fbd80e71"
+    "sha256": "bcd4c6982ec45cac6e04df76cfc560cd0b98bf1d814456a26bf99b4724785c0d"
   },
   "evidence_class": "R1 independently re-executed programmatic toy mechanics",
   "fresh_units": [
@@ -224,7 +224,7 @@
     "changed_metric": true,
     "changed_seed": true
   },
-  "payload_sha256": "cce4c0e3e1fb337c8cbe47c6cdab98794fd6f5bc3633179deb00b7efdcccfbe9",
+  "payload_sha256": "2387bdee4c14da31981b0f7446a16ce59c13b6d2ea55b9eb82e35e807a7da2b2",
   "per_experiment": {
     "f21_asynchronous_temporal_binding": {
       "fresh_seed_count": 5,
@@ -258,8 +258,8 @@
   "problems": [],
   "run_receipt": {
     "path": "proof/SENSING_SCAFFOLD_RUN.json",
-    "payload_sha256": "45ace11482bf586354e053aa44ef25cca5f32f069fa86cf0401de0ba98571014",
-    "sha256": "cc357375a16638f76995854ab5c1db92eaefbcc125f48a5a80f6327229bbc1d7"
+    "payload_sha256": "f17cb2d240b104636865c7cacf03f3080da3f9d0c66e2023f9bb1e08a23678ee",
+    "sha256": "870a3b81ba436fff9f70b63df87917b3b07ee8537ce33a3995452d7f10e3a5f6"
   },
   "schema": "mop-sensing-scaffold-verifier/v1",
   "scientific_capability_claim": false

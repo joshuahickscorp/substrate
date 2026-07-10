@@ -45,7 +45,7 @@ complete; all episode splits were disjoint.
 | F6 | observation -> chosen action -> next-state records, costs, boundaries, exact action-blind and action-shuffle construction | natural sensorimotor or physical embodiment |
 | F15 | paired alternative consequences, state-conditioned affordances, stable entity refs, passive and shuffled-consequence controls | affordances of natural objects under real interventions |
 | E5 | actual learnable and noisy-TV trajectory regions with replay-stable hidden sensor variation | generalization to independent ecologies or natural trajectories |
-| CM10 | train/test episode split, same-shape true/blind/shuffled forward models, matched planner calls, and execution on true local dynamics | rendered observations, a citable substrate cache, frozen V-JEPA 2-AC on the exact referents, and the declared substrate depth control |
+| CM10 | train/test episode split, same-shape true/blind/shuffled forward models, matched planner calls, and execution on true local dynamics; P7 now adds rendering, same-parent branches, eight arms, and equal-core ledgers | independently sourced trajectories, an exact-referent action control, and predeclared replication |
 | E10 | persistent action mechanics | population search, environment generation, sustained non-plateau evaluation, and cross-environment transfer |
 
 E5 is therefore `cpu-now`. CM10 is no longer blocked on an environment adapter; it is now

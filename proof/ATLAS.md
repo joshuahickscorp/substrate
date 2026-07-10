@@ -1,10 +1,10 @@
 # The Representational Atlas (index + how to read it)
 
-The atlas is the empirical floor under the whole program. It maps what each frozen
-V-JEPA 2 encoder (ViT-L / ViT-H / ViT-g) linearly and nonlinearly affords, factor by
-factor, including the factors that are NOT decodable. It is the linear-probe gate every
-mechanism claim already depends on, systematized into a browsable reference. Nothing
-downstream is trusted past what the atlas shows is there.
+The atlas is the empirical floor under the whole program. It maps what each registered frozen
+control, official dense ViT-B instrument, or owned substrate linearly and nonlinearly affords,
+factor by factor, including the factors that are NOT decodable. It is the linear-probe gate every
+mechanism claim already depends on, systematized into a browsable reference. Nothing downstream is
+trusted past what the atlas shows is there.
 
 Form follows BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses
 only). No agency, intelligence, understanding, consciousness, sentience, or self
@@ -13,10 +13,10 @@ language. The encoder is frozen and never trained. Vocabulary is engineering onl
 
 This file is the INDEX and the READING GUIDE. Publication rows live as machine-readable JSON
 under `atlas/<encoder>/<factor>.json` and are summarized in `atlas/atlas_summary.csv`.
-The current local scale pilot lives separately at `VJEPA_SCALE_ATLAS_LOCAL.json`: it verifies
-serial execution and shared-referent mechanics for all three published V-JEPA 2 scale points,
-but does not populate promotable factor rows because n=8 programmatic stimuli and the incomplete
-matched-control set do not meet this file's evidence standard.
+The retired inherited-scale pilot lives separately as an immutable historical receipt. It verifies
+serial execution and shared-referent mechanics only. It does not populate live factor rows because
+its eight programmatic stimuli, weak held-out cells, and absent natural-data power do not meet this
+file's evidence standard.
 
 ## How to read a row
 
@@ -41,7 +41,7 @@ the reported numbers within tolerance.
 ## The factor list (frozen here so the Studio only populates, never invents)
 
 These are the factors the atlas probes. The first three (identity, action, relation)
-are the minimum-viable atlas (Section 10.9 MVP) and gate the first mechanism cards. The
+are the minimum-viable atlas and gate the first mechanism cards. The
 rest extend coverage. "Not decodable" is a first-class, expected outcome for several of
 these on a pooled (per-clip, non-dense) substrate.
 
@@ -65,7 +65,7 @@ mechanism claim is void and the result is a substrate bound, not a mechanism fai
 ## The atlas row schema (each `atlas/<encoder>/<factor>.json`, fields exact)
 
 ```
-encoder:        vjepa2_vitl_fpc64_256 | vjepa2_vith | vjepa2_vitg
+encoder:        registered ViT-B | pooled control | owned artifact id
 factor:         identity | action | controllability | relation | permanence | count |
                 intervention_effect | cross_modal_correspondence | motion | temporal_order
 linear_acc:     probe accuracy (linear), with CI
@@ -78,10 +78,10 @@ repro_level:    R0..R5
 raw_run_id:     run hash + config path
 ```
 
-A template row lives at `atlas/_TEMPLATE.factor.json`. The per-encoder directories
-(`vjepa2_vitl_fpc64_256/`, `vjepa2_vith/`, `vjepa2_vitg/`) are reserved for one promotable
-JSON row per probed factor. Local availability and pilot geometry stay in their dedicated
-receipts until natural content, sample size, and matched controls clear the row gate.
+A template row lives at `atlas/_TEMPLATE.factor.json`. Each live registered substrate gets one
+directory and at most one promotable JSON row per probed factor. Retired scale directories remain
+historical only. Availability and pilot geometry stay in dedicated receipts until natural content,
+sample size, and matched controls clear the row gate.
 
 ## The summary matrix
 
@@ -101,9 +101,9 @@ launch, R4 (third-party Mac repro) soon after.
 
 ## Minimum-viable vs gold-standard
 
-- MVP: ViT-L only, on the EPIC 5k licensed shard, linear-probe rows for
-  identity/action/relation, plus the E1 and EX12 null cards, plus one
+- MVP: official dense ViT-B plus the pooled control on one rights-clean development shard,
+  linear-probe rows for identity/action/relation, matched random controls, and one
   reproduce-one-plot path.
-- Gold: all three encoders, all factors including the "not decodable" rows, linear and
-  nonlinear probes, the full E and EX null-card gallery with third-party reruns, a
-  citable corpus tag, and the obituary appendix.
+- Gold: official dense and independently verified owned substrates, all factors including the
+  "not decodable" rows, linear and nonlinear probes, the full null-card gallery with independent
+  reruns, a citable corpus tag, and the obituary appendix.

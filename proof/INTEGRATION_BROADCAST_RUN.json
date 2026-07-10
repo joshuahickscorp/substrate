@@ -17,9 +17,9 @@
   },
   "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
   "config": {
-    "bytes": 1214,
+    "bytes": 1328,
     "path": "configs/experiment/integration_broadcast_runs.yaml",
-    "sha256": "6ed71093ad4b32ded1849eae009a5ced983b4fec3303036acb48bb430475f404"
+    "sha256": "4cd8e2114853ef741fb2788d7f1b04cb4663b32c33ba92246dec85211a7ef4b0"
   },
   "evidence_class": "R1 deterministic programmatic toy execution",
   "favorable_experiments_requiring_fresh_verification": [
@@ -753,7 +753,15 @@
     "the exact unrestricted-bus tie makes f37 a null and cannot support sufficiency",
     "a favorable necessity pattern remains programmatic mechanics only"
   ],
-  "payload_sha256": "f34f30aec7f8b35f6b2506e31c7a6c06a114c663803ab26bba166b59cbb1b4d0",
+  "null_contract": {
+    "aggregate": "limited broadcast fails a necessity or sufficiency gate against the strongest matched comparator",
+    "per_experiment": {
+      "f36_limited_broadcast_necessity": "lesioning or delaying the limited broadcast link does not hurt shared-task performance beyond the unrestricted-bus and message-shuffled controls, so the link is not necessary",
+      "f37_broadcast_sufficiency": "at matched compute at least one comparator matches or beats the limited-broadcast arm on shared-task performance, so limited broadcast is not selectively sufficient"
+    },
+    "per_experiment_sha256": "3d715b9ae5ef3cf79c66cc644951ec57401c4635b9ccbe6c92660cdcbc96c45f"
+  },
+  "payload_sha256": "99edf62bb3aeef6dcd70fd603c5474a54ed2fa6f59e81e631dfe1d9d3ffd60d0",
   "registry_bindings": {
     "f36_limited_broadcast_necessity": {
       "controls": [
@@ -770,7 +778,7 @@
         "delta_vs_unrestricted_bus"
       ],
       "null_hypothesis": "lesioning or delaying the limited broadcast link does not hurt shared-task performance beyond the unrestricted-bus and message-shuffled controls, so the link is not necessary",
-      "row_sha256": "c31b9f1a2929fdd53580d391c5a1096844fd42b9322d970d6b9f15481cd7f936",
+      "row_sha256": "83ae0ca89e626ca1956e538178092def46323148bd0042c8cb72d7bbd7c35065",
       "status": "registry-only"
     },
     "f37_broadcast_sufficiency": {
@@ -801,14 +809,14 @@
   "scientific_capability_claim": false,
   "source_receipts": [
     {
-      "bytes": 1214,
+      "bytes": 1328,
       "path": "configs/experiment/integration_broadcast_runs.yaml",
-      "sha256": "6ed71093ad4b32ded1849eae009a5ced983b4fec3303036acb48bb430475f404"
+      "sha256": "4cd8e2114853ef741fb2788d7f1b04cb4663b32c33ba92246dec85211a7ef4b0"
     },
     {
-      "bytes": 340982,
+      "bytes": 341090,
       "path": "registry/experiments.yaml",
-      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+      "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
       "bytes": 51394,
@@ -816,14 +824,14 @@
       "sha256": "3ccf2f90ec74aec4033e5f9567ed06f1d70a612802a60b680a39750d5808688b"
     },
     {
-      "bytes": 20027,
+      "bytes": 21099,
       "path": "src/mop/studies/integration_broadcast_runs.py",
-      "sha256": "7c07443ebf59ce3df04580ed3a690b97683fc1cd9dccd73738fbab25fddf2d8e"
+      "sha256": "7710438bc0ce308117390c9d6e693d73457189589ce8f31cb2fb5d7acf0ed8ef"
     },
     {
-      "bytes": 16463,
+      "bytes": 17710,
       "path": "src/mop/studies/integration_broadcast_verify.py",
-      "sha256": "3a7b2c5926a7a297e4974e5383d87c36fabc3702e77e1f833efa928230cd68ec"
+      "sha256": "0d174ce82697f6f85c36e570912cd2c59fbb6224207f1ef731f6b63903fabbd3"
     },
     {
       "bytes": 768,
@@ -836,9 +844,9 @@
       "sha256": "c3c2d4d47eb0413e70b13e819df07e8ed12768b6438f65c503e600ef24c9915e"
     },
     {
-      "bytes": 2861,
+      "bytes": 4257,
       "path": "tests/unit/test_integration_broadcast_runs.py",
-      "sha256": "32a9b0c089c7169d433d1ab657c2a290d98a1c5f1224f10fdc59f7f4fa3bbc8b"
+      "sha256": "7a4dee7652dec247199d2dc6f9bd336db816ae06d52650b01d534be7d56bef77"
     }
   ]
 }

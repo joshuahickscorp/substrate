@@ -31,7 +31,7 @@ Standing rules:
   ~50MB each, ~10GB batched, which OOMs the box and kills the encode. Streaming per clip is mandatory.
 - Disk was measured at 51GB free. That is above the current derived 40GB floor (10GB OS reserve +
   25GB maximum pending download + 5GB working headroom); the earlier 60GB round-number policy is
-  superseded. ViT-H and ViT-g are now fully staged within the 25GB hard cap. New large downloads and
+  superseded. Retired inherited-scale shards remain archive-only. New large downloads and
   big LLMs remain gated by that cap and the one-encoder-at-a-time rule. Allowed small downloads include
   DINOv2-S ~90MB, a <=2GB small LLM,
   wav2vec2-base ~400MB. All small downloads are STAGED: they back up and transfer to the Studio.

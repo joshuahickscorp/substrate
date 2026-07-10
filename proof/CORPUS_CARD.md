@@ -5,10 +5,10 @@ weakening the release. The license ledger is the release blocker until clean. Fo
 BLACKHOLE.md: no em dashes; engineering vocabulary only. The encoder is frozen, so these
 latents never go stale.
 
-This is a STUB carrying the Section 10.10 field list. The Studio fills the real values
-once the permanent multi-encoder pooled corpus is built. Until then the only real cached
-latents on record are the 96-clip ViT-L probe cache (`data/cache/vjepa2_vitl_fpc64_256_real/`,
-shape (96, 1024) float32, 6 classes, linear-probe acc 1.0 on record).
+This is a STUB carrying the citable field list. A corpus release fills the real values only after
+source authority and an untouched evaluation split exist. Historical pilot caches remain evidence
+of mechanics, not members of the live corpus. Current intake targets official dense ViT-B, a pooled
+control, and independently verified owned artifacts over exact shared referents.
 
 ```yaml
 sources:            # per source: slug, license state, subset size
@@ -27,25 +27,28 @@ sources:            # per source: slug, license state, subset size
   - slug:        kinetics700_subset
     license:     metadata-only by default (ID/label CSVs open; video via licensed mirror)
     subset_size: CSVs only on laptop
-encoders:           # verified HF ids, embed dims
-  - id: vjepa2_vitl_fpc64_256   # facebook/vjepa2-vitl-fpc64-256
+encoders:           # exact registered ids, roles, dimensions, and authority receipts
+  - id: vjepa21_vitb
+    role: official_dense
+    embed_dim: 768
+  - id: vjepa2_vitl_fpc64_256
+    role: pooled_control
     embed_dim: 1024
-  - id: vjepa2_vith             # facebook/vjepa2-vith-fpc64-256
-    embed_dim: 1280
-  - id: vjepa2_vitg             # facebook/vjepa2-vitg-fpc64-384
-    embed_dim: 1408
+  - id: owned_artifact_id
+    role: project_owned
+    embed_dim: TBD
 encoder_hashes:     TBD (weight hash per encoder, so a reader knows the exact frozen substrate)
 preprocessing:
   frame_count:      64 (canonical) ; smaller frame counts tagged as throughput-lane caches
-  resolution:       256 (L/H) / 384 (g)
+  resolution:       per registered encoder and immutable input manifest
   pooling:          pooled = latents + duplicated keys
 latent_schema:
   shape:            [n_clips, embed_dim]
   dtype:            float32
-  per_clip_pooled:  ~8 KB (L) / ~10 KB (H) / ~11 KB (g)
-  backend_tag:      vjepa_hf
+  per_clip_bytes:   computed from exact token count, embed_dim, dtype, keys, and labels
+  backend_tag:      exact backend or owned-artifact identity
 seeds:              TBD (the seed set used across the campaign)
-storage_size:       pooled store across encoders is a few GB even at 100k clips
+storage_size:       measured and projected per registered substrate before allocation
 known_defects:      corrupt-file isolation, empty-class handling, short-clip handling (validator-enforced)
 license_ledger:     see runs/studio_pipeline/latest/license_ledger.md once a plan is run
 repro_level:        R0  (target R5 with a corpus tag/DOI if licensing allows)

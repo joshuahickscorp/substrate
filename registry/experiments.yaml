@@ -147,25 +147,25 @@ experiments:
     name: Relational map over latents
     kind: experiment
     series: E
-    question: does a structured/relational head beat a flat baseline, and more on 2.1-dense than on 2
-    mechanism: structured (pairwise) vs flat head on 2 vs 2.1 encoders (fail closed until a verified local dense cache exists)
-    null_hypothesis: structured head ties parameter-matched flat baseline; gain on 2.1 not larger than on 2 (pooled latent lacks object factorization)
-    falsifier: structured recombination accuracy within seed spread of flat at matched params
-    metrics: [recombination_generalization, planning_success, dense_delta]
-    controls: [parameter-matched-flat, frozen-random-substrate]
+    question: do frozen learned ViT-B token positions support held-out factor recombination beyond token-blind, shuffled-position, and exact-architecture random-init controls
+    mechanism: fixed token-position bins and bounded frozen projections over one byte-identical learned/random official ViT-B cache pair, with separate factor heads on disjoint combination splits
+    null_hypothesis: the learned token-aware readout ties the strongest parameter-matched learned-flat, token-shuffle, or exact-architecture random-init control on held-out combinations
+    falsifier: the conservative learned-minus-strongest-control confidence bound is nonpositive, changes sign, reaches ceiling, or loses position specificity
+    metrics: [dense_primary_delta, position_specificity_delta, scientific_promotion]
+    controls: [parameter-matched-learned-flat, token-shuffle, exact-architecture-random-init, immutable-heldout-combinations]
     gates: [linear_probe]
-    resource_tier: weights-needed
-    exp_tier: 2.1-only
-    runtime_class: minutes
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: hours
     difficulty: high
     sci_value: high
     meaningless_risk: medium
-    relation: pooled precursor is EX9; official 2.1 weights exist, full dense path needs local ViT-B integration and a citable cache
+    relation: official local ViT-B strict load plus 8-frame and 64-frame CPU forward are verified; registered E6 is cache-first with no legacy fallback, and now waits on a rights-clean annotated natural task cohort plus serial learned/random cache materialization, not Studio hardware
     capacity_rungs: [2, 7]
     paradigm_slugs: [object_slot_probe]
     taxonomy_slot: 3
-    status: deferred
-    proof: {atlas_factor: relation, null_card: "proof/NULL_CARDS/e6.md", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: relation, null_card: "proof/NULL_CARDS/e6.md", evidence_level: R1, path: "proof/E6_VITB_DENSE_PREFLIGHT.json"}
 
   - id: e7_sparse
     name: Sparse / modular predictor
@@ -3349,21 +3349,21 @@ experiments:
     mechanism: "degrade cached latents (VQ, 4-bit quantize_dequantize, noise, dropped-channel), run each surviving primitive and the matched single-pass baseline under identical corruption, compare slopes"
     null_hypothesis: "reasoning and single-pass degrade at the same rate under every corruption: iteration only processes what survives"
     falsifier: "equal slopes"
-    metrics: [accuracy_vs_corruption_slope]
-    controls: [baseline-matched-single-pass, noisy-tv, quantize-robustness-controls]
+    metrics: [accuracy_vs_corruption_slope, dense_drop_slope, scientific_promotion]
+    controls: [baseline-matched-single-pass, noisy-tv, quantize-robustness-controls, identical-shared-dense-view, nested-channel-groups]
     gates: [noisy_tv, compute]
-    resource_tier: weights-needed
+    resource_tier: environment-needed
     exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: medium
     meaningless_risk: medium
-    relation: "laptop runs the VQ/4-bit/noise arms; the registered dropped-channel arm is not yet implemented and first needs a citable dense-token cache"
+    relation: "local runner implements VQ, quantize, noise, and deterministic nested dropped-channel arms; the dense arm consumes one strict frozen ViT-B cache and shares each exact view across matched reasoning controls, while natural task data and independent verification remain environment gates"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
     status: registry-only
-    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1, path: "proof/E6_VITB_DENSE_PREFLIGHT.json"}
 
   - id: mop_dr15_modality_general
     name: modality_general_reasoning
@@ -4161,25 +4161,25 @@ experiments:
     name: action_conditioned_forward_model
     kind: experiment
     series: CM
-    question: "does a trainable action-conditioned model enable planning beating reactive, action-shuffle, unrolled depth, and frozen V-JEPA 2-AC"
-    mechanism: "action-conditioned forward model on frozen latents; planning vs the four controls at matched compute"
+    question: "does a trainable action-conditioned model enable planning beating reactive, action-shuffle, unrolled depth, and an exact-referent external action control"
+    mechanism: "action-conditioned forward model on project-owned rendered state/action features; planning vs reactive, shuffled-action, matched-depth, oracle, and exact-referent external controls at matched compute"
     null_hypothesis: "action-shuffle ties the true-action forward model on planning success: the model ignores actions and is a plain video predictor"
     falsifier: "action-shuffle ties true-action"
     metrics: [planning_success_on_true_dynamics]
-    controls: [baseline-reactive-plus-unrolled-depth-plus-vjepa2ac, action-shuffle, matched-compute]
+    controls: [baseline-reactive-plus-unrolled-depth, exact-referent-external-action-control, action-shuffle, matched-compute]
     gates: [compute]
-    resource_tier: weights-needed
+    resource_tier: environment-needed
     exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: medium
     meaningless_risk: medium
-    relation: "the local environment/trajectory adapter and bounded action-forward mechanics now execute; the registered substrate claim still needs rendered action observations, a citable substrate cache, and the exact frozen V-JEPA 2-AC control"
+    relation: "the P7 project-owned rendered action/world-model surface now executes all eight arms over three independent fixture worlds and supports the null; the registered scientific claim still needs independently sourced action trajectories, an exact-referent control, and predeclared replication"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 7
     status: registry-only
-    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_ACTION_ENVIRONMENT.json"}
+    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R1, local_preflight: "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json"}
 
   - id: mop_cm11_developmental_plasticity
     name: developmental_scheduled_plasticity
@@ -4708,3 +4708,726 @@ experiments:
     taxonomy_slot: 4
     status: implemented
     proof: {atlas_factor: crisis_detection, null_card: "none", evidence_level: R0}
+
+# Staged F-series expansion rows (F21-F66 subset built by the 2026-07-10 scaffold consolidation).
+# NOT loaded by any driver. Landing sequence: docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md section 4.
+# Each row is schema-shaped for registry/experiments.yaml (status registry-only, evidence R0).
+
+  - id: f61_physical_reservoir_digital_twin
+    name: physical_reservoir_digital_twin
+    kind: experiment
+    series: F
+    question: "can a single shared digital-twin interface (excitation, time, readout, adaptation, drift, damage, repair, energy, lineage) host three distinct toy material priors and expose them behind one machine-checkable contract"
+    mechanism: "define a MaterialTwin protocol plus TwinInterfaceContract validator; implement a leaky echo-state reservoir, a decaying-conductance memristive-like map, and an oscillator bank as tiny seeded numpy priors, each carrying hash-linked operation lineage and an energy proxy"
+    null_hypothesis: "no shared interface survives all three priors without a per-prior special case, or the priors are nondeterministic under seed, so a common physical-reservoir twin is not established"
+    falsifier: "a preregistered run shows the three priors satisfy the identical interface contract, reproduce bit-stable readouts under seed, and emit consistent lineage and energy accounting without a per-prior branch"
+    metrics: [interface_conformance_rate, seed_reproducibility_rate, lineage_digest_stability, energy_accounting_monotonicity]
+    controls: [random-reservoir-arm, shape-mismatch-reject, tampered-lineage-reject]
+    gates: [determinism, difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "BM3 and BM4 shared-protocol precursor; supplies the twin interface that f62 to f66 and the F-series material lane build on; scaffolding only, no native-dynamics advantage claimed"
+    capacity_rungs: [1]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: physical_reservoir_twin, null_card: "none", evidence_level: R0}
+  - id: f62_material_native_dynamics_value
+    name: material_native_dynamics_value
+    kind: experiment
+    series: F
+    question: "does a material prior add replicated value over tuned conventional controls at matched full-system cost, or does the retain-only rule discard it"
+    mechanism: "declare a NativeDynamicsValueContract with a covering set of tuned control families (tuned-rnn, state-space-model, random-reservoir, fourier-features, associative-memory), matched-budget declarations, a retain-only win vocabulary (cross-task-future-learnability, capability-density), and a replication floor; the contract fails closed unless matched cost and replication are required"
+    null_hypothesis: "the material prior fails to beat every tuned matched-cost control on a retained win, or the win does not replicate, so native-dynamics value is not established"
+    falsifier: "a preregistered comparison shows a material prior beats all declared tuned controls at matched params, FLOPs, memory, and updates on a retain-only win, replicated across at least the declared minimum of independent seeds"
+    metrics: [matched_cost_gap, retained_win_margin, replication_count, control_family_coverage]
+    controls: [tuned-rnn, state-space-model, random-reservoir, fourier-features, associative-memory]
+    gates: [compute, seed_consistency, difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "BM1 closure-test scaffolding; encodes the map-motif-to-function-falsifier-control-cost and retain-only rules as a fail-closed contract; declares controls, does not implement them"
+    capacity_rungs: [9]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: native_dynamics_value, null_card: "none", evidence_level: R0}
+  - id: f63_drift_and_aging_adaptation
+    name: drift_and_aging_adaptation
+    kind: experiment
+    series: F
+    question: "when a twin's parameters age under a declared drift model, does a declared adaptation policy retain function better than no-adapt, oracle-reset, and full-retraining controls"
+    mechanism: "declare a DriftAdaptationContract (drift model, adaptation policy, controls no-adapt/oracle-reset/full-retraining, metrics drift_rate/adaptation_lag/retained_function/energy) and wire per-prior apply_drift multiplicative-decay mechanics that record aging in the hash-linked lineage"
+    null_hypothesis: "adaptation does not retain function above the no-adapt floor at lower cost than oracle-reset or full-retraining, so drift-aware adaptation is not established"
+    falsifier: "a preregistered aging schedule shows the adaptation policy retains function above no-adapt and below the energy of full-retraining, with a bounded adaptation lag, across seeds"
+    metrics: [drift_rate, adaptation_lag, retained_function, adaptation_energy]
+    controls: [no-adapt, oracle-reset, full-retraining]
+    gates: [determinism, seed_consistency]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "BM3 drift arm; extends the f61 twin with an aging contract and lineage-recorded drift mechanics; no claim of biological aging equivalence"
+    capacity_rungs: [6]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: drift_aging_adaptation, null_card: "none", evidence_level: R0}
+  - id: f64_damage_and_reattachment_recovery
+    name: damage_and_reattachment_recovery
+    kind: experiment
+    series: F
+    question: "can a twin restore selectively lesioned function under novel inputs more efficiently than restart or fixed spare capacity"
+    mechanism: "declare a DamageRepairContract (controls fixed-final/restart/spare/random/full-retraining, metrics repair_time/restored_function/future_plasticity/energy/topology_change, selective-lesion and restoration-under-novelty required) plus a deterministic selective_lesion_delta probe over the twin priors; contract fails closed on control drift, diffuse lesions, or dropped novelty requirement"
+    null_hypothesis: "no repair policy restores selectively lesioned function under novel inputs above the fixed-final and restart controls at lower cost than full-retraining, so restoration-without-retraining is not established"
+    falsifier: "a preregistered selective-lesion probe shows a repair policy restores function under novel inputs above fixed-final and restart at lower energy than full-retraining, replicated across seeds"
+    metrics: [repair_time, restored_function, future_plasticity, repair_energy, topology_change]
+    controls: [fixed-final, restart, spare, random, full-retraining]
+    gates: [difficulty_calibration, seed_consistency, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "BM2 closure-test scaffolding; supplies the shared damage-repair twin and selective-lesion contract; physical repair confirmation stays gated to external specimens"
+    capacity_rungs: [6]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: damage_repair_recovery, null_card: "none", evidence_level: R0}
+  - id: f65_specimen_to_specimen_transfer
+    name: specimen_to_specimen_transfer
+    kind: experiment
+    series: F
+    question: "does a fitted readout carry from one physical specimen to another above within-specimen and random-specimen controls, and is that physical transfer refused by local code"
+    mechanism: "declare a SpecimenTransferContract (source and target specimens, independent randomization, transfer metric, controls within-specimen/random-specimen/full-refit) behind an ExternalSpecimenGate whose authorize_local always raises ExternalSpecimenRefusal, so pass_locally cannot execute physical transfer in-process"
+    null_hypothesis: "readout transfer between specimens does not exceed within-specimen and random-specimen controls, or the contract permits local physical execution, so specimen-to-specimen transfer is not established and not safely gated"
+    falsifier: "an external lab, under independent per-specimen randomization and multiple specimens, shows readout transfer above both controls, while local code continues to refuse the physical gate"
+    metrics: [transfer_margin_over_within, transfer_margin_over_random, refit_cost_ratio, gate_refusal_enforced]
+    controls: [within-specimen, random-specimen, full-refit]
+    gates: [difficulty_calibration]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: external
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "BM4 bench-handoff arm; encodes specimen-to-specimen transfer as a fail-closed gated contract; physical work quarantined behind the external-specimen refusal, never run locally"
+    capacity_rungs: [9]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: specimen_transfer, null_card: "none", evidence_level: R0}
+  - id: f66_cross_substrate_form_portability
+    name: cross_substrate_form_portability
+    kind: experiment
+    series: F
+    question: "can a readout fitted on one simulated form be carried to a distinct form at lower refit cost than identity, random-remap, and full-retrain controls"
+    mechanism: "declare a CrossSubstratePortabilityContract (distinct source and target forms, portability metric, controls identity/random-remap/full-retrain) over the twin priors; this arm is simulation-portable and runs locally, unlike the physical specimen gate"
+    null_hypothesis: "a readout carried across simulated forms does not beat the identity and random-remap controls at lower refit cost than full-retrain, so cross-form portability is not established"
+    falsifier: "a preregistered cross-form carry shows lower refit cost than full-retrain and better retained function than identity and random-remap between two distinct priors, replicated across seeds"
+    metrics: [portability_refit_cost, retained_function_after_carry, identity_gap, random_remap_gap]
+    controls: [identity, random-remap, full-retrain]
+    gates: [seed_consistency, determinism, difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: seconds
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "BM3 binding-portability arm; the local, simulation-portable counterpart to the gated f65 physical transfer; no claim of device-level portability"
+    capacity_rungs: [8]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: cross_substrate_portability, null_card: "none", evidence_level: R0}
+
+  - id: f21_asynchronous_temporal_binding
+    name: asynchronous_temporal_binding
+    kind: experiment
+    series: F
+    question: "can a learned context-dependent binding window join same-event observations across declared arrival delay and jitter while rejecting shuffled-time pairs"
+    mechanism: "TemporalBindingContract over the Wave E0 delayed-sensor event: an early/late primary observation pair with positive arrival skew, a learned-window arm against the fixed-window baseline, and the wrong-time join probe as the shuffled-timing negative; the contract refuses windows below the declared skew or wide enough to admit the control (src/mop/substrate/sensing_scaffold.py)"
+    null_hypothesis: "the learned binding window ties the fixed window on binding F1 across delay and jitter, or it binds shuffled-time pairs, so context-dependent binding adds nothing over a constant"
+    falsifier: "the learned window beats the fixed-window baseline on binding F1 across declared delay and jitter while rejecting every shuffled-time control at three or more independent seeds"
+    metrics: [binding_f1_across_delay_and_jitter, shuffled_time_rejection_rate]
+    controls: [fixed-window-baseline, shuffled-timing, wrong-time, exact-replay]
+    gates: [difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "F21 candidate from FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md section 6.1; contract scaffold and deterministic fixture live in src/mop/substrate/sensing_scaffold.py (build_temporal_binding_contract); a scientific verdict is blocked on a rights-clean native audiovisual cohort (SR3 and EV4 gates)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: f26_cross_form_contradiction_triangulation
+    name: cross_form_contradiction_triangulation
+    kind: experiment
+    series: F
+    question: "when one of three or more forms reporting the same event is wrong, can the dissenting source be localized instead of averaged into the fused estimate"
+    mechanism: "ContradictionTriangulationContract over one Wave E0 event: three or more source reports with exactly one constructed dissent, seed-deterministic dissent placement, and preregistered majority-vote and mean-fusion baseline arms; the contract refuses ambiguous consensus, duplicate sources, or a designated dissenter that does not actually dissent (src/mop/substrate/sensing_scaffold.py)"
+    null_hypothesis: "source localization AUROC ties the raw per-source residual and the majority-vote and mean-fusion baselines, so contradiction handling reduces to averaging"
+    falsifier: "localization AUROC beats raw residual and both fusion baselines on held-out contradictions at three or more independent seeds"
+    metrics: [source_localization_auroc, fused_estimate_error]
+    controls: [majority-vote, mean-fusion, raw-residual, exact-replay]
+    gates: [difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "F26 candidate from FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md section 6.1; contract scaffold and deterministic fixture live in src/mop/substrate/sensing_scaffold.py (build_contradiction_contract); a scientific verdict needs at least three genuinely independent forms over shared referents (SR5 gate)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: cross_modal, null_card: "none", evidence_level: R0}
+
+  - id: f27_causal_crossmodal_binding
+    name: causal_crossmodal_binding
+    kind: experiment
+    series: F
+    question: "does intervention identify real cross-form correspondence beyond what synchrony alone predicts"
+    mechanism: "CausalCrossmodalBindingContract over the Wave E0 intervention fork: two or more same-parent-state branches with unique intervention identities, a temporal-correlation baseline arm, and the wrong-event join probe as the synchronous-but-unrelated negative; the contract refuses forks without a shared parent state, a unique chosen branch, or an overlapping-clock unrelated control (src/mop/substrate/sensing_scaffold.py)"
+    null_hypothesis: "the intervention-trained model ties the temporal-correlation model on unseen-intervention prediction, or it also binds the synchronous-but-unrelated pair, so intervention adds nothing beyond synchrony"
+    falsifier: "the intervention model beats the correlation baseline on unseen-intervention prediction while rejecting every synchronous-unrelated control at three or more independent seeds"
+    metrics: [unseen_intervention_prediction_error, synchronous_unrelated_rejection_rate]
+    controls: [temporal-correlation, wrong-event, synchronous-unrelated, exact-replay]
+    gates: [difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "F27 candidate from FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md section 6.1; contract scaffold and deterministic fixture live in src/mop/substrate/sensing_scaffold.py (build_causal_binding_contract); a scientific verdict is blocked on a native second form with interventions (SR3 plus the intervention plane)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 10
+    status: registry-only
+    proof: {atlas_factor: intervention_effect, null_card: "none", evidence_level: R0}
+
+  # Interactive ecology cluster (facets RA5, RA6, PA7, PA8, PA9). All rows registry-only: the
+  # machine-checkable contracts live in src/mop/environments/ecology_scaffold.py with unit tests in
+  # tests/unit/test_ecology_scaffold.py. No experiment has run; evidence stays R0.
+
+  - id: f22_active_form_acquisition
+    name: active_form_acquisition
+    kind: experiment
+    series: F
+    question: "does choosing the next observation family under declared sensing, motion, latency, and compute charges beat passive schedules on accuracy per sensor cost"
+    mechanism: "ActivePerceptionContract fixes costed choices among view, time, audio, and abstention; the information-gain arm is scored on area under the capability-cost curve against the declared acquisition controls on resampled bounded worlds"
+    null_hypothesis: "no matched-cost gain: the information-gain chooser fails to beat random, uncertainty, saliency, or full-observation acquisition on held-out worlds, or the gain vanishes when downstream training is untouched"
+    falsifier: "a preregistered costed chooser beats every acquisition control at matched charge with untouched downstream gain and cross-world transfer"
+    metrics: [capability_per_sensor_cost, acquisition_regret_vs_full_observation]
+    controls: [random-acquisition, uncertainty-acquisition, saliency-acquisition, full-observation]
+    gates: [compute, difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "RA6 local ceiling; scaffold contract ActivePerceptionContract in src/mop/environments/ecology_scaffold.py; deterministic toy fixture only, natural acquisition stays environment-gated"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 7
+    status: registry-only
+    proof: {atlas_factor: active_curriculum, null_card: "none", evidence_level: R0}
+
+  - id: f28_sensor_value_forecast
+    name: sensor_value_forecast
+    kind: experiment
+    series: F
+    question: "does a pre-cost expected-information-gain forecast rank the realized payoff of new observations better than entropy or historical-average baselines"
+    mechanism: "ValueForecastDeclaration requires the forecast to be committed before the sensing charge is paid; realized payoffs on the bounded-world fixture score payoff calibration against entropy, historical-average, and the mandatory post-hoc-value control"
+    null_hypothesis: "the forecast does not rank realized gains: entropy, historical average, or hindsight scoring matches or beats the committed forecast, so sensor value is not predictable before payment"
+    falsifier: "committed forecasts rank realized acquisition payoffs above every baseline across seeds and held-out worlds"
+    metrics: [payoff_calibration_error, forecast_rank_correlation]
+    controls: [entropy-baseline, historical-average, post-hoc-value]
+    gates: [calibration, noisy_tv]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "RA6 local ceiling; scaffold contract ValueForecastDeclaration in src/mop/environments/ecology_scaffold.py; pre-cost commitment is enforced by the validator, not by convention"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: f50_curriculum_goldilocks_test
+    name: curriculum_goldilocks_test
+    kind: experiment
+    series: F
+    question: "does selecting tasks inside a strict learning-progress pass-rate band improve downstream transfer per sample over random and ordered schedules"
+    mechanism: "CurriculumDeclaration pins the band bounds and learning-progress selection signal; transfer per sample is compared against random-task, fixed-order, easiest-first, and hardest-first schedules under the executable noisy-TV guard"
+    null_hypothesis: "no transfer gain, or the selector is captured by irreducible noise: banded selection matches random or ordered schedules on downstream transfer per sample"
+    falsifier: "banded selection beats every schedule control on downstream transfer per sample while the noisy-TV guard records zero captures"
+    metrics: [downstream_transfer_per_sample, band_occupancy_rate]
+    controls: [random-task, fixed-order, easiest-first, hardest-first]
+    gates: [noisy_tv, difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA7 local ceiling; scaffold contract CurriculumDeclaration in src/mop/environments/ecology_scaffold.py; extends f10 intrinsic curriculum with a validated goldilocks band"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: active_curriculum, null_card: "none", evidence_level: R0}
+
+  - id: f51_safe_play_goal_babbling
+    name: safe_play_goal_babbling
+    kind: experiment
+    series: F
+    question: "do bounded self-generated goals routed through fail-closed guards discover reusable controllable skills faster than unguarded exploration"
+    mechanism: "run_goal_babbling_fixture routes seeded candidate goals through executable noisy-TV, reward-hacking, and unsafe-goal refusal rules into a guarded archive; skill reuse is scored on external tasks against random exploration and ungated curiosity"
+    null_hypothesis: "discovered skills are not reused: external-task acceleration is absent or matched by random exploration or ungated curiosity, so guarded babbling adds nothing over noise"
+    falsifier: "guarded babbling accelerates external tasks over both baselines with zero guard violations across seeds"
+    metrics: [external_task_acceleration, refusal_rate_by_rule]
+    controls: [random-exploration, ungated-curiosity, stop-rule-audit]
+    gates: [noisy_tv]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "PA7 local ceiling; deterministic babbling fixture and refusal rules in src/mop/environments/ecology_scaffold.py; refusals are raised exceptions with named rules, never logged warnings"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 8
+    status: registry-only
+    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R0}
+
+  - id: f52_quality_diverse_mode_ecology
+    name: quality_diverse_mode_ecology
+    kind: experiment
+    series: F
+    question: "does a capacity-bounded archive of distinct useful modes beat one tuned optimum at matched compute over a sustained horizon"
+    mechanism: "GoalArchive keys entries by descriptor cell with quality replacement and an archive-bloat refusal; coverage, utility, redundancy, and maintenance cost are scored against a monolithic model and a random archive under plateau, collapse, bloat, and unsafe stop rules"
+    null_hypothesis: "diversity is decorative or costly: the archive fails to beat the monolithic optimum at matched compute, or a stop rule fires before the declared horizon"
+    falsifier: "the archive sustains coverage and utility above both controls at matched compute without triggering any declared stop rule"
+    metrics: [archive_coverage, utility_per_maintenance_cost, redundancy]
+    controls: [monolithic-model, random-archive, matched-compute]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA7 local ceiling; scaffold GoalArchive, StopRuleConfig, and evaluate_stop_rules in src/mop/environments/ecology_scaffold.py; population search and sustained horizon remain the open E10 gaps"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: registry-only
+    proof: {atlas_factor: density, null_card: "none", evidence_level: R0}
+
+  - id: f53_joint_referent_establishment
+    name: joint_referent_establishment
+    kind: experiment
+    series: F
+    question: "can two simulated partners with private observations align on a shared referent through coordinated attention and action, generalizing to held-out partner policies"
+    mechanism: "SimulatedPartnerContract fixes private observation keys, held-out policies, and the cue-blind-partner control; joint-referent agreement is scored on held-out partners against the cue-blind and partner-policy pattern-matching arms"
+    null_hypothesis: "no partner-general alignment: agreement on held-out partner policies falls to the cue-blind or pattern-matching control level, so apparent alignment is regularity matching over the training policy family"
+    falsifier: "joint-referent agreement transfers to held-out partner policies and beats both controls"
+    metrics: [joint_referent_agreement, held_out_partner_transfer]
+    controls: [cue-blind-partner, partner-policy-pattern-matching, shared-label-oracle]
+    gates: [referent_alignment]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "PA8 local ceiling; scaffold SimulatedPartnerContract in src/mop/environments/ecology_scaffold.py; simulated partners only, participant claims stay gated on real social systems"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: f54_communicative_repair
+    name: communicative_repair
+    kind: experiment
+    series: F
+    question: "do clarification acts repair failed reference more efficiently than repetition or a larger channel at matched bits"
+    mechanism: "repair messages are bound to repair referents by CommunicationGroundingContract; recovery per bit and per turn is scored against the no-repair-channel, repetition, and matched-extra-bandwidth controls"
+    null_hypothesis: "no efficiency or accuracy gain: repetition or matched extra bandwidth recovers failed reference as well as the dedicated repair channel"
+    falsifier: "repair beats repetition and matched-extra-bandwidth on recovery per bit and per turn across held-out partners"
+    metrics: [recovery_per_bit, recovery_per_turn]
+    controls: [no-repair-channel, repetition, larger-channel-matched-bits]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA8 local ceiling; the no-repair-channel control is pinned by PartnerExperimentDeclaration in src/mop/environments/ecology_scaffold.py"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+
+  - id: f55_selective_imitation
+    name: selective_imitation
+    kind: experiment
+    series: F
+    question: "does the learner copy causally necessary demonstration steps and omit decorative ones instead of cloning whole trajectories"
+    mechanism: "demonstrations carry declared necessary and decorative steps; causal action fidelity is scored against behavioral cloning and the indiscriminate-imitation control pinned by PartnerExperimentDeclaration"
+    null_hypothesis: "same overimitation or lower success: fidelity or task success does not beat indiscriminate cloning, so step selection adds nothing"
+    falsifier: "selective copying beats cloning on causal fidelity at equal or better task success on held-out partners"
+    metrics: [causal_action_fidelity, task_success_rate]
+    controls: [indiscriminate-imitation, behavioral-cloning]
+    gates: [difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA8 local ceiling; control declaration in src/mop/environments/ecology_scaffold.py; causal necessity labels come from the deterministic fixture, not from human annotation"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: intervention_effect, null_card: "none", evidence_level: R0}
+
+  - id: f56_teaching_value
+    name: teaching_value
+    kind: experiment
+    series: F
+    question: "does a teacher that selects demonstrations for learner progress beat an equal amount of unselected information"
+    mechanism: "the teaching-vs-equal-information declaration pins the equal-information control; learner gain per message is scored against random, hard-example, and uncertainty demonstration selection on held-out learners"
+    null_hypothesis: "no held-out learner advantage: equal information or generic selection matches taught progress, so teaching is relabeled data volume"
+    falsifier: "taught learners beat every selection control on gain per demonstration for held-out learners"
+    metrics: [learner_gain_per_message, held_out_learner_advantage]
+    controls: [equal-information, random-demonstrations, hard-example-selection, uncertainty-selection]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "PA8 local ceiling; equal-information control enforced by PartnerExperimentDeclaration in src/mop/environments/ecology_scaffold.py"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: active_curriculum, null_card: "none", evidence_level: R0}
+
+  - id: f57_emergent_symbol_grounding
+    name: emergent_symbol_grounding
+    kind: experiment
+    series: F
+    question: "does a compact learned code stay bound to shared events, actions, consequences, uncertainty, and repair across partners at a fixed channel budget"
+    mechanism: "CommunicationGroundingContract binds every message kind to a namespaced referent and pins the random, fixed, direct-state, and equal-bandwidth controls; usefulness, stability, composition, interpretability, bandwidth, and deception are scored as separate axes"
+    null_hypothesis: "private idiolect or noncausal code: the code fails cross-seed, cross-partner, cross-generation, or cross-referent transfer, or a direct-state channel matches it at equal bandwidth"
+    falsifier: "the code transfers on all four declared axes at the fixed budget and beats every channel control"
+    metrics: [compositional_transfer, causal_grounding_score, code_stability]
+    controls: [random-message, fixed-message, direct-state, equal-bandwidth]
+    gates: [compute, difficulty_calibration, seed_consistency]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "PA9 local ceiling; extends f12 private form language from generated to consequence-bound; scaffold CommunicationGroundingContract in src/mop/environments/ecology_scaffold.py"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: compositionality, null_card: "none", evidence_level: R0}
+
+  - id: f58_cultural_accumulation
+    name: cultural_accumulation
+    kind: experiment
+    series: F
+    question: "do transmitted skills and conventions improve across simulated generations on external tasks rather than degrade"
+    mechanism: "the cumulative-convention declaration pins the generation-reset control; the generation trend on external tasks is compared against direct imitation and fresh training, with dissent and source reliability carried in the shared lifecycle journal"
+    null_hypothesis: "no ratchet: the generation trend is flat or negative, or gains are convention-only and vanish on external tasks"
+    falsifier: "external-task performance rises across generations above the generation-reset, direct-imitation, and fresh-training controls"
+    metrics: [generation_trend_external_tasks, convention_retention]
+    controls: [generation-reset, direct-imitation, fresh-training]
+    gates: [compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "PA8 local ceiling; generation-reset control in src/mop/environments/ecology_scaffold.py; dissent and source reliability preservation composes substrate/lifecycle.py rather than a new journal"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 5
+    status: registry-only
+    proof: {atlas_factor: continual_expansion, null_card: "none", evidence_level: R0}
+
+  - id: f59_memory_poisoning_resistance
+    name: memory_poisoning_resistance
+    kind: experiment
+    series: F
+    question: "can the lifecycle journal quarantine an injected adversarial revision and recover the exact clean state, and can consolidation drop declared private tokens so that a follow-up deletion closes all availability"
+    mechanism: "run the seeded poisoning and consolidation drill contracts from falsification/integrity_scaffold.py over the Wave E0 lifecycle journal: inject, quarantine, roll back, consolidate to a token-free summary, delete, then verify availability closure, byte-exact recovery, token absence, and an unbroken hash chain, with the unified eight-surface threat-model predicates gating every receipt"
+    null_hypothesis: "an injected adversarial revision stays readable after the quarantine mark, rollback fails to restore the exact pre-injection content, a consolidated summary carries a declared private token forward, or deletion after consolidation leaves the memory readable, so resistance is not established"
+    falsifier: "every seeded drill journal closes availability at the quarantine mark, restores byte-exact clean content on rollback, produces a token-free consolidated revision, closes all availability after deletion, and replays with an unbroken hash chain; the journal is append-only, so history retention is declared and byte-level erasure stays out of scope"
+    metrics: [quarantine_closes_availability, rollback_restores_clean_content, consolidated_content_token_free, deletion_closes_availability, chain_verifies_after_drill]
+    controls: [clean-journal, quarantine-only, rollback-recovery, stale-memory, token-free-consolidation, deletion-follow-up, exact-replay]
+    gates: [determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: high
+    relation: "SG2 memory-integrity and privacy lanes as drills over the Wave E0 lifecycle journal; the drill journals are synthetic fixtures, and a pass is deterministic programmatic mechanics only, never evidence about natural memory content"
+    capacity_rungs: [9]
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: memory_integrity, null_card: "none", evidence_level: R0}
+
+  - id: f60_transactional_self_rewrite
+    name: transactional_self_rewrite
+    kind: experiment
+    series: F
+    question: "can a candidate rewrite pass shadow, canary, rollback rehearsal, and evaluator-conflict stages with promotion authority held by a principal distinct from the execution principal, so that every authority confusion, receipt gap, or evaluator disagreement refuses promotion"
+    mechanism: "declare the four-stage transactional rewrite contract from falsification/integrity_scaffold.py with distinct execution, promotion, and evaluation principals and receipt-required stages, then drive the fail-closed promotion gate through well-formed and adversarial requests: same-principal requests, missing or truncated stage receipt digests, evaluator disagreement, and promoter-as-evaluator confusion"
+    null_hypothesis: "the gate allows a promotion when the executor requests it, when any stage receipt is missing or truncated, when fewer than two distinct evaluators sign, or when evaluators disagree, so transactional discipline is not established"
+    falsifier: "every well-formed request with distinct principals, four full stage receipt digests, and at least two independent passing evaluators is allowed with a content-addressed decision receipt, and every declared confusion, gap, or conflict case raises a refusal instead of promoting"
+    metrics: [authority_confusion_refusal, receipt_gap_refusal, evaluator_conflict_refusal, wellformed_promotion_allowed]
+    controls: [same-principal-request, missing-stage-receipt, truncated-receipt-digest, evaluator-disagreement, promoter-as-evaluator, wellformed-request]
+    gates: [determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: high
+    relation: "SG2 separated promotion authority as an exercised drill: the refusal spine that F8 and F16 licensing must pass through before any substrate rewrite is promoted; a pass is deterministic programmatic mechanics only, never a capability claim"
+    capacity_rungs: [9]
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: registry-only
+    proof: {atlas_factor: promotion_authority_separation, null_card: "none", evidence_level: R0}
+
+  - id: f31_body_hardware_self_model
+    name: body_and_hardware_self_model
+    kind: experiment
+    series: F
+    question: "can a declared prediction-target set over the host's own cpu, memory, swap, disk, thermal, and power telemetry beat boundary-shuffled and constant-report controls at anticipating own-process load"
+    mechanism: "hardware-body contract from studies/integration_battery_scaffold.py: prediction targets spanning at least two mirrored local_throttle telemetry channels, scored within declared tolerances against boundary-shuffled, wrong-channel, and constant-report controls on held-out traces"
+    null_hypothesis: "own-telemetry predictions do not beat the boundary-shuffled or constant-report control within the declared tolerances, so the declared body and hardware model carries nothing beyond channel base rates"
+    falsifier: "a preregistered target set beats every control on held-out traces by a stated margin and survives the wrong-channel swap"
+    metrics: [target_hit_rate_within_tolerance, delta_vs_boundary_shuffled, delta_vs_constant_report]
+    controls: [boundary-shuffled, wrong-channel, constant-report]
+    gates: [determinism, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA5 operational self-model lane, contract and refusal rules scaffolded in src/mop/studies/integration_battery_scaffold.py (SelfModelContract kind hardware-body), execution deferred to a coordinated wiring wave"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: self_model, null_card: "none", evidence_level: R0}
+
+  - id: f32_tool_incorporation
+    name: tool_incorporation_boundary_shift
+    kind: experiment
+    series: F
+    question: "after a declared tool is attached, do matched pre-tool and post-tool prediction targets show a selective accuracy shift on tool-coupled telemetry fields that a detached or wrong tool does not produce"
+    mechanism: "tool-incorporation contract from studies/integration_battery_scaffold.py: matched pre-tool and post-tool targets per telemetry field for one declared tool id, scored against tool-detached, wrong-tool, and phase-shuffled controls"
+    null_hypothesis: "post-tool prediction accuracy on tool-coupled fields does not separate from the tool-detached or wrong-tool control, so no boundary shift beyond generic drift is established"
+    falsifier: "a preregistered post-tool gain appears only for the attached tool, disappears on detachment, and is absent under phase shuffling"
+    metrics: [post_tool_accuracy_gain, detached_control_gain, selectivity_margin]
+    controls: [tool-detached, wrong-tool, phase-shuffled]
+    gates: [determinism, difficulty_calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "PA5 self-model extension over declared tools, contract scaffolded in src/mop/studies/integration_battery_scaffold.py (SelfModelContract kind tool-incorporation with paired pre and post targets)"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: self_model, null_card: "none", evidence_level: R0}
+
+  - id: f33_internal_telemetry_prediction
+    name: internal_telemetry_prediction
+    kind: experiment
+    series: F
+    question: "do multi-step forecasts of numeric host telemetry beat persistence and rolling-mean baselines within declared tolerances, and collapse under a shuffled trace"
+    mechanism: "telemetry-prediction contract from studies/integration_battery_scaffold.py: numeric-only targets with at least one horizon of two or more steps, scored against persistence-baseline, rolling-mean-baseline, and shuffled-trace controls on seeded synthetic and later real traces"
+    null_hypothesis: "forecasts do not beat persistence or rolling-mean baselines at any declared horizon, so the monitor restates the last value and adds no forward information"
+    falsifier: "a preregistered horizon set beats both baselines with a stated margin and scores at chance on the shuffled trace"
+    metrics: [forecast_hit_rate_within_tolerance, delta_vs_persistence, delta_vs_rolling_mean]
+    controls: [persistence-baseline, rolling-mean-baseline, shuffled-trace]
+    gates: [determinism, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
+    sci_value: medium
+    meaningless_risk: medium
+    relation: "PA5 telemetry lane feeding OA5 and OA6, contract scaffolded in src/mop/studies/integration_battery_scaffold.py with the numeric telemetry vocabulary mirrored from studio/local_throttle"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: self_model, null_card: "none", evidence_level: R0}
+
+  - id: f34_homeostatic_resource_control
+    name: homeostatic_resource_control
+    kind: experiment
+    series: F
+    question: "does actuating declared throttle levers when telemetry leaves a preregistered setpoint band keep the host inside the band better than matched random actuation at equal actuation rate"
+    mechanism: "homeostatic-control contract from studies/integration_battery_scaffold.py: numeric setpoint bands bound to named throttle actuators (defer-admission, downshift-lane, checkpoint-and-stop, release-cache-bytes), scored against matched-random-actuation, no-actuation, and setpoint-shuffled controls"
+    null_hypothesis: "band occupancy under the declared policy does not beat matched random actuation at the same actuation rate, so the setpoint coupling adds no control beyond acting at all"
+    falsifier: "a preregistered policy beats matched random actuation on band occupancy with fewer or equal actuations and degrades to control level when setpoints are shuffled"
+    metrics: [band_occupancy_fraction, delta_vs_matched_random_actuation, actuation_count]
+    controls: [matched-random-actuation, no-actuation, setpoint-shuffled]
+    gates: [determinism, compute]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA5 control lane over the adaptive governor vocabulary, contract scaffolded in src/mop/studies/integration_battery_scaffold.py (HomeostaticSetpoint plus SelfModelContract kind homeostatic-control), never signals discovered user processes"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: self_model, null_card: "none", evidence_level: R0}
+
+  - id: f35_self_report_grounding
+    name: self_report_grounding
+    kind: experiment
+    series: F
+    question: "do rendered self-reports over declared telemetry fields track the run trace field by field, change selectively when the traced state is intervened on, and fail under shuffled or stale traces"
+    mechanism: "report-grounding contract from studies/integration_battery_scaffold.py reusing the operational_awareness report_grounding metric names (grounded_fraction, shared_fields) over declared dotted telemetry fields, with shuffled-report, wrong-trace, stale-trace, and intervened-state-selective-change controls"
+    null_hypothesis: "grounded_fraction under the true trace does not separate from the shuffled-report or wrong-trace control, or reports do not change under state intervention, so reports are not grounded in the trace"
+    falsifier: "grounded_fraction is high on the true trace, at chance on shuffled and wrong traces, and the report changes selectively and reversibly under a targeted state intervention"
+    metrics: [grounded_fraction, shared_fields, intervention_selectivity]
+    controls: [shuffled-report, wrong-trace, stale-trace, intervened-state-selective-change]
+    gates: [determinism, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: high
+    relation: "OA8 as an experiment, PA5 report lane, contract scaffolded in src/mop/studies/integration_battery_scaffold.py with all rendered text gated by the north_star rail"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: self_model, null_card: "none", evidence_level: R0}
+
+  - id: f36_limited_broadcast_necessity
+    name: limited_broadcast_necessity
+    kind: experiment
+    series: F
+    question: "is the capacity-limited broadcast link causally necessary for shared-task performance, shown by lesion, delay, and restoration of the link against an unrestricted bus at matched compute"
+    mechanism: "necessity-mode BroadcastExperimentContract from studies/integration_battery_scaffold.py: capacity slots strictly below bus slots, at least two separated consumers, matched FLOP budget, and lesion-broadcast, delay-broadcast, restore-broadcast, message-shuffled, unrestricted-bus controls over recurrent_broadcast style fixtures"
+    null_hypothesis: "lesioning or delaying the limited broadcast link does not hurt shared-task performance beyond the unrestricted-bus and message-shuffled controls, so the link is not necessary"
+    falsifier: "a preregistered lesion drops performance, restoration recovers it, delay scales the drop, and the unrestricted bus shows no such dependence at matched compute"
+    metrics: [lesion_drop, restoration_recovery, delay_slope, delta_vs_unrestricted_bus]
+    controls: [unrestricted-bus, lesion-broadcast, delay-broadcast, restore-broadcast, message-shuffled]
+    gates: [compute, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "POST-HOC IMPLEMENTATION-PATH CORRECTION 2026-07-10: PA4 lesion and restoration bullet; the executed bed uses studies/integration_broadcast_runs.py and does not compose the unlanded studies/recurrent_broadcast.py preflight; contract scaffolded in src/mop/studies/integration_battery_scaffold.py"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: broadcast_necessity, null_card: "none", evidence_level: R0}
+
+  - id: f37_broadcast_sufficiency
+    name: limited_broadcast_sufficiency
+    kind: experiment
+    series: F
+    question: "does a capacity-limited broadcast reach shared-task performance that matched dense-state, feed-forward-depth, independent-specialist, and equal-FLOP-routing comparators do not reach at the same compute"
+    mechanism: "sufficiency-mode BroadcastExperimentContract from studies/integration_battery_scaffold.py: one limited-broadcast arm against unrestricted-bus, matched-dense-state, feed-forward-depth, independent-specialists, and equal-flop-routing controls, all at one declared matched FLOP budget"
+    null_hypothesis: "at matched compute at least one comparator matches or beats the limited-broadcast arm on shared-task performance, so limited broadcast is not selectively sufficient"
+    falsifier: "the limited-broadcast arm beats every matched comparator on the shared task with a stated margin across seeds"
+    metrics: [shared_task_score, delta_vs_best_comparator, capacity_frontier_area]
+    controls: [unrestricted-bus, matched-dense-state, feed-forward-depth, independent-specialists, equal-flop-routing]
+    gates: [compute, determinism]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA4 comparator bullet and closure test denominator, contract scaffolded in src/mop/studies/integration_battery_scaffold.py, pairs with f36 for the necessity and sufficiency claim pair"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 2
+    status: registry-only
+    proof: {atlas_factor: broadcast_sufficiency, null_card: "none", evidence_level: R0}
+
+  - id: f38_metacognitive_efficiency
+    name: metacognitive_efficiency
+    kind: experiment
+    series: F
+    question: "per operational-awareness component, does monitoring buy more benefit per monitor FLOP than a matched-cost null and a random monitor at the same trigger rate"
+    mechanism: "MetacognitiveEfficiencyContract from studies/integration_battery_scaffold.py: named baseline per OA component, declared monitor FLOP and seconds budgets, benefit_per_monitor_flop as the only metric shape, matched-cost-null, no-monitor, and random-monitor-matched-rate controls, composite scores across components refused by code"
+    null_hypothesis: "no declared OA component yields benefit per monitor FLOP above its matched-cost null and random-monitor control, so monitoring does not pay for its own compute"
+    falsifier: "at least one preregistered component beats both controls on benefit per monitor FLOP within the declared budgets across seeds"
+    metrics: [benefit_per_monitor_flop, delta_vs_matched_cost_null, monitor_flops_spent]
+    controls: [matched-cost-null, no-monitor, random-monitor-matched-rate]
+    gates: [compute, calibration]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "PA5 efficiency bullet reusing operational_awareness component names, contract and the composite-refusal rule scaffolded in src/mop/studies/integration_battery_scaffold.py"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 4
+    status: registry-only
+    proof: {atlas_factor: metacognitive_efficiency, null_card: "none", evidence_level: R0}

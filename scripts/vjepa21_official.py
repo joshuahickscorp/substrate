@@ -262,14 +262,10 @@ def _probe(args: argparse.Namespace) -> dict:
             "e6_scientific_compatibility_proven": False,
             "dr14_scientific_compatibility_proven": False,
             "vitb_runtime_evidence_gate_passed": bool(status == "passed" and args.mode == "forward"),
-            "larger_variants_unlocked": False,
-            "larger_variant_policy": (
-                "a passing bounded ViT-B forward permits a separate 64-frame feasibility decision; "
-                "it never automatically authorizes ViT-L, ViT-g, or ViT-G acquisition"
-            ),
+            "model_scope": "official dense ViT-B only",
             "interpretation": (
                 "a passing forward retires ViT-B runtime availability only; task validity, natural-video "
-                "referents, matched controls, cache manifests, and larger variants remain separate gates"
+                "referents, matched controls, and cache manifests remain separate gates"
             ),
         },
     }

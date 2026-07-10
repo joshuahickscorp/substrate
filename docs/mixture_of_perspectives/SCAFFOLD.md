@@ -1,5 +1,8 @@
 # SCAFFOLD: the M3 Pro process and the Studio process, post-run and post-audit
 
+> SUPERSEDED 2026-07-10: historical spine plan. Current scaffolding and local execution order are in
+> `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`; no current row is hardware-blocked.
+
 This is the single orchestrating artifact that separates what can be done NOW on the M3 Pro (18GB) from
 what REQUIRES the Studio, sequenced per the potential audit's re-ordering. It supersedes the pre-run
 sequencing in EXECUTION_MANIFEST.md section 4 and the pre-audit priority list, and it is grounded in

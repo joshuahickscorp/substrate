@@ -117,6 +117,7 @@ The fossil record is not decoration. It constrains every F-series design:
 The active architecture, each layer with the baseline it must beat before it is believed:
 
 ```text
+Layer 0  Evidence Event Plane    immutable referents, events, branches, clocks, lifecycle, hashes
 Layer 1  Form Intake            refuse missing referents, duplicate tags, missing controls
 Layer 2  Referent Binder        beat shuffled-referent, raw-feature, single-form baselines
 Layer 3  Form Feature Store     report bytes, load latency, cache hit rate, mmap viability
@@ -127,11 +128,22 @@ Layer 7  Operational Awareness  beat random routing, fixed routing, single-confi
 Layer 8  Action Closure         beat action-shuffle, reactive, non-action predictor, horizon baseline
 Layer 9  Density Monitor        every result reports capability, cost, density
 Layer 10 Plastic Rewrite Gate   opens only when frozen inherited forms plus larger shells fail
+Layer 11 Execution Verifier     adaptive resources, exact resume, independent recomputation, rollback
 ```
 
-Code homes for every layer are in FORM_SUBSTRATE_CODEMAP.md. Layers 1 to 3 exist. Layer 5 exists as
-shell machinery with a negative routing record to beat. Layers 4, 6, 7, 8 are experiments (F3, F5,
-F17/F20, F6/F15). Layers 9 and 10 are law (PERFORMANCE_DENSITY_DOCTRINE.md, doc 15 brake).
+Code homes for every layer are in FORM_SUBSTRATE_CODEMAP.md. Wave E0 now implements Layer 0 across
+F23/F29/F39 mechanics with independent mutation verification. The P6 stream extends that plane with
+disk-backed identity, exact resume, lifecycle deletion, replay controls, and long-stream endpoint
+schemas at mechanics scope. P7 now implements Layer 8's rendered action, exact intervention,
+eight-arm transition, horizon, calibration, planning, and cost mechanics, with a negative fixture
+record to beat on external units. Layers 1 to 3 exist. Layer 5 exists as shell machinery with a
+negative routing record to beat. P9 now implements Layer 7's causal telemetry, calibration, and
+bounded relief mechanics, though broadcast and natural-workload validation remain. Layers 4 and 6
+remain controlled experiment surfaces. Layer 9 has P4/P5/P9 instruments and P9 end-to-end workload
+accounting, with energy correctly unmeasured. Layer 10 has fail-closed rewrite machinery
+but still waits on valid natural evidence. Layer 11 now includes the adaptive governor and durable
+atlas validator. The first owned trainable substrate completed five seeds locally; its objective
+regime closed with a null, while its portable interfaces remain the successor platform seam.
 
 ## 6. The north star
 

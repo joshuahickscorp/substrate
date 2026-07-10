@@ -1,6 +1,6 @@
 {
   "blockers": [
-    "durable CM7 workbench receipt is missing",
+    "CM7 has not established an objective lever under its local controls",
     "teacher cache has 8 joined referents; need 64",
     "teacher cache is programmatic rather than rights-cleared natural video",
     "CM1 natural-video compositional gate is not supplied",
@@ -9,14 +9,14 @@
   ],
   "claim_scope": "local CM8 execution preflight; no custom-build scientific result",
   "cm7_receipt": {
-    "exists": false,
+    "exists": true,
     "path": "/Users/scammermike/Downloads/mop/proof/CUSTOM_SUBSTRATE_PILOT.json",
-    "sha256": null
+    "sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2"
   },
-  "created_at": "2026-07-10T03:59:30.116256+00:00",
+  "created_at": "2026-07-10T20:35:42.436799+00:00",
   "next_scientific_action": "expand an exact same-referent citable teacher cache and natural-video test package, then run teacher_distill beside the teacher-free objective winner at matched compute",
   "requirements": {
-    "aggregate_sha256": "df197fe79f1eb5cb27680e24f5493dc92f1d328a9712cbe1860272641ec309a9",
+    "aggregate_sha256": "9f15b7cdadb0d6bbd9f95c9f9304d0eb50a0e64eca1232b4dcaa505c223f38e4",
     "all_ok": true
   },
   "runnable_local_preflight": true,

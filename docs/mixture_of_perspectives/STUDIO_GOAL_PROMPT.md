@@ -1,5 +1,8 @@
 # STUDIO GOAL PROMPT: legacy 8 TB envelope scenario
 
+> SUPERSEDED 2026-07-10: do not execute this historical prompt. Use
+> `MOP_MAXIMUM_POTENTIAL_GOAL.md`. No current receipt establishes a Studio boundary.
+
 This is a cold-start prompt written for the provisional 128 GB / 8 TB Studio envelope. It does not prove
 that an M1 Ultra was purchased or delivered. Before using it, run the strict doctor against the selected
 profile and replace every assumed hardware fact with the resulting measured receipt. It is deliberately

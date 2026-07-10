@@ -12,9 +12,7 @@ from mop.studies.potential_atlas_driver import (
 
 def _inputs() -> tuple[dict, dict]:
     atlas = json.loads((REPO_ROOT / "proof/MOP_POTENTIAL_ATLAS.json").read_text())
-    requirements = json.loads(
-        (REPO_ROOT / "proof/EXTENDED_COMPUTE_REQUIREMENTS.json").read_text()
-    )
+    requirements = json.loads((REPO_ROOT / "proof/EXTENDED_COMPUTE_REQUIREMENTS.json").read_text())
     return atlas, requirements
 
 

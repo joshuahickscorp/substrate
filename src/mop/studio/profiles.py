@@ -225,7 +225,7 @@ M1_ULTRA = Profile(
     procurement_status="unverified-procurement-scenario",
 )
 
-# The current device (M3 Pro class, ~19 GB unified memory). Bounded runs up to three hours, tiny downloads,
+# The current device (M3 Pro class, ~19 GB unified memory). Bounded operational legs up to five hours,
 # generated controls, smoke caches. Every heavy thing is dry-run by default. The free-space floor
 # is derived from the largest permitted pending download plus an OS reserve and temporary working
 # headroom. Keeping the arithmetic named prevents a historical round-number policy from masquerading
@@ -246,7 +246,7 @@ M3PRO_LOCAL_MAX = Profile(
     max_cache_clips=128,
     min_free_disk_gb=M3PRO_LOCAL_MIN_FREE_DISK_GB,
     max_run_count=64,
-    max_wall_min=180,
+    max_wall_min=300,
     max_source_count=8,
     max_per_source_gb=5.0,
     allowed_tiers=frozenset({"C"}),

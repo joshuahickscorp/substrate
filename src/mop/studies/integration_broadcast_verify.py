@@ -30,6 +30,7 @@ DEFAULT_CONFIG = REPO_ROOT / "configs" / "experiment" / "integration_broadcast_r
 DEFAULT_OUTPUT = REPO_ROOT / "proof" / "INTEGRATION_BROADCAST_VERIFICATION.json"
 F36 = "f36_limited_broadcast_necessity"
 F37 = "f37_broadcast_sufficiency"
+EXPERIMENT_IDS = (F36, F37)
 
 
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
@@ -69,8 +70,28 @@ def _read_inputs(run_path: Path, config_path: Path) -> tuple[dict[str, Any], dic
         raise ValueError("broadcast verifier config schema drift")
     if config.get("claim_scope") != CLAIM_SCOPE:
         raise ValueError("broadcast verifier claim scope drift")
+    if not isinstance(config.get("null_hypothesis"), str) or not config["null_hypothesis"].strip():
+        raise ValueError("broadcast verifier requires a nonblank aggregate null hypothesis")
     if run.get("config", {}).get("sha256") != _sha256_file(config_path):
         raise ValueError("broadcast run does not bind the verifier config")
+    registry = yaml.safe_load((REPO_ROOT / "registry" / "experiments.yaml").read_text(encoding="utf-8"))
+    index = {str(row["id"]): row for row in registry["experiments"]}
+    per_experiment = {
+        experiment_id: str(index[experiment_id]["null_hypothesis"]) for experiment_id in EXPERIMENT_IDS
+    }
+    expected_null_contract = {
+        "aggregate": config["null_hypothesis"],
+        "per_experiment": per_experiment,
+        "per_experiment_sha256": canonical_sha256(per_experiment),
+    }
+    if run.get("null_contract") != expected_null_contract:
+        raise ValueError("broadcast run null contract does not match config and live registry")
+    for experiment_id in EXPERIMENT_IDS:
+        binding = run.get("registry_bindings", {}).get(experiment_id, {})
+        if binding.get("null_hypothesis") != per_experiment[experiment_id] or binding.get(
+            "row_sha256"
+        ) != canonical_sha256(index[experiment_id]):
+            raise ValueError(f"broadcast registry binding drift for {experiment_id}")
     return run, config
 
 

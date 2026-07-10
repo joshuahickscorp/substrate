@@ -1,5 +1,9 @@
 # FORM SUBSTRATE DEEP RESEARCH 2026-07
 
+> LIVE INTEGRATION 2026-07-10: this remains the long-form source dossier. Current empirical state,
+> 37-facet scores, local execution order, and the measured hardware boundary are integrated in
+> `MOP_MAXIMUM_POTENTIAL_RESEARCH_2026_07.md` and `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`.
+
 Status: research dossier and interpretation layer
 Date: 2026-07-09
 Companion plan: `FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md`
@@ -2866,7 +2870,7 @@ removed, swapped, or contradicted without disabling the mandatory objectives. Th
 meaning of using V-JEPA as a stepping stone rather than a platform.
 
 A newer upstream correction also changes the dense-token lane. Meta's official repository records
-the V-JEPA 2.1 release on 2026-03-16 and supplies dense 384px ViT-B, ViT-L, ViT-g, and ViT-G
+the V-JEPA 2.1 release on 2026-03-16 and supplies the retained dense 384px ViT-B instrument
 checkpoints ([official repository](https://github.com/facebookresearch/vjepa2),
 [primary paper](https://arxiv.org/abs/2603.14482)). The prior claim that E6 is blocked by an
 unpublished dense checkpoint is retired. Availability still does not establish local compatibility
@@ -2913,9 +2917,9 @@ video conclusion.
 Before this integration, the project could be read as a rigorous shell around a frozen inherited
 encoder, with custom training and many frontier rows deferred to Studio. It now has:
 
-- verified local execution across the inherited L/H/g scale family;
+- verified local execution of the retained ViT-B instrument and archived the old scale pilot;
 - zero experiment-specific measured hardware blockers;
-- an approved 180-minute resumable local profile;
+- an approved 300-minute adaptive operational profile, with frozen scientific shard identities;
 - a teacher-independent trainable video substrate;
 - experiment-derived machine-readable architecture requirements;
 - exact source/evidence/checkpoint snapshotting;
@@ -2934,7 +2938,7 @@ principle and it is not a proxy for scientific seriousness.
 
 The live work supports only these conclusions:
 
-- the inherited L/H/g checkpoints are locally runnable in bounded serial form;
+- the retired inherited-scale checkpoints ran locally in bounded serial form but are no longer active;
 - a small project-owned temporal encoder can be trained locally;
 - the scientific controls and data paths can be made executable on this host;
 - most former frontier labels were dependency labels, not measured compute limits.

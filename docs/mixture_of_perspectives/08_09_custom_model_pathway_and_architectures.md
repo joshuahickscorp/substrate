@@ -1,5 +1,9 @@
 # Sections 8 and 9: The Custom-Model Pathway and Candidate Custom Architectures
 
+> CURRENT INTERPRETATION 2026-07-10: retain the evidence gates, controls, and candidate topology
+> bank. Replace every lower phrase equating scale with a Studio by a measured scientific requirement.
+> The owned CM7 substrate has already run locally and closed its exact regime with a null.
+
 ## What this document is, and is not
 
 This is the part of the review that most wants to be a wish list and must not be. Brain's doctrine is frozen substrate plus a tiny trainable shell, cached-latent-first, no frontier compute. A custom-trained model of any kind is a violation of that doctrine, so the burden of proof is on the pathway, not on the doctrine. Nothing here proposes training anything. Sections 8 and 9 define the evidence gates that would license a custom model, the staged ladder that would build one only after each gate is cleared, and the specific architectures that ladder could terminate in, each one paired with the null it must beat and the open model it must be better than. If the gates are never cleared, the honest outcome is: keep the frozen encoder, keep the shell small, ship the taxonomy-3 bounds, and never train a substrate. That is a legitimate terminal state and the document says so repeatedly.
@@ -26,7 +30,7 @@ What clearing C1 unlocks: Stage 1 (multi-substrate atlas) and Stage 2 (dense lat
 
 ### Gate C2 (substrate-bounded on adaptation): every substrate ties on the trained-shell dynamics that actually survive controls
 
-Failing condition: the two surviving positives (e7_sparse's continual-learning deltas, ex2's planning-on-true-dynamics wins) do NOT improve as substrate quality improves across the atlas (V-JEPA L / H / g, plus a different-objective encoder such as an image DINO or a video-contrastive model). Specifically, if e7_sparse's forgetting advantage and ex2's planning advantage are FLAT across substrates on real cached latents (per-encoder BWT and planning-gain within seed spread), the adaptation dynamics are shell-architectural and substrate-agnostic, so no substrate swap and no custom substrate can help them; the ceiling is in the shell, not the encoder.
+Failing condition: the two surviving positives (e7_sparse's continual-learning deltas, ex2's planning-on-true-dynamics wins) do NOT improve as substrate quality improves across the active atlas (official dense ViT-B, the pooled control, an owned artifact, plus a different-objective encoder such as an image DINO or a video-contrastive model). Specifically, if e7_sparse's forgetting advantage and ex2's planning advantage are FLAT across substrates on real cached latents (per-encoder BWT and planning-gain within seed spread), the adaptation dynamics are shell-architectural and substrate-agnostic, so no substrate swap and no custom substrate can help them; the ceiling is in the shell, not the encoder.
 
 Why it matters for the pathway: C2 failing is a STOP signal for custom SUBSTRATE work on the adaptation axis and a redirect toward Stage 3 (workspace shell) and Stage 4 (repair/adaptation), which are shell-side. It is a pathway gate because it tells you WHICH branch (substrate vs shell) is bounded. C2 is currently UNTESTED (e7_sparse ran on synthetic Gaussian clusters only, no cross-substrate sweep, open question 5).
 
@@ -62,11 +66,11 @@ Each stage is a rung. You do not climb to rung N+1 until rung N's success metric
 
 ### Stage 1: multi-substrate atlas
 
-- Purpose: before assuming a bound is intrinsic to perception, test whether it is intrinsic to THIS substrate. Run the same failing gate across a small atlas of frozen encoders (V-JEPA L / H / g, an image DINOv2, a video-contrastive model) to separate universal bounds from V-JEPA-objective-specific ones. This directly serves the newest standing control (cross-substrate convergence: universal vs modality/objective/architecture-specific).
+- Purpose: before assuming a bound is intrinsic to perception, test whether it is intrinsic to THIS substrate. Run the same failing gate across official dense ViT-B, the pooled control, an independently verified owned artifact, an image encoder, and a video-contrastive model. This separates universal bounds from objective-specific ones and serves the cross-substrate convergence control.
 - Required evidence to leave: the gate that failed at Stage 0 either (a) clears on a different substrate (bound was V-JEPA-specific, KEEP the better frozen substrate, no custom work) or (b) fails on ALL substrates (bound is universal, escalate to Stage 2/5).
 - Compute: encoding is the cost. On the Studio, one ViT-L forward is ~seconds on Metal (measurement pending per STUDIO_MAXIMIZATION); a full atlas over a few thousand real clips at three model sizes is studio-scale, hours to a couple of days of encode, then cached forever. No training.
 - Data: the same real bound-attribute video, encoded once per substrate.
-- Implementation: the encoder loader already supports L/H/g via config; adding DINOv2 and a video-contrastive backbone is a loader change plus a weights download, NOT custom training. The atlas factor field already exists in the registry (`proof.atlas_factor`).
+- Implementation: the live registry exposes the pooled control and official dense ViT-B, while owned artifacts use the portable artifact seam. Adding a distinct-objective frozen baseline is a loader and authority-receipt change, not custom training. The atlas factor field already exists in the registry (`proof.atlas_factor`).
 - Success metric: for at least one gate, a substrate exists whose delta over its own random-init control exceeds +0.15 off-ceiling where V-JEPA-L did not, OR all substrates tie (universal bound confirmed).
 - Failure metric: encoding cost dominates and no substrate moves the needle beyond seed spread on a D3-certified regime (underpowered, needs more data or harder content).
 - What it unlocks: a substrate-specific clear KEEPS a frozen encoder and ends the pathway for that gate; a universal fail unlocks Stage 2 then Stage 5.
@@ -165,13 +169,13 @@ Six candidates, A to F. Each is a contingency: it is built only if the Section 8
 ## Arch C: Action-conditioned world model
 
 - Proves: whether conditioning the predictor on ACTIONS turns the ex2 planning positive into a substrate-level capability (planning that improves as the world model improves), and whether action-conditioning is where a custom substrate finally beats a frozen one on the adaptation axis. Relates to C2 (adaptation bounds).
-- Dataset: real action-conditioned video (agent acting, or a rendered simulator with logged actions). The deterministic local adapter and vector-trajectory mechanics now exist; the remaining gate is a citable rendered/substrate trajectory set and the exact V-JEPA 2-AC control, not environment software or measured hardware.
+- Dataset: independently sourced action-conditioned video or a versioned external simulator with logged actions. The project-owned P7 rendering, intervention, model, and control mechanics now exist; the remaining gate is external trajectory validity, an exact-referent action control, and replication, not environment software or measured hardware.
 - Objective: predict next latent given current latent AND action (forward model), trained to minimize latent prediction error on true rollouts.
 - Losses: action-conditioned latent-prediction loss, plus a rollout-consistency loss (multi-step prediction matches multi-step ground truth), plus anti-collapse.
 - Trainable vs frozen: frozen V-JEPA encoder, TRAINABLE action-conditioned predictor (the b9_cerebellar_forward_model line); substrate frozen, forward model trained. Closest to doctrine of the world-model archs.
 - Diagnostics that must pass: ex2's true-dynamics scoring (planner must beat flat reactive head AND action-shuffle), matched-compute vs unrolled reactive depth, multi-step rollout calibration (no compounding hallucination), seed-stability.
 - Null: action-shuffle (predictor given permuted actions) ties the true-action model; if so, the model ignores actions and the "world model" is a video predictor.
-- Better than existing open models how: must beat frozen V-JEPA 2's own action-conditioned variant (V-JEPA 2-AC exists) on planning-on-true-dynamics at matched compute; the bar is planning success, not prediction PSNR.
+- Better than existing controls how: must beat reactive, shuffled-action, matched-depth, oracle-gap, and the strongest compatible exact-referent external action control on planning over true dynamics at matched compute; the bar is planning success, not prediction PSNR.
 - Minimum (Studio): trainable forward model on cached latents from a logged-action dataset, hours. Studio: full ex2 battery on real actions. Wider-box: co-train forward model with a small trainable encoder on a live simulator. Moonshot (avoid): large-scale robotics-video pretraining.
 
 ## Arch D: Mixture-of-Perspectives substrate model

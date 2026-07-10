@@ -1,5 +1,8 @@
 # Mixture of Perspectives: Master Index
 
+> ERA INDEX 2026-07-10: this remains design history, not the active execution or hardware plan. Use
+> the Form Substrate root, maximum-potential goal, and live proof artifacts.
+
 This is the document to open first. It is the decision-first synthesis of the whole Mixture-of-Perspectives (MoT)
 reframing of the Brain program. It states the refined thesis, the formal definition, the full taxonomy tables,
 the experiment registry pointer, the three compute-tier execution plans, the custom-model decision tree, the
@@ -260,7 +263,7 @@ gate for N+1 is cleared.
 | Stage | What it is | Required evidence to LEAVE | Trains perception? | Compute |
 |-------|-----------|----------------------------|--------------------|---------|
 | 0 Cached-latent shells (WHERE WE ARE) | exhaust the frozen shell on cached latents | a gate (C1/C2/C3) FAILS on REAL content, not synthetic | never | Tier 0/1 |
-| 1 Multi-substrate atlas | run the failing gate across frozen encoders (V-JEPA L/H/g, DINOv2, video-contrastive) | gate clears on a different substrate (KEEP it) or fails on ALL (universal, escalate) | never | studio encode |
+| 1 Multi-substrate atlas | run the failing gate across active distinct-objective controls (retained ViT-B, owned/custom, image, audio) | gate clears on a different substrate (keep it) or fails on all (universal, escalate) | never | serial local encode |
 | 2 Dense latent scaling | test whether the bound is the POOLING interface | dense/coarse-grid clears where full pool did not, or ties (escalate) | never | studio (memory pressure) |
 | 3 Workspace shell | shell-side routing workspace (MoT at shell scale) | beats param-matched dense AND matched-compute unrolled depth on e7/ex2 metrics | never | studio shell |
 | 4 Repair / adaptation shell | rejuvenation/growth restores plasticity at studio scale | restoration real, beats frozen-random + matched-compute; if it needs an adapting substrate, C3 fails | only a small adapter in the C3 arm | studio |
@@ -326,13 +329,13 @@ Do NOT attempt on the laptop: two concurrent torch/encoder jobs (the 19.3 GB poo
 unbounded dense latent caches (~32 MB/clip, 10k dense clips ~= 313 GB), or trusting
 any probe-based real-ties-frozen-random result (vacuous by construction).
 
-The earlier blanket ViT-H/g download and MPS-forward prohibitions are superseded. All three V-JEPA scale
+The earlier blanket inherited-scale download and MPS-forward prohibitions are superseded. The retired scale
 weights are pinned and staged within the derived 40 GB safety floor. Each forward now runs through a
 supervised, receipt-writing probe; only its measured result may establish a memory or throughput wall.
 
 Move-up trigger (to Studio): the corrected substrate control needs its resolution confound removed at real
 scale, OR e7_sparse needs a significance test on real latents at 5+ seeds, OR the bound-attribute test bed needs
-building, OR the encoder-scale question needs ViT-H/g. All are throughput or dataset-scale gates, none is a
+building, or an active distinct-objective control requires serial caching. All are throughput or dataset-scale gates, none is a
 train-a-bigger-model gate.
 
 ---
@@ -348,7 +351,8 @@ MPS block. Smoke the smallest real forward; PASS = latents return without hangin
 against the ~21 s/clip CPU floor; if it still hangs, fall back to CPU encode (fine under unlimited wall-clock).
 
 Highest-value Studio jobs, in order:
-- The permanent multi-encoder cached-latent corpus: real natural video cached through ViT-L, ViT-H, ViT-g
+- The permanent multi-instrument cached-latent corpus: real natural video cached through active
+  distinct-objective controls
   (pooled is tiny, ~3 GB for 100k clips across all three). Frozen encoder means it never goes stale.
 - The corrected substrate test at 256px at REAL scale (substrate_vs_random_init_vit.py logic): isolates
   PRETRAINING from architecture+resolution and settles whether the honest delta is near +0.31 or the
@@ -418,7 +422,7 @@ GATE C1 (abstraction): on REAL non-additively bound video, D3-certified separabl
   |-- YES (it factors)          -> C1 does NOT fail. KEEP FROZEN on the abstraction axis.
   |
   |-- collapses to chance        -> C1 FAILS. But do NOT jump to custom. First:
-        Stage 1 atlas: does a DIFFERENT frozen encoder (DINOv2, video-contrastive, ViT-H/g) clear it?
+        Stage 1 atlas: does a different active frozen or owned/custom objective clear it?
           |-- YES -> KEEP that better FROZEN encoder. Terminal. No custom work.
           |-- NO (all substrates fail) -> continue.
         Stage 2 dense: does dense / coarse-grid-pooled representation clear it where full pool did not?
@@ -518,7 +522,7 @@ Decision-first. This is the section to act on. Every list is ordered most-import
 1. substrate_vs_random_init_vit.py at 256px at REAL scale (removes the resolution confound behind +0.31; AT1/AT2).
 2. DR1 build the non-additive bound-attribute natural-video test bed (unblocks every compositional mode).
 3. PR3/DR2 e7_sparse on REAL cached latents at 5+ seeds with a significance test.
-4. The permanent multi-encoder cached-latent corpus (ViT-L/H/g over one validated raw corpus).
+4. The permanent multi-instrument cached-latent corpus over one validated raw corpus.
 5. WS1 agreement-vs-confidence with DINOv2 as the genuinely different second encoder.
 6. The encoder-scale falsifier (does bigger frozen perception change which shell mechanisms help).
 

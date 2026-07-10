@@ -1,0 +1,116 @@
+schema: mop-governed-rewrite-config/v1
+id: governed_rewrite_preflight
+name: governed_rewrite_transaction_preflight
+module: governed_rewrite
+metric:
+  - atomic_commit_or_rollback
+  - canary_capability_gain
+  - shadow_capability_gain
+  - protected_regressions
+  - adversarial_rejections
+null_hypothesis: >-
+  a project-owned rewrite transaction cannot improve the bounded adaptation fixture while preserving
+  protected capability, or cannot fail closed under stale state, forged, expired, or replayed authority,
+  evaluator tampering, poisoned memory, interruption, and partial-write recovery
+tier: cpu-now
+claim_scope: >-
+  deterministic project-owned transaction mechanics over a structural fixture only; no natural-data,
+  learned-rewrite, capability, cognition, sentience, security, or production-safety claim
+
+authority:
+  issuer: mop-project-rewrite-governor
+  key_id: mop-fixture-hmac-sha256-v1
+  key_sha256: daf9db0a1dc3ea3eae105670e3110610c596695fc5b79f1dac1ca806694393b4
+  issued_tick: 100
+  expires_tick: 120
+  execution_tick: 110
+  max_uses: 1
+  proposal_paths:
+    - policy.adaptation_threshold
+  transaction_side_effect_paths:
+    - revision
+    - governance.consumed_authority_tokens
+
+initial_state:
+  revision: 1
+  policy:
+    adaptation_threshold: 3
+    protected_threshold: 3
+  governance:
+    consumed_authority_tokens: []
+
+memory:
+  ref: memory:governed-rewrite/calibration
+  content:
+    calibration_offset: 0
+    provenance: deterministic-project-fixture
+    allowed_use: rewrite-evaluation-only
+  available_from_tick: 0
+  available_until_tick: 500
+
+proposal:
+  proposal_id: proposal:governed-rewrite/adaptation-threshold-v2
+  token_id: authority:governed-rewrite/adaptation-threshold-v2
+  target_adaptation_threshold: 2
+  reason: lower the adaptation threshold by one bounded unit without changing the protected route
+
+rollback_probe:
+  proposal_id: proposal:governed-rewrite/regression-probe
+  token_id: authority:governed-rewrite/regression-probe
+  target_adaptation_threshold: 0
+  reason: deliberately over-broad authorized proposal used to prove canary rollback
+
+evaluation:
+  evaluator_id: mop-exact-threshold-evaluator-v1
+  comparison: greater-than-or-equal
+  memory_field: calibration_offset
+  canary_cases:
+    - {case_id: canary-adaptive-positive-boundary, route: adaptive, evidence: 2, target: 1}
+    - {case_id: canary-adaptive-positive-clear, route: adaptive, evidence: 4, target: 1}
+    - {case_id: canary-adaptive-negative-near, route: adaptive, evidence: 1, target: 0}
+    - {case_id: canary-adaptive-negative-zero, route: adaptive, evidence: 0, target: 0}
+    - {case_id: canary-protected-positive-boundary, route: protected, evidence: 3, target: 1}
+    - {case_id: canary-protected-positive-clear, route: protected, evidence: 5, target: 1}
+    - {case_id: canary-protected-negative-near, route: protected, evidence: 2, target: 0}
+    - {case_id: canary-protected-negative-zero, route: protected, evidence: 0, target: 0}
+  shadow_cases:
+    - {case_id: shadow-adaptive-positive-boundary-a, route: adaptive, evidence: 2, target: 1}
+    - {case_id: shadow-adaptive-positive-boundary-b, route: adaptive, evidence: 2, target: 1}
+    - {case_id: shadow-adaptive-positive-boundary-c, route: adaptive, evidence: 2, target: 1}
+    - {case_id: shadow-adaptive-positive-clear, route: adaptive, evidence: 3, target: 1}
+    - {case_id: shadow-adaptive-negative-near-a, route: adaptive, evidence: 1, target: 0}
+    - {case_id: shadow-adaptive-negative-near-b, route: adaptive, evidence: 1, target: 0}
+    - {case_id: shadow-adaptive-negative-zero-a, route: adaptive, evidence: 0, target: 0}
+    - {case_id: shadow-adaptive-negative-zero-b, route: adaptive, evidence: 0, target: 0}
+    - {case_id: shadow-protected-positive-boundary, route: protected, evidence: 3, target: 1}
+    - {case_id: shadow-protected-positive-clear, route: protected, evidence: 6, target: 1}
+    - {case_id: shadow-protected-negative-near, route: protected, evidence: 2, target: 0}
+    - {case_id: shadow-protected-negative-zero, route: protected, evidence: 0, target: 0}
+  gates:
+    canary:
+      minimum_after_correct: 8
+      minimum_capability_gain: 1
+      maximum_regressions: 0
+      maximum_protected_regressions: 0
+    shadow:
+      minimum_after_correct: 12
+      minimum_capability_gain: 3
+      maximum_regressions: 0
+      maximum_protected_regressions: 0
+
+resource_envelope:
+  device: cpu
+  cpu_threads: 1
+  maximum_wall_seconds: 10.0
+  maximum_rss_bytes: 1073741824
+  accelerator_required: false
+  model_weights_loaded: false
+  model_downloads_allowed: false
+  external_data_allowed: false
+
+stop_contract:
+  minimum_adversarial_attempts: 7
+  minimum_mutations: 12
+  require_exact_interrupted_resume: true
+  require_atomic_commit_and_rollback: true
+  require_independent_verifier: true
