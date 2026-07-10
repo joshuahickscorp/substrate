@@ -1,0 +1,50 @@
+id: mop_p4_capability_density_screen
+name: capability_density_response_surface_screen
+module: p4_screen
+metric: [heldout_combo_per_cell, response_surface_coefficients]
+null_hypothesis: "across twelve matched cells spanning 0.5x to 4x parameter budgets, three block families, two corpus densities, and two temporal extents, every registered response-surface coefficient on the predictive held-out combination score is bounded within the 0.10 SESOI band; capability density has no architecture/budget lever at this scale and follow-up cell selection is not better than uniform"
+tier: cpu-now
+
+# Profiles are wall envelopes, not claim levels. p4smoke proves the plumbing end to end; p4screen is
+# the full five-seed screen. Rerunning the same command resumes from durable per-arm checkpoints and
+# per-seed receipts. The promotion block refuses confirmatory claims by construction.
+profiles:
+  p4smoke:
+    seeds: [0]
+    steps: 12
+    checkpoint_every: 6
+    wall_budget_seconds: 10800.0
+  p4screen:
+    seeds: [0, 1, 2, 3, 4]
+    steps: 1000
+    checkpoint_every: 25
+    wall_budget_seconds: 10800.0
+
+training:
+  batch_size: 4
+  learning_rate: 0.0005
+  weight_decay: 0.02
+  mask_ratio: 0.50
+  ema_decay: 0.99
+  variance_weight: 0.10
+
+screen:
+  sesoi: 0.10
+  futility_margin: 0.10
+  min_free_disk_gb: 40.0
+
+# Redundant with mop.substrate.p4_screen.P4_CELLS by design: the runner verifies this table against
+# the registered constant and refuses drift, so the config cannot silently redefine the screen.
+cells:
+  - {cell_id: C01, budget_label: "1x", family: dense, dim: 128, depth: 4, experts: 0, frames: 8, corpus_variant: low}
+  - {cell_id: C02, budget_label: "1x", family: recurrent, dim: 140, depth: 6, experts: 0, frames: 16, corpus_variant: high}
+  - {cell_id: C03, budget_label: "1x", family: sparse, dim: 108, depth: 4, experts: 2, frames: 16, corpus_variant: low}
+  - {cell_id: C04, budget_label: "2x", family: dense, dim: 184, depth: 5, experts: 0, frames: 16, corpus_variant: high}
+  - {cell_id: C05, budget_label: "2x", family: recurrent, dim: 200, depth: 8, experts: 0, frames: 8, corpus_variant: low}
+  - {cell_id: C06, budget_label: "2x", family: sparse, dim: 128, depth: 4, experts: 4, frames: 8, corpus_variant: high}
+  - {cell_id: C07, budget_label: "4x", family: dense, dim: 256, depth: 6, experts: 0, frames: 16, corpus_variant: low}
+  - {cell_id: C08, budget_label: "4x", family: recurrent, dim: 304, depth: 8, experts: 0, frames: 8, corpus_variant: high}
+  - {cell_id: C09, budget_label: "4x", family: sparse, dim: 144, depth: 4, experts: 8, frames: 8, corpus_variant: low}
+  - {cell_id: C10, budget_label: "0.5x", family: dense, dim: 80, depth: 4, experts: 0, frames: 8, corpus_variant: high}
+  - {cell_id: C11, budget_label: "0.5x", family: recurrent, dim: 88, depth: 5, experts: 0, frames: 16, corpus_variant: low}
+  - {cell_id: C12, budget_label: "0.5x", family: sparse, dim: 76, depth: 3, experts: 2, frames: 16, corpus_variant: high}
