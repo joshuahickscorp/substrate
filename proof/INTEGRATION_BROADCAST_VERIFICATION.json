@@ -1,0 +1,305 @@
+{
+  "all_ok": true,
+  "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+  "config": {
+    "path": "configs/experiment/integration_broadcast_runs.yaml",
+    "sha256": "6ed71093ad4b32ded1849eae009a5ced983b4fec3303036acb48bb430475f404"
+  },
+  "evidence_class": "R1 independently re-executed programmatic toy mechanics",
+  "fresh_units": [
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "modelled_flops_per_episode": 256
+        },
+        "contract_fixture_sha256": {
+          "necessity": "acbc3c933727898b86d4e93f11e46fd339f44f799d4daf77107e3e6b7358ecf6",
+          "sufficiency": "016e709647727ce18f8ef5a40df73e2848b5230e64bd71b49008f9e5c0a8bfde"
+        },
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.68020833,
+            "2": 0.62048611,
+            "3": 0.55625
+          },
+          "delay_slope": 0.05902778,
+          "delta_vs_unrestricted_bus": 0.0,
+          "lesion_drop": 0.23055556,
+          "message_shuffle_drop": 0.21944444,
+          "off_floor_and_ceiling": true,
+          "restoration_recovery": 1.0,
+          "strongest_shell_attack_passed": true,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.56423611,
+          "feed-forward-depth": 0.50277778,
+          "independent-specialists": 0.56423611,
+          "lesion-broadcast": 0.50277778,
+          "limited-broadcast": 0.73333333,
+          "matched-dense-state": 0.60277778,
+          "message-shuffled": 0.51388889,
+          "restore-broadcast": 0.73333333,
+          "unrestricted-bus": 0.73333333,
+          "unrestricted-bus-lesion": 0.73333333
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.73333333,
+          "capacity_frontier_area": 0.67569444,
+          "delta_vs_best_comparator": 0.0,
+          "off_floor_and_ceiling": true,
+          "shared_task_score": 0.73333333,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 661
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "modelled_flops_per_episode": 256
+        },
+        "contract_fixture_sha256": {
+          "necessity": "f5a4d77b2a5d64d12bd83559941c327ab4fe213cb471352d633c6f6898667d38",
+          "sufficiency": "9b489aa06bb0a7c2614a0f1e773052f4796f9e269ffd250f8fdb03768d033658"
+        },
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.71631944,
+            "2": 0.65138889,
+            "3": 0.58472222
+          },
+          "delay_slope": 0.06342593,
+          "delta_vs_unrestricted_bus": 0.0,
+          "lesion_drop": 0.26493056,
+          "message_shuffle_drop": 0.28611111,
+          "off_floor_and_ceiling": true,
+          "restoration_recovery": 1.0,
+          "strongest_shell_attack_passed": true,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.56076389,
+          "feed-forward-depth": 0.51006944,
+          "independent-specialists": 0.56076389,
+          "lesion-broadcast": 0.51006944,
+          "limited-broadcast": 0.775,
+          "matched-dense-state": 0.6,
+          "message-shuffled": 0.48888889,
+          "restore-broadcast": 0.775,
+          "unrestricted-bus": 0.775,
+          "unrestricted-bus-lesion": 0.775
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.775,
+          "capacity_frontier_area": 0.70876736,
+          "delta_vs_best_comparator": 0.0,
+          "off_floor_and_ceiling": true,
+          "shared_task_score": 0.775,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 773
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "modelled_flops_per_episode": 256
+        },
+        "contract_fixture_sha256": {
+          "necessity": "b59a94c506130e38c0e8c5e4670f70d778442a78c907cd95e5f3d2eaaf8ee19b",
+          "sufficiency": "091ce2661635cda95bf70ee270ced277a7b69006a8ba828d951aa6a6fc664809"
+        },
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.70659722,
+            "2": 0.63888889,
+            "3": 0.56597222
+          },
+          "delay_slope": 0.07013889,
+          "delta_vs_unrestricted_bus": 0.0,
+          "lesion_drop": 0.28402778,
+          "message_shuffle_drop": 0.30277778,
+          "off_floor_and_ceiling": true,
+          "restoration_recovery": 1.0,
+          "strongest_shell_attack_passed": true,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.56736111,
+          "feed-forward-depth": 0.49236111,
+          "independent-specialists": 0.56736111,
+          "lesion-broadcast": 0.49236111,
+          "limited-broadcast": 0.77638889,
+          "matched-dense-state": 0.62638889,
+          "message-shuffled": 0.47361111,
+          "restore-broadcast": 0.77638889,
+          "unrestricted-bus": 0.77638889,
+          "unrestricted-bus-lesion": 0.77638889
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.77638889,
+          "capacity_frontier_area": 0.70538194,
+          "delta_vs_best_comparator": 0.0,
+          "off_floor_and_ceiling": true,
+          "shared_task_score": 0.77638889,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 887
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "modelled_flops_per_episode": 256
+        },
+        "contract_fixture_sha256": {
+          "necessity": "6134044881bee7e3464c30160930debec9bfce39cb1872899f3624f00e29e72d",
+          "sufficiency": "30f0a2a233b7f97b5a68cf9bafa42fea2669d2e17ccc753891dc91c5eedc49d9"
+        },
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.70486111,
+            "2": 0.63263889,
+            "3": 0.56527778
+          },
+          "delay_slope": 0.06851852,
+          "delta_vs_unrestricted_bus": 0.0,
+          "lesion_drop": 0.27534722,
+          "message_shuffle_drop": 0.26666667,
+          "off_floor_and_ceiling": true,
+          "restoration_recovery": 1.0,
+          "strongest_shell_attack_passed": true,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.57361111,
+          "feed-forward-depth": 0.49548611,
+          "independent-specialists": 0.57361111,
+          "lesion-broadcast": 0.49548611,
+          "limited-broadcast": 0.77083333,
+          "matched-dense-state": 0.61388889,
+          "message-shuffled": 0.50416667,
+          "restore-broadcast": 0.77083333,
+          "unrestricted-bus": 0.77083333,
+          "unrestricted-bus-lesion": 0.77083333
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.77083333,
+          "capacity_frontier_area": 0.70199653,
+          "delta_vs_best_comparator": 0.0,
+          "off_floor_and_ceiling": true,
+          "shared_task_score": 0.77083333,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 991
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "modelled_flops_per_episode": 256
+        },
+        "contract_fixture_sha256": {
+          "necessity": "ecc5c0e9bdbf0eff8e36ab1515f987269307d964433bc9592efe9de605fa82d3",
+          "sufficiency": "0466c01c99ad0d1aa42db482b4f52bff88e9d35518114f731f2c7e0f19b2c85e"
+        },
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.6375,
+            "2": 0.59201389,
+            "3": 0.54166667
+          },
+          "delay_slope": 0.04814815,
+          "delta_vs_unrestricted_bus": 0.0,
+          "lesion_drop": 0.19479167,
+          "message_shuffle_drop": 0.15277778,
+          "off_floor_and_ceiling": true,
+          "restoration_recovery": 1.0,
+          "strongest_shell_attack_passed": true,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.56006944,
+          "feed-forward-depth": 0.49131944,
+          "independent-specialists": 0.56006944,
+          "lesion-broadcast": 0.49131944,
+          "limited-broadcast": 0.68611111,
+          "matched-dense-state": 0.57222222,
+          "message-shuffled": 0.53333333,
+          "restore-broadcast": 0.68611111,
+          "unrestricted-bus": 0.68611111,
+          "unrestricted-bus-lesion": 0.68611111
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.68611111,
+          "capacity_frontier_area": 0.63741319,
+          "delta_vs_best_comparator": 0.0,
+          "off_floor_and_ceiling": true,
+          "shared_task_score": 0.68611111,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 1097
+    }
+  ],
+  "independence": {
+    "fresh_seed_reexecution": true,
+    "imports_run_evaluator": false,
+    "primary_seed_reexecution": true,
+    "separate_arm_loop": true
+  },
+  "mutation_checks": {
+    "changed_lesion_drop": true,
+    "changed_seed": true,
+    "erased_tie_null": true
+  },
+  "payload_sha256": "656d1ee3a48204aca24f071830f9bd117a2ebde179ca9200208da77327548825",
+  "per_experiment": {
+    "f36_limited_broadcast_necessity": {
+      "fresh_seed_favorable": true,
+      "primary_programmatic_favorable": true,
+      "programmatic_pattern_verified": true,
+      "scientific_promotion_allowed": false,
+      "strongest_control": "message-shuffled plus unrestricted-bus lesion invariance",
+      "verdict": "verified-favorable-toy-pattern"
+    },
+    "f37_broadcast_sufficiency": {
+      "fresh_seed_favorable": false,
+      "primary_programmatic_favorable": false,
+      "programmatic_pattern_verified": false,
+      "scientific_promotion_allowed": false,
+      "strongest_control": "exact unrestricted-bus tie",
+      "verdict": "verified-null"
+    }
+  },
+  "primary_recompute_exact": true,
+  "problems": [],
+  "run_receipt": {
+    "path": "proof/INTEGRATION_BROADCAST_RUN.json",
+    "payload_sha256": "f34f30aec7f8b35f6b2506e31c7a6c06a114c663803ab26bba166b59cbb1b4d0",
+    "sha256": "a5cb1200b7a79bc578aa9cde7d2ed4f9ecb66e72c2ff3b95f70e972c94317fdc"
+  },
+  "schema": "mop-integration-broadcast-verifier/v1",
+  "scientific_capability_claim": false
+}
