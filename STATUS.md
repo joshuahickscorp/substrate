@@ -2,6 +2,21 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 P3 controls completed at all three scales + atlas control columns
+
+- [x] ViT-H and ViT-g matched random-init control caches built serially (seed 0, CPU, 277.0 s and
+  1387.8 s) and verified: backend vjepa_hf_random_init, exact state hashes pinned
+  (4bfa7f45..., 2c3c3ee7...), stimulus hashes byte-identical to the identity receipt's 256px and
+  384px regenerated sets respectively. Together with the sibling session's ViT-L control this
+  completes the residual audit's serial P3 order at seed 0.
+- [x] Scale atlas refreshed with all three control columns: 6 citable scales,
+  matched_random_architecture TRUE at L/H/g (that eligibility reason is retired). Remaining
+  honest reasons: programmatic renders, n=8 pilot, learned caches predate per-input stimulus
+  hashing (externally closed by proof/FACTORIZED_STIMULUS_IDENTITY.json; atlas consumption of
+  that receipt queued as a hardening chip), and fewer than three random seeds per architecture.
+- [~] Six additional random control caches (seeds 1 and 2 per scale) building strictly serially
+  on lane 0 (~65 min); atlas re-refresh follows.
+
 ## 2026-07-10 control integrity + planning arithmetic + P9 accounting (light-lane wave)
 
 - [x] Stimulus identity PROVED for every learned/control pair without a rebuild:
