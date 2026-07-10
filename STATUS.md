@@ -2,6 +2,25 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 host arbitration + P3 ViT-L control verified (concurrent-session wave)
+
+- [x] A sibling session on this host completed the P5 memory-boundary trace
+  (proof/P5_MEMORY_BOUNDARY_TRACE.json, all_ok) and the P3 ViT-L matched random-init cache
+  (data/cache/vjepa2_vitl_local8_random_s0, 277.6 s encode). Independent adversarial verification
+  here PASSED: backend vjepa_hf_random_init, weights_real false, declared seed 0, exact
+  state_dict_sha256 dfbbe9d3, architecture files hash-identical to the learned ViT-L cache, and
+  all 8 stimulus hashes reproduce byte-identically from the deterministic generator at seed 0
+  (set_sha256 18fee835, generator source b34f3109). Learned local8 caches predate stimulus-hash
+  recording; learned/control byte-identity rests on generator determinism plus identical seed and
+  generator source, stated as such.
+- [x] Host guard enforced: killed a wedged runaway encoder process (PID 2940) spawned by a
+  cache_factorized_encoder.py invocation with --help (the script ignores the token and starts a
+  full default 288-clip build; it froze after store preallocation with stdout pipe closed). Its
+  receiptless partial store (meta count 0, no manifest) was removed; doctor back to green 15/15.
+  Known trap recorded in ISSUES.md: never pass --help to compose()-driven cache scripts.
+- [ ] P3 remainder (ViT-H, ViT-g random caches, atlas refresh with control columns) left to the
+  active sibling session; verify receipts on next scan before citing.
+
 ## 2026-07-10 ledger wave: exhaustion, frontier, F chain, requirements all regenerated
 
 - [x] PROJECT_EXPERIMENT_EXHAUSTION.json regenerated post-CM7: CM7 row freshly-executed-verified,
