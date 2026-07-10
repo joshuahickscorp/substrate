@@ -148,7 +148,7 @@
     },
     {
       "path": "proof/COMPLETION_CLAIM_AUDIT.json",
-      "sha256": "bc74193ea4b8310563ee101559c8e1e2eea8d94b94c24ea4dadf5d1366995bb2"
+      "sha256": "f230692ee31b0f89462141ab10e34b7b4f2faadf267553b4a15236fa7b19bc7e"
     },
     {
       "path": "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
