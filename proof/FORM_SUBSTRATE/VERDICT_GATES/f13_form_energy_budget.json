@@ -1,0 +1,32 @@
+{
+  "schema": "mop-verdict-gate/v1",
+  "created_at": "2026-07-10T06:53:12.118296+00:00",
+  "claim_id": "f13_form_energy_budget",
+  "verdict": "PUBLISH-POSITIVE",
+  "positive": true,
+  "strict_card": true,
+  "all_ok": true,
+  "null_card": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/NULL_CARDS/f13_form_energy_budget.md",
+    "exists": true,
+    "sha256": "2d09b2c2699da13973b8b93fff3562ec6e3287f5776e65a69b33585dda501b10",
+    "problems": []
+  },
+  "run_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f13_form_energy_budget.json",
+    "exists": true,
+    "sha256": "c119a12df5e867e948e55bf3421e67d3c9436196fff36a617fcb98e9d3676db3",
+    "json_ok": true,
+    "problems": []
+  },
+  "verifier_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f13_form_energy_budget.json",
+    "exists": true,
+    "sha256": "8902b2e73d01f5f294280001cf2a5a815eec704f7c17c583bb9ee74cfff6fe7f",
+    "json_ok": true,
+    "passed": true,
+    "independent": true,
+    "problems": []
+  },
+  "problems": []
+}

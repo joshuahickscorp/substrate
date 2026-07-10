@@ -1,0 +1,92 @@
+{
+  "schema": "mop-real-encoder-scale-probe/v1",
+  "created_at": "2026-07-10T03:23:47.550569+00:00",
+  "config": {
+    "path": "/Users/scammermike/Downloads/mop/configs/encoder/vjepa2_vitg.yaml",
+    "sha256": "f81eda56d9111512a21a18ae07e6b015d1c7e8052df28fce7b822c7431b531bd",
+    "name": "vjepa2_vitg",
+    "model_id": "facebook/vjepa2-vitg-fpc64-384",
+    "revision": "12ca91694b230e0d4b5b0078af6f4ae1d51e933d",
+    "resolved": {
+      "name": "vjepa2_vitg",
+      "arch": "vit_giant",
+      "hf_id": "facebook/vjepa2-vitg-fpc64-384",
+      "revision": "12ca91694b230e0d4b5b0078af6f4ae1d51e933d",
+      "hub": "facebookresearch/jepa",
+      "embed_dim": 1408,
+      "patch_size": 16,
+      "tubelet": 2,
+      "frames_per_clip": 64,
+      "resolution": 384,
+      "dense": false,
+      "pool": "mean",
+      "frozen": true,
+      "family": "vjepa2",
+      "training_objective": "masked_latent_prediction"
+    }
+  },
+  "probe": {
+    "mode": "forward",
+    "device": "cpu",
+    "timeout_seconds": 900.0,
+    "command": [
+      "/Users/scammermike/Downloads/mop/.venv/bin/python",
+      "-m",
+      "mop.studio.encoder_scale_probe",
+      "--child",
+      "--config",
+      "/Users/scammermike/Downloads/mop/configs/encoder/vjepa2_vitg.yaml",
+      "--mode",
+      "forward",
+      "--device",
+      "cpu",
+      "--child-result",
+      "/var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gn/T/mop-encoder-probe-ah9pma8e/child.json"
+    ],
+    "offline_weights_required": true
+  },
+  "status": "passed",
+  "return_code": 0,
+  "timed_out": false,
+  "explicit_out_of_memory": false,
+  "hardware_limit_reached": false,
+  "wall_seconds": 199.19296666700393,
+  "max_process_tree_rss_bytes": 5528895488,
+  "system_memory": {
+    "total_bytes": 19327352832,
+    "available_before_bytes": 7073742848,
+    "minimum_available_bytes": 5510545408
+  },
+  "child": {
+    "backend": "vjepa_hf",
+    "parameters": 1034555264,
+    "load_seconds": 2.0414037089794874,
+    "forward_seconds": 195.88882916606963,
+    "input_shape": [
+      1,
+      64,
+      3,
+      384,
+      384
+    ],
+    "output_shape": [
+      1,
+      1408
+    ],
+    "output_finite": true,
+    "output_mean": -0.05477334186434746,
+    "output_std": 2.2264864444732666,
+    "mps_current_allocated_bytes": null,
+    "mps_driver_allocated_bytes": null,
+    "completed": true,
+    "total_seconds": 197.93888291704934,
+    "child_max_rss_bytes": 5518786560
+  },
+  "stdout_tail": "",
+  "stderr_tail": "\nLoading weights:   0%|          | 0/843 [00:00<?, ?it/s]\nLoading weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 843/843 [00:00<00:00, 8494.82it/s]\n",
+  "interpretation": "A timeout is a bounded-attempt result, not by itself an out-of-memory claim. Only an explicit allocator failure sets hardware_limit_reached.",
+  "validation": {
+    "all_ok": true,
+    "problems": []
+  }
+}

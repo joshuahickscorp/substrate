@@ -1,0 +1,32 @@
+{
+  "schema": "mop-verdict-gate/v1",
+  "created_at": "2026-07-10T06:53:12.126410+00:00",
+  "claim_id": "f18_counterfactual_form_intervention",
+  "verdict": "PUBLISH-POSITIVE",
+  "positive": true,
+  "strict_card": true,
+  "all_ok": true,
+  "null_card": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/NULL_CARDS/f18_counterfactual_form_intervention.md",
+    "exists": true,
+    "sha256": "cb06dea81866e8d0c446a6edeb6a2b649751ee88336471bcb188d7f7e6b528f1",
+    "problems": []
+  },
+  "run_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f18_counterfactual_form_intervention.json",
+    "exists": true,
+    "sha256": "ae8334cf32fddec460fc9e6e7700b4f57b6e9ce6561efb730fd4902f989c4c98",
+    "json_ok": true,
+    "problems": []
+  },
+  "verifier_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f18_counterfactual_form_intervention.json",
+    "exists": true,
+    "sha256": "7716278fb5444f8384d716464ab201faf14e7b105b6e35d14c2077bf68f71979",
+    "json_ok": true,
+    "passed": true,
+    "independent": true,
+    "problems": []
+  },
+  "problems": []
+}

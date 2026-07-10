@@ -1,0 +1,240 @@
+{
+  "schema": "mop-form-experiment-receipt/v1",
+  "created_at": "2026-07-09T23:34:16.062034+00:00",
+  "experiment_id": "f20_substrate_crisis_test",
+  "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
+  "canonical": true,
+  "source": {
+    "run_dir": "runs/f20_substrate_crisis_test/002",
+    "manifest_path": "runs/f20_substrate_crisis_test/002/manifest.json",
+    "manifest_sha256": "0890284a0777b22650d238978142cdb1b951fb64d1e4fb6284d48d3718164cd0",
+    "config_path": "runs/f20_substrate_crisis_test/002/config.yaml",
+    "config_sha256": "b513ba41c6d718087153609f75a108ec2e495cca1beb3b7aa861e7b8e992c1ef",
+    "git": "be7b5d9",
+    "device": "cpu",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "result_tag": "structured-synthetic"
+  },
+  "contract": {
+    "experiment_id": "f20_substrate_crisis_test",
+    "required": true,
+    "comparisons": {
+      "id": {
+        "registry": "f20_substrate_crisis_test",
+        "class": "f20_substrate_crisis_test",
+        "config": "f20_substrate_crisis_test",
+        "equal": true
+      },
+      "metric": {
+        "registry": [
+          "crisis_auroc",
+          "raw_error_auroc",
+          "false_trigger_rate",
+          "avoided_wasted_compute_per_monitor_flop"
+        ],
+        "class": [
+          "crisis_auroc",
+          "raw_error_auroc",
+          "false_trigger_rate",
+          "avoided_wasted_compute_per_monitor_flop"
+        ],
+        "config": [
+          "crisis_auroc",
+          "raw_error_auroc",
+          "false_trigger_rate",
+          "avoided_wasted_compute_per_monitor_flop"
+        ],
+        "equal": true
+      },
+      "null_hypothesis": {
+        "registry": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+        "class": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+        "config": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+        "equal": true
+      },
+      "tier": {
+        "registry": "cpu-now",
+        "class": "cpu-now",
+        "config": "cpu-now",
+        "equal": true
+      }
+    },
+    "canonical": {
+      "id": "f20_substrate_crisis_test",
+      "metric": [
+        "crisis_auroc",
+        "raw_error_auroc",
+        "false_trigger_rate",
+        "avoided_wasted_compute_per_monitor_flop"
+      ],
+      "null_hypothesis": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+      "tier": "cpu-now"
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "registry": {
+    "status": "implemented",
+    "resource_tier": "cpu-now",
+    "proof": {
+      "atlas_factor": "crisis_detection",
+      "null_card": "none",
+      "evidence_level": "R0"
+    }
+  },
+  "execution": {
+    "status": "ok",
+    "outer_seed": 0,
+    "intended_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "observed_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "started": 1783640052.850372,
+    "finished": 1783640056.062034
+  },
+  "metrics": {
+    "crisis_auroc": 0.9688,
+    "raw_error_auroc": 0.7905,
+    "false_trigger_rate": 0.0,
+    "avoided_wasted_compute_per_monitor_flop": 0.0,
+    "hypothetical_avoided_compute_per_monitor_flop": 279.2458,
+    "avoided_compute_measured": false,
+    "fixed_confidence_auroc": 0.9146,
+    "strongest_baseline_auroc": 0.9146,
+    "random_trigger_auroc": 0.5251,
+    "random_trigger_matched_rate": 0.65,
+    "fixed_error_noise_false_rate": 1.0,
+    "true_trigger_rate": 0.9844,
+    "auroc_over_raw_error": 0.1783,
+    "failure_rate": 0.5333,
+    "monitor_flops": 2256076800.0,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "per_seed_deltas": [
+      0.0694,
+      0.0278,
+      -0.0148,
+      0.0694,
+      0.1014
+    ],
+    "per_seed_false_trigger_rates": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "seed_ci": {
+      "n": 5,
+      "mean": 0.0507,
+      "sd": 0.045,
+      "ci_half": 0.0394,
+      "lo": 0.0112,
+      "hi": 0.0901,
+      "unstable": false
+    },
+    "sign_flip_report": {
+      "n": 5,
+      "n_pos": 4,
+      "n_neg": 1,
+      "n_zero": 0,
+      "any_flip": true,
+      "consistent_sign": 0
+    },
+    "null_supported": true,
+    "density": {
+      "schema": "mop-density-block/v1",
+      "primary": "crisis_auroc",
+      "capability": {
+        "crisis_auroc": 0.96875,
+        "avoided_wasted_compute_per_monitor_flop": 0.0
+      },
+      "cost": {
+        "flops": 2256076800.0,
+        "seconds": 3.20717795798555
+      },
+      "density": {
+        "crisis_auroc_per_flops": 4.2939584326207335e-10,
+        "crisis_auroc_per_seconds": 0.3020568277441263
+      }
+    }
+  },
+  "declared_metrics": {
+    "crisis_auroc": 0.9688,
+    "raw_error_auroc": 0.7905,
+    "false_trigger_rate": 0.0,
+    "avoided_wasted_compute_per_monitor_flop": 0.0
+  },
+  "null_decision": {
+    "null_supported": true,
+    "declared_verdict": "DOWNGRADE-TIE",
+    "positive_requires_independent_verifier": false,
+    "ledger_ready": false
+  },
+  "density": {
+    "schema": "mop-density-block/v1",
+    "primary": "crisis_auroc",
+    "capability": {
+      "crisis_auroc": 0.96875,
+      "avoided_wasted_compute_per_monitor_flop": 0.0
+    },
+    "cost": {
+      "flops": 2256076800.0,
+      "seconds": 3.20717795798555
+    },
+    "density": {
+      "crisis_auroc_per_flops": 4.2939584326207335e-10,
+      "crisis_auroc_per_seconds": 0.3020568277441263
+    }
+  },
+  "operational_awareness": {
+    "schema": "mop-operational-awareness/v1",
+    "experiment_id": "f20_substrate_crisis_test",
+    "components": {
+      "oa6_crisis_detection": {
+        "auroc": 0.9688,
+        "raw_error_auroc": 0.7905,
+        "strongest_baseline_auroc": 0.9146,
+        "avoided_compute_measured": false,
+        "chance": 0.5
+      },
+      "oa7_rewrite_caution": {
+        "false_trigger_rate": 0.0,
+        "true_trigger_rate": 0.9844,
+        "caution_margin": 0.9844
+      }
+    },
+    "components_present": [
+      "oa6_crisis_detection",
+      "oa7_rewrite_caution"
+    ],
+    "components_missing": [
+      "oa1_missing_form",
+      "oa2_calibration",
+      "oa3_memory_availability",
+      "oa4_mode_selection",
+      "oa5_compute_value",
+      "oa8_report_grounding"
+    ],
+    "composite_score": null
+  },
+  "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f20_substrate_crisis_test.json",
+  "problems": [],
+  "all_ok": true,
+  "receipt_fingerprint": "30a53cf7ac18a4bd16d409fb8f61a566ea17c926a75d916e000c2360c9ef9172"
+}

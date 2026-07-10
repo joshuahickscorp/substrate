@@ -1,0 +1,835 @@
+{
+  "alignment": {
+    "doctrine": "CKA/RSA/local-neighborhood alignment is a geometry report, not substrate-specialness proof; claims still need a random-encoder or matched-control arm.",
+    "k": 3,
+    "matrices": {
+      "kernel_cka": {
+        "vit_g": {
+          "vit_g": 1.0,
+          "vit_h": 0.9993,
+          "vit_l": 0.997
+        },
+        "vit_h": {
+          "vit_g": 0.9993,
+          "vit_h": 1.0,
+          "vit_l": 0.9986
+        },
+        "vit_l": {
+          "vit_g": 0.997,
+          "vit_h": 0.9986,
+          "vit_l": 1.0
+        }
+      },
+      "linear_cka": {
+        "vit_g": {
+          "vit_g": 1.0,
+          "vit_h": 0.9989,
+          "vit_l": 0.9959
+        },
+        "vit_h": {
+          "vit_g": 0.9989,
+          "vit_h": 1.0,
+          "vit_l": 0.9984
+        },
+        "vit_l": {
+          "vit_g": 0.9959,
+          "vit_h": 0.9984,
+          "vit_l": 1.0
+        }
+      },
+      "neighborhood_overlap": {
+        "vit_g": {
+          "vit_g": 1.0,
+          "vit_h": 1.0,
+          "vit_l": 1.0
+        },
+        "vit_h": {
+          "vit_g": 1.0,
+          "vit_h": 1.0,
+          "vit_l": 1.0
+        },
+        "vit_l": {
+          "vit_g": 1.0,
+          "vit_h": 1.0,
+          "vit_l": 1.0
+        }
+      },
+      "rsa": {
+        "vit_g": {
+          "vit_g": 1.0,
+          "vit_h": 0.8506,
+          "vit_l": 0.7105
+        },
+        "vit_h": {
+          "vit_g": 0.8506,
+          "vit_h": 1.0,
+          "vit_l": 0.838
+        },
+        "vit_l": {
+          "vit_g": 0.7105,
+          "vit_h": 0.838,
+          "vit_l": 1.0
+        }
+      }
+    },
+    "n": 8,
+    "n_permutations": 500,
+    "pairs": {
+      "vit_g__vit_h": {
+        "kernel_cka": 0.9993,
+        "left": "vit_g",
+        "linear_cka": 0.9989,
+        "n_permutations": 500,
+        "neighborhood_overlap": 1.0,
+        "null_mean": 0.1581,
+        "p_value": 0.002,
+        "right": "vit_h",
+        "rsa": 0.8506
+      },
+      "vit_g__vit_l": {
+        "kernel_cka": 0.997,
+        "left": "vit_g",
+        "linear_cka": 0.9959,
+        "n_permutations": 500,
+        "neighborhood_overlap": 1.0,
+        "null_mean": 0.1706,
+        "p_value": 0.002,
+        "right": "vit_l",
+        "rsa": 0.7105
+      },
+      "vit_h__vit_l": {
+        "kernel_cka": 0.9986,
+        "left": "vit_h",
+        "linear_cka": 0.9984,
+        "n_permutations": 500,
+        "neighborhood_overlap": 1.0,
+        "null_mean": 0.1653,
+        "p_value": 0.002,
+        "right": "vit_l",
+        "rsa": 0.838
+      }
+    },
+    "schema": "mop-alignment-suite/v1",
+    "self_geometry": {
+      "vit_g": {
+        "anisotropy": 0.935,
+        "dim": 1408,
+        "effective_rank": 1.1404,
+        "intrinsic_dim": 1.1404,
+        "n": 8
+      },
+      "vit_h": {
+        "anisotropy": 0.9279,
+        "dim": 1280,
+        "effective_rank": 1.1566,
+        "intrinsic_dim": 1.1566,
+        "n": 8
+      },
+      "vit_l": {
+        "anisotropy": 0.8959,
+        "dim": 1024,
+        "effective_rank": 1.2335,
+        "intrinsic_dim": 1.2335,
+        "n": 8
+      }
+    },
+    "tags": [
+      "vit_g",
+      "vit_h",
+      "vit_l"
+    ],
+    "warnings": [
+      "no random-encoder control tag detected"
+    ]
+  },
+  "all_ok": true,
+  "artifact_validation": {
+    "all_caches_citable": true,
+    "meaning_of_all_ok": "receipt mechanics are valid; scientific promotability is separate and false",
+    "ordered_referents_factors_and_splits_match": true
+  },
+  "caches": {
+    "vit_g": {
+      "backend": "vjepa_hf",
+      "manifest_sha256": "dc4d2f6596e883da6c9192e120c900d433b40425e8553afdf12196829e290a97",
+      "model_id": "facebook/vjepa2-vitg-fpc64-384",
+      "objective": "inherited-frozen",
+      "path": "/Users/scammermike/Downloads/mop/data/cache/vjepa2_vitg_local8_citable",
+      "random_init_seed": null,
+      "revision": "12ca91694b230e0d4b5b0078af6f4ae1d51e933d",
+      "shape": [
+        8,
+        1408
+      ],
+      "state_dict_sha256": null
+    },
+    "vit_h": {
+      "backend": "vjepa_hf",
+      "manifest_sha256": "80227b163100ccc5986bfbae72d6e6002abca0c95d86ab3969053a710a81e218",
+      "model_id": "facebook/vjepa2-vith-fpc64-256",
+      "objective": "inherited-frozen",
+      "path": "/Users/scammermike/Downloads/mop/data/cache/vjepa2_vith_local8_citable",
+      "random_init_seed": null,
+      "revision": "b5eac8703e3efdc1547fbb6ddfbeb133dc0bdee5",
+      "shape": [
+        8,
+        1280
+      ],
+      "state_dict_sha256": null
+    },
+    "vit_l": {
+      "backend": "vjepa_hf",
+      "manifest_sha256": "bb4d93ce7841db5d3cd5ae48ed64d8a4ede97eeb11ecab423ce5d8c5304e8cb4",
+      "model_id": "facebook/vjepa2-vitl-fpc64-256",
+      "objective": "inherited-frozen",
+      "path": "/Users/scammermike/Downloads/mop/data/cache/vjepa2_vitl_local8_citable",
+      "random_init_seed": null,
+      "revision": "b3c1679b7c34d3255ef3547f27c7b226aefab26f",
+      "shape": [
+        8,
+        1024
+      ],
+      "state_dict_sha256": null
+    }
+  },
+  "claim_eligibility": {
+    "promotable": false,
+    "reasons": [
+      "programmatic native-resolution renders rather than rights-clean natural video",
+      "n=8 is a mechanics and scale-signal pilot",
+      "matched random-architecture cache is not present for every learned scale",
+      "byte-identical stimuli are not proven for every learned/control pair"
+    ]
+  },
+  "controls": {
+    "full_rank_random_map": false,
+    "matched_random_architecture": false,
+    "matched_stimulus_hashes": false,
+    "matches": {
+      "vit_g": [],
+      "vit_h": [],
+      "vit_l": []
+    },
+    "random_seeds_per_architecture": {
+      "vit_g": [],
+      "vit_h": [],
+      "vit_l": []
+    },
+    "row_permutation": true,
+    "shuffled_train_labels_on_frozen_split": true,
+    "warning": "the former full-rank random-map arm was removed from claim evidence because an invertible linear map preserves linear decodability; matched random architectures are the relevant learned-code control"
+  },
+  "created_at": "2026-07-10T04:17:49.565968+00:00",
+  "factor_reports": {
+    "factor_a": [
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 17,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.25,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 29,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.25,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 43,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 59,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 71,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.25,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      }
+    ],
+    "factor_b": [
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 17,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 29,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 43,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 59,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 71,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      }
+    ]
+  },
+  "migration_use": {
+    "local_serial_execution_proven": true,
+    "model_availability_blocker_retired": true,
+    "requirements_export": [
+      "preserve exact referent identity across encoder replacements",
+      "measure factor retention separately for hue and orientation-motion",
+      "compare pairwise geometry against row permutation",
+      "require matched random-architecture and byte-hashed stimulus controls before learned-code claims",
+      "price throughput and memory per native resolution"
+    ]
+  },
+  "pair_tags": [
+    [
+      "vit_g",
+      "vit_h"
+    ],
+    [
+      "vit_g",
+      "vit_l"
+    ],
+    [
+      "vit_h",
+      "vit_l"
+    ]
+  ],
+  "pairwise_permutation_min_bonferroni": 0.006,
+  "pairwise_permutation_min_p": 0.002,
+  "pairwise_permutation_min_p_interpretation": "raw exploratory minimum, not a familywise p-value",
+  "referent_contract": {
+    "count": 8,
+    "exact_order_match": true,
+    "factors_match": true,
+    "limitation": "referent IDs and generative factors match exactly, but native-resolution renders are not the same pixel tensor and old runs lack input hashes",
+    "pixel_bytes_verified_across_caches": false,
+    "referent_sha256": "c8bda04e164450cf36e3b904d133b69c40409f7ccdc6b42e90968045b5fe337c",
+    "splits_match": true
+  },
+  "schema": "mop-vjepa-scale-atlas-local/v1",
+  "scope": "serial local V-JEPA scale atlas on shared generative referents rendered at each model's native resolution",
+  "seeds": [
+    17,
+    29,
+    43,
+    59,
+    71
+  ]
+}

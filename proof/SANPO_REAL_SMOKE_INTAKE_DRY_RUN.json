@@ -1,0 +1,100 @@
+{
+  "all_ok": true,
+  "claim_boundary": {
+    "encoder_loaded": false,
+    "f8_f16_trusted_provenance_satisfied": false,
+    "natural_video_source": true,
+    "official_test_used_for_selection_or_tuning": false,
+    "scientific_promotion": false,
+    "statement": "This stages rights-documented natural-video input. It does not by itself satisfy F8/F16 trusted-provenance authority or a natural-video scientific promotion.",
+    "status": "staged-natural-video-input-only"
+  },
+  "created_at": "2026-07-10T04:38:38.885092+00:00",
+  "destination": "/Users/scammermike/Downloads/mop/data/raw/sanpo_real_smoke_v0",
+  "disk": {
+    "atomic_generation_pinned_downloads": true,
+    "check_before_and_after_every_object": true,
+    "free_disk_before_plan_bytes": 49232982016,
+    "max_cohort_bytes": 350000000,
+    "min_cohort_bytes": 250000000,
+    "min_free_disk_bytes": 40000000000,
+    "projected_free_after_bytes": 48943973930,
+    "raw_smoke_cap_bytes": 5000000000,
+    "resumable_part_files": true
+  },
+  "download_active": false,
+  "mode": "dry-run",
+  "plan_identity_sha256": "0ae911d890c88bfe03189ce403ce4ce4f8cdf8f00d193f60304fd7fcdf2f2f96",
+  "projected": {
+    "frame_bytes": 288911268,
+    "frames": 80,
+    "gcs_bytes": 288989974,
+    "gcs_objects": 92,
+    "repository_objects": 2,
+    "sessions": 10,
+    "total_bytes": 289008086
+  },
+  "schema": "mop-sanpo-real-smoke-intake/v1",
+  "sessions": [
+    {
+      "is_park": false,
+      "official_split": "train",
+      "role": "train",
+      "session_id": "-5OCPnbrwJdu3jH70ieU7pUiFsOJQoeG"
+    },
+    {
+      "is_park": false,
+      "official_split": "train",
+      "role": "train",
+      "session_id": "-aAwyxNyh11M5W0DQ8YPcSfdkbvvctaV"
+    },
+    {
+      "is_park": false,
+      "official_split": "train",
+      "role": "train",
+      "session_id": "-aP-f2zTmsBIgoHTHAWqHW8PjpUcGr55"
+    },
+    {
+      "is_park": true,
+      "official_split": "train",
+      "role": "train",
+      "session_id": "-MnIHGYpsPvn4CF_iAKGfRQewKSEZGv1"
+    },
+    {
+      "is_park": true,
+      "official_split": "train",
+      "role": "train",
+      "session_id": "-PXxwecxoR8mWhFQ09j-lddcSMLO_0K2"
+    },
+    {
+      "is_park": true,
+      "official_split": "train",
+      "role": "train",
+      "session_id": "-PqSDmiEe2pXjmYHgxh4YEBsj0T5LU10"
+    },
+    {
+      "is_park": false,
+      "official_split": "train",
+      "role": "validation",
+      "session_id": "-zfzmmr-bSvsDqVuBJM8GGMUBKXvBGZR"
+    },
+    {
+      "is_park": true,
+      "official_split": "train",
+      "role": "validation",
+      "session_id": "-koZLfrjI5P5NIBgB4f_4jpMSMxsd9pH"
+    },
+    {
+      "is_park": false,
+      "official_split": "test",
+      "role": "test",
+      "session_id": "0auMnLmZDf_ZGM3VqzxmYPlwhtls73RF"
+    },
+    {
+      "is_park": true,
+      "official_split": "test",
+      "role": "test",
+      "session_id": "-F9N8JhMuJZmOpz2M8o1At2j-jAas9AA"
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "schema": "mop-form-experiment-receipt/v1",
+  "created_at": "2026-07-09T23:34:02.078778+00:00",
+  "experiment_id": "f9_cross_form_compositional_binding",
+  "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
+  "canonical": true,
+  "source": {
+    "run_dir": "runs/f9_cross_form_compositional_binding/005",
+    "manifest_path": "runs/f9_cross_form_compositional_binding/005/manifest.json",
+    "manifest_sha256": "943a24348a0000b17f3856c411338b8d120c0c30306aa30300fa09b6e31a877a",
+    "config_path": "runs/f9_cross_form_compositional_binding/005/config.yaml",
+    "config_sha256": "4a7f0dbb5cdaa970004f000e72fef7efc2043e99018db67cfdf87ed4afa07036",
+    "git": "be7b5d9",
+    "device": "cpu",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "result_tag": "structured-synthetic"
+  },
+  "contract": {
+    "experiment_id": "f9_cross_form_compositional_binding",
+    "required": true,
+    "comparisons": {
+      "id": {
+        "registry": "f9_cross_form_compositional_binding",
+        "class": "f9_cross_form_compositional_binding",
+        "config": "f9_cross_form_compositional_binding",
+        "equal": true
+      },
+      "metric": {
+        "registry": [
+          "heldout_combo_acc",
+          "seen_combo_acc",
+          "heldout_seen_gap"
+        ],
+        "class": [
+          "heldout_combo_acc",
+          "seen_combo_acc",
+          "heldout_seen_gap"
+        ],
+        "config": [
+          "heldout_combo_acc",
+          "seen_combo_acc",
+          "heldout_seen_gap"
+        ],
+        "equal": true
+      },
+      "null_hypothesis": {
+        "registry": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+        "class": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+        "config": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+        "equal": true
+      },
+      "tier": {
+        "registry": "cpu-now",
+        "class": "cpu-now",
+        "config": "cpu-now",
+        "equal": true
+      }
+    },
+    "canonical": {
+      "id": "f9_cross_form_compositional_binding",
+      "metric": [
+        "heldout_combo_acc",
+        "seen_combo_acc",
+        "heldout_seen_gap"
+      ],
+      "null_hypothesis": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+      "tier": "cpu-now"
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "registry": {
+    "status": "implemented",
+    "resource_tier": "cpu-now",
+    "proof": {
+      "atlas_factor": "compositionality",
+      "null_card": "none",
+      "evidence_level": "R0"
+    }
+  },
+  "execution": {
+    "status": "ok",
+    "outer_seed": 0,
+    "intended_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "observed_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "started": 1783640041.225525,
+    "finished": 1783640042.078778
+  },
+  "metrics": {
+    "n_a": 4,
+    "n_b": 4,
+    "heldout_combo_acc": 0.7978,
+    "seen_combo_acc": 0.8315,
+    "heldout_seen_gap": 0.0337,
+    "composite_head_heldout_acc": 0.0,
+    "shuffle_floor_acc": 0.0731,
+    "shuffled_referent_acc": 0.2416,
+    "best_single_form_acc": 0.0898,
+    "chance": 0.0625,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "per_seed_deltas": [
+      0.6573,
+      0.5362,
+      0.5137,
+      0.5879,
+      0.4859
+    ],
+    "seed_ci": {
+      "n": 5,
+      "mean": 0.5562,
+      "sd": 0.0678,
+      "ci_half": 0.0594,
+      "lo": 0.4968,
+      "hi": 0.6156,
+      "unstable": false
+    },
+    "sign_flip_report": {
+      "n": 5,
+      "n_pos": 5,
+      "n_neg": 0,
+      "n_zero": 0,
+      "any_flip": false,
+      "consistent_sign": 1
+    },
+    "null_supported": false,
+    "density": {
+      "schema": "mop-density-block/v1",
+      "primary": "heldout_combo_acc",
+      "capability": {
+        "heldout_combo_acc": 0.7978404641151429
+      },
+      "cost": {
+        "params": 136.0,
+        "seconds": 0.8478466250235215
+      },
+      "density": {
+        "heldout_combo_acc_per_params": 0.005866474000846639,
+        "heldout_combo_acc_per_seconds": 0.9410198030722935
+      }
+    }
+  },
+  "declared_metrics": {
+    "heldout_combo_acc": 0.7978,
+    "seen_combo_acc": 0.8315,
+    "heldout_seen_gap": 0.0337
+  },
+  "null_decision": {
+    "null_supported": false,
+    "declared_verdict": "PUBLISH-POSITIVE",
+    "positive_requires_independent_verifier": true,
+    "ledger_ready": false
+  },
+  "density": {
+    "schema": "mop-density-block/v1",
+    "primary": "heldout_combo_acc",
+    "capability": {
+      "heldout_combo_acc": 0.7978404641151429
+    },
+    "cost": {
+      "params": 136.0,
+      "seconds": 0.8478466250235215
+    },
+    "density": {
+      "heldout_combo_acc_per_params": 0.005866474000846639,
+      "heldout_combo_acc_per_seconds": 0.9410198030722935
+    }
+  },
+  "operational_awareness": {
+    "schema": "mop-operational-awareness/v1",
+    "experiment_id": "f9_cross_form_compositional_binding",
+    "components": {},
+    "components_present": [],
+    "components_missing": [
+      "oa1_missing_form",
+      "oa2_calibration",
+      "oa3_memory_availability",
+      "oa4_mode_selection",
+      "oa5_compute_value",
+      "oa6_crisis_detection",
+      "oa7_rewrite_caution",
+      "oa8_report_grounding"
+    ],
+    "composite_score": null
+  },
+  "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f9_cross_form_compositional_binding.json",
+  "problems": [],
+  "all_ok": true,
+  "receipt_fingerprint": "d19b16ae632caaae8e3e31f709dbf58dd68c5bc0311e62165c104624345ef705"
+}

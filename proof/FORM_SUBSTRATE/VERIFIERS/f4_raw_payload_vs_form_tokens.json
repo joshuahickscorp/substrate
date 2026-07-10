@@ -1,0 +1,531 @@
+{
+  "adversarial": true,
+  "all_ok": true,
+  "canonical_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "captured_effects": {
+    "hungarian_calls": [],
+    "independent_ci": {
+      "ci_half": 0.0468,
+      "hi": 0.568,
+      "lo": 0.4745,
+      "mean": 0.5213,
+      "n": 5,
+      "sd": 0.0533,
+      "unstable": false
+    },
+    "independent_signs": {
+      "any_flip": false,
+      "consistent_sign": 1,
+      "n": 5,
+      "n_neg": 0,
+      "n_pos": 5,
+      "n_zero": 0
+    },
+    "values": [
+      0.5999999865889549,
+      0.4520833293596904,
+      0.5312500124176343,
+      0.5041666775941849,
+      0.518750009437402
+    ]
+  },
+  "checks": [
+    {
+      "category": "execution",
+      "expected": "ok",
+      "name": "fresh_harness_execution_completed",
+      "observed": "ok",
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "canonical PUBLISH-POSITIVE candidate",
+      "name": "canonical_candidate_receipt_is_positive_and_canonical",
+      "observed": {
+        "all_ok": true,
+        "null_decision": {
+          "declared_verdict": "PUBLISH-POSITIVE",
+          "ledger_ready": false,
+          "null_supported": false,
+          "positive_requires_independent_verifier": true
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "at least five unique disjoint seeds",
+      "name": "fresh_effective_seeds_are_disjoint",
+      "observed": {
+        "canonical": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "verifier": [
+          101,
+          211,
+          307,
+          401,
+          503
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": [
+        101,
+        211,
+        307,
+        401,
+        503
+      ],
+      "name": "fresh_seeds_reached_experiment",
+      "observed": [
+        101,
+        211,
+        307,
+        401,
+        503
+      ],
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "distinct runs/form_verifiers path",
+      "name": "verifier_execution_path_is_separate",
+      "observed": {
+        "canonical": "runs/f4_raw_payload_vs_form_tokens/001",
+        "verifier": "runs/form_verifiers/f4_raw_payload_vs_form_tokens/001"
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact stable live contract",
+      "name": "class_config_registry_contract_was_clean_and_frozen",
+      "observed": {
+        "after_contract": "5ee1536d29db712c3665ecb89dbd756bd1d405bb3bd378fafd6bb131cdb1dea3",
+        "before_contract": "5ee1536d29db712c3665ecb89dbd756bd1d405bb3bd378fafd6bb131cdb1dea3",
+        "problems": []
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "all experiment-specific source requirements present",
+      "name": "claim_semantics_are_load_bearing_in_fingerprinted_source",
+      "observed": {
+        "_F4TokenProbe": true,
+        "_f4_align_tokens": true,
+        "requires [N,T,D]": true,
+        "torch.roll": true
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "name": "verifier_implementation_is_a_distinct_source_file",
+      "observed": {
+        "treatment": "src/mop/experiments/f_form_substrate.py",
+        "verifier": "src/mop/falsification/form_verifier.py"
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "all declared metrics and emitted numeric fields finite",
+      "name": "declared_and_emitted_numeric_metrics_are_finite",
+      "observed": {
+        "declared_bad": [],
+        "emitted_bad": []
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "0 < capability < 0.995",
+      "name": "capability_is_non_ceiling",
+      "observed": {
+        "field": "canonical_cross_form_acc",
+        "value": 0.6838
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "same live effect vector at both diagnostic boundaries",
+      "name": "live_per_seed_effects_were_captured",
+      "observed": {
+        "ci_effects": [
+          0.5999999865889549,
+          0.4520833293596904,
+          0.5312500124176343,
+          0.5041666775941849,
+          0.518750009437402
+        ],
+        "sign_effects": [
+          0.5999999865889549,
+          0.4520833293596904,
+          0.5312500124176343,
+          0.5041666775941849,
+          0.518750009437402
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact rounded normal CI from captured effects",
+      "name": "reported_ci_matches_independent_recomputation",
+      "observed": {
+        "independent": {
+          "ci_half": 0.0468,
+          "hi": 0.568,
+          "lo": 0.4745,
+          "mean": 0.5213,
+          "n": 5,
+          "sd": 0.0533,
+          "unstable": false
+        },
+        "reported": {
+          "ci_half": 0.0468,
+          "hi": 0.568,
+          "lo": 0.4745,
+          "mean": 0.5213,
+          "n": 5,
+          "sd": 0.0533,
+          "unstable": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact sign counts from captured effects",
+      "name": "reported_signs_match_independent_recomputation",
+      "observed": {
+        "independent": {
+          "any_flip": false,
+          "consistent_sign": 1,
+          "n": 5,
+          "n_neg": 0,
+          "n_pos": 5,
+          "n_zero": 0
+        },
+        "reported": {
+          "any_flip": false,
+          "consistent_sign": 1,
+          "n": 5,
+          "n_neg": 0,
+          "n_pos": 5,
+          "n_zero": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "stable CI with lo > 0",
+      "name": "fresh_seed_ci_lower_bound_is_positive",
+      "observed": {
+        "ci_half": 0.0468,
+        "hi": 0.568,
+        "lo": 0.4745,
+        "mean": 0.5213,
+        "n": 5,
+        "sd": 0.0533,
+        "unstable": false
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "no negative effects, no sign flip, and at least one positive effect",
+      "name": "fresh_seed_effect_sign_is_stable",
+      "observed": {
+        "any_flip": false,
+        "consistent_sign": 1,
+        "n": 5,
+        "n_neg": 0,
+        "n_pos": 5,
+        "n_zero": 0
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "same per-seed effects",
+      "name": "emitted_per_seed_effects_match_live_capture",
+      "observed": {
+        "captured": [
+          0.5999999865889549,
+          0.4520833293596904,
+          0.5312500124176343,
+          0.5041666775941849,
+          0.518750009437402
+        ],
+        "emitted": [
+          0.6,
+          0.4521,
+          0.5313,
+          0.5042,
+          0.5188
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "delta > preregistered margin 0.05",
+      "name": "f4_ordered_tokens_beat_every_payload_control",
+      "observed": {
+        "controls": {
+          "handcrafted": 0.12,
+          "permuted_token_order": 0.1358,
+          "raw": 0.1196,
+          "shuffled_referent": 0.1242
+        },
+        "recomputed_delta": 0.5479999999999999,
+        "strongest": 0.1358,
+        "treatment": 0.6838
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": [
+        4,
+        8
+      ],
+      "name": "f4_native_token_geometry_is_preserved_and_enforced",
+      "observed": [
+        4,
+        8
+      ],
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "name": "f4_token_heads_rows_and_updates_are_matched",
+      "observed": {
+        "canonical": {
+          "head_params": 336,
+          "optimizer_steps": 70,
+          "token_count": 4,
+          "token_dim": 8,
+          "total_rows_seen": 9800,
+          "train_rows": 140
+        },
+        "handcrafted": {
+          "head_params": 336,
+          "optimizer_steps": 70,
+          "token_count": 4,
+          "token_dim": 8,
+          "total_rows_seen": 9800,
+          "train_rows": 140
+        },
+        "raw": {
+          "head_params": 336,
+          "optimizer_steps": 70,
+          "token_count": 4,
+          "token_dim": 8,
+          "total_rows_seen": 9800,
+          "train_rows": 140
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "name": "f4_anchor_label_test_splits_are_disjoint",
+      "passed": true
+    }
+  ],
+  "created_at": "2026-07-10T03:01:18.624745+00:00",
+  "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f4_raw_payload_vs_form_tokens.json",
+  "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
+  "execution": {
+    "completed": true,
+    "config_snapshot_path": "runs/form_verifiers/f4_raw_payload_vs_form_tokens/001/config.yaml",
+    "config_snapshot_sha256": "babb9964fe1c8dccb35e070649ad9c5812c9c8b29cb9ef2780be43cf1cd189be",
+    "device": "cpu",
+    "finished": 1783652478.229247,
+    "git": "be7b5d9",
+    "manifest_path": "runs/form_verifiers/f4_raw_payload_vs_form_tokens/001/manifest.json",
+    "manifest_sha256": "13385cc3386764f5054b069b5bb6e84939f5895f5e6f84f6c43e757856f75107",
+    "run_dir": "runs/form_verifiers/f4_raw_payload_vs_form_tokens/001",
+    "seconds": 0.7436501979827881,
+    "started": 1783652477.485597,
+    "status": "ok"
+  },
+  "experiment_id": "f4_raw_payload_vs_form_tokens",
+  "fresh_seeds_or_heldout_cases": [
+    101,
+    211,
+    307,
+    401,
+    503
+  ],
+  "frozen_live_contract": {
+    "canonical": {
+      "id": "f4_raw_payload_vs_form_tokens",
+      "metric": [
+        "cross_form_transfer_per_dim",
+        "retention_per_dim",
+        "control_delta"
+      ],
+      "null_hypothesis": "ordered canonical form tokens fail to beat the strongest raw, handcrafted, shuffled-referent, or token-order control by the preregistered margin",
+      "tier": "cpu-now"
+    },
+    "class_source_sha256": "4a6296e33b95595754617ec3e39064dcd6583ace61415502b3d1145f18d62e2d",
+    "config_path": "configs/experiment/f4_raw_payload_vs_form_tokens.yaml",
+    "config_sha256": "25baea65e9636a274c99087f8b485c0ae1440cfb2b6b9c6adebe9932d5ea31b7",
+    "contract_fingerprint": "5ee1536d29db712c3665ecb89dbd756bd1d405bb3bd378fafd6bb131cdb1dea3",
+    "contract_problems": [],
+    "experiment_id": "f4_raw_payload_vs_form_tokens",
+    "module_path": "src/mop/experiments/f_form_substrate.py",
+    "module_sha256": "f921c8f12ed6bb47da700698ad4865835f9eb3789e219e14ce65ea3f8e525c88",
+    "registry_row_fingerprint": "61f28a57b565a23295faa7bd4f8bd4ab3fc7fb0bee2beafa5fe6c904c2fbe02c",
+    "source_requirements": [
+      "_F4TokenProbe",
+      "requires [N,T,D]",
+      "_f4_align_tokens",
+      "torch.roll"
+    ],
+    "source_requirements_present": {
+      "_F4TokenProbe": true,
+      "_f4_align_tokens": true,
+      "requires [N,T,D]": true,
+      "torch.roll": true
+    },
+    "verifier_path": "src/mop/falsification/form_verifier.py",
+    "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
+  },
+  "independent": true,
+  "metrics_sha256": "17696b7bf1355b9c7631356e9338f215e7cb206867da51dcad084dfa0f30e2d0",
+  "passed": true,
+  "problems": [],
+  "receipt_fingerprint": "b8189e6fe2b194b3c6a8d8ecb3d32a0d6e2e8a90c7c057d643c3454453e5aa3c",
+  "recomputed": {
+    "aggregate_delta": 0.5479999999999999,
+    "strongest_control": 0.1358
+  },
+  "schema": "mop-form-independent-verifier/v1",
+  "source_receipts": [
+    {
+      "path": "proof/FORM_SUBSTRATE/RECEIPTS/f4_raw_payload_vs_form_tokens.json",
+      "receipt_fingerprint": "d078206ad40efdecc565fd31df2ff705890c7bca2386812356ecee5c2720080c",
+      "sha256": "9cc57c4c637db65622de33099656422868f35d71a82be08e50795c006f3ecb02"
+    }
+  ],
+  "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
+  "verifier_metrics": {
+    "audit_all_ok": true,
+    "canonical_cross_form_acc": 0.6838,
+    "control_delta": 0.5213,
+    "cross_form_transfer_per_dim": 0.021367,
+    "density": {
+      "capability": {
+        "cross_form_transfer_per_dim": 0.021367187549670534
+      },
+      "cost": {
+        "params": 336.0,
+        "seconds": 0.32241262507159263
+      },
+      "density": {
+        "cross_form_transfer_per_dim_per_params": 6.359282008830516e-05,
+        "cross_form_transfer_per_dim_per_seconds": 0.0662728004057716
+      },
+      "primary": "cross_form_transfer_per_dim",
+      "schema": "mop-density-block/v1"
+    },
+    "disjoint_splits": true,
+    "handcrafted_cross_form_acc": 0.12,
+    "matched_accounting": {
+      "canonical": {
+        "head_params": 336,
+        "optimizer_steps": 70,
+        "token_count": 4,
+        "token_dim": 8,
+        "total_rows_seen": 9800,
+        "train_rows": 140
+      },
+      "handcrafted": {
+        "head_params": 336,
+        "optimizer_steps": 70,
+        "token_count": 4,
+        "token_dim": 8,
+        "total_rows_seen": 9800,
+        "train_rows": 140
+      },
+      "raw": {
+        "head_params": 336,
+        "optimizer_steps": 70,
+        "token_count": 4,
+        "token_dim": 8,
+        "total_rows_seen": 9800,
+        "train_rows": 140
+      }
+    },
+    "matched_dim": 32,
+    "null_supported": false,
+    "per_seed_deltas": [
+      0.6,
+      0.4521,
+      0.5313,
+      0.5042,
+      0.5188
+    ],
+    "raw_cross_form_acc": 0.1196,
+    "reference_form": "vision",
+    "retention_per_dim": 0.024805,
+    "seed_ci": {
+      "ci_half": 0.0468,
+      "hi": 0.568,
+      "lo": 0.4745,
+      "mean": 0.5213,
+      "n": 5,
+      "sd": 0.0533,
+      "unstable": false
+    },
+    "seeds": [
+      101,
+      211,
+      307,
+      401,
+      503
+    ],
+    "shuffled_referent_token_acc": 0.1242,
+    "sign_flip_report": {
+      "any_flip": false,
+      "consistent_sign": 1,
+      "n": 5,
+      "n_neg": 0,
+      "n_pos": 5,
+      "n_zero": 0
+    },
+    "split_rows": {
+      "anchor": 100,
+      "label": 140,
+      "test": 160
+    },
+    "strongest_control_acc": 0.1358,
+    "token_axis_preserved": true,
+    "token_order_permutation_acc": 0.1358,
+    "token_probe_rejects_flattened": true,
+    "token_shape": [
+      4,
+      8
+    ]
+  }
+}

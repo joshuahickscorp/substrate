@@ -1,0 +1,528 @@
+{
+  "adversarial": true,
+  "all_ok": true,
+  "canonical_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "captured_effects": {
+    "hungarian_calls": [],
+    "independent_ci": {
+      "ci_half": 0.0363,
+      "hi": 0.6815,
+      "lo": 0.609,
+      "mean": 0.6452,
+      "n": 5,
+      "sd": 0.0414,
+      "unstable": false
+    },
+    "independent_signs": {
+      "any_flip": false,
+      "consistent_sign": 1,
+      "n": 5,
+      "n_neg": 0,
+      "n_pos": 5,
+      "n_zero": 0
+    },
+    "values": [
+      0.690476194024086,
+      0.5952381193637848,
+      0.6845237910747528,
+      0.619047611951828,
+      0.636904776096344
+    ]
+  },
+  "checks": [
+    {
+      "category": "execution",
+      "expected": "ok",
+      "name": "fresh_harness_execution_completed",
+      "observed": "ok",
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "canonical PUBLISH-POSITIVE candidate",
+      "name": "canonical_candidate_receipt_is_positive_and_canonical",
+      "observed": {
+        "all_ok": true,
+        "null_decision": {
+          "declared_verdict": "PUBLISH-POSITIVE",
+          "ledger_ready": false,
+          "null_supported": false,
+          "positive_requires_independent_verifier": true
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "at least five unique disjoint seeds",
+      "name": "fresh_effective_seeds_are_disjoint",
+      "observed": {
+        "canonical": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "verifier": [
+          101,
+          211,
+          307,
+          401,
+          503
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": [
+        101,
+        211,
+        307,
+        401,
+        503
+      ],
+      "name": "fresh_seeds_reached_experiment",
+      "observed": [
+        101,
+        211,
+        307,
+        401,
+        503
+      ],
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "distinct runs/form_verifiers path",
+      "name": "verifier_execution_path_is_separate",
+      "observed": {
+        "canonical": "runs/f18_counterfactual_form_intervention/001",
+        "verifier": "runs/form_verifiers/f18_counterfactual_form_intervention/001"
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact stable live contract",
+      "name": "class_config_registry_contract_was_clean_and_frozen",
+      "observed": {
+        "after_contract": "d7c5b66c99032973996b59117ac6b329a9b1d18aa149e226fdb4118008df593a",
+        "before_contract": "d7c5b66c99032973996b59117ac6b329a9b1d18aa149e226fdb4118008df593a",
+        "problems": []
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "all experiment-specific source requirements present",
+      "name": "claim_semantics_are_load_bearing_in_fingerprinted_source",
+      "observed": {
+        "\"form_b_state\"": true,
+        "_f18_fit_map": true,
+        "b_interventional": true,
+        "b_observational": true,
+        "b_test": true,
+        "matched_within": true
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "name": "verifier_implementation_is_a_distinct_source_file",
+      "observed": {
+        "treatment": "src/mop/experiments/f_form_substrate.py",
+        "verifier": "src/mop/falsification/form_verifier.py"
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "all declared metrics and emitted numeric fields finite",
+      "name": "declared_and_emitted_numeric_metrics_are_finite",
+      "observed": {
+        "declared_bad": [],
+        "emitted_bad": []
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "0 < capability < 0.995",
+      "name": "capability_is_non_ceiling",
+      "observed": {
+        "field": "counterfactual_match_acc",
+        "value": 0.8774
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "same live effect vector at both diagnostic boundaries",
+      "name": "live_per_seed_effects_were_captured",
+      "observed": {
+        "ci_effects": [
+          0.690476194024086,
+          0.5952381193637848,
+          0.6845237910747528,
+          0.619047611951828,
+          0.636904776096344
+        ],
+        "sign_effects": [
+          0.690476194024086,
+          0.5952381193637848,
+          0.6845237910747528,
+          0.619047611951828,
+          0.636904776096344
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact rounded normal CI from captured effects",
+      "name": "reported_ci_matches_independent_recomputation",
+      "observed": {
+        "independent": {
+          "ci_half": 0.0363,
+          "hi": 0.6815,
+          "lo": 0.609,
+          "mean": 0.6452,
+          "n": 5,
+          "sd": 0.0414,
+          "unstable": false
+        },
+        "reported": {
+          "ci_half": 0.0363,
+          "hi": 0.6815,
+          "lo": 0.609,
+          "mean": 0.6452,
+          "n": 5,
+          "sd": 0.0414,
+          "unstable": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact sign counts from captured effects",
+      "name": "reported_signs_match_independent_recomputation",
+      "observed": {
+        "independent": {
+          "any_flip": false,
+          "consistent_sign": 1,
+          "n": 5,
+          "n_neg": 0,
+          "n_pos": 5,
+          "n_zero": 0
+        },
+        "reported": {
+          "any_flip": false,
+          "consistent_sign": 1,
+          "n": 5,
+          "n_neg": 0,
+          "n_pos": 5,
+          "n_zero": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "stable CI with lo > 0",
+      "name": "fresh_seed_ci_lower_bound_is_positive",
+      "observed": {
+        "ci_half": 0.0363,
+        "hi": 0.6815,
+        "lo": 0.609,
+        "mean": 0.6452,
+        "n": 5,
+        "sd": 0.0414,
+        "unstable": false
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "no negative effects, no sign flip, and at least one positive effect",
+      "name": "fresh_seed_effect_sign_is_stable",
+      "observed": {
+        "any_flip": false,
+        "consistent_sign": 1,
+        "n": 5,
+        "n_neg": 0,
+        "n_pos": 5,
+        "n_zero": 0
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "same per-seed effects",
+      "name": "emitted_per_seed_effects_match_live_capture",
+      "observed": {
+        "captured": [
+          0.690476194024086,
+          0.5952381193637848,
+          0.6845237910747528,
+          0.619047611951828,
+          0.636904776096344
+        ],
+        "emitted": [
+          0.6905,
+          0.5952,
+          0.6845,
+          0.619,
+          0.6369
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "delta > preregistered margin 0.05",
+      "name": "f18_unseen_intervention_beats_every_transport_control",
+      "observed": {
+        "controls": {
+          "correlational": 0.0238,
+          "random_direction": 0.0286,
+          "shuffled_pair": 0.2321
+        },
+        "recomputed_delta": 0.6453,
+        "strongest": 0.2321,
+        "treatment": 0.8774
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "name": "f18_correlational_and_interventional_arms_match_rows_updates_params_and_flops",
+      "observed": {
+        "matched_compute": {
+          "flops": [
+            235872000,
+            235872000
+          ],
+          "matched": true,
+          "ratio": 1.0,
+          "tol": 0.1
+        },
+        "rows": 252,
+        "updates": 260
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "name": "f18_test_intervention_value_is_genuinely_held_out",
+      "observed": {
+        "test": 3,
+        "train": [
+          1,
+          2
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "name": "f18_predicts_actual_form_b_geometry_not_a_scalar_surrogate",
+      "observed": {
+        "cf_cosine": 0.9794,
+        "corr_cosine": 0.9666,
+        "decoder": "independent-form-b-nearest-prototype",
+        "object": "form_b_state",
+        "readout": 0.8821
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "<= 0.15",
+      "name": "f18_unseen_value_leakage_gap_is_bounded",
+      "observed": -0.0018,
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "name": "f18_accuracy_per_parameter_is_recomputed",
+      "passed": true
+    }
+  ],
+  "created_at": "2026-07-10T03:01:39.258917+00:00",
+  "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f18_counterfactual_form_intervention.json",
+  "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
+  "execution": {
+    "completed": true,
+    "config_snapshot_path": "runs/form_verifiers/f18_counterfactual_form_intervention/001/config.yaml",
+    "config_snapshot_sha256": "dc8cc0424b4da4e20bf79cda5785f35eff9e40cc982a9fa22dcc151043f8cdc1",
+    "device": "cpu",
+    "finished": 1783652498.891932,
+    "git": "be7b5d9",
+    "manifest_path": "runs/form_verifiers/f18_counterfactual_form_intervention/001/manifest.json",
+    "manifest_sha256": "1a2818c67a3f3db36ebe9b5074a798db161d8816475a6a280fdb65ad876d400b",
+    "run_dir": "runs/form_verifiers/f18_counterfactual_form_intervention/001",
+    "seconds": 0.8677232265472412,
+    "started": 1783652498.0242088,
+    "status": "ok"
+  },
+  "experiment_id": "f18_counterfactual_form_intervention",
+  "fresh_seeds_or_heldout_cases": [
+    101,
+    211,
+    307,
+    401,
+    503
+  ],
+  "frozen_live_contract": {
+    "canonical": {
+      "id": "f18_counterfactual_form_intervention",
+      "metric": [
+        "counterfactual_match_acc",
+        "correlational_baseline_acc",
+        "unseen_value_gap",
+        "counterfactual_acc_per_param"
+      ],
+      "null_hypothesis": "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure",
+      "tier": "cpu-now"
+    },
+    "class_source_sha256": "0984984d215ec64e882f66005fb34e43a5c28bc0fcf9dd30dbc9fb8ad8efb92b",
+    "config_path": "configs/experiment/f18_counterfactual_form_intervention.yaml",
+    "config_sha256": "72bc971ea1efe50c7b954516088a5c943dbcc660012774b9f5638bc12d896f2a",
+    "contract_fingerprint": "d7c5b66c99032973996b59117ac6b329a9b1d18aa149e226fdb4118008df593a",
+    "contract_problems": [],
+    "experiment_id": "f18_counterfactual_form_intervention",
+    "module_path": "src/mop/experiments/f_form_substrate.py",
+    "module_sha256": "f921c8f12ed6bb47da700698ad4865835f9eb3789e219e14ce65ea3f8e525c88",
+    "registry_row_fingerprint": "111638d2f1067a1797a3c23c104e518129fc3e7dda73dc8578b745e9e1a0cf6e",
+    "source_requirements": [
+      "_f18_fit_map",
+      "b_interventional",
+      "b_observational",
+      "b_test",
+      "\"form_b_state\"",
+      "matched_within"
+    ],
+    "source_requirements_present": {
+      "\"form_b_state\"": true,
+      "_f18_fit_map": true,
+      "b_interventional": true,
+      "b_observational": true,
+      "b_test": true,
+      "matched_within": true
+    },
+    "verifier_path": "src/mop/falsification/form_verifier.py",
+    "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
+  },
+  "independent": true,
+  "metrics_sha256": "36f376d942539b391e178119b5ecd81784a90fde6471200ccd259821d4ce3dec",
+  "passed": true,
+  "problems": [],
+  "receipt_fingerprint": "a5342c23a28af34a709456084ae0f62d1981423dbc40c47df7b0d48ee02338aa",
+  "recomputed": {
+    "aggregate_delta": 0.6453,
+    "strongest_control": 0.2321
+  },
+  "schema": "mop-form-independent-verifier/v1",
+  "source_receipts": [
+    {
+      "path": "proof/FORM_SUBSTRATE/RECEIPTS/f18_counterfactual_form_intervention.json",
+      "receipt_fingerprint": "afb3605f0fcb6129192910ab75a7e372cf9a22bdca10b0878d9f1b21a4be0ce6",
+      "sha256": "ae8334cf32fddec460fc9e6e7700b4f57b6e9ce6561efb730fd4902f989c4c98"
+    }
+  ],
+  "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
+  "verifier_metrics": {
+    "chance": 0.1429,
+    "correlational_baseline_acc": 0.0238,
+    "correlational_form_b_cosine": 0.9666,
+    "counterfactual_acc_per_param": 0.00140606,
+    "counterfactual_form_b_cosine": 0.9794,
+    "counterfactual_match_acc": 0.8774,
+    "cross_form_readout_acc": 0.8821,
+    "density": {
+      "capability": {
+        "counterfactual_acc_per_param": 0.0014060592231078027,
+        "counterfactual_match_acc": 0.8773809552192688
+      },
+      "cost": {
+        "flops": 235872000.0,
+        "params": 624.0,
+        "seconds": 0.38326516607776284,
+        "updates": 260.0
+      },
+      "density": {
+        "counterfactual_match_acc_per_flops": 3.719733394465086e-09,
+        "counterfactual_match_acc_per_params": 0.0014060592231078027,
+        "counterfactual_match_acc_per_seconds": 2.2892269709719772,
+        "counterfactual_match_acc_per_updates": 0.003374542135458726
+      },
+      "primary": "counterfactual_match_acc",
+      "schema": "mop-density-block/v1"
+    },
+    "matched_compute": {
+      "flops": [
+        235872000,
+        235872000
+      ],
+      "matched": true,
+      "ratio": 1.0,
+      "tol": 0.1
+    },
+    "matched_train_rows": true,
+    "measurement_decoder": "independent-form-b-nearest-prototype",
+    "measurement_decoder_bytes": 672,
+    "null_supported": false,
+    "per_seed_deltas": [
+      0.6905,
+      0.5952,
+      0.6845,
+      0.619,
+      0.6369
+    ],
+    "predicted_object": "form_b_state",
+    "random_direction_acc": 0.0286,
+    "seed_ci": {
+      "ci_half": 0.0363,
+      "hi": 0.6815,
+      "lo": 0.609,
+      "mean": 0.6452,
+      "n": 5,
+      "sd": 0.0414,
+      "unstable": false
+    },
+    "seeds": [
+      101,
+      211,
+      307,
+      401,
+      503
+    ],
+    "shuffled_pair_acc": 0.2321,
+    "sign_flip_report": {
+      "any_flip": false,
+      "consistent_sign": 1,
+      "n": 5,
+      "n_neg": 0,
+      "n_pos": 5,
+      "n_zero": 0
+    },
+    "test_delta": 3,
+    "train_deltas": [
+      1,
+      2
+    ],
+    "train_rows_per_arm": 252,
+    "transport_params": 624,
+    "unseen_value_gap": -0.0018,
+    "updates_per_arm": 260
+  }
+}

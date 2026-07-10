@@ -1,0 +1,234 @@
+{
+  "schema": "mop-form-experiment-receipt/v1",
+  "created_at": "2026-07-09T23:34:12.497622+00:00",
+  "experiment_id": "f19_cross_scale_referent_binding",
+  "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
+  "canonical": true,
+  "source": {
+    "run_dir": "runs/f19_cross_scale_referent_binding/002",
+    "manifest_path": "runs/f19_cross_scale_referent_binding/002/manifest.json",
+    "manifest_sha256": "68961200195fa121e4535ab96c518f9af5c3f6e0ac1b43a837a3cdf18999541e",
+    "config_path": "runs/f19_cross_scale_referent_binding/002/config.yaml",
+    "config_sha256": "db8ad902affcaa7d8ec325de51d0a8cea0fab354bfd5790d0811d097e69e1e79",
+    "git": "be7b5d9",
+    "device": "cpu",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "result_tag": "structured-synthetic"
+  },
+  "contract": {
+    "experiment_id": "f19_cross_scale_referent_binding",
+    "required": true,
+    "comparisons": {
+      "id": {
+        "registry": "f19_cross_scale_referent_binding",
+        "class": "f19_cross_scale_referent_binding",
+        "config": "f19_cross_scale_referent_binding",
+        "equal": true
+      },
+      "metric": {
+        "registry": [
+          "cross_scale_recall_at_k",
+          "flat_memory_recall_at_k",
+          "recall_per_byte"
+        ],
+        "class": [
+          "cross_scale_recall_at_k",
+          "flat_memory_recall_at_k",
+          "recall_per_byte"
+        ],
+        "config": [
+          "cross_scale_recall_at_k",
+          "flat_memory_recall_at_k",
+          "recall_per_byte"
+        ],
+        "equal": true
+      },
+      "null_hypothesis": {
+        "registry": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+        "class": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+        "config": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+        "equal": true
+      },
+      "tier": {
+        "registry": "cpu-now",
+        "class": "cpu-now",
+        "config": "cpu-now",
+        "equal": true
+      }
+    },
+    "canonical": {
+      "id": "f19_cross_scale_referent_binding",
+      "metric": [
+        "cross_scale_recall_at_k",
+        "flat_memory_recall_at_k",
+        "recall_per_byte"
+      ],
+      "null_hypothesis": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+      "tier": "cpu-now"
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "registry": {
+    "status": "implemented",
+    "resource_tier": "cpu-now",
+    "proof": {
+      "atlas_factor": "scale_binding",
+      "null_card": "none",
+      "evidence_level": "R0"
+    }
+  },
+  "execution": {
+    "status": "ok",
+    "outer_seed": 0,
+    "intended_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "observed_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "started": 1783640052.4588192,
+    "finished": 1783640052.497622
+  },
+  "metrics": {
+    "hierarchy": {
+      "tasks": 3,
+      "episodes": 9,
+      "scenes": 27,
+      "objects": 108,
+      "parent_links_explicit": true,
+      "shared_index": true
+    },
+    "relations": {
+      "task_to_episode": 0.9083,
+      "episode_to_task": 0.9208,
+      "episode_to_scene": 0.7542,
+      "scene_to_episode": 0.7667,
+      "scene_to_object": 0.4667,
+      "object_to_scene": 0.5917
+    },
+    "k": 1,
+    "cross_scale_recall_at_k": 0.7347,
+    "flat_memory_recall_at_k": 0.7146,
+    "single_scale_recall_at_k": 0.7882,
+    "random_hierarchy_recall_at_k": 0.1313,
+    "strongest_control_recall_at_k": 0.7882,
+    "hierarchy_gain_over_strongest": -0.0535,
+    "recall_per_byte": 3.9047737e-05,
+    "store_vectors": 96,
+    "store_bytes": 18816,
+    "store_bytes_by_arm": {
+      "hierarchy": 18816,
+      "flat": 18816,
+      "single": 18816,
+      "random": 18816
+    },
+    "matched_memory_bytes": true,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "per_seed_deltas": [
+      -0.0729,
+      -0.0312,
+      -0.0556,
+      -0.0451,
+      -0.0625
+    ],
+    "seed_ci": {
+      "n": 5,
+      "mean": -0.0535,
+      "sd": 0.016,
+      "ci_half": 0.014,
+      "lo": -0.0675,
+      "hi": -0.0394,
+      "unstable": false
+    },
+    "sign_flip_report": {
+      "n": 5,
+      "n_pos": 0,
+      "n_neg": 5,
+      "n_zero": 0,
+      "any_flip": false,
+      "consistent_sign": -1
+    },
+    "null_supported": true,
+    "density": {
+      "schema": "mop-density-block/v1",
+      "primary": "cross_scale_recall_at_k",
+      "capability": {
+        "cross_scale_recall_at_k": 0.7347222238779068
+      },
+      "cost": {
+        "flops": 1105920.0,
+        "bytes": 18816.0,
+        "seconds": 0.033518249983899295
+      },
+      "density": {
+        "cross_scale_recall_at_k_per_flops": 6.643538627368225e-07,
+        "cross_scale_recall_at_k_per_bytes": 3.904773723840916e-05,
+        "cross_scale_recall_at_k_per_seconds": 21.920065165419892
+      }
+    }
+  },
+  "declared_metrics": {
+    "cross_scale_recall_at_k": 0.7347,
+    "flat_memory_recall_at_k": 0.7146,
+    "recall_per_byte": 3.9047737e-05
+  },
+  "null_decision": {
+    "null_supported": true,
+    "declared_verdict": "DOWNGRADE-TIE",
+    "positive_requires_independent_verifier": false,
+    "ledger_ready": false
+  },
+  "density": {
+    "schema": "mop-density-block/v1",
+    "primary": "cross_scale_recall_at_k",
+    "capability": {
+      "cross_scale_recall_at_k": 0.7347222238779068
+    },
+    "cost": {
+      "flops": 1105920.0,
+      "bytes": 18816.0,
+      "seconds": 0.033518249983899295
+    },
+    "density": {
+      "cross_scale_recall_at_k_per_flops": 6.643538627368225e-07,
+      "cross_scale_recall_at_k_per_bytes": 3.904773723840916e-05,
+      "cross_scale_recall_at_k_per_seconds": 21.920065165419892
+    }
+  },
+  "operational_awareness": {
+    "schema": "mop-operational-awareness/v1",
+    "experiment_id": "f19_cross_scale_referent_binding",
+    "components": {},
+    "components_present": [],
+    "components_missing": [
+      "oa1_missing_form",
+      "oa2_calibration",
+      "oa3_memory_availability",
+      "oa4_mode_selection",
+      "oa5_compute_value",
+      "oa6_crisis_detection",
+      "oa7_rewrite_caution",
+      "oa8_report_grounding"
+    ],
+    "composite_score": null
+  },
+  "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f19_cross_scale_referent_binding.json",
+  "problems": [],
+  "all_ok": true,
+  "receipt_fingerprint": "dcdee3f9025f610087b92e582c1650a71f047d3845f6bc615d2b867615da3f8c"
+}

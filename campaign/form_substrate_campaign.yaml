@@ -1,0 +1,120 @@
+schema: mop-form-substrate-campaign/v1
+series: F
+minimum_seeds: 5
+canonical_output_root: proof/FORM_SUBSTRATE
+policy:
+  contract_source: registry/experiments.yaml
+  contract_equality: exact registry/class/config equality for id, ordered metrics, null, and tier
+  run_promotion: latest run is never trusted implicitly; its embedded contract and config must still match
+  positive_promotion: a null rejection needs an independent verifier and a verdict-gate receipt
+  negative_promotion: a supported null or tie needs the canonical null card and durable run receipt
+  density: every canonical run must carry mop-density-block/v1 with a declared primary and non-empty cost
+  operational_awareness: OA inputs stay component-wise; no composite awareness score is permitted
+
+# Dependencies are mechanics/data prerequisites, not permission to suppress a null result.  A leg may
+# still run after a prerequisite supports its null, but its interpretation must name that upstream wall.
+legs:
+- id: f1_form_alignment_gate
+  phase: interface
+  depends_on: []
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f2_heldout_form_transfer
+  phase: interface
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f3_form_bottleneck_capacity
+  phase: interface
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f4_raw_payload_vs_form_tokens
+  phase: interface
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f5_cross_form_memory_binding
+  phase: interface
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f6_sensorimotor_form_closure
+  phase: closure
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+  future_extension_inputs: [interactive-environment]
+- id: f7_developmental_form_growth
+  phase: closure
+  depends_on: [f3_form_bottleneck_capacity, f10_intrinsic_form_curriculum]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f8_plastic_substrate_rewrite
+  phase: closure
+  depends_on: [f3_form_bottleneck_capacity, f13_form_energy_budget]
+  local_requirement: fail-closed-preflight-and-smoke
+  scale_boundary: environment
+  non_hardware_inputs: [rights-clean-training-source, trusted-provenance-authority, executable-real-weight-receipt]
+- id: f9_cross_form_compositional_binding
+  phase: composition
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f10_intrinsic_form_curriculum
+  phase: composition
+  depends_on: [f2_heldout_form_transfer]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f11_form_dream_replay
+  phase: composition
+  depends_on: [f5_cross_form_memory_binding]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f12_private_form_language_stability
+  phase: composition
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f13_form_energy_budget
+  phase: density
+  depends_on: [f3_form_bottleneck_capacity, f4_raw_payload_vs_form_tokens]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f14_lifelong_form_expansion
+  phase: density
+  depends_on: [f1_form_alignment_gate, f5_cross_form_memory_binding]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f15_embodied_affordance_form
+  phase: density
+  depends_on: [f6_sensorimotor_form_closure]
+  local_requirement: canonical-run
+  scale_boundary: local
+  future_extension_inputs: [interactive-environment]
+- id: f16_perfect_slate_null
+  phase: density
+  depends_on: [f8_plastic_substrate_rewrite]
+  local_requirement: fail-closed-preflight-and-smoke
+  scale_boundary: environment
+  non_hardware_inputs: [rights-clean-training-source, trusted-provenance-authority, executable-real-weight-receipt]
+- id: f17_missing_form_recovery
+  phase: resilience
+  depends_on: [f2_heldout_form_transfer]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f18_counterfactual_form_intervention
+  phase: resilience
+  depends_on: [f1_form_alignment_gate]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f19_cross_scale_referent_binding
+  phase: resilience
+  depends_on: [f5_cross_form_memory_binding, f14_lifelong_form_expansion]
+  local_requirement: canonical-run
+  scale_boundary: local
+- id: f20_substrate_crisis_test
+  phase: resilience
+  depends_on: [f13_form_energy_budget, f17_missing_form_recovery]
+  local_requirement: canonical-run
+  scale_boundary: local

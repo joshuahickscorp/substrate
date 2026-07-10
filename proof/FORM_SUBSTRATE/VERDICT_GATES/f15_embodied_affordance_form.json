@@ -1,0 +1,38 @@
+{
+  "schema": "mop-verdict-gate/v1",
+  "created_at": "2026-07-10T06:53:12.122353+00:00",
+  "claim_id": "f15_embodied_affordance_form",
+  "verdict": "PUBLISH-POSITIVE",
+  "positive": true,
+  "strict_card": true,
+  "all_ok": false,
+  "null_card": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/NULL_CARDS/f15_embodied_affordance_form.md",
+    "exists": true,
+    "sha256": "cd4a47f54acec91f00da56bf5c5f48231bd0f06186996ae5ab176a4532e989db",
+    "problems": []
+  },
+  "run_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f15_embodied_affordance_form.json",
+    "exists": true,
+    "sha256": "912a779deb32d5af37df2012da0c43729bb1a81eb897a1049c162e7d70c196a0",
+    "json_ok": true,
+    "problems": []
+  },
+  "verifier_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f15_embodied_affordance_form.json",
+    "exists": true,
+    "sha256": "539c5530d623f88760ea79fcbeb4c4253456c76736ca02fa3719f494ad31aea5",
+    "json_ok": true,
+    "passed": false,
+    "independent": false,
+    "problems": [
+      "form verifier is not fingerprint-bound to this canonical run receipt"
+    ]
+  },
+  "problems": [
+    "form verifier is not fingerprint-bound to this canonical run receipt",
+    "positive verdict requires verifier receipt with a passed/all_ok/clean/ok flag",
+    "positive verdict requires verifier receipt with an independent/adversarial flag"
+  ]
+}

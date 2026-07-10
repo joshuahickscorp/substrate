@@ -1,0 +1,195 @@
+{
+  "schema": "mop-form-local-run-summary/v1",
+  "created_at": "2026-07-09T23:34:16.063376+00:00",
+  "started": 1783640035.18174,
+  "finished": 1783640056.063426,
+  "requested_ids": [],
+  "records": [
+    {
+      "experiment_id": "f1_form_alignment_gate",
+      "status": "ok",
+      "run_dir": "runs/f1_form_alignment_gate/001",
+      "manifest_sha256": "7477466db3d7281057e6ac0715769d043809c60ce1d6e9aac51852743811580e",
+      "seconds": 1.2206846250919625,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f2_heldout_form_transfer",
+      "status": "ok",
+      "run_dir": "runs/f2_heldout_form_transfer/000",
+      "manifest_sha256": "c6b5d5bda9667ca2dc99a71f7ded8535ff6f2f102ebb31cae59895f9591c2cf8",
+      "seconds": 0.6861249159555882,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f3_form_bottleneck_capacity",
+      "status": "ok",
+      "run_dir": "runs/f3_form_bottleneck_capacity/000",
+      "manifest_sha256": "5bd523a5e5855c0a896faa67b8113114b8fabe8dbc3a1bae32bbe21be5cb8ad7",
+      "seconds": 0.7847685420420021,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f4_raw_payload_vs_form_tokens",
+      "status": "ok",
+      "run_dir": "runs/f4_raw_payload_vs_form_tokens/001",
+      "manifest_sha256": "de6027abfd7fd96c836c2e113eb6c45b7a2ded828afe177d855d6f9088eedc9f",
+      "seconds": 0.7507127498975024,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f5_cross_form_memory_binding",
+      "status": "ok",
+      "run_dir": "runs/f5_cross_form_memory_binding/002",
+      "manifest_sha256": "4e6c2ba9f466fb40274891207961926cf24ee78e35cdbc46ee2f69bb9ce3b4b2",
+      "seconds": 0.41577070800121874,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f6_sensorimotor_form_closure",
+      "status": "ok",
+      "run_dir": "runs/f6_sensorimotor_form_closure/001",
+      "manifest_sha256": "729726bdc25f5ced81860369d1f6fa3972d29a58dd2dbcd7c5970cd6e8654a75",
+      "seconds": 0.9539915409404784,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f7_developmental_form_growth",
+      "status": "ok",
+      "run_dir": "runs/f7_developmental_form_growth/001",
+      "manifest_sha256": "fd49acde3633d34b1db02aba855a4161ac1310ec1054207478909daf328f5faa",
+      "seconds": 0.7042621669825166,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f9_cross_form_compositional_binding",
+      "status": "ok",
+      "run_dir": "runs/f9_cross_form_compositional_binding/005",
+      "manifest_sha256": "943a24348a0000b17f3856c411338b8d120c0c30306aa30300fa09b6e31a877a",
+      "seconds": 1.26601920905523,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f10_intrinsic_form_curriculum",
+      "status": "ok",
+      "run_dir": "runs/f10_intrinsic_form_curriculum/005",
+      "manifest_sha256": "929f64cec37eae95f109f24983a9cc3cff3b45468e379ec15702473e376fed47",
+      "seconds": 0.46580179198645055,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f11_form_dream_replay",
+      "status": "ok",
+      "run_dir": "runs/f11_form_dream_replay/001",
+      "manifest_sha256": "61eb47253b00f98afb3d29644724bec99727dbdb9753675a691e9db5f7296d01",
+      "seconds": 1.020265500061214,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f12_private_form_language_stability",
+      "status": "ok",
+      "run_dir": "runs/f12_private_form_language_stability/002",
+      "manifest_sha256": "a2c68544b45abe2cdb3b73d3c2277ebe350e0fa422061c9311bfdcb4154d2f20",
+      "seconds": 0.49510733399074525,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f13_form_energy_budget",
+      "status": "ok",
+      "run_dir": "runs/f13_form_energy_budget/001",
+      "manifest_sha256": "3940f275772d96eefd39f7811d7a07d7bac2675fcfc73648a74c5d879d31d306",
+      "seconds": 5.076363542000763,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f14_lifelong_form_expansion",
+      "status": "ok",
+      "run_dir": "runs/f14_lifelong_form_expansion/002",
+      "manifest_sha256": "57d8b503069d745d1b49657254c01e9581e767a4d93ff28e794a28b353651f8a",
+      "seconds": 0.655454833060503,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f15_embodied_affordance_form",
+      "status": "ok",
+      "run_dir": "runs/f15_embodied_affordance_form/002",
+      "manifest_sha256": "5ff0741ebe6acb5d3478874caa26e97389088d1e0ce46c6b4a3bb720e101452a",
+      "seconds": 0.550609500030987,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f17_missing_form_recovery",
+      "status": "ok",
+      "run_dir": "runs/f17_missing_form_recovery/005",
+      "manifest_sha256": "88053779a8558bd6beb4ee1d8ea1f2140c3368c3258d338f36405c5e3a31e262",
+      "seconds": 0.6961736250668764,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f18_counterfactual_form_intervention",
+      "status": "ok",
+      "run_dir": "runs/f18_counterfactual_form_intervention/001",
+      "manifest_sha256": "e25628ce182d8d8d522a1094636e5277d1fcf882d88ef5bda99a50783a9bc42d",
+      "seconds": 0.8144059999613091,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f19_cross_scale_referent_binding",
+      "status": "ok",
+      "run_dir": "runs/f19_cross_scale_referent_binding/002",
+      "manifest_sha256": "68961200195fa121e4535ab96c518f9af5c3f6e0ac1b43a837a3cdf18999541e",
+      "seconds": 0.44710966595448554,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f20_substrate_crisis_test",
+      "status": "ok",
+      "run_dir": "runs/f20_substrate_crisis_test/002",
+      "manifest_sha256": "0890284a0777b22650d238978142cdb1b951fb64d1e4fb6284d48d3718164cd0",
+      "seconds": 3.5447920829756185,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    }
+  ],
+  "summary": {
+    "planned": 18,
+    "completed": 18,
+    "failed": 0
+  },
+  "all_ok": true
+}

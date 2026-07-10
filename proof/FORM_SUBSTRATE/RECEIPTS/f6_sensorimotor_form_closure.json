@@ -1,0 +1,247 @@
+{
+  "schema": "mop-form-experiment-receipt/v1",
+  "created_at": "2026-07-09T23:34:00.080952+00:00",
+  "experiment_id": "f6_sensorimotor_form_closure",
+  "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
+  "canonical": true,
+  "source": {
+    "run_dir": "runs/f6_sensorimotor_form_closure/001",
+    "manifest_path": "runs/f6_sensorimotor_form_closure/001/manifest.json",
+    "manifest_sha256": "729726bdc25f5ced81860369d1f6fa3972d29a58dd2dbcd7c5970cd6e8654a75",
+    "config_path": "runs/f6_sensorimotor_form_closure/001/config.yaml",
+    "config_sha256": "9e1b16408756554ae062cb3037110976439c6aca4dcedf2c5f07540b130f6a50",
+    "git": "be7b5d9",
+    "device": "cpu",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "result_tag": "structured-synthetic"
+  },
+  "contract": {
+    "experiment_id": "f6_sensorimotor_form_closure",
+    "required": true,
+    "comparisons": {
+      "id": {
+        "registry": "f6_sensorimotor_form_closure",
+        "class": "f6_sensorimotor_form_closure",
+        "config": "f6_sensorimotor_form_closure",
+        "equal": true
+      },
+      "metric": {
+        "registry": [
+          "rollout_r2",
+          "goal_success",
+          "action_shuffle_delta"
+        ],
+        "class": [
+          "rollout_r2",
+          "goal_success",
+          "action_shuffle_delta"
+        ],
+        "config": [
+          "rollout_r2",
+          "goal_success",
+          "action_shuffle_delta"
+        ],
+        "equal": true
+      },
+      "null_hypothesis": {
+        "registry": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+        "class": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+        "config": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+        "equal": true
+      },
+      "tier": {
+        "registry": "cpu-now",
+        "class": "cpu-now",
+        "config": "cpu-now",
+        "equal": true
+      }
+    },
+    "canonical": {
+      "id": "f6_sensorimotor_form_closure",
+      "metric": [
+        "rollout_r2",
+        "goal_success",
+        "action_shuffle_delta"
+      ],
+      "null_hypothesis": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+      "tier": "cpu-now"
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "registry": {
+    "status": "implemented",
+    "resource_tier": "cpu-now",
+    "proof": {
+      "atlas_factor": "controllability",
+      "null_card": "none",
+      "evidence_level": "R1",
+      "local_preflight": "proof/LOCAL_ACTION_ENVIRONMENT.json"
+    }
+  },
+  "execution": {
+    "status": "ok",
+    "outer_seed": 0,
+    "intended_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "observed_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "started": 1783640039.4619992,
+    "finished": 1783640040.0809522
+  },
+  "metrics": {
+    "rollout_r2": 0.8926,
+    "goal_success": 1.0,
+    "action_shuffle_delta": 0.4735,
+    "rollout_r2_by_arm": {
+      "true": 0.8926,
+      "blind": 0.4666,
+      "shuffled": 0.4191
+    },
+    "goal_success_by_arm": {
+      "true": 1.0,
+      "blind": 0.0813,
+      "shuffled": 0.0187
+    },
+    "strongest_control_rollout_r2": 0.4666,
+    "strongest_control_goal_success": 0.0813,
+    "matched_architecture": true,
+    "matched_updates": true,
+    "form_audit": {
+      "schema": "mop-form-matrix/v1",
+      "n": 432,
+      "tags": [
+        "action_trace",
+        "observation_state"
+      ],
+      "kinds": {
+        "control": [
+          "action_trace"
+        ],
+        "symbolic": [
+          "observation_state"
+        ]
+      },
+      "controls": {},
+      "missing_controls": [
+        "action_trace",
+        "observation_state"
+      ],
+      "trainable_tags": [],
+      "implicit_referent_tags": [],
+      "unverified_manifest_tags": [
+        "action_trace",
+        "observation_state"
+      ],
+      "uncitable_tags": [
+        "action_trace",
+        "observation_state"
+      ],
+      "warnings": [
+        "one or more form arms lack a verified cache manifest"
+      ],
+      "all_ok": true
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seed_ci": {
+      "n": 5,
+      "mean": 0.426,
+      "sd": 0.0455,
+      "ci_half": 0.0399,
+      "lo": 0.3861,
+      "hi": 0.4659,
+      "unstable": false
+    },
+    "sign_flip": {
+      "n": 5,
+      "n_pos": 5,
+      "n_neg": 0,
+      "n_zero": 0,
+      "any_flip": false,
+      "consistent_sign": 1
+    },
+    "null_supported": false,
+    "density": {
+      "schema": "mop-density-block/v1",
+      "primary": "rollout_r2",
+      "capability": {
+        "rollout_r2": 0.8925904475461695
+      },
+      "cost": {
+        "params": 4212.0,
+        "flops": 1045094400.0,
+        "updates": 1200.0
+      },
+      "density": {
+        "rollout_r2_per_params": 0.0002119160606709804,
+        "rollout_r2_per_flops": 8.540763853927161e-10,
+        "rollout_r2_per_updates": 0.0007438253729551412
+      }
+    }
+  },
+  "declared_metrics": {
+    "rollout_r2": 0.8926,
+    "goal_success": 1.0,
+    "action_shuffle_delta": 0.4735
+  },
+  "null_decision": {
+    "null_supported": false,
+    "declared_verdict": "PUBLISH-POSITIVE",
+    "positive_requires_independent_verifier": true,
+    "ledger_ready": false
+  },
+  "density": {
+    "schema": "mop-density-block/v1",
+    "primary": "rollout_r2",
+    "capability": {
+      "rollout_r2": 0.8925904475461695
+    },
+    "cost": {
+      "params": 4212.0,
+      "flops": 1045094400.0,
+      "updates": 1200.0
+    },
+    "density": {
+      "rollout_r2_per_params": 0.0002119160606709804,
+      "rollout_r2_per_flops": 8.540763853927161e-10,
+      "rollout_r2_per_updates": 0.0007438253729551412
+    }
+  },
+  "operational_awareness": {
+    "schema": "mop-operational-awareness/v1",
+    "experiment_id": "f6_sensorimotor_form_closure",
+    "components": {},
+    "components_present": [],
+    "components_missing": [
+      "oa1_missing_form",
+      "oa2_calibration",
+      "oa3_memory_availability",
+      "oa4_mode_selection",
+      "oa5_compute_value",
+      "oa6_crisis_detection",
+      "oa7_rewrite_caution",
+      "oa8_report_grounding"
+    ],
+    "composite_score": null
+  },
+  "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f6_sensorimotor_form_closure.json",
+  "problems": [],
+  "all_ok": true,
+  "receipt_fingerprint": "d8d025805310fb81b9979c4fe1c4610d8ca5a550587d169c690979780f5d60e0"
+}

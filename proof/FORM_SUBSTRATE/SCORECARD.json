@@ -1,0 +1,1829 @@
+{
+  "schema": "mop-form-campaign-scorecard/v1",
+  "created_at": "2026-07-10T06:53:16.905161+00:00",
+  "campaign_schema": "mop-form-substrate-campaign/v1",
+  "contract_audit": {
+    "schema": "mop-experiment-contract-audit/v1",
+    "created_at": "2026-07-10T06:53:16.871651+00:00",
+    "series": "F",
+    "implemented_only": false,
+    "records": [
+      {
+        "experiment_id": "f10_intrinsic_form_curriculum",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f10_intrinsic_form_curriculum",
+            "class": "f10_intrinsic_form_curriculum",
+            "config": "f10_intrinsic_form_curriculum",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "coverage_per_update",
+              "noisy_form_timeshare",
+              "transfer_gain"
+            ],
+            "class": [
+              "coverage_per_update",
+              "noisy_form_timeshare",
+              "transfer_gain"
+            ],
+            "config": [
+              "coverage_per_update",
+              "noisy_form_timeshare",
+              "transfer_gain"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "learning-progress selection fails to improve untouched held-out-form transfer over every control or spends as much time on noisy forms as uniform, so the curriculum is not form-aware",
+            "class": "learning-progress selection fails to improve untouched held-out-form transfer over every control or spends as much time on noisy forms as uniform, so the curriculum is not form-aware",
+            "config": "learning-progress selection fails to improve untouched held-out-form transfer over every control or spends as much time on noisy forms as uniform, so the curriculum is not form-aware",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f10_intrinsic_form_curriculum",
+          "metric": [
+            "coverage_per_update",
+            "noisy_form_timeshare",
+            "transfer_gain"
+          ],
+          "null_hypothesis": "learning-progress selection fails to improve untouched held-out-form transfer over every control or spends as much time on noisy forms as uniform, so the curriculum is not form-aware",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f11_form_dream_replay",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f11_form_dream_replay",
+            "class": "f11_form_dream_replay",
+            "config": "f11_form_dream_replay",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "retention_per_byte",
+              "manifold_validity",
+              "generated_vs_stored_gap"
+            ],
+            "class": [
+              "retention_per_byte",
+              "manifold_validity",
+              "generated_vs_stored_gap"
+            ],
+            "config": [
+              "retention_per_byte",
+              "manifold_validity",
+              "generated_vs_stored_gap"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "generated Form replay falls outside the preregistered retention band of stored replay at the same memory ceiling or fails the held-out Form-manifold validity floor",
+            "class": "generated Form replay falls outside the preregistered retention band of stored replay at the same memory ceiling or fails the held-out Form-manifold validity floor",
+            "config": "generated Form replay falls outside the preregistered retention band of stored replay at the same memory ceiling or fails the held-out Form-manifold validity floor",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f11_form_dream_replay",
+          "metric": [
+            "retention_per_byte",
+            "manifold_validity",
+            "generated_vs_stored_gap"
+          ],
+          "null_hypothesis": "generated Form replay falls outside the preregistered retention band of stored replay at the same memory ceiling or fails the held-out Form-manifold validity floor",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f12_private_form_language_stability",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f12_private_form_language_stability",
+            "class": "f12_private_form_language_stability",
+            "config": "f12_private_form_language_stability",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "cross_seed_code_transfer",
+              "code_agreement",
+              "random_code_floor"
+            ],
+            "class": [
+              "cross_seed_code_transfer",
+              "code_agreement",
+              "random_code_floor"
+            ],
+            "config": [
+              "cross_seed_code_transfer",
+              "code_agreement",
+              "random_code_floor"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "cross-seed code agreement sits at or below the random-codebook floor and cross-seed probe transfer is at chance, so the form codes are private idiolects rather than a shared language",
+            "class": "cross-seed code agreement sits at or below the random-codebook floor and cross-seed probe transfer is at chance, so the form codes are private idiolects rather than a shared language",
+            "config": "cross-seed code agreement sits at or below the random-codebook floor and cross-seed probe transfer is at chance, so the form codes are private idiolects rather than a shared language",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f12_private_form_language_stability",
+          "metric": [
+            "cross_seed_code_transfer",
+            "code_agreement",
+            "random_code_floor"
+          ],
+          "null_hypothesis": "cross-seed code agreement sits at or below the random-codebook floor and cross-seed probe transfer is at chance, so the form codes are private idiolects rather than a shared language",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f13_form_energy_budget",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f13_form_energy_budget",
+            "class": "f13_form_energy_budget",
+            "config": "f13_form_energy_budget",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "accuracy_per_byte",
+              "accuracy_per_param",
+              "estimated_energy_per_correct"
+            ],
+            "class": [
+              "accuracy_per_byte",
+              "accuracy_per_param",
+              "estimated_energy_per_correct"
+            ],
+            "config": [
+              "accuracy_per_byte",
+              "accuracy_per_param",
+              "estimated_energy_per_correct"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "every form interface lies on the same full-system accuracy-versus-cost frontier as raw or matched random features, so form structure buys no capability per retained byte, parameter, FLOP, or analytically estimated joule",
+            "class": "every form interface lies on the same full-system accuracy-versus-cost frontier as raw or matched random features, so form structure buys no capability per retained byte, parameter, FLOP, or analytically estimated joule",
+            "config": "every form interface lies on the same full-system accuracy-versus-cost frontier as raw or matched random features, so form structure buys no capability per retained byte, parameter, FLOP, or analytically estimated joule",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f13_form_energy_budget",
+          "metric": [
+            "accuracy_per_byte",
+            "accuracy_per_param",
+            "estimated_energy_per_correct"
+          ],
+          "null_hypothesis": "every form interface lies on the same full-system accuracy-versus-cost frontier as raw or matched random features, so form structure buys no capability per retained byte, parameter, FLOP, or analytically estimated joule",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f14_lifelong_form_expansion",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f14_lifelong_form_expansion",
+            "class": "f14_lifelong_form_expansion",
+            "config": "f14_lifelong_form_expansion",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "old_form_bwt",
+              "new_form_transfer",
+              "old_memory_recall_delta",
+              "new_form_memory_recall",
+              "alignment_budget"
+            ],
+            "class": [
+              "old_form_bwt",
+              "new_form_transfer",
+              "old_memory_recall_delta",
+              "new_form_memory_recall",
+              "alignment_budget"
+            ],
+            "config": [
+              "old_form_bwt",
+              "new_form_transfer",
+              "old_memory_recall_delta",
+              "new_form_memory_recall",
+              "alignment_budget"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "new-form insertion changes any old-memory key, value, or referent id, changes old-memory retrieval, forgets old forms beyond the retention band, or fails to beat the strongest matched existing-head and raw or shuffled retrieval controls",
+            "class": "new-form insertion changes any old-memory key, value, or referent id, changes old-memory retrieval, forgets old forms beyond the retention band, or fails to beat the strongest matched existing-head and raw or shuffled retrieval controls",
+            "config": "new-form insertion changes any old-memory key, value, or referent id, changes old-memory retrieval, forgets old forms beyond the retention band, or fails to beat the strongest matched existing-head and raw or shuffled retrieval controls",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f14_lifelong_form_expansion",
+          "metric": [
+            "old_form_bwt",
+            "new_form_transfer",
+            "old_memory_recall_delta",
+            "new_form_memory_recall",
+            "alignment_budget"
+          ],
+          "null_hypothesis": "new-form insertion changes any old-memory key, value, or referent id, changes old-memory retrieval, forgets old forms beyond the retention band, or fails to beat the strongest matched existing-head and raw or shuffled retrieval controls",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f15_embodied_affordance_form",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f15_embodied_affordance_form",
+            "class": "f15_embodied_affordance_form",
+            "config": "f15_embodied_affordance_form",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "affordance_decode_acc",
+              "intervention_gain",
+              "action_shuffle_delta"
+            ],
+            "class": [
+              "affordance_decode_acc",
+              "intervention_gain",
+              "action_shuffle_delta"
+            ],
+            "config": [
+              "affordance_decode_acc",
+              "intervention_gain",
+              "action_shuffle_delta"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+            "class": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+            "config": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f15_embodied_affordance_form",
+          "metric": [
+            "affordance_decode_acc",
+            "intervention_gain",
+            "action_shuffle_delta"
+          ],
+          "null_hypothesis": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f16_perfect_slate_null",
+        "required": false,
+        "comparisons": {
+          "id": {
+            "registry": "f16_perfect_slate_null",
+            "class": "f16_perfect_slate_null",
+            "config": "f16_perfect_slate_null",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "blank_vs_inherited_delta",
+              "heldout_transfer",
+              "matched_compute_delta"
+            ],
+            "class": [
+              "blank_vs_inherited_delta",
+              "heldout_transfer",
+              "matched_compute_delta"
+            ],
+            "config": [
+              "blank_vs_inherited_delta",
+              "heldout_transfer",
+              "matched_compute_delta"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget",
+            "class": "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget",
+            "config": "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget",
+            "equal": true
+          },
+          "tier": {
+            "registry": "env-later",
+            "class": "env-later",
+            "config": "env-later",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f16_perfect_slate_null",
+          "metric": [
+            "blank_vs_inherited_delta",
+            "heldout_transfer",
+            "matched_compute_delta"
+          ],
+          "null_hypothesis": "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget",
+          "tier": "env-later"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f17_missing_form_recovery",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f17_missing_form_recovery",
+            "class": "f17_missing_form_recovery",
+            "config": "f17_missing_form_recovery",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "recovery_acc",
+              "best_remaining_form_acc",
+              "absence_ece",
+              "recovery_per_extra_flop"
+            ],
+            "class": [
+              "recovery_acc",
+              "best_remaining_form_acc",
+              "absence_ece",
+              "recovery_per_extra_flop"
+            ],
+            "config": [
+              "recovery_acc",
+              "best_remaining_form_acc",
+              "absence_ece",
+              "recovery_per_extra_flop"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "recovery fails to beat the strongest tuned single-form, impute-by-mean, or zero-filled-concat control, or confidence does not predict correctness under a missing form, so recovery or monitoring is uninformative",
+            "class": "recovery fails to beat the strongest tuned single-form, impute-by-mean, or zero-filled-concat control, or confidence does not predict correctness under a missing form, so recovery or monitoring is uninformative",
+            "config": "recovery fails to beat the strongest tuned single-form, impute-by-mean, or zero-filled-concat control, or confidence does not predict correctness under a missing form, so recovery or monitoring is uninformative",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f17_missing_form_recovery",
+          "metric": [
+            "recovery_acc",
+            "best_remaining_form_acc",
+            "absence_ece",
+            "recovery_per_extra_flop"
+          ],
+          "null_hypothesis": "recovery fails to beat the strongest tuned single-form, impute-by-mean, or zero-filled-concat control, or confidence does not predict correctness under a missing form, so recovery or monitoring is uninformative",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f18_counterfactual_form_intervention",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f18_counterfactual_form_intervention",
+            "class": "f18_counterfactual_form_intervention",
+            "config": "f18_counterfactual_form_intervention",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "counterfactual_match_acc",
+              "correlational_baseline_acc",
+              "unseen_value_gap",
+              "counterfactual_acc_per_param"
+            ],
+            "class": [
+              "counterfactual_match_acc",
+              "correlational_baseline_acc",
+              "unseen_value_gap",
+              "counterfactual_acc_per_param"
+            ],
+            "config": [
+              "counterfactual_match_acc",
+              "correlational_baseline_acc",
+              "unseen_value_gap",
+              "counterfactual_acc_per_param"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure",
+            "class": "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure",
+            "config": "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f18_counterfactual_form_intervention",
+          "metric": [
+            "counterfactual_match_acc",
+            "correlational_baseline_acc",
+            "unseen_value_gap",
+            "counterfactual_acc_per_param"
+          ],
+          "null_hypothesis": "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f19_cross_scale_referent_binding",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f19_cross_scale_referent_binding",
+            "class": "f19_cross_scale_referent_binding",
+            "config": "f19_cross_scale_referent_binding",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "cross_scale_recall_at_k",
+              "flat_memory_recall_at_k",
+              "recall_per_byte"
+            ],
+            "class": [
+              "cross_scale_recall_at_k",
+              "flat_memory_recall_at_k",
+              "recall_per_byte"
+            ],
+            "config": [
+              "cross_scale_recall_at_k",
+              "flat_memory_recall_at_k",
+              "recall_per_byte"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+            "class": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+            "config": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f19_cross_scale_referent_binding",
+          "metric": [
+            "cross_scale_recall_at_k",
+            "flat_memory_recall_at_k",
+            "recall_per_byte"
+          ],
+          "null_hypothesis": "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f1_form_alignment_gate",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f1_form_alignment_gate",
+            "class": "f1_form_alignment_gate",
+            "config": "f1_form_alignment_gate",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "aligned_transfer",
+              "raw_transfer",
+              "shuffled_anchor_transfer"
+            ],
+            "class": [
+              "aligned_transfer",
+              "raw_transfer",
+              "shuffled_anchor_transfer"
+            ],
+            "config": [
+              "aligned_transfer",
+              "raw_transfer",
+              "shuffled_anchor_transfer"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "paired referent alignment fails to beat the strongest raw, moment-matched, or shuffled-anchor control by the preregistered margin, or remains near chance",
+            "class": "paired referent alignment fails to beat the strongest raw, moment-matched, or shuffled-anchor control by the preregistered margin, or remains near chance",
+            "config": "paired referent alignment fails to beat the strongest raw, moment-matched, or shuffled-anchor control by the preregistered margin, or remains near chance",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f1_form_alignment_gate",
+          "metric": [
+            "aligned_transfer",
+            "raw_transfer",
+            "shuffled_anchor_transfer"
+          ],
+          "null_hypothesis": "paired referent alignment fails to beat the strongest raw, moment-matched, or shuffled-anchor control by the preregistered margin, or remains near chance",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f20_substrate_crisis_test",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f20_substrate_crisis_test",
+            "class": "f20_substrate_crisis_test",
+            "config": "f20_substrate_crisis_test",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "crisis_auroc",
+              "raw_error_auroc",
+              "false_trigger_rate",
+              "avoided_wasted_compute_per_monitor_flop"
+            ],
+            "class": [
+              "crisis_auroc",
+              "raw_error_auroc",
+              "false_trigger_rate",
+              "avoided_wasted_compute_per_monitor_flop"
+            ],
+            "config": [
+              "crisis_auroc",
+              "raw_error_auroc",
+              "false_trigger_rate",
+              "avoided_wasted_compute_per_monitor_flop"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+            "class": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+            "config": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f20_substrate_crisis_test",
+          "metric": [
+            "crisis_auroc",
+            "raw_error_auroc",
+            "false_trigger_rate",
+            "avoided_wasted_compute_per_monitor_flop"
+          ],
+          "null_hypothesis": "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f2_heldout_form_transfer",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f2_heldout_form_transfer",
+            "class": "f2_heldout_form_transfer",
+            "config": "f2_heldout_form_transfer",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "heldout_form_acc",
+              "single_form_baseline",
+              "multi_form_gain"
+            ],
+            "class": [
+              "heldout_form_acc",
+              "single_form_baseline",
+              "multi_form_gain"
+            ],
+            "config": [
+              "heldout_form_acc",
+              "single_form_baseline",
+              "multi_form_gain"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "matched-exposure multi-form training fails to beat the strongest single-reference or matched-noise control by the preregistered margin, the held-out form remains near chance, or referent-shuffled alignment ties the treatment",
+            "class": "matched-exposure multi-form training fails to beat the strongest single-reference or matched-noise control by the preregistered margin, the held-out form remains near chance, or referent-shuffled alignment ties the treatment",
+            "config": "matched-exposure multi-form training fails to beat the strongest single-reference or matched-noise control by the preregistered margin, the held-out form remains near chance, or referent-shuffled alignment ties the treatment",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f2_heldout_form_transfer",
+          "metric": [
+            "heldout_form_acc",
+            "single_form_baseline",
+            "multi_form_gain"
+          ],
+          "null_hypothesis": "matched-exposure multi-form training fails to beat the strongest single-reference or matched-noise control by the preregistered margin, the held-out form remains near chance, or referent-shuffled alignment ties the treatment",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f3_form_bottleneck_capacity",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f3_form_bottleneck_capacity",
+            "class": "f3_form_bottleneck_capacity",
+            "config": "f3_form_bottleneck_capacity",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "wide_form_acc",
+              "small_form_acc",
+              "wide_minus_small"
+            ],
+            "class": [
+              "wide_form_acc",
+              "small_form_acc",
+              "wide_minus_small"
+            ],
+            "config": [
+              "wide_form_acc",
+              "small_form_acc",
+              "wide_minus_small"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "the nested wide bottleneck fails to beat the zero-padded small bottleneck by the preregistered margin, or wide performance remains near the chance or shuffled-label floor",
+            "class": "the nested wide bottleneck fails to beat the zero-padded small bottleneck by the preregistered margin, or wide performance remains near the chance or shuffled-label floor",
+            "config": "the nested wide bottleneck fails to beat the zero-padded small bottleneck by the preregistered margin, or wide performance remains near the chance or shuffled-label floor",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f3_form_bottleneck_capacity",
+          "metric": [
+            "wide_form_acc",
+            "small_form_acc",
+            "wide_minus_small"
+          ],
+          "null_hypothesis": "the nested wide bottleneck fails to beat the zero-padded small bottleneck by the preregistered margin, or wide performance remains near the chance or shuffled-label floor",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f4_raw_payload_vs_form_tokens",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f4_raw_payload_vs_form_tokens",
+            "class": "f4_raw_payload_vs_form_tokens",
+            "config": "f4_raw_payload_vs_form_tokens",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "cross_form_transfer_per_dim",
+              "retention_per_dim",
+              "control_delta"
+            ],
+            "class": [
+              "cross_form_transfer_per_dim",
+              "retention_per_dim",
+              "control_delta"
+            ],
+            "config": [
+              "cross_form_transfer_per_dim",
+              "retention_per_dim",
+              "control_delta"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "ordered canonical form tokens fail to beat the strongest raw, handcrafted, shuffled-referent, or token-order control by the preregistered margin",
+            "class": "ordered canonical form tokens fail to beat the strongest raw, handcrafted, shuffled-referent, or token-order control by the preregistered margin",
+            "config": "ordered canonical form tokens fail to beat the strongest raw, handcrafted, shuffled-referent, or token-order control by the preregistered margin",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f4_raw_payload_vs_form_tokens",
+          "metric": [
+            "cross_form_transfer_per_dim",
+            "retention_per_dim",
+            "control_delta"
+          ],
+          "null_hypothesis": "ordered canonical form tokens fail to beat the strongest raw, handcrafted, shuffled-referent, or token-order control by the preregistered margin",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f5_cross_form_memory_binding",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f5_cross_form_memory_binding",
+            "class": "f5_cross_form_memory_binding",
+            "config": "f5_cross_form_memory_binding",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "cross_form_recall_at_k",
+              "same_form_recall_at_k",
+              "shuffled_referent_floor",
+              "recall_per_slot"
+            ],
+            "class": [
+              "cross_form_recall_at_k",
+              "same_form_recall_at_k",
+              "shuffled_referent_floor",
+              "recall_per_slot"
+            ],
+            "config": [
+              "cross_form_recall_at_k",
+              "same_form_recall_at_k",
+              "shuffled_referent_floor",
+              "recall_per_slot"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "cross-form retrieval fails to beat raw or shuffled controls, or remains materially below same-form independent-view retrieval, so memory is form-local rather than referent-bound",
+            "class": "cross-form retrieval fails to beat raw or shuffled controls, or remains materially below same-form independent-view retrieval, so memory is form-local rather than referent-bound",
+            "config": "cross-form retrieval fails to beat raw or shuffled controls, or remains materially below same-form independent-view retrieval, so memory is form-local rather than referent-bound",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f5_cross_form_memory_binding",
+          "metric": [
+            "cross_form_recall_at_k",
+            "same_form_recall_at_k",
+            "shuffled_referent_floor",
+            "recall_per_slot"
+          ],
+          "null_hypothesis": "cross-form retrieval fails to beat raw or shuffled controls, or remains materially below same-form independent-view retrieval, so memory is form-local rather than referent-bound",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f6_sensorimotor_form_closure",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f6_sensorimotor_form_closure",
+            "class": "f6_sensorimotor_form_closure",
+            "config": "f6_sensorimotor_form_closure",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "rollout_r2",
+              "goal_success",
+              "action_shuffle_delta"
+            ],
+            "class": [
+              "rollout_r2",
+              "goal_success",
+              "action_shuffle_delta"
+            ],
+            "config": [
+              "rollout_r2",
+              "goal_success",
+              "action_shuffle_delta"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+            "class": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+            "config": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f6_sensorimotor_form_closure",
+          "metric": [
+            "rollout_r2",
+            "goal_success",
+            "action_shuffle_delta"
+          ],
+          "null_hypothesis": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f7_developmental_form_growth",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f7_developmental_form_growth",
+            "class": "f7_developmental_form_growth",
+            "config": "f7_developmental_form_growth",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "frontier_auc_gain",
+              "growth_efficiency",
+              "retained_capacity"
+            ],
+            "class": [
+              "frontier_auc_gain",
+              "growth_efficiency",
+              "retained_capacity"
+            ],
+            "config": [
+              "frontier_auc_gain",
+              "growth_efficiency",
+              "retained_capacity"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+            "class": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+            "config": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f7_developmental_form_growth",
+          "metric": [
+            "frontier_auc_gain",
+            "growth_efficiency",
+            "retained_capacity"
+          ],
+          "null_hypothesis": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f8_plastic_substrate_rewrite",
+        "required": false,
+        "comparisons": {
+          "id": {
+            "registry": "f8_plastic_substrate_rewrite",
+            "class": "f8_plastic_substrate_rewrite",
+            "config": "f8_plastic_substrate_rewrite",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "heldout_factor_acc",
+              "representation_rewrite_delta",
+              "matched_compute_delta"
+            ],
+            "class": [
+              "heldout_factor_acc",
+              "representation_rewrite_delta",
+              "matched_compute_delta"
+            ],
+            "config": [
+              "heldout_factor_acc",
+              "representation_rewrite_delta",
+              "matched_compute_delta"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget",
+            "class": "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget",
+            "config": "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget",
+            "equal": true
+          },
+          "tier": {
+            "registry": "env-later",
+            "class": "env-later",
+            "config": "env-later",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f8_plastic_substrate_rewrite",
+          "metric": [
+            "heldout_factor_acc",
+            "representation_rewrite_delta",
+            "matched_compute_delta"
+          ],
+          "null_hypothesis": "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget",
+          "tier": "env-later"
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f9_cross_form_compositional_binding",
+        "required": true,
+        "comparisons": {
+          "id": {
+            "registry": "f9_cross_form_compositional_binding",
+            "class": "f9_cross_form_compositional_binding",
+            "config": "f9_cross_form_compositional_binding",
+            "equal": true
+          },
+          "metric": {
+            "registry": [
+              "heldout_combo_acc",
+              "seen_combo_acc",
+              "heldout_seen_gap"
+            ],
+            "class": [
+              "heldout_combo_acc",
+              "seen_combo_acc",
+              "heldout_seen_gap"
+            ],
+            "config": [
+              "heldout_combo_acc",
+              "seen_combo_acc",
+              "heldout_seen_gap"
+            ],
+            "equal": true
+          },
+          "null_hypothesis": {
+            "registry": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+            "class": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+            "config": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+            "equal": true
+          },
+          "tier": {
+            "registry": "cpu-now",
+            "class": "cpu-now",
+            "config": "cpu-now",
+            "equal": true
+          }
+        },
+        "canonical": {
+          "id": "f9_cross_form_compositional_binding",
+          "metric": [
+            "heldout_combo_acc",
+            "seen_combo_acc",
+            "heldout_seen_gap"
+          ],
+          "null_hypothesis": "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms",
+          "tier": "cpu-now"
+        },
+        "problems": [],
+        "all_ok": true
+      }
+    ],
+    "summary": {
+      "total": 20,
+      "aligned": 20,
+      "misaligned": 0
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "legs": [
+    {
+      "experiment_id": "f1_form_alignment_gate",
+      "phase": "interface",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f2_heldout_form_transfer",
+      "phase": "interface",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f3_form_bottleneck_capacity",
+      "phase": "interface",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f4_raw_payload_vs_form_tokens",
+      "phase": "interface",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f5_cross_form_memory_binding",
+      "phase": "interface",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f6_sensorimotor_form_closure",
+      "phase": "closure",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": false,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f7_developmental_form_growth",
+      "phase": "closure",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f8_plastic_substrate_rewrite",
+      "phase": "closure",
+      "registry_status": "registry-only",
+      "local_requirement": "fail-closed-preflight-and-smoke",
+      "scale_boundary": "environment",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": false,
+      "null_supported": null,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f9_cross_form_compositional_binding",
+      "phase": "composition",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f10_intrinsic_form_curriculum",
+      "phase": "composition",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": false,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f11_form_dream_replay",
+      "phase": "composition",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f12_private_form_language_stability",
+      "phase": "composition",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f13_form_energy_budget",
+      "phase": "density",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f14_lifelong_form_expansion",
+      "phase": "density",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f15_embodied_affordance_form",
+      "phase": "density",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": false,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f16_perfect_slate_null",
+      "phase": "density",
+      "registry_status": "registry-only",
+      "local_requirement": "fail-closed-preflight-and-smoke",
+      "scale_boundary": "environment",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": false,
+      "null_supported": null,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f17_missing_form_recovery",
+      "phase": "resilience",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f18_counterfactual_form_intervention",
+      "phase": "resilience",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": false,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f19_cross_scale_referent_binding",
+      "phase": "resilience",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    },
+    {
+      "experiment_id": "f20_substrate_crisis_test",
+      "phase": "resilience",
+      "registry_status": "implemented",
+      "local_requirement": "canonical-run",
+      "scale_boundary": "local",
+      "null_card_ok": true,
+      "contract_ok": true,
+      "local_evidence_ok": true,
+      "verdict_gate_ok": true,
+      "null_supported": true,
+      "problems": [],
+      "all_ok": true
+    }
+  ],
+  "operational_awareness_input": {
+    "schema": "mop-form-oa-input/v1",
+    "oa_schema": "mop-operational-awareness/v1",
+    "created_at": "2026-07-10T06:53:16.905092+00:00",
+    "components": {
+      "oa1_missing_form": [
+        {
+          "experiment_id": "f17_missing_form_recovery",
+          "metrics": {
+            "auroc": 1.0,
+            "chance": 0.5,
+            "source": "typed-form-availability-mask"
+          }
+        }
+      ],
+      "oa2_calibration": [
+        {
+          "experiment_id": "f17_missing_form_recovery",
+          "metrics": {
+            "auroc": 0.7658,
+            "ece": 0.0898,
+            "chance_auroc": 0.5
+          }
+        }
+      ],
+      "oa6_crisis_detection": [
+        {
+          "experiment_id": "f20_substrate_crisis_test",
+          "metrics": {
+            "auroc": 0.9688,
+            "raw_error_auroc": 0.7905,
+            "strongest_baseline_auroc": 0.9146,
+            "avoided_compute_measured": false,
+            "chance": 0.5
+          }
+        }
+      ],
+      "oa7_rewrite_caution": [
+        {
+          "experiment_id": "f20_substrate_crisis_test",
+          "metrics": {
+            "false_trigger_rate": 0.0,
+            "true_trigger_rate": 0.9844,
+            "caution_margin": 0.9844
+          }
+        }
+      ]
+    },
+    "components_present": [
+      "oa1_missing_form",
+      "oa2_calibration",
+      "oa6_crisis_detection",
+      "oa7_rewrite_caution"
+    ],
+    "components_missing": [
+      "oa3_memory_availability",
+      "oa4_mode_selection",
+      "oa5_compute_value",
+      "oa8_report_grounding"
+    ],
+    "composite_score": null,
+    "all_ok": true
+  },
+  "density_input": {
+    "schema": "mop-form-density-input/v1",
+    "density_schema": "mop-density-block/v1",
+    "created_at": "2026-07-10T06:53:16.905149+00:00",
+    "rows": [
+      {
+        "experiment_id": "f1_form_alignment_gate",
+        "primary": "aligned_transfer",
+        "capability": {
+          "aligned_transfer": 0.7940476179122925
+        },
+        "cost": {
+          "params": 248.0,
+          "seconds": 0.14495395799167454
+        },
+        "density": {
+          "aligned_transfer_per_params": 0.0032018049109366633,
+          "aligned_transfer_per_seconds": 5.477929881417235
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f2_heldout_form_transfer",
+        "primary": "heldout_form_acc",
+        "capability": {
+          "heldout_form_acc": 0.6444444417953491
+        },
+        "cost": {
+          "params": 370.0,
+          "seconds": 0.21185874997172505,
+          "updates": 60.0
+        },
+        "density": {
+          "heldout_form_acc_per_params": 0.0017417417345820245,
+          "heldout_form_acc_per_seconds": 3.041858983314862,
+          "heldout_form_acc_per_updates": 0.010740740696589151
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f3_form_bottleneck_capacity",
+        "primary": "wide_form_acc",
+        "capability": {
+          "wide_form_acc": 0.5743827104568482
+        },
+        "cost": {
+          "params": 1130.0,
+          "seconds": 0.37656750006135553
+        },
+        "density": {
+          "wide_form_acc_per_params": 0.0005083032835901312,
+          "wide_form_acc_per_seconds": 1.5253114258752067
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f4_raw_payload_vs_form_tokens",
+        "primary": "cross_form_transfer_per_dim",
+        "capability": {
+          "cross_form_transfer_per_dim": 0.021263020858168603
+        },
+        "cost": {
+          "params": 336.0,
+          "seconds": 0.2842478340025991
+        },
+        "density": {
+          "cross_form_transfer_per_dim_per_params": 6.328280017312085e-05,
+          "cross_form_transfer_per_dim_per_seconds": 0.07480451322620871
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f5_cross_form_memory_binding",
+        "primary": "cross_form_recall_at_k",
+        "capability": {
+          "cross_form_recall_at_k": 0.9008264541625977,
+          "recall_per_slot": 0.00744484672861651
+        },
+        "cost": {
+          "bytes": 35816.0,
+          "seconds": 0.013187457923777401
+        },
+        "density": {
+          "cross_form_recall_at_k_per_bytes": 2.5151509218299018e-05,
+          "cross_form_recall_at_k_per_seconds": 68.30933295630686
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f6_sensorimotor_form_closure",
+        "primary": "rollout_r2",
+        "capability": {
+          "rollout_r2": 0.8925904475461695
+        },
+        "cost": {
+          "params": 4212.0,
+          "flops": 1045094400.0,
+          "updates": 1200.0
+        },
+        "density": {
+          "rollout_r2_per_params": 0.0002119160606709804,
+          "rollout_r2_per_flops": 8.540763853927161e-10,
+          "rollout_r2_per_updates": 0.0007438253729551412
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f7_developmental_form_growth",
+        "primary": "frontier_auc_gain",
+        "capability": {
+          "frontier_auc_gain": -0.16865417919556924
+        },
+        "cost": {
+          "params": 2622.0,
+          "updates": 1350.0
+        },
+        "density": {
+          "frontier_auc_gain_per_params": -6.43227228053277e-05,
+          "frontier_auc_gain_per_updates": -0.0001249290216263476
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f9_cross_form_compositional_binding",
+        "primary": "heldout_combo_acc",
+        "capability": {
+          "heldout_combo_acc": 0.7978404641151429
+        },
+        "cost": {
+          "params": 136.0,
+          "seconds": 0.8478466250235215
+        },
+        "density": {
+          "heldout_combo_acc_per_params": 0.005866474000846639,
+          "heldout_combo_acc_per_seconds": 0.9410198030722935
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f10_intrinsic_form_curriculum",
+        "primary": "coverage_per_update",
+        "capability": {
+          "coverage_per_update": 0.03400000035762787
+        },
+        "cost": {
+          "seconds": 0.12159458303358406,
+          "updates": 20.0
+        },
+        "density": {
+          "coverage_per_update_per_seconds": 0.2796177223473612,
+          "coverage_per_update_per_updates": 0.0017000000178813933
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f11_form_dream_replay",
+        "primary": "retention_per_byte",
+        "capability": {
+          "retention_per_byte": 0.0010358796268701554
+        },
+        "cost": {
+          "params": 1445.0,
+          "bytes": 960.0,
+          "updates": 2250.0
+        },
+        "density": {
+          "retention_per_byte_per_params": 7.168717140969933e-07,
+          "retention_per_byte_per_bytes": 1.0790412779897452e-06,
+          "retention_per_byte_per_updates": 4.603909452756246e-07
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f12_private_form_language_stability",
+        "primary": "code_agreement",
+        "capability": {
+          "code_agreement": 0.5425
+        },
+        "cost": {
+          "params": 1536.0,
+          "seconds": 0.08943529205862433
+        },
+        "density": {
+          "code_agreement_per_params": 0.00035319010416666664,
+          "code_agreement_per_seconds": 6.065838077035566
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f13_form_energy_budget",
+        "primary": "accuracy_per_byte",
+        "capability": {
+          "accuracy_per_byte": 6.81020618556701e-05,
+          "form_acc": 0.761458
+        },
+        "cost": {
+          "params": 54.0,
+          "flops": 7204992.0,
+          "bytes": 11496.0,
+          "seconds": 4.6270304169738665
+        },
+        "density": {
+          "accuracy_per_byte_per_params": 1.2611492936235203e-06,
+          "accuracy_per_byte_per_flops": 9.45206626956284e-12,
+          "accuracy_per_byte_per_bytes": 5.923978936644929e-09,
+          "accuracy_per_byte_per_seconds": 1.4718308659879022e-05
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f14_lifelong_form_expansion",
+        "primary": "new_form_transfer",
+        "capability": {
+          "new_form_transfer": 0.7157142758369446,
+          "new_form_memory_recall": 0.64375
+        },
+        "cost": {
+          "params": 310.0,
+          "flops": 48960000.0,
+          "bytes": 40320.0,
+          "seconds": 0.19940433406736702
+        },
+        "density": {
+          "new_form_transfer_per_params": 0.0023087557285062727,
+          "new_form_transfer_per_flops": 1.4618347137192496e-08,
+          "new_form_transfer_per_bytes": 1.7750850095162315e-05,
+          "new_form_transfer_per_seconds": 3.589261382830058
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f15_embodied_affordance_form",
+        "primary": "affordance_decode_acc",
+        "capability": {
+          "affordance_decode_acc": 0.84375
+        },
+        "cost": {
+          "params": 2412.0,
+          "flops": 353894400.0,
+          "updates": 900.0
+        },
+        "density": {
+          "affordance_decode_acc_per_params": 0.0003498134328358209,
+          "affordance_decode_acc_per_flops": 2.384185791015625e-09,
+          "affordance_decode_acc_per_updates": 0.0009375
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f17_missing_form_recovery",
+        "primary": "recovery_acc",
+        "capability": {
+          "recovery_acc": 0.7201388865709305
+        },
+        "cost": {
+          "params": 150.0,
+          "flops": 138528.0,
+          "seconds": 0.28481854195706546
+        },
+        "density": {
+          "recovery_acc_per_params": 0.00480092591047287,
+          "recovery_acc_per_flops": 5.198507785941691e-06,
+          "recovery_acc_per_seconds": 2.5284129383665155
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f18_counterfactual_form_intervention",
+        "primary": "counterfactual_match_acc",
+        "capability": {
+          "counterfactual_match_acc": 0.8416666746139526,
+          "counterfactual_acc_per_param": 0.0013488247990608214
+        },
+        "cost": {
+          "params": 624.0,
+          "flops": 235872000.0,
+          "seconds": 0.3743771669687703,
+          "updates": 260.0
+        },
+        "density": {
+          "counterfactual_match_acc_per_params": 0.0013488247990608214,
+          "counterfactual_match_acc_per_flops": 3.5683195742349777e-09,
+          "counterfactual_match_acc_per_seconds": 2.248178438414655,
+          "counterfactual_match_acc_per_updates": 0.0032371795177459717
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f19_cross_scale_referent_binding",
+        "primary": "cross_scale_recall_at_k",
+        "capability": {
+          "cross_scale_recall_at_k": 0.7347222238779068
+        },
+        "cost": {
+          "flops": 1105920.0,
+          "bytes": 18816.0,
+          "seconds": 0.033518249983899295
+        },
+        "density": {
+          "cross_scale_recall_at_k_per_flops": 6.643538627368225e-07,
+          "cross_scale_recall_at_k_per_bytes": 3.904773723840916e-05,
+          "cross_scale_recall_at_k_per_seconds": 21.920065165419892
+        },
+        "problems": [],
+        "all_ok": true
+      },
+      {
+        "experiment_id": "f20_substrate_crisis_test",
+        "primary": "crisis_auroc",
+        "capability": {
+          "crisis_auroc": 0.96875,
+          "avoided_wasted_compute_per_monitor_flop": 0.0
+        },
+        "cost": {
+          "flops": 2256076800.0,
+          "seconds": 3.20717795798555
+        },
+        "density": {
+          "crisis_auroc_per_flops": 4.2939584326207335e-10,
+          "crisis_auroc_per_seconds": 0.3020568277441263
+        },
+        "problems": [],
+        "all_ok": true
+      }
+    ],
+    "summary": {
+      "total": 18,
+      "valid": 18,
+      "invalid": 0
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "summary": {
+    "total_legs": 20,
+    "local_ready": 20,
+    "local_pending": 0,
+    "canonical_run_receipts": 18,
+    "verdict_gates_ready": 15
+  },
+  "local_obligations_exhausted": true,
+  "scientific_ledger_ready": false,
+  "problems": [],
+  "all_ok": true
+}

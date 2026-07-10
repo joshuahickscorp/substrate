@@ -1,0 +1,693 @@
+{
+  "conclusion": "No audited non-F frontier row has an experiment-specific measured M3 Pro hardware boundary. Five cross-pillar mechanics now run locally, CM7 has a registered local implementation, and CM8 has a fail-closed local preflight receipt. Every historical hardware planning tag was replaced by the observed execution or input dependency. This demotes planning labels, not scientific standards.",
+  "coverage": {
+    "accounted_exactly_once": true,
+    "all_historical_rows_reclassified": true,
+    "current_stale_planning_tag_count": 0,
+    "current_stale_planning_tag_ids": [],
+    "historical_frontier_count": 24,
+    "localization_counts": {
+      "external-input-blocked": 15,
+      "local-custom-preflight-proven-upstream-blocked": 1,
+      "local-custom-training-calibration-proven": 1,
+      "local-mechanics-proven": 5,
+      "local-multi-encoder-availability-proven": 2
+    },
+    "measured_hardware_blocked_count": 0,
+    "tagged_non_f_count": 24
+  },
+  "decision_rule": "hardware-blocked requires an experiment-specific measured local failure and projection; planning tags, missing code, missing rights data, and missing upstream caches do not qualify",
+  "entries": [
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "expand beyond eight programmatic referents onto meaningful shared content and complete the preregistered equal-rank/matched-random control set",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "three real-weight frozen encoders executed serially on the same eight local referents; model availability is retired as a blocker",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_al2_shared_latent_alignment",
+      "localization": "local-multi-encoder-availability-proven",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": {
+        "bytes": 23736,
+        "exists": true,
+        "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
+        "sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+      }
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires rights-cleared temporally aligned audio-video clips and their citable caches",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_al3_audio_video_alignment",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "pilot exists, but the registered multi-encoder grid and matched random-init columns are not citable active inputs",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_at1_nuisance_grid",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "cpu-now",
+        "resource_tier": "weights-needed",
+        "runtime_class": "minutes",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "verified_winning_mode, real_substrate_cache, matched_random_cache, independent_verifier",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_at2_mode_substrate_dep",
+      "localization": "local-mechanics-proven",
+      "preflight_mechanics_verified": true,
+      "project_exhaustion_classification": "already-durable-hash-verifiable",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "cpu-now",
+        "resource_tier": "cpu-now",
+        "runtime_class": "minutes",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "developmental_regime_gate, signature_verifier",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm11_developmental_plasticity",
+      "localization": "local-mechanics-proven",
+      "preflight_mechanics_verified": true,
+      "project_exhaustion_classification": "already-durable-hash-verifiable",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "cpu-now",
+        "resource_tier": "weights-needed",
+        "runtime_class": "minutes",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "cleared_experts, compatible_battery, open_model_control, independent_verifier",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm12_mop_substrate_capstone",
+      "localization": "local-mechanics-proven",
+      "preflight_mechanics_verified": true,
+      "project_exhaustion_classification": "already-durable-hash-verifiable",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires DR1 rights-cleared bound-attribute natural video",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm1_compositional_gate",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires CM1 failure plus a complete citable multi-encoder atlas",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm2_atlas_gate",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires DR1 dense natural-video tokens on the held-out-combination task",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm3_dense_vs_pooled",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "laptop pilot exists, but the registered full real-cache grid is not present as citable evidence",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm4_workspace_shell",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "cpu-now",
+        "resource_tier": "cpu-now",
+        "runtime_class": "minutes",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "plasticity_loss_gate, adapting_frozen_pair, independent_verifier",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm5_studio_rejuvenation",
+      "localization": "local-mechanics-proven",
+      "preflight_mechanics_verified": true,
+      "project_exhaustion_classification": "already-durable-hash-verifiable",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires a citable teacher cache and matched trainable student checkpoints",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm6_distilled_density",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "cpu-now",
+        "resource_tier": "cpu-now",
+        "runtime_class": "minutes",
+        "status": "implemented"
+      },
+      "custom_substrate_receipts": [
+        {
+          "bytes": 21044,
+          "exists": true,
+          "path": "proof/CUSTOM_SUBSTRATE_CALIBRATION.json",
+          "sha256": "47d51810d52dde86dfb767bc82f26d4b77fb0fb588add78c9399784a51bc029a"
+        }
+      ],
+      "custom_substrate_sources": [
+        {
+          "bytes": 3951,
+          "exists": true,
+          "path": "src/mop/experiments/custom_substrate.py",
+          "sha256": "ebb963dc472a286b3ef7cd0de9a190b4ab425bd9aa2cecaeb63f2ef53f3abde8"
+        },
+        {
+          "bytes": 1796,
+          "exists": true,
+          "path": "configs/experiment/mop_cm7_min_objective_probe.yaml",
+          "sha256": "8e95f6287b38af736fecd465f7fa64402b46c9fae7377e491b30c86e59d37657"
+        },
+        {
+          "bytes": 5369,
+          "exists": true,
+          "path": "scripts/custom_substrate_workbench.py",
+          "sha256": "d8eba2572b7616d2db6a36ea46b5d606b6a0a52510bf0176824b237c13a848f8"
+        }
+      ],
+      "first_remaining_scientific_blocker": "four additional complete seeds and independent verification; the current receipt is programmatic-video objective-lever calibration, not natural-video evidence",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "demoted by measured local training: one complete calibration seed executed in 17.31s at 582057984 peak RSS bytes",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm7_min_objective_probe",
+      "localization": "local-custom-training-calibration-proven",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "freshly-executed-verified",
+      "project_exhaustion_fresh_class_codepath_verified": true,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [
+        {
+          "bytes": 2367,
+          "exists": true,
+          "path": "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json",
+          "sha256": "51412571d0aa8fd9ebd562e9682f45b9ba0b79024840bc2d520a18c96f4ba1a1"
+        }
+      ],
+      "custom_substrate_sources": [
+        {
+          "bytes": 3951,
+          "exists": true,
+          "path": "src/mop/experiments/custom_substrate.py",
+          "sha256": "ebb963dc472a286b3ef7cd0de9a190b4ab425bd9aa2cecaeb63f2ef53f3abde8"
+        },
+        {
+          "bytes": 656,
+          "exists": true,
+          "path": "configs/experiment/mop_cm8_custom_jepa_pilot.yaml",
+          "sha256": "21a358b7e457e851d84927f14f4afb5468fa5e23119ed29253d876ec8943dd2c"
+        },
+        {
+          "bytes": 5369,
+          "exists": true,
+          "path": "scripts/custom_substrate_workbench.py",
+          "sha256": "d8eba2572b7616d2db6a36ea46b5d606b6a0a52510bf0176824b237c13a848f8"
+        }
+      ],
+      "first_remaining_scientific_blocker": "CM7 still needs four complete seeds; teacher join has 8 of 64 required referents and is programmatic; CM1, CM2, and DR1 natural-data receipts remain absent",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "demoted by a measured fail-closed local execution preflight",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm8_custom_jepa_pilot",
+      "localization": "local-custom-preflight-proven-upstream-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": true,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires DR1 multi-object dense-token video and binding annotations",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_cm9_slot_jepa_binding",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "laptop pilot exists, but the registered dropped-channel arm requires a citable dense-token cache",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr14_corruption",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires citable video, relational/language, and audio encoder families",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr15_modality_general",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires rights-cleared natural clips with bound attributes; programmatic clips do not satisfy the row",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr1_video_cache",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "a durable small-cache pilot exists, but the registered full real-latent stream is absent",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr2_sparse_real",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires DR1 dense tokens and a working-memory-heavy natural-video task",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr3_latent_scratchpad",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires factor-annotated clips and true counterfactual clips from DR1",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr4_causal_intervention",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "weights-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "supply a verified reasoning gain on one compatible task, expand same-task rows, and add the matched random-architecture control",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "three real-weight frozen encoders executed serially on the same eight local referents; model availability is retired as a blocker",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr5_cross_substrate_consistency",
+      "localization": "local-multi-encoder-availability-proven",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "upstream-model-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": {
+        "bytes": 23736,
+        "exists": true,
+        "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
+        "sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+      }
+    },
+    {
+      "current_registry": {
+        "exp_tier": "env-later",
+        "resource_tier": "environment-needed",
+        "runtime_class": "hours",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "requires a DR1 multi-step relational task with supervised intermediate states",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "not a hardware boundary: the first blocker is data/model evidence",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_dr7_latent_cot",
+      "localization": "external-input-blocked",
+      "preflight_mechanics_verified": false,
+      "project_exhaustion_classification": "rights-data-blocked",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    },
+    {
+      "current_registry": {
+        "exp_tier": "cpu-now",
+        "resource_tier": "cpu-now",
+        "runtime_class": "minutes",
+        "status": "registry-only"
+      },
+      "custom_substrate_receipts": [],
+      "custom_substrate_sources": [],
+      "first_remaining_scientific_blocker": "compatible_primitives, distinct_strategy_gate, independent_verifier",
+      "hardware_boundary_proven": false,
+      "hardware_conclusion": "demoted: three-seed control/dataflow mechanics executed locally; full claim remains gated",
+      "historical_frontier_tag_in_scope": true,
+      "id": "mop_mt4_reasoning_router",
+      "localization": "local-mechanics-proven",
+      "preflight_mechanics_verified": true,
+      "project_exhaustion_classification": "already-durable-hash-verifiable",
+      "project_exhaustion_fresh_class_codepath_verified": false,
+      "reclassified_away_from_hardware_planning_tags": true,
+      "scale_atlas_receipt": null
+    }
+  ],
+  "generated_at_unix": 1783666295.871465,
+  "git_revision": "be7b5d9",
+  "host_readiness": {
+    "all_ok": true,
+    "chip": "Apple M3 Pro",
+    "mps_available": true,
+    "receipt": {
+      "bytes": 4032,
+      "exists": true,
+      "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
+      "sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1"
+    },
+    "unified_memory_gb": 19.3
+  },
+  "local_preflights": {
+    "all_mechanics_verified": true,
+    "all_scientific_paths_fail_closed": true,
+    "max_rss_bytes": 316915712,
+    "receipt_schema": "mop-local-frontier-preflights/v1",
+    "seconds": 0.778942,
+    "target_ids": [
+      "mop_mt4_reasoning_router",
+      "mop_at2_mode_substrate_dep",
+      "mop_cm5_studio_rejuvenation",
+      "mop_cm11_developmental_plasticity",
+      "mop_cm12_mop_substrate_capstone"
+    ]
+  },
+  "measured_multi_encoder_atlas": {
+    "receipt": {
+      "bytes": 23736,
+      "exists": true,
+      "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
+      "sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e"
+    },
+    "remaining_reasons": [
+      "programmatic native-resolution renders rather than rights-clean natural video",
+      "n=8 is a mechanics and scale-signal pilot",
+      "matched random-architecture cache is not present for every learned scale",
+      "byte-identical stimuli are not proven for every learned/control pair"
+    ],
+    "scientific_promotable": false,
+    "scope": "serial local V-JEPA scale atlas on shared generative referents rendered at each model's native resolution",
+    "shared_referents": 8,
+    "valid_local_availability_evidence": true
+  },
+  "measured_real_encoder": {
+    "claim_scope": "real frozen encoder over programmatic video; not natural-video evidence",
+    "completed": true,
+    "hardware_limit_reached": false,
+    "max_rss_bytes": 2589147136,
+    "measured_samples": 8,
+    "projection_warning": "linear sequential-time projection from an eight-clip programmatic run; not a throughput guarantee and not natural-video scientific evidence",
+    "receipt": {
+      "bytes": 1683,
+      "exists": true,
+      "path": "proof/REAL_ENCODER_LOCAL_ATTEMPT.json",
+      "sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
+    },
+    "safe_sequential_clips_projected_at_80pct_wall": 386,
+    "seconds_per_clip": 22.335431624989724
+  },
+  "preflight_receipts": [
+    {
+      "bytes": 31498,
+      "exists": true,
+      "path": "runs/frontier_localization/local_preflights.json",
+      "sha256": "71eca005da3cdbc671b06710be6fd7209ee654e4ecb0fc9ec924441881261b6d"
+    },
+    {
+      "bytes": 31498,
+      "exists": true,
+      "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
+      "sha256": "71eca005da3cdbc671b06710be6fd7209ee654e4ecb0fc9ec924441881261b6d"
+    }
+  ],
+  "schema": "mop-frontier-localization/v1",
+  "scope": "every non-F registry row historically or currently labeled studio-scale, gpu-later, or moonshot; F-series is audited separately",
+  "source_evidence": [
+    {
+      "bytes": 50669,
+      "exists": true,
+      "path": "src/mop/studies/frontier_localization.py",
+      "sha256": "696ab225f481c455367f60e80bf533f32f0b175e209267edab72910ce8fb20b7"
+    },
+    {
+      "bytes": 3093,
+      "exists": true,
+      "path": "scripts/frontier_localization.py",
+      "sha256": "26c43eb039b3c5deb30ac1f4a48c79cf249e791f21ad41542fb20289209e8d07"
+    },
+    {
+      "bytes": 283783,
+      "exists": true,
+      "path": "registry/experiments.yaml",
+      "sha256": "5977f2895e6b743d44d49e4ac76fef0deed4cff54992419053f7eaa61e9a915a"
+    },
+    {
+      "bytes": 57906,
+      "exists": true,
+      "path": "src/mop/studies/project_exhaustion.py",
+      "sha256": "5df4a6014c2fccfaabf2ff9f36fea628646d50dad72cb9e6521a24ccdce25582"
+    }
+  ],
+  "user_wall_minutes": 180
+}
