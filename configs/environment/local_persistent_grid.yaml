@@ -1,0 +1,13 @@
+schema: mop-local-action-environment-profile/v1
+scope: programmatic local mechanics; never natural embodiment or open-ended-science evidence
+grid_size: 6
+horizon: 16
+episodes: 24
+policy: mixed
+seeds: [20260709, 20260710, 20260711]
+train_episode_fraction: 0.75
+ridge_l2: 0.001
+required_action_count: 4
+required_observation_dim: 16
+required_counterfactual_branches: 4
+scientific_promotion_allowed: false

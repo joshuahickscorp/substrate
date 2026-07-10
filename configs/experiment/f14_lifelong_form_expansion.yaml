@@ -1,26 +1,32 @@
 id: f14_lifelong_form_expansion
 name: lifelong_form_expansion
 module: f_form_substrate
-metric: [old_form_bwt, new_form_transfer, alignment_budget]
-null_hypothesis: "adding the new form forgets the old forms or fails to transfer above the alignment floors"
+metric:
+  [old_form_bwt, new_form_transfer, old_memory_recall_delta, new_form_memory_recall, alignment_budget]
+null_hypothesis: "new-form insertion changes any old-memory key, value, or referent id, changes old-memory retrieval, forgets old forms beyond the retention band, or fails to beat the strongest matched existing-head and raw or shuffled retrieval controls"
 tier: cpu-now
 
-# Harder world so the new form transfers below ceiling (real dynamic range on new_form_transfer)
-# while the no-alignment and shuffled-referent floors stay low and old-form BWT stays near zero:
-# a ceilinged new-form transfer could not distinguish expansion from an easy task.
-samples: 320
-classes: 6
-world_dim: 20
-feature_dim: 22
-separation: 1.0
-world_noise: 0.9
+# Dynamic-range fixture: old and new classification plus cross-form memory remain below ceiling.
+# Alignment anchors, supervised/memory rows, and final evaluation rows are disjoint.
+samples: 400
+classes: 10
+world_dim: 28
+feature_dim: 30
+separation: 0.85
+world_noise: 1.15
 form_noise: 0.55
 new_form: timeseries
-train_frac: 0.55
-epochs: 90
+anchor_frac: 0.25
+label_frac: 0.40
+epochs: 60
 lr: 0.03
-adapt_lr: 0.01
+scratch_lr: 0.03
+adapt_lr: 0.012
 adapt_epochs: 25
+query_noise: 0.30
+k: 1
 forget_margin: 0.1
 margin: 0.1
-seeds: [0, 1, 2]
+adapt_margin: 0.01
+memory_margin: 0.1
+seeds: [0, 1, 2, 3, 4]

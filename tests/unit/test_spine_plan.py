@@ -38,6 +38,12 @@ def test_studio_spine_plan_orders_wave0_dr1_pr9_dense_atlas():
     assert "--allow-partial" not in atlas_cmd
 
 
+def test_studio_spine_accepts_any_registered_studio_resource_envelope():
+    plan = build_studio_spine_plan(StudioSpineConfig(source="/data/comp_video", profile_name="studio-1tb"))
+    assert plan["profile"]["name"] == "studio-1tb"
+    assert validate_studio_spine_plan(plan) == []
+
+
 def test_studio_spine_plan_carries_verifier_and_bundle_receipts():
     plan = build_studio_spine_plan(StudioSpineConfig(source="/data/comp_video"))
     card_validation = next(step for step in plan["steps"] if step["id"] == "dr1_source_card_validate")

@@ -42,6 +42,15 @@ def test_dr1_perspective_receipt_builds_aligned_vision_caption_matrix(tmp_path):
     assert receipt["tags"] == ["caption_text", "vision_vjepa2"]
     assert receipt["audit"]["feature_dims"]["vision_vjepa2"] == 3
     assert receipt["audit"]["feature_dims"]["caption_text"] == 256
+    assert receipt["audit"]["schema"] == "mop-form-matrix/v1"
+    assert receipt["audit"]["kinds"] == {"text": ["caption_text"], "vision": ["vision_vjepa2"]}
+    assert receipt["audit"]["modalities"] == {
+        "caption_text": "language",
+        "vision_vjepa2": "vision",
+    }
+    assert receipt["arms"]["caption_text"]["kind"] == "text"
+    assert receipt["arms"]["caption_text"]["modality"] == "language"
+    assert receipt["arms"]["caption_text"]["factors"] == ("action", "object")
     assert receipt["factor_counts"]["object"] == {"cat": 1, "dog": 1}
 
 

@@ -322,10 +322,13 @@ in flight):
 - AT3 time-axis ablation, AT4 programmatic ceiling reference, AT5 probe-class sweep: all cheap, all
   methodological guards on later verdicts.
 
-Do NOT attempt on the laptop: the 64-frame ViT-L forward on MPS (overflows regardless of RAM); pulling ViT-H
-and ViT-g weight shards at once (breaches the ~60 GB disk floor); a second torch/encoder job while the encode
-is running (18 GB OOMs on two encoders); dense latent caches (~32 MB/clip, 10k dense clips ~= 313 GB); trusting
+Do NOT attempt on the laptop: two concurrent torch/encoder jobs (the 19.3 GB pool cannot safely hold both),
+unbounded dense latent caches (~32 MB/clip, 10k dense clips ~= 313 GB), or trusting
 any probe-based real-ties-frozen-random result (vacuous by construction).
+
+The earlier blanket ViT-H/g download and MPS-forward prohibitions are superseded. All three V-JEPA scale
+weights are pinned and staged within the derived 40 GB safety floor. Each forward now runs through a
+supervised, receipt-writing probe; only its measured result may establish a memory or throughput wall.
 
 Move-up trigger (to Studio): the corrected substrate control needs its resolution confound removed at real
 scale, OR e7_sparse needs a significance test on real latents at 5+ seeds, OR the bound-attribute test bed needs
@@ -360,8 +363,8 @@ Highest-value Studio jobs, in order:
   same clips, same seeds, only the latent source differs). Science the laptop literally cannot produce.
 
 Do NOT on the Studio: run device=cuda (Apple Silicon, no CUDA); cache dense latents by default (~313 GB for
-10k clips); attempt E6 dense relational / E5 live-rollout / E10 capstone (need V-JEPA 2.1 dense weights or an
-environment adapter, not just a bigger box); let auxiliary encoders stand in for the canonical V-JEPA in a
+10k clips); treat E10's bounded action contract as open-ended science (population/environment generation is still absent);
+let auxiliary encoders stand in for the canonical V-JEPA in a
 science result; scale a probe-based experiment to buy confidence in a vacuous tie.
 
 Move-up trigger (to a training box): ONLY a bounding result that a frozen encoder across all three scales (and
@@ -376,16 +379,16 @@ doctrine on purpose under a pre-registered hypothesis, OR to run the two genuine
 the default growth path.
 
 Two sanctioned uses:
-- Environment rollouts on rented CUDA (the one training-adjacent use that keeps the encoder frozen):
-  ex2_latent_planning's LIVE closed-loop MPC, E5 curiosity live-rollout, E10 open-ended capstone. These are
-  blocked on an ENV ADAPTER that does not exist in the repo, not on the GPU. Build the adapter first.
+- Environment rollouts that keep the encoder frozen: the bounded E5/CM10 adapter now runs locally. Substrate-
+  grounded ex2/CM10 still need rendered citable trajectories and exact controls; E10 needs population and
+  environment generation. None has earned rented CUDA merely by being interactive.
 - The doctrine-questioning use (out of scope until a bounding result forces it): train or fine-tune an encoder
   from scratch at the SAME resolution and frame budget to test whether a task-specific frontend beats the
   frozen general V-JEPA on the bounding target, with the frozen encoder as the control it must beat by a stated
   margin, and its features must also beat random-init same-arch at the same resolution.
 
 Do NOT: enter without a bounding result; treat a rented GPU as license to abandon cached-latent-first for the
-shell; run env rollouts before an env adapter exists.
+shell; scale env rollouts before the local adapter is connected to the exact scientific referents and controls.
 
 Stay-or-abandon: stay only if the trained frontend beats the frozen baseline by a stated margin on the bounding
 target, survives matched compute, and beats random-init same-arch at the same resolution. If it ties (the
@@ -520,8 +523,8 @@ Decision-first. This is the section to act on. Every list is ordered most-import
 6. The encoder-scale falsifier (does bigger frozen perception change which shell mechanisms help).
 
 ### 14.4 Wider box (only under a pre-registered hypothesis)
-1. Build the env adapter (the real blocker for ex2-live / E5-rollout / E10, not the GPU).
-2. ex2 LIVE closed-loop MPC on true action-conditioned dynamics.
+1. Extend the proven local adapter only where the exact row requires rendered/substrate or generated-ecology evidence.
+2. ex2/CM10 closed-loop MPC on true action-conditioned dynamics with the declared controls.
 3. (Only if a bounding result lands) CM1 / Stage 5 pilot: train a SMALL encoder to test whether the pretraining OBJECTIVE is a live lever at matched capacity/data/256px.
 
 ### 14.5 Custom-model prerequisites (what must exist before any training is licensed)
@@ -584,7 +587,7 @@ Decision-first. This is the section to act on. Every list is ordered most-import
 - Do NOT build parallel WorkspaceShell / ReplayMemory / PlasticityController classes: the primitives exist; extend them.
 - Do NOT train any perception (Stage 5+) until a gate FAILS on REAL content after cheaper frozen substitutes (atlas swap, dense tokens) are exhausted.
 - Do NOT revive e4 neuromod, b4 homeostasis, or e3 staged plasticity as modes unchanged: their negatives stand.
-- Do NOT run env rollouts before an env adapter exists (the blocker is the missing harness, not the GPU).
+- Do NOT scale env rollouts before the local adapter's exact evidence and control gates pass.
 - Do NOT scale a vacuous probe to more clips to buy confidence: the invertible-matrix problem does not go away.
 
 ---

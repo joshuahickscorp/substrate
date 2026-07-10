@@ -34,10 +34,13 @@ def test_e5_curiosity_data_selection(tmp_path):
     lp_nf = out["noise_fraction"]["learning_progress"]
     assert pe_nf > lp_nf, (pe_nf, lp_nf)
 
-    # env-later stub is defined and smoke-only
+    # The former shape-only stub is now a replay-verifiable bounded rollout contract.
     assert out["env_smoke_ok"] is True
-    assert out["env_tier"] == "env-later"
-    assert E5.tier == "env-later"
+    assert out["env_rollout_ok"] is True
+    assert out["env_tier"] == "cpu-now"
+    assert out["environment_contract"]["counterfactuals"] > 0
+    assert out["environment_contract"]["natural_embodiment_claim"] is False
+    assert E5.tier == "cpu-now"
 
     # saved plot exists
     assert (tmp_path / "e5_curiosity" / "e5_curiosity.png").exists()

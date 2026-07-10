@@ -2,20 +2,21 @@ id: f3_form_bottleneck_capacity
 name: form_bottleneck_capacity
 module: f_form_substrate
 metric: [wide_form_acc, small_form_acc, wide_minus_small]
-null_hypothesis: "the wide canonical bottleneck ties the small bottleneck or both sit near the shuffled-label floor"
+null_hypothesis: "the nested wide bottleneck fails to beat the zero-padded small bottleneck by the preregistered margin, or wide performance remains near the chance or shuffled-label floor"
 tier: cpu-now
 
-samples: 260
-classes: 6
-world_dim: 32
-feature_dim: 40
-wide_dim: 18
+samples: 360
+classes: 10
+world_dim: 28
+feature_dim: 28
+wide_dim: 14
 small_dim: 2
-separation: 1.5
-world_noise: 0.9
-form_noise: 0.1
+separation: 0.8
+world_noise: 1.2
+form_noise: 0.6
 train_frac: 0.55
-epochs: 90
+epochs: 70
 lr: 0.03
 margin: 0.05
-seeds: [0, 1]
+floor_band: 0.10
+seeds: [0, 1, 2, 3, 4]

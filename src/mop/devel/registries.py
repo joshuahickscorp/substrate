@@ -375,6 +375,14 @@ def validate_experiments(path: Path | None = None) -> list[str]:
     catalogued = {e.get("id") for e in items}
     for rid in ids - catalogued:
         problems.append(f"REGISTRY id {rid!r} is not catalogued in experiments.yaml")
+    # The F-series repeats its runnable contract in three places.  A row can satisfy the registry
+    # schema while its class or composed config silently tests a weaker null.  Only enforce this for
+    # the live canonical registry (a caller validating an isolated fixture path has no matching
+    # class/config tree).
+    if path is None:
+        from ..falsification.experiment_contracts import build_contract_audit
+
+        problems.extend(build_contract_audit(series="F", implemented_only=False).get("problems", []))
     return problems
 
 

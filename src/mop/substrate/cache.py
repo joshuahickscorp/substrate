@@ -55,27 +55,29 @@ def cache_latents(
     it = iter(clips)
     first = next(it)
     clips = itertools.chain([first], it)  # restore the peeked item
-    feat = encoder.encode(safe_to(first[0][:1], device.device)).reshape(1, -1)
-    feat_shape = (feat.shape[1],)
-    store = LatentStore.create(
-        root, name, feat_shape, capacity=total, key_dim=feat_shape[0], has_labels=has_labels
-    )
+    feat = encoder.encode(safe_to(first[0][:1], device.device))
+    if feat.ndim < 2:
+        raise ValueError(f"encoder output must have a batch axis plus features, got {tuple(feat.shape)}")
+    feat_shape = tuple(int(v) for v in feat.shape[1:])
+    key_dim = int(feat[0].numel())
+    store = LatentStore.create(root, name, feat_shape, capacity=total, key_dim=key_dim, has_labels=has_labels)
     pos = 0
     for x, y in clips:
         if pos >= total:
             break
         x = safe_to(x, device.device)
-        z = encoder.encode(x).reshape(x.shape[0], -1).cpu()
+        z = encoder.encode(x).cpu()
         z = z[: total - pos]
         y = y[: z.shape[0]]
-        store.write_batch(pos, z.numpy(), z.numpy(), y.numpy() if has_labels else None)
+        keys = z.flatten(1).float()
+        store.write_batch(pos, z.numpy(), keys.numpy(), y.numpy() if has_labels else None)
         pos += z.shape[0]
     store.finalize()
     _write_provenance(store, encoder, result_tag, seed, device)
     log.info(
-        "cached %d latents dim=%d backend=%s -> %s",
+        "cached %d latents shape=%s backend=%s -> %s",
         len(store),
-        feat_shape[0],
+        feat_shape,
         encoder.spec.backend,
         store.root,
     )

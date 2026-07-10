@@ -10,6 +10,12 @@ Mac Studio. They executed exactly the goal-loop work that is feasible without th
 WAVE-0 steps are marked PENDING below and MUST run on the M1 Ultra before the spine. A session on the
 real Studio resumes from the "Next move" section.
 
+CURRENT SUPERSESSION (2026-07-09): the Wave-0 measurements below are preserved as historical records,
+but two operational conclusions changed. The active laptop floor is now the auditable 40 GB sum of OS
+reserve, maximum pending download, and working headroom, not the old unexplained 60 GB constant. Full
+pinned ViT-H and ViT-g safetensors are now staged and strict offline loads pass, so their acquisition is
+complete; forward execution and shared natural-corpus scale remain separate measured gates.
+
 ## WAVE 0 status (partial: machine-agnostic half done on M3 Pro)
 
 - [x] Full gates green on this box: acceptance 10/10 (full pytest suite, ruff lint + format, mypy 160
@@ -59,17 +65,17 @@ Source of the laptop numbers and their adversarial proofs: `RESULTS_LEDGER.md`,
 | 16 developmental daemon | 0 | Not started; needs week-scale always-on (Studio). |
 | 17 trainable capacity | n/a | A doctrine decision, deliberately not graded. |
 
-## Open levers (all now Studio-gated; the M3-Pro-feasible backlog is CLOSED)
+## Open levers (resource labels re-opened for measured local demotion)
 
 | Lever | Axis | Resource gate |
 |---|---|---|
-| DR1 real bound-attribute video cache (+ caption acceptance gate, local-VLM arm) | abstraction, density, coverage, plurality | 21 s/clip encode throughput, real corpora, 8 TB disk. THE spine unblocker. |
-| PR9 continual-backprop on a real long stream (certificate-guarded) | moldability | 128 GB-resident long stream; decides Process C licensing. |
-| Process C (1 to 10M object-centric module on dense tokens) | moldability | dense cache + GPU training. Gated by PR9 kill-switch. |
+| DR1 real bound-attribute video cache (+ caption acceptance gate, local-VLM arm) | abstraction, density, coverage, plurality | rights-clean bound video is the first blocker; bounded real encoding already runs locally. |
+| PR9 continual-backprop on a real long stream (certificate-guarded) | moldability | bounded local pilot first; only the corpus-length scaling curve may move up. |
+| Process C (1 to 10M object-centric module on dense tokens) | moldability | 1 to 5M local workbench first; dense natural scale remains gated by its inputs. |
 | Dense-token cache (~1.7 TB) | facet 8 | 8 TB disk. |
-| Encoder-scale atlas (ViT-H/g + DINOv2 + VideoMAEv2) | facet 7 | disk + 128 GB residency; pull ViT-H/g stubs. |
-| B5 multi-seed re-encode + 30-seed retrofits | falsification, statistical power | pure compute at Studio scale; LAST per doctrine. |
-| Facets 13 to 17 (closed-loop, corpora, ecology, daemon) | Part-2 frontier | ride the spine's artifacts; each Studio-gated. |
+| Encoder-scale atlas (ViT-L/g + DINOv2 + VideoMAEv2) | facet 7 | V-JEPA scale forwards and small citable caches run locally; shared natural corpus and matched controls remain. |
+| B5 multi-seed re-encode + 30-seed retrofits | falsification, statistical power | locally batch first under the 180-minute envelope; move up only a measured remainder. |
+| Facets 13 to 17 (closed-loop, corpora, ecology, daemon) | Part-2 frontier | local fail-closed preflights first; external environments/corpus scale stay explicit. |
 
 M3-Pro-feasible backlog, CLOSED this session: facet 12 measured (waves 1 to 2); the pre_studio
 candidate positives resolved (e7_sparse architectural, ex5 Adam-artifact refuted, ex2 promoted, b5
@@ -83,6 +89,8 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
 | M3-Pro MPS | ~821 | ran on one clip (no hard buffer error this session), 60x slower than CPU, memory-pressured at 18 GB. |
 | Studio (M1 Ultra), 14 to 16 CPU workers | PENDING | ~2 s/clip aggregate projected off 13.69 single-worker; MEASURE. |
 | Studio (M1 Ultra), MPS at 128 GB | PENDING | 128 GB removes the paging pressure; could win; MEASURE, never assume. |
+| M3-Pro CPU, V-JEPA 2.1 ViT-B dense 64f/384px | 25.2 (forward only) | one clip, official checkpoint, [1,18432,768] finite, 1.33 GB peak child RSS (`proof/VJEPA21_VITB_FORWARD_64F.json`). |
+| M3-Pro CPU, random-init ViT-L 64f/256px | 34.7 | 8-clip citable matched control cache build (`data/cache/vjepa2_vitl_local8_random_s0`). |
 
 <!-- STUDIO-WAVE0-AUTO:START -->
 ## Studio Wave 0 Auto Receipt
@@ -153,9 +161,9 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
 - WAVE 5 (M3 Pro, 2026-07-03, turnkey plan Tier 3 to 4): facet-12 readout-adapter scaffold
   (`scripts/mop_dr13_readout_adapter.py`, `--clip-dir` real video), preregistered + smoke-run: the
   adapter halves the visible-slot representational gap but does not transfer to the rollout (naive
-  visible-slot adapter insufficient; Studio fits on rollout predictions). ViT-H / ViT-g encoder
-  readiness verified (configs correct, weights are stubs to pull, vitg needs a prefer_real flag);
-  turnkey pull + flip steps recorded in STUDIO_TURNKEY_PLAN.md. Remaining: T4.1 encode auto-select,
+  visible-slot adapter insufficient; Studio fits on rollout predictions). At that historical point the
+  larger encoder weights were stubs. They are now pinned, hash-verified, strict-loaded, and both native
+  CPU forwards pass locally; the old pull boundary is retired. Remaining: T4.1 encode auto-select,
   T5.1 facet entry points (lower priority, ride the spine).
 
 - WAVE 6 (M3 Pro, 2026-07-03, potential re-audit + gap closure): an adversarial re-audit put honest
@@ -169,7 +177,8 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   stack and reran the laptop gates. Initial disk was below the `m3pro-local-max` profile floor (about
   12 GB free), so no science launched. During gate execution the filesystem reclaimed above the floor
   (64.5 GB free), enabling the guarded rehearsal: `scripts/studio_pipeline.py local-max --download-gb
-  10 --time-min 90 --cache-clips 64` passed all 12 stages in
+  10 --time-min 90 --cache-clips 64` (the historical 90-minute envelope, now superseded by the
+  180-minute local profile) passed all 12 stages in
   `runs/studio_pipeline/local_max_20260708_075245`. A full Tier-C laptop run was also probed and
   correctly stopped at the run-count gate (263 run-units vs cap 64). Custom-build pass: `studio_doctor`
   now separates basic disk writeability from the active profile floor and supports an explicit
@@ -506,6 +515,35 @@ underpowered null, wave 3); no open non-vacuous frozen-random gap remains (`DOCT
   102,738 tracked-source lines, Wave-0 daemon plan includes `density_receipt`, objective audit
   2.813/8.0 points. Verdict: still no Studio science locally; this closes the shared 10/10 density
   receipt requirement before the real M1 Ultra run.
+
+- WAVE 43 (M3 Pro, 2026-07-10, extended-compute fold-in): merged the Form Substrate extended-compute
+  lane into the goal loop and executed its locally feasible receipts. (1) Docs:
+  `EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md` gained the Studio-necessity facet (four measurable
+  Studio quantities; the ranked S1-S8 dossier of what could actually consume the `studio-m1ultra`
+  envelope; the corrected MPS narrative where the Wave-0 821 s/clip paging receipt supersedes the
+  historical hard-buffer claim; first-party V-JEPA 2.1 access paths), and
+  `EXTENDED_COMPUTE_EXECUTION_PLAN.md` gained the annex binding P1-P10 to the DR1/PR9/dense/B5 spine
+  with a per-row boundary table. No row reaches category 9; the spine's standing order is the plan's
+  Studio order. (2) New instrument: `scripts/p5_memory_boundary_probe.py` wrote
+  `proof/P5_MEMORY_BOUNDARY_TRACE.json` (20 configurations x 3 cold repeats): a dense 64f/256px
+  training step at CM7-class width peaks at 4.85 GB with exact materialized attention versus
+  0.54-0.57 GB under SDPA/checkpointing/windowing, so no local dense-context memory rung exists at
+  this width below roughly 16k tokens; mechanics only, moves no category. (3) Controls: the first
+  citable matched random-init ViT-L cache exists (`data/cache/vjepa2_vitl_local8_random_s0`, seed 0,
+  manifest plus state-dict hash, 34.7 s/clip build) and the refreshed scale atlas consumes it as a
+  fourth column: random ties learned on the hue factor at ceiling and sits at chance on the motion
+  factor while learned L/H/g score 1.0. Direction only, non-promotable (n=8, one control seed,
+  stimulus hashes not byte-proven); the receipt itself names the remaining gaps. (4) V-JEPA 2.1
+  ViT-B: the full 1.664 GB official checkpoint was acquired against the pinned ETag/version (sha256
+  848a77c3...), strict ema_encoder load passed, and finite dense forwards passed at 8f
+  ([1,2304,768], 0.88 s) and native 64f ([1,18432,768], 25.2 s forward, 1.33 GB peak child RSS):
+  `proof/VJEPA21_VITB_LOAD.json`, `proof/VJEPA21_VITB_FORWARD.json`,
+  `proof/VJEPA21_VITB_FORWARD_64F.json`. The weights-needed dense lane is measurably local at B
+  scale; the config `available` flip stays with the E6 loader wiring per its fail-closed validator.
+  (5) Gates plumbing: three unledgered docs registered in `check_docs.py`; the acceptance-ratio
+  drift rule scoped to lines mentioning acceptance (the F campaign's "run-local 18/18" was a false
+  positive). The requirements matrix rebuilt and verified: 289 rows, payload 065061e4, zero category
+  8/9, zero `hardware_required`.
 
 ## Next move (per the goal-loop protocol)
 

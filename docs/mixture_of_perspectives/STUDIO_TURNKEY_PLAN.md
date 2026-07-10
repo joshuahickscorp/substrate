@@ -30,14 +30,11 @@ back-fit. Priority = de-risk before decorate.
       finding: the adapter halves the visible-slot representational gap (0.727 to 0.357) but does not
       transfer to the rollout (adapted 0.82 to 1.20 vs raw 0.76 to 0.83); the naive visible-slot adapter
       is insufficient, so the Studio fits it on rollout predictions on real moving video.
-- [x] T4.2 ViT-H / ViT-g encoder readiness VERIFIED: `configs/encoder/vjepa2_vith.yaml` and
-      `vjepa2_vitg.yaml` are correct (verified hf_ids and embed_dims 1280 / 1408), but the HF cache
-      holds only config-only STUBS (8 KB each vs 1.2 GB for ViT-L), so the Studio must PULL the real
-      weights, and the vitg config has NO prefer_real flag. TURNKEY STEPS for the Studio: pull with
-      `.venv/bin/hf download facebook/vjepa2-vith-fpc64-256` (and `vjepa2-vitg-fpc64-384`), then set
-      `prefer_real: true` in both encoder configs (add the line to vjepa2_vitg.yaml, flip it in
-      vjepa2_vith.yaml) so the atlas encoder-scale curve (facet 7) loads real weights, not the
-      frozen-random fallback.
+- [x] T4.2 ViT-H / ViT-g acquisition VERIFIED: both full safetensors shards are staged at pinned
+      revisions, their local hashes match the Hub LFS digests, and strict offline real-backend loads
+      pass. The configs remain opt-in so ordinary fixtures cannot silently allocate giant models;
+      scientific callers set `prefer_real`, `require_real`, and `local_files_only`. Forward-scale
+      receipts, rather than download presence, decide the remaining laptop-versus-Studio boundary.
 - [x] T4.1 encode auto-select: `scripts/mop_encode_autoselect.py` microbenches CPU vs MPS and writes
       `runs/mot/encode_device.json` with the winner and `runs/mot/encode_schedule.json` with the
       profile-aware launch contract (device, CPU workers, dense/pooled cache bytes, disk floors,
@@ -225,8 +222,8 @@ back-fit. Priority = de-risk before decorate.
   This command runs the caption-recoverability null gate before the schedule exists.
   After the Studio schedule exists, materialize DR1 legs with:
   `PYTHONPATH=src:. python scripts/studio/dr1_schedule_plan.py --source /data/comp_video --source-intake runs/studio_dr1/dr1_source_intake.json --daemon-out runs/studio_wave0/dr1_daemon_plan.json`.
-- T4.2 Verify the ViT-H / ViT-g encoder configs and the acquisition commands are Studio-ready (facet 7
-  atlas encoder-scale curve); both are config-only stubs today.
+- T4.2 Complete: ViT-H / ViT-g configs, pinned weights, hashes, and strict offline loads are ready.
+  The facet-7 atlas still requires forward receipts and a shared rights-clean corpus.
 - T4.3 Perspective matrix contract. Multi-arm Studio runs must prove their arms share identical referents
   and matched controls before reporting cross-perspective structure. `PerspectiveAdapter` now supplies
   the contract; the DR1 merge pass writes the receipt beside the merged cache when `--source` is provided.

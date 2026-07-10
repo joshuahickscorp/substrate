@@ -1,5 +1,12 @@
 # Section 11: The Unified Mixture-of-Perspectives Experiment Registry
 
+> **2026-07-09 localization correction:** the tier cells below preserve the original design-era
+> table and are not hardware evidence. The receipt-backed current classification is
+> `17_local_frontier_localization.md` plus `proof/FRONTIER_LOCALIZATION.json`. MT4, CM5, and CM11
+> now have local three-seed mechanics and are planned `cpu-now`; AT2 and CM12 have local mechanics
+> and are `weights-needed` because their first remaining blockers are citable upstream inputs. A
+> fixture preflight does not promote any registered scientific claim.
+
 This is the single deduplicated registry for the Mixture-of-Perspectives (MoT) program. It merges every
 candidate proposed across sections 01 (thesis), 03 (thinking-mode taxonomy), 04 (reasoning program),
 05 (plasticity program), 06 (cognitive-currencies atlas), 07 (workspace layer), 08/09 (custom-model
@@ -50,7 +57,7 @@ matched mean compute, and the coordinator (not averaging, not extra depth) carri
 | MP1 | Router beats single best mode | A per-episode router over {reactive, planner, sparse} beats the best single mode at matched compute | cpu-now | med | high (core thesis) | Indirect: modes ride the frozen substrate; a win argues the shell (not a new encoder) is the lever |
 | MP2 | Routing beats uniform ensemble | Learned/measured routing beats an equal-weight blend of the same modes at matched total compute | cpu-now | med | high | No |
 | MP3 | Heterogeneous beats homogeneous MoE | A mixture of qualitatively different modes beats k copies of the best mode at equal params/FLOPs | cpu-now | med | high | No |
-| MP4 | Router over reasoning primitives (synthesis) | A learned router over {fixed-N, adaptive-halt, beam, memory, plan, verify} beats the single best strategy at matched expected compute | studio | high | high (synthesis test) | Indirect: consumes DR primitives; a win is a shell result, not a substrate result |
+| MP4 | Router over reasoning primitives (synthesis) | A learned router over {fixed-N, adaptive-halt, beam, memory, plan, verify} beats the single best strategy at matched expected compute | cpu-now mechanics | high | high (synthesis test) | Indirect: consumes DR primitives; a win is a shell result, not a substrate result |
 | MP5 | Adaptive halting beats fixed depth | Per-sample adaptive halting beats fixed-N refinement at equal AVERAGE FLOPs by allocating depth to hard inputs | cpu-now | med | high (the only honest iteration-beats-depth framing) | Weakly: exposes whether the frozen latent has exploitable per-sample hardness heterogeneity |
 | MP6 | Confidence stopping beats free early-exit | A trained halt head beats a free update-norm early-exit rule at matched mean FLOPs | cpu-now | low | med | No |
 | MP7 | Beam/tree search beats greedy refinement | K scored latent trajectories + pruning beat greedy single-chain refinement at matched total FLOPs | cpu-now | med | med | No |
@@ -74,7 +81,7 @@ matched mean compute, and the coordinator (not averaging, not extra depth) carri
 | **Controls** | matched-compute, seed-stability, tuned single-mode baseline | matched total FLOPs | matched params AND FLOPs | matched_within (diagnostics/compute), seed sweep | matched average FLOPs, difficulty_calibration | matched mean FLOPs | matched total FLOPs incl. pruned work | matched total FLOPs, plain-ensemble arm |
 | **Matched baseline** | Best single mode at same compute | Uniform blend | k-copy homogeneous MoE | Best single fixed strategy | Fixed-N refinement | Free update-norm rule | Deeper greedy chain | Single matched module + ensemble |
 | **Random control** | frozen-random is VACUOUS here (probe/trained-mix); rely on shuffle + matched-compute | same | same | shuffled-router selection | shuffled-difficulty | shuffled-halt labels | shuffled branch scores | seed-permuted modules |
-| **Dependency risk** | Depends on ex2 planner + e7 head existing (they do); real answer blocked on DR1 video cache | Same as MP1 | Same | HIGH: depends on MP5-MP8 producing genuinely distinct strategies | Needs a genuine hardness gradient (D3) | Low | Needs a verifier that outranks refiner | Needs decorrelated seeded modules (PR1 precondition) |
+| **Dependency risk** | Depends on ex2 planner + e7 head existing (they do); real answer blocked on DR1 video cache | Same as MP1 | Same | Local fixture mechanics pass; scientific launch needs compatible outputs and proof MP5-MP8 make genuinely distinct errors | Needs a genuine hardness gradient (D3) | Low | Needs a verifier that outranks refiner | Needs decorrelated seeded modules (PR1 precondition) |
 | **Custom-model decision** | Indirect (shell-lever argument) | No | No | Indirect (shell-lever) | Weak (per-sample hardness in frozen latent) | No | No | No |
 
 ---
@@ -89,21 +96,21 @@ not a mechanism claim, and unblocks the compositional/binding/permanence modes.
 
 | ID | Name | Thesis tested (one line) | Tier | Diff | Sci value | Custom-model decision |
 |----|------|--------------------------|------|------|-----------|-----------------------|
-| DR1 | Real bound-attribute video cache (prerequisite) | Caching real non-additively bound video through the frozen encoder yields the first non-ceiling, non-additive test bed | studio | med | very high (unblocks everything) | DECISIVE ENABLER: without it no compositional test can bite, so no branch of the fork is justifiable |
-| DR2 | Sparse-head forgetting on real latents | e7 sparse/kWTA/MoE halves forgetting vs param-matched dense on REAL latents with a significance test | studio | med | high (moves the surviving positive) | Yes: separates a head-architecture fact from a substrate fact |
-| DR3 | Latent scratchpad vs residual stream | An addressable slot memory beats residual-only refinement when WM load exceeds residual width | studio | high | high (most likely to expose a substrate bound) | Yes: a pooled-latent ceiling here is a substrate-insufficiency signal |
-| DR4 | Counterfactual / causal latent intervention | Do-interventions on factor directions match true counterfactuals better than a correlational predictor, low leakage | studio | high | high | Yes: entangled factors here bound the frozen encoder |
-| DR5 | Cross-substrate reasoning consistency | Any surviving reasoning gain replicates on a second real encoder and beats random-init-ViT | studio | med | high (universality verdict) | Yes: classifies a gain as V-JEPA-specific, universal, or fragile |
+| DR1 | Real bound-attribute video cache (prerequisite) | Caching real non-additively bound video through the frozen encoder yields the first non-ceiling, non-additive test bed | rights/task data | med | very high (unblocks everything) | DECISIVE ENABLER: without it no compositional test can bite, so no branch of the fork is justifiable |
+| DR2 | Sparse-head forgetting on real latents | e7 sparse/kWTA/MoE halves forgetting vs param-matched dense on REAL latents with a significance test | upstream cache | med | high (moves the surviving positive) | Yes: separates a head-architecture fact from a substrate fact |
+| DR3 | Latent scratchpad vs residual stream | An addressable slot memory beats residual-only refinement when WM load exceeds residual width | rights/task data | high | high (most likely to expose a substrate bound) | Yes: a pooled-latent ceiling here is a substrate-insufficiency signal |
+| DR4 | Counterfactual / causal latent intervention | Do-interventions on factor directions match true counterfactuals better than a correlational predictor, low leakage | rights/task data | high | high | Yes: entangled factors here bound the frozen encoder |
+| DR5 | Cross-substrate reasoning consistency | Any surviving reasoning gain replicates on a second real encoder and beats random-init-ViT | upstream caches | med | high (universality verdict) | Yes: classifies a gain as V-JEPA-specific, universal, or fragile |
 | DR6 | Internal simulation / rollout planning | Rollout on the forward model beats reactive + action-shuffle at matched compute (ex2 extension) | cpu-now | med | high (surviving positive) | Weak: a substrate-carried dynamics signal |
-| DR7 | Latent chain-of-thought without text | A supervised intermediate-latent trace beats one-shot at matched compute; shuffling hurts | studio | high | med | Weak |
+| DR7 | Latent chain-of-thought without text | A supervised intermediate-latent trace beats one-shot at matched compute; shuffling hurts | rights/task data | high | med | Weak |
 | DR8 | Recurrent refinement: fixed point vs drift | Weight-tied refiner converges to an input-dependent attractor and the property is V-JEPA-specific | cpu-now | med | med | Yes: decay on real AND random-init-ViT = geometry, not substrate |
 | DR9 | Verify-revise under corrected controls | A trained verifier beats single-shot, a shuffled verifier, and the free update-norm signal at matched compute | cpu-now | med | med | No |
 | DR10 | Memory-first: retrieve-then-reason | kNN-retrieving cached latents and conditioning the refiner beats from-scratch and random retrieval | cpu-now | low | med | Weak: tests whether the frozen neighbor metric is task-aligned |
 | DR11 | Monte-Carlo latent rollouts | Averaging many sampled rollouts beats one at matched FLOPs without chasing aleatoric noise | cpu-now | med | med | No |
 | DR12 | Disagreement-as-uncertainty | Inter-module disagreement predicts error better than a single head's confidence; gating on it beats uniform, passes noisy-TV | cpu-now | med | med | No |
 | DR13 | Planning-horizon limit | Rollout error compounds to a crossover horizon beyond which planning stops beating reactive | cpu-now | low | med | Weak: bounds internal simulation for the frozen substrate |
-| DR14 | Reasoning under corruption/compression | Reasoning degrades more gracefully than a single-pass baseline under VQ/4-bit/noise/dropped-channel | studio | med | med | Weak: recovery beyond passive readout is a mild substrate-richness signal |
-| DR15 | Modality-general reasoning | A surviving primitive's benefit is tested on video vs relational vs language encoders | studio | med | med | Yes (via convergence): identical everywhere = shell/task, not visual reasoning |
+| DR14 | Reasoning under corruption/compression | Reasoning degrades more gracefully than a single-pass baseline under VQ/4-bit/noise/dropped-channel | upstream dense cache | med | med | Weak: recovery beyond passive readout is a mild substrate-richness signal |
+| DR15 | Modality-general reasoning | A surviving primitive's benefit is tested on video vs relational vs language encoders | upstream encoder caches | med | med | Yes (via convergence): identical everywhere = shell/task, not visual reasoning |
 
 ### DR full schema (part 1: DR1-DR8)
 
@@ -260,8 +267,8 @@ ViT-L at matched resolution). AT typing is what actually reweights the frozen-de
 
 | ID | Name | Thesis tested (one line) | Tier | Diff | Sci value | Custom-model decision |
 |----|------|--------------------------|------|------|-----------|-----------------------|
-| AT1 | Cross-substrate nuisance grid | The 0.379-vs-0.069 nuisance regime across V-JEPA/DINOv2/single-frame-V-JEPA vs each's random-init control classifies the substrate signal as universal / modality-specific / architecture-specific / artifact | studio | med | high | DECISIVE: directly types the substrate signal that reopened the fork |
-| AT2 | Mode substrate-dependence | At least one thinking mode's advantage survives the non-vacuous control: real V-JEPA beats random-init-ViT at matched 256px on nuisance content | studio | med | high | Yes: ties a mode's gain to pretraining, not architecture/resolution |
+| AT1 | Cross-substrate nuisance grid | The 0.379-vs-0.069 nuisance regime across V-JEPA/DINOv2/single-frame-V-JEPA vs each's random-init control classifies the substrate signal as universal / modality-specific / architecture-specific / artifact | upstream cache grid | med | high | DECISIVE: directly types the substrate signal that reopened the fork |
+| AT2 | Mode substrate-dependence | At least one thinking mode's advantage survives the non-vacuous control: real V-JEPA beats random-init-ViT at matched 256px on nuisance content | local mechanics, upstream weights/cache gate | med | high | Yes: ties a mode's gain to pretraining, not architecture/resolution |
 | AT3 | Time-axis ablation | Some factors decode from full-clip but at chance from single-frame V-JEPA (token/frame matched), isolating the temporal currency | cpu-now | med | med | Weak (modality currency, not the fork directly) |
 | AT4 | Programmatic ceiling reference | A handcrafted-descriptor substrate on the same atlas factors provides a ceiling so a perceptual tie reads as substrate-bounded, not test-too-easy | cpu-now | med | high | DECISIVE: the only route to reading a tie as a real substrate bound (custom-branch trigger) |
 | AT5 | Probe-class sweep | Running every atlas cell under linear/MLP/nonlinear-gain surfaces probe-specific verdicts before any cell is trusted | cpu-now | low | med | Yes (methodological guard on every verdict) |
@@ -296,8 +303,8 @@ ViT-L at matched resolution). AT typing is what actually reweights the frozen-de
 | ID | Name | Thesis tested (one line) | Tier | Diff | Sci value | Custom-model decision |
 |----|------|--------------------------|------|------|-----------|-----------------------|
 | AL1 | Uncertainty router with noisy-TV guard | An uncertainty signal used ONLY as a router input (never a LR gate) beats random episode selection on adaptation-per-update while passing noisy-TV | cpu-now | med | high | No |
-| AL2 | Shared-latent alignment vs random-map floor | A thin linear/low-rank map between substrate pairs predicts one from another above a random-map-of-equal-rank floor only when they share genuine structure | studio | med | med | Yes: separates real cross-currency exchange from map-induced agreement |
-| AL3 | Audio/video temporal alignment | Audio-SSL and V-JEPA event boundaries co-locate above a shuffled-time floor, evidence temporal-predictive invariance is substrate-universal across modality | studio | high | med | Yes (universal verdict via cross-modal convergence) |
+| AL2 | Shared-latent alignment vs random-map floor | A thin linear/low-rank map between substrate pairs predicts one from another above a random-map-of-equal-rank floor only when they share genuine structure | upstream shared caches | med | med | Yes: separates real cross-currency exchange from map-induced agreement |
+| AL3 | Audio/video temporal alignment | Audio-SSL and V-JEPA event boundaries co-locate above a shuffled-time floor, evidence temporal-predictive invariance is substrate-universal across modality | rights/audio-video data | high | med | Yes (universal verdict via cross-modal convergence) |
 
 ### AL full schema
 
@@ -334,18 +341,18 @@ is a lever at all, not an attempt to beat frozen V-JEPA.
 
 | ID | Name | Thesis tested (one line) | Tier | Diff | Sci value | Custom-model decision |
 |----|------|--------------------------|------|------|-----------|-----------------------|
-| CM1 | Compositional bound on real video (C1 gate) | Frozen V-JEPA factors shape from color on held-out combos off-ceiling, beating random-init-ViT by >+0.05 on a D3 regime | studio | med | very high | DECISIVE: the primary keep-frozen gate |
-| CM2 | Multi-substrate atlas gate | A failing gate either clears on a different frozen substrate (bound is objective/arch-specific) or fails on all (universal) | studio | med | high | DECISIVE: swap-encoder vs go-custom |
-| CM3 | Dense vs pooled compositional | Dense/coarse-grid latents clear the held-out gate where full mean-pool does not, isolating the bound to the pooling interface | studio | med | high | Yes: pooling-interface fix vs new weights |
-| CM4 | Workspace-shell routing | A trained workspace routing shell beats param-matched dense AND matched-compute unrolled depth on BWT and planning, on real latents | studio | high | high | Yes: a shell win argues against needing a custom encoder |
-| CM5 | Studio-scale rejuvenation (C3) | At studio scale rejuvenation restores plasticity beyond frozen-random and matched compute; a discriminating arm shows if it needs an adapting substrate | studio | high | med | Yes (C3): if restoration needs an adapting substrate, the frozen encoder is bounded for Q1 |
-| CM6 | Compressed capability density | A distilled ViT-S student retains the teacher's nuisance-invariance delta at ~10x fewer params, beating same-size random-init and non-distilled | studio | med | med | Yes: if density transfers, a small student can replace the frozen giant |
-| CM7 | Minimum-objective encoder probe | At tiny capacity/matched data/256px, an invariance objective beats a mask objective and both beat random-init | studio | high | high | DECISIVE diagnostic: is the pretraining OBJECTIVE a lever at all before any real-encoder compute |
-| CM8 | Custom-JEPA factoring pilot | A small custom JEPA (or factoring adapter) with a bound-factor mask policy beats the best frozen atlas substrate on held-out factoring | wider-box | high | high | DECISIVE (build side): does a custom objective actually beat the best frozen encoder |
-| CM9 | Object-centric slot-JEPA binding | Trainable slot-attention over frozen dense tokens beats dense-without-slots and an off-the-shelf slot model on multi-object binding | wider-box | high | med | Yes: slots-as-shell vs custom encoder |
-| CM10 | Action-conditioned forward model | A trainable action-conditioned model enables planning beating reactive, action-shuffle, unrolled depth, and frozen V-JEPA 2-AC | wider-box | high | med | Weak (blocked on an env adapter, not compute) |
-| CM11 | Developmental scheduled plasticity | A scheduled-plasticity substrate shows critical-window (d6 True), path-dependence (y4>0), U-shape (d4 non-flat), seed-stable, beating flat-schedule | wider-box | very high | med | Yes: the one architecture that genuinely needs an adapting substrate |
-| CM12 | Mixture-of-thinking substrate (capstone) | A trained workspace router over 2-4 frozen/pilot experts beats the best single expert+workspace and the strongest open model on a combined battery | moonshot | very high | high | Yes: the full synthesis of the fork |
+| CM1 | Compositional bound on real video (C1 gate) | Frozen V-JEPA factors shape from color on held-out combos off-ceiling, beating random-init-ViT by >+0.05 on a D3 regime | rights/task data | med | very high | DECISIVE: the primary keep-frozen gate |
+| CM2 | Multi-substrate atlas gate | A failing gate either clears on a different frozen substrate (bound is objective/arch-specific) or fails on all (universal) | upstream atlas/prerequisite | med | high | DECISIVE: swap-encoder vs go-custom |
+| CM3 | Dense vs pooled compositional | Dense/coarse-grid latents clear the held-out gate where full mean-pool does not, isolating the bound to the pooling interface | rights/dense task data | med | high | Yes: pooling-interface fix vs new weights |
+| CM4 | Workspace-shell routing | A trained workspace routing shell beats param-matched dense AND matched-compute unrolled depth on BWT and planning, on real latents | upstream real-cache grid | high | high | Yes: a shell win argues against needing a custom encoder |
+| CM5 | Local-max rejuvenation (C3) | At a progressively induced local plasticity-loss rung, rejuvenation restores adaptation beyond frozen-random and matched compute; a discriminating arm shows if it needs an adapting substrate | cpu-now mechanics | high | med | Yes (C3): if restoration needs an adapting substrate, the frozen encoder is bounded for Q1 |
+| CM6 | Compressed capability density | A distilled ViT-S student retains the teacher's nuisance-invariance delta at ~10x fewer params, beating same-size random-init and non-distilled | upstream teacher/student | med | med | Yes: if density transfers, a small student can replace the frozen giant |
+| CM7 | Minimum-objective encoder probe | At tiny capacity/matched data/256px, an invariance objective beats a mask objective and both beat random-init | cpu-now implementation | high | high | DECISIVE diagnostic: is the pretraining OBJECTIVE a lever at all before any real-encoder compute |
+| CM8 | Custom-JEPA factoring pilot | A small custom JEPA (or factoring adapter) with a bound-factor mask policy beats the best frozen atlas substrate on held-out factoring | local preflight, upstream evidence | high | high | DECISIVE (build side): does a custom objective actually beat the best frozen encoder |
+| CM9 | Object-centric slot-JEPA binding | Trainable slot-attention over frozen dense tokens beats dense-without-slots and an off-the-shelf slot model on multi-object binding | rights/dense task data | high | med | Yes: slots-as-shell vs custom encoder |
+| CM10 | Action-conditioned forward model | A trainable action-conditioned model enables planning beating reactive, action-shuffle, unrolled depth, and frozen V-JEPA 2-AC | local mechanics; upstream evidence | high | med | Weak: adapter mechanics pass locally, but the pilot loses to reactive and still lacks citable rendered-substrate/V-JEPA 2-AC controls |
+| CM11 | Developmental scheduled plasticity | A scheduled-plasticity substrate shows critical-window (d6 True), path-dependence (y4>0), U-shape (d4 non-flat), seed-stable, beating flat-schedule | cpu-now mechanics | very high | med | Yes: the one architecture that genuinely needs an adapting substrate |
+| CM12 | Mixture-of-thinking substrate (capstone) | A trained workspace router over 2-4 frozen/pilot experts beats the best single expert+workspace and the strongest open model on a combined battery | local mechanics, upstream evidence gate | very high | high | Yes: the full synthesis of the fork |
 
 ### CM full schema (part 1: CM1-CM6, the cached-latent gates)
 
@@ -360,7 +367,7 @@ is a lever at all, not an attempt to beat frozen V-JEPA.
 | **Controls** | random-init same-arch ViT (NOT the full-rank projection), D3 | per-substrate random-init controls, difficulty_calibration | D3, pooled/dense/coarse arms | param-matched dense, matched-FLOP unrolled depth, seed sweep | frozen-random, matched compute, adapting-vs-frozen arm | same-size random-init, same-size non-distilled |
 | **Matched baseline** | Random-init same-arch ViT | Best frozen atlas substrate | Full mean-pool | Param-matched dense + unrolled depth | Do-nothing + matched compute | Same-size non-distilled student |
 | **Random control** | random-init same-arch (non-vacuous) | per-substrate random-init | dense-token (frozen_random vacuous for probe) | frozen_random VALID (trained-shell metric) | frozen-random + matched compute | same-size random-init |
-| **Tier / Diff** | studio / med | studio / med | studio / med | studio / high | studio / high | studio / med |
+| **Tier / Diff** | rights/task data / med | upstream atlas / med | rights/dense task / med | upstream real-cache grid / high | cpu-now mechanics / high | upstream teacher/student / med |
 | **Dependency risk** | Blocked on DR1 (real bound-attribute video) | Needs multiple frozen substrates + real video | Needs DR1 dense tokens | Needs real-latent stream + e7/ex2 protocols | Extends ex15/b8; needs a wide box at studio scale | Needs the teacher cache + a trainable student |
 | **Custom-model decision** | DECISIVE (keep-frozen gate) | DECISIVE (swap vs build) | Yes (interface vs weights) | Yes (shell vs encoder) | Yes (C3, Q1 bound) | Yes (density) |
 
@@ -377,8 +384,8 @@ is a lever at all, not an attempt to beat frozen V-JEPA.
 | **Controls** | random-init same-arch, D3, matched capacity/data/resolution | random-init same-arch, best frozen substrate, matched compute | dense-tokens arm, off-the-shelf slot model, swap test | action-shuffle, matched compute, unrolled depth, V-JEPA 2-AC | flat-schedule baseline, matched compute, noisy-TV-guarded ordering, seed sweep | best single expert+workspace, single pilot, strongest open model, matched total FLOPs |
 | **Matched baseline** | Random-init same-arch encoder | Best frozen atlas substrate | Dense-without-slots | Reactive + unrolled depth + V-JEPA 2-AC | Flat-schedule substrate | Best single expert + workspace |
 | **Random control** | random-init same-arch (non-vacuous) | random-init same-arch | n/a (dense + swap are the controls) | action-shuffle | random-perturbation ordering | random-router |
-| **Tier / Diff** | studio / high | wider-box / high | wider-box / high | wider-box / high | wider-box / very high | moonshot / very high |
-| **Dependency risk** | Trains an encoder (studio); do NOT run concurrently with the in-flight ViT job (OOM) | Blocked on DR1 + a wider box; gated by CM1/CM2/CM7 | Blocked on DR1 multi-object video + a wider box | Blocked on an ENV ADAPTER (a real implementation gap), not compute | Blocked on curriculum-ordered real video + a wider box; the highest-risk row | Blocked on multiple pilots + open-model access; the full-stack capstone |
+| **Tier / Diff** | cpu-now implementation / high | local preflight plus upstream evidence / high | rights/dense task data / high | local mechanics plus rendered-substrate evidence / high | cpu-now mechanics / very high | local mechanics plus upstream evidence / very high |
+| **Dependency risk** | Trains an encoder locally and must be serialized with other heavy jobs | Blocked on DR1/upstream evidence; gated by CM1/CM2/CM7 | Blocked on DR1 multi-object video | Local adapter is complete; blocked on rendered/citable substrate trajectories and exact controls | Blocked on curriculum-ordered real video; the highest-risk row | Blocked on multiple pilots + open-model access; the full-stack capstone |
 | **Custom-model decision** | DECISIVE diagnostic (objective-as-lever) | DECISIVE (build side) | Yes | Weak | Yes (Q1 substrate) | Yes (synthesis) |
 
 ---

@@ -27,7 +27,10 @@ Per-clip cost, float32 latents (keys+labels included), at the documented token e
 (ViT-g at 384px tiles to 24x24=576 patches * 32 tubelets ~= 18432 tokens; the table uses the
 conservative shared 8192/10976 estimates documented at DENSE_TOKENS_PER_CLIP. Adjust per encoder
 via estimate_for_encoder(..., dense_tokens=...).) At scale: 10k pooled ViT-L clips ~= 78 MB;
-10k dense ViT-L clips ~= 313 GB. Pooled is laptop-cheap; dense is Studio-only, hence E6 deferred.
+10k dense ViT-L clips ~= 313 GB. Pooled is laptop-cheap; a full 10k dense corpus exceeds the
+current local disk envelope, while bounded dense shards remain locally testable. E6 is deferred
+because its registered V-JEPA 2.1 dense checkpoint is unavailable, not because ViT-H or ViT-g
+cannot execute locally.
 """
 
 from __future__ import annotations

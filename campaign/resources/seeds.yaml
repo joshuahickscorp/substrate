@@ -14,7 +14,7 @@ defaults:
 # Per-cost seed counts. Expensive legs (E10 capstone, rollout-bound) use 3; everything else
 # uses the full 5. Cheap cached-latent legs MAY run more if a delta sits inside the spread.
 seed_counts:
-  default: 5                    # all Tier C cached-latent legs, and the gpu-later science
+  default: 5                    # all cached-latent and locally serial scale-comparison legs
   expensive: 3                  # E10 capstone and any rollout-heavy leg (3 to 5 per DECISIONS.md)
   cheap_extra: 8                # optional: when a cross-condition delta is near the Metal spread, add seeds
 

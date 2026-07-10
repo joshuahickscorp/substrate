@@ -178,8 +178,8 @@ def grid_scope(columns: list[dict]) -> dict:
         scope = "random-control-artifact (grid-wide): no available substrate beat its own random-init"
     elif len(mods) >= 2:
         scope = (
-            f"pilot-universal across {mods} (laptop columns only; the registered universal claim "
-            "needs the Studio grid)"
+            f"pilot-universal across {mods} (available columns only; the registered universal claim "
+            "needs the complete citable grid and matched random-init columns)"
         )
     else:
         scope = f"modality-specific ({mods[0]}) within the available columns (pilot scope)"

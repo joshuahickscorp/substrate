@@ -1,12 +1,17 @@
 # FORM SUBSTRATE IMPLEMENTATION PLAN
 
+Status note (2026-07-09): this is the original execution snapshot. Its CPU-now implementation list
+is stale. Use `FORM_SUBSTRATE_EXPERIMENTS.md` and `DECISIONS.md` for live F-series status, then use
+`FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md` for the additive successor plan. Unfinished real-data,
+Studio, unification, environment, and plasticity obligations in this file remain relevant.
+
 The detailed scaffolding and execution plan for building out the Form Substrate Program from the
 state the paradigm migration left behind. MIGRATION_PHASES.md is the phase law; this document is
 the work order: every task with its files, signatures, configs, registry actions, tests, exit
 checks, and risks. A fresh session should be able to open this file and start producing.
 
-House style: no em or en dashes. Environment: `import mop` needs `PYTHONPATH=src` (no editable
-install); the interpreter is `.venv/bin/python`. Read FORM_SUBSTRATE_PROGRAM.md and
+House style: no em or en dashes. Environment: install the package with `make install`; `import mop`
+must work outside the checkout without `PYTHONPATH`; the interpreter is `.venv/bin/python`. Read FORM_SUBSTRATE_PROGRAM.md and
 FORM_SUBSTRATE_DOCTRINE.md before writing any code; read FORM_SUBSTRATE_CODEMAP.md before creating
 any file.
 
@@ -48,8 +53,9 @@ the DR1 real-form matrix, OA scorecard wiring, and the Phase 5 renames.
    vocabulary only; no em dashes.
 5. Green before and after every task: the verification protocol in section 8. A task that breaks
    a gate is reverted, not patched forward.
-6. Trainable-substrate work (F7/F8/F16) starts only with a license receipt (section 7). Nothing in
-   this plan trains an encoder.
+6. Natural-data F8/F16 evidence remains license and provenance gated (section 7). The implemented
+   local fixture-scientific engine may update a safe fixture encoder to validate mechanics, controls,
+   null logic, and receipts, but its taint is irreversible and it cannot promote a natural claim.
 
 ## 2. Workstream A: harness parity for the F-series (first, small)
 
@@ -318,9 +324,11 @@ zero grep hits for stale imports.
 - 13_code_scaffolding.md gets a superseded-by-FORM_SUBSTRATE_CODEMAP.md banner.
 - Package rename: still deferred (MIGRATION_PHASES.md Phase 6 rule: a rename must move a number).
 
-## 7. Workstream F: plastic branch preconditions (may never open; that is fine)
+## 7. Workstream F: plastic branch natural-evidence preconditions
 
-Do not implement F7/F8/F16 until EVERY item below exists as a receipt on disk:
+F7 now runs locally. F8/F16 now have a complete fail-closed local execution engine, including fixture
+science, four matched-estimator arms, provenance checks, and resource receipts. Do not run or promote
+their natural-data claim until EVERY item below exists as a receipt on disk:
 
 1. A PR9 verdict ledger showing the CBP kill-switch fired (moldability dead at frozen), OR a DR1
    representational wall (integrity-clean cache where the target is unreachable by matched shells).
@@ -328,9 +336,10 @@ Do not implement F7/F8/F16 until EVERY item below exists as a receipt on disk:
 3. Doc 15 triggers satisfied and written down (which trigger, what evidence, what named property).
 4. An F20 crisis verdict consistent with the wall (crisis detected where the wall is claimed).
 
-When they open, F8 runs before F16 (rewrite a small encoder on the same curriculum first; the
-perfect slate is the escalation, not the entry). Both carry old-form retention as a first-class
-metric and matched total compute by construction.
+When natural evidence opens, F8 runs before F16 (rewrite a small encoder on the same curriculum first;
+the perfect slate is the escalation, not the entry). Both use a declared estimated end-to-end FLOP
+convention and remain nonpromotable until an external rights and weight-provenance authority attests the
+package. This is an environment gate, not a Studio claim; no measured M3 failure exists.
 
 ## 8. Verification protocol (run at every task boundary)
 
@@ -390,7 +399,7 @@ FORM_SUBSTRATE_CODEMAP.md (module map + refusal table), FORM_SUBSTRATE_EXPERIMEN
 bank), PERFORMANCE_DENSITY_DOCTRINE.md, OPERATIONAL_AWARENESS.md. PARADIGM_MIGRATION.md and
 LEGACY_INDEX.md fix what older docs now mean; do not take doctrine from archived-status docs.
 
-Environment: run everything with PYTHONPATH=src and .venv/bin/python (no editable install).
+Environment: run with the editable package installed in `.venv`; `PYTHONPATH=src` is no longer required.
 Verify the baseline before touching anything: unit suite green, scripts/acceptance.py 10/10,
 scripts/check_docs.py clean, scripts/devel.py experiments valid (195 rows, 20 F-series).
 
@@ -399,8 +408,9 @@ referent-aligned stack: store-backed form adapters, helper collapse, the perspec
 by the blast-radius rule, manifest v2), then C1-C9 (implement F4, F17, F9, F10, F12, F19, F13,
 F18, F20, in that order, each with config + registry flip + re-render + density block + tests +
 smoke receipt). Workstream D is Studio-gated: do not start it unless the DR1 receipts exist.
-Workstream F (F7/F8/F16) is license-gated: do not implement, and do not train any encoder, unless
-every receipt in plan section 7 exists on disk.
+Workstream F natural evidence (F8/F16) is license and provenance gated. The local fixture-scientific
+engine is allowed and permanently nonpromotable; natural execution still requires every receipt in
+plan section 7. F7 is implemented locally. No Studio tier may be inferred without a measured M3 wall.
 
 Hard rules that override convenience: no new module without the codemap refusal check (no
 referent.py, no form_store.py, no third adapter ABC); every result carries a density block; every

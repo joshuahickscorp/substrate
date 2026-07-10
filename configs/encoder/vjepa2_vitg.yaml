@@ -1,7 +1,8 @@
-# V-JEPA 2 ViT-g: bigger substrate for the Studio. Frozen, inference-only.
+# V-JEPA 2 ViT-g: largest frozen scale point. Locally serial, inference-only.
 name: vjepa2_vitg
 arch: vit_giant
 hf_id: facebook/vjepa2-vitg-fpc64-384
+revision: 12ca91694b230e0d4b5b0078af6f4ae1d51e933d
 hub: facebookresearch/jepa
 embed_dim: 1408
 patch_size: 16
@@ -11,5 +12,8 @@ resolution: 384
 dense: false
 pool: mean
 frozen: true
+prefer_real: false
+random_init: false
+random_init_seed: 0
 family: vjepa2           # WP-02: substrate family for the cross-substrate grid (AT1/AL2)
 training_objective: masked_latent_prediction   # video JEPA: predict masked spacetime patches in latent space

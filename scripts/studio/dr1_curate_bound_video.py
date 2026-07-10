@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""DR1 (Process B, Studio-only): curate REAL bound-attribute natural video and encode it past the
+"""DR1 (Process B, full-corpus profile): curate REAL bound-attribute natural video and encode it past the
 128-clip laptop clamp into a full V-JEPA latent store, so the compositional-binding and abstraction
 probes finally run on real bound-attribute states with MANY genuine composable factors instead of the
 two-factor (shape, color) programmatic clipset.
@@ -33,15 +33,15 @@ mandated is wired here and RUNS before any encode is spent:
      structure; a tie is a null. This guard needs the encoded store, so it is a Studio-time pass, but the
      preregistered rule and the residualization machinery ship here so the Studio only flips the flag.
 
-  4. RAM + ENCODER-LANE GUARDS (unchanged, validated). A hard >= 32GB free-RAM guard refuses the 18GB
-     laptop pool by accident; the one-encoder-at-a-time pgrep guard refuses to start while another
-     encoder lane is alive.
+  4. RAM + ENCODER-LANE GUARDS. The original full-corpus preset retains a conservative >= 32GB
+     free-RAM policy guard; this guard is not a measured hardware-boundary receipt. The
+     one-encoder-at-a-time pgrep guard refuses to start while another encoder lane is alive.
 
-WHY STUDIO (not the laptop): the probes' bite depends on the factors being genuinely BOUND in the
-pixels and on enough clips per cell for a non-degenerate hold-out. The laptop path clamps the real-video
-encode at 128 clips (the 18GB pool cannot hold a longer 64x256x256 ViT-L forward queue), below the
-per-cell floor. The Studio box has the RAM and encoder throughput to encode the full curated set in
-resumable legs; this script is that encode. It NEVER runs on the laptop.
+WHY THE FULL CORPUS IS A SEPARATE RUNG: the probes' bite depends on the factors being genuinely BOUND in
+the pixels and on enough clips per cell for a non-degenerate hold-out. Bounded real encodes already run
+locally, serially, but the original full preset and 32GB guard were written for a larger corpus. Rights,
+cell coverage, and citable annotations are the first scientific blockers; larger hardware is justified
+only by a measured local throughput or memory remainder.
 
 PREREGISTERED NULL (fixed here before any real-video result exists): on real composable-factor video, a
 probe trained to read a CONJUNCTION (full cell identity) from V-JEPA features does no better, outside seed
@@ -78,7 +78,7 @@ Usage (Studio):
   # 1. pre-encode gate + legs (gate runs automatically inside each leg before any byte is decoded)
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 0   --end 256 --device cpu
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 256 --end 512 --device cpu
-  # 2. stitch and write the PerspectiveMatrix receipt when the merged root store exists
+  # 2. stitch and write the FormMatrix-backed Perspective v1 receipt when the root store exists
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --merge
   # 3. cross-modal nuisance guard over the merged store (Studio-time; needs the encoded latents)
   python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --a6-guard
@@ -111,7 +111,7 @@ from mop.studio.dr1_perspectives import write_dr1_perspective_receipt  # noqa: E
 from mop.substrate import cache_latents, iter_video_clips, load_encoder  # noqa: E402
 from mop.substrate.video import detect_partial_cache, validate_source, write_label_map  # noqa: E402
 
-MIN_FREE_RAM_GB = 32.0  # Studio-only guard: refuse to run on the 18GB laptop pool.
+MIN_FREE_RAM_GB = 32.0  # Original full-corpus policy floor, not measured boundary evidence.
 
 # The composable factors the expand plan needs (Track B). A cell folder names EVERY factor in this order,
 # joined by CELL_DELIM. Override with --factors to curate a different composable schema.
@@ -155,21 +155,21 @@ A6_SEEDS = tuple(range(8))  # 8 seeds, matched to the laptop abstraction runs
 
 
 def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB) -> float:
-    """Hard guard: refuse to run unless >= min_gb of free RAM is available. This keeps the heavy real
-    V-JEPA encode off the laptop by accident (the laptop pool is 18GB). Returns the free-GB reading."""
+    """Enforce the original full-corpus policy floor, not a measured hardware boundary."""
     try:
         import psutil
 
         free_gb = psutil.virtual_memory().available / (1024**3)
     except Exception as e:  # psutil absent or unreadable: fail closed, never fail open
         raise SystemExit(
-            f"cannot read free RAM ({e}); refusing to run the Studio encode without the >= "
-            f"{min_gb:.0f}GB safety check. Install psutil on the Studio box."
+            f"cannot read free RAM ({e}); refusing to run the full-corpus preset without the >= "
+            f"{min_gb:.0f}GB policy check. Install psutil on the target host."
         ) from e
     if free_gb < min_gb:
         raise SystemExit(
-            f"free RAM {free_gb:.1f}GB < required {min_gb:.0f}GB. This is a Studio-only encode; it will "
-            "not run on the laptop. Move it to the Studio box."
+            f"free RAM {free_gb:.1f}GB < the original full-corpus policy floor {min_gb:.0f}GB. "
+            "This profile refusal is not a measured hardware boundary; use the bounded local intake "
+            "and serial-cache path or preregister a smaller leg."
         )
     return free_gb
 
@@ -388,7 +388,14 @@ def encode_leg(
             f"shard {existing['store_dir']} already finished (count={existing['count']}); pass --force "
             "to re-encode it, or pick a fresh --start/--end range."
         )
-    cfg = compose(["encoder=vjepa2_vitl_fpc64_256", f"device={device}", "encoder.prefer_real=true"])
+    cfg = compose(
+        [
+            "encoder=vjepa2_vitl_fpc64_256",
+            f"device={device}",
+            "encoder.prefer_real=true",
+            "+encoder.require_real=true",
+        ]
+    )
     dev = resolve(str(cfg.device.kind))
     enc = load_encoder(cfg.encoder).to(dev.device)
     backend = enc.spec.backend
@@ -508,7 +515,7 @@ def merge_shards(
                 "blocked_reason": (
                     "merged LatentStore meta.json is absent; merge_shards has only stitched row-order "
                     "sidecars. Create the root merged store, then rerun --merge --source to emit the "
-                    "PerspectiveMatrix receipt."
+                    "FormMatrix-backed Perspective v1 receipt."
                 ),
                 "path": str(cache_root / "perspective_matrix_receipt.json"),
             }
@@ -766,7 +773,7 @@ def main(argv=None) -> int:
         print(json.dumps(out, indent=2, default=str))
         return 0
 
-    assert_studio_ram()  # Studio-only: refuses on the laptop pool (encode + guard are heavy)
+    assert_studio_ram()  # original full-corpus policy guard; bounded local intake is a separate path
     if a.a6_guard:
         if not a.source:
             print("FAIL: --source is required for --a6-guard (to load captions.json)")

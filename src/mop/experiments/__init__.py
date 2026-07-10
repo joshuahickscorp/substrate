@@ -27,4 +27,11 @@ from . import scaffolds  # noqa: E402
 for _cls in scaffolds.SCAFFOLDS:
     REGISTRY[_cls.id] = _cls
 
-__all__ = ["Experiment", "E1", "I4", "REGISTRY", "register", "get_experiment"]
+# The custom-substrate lane is intentionally kept out of the generic scaffold bank: CM7 is a
+# checkpointed local training workbench and CM8 is its fail-closed upstream-evidence preflight.
+from .custom_substrate import CM7, CM8  # noqa: E402
+
+REGISTRY[CM7.id] = CM7
+REGISTRY[CM8.id] = CM8
+
+__all__ = ["Experiment", "E1", "I4", "CM7", "CM8", "REGISTRY", "register", "get_experiment"]

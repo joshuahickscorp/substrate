@@ -2,6 +2,9 @@
 name: vjepa2_vitl_fpc64_256
 arch: vit_large
 hf_id: facebook/vjepa2-vitl-fpc64-256
+# Immutable upstream revision used by the local and Studio cache paths. A new revision is a new
+# substrate and must be changed deliberately with a new weight receipt.
+revision: b3c1679b7c34d3255ef3547f27c7b226aefab26f
 hub: facebookresearch/jepa
 embed_dim: 1024
 patch_size: 16
@@ -11,6 +14,8 @@ resolution: 256
 dense: false          # pooled token output
 pool: mean            # mean | cls | none(dense)
 frozen: true
+random_init: false
+random_init_seed: 0
 prefer_real: false    # opt-in: real weights need real video; default stays frozen-random/synthetic
 family: vjepa2           # WP-02: substrate family for the cross-substrate grid (AT1/AL2)
 training_objective: masked_latent_prediction   # video JEPA: predict masked spacetime patches in latent space

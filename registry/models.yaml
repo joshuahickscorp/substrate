@@ -17,17 +17,20 @@ version: 1
 
 models:
 
-  # ---- V-JEPA 2.1 dense: announced, NOT on HF; placeholder stays unavailable until verified ----
+  # ---- V-JEPA 2.1 dense: official PyTorch release exists; local real execution still unverified ----
   - slug: vjepa21_vitl_dense
     name: V-JEPA 2.1 ViT-L (dense)
-    role: canonical                # would be canonical IF published; today it is unavailable
-    hf_id: ""                      # not published on HuggingFace as of 2026-06
+    role: canonical
+    hf_id: ""                      # official route is Meta's pinned .pt checkpoint, not Hugging Face
+    source_kind: official_pytorch_checkpoint
+    source_url: "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt"
+    source_repo_commit: "204698b45b3712590f06245fbfba32d3be539812"
     embed_dim: 1024
     dense: true
-    available: false
-    result_tag: provisional        # cannot claim real-encoder until weights verify
+    available: false               # local full hash, strict load, forward, and cache are still absent
+    result_tag: provisional
     replaces_canonical: false
-    note: "dense V-JEPA 2.1 not on HF; E6 dense path deferred (see configs/encoder/vjepa21_*)"
+    note: "official checkpoint released; ViT-L stays gated behind local ViT-B load/forward evidence"
 
   # ---- optional comparison encoders (auxiliary baselines, never the science substrate) ----
   - slug: videomae_v2_vitb

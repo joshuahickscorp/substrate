@@ -8,10 +8,13 @@ Maximal by mandate, honest by construction: every ceiling below 10 must name its
 must name the bet that has to convert, and every bet inherits the falsification engine (a faked score is a 0).
 House style: no em or en dashes.
 
-## 0. The machine, honestly (M1 Ultra, 128 GB unified memory, 8 TB SSD)
+## 0. Historical 8 TB planning envelope, not a purchased-machine receipt
 
-The box is an M1 Ultra Mac Studio: 20-core CPU (16 performance + 4 efficiency), 48 to 64-core GPU, 32-core
-Neural Engine, 800 GB/s unified memory bandwidth, 128 GB unified memory, 8 TB SSD. Against the M3 Pro laptop
+The analysis in this document assumes an M1 Ultra Mac Studio with 128 GB unified memory and an 8 TB SSD.
+That machine identity is an unverified procurement scenario, not an observed or delivered host. The
+legacy `studio-m1ultra` slug names this resource envelope for command compatibility. Before execution,
+the strict doctor must measure the actual chip, unified memory, disk, dependencies, weights, and caches;
+the profile is rejected when those measurements do not meet its floors. Against the M3 Pro laptop
 (11-core, ~150 GB/s, 18 GB, and a disk that lived at its own kill-switch floor):
 
 - CPU: per-core speed is LOWER (M1 generation, roughly 25 to 35 percent slower single-thread than M3), but
@@ -28,8 +31,9 @@ Neural Engine, 800 GB/s unified memory bandwidth, 128 GB unified memory, 8 TB SS
   a Qwen-class 7B captioner: ~30 GB total at fp16) plus a 100k-task stream plus bootstrap buffers, no paging.
   The 800 GB/s bandwidth means the 30-seed readout sweeps and permutation floors that were minutes-per-cell
   on the laptop become in-memory batch jobs.
-- Disk: 8 TB retires the disk kill-switch as a daily constraint (the laptop genuinely tripped its 60 GB floor
-  mid-session). It also makes DENSE-token caches a first-class object for the first time: V-JEPA dense
+- Disk: 8 TB retires disk headroom as a daily constraint (the laptop genuinely exercised the historical
+  60 GB kill-switch; the active derived floor is now 40 GB). It also makes DENSE-token caches a first-class
+  object for the first time: V-JEPA dense
   latents at ~8192 tokens x 1024 dim x fp16 are ~17 MB/clip, so a 100,000-clip dense cache is ~1.7 TB,
   comfortably inside the `studio-m1ultra` usable envelope and flatly impossible before. Pooled caches are
   ~2 KB/clip and become free.
@@ -37,9 +41,10 @@ Neural Engine, 800 GB/s unified memory bandwidth, 128 GB unified memory, 8 TB SS
   min free 250 GB, tiers C+E, week-scale wall clock). The old `studio-1tb` profile remains valid as the
   conservative envelope every earlier doc references.
 
-The honest summary: the Studio removes the three resource walls the laptop proved (encode throughput, memory
-residency, disk), and removes NONE of the two structural walls (the frozen encoder, the absence of an
-interactive environment). Every grade below follows from that split.
+The conditional summary: a measured host satisfying this envelope may remove the three resource walls
+the laptop measured (encode throughput, memory residency, disk), while removing none of the structural
+walls (the frozen encoder and absence of an interactive environment). Every projection below remains
+conditional until the target host emits receipts.
 
 ## 1. Scoring rule
 
@@ -131,8 +136,9 @@ pixel-text. The Studio target: vision-static, vision-motion, language (real capt
 10 because code/math perspectives remain synthetic-task-bound rather than natural content.
 
 ### Facet 7, substrate atlas / encoder generality: 3 encoders -> 9. Bet: B4 atlas + ex12 scale falsifier.
-Every claim so far rides ViT-L (+DINOv2 partially). The Studio holds ViT-L, ViT-H, ViT-g, DINOv2-L,
-VideoMAEv2, and dense V-JEPA 2.1 the day Meta ships weights, all resident at once. The ex12 encoder-scale
+The V-JEPA scale grid is no longer a Studio acquisition or single-forward boundary: the laptop has pinned
+ViT-L and ViT-g weights and both native CPU forwards pass. A larger host can hold the full heterogeneous
+grid concurrently, but local serial execution owns every bounded column. The ex12 encoder-scale
 falsifier (does bigger frozen perception raise decodability) becomes a real curve, and every abstraction win
 gets re-tested for substrate-invariance across the full atlas. Not 10: the atlas is still all
 self-supervised vision plus one text model; a truly heterogeneous atlas (contrastive, supervised, multimodal
@@ -266,7 +272,7 @@ representation source is licensed, verifier-guided iteration is not.
 ### Facet 16, the developmental long-run: 0 -> 8. Bet: the daemon holds honest for weeks.
 
 Ceiling case. Moldability's ideology names DEVELOPMENTAL acquisition, and development happens over weeks,
-not inside a 90-minute wall-clock cap. An always-on box runs a persistent continual-learning daemon: a shell
+not inside the historical 90-minute wall-clock cap (the active laptop envelope is now 180 minutes). An always-on box runs a persistent continual-learning daemon: a shell
 living on a real video stream for weeks, periodic probe batteries, the plasticity certificate sampled on a
 schedule, checkpoints every 30 minutes. PR9's stream stops being simulated; it is the box's actual life.
 This is the REGIME the laptop could not even sample, and it feeds every plasticity and forgetting question

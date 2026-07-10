@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""ATLAS (Process B, Studio-only), HARDENED: the at-scale AT1 + AL2 grid over the FULL multi-encoder
+"""ATLAS (Process B, full-grid profile), HARDENED: the at-scale AT1 + AL2 grid over the FULL multi-encoder
 cache set, now carrying the two VALIDATED laptop abstraction probes as first-class atlas columns:
 
   AB1 (within-encoder systematicity/analogy parallelogram), per encoder, each real column against its
@@ -47,12 +47,12 @@ Studio script now carries):
      guard skips a factorial cell that is missing a (shape,color) sample rather than silently biasing a
      centroid.
 
-WHY STUDIO (not the laptop), unchanged: the honest scope verdict (modality-specific vs universal) is only
+WHY THE FULL GRID IS A SEPARATE RUNG: the honest scope verdict (modality-specific vs universal) is only
 meaningful once EVERY registered encoder column is present and count-matched on the SAME shared clipset.
-This orchestrator does NOT encode; it CONSUMES the finished caches the Studio encode jobs wrote and runs
-the audited evaluators over the full set. It carries a hard >= 32GB free-RAM guard so it cannot run on the
-laptop by accident (bypass ONLY with --skip-ram-guard for a tiny smoke check), and it refuses to start a
-run whose column set is not the full registered atlas unless --allow-partial is passed.
+This orchestrator does NOT encode; it CONSUMES finished caches and runs the audited evaluators over the
+full set. It preserves the original full-grid >= 32GB policy guard, which is not a measured boundary.
+Bounded local partial grids use `--skip-ram-guard --allow-partial`; the complete registered claim still
+fails closed when any required column is absent.
 
 PREREGISTERED NULLS (inherited verbatim; NOT re-invented here):
   - AT1 null: every substrate's linear-probe decodability delta over its OWN matched random-init control
@@ -78,7 +78,7 @@ random-control-artifact grid-wide, modality-specific, or (only if survivors span
 full registered set) universal. Any column/pair whose cache is missing is REPORTED missing and EXCLUDES
 the universal claim; it is never silently substituted. This orchestrator loads no encoder.
 
-Usage (Studio):
+Usage (complete full-grid preset):
   python scripts/studio/atlas_multi_encoder_grid.py --seeds 0-9   -> runs/mot/atlas_multi_encoder_grid.json
 
 Smoke (laptop, tiny, guards bypassed):
@@ -751,7 +751,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
 
     if not a.skip_ram_guard:
-        assert_studio_ram()  # Studio-only guard
+        assert_studio_ram()  # original full-grid policy guard; partial local runs bypass explicitly
     result = run(
         Path(a.cache_root),
         parse_seeds(a.seeds),

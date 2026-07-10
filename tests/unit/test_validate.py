@@ -24,6 +24,14 @@ def test_missing_null_hypothesis_raises():
         validate.validate_experiment(cfg)
 
 
+def test_f_series_run_refuses_contract_drift_before_compute():
+    cfg = config.compose(["experiment=f5_cross_form_memory_binding"])
+    validate.validate_experiment(cfg)
+    cfg.experiment.null_hypothesis = str(cfg.experiment.null_hypothesis) + "."
+    with pytest.raises(validate.ConfigError, match="contract null_hypothesis differs"):
+        validate.validate_experiment(cfg)
+
+
 def test_unavailable_encoder_with_prefer_real_raises():
     # the V-JEPA 2.1 placeholder: marked available=false; asking for real weights must fail loud
     cfg = config.compose(["encoder=vjepa21_vitl", "encoder.prefer_real=true"])

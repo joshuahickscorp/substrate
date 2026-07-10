@@ -2,25 +2,54 @@ import pytest
 import torch
 
 from mop.perspectives import (
+    LatentStorePerspectiveAdapter,
+    PerspectiveAdapter,
+    PerspectiveBatch,
+    PerspectiveMatrix,
     PerspectiveMeta,
     PerspectiveRegistry,
+    SubstratePerspectiveAdapter,
     TensorPerspectiveAdapter,
     build_perspective_matrix,
     perspective_audit,
 )
-from mop.perspectives.adapter import SubstratePerspectiveAdapter
 from mop.substrate.adapter import RandomPixelAdapter
+from mop.substrate.form import (
+    FormAdapter,
+    FormBatch,
+    FormMatrix,
+    FormMeta,
+    FormRegistry,
+    LatentStoreFormAdapter,
+    SubstrateFormAdapter,
+    TensorFormAdapter,
+    build_form_matrix,
+    form_audit,
+)
 
 
 def _meta(tag: str, dim: int, *, control_for: str | None = None, modality: str = "vision") -> PerspectiveMeta:
     return PerspectiveMeta(
         tag=tag,
-        modality=modality,
+        kind=modality,
         feature_dim=dim,
         source="unit-test",
         control_for=control_for,
         license="synthetic",
     )
+
+
+def test_perspective_api_is_an_identity_alias_facade():
+    assert PerspectiveMeta is FormMeta
+    assert PerspectiveBatch is FormBatch
+    assert PerspectiveMatrix is FormMatrix
+    assert PerspectiveAdapter is FormAdapter
+    assert TensorPerspectiveAdapter is TensorFormAdapter
+    assert LatentStorePerspectiveAdapter is LatentStoreFormAdapter
+    assert SubstratePerspectiveAdapter is SubstrateFormAdapter
+    assert PerspectiveRegistry is FormRegistry
+    assert build_perspective_matrix is build_form_matrix
+    assert perspective_audit is form_audit
 
 
 def test_tensor_perspective_validates_referents_and_dim():
@@ -39,17 +68,17 @@ def test_perspective_matrix_aligns_by_referent_id_and_factors():
         factors={"shape": torch.tensor([0, 1])},
     )
     language = TensorPerspectiveAdapter(
-        _meta("language", 2, modality="language"),
+        _meta("language", 2, modality="text"),
         torch.tensor([[10.0, 0.0], [20.0, 0.0]]),
         ["clip-b", "clip-a"],
         factors={"caption_len": [5, 3]},
     )
 
     matrix = build_perspective_matrix([vision, language])
-    assert matrix.referents == ("clip-b", "clip-a")
-    assert torch.equal(matrix.features["vision"], torch.tensor([[0.0, 1.0], [1.0, 0.0]]))
-    assert torch.equal(matrix.features["language"], torch.tensor([[10.0, 0.0], [20.0, 0.0]]))
-    assert torch.equal(matrix.factors["language"]["caption_len"], torch.tensor([5, 3]))
+    assert matrix.referents == ("clip-a", "clip-b")
+    assert torch.equal(matrix.features["vision"], torch.tensor([[1.0, 0.0], [0.0, 1.0]]))
+    assert torch.equal(matrix.features["language"], torch.tensor([[20.0, 0.0], [10.0, 0.0]]))
+    assert torch.equal(matrix.factors["language"]["caption_len"], torch.tensor([3, 5]))
 
 
 def test_perspective_matrix_rejects_mismatched_referent_sets():

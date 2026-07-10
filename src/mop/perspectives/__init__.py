@@ -1,8 +1,7 @@
-"""Perspective adapters for Studio multi-arm evidence.
+"""Deprecated Perspective import facade over the canonical Form substrate API.
 
-The substrate layer asks "which frozen encoder produced this representation". The perspective layer
-asks the next question: are several views of the SAME referents paired, labeled, controlled, and ready
-for cross-perspective tests.
+All exported objects are identity aliases from `mop.substrate.form`. Keep this facade for one
+deprecation phase so existing Studio scripts and notebooks remain import-compatible.
 """
 
 from __future__ import annotations

@@ -1,6 +1,7 @@
-"""E10: minimal open-ended JEPA (the program's capstone). SCAFFOLD ONLY, marked env-later
-and never run at scale. The real version needs a parameterizable procedural environment plus
-an environment-generation loop and rented-GPU rollouts; here we stand up the spine of that
+"""E10: minimal open-ended JEPA (the program's capstone). SCAFFOLD ONLY, marked env-later.
+The bounded persistent action contract now runs locally. The real version still needs a
+parameterizable environment generator, population search, transfer, and a sustained horizon;
+here we stand up the spine of that
 experiment at toy scale so the contract, the metrics, and the null check are exercised in
 seconds. The corpus is explicit (Experiment 10, vol1): open-endedness is most likely a
 population-and-environment property, and a single agent on a fixed environment plateaus. We
@@ -27,6 +28,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from omegaconf import DictConfig  # noqa: E402
 
 from ..devices import DeviceInfo  # noqa: E402
+from ..environments import bounded_trajectory_contract  # noqa: E402
 from ..seeding import seed_everything  # noqa: E402
 from .base import Experiment  # noqa: E402
 
@@ -154,6 +156,9 @@ class E10(Experiment):
         single_agent_plateaus = bool(rel_over_best <= plateau_eps)  # fullest arm did not pull ahead
         any_collapsed = any(arms[a]["collapse"] for a in ARMS)
 
+        local_action_contract = bounded_trajectory_contract(
+            seed=int(cfg.seed), episodes=4, horizon=max(6, min(horizon * 2, 12))
+        )
         out = {
             "arms": arms,
             "per_arm_diversity": {a: arms[a]["archive_diversity"] for a in ARMS},
@@ -167,6 +172,14 @@ class E10(Experiment):
             "any_arm_collapsed": any_collapsed,
             "tier": self.tier,
             "scaffold_only": True,  # env-later: not run at scale, stub environment
+            "local_action_environment_available": local_action_contract["verified"],
+            "local_action_environment_contract": local_action_contract,
+            "remaining_scientific_blockers": [
+                "population-level search",
+                "environment generation",
+                "sustained non-plateau horizon",
+                "cross-environment transfer",
+            ],
         }
         self._plot(diversity, arms, run_dir)
         return out

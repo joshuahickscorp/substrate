@@ -17,7 +17,7 @@ from typing import Any
 
 from ..config import REPO_ROOT
 from .long_run import load_plan, write_plan_template
-from .profiles import get_profile
+from .profiles import get_profile, is_studio_profile
 
 SCHEMA = "mop-studio-spine-plan/v1"
 STATUS_SCHEMA = "mop-studio-spine-status/v1"
@@ -524,8 +524,9 @@ def validate_studio_spine_plan(plan: dict[str, Any]) -> list[str]:
     problems: list[str] = []
     if plan.get("schema") != SCHEMA:
         problems.append(f"schema {plan.get('schema')!r} != {SCHEMA!r}")
-    if plan.get("profile", {}).get("name") != "studio-m1ultra":
-        problems.append("profile must be studio-m1ultra")
+    profile_name = str(plan.get("profile", {}).get("name", ""))
+    if not is_studio_profile(profile_name):
+        problems.append("profile must be a registered Studio resource envelope")
     steps = plan.get("steps")
     if not isinstance(steps, list) or not steps:
         return [*problems, "steps must be a non-empty list"]

@@ -76,6 +76,27 @@ def test_factorized_arrays_decodes_two_factors(tmp_path):
     assert set(yb.tolist()) == set(range(n_b))
 
 
+def test_factorized_arrays_reads_v2_factor_metadata(tmp_path):
+    n_a, n_b = 2, 3
+    labels = [a * n_b + b for a in range(n_a) for b in range(n_b)]
+    store = _build_store(tmp_path, labels, dim=8, name="fac_v2")
+    (store.root / "factors.json").write_text(
+        json.dumps(
+            {
+                "schema": "mop-factor-sidecar/v2",
+                "metadata": {"n_a": n_a, "n_b": n_b},
+                "columns": {
+                    "factor_a": [a for a in range(n_a) for _ in range(n_b)],
+                    "factor_b": [b for _ in range(n_a) for b in range(n_b)],
+                },
+            }
+        )
+    )
+    _, factor_a, factor_b = factorized_arrays(open_real_store("fac_v2", data_dir=tmp_path))
+    assert factor_a.tolist() == [0, 0, 0, 1, 1, 1]
+    assert factor_b.tolist() == [0, 1, 2, 0, 1, 2]
+
+
 def test_factorized_arrays_rejects_single_factor_store(tmp_path):
     store = _build_store(tmp_path, [0, 1, 2, 3], name="single")
     assert factors_meta(store) is None

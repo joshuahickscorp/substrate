@@ -14,6 +14,7 @@ from mop import config, devices
 from mop.devel.registries import load_experiments
 from mop.diagnostics.performance_density import DENSITY_SCHEMA
 from mop.experiments import REGISTRY, get_experiment
+from mop.falsification.experiment_contracts import build_contract_audit
 
 
 def _implemented_f_ids():
@@ -35,6 +36,11 @@ def _run(eid, tmp_path):
 
 def test_f_series_is_non_empty():
     assert F_IDS, "no implemented F-series experiments found in the registry"
+
+
+def test_f_series_registry_class_and_config_contracts_are_exact():
+    audit = build_contract_audit(series="F", implemented_only=False)
+    assert audit["all_ok"], "\n".join(audit["problems"])
 
 
 @pytest.mark.parametrize("eid", F_IDS)

@@ -14,7 +14,7 @@ def test_objective_audit_marks_missing_studio_evidence_as_not_ready(tmp_path):
     audit = build_studio_objective_audit(repo_root=tmp_path)
     assert audit["schema"] == "mop-studio-objective-audit/v1"
     assert audit["studio_10_ready"] is False
-    assert audit["summary"]["points_possible"] == 8.0
+    assert audit["summary"]["points_possible"] == 9.0
     assert any(r["id"] == "dr1_real_bound_video" and r["status"] == "pending" for r in audit["requirements"])
 
 
@@ -52,6 +52,30 @@ def test_objective_audit_can_complete_native_lane_point(tmp_path):
     audit = build_studio_objective_audit(repo_root=tmp_path)
     native = next(r for r in audit["requirements"] if r["id"] == "studio_native_lanes")
     assert native["status"] == "complete"
+
+
+def test_objective_audit_can_complete_form_boundary_point(tmp_path):
+    _write(
+        tmp_path / "proof/FORM_SUBSTRATE/SCORECARD.json",
+        {
+            "schema": "mop-form-campaign-scorecard/v1",
+            "local_obligations_exhausted": True,
+        },
+    )
+    _write(
+        tmp_path / "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
+        {
+            "schema": "mop-form-pre-studio-boundary/v1",
+            "studio_is_only_remaining_hardware_boundary": True,
+        },
+    )
+    _write(
+        tmp_path / "proof/ARTIFACT_INDEX/form_substrate.json",
+        {"schema": "mop-artifact-bundle/v1", "all_ok": True},
+    )
+    audit = build_studio_objective_audit(repo_root=tmp_path)
+    form = next(r for r in audit["requirements"] if r["id"] == "form_substrate_pre_studio_boundary")
+    assert form["status"] == "complete"
 
 
 def test_objective_audit_writer_and_cli_round_trip(tmp_path, monkeypatch):

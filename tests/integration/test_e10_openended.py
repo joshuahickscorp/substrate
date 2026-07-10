@@ -39,6 +39,9 @@ def test_e10_ladder_runs_and_answers_null(tmp_path):
     assert "last_rung_gain" in out and "best_rung_gain" in out
     assert out["scaffold_only"] is True
     assert out["tier"] == "env-later"
+    assert out["local_action_environment_available"] is True
+    assert out["local_action_environment_contract"]["verified"] is True
+    assert "population-level search" in out["remaining_scientific_blockers"]
 
     # plot saved
     assert (tmp_path / "e10_openended" / "e10_ladder.png").exists()

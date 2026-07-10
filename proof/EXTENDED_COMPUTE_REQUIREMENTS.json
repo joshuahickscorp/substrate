@@ -676,7 +676,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_adam_trainable_state": {
       "current_hash_verified": true,
@@ -684,7 +684,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_cache_10000": {
       "current_hash_verified": true,
@@ -692,7 +692,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_campaign_time_spec": {
       "current_hash_verified": true,
@@ -700,7 +700,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_checkpoint_volume_spec": {
       "current_hash_verified": true,
@@ -708,7 +708,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_cloud_cost_spec": {
       "current_hash_verified": true,
@@ -716,7 +716,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_dense_cache_storage": {
       "current_hash_verified": true,
@@ -724,7 +724,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_energy_scope": {
       "current_hash_verified": true,
@@ -732,7 +732,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_paired_seed_power": {
       "current_hash_verified": true,
@@ -740,7 +740,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "c_peak_memory_spec": {
       "current_hash_verified": true,
@@ -748,7 +748,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "source_sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     "m_cm7_calibration": {
       "current_hash_verified": true,
@@ -1093,11 +1093,11 @@
       "sha256": "872cc520f3fbdc5fc8d07b778581706a3fa2e3da3ba817cb1c0844c2796eb6a4"
     },
     {
-      "bytes": 84392,
+      "bytes": 91115,
       "exists": true,
       "id": "local:scripts/build_extended_compute_requirements.py",
       "path": "scripts/build_extended_compute_requirements.py",
-      "sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
+      "sha256": "55c01778304164a4b04cb17d524d6a125cd25a1bfbad01d510b0a03b0e936bd4"
     },
     {
       "bytes": 57195,
@@ -3771,7 +3771,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_atlas"
     }
   },
-  "payload_sha256": "065061e4af451a0ec54f59f204f69ed19e973274fec1057194c191c73bac0b23",
+  "payload_sha256": "a10b5dc6f487e16d3b7362610aed87b7c74c8674b23a8a7bb0ae2c7bb0035d60",
   "row_referenced_json_audits": {
     "proof/CUSTOM_SUBSTRATE_CALIBRATION.json": {
       "all_current": true,

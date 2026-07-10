@@ -19,8 +19,7 @@ beats chance with a seed-CI lower bound (over N_SEEDS probe seeds) strictly abov
 (CI lo <= chance + MARGIN) is a NULL. We do not fake scores.
 
 Run:
-  PYTHONPATH=/Users/scammermike/Downloads/mop/src:/Users/scammermike/Downloads/mop OMP_NUM_THREADS=4 \
-    /Users/scammermike/Downloads/mop/.venv/bin/python <this>
+  OMP_NUM_THREADS=4 .venv/bin/python scripts/mop_abstraction_richer_slots.py
 
 No em dashes or en dashes (house rule).
 """

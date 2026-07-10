@@ -1,61 +1,92 @@
-"""Studio readiness doctor. One command answers: is this machine ready to run the campaign at
-scale on Apple Silicon. It probes the things that actually break a real run (wrong python,
-torch without MPS, no basic disk writeability, not enough disk for the active profile, no video
-decoder, a placeholder encoder mistaken for real, a malformed leg) and reports each as a
-green/red check with a detail line. It is deliberately non-fatal where the world is allowed to be
-incomplete this session: a missing video backend or an unreachable HuggingFace are REPORTED, not
-failures, because the cached-latent path runs without either and we never download weights here.
+"""Strict, read-only readiness doctor for the local and Studio execution envelopes.
 
-doctor() -> {checks:[{name,ok,detail}], all_ok, summary}. render_md() turns it into a table.
-Nothing here trains, downloads, or runs long: every check is cheap (seconds, no network except
-one short best-effort metadata ping that is caught and swallowed).
+The doctor distinguishes three things that older checks blurred together: software readiness,
+evidence readiness, and hardware-envelope compatibility. It never downloads weights, repairs a cache,
+or infers a hardware wall from a profile label. A missing package, decoder, local model snapshot, citable
+cache manifest, or measured host resource is a failed check with an explicit remedy.
 """
 
 from __future__ import annotations
 
+import json
+import os
+import platform
 import shutil
+import subprocess
 import sys
+import tempfile
 from collections.abc import Callable
+from datetime import UTC, datetime
+from pathlib import Path
 
-from omegaconf import OmegaConf
+from omegaconf import DictConfig, OmegaConf
 
 from .config import REPO_ROOT
 from .devices import apple_silicon_info
+from .studio.memory_envelope import memory_snapshot
 from .studio.profiles import get_profile
+from .substrate.cache_tools import validate_cache
 
-# the V-JEPA 2 default encoder, used only for a metadata reachability ping (NEVER downloaded)
-_HF_PROBE_ID = "facebook/vjepa2-vitl-fpc64-256"
-_HF_TIMEOUT_S = 4.0
+SCHEMA = "mop-studio-readiness/v2"
 
-# checks the doctor must always report (the test pins these names)
+# Checks are ordered from process portability through software, evidence, and launch resources.
 CHECK_NAMES = (
     "python",
+    "package_import",
     "torch",
     "apple_silicon",
+    "memory_telemetry",
     "disk_space",
+    "profile_host_match",
     "profile_floor",
     "video_backend",
     "huggingface",
     "encoders",
+    "encoder_weights",
+    "cache_manifests",
     "cache_write",
     "config_validation",
 )
 
 
 def _check(name: str, fn: Callable[[], tuple[bool, str]]) -> dict:
-    """Run one probe. A probe returns (ok, detail); a crash inside it is itself a failed check,
-    never an exception out of doctor()."""
+    """Turn a probe exception into a failed check instead of crashing the doctor."""
     try:
         ok, detail = fn()
-    except Exception as e:  # a probe that throws is a red check, not a crashed doctor
+    except Exception as e:
         ok, detail = False, f"{type(e).__name__}: {e}"
     return {"name": name, "ok": bool(ok), "detail": detail}
 
 
 def _check_python() -> tuple[bool, str]:
     v = sys.version_info
-    ok = (v.major, v.minor) >= (3, 10)  # project floor
-    return ok, f"{v.major}.{v.minor}.{v.micro}"
+    ok = (v.major, v.minor) >= (3, 11)
+    return ok, f"{v.major}.{v.minor}.{v.micro}; project floor is 3.11"
+
+
+def _check_package_import() -> tuple[bool, str]:
+    """Prove ``mop`` imports outside the repository without relying on PYTHONPATH or cwd."""
+    code = (
+        "import importlib.metadata,json,mop; "
+        "print(json.dumps({'module':mop.__file__,'version':importlib.metadata.version('mop')}))"
+    )
+    env = dict(os.environ)
+    env.pop("PYTHONPATH", None)
+    proc = subprocess.run(
+        [sys.executable, "-I", "-c", code],
+        cwd=tempfile.gettempdir(),
+        env=env,
+        text=True,
+        capture_output=True,
+        timeout=10,
+        check=False,
+    )
+    if proc.returncode:
+        error = (proc.stderr or proc.stdout).strip().splitlines()
+        tail = error[-1] if error else f"exit {proc.returncode}"
+        return False, f"isolated import failed: {tail}; run `uv pip install -e .`"
+    payload = json.loads(proc.stdout.strip())
+    return True, f"mop {payload['version']} from {payload['module']} (isolated cwd, no PYTHONPATH)"
 
 
 def _check_torch() -> tuple[bool, str]:
@@ -65,49 +96,71 @@ def _check_torch() -> tuple[bool, str]:
         return False, f"torch not importable: {type(e).__name__}"
     avail = bool(torch.backends.mps.is_available())
     built = bool(torch.backends.mps.is_built())
-    # torch present is the pass condition. MPS absence is reported in the detail, not a failure
-    # (cpu and cuda are valid devices too); on Apple Silicon the absence is the thing to notice.
     return True, f"torch {torch.__version__}; mps available={avail} built={built}"
 
 
 def _check_apple_silicon() -> tuple[bool, str]:
     info = apple_silicon_info()
     if not info.get("is_apple_silicon"):
-        # not the native target, but not an error: cuda/cpu boxes are supported paths
-        return True, "not Apple Silicon (cuda/cpu path)"
+        return True, "not Apple Silicon (CPU/CUDA development remains supported)"
     chip = info.get("chip", "Apple Silicon")
     p, e = info.get("performance_cores"), info.get("efficiency_cores")
     mem = info.get("unified_memory_gb")
-    return True, f"{chip}: {p}P/{e}E cores, {mem} GB unified, mps={info.get('mps_available')}"
+    ok = mem is not None and p is not None and e is not None
+    return ok, f"{chip}: {p}P/{e}E cores, {mem} GB unified, mps={info.get('mps_available')}"
+
+
+def _check_memory_telemetry() -> tuple[bool, str]:
+    """Require system and process memory telemetry used by every scale-boundary receipt."""
+    snap = memory_snapshot("studio_doctor")
+    required = ("process_rss_gb", "system_total_gb", "system_available_gb")
+    missing = [key for key in required if snap.get(key) is None]
+    try:
+        import psutil
+
+        version = psutil.__version__
+    except Exception:
+        version = "absent"
+    if missing:
+        return False, f"psutil={version}; missing {missing}; install project dependencies"
+    return (
+        True,
+        f"psutil={version}; RSS={snap['process_rss_gb']} GB, system="
+        f"{snap['system_available_gb']}/{snap['system_total_gb']} GB available",
+    )
 
 
 def _check_disk_space() -> tuple[bool, str]:
     du = shutil.disk_usage(REPO_ROOT)
     free_gb = du.free / 1e9
-    # This is only the basic writeability floor. The active profile floor is checked separately,
-    # so a laptop can report "basic disk ok" while still blocking local-max below 60 GB free.
     ok = free_gb >= 5.0
-    return ok, f"{free_gb:.1f} GB free of {du.total / 1e9:.0f} GB at repo (basic writeability)"
+    return ok, f"{free_gb:.1f} GB free of {du.total / 1e9:.1f} GB at repository filesystem"
 
 
 def _infer_profile_name() -> str:
-    """Pick the safety profile that best matches this host for the doctor default.
-
-    Operators can still pass an explicit profile. The heuristic exists so the plain doctor command
-    does not call a disk-starved laptop "ready" for local-max by accident.
-    """
-    info = apple_silicon_info()
-    total_gb = shutil.disk_usage(REPO_ROOT).total / 1e9
-    chip = str(info.get("chip", ""))
-    mem = float(info.get("unified_memory_gb") or 0.0)
-    if "Ultra" in chip and mem >= 96.0 and total_gb >= 7000.0:
-        return "studio-m1ultra"
+    """Select the largest measured resource envelope this host actually satisfies."""
+    host = apple_silicon_info()
+    for name in ("studio-m1ultra", "studio-1tb"):
+        compatible, _, _ = get_profile(name).host_compatibility(host=host)
+        if compatible:
+            return name
     return "m3pro-local-max"
 
 
+def _check_profile_host(profile_name: str | None = None) -> tuple[bool, str]:
+    profile = get_profile(profile_name or _infer_profile_name())
+    ok, problems, measured = profile.host_compatibility()
+    detail = (
+        f"{profile.name}: measured {measured['chip']}, {measured['unified_memory_gb']} GB unified, "
+        f"{measured['disk_total_gb']} GB disk; requires {profile.min_host_unified_memory_gb:.1f} GB "
+        f"unified and {profile.min_host_disk_gb:.1f} GB disk"
+    )
+    if problems:
+        detail += "; PROFILE/HOST MISMATCH: " + "; ".join(problems)
+    return ok, detail
+
+
 def _check_profile_floor(profile_name: str | None = None) -> tuple[bool, str]:
-    """Enforce the active profile's free-disk floor. This is the launch gate: unlike the basic
-    disk_space probe, failing it means the matching profile must not start heavy work."""
     profile = get_profile(profile_name or _infer_profile_name())
     ok, free_gb = profile.free_disk_ok()
     status = "profile floor ok" if ok else "PROFILE BLOCKED"
@@ -118,56 +171,136 @@ def _check_profile_floor(profile_name: str | None = None) -> tuple[bool, str]:
 
 
 def _check_video_backend() -> tuple[bool, str]:
-    """Report which decode backend is present (torchvision.io, then decord). Absence is REPORTED,
-    not a failure: the cached-latent path needs no video decoder and most runs use the cache."""
-    for mod, label in (("torchvision.io", "torchvision.io"), ("decord", "decord")):
-        try:
-            __import__(mod)
-            return True, f"present: {label}"
-        except Exception:
-            continue
-    return True, "none (cache path ok; install `.[video]` or decord for real video)"
+    """Require a decoder that can exercise the real-video path, not just cached latents."""
+    errors: list[str] = []
+    try:
+        import decord  # noqa: F401
+
+        return True, "present: decord"
+    except Exception as e:
+        errors.append(f"decord={type(e).__name__}")
+    try:
+        import av  # noqa: F401
+        import torchvision.io  # noqa: F401
+
+        return True, "present: torchvision.io + PyAV"
+    except Exception as e:
+        errors.append(f"torchvision/PyAV={type(e).__name__}")
+    return False, ", ".join(errors) + "; install `.[video]` before real-video work"
 
 
 def _check_huggingface() -> tuple[bool, str]:
-    """OPTIONAL, non-fatal: a short metadata ping to confirm HF is reachable, WITHOUT downloading
-    any weights. Any failure (offline, timeout, repo gated) is caught and reported as unreachable.
-    Always ok=True: HF reachability never blocks the doctor (we do not download here)."""
-    try:
-        from huggingface_hub import HfApi
-    except Exception as e:
-        return True, f"huggingface_hub absent ({type(e).__name__}); skipped (non-fatal)"
-    try:
-        info = HfApi().model_info(_HF_PROBE_ID, timeout=_HF_TIMEOUT_S)
-        sha = (getattr(info, "sha", "") or "")[:8]
-        return True, f"reachable: {_HF_PROBE_ID}@{sha} (metadata only, no download)"
-    except Exception as e:
-        return True, f"unreachable ({type(e).__name__}); non-fatal, cache path unaffected"
+    """Require encoder libraries but make no network request; local weights are checked separately."""
+    versions: list[str] = []
+    for package, module in (("huggingface-hub", "huggingface_hub"), ("transformers", "transformers")):
+        try:
+            imported = __import__(module)
+            versions.append(f"{package}={getattr(imported, '__version__', 'present')}")
+        except Exception as e:
+            return False, f"{package} not importable: {type(e).__name__}; install `.[encoder]`"
+    return True, ", ".join(versions) + "; network not probed"
+
+
+def _encoder_configs() -> list[tuple[Path, DictConfig]]:
+    configs: list[tuple[Path, DictConfig]] = []
+    for path in sorted((REPO_ROOT / "configs/encoder").glob("*.yaml")):
+        cfg = OmegaConf.load(path)
+        if not isinstance(cfg, DictConfig):
+            raise TypeError(f"{path.relative_to(REPO_ROOT)} must contain a mapping")
+        configs.append((path, cfg))
+    return configs
 
 
 def _check_encoders() -> tuple[bool, str]:
-    """List configs/encoder/*.yaml with name, embed_dim, and the available flag. The check passes
-    if every config is well-formed (positive embed_dim); the available flag is informational
-    (some encoders, e.g. V-JEPA 2.1, are not yet published on HF and are deferred)."""
-    cdir = REPO_ROOT / "configs" / "encoder"
-    files = sorted(cdir.glob("*.yaml"))
-    if not files:
+    configs = _encoder_configs()
+    if not configs:
         return False, "no encoder configs found"
     rows, ok = [], True
-    for f in files:
-        c = OmegaConf.load(f)
-        name = str(OmegaConf.select(c, "name", default=f.stem))
-        dim = int(OmegaConf.select(c, "embed_dim", default=0))
-        avail = bool(OmegaConf.select(c, "available", default=True))
-        if dim <= 0:
+    for path, cfg in configs:
+        name = str(OmegaConf.select(cfg, "name", default=path.stem))
+        dim = int(OmegaConf.select(cfg, "embed_dim", default=0))
+        available = bool(OmegaConf.select(cfg, "available", default=True))
+        hf_id = str(OmegaConf.select(cfg, "hf_id", default=""))
+        if dim <= 0 or not hf_id:
             ok = False
-        rows.append(f"{name}(d={dim},{'real-ready' if avail else 'deferred'})")
-    return ok, f"{len(files)} configs: " + ", ".join(rows)
+        rows.append(f"{name}(d={dim},{'published' if available else 'deferred'})")
+    return ok, f"{len(configs)} configs: " + ", ".join(rows)
+
+
+def _hf_cache_roots() -> list[Path]:
+    roots: list[Path] = []
+    if os.environ.get("HF_HUB_CACHE"):
+        roots.append(Path(os.environ["HF_HUB_CACHE"]).expanduser())
+    if os.environ.get("HF_HOME"):
+        roots.append(Path(os.environ["HF_HOME"]).expanduser() / "hub")
+    roots.append(Path.home() / ".cache" / "huggingface" / "hub")
+    return list(dict.fromkeys(roots))
+
+
+def _local_weight_files(hf_id: str) -> list[Path]:
+    repo_slug = "models--" + hf_id.replace("/", "--")
+    patterns = ("*.safetensors", "pytorch_model*.bin", "*.pt", "*.pth")
+    found: list[Path] = []
+    for root in _hf_cache_roots():
+        snapshot_root = root / repo_slug / "snapshots"
+        if not snapshot_root.exists():
+            continue
+        for pattern in patterns:
+            found.extend(path for path in snapshot_root.rglob(pattern) if ".incomplete" not in path.name)
+    return sorted(set(found))
+
+
+def _check_encoder_weights(profile_name: str | None = None) -> tuple[bool, str]:
+    """Require profile-relevant local weight shards without downloading them.
+
+    Local-max requires the configured default encoder. Studio envelopes require the published
+    encoder-scale grid. This keeps a missing giant model from masquerading as a laptop hardware wall.
+    """
+    required: list[tuple[str, str]] = []
+    default_cfg = OmegaConf.load(REPO_ROOT / "configs" / "config.yaml")
+    default_name = str(OmegaConf.select(default_cfg, "defaults.encoder", default=""))
+    studio_profile = str(profile_name or _infer_profile_name()).startswith("studio-")
+    for path, cfg in _encoder_configs():
+        if not bool(OmegaConf.select(cfg, "available", default=True)):
+            continue
+        name = str(OmegaConf.select(cfg, "name", default=path.stem))
+        if not studio_profile and name != default_name:
+            continue
+        hf_id = str(OmegaConf.select(cfg, "hf_id", default=""))
+        if hf_id:
+            required.append((name, hf_id))
+    present = [name for name, hf_id in required if _local_weight_files(hf_id)]
+    missing = [f"{name}({hf_id})" for name, hf_id in required if not _local_weight_files(hf_id)]
+    roots = ", ".join(str(root) for root in _hf_cache_roots())
+    if missing:
+        return (
+            False,
+            f"local weight shards {len(present)}/{len(required)}; missing {missing}; searched {roots}",
+        )
+    return True, f"local weight shards present for {present}; searched {roots}"
+
+
+def _check_cache_manifests() -> tuple[bool, str]:
+    """Require every on-disk latent store to pass strict citable validation."""
+    root = REPO_ROOT / "data" / "cache"
+    stores = sorted(path for path in root.glob("*") if path.is_dir() and (path / "meta.json").exists())
+    if not stores:
+        return False, "0 latent stores found; a full campaign needs at least one citable cache"
+    failures: list[str] = []
+    for store in stores:
+        problems = validate_cache(store, citable=True)
+        if problems:
+            failures.append(f"{store.name}: {problems[0]}")
+    if failures:
+        return (
+            False,
+            f"{len(stores) - len(failures)}/{len(stores)} stores citable; first failures: "
+            + "; ".join(failures[:3]),
+        )
+    return True, f"{len(stores)}/{len(stores)} stores pass citable manifest and integrity checks"
 
 
 def _check_cache_write() -> tuple[bool, str]:
-    """Write and delete a tmp file under data/cache to prove the cache dir is writable (this is
-    where every latent store lands). Cleans up after itself."""
     cache_dir = REPO_ROOT / "data" / "cache"
     cache_dir.mkdir(parents=True, exist_ok=True)
     probe = cache_dir / ".studio_doctor_write_test"
@@ -178,13 +311,11 @@ def _check_cache_write() -> tuple[bool, str]:
 
 
 def _check_config_validation() -> tuple[bool, str]:
-    """Run the harness validator over every encoder/experiment config and queued leg. Clean ==
-    zero problems. Lists the first few problems in the detail when not clean."""
     from .harness.validate import check_all
 
     problems = check_all()
     if not problems:
-        return True, "0 problems (encoders, experiments, legs all valid)"
+        return True, "0 problems (encoders, experiments, and queued legs valid)"
     head = "; ".join(f"{p['where']}: {p['problem']}" for p in problems[:3])
     more = f" (+{len(problems) - 3} more)" if len(problems) > 3 else ""
     return False, f"{len(problems)} problems: {head}{more}"
@@ -193,45 +324,104 @@ def _check_config_validation() -> tuple[bool, str]:
 def _probes(profile_name: str | None = None) -> tuple[tuple[str, Callable[[], tuple[bool, str]]], ...]:
     return (
         ("python", _check_python),
+        ("package_import", _check_package_import),
         ("torch", _check_torch),
         ("apple_silicon", _check_apple_silicon),
+        ("memory_telemetry", _check_memory_telemetry),
         ("disk_space", _check_disk_space),
+        ("profile_host_match", lambda: _check_profile_host(profile_name)),
         ("profile_floor", lambda: _check_profile_floor(profile_name)),
         ("video_backend", _check_video_backend),
         ("huggingface", _check_huggingface),
         ("encoders", _check_encoders),
+        ("encoder_weights", lambda: _check_encoder_weights(profile_name)),
+        ("cache_manifests", _check_cache_manifests),
         ("cache_write", _check_cache_write),
         ("config_validation", _check_config_validation),
     )
 
 
-def doctor(profile_name: str | None = None) -> dict:
-    """Run every readiness check. Returns {checks, all_ok, summary}. Never raises: a probe that
-    throws becomes a failed check. all_ok is the AND over every check's ok."""
-    checks = [_check(name, fn) for name, fn in _probes(profile_name)]
-    passed = sum(1 for c in checks if c["ok"])
+def _host_receipt() -> dict:
+    info = dict(apple_silicon_info())
+    du = shutil.disk_usage(REPO_ROOT)
+    info.update(
+        {
+            "platform": platform.platform(),
+            "python_executable": sys.executable,
+            "disk_total_gb": round(du.total / 1e9, 3),
+            "disk_free_gb": round(du.free / 1e9, 3),
+        }
+    )
+    return info
+
+
+def _classify_failures(checks: list[dict]) -> dict[str, object]:
+    failed = {str(check["name"]) for check in checks if not check["ok"]}
+    groups = {
+        "software": {"python", "package_import", "torch", "memory_telemetry", "video_backend", "huggingface"},
+        "evidence": {"encoders", "encoder_weights", "cache_manifests", "config_validation"},
+        "resource_safety": {"apple_silicon", "disk_space", "profile_host_match", "profile_floor"},
+    }
     return {
+        "software_blockers": sorted(failed & groups["software"]),
+        "evidence_blockers": sorted(failed & groups["evidence"]),
+        "resource_safety_blockers": sorted(failed & groups["resource_safety"]),
+        "measured_hardware_limits": [],
+        "studio_only_boundary_proven": False,
+        "note": (
+            "A failed dependency, missing weight, uncitable cache, or free-disk safety floor is not "
+            "evidence of a compute or memory hardware limit. Hardware boundaries require experiment receipts."
+        ),
+    }
+
+
+def doctor(profile_name: str | None = None) -> dict:
+    """Run all cheap probes and return a machine-readable, no-download readiness receipt."""
+    resolved_profile = profile_name or _infer_profile_name()
+    checks = [_check(name, fn) for name, fn in _probes(resolved_profile)]
+    passed = sum(1 for check in checks if check["ok"])
+    all_ok = all(check["ok"] for check in checks)
+    return {
+        "schema": SCHEMA,
+        "created_at": datetime.now(UTC).isoformat(),
+        "profile": {
+            "requested": profile_name,
+            "resolved": resolved_profile,
+            "envelope": get_profile(resolved_profile).as_dict(),
+        },
+        "host": _host_receipt(),
         "checks": checks,
-        "all_ok": all(c["ok"] for c in checks),
-        "summary": {"total": len(checks), "passed": passed, "failed": len(checks) - passed},
+        "classification": _classify_failures(checks),
+        "all_ok": all_ok,
+        "summary": {
+            "total": len(checks),
+            "passed": passed,
+            "failed": len(checks) - passed,
+            "all_ok": all_ok,
+        },
     }
 
 
 def render_md(report: dict) -> str:
-    """A readable Markdown table of the report: one row per check plus a summary line. Contains
-    every check name so it is a faithful, greppable record of what the doctor saw."""
-    s = report["summary"]
-    head = "STUDIO READY" if report["all_ok"] else "NOT READY"
+    """Render every check plus the measured profile decision."""
+    summary = report["summary"]
+    profile_name = report.get("profile", {}).get("resolved", "unknown")
+    head = f"CURRENT HOST READY FOR {profile_name}" if report["all_ok"] else "CURRENT HOST NOT READY"
     lines = [
-        "# Studio readiness doctor",
+        "# Host and Studio-transfer readiness doctor",
         "",
-        f"**{head}** ({s['passed']}/{s['total']} checks passed, {s['failed']} failed)",
+        f"**{head}** ({summary['passed']}/{summary['total']} checks passed, {summary['failed']} failed)",
+        "",
+        (
+            f"Resolved resource envelope: `{profile_name}`. This verdict is profile readiness, "
+            "not proof that a Studio-only hardware boundary has been reached."
+        ),
         "",
         "| check | status | detail |",
         "| --- | --- | --- |",
     ]
-    for c in report["checks"]:
-        detail = str(c["detail"]).replace("|", "\\|")  # keep the table cell intact
-        lines.append(f"| {c['name']} | {'ok' if c['ok'] else 'FAIL'} | {detail} |")
+    for check in report["checks"]:
+        detail = str(check["detail"]).replace("|", "\\|")
+        lines.append(f"| {check['name']} | {'ok' if check['ok'] else 'FAIL'} | {detail} |")
     lines.append("")
     return "\n".join(lines)

@@ -31,7 +31,10 @@ log = get_logger("cache_video")
 
 
 def main(argv: list[str] | None = None) -> int:
-    cfg = compose(list(sys.argv[1:] if argv is None else argv) + ["encoder.prefer_real=true"])
+    cfg = compose(
+        list(sys.argv[1:] if argv is None else argv)
+        + ["encoder.prefer_real=true", "+encoder.require_real=true"]
+    )
     source = cfg.get("source")
     if not source:
         print("FAIL: pass +source=/path/to/clips (a dir of <class>/<clip>.mp4)")
@@ -49,8 +52,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     dev = resolve(str(cfg.device.kind))
     enc = load_encoder(cfg.encoder).to(dev.device)
-    if enc.spec.backend == "frozen_random":
-        log.warning("real V-JEPA weights unavailable; latents will be frozen-random, not real")
     fpc = int(cfg.encoder.frames_per_clip)
     res = int(cfg.encoder.resolution)
     total = int(cfg.get("total", 512))

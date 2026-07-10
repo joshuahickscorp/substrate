@@ -1,4 +1,4 @@
-"""E5: curiosity as self-curriculum (data-selection variant, runs toy on a laptop).
+"""E5: curiosity as self-curriculum, including a bounded local rollout contract.
 
 A fixed pool mixes LEARNABLE latents (structured forward dynamics) with NOISE latents
 (irreducibly random targets: the noisy-TV). Three selection policies decide which samples a
@@ -11,8 +11,9 @@ The corpus prediction (Experiment 5): prediction-error/RND curiosity fixates on 
 (high noise fraction) while learning-progress does not, because the noise region's error stays
 high yet its learning progress is ~0. NULL CHECK returns pe_chases_noise and lp_resists_noise.
 
-Also defines GridworldStub, a tiny env-later stub (NOT run at scale): a no-op smoke only,
-the placeholder for the rollout-based curiosity variant that needs a rented GPU.
+The fixed-pool comparison remains the scored experiment.  A shared persistent local environment now
+also executes learnable-versus-noisy action trajectories with exact replay and counterfactuals.  It
+removes the environment-software blocker but remains programmatic evidence, not natural embodiment.
 """
 
 from __future__ import annotations
@@ -29,6 +30,7 @@ from omegaconf import DictConfig  # noqa: E402
 from torch import nn  # noqa: E402
 
 from ..devices import DeviceInfo, safe_to  # noqa: E402
+from ..environments import bounded_trajectory_contract  # noqa: E402
 from ..seeding import seed_everything  # noqa: E402
 from ..shell import Predictor  # noqa: E402
 from ..substrate.datasets import noisy_tv_dataset  # noqa: E402
@@ -84,40 +86,6 @@ def _select(
     raise ValueError(f"unknown policy {policy!r}")
 
 
-class GridworldStub:
-    """env-later stub for the rollout-based curiosity variant (NOT run at scale here).
-
-    A tiny gridworld-like placeholder: a noisy-TV cell that emits random observations and a
-    learnable cell whose transitions are deterministic. Defined so the env arm has a concrete
-    target; only a no-op smoke (reset/step shapes) is exercised on the laptop. The real arm
-    needs environment rollouts on a rented GPU.
-    """
-
-    tier = "env-later"
-
-    def __init__(self, size: int = 4, dim: int = 8, seed: int = 0):
-        self.size, self.dim = size, dim
-        self.g = torch.Generator().manual_seed(seed)
-        self.pos = 0
-
-    def reset(self) -> torch.Tensor:
-        self.pos = 0
-        return torch.zeros(self.dim)
-
-    def step(self, action: int) -> tuple[torch.Tensor, float, bool]:
-        self.pos = (self.pos + int(action)) % self.size
-        noisy = self.pos == self.size - 1  # last cell is the noisy-TV
-        obs = torch.randn(self.dim, generator=self.g) if noisy else torch.full((self.dim,), float(self.pos))
-        return obs, 0.0, False
-
-
-def _smoke_env() -> bool:
-    env = GridworldStub()
-    o0 = env.reset()
-    o1, r, done = env.step(1)
-    return o0.shape == (env.dim,) and o1.shape == (env.dim,) and r == 0.0 and done is False
-
-
 class E5(Experiment):
     id = "e5_curiosity"
     metric = ("noise_fraction", "learnable_improvement", "lp_resists_noise", "pe_chases_noise")
@@ -128,7 +96,7 @@ class E5(Experiment):
         "learning-progress curiosity does not; if even learning-progress fixates, the progress "
         "signal is miscomputed, not grounded in learnability"
     )
-    tier = "env-later"
+    tier = "cpu-now"
 
     def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
         e = cfg.experiment
@@ -176,6 +144,11 @@ class E5(Experiment):
         thresh = float(e.noise_threshold)
         pe_chases_noise = pe_nf > thresh and pe_nf > lp_nf
         lp_resists_noise = lp_nf <= thresh and lp_nf < pe_nf
+        environment_contract = bounded_trajectory_contract(
+            seed=int(cfg.seed),
+            episodes=int(e.environment_episodes),
+            horizon=int(e.environment_horizon),
+        )
         out = {
             "policies": dict(results),
             "noise_fraction": {p: results[p]["noise_fraction"] for p in policies},
@@ -185,8 +158,11 @@ class E5(Experiment):
             "pe_chases_noise": pe_chases_noise,  # null check, half 1
             "lp_resists_noise": lp_resists_noise,  # null check, half 2
             "null_supported": pe_chases_noise and lp_resists_noise,
-            "env_smoke_ok": _smoke_env(),  # env-later stub: defined, no-op smoke only
-            "env_tier": GridworldStub.tier,
+            "env_smoke_ok": environment_contract["verified"],  # compatibility key; now a full replay
+            "env_rollout_ok": environment_contract["verified"],
+            "env_tier": "cpu-now",
+            "environment_contract": environment_contract,
+            "environment_scope": "programmatic local mechanics; no natural-embodiment claim",
         }
         self._plot(results, policies, thresh, run_dir)
         return out

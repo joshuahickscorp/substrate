@@ -1,11 +1,20 @@
 VENV=.venv/bin
 PY=$(VENV)/python
 
-.PHONY: install test lint types fmt e1 diag i4 queue-dry accept clean doctor bench cache-list storage docs report rehearse local-max studio-plan devel ladder curriculum
+.PHONY: install install-studio verify-install test lint types fmt e1 diag i4 queue-dry accept clean doctor bench cache-list storage docs report rehearse local-max frontier-localize studio-plan devel ladder curriculum
 
 install:
 	uv venv --python 3.12 .venv
 	uv pip install -e ".[dev,ann]"
+	$(MAKE) verify-install
+
+install-studio:
+	uv venv --python 3.12 .venv
+	uv pip install -e ".[dev,ann,encoder,video,apple]"
+	$(MAKE) verify-install
+
+verify-install:
+	cd /tmp && $(abspath $(PY)) -I -c "import importlib.metadata, mop; print('mop', importlib.metadata.version('mop'), mop.__file__)"
 
 test:
 	$(VENV)/pytest
@@ -40,7 +49,10 @@ rehearse:
 	$(PY) scripts/studio_rehearsal.py     # WHOLE Studio workflow on tiny fixtures -> runs/studio_rehearsal/
 
 local-max:
-	$(PY) scripts/studio_pipeline.py local-max --download-gb 10 --time-min 90 --cache-clips 64  # current-device max
+	$(PY) scripts/studio_pipeline.py local-max --download-gb 10 --time-min 180 --cache-clips 64  # current-device max
+
+frontier-localize:
+	$(PY) scripts/frontier_localization.py  # refresh local preflights + 24-row frontier audit
 
 studio-plan:
 	$(PY) scripts/studio_pipeline.py plan --profile studio-1tb --budget-gb 900  # DRY-RUN plan under the 900 GB studio budget

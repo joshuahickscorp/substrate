@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING, Any
 import torch
 
 if TYPE_CHECKING:
+    from .adapter import SubstrateAdapter
     from .latent_store import LatentStore
 
 FORM_SCHEMA = "mop-form-matrix/v1"
@@ -109,9 +110,14 @@ class FormMeta:
     token_shape: tuple[int, ...] = ()
     time_axis: bool = False
     trainable: bool = False
+    supervised: bool = False
+    derived: bool = False
     control_for: str | None = None
     license: str = "unknown"
     notes: str = ""
+    referent_scheme: str = "unknown"
+    referents_explicit: bool = True
+    manifest_verified: bool = False
 
     def __post_init__(self) -> None:
         if not self.tag:
@@ -198,13 +204,14 @@ class LatentStoreFormAdapter(FormAdapter):
 
     This is the encode-once bridge: real V-JEPA (or any encoder) features are cached to a
     `LatentStore` once by the cache scripts, then read forever as a form. The adapter never loads a
-    model and never encodes; a form arm that needs live clips-to-features encoding uses the existing
-    `SubstratePerspectiveAdapter` (encode once, cache, then read here), never a re-encode in this
-    data-plane class.
+    model and never encodes. A form arm that needs live clips-to-features extraction can use
+    `SubstrateFormAdapter`, whose first result is cached in memory, then persist that result to a
+    `LatentStore` before it becomes citable evidence.
 
-    Dense stores `[N, T, ...]` are flattened to `[N, D]` for probes and alignment; the original
-    per-item geometry is recorded in `FormMeta.token_shape` so it stays recoverable. When the store
-    carries a `factors.json` sidecar and no explicit `factors` are given, it is read as factor labels.
+    Dense stores `[N, T, ...]` stay dense in the returned `FormBatch`; `build_form_matrix` performs
+    the explicit flattening used by current probes. When the store carries a `factors.json` sidecar
+    and no explicit `factors` are given, only its per-referent columns are read as factor labels.
+    Scalar metadata is not mistaken for a factor column.
     """
 
     def __init__(
@@ -212,48 +219,154 @@ class LatentStoreFormAdapter(FormAdapter):
         store: LatentStore,
         *,
         tag: str | None = None,
-        kind: str = "latent",
+        kind: str | None = None,
         source: str | None = None,
-        objective: str = "inherited-frozen",
+        objective: str | None = None,
         referents: Sequence[object] | None = None,
+        referent_scheme: str | None = None,
         factors: Mapping[str, Any] | None = None,
         trainable: bool = False,
+        supervised: bool = False,
+        derived: bool = False,
         control_for: str | None = None,
         license: str = "unknown",
         notes: str = "",
+        require_explicit_referents: bool = False,
+        require_manifest: bool = False,
     ):
         self.store = store
+        manifest, manifest_verified = _read_store_manifest(store, required=require_manifest)
+        declared_form = manifest.get("form") if isinstance(manifest, dict) else None
+        declared_form = declared_form if isinstance(declared_form, dict) else {}
         feat_shape = tuple(int(v) for v in store.meta.feat_shape)
         flat_dim = 1
         for v in feat_shape:
             flat_dim *= v
+
+        n = len(store)
+        explicit_refs = referents is not None
+        discovered_scheme: str | None = None
+        refs: Sequence[object] | None = referents
+        if refs is None:
+            discovered = _read_store_referents(store)
+            if discovered is not None:
+                refs, discovered_scheme = discovered
+                explicit_refs = True
+        if refs is None:
+            if require_explicit_referents:
+                raise ValueError(
+                    f"{store.root} has no explicit referent sidecar; expected referents.json or "
+                    "clip_stems.json"
+                )
+            refs = [f"{store.meta.name}:{i}" for i in range(n)]
+            discovered_scheme = "store-local-row-index"
+
+        resolved_scheme = (
+            referent_scheme
+            or str(declared_form.get("referent_scheme") or "")
+            or discovered_scheme
+            or "explicit-argument"
+        )
         self.meta = FormMeta(
             tag=tag or store.meta.name,
-            kind=kind,
+            kind=kind or str(declared_form.get("kind") or "latent"),
             feature_dim=int(flat_dim),
             source=source or str(store.root),
-            objective=objective,
+            objective=objective or str(declared_form.get("objective") or "inherited-frozen"),
             token_shape=feat_shape if len(feat_shape) > 1 else (),
+            time_axis=len(feat_shape) > 1,
             trainable=trainable,
+            supervised=supervised,
+            derived=derived,
             control_for=control_for,
             license=license,
             notes=notes,
+            referent_scheme=resolved_scheme,
+            referents_explicit=explicit_refs,
+            manifest_verified=manifest_verified,
         )
-        n = len(store)
-        refs = referents if referents is not None else [f"{store.meta.name}:{i}" for i in range(n)]
         self._referents = _referent_tuple(refs)
         if len(self._referents) != n:
             raise ValueError(f"referent count {len(self._referents)} != store count {n}")
-        loaded = factors if factors is not None else _read_store_factors(store)
+        loaded = factors if factors is not None else _read_store_factors(store, n)
         self._factors = _factor_dict(loaded, n)
 
     def extract(self) -> FormBatch:
-        feats = self.store.latents().flatten(1).float()
+        feats = self.store.latents().float()
         return FormBatch(self.meta, feats, self._referents, self._factors)
 
 
-def _read_store_factors(store: LatentStore) -> dict[str, Any] | None:
-    """Read a `factors.json` sidecar (column -> list) from the store root, or None if absent."""
+class SubstrateFormAdapter(FormAdapter):
+    """Bridge an existing clip encoder into the Form contract and encode at most once.
+
+    This compatibility bridge is useful for bounded probes and cache construction. The first
+    `extract()` call runs the supplied `SubstrateAdapter`; later calls return the detached in-memory
+    result. Durable scientific evidence should still persist the features and reopen them through
+    `LatentStoreFormAdapter`, which can enforce referent and manifest provenance.
+    """
+
+    def __init__(
+        self,
+        substrate: SubstrateAdapter,
+        clips: torch.Tensor,
+        referents: Sequence[object],
+        *,
+        tag: str | None = None,
+        kind: str = "vision",
+        source: str = "clips",
+        objective: str | None = None,
+        referent_scheme: str = "explicit-argument",
+        factors: Mapping[str, Any] | None = None,
+        trainable: bool = False,
+        supervised: bool = False,
+        derived: bool = False,
+        control_for: str | None = None,
+        license: str = "unknown",
+        notes: str = "",
+        batch: int = 8,
+    ):
+        if int(batch) <= 0:
+            raise ValueError("batch must be positive")
+        self.substrate = substrate
+        self.clips = clips
+        self.batch = int(batch)
+        self._referents = _referent_tuple(referents)
+        if int(clips.shape[0]) != len(self._referents):
+            raise ValueError(f"clip count {int(clips.shape[0])} != referent count {len(self._referents)}")
+        self._factors = _factor_dict(factors, len(self._referents))
+        inherited_objective = "inherited-frozen" if substrate.meta.pretrained else "random-control"
+        self.meta = FormMeta(
+            tag=tag or substrate.tag,
+            kind=kind,
+            feature_dim=int(substrate.meta.embed_dim),
+            source=source,
+            objective=objective or inherited_objective,
+            trainable=trainable,
+            supervised=supervised,
+            derived=derived,
+            control_for=control_for,
+            license=license,
+            notes=notes or substrate.meta.notes,
+            referent_scheme=referent_scheme,
+            referents_explicit=True,
+            manifest_verified=False,
+        )
+        self._cached_features: torch.Tensor | None = None
+
+    def extract(self) -> FormBatch:
+        if self._cached_features is None:
+            features = self.substrate.extract_batched(self.clips, batch=self.batch)
+            self._cached_features = features.detach().clone()
+        return FormBatch(self.meta, self._cached_features, self._referents, self._factors)
+
+
+def _read_store_factors(store: LatentStore, n: int) -> dict[str, Any] | None:
+    """Read only per-referent columns from a factor sidecar.
+
+    The legacy sidecar mixes scalar metadata and factor columns in one mapping. The v2 shape keeps
+    them separate as `{metadata: {...}, columns: {...}}`. Both are accepted, but a list-valued legacy
+    column with the wrong row count is rejected instead of silently becoming metadata.
+    """
     import json
 
     path = store.root / "factors.json"
@@ -261,8 +374,58 @@ def _read_store_factors(store: LatentStore) -> dict[str, Any] | None:
         return None
     data = json.loads(path.read_text())
     if not isinstance(data, dict):
-        raise ValueError(f"{path} must be a dict of column -> list of per-referent values")
-    return data
+        raise ValueError(f"{path} must be a mapping")
+    if "columns" in data:
+        columns = data["columns"]
+        if not isinstance(columns, dict):
+            raise ValueError(f"{path} columns must be a mapping")
+        return columns
+
+    columns: dict[str, Any] = {}
+    for name, values in data.items():
+        if isinstance(values, (str, bytes)) or not isinstance(values, Sequence):
+            continue
+        if len(values) != n:
+            raise ValueError(f"factor {name!r} length {len(values)} != referent count {n}")
+        columns[str(name)] = values
+    return columns
+
+
+def _read_store_referents(store: LatentStore) -> tuple[Sequence[object], str] | None:
+    """Return explicit referents and their sidecar scheme when a store carries them."""
+    import json
+
+    for filename, scheme in (("referents.json", "referent-id"), ("clip_stems.json", "clip-stem")):
+        path = store.root / filename
+        if not path.exists():
+            continue
+        data = json.loads(path.read_text())
+        if isinstance(data, dict):
+            data = data.get("referents", data.get("ids"))
+        if not isinstance(data, list):
+            raise ValueError(f"{path} must be a list or contain a referents/ids list")
+        return data, scheme
+    return None
+
+
+def _read_store_manifest(store: LatentStore, *, required: bool) -> tuple[dict[str, Any], bool]:
+    """Read and validate the cache manifest without weakening the adapter on legacy stores."""
+    import json
+
+    from .cache_manifest import DEFAULT_MANIFEST, validate_cache_manifest
+
+    path = store.root / DEFAULT_MANIFEST
+    if not path.exists():
+        if required:
+            raise ValueError(f"{path} missing for a manifest-required form")
+        return {}, False
+    problems = validate_cache_manifest(store.root)
+    if problems:
+        if required:
+            raise ValueError(f"invalid {DEFAULT_MANIFEST}: {'; '.join(problems)}")
+        return {}, False
+    data = json.loads(path.read_text())
+    return data if isinstance(data, dict) else {}, True
 
 
 @dataclass(frozen=True)
@@ -292,14 +455,43 @@ class FormMatrix:
         return {k: sorted(v) for k, v in sorted(out.items())}
 
 
-def build_form_matrix(adapters: Sequence[FormAdapter]) -> FormMatrix:
+@dataclass
+class FormRegistry:
+    """A deterministic collection of form adapters.
+
+    Sequence inputs to `build_form_matrix` preserve caller order. Registry inputs deliberately sort
+    by tag, giving configuration-driven production lanes a stable canonical arm without introducing
+    a second matrix builder.
+    """
+
+    adapters: dict[str, FormAdapter] = field(default_factory=dict)
+
+    def register(self, adapter: FormAdapter) -> None:
+        if adapter.tag in self.adapters:
+            raise ValueError(f"duplicate form tag: {adapter.tag}")
+        self.adapters[adapter.tag] = adapter
+
+    def tags(self) -> list[str]:
+        return sorted(self.adapters)
+
+    def extract_all(self) -> dict[str, FormBatch]:
+        return {tag: self.adapters[tag].extract() for tag in self.tags()}
+
+
+def build_form_matrix(adapters: Sequence[FormAdapter] | FormRegistry) -> FormMatrix:
     """Extract and align forms by referent id.
 
-    The first adapter's referent order becomes canonical. Every later form must contain exactly the same
-    referents, but may arrive in a different order. Features are flattened because diagnostics and shell
-    heads operate on `[N, D]`; `FormMeta.token_shape` preserves the original token geometry when needed.
+    For a sequence, the first adapter's referent order becomes canonical. A `FormRegistry` extracts
+    in sorted-tag order for deterministic configuration-driven runs. Every later form must contain
+    exactly the same referents, but may arrive in a different order. Features are flattened because
+    diagnostics and shell heads operate on `[N, D]`; `FormMeta.token_shape` preserves the original
+    token geometry when needed.
     """
-    batches = [adapter.extract() for adapter in adapters]
+    batches = (
+        list(adapters.extract_all().values())
+        if isinstance(adapters, FormRegistry)
+        else [adapter.extract() for adapter in adapters]
+    )
     if not batches:
         raise ValueError("build_form_matrix needs at least one form adapter")
     tags: set[str] = set()
@@ -326,7 +518,7 @@ def build_form_matrix(adapters: Sequence[FormAdapter]) -> FormMatrix:
     return FormMatrix(canonical, features, metadata, factors)
 
 
-def form_audit(matrix: FormMatrix, *, require_controls: bool = True) -> dict:
+def form_audit(matrix: FormMatrix, *, require_controls: bool = True, require_citable: bool = False) -> dict:
     """Summarize whether the form matrix is scientifically usable.
 
     A matrix can be mechanically valid but weak as evidence. The audit names missing controls, single-kind
@@ -340,6 +532,9 @@ def form_audit(matrix: FormMatrix, *, require_controls: bool = True) -> dict:
     ]
     missing_controls = [tag for tag in substantive if tag not in controls]
     trainable = sorted(tag for tag, meta in matrix.metadata.items() if meta.trainable)
+    implicit_referents = sorted(tag for tag, meta in matrix.metadata.items() if not meta.referents_explicit)
+    unverified_manifests = sorted(tag for tag, meta in matrix.metadata.items() if not meta.manifest_verified)
+    uncitable = sorted(set(implicit_referents) | set(unverified_manifests))
     warnings: list[str] = []
     if len(matrix.kinds()) < 2:
         warnings.append("only one form kind is present")
@@ -347,16 +542,35 @@ def form_audit(matrix: FormMatrix, *, require_controls: bool = True) -> dict:
         warnings.append("one or more substantive form arms lack a matched control")
     if trainable:
         warnings.append("trainable form arms are present; separate substrate effects from shell effects")
+    if implicit_referents:
+        warnings.append("one or more form arms use store-local fallback referents")
+    if unverified_manifests:
+        warnings.append("one or more form arms lack a verified cache manifest")
     return {
         "schema": matrix.schema,
         "n": len(matrix.referents),
+        "n_referents": len(matrix.referents),
         "tags": matrix.tags(),
         "kinds": matrix.kinds(),
+        "modalities": {tag: matrix.metadata[tag].kind for tag in matrix.tags()},
+        "feature_dims": {tag: int(matrix.features[tag].shape[1]) for tag in matrix.tags()},
         "controls": controls,
         "missing_controls": sorted(missing_controls),
         "trainable_tags": trainable,
+        "supervised": sorted(tag for tag, meta in matrix.metadata.items() if meta.supervised),
+        "derived": sorted(tag for tag, meta in matrix.metadata.items() if meta.derived),
+        "licenses": {tag: matrix.metadata[tag].license for tag in matrix.tags()},
+        "objectives": {tag: matrix.metadata[tag].objective for tag in matrix.tags()},
+        "referent_schemes": {tag: matrix.metadata[tag].referent_scheme for tag in matrix.tags()},
+        "implicit_referent_tags": implicit_referents,
+        "unverified_manifest_tags": unverified_manifests,
+        "uncitable_tags": uncitable,
         "warnings": warnings,
-        "all_ok": bool((not require_controls or not missing_controls) and len(matrix.kinds()) >= 2),
+        "all_ok": bool(
+            (not require_controls or not missing_controls)
+            and len(matrix.kinds()) >= 2
+            and (not require_citable or not uncitable)
+        ),
     }
 
 

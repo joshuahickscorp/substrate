@@ -55,7 +55,10 @@ def make_class_clip(c: int, k: int, g: torch.Generator) -> torch.Tensor:
 
 
 def main(argv: list[str] | None = None) -> int:
-    cfg = compose(list(sys.argv[1:] if argv is None else argv) + ["encoder.prefer_real=true"])
+    cfg = compose(
+        list(sys.argv[1:] if argv is None else argv)
+        + ["encoder.prefer_real=true", "+encoder.require_real=true"]
+    )
     dev = resolve(str(cfg.device.kind))
     enc = load_encoder(cfg.encoder).to(dev.device)
     if enc.spec.backend == "frozen_random":

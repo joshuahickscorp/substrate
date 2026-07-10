@@ -1,9 +1,19 @@
 """Profiles + kill switches: the hard limits must be enforceable, the M3 Pro hard cap must hold
 even against a generous budget, and clamps must never exceed the cap."""
 
+from types import SimpleNamespace
+
 import pytest
 
-from mop.studio.profiles import M1_ULTRA, M3PRO_LOCAL_MAX, STUDIO, get_profile, list_profiles
+from mop.studio.profiles import (
+    M1_ULTRA,
+    M3PRO_LOCAL_MAX,
+    M3PRO_LOCAL_MIN_FREE_DISK_GB,
+    STUDIO,
+    get_profile,
+    is_studio_profile,
+    list_profiles,
+)
 
 
 def test_get_profile_by_name_and_alias():
@@ -21,6 +31,13 @@ def test_get_profile_by_name_and_alias():
 def test_get_profile_unknown_raises():
     with pytest.raises(ValueError):
         get_profile("does-not-exist")
+
+
+def test_studio_classification_is_resource_envelope_not_one_slug():
+    assert is_studio_profile("studio-1tb")
+    assert is_studio_profile("studio-m1ultra")
+    assert not is_studio_profile("m3pro-local-max")
+    assert not is_studio_profile("does-not-exist")
 
 
 def test_usable_is_total_minus_reserve():
@@ -72,8 +89,10 @@ def test_m3pro_is_the_documented_envelope():
     assert p.download_hard_cap_gb == 25.0
     assert p.fixture_budget_gb == 2.0
     assert p.max_cache_clips == 128
-    assert p.min_free_disk_gb == 60.0
-    assert p.max_wall_min == 90
+    assert p.min_free_disk_gb == 40.0
+    assert p.min_free_disk_gb == M3PRO_LOCAL_MIN_FREE_DISK_GB
+    assert p.min_free_disk_gb == p.reserve_gb + p.download_hard_cap_gb + 5.0
+    assert p.max_wall_min == 180
     assert not p.allow_manual_auth  # laptop never auto-selects signed-terms sources
 
 
@@ -82,8 +101,8 @@ def test_studio_is_900gb_usable():
     assert STUDIO.allow_manual_auth  # once the user has signed access on the Studio
 
 
-def test_m1ultra_is_the_delivered_envelope():
-    # the ACTUAL delivered box: 8 TB SSD, 128 GB unified memory, week-scale queues
+def test_m1ultra_is_the_legacy_8tb_scenario_envelope():
+    # Legacy slug retained for commands. It is explicitly not a procurement receipt.
     p = M1_ULTRA
     assert p.usable_gb == 7200.0
     assert p.download_hard_cap_gb == 6000.0
@@ -93,6 +112,37 @@ def test_m1ultra_is_the_delivered_envelope():
     assert not p.tier_allowed("R")  # rented CUDA stays opt-in, it is not this box
     assert p.allow_manual_auth
     assert p.dry_run_default  # heavy actions still default to dry-run, even at 8 TB
+    assert p.procurement_status == "unverified-procurement-scenario"
+    assert p.min_host_unified_memory_gb == 120.0
+    assert p.min_host_disk_gb == 7000.0
+
+
+def test_profile_host_compatibility_uses_resources_not_chip_name(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        "mop.studio.profiles.shutil.disk_usage",
+        lambda root: SimpleNamespace(total=500 * 1e9),
+    )
+    host = {
+        "is_apple_silicon": True,
+        "chip": "Apple Future",
+        "unified_memory_gb": 128.0,
+    }
+    ok, problems, measured = STUDIO.host_compatibility(host=host, disk_root=tmp_path)
+    # The temporary filesystem is this real host's roughly 500 GB volume, below the 1 TB envelope.
+    assert not ok
+    assert any("disk" in problem for problem in problems)
+    assert measured["chip"] == "Apple Future"
+
+
+def test_m3_host_contract_rejects_tiny_synthetic_host(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        "mop.studio.profiles.shutil.disk_usage",
+        lambda root: SimpleNamespace(total=500 * 1e9),
+    )
+    host = {"is_apple_silicon": True, "chip": "x", "unified_memory_gb": 8.0}
+    ok, problems, _ = M3PRO_LOCAL_MAX.host_compatibility(host=host, disk_root=tmp_path)
+    assert not ok
+    assert any("unified memory" in problem for problem in problems)
 
 
 def test_free_disk_ok_returns_bool_and_value(tmp_path):
@@ -108,3 +158,4 @@ def test_list_profiles_includes_all():
     studio = next(p for p in list_profiles() if p["name"] == "studio-1tb")
     assert studio["usable_gb"] == 900.0
     assert "allowed_tiers" in studio and "min_free_disk_gb" in studio
+    assert studio["procurement_status"] == "unverified-procurement-scenario"

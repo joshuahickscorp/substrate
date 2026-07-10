@@ -27,12 +27,23 @@ def test_each_check_has_ok_and_detail():
 
 def test_report_shape_and_summary_counts():
     report = doctor()
-    assert set(report) == {"checks", "all_ok", "summary"}
+    assert set(report) == {
+        "schema",
+        "created_at",
+        "profile",
+        "host",
+        "checks",
+        "classification",
+        "all_ok",
+        "summary",
+    }
     s = report["summary"]
     assert s["total"] == len(CHECK_NAMES)
     assert s["passed"] + s["failed"] == s["total"]
     assert report["all_ok"] == (s["failed"] == 0)
     assert report["all_ok"] == all(c["ok"] for c in report["checks"])
+    assert report["classification"]["studio_only_boundary_proven"] is False
+    assert report["classification"]["measured_hardware_limits"] == []
 
 
 def _find(report, name):
@@ -84,31 +95,29 @@ def test_python_and_torch_checks_pass_here():
     assert _find(report, "torch")["ok"]  # torch is a hard dep of the project
 
 
-def test_video_and_hf_are_non_fatal():
-    # contract: these are REPORTED, never failures, regardless of presence/reachability
+def test_video_is_strict_and_hf_never_probes_network():
     report = doctor()
-    assert _find(report, "video_backend")["ok"]
+    assert isinstance(_find(report, "video_backend")["ok"], bool)
     assert _find(report, "huggingface")["ok"]
+    assert "network not probed" in _find(report, "huggingface")["detail"]
 
 
-def test_video_backend_absent_still_ok(monkeypatch):
-    # force every video backend import to fail: the check must still be ok (reported, not error)
+def test_video_backend_absent_fails_closed(monkeypatch):
     import builtins
 
     real_import = builtins.__import__
 
     def fake_import(name, *a, **k):
-        if name in ("torchvision.io", "decord"):
+        if name in ("torchvision.io", "decord", "av"):
             raise ImportError("forced absent")
         return real_import(name, *a, **k)
 
     monkeypatch.setattr(builtins, "__import__", fake_import)
     ok, detail = sd._check_video_backend()
-    assert ok and "none" in detail
+    assert not ok and ".[video]" in detail
 
 
-def test_huggingface_unreachable_still_ok(monkeypatch):
-    # force the metadata ping to blow up: the check must catch it and stay ok
+def test_huggingface_check_does_not_call_network(monkeypatch):
     class BoomApi:
         def model_info(self, *a, **k):
             raise RuntimeError("network down")
@@ -117,7 +126,69 @@ def test_huggingface_unreachable_still_ok(monkeypatch):
 
     monkeypatch.setattr(huggingface_hub, "HfApi", BoomApi)
     ok, detail = sd._check_huggingface()
-    assert ok and "unreachable" in detail
+    assert ok and "network not probed" in detail
+
+
+def test_explicit_studio_profile_cannot_impersonate_small_host(monkeypatch):
+    class DummyProfile:
+        name = "studio-example"
+        min_host_unified_memory_gb = 96.0
+        min_host_disk_gb = 1000.0
+
+        def host_compatibility(self):
+            return (
+                False,
+                ["unified memory 18 GB below 96 GB"],
+                {
+                    "chip": "Laptop",
+                    "unified_memory_gb": 18.0,
+                    "disk_total_gb": 500.0,
+                },
+            )
+
+    monkeypatch.setattr(sd, "get_profile", lambda name: DummyProfile())
+    ok, detail = sd._check_profile_host("studio-example")
+    assert not ok
+    assert "PROFILE/HOST MISMATCH" in detail
+
+
+def test_package_import_probe_is_isolated_from_pythonpath():
+    ok, detail = sd._check_package_import()
+    # This reflects the invoking environment. A source-only PYTHONPATH run must fail rather than
+    # being mistaken for a portable install; an installed environment reports the isolated path.
+    assert isinstance(ok, bool)
+    assert "PYTHONPATH" in detail or "isolated cwd" in detail
+
+
+def test_memory_telemetry_fails_when_required_fields_are_missing(monkeypatch):
+    monkeypatch.setattr(
+        sd,
+        "memory_snapshot",
+        lambda stage: {
+            "process_rss_gb": None,
+            "system_total_gb": None,
+            "system_available_gb": None,
+        },
+    )
+    ok, detail = sd._check_memory_telemetry()
+    assert not ok
+    assert "missing" in detail
+
+
+def test_local_weight_detection_uses_cache_only(monkeypatch, tmp_path):
+    cache = tmp_path / "hub"
+    shard = cache / "models--org--model" / "snapshots" / "sha" / "model.safetensors"
+    shard.parent.mkdir(parents=True)
+    shard.write_bytes(b"fixture")
+    monkeypatch.setenv("HF_HUB_CACHE", str(cache))
+    assert sd._local_weight_files("org/model") == [shard]
+
+
+def test_cache_manifest_check_does_not_pass_vacuously(monkeypatch, tmp_path):
+    monkeypatch.setattr(sd, "REPO_ROOT", tmp_path)
+    ok, detail = sd._check_cache_manifests()
+    assert not ok
+    assert "0 latent stores" in detail
 
 
 def test_probe_exception_becomes_failed_check():
@@ -131,11 +202,12 @@ def test_probe_exception_becomes_failed_check():
 def test_render_md_contains_every_check():
     report = doctor()
     md = render_md(report)
-    assert md.startswith("# Studio readiness doctor")
+    assert md.startswith("# Host and Studio-transfer readiness doctor")
     assert "| check | status | detail |" in md
     for c in report["checks"]:
         assert c["name"] in md  # every check name appears as a row
-    verdict = "STUDIO READY" if report["all_ok"] else "NOT READY"
+    profile_name = report["profile"]["resolved"]
+    verdict = f"CURRENT HOST READY FOR {profile_name}" if report["all_ok"] else "CURRENT HOST NOT READY"
     assert verdict in md
     # one header row + one separator + one row per check, plus title block
     assert md.count("\n|") >= len(report["checks"]) + 1

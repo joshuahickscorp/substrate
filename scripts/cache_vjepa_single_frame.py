@@ -67,7 +67,14 @@ def run_cache(
 ) -> dict:
     """One serial pass: load real V-JEPA once, per clip encode the single-frame-tiled version (and the
     full clip when requested), write both caches plus the run log."""
-    cfg = compose(["encoder=vjepa2_vitl_fpc64_256", "device=cpu", "encoder.prefer_real=true"])
+    cfg = compose(
+        [
+            "encoder=vjepa2_vitl_fpc64_256",
+            "device=cpu",
+            "encoder.prefer_real=true",
+            "+encoder.require_real=true",
+        ]
+    )
     dev = resolve("cpu")
     enc = load_encoder(cfg.encoder).to(dev.device)
     backend = enc.spec.backend

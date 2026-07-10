@@ -20,10 +20,55 @@ from .transfer_check import DURABLE_RECEIPTS
 
 SCHEMA = "mop-artifact-bundle/v1"
 TEXT_EXTS = {".json", ".md", ".txt", ".yaml", ".yml", ".csv", ".tsv"}
+FORM_CANONICAL_RUNS = (
+    "f1_form_alignment_gate",
+    "f2_heldout_form_transfer",
+    "f3_form_bottleneck_capacity",
+    "f4_raw_payload_vs_form_tokens",
+    "f5_cross_form_memory_binding",
+    "f6_sensorimotor_form_closure",
+    "f7_developmental_form_growth",
+    "f9_cross_form_compositional_binding",
+    "f10_intrinsic_form_curriculum",
+    "f11_form_dream_replay",
+    "f12_private_form_language_stability",
+    "f13_form_energy_budget",
+    "f14_lifelong_form_expansion",
+    "f15_embodied_affordance_form",
+    "f17_missing_form_recovery",
+    "f18_counterfactual_form_intervention",
+    "f19_cross_scale_referent_binding",
+    "f20_substrate_crisis_test",
+)
+FORM_PREFLIGHTS = (
+    "f8_plastic_substrate_rewrite",
+    "f16_perfect_slate_null",
+)
+FORM_VERIFIER_RUNS = (
+    "f1_form_alignment_gate",
+    "f2_heldout_form_transfer",
+    "f3_form_bottleneck_capacity",
+    "f4_raw_payload_vs_form_tokens",
+    "f5_cross_form_memory_binding",
+    "f6_sensorimotor_form_closure",
+    "f9_cross_form_compositional_binding",
+    "f10_intrinsic_form_curriculum",
+    "f12_private_form_language_stability",
+    "f13_form_energy_budget",
+    "f15_embodied_affordance_form",
+    "f18_counterfactual_form_intervention",
+)
+FORM_IDS = tuple(
+    sorted(
+        (*FORM_CANONICAL_RUNS, *FORM_PREFLIGHTS),
+        key=lambda value: int(value.split("_", 1)[0][1:]),
+    )
+)
 PRESETS: dict[str, tuple[str, ...]] = {
     "pre-studio": (
         "docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md",
         *DURABLE_RECEIPTS,
+        "proof/ARTIFACT_INDEX/form_substrate.json",
     ),
     "wave0": (
         "docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md",
@@ -76,6 +121,22 @@ PRESETS: dict[str, tuple[str, ...]] = {
         "proof/ARTIFACT_INDEX/dr1.json",
         "proof/ARTIFACT_INDEX/pr9.json",
         "proof/ARTIFACT_INDEX/atlas.json",
+        "proof/ARTIFACT_INDEX/form_substrate.json",
+    ),
+    "form-substrate": (
+        "campaign/form_substrate_campaign.yaml",
+        "proof/FORM_SUBSTRATE/README.md",
+        "proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
+        "proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json",
+        "proof/FORM_SUBSTRATE/OA_INPUT.json",
+        "proof/FORM_SUBSTRATE/DENSITY_INPUT.json",
+        "proof/FORM_SUBSTRATE/SCORECARD.json",
+        "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
+        *(f"proof/FORM_SUBSTRATE/NULL_CARDS/{eid}.md" for eid in FORM_IDS),
+        *(f"proof/FORM_SUBSTRATE/RECEIPTS/{eid}.json" for eid in FORM_CANONICAL_RUNS),
+        *(f"proof/FORM_SUBSTRATE/PREFLIGHT/{eid}.json" for eid in FORM_PREFLIGHTS),
+        *(f"proof/FORM_SUBSTRATE/VERIFIERS/{eid}.json" for eid in FORM_VERIFIER_RUNS),
+        *(f"proof/FORM_SUBSTRATE/VERDICT_GATES/{eid}.json" for eid in FORM_CANONICAL_RUNS),
     ),
 }
 

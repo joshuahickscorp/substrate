@@ -16,7 +16,7 @@ Usage:
   python scripts/studio_pipeline.py run --gated --tiers C --full
   python scripts/studio_pipeline.py optimize --cache <cache_id>
   python scripts/studio_pipeline.py report
-  python scripts/studio_pipeline.py local-max --download-gb 10 --time-min 90 --cache-clips 64
+  python scripts/studio_pipeline.py local-max --download-gb 10 --time-min 180 --cache-clips 64
   python scripts/studio_pipeline.py profiles
 JSON to stdout, human log lines to stderr.
 """

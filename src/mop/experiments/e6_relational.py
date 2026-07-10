@@ -14,9 +14,11 @@ fit a STRUCTURED head (MLP over pairwise/relational features of the two latents)
 parameter-matched FLAT head (MLP over the plain concatenation), and report structured-minus-
 flat on pooled vs dense plus the headline 2-vs-2.1 delta of those deltas.
 
-Weights are unavailable this session, so both encoders fall back to frozen-random (honest,
-recorded). The comparison structure still runs end to end; the headline number is what a real
-2.1 substrate would move, not a claim about these random features.
+Meta's official V-JEPA 2.1 weights now exist, but this legacy direct runner is not wired to the
+pinned PyTorch loader or a citable dense cache. Both encoders therefore still fall back to
+frozen-random (honest, recorded). The comparison structure runs end to end; its headline number is
+not a claim about the released substrate. The current dense flattening also scales as N*D and must
+be replaced by a token-aware, cache-first readout before a full 384px/64-frame cache is admissible.
 """
 
 from __future__ import annotations

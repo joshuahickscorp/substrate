@@ -76,6 +76,7 @@ Python 3.12 via `uv`. From the repo root:
 ```
 uv venv --python 3.12 .venv
 uv pip install -e ".[dev]"      # add ann for hnswlib; encoder for real V-JEPA weights
+make verify-install              # isolated import from /tmp, with no PYTHONPATH
 make test                       # full suite (mps/cpu, seconds); count grows, see STATUS.md
 make e1                         # E1 the gate: naive forgets, protected retains, both learn
 make i4                         # I4 backprop-alternatives comparison (FA/DFA/FF/...)
@@ -84,7 +85,10 @@ make accept                     # end-to-end acceptance check
 ```
 
 `make install` does the venv + install in one step (it pulls `[dev,ann]`). Use
-`make lint` / `make types` / `make fmt` for ruff + mypy. `make diag` runs the diagnostics.
+`make install-studio` for the full encoder, video, and Apple Silicon extras. Both installation
+targets prove that `mop` imports from outside the checkout without `PYTHONPATH`; commands that still
+set `PYTHONPATH` do so only for historical script compatibility.
+Use `make lint` / `make types` / `make fmt` for ruff + mypy. `make diag` runs the diagnostics.
 E1 must pass (the gate) before any downstream result is trusted: see EXPERIMENTS.md for the
 build-order DAG (E1 gates everything; E2,E3 feed E4; E2+E3+E4 = the Level-5 headline).
 
@@ -259,10 +263,11 @@ every failure). No em dashes or en dashes anywhere (commas, colons, parentheses 
 ## Roadmap
 
 Brain is an experimental framework for continual and developmental learning on
-top of a frozen perception encoder (V-JEPA). It is a measurement instrument, not
-a finished result: every mechanism is implemented and tested, but no real
-natural-video experiments have run yet. That campaign runs on a forthcoming
-Apple M2 Max Mac Studio (96 GB), where wall-clock time is not the constraint.
+top of frozen perception encoders and a trainable custom-substrate workbench. It
+is a measurement instrument, not a finished result. The current M3 Pro is an
+active 180-minute local execution target; no Mac Studio purchase or hardware
+boundary is assumed. Real natural-video scientific coverage is still limited by
+rights-clean task data, not by ViT-H or ViT-g availability.
 
 ### Now (works today)
 - The full shell of mechanisms: EWC and Synaptic Intelligence consolidation,
@@ -279,15 +284,15 @@ Apple M2 Max Mac Studio (96 GB), where wall-clock time is not the constraint.
   the originally Studio-gated items are genuinely hardware or environment
   gated (only one remains: ex2_latent_planning) versus already runnable now.
 
-### Next (on the Mac Studio)
-- Lift the MPS encoder limit: real-encoder caching hits a hard per-buffer
-  ceiling at 64 frames on this machine's GPU (confirmed not fixable by more
-  RAM), so it needs the Studio's GPU headroom.
-- Build the permanent multi-encoder cached-latent corpus over real natural
+### Next (local first, move only a measured remainder)
+- Continue serial local encoder-scale work: ViT-L, ViT-H, and ViT-g strict
+  offline loads, supervised CPU forwards, and shared eight-referent caches all
+  pass. CPU is the measured local path; MPS is optional and must be re-benchmarked.
+- Build the permanent multi-encoder cached-latent corpus over rights-cleared natural
   video (frozen V-JEPA L / H / g), breadth-first and fully licensed. No
-  natural video has been acquired yet; two auxiliary encoders (DINOv2-large,
-  VideoMAEv2-Base) are downloaded and staged but not yet wired into any
-  experiment.
+  bound-attribute natural-video science has yet cleared the registered gates;
+  two auxiliary encoders (DINOv2-large, VideoMAEv2-Base) are downloaded and
+  staged but not yet wired into a citable matched-control experiment.
 - Grow the representational atlas factor by factor, including the rows that are
   not linearly decodable (the substrate's blind spots). A first real-weight
   atlas row exists; growing it is ongoing.

@@ -42,7 +42,13 @@ def _as_store(store: LatentStore | str, data_dir: str | Path = "data/cache") -> 
 def factors_meta(store: LatentStore) -> dict | None:
     """The factors.json sidecar for a factorized cache, or None for a single-factor store."""
     p = store.root / "factors.json"
-    return json.loads(p.read_text()) if p.exists() else None
+    if not p.exists():
+        return None
+    payload = json.loads(p.read_text())
+    if isinstance(payload, dict) and payload.get("schema") == "mop-factor-sidecar/v2":
+        metadata = payload.get("metadata")
+        return dict(metadata) if isinstance(metadata, dict) else None
+    return payload
 
 
 def real_task_stream(

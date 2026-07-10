@@ -124,7 +124,10 @@ LANES: tuple[NativeLane, ...] = (
         ),
         null_hypothesis="license, source quality, or budget blockers prevent a real hosted-corpora plan",
         success_gate="plan selects licensed sources inside the studio-m1ultra disk and source caps",
-        wall_if_blocked="requires the studio-m1ultra profile and current registry metadata",
+        wall_if_blocked=(
+            "the 4 TB acquisition scenario exceeds the local disk envelope; dry planning itself "
+            "is machine-independent and a bounded local plan should use m3pro-local-max"
+        ),
         notes="Planning is safe and dry; acquisition remains a separate heavy lane.",
     ),
     NativeLane(
@@ -185,7 +188,7 @@ LANES: tuple[NativeLane, ...] = (
         wall_if_blocked=(
             "requires DR1 merged cache plus language, audio, depth, flow, SAM, code, and math features"
         ),
-        notes="PerspectiveAdapter is ready; extraction scripts must point it at DR1 referents first.",
+        notes="FormAdapter is canonical; extraction scripts must point it at DR1 referents first.",
     ),
     NativeLane(
         lane_id="pr9_long_stream",

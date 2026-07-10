@@ -77,7 +77,14 @@ def new_run_dir(name: str, root: Path | None = None) -> Path:
     a session, monotonic per name, so reruns are easy to diff."""
     base = (root or REPO_ROOT / "runs") / name
     base.mkdir(parents=True, exist_ok=True)
-    n = sum(1 for p in base.iterdir() if p.is_dir())
-    d = base / f"{n:03d}"
-    d.mkdir(parents=True, exist_ok=True)
-    return d
+    numeric = [int(p.name) for p in base.iterdir() if p.is_dir() and p.name.isdigit()]
+    n = max(numeric, default=-1) + 1
+    while True:
+        d = base / f"{n:03d}"
+        try:
+            # exist_ok=False is the atomic claim. Concurrent workers can observe the same max, but
+            # exactly one creates it and the others advance rather than overwriting its receipt.
+            d.mkdir(parents=False, exist_ok=False)
+            return d
+        except FileExistsError:
+            n += 1

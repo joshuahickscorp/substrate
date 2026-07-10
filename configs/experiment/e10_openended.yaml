@@ -1,7 +1,6 @@
-# E10: minimal open-ended JEPA (capstone). SCAFFOLD ONLY with a stub environment. Tier:
-# env-later. NOT run at scale: the real version needs a parameterizable procedural environment,
-# an environment-generation loop, and rented-GPU rollouts. Here the ablation ladder spine runs
-# in seconds so the contract and the null check are exercised.
+# E10: minimal open-ended JEPA (capstone). The shared persistent action contract now runs locally,
+# but this remains env-later because persistence is not open-endedness. The scientific version still
+# needs population search, environment generation, transfer, and a predeclared non-plateau horizon.
 id: e10_openended
 name: minimal_open_ended_jepa
 module: e10_openended
@@ -9,7 +8,7 @@ metric: [distinct_skills, skill_reuse, archive_diversity, collapse]
 null_hypothesis: "the single agent plateaus; open-endedness needs population-level search and environment generation, not just a richer single agent"
 tier: env-later
 
-# stub environment + archive params (toy scale, seconds)
+# bounded archive/goal-generator scaffold (toy scale, seconds)
 dim: 32                 # latent-like observation dimensionality of the stub env
 n_primitives: 6         # compositional action primitives (stepping stones in principle)
 n_actions: 120          # short toy loop length per arm

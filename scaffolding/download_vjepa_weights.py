@@ -3,7 +3,8 @@
 Runs the real downloads via huggingface_hub.snapshot_download so the Studio never
 waits on a download. The encoder is frozen, so a weight pulled now is the exact
 substrate the Studio will use. No model is instantiated here; only files are fetched.
-No 64-frame forward is run (that is the Studio-only MPS verification step).
+No model is instantiated here. Local 64-frame CPU forwards for ViT-L, ViT-H, and ViT-g are
+verified separately by the encoder-scale probe receipts; this helper remains download-only.
 """
 
 import sys
