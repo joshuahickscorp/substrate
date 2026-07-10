@@ -1,0 +1,844 @@
+{
+  "aggregate": {
+    "f36_limited_broadcast_necessity": {
+      "mean_delay_slope": 0.06328704,
+      "mean_lesion_drop": 0.25256945,
+      "mean_shuffle_drop": 0.26111111,
+      "programmatic_favorable": true,
+      "verdict": "favorable-toy-pattern-pending-independent-verification"
+    },
+    "f37_broadcast_sufficiency": {
+      "all_units_tie_is_null": true,
+      "mean_delta_vs_best_comparator": 0.0,
+      "mean_shared_task_score": 0.75305556,
+      "programmatic_favorable": false,
+      "verdict": "null"
+    }
+  },
+  "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+  "config": {
+    "bytes": 1214,
+    "path": "configs/experiment/integration_broadcast_runs.yaml",
+    "sha256": "6ed71093ad4b32ded1849eae009a5ced983b4fec3303036acb48bb430475f404"
+  },
+  "evidence_class": "R1 deterministic programmatic toy execution",
+  "favorable_experiments_requiring_fresh_verification": [
+    "f36_limited_broadcast_necessity"
+  ],
+  "independent_units": [
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "cost_convention": "one scalar comparison, copy, or padding update counts as one modelled FLOP",
+          "cost_ledger": {
+            "delay-broadcast:1": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4120573272
+            },
+            "delay-broadcast:2": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 2255326456
+            },
+            "delay-broadcast:3": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 408300416
+            },
+            "equal-flop-routing": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4125639296
+            },
+            "feed-forward-depth": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1390515488
+            },
+            "independent-specialists": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 565567658
+            },
+            "lesion-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3832865060
+            },
+            "limited-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4213659973
+            },
+            "matched-dense-state": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3554593358
+            },
+            "message-shuffled": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3977818396
+            },
+            "restore-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1561262627
+            },
+            "unrestricted-bus": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4196523900
+            },
+            "unrestricted-bus-lesion": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3820706476
+            }
+          }
+        },
+        "contract_fixture_sha256": {
+          "necessity": "703aec92f9e517a02de72b01857b64fdd82718a057db657841dc42a1a3951cbb",
+          "sufficiency": "06060c413455f075ea8ed85ec6a3d6199349f4549816b33969eb463100c3451b"
+        },
+        "exact_replay": true,
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.70138889,
+            "2": 0.63298611,
+            "3": 0.56770833
+          },
+          "delay_slope": 0.06585648,
+          "delta_vs_unrestricted_bus": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "lesion_drop": 0.26041667,
+          "message_shuffle_drop": 0.26388889,
+          "restoration_recovery": 1.0,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.56875,
+          "feed-forward-depth": 0.50486111,
+          "independent-specialists": 0.56875,
+          "lesion-broadcast": 0.50486111,
+          "limited-broadcast": 0.76527778,
+          "matched-dense-state": 0.59861111,
+          "message-shuffled": 0.50138889,
+          "restore-broadcast": 0.76527778,
+          "unrestricted-bus": 0.76527778,
+          "unrestricted-bus-lesion": 0.76527778
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.76527778,
+          "capacity_frontier_area": 0.70017361,
+          "delta_vs_best_comparator": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "shared_task_score": 0.76527778,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 103,
+      "unit_sha256": "eb7e80b3e49cf9f26f72ce28e5a7ac37c5eadc7feaf8ac804cf3b5463125a0fa"
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "cost_convention": "one scalar comparison, copy, or padding update counts as one modelled FLOP",
+          "cost_ledger": {
+            "delay-broadcast:1": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4120573272
+            },
+            "delay-broadcast:2": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 2255326456
+            },
+            "delay-broadcast:3": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 408300416
+            },
+            "equal-flop-routing": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4125639296
+            },
+            "feed-forward-depth": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1390515488
+            },
+            "independent-specialists": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 565567658
+            },
+            "lesion-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3832865060
+            },
+            "limited-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4213659973
+            },
+            "matched-dense-state": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3554593358
+            },
+            "message-shuffled": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3977818396
+            },
+            "restore-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1561262627
+            },
+            "unrestricted-bus": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4196523900
+            },
+            "unrestricted-bus-lesion": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3820706476
+            }
+          }
+        },
+        "contract_fixture_sha256": {
+          "necessity": "c84c6e21992e596ca583c9d24fd9670986f74086b5dfb9028ec019ee00018ef5",
+          "sufficiency": "4c969ffda1733efe4f3f328b36b952317e6732e055f423581be3937d62bb26a1"
+        },
+        "exact_replay": true,
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.68333333,
+            "2": 0.621875,
+            "3": 0.56388889
+          },
+          "delay_slope": 0.05787037,
+          "delta_vs_unrestricted_bus": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "lesion_drop": 0.22708333,
+          "message_shuffle_drop": 0.225,
+          "restoration_recovery": 1.0,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.57743056,
+          "feed-forward-depth": 0.51041667,
+          "independent-specialists": 0.57743056,
+          "lesion-broadcast": 0.51041667,
+          "limited-broadcast": 0.7375,
+          "matched-dense-state": 0.63472222,
+          "message-shuffled": 0.5125,
+          "restore-broadcast": 0.7375,
+          "unrestricted-bus": 0.7375,
+          "unrestricted-bus-lesion": 0.7375
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.7375,
+          "capacity_frontier_area": 0.68072917,
+          "delta_vs_best_comparator": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "shared_task_score": 0.7375,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 223,
+      "unit_sha256": "168d0824d072ba17b8bb6d6c8732c0b8759509d63e273f41da074bd99e3d3036"
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "cost_convention": "one scalar comparison, copy, or padding update counts as one modelled FLOP",
+          "cost_ledger": {
+            "delay-broadcast:1": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4120573272
+            },
+            "delay-broadcast:2": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 2255326456
+            },
+            "delay-broadcast:3": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 408300416
+            },
+            "equal-flop-routing": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4125639296
+            },
+            "feed-forward-depth": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1390515488
+            },
+            "independent-specialists": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 565567658
+            },
+            "lesion-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3832865060
+            },
+            "limited-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4213659973
+            },
+            "matched-dense-state": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3554593358
+            },
+            "message-shuffled": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3977818396
+            },
+            "restore-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1561262627
+            },
+            "unrestricted-bus": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4196523900
+            },
+            "unrestricted-bus-lesion": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3820706476
+            }
+          }
+        },
+        "contract_fixture_sha256": {
+          "necessity": "fdf14e59a2fd5eade9860de6b7cb2f0b4591c001261fd84e4ead8040896705cf",
+          "sufficiency": "24c7e06a37e6ff847d7915ed1957f60bb15bab8c7cf373709cd29fe33d6f4e4f"
+        },
+        "exact_replay": true,
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.678125,
+            "2": 0.61736111,
+            "3": 0.55798611
+          },
+          "delay_slope": 0.05844907,
+          "delta_vs_unrestricted_bus": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "lesion_drop": 0.23229167,
+          "message_shuffle_drop": 0.24166667,
+          "restoration_recovery": 1.0,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.56145833,
+          "feed-forward-depth": 0.50104167,
+          "independent-specialists": 0.56145833,
+          "lesion-broadcast": 0.50104167,
+          "limited-broadcast": 0.73333333,
+          "matched-dense-state": 0.59027778,
+          "message-shuffled": 0.49166667,
+          "restore-broadcast": 0.73333333,
+          "unrestricted-bus": 0.73333333,
+          "unrestricted-bus-lesion": 0.73333333
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.73333333,
+          "capacity_frontier_area": 0.67526042,
+          "delta_vs_best_comparator": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "shared_task_score": 0.73333333,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 337,
+      "unit_sha256": "895da641a0bec478873f8eefe823fd974f26e0438edf05e90118c5b92ee9ba2b"
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "cost_convention": "one scalar comparison, copy, or padding update counts as one modelled FLOP",
+          "cost_ledger": {
+            "delay-broadcast:1": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4120573272
+            },
+            "delay-broadcast:2": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 2255326456
+            },
+            "delay-broadcast:3": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 408300416
+            },
+            "equal-flop-routing": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4125639296
+            },
+            "feed-forward-depth": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1390515488
+            },
+            "independent-specialists": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 565567658
+            },
+            "lesion-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3832865060
+            },
+            "limited-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4213659973
+            },
+            "matched-dense-state": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3554593358
+            },
+            "message-shuffled": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3977818396
+            },
+            "restore-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1561262627
+            },
+            "unrestricted-bus": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4196523900
+            },
+            "unrestricted-bus-lesion": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3820706476
+            }
+          }
+        },
+        "contract_fixture_sha256": {
+          "necessity": "51f2eeedb6baae0994c06d5e1327b9f756e0925da34dee92d1ae325230873f52",
+          "sufficiency": "70ab4d5577160293c65bbd039485b9fc7238c41578371dde78bae8294c0181c0"
+        },
+        "exact_replay": true,
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.69270833,
+            "2": 0.62743056,
+            "3": 0.56006944
+          },
+          "delay_slope": 0.06701389,
+          "delta_vs_unrestricted_bus": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "lesion_drop": 0.26701389,
+          "message_shuffle_drop": 0.28888889,
+          "restoration_recovery": 1.0,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.571875,
+          "feed-forward-depth": 0.49409722,
+          "independent-specialists": 0.571875,
+          "lesion-broadcast": 0.49409722,
+          "limited-broadcast": 0.76111111,
+          "matched-dense-state": 0.60972222,
+          "message-shuffled": 0.47222222,
+          "restore-broadcast": 0.76111111,
+          "unrestricted-bus": 0.76111111,
+          "unrestricted-bus-lesion": 0.76111111
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.76111111,
+          "capacity_frontier_area": 0.69435764,
+          "delta_vs_best_comparator": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "shared_task_score": 0.76111111,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 449,
+      "unit_sha256": "745f3e8783c228ed1c6c5dfa03f765e48a10789422c68c9d7a5240c06fe92b87"
+    },
+    {
+      "result": {
+        "compute_match": {
+          "all_arms_exact_budget": true,
+          "cost_convention": "one scalar comparison, copy, or padding update counts as one modelled FLOP",
+          "cost_ledger": {
+            "delay-broadcast:1": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4120573272
+            },
+            "delay-broadcast:2": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 2255326456
+            },
+            "delay-broadcast:3": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 408300416
+            },
+            "equal-flop-routing": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4125639296
+            },
+            "feed-forward-depth": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1390515488
+            },
+            "independent-specialists": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 565567658
+            },
+            "lesion-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3832865060
+            },
+            "limited-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4213659973
+            },
+            "matched-dense-state": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3554593358
+            },
+            "message-shuffled": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3977818396
+            },
+            "restore-broadcast": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 1561262627
+            },
+            "unrestricted-bus": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 4196523900
+            },
+            "unrestricted-bus-lesion": {
+              "decision_flops": 16,
+              "deterministic_padding_flops": 240,
+              "modelled_flops_per_episode": 256,
+              "padding_checksum": 3820706476
+            }
+          }
+        },
+        "contract_fixture_sha256": {
+          "necessity": "f2771277a34adbf13b8f150f1de978295b8e443ff64b29034b077ed91967d6c2",
+          "sufficiency": "e71a03ecc22381166381b305add0af4d39f4acb72bc777bb36a1fc4d66973132"
+        },
+        "exact_replay": true,
+        "heldout_episodes": 720,
+        "independent_queries": 2880,
+        "necessity": {
+          "delay_scores": {
+            "1": 0.69236111,
+            "2": 0.62708333,
+            "3": 0.56631944
+          },
+          "delay_slope": 0.06724537,
+          "delta_vs_unrestricted_bus": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "lesion_drop": 0.27604167,
+          "message_shuffle_drop": 0.28611111,
+          "restoration_recovery": 1.0,
+          "unrestricted_bus_lesion_drop": 0.0
+        },
+        "scores": {
+          "equal-flop-routing": 0.58298611,
+          "feed-forward-depth": 0.49201389,
+          "independent-specialists": 0.58298611,
+          "lesion-broadcast": 0.49201389,
+          "limited-broadcast": 0.76805556,
+          "matched-dense-state": 0.61944444,
+          "message-shuffled": 0.48194444,
+          "restore-broadcast": 0.76805556,
+          "unrestricted-bus": 0.76805556,
+          "unrestricted-bus-lesion": 0.76805556
+        },
+        "sufficiency": {
+          "best_comparator_score": 0.76805556,
+          "capacity_frontier_area": 0.69904514,
+          "delta_vs_best_comparator": 0.0,
+          "difficulty_calibration": {
+            "band": [
+              0.6,
+              0.9
+            ],
+            "off_floor_and_ceiling": true
+          },
+          "shared_task_score": 0.76805556,
+          "tie_is_null": true,
+          "tie_with_unrestricted_bus": true
+        }
+      },
+      "seed": 557,
+      "unit_sha256": "31a6a22066e1a90034de30807abdd8472b614d4181e5a7aa3755a0730a6da5bd"
+    }
+  ],
+  "limitations": [
+    "the binary shared-message bed is a structural fixture, not a natural shared task",
+    "matched compute uses a declared scalar-operation convention with deterministic padding",
+    "the exact unrestricted-bus tie makes f37 a null and cannot support sufficiency",
+    "a favorable necessity pattern remains programmatic mechanics only"
+  ],
+  "payload_sha256": "f34f30aec7f8b35f6b2506e31c7a6c06a114c663803ab26bba166b59cbb1b4d0",
+  "registry_bindings": {
+    "f36_limited_broadcast_necessity": {
+      "controls": [
+        "unrestricted-bus",
+        "lesion-broadcast",
+        "delay-broadcast",
+        "restore-broadcast",
+        "message-shuffled"
+      ],
+      "metrics": [
+        "lesion_drop",
+        "restoration_recovery",
+        "delay_slope",
+        "delta_vs_unrestricted_bus"
+      ],
+      "null_hypothesis": "lesioning or delaying the limited broadcast link does not hurt shared-task performance beyond the unrestricted-bus and message-shuffled controls, so the link is not necessary",
+      "row_sha256": "c31b9f1a2929fdd53580d391c5a1096844fd42b9322d970d6b9f15481cd7f936",
+      "status": "registry-only"
+    },
+    "f37_broadcast_sufficiency": {
+      "controls": [
+        "unrestricted-bus",
+        "matched-dense-state",
+        "feed-forward-depth",
+        "independent-specialists",
+        "equal-flop-routing"
+      ],
+      "metrics": [
+        "shared_task_score",
+        "delta_vs_best_comparator",
+        "capacity_frontier_area"
+      ],
+      "null_hypothesis": "at matched compute at least one comparator matches or beats the limited-broadcast arm on shared-task performance, so limited broadcast is not selectively sufficient",
+      "row_sha256": "33cd4c649b793a27fe4114c0708e61d3e2862f1977c632b9ac51936b1ae27268",
+      "status": "registry-only"
+    }
+  },
+  "resource_envelope": {
+    "cpu_threads": 1,
+    "device": "cpu",
+    "external_data_allowed": false,
+    "model_weights_loaded": false
+  },
+  "schema": "mop-integration-broadcast-run/v1",
+  "scientific_capability_claim": false,
+  "source_receipts": [
+    {
+      "bytes": 1214,
+      "path": "configs/experiment/integration_broadcast_runs.yaml",
+      "sha256": "6ed71093ad4b32ded1849eae009a5ced983b4fec3303036acb48bb430475f404"
+    },
+    {
+      "bytes": 340982,
+      "path": "registry/experiments.yaml",
+      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+    },
+    {
+      "bytes": 51394,
+      "path": "src/mop/studies/integration_battery_scaffold.py",
+      "sha256": "3ccf2f90ec74aec4033e5f9567ed06f1d70a612802a60b680a39750d5808688b"
+    },
+    {
+      "bytes": 20027,
+      "path": "src/mop/studies/integration_broadcast_runs.py",
+      "sha256": "7c07443ebf59ce3df04580ed3a690b97683fc1cd9dccd73738fbab25fddf2d8e"
+    },
+    {
+      "bytes": 16463,
+      "path": "src/mop/studies/integration_broadcast_verify.py",
+      "sha256": "3a7b2c5926a7a297e4974e5383d87c36fabc3702e77e1f833efa928230cd68ec"
+    },
+    {
+      "bytes": 768,
+      "path": "scripts/run_integration_broadcast.py",
+      "sha256": "28386358625431300d3077d7fe3cc3f6efc9e52c7518f36d1f7c2a137be1ccb7"
+    },
+    {
+      "bytes": 858,
+      "path": "scripts/verify_integration_broadcast.py",
+      "sha256": "c3c2d4d47eb0413e70b13e819df07e8ed12768b6438f65c503e600ef24c9915e"
+    },
+    {
+      "bytes": 2861,
+      "path": "tests/unit/test_integration_broadcast_runs.py",
+      "sha256": "32a9b0c089c7169d433d1ab657c2a290d98a1c5f1224f10fdc59f7f4fa3bbc8b"
+    }
+  ]
+}

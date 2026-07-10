@@ -1,0 +1,35 @@
+schema: mop-integration-broadcast-run-config/v1
+claim_scope: deterministic programmatic mechanics only; no capability or natural-data claim
+independent_units:
+  seeds: [103, 223, 337, 449, 557]
+  fresh_verifier_seeds: [661, 773, 887, 991, 1097]
+stop_contract:
+  minimum_independent_units: 5
+  favorable_requires_all_seed_directions: true
+  favorable_requires_fresh_verifier: true
+  ceiling: 0.95
+fixture:
+  heldout_episodes: 720
+  n_specialists: 4
+  n_consumers: 4
+  recurrence_steps: 4
+  signal_reliability: 0.78
+  cue_reliability: 0.91
+  matched_flop_budget_per_episode: 256
+experiments:
+  f36_limited_broadcast_necessity:
+    minimum_lesion_drop: 0.08
+    minimum_restoration_fraction: 0.90
+    minimum_delay_slope: 0.02
+    minimum_shuffle_drop: 0.08
+    calibration_band: [0.60, 0.90]
+    controls: [unrestricted-bus, lesion-broadcast, delay-broadcast, restore-broadcast, message-shuffled]
+  f37_broadcast_sufficiency:
+    minimum_margin: 0.03
+    calibration_band: [0.60, 0.90]
+    controls: [unrestricted-bus, matched-dense-state, feed-forward-depth, independent-specialists, equal-flop-routing]
+resource_envelope:
+  device: cpu
+  cpu_threads: 1
+  model_weights_loaded: false
+  external_data_allowed: false

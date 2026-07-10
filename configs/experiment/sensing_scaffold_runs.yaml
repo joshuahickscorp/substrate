@@ -1,0 +1,45 @@
+schema: mop-sensing-scaffold-run-config/v1
+claim_scope: deterministic programmatic mechanics only; no capability or natural-data claim
+independent_units:
+  seeds: [101, 211, 307, 401, 503]
+  fresh_verifier_seeds: [607, 701, 809, 907, 1009]
+stop_contract:
+  minimum_independent_units: 5
+  favorable_requires_all_seed_directions: true
+  favorable_requires_fresh_verifier: true
+  ceiling: 0.98
+experiments:
+  f21_asynchronous_temporal_binding:
+    train_examples: 360
+    heldout_examples: 540
+    contexts: 3
+    positive_rate: 0.5
+    gap_noise_sd: 2.25
+    label_noise_rate: 0.08
+    minimum_f1_delta: 0.04
+    minimum_control_rejection: 0.78
+    calibration_band: [0.60, 0.95]
+    controls: [fixed-window-baseline, shuffled-timing, wrong-time, exact-replay]
+  f26_cross_form_contradiction_triangulation:
+    train_examples: 480
+    heldout_examples: 720
+    source_noise_sd: [0.45, 0.95, 1.65]
+    corruption_magnitude: 2.15
+    corruption_sd: 0.90
+    minimum_auroc_delta: 0.02
+    calibration_band: [0.60, 0.95]
+    controls: [majority-vote, mean-fusion, raw-residual, exact-replay]
+  f27_causal_crossmodal_binding:
+    train_examples: 420
+    heldout_examples: 630
+    outcome_noise_sd: 0.72
+    proxy_noise_sd: 0.36
+    minimum_relative_error_reduction: 0.12
+    minimum_control_rejection: 0.78
+    calibration_band: [0.12, 0.85]
+    controls: [temporal-correlation, wrong-event, synchronous-unrelated, exact-replay]
+resource_envelope:
+  device: cpu
+  cpu_threads: 1
+  model_weights_loaded: false
+  external_data_allowed: false
