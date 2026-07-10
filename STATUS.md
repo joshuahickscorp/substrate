@@ -18,8 +18,8 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] P4 is governor-closed: all 12 cells completed across five registered seeds, six cells used the
   preregistered futility stop, and the response surface contains 48 observations. This is a bounded
   programmatic pilot. Confirmatory promotion remains refused by construction.
-- [!] P5 smoke admission failed closed on three consecutive samples only because current available
-  unified memory was 8.59 to 9.07 GB against the unchanged 10.0 GB requirement. Disk, power,
+- [!] P5 smoke admission failed closed again on three consecutive samples only because current
+  available unified memory was 8.007 to 8.045 GB against the unchanged 10.0 GB requirement. Disk, power,
   thermal, lane, swap, and unmanaged-heavy gates passed. This is a transient current-host admission
   blocker, not measured hardware necessity.
 - [x] The generated potential atlas now has 41 facets. EV6, OP5, SG4, and SG5 enter at the honest
@@ -42,7 +42,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   ```bash
   PYTHONPATH=src .venv/bin/python scripts/local_execution_throttle.py run \
     --task p5smoke_cpu \
-    --run-id p5smoke_20260710_leg1 \
+    --run-id p5smoke_20260710_leg2 \
     --execute \
     --out proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json
   ```

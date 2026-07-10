@@ -5,7 +5,7 @@
       "bytes": 122457,
       "exists": true,
       "path": "proof/MOP_POTENTIAL_ATLAS.json",
-      "sha256": "9b1f18ddba61e09c0c799fe7142620edd08bc244c67912e23062c331d465bc59"
+      "sha256": "27dae1b5dc559ffeb22c37537e98bc4558abb0356d7f95485fcb0cca72dd18bd"
     },
     "cli": {
       "bytes": 432,
@@ -17,7 +17,7 @@
       "bytes": 76020,
       "exists": true,
       "path": "MOP_POTENTIAL_ATLAS_2026_07.md",
-      "sha256": "69f04f25eeb824f7132ff44f168327513eb104ea12bef2d5e3a79959726abf60"
+      "sha256": "f7995981976bdb3adcc317579aa4826bcca3273abd9f9b3302dc03e4e84a0a43"
     },
     "requirements": {
       "bytes": 1274965,
@@ -246,15 +246,15 @@
       "detail": {
         "bytes": 76020,
         "facet_score_rows": 41,
-        "sha256": "69f04f25eeb824f7132ff44f168327513eb104ea12bef2d5e3a79959726abf60"
+        "sha256": "f7995981976bdb3adcc317579aa4826bcca3273abd9f9b3302dc03e4e84a0a43"
       },
       "name": "markdown_binding",
       "ok": true,
       "problems": []
     }
   ],
-  "created_at": "2026-07-10T21:56:38.076924+00:00",
-  "payload_sha256": "f7706f312884e80fe1bf7968e05093398dc3ccf51a8c832817875f6266e1b1e9",
+  "created_at": "2026-07-10T22:02:16.955765+00:00",
+  "payload_sha256": "e06f181af9daac30dae8eff47e84c7d040da960cc1e65e21cccc5c1d97d8d4a1",
   "problems": [],
   "schema": "mop-potential-atlas-validation/v1",
   "scope": "Structural and evidence-integrity validation only. A passing receipt does not promote any facet, experiment, hardware purchase, or external claim.",

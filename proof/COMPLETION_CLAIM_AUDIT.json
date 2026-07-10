@@ -268,11 +268,6 @@
       "path": "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
       "sha256": "45eed7a1cf5abc1044c8e832e94fd9236e2e693c188c0b3127855e744ee27645",
       "use": "independent toy-world verification of eight favorable patterns and three nulls across f22, f28, and f50-f58; promotion false"
-    },
-    {
-      "path": "proof/MOP_POTENTIAL_ATLAS_VALIDATION.json",
-      "sha256": "fd57a8bae9cb791ec2ea2d37b19cc24be241eda7673cfb309c2986ca9bb7b28f",
-      "use": "41-facet generated atlas validation; weighted score 5.736, 45 bound sources, 197 evidence references, zero category 8 or 9 rows"
     }
   ],
   "historical_evidence": [
@@ -497,7 +492,7 @@
         "id": "potential_atlas_41_facet_revision",
         "classification": "ledger_mechanics",
         "evidence_path": "proof/MOP_POTENTIAL_ATLAS_VALIDATION.json",
-        "evidence_sha256": "fd57a8bae9cb791ec2ea2d37b19cc24be241eda7673cfb309c2986ca9bb7b28f",
+        "binding_direction": "the downstream atlas binds this audit; this audit does not hash the atlas, avoiding a circular dependency",
         "facet_count": 41,
         "weighted_score": 5.736,
         "source_count": 45,
