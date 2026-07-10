@@ -2,6 +2,25 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 E6 ViT-B integrated + P2 attribute map (dual-session wave, receipts interleaved)
+
+- [x] E6 upstream integration closed to its preregistered boundary: pinned official V-JEPA 2.1
+  ViT-B checkpoint downloaded atomically (1.664 GB, full local sha256 848a77c3, source ETag and
+  version id receipted), strict ema_encoder load passed in a supervised CPU child (3.5 s), and the
+  one-clip 8-frame 384px geometry forward passed: output [1,2304,768], finite, shape matches,
+  0.88 GB process-tree peak, no hardware limit (proof/VJEPA21_VITB_LOAD.json,
+  proof/VJEPA21_VITB_FORWARD.json). The sibling session added a passing 64-frame CPU forward
+  (proof/VJEPA21_VITB_FORWARD_64F.json, 32.7 s) and refreshed preflight plus requirements. Claim
+  scope is availability and geometry only; e6/dr14 scientific compatibility remains unproven.
+- [x] P2 attribute map recorded: proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json
+  (scripts/sanpo_attribute_map.py, metadata-only, hash-bound to the frozen bridge, official-test
+  sessions never opened). Across the 8 development sessions exactly one complete two-factor
+  design exists (is_park x human_traffic, 4/4 cells, minimum 1 session per cell); no attribute
+  pair meets the DR1 gate of 16 sessions per cell; the receipt sizes a promotable design at 64+
+  session-disjoint sessions. Every design at smoke scale is nonpromotable by construction.
+- [~] P2 remainder (DR1/CM1-shaped mechanics caches over the 8 dev sessions) queued behind the
+  encoder heavy lane, currently owned by the sibling session's serial P3 control queue.
+
 ## 2026-07-10 host arbitration + P3 ViT-L control verified (concurrent-session wave)
 
 - [x] A sibling session on this host completed the P5 memory-boundary trace

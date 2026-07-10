@@ -190,6 +190,20 @@
         1024
       ],
       "state_dict_sha256": null
+    },
+    "vit_l_random_s0": {
+      "backend": "vjepa_hf_random_init",
+      "manifest_sha256": "a7f78086261f47e521b3d9aa405d4d6b5bb3596ad98eda76e426217d8652e44d",
+      "model_id": "facebook/vjepa2-vitl-fpc64-256",
+      "objective": "random-control",
+      "path": "data/cache/vjepa2_vitl_local8_random_s0",
+      "random_init_seed": 0,
+      "revision": "b3c1679b7c34d3255ef3547f27c7b226aefab26f",
+      "shape": [
+        8,
+        1024
+      ],
+      "state_dict_sha256": "dfbbe9d3a083771cca45d63f54d727077a4668c616017cd8996c1fd00051cada"
     }
   },
   "claim_eligibility": {
@@ -208,18 +222,29 @@
     "matches": {
       "vit_g": [],
       "vit_h": [],
-      "vit_l": []
+      "vit_l": [
+        {
+          "architecture_exact": true,
+          "seed": 0,
+          "state_dict_sha256": "dfbbe9d3a083771cca45d63f54d727077a4668c616017cd8996c1fd00051cada",
+          "stimulus_hash_exact": false,
+          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "tag": "vit_l_random_s0"
+        }
+      ]
     },
     "random_seeds_per_architecture": {
       "vit_g": [],
       "vit_h": [],
-      "vit_l": []
+      "vit_l": [
+        0
+      ]
     },
     "row_permutation": true,
     "shuffled_train_labels_on_frozen_split": true,
     "warning": "the former full-rank random-map arm was removed from claim evidence because an invertible linear map preserves linear decodability; matched random architectures are the relevant learned-code control"
   },
-  "created_at": "2026-07-10T04:17:49.565968+00:00",
+  "created_at": "2026-07-10T07:13:51.765304+00:00",
   "factor_reports": {
     "factor_a": [
       {
@@ -241,6 +266,14 @@
             "uniform_chance": 0.5
           },
           "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
             "heldout_majority_baseline": 0.75,
             "heldout_n": 4,
             "score": 1.0,
@@ -275,6 +308,14 @@
             "train_label_shuffled": true,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         }
       },
@@ -297,6 +338,14 @@
             "uniform_chance": 0.5
           },
           "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
             "heldout_majority_baseline": 0.75,
             "heldout_n": 4,
             "score": 1.0,
@@ -331,112 +380,8 @@
             "train_label_shuffled": true,
             "train_n": 4,
             "uniform_chance": 0.5
-          }
-        }
-      },
-      {
-        "probe": {
-          "vit_g": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 1.0,
-            "train_label_shuffled": false,
-            "train_n": 4,
-            "uniform_chance": 0.5
           },
-          "vit_h": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 1.0,
-            "train_label_shuffled": false,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          },
-          "vit_l": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 1.0,
-            "train_label_shuffled": false,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          }
-        },
-        "protocol": "manifest train only; manifest val plus test held out",
-        "seed": 43,
-        "shuffled_train_label_null": {
-          "vit_g": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 0.0,
-            "train_label_shuffled": true,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          },
-          "vit_h": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 0.0,
-            "train_label_shuffled": true,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          },
-          "vit_l": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 0.0,
-            "train_label_shuffled": true,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          }
-        }
-      },
-      {
-        "probe": {
-          "vit_g": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 1.0,
-            "train_label_shuffled": false,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          },
-          "vit_h": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 1.0,
-            "train_label_shuffled": false,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          },
-          "vit_l": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 1.0,
-            "train_label_shuffled": false,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          }
-        },
-        "protocol": "manifest train only; manifest val plus test held out",
-        "seed": 59,
-        "shuffled_train_label_null": {
-          "vit_g": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 0.5,
-            "train_label_shuffled": true,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          },
-          "vit_h": {
-            "heldout_majority_baseline": 0.75,
-            "heldout_n": 4,
-            "score": 0.5,
-            "train_label_shuffled": true,
-            "train_n": 4,
-            "uniform_chance": 0.5
-          },
-          "vit_l": {
+          "vit_l_random_s0": {
             "heldout_majority_baseline": 0.75,
             "heldout_n": 4,
             "score": 0.75,
@@ -471,6 +416,158 @@
             "train_label_shuffled": false,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 43,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        },
+        "protocol": "manifest train only; manifest val plus test held out",
+        "seed": 59,
+        "shuffled_train_label_null": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          }
+        }
+      },
+      {
+        "probe": {
+          "vit_g": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_h": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         },
         "protocol": "manifest train only; manifest val plus test held out",
@@ -493,6 +590,14 @@
             "uniform_chance": 0.5
           },
           "vit_l": {
+            "heldout_majority_baseline": 0.75,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
             "heldout_majority_baseline": 0.75,
             "heldout_n": 4,
             "score": 0.75,
@@ -529,6 +634,14 @@
             "train_label_shuffled": false,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         },
         "protocol": "manifest train only; manifest val plus test held out",
@@ -557,6 +670,14 @@
             "train_label_shuffled": true,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.0,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         }
       },
@@ -579,6 +700,14 @@
             "uniform_chance": 0.5
           },
           "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
             "heldout_majority_baseline": 0.5,
             "heldout_n": 4,
             "score": 1.0,
@@ -613,6 +742,14 @@
             "train_label_shuffled": true,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         }
       },
@@ -638,6 +775,14 @@
             "heldout_majority_baseline": 0.5,
             "heldout_n": 4,
             "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.5,
             "train_label_shuffled": false,
             "train_n": 4,
             "uniform_chance": 0.5
@@ -669,6 +814,14 @@
             "train_label_shuffled": true,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         }
       },
@@ -691,6 +844,14 @@
             "uniform_chance": 0.5
           },
           "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
             "heldout_majority_baseline": 0.5,
             "heldout_n": 4,
             "score": 1.0,
@@ -725,6 +886,14 @@
             "train_label_shuffled": true,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.5,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         }
       },
@@ -753,6 +922,14 @@
             "train_label_shuffled": false,
             "train_n": 4,
             "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 1.0,
+            "train_label_shuffled": false,
+            "train_n": 4,
+            "uniform_chance": 0.5
           }
         },
         "protocol": "manifest train only; manifest val plus test held out",
@@ -775,6 +952,14 @@
             "uniform_chance": 0.5
           },
           "vit_l": {
+            "heldout_majority_baseline": 0.5,
+            "heldout_n": 4,
+            "score": 0.75,
+            "train_label_shuffled": true,
+            "train_n": 4,
+            "uniform_chance": 0.5
+          },
+          "vit_l_random_s0": {
             "heldout_majority_baseline": 0.5,
             "heldout_n": 4,
             "score": 0.75,

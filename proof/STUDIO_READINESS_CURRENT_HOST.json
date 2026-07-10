@@ -1,8 +1,8 @@
 {
   "schema": "mop-studio-readiness/v2",
-  "created_at": "2026-07-10T06:58:02.168127+00:00",
+  "created_at": "2026-07-10T07:20:36.081021+00:00",
   "profile": {
-    "requested": "m3pro-local-max",
+    "requested": null,
     "resolved": "m3pro-local-max",
     "envelope": {
       "name": "m3pro-local-max",
@@ -40,7 +40,7 @@
     "platform": "macOS-26.6-arm64-arm-64bit",
     "python_executable": "/Users/scammermike/Downloads/mop/.venv/bin/python",
     "disk_total_gb": 494.353,
-    "disk_free_gb": 104.145
+    "disk_free_gb": 99.151
   },
   "checks": [
     {
@@ -66,12 +66,12 @@
     {
       "name": "memory_telemetry",
       "ok": true,
-      "detail": "psutil=7.2.2; RSS=0.2423 GB, system=4.5266/19.3274 GB available"
+      "detail": "psutil=7.2.2; RSS=0.2424 GB, system=6.0179/19.3274 GB available"
     },
     {
       "name": "disk_space",
       "ok": true,
-      "detail": "104.1 GB free of 494.4 GB at repository filesystem"
+      "detail": "99.2 GB free of 494.4 GB at repository filesystem"
     },
     {
       "name": "profile_host_match",
@@ -81,7 +81,7 @@
     {
       "name": "profile_floor",
       "ok": true,
-      "detail": "m3pro-local-max: 104.1 GB free, min 40 GB (profile floor ok)"
+      "detail": "m3pro-local-max: 99.2 GB free, min 40 GB (profile floor ok)"
     },
     {
       "name": "video_backend",
@@ -106,7 +106,7 @@
     {
       "name": "cache_manifests",
       "ok": true,
-      "detail": "4/4 stores pass citable manifest and integrity checks"
+      "detail": "5/5 stores pass citable manifest and integrity checks"
     },
     {
       "name": "cache_write",

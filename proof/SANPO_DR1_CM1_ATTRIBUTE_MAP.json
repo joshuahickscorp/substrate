@@ -1,0 +1,1257 @@
+{
+  "all_ok": true,
+  "bindings": {
+    "bridge_plan_identity_sha256": "7808a352ef0e72412a2738d2549a349091e133545facc86cfa453e1b7339d741",
+    "bridge_preflight_sha256": "c16c7c4e9605f04ecbea80d462989661fbfe051d2661a905cd01bc8f4ff4e376",
+    "content_set_sha256": "48896f6545ce0b9b2e4c1a338f55447dceac628eb321479fbcdd9ccc79c66afa",
+    "intake_receipt_sha256": "52a766126f99c2c64b8d01780cad82efdb3fba7f5bad9a7282e22b28301b59bb",
+    "splits_sha256": "c134f30f69f59079fd6e8353accc9d9fb71b2e97a38643cde0dd429fa87cd334"
+  },
+  "candidate_factor_pairs": [
+    {
+      "cells": {
+        "False|HUMAN_TRAFFIC_LOW": 2,
+        "False|HUMAN_TRAFFIC_MODERATE": 2,
+        "True|HUMAN_TRAFFIC_LOW": 3,
+        "True|HUMAN_TRAFFIC_MODERATE": 1
+      },
+      "complete_design": true,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "human_traffic",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "min_sessions_per_cell": 1,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "False|VEHICULAR_TRAFFIC_HEAVY": 1,
+        "False|VEHICULAR_TRAFFIC_LOW": 2,
+        "False|VEHICULAR_TRAFFIC_MODERATE": 1,
+        "True|VEHICULAR_TRAFFIC_LOW": 4
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "vehicular_traffic",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "False|NUM_OBSTACLES_MEDIUM": 4,
+        "True|NUM_OBSTACLES_HIGH": 1,
+        "True|NUM_OBSTACLES_LOW": 3
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "num_obstacles",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "False|VISIBILITY_HIGH": 4,
+        "True|VISIBILITY_HIGH": 3,
+        "True|VISIBILITY_MEDIUM": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "visibility",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "False|MOTION_BLUR_LOW": 4,
+        "True|MOTION_BLUR_LOW": 3,
+        "True|MOTION_BLUR_MEDIUM": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "motion_blur",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "False|ENVIRONMENT_TYPE_OPEN_TERRAIN": 2,
+        "False|ENVIRONMENT_TYPE_URBAN": 2,
+        "True|ENVIRONMENT_TYPE_PARK": 3,
+        "True|ENVIRONMENT_TYPE_URBAN": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "environment_types_primary",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "False|ELEVATION_CHANGE_FLAT": 3,
+        "False|ELEVATION_CHANGE_UPHILL": 1,
+        "True|ELEVATION_CHANGE_FLAT": 4
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "elevation_changes_primary",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "False|GROUND_APPEARANCE_DARK_GRAY": 1,
+        "False|GROUND_APPEARANCE_LIGHT_GRAY": 2,
+        "False|GROUND_APPEARANCE_TERRAIN": 1,
+        "True|GROUND_APPEARANCE_LIGHT_GRAY": 2,
+        "True|GROUND_APPEARANCE_TERRAIN": 2
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "is_park",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "False",
+        "True"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 5,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "HUMAN_TRAFFIC_LOW|VEHICULAR_TRAFFIC_LOW": 5,
+        "HUMAN_TRAFFIC_MODERATE|VEHICULAR_TRAFFIC_HEAVY": 1,
+        "HUMAN_TRAFFIC_MODERATE|VEHICULAR_TRAFFIC_LOW": 1,
+        "HUMAN_TRAFFIC_MODERATE|VEHICULAR_TRAFFIC_MODERATE": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "human_traffic",
+      "factor_b": "vehicular_traffic",
+      "levels_a": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "HUMAN_TRAFFIC_LOW|NUM_OBSTACLES_LOW": 3,
+        "HUMAN_TRAFFIC_LOW|NUM_OBSTACLES_MEDIUM": 2,
+        "HUMAN_TRAFFIC_MODERATE|NUM_OBSTACLES_HIGH": 1,
+        "HUMAN_TRAFFIC_MODERATE|NUM_OBSTACLES_MEDIUM": 2
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "human_traffic",
+      "factor_b": "num_obstacles",
+      "levels_a": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "HUMAN_TRAFFIC_LOW|VISIBILITY_HIGH": 4,
+        "HUMAN_TRAFFIC_LOW|VISIBILITY_MEDIUM": 1,
+        "HUMAN_TRAFFIC_MODERATE|VISIBILITY_HIGH": 3
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "human_traffic",
+      "factor_b": "visibility",
+      "levels_a": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "HUMAN_TRAFFIC_LOW|MOTION_BLUR_LOW": 4,
+        "HUMAN_TRAFFIC_LOW|MOTION_BLUR_MEDIUM": 1,
+        "HUMAN_TRAFFIC_MODERATE|MOTION_BLUR_LOW": 3
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "human_traffic",
+      "factor_b": "motion_blur",
+      "levels_a": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "HUMAN_TRAFFIC_LOW|ENVIRONMENT_TYPE_OPEN_TERRAIN": 2,
+        "HUMAN_TRAFFIC_LOW|ENVIRONMENT_TYPE_PARK": 3,
+        "HUMAN_TRAFFIC_MODERATE|ENVIRONMENT_TYPE_URBAN": 3
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "human_traffic",
+      "factor_b": "environment_types_primary",
+      "levels_a": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "HUMAN_TRAFFIC_LOW|ELEVATION_CHANGE_FLAT": 4,
+        "HUMAN_TRAFFIC_LOW|ELEVATION_CHANGE_UPHILL": 1,
+        "HUMAN_TRAFFIC_MODERATE|ELEVATION_CHANGE_FLAT": 3
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "human_traffic",
+      "factor_b": "elevation_changes_primary",
+      "levels_a": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "HUMAN_TRAFFIC_LOW|GROUND_APPEARANCE_LIGHT_GRAY": 2,
+        "HUMAN_TRAFFIC_LOW|GROUND_APPEARANCE_TERRAIN": 3,
+        "HUMAN_TRAFFIC_MODERATE|GROUND_APPEARANCE_DARK_GRAY": 1,
+        "HUMAN_TRAFFIC_MODERATE|GROUND_APPEARANCE_LIGHT_GRAY": 2
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "human_traffic",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "HUMAN_TRAFFIC_LOW",
+        "HUMAN_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "VEHICULAR_TRAFFIC_HEAVY|NUM_OBSTACLES_MEDIUM": 1,
+        "VEHICULAR_TRAFFIC_LOW|NUM_OBSTACLES_HIGH": 1,
+        "VEHICULAR_TRAFFIC_LOW|NUM_OBSTACLES_LOW": 3,
+        "VEHICULAR_TRAFFIC_LOW|NUM_OBSTACLES_MEDIUM": 2,
+        "VEHICULAR_TRAFFIC_MODERATE|NUM_OBSTACLES_MEDIUM": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "vehicular_traffic",
+      "factor_b": "num_obstacles",
+      "levels_a": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 5,
+      "sessions_needed_for_dr1_gate": 144,
+      "total_cells": 9
+    },
+    {
+      "cells": {
+        "VEHICULAR_TRAFFIC_HEAVY|VISIBILITY_HIGH": 1,
+        "VEHICULAR_TRAFFIC_LOW|VISIBILITY_HIGH": 5,
+        "VEHICULAR_TRAFFIC_LOW|VISIBILITY_MEDIUM": 1,
+        "VEHICULAR_TRAFFIC_MODERATE|VISIBILITY_HIGH": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "vehicular_traffic",
+      "factor_b": "visibility",
+      "levels_a": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "VEHICULAR_TRAFFIC_HEAVY|MOTION_BLUR_LOW": 1,
+        "VEHICULAR_TRAFFIC_LOW|MOTION_BLUR_LOW": 5,
+        "VEHICULAR_TRAFFIC_LOW|MOTION_BLUR_MEDIUM": 1,
+        "VEHICULAR_TRAFFIC_MODERATE|MOTION_BLUR_LOW": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "vehicular_traffic",
+      "factor_b": "motion_blur",
+      "levels_a": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "VEHICULAR_TRAFFIC_HEAVY|ENVIRONMENT_TYPE_URBAN": 1,
+        "VEHICULAR_TRAFFIC_LOW|ENVIRONMENT_TYPE_OPEN_TERRAIN": 2,
+        "VEHICULAR_TRAFFIC_LOW|ENVIRONMENT_TYPE_PARK": 3,
+        "VEHICULAR_TRAFFIC_LOW|ENVIRONMENT_TYPE_URBAN": 1,
+        "VEHICULAR_TRAFFIC_MODERATE|ENVIRONMENT_TYPE_URBAN": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "vehicular_traffic",
+      "factor_b": "environment_types_primary",
+      "levels_a": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 5,
+      "sessions_needed_for_dr1_gate": 144,
+      "total_cells": 9
+    },
+    {
+      "cells": {
+        "VEHICULAR_TRAFFIC_HEAVY|ELEVATION_CHANGE_FLAT": 1,
+        "VEHICULAR_TRAFFIC_LOW|ELEVATION_CHANGE_FLAT": 5,
+        "VEHICULAR_TRAFFIC_LOW|ELEVATION_CHANGE_UPHILL": 1,
+        "VEHICULAR_TRAFFIC_MODERATE|ELEVATION_CHANGE_FLAT": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "vehicular_traffic",
+      "factor_b": "elevation_changes_primary",
+      "levels_a": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "VEHICULAR_TRAFFIC_HEAVY|GROUND_APPEARANCE_LIGHT_GRAY": 1,
+        "VEHICULAR_TRAFFIC_LOW|GROUND_APPEARANCE_LIGHT_GRAY": 3,
+        "VEHICULAR_TRAFFIC_LOW|GROUND_APPEARANCE_TERRAIN": 3,
+        "VEHICULAR_TRAFFIC_MODERATE|GROUND_APPEARANCE_DARK_GRAY": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "vehicular_traffic",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "VEHICULAR_TRAFFIC_HEAVY",
+        "VEHICULAR_TRAFFIC_LOW",
+        "VEHICULAR_TRAFFIC_MODERATE"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 144,
+      "total_cells": 9
+    },
+    {
+      "cells": {
+        "NUM_OBSTACLES_HIGH|VISIBILITY_HIGH": 1,
+        "NUM_OBSTACLES_LOW|VISIBILITY_HIGH": 2,
+        "NUM_OBSTACLES_LOW|VISIBILITY_MEDIUM": 1,
+        "NUM_OBSTACLES_MEDIUM|VISIBILITY_HIGH": 4
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "num_obstacles",
+      "factor_b": "visibility",
+      "levels_a": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "levels_b": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "NUM_OBSTACLES_HIGH|MOTION_BLUR_LOW": 1,
+        "NUM_OBSTACLES_LOW|MOTION_BLUR_LOW": 2,
+        "NUM_OBSTACLES_LOW|MOTION_BLUR_MEDIUM": 1,
+        "NUM_OBSTACLES_MEDIUM|MOTION_BLUR_LOW": 4
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "num_obstacles",
+      "factor_b": "motion_blur",
+      "levels_a": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "levels_b": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "NUM_OBSTACLES_HIGH|ENVIRONMENT_TYPE_URBAN": 1,
+        "NUM_OBSTACLES_LOW|ENVIRONMENT_TYPE_PARK": 3,
+        "NUM_OBSTACLES_MEDIUM|ENVIRONMENT_TYPE_OPEN_TERRAIN": 2,
+        "NUM_OBSTACLES_MEDIUM|ENVIRONMENT_TYPE_URBAN": 2
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "num_obstacles",
+      "factor_b": "environment_types_primary",
+      "levels_a": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "levels_b": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 144,
+      "total_cells": 9
+    },
+    {
+      "cells": {
+        "NUM_OBSTACLES_HIGH|ELEVATION_CHANGE_FLAT": 1,
+        "NUM_OBSTACLES_LOW|ELEVATION_CHANGE_FLAT": 3,
+        "NUM_OBSTACLES_MEDIUM|ELEVATION_CHANGE_FLAT": 3,
+        "NUM_OBSTACLES_MEDIUM|ELEVATION_CHANGE_UPHILL": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "num_obstacles",
+      "factor_b": "elevation_changes_primary",
+      "levels_a": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "levels_b": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "NUM_OBSTACLES_HIGH|GROUND_APPEARANCE_LIGHT_GRAY": 1,
+        "NUM_OBSTACLES_LOW|GROUND_APPEARANCE_LIGHT_GRAY": 1,
+        "NUM_OBSTACLES_LOW|GROUND_APPEARANCE_TERRAIN": 2,
+        "NUM_OBSTACLES_MEDIUM|GROUND_APPEARANCE_DARK_GRAY": 1,
+        "NUM_OBSTACLES_MEDIUM|GROUND_APPEARANCE_LIGHT_GRAY": 2,
+        "NUM_OBSTACLES_MEDIUM|GROUND_APPEARANCE_TERRAIN": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "num_obstacles",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "NUM_OBSTACLES_HIGH",
+        "NUM_OBSTACLES_LOW",
+        "NUM_OBSTACLES_MEDIUM"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 6,
+      "sessions_needed_for_dr1_gate": 144,
+      "total_cells": 9
+    },
+    {
+      "cells": {
+        "VISIBILITY_HIGH|MOTION_BLUR_LOW": 6,
+        "VISIBILITY_HIGH|MOTION_BLUR_MEDIUM": 1,
+        "VISIBILITY_MEDIUM|MOTION_BLUR_LOW": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "visibility",
+      "factor_b": "motion_blur",
+      "levels_a": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "levels_b": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "VISIBILITY_HIGH|ENVIRONMENT_TYPE_OPEN_TERRAIN": 2,
+        "VISIBILITY_HIGH|ENVIRONMENT_TYPE_PARK": 2,
+        "VISIBILITY_HIGH|ENVIRONMENT_TYPE_URBAN": 3,
+        "VISIBILITY_MEDIUM|ENVIRONMENT_TYPE_PARK": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "visibility",
+      "factor_b": "environment_types_primary",
+      "levels_a": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "levels_b": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "VISIBILITY_HIGH|ELEVATION_CHANGE_FLAT": 6,
+        "VISIBILITY_HIGH|ELEVATION_CHANGE_UPHILL": 1,
+        "VISIBILITY_MEDIUM|ELEVATION_CHANGE_FLAT": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "visibility",
+      "factor_b": "elevation_changes_primary",
+      "levels_a": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "levels_b": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "VISIBILITY_HIGH|GROUND_APPEARANCE_DARK_GRAY": 1,
+        "VISIBILITY_HIGH|GROUND_APPEARANCE_LIGHT_GRAY": 4,
+        "VISIBILITY_HIGH|GROUND_APPEARANCE_TERRAIN": 2,
+        "VISIBILITY_MEDIUM|GROUND_APPEARANCE_TERRAIN": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "visibility",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "VISIBILITY_HIGH",
+        "VISIBILITY_MEDIUM"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "MOTION_BLUR_LOW|ENVIRONMENT_TYPE_OPEN_TERRAIN": 2,
+        "MOTION_BLUR_LOW|ENVIRONMENT_TYPE_PARK": 2,
+        "MOTION_BLUR_LOW|ENVIRONMENT_TYPE_URBAN": 3,
+        "MOTION_BLUR_MEDIUM|ENVIRONMENT_TYPE_PARK": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "motion_blur",
+      "factor_b": "environment_types_primary",
+      "levels_a": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "levels_b": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "MOTION_BLUR_LOW|ELEVATION_CHANGE_FLAT": 6,
+        "MOTION_BLUR_LOW|ELEVATION_CHANGE_UPHILL": 1,
+        "MOTION_BLUR_MEDIUM|ELEVATION_CHANGE_FLAT": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "motion_blur",
+      "factor_b": "elevation_changes_primary",
+      "levels_a": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "levels_b": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 3,
+      "sessions_needed_for_dr1_gate": 64,
+      "total_cells": 4
+    },
+    {
+      "cells": {
+        "MOTION_BLUR_LOW|GROUND_APPEARANCE_DARK_GRAY": 1,
+        "MOTION_BLUR_LOW|GROUND_APPEARANCE_LIGHT_GRAY": 4,
+        "MOTION_BLUR_LOW|GROUND_APPEARANCE_TERRAIN": 2,
+        "MOTION_BLUR_MEDIUM|GROUND_APPEARANCE_TERRAIN": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "motion_blur",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "MOTION_BLUR_LOW",
+        "MOTION_BLUR_MEDIUM"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN|ELEVATION_CHANGE_FLAT": 1,
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN|ELEVATION_CHANGE_UPHILL": 1,
+        "ENVIRONMENT_TYPE_PARK|ELEVATION_CHANGE_FLAT": 3,
+        "ENVIRONMENT_TYPE_URBAN|ELEVATION_CHANGE_FLAT": 3
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "environment_types_primary",
+      "factor_b": "elevation_changes_primary",
+      "levels_a": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "levels_b": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    },
+    {
+      "cells": {
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN|GROUND_APPEARANCE_LIGHT_GRAY": 1,
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN|GROUND_APPEARANCE_TERRAIN": 1,
+        "ENVIRONMENT_TYPE_PARK|GROUND_APPEARANCE_LIGHT_GRAY": 1,
+        "ENVIRONMENT_TYPE_PARK|GROUND_APPEARANCE_TERRAIN": 2,
+        "ENVIRONMENT_TYPE_URBAN|GROUND_APPEARANCE_DARK_GRAY": 1,
+        "ENVIRONMENT_TYPE_URBAN|GROUND_APPEARANCE_LIGHT_GRAY": 2
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "environment_types_primary",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 6,
+      "sessions_needed_for_dr1_gate": 144,
+      "total_cells": 9
+    },
+    {
+      "cells": {
+        "ELEVATION_CHANGE_FLAT|GROUND_APPEARANCE_DARK_GRAY": 1,
+        "ELEVATION_CHANGE_FLAT|GROUND_APPEARANCE_LIGHT_GRAY": 4,
+        "ELEVATION_CHANGE_FLAT|GROUND_APPEARANCE_TERRAIN": 2,
+        "ELEVATION_CHANGE_UPHILL|GROUND_APPEARANCE_TERRAIN": 1
+      },
+      "complete_design": false,
+      "dr1_gate_met_at_smoke_scale": false,
+      "dr1_min_per_cell": 16,
+      "factor_a": "elevation_changes_primary",
+      "factor_b": "ground_appearances_primary",
+      "levels_a": [
+        "ELEVATION_CHANGE_FLAT",
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "levels_b": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_LIGHT_GRAY",
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "min_sessions_per_cell": 0,
+      "occupied_cells": 4,
+      "sessions_needed_for_dr1_gate": 96,
+      "total_cells": 6
+    }
+  ],
+  "claim_boundary": {
+    "natural_video_scientific_claim": false,
+    "scientific_promotion": false,
+    "statement": "Attribute-mapping mechanics over frozen, hash-bound development metadata only. Not a representation, capability, or natural-video result.",
+    "test_sessions_touched": false
+  },
+  "created_at": "2026-07-10T07:27:25.545281+00:00",
+  "development_sessions": [
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "f1b9463abaea98d2404e787ba28c336dc48f5f8287fd8355b2c069eb7f52d27c",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_FLAT"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_FLAT",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_URBAN",
+        "ENVIRONMENT_TYPE_ROAD_JUNCTION"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_URBAN",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_LIGHT_GRAY"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_LIGHT_GRAY",
+      "human_traffic": "HUMAN_TRAFFIC_MODERATE",
+      "is_park": false,
+      "motion_blur": "MOTION_BLUR_LOW",
+      "num_obstacles": "NUM_OBSTACLES_MEDIUM",
+      "role": "train",
+      "session_id": "-5OCPnbrwJdu3jH70ieU7pUiFsOJQoeG",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_HEAVY",
+      "visibility": "VISIBILITY_HIGH",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    },
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "2ba63b9e0a270b10acb33a8e3bf6994a8041c52cb11042c42cd143266afa6184",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_FLAT"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_FLAT",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_URBAN"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_URBAN",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_DARK_GRAY",
+        "GROUND_APPEARANCE_PAVERS"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_DARK_GRAY",
+      "human_traffic": "HUMAN_TRAFFIC_MODERATE",
+      "is_park": false,
+      "motion_blur": "MOTION_BLUR_LOW",
+      "num_obstacles": "NUM_OBSTACLES_MEDIUM",
+      "role": "train",
+      "session_id": "-aAwyxNyh11M5W0DQ8YPcSfdkbvvctaV",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_MODERATE",
+      "visibility": "VISIBILITY_HIGH",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    },
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "6394033dd453337a293e9728babba092f10d8aff5d8af9f32077067f9656ffed",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_UPHILL"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_UPHILL",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_TERRAIN",
+      "human_traffic": "HUMAN_TRAFFIC_LOW",
+      "is_park": false,
+      "motion_blur": "MOTION_BLUR_LOW",
+      "num_obstacles": "NUM_OBSTACLES_MEDIUM",
+      "role": "train",
+      "session_id": "-aP-f2zTmsBIgoHTHAWqHW8PjpUcGr55",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_LOW",
+      "visibility": "VISIBILITY_HIGH",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    },
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "ae8258418ddce2dd0efc97e73f4ca75771a5af32ae8937550ca19ae8b63d06c8",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_FLAT"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_FLAT",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_PARK"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_PARK",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_TERRAIN",
+      "human_traffic": "HUMAN_TRAFFIC_LOW",
+      "is_park": true,
+      "motion_blur": "MOTION_BLUR_LOW",
+      "num_obstacles": "NUM_OBSTACLES_LOW",
+      "role": "train",
+      "session_id": "-MnIHGYpsPvn4CF_iAKGfRQewKSEZGv1",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_LOW",
+      "visibility": "VISIBILITY_MEDIUM",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    },
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "6e572668ab80143a9229591bed14dad1509725f204531436c9aeed6ca8833f42",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_FLAT"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_FLAT",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_PARK"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_PARK",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_LIGHT_GRAY"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_LIGHT_GRAY",
+      "human_traffic": "HUMAN_TRAFFIC_LOW",
+      "is_park": true,
+      "motion_blur": "MOTION_BLUR_LOW",
+      "num_obstacles": "NUM_OBSTACLES_LOW",
+      "role": "train",
+      "session_id": "-PXxwecxoR8mWhFQ09j-lddcSMLO_0K2",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_LOW",
+      "visibility": "VISIBILITY_HIGH",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    },
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "f0699b5ae5373aae835bbb84ec683b8974d51dba9fe8ba2bc07305d346394f2f",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_FLAT"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_FLAT",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_URBAN",
+        "ENVIRONMENT_TYPE_PARK",
+        "ENVIRONMENT_TYPE_ROAD_JUNCTION"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_URBAN",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_LIGHT_GRAY"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_LIGHT_GRAY",
+      "human_traffic": "HUMAN_TRAFFIC_MODERATE",
+      "is_park": true,
+      "motion_blur": "MOTION_BLUR_LOW",
+      "num_obstacles": "NUM_OBSTACLES_HIGH",
+      "role": "train",
+      "session_id": "-PqSDmiEe2pXjmYHgxh4YEBsj0T5LU10",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_LOW",
+      "visibility": "VISIBILITY_HIGH",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    },
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "96516a6506aaa92f5357d2ea37d868cb3b753660cab835b00a5f4df5df90bf55",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_FLAT"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_FLAT",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_OPEN_TERRAIN"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_OPEN_TERRAIN",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_LIGHT_GRAY"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_LIGHT_GRAY",
+      "human_traffic": "HUMAN_TRAFFIC_LOW",
+      "is_park": false,
+      "motion_blur": "MOTION_BLUR_LOW",
+      "num_obstacles": "NUM_OBSTACLES_MEDIUM",
+      "role": "validation",
+      "session_id": "-zfzmmr-bSvsDqVuBJM8GGMUBKXvBGZR",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_LOW",
+      "visibility": "VISIBILITY_HIGH",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    },
+    {
+      "animal_traffic": "ANIMAL_TRAFFIC_LOW",
+      "description_sha256": "008eba59f3797aef3336dfac12a96ba278e8c8bd0cdfe1ccb5d7f606b3c7412c",
+      "ego_motion": "EGO_MOTION_WALKING",
+      "elevation_changes": [
+        "ELEVATION_CHANGE_FLAT"
+      ],
+      "elevation_changes_primary": "ELEVATION_CHANGE_FLAT",
+      "environment_types": [
+        "ENVIRONMENT_TYPE_PARK"
+      ],
+      "environment_types_primary": "ENVIRONMENT_TYPE_PARK",
+      "ground_appearances": [
+        "GROUND_APPEARANCE_TERRAIN"
+      ],
+      "ground_appearances_primary": "GROUND_APPEARANCE_TERRAIN",
+      "human_traffic": "HUMAN_TRAFFIC_LOW",
+      "is_park": true,
+      "motion_blur": "MOTION_BLUR_MEDIUM",
+      "num_obstacles": "NUM_OBSTACLES_LOW",
+      "role": "validation",
+      "session_id": "-koZLfrjI5P5NIBgB4f_4jpMSMxsd9pH",
+      "vehicular_traffic": "VEHICULAR_TRAFFIC_LOW",
+      "visibility": "VISIBILITY_HIGH",
+      "weather_conditions": [
+        "WEATHER_CONDITION_SUNNY"
+      ],
+      "weather_conditions_primary": "WEATHER_CONDITION_SUNNY"
+    }
+  ],
+  "dr1_cm1_verdict": {
+    "any_pair_meets_dr1_min_per_cell": false,
+    "best_complete_pair": {
+      "factor_a": "is_park",
+      "factor_b": "human_traffic",
+      "min_sessions_per_cell": 1,
+      "total_cells": 4
+    },
+    "cm1_min_factors": 2,
+    "complete_two_factor_designs_at_n8": 1,
+    "statement": "The eight-session smoke pack maps which SANPO session attributes could form DR1/CM1 bound-factor designs and proves the mapping mechanics. No pair reaches the DR1 minimum of 16 sessions per cell at this scale, so every design here is nonpromotable. Promotion requires the session-diverse full intake sized by sessions_needed_for_dr1_gate for the chosen pair, with session-disjoint splits."
+  },
+  "factor_levels": {
+    "animal_traffic": {
+      "ANIMAL_TRAFFIC_LOW": 8
+    },
+    "ego_motion": {
+      "EGO_MOTION_WALKING": 8
+    },
+    "elevation_changes_primary": {
+      "ELEVATION_CHANGE_FLAT": 7,
+      "ELEVATION_CHANGE_UPHILL": 1
+    },
+    "environment_types_primary": {
+      "ENVIRONMENT_TYPE_OPEN_TERRAIN": 2,
+      "ENVIRONMENT_TYPE_PARK": 3,
+      "ENVIRONMENT_TYPE_URBAN": 3
+    },
+    "ground_appearances_primary": {
+      "GROUND_APPEARANCE_DARK_GRAY": 1,
+      "GROUND_APPEARANCE_LIGHT_GRAY": 4,
+      "GROUND_APPEARANCE_TERRAIN": 3
+    },
+    "human_traffic": {
+      "HUMAN_TRAFFIC_LOW": 5,
+      "HUMAN_TRAFFIC_MODERATE": 3
+    },
+    "is_park": {
+      "False": 4,
+      "True": 4
+    },
+    "motion_blur": {
+      "MOTION_BLUR_LOW": 7,
+      "MOTION_BLUR_MEDIUM": 1
+    },
+    "num_obstacles": {
+      "NUM_OBSTACLES_HIGH": 1,
+      "NUM_OBSTACLES_LOW": 3,
+      "NUM_OBSTACLES_MEDIUM": 4
+    },
+    "vehicular_traffic": {
+      "VEHICULAR_TRAFFIC_HEAVY": 1,
+      "VEHICULAR_TRAFFIC_LOW": 6,
+      "VEHICULAR_TRAFFIC_MODERATE": 1
+    },
+    "visibility": {
+      "VISIBILITY_HIGH": 7,
+      "VISIBILITY_MEDIUM": 1
+    },
+    "weather_conditions_primary": {
+      "WEATHER_CONDITION_SUNNY": 8
+    }
+  },
+  "mode": "metadata-only; no pixel decode; official-test sessions never opened",
+  "problems": [],
+  "schema": "mop-sanpo-dr1-cm1-attribute-map/v1",
+  "test_sessions_excluded": {
+    "count": 2,
+    "metadata_read": false,
+    "note": "official test stays sealed; not even description.json was opened",
+    "pixels_decoded": false
+  }
+}
