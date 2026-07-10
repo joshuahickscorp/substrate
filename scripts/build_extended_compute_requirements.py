@@ -23,8 +23,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "proof" / "EXTENDED_COMPUTE_REQUIREMENTS.json"
-EXPECTED_REGISTRY_COUNT = 196
-EXPECTED_REGISTRY_ID_SHA256 = "fbf69a660bba4b3cce47b4bd622bf9ba634a13a08dd997dbc3241b11c9d88552"
+EXPECTED_REGISTRY_COUNT = 197
+EXPECTED_REGISTRY_ID_SHA256 = "c9da139beaddf87de48adca66bb39b279e3acb35547aaf048f2a0ef58afc8b9e"
 
 CATEGORY_LABELS = {
     1: "already runnable locally",
@@ -1809,7 +1809,7 @@ def build() -> dict[str, Any]:
     matrix: dict[str, Any] = {
         "schema": "mop-extended-compute-requirements/v1",
         "snapshot_date": "2026-07-10",
-        "scope": "all 196 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
+        "scope": "all 197 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
         "decision": {
             "procurement": procurement,
             "studio_scale_required_now": required_count > 0,

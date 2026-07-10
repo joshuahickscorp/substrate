@@ -1,0 +1,52 @@
+id: mop_p5_context_capability
+name: context_capability_pilot
+module: p5_context
+metric: [heldout_combo_per_context, context_response_curve]
+null_hypothesis: "at matched parameters and matched active FLOPs, windowed, recurrent, and hierarchical factorized context mechanisms match exact global attention on held-out factor combinations within the 0.10 SESOI at 32 and 64 frames while peaking at lower measured bytes; exact global interaction is not a live capability lever in this context range"
+tier: cpu-now
+
+# Profiles are wall envelopes, not claim levels. p5smoke proves the plumbing end to end with one
+# seed and a twelve-step dense reference; p5pilot is the staged five-seed pilot. dense_steps is the
+# exact_global reference step count; factorized arms solve their own checkpoint-aligned step count
+# to match total estimated FLOPs. Rerunning the same command resumes from durable per-arm
+# checkpoints and per-seed receipts. The promotion block refuses confirmatory claims by construction.
+profiles:
+  p5smoke:
+    seeds: [0]
+    dense_steps: 12
+    checkpoint_every: 6
+    wall_budget_seconds: 10800.0
+  p5pilot:
+    seeds: [0, 1, 2, 3, 4]
+    dense_steps: 200
+    checkpoint_every: 25
+    wall_budget_seconds: 10800.0
+
+training:
+  batch_size: 4
+  learning_rate: 0.0005
+  weight_decay: 0.02
+  mask_ratio: 0.50
+  ema_decay: 0.99
+  variance_weight: 0.10
+
+screen:
+  sesoi: 0.10
+  futility_margin: 0.10
+  min_free_disk_gb: 40.0
+
+# Redundant with mop.substrate.p5_context.P5_CELLS by design: the runner verifies this table against
+# the registered constant and refuses drift, so the config cannot silently redefine the pilot.
+cells:
+  - {frames: 64, mechanism: exact_global}
+  - {frames: 64, mechanism: window_local}
+  - {frames: 64, mechanism: recurrent}
+  - {frames: 64, mechanism: hierarchical_pooled}
+  - {frames: 32, mechanism: exact_global}
+  - {frames: 32, mechanism: window_local}
+  - {frames: 32, mechanism: recurrent}
+  - {frames: 32, mechanism: hierarchical_pooled}
+  - {frames: 16, mechanism: exact_global}
+  - {frames: 16, mechanism: window_local}
+  - {frames: 16, mechanism: recurrent}
+  - {frames: 16, mechanism: hierarchical_pooled}

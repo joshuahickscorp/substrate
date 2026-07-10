@@ -34,10 +34,24 @@ from .custom_substrate import CM7, CM8  # noqa: E402
 REGISTRY[CM7.id] = CM7
 REGISTRY[CM8.id] = CM8
 
-# P4 rides the same lane: the class is a bounded single-cell smoke of the registered screen
-# codepath; the screen itself runs through scripts/p4_capability_density.py.
+# P4 and P5 ride the same lane: each class is a bounded mechanics smoke of its registered
+# codepath; the campaigns run through scripts/p4_capability_density.py and
+# scripts/p5_context_capability.py.
 from .p4_capability_density import P4Screen  # noqa: E402
+from .p5_context_wrapper import P5Context  # noqa: E402
 
 REGISTRY[P4Screen.id] = P4Screen
+REGISTRY[P5Context.id] = P5Context
 
-__all__ = ["Experiment", "E1", "I4", "CM7", "CM8", "P4Screen", "REGISTRY", "register", "get_experiment"]
+__all__ = [
+    "Experiment",
+    "E1",
+    "I4",
+    "CM7",
+    "CM8",
+    "P4Screen",
+    "P5Context",
+    "REGISTRY",
+    "register",
+    "get_experiment",
+]

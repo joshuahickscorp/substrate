@@ -2,7 +2,7 @@
 
 GENERATED from registry/experiments.yaml by `python scripts/devel.py experiments --render` (do not hand-edit; edit the registry). Every row is a preregistration: a null, a headline metric, a falsifier, and a proof/FAILURE_TAXONOMY.md slot, committed before it runs.
 
-196 catalogued: implemented=137, registry-only=57, deferred=2.
+197 catalogued: implemented=138, registry-only=57, deferred=2.
 
 Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 2.1-only); resource_tier is the planning class (cpu-now, studio-scale, environment-needed, weights-needed, moonshot). status is implemented / registry-only / deferred.
 
@@ -240,6 +240,7 @@ Tiers: exp_tier is the runnable Experiment.tier (cpu-now, gpu-later, env-later, 
 | mop_cm8_custom_jepa_pilot | custom_jepa_factoring_pilot | the custom-JEPA pilot ties both a random-init same-arch ViT and the best frozen atlas substrate on held-out combinations at matched compute: the custom objective bought nothing | env-later | registry-only | 3 |
 | mop_cm9_slot_jepa_binding | object_centric_slot_jepa_binding | dense tokens without slots tie the slotted model on multi-object held-out combinations, OR the binding-specificity swap shows non-target slots change too: slots add nothing over dense | env-later | registry-only | 2 |
 | mop_p4_capability_density_screen | capability_density_response_surface_screen | across twelve matched cells spanning 0.5x to 4x parameter budgets, three block families, two corpus densities, and two temporal extents, every registered response-surface coefficient on the predictive held-out combination score is bounded within the 0.10 SESOI band; capability density has no architecture/budget lever at this scale and follow-up cell selection is not better than uniform | cpu-now | implemented | 2 |
+| mop_p5_context_capability | context_capability_pilot | at matched parameters and matched active FLOPs, windowed, recurrent, and hierarchical factorized context mechanisms match exact global attention on held-out factor combinations within the 0.10 SESOI at 32 and 64 frames while peaking at lower measured bytes; exact global interaction is not a live capability lever in this context range | cpu-now | implemented | 9 |
 
 ## DR
 

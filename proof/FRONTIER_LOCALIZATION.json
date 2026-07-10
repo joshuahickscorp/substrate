@@ -585,26 +585,26 @@
       "scale_atlas_receipt": null
     }
   ],
-  "generated_at_unix": 1783674564.909889,
-  "git_revision": "165b4df",
+  "generated_at_unix": 1783677958.5174348,
+  "git_revision": "8b0e532",
   "host_readiness": {
     "all_ok": true,
     "chip": "Apple M3 Pro",
     "mps_available": true,
     "receipt": {
-      "bytes": 4022,
+      "bytes": 4025,
       "exists": true,
       "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "sha256": "9ec4966c118550267c5d5b7b65131746bac3eded6c68c35abf1066e250f6cad6"
+      "sha256": "f0572a67186d56352b1325ba143e2f3e990a1ac42f97b649dcf1d6122bbc16bb"
     },
     "unified_memory_gb": 19.3
   },
   "local_preflights": {
     "all_mechanics_verified": true,
     "all_scientific_paths_fail_closed": true,
-    "max_rss_bytes": 322404352,
+    "max_rss_bytes": 324222976,
     "receipt_schema": "mop-local-frontier-preflights/v1",
-    "seconds": 0.549743,
+    "seconds": 0.582679,
     "target_ids": [
       "mop_mt4_reasoning_router",
       "mop_at2_mode_substrate_dep",
@@ -651,13 +651,13 @@
       "bytes": 31500,
       "exists": true,
       "path": "runs/frontier_localization/local_preflights.json",
-      "sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424"
+      "sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd"
     },
     {
       "bytes": 31500,
       "exists": true,
       "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424"
+      "sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd"
     }
   ],
   "schema": "mop-frontier-localization/v1",
@@ -676,10 +676,10 @@
       "sha256": "26c43eb039b3c5deb30ac1f4a48c79cf249e791f21ad41542fb20289209e8d07"
     },
     {
-      "bytes": 286006,
+      "bytes": 288284,
       "exists": true,
       "path": "registry/experiments.yaml",
-      "sha256": "0b25346aeb32e9778278d43775c524d6abc93a99ec534a0a8878f8bcddc08340"
+      "sha256": "e4459f91e546c5cc69f3791587343c3d7df6927ec510af5685608cfb04275897"
     },
     {
       "bytes": 57906,
