@@ -34,4 +34,10 @@ from .custom_substrate import CM7, CM8  # noqa: E402
 REGISTRY[CM7.id] = CM7
 REGISTRY[CM8.id] = CM8
 
-__all__ = ["Experiment", "E1", "I4", "CM7", "CM8", "REGISTRY", "register", "get_experiment"]
+# P4 rides the same lane: the class is a bounded single-cell smoke of the registered screen
+# codepath; the screen itself runs through scripts/p4_capability_density.py.
+from .p4_capability_density import P4Screen  # noqa: E402
+
+REGISTRY[P4Screen.id] = P4Screen
+
+__all__ = ["Experiment", "E1", "I4", "CM7", "CM8", "P4Screen", "REGISTRY", "register", "get_experiment"]

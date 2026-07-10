@@ -29,7 +29,7 @@ import resource
 import shutil
 import time
 import traceback
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -1056,6 +1056,8 @@ def train_arm(
     teacher_targets: Mapping[str, torch.Tensor] | None = None,
     disk_path: Path = REPO_ROOT,
     disk_floor_bytes: int = 0,
+    model_factory: Callable[[], TinyVideoSubstrate] | None = None,
+    flops_estimator: Callable[..., int] | None = None,
 ) -> dict[str, Any]:
     if objective not in (*TRAIN_OBJECTIVES, OPTIONAL_OBJECTIVE):
         raise ValueError(f"unknown objective {objective!r}")
@@ -1083,9 +1085,9 @@ def train_arm(
         if not identity_ok:
             raise WorkbenchRefused(f"completed arm receipt identity drift at {receipt_path}")
 
-    model = TinyVideoSubstrate(model_spec)
+    model = TinyVideoSubstrate(model_spec) if model_factory is None else model_factory()
     model.load_state_dict(initial_state)
-    target = TinyVideoSubstrate(model_spec)
+    target = TinyVideoSubstrate(model_spec) if model_factory is None else model_factory()
     target.load_state_dict(initial_state)
     target.requires_grad_(False)
     model.to(device.device)
@@ -1218,7 +1220,8 @@ def train_arm(
         )
     elapsed = time.perf_counter() - started
     teacher_dim = next(iter(teacher_targets.values())).numel() if teacher_targets else 0
-    per_step = estimated_train_step_flops(
+    estimator = estimated_train_step_flops if flops_estimator is None else flops_estimator
+    per_step = estimator(
         data_spec,
         model_spec,
         batch_size=batch_size,
@@ -1275,9 +1278,10 @@ def load_arm_model(
     model_spec: ModelSpec,
     *,
     device: DeviceInfo,
+    model_factory: Callable[[], TinyVideoSubstrate] | None = None,
 ) -> TinyVideoSubstrate:
     checkpoint = torch.load(arm_dir / "checkpoint.pt", map_location="cpu", weights_only=True)
-    model = TinyVideoSubstrate(model_spec)
+    model = TinyVideoSubstrate(model_spec) if model_factory is None else model_factory()
     model.load_state_dict(checkpoint["model"])
     model.to(device.device).eval()
     return model
