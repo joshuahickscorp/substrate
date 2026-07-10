@@ -3,6 +3,15 @@
 Degraded / deferred / expected-failure items, each with reason + unblock step.
 Empty of hard failures means a clean run.
 
+## Known trap (2026-07-10)
+- `scripts/cache_factorized_encoder.py` (and any compose()-driven cache script) does not
+  implement `--help`; the token is swallowed and a full default 288-clip encode starts as a
+  side effect. When piped to `head`, the process wedges on a closed stdout pipe after store
+  preallocation, leaving an uncitable partial store that turns the doctor red. One such
+  runaway was killed and its receiptless partial removed this session. Unblock: add an early
+  argparse/usage guard to the compose()-driven scripts; until then read the module docstring
+  instead of passing --help.
+
 ## Deferred (environment, not a defect)
 - Real V-JEPA latent caching: encoder weights not fetched in this session (no model
   download). Synthetic-latent path is operational and all downstream is built/tested on
@@ -10,7 +19,7 @@ Empty of hard failures means a clean run.
   `python scripts/cache_latents.py encoder=vjepa2_vitl_fpc64_256 +source=<videos>`.
 - Tier R campaign legs (env rollouts + capstone): queued with enabled=false; need a
   rented CUDA box and a real environment. Unblock: set enabled=true on the Studio and
-  provide the env adapter.
+  connect the existing local action adapter to the exact rendered/substrate evidence required by the row.
 - V-JEPA 2.1 dense weights: NOT published on HF under any verified id (probed 2026-06; the
   `vjepa21_*` configs carry placeholder ids + `available: false`). The 2.1-only experiments
   (E6 dense vs pooled) stay deferred. Unblock: when 2.1 ships, set the real hf_id +
