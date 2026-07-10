@@ -41,8 +41,15 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   design exists (is_park x human_traffic, 4/4 cells, minimum 1 session per cell); no attribute
   pair meets the DR1 gate of 16 sessions per cell; the receipt sizes a promotable design at 64+
   session-disjoint sessions. Every design at smoke scale is nonpromotable by construction.
-- [~] P2 remainder (DR1/CM1-shaped mechanics caches over the 8 dev sessions) queued behind the
-  encoder heavy lane, currently owned by the sibling session's serial P3 control queue.
+- [~] P2 remainder RECLASSIFIED after code audit: the bridge's development evaluator
+  (src/mop/substrate/sanpo_bridge.py evaluate_development_artifact) hard-requires a portable
+  artifact whose CM7 independent-verifier verdict is promote-local-objective-lever; the actual
+  verdict is not-promoted, so the portable path is sealed until a successor substrate earns
+  promotion. The inherited-encoder path is input-blocked: the frozen plan renders 8-frame 256px
+  clips while ViT-L needs 64 frames and pinned ViT-B 2.1 needs 384px. First honest blocker is
+  data/plan (amended bridge plan or fuller frame downloads) or the scientific dependency (a
+  promoted artifact). Nothing about this is hardware. The achievable P2 half (attribute map)
+  is closed above.
 
 ## 2026-07-10 host arbitration + P3 ViT-L control verified (concurrent-session wave)
 

@@ -11,6 +11,12 @@ Empty of hard failures means a clean run.
   runaway was killed and its receiptless partial removed this session. Unblock: add an early
   argparse/usage guard to the compose()-driven scripts; until then read the module docstring
   instead of passing --help.
+- `load_encoder` silently returns the `frozen_random` fallback backend when the composed
+  config omits `prefer_real`/`require_real`. Any ad hoc script that forgets those overrides
+  can produce random-weight outputs labeled by intent as real. The established cache scripts
+  refuse this by asserting `enc.spec.backend`; every new consumer must do the same
+  (`+encoder.prefer_real=true +encoder.require_real=true` plus a backend assertion). Caught
+  fail-closed in scripts/factorized_stimulus_identity.py this session.
 
 ## Deferred (environment, not a defect)
 - Real V-JEPA latent caching: encoder weights not fetched in this session (no model
