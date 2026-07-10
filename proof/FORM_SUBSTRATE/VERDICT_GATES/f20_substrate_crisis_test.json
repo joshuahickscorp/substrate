@@ -1,6 +1,6 @@
 {
   "schema": "mop-verdict-gate/v1",
-  "created_at": "2026-07-10T06:53:12.132175+00:00",
+  "created_at": "2026-07-10T07:04:55.793321+00:00",
   "claim_id": "f20_substrate_crisis_test",
   "verdict": "DOWNGRADE-TIE",
   "positive": false,
@@ -15,7 +15,7 @@
   "run_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f20_substrate_crisis_test.json",
     "exists": true,
-    "sha256": "610902bbae396fac8a068402631a8ab4e56058c8d7a6e01f7ea43c78b17f1980",
+    "sha256": "91bcd72301bfee822b416daec1112e02c48e81dc4faf0cb0078dfc1f6980e696",
     "json_ok": true,
     "problems": []
   },

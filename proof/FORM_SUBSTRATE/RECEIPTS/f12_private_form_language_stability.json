@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:04.171417+00:00",
+  "created_at": "2026-07-10T07:02:25.789592+00:00",
   "experiment_id": "f12_private_form_language_stability",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f12_private_form_language_stability/002",
-    "manifest_path": "runs/f12_private_form_language_stability/002/manifest.json",
-    "manifest_sha256": "a2c68544b45abe2cdb3b73d3c2277ebe350e0fa422061c9311bfdcb4154d2f20",
-    "config_path": "runs/f12_private_form_language_stability/002/config.yaml",
-    "config_sha256": "8a3c6463246086135b64541f713551bec5af4fe27caaa4871d8a1fdf5e978d2e",
-    "git": "be7b5d9",
+    "run_dir": "runs/f12_private_form_language_stability/003",
+    "manifest_path": "runs/f12_private_form_language_stability/003/manifest.json",
+    "manifest_sha256": "92fc30c146c5d77ea329a9be3263303792db2cb450a55e6333d5dee43dbf95e3",
+    "config_path": "runs/f12_private_form_language_stability/003/config.yaml",
+    "config_sha256": "f771f9ea31e1b5f18f6349b2512615d1eac94be0ef0175e10f36e70c99b9faf4",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640044.077194,
-    "finished": 1783640044.171417
+    "started": 1783666945.703864,
+    "finished": 1783666945.789592
   },
   "metrics": {
     "codebook_k": 16,
@@ -145,11 +145,11 @@
       },
       "cost": {
         "params": 1536.0,
-        "seconds": 0.08943529205862433
+        "seconds": 0.08080708305351436
       },
       "density": {
         "code_agreement_per_params": 0.00035319010416666664,
-        "code_agreement_per_seconds": 6.065838077035566
+        "code_agreement_per_seconds": 6.7135203932646625
       }
     }
   },
@@ -172,11 +172,11 @@
     },
     "cost": {
       "params": 1536.0,
-      "seconds": 0.08943529205862433
+      "seconds": 0.08080708305351436
     },
     "density": {
       "code_agreement_per_params": 0.00035319010416666664,
-      "code_agreement_per_seconds": 6.065838077035566
+      "code_agreement_per_seconds": 6.7135203932646625
     }
   },
   "operational_awareness": {
@@ -199,5 +199,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f12_private_form_language_stability.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "0454606493362b58ee41742f750691e231bf49062e73b99c72107e66a4262e80"
+  "receipt_fingerprint": "245735ef99840215686deafc763f5046a5950c9cb00da83835b64546ce4da9d0"
 }

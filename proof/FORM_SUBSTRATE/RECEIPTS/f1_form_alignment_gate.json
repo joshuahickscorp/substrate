@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:33:56.415861+00:00",
+  "created_at": "2026-07-10T07:02:18.546314+00:00",
   "experiment_id": "f1_form_alignment_gate",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f1_form_alignment_gate/001",
-    "manifest_path": "runs/f1_form_alignment_gate/001/manifest.json",
-    "manifest_sha256": "7477466db3d7281057e6ac0715769d043809c60ce1d6e9aac51852743811580e",
-    "config_path": "runs/f1_form_alignment_gate/001/config.yaml",
-    "config_sha256": "eabc9498a5c8fad8280066a56a501d928f5e272fe8291584f75e71df0d2ef586",
-    "git": "be7b5d9",
+    "run_dir": "runs/f1_form_alignment_gate/002",
+    "manifest_path": "runs/f1_form_alignment_gate/002/manifest.json",
+    "manifest_sha256": "45c3511e5c745b4e5b3b3a53ebcf0c4d2aa2d0ef06aca6651f1f78eec3aef7bc",
+    "config_path": "runs/f1_form_alignment_gate/002/config.yaml",
+    "config_sha256": "64b91f6cc98eaa89f672ececc1b271696fdbf6210f71eb8edb9579b6870f3e04",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640036.262657,
-    "finished": 1783640036.415861
+    "started": 1783666938.416785,
+    "finished": 1783666938.546314
   },
   "metrics": {
     "source_form": "vision",
@@ -160,11 +160,11 @@
       },
       "cost": {
         "params": 248.0,
-        "seconds": 0.14495395799167454
+        "seconds": 0.12381679192185402
       },
       "density": {
         "aligned_transfer_per_params": 0.0032018049109366633,
-        "aligned_transfer_per_seconds": 5.477929881417235
+        "aligned_transfer_per_seconds": 6.413085055647778
       }
     }
   },
@@ -187,11 +187,11 @@
     },
     "cost": {
       "params": 248.0,
-      "seconds": 0.14495395799167454
+      "seconds": 0.12381679192185402
     },
     "density": {
       "aligned_transfer_per_params": 0.0032018049109366633,
-      "aligned_transfer_per_seconds": 5.477929881417235
+      "aligned_transfer_per_seconds": 6.413085055647778
     }
   },
   "operational_awareness": {
@@ -214,5 +214,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "2f5904e936a44e7ee5769584c34330b42487430d2f7cb8699b00e34e879a1b47"
+  "receipt_fingerprint": "873079b7b6d86fc1fd44a379a291f68d5c31491d4836853df3bf3652f60b5468"
 }

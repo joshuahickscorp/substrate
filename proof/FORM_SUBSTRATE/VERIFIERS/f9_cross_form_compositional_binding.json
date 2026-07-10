@@ -104,8 +104,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f9_cross_form_compositional_binding/005",
-        "verifier": "runs/form_verifiers/f9_cross_form_compositional_binding/001"
+        "canonical": "runs/f9_cross_form_compositional_binding/006",
+        "verifier": "runs/form_verifiers/f9_cross_form_compositional_binding/002"
       },
       "passed": true
     },
@@ -315,21 +315,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:24.068292+00:00",
+  "created_at": "2026-07-10T07:03:57.837882+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f9_cross_form_compositional_binding.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f9_cross_form_compositional_binding/001/config.yaml",
-    "config_snapshot_sha256": "01f488ceebb48277a16cbcf5129d167fcba2634a4e78d9cd3cd11fcb4446b12c",
+    "config_snapshot_path": "runs/form_verifiers/f9_cross_form_compositional_binding/002/config.yaml",
+    "config_snapshot_sha256": "a6881c9c7d5ae23ab4ce395d25d1c92762b39524cb3a5983b0ed3373983c2fc1",
     "device": "cpu",
-    "finished": 1783652483.6302972,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f9_cross_form_compositional_binding/001/manifest.json",
-    "manifest_sha256": "cb63f783a30de772684003d866bfa9daba11edc0521da569e140b41109b4c877",
-    "run_dir": "runs/form_verifiers/f9_cross_form_compositional_binding/001",
-    "seconds": 1.3113811016082764,
-    "started": 1783652482.318916,
+    "finished": 1783667037.4558,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f9_cross_form_compositional_binding/002/manifest.json",
+    "manifest_sha256": "e1e2928cc31308b530f782022ba6cd8c734c5d0e835891b02ed2e5a83767c659",
+    "run_dir": "runs/form_verifiers/f9_cross_form_compositional_binding/002",
+    "seconds": 1.1435661315917969,
+    "started": 1783667036.312234,
     "status": "ok"
   },
   "experiment_id": "f9_cross_form_compositional_binding",
@@ -376,10 +376,10 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "dfe574f9a94369cef2a0f1d0c4f3db55330563e343593c7ca312fffad553727c",
+  "metrics_sha256": "6a7254b13abde783ed3185f1d4cdd0697757bba0a912825981f2b07c16d6fef5",
   "passed": true,
   "problems": [],
-  "receipt_fingerprint": "2f312a669837bf943230bc65e6f91b9e0d1edc8d882bc314e4a429f2195f7354",
+  "receipt_fingerprint": "2b134d35ddf20b97052d6ae50fd65b689882b2c5e2b0ed106f9f17f82c935654",
   "recomputed": {
     "aggregate_delta": 0.6153,
     "strongest_control": 0.2298
@@ -388,8 +388,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f9_cross_form_compositional_binding.json",
-      "receipt_fingerprint": "d19b16ae632caaae8e3e31f709dbf58dd68c5bc0311e62165c104624345ef705",
-      "sha256": "ec21dfed469d6d24c7533ee2fbaaa49d406fdc48e489f809be90cbad131abbe7"
+      "receipt_fingerprint": "ef6377a9cce2e41cff978ffa6418a895a5dd98e76f25c3a1cc67284e3857e68f",
+      "sha256": "419ea6dff2e16210090eb6b8e2412d63aafa2e4ebf1091e155ce166b03799aa1"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -403,11 +403,11 @@
       },
       "cost": {
         "params": 136.0,
-        "seconds": 0.9576867910800502
+        "seconds": 0.8178971250308678
       },
       "density": {
         "heldout_combo_acc_per_params": 0.006213687886210049,
-        "heldout_combo_acc_per_seconds": 0.8823986718784456
+        "heldout_combo_acc_per_seconds": 1.0332125235098162
       },
       "primary": "heldout_combo_acc",
       "schema": "mop-density-block/v1"

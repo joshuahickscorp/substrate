@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:33:57.118687+00:00",
+  "created_at": "2026-07-10T07:02:19.149082+00:00",
   "experiment_id": "f2_heldout_form_transfer",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f2_heldout_form_transfer/000",
-    "manifest_path": "runs/f2_heldout_form_transfer/000/manifest.json",
-    "manifest_sha256": "c6b5d5bda9667ca2dc99a71f7ded8535ff6f2f102ebb31cae59895f9591c2cf8",
-    "config_path": "runs/f2_heldout_form_transfer/000/config.yaml",
-    "config_sha256": "a2768afc73787a104d4cfb05e3434540562c9eae5ccc31342384cd084cc5322a",
-    "git": "be7b5d9",
+    "run_dir": "runs/f2_heldout_form_transfer/001",
+    "manifest_path": "runs/f2_heldout_form_transfer/001/manifest.json",
+    "manifest_sha256": "e14a92f6353234e3a8ca87190c3f0c60ce10f5a0e9c2157b457befbb30319ce3",
+    "config_path": "runs/f2_heldout_form_transfer/001/config.yaml",
+    "config_sha256": "16af5bab1b3005f921a5488c44e963419d8eab3356a54471062646f7c7093a19",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640036.902117,
-    "finished": 1783640037.118687
+    "started": 1783666938.9191198,
+    "finished": 1783666939.1490822
   },
   "metrics": {
     "heldout_form": "timeseries",
@@ -179,12 +179,12 @@
       },
       "cost": {
         "params": 370.0,
-        "seconds": 0.21185874997172505,
+        "seconds": 0.22576070798095316,
         "updates": 60.0
       },
       "density": {
         "heldout_form_acc_per_params": 0.0017417417345820245,
-        "heldout_form_acc_per_seconds": 3.041858983314862,
+        "heldout_form_acc_per_seconds": 2.8545465132476426,
         "heldout_form_acc_per_updates": 0.010740740696589151
       }
     }
@@ -208,12 +208,12 @@
     },
     "cost": {
       "params": 370.0,
-      "seconds": 0.21185874997172505,
+      "seconds": 0.22576070798095316,
       "updates": 60.0
     },
     "density": {
       "heldout_form_acc_per_params": 0.0017417417345820245,
-      "heldout_form_acc_per_seconds": 3.041858983314862,
+      "heldout_form_acc_per_seconds": 2.8545465132476426,
       "heldout_form_acc_per_updates": 0.010740740696589151
     }
   },
@@ -237,5 +237,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f2_heldout_form_transfer.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "cc4e73ec8837233b6c27fafb09cadeec9d5f79fa17f70a78e8f449c46db496b9"
+  "receipt_fingerprint": "7f64dd902079cb5d012c7c1b2eb1cd4c6833c08660ecd66a94fe2354930a4c2a"
 }

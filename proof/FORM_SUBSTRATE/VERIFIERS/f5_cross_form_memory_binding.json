@@ -104,8 +104,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f5_cross_form_memory_binding/002",
-        "verifier": "runs/form_verifiers/f5_cross_form_memory_binding/002"
+        "canonical": "runs/f5_cross_form_memory_binding/003",
+        "verifier": "runs/form_verifiers/f5_cross_form_memory_binding/003"
       },
       "passed": true
     },
@@ -327,21 +327,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:19.992557+00:00",
+  "created_at": "2026-07-10T07:03:53.878115+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f5_cross_form_memory_binding.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f5_cross_form_memory_binding/002/config.yaml",
-    "config_snapshot_sha256": "1ea59bd6e5b6211ee1e1eef3fb5ac4d77503614427b4af213545615cf1d67bb3",
+    "config_snapshot_path": "runs/form_verifiers/f5_cross_form_memory_binding/003/config.yaml",
+    "config_snapshot_sha256": "f6243b952190aca2c01b52e872e5183667736c17fa47a1ea81f677915815ba58",
     "device": "cpu",
-    "finished": 1783652479.539798,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f5_cross_form_memory_binding/002/manifest.json",
-    "manifest_sha256": "102c4134918dcf1754e1eb7c0833ad889685c0a1a3874a4ef1fbe4cacb2368a7",
-    "run_dir": "runs/form_verifiers/f5_cross_form_memory_binding/002",
-    "seconds": 0.46442604064941406,
-    "started": 1783652479.075372,
+    "finished": 1783667033.4176471,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f5_cross_form_memory_binding/003/manifest.json",
+    "manifest_sha256": "5626f80678f83b4c326b67e79c35bfd448674beb232597b86dbfd0a0d6423b59",
+    "run_dir": "runs/form_verifiers/f5_cross_form_memory_binding/003",
+    "seconds": 0.5070421695709229,
+    "started": 1783667032.910605,
     "status": "ok"
   },
   "experiment_id": "f5_cross_form_memory_binding",
@@ -389,10 +389,10 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "1d18d48415dfcaed1a47b0e89778c5534fc7279c2a4bbdfa2c6b3ca085c21a51",
+  "metrics_sha256": "1d8cfac27cee19d4eebae467f7e56157b7876fedcac9edf9d06dcab83708e833",
   "passed": true,
   "problems": [],
-  "receipt_fingerprint": "2f352721a04e9c359562b8c782f8853b8962d86537f40bd4651f3924550fd88b",
+  "receipt_fingerprint": "cce77b76916945204524edd720de30ea46e8c201a81ded3f7e6d4565fe854107",
   "recomputed": {
     "aggregate_delta": 0.914,
     "oracle_gap": 0.07769999999999999,
@@ -402,8 +402,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f5_cross_form_memory_binding.json",
-      "receipt_fingerprint": "0bcf8b3b0a644470217ebdfec227838c6c0aa6c5d0344fd467b5621008c8213c",
-      "sha256": "370a97be9153e6ab7c9bb7790133fe5ea0a12a3057495b919dbe84705d107b6a"
+      "receipt_fingerprint": "4ea7658524e53fbcf02ab1ddd944b352d06765abd9a627141cf57cdf9c7fd78f",
+      "sha256": "cd1d214374be98f38fb684a06dd009f6ca3a955f1cd56626e6affd68dc3df47f"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -417,11 +417,11 @@
       },
       "cost": {
         "bytes": 35816.0,
-        "seconds": 0.014276791014708579
+        "seconds": 0.02392408298328519
       },
       "density": {
         "cross_form_recall_at_k_per_bytes": 2.5751453865738034e-05,
-        "cross_form_recall_at_k_per_seconds": 64.60233750743181
+        "cross_form_recall_at_k_per_seconds": 38.551700071415816
       },
       "primary": "cross_form_recall_at_k",
       "schema": "mop-density-block/v1"

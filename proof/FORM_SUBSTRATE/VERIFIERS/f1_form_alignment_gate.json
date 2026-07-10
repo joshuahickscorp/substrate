@@ -104,8 +104,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f1_form_alignment_gate/001",
-        "verifier": "runs/form_verifiers/f1_form_alignment_gate/002"
+        "canonical": "runs/f1_form_alignment_gate/002",
+        "verifier": "runs/form_verifiers/f1_form_alignment_gate/003"
       },
       "passed": true
     },
@@ -320,21 +320,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:13.796711+00:00",
+  "created_at": "2026-07-10T07:03:47.964430+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f1_form_alignment_gate.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f1_form_alignment_gate/002/config.yaml",
-    "config_snapshot_sha256": "b628c884c5b080267822a50041208aec6e7601d15ce3c392a37abd724260cf5a",
+    "config_snapshot_path": "runs/form_verifiers/f1_form_alignment_gate/003/config.yaml",
+    "config_snapshot_sha256": "f24f1b5f3dd9d22905797d077ddda292b972dc09750d15071e757fcf5658f9d6",
     "device": "cpu",
-    "finished": 1783652473.4616818,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f1_form_alignment_gate/002/manifest.json",
-    "manifest_sha256": "59eb7c24c8ee81adc8b8478840ef599099c396f2bd1c68ed92b8a5245706d830",
-    "run_dir": "runs/form_verifiers/f1_form_alignment_gate/002",
-    "seconds": 1.1260087490081787,
-    "started": 1783652472.335673,
+    "finished": 1783667027.627475,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f1_form_alignment_gate/003/manifest.json",
+    "manifest_sha256": "c7303df97f986ad32784c1bfe585edb8827136699b9f82acac878404c32f68cb",
+    "run_dir": "runs/form_verifiers/f1_form_alignment_gate/003",
+    "seconds": 1.4968578815460205,
+    "started": 1783667026.1306171,
     "status": "ok"
   },
   "experiment_id": "f1_form_alignment_gate",
@@ -381,10 +381,10 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "bc7fd07b64cc7b65441fc39e0506146630eefaf91c4f7c477a4d1212baa11996",
+  "metrics_sha256": "8a055d07bb96d989d65ef2929cfe815950aa47c81d1cacb50f63f754315f3673",
   "passed": true,
   "problems": [],
-  "receipt_fingerprint": "734314f73e770cf62522f8caaa9b9fc6d345aceab00fcb6613ab6de23df0daac",
+  "receipt_fingerprint": "2ee91460c12f617c62dc5829a3fa914da9f06de3ee6af16bd87895f74dcc9e6b",
   "recomputed": {
     "aggregate_delta": 0.6404,
     "strongest_control": 0.1429
@@ -393,8 +393,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json",
-      "receipt_fingerprint": "2f5904e936a44e7ee5769584c34330b42487430d2f7cb8699b00e34e879a1b47",
-      "sha256": "69c2f3c1e1d9e21bb0f72e1e7a53bac20af558fdc0d6683645142076f42fca00"
+      "receipt_fingerprint": "873079b7b6d86fc1fd44a379a291f68d5c31491d4836853df3bf3652f60b5468",
+      "sha256": "5b3606408bc43f7ca3bfe9acf85fed94f0dcd5f853351e76c506f1bd1785c2a3"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -409,11 +409,11 @@
       },
       "cost": {
         "params": 248.0,
-        "seconds": 0.14638324989937246
+        "seconds": 0.3356770840473473
       },
       "density": {
         "aligned_transfer_per_params": 0.0031586021184921266,
-        "aligned_transfer_per_seconds": 5.351249722386479
+        "aligned_transfer_per_seconds": 2.3335919030908827
       },
       "primary": "aligned_transfer",
       "schema": "mop-density-block/v1"

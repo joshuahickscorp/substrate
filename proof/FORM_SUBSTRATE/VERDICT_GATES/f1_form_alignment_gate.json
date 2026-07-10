@@ -1,6 +1,6 @@
 {
   "schema": "mop-verdict-gate/v1",
-  "created_at": "2026-07-10T06:53:12.130256+00:00",
+  "created_at": "2026-07-10T07:04:55.790923+00:00",
   "claim_id": "f1_form_alignment_gate",
   "verdict": "PUBLISH-POSITIVE",
   "positive": true,
@@ -15,14 +15,14 @@
   "run_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json",
     "exists": true,
-    "sha256": "69c2f3c1e1d9e21bb0f72e1e7a53bac20af558fdc0d6683645142076f42fca00",
+    "sha256": "5b3606408bc43f7ca3bfe9acf85fed94f0dcd5f853351e76c506f1bd1785c2a3",
     "json_ok": true,
     "problems": []
   },
   "verifier_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f1_form_alignment_gate.json",
     "exists": true,
-    "sha256": "527be52fed864164ee9b6c852deb30f99c52dbdb6140212a4f4274ef5d693846",
+    "sha256": "6b7f939a92ed0730f00b588823ff7e9facda54c0fdc2e36dc7cc085855222ef5",
     "json_ok": true,
     "passed": true,
     "independent": true,

@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:00.798516+00:00",
+  "created_at": "2026-07-10T07:02:22.652716+00:00",
   "experiment_id": "f7_developmental_form_growth",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f7_developmental_form_growth/001",
-    "manifest_path": "runs/f7_developmental_form_growth/001/manifest.json",
-    "manifest_sha256": "fd49acde3633d34b1db02aba855a4161ac1310ec1054207478909daf328f5faa",
-    "config_path": "runs/f7_developmental_form_growth/001/config.yaml",
-    "config_sha256": "c96266b6a439777209f60abd4a134de21cd654a4030e9ce610cee8186090cd94",
-    "git": "be7b5d9",
+    "run_dir": "runs/f7_developmental_form_growth/002",
+    "manifest_path": "runs/f7_developmental_form_growth/002/manifest.json",
+    "manifest_sha256": "c1640bb98325b307a929e5a6ebb59ce28c45cbf4a51f489c6aa10812afbd3522",
+    "config_path": "runs/f7_developmental_form_growth/002/config.yaml",
+    "config_sha256": "012c6b8096205da1b5953e467cb266949a99999f2a4c01b60cd4a85f71bdec5b",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640040.5054379,
-    "finished": 1783640040.798516
+    "started": 1783666942.350942,
+    "finished": 1783666942.652716
   },
   "metrics": {
     "frontier_auc_gain": -0.1687,
@@ -285,5 +285,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f7_developmental_form_growth.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "1e7b5af4762adcfbf65bc133f3db9d04aee2d84472ddc380cc1a306665f8b7ee"
+  "receipt_fingerprint": "36a3b5abe022b7c9db3bec545fd563b84d6e9163199dfc7c034bc91d4c4da6e9"
 }

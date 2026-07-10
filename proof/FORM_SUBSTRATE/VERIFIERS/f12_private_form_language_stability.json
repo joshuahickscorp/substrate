@@ -272,8 +272,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f12_private_form_language_stability/002",
-        "verifier": "runs/form_verifiers/f12_private_form_language_stability/001"
+        "canonical": "runs/f12_private_form_language_stability/003",
+        "verifier": "runs/form_verifiers/f12_private_form_language_stability/002"
       },
       "passed": true
     },
@@ -483,21 +483,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:29.700115+00:00",
+  "created_at": "2026-07-10T07:04:02.685218+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f12_private_form_language_stability.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f12_private_form_language_stability/001/config.yaml",
-    "config_snapshot_sha256": "0f50d25807371fc56e01798d710ee440e176ccb2c912a2aca613bc640ca3edea",
+    "config_snapshot_path": "runs/form_verifiers/f12_private_form_language_stability/002/config.yaml",
+    "config_snapshot_sha256": "62099816326b14a8fd60bc9beef4253af5500a7df5caf7ef2a330a4d1ae1cbcd",
     "device": "cpu",
-    "finished": 1783652489.266122,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f12_private_form_language_stability/001/manifest.json",
-    "manifest_sha256": "12a57f0e31942c3a9676d7a1d26cf2db4f53164b5ebea30b9ca5f85cfa9cf29c",
-    "run_dir": "runs/form_verifiers/f12_private_form_language_stability/001",
-    "seconds": 3.3004651069641113,
-    "started": 1783652485.965657,
+    "finished": 1783667042.3236742,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f12_private_form_language_stability/002/manifest.json",
+    "manifest_sha256": "3e775cb9f43f59471f7801a65e16fd62ebe22a6f0f5f1ccc49193627529e1e65",
+    "run_dir": "runs/form_verifiers/f12_private_form_language_stability/002",
+    "seconds": 2.8101933002471924,
+    "started": 1783667039.513481,
     "status": "ok"
   },
   "experiment_id": "f12_private_form_language_stability",
@@ -544,10 +544,10 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "2b3d1d16e645548a7de6bf4597a021b9486a8d936faaad1f23ae562ce9473201",
+  "metrics_sha256": "b42c749b997f0d8fb2ea357c77a6280c4d4172ba47ab216ad2e9e225fc21b488",
   "passed": true,
   "problems": [],
-  "receipt_fingerprint": "0e15406f92d7fd41da519850f6007ada1f57ecc5ee03a5eb2dda9cb040a7ba48",
+  "receipt_fingerprint": "274bfb7d44f465ab948a3cce4060a2292310e6a1f148bd43d1760bdd23d2bdbf",
   "recomputed": {
     "agreement_delta": 0.3358,
     "hungarian_calls": [
@@ -727,8 +727,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f12_private_form_language_stability.json",
-      "receipt_fingerprint": "0454606493362b58ee41742f750691e231bf49062e73b99c72107e66a4262e80",
-      "sha256": "608553fdbaebf2d433ca8e16061e1665376f884094ef14e3f991b881d61f2e48"
+      "receipt_fingerprint": "245735ef99840215686deafc763f5046a5950c9cb00da83835b64546ce4da9d0",
+      "sha256": "ef9c4cb2847b1889eb583e10a521cc13b4cf75142d662e5142543acfc018c194"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -744,11 +744,11 @@
       },
       "cost": {
         "params": 1536.0,
-        "seconds": 2.828200416988693
+        "seconds": 2.4586885418975726
       },
       "density": {
         "code_agreement_per_params": 0.0003743489583333333,
-        "code_agreement_per_seconds": 0.2033094955173747
+        "code_agreement_per_seconds": 0.23386451362246358
       },
       "primary": "code_agreement",
       "schema": "mop-density-block/v1"

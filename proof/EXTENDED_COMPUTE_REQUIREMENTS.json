@@ -66,12 +66,12 @@
   "calculations": {
     "c_active_disk_floor": {
       "free_needed_for_10000_dense_fp16_plus_floor_gb_decimal": 207.77216,
-      "hypothetical_dense_fp16_clips_before_floor": 237,
+      "hypothetical_dense_fp16_clips_before_floor": 3823,
       "interpretation": "active storage floor, not accelerator-memory evidence",
       "kind": "calculation-from-measured-receipt",
-      "receipt_free_gb_decimal": 43.981,
+      "receipt_free_gb_decimal": 104.145,
       "required_floor_gb_decimal": 40.0,
-      "safe_headroom_gb_decimal": 3.9810000000000016
+      "safe_headroom_gb_decimal": 64.145
     },
     "c_adam_trainable_state": {
       "cm7_high_mb_decimal": 29.62944,
@@ -199,35 +199,14 @@
     {
       "all_current": false,
       "artifact": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "checks": 654,
+      "checks": 657,
       "mismatches": [
         {
-          "actual_sha256": "240a26175dcce8bc149f9a4aa6f5035460cdc70f6b2c64ba9a7d1b5264d20722",
-          "expected_sha256": "29ba61df0317b8af1cc30f6972fbb5bfe80b338b0f6dca761dd1b551adf2e500",
-          "occurrences": 1,
-          "path": "src/mop/experiments/e6_relational.py",
-          "pointer": "/entries/5/source_evidence/0"
-        },
-        {
-          "actual_sha256": "1927b21b7efa79c1b1c88fe0fe46b72d08d6b7fa44d067a2682170611bdbb45b",
-          "expected_sha256": "09b2514c2c3cb01ed6720948a651d9221b87b1f384152cc221908ab5416ab289",
-          "occurrences": 1,
-          "path": "configs/experiment/e6_relational.yaml",
-          "pointer": "/entries/5/source_evidence/1"
-        },
-        {
-          "actual_sha256": "ddb37c12d932527ac08b19cdc205c5715e4bb047d753177d4f07c87373287e40",
-          "expected_sha256": "99c2ec96982e4c3df8dd26ad534351968d825755fc58657343c8c84a4785d189",
-          "occurrences": 1,
-          "path": "src/mop/experiments/ex5_local_rules_scale.py",
-          "pointer": "/entries/15/source_evidence/0"
-        },
-        {
-          "actual_sha256": "5977f2895e6b743d44d49e4ac76fef0deed4cff54992419053f7eaa61e9a915a",
-          "expected_sha256": "471380b71fa202bfa475c83105a8b06bee87c78a08fc9e985f2b322e13c49a8a",
-          "occurrences": 1,
-          "path": "registry/experiments.yaml",
-          "pointer": "/registry_evidence"
+          "actual_sha256": "71eca005da3cdbc671b06710be6fd7209ee654e4ecb0fc9ec924441881261b6d",
+          "expected_sha256": "0344413f035187db9b6524e1f0a380365bc6ca5e9fc1d5afcbab84462bda603f",
+          "occurrences": 5,
+          "path": "runs/frontier_localization/local_preflights.json",
+          "pointer": "/entries/122/evidence/0"
         }
       ],
       "missing": []
@@ -238,32 +217,11 @@
       "checks": 19,
       "mismatches": [
         {
-          "actual_sha256": "21cc5a60983b731dd683a65e76a19f1ddfc556a9ec568208bca2eec55125014e",
-          "expected_sha256": "5e8fb0fd4c6faa9911f6187633706e9a800544c441c4f83c29e1cb3f8c37151e",
-          "occurrences": 3,
-          "path": "proof/VJEPA_SCALE_ATLAS_LOCAL.json",
-          "pointer": "/entries/0/scale_atlas_receipt"
-        },
-        {
-          "actual_sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1",
-          "expected_sha256": "a3b0708d2fa73af47a5e6a7879f4e3ae48e35c197ab10bbcb7a74c3c2183783f",
+          "actual_sha256": "74d0f262e1b780f6ef7e65ab6d87ff3649ccc2724cc647f95efe10057be4520d",
+          "expected_sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1",
           "occurrences": 1,
           "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
           "pointer": "/host_readiness/receipt"
-        },
-        {
-          "actual_sha256": "5977f2895e6b743d44d49e4ac76fef0deed4cff54992419053f7eaa61e9a915a",
-          "expected_sha256": "0fb02b2019cff8e392c7865a21a15267be286d4732160120492a1a917be0cb37",
-          "occurrences": 1,
-          "path": "registry/experiments.yaml",
-          "pointer": "/source_evidence/2"
-        },
-        {
-          "actual_sha256": "5df4a6014c2fccfaabf2ff9f36fea628646d50dad72cb9e6521a24ccdce25582",
-          "expected_sha256": "9f875d5cb0de96c4223ba4d858449b371b55e4295710c1c7cc1429746d8770b8",
-          "occurrences": 1,
-          "path": "src/mop/studies/project_exhaustion.py",
-          "pointer": "/source_evidence/3"
         }
       ],
       "missing": []
@@ -299,193 +257,10 @@
       "missing": []
     },
     {
-      "all_current": false,
+      "all_current": true,
       "artifact": "proof/ARTIFACT_INDEX/form_substrate.json",
-      "checks": 66,
-      "mismatches": [
-        {
-          "actual_sha256": "3a69324cf86c9872102be0a27182f817d52c61cf3fb355e692ddd69d154784c5",
-          "expected_sha256": "8f7c02b32792efeadc932b6738f97aa974eabb13ee5af8c81c50465cef2a4a12",
-          "occurrences": 1,
-          "path": "campaign/form_substrate_campaign.yaml",
-          "pointer": "/artifacts/0"
-        },
-        {
-          "actual_sha256": "0c4415b993b0bc9a80e2bf7175d237ed92af7f4b9dc6c97e497b67828f827e10",
-          "expected_sha256": "985ebcae0595eeedcf4c12dfa61d943f7dc9956ced6306c03e8cabf27ac5ac5b",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/README.md",
-          "pointer": "/artifacts/1"
-        },
-        {
-          "actual_sha256": "63acb31d176fa4c310c0088ceb311cb804f946ee96ab73dfd2fd50a359a5e4ca",
-          "expected_sha256": "61726c25872d7f22b31237885d1e8aa537c0cad893ce2b32f7164fc3e96b7a5d",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
-          "pointer": "/artifacts/2"
-        },
-        {
-          "actual_sha256": "25f7d490202105c44cc2a8b3d6edcda823e12cde4f12e0aa65128ef623dde24f",
-          "expected_sha256": "f868ec5dc67613e094a4584cf9d727f4417f834d382ad09426da5520459d8455",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/OA_INPUT.json",
-          "pointer": "/artifacts/4"
-        },
-        {
-          "actual_sha256": "42bd9aade7f4be0092eec73755ea5d70a6834bd8bb1ed6a0b2cc0c781b52edac",
-          "expected_sha256": "a6c02bd3d8d9998a075dabdd3adbe014adea088d14ea9a2f54bc157a68a5e9fb",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/DENSITY_INPUT.json",
-          "pointer": "/artifacts/5"
-        },
-        {
-          "actual_sha256": "f52a7ac4a91a58c796b4f9e47c4732bec349b8aa5e18a3f21e6409cdf7c435d7",
-          "expected_sha256": "ab0d7aa5f81da23c4bb0e65e4b97073c66cb7aa55d5c4da0ee727a2fbc092c79",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/SCORECARD.json",
-          "pointer": "/artifacts/6"
-        },
-        {
-          "actual_sha256": "8753626534a812275ae2da4c39c49b787c14aa0426b9d1e64230e3d2e61e6fe3",
-          "expected_sha256": "8af1baf49d0510b2dd5d5db08c5ce34ede1b8e9012640b4d6b40fcebb4e37711",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/NULL_CARDS/f8_plastic_substrate_rewrite.md",
-          "pointer": "/artifacts/15"
-        },
-        {
-          "actual_sha256": "19d32cbc3e7ee527eef5e95badd552511b8c04ad044ada1d4ad6090c722e7025",
-          "expected_sha256": "0282eed8780dca831812a21f3126a8ab50c8ad8644d380324147f4e2e333a0dd",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/NULL_CARDS/f16_perfect_slate_null.md",
-          "pointer": "/artifacts/23"
-        },
-        {
-          "actual_sha256": "c77fd5bf3e4f5864220ba7feeecfbad6e4b1b62337258b8bac61f1b7d2ceaf91",
-          "expected_sha256": "5e030f735eb7f0646022ef6c092614e6ad6d4e6ebab1e4d8fa2fd151cdc7905e",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f1_form_alignment_gate.json",
-          "pointer": "/artifacts/48"
-        },
-        {
-          "actual_sha256": "ccc89a3332964f426b36843a04ddbe02ebb05c53d387483a0a872ae906497aad",
-          "expected_sha256": "89532d3ffb8075af6890f5455a47646293af3324bb5db6813b00ebc747ea3337",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f2_heldout_form_transfer.json",
-          "pointer": "/artifacts/49"
-        },
-        {
-          "actual_sha256": "68d21b664e07cbcfc659bb678fa1457a9176bd1ce8b5e3f80f6b7a25112f0c03",
-          "expected_sha256": "b97eedea477981badd849c064a187918b4e560e5d62bfdd9b68b46d74051b4bf",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f3_form_bottleneck_capacity.json",
-          "pointer": "/artifacts/50"
-        },
-        {
-          "actual_sha256": "b99bb05a6c9f42515fea210336da35355c781f469f59560c13a54ee0a072dc84",
-          "expected_sha256": "abe11e86f4f3dd761b99e3ab38457322121fb0fcf84211ad37a26a62f95e440d",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f4_raw_payload_vs_form_tokens.json",
-          "pointer": "/artifacts/51"
-        },
-        {
-          "actual_sha256": "42bfd9abd5836d28e45a28093a1cfe26a240619b56dc725169231dc498b76b04",
-          "expected_sha256": "33135857a45bbce1f77e24ea64f55cfa497d4a68cc17ffb9ac3966fed6e4eed9",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f5_cross_form_memory_binding.json",
-          "pointer": "/artifacts/52"
-        },
-        {
-          "actual_sha256": "dd9b1f839898723511cbb53ae592cb119ee2eec6aed37429c8872d3a6bf884e6",
-          "expected_sha256": "bb3c8d98050bacff9c537e5d89862cc4ee400b8724243d79501af4a9010cc7dc",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f6_sensorimotor_form_closure.json",
-          "pointer": "/artifacts/53"
-        },
-        {
-          "actual_sha256": "ec33500eb7d236371570db35e8f2ef5da2948abb8abf9a30149976806d76c1ef",
-          "expected_sha256": "d72ca6b5760580fcd6efe43f07129ca4091c5a4804849e46c9aa128d81dd1957",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f7_developmental_form_growth.json",
-          "pointer": "/artifacts/54"
-        },
-        {
-          "actual_sha256": "5f2e5271c9eca65499fd6643a6a9e7f07d2b6c1c7835b485ca3c95be25eac032",
-          "expected_sha256": "1cc91d6bfb41b7cf1d5737d572d5cedc2f2f18944f350dd287f5cf56b30b1b01",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f9_cross_form_compositional_binding.json",
-          "pointer": "/artifacts/55"
-        },
-        {
-          "actual_sha256": "3097ab8b1323371a20da4231c4ff56591616c66d7031603d60937fd183508039",
-          "expected_sha256": "eb3b9a97aab0e97c77a72c9bef251e16a14ec7ce1b4d2eec07d27c07e0522a86",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f10_intrinsic_form_curriculum.json",
-          "pointer": "/artifacts/56"
-        },
-        {
-          "actual_sha256": "9b58d3d39b6574704c1bd694e378b8e2122373ca417e9445b52714482703a19d",
-          "expected_sha256": "8702480e3d1d1b19eb4be6e9e6a3120fd931483a079836c0feb54eb75ee28ec6",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f11_form_dream_replay.json",
-          "pointer": "/artifacts/57"
-        },
-        {
-          "actual_sha256": "5694acaf2fc0d85609dc9ec13d44ffc4be15ca7b95a057834311b35208ff414a",
-          "expected_sha256": "3277adb7a80d824fdd982c89b916577a1f94abcdd7b031e5e9cffed2457739e7",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f12_private_form_language_stability.json",
-          "pointer": "/artifacts/58"
-        },
-        {
-          "actual_sha256": "3594d4ac461fa7f5ea61dd47074dfd77f56c59f478b8fadb8cd64723a2b8e961",
-          "expected_sha256": "fe9ccce2a99792c5f2ed42b790262fd5c11c1e5a77d2015b04596a0084e9f25a",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f13_form_energy_budget.json",
-          "pointer": "/artifacts/59"
-        },
-        {
-          "actual_sha256": "07b646a9f64c7d928d5454703f4cb48d75fc0ef1602a898df0b0b7384dc95c3f",
-          "expected_sha256": "97174bb6808a49d4209d08fa22bee0f9bd85b211c44924c7f6d259e4b5420181",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f14_lifelong_form_expansion.json",
-          "pointer": "/artifacts/60"
-        },
-        {
-          "actual_sha256": "1030c1a9d9269b8b2fca35393babf3494dd6a1f72fbe5b3782af4f6b31662585",
-          "expected_sha256": "649a2c4db3470b2b498f37bed5e516d3fdcb6c844a5ee0d5dd70d1aa0c3f85a1",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f15_embodied_affordance_form.json",
-          "pointer": "/artifacts/61"
-        },
-        {
-          "actual_sha256": "b5f61aabe8958e66a3dca68f63ea5d478c3471110f08c210553f55da318d9e7b",
-          "expected_sha256": "b744b580d0d8f191ccc0903cd38335e2346d4d100458afb7458b40f023602b15",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f17_missing_form_recovery.json",
-          "pointer": "/artifacts/62"
-        },
-        {
-          "actual_sha256": "009c87eed4fc1b0f630fed7b9572d96a1270ea0c51c11e173eb918735df9028a",
-          "expected_sha256": "2891b50f7236dfe44f2ba3c5972edce42d1977ba1d3719b82aa53ad03a195f68",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f18_counterfactual_form_intervention.json",
-          "pointer": "/artifacts/63"
-        },
-        {
-          "actual_sha256": "4fb441550cba7ad9cd149a742d28e34321c8d23abfe878ff06216277b1ad9825",
-          "expected_sha256": "c2c28d4ff4067443e0a2c11e4adebdd4e6cb43e298ec741428ad624358b100f5",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f19_cross_scale_referent_binding.json",
-          "pointer": "/artifacts/64"
-        },
-        {
-          "actual_sha256": "f2205b215d9b8652423976e05df24452cb86e6adeefe823b61a6fca76128bb1b",
-          "expected_sha256": "826e774753d692661e51eaf5e9c4c69173afda8142d3337602471295e810a41f",
-          "occurrences": 1,
-          "path": "proof/FORM_SUBSTRATE/VERDICT_GATES/f20_substrate_crisis_test.json",
-          "pointer": "/artifacts/65"
-        }
-      ],
+      "checks": 78,
+      "mismatches": [],
       "missing": []
     }
   ],
@@ -982,7 +757,7 @@
       "record_type": "measurement",
       "schema_validated_role": true,
       "source_ref": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "source_sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1"
+      "source_sha256": "74d0f262e1b780f6ef7e65ab6d87ff3649ccc2724cc647f95efe10057be4520d"
     },
     "m_vitg_cache": {
       "current_hash_verified": true,
@@ -1087,18 +862,18 @@
       "sha256": "5977f2895e6b743d44d49e4ac76fef0deed4cff54992419053f7eaa61e9a915a"
     },
     {
-      "bytes": 2126200,
+      "bytes": 1922883,
       "exists": true,
       "id": "local:proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "74d6d71de4c1788e468d0f8a995f55e87161a046285a152104d9effc2672a495"
+      "sha256": "7567b8286e9ef709d5a8c6c40b71ee3ab01cb037c97be74aeb7c6f535170f621"
     },
     {
-      "bytes": 30414,
+      "bytes": 30568,
       "exists": true,
       "id": "local:proof/FRONTIER_LOCALIZATION.json",
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "95fa2d254fcf64908c2dd4bf7abd3516adad39509cc46c1eb1665f596a7dfc93"
+      "sha256": "10afbef428a20f9912f29316c1101bebd006a54c76f0308adc23d022895dba3f"
     },
     {
       "bytes": 16373,
@@ -1108,11 +883,11 @@
       "sha256": "6d9aa4c228bf29b4d272d7849934481fd64478511bce1d193fe4c79d8f59decf"
     },
     {
-      "bytes": 4032,
+      "bytes": 4035,
       "exists": true,
       "id": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
       "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1"
+      "sha256": "74d0f262e1b780f6ef7e65ab6d87ff3649ccc2724cc647f95efe10057be4520d"
     },
     {
       "bytes": 23736,
@@ -1189,35 +964,35 @@
       "exists": true,
       "id": "local:proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
       "path": "proof/FORM_SUBSTRATE/CONTRACT_AUDIT.json",
-      "sha256": "63acb31d176fa4c310c0088ceb311cb804f946ee96ab73dfd2fd50a359a5e4ca"
+      "sha256": "8e27b4d525620fc46cdfaa62862b8edc1b502809b917c174ec175d903a5c1f80"
     },
     {
-      "bytes": 6622,
+      "bytes": 6626,
       "exists": true,
       "id": "local:proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json",
       "path": "proof/FORM_SUBSTRATE/LOCAL_RUN_SUMMARY.json",
-      "sha256": "8fa8c14c92ed78b677cef7fee0b3392eef08b05d1b9f3abbcf69abcbeea910c2"
+      "sha256": "46bcbb8c7009bd20849bd41951f3643807369790e45ccf433ec1eaf628e9b558"
     },
     {
-      "bytes": 66275,
+      "bytes": 66648,
       "exists": true,
       "id": "local:proof/FORM_SUBSTRATE/SCORECARD.json",
       "path": "proof/FORM_SUBSTRATE/SCORECARD.json",
-      "sha256": "f52a7ac4a91a58c796b4f9e47c4732bec349b8aa5e18a3f21e6409cdf7c435d7"
+      "sha256": "532bda3dccad763d371594b8a31d774b0d74b907153b50a5f756283e156a602a"
     },
     {
-      "bytes": 11352,
+      "bytes": 11448,
       "exists": true,
       "id": "local:proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
       "path": "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
-      "sha256": "3cd1e8cd3ecb02e1adc5c17c56e3ed5802f38f9205a7b406d3bcef3e4624fd76"
+      "sha256": "9fe7b6ff94073eedc1c02ebdef7787165d30b3ad1f045a0fe92ccef926416666"
     },
     {
-      "bytes": 41912,
+      "bytes": 38440,
       "exists": true,
       "id": "local:proof/ARTIFACT_INDEX/form_substrate.json",
       "path": "proof/ARTIFACT_INDEX/form_substrate.json",
-      "sha256": "186ea8a5109ae4a5ff54d93b3d0a16be6c7cb99a9962ac8cebb359e39817b82c"
+      "sha256": "36c7aaefe2638b0b2fc5dde3048122350ce45ef11a7724ad564ff51a5bcb3da3"
     },
     {
       "bytes": 2876,
@@ -1318,18 +1093,18 @@
       "sha256": "fe0cfecd615411a3220ab2e4778221b9748324089232e79f0e0caa6cae231e28"
     },
     {
-      "bytes": 43666,
+      "bytes": 54572,
       "exists": true,
       "id": "local:EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
       "path": "EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
-      "sha256": "6bd5d87d769394e124afd95528ef4091fed4c97b2b39197106d0736d088c7f52"
+      "sha256": "2f413f2bcb50a66192986c1340a11ddaf17e6941d98d2bed893487d2b2179646"
     },
     {
-      "bytes": 47475,
+      "bytes": 52476,
       "exists": true,
       "id": "local:EXTENDED_COMPUTE_EXECUTION_PLAN.md",
       "path": "EXTENDED_COMPUTE_EXECUTION_PLAN.md",
-      "sha256": "514696998fe584e84a342cabb5411d26db144a0d97246e4931ab67bfa3adcde6"
+      "sha256": "c55525d2167e47b24c1a527c74ca5f6e851fc46cf6b43352f89c3035571f473f"
     },
     {
       "bytes": 2070,
@@ -3607,13 +3382,6 @@
       "sha256": "29b195298e627f92d6817ba33e180ca8fd277483651f21d45f0726a7e7d93986"
     },
     {
-      "bytes": 31499,
-      "exists": true,
-      "id": "local:runs/frontier_localization/local_preflights.json",
-      "path": "runs/frontier_localization/local_preflights.json",
-      "sha256": "0344413f035187db9b6524e1f0a380365bc6ca5e9fc1d5afcbab84462bda603f"
-    },
-    {
       "bytes": 9282,
       "exists": true,
       "id": "local:runs/mot/mt5_adaptive_halting_recal.json",
@@ -3831,11 +3599,11 @@
       "sha256": "0a55c8ecc794fd9d2db0887754552b07883ef66af64cd1011cd71b8d25cdd7c3"
     },
     {
-      "bytes": 31499,
+      "bytes": 31498,
       "exists": true,
       "id": "local:proof/LOCAL_FRONTIER_PREFLIGHTS.json",
       "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "sha256": "0344413f035187db9b6524e1f0a380365bc6ca5e9fc1d5afcbab84462bda603f"
+      "sha256": "71eca005da3cdbc671b06710be6fd7209ee654e4ecb0fc9ec924441881261b6d"
     },
     {
       "bytes": 3093,
@@ -3843,6 +3611,27 @@
       "id": "local:scripts/frontier_localization.py",
       "path": "scripts/frontier_localization.py",
       "sha256": "26c43eb039b3c5deb30ac1f4a48c79cf249e791f21ad41542fb20289209e8d07"
+    },
+    {
+      "bytes": 2342,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/manifest.json",
+      "path": "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/manifest.json",
+      "sha256": "d7059398b5325f326e7e90a7adc0e5cab4f784cb453b5c31229d7e134ffcff7f"
+    },
+    {
+      "bytes": 3122,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/config.yaml",
+      "path": "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/config.yaml",
+      "sha256": "c4344739cbef186700b7006a1a9fe28bbcb95e4276bbd91663fe4fb914fb2081"
+    },
+    {
+      "bytes": 2282,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json",
+      "path": "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json",
+      "sha256": "de0a80434e7b5f6a35cd28051af07ac84c23d804fb3566df13a056b940e7f884"
     },
     {
       "bytes": 1839,
@@ -3975,7 +3764,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_atlas"
     }
   },
-  "payload_sha256": "d323d66cb3d7155c8dd75c8e35b6e7c574042c38309603514be2226310aec890",
+  "payload_sha256": "e8743284bdbe1bde986e9af8d2ad4a4544ba1e2ecd313e7b4f1e10b8d659cd74",
   "row_referenced_json_audits": {
     "proof/CUSTOM_SUBSTRATE_CALIBRATION.json": {
       "all_current": true,
@@ -4008,13 +3797,6 @@
     "proof/LOCAL_FRONTIER_PREFLIGHTS.json": {
       "all_current": true,
       "artifact": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "checks": 0,
-      "mismatches": [],
-      "missing": []
-    },
-    "runs/frontier_localization/local_preflights.json": {
-      "all_current": true,
-      "artifact": "runs/frontier_localization/local_preflights.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -5254,6 +5036,20 @@
     "runs/project_exhaustion/current/classes/i9_vq_rate_distortion/attempt_001/manifest.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/i9_vq_rate_distortion/attempt_001/manifest.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json",
+      "checks": 2,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/manifest.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -14418,8 +14214,7 @@
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml",
-        "local:runs/frontier_localization/local_preflights.json"
+        "local:registry/experiments.yaml"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -16775,7 +16570,6 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/frontier_localization/local_preflights.json",
         "local:proof/CACHE_QUARANTINE_AUDIT.json",
         "local:data/cache/vjepa2_vitl_local8_citable/run_receipt.json",
         "local:data/cache/vjepa2_vith_local8_citable/run_receipt.json",
@@ -17532,7 +17326,6 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/frontier_localization/local_preflights.json",
         "local:proof/LOCAL_FRONTIER_PREFLIGHTS.json",
         "local:scripts/frontier_localization.py"
       ],
@@ -17671,6 +17464,9 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
+        "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/manifest.json",
+        "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/config.yaml",
+        "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json",
         "local:proof/CUSTOM_SUBSTRATE_CALIBRATION.json"
       ],
       "hardware_benefit_gate": {
@@ -17708,9 +17504,9 @@
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
         "evidence_scope": "current one-seed/three-update calibration mechanics only; active v3 campaign excluded until closure",
-        "execution_verified_at_generation": false,
+        "execution_verified_at_generation": true,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "runnable-not-yet-run",
+        "ledger_classification": "freshly-executed-verified",
         "present": true
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
@@ -17950,7 +17746,6 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/frontier_localization/local_preflights.json",
         "local:proof/LOCAL_FRONTIER_PREFLIGHTS.json",
         "local:scripts/frontier_localization.py"
       ],
@@ -18020,8 +17815,7 @@
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml",
-        "local:runs/frontier_localization/local_preflights.json"
+        "local:registry/experiments.yaml"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -25537,7 +25331,7 @@
     "research_pillars_expected": 19,
     "row_count": 289,
     "row_referenced_json_audits_passed": true,
-    "stale_artifacts_detected": 5,
+    "stale_artifacts_detected": 4,
     "stale_artifacts_excluded_from_row_evidence": true,
     "unique_row_ids": 289,
     "workstreams_covered": 12,
@@ -25551,8 +25345,7 @@
       "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
       "proof/FRONTIER_LOCALIZATION.json",
       "proof/ENCODER_SCALE_VITH_CPU_FORWARD.json",
-      "proof/ENCODER_SCALE_VITG_CPU_FORWARD.json",
-      "proof/ARTIFACT_INDEX/form_substrate.json"
+      "proof/ENCODER_SCALE_VITG_CPU_FORWARD.json"
     ],
     "warning": "a raw hash of a stale generated artifact proves only the bytes audited, not the freshness of its embedded claims"
   }

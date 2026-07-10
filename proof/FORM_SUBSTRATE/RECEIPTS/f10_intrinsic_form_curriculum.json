@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:02.558336+00:00",
+  "created_at": "2026-07-10T07:02:24.318931+00:00",
   "experiment_id": "f10_intrinsic_form_curriculum",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f10_intrinsic_form_curriculum/005",
-    "manifest_path": "runs/f10_intrinsic_form_curriculum/005/manifest.json",
-    "manifest_sha256": "929f64cec37eae95f109f24983a9cc3cff3b45468e379ec15702473e376fed47",
-    "config_path": "runs/f10_intrinsic_form_curriculum/005/config.yaml",
-    "config_sha256": "f5d2b7f2ae88ec608a6cedc41edc33fb46487ee5c33cc172bdfe8d6457b7c2c3",
-    "git": "be7b5d9",
+    "run_dir": "runs/f10_intrinsic_form_curriculum/007",
+    "manifest_path": "runs/f10_intrinsic_form_curriculum/007/manifest.json",
+    "manifest_sha256": "0ee4eba2f5008eb44dbcd082c90f521796e71c4c7a90f8295904ff6e54ddd9ad",
+    "config_path": "runs/f10_intrinsic_form_curriculum/007/config.yaml",
+    "config_sha256": "0f3bf524687563275661671e1e5ed14a0059e1708fcc559f5114e086aa6860e6",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640042.431456,
-    "finished": 1783640042.558336
+    "started": 1783666944.198185,
+    "finished": 1783666944.3189309
   },
   "metrics": {
     "coverage_per_update": 0.034,
@@ -151,11 +151,11 @@
         "coverage_per_update": 0.03400000035762787
       },
       "cost": {
-        "seconds": 0.12159458303358406,
+        "seconds": 0.11659633403178304,
         "updates": 20.0
       },
       "density": {
-        "coverage_per_update_per_seconds": 0.2796177223473612,
+        "coverage_per_update_per_seconds": 0.29160436852465527,
         "coverage_per_update_per_updates": 0.0017000000178813933
       }
     }
@@ -178,11 +178,11 @@
       "coverage_per_update": 0.03400000035762787
     },
     "cost": {
-      "seconds": 0.12159458303358406,
+      "seconds": 0.11659633403178304,
       "updates": 20.0
     },
     "density": {
-      "coverage_per_update_per_seconds": 0.2796177223473612,
+      "coverage_per_update_per_seconds": 0.29160436852465527,
       "coverage_per_update_per_updates": 0.0017000000178813933
     }
   },
@@ -206,5 +206,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f10_intrinsic_form_curriculum.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "09af538a3d32af630d684bc46a6e984a38b25bf363b7df45a0ba42e16699af50"
+  "receipt_fingerprint": "ec944a61773c1931757ecca158b6a957378b287521bac36c41a4b9a4f767d5d6"
 }

@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:03.663283+00:00",
+  "created_at": "2026-07-10T07:02:25.318905+00:00",
   "experiment_id": "f11_form_dream_replay",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f11_form_dream_replay/001",
-    "manifest_path": "runs/f11_form_dream_replay/001/manifest.json",
-    "manifest_sha256": "61eb47253b00f98afb3d29644724bec99727dbdb9753675a691e9db5f7296d01",
-    "config_path": "runs/f11_form_dream_replay/001/config.yaml",
-    "config_sha256": "f678d085765d22d67de7f59a127b5fac01ad8a075bed37d750355efec41cc926",
-    "git": "be7b5d9",
+    "run_dir": "runs/f11_form_dream_replay/002",
+    "manifest_path": "runs/f11_form_dream_replay/002/manifest.json",
+    "manifest_sha256": "261b130148f9a5c70fcd6bfbae08851052734d8803561d0c57200e1619f70542",
+    "config_path": "runs/f11_form_dream_replay/002/config.yaml",
+    "config_sha256": "cec51527e637e8d59d9dfc27dcc136759e32cad529c96184d602c8875cba13bc",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640042.9733608,
-    "finished": 1783640043.6632829
+    "started": 1783666944.646719,
+    "finished": 1783666945.318905
   },
   "metrics": {
     "retention_per_byte": 0.0010358796268701554,
@@ -215,5 +215,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f11_form_dream_replay.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "a58627662b8e75047f98123d07eed3512a74f28ff6de63de9201c4929a38a791"
+  "receipt_fingerprint": "e38866a4caf9441b4d9b193807dd6d1deabe292481e6da56ce132439bbaa75d4"
 }

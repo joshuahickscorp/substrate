@@ -104,8 +104,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f6_sensorimotor_form_closure/001",
-        "verifier": "runs/form_verifiers/f6_sensorimotor_form_closure/000"
+        "canonical": "runs/f6_sensorimotor_form_closure/002",
+        "verifier": "runs/form_verifiers/f6_sensorimotor_form_closure/002"
       },
       "passed": true
     },
@@ -303,21 +303,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:21.864878+00:00",
+  "created_at": "2026-07-10T07:03:55.836895+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f6_sensorimotor_form_closure.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f6_sensorimotor_form_closure/000/config.yaml",
-    "config_snapshot_sha256": "d9d9284873655bc0e55f459d090e736cf41e1e5e8a2e9cbf6dd3db6ce9fef1ba",
+    "config_snapshot_path": "runs/form_verifiers/f6_sensorimotor_form_closure/002/config.yaml",
+    "config_snapshot_sha256": "2c3144f5fb492d2183600a4df4d0325b06ca863b9414b76bc933b5ed9794e490",
     "device": "cpu",
-    "finished": 1783652481.4443772,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f6_sensorimotor_form_closure/000/manifest.json",
-    "manifest_sha256": "efbe3e4d2481e273a4322c74b52abf01d2d1e6c742b8efae39cb122e6db8353e",
-    "run_dir": "runs/form_verifiers/f6_sensorimotor_form_closure/000",
-    "seconds": 1.093731164932251,
-    "started": 1783652480.350646,
+    "finished": 1783667035.387722,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f6_sensorimotor_form_closure/002/manifest.json",
+    "manifest_sha256": "bf4b3817003590e9e58dc567c7fcdb95a77740ee746a5bd706422e2336e9944b",
+    "run_dir": "runs/form_verifiers/f6_sensorimotor_form_closure/002",
+    "seconds": 1.1807210445404053,
+    "started": 1783667034.207001,
     "status": "ok"
   },
   "experiment_id": "f6_sensorimotor_form_closure",
@@ -339,15 +339,15 @@
       "null_hypothesis": "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability",
       "tier": "cpu-now"
     },
-    "class_source_sha256": "69a085b1899662d3bdd0d5bf106246f687ea7d7d87b7a4b1f3a849a7d8c1cd1f",
+    "class_source_sha256": "87ff21f7986a2366d903a8f015fb0ae6fcf6dc7304940e3bbabb5dba30b26874",
     "config_path": "configs/experiment/f6_sensorimotor_form_closure.yaml",
     "config_sha256": "cfc66e985ef3b9db3a3332a3068c07b3c693155997a9edca4e74866a916e1e37",
     "contract_fingerprint": "d5c00c0e7ed8f96fb29178b7c1ab0863f70a97d940d3ad84659b218e05ea8b50",
     "contract_problems": [],
     "experiment_id": "f6_sensorimotor_form_closure",
     "module_path": "src/mop/experiments/f_form_substrate_missing.py",
-    "module_sha256": "be4aad9cd0b1b4b74f531727308aae56e69b99d2e1b8a99384c3224865ea4605",
-    "registry_row_fingerprint": "2615fce759a2666bae030b7633a053573c5214030a1edfc4bec59f06ecd9b52b",
+    "module_sha256": "35e4fd0f6829e8f4a887ccb6af16f3d8c794df2d7fcb489bcf19111aa9af06b9",
+    "registry_row_fingerprint": "02329f06c069d5b4c3b3681ab812928ad76ea5afee0fa97da1238e6080ccd4f7",
     "source_requirements": [
       "_rollout_r2",
       "_goal_success",
@@ -364,10 +364,10 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "91388b3011aaf2da746006e1b3bcd324e1048841d5d783e6a41ea671faea0396",
+  "metrics_sha256": "37450664aad8a5a38ede6a3f082d120fe95c9f6d840a64d45977fb4ee3319afb",
   "passed": true,
   "problems": [],
-  "receipt_fingerprint": "ce43688bd05719ed2dd42b9a65bffce5ef719e869aae476ef5ae6359f7307943",
+  "receipt_fingerprint": "ea6da63f4f1ab082906065da7c33bf49196a919a9f61e884d76a30f23e4a0f57",
   "recomputed": {
     "goal_delta": 0.9,
     "rollout_delta": 0.4116,
@@ -378,8 +378,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f6_sensorimotor_form_closure.json",
-      "receipt_fingerprint": "59b9d17a33b77666fdf9c360ed4fcb4f1f384e032ce0e17a7762891b564db562",
-      "sha256": "5c9ab9740b6c5cf69344c004b2e6971010b247eb3f498eed0b91409e8582b909"
+      "receipt_fingerprint": "b434989b015151dcd8126d58ec8febbeb02d0491b585e925f3422f42359bdda2",
+      "sha256": "59084193f4dae50f2fd747875b8c74002317f2897b4a77e4aad271010355030e"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -401,6 +401,34 @@
       },
       "primary": "rollout_r2",
       "schema": "mop-density-block/v1"
+    },
+    "environment_contract": {
+      "action_count": 4,
+      "checks": {
+        "collections": true,
+        "content_hash": true,
+        "counts": true,
+        "episode_boundaries": true,
+        "exact_seeded_replay": true,
+        "four_branches_per_clone": true,
+        "required_causal_fields": true,
+        "schema": true,
+        "stable_unique_event_refs": true,
+        "stable_unique_sequence_states": true,
+        "world_hash": true
+      },
+      "counterfactuals": 92,
+      "episodes": 4,
+      "has_learnable_rows": true,
+      "has_noisy_tv_rows": true,
+      "natural_embodiment_claim": false,
+      "observation_dim": 16,
+      "programmatic_only": true,
+      "schema": "mop-bounded-action-contract/v1",
+      "trajectory_sha256": "6de5deb4900cb5e6d51b566ba147c648978ad1942f36082cd9bfdff091d6ecb2",
+      "transitions": 23,
+      "verified": true,
+      "world_sha256": "bfeda2f5a42ce4a841a4b024b584e9663deb8f7a564a21815796c5782a589a1c"
     },
     "form_audit": {
       "all_ok": true,

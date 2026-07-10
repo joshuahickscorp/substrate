@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:02.078778+00:00",
+  "created_at": "2026-07-10T07:02:23.814184+00:00",
   "experiment_id": "f9_cross_form_compositional_binding",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f9_cross_form_compositional_binding/005",
-    "manifest_path": "runs/f9_cross_form_compositional_binding/005/manifest.json",
-    "manifest_sha256": "943a24348a0000b17f3856c411338b8d120c0c30306aa30300fa09b6e31a877a",
-    "config_path": "runs/f9_cross_form_compositional_binding/005/config.yaml",
-    "config_sha256": "4a7f0dbb5cdaa970004f000e72fef7efc2043e99018db67cfdf87ed4afa07036",
-    "git": "be7b5d9",
+    "run_dir": "runs/f9_cross_form_compositional_binding/006",
+    "manifest_path": "runs/f9_cross_form_compositional_binding/006/manifest.json",
+    "manifest_sha256": "6e5293e5bb92011171779b6546049faa7e2291a36ed76fac0ba0179c513e54b0",
+    "config_path": "runs/f9_cross_form_compositional_binding/006/config.yaml",
+    "config_sha256": "c36415f55bf365f9245d8b273021911549ac1fb4dbc68e49299d329e926b24d3",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640041.225525,
-    "finished": 1783640042.078778
+    "started": 1783666943.0357592,
+    "finished": 1783666943.814184
   },
   "metrics": {
     "n_a": 4,
@@ -149,11 +149,11 @@
       },
       "cost": {
         "params": 136.0,
-        "seconds": 0.8478466250235215
+        "seconds": 0.7740894999587908
       },
       "density": {
         "heldout_combo_acc_per_params": 0.005866474000846639,
-        "heldout_combo_acc_per_seconds": 0.9410198030722935
+        "heldout_combo_acc_per_seconds": 1.030682452297333
       }
     }
   },
@@ -176,11 +176,11 @@
     },
     "cost": {
       "params": 136.0,
-      "seconds": 0.8478466250235215
+      "seconds": 0.7740894999587908
     },
     "density": {
       "heldout_combo_acc_per_params": 0.005866474000846639,
-      "heldout_combo_acc_per_seconds": 0.9410198030722935
+      "heldout_combo_acc_per_seconds": 1.030682452297333
     }
   },
   "operational_awareness": {
@@ -203,5 +203,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f9_cross_form_compositional_binding.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "d19b16ae632caaae8e3e31f709dbf58dd68c5bc0311e62165c104624345ef705"
+  "receipt_fingerprint": "ef6377a9cce2e41cff978ffa6418a895a5dd98e76f25c3a1cc67284e3857e68f"
 }

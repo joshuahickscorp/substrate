@@ -1,6 +1,6 @@
 {
   "schema": "mop-verdict-gate/v1",
-  "created_at": "2026-07-10T06:53:12.134733+00:00",
+  "created_at": "2026-07-10T07:04:55.796884+00:00",
   "claim_id": "f2_heldout_form_transfer",
   "verdict": "PUBLISH-POSITIVE",
   "positive": true,
@@ -15,14 +15,14 @@
   "run_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f2_heldout_form_transfer.json",
     "exists": true,
-    "sha256": "c7de2aa847121faf7ac2399e68a64d84320e90b0c4d65c5031fb22f640f88eab",
+    "sha256": "048811c94a7bc0c31f08bb02bb5ddb1aab6a886f873bebc9f1e534cd1c002301",
     "json_ok": true,
     "problems": []
   },
   "verifier_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f2_heldout_form_transfer.json",
     "exists": true,
-    "sha256": "cb21939a593c571dec28d03aaed98a772fa8006e13f647e07f0645a1fc248801",
+    "sha256": "f4202b5da8aaa18ec186e771f3fd44d490afce4f93e86efeb5a002a142c46b1d",
     "json_ok": true,
     "passed": true,
     "independent": true,

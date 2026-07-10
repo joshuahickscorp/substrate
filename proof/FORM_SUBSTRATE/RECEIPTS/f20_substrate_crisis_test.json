@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:16.062034+00:00",
+  "created_at": "2026-07-10T07:02:36.883325+00:00",
   "experiment_id": "f20_substrate_crisis_test",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f20_substrate_crisis_test/002",
-    "manifest_path": "runs/f20_substrate_crisis_test/002/manifest.json",
-    "manifest_sha256": "0890284a0777b22650d238978142cdb1b951fb64d1e4fb6284d48d3718164cd0",
-    "config_path": "runs/f20_substrate_crisis_test/002/config.yaml",
-    "config_sha256": "b513ba41c6d718087153609f75a108ec2e495cca1beb3b7aa861e7b8e992c1ef",
-    "git": "be7b5d9",
+    "run_dir": "runs/f20_substrate_crisis_test/003",
+    "manifest_path": "runs/f20_substrate_crisis_test/003/manifest.json",
+    "manifest_sha256": "ad918248b0ec6defa7a1ef9278754c9c001792f4616d23a7a9dea94e587ace06",
+    "config_path": "runs/f20_substrate_crisis_test/003/config.yaml",
+    "config_sha256": "8c31924b0fbad6f8fbb615e5b21daea15b9f85079700d3bddd4b65aef9446227",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -99,8 +99,8 @@
       3,
       4
     ],
-    "started": 1783640052.850372,
-    "finished": 1783640056.062034
+    "started": 1783666953.8407419,
+    "finished": 1783666956.8833249
   },
   "metrics": {
     "crisis_auroc": 0.9688,
@@ -166,11 +166,11 @@
       },
       "cost": {
         "flops": 2256076800.0,
-        "seconds": 3.20717795798555
+        "seconds": 3.038289292016998
       },
       "density": {
         "crisis_auroc_per_flops": 4.2939584326207335e-10,
-        "crisis_auroc_per_seconds": 0.3020568277441263
+        "crisis_auroc_per_seconds": 0.31884718895773284
       }
     }
   },
@@ -195,11 +195,11 @@
     },
     "cost": {
       "flops": 2256076800.0,
-      "seconds": 3.20717795798555
+      "seconds": 3.038289292016998
     },
     "density": {
       "crisis_auroc_per_flops": 4.2939584326207335e-10,
-      "crisis_auroc_per_seconds": 0.3020568277441263
+      "crisis_auroc_per_seconds": 0.31884718895773284
     }
   },
   "operational_awareness": {
@@ -236,5 +236,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f20_substrate_crisis_test.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "30a53cf7ac18a4bd16d409fb8f61a566ea17c926a75d916e000c2360c9ef9172"
+  "receipt_fingerprint": "2d327a75b1967bf4236ea389910b66f9616882840d00597cdbb3078d53d42ff1"
 }
