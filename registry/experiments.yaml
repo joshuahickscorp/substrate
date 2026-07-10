@@ -4061,6 +4061,30 @@ experiments:
     status: implemented
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
+  - id: mop_p5_context_capability
+    name: context_capability_pilot
+    kind: experiment
+    series: CM
+    question: "does exact global dense spatiotemporal attention buy held-out capability that windowed, recurrent, or hierarchical pooled factorizations cannot match at matched parameters and matched active FLOPs at 16 to 64 frames"
+    mechanism: "one shared TinyVideoSubstrate trunk per seed with only the block stack substituted (exact global, 512-token windowed, depth-8 GRU, weight-tied hierarchical pooled), FLOP-matched by solved step counts at a granularity-5 grid, staged one seed then five on off-ceiling frame counts, with cold three-repeat memory traces on the actual training models"
+    null_hypothesis: "at matched parameters and matched active FLOPs, windowed, recurrent, and hierarchical factorized context mechanisms match exact global attention on held-out factor combinations within the 0.10 SESOI at 32 and 64 frames while peaking at lower measured bytes; exact global interaction is not a live capability lever in this context range"
+    falsifier: "every f32 and f64 exact-minus-factorized paired contrast is bounded within the 0.10 band while factorized peak bytes are lower, or a factorized arm beats exact by at least the SESOI at two context budgets (which permanently demotes dense-global scaling)"
+    metrics: [heldout_combo_per_context, context_response_curve]
+    controls: [per-mechanism-exact-frozen-init, matched-parameters-within-0.5-percent, matched-active-flops-solved-steps, matched-updates-secondary-checkpoint, d3-oracle-calibration, cold-three-repeat-memory-trace]
+    gates: [compute, difficulty_calibration, seed_consistency]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "the training-based capability rung above proof/P5_MEMORY_BOUNDARY_TRACE.json; pilot evidence state only, confirmatory claims and every compute-tier category refused by construction; category 9 is impossible from this pilot because no exact-model failure exists below the guard"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 9
+    status: implemented
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1}
+
   - id: mop_p4_capability_density_screen
     name: capability_density_response_surface_screen
     kind: experiment

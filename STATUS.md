@@ -2,6 +2,29 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 P4 campaign launched; P5 implemented and preregistered
+
+- [x] P4 smoke shard: 12/12 registered cells mechanics-complete in 414 s, compute match green in
+  every cell, response surface estimable; only honest problem (single seed cannot bootstrap).
+  Two dense cells at the probe ceiling at smoke scale; the full screen's off-ceiling gates
+  adjudicate. p4screen shard 1 (five seeds, dense spine first, 180-minute resumable wall)
+  launched on lane 0.
+- [x] P5 exact-vs-factorized context pilot implemented from the design agent's draft (new files
+  only; the P4 model_factory/flops_estimator hooks carried the whole build): four mechanisms
+  (exact global, 512-token windowed, depth-8 GRU reused from P4, weight-tied hierarchical
+  pooled) with EXACT parameter identity at exact/window/hier and the GRU within 0.03 percent;
+  frames 16/32/64; FLOP matching by solved step counts. Preregistration amendment made before
+  any pilot seed ran: the matching grid rounds at granularity 5 (checkpoints stay 25), fixing a
+  rounding artifact that stranded the recurrent arms at 2.7 to 3.5 percent deviation; all arms
+  now match within 0.0062. 10 unit tests plus P4/workbench regressions green; lint, types, docs
+  gates clean.
+- [x] P5 registered (mop_p5_context_capability, REGISTRY 133, registry row 197 with snapshot pin
+  bumped through the drift gate), class smoke freshly-executed-verified via the exhaustion
+  executor; ledgers rebuilt: exhaustion 177 entries, matrix 291 rows byte-verified, zero
+  category 8/9, zero measured hardware blockers.
+- [ ] P5 pilot execution queued on lane 0 behind the P4 campaign (staging: p5smoke, then
+  stage-1 seed 0 with the traingrid memory pass, then seeds on off-ceiling frame counts).
+
 ## 2026-07-10 P3 three-seed controls closed; P4 implemented, preregistered, smoked
 
 - [x] P3 CLOSED at the atlas gate's full demand: nine matched random-init control caches (seeds

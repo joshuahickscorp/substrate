@@ -66,12 +66,12 @@
   "calculations": {
     "c_active_disk_floor": {
       "free_needed_for_10000_dense_fp16_plus_floor_gb_decimal": 207.77216,
-      "hypothetical_dense_fp16_clips_before_floor": 3725,
+      "hypothetical_dense_fp16_clips_before_floor": 3704,
       "interpretation": "active storage floor, not accelerator-memory evidence",
       "kind": "calculation-from-measured-receipt",
-      "receipt_free_gb_decimal": 102.511,
+      "receipt_free_gb_decimal": 102.145,
       "required_floor_gb_decimal": 40.0,
-      "safe_headroom_gb_decimal": 62.510999999999996
+      "safe_headroom_gb_decimal": 62.144999999999996
     },
     "c_adam_trainable_state": {
       "cm7_high_mb_decimal": 29.62944,
@@ -176,7 +176,7 @@
     "9": "empirically extended-compute-required for a named target"
   },
   "classification_counts": {
-    "1": 167,
+    "1": 168,
     "2": 96,
     "3": 23,
     "4": 0,
@@ -199,11 +199,11 @@
     {
       "all_current": false,
       "artifact": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "checks": 662,
+      "checks": 667,
       "mismatches": [
         {
-          "actual_sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424",
-          "expected_sha256": "71eca005da3cdbc671b06710be6fd7209ee654e4ecb0fc9ec924441881261b6d",
+          "actual_sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd",
+          "expected_sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424",
           "occurrences": 5,
           "path": "runs/frontier_localization/local_preflights.json",
           "pointer": "/entries/122/evidence/0"
@@ -661,7 +661,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_adam_trainable_state": {
       "current_hash_verified": true,
@@ -669,7 +669,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_cache_10000": {
       "current_hash_verified": true,
@@ -677,7 +677,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_campaign_time_spec": {
       "current_hash_verified": true,
@@ -685,7 +685,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_checkpoint_volume_spec": {
       "current_hash_verified": true,
@@ -693,7 +693,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_cloud_cost_spec": {
       "current_hash_verified": true,
@@ -701,7 +701,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_dense_cache_storage": {
       "current_hash_verified": true,
@@ -709,7 +709,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_energy_scope": {
       "current_hash_verified": true,
@@ -717,7 +717,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_paired_seed_power": {
       "current_hash_verified": true,
@@ -725,7 +725,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "c_peak_memory_spec": {
       "current_hash_verified": true,
@@ -733,7 +733,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "source_sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     "m_cm7_calibration": {
       "current_hash_verified": true,
@@ -749,7 +749,7 @@
       "record_type": "measurement",
       "schema_validated_role": true,
       "source_ref": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "source_sha256": "9ec4966c118550267c5d5b7b65131746bac3eded6c68c35abf1066e250f6cad6"
+      "source_sha256": "f0572a67186d56352b1325ba143e2f3e990a1ac42f97b649dcf1d6122bbc16bb"
     },
     "m_vitg_cache": {
       "current_hash_verified": true,
@@ -847,25 +847,25 @@
       "sha256": "d252cb4812dd7770c8e875b6a8b1fc65320bd2eecd2832847e92a2f723c369bc"
     },
     {
-      "bytes": 286006,
+      "bytes": 288284,
       "exists": true,
       "id": "local:registry/experiments.yaml",
       "path": "registry/experiments.yaml",
-      "sha256": "0b25346aeb32e9778278d43775c524d6abc93a99ec534a0a8878f8bcddc08340"
+      "sha256": "e4459f91e546c5cc69f3791587343c3d7df6927ec510af5685608cfb04275897"
     },
     {
-      "bytes": 1936272,
+      "bytes": 1948443,
       "exists": true,
       "id": "local:proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "d41bfa435454204482137ad99baf453e27d285f131ba8ddfaf69fb9214f7865f"
+      "sha256": "3e7c561aeafe10f080ac90cf8900a1b0242438e67b6c9c13ab40fbc7823dfcc6"
     },
     {
-      "bytes": 30486,
+      "bytes": 30487,
       "exists": true,
       "id": "local:proof/FRONTIER_LOCALIZATION.json",
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "dbae71411236e8a369c04ac4392eb511a4b8794f84625f01b4f90a5cfb88cd48"
+      "sha256": "d6a8cddb2aa9cffe5ae1a4df0e71bde64f7350df7ca5c5152875992a7191379c"
     },
     {
       "bytes": 16373,
@@ -875,11 +875,11 @@
       "sha256": "6d9aa4c228bf29b4d272d7849934481fd64478511bce1d193fe4c79d8f59decf"
     },
     {
-      "bytes": 4022,
+      "bytes": 4025,
       "exists": true,
       "id": "local:proof/STUDIO_READINESS_CURRENT_HOST.json",
       "path": "proof/STUDIO_READINESS_CURRENT_HOST.json",
-      "sha256": "9ec4966c118550267c5d5b7b65131746bac3eded6c68c35abf1066e250f6cad6"
+      "sha256": "f0572a67186d56352b1325ba143e2f3e990a1ac42f97b649dcf1d6122bbc16bb"
     },
     {
       "bytes": 76393,
@@ -1082,7 +1082,7 @@
       "exists": true,
       "id": "local:scripts/build_extended_compute_requirements.py",
       "path": "scripts/build_extended_compute_requirements.py",
-      "sha256": "bf56796063095d5d7ffe88ce310572c9eea6faa2f728db7f9c67719b636a5654"
+      "sha256": "fac95530fa2a66fb3916806e84fcde10b5d017e95a8bf2bdf512ed0ec1cef471"
     },
     {
       "bytes": 57195,
@@ -3595,7 +3595,7 @@
       "exists": true,
       "id": "local:proof/LOCAL_FRONTIER_PREFLIGHTS.json",
       "path": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
-      "sha256": "eac20ee10d07ce15c2990071bcd6a419ffa64964d9538e296ef51e1f2da6f424"
+      "sha256": "86eb069db20aa1ef5c3f5138416beaf079d6e6bf52c32ebc776177eb2a5cf1fd"
     },
     {
       "bytes": 3093,
@@ -3624,6 +3624,27 @@
       "id": "local:runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json",
       "path": "runs/project_exhaustion/current/classes/mop_cm7_min_objective_probe/attempt_001/attempt_receipt.json",
       "sha256": "de0a80434e7b5f6a35cd28051af07ac84c23d804fb3566df13a056b940e7f884"
+    },
+    {
+      "bytes": 2056,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
+      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
+      "sha256": "3a054638ce937f2e2037d8fe74cbe1c132370b3cd9a4f9a0132c588716b0705f"
+    },
+    {
+      "bytes": 3245,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml",
+      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml",
+      "sha256": "6dda8178acdc12002246f236b3f2ea9779df5ac514e900c2495fdda4f37e2caa"
+    },
+    {
+      "bytes": 2011,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json",
+      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json",
+      "sha256": "b78eb4ecf889805b0caf8d885e90c87e37028bd6ae1097b58d1606396541b755"
     },
     {
       "bytes": 2084,
@@ -3777,7 +3798,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_atlas"
     }
   },
-  "payload_sha256": "7574b0975ee8c69ee7fddae8971fa5fdf4bb5e961f47c6fafc000c052e0f2416",
+  "payload_sha256": "384473198a305a1185c31be5252a91fa21b142f80cc18884f1b18a5b15c9a7a9",
   "row_referenced_json_audits": {
     "proof/CUSTOM_SUBSTRATE_CALIBRATION.json": {
       "all_current": true,
@@ -5091,6 +5112,20 @@
     "runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/manifest.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/manifest.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json",
+      "checks": 2,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -17563,6 +17598,77 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
+        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
+        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml",
+        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json"
+      ],
+      "hardware_benefit_gate": {
+        "evidence_ids": [],
+        "measured_comparative_benefit": false,
+        "named_elapsed_time_or_cost_target": null,
+        "numerical_and_metric_parity_passed": false,
+        "same_workload_and_data_order": false,
+        "smallest_beneficial_rung": null,
+        "status": "not_passed",
+        "stop_rule": null
+      },
+      "hardware_required": false,
+      "hardware_requirement_gate": {
+        "boundary": {
+          "inseparable_synchronized_state_or_interaction": false,
+          "nonfactorizable_resident_state": false,
+          "scientifically_necessary_realtime_latency": false
+        },
+        "evidence_ids": [],
+        "factorization_changes_estimand_proved": false,
+        "kill_rule": null,
+        "local_feasibility_attacks_complete": false,
+        "named_scientific_target": null,
+        "next_rung_parity_pilot_passed": false,
+        "null_rule": null,
+        "repeated_boundary_failures": 0,
+        "safe_headroom_fraction_target": 0.2,
+        "smallest_sufficient_rung": null,
+        "status": "not_passed"
+      },
+      "id": "mop_p5_context_capability",
+      "independent_unit": null,
+      "kill_rule": "kill or redesign on failed validity/control gate before scaling",
+      "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
+      "measured": {
+        "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
+        "execution_verified_at_generation": true,
+        "implementation_surface": "experiment-class",
+        "ledger_classification": "freshly-executed-verified",
+        "present": true
+      },
+      "minimum_model_data": "smallest registered or planned mechanics rung",
+      "name": "context_capability_pilot",
+      "post_blocker_local_rung": null,
+      "primary_blocker": "none beyond executing or extending an already local implementation",
+      "primary_category": 1,
+      "primary_category_label": "already runnable locally",
+      "promotion_blocker": null,
+      "promotion_rule": "no hardware promotion without the global requirement/benefit gate",
+      "registry_resource_tier": "cpu-now",
+      "registry_runtime_class": "hours",
+      "required_rung": "L0",
+      "reusable_artifact": "hashed config, source snapshot, receipt, metrics, and split/provenance manifest",
+      "scope": "current_registry",
+      "series": "CM",
+      "status": "implemented"
+    },
+    {
+      "calculation_refs": [],
+      "classification_basis": "registry-plus-project-exhaustion-ledger",
+      "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
+      "controls": "registry controls or matched controls named in the narrative plan",
+      "dependence_structure": "must be preregistered before promotion testing",
+      "estimated": {
+        "present": false
+      },
+      "evidence_refs": [
+        "local:registry/experiments.yaml",
         "local:runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/manifest.json",
         "local:runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/config.yaml",
         "local:runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/attempt_receipt.json"
@@ -25396,10 +25502,10 @@
     }
   },
   "schema": "mop-extended-compute-requirements/v1",
-  "scope": "all 196 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
+  "scope": "all 197 current registry experiments, F21-F66, 17 candidate frontiers, W0-W11, and dossier pillars 7-25",
   "scope_counts": {
     "candidate_frontier": 17,
-    "current_registry": 196,
+    "current_registry": 197,
     "expansion_workstream": 12,
     "proposed_F21_F66": 46,
     "research_pillar": 19
@@ -25422,16 +25528,16 @@
     "prompt_frontiers_expected": 16,
     "proposed_F21_F66_covered": 46,
     "proposed_F21_F66_expected": 46,
-    "registry_covered": 196,
-    "registry_expected": 196,
-    "registry_id_sha256": "fbf69a660bba4b3cce47b4bd622bf9ba634a13a08dd997dbc3241b11c9d88552",
+    "registry_covered": 197,
+    "registry_expected": 197,
+    "registry_id_sha256": "c9da139beaddf87de48adca66bb39b279e3acb35547aaf048f2a0ef58afc8b9e",
     "research_pillars_covered": 19,
     "research_pillars_expected": 19,
-    "row_count": 290,
+    "row_count": 291,
     "row_referenced_json_audits_passed": true,
     "stale_artifacts_detected": 3,
     "stale_artifacts_excluded_from_row_evidence": true,
-    "unique_row_ids": 290,
+    "unique_row_ids": 291,
     "workstreams_covered": 12,
     "workstreams_expected": 12
   },
