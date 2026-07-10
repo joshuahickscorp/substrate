@@ -3,7 +3,7 @@
 import pytest
 from omegaconf import OmegaConf
 
-from mop.config import REPO_ROOT
+from mop.config import REPO_ROOT, compose
 from mop.harness.validate import ConfigError, validate_encoder
 from mop.substrate import load_encoder
 from mop.substrate.encoder_registry import (
@@ -25,6 +25,18 @@ def test_list_encoders_covers_every_shipped_config():
     on_disk = {OmegaConf.load(f).get("name", f.stem) for f in _ENCODER_DIR.glob("*.yaml")}
     assert listed == set(on_disk)
     assert listed  # not empty
+
+
+def test_retired_scale_configs_are_archived_and_not_composable():
+    archive = REPO_ROOT / "configs" / "legacy_encoder"
+    retired = ("vjepa2_vith", "vjepa2_vitg")
+    listed = {e["name"] for e in list_encoders()}
+    for name in retired:
+        assert (archive / f"{name}.yaml").is_file()
+        assert not (_ENCODER_DIR / f"{name}.yaml").exists()
+        assert name not in listed
+        with pytest.raises(FileNotFoundError):
+            compose([f"encoder={name}"])
 
 
 def test_every_shipped_encoder_is_honest():

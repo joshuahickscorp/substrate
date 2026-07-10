@@ -18,12 +18,14 @@ from typing import Any
 import torch
 import torch.nn.functional as F
 
+from ..config import REPO_ROOT
 from ..diagnostics.alignment import alignment_table
 from ..substrate.cache_manifest import validate_cache_manifest
 from ..substrate.latent_store import LatentStore
 from ..substrate.real_latent import factorized_arrays
 
 SCHEMA = "mop-vjepa-scale-atlas-local/v1"
+STIMULUS_IDENTITY_SCHEMA = "mop-factorized-stimulus-identity/v1"
 
 
 def _sha256(path: Path) -> str:
@@ -48,6 +50,7 @@ def _load_cache(path: Path) -> dict[str, Any]:
     splits = _json(path / "splits.json")
     manifest_path = path / "cache_manifest.json"
     manifest = _json(manifest_path)
+    factors = _json(path / "factors.json")
     objective = (manifest.get("form") or {}).get("objective")
     identity_name = "initialization_receipt.json" if objective == "random-control" else "encoder_receipt.json"
     identity = _json(path / identity_name)
@@ -63,6 +66,7 @@ def _load_cache(path: Path) -> dict[str, Any]:
         "objective": objective,
         "identity": identity,
         "run_receipt": run_receipt,
+        "factors_metadata": factors.get("metadata") or {},
         "manifest_sha256": _sha256(manifest_path),
     }
 
@@ -161,7 +165,160 @@ def _architecture_signature(row: dict[str, Any]) -> tuple[Any, ...]:
     return tuple(config.get(field) for field in _ARCHITECTURE_FIELDS)
 
 
-def _control_matches(rows: dict[str, dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+def _valid_sha256(value: Any) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(char in "0123456789abcdef" for char in value)
+
+
+def _receipt_stimulus_hashes(row: dict[str, Any]) -> list[str] | None:
+    """Return ordered per-referent hashes only when the run receipt binds every row."""
+    records = (row.get("run_receipt", {}).get("stimulus") or {}).get("records")
+    referents = row.get("referents") or []
+    if not isinstance(records, list) or len(records) != len(referents) or not records:
+        return None
+    hashes: list[str] = []
+    for record, referent in zip(records, referents, strict=True):
+        if not isinstance(record, dict):
+            return None
+        if record.get("referent") != referent or not _valid_sha256(record.get("sha256")):
+            return None
+        hashes.append(str(record["sha256"]))
+    return hashes
+
+
+def validate_factorized_stimulus_identity(
+    rows: dict[str, dict[str, Any]], receipt: dict[str, Any]
+) -> dict[str, Any]:
+    """Validate the separate identity receipt against the exact atlas caches.
+
+    The receipt is allowed to fill hashes missing from old learned-cache run receipts only when its
+    generator hashes, native-resolution clip hashes, cache identity, latent rebinding, and every
+    random-control run's own ordered hashes agree.  A boolean ``all_ok`` alone is never sufficient.
+    """
+    problems: list[str] = []
+    if receipt.get("schema") != STIMULUS_IDENTITY_SCHEMA:
+        problems.append("unexpected stimulus-identity schema")
+    if receipt.get("all_ok") is not True or receipt.get("problems") != []:
+        problems.append("stimulus-identity receipt is not cleanly verified")
+
+    generator_evidence = receipt.get("generator_evidence")
+    if not isinstance(generator_evidence, dict) or not generator_evidence:
+        problems.append("generator evidence is absent")
+    else:
+        commits = set()
+        for name, evidence in generator_evidence.items():
+            if not isinstance(evidence, dict):
+                problems.append(f"generator evidence {name} is malformed")
+                continue
+            head_sha = evidence.get("head_sha256")
+            current_sha = evidence.get("current_sha256")
+            commit = evidence.get("head_commit")
+            if not (
+                evidence.get("identical") is True
+                and _valid_sha256(head_sha)
+                and head_sha == current_sha
+                and isinstance(commit, str)
+                and len(commit) == 40
+            ):
+                problems.append(f"generator evidence {name} is not immutable and hash-bound")
+            else:
+                commits.add(commit)
+        if len(commits) != 1:
+            problems.append("generator functions are not bound to one source commit")
+
+    regenerated_raw = receipt.get("regenerated_stimulus_hashes")
+    regenerated: dict[int, list[str]] = {}
+    expected_n = len(next(iter(rows.values())).get("referents") or []) if rows else 0
+    if not isinstance(regenerated_raw, dict):
+        problems.append("regenerated stimulus hashes are absent")
+    else:
+        resolutions = {
+            int(row["manifest"]["encoder_config"]["resolution"])
+            for row in rows.values()
+            if row.get("objective") != "random-control"
+        }
+        for resolution in sorted(resolutions):
+            records = regenerated_raw.get(str(resolution))
+            if not isinstance(records, list) or len(records) != expected_n or not records:
+                problems.append(f"resolution {resolution} regenerated hash set is incomplete")
+                continue
+            hashes: list[str] = []
+            for index, record in enumerate(records):
+                if not (
+                    isinstance(record, dict)
+                    and record.get("index") == index
+                    and _valid_sha256(record.get("sha256"))
+                ):
+                    problems.append(f"resolution {resolution} regenerated hash row {index} is invalid")
+                    break
+                hashes.append(str(record["sha256"]))
+            else:
+                regenerated[resolution] = hashes
+
+    rebinding_raw = receipt.get("learned_latent_rebinding")
+    rebinding = {
+        str(record.get("tag")): record
+        for record in rebinding_raw or []
+        if isinstance(record, dict) and isinstance(record.get("tag"), str)
+    }
+    if not isinstance(rebinding_raw, list) or len(rebinding) != len(rebinding_raw):
+        problems.append("learned latent rebindings are absent, malformed, or duplicated")
+
+    learned_bindings: dict[str, dict[str, Any]] = {}
+    control_bindings: dict[str, dict[str, Any]] = {}
+    for tag, row in rows.items():
+        config = row["manifest"]["encoder_config"]
+        resolution = int(config["resolution"])
+        expected_hashes = regenerated.get(resolution)
+        factor_seed = (row.get("factors_metadata") or {}).get("seed")
+        if row.get("objective") != "random-control":
+            record = rebinding.get(tag)
+            exact = bool(
+                expected_hashes
+                and isinstance(record, dict)
+                and record.get("cache") == row["path"].name
+                and record.get("encoder") == config.get("name")
+                and record.get("resolution") == resolution
+                and record.get("clip_index") == 0
+                and record.get("clip_sha256") == expected_hashes[0]
+                and record.get("latent_dim") == int(row["latents"].flatten(1).shape[1])
+                and record.get("bitwise_equal") is True
+                and float(record.get("max_abs_diff", float("inf"))) == 0.0
+                and factor_seed == 0
+            )
+            learned_bindings[tag] = {
+                "cache": row["path"].name,
+                "resolution": resolution,
+                "bound": exact,
+            }
+            if not exact:
+                problems.append(f"learned cache {tag} is not exactly rebound to regenerated inputs")
+        else:
+            recorded_hashes = _receipt_stimulus_hashes(row)
+            exact = bool(expected_hashes and recorded_hashes == expected_hashes and factor_seed == 0)
+            control_bindings[tag] = {
+                "cache": row["path"].name,
+                "resolution": resolution,
+                "bound": exact,
+            }
+            if not exact:
+                problems.append(f"random control {tag} is not bound to the regenerated input set")
+
+    accepted = not problems and bool(learned_bindings) and bool(control_bindings)
+    return {
+        "accepted": accepted,
+        "schema": receipt.get("schema"),
+        "learned_bindings": learned_bindings,
+        "control_bindings": control_bindings,
+        "resolutions": sorted(regenerated),
+        "problems": problems,
+        "claim_boundary": "stimulus/cache identity mechanics only; capability promotion remains false",
+    }
+
+
+def _control_matches(
+    rows: dict[str, dict[str, Any]],
+    stimulus_identity: dict[str, Any] | None = None,
+) -> dict[str, list[dict[str, Any]]]:
     learned = {tag: row for tag, row in rows.items() if row["objective"] != "random-control"}
     random_rows = {tag: row for tag, row in rows.items() if row["objective"] == "random-control"}
     matches: dict[str, list[dict[str, Any]]] = {}
@@ -179,18 +336,36 @@ def _control_matches(rows: dict[str, dict[str, Any]]) -> dict[str, list[dict[str
                 continue
             learned_stimulus = (learned_row["run_receipt"].get("stimulus") or {}).get("set_sha256")
             control_stimulus = (control_row["run_receipt"].get("stimulus") or {}).get("set_sha256")
+            direct_stimulus_match = bool(
+                learned_stimulus and control_stimulus and learned_stimulus == control_stimulus
+            )
+            derived_stimulus_match = bool(
+                stimulus_identity
+                and stimulus_identity.get("accepted") is True
+                and (stimulus_identity.get("learned_bindings") or {}).get(learned_tag, {}).get("bound")
+                is True
+                and (stimulus_identity.get("control_bindings") or {}).get(control_tag, {}).get("bound")
+                is True
+                and (stimulus_identity["learned_bindings"][learned_tag]).get("resolution")
+                == (stimulus_identity["control_bindings"][control_tag]).get("resolution")
+            )
             records.append(
                 {
                     "tag": control_tag,
                     "architecture_exact": True,
                     "seed": control_identity.get("seed"),
                     "state_dict_sha256": control_identity.get("state_dict_sha256"),
-                    "stimulus_hash_exact": bool(
-                        learned_stimulus and control_stimulus and learned_stimulus == control_stimulus
+                    "stimulus_hash_exact": direct_stimulus_match or derived_stimulus_match,
+                    "stimulus_hash_source": (
+                        "cache-run-set-sha256"
+                        if direct_stimulus_match
+                        else "validated-factorized-stimulus-identity"
+                        if derived_stimulus_match
+                        else None
                     ),
                     "stimulus_hash_limitation": (
                         None
-                        if learned_stimulus and control_stimulus
+                        if direct_stimulus_match or derived_stimulus_match
                         else "one or both cache runs predate per-input stimulus hashes"
                     ),
                 }
@@ -204,6 +379,7 @@ def build_local_scale_atlas(
     *,
     seeds: tuple[int, ...] = (17, 29, 43, 59, 71),
     permutations: int = 500,
+    stimulus_identity_path: Path | str | None = None,
 ) -> dict[str, Any]:
     if not seeds or len(set(seeds)) != len(seeds):
         raise ValueError("scale atlas seeds must be a non-empty unique tuple")
@@ -251,7 +427,42 @@ def build_local_scale_atlas(
     )
     pair_min_p = min(float(pair["p_value"]) for pair in alignment["pairs"].values())
     pair_count = len(alignment["pairs"])
-    control_matches = _control_matches(rows)
+    stimulus_identity_receipt: dict[str, Any] = {}
+    stimulus_identity_report: dict[str, Any] = {
+        "accepted": False,
+        "learned_bindings": {},
+        "control_bindings": {},
+        "problems": ["no stimulus-identity receipt supplied"],
+    }
+    stimulus_identity_file: dict[str, Any] | None = None
+    if stimulus_identity_path is not None:
+        identity_path = Path(stimulus_identity_path).resolve()
+        try:
+            display_path = str(identity_path.relative_to(REPO_ROOT.resolve()))
+        except ValueError:
+            display_path = str(identity_path)
+        stimulus_identity_file = {
+            "path": display_path,
+            "exists": identity_path.is_file(),
+        }
+        if identity_path.is_file():
+            stimulus_identity_file.update(
+                {"bytes": identity_path.stat().st_size, "sha256": _sha256(identity_path)}
+            )
+            try:
+                parsed_identity = _json(identity_path)
+                if isinstance(parsed_identity, dict):
+                    stimulus_identity_receipt = parsed_identity
+                    stimulus_identity_report = validate_factorized_stimulus_identity(
+                        rows, stimulus_identity_receipt
+                    )
+                else:
+                    stimulus_identity_report["problems"] = ["stimulus-identity JSON is not a mapping"]
+            except (OSError, json.JSONDecodeError) as exc:
+                stimulus_identity_report["problems"] = [f"stimulus-identity receipt unreadable: {exc}"]
+        else:
+            stimulus_identity_report["problems"] = ["stimulus-identity receipt does not exist"]
+    control_matches = _control_matches(rows, stimulus_identity_report)
     matched_architecture = bool(control_matches) and all(control_matches.values())
     matched_stimulus = matched_architecture and all(
         any(record["stimulus_hash_exact"] for record in records) for records in control_matches.values()
@@ -304,10 +515,20 @@ def build_local_scale_atlas(
             "factors_match": True,
             "splits_match": True,
             "pixel_bytes_verified_across_caches": matched_stimulus,
+            "learned_control_pixel_bytes_verified_per_native_resolution": matched_stimulus,
             "limitation": (
-                "referent IDs and generative factors match exactly, but native-resolution renders are "
-                "not the same pixel tensor and old runs lack input hashes"
+                "learned/control pairs are bound to exact resolution-specific tensors; 256px and "
+                "384px native-resolution tensors necessarily differ and are not cross-resolution "
+                "byte-identical"
+                if matched_stimulus
+                else "referent IDs and generative factors match, but learned/control pixel identity "
+                "is not fully receipt-bound"
             ),
+        },
+        "stimulus_identity_receipt": {
+            "file": stimulus_identity_file,
+            "validation": stimulus_identity_report,
+            "claim_boundary": (stimulus_identity_receipt.get("claim_boundary") or None),
         },
         "seeds": list(seeds),
         "factor_reports": factor_reports,

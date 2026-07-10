@@ -20,17 +20,10 @@ from omegaconf import OmegaConf
 
 from ..config import REPO_ROOT
 
-# hf_ids hand-verified present on HuggingFace (probed 2026-06). These are the real V-JEPA 2
-# weights the real-encoder cache can actually fetch. NOT probed at runtime: asserting this set
-# keeps list_encoders()/is_honest() pure-config and offline. V-JEPA 2.1 is deliberately ABSENT
-# (not published on HF; its configs carry available:false and stay on the frozen-random path).
-VERIFIED_REAL_IDS: frozenset[str] = frozenset(
-    {
-        "facebook/vjepa2-vitl-fpc64-256",
-        "facebook/vjepa2-vith-fpc64-256",
-        "facebook/vjepa2-vitg-fpc64-384",
-    }
-)
+# The one live Hugging Face control ID, verified in 2026-06. Official dense ViT-B uses its pinned
+# PyTorch checkpoint seam instead, so it is intentionally absent from this HF-only set. Retired
+# inherited-scale configs live outside the composable encoder group and are never enumerated here.
+VERIFIED_REAL_IDS: frozenset[str] = frozenset({"facebook/vjepa2-vitl-fpc64-256"})
 
 _ENCODER_DIR = REPO_ROOT / "configs" / "encoder"
 
