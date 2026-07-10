@@ -377,7 +377,9 @@ Claim: a trainable substrate can expose factors frozen substrates plus larger sh
 
 Null: frozen inherited substrate plus larger shell ties the plastic substrate.
 
-First experiment: F8, gated by F1 to F5 and Studio-scale content.
+First experiment: F8, gated by F1 to F5 plus rights-clean natural data and trusted weight provenance.
+Its fixture and execution mechanics run locally; no Studio hardware wall is claimed without a measured
+M3 failure receipt.
 
 ### H7: Perfect Slate
 

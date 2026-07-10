@@ -341,7 +341,11 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
         log.info("%-18s %s  %s", check["name"], "ok" if check["ok"] else "FAIL", check["detail"])
     log.info(
         "%s: %d/%d checks passed -> %s",
-        "STUDIO READY" if report["all_ok"] else "NOT READY",
+        (
+            f"CURRENT HOST READY FOR {report['profile']['resolved']}"
+            if report["all_ok"]
+            else "CURRENT HOST NOT READY"
+        ),
         summary["passed"],
         summary["total"],
         out,
@@ -545,6 +549,7 @@ def _artifact_indexes(raw_items: list[str]) -> dict[str, dict | None]:
         "dr1": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "dr1.json",
         "pr9": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "pr9.json",
         "atlas": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "atlas.json",
+        "form_substrate": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "form_substrate.json",
         "spine": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "spine.json",
     }
     for item in raw_items:

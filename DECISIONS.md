@@ -528,10 +528,11 @@ Autonomous-session decisions, each with a one-line rationale. Append-only.
 - Implemented all 14 cpu-now F experiments end to end (F1/F2/F3/F5 pre-existed; this run added F4, F9,
   F10, F12, F13, F14, F17, F18, F19, F20). Each carries the full doctrine contract, its registry-named
   controls, a performance-density block, and difficulty calibration so no reported tie or win sits at the
-  accuracy ceiling or the chance floor. The 6 still registry-only (F6, F7, F8, F11, F15, F16) are genuinely
-  off this hardware: F6/F15 need an environment, F7/F8/F11/F16 need Studio GPU or a trainable-substrate
-  license (doc 15 gates). No encoder was trained; workstreams D (Studio real forms) and F (plastic branch)
-  stay closed on the M3 Pro per their gates.
+  accuracy ceiling or the chance floor. The original six-lane deferral in this entry is superseded by the
+  completed audit: F6, F7, F11, and F15 now run locally, while F8/F16 have a complete local
+  fixture-scientific engine. F8/F16 remain registry-only because rights-clean natural data, executable
+  real-weight evidence, and a trusted provenance authority are absent. No measured M3 failure exists, so
+  they are environment-gated rather than Studio GPU work.
 - Difficulty calibration was the load-bearing effort, not the mechanics. Several experiments ceilinged on
   the first pass and were retuned to a non-vacuous regime: F17 (single-form redundancy at ceiling ->
   noise-limited fusion; also switched the OA2 null from a raw confidence-drop proxy to calibration AUROC,

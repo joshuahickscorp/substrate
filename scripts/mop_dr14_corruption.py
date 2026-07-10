@@ -13,8 +13,10 @@ once and shared, never re-drawn per arm):
     reasoning primitive from the EX17 line) + linear head.
   single-pass baseline: untied residual blocks at depth_for_matched_flops (equal block count,
     equal forward FLOPs; parameter counts differ by construction and are reported honestly).
-The dropped-channel arm needs dense latents and stays Studio. Which OTHER primitives survived
-their own WP rows is read from runs/mot/*.json at run time and recorded as context only (their
+The dropped-channel arm needs a citable dense-token cache and is not implemented in this runner;
+that is a local integration/data-path blocker, not a measured Studio hardware boundary. Which
+OTHER primitives survived their own WP rows is read from runs/mot/*.json at run time and recorded
+as context only (their
 scripts are separate lanes; this script owns the corruption mechanics, not their harnesses).
 
 Corruption families (severity normalized to [0, 1] per family, slopes fit on the degradation

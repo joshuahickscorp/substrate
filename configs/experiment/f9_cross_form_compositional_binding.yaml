@@ -2,7 +2,7 @@ id: f9_cross_form_compositional_binding
 name: cross_form_compositional_binding
 module: f_form_substrate
 metric: [heldout_combo_acc, seen_combo_acc, heldout_seen_gap]
-null_hypothesis: "held-out cross-form combinations collapse toward the shuffle floor while seen pairs stay high"
+null_hypothesis: "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms"
 tier: cpu-now
 
 # Two factors only (the 3-factor regime memorized conjunctions and sign-flipped across seeds; start
@@ -12,12 +12,12 @@ samples: 600
 n_a: 4
 n_b: 4
 world_dim: 16
-separation: 1.6
-world_noise: 0.5
-form_noise: 0.1
+separation: 1.0
+world_noise: 0.9
+form_noise: 0.5
 cross_leak: 0.15
 epochs: 120
 lr: 0.03
 gap_margin: 0.15
 margin: 0.1
-seeds: [0, 1, 2]
+seeds: [0, 1, 2, 3, 4]

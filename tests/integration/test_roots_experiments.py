@@ -12,7 +12,10 @@ from mop.experiments import REGISTRY, get_experiment
 def _roots_ids() -> list[str]:
     # the roots experiments are every registered id that is not part of the E/EX conducted bank or the
     # I4 comparison (those have their own tests). Series letters n/d/b/p/c/i/y/s/a, ids like n1_*, d4_*.
-    return sorted(eid for eid in REGISTRY if not eid.startswith("e") and eid != "i4_backprop_alts")
+    # Keep this prefix-explicit: registered F8/F16 preflight classes are environment-gated even though
+    # their smoke and fixture-scientific paths run on CPU; the F-series gates cover them separately.
+    root_prefixes = ("n", "d", "b", "p", "c", "i", "y", "s", "a")
+    return sorted(eid for eid in REGISTRY if eid.startswith(root_prefixes) and eid != "i4_backprop_alts")
 
 
 ROOTS_IDS = _roots_ids()

@@ -1,8 +1,9 @@
-"""DR1 PerspectiveMatrix receipts.
+"""DR1 FormMatrix receipts under the durable Perspective receipt wire contract.
 
 The real DR1 cache should not hand-wave "vision plus captions" as aligned. This module verifies that the
 merged latent store rows and paired captions share the same referent ids, builds the existing
-PerspectiveMatrix contract, and writes a compact JSON receipt with the audit surface.
+FormMatrix contract, and writes a compact JSON receipt with the audit surface. Public function names,
+the filename, and the v1 receipt schema remain unchanged for existing Studio evidence consumers.
 """
 
 from __future__ import annotations
@@ -17,14 +18,14 @@ from typing import Any
 
 import torch
 
-from ..perspectives import (
-    LatentStorePerspectiveAdapter,
-    PerspectiveMeta,
-    TensorPerspectiveAdapter,
-    build_perspective_matrix,
-    perspective_audit,
-)
 from ..substrate import LatentStore
+from ..substrate.form import (
+    FormMeta,
+    LatentStoreFormAdapter,
+    TensorFormAdapter,
+    build_form_matrix,
+    form_audit,
+)
 
 SCHEMA = "mop-dr1-perspective-matrix-receipt/v1"
 DEFAULT_OUT_NAME = "perspective_matrix_receipt.json"
@@ -54,33 +55,39 @@ def build_dr1_perspective_receipt(
     caption_features = _caption_features(caption_texts)
     factor_tensors = {name: torch.tensor(values, dtype=torch.long) for name, values in factor_values.items()}
 
-    vision = LatentStorePerspectiveAdapter(
+    vision = LatentStoreFormAdapter(
         store,
         tag="vision_vjepa2",
-        modality="vision",
+        kind="vision",
         source=str(root),
+        objective="inherited-frozen",
         referents=stems,
+        referent_scheme="clip-stem",
         factors=factor_tensors,
         license="source-cache",
         notes="DR1 merged V-JEPA latent store",
     )
-    caption = TensorPerspectiveAdapter(
-        PerspectiveMeta(
+    caption = TensorFormAdapter(
+        FormMeta(
             tag="caption_text",
-            modality="language",
+            kind="text",
             feature_dim=int(caption_features.shape[1]),
             source="captions.json",
+            objective="programmatic",
             derived=True,
             license="source-sidecar",
-            factors=tuple(factors),
+            referent_scheme="clip-stem",
             notes="paired real caption sidecar, hashed trigram features for receipt alignment",
         ),
         caption_features,
         stems,
         factors=factor_tensors,
     )
-    matrix = build_perspective_matrix([vision, caption])
-    audit = perspective_audit(matrix)
+    matrix = build_form_matrix([vision, caption])
+    audit = form_audit(matrix)
+    # Preserve the Perspective v1 vocabulary on the wire while the in-process implementation is
+    # canonical Form. This is serialization compatibility, not a second matrix or audit stack.
+    audit["modalities"] = {tag: _legacy_modality(matrix.metadata[tag].kind) for tag in matrix.tags()}
     return {
         "schema": SCHEMA,
         "ok": True,
@@ -89,7 +96,10 @@ def build_dr1_perspective_receipt(
         "referent_sha256": _sha_json(stems),
         "tags": matrix.tags(),
         "audit": audit,
-        "arms": {tag: asdict(matrix.metadata[tag]) for tag in matrix.tags()},
+        "arms": {
+            tag: _receipt_arm(matrix.metadata[tag], tuple(sorted(matrix.factors[tag])))
+            for tag in matrix.tags()
+        },
         "factor_values": _factor_value_names(stem_to_cell, stems, factors, cell_delim),
         "factor_counts": _factor_counts(stem_to_cell, stems, factors, cell_delim),
         "notes": [
@@ -107,7 +117,7 @@ def write_dr1_perspective_receipt(
     out_path: Path | str | None = None,
     cell_delim: str = "-",
 ) -> dict[str, Any]:
-    """Build and write the DR1 PerspectiveMatrix receipt."""
+    """Build and write the durable DR1 Perspective v1 receipt from a canonical FormMatrix."""
     root = Path(store_dir)
     receipt = build_dr1_perspective_receipt(root, captions, factors=factors, cell_delim=cell_delim)
     out = Path(out_path) if out_path is not None else root / DEFAULT_OUT_NAME
@@ -115,6 +125,23 @@ def write_dr1_perspective_receipt(
     receipt["path"] = str(out)
     out.write_text(json.dumps(receipt, indent=2, default=str) + "\n")
     return receipt
+
+
+def _legacy_modality(kind: str) -> str:
+    return "language" if kind == "text" else kind
+
+
+def _receipt_arm(meta: FormMeta, factors: tuple[str, ...]) -> dict[str, Any]:
+    """Serialize canonical metadata with the additive Perspective v1 compatibility fields."""
+    data = asdict(meta)
+    data.update(
+        {
+            "modality": _legacy_modality(meta.kind),
+            "referent_key": "clip_id",
+            "factors": factors,
+        }
+    )
+    return data
 
 
 def _load_stems(root: Path) -> tuple[str, ...]:

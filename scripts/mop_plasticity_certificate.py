@@ -57,8 +57,9 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/Users/scammermike/Downloads/mop/src")
-sys.path.insert(0, "/Users/scammermike/Downloads/mop")
+_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(_ROOT / "src"))
+sys.path.insert(0, str(_ROOT))
 
 import torch  # noqa: E402
 import torch.nn.functional as F  # noqa: E402

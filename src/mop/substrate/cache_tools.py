@@ -18,7 +18,7 @@ import numpy as np
 
 from ..provenance import RESULT_TAGS, cache_id
 from .cache_manifest import DEFAULT_MANIFEST, validate_cache_manifest
-from .latent_store import LatentStore, StoreMeta
+from .latent_store import LatentStore
 
 DEFAULT_ROOT = Path("data/cache")
 
@@ -33,12 +33,13 @@ def _read_json(path: Path) -> dict | None:
 def _meta_summary(store_dir: Path) -> dict:
     """Best-effort one-line facts about a store dir for listings (never raises)."""
     out: dict = {"name": store_dir.name, "count": None, "dim": None, "backend": None, "result_tag": None}
-    meta = _read_json(store_dir / "meta.json")
-    if meta:
-        out["name"] = meta.get("name", store_dir.name)
-        out["count"] = meta.get("count")
-        feat = meta.get("feat_shape") or []
-        out["dim"] = int(np.prod(feat)) if feat else None
+    try:
+        meta = LatentStore.open(store_dir).meta
+        out["name"] = meta.name
+        out["count"] = meta.count
+        out["dim"] = int(np.prod(meta.feat_shape)) if meta.feat_shape else None
+    except Exception:
+        pass
     prov = _read_json(store_dir / "provenance.json")
     if prov:
         out["backend"] = prov.get("encoder_backend")
@@ -68,7 +69,8 @@ def cache_info(store_dir: Path | str) -> dict:
         facts["error"] = "meta.json missing"
         return {"meta": None, "provenance": prov, "facts": facts}
 
-    lat_path, key_path = store_dir / "latents.npy", store_dir / "keys.npy"
+    lat_path = _latent_path(store_dir)
+    key_path = store_dir / "keys.npy"
     facts["latents_on_disk"] = _npy_header(lat_path)
     facts["keys_on_disk"] = _npy_header(key_path)
     if meta.get("has_labels"):
@@ -86,10 +88,13 @@ def cache_info(store_dir: Path | str) -> dict:
     facts["cache_manifest_present"] = manifest.exists()
     if manifest.exists():
         facts["cache_manifest_clean"] = not validate_cache_manifest(store_dir)
+        facts["citable_ready"] = not validate_cache_manifest(store_dir, citable=True)
+    else:
+        facts["citable_ready"] = False
     return {"meta": meta, "provenance": prov, "facts": facts}
 
 
-def validate_cache(store_dir: Path | str) -> list[str]:
+def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]:
     """Read-only integrity check. Returns a list of problems; empty means clean.
 
     Checks: meta.json present and parses; latents/keys arrays exist with shape (count, *feat_shape)
@@ -105,21 +110,25 @@ def validate_cache(store_dir: Path | str) -> list[str]:
         return ["meta.json missing"]
     try:
         meta_dict = json.loads(raw.read_text())
-        meta = StoreMeta(**meta_dict)
-    except Exception as e:  # malformed json or wrong keys
-        return [f"meta.json does not parse into StoreMeta: {e}"]
+        meta = LatentStore.open(store_dir).meta
+    except Exception as e:  # malformed json or unsupported store layout
+        return [f"meta.json/store layout cannot open as LatentStore: {e}"]
 
     count, feat_shape = int(meta.count), tuple(meta.feat_shape)
 
     # latents: shape and dtype
-    lat_hdr = _npy_header(store_dir / "latents.npy")
+    lat_hdr = _npy_header(_latent_path(store_dir))
     if lat_hdr is None:
-        problems.append("latents.npy missing or unreadable")
+        problems.append("latents.npy/features.npy missing or unreadable")
     else:
-        want_shape = (count, *feat_shape)
-        if tuple(lat_hdr["shape"][: len(want_shape)]) != want_shape:
+        actual_shape = tuple(lat_hdr["shape"])
+        if actual_shape[0] < count or actual_shape[1:] != feat_shape:
             problems.append(
-                f"latents shape {lat_hdr['shape']} does not match meta (count,feat_shape)={want_shape}"
+                f"latents shape {lat_hdr['shape']} does not cover meta count={count}, feat_shape={feat_shape}"
+            )
+        if count == 0 and actual_shape[0] > 0:
+            problems.append(
+                f"meta count is zero but latent array contains {actual_shape[0]} rows; cache is incomplete"
             )
         if lat_hdr["dtype"] != meta.dtype:
             problems.append(f"latents dtype {lat_hdr['dtype']} != meta dtype {meta.dtype}")
@@ -127,7 +136,8 @@ def validate_cache(store_dir: Path | str) -> list[str]:
     # keys: leading dim and key_dim
     key_hdr = _npy_header(store_dir / "keys.npy")
     if key_hdr is None:
-        problems.append("keys.npy missing or unreadable")
+        if int(meta.key_dim) > 0:
+            problems.append("keys.npy missing or unreadable")
     else:
         if int(key_hdr["shape"][0]) < count:
             problems.append(f"keys count {key_hdr['shape'][0]} < meta count {count}")
@@ -136,9 +146,14 @@ def validate_cache(store_dir: Path | str) -> list[str]:
 
     # labels: present, length matches count, class mapping in range
     if meta.has_labels:
-        lab = _load_npy(store_dir / "labels.npy")
+        label_path = (
+            store_dir / "labels.npy"
+            if (store_dir / "labels.npy").exists()
+            else store_dir / "labels_shape.npy"
+        )
+        lab = _load_npy(label_path)
         if lab is None:
-            problems.append("has_labels true but labels.npy missing or unreadable")
+            problems.append("has_labels true but labels.npy/labels_shape.npy missing or unreadable")
         else:
             if lab.shape[0] < count:
                 problems.append(f"labels length {lab.shape[0]} < meta count {count}")
@@ -175,11 +190,13 @@ def validate_cache(store_dir: Path | str) -> list[str]:
                 f"cache_id mismatch: provenance {prov.get('cache_id')!r} != recomputed {recomputed!r}"
             )
 
-    # cache_manifest.json is optional, but if present it must validate. This lets Studio caches opt in
-    # to stronger receipt guarantees without forcing every old laptop cache to grow a new sidecar.
+    # Legacy operational validation keeps manifests optional. Citable validation requires the full
+    # manifest, form declaration, encoder receipt, and explicit referent sidecar.
     if (store_dir / DEFAULT_MANIFEST).exists():
-        for problem in validate_cache_manifest(store_dir):
+        for problem in validate_cache_manifest(store_dir, citable=citable):
             problems.append(f"{DEFAULT_MANIFEST}: {problem}")
+    elif citable:
+        problems.append(f"{DEFAULT_MANIFEST}: missing for citable cache")
 
     # three random rows must actually be readable through the public store API
     if not problems and count > 0:
@@ -199,13 +216,19 @@ def validate_cache(store_dir: Path | str) -> list[str]:
 def _content_cache_id(store_dir: Path, meta: dict) -> str | None:
     """Recompute the cache_id the writer stamped: cache_id(name, count, sample), where sample is
     the first <=4 latent rows' bytes truncated to 4096 (matches substrate.cache._write_provenance)."""
-    lat = _load_npy(store_dir / "latents.npy")
+    lat = _load_npy(_latent_path(store_dir))
     if lat is None:
         return None
     count = int(meta.get("count", 0)) or lat.shape[0]
     name = meta.get("name", store_dir.name)
     sample = lat[: min(4, count)].tobytes()[:4096] if count else b""
     return cache_id(name, count, sample)
+
+
+def _latent_path(store_dir: Path) -> Path:
+    """Return the native or compatibility latent-array path."""
+    native = store_dir / "latents.npy"
+    return native if native.exists() else store_dir / "features.npy"
 
 
 def _npy_header(path: Path) -> dict | None:

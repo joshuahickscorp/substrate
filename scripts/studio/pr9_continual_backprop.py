@@ -1,17 +1,18 @@
 #!/usr/bin/env python
-"""PR9 (Process B, Studio-only), HARDENED: continual backprop (utility-based selective reinitialization,
-Dohare et al. 2024) on a LONG real-latent stream, gated by a plasticity-loss certificate under a
+"""PR9 (Process B, full-stream 32 GB profile), HARDENED: continual backprop
+(utility-based selective reinitialization, Dohare et al. 2024) on a LONG real-latent stream, gated by a
+plasticity-loss certificate under a
 WELL-TUNED baseline. Does the CBP utility-reinit maintain the plastic shell's plasticity over a long
 non-stationary stream where a well-tuned plain SGD loses it, WITHOUT paying a retention cost, ON REAL
 V-JEPA features (not synthetic)?
 
-WHY STUDIO (not the laptop): CBP only earns its verdict against a stream long enough that the well-tuned
+WHY THE FULL PROFILE IS LARGE: CBP only earns its verdict against a stream long enough that the well-tuned
 plain (no-reinit) baseline demonstrably loses plasticity first, otherwise there is nothing for the reinit
 to restore, and any win is noise (the EX15 caveat: no plasticity loss at this scale means nothing to fix).
 A stream that long over the real bound-video / nuisance latent store is many thousands of optimizer steps
-across dozens of task switches; it does not fit the laptop's 18GB pool or its patience. This script has a
-hard free-RAM guard (>= 32GB) so it cannot run the full stream on the laptop by accident; the guard can be
-bypassed ONLY for an explicit tiny smoke check (--smoke), which also shrinks the stream.
+across dozens of task switches. This script preserves a conservative 32 GB free-RAM policy guard for its
+original full preset; the guard is not a measured hardware-boundary receipt. The explicit `--smoke` path
+is local, and progressive bounded rungs belong under the 180-minute local profile before moving upward.
 
 HARDENING CARRIED FROM THE FIVE LAPTOP ROUNDS (see pr9_report.md for the full ledger):
 
@@ -50,9 +51,10 @@ HARDENING CARRIED FROM THE FIVE LAPTOP ROUNDS (see pr9_report.md for the full le
    (seed, arm) leg instead of recomputing the stream from scratch (per-clip-range-leg resumability).
 
 Consumes a real-latent store (default the DR1 bound-video store, else the WP-11 nuisance store); never
-loads an encoder. Heavy queue class: run only when the encoder lane is free and on the Studio box.
+loads an encoder. Heavy queue class: run only when the encoder lane is free and the selected host profile
+has measured headroom.
 
-Usage (Studio):
+Usage (full 32 GB preset):
   python scripts/studio/pr9_continual_backprop.py --cache data/cache/vjepa2_vitl_bound_video --seeds 0-9
 
 Smoke (laptop, tiny N, proves reinits fire and the path runs):
@@ -126,8 +128,8 @@ SMOKE_OVERRIDES = {
 
 
 def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB, *, allow_low: bool = False) -> float:
-    """Hard guard: refuse to run unless >= min_gb of free RAM. Keeps the long stream off the laptop.
-    `allow_low` (set only by --smoke) bypasses the floor for the tiny path."""
+    """Policy guard for the original full-stream preset, not measured boundary evidence.
+    `allow_low` (set only by --smoke) bypasses the floor for the tiny local path."""
     try:
         import psutil
 
@@ -137,12 +139,13 @@ def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB, *, allow_low: bool = Fals
             return -1.0
         raise SystemExit(
             f"cannot read free RAM ({e}); refusing to run without the >= {min_gb:.0f}GB safety check. "
-            "Install psutil on the Studio box."
+            "Install psutil on the target host."
         ) from e
     if free_gb < min_gb and not allow_low:
         raise SystemExit(
-            f"free RAM {free_gb:.1f}GB < required {min_gb:.0f}GB. Studio-only long stream; move it to "
-            "the Studio box (the laptop pool is 18GB). Use --smoke ONLY for the tiny import/run check."
+            f"free RAM {free_gb:.1f}GB < the original full-preset policy floor {min_gb:.0f}GB. "
+            "This refusal is a profile gate, not a measured hardware boundary. Use --smoke for the "
+            "tiny local path or a separately preregistered bounded rung under the local envelope."
         )
     return free_gb
 
@@ -784,7 +787,7 @@ def main(argv=None) -> int:
                 print(f"[smoke] default cache {cfg['cache']} absent; using {fallback}", flush=True)
                 cfg["cache"] = fallback
 
-    assert_studio_ram(allow_low=a.smoke)  # Studio-only guard (bypassed only for the tiny smoke path)
+    assert_studio_ram(allow_low=a.smoke)  # full-preset policy guard; smoke is the bounded local path
     assert_encoder_lane_free(skip=a.smoke or a.no_encoder_guard)  # encoder-lane guard
 
     out_path = Path(a.out)

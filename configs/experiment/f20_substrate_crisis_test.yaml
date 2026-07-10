@@ -2,7 +2,7 @@ id: f20_substrate_crisis_test
 name: substrate_crisis_test
 module: f_form_substrate
 metric: [crisis_auroc, raw_error_auroc, false_trigger_rate, avoided_wasted_compute_per_monitor_flop]
-null_hypothesis: "the crisis detector ties the raw error signal or triggers on aleatoric noise"
+null_hypothesis: "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established"
 tier: cpu-now
 
 samples: 320
@@ -30,4 +30,4 @@ error_threshold: 0.5
 shell_scaleup_flops: 1.0e10
 margin: 0.1
 noise_margin: 0.12
-seeds: [0, 1]
+seeds: [0, 1, 2, 3, 4]

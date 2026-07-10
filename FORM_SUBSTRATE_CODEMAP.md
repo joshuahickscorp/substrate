@@ -1,5 +1,9 @@
 # FORM SUBSTRATE CODEMAP
 
+Status note (2026-07-09): this is a migration-time audit, not the live implementation inventory.
+Use `FORM_SUBSTRATE_EXPERIMENTS.md`, `DECISIONS.md`, and
+`FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md` for current state and next work.
+
 The code audit behind the paradigm migration: every existing module mapped to its form-substrate role.
 Companion docs: FORM_SUBSTRATE_PROGRAM.md (worldview), PARADIGM_MIGRATION.md (doc migration),
 MIGRATION_PHASES.md (phase order), FORM_SUBSTRATE_EXPERIMENTS.md (F-series bank).
@@ -62,6 +66,7 @@ Priority: P0 (this phase), P1 (next), P2 (later), P3 (gated/optional).
 | substrate/cache.py, cache_tools.py | encode-once caching, integrity | form intake for cached arms | keep | none | test_cache_tools | encode-once doctrine | P2 |
 | substrate/real_latent.py, video.py, datasets.py, fixtures.py | real video decode, streams, synthetic worlds | vision-form and toy-form sources | keep | none | test_real_latent, test_video | decode throughput | P2 |
 | substrate/encoder_registry.py | encoder honesty registry | form-arm honesty registry input | keep | none | test_encoder_registry | none | P2 |
+| environments/persistent_grid.py | deterministic persistent local actions, consequences, and cloned-state alternatives | shared causal trajectory instrument for F6, F15, E5, and CM10 mechanics | keep, programmatic-only | synthetic evidence overclaim | test_persistent_grid_environment | bounded CPU, content-addressed | P0 |
 
 ### 1.2 Shell, memory, routing, plasticity (the mode ecology)
 
@@ -122,13 +127,13 @@ Priority: P0 (this phase), P1 (next), P2 (later), P3 (gated/optional).
 | studio/profiles.py, encode_scheduler.py, memory_envelope.py, native_lanes.py | hardware envelopes and lanes | keep (perf kernel) |
 | falsification/null_cards.py, verdict_gate.py | null cards + two-key verdicts | keep (mandatory for F-series promotions) |
 | devel/registries.py | preregistration registry + sentience rail | extend (F17-F20 rows) |
-| devel/metacognition.py | inspectable self-monitoring report, rail-gated | seed of diagnostics/operational_awareness.py | 
+| devel/metacognition.py | inspectable self-monitoring report, rail-gated | seed of diagnostics/operational_awareness.py |
 | devel/north_star.py | sentience rail + engineering vocabulary | keep (OA doctrine depends on it) |
-| devel/curriculum.py | learning-progress lesson selection | F10 backend | 
+| devel/curriculum.py | learning-progress lesson selection | F10 backend |
 
 ---
 
-## 2. New modules required (exactly two)
+## 2. New modules required (four shared seams)
 
 Everything else in the master plan's proposed file list already exists under another name. Refusals
 first, so the duplicates never get written:
@@ -162,18 +167,37 @@ metacognition report fields. Adds the missing composites: missing-form detection
 availability score, mode-selection regret vs oracle and vs random, compute-value estimation. All
 free text through north_star.assert_no_sentience_claims. Test: tests/unit/test_operational_awareness.py.
 
+### 2.3 src/mop/experiments/form_rewrite_engine.py (P0)
+
+Job: one fail-closed execution engine shared only by registry-only F8/F16. It consumes a rights-manifested
+local tensor package, safe executable encoder weights, reproducible inherited features, bound prerequisite
+receipts, and immutable seed/margin/compute plans. It runs the four candidate/control arms under one
+explicit estimated end-to-end FLOP convention, preserves partial-attempt and resource receipts, and never
+self-promotes natural provenance. This stays in experiments rather than adding the refused parallel
+plasticity/substrate_rewrite.py abstraction. Tests: tests/integration/test_f_missing_lanes.py.
+
+### 2.4 src/mop/environments/persistent_grid.py (P0)
+
+Job: one deterministic local observation -> chosen action -> consequence adapter shared by F6, F15,
+E5, and CM10. Every event carries stable world, episode, entity, state, event, and branch references,
+action costs, affordances, episode boundaries, and all four paired alternatives evaluated from the
+same cloned state. Seeded replay and canonical SHA-256 verification fail closed on mutation. It is a
+programmatic mechanics instrument, never evidence of natural embodiment or open-endedness. Durable
+preflight: proof/LOCAL_ACTION_ENVIRONMENT.json. Tests: test_persistent_grid_environment.py and
+test_local_action_environment.py.
+
 ---
 
 ## 3. Known gaps this map creates work for
 
-1. No integration test exercises F1/F2/F3/F5 through the harness the way E/EX series have.
-   Add tests/integration/test_f_series.py when F4/F9 land (P1).
-2. form.py has no store-backed adapter yet (a `LatentStoreFormAdapter` mirroring the perspective
-   bridge); required before DR1 real-form matrices (Phase 3) can use the form interface (P1).
-3. cache_manifest.py has no form-kind field; needed for per-form provenance at Studio scale (P1).
-4. substrate/__init__.py docstring still says "Frozen perceptual substrate ... Nothing here trains";
-   true today, but the honest wording after F8/F16 licensing changes is tracked in MIGRATION_PHASES.md
-   Phase 5 (P2).
+1. F8/F16 lack a rights-clean natural dataset package and an executable real-weight/inherited-feature
+   receipt in the supported safe format (environment blocker, not a measured hardware wall).
+2. No configured external trust root can attest legal rights or real pretraining provenance, so the
+   engine correctly keeps all natural claims nonpromotable.
+3. A future full-size encoder backend may need a streamed package format beyond safe MLP NPZ; it must
+   preserve the same hashes, referents, split guards, compute ledger, and fail-closed behavior.
+4. No F8/F16 M3 OOM, timeout, or disk-limit attempt exists. Resource projections cannot be upgraded to
+   Studio boundary evidence without that measurement.
 
 ---
 

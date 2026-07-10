@@ -165,7 +165,7 @@ Six candidates, A to F. Each is a contingency: it is built only if the Section 8
 ## Arch C: Action-conditioned world model
 
 - Proves: whether conditioning the predictor on ACTIONS turns the ex2 planning positive into a substrate-level capability (planning that improves as the world model improves), and whether action-conditioning is where a custom substrate finally beats a frozen one on the adaptation axis. Relates to C2 (adaptation bounds).
-- Dataset: real action-conditioned video (agent acting, or a simulator with logged actions); this is the one architecture that is BLOCKED on an interactive environment adapter, not on compute (per STUDIO_MAXIMIZATION section on environments).
+- Dataset: real action-conditioned video (agent acting, or a rendered simulator with logged actions). The deterministic local adapter and vector-trajectory mechanics now exist; the remaining gate is a citable rendered/substrate trajectory set and the exact V-JEPA 2-AC control, not environment software or measured hardware.
 - Objective: predict next latent given current latent AND action (forward model), trained to minimize latent prediction error on true rollouts.
 - Losses: action-conditioned latent-prediction loss, plus a rollout-consistency loss (multi-step prediction matches multi-step ground truth), plus anti-collapse.
 - Trainable vs frozen: frozen V-JEPA encoder, TRAINABLE action-conditioned predictor (the b9_cerebellar_forward_model line); substrate frozen, forward model trained. Closest to doctrine of the world-model archs.
@@ -215,7 +215,7 @@ Six candidates, A to F. Each is a contingency: it is built only if the Section 8
 ## 9.x How this maps back to the gates
 
 - Arch A and B are the Stage 5 pilots for a C1 (compositional-factoring) failure: A tries a new objective, B tries binding-before-pooling. B is preferred first because it keeps the substrate frozen.
-- Arch C is the Stage 5 pilot for the adaptation/planning axis, blocked on an environment adapter, not compute.
+- Arch C is the Stage 5 pilot for the adaptation/planning axis. Its local adapter/mechanics are implemented; substrate-grounded evidence and exact controls remain, not a measured compute wall.
 - Arch D is Stage 6, licensed only after a Stage 5 pilot clears its bar and the atlas shows composition beats a single substrate. Its MINIMUM version (2 frozen experts + trained router) is buildable at Stage 3 (workspace shell) NOW and is the least-risky place to start if C2 routes there.
 - Arch E is the Stage 5 developmental variant, licensed only by a C3 failure at Stage 4, and is the only architecture that genuinely requires an adapting substrate.
 - Arch F is orthogonal: a capability-density check that can run once ANY substrate (frozen atlas or Stage 5 pilot) is chosen, to find the smallest substrate that preserves the one valid positive, serving the no-frontier-compute doctrine.

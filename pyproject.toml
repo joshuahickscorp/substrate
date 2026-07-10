@@ -14,17 +14,22 @@ dependencies = [
   "pyyaml>=6.0",
   "matplotlib>=3.8",
   "faiss-cpu>=1.8",
+  # Required by scale-boundary and memory-envelope receipts. Missing telemetry must fail closed.
+  "psutil>=6.0",
 ]
 
 [project.optional-dependencies]
 # Real encoder weights (deferred path). Lazy-imported; never required for tests.
 encoder = ["transformers>=4.44", "huggingface-hub>=0.24"]
+# Meta's official V-JEPA 2.1 PyTorch encoder-only path. Video decoding stays on `.[video]` so the
+# macOS-incompatible decord dependency from the full upstream repository is not pulled implicitly.
+vjepa21 = ["timm", "einops"]
 # Alt ANN index, fallback to the faiss/brute-force path.
 ann = ["hnswlib>=0.8"]
 # Apple Silicon throughput experiment (optional, not on the hot path; see APPLE_SILICON.md).
 apple = ["mlx>=0.18; platform_machine == 'arm64' and sys_platform == 'darwin'"]
-# Real natural-video decode for the real-latent caching path (lazy-imported; decord is an alt).
-video = ["torchvision>=0.19"]
+# Real natural-video decode. torchvision's decoder requires PyAV; decord remains a manual alternative.
+video = ["torchvision>=0.19", "av>=12"]
 dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.11"]
 
 [project.scripts]
@@ -47,6 +52,7 @@ ignore = ["E741", "B008", "SIM108"]
 # Axis-ceiling analysis/provenance scripts (one-off, not library code): E501 relaxed for their dense
 # preregistered-hypothesis and verdict strings, same rationale as tests. Correctness lints (F, B, SIM,
 # E4/E7, I, UP) still apply. See docs/mixture_of_perspectives/AXIS_CEILING_RESULT.md.
+"scripts/build_extended_compute_requirements.py" = ["E501"]
 "scripts/mop_cbp_plasticity_repair.py" = ["E501"]
 "scripts/mop_shell_continual.py" = ["E501"]
 "scripts/mop_density_retention_byte.py" = ["E501"]

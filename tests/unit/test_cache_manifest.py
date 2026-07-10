@@ -6,6 +6,8 @@ import numpy as np
 import pytest
 
 from mop.substrate.cache_manifest import (
+    ENCODER_RECEIPT_SCHEMA,
+    RANDOM_INIT_RECEIPT_SCHEMA,
     SCHEMA,
     json_sha256,
     validate_cache_manifest,
@@ -130,3 +132,247 @@ def test_v1_manifest_still_validates(tmp_path):
     manifest.pop("form")  # a genuine v1 manifest has no form block
     (root / "cache_manifest.json").write_text(json.dumps(manifest, indent=2))
     assert validate_cache_manifest(root) == []
+
+
+def test_citable_manifest_requires_form_encoder_and_referents(tmp_path):
+    root = _store(tmp_path)
+    write_cache_manifest(root)
+    problems = validate_cache_manifest(root, citable=True)
+    assert any("form declaration" in p for p in problems)
+    assert any("encoder_config" in p for p in problems)
+    assert any("referents.json" in p for p in problems)
+    assert validate_cache(root, citable=True)
+
+
+def test_citable_manifest_roundtrip_with_v2_factor_metadata(tmp_path):
+    root = _store(tmp_path)
+    refs = [f"clip-{i}" for i in range(6)]
+    manifest = write_cache_manifest(
+        root,
+        encoder_config={
+            "name": "toy_encoder",
+            "hf_id": "fixture/toy-encoder",
+            "revision": "fixture-revision",
+        },
+        encoder_receipt={
+            "schema": ENCODER_RECEIPT_SCHEMA,
+            "weights_real": True,
+            "model_id": "fixture/toy-encoder",
+            "revision": "fixture-revision",
+            "files": [{"path": "model.safetensors", "bytes": 4, "sha256": "a" * 64}],
+        },
+        factors={"shape": [0, 0, 1, 1, 2, 2]},
+        factor_metadata={"clipset": "fixture", "seed": 0},
+        referents=refs,
+        form_kind="vision",
+        form_objective="inherited-frozen",
+        referent_scheme="clip-id",
+    )
+    factors = json.loads((root / "factors.json").read_text())
+    assert factors["metadata"] == {"clipset": "fixture", "seed": 0}
+    assert factors["columns"]["shape"] == [0, 0, 1, 1, 2, 2]
+    assert any(s["role"] == "referents" for s in manifest["sidecars"])
+    assert any(s["role"] == "encoder_receipt" for s in manifest["sidecars"])
+    assert validate_cache_manifest(root, citable=True) == []
+    assert validate_cache(root, citable=True) == []
+
+
+def test_citable_learned_cache_requires_immutable_weight_receipt(tmp_path):
+    root = _store(tmp_path)
+    write_cache_manifest(
+        root,
+        encoder_config={"name": "toy_encoder", "revision": "fixture"},
+        referents=[f"clip-{i}" for i in range(6)],
+        form_kind="vision",
+        form_objective="inherited-frozen",
+        referent_scheme="clip-id",
+    )
+    problems = validate_cache_manifest(root, citable=True)
+    assert any("encoder_receipt.json" in problem for problem in problems)
+
+
+def test_programmatic_citable_cache_does_not_forge_weight_receipt(tmp_path):
+    root = _store(tmp_path)
+    write_cache_manifest(
+        root,
+        encoder_config={"name": "known-programmatic-generator", "revision": "fixture"},
+        referents=[f"referent-{i}" for i in range(6)],
+        form_kind="symbolic",
+        form_objective="programmatic",
+        referent_scheme="generated-id",
+    )
+    assert validate_cache_manifest(root, citable=True) == []
+
+
+def test_random_control_requires_hashed_architecture_and_seed(tmp_path):
+    root = _store(tmp_path)
+    encoder_config = {
+        "name": "random-vit",
+        "hf_id": "fixture/random-vit",
+        "revision": "fixture",
+        "actual_backend": "vjepa_hf_random_init",
+        "random_init": True,
+        "random_init_seed": 7,
+        "prefer_real": False,
+        "require_real": False,
+    }
+    write_cache_manifest(
+        root,
+        encoder_config=encoder_config,
+        referents=[f"referent-{i}" for i in range(6)],
+        form_kind="vision",
+        form_objective="random-control",
+        referent_scheme="generated-id",
+    )
+    assert any(
+        "initialization_receipt.json" in problem for problem in validate_cache_manifest(root, citable=True)
+    )
+    receipt = {
+        "schema": RANDOM_INIT_RECEIPT_SCHEMA,
+        "weights_real": False,
+        "backend": "vjepa_hf_random_init",
+        "model_id": "fixture/random-vit",
+        "revision": "fixture",
+        "seed": 7,
+        "parameter_count": 16,
+        "state_dict_tensors": 2,
+        "state_dict_sha256": "c" * 64,
+        "model_class": "fixture.RandomVit",
+        "architecture_files": [{"path": "config.json", "bytes": 4, "sha256": "b" * 64}],
+    }
+    (root / "initialization_receipt.json").write_text(json.dumps(receipt))
+    write_cache_manifest(
+        root,
+        encoder_config=encoder_config,
+        form_kind="vision",
+        form_objective="random-control",
+        referent_scheme="generated-id",
+    )
+    assert validate_cache_manifest(root, citable=True) == []
+
+
+def test_random_control_receipt_must_match_hashed_encoder_config(tmp_path):
+    root = _store(tmp_path)
+    encoder_config = {
+        "name": "random-vit",
+        "hf_id": "fixture/random-vit",
+        "revision": "revision-a",
+        "actual_backend": "vjepa_hf_random_init",
+        "random_init": True,
+        "random_init_seed": 7,
+        "prefer_real": False,
+        "require_real": False,
+    }
+    receipt = {
+        "schema": RANDOM_INIT_RECEIPT_SCHEMA,
+        "weights_real": False,
+        "backend": "vjepa_hf_random_init",
+        "model_id": "fixture/random-vit",
+        "revision": "revision-b",
+        "seed": 8,
+        "parameter_count": 16,
+        "state_dict_tensors": 2,
+        "state_dict_sha256": "c" * 64,
+        "model_class": "fixture.RandomVit",
+        "architecture_files": [{"path": "config.json", "bytes": 4, "sha256": "b" * 64}],
+    }
+    (root / "initialization_receipt.json").write_text(json.dumps(receipt))
+    write_cache_manifest(
+        root,
+        encoder_config=encoder_config,
+        referents=[f"referent-{i}" for i in range(6)],
+        form_kind="vision",
+        form_objective="random-control",
+        referent_scheme="generated-id",
+    )
+    problems = " ".join(validate_cache_manifest(root, citable=True))
+    assert "revision mismatch" in problems
+    assert "random seed mismatch" in problems
+
+
+def test_random_control_requires_realized_state_hash_not_only_claimed_seed(tmp_path):
+    root = _store(tmp_path)
+    encoder_config = {
+        "name": "random-vit",
+        "hf_id": "fixture/random-vit",
+        "revision": "fixture",
+        "actual_backend": "vjepa_hf_random_init",
+        "random_init": True,
+        "random_init_seed": 7,
+        "prefer_real": False,
+        "require_real": False,
+    }
+    receipt = {
+        "schema": RANDOM_INIT_RECEIPT_SCHEMA,
+        "weights_real": False,
+        "backend": "vjepa_hf_random_init",
+        "model_id": "fixture/random-vit",
+        "revision": "fixture",
+        "seed": 7,
+        "parameter_count": 16,
+        "state_dict_tensors": 2,
+        "model_class": "fixture.RandomVit",
+        "architecture_files": [{"path": "config.json", "bytes": 4, "sha256": "b" * 64}],
+    }
+    (root / "initialization_receipt.json").write_text(json.dumps(receipt))
+    write_cache_manifest(
+        root,
+        encoder_config=encoder_config,
+        referents=[f"referent-{i}" for i in range(6)],
+        form_kind="vision",
+        form_objective="random-control",
+        referent_scheme="generated-id",
+    )
+    assert "state_dict_sha256" in " ".join(validate_cache_manifest(root, citable=True))
+
+
+def test_weight_receipt_identity_must_match_encoder_config(tmp_path):
+    root = _store(tmp_path)
+    write_cache_manifest(
+        root,
+        encoder_config={
+            "name": "toy",
+            "hf_id": "fixture/model-a",
+            "revision": "revision-a",
+            "actual_backend": "vjepa_hf",
+        },
+        encoder_receipt={
+            "schema": ENCODER_RECEIPT_SCHEMA,
+            "weights_real": True,
+            "model_id": "fixture/model-b",
+            "revision": "revision-b",
+            "backend": "vjepa_hf",
+            "files": [{"path": "model.safetensors", "bytes": 4, "sha256": "a" * 64}],
+        },
+        referents=[f"clip-{i}" for i in range(6)],
+        form_kind="vision",
+        form_objective="inherited-frozen",
+        referent_scheme="clip-id",
+    )
+    problems = " ".join(validate_cache_manifest(root, citable=True))
+    assert "model_id mismatch" in problems
+    assert "revision mismatch" in problems
+
+
+def test_malformed_random_receipt_fails_closed_instead_of_crashing(tmp_path):
+    root = _store(tmp_path)
+    encoder_config = {
+        "name": "random-vit",
+        "hf_id": "fixture/random-vit",
+        "revision": "fixture",
+        "actual_backend": "vjepa_hf_random_init",
+        "random_init": True,
+        "random_init_seed": 7,
+        "prefer_real": False,
+        "require_real": False,
+    }
+    (root / "initialization_receipt.json").write_text("[]")
+    write_cache_manifest(
+        root,
+        encoder_config=encoder_config,
+        referents=[f"referent-{i}" for i in range(6)],
+        form_kind="vision",
+        form_objective="random-control",
+        referent_scheme="generated-id",
+    )
+    assert "JSON mapping" in " ".join(validate_cache_manifest(root, citable=True))

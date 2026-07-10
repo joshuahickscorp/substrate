@@ -56,7 +56,7 @@ sys.path.insert(0, str(_ROOT))
 from mop.diagnostics import compute as C  # noqa: E402
 from mop.diagnostics.riskcov import seed_ci, sign_flip_report  # noqa: E402
 
-BASE = "/Users/scammermike/Downloads/mop/data/cache/"
+BASE = _ROOT / "data" / "cache"
 SEEDS = list(range(10))
 N_CLASS = 5  # shape, chance 0.20
 FLOP_TOL = 0.10  # matched-FLOP tolerance (same as repo convention)
@@ -71,10 +71,10 @@ def zscore_fit(X):
     return mu, sd
 
 
-X_vj = np.load(BASE + "vjepa2_vitl_nuisance/features.npy").astype(np.float32)  # (200,1024)
-X_sf = np.load(BASE + "vjepa2_vitl_singleframe/features.npy").astype(np.float32)  # (200,1024)
-X_dn = np.load(BASE + "dinov2s_nuisance_real/latents.npy").astype(np.float32)  # (200,384)
-Y = np.load(BASE + "vjepa2_vitl_nuisance/labels_shape.npy").astype(np.int64)  # (200,)
+X_vj = np.load(BASE / "vjepa2_vitl_nuisance/features.npy").astype(np.float32)  # (200,1024)
+X_sf = np.load(BASE / "vjepa2_vitl_singleframe/features.npy").astype(np.float32)  # (200,1024)
+X_dn = np.load(BASE / "dinov2s_nuisance_real/latents.npy").astype(np.float32)  # (200,384)
+Y = np.load(BASE / "vjepa2_vitl_nuisance/labels_shape.npy").astype(np.int64)  # (200,)
 assert X_vj.shape[0] == X_sf.shape[0] == X_dn.shape[0] == Y.shape[0] == 200
 
 READERS = [("vjepa", X_vj), ("dino", X_dn), ("single", X_sf)]

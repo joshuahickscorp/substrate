@@ -7,25 +7,32 @@ frozen encoder, real latent caches, larger batches/datasets, and unlocking the t
 more compute or an environment. Read APPLE_SILICON.md (the MPS-first story), ARCHITECTURE.md
 (device boundary, frozen invariant), and EXPERIMENTS.md (tier tags) alongside this.
 
+> CURRENT LOCALIZATION (2026-07-10): encoder scale is no longer an off-device boundary. Pinned
+> ViT-L, ViT-H, and ViT-g weights all load offline and complete supervised local CPU forwards;
+> eight shared referents have been cached serially through every scale. Use the 180-minute
+> `m3pro-local-max` envelope and one heavy model at a time. A larger machine buys throughput and
+> corpus capacity only after a measured local rung, while natural-video rights, unpublished dense
+> V-JEPA 2.1 weights, and interactive environments remain separate input blockers. This note
+> supersedes lower historical wording that treats an encoder name or planning tier as hardware proof.
+
 ## The flips, in order
 
-### 1. Device: STAY on mps (the Studio is Apple Silicon)
+### 1. Device: measure CPU vs MPS per workload
 The Mac Studio is an M-series Apple Silicon machine, NOT a CUDA box: more GPU cores and far
-more unified memory than the laptop, same Metal backend. So the headline scale-up is NOT a
-device flip at all: keep `device=mps` and the same code runs, just bigger. Everything
+more unified memory than the laptop, same Metal backend. The headline scale-up is therefore
+not an automatic device flip. Everything
 device-touching goes through `devices.resolve(cfg.device.kind)`; `auto` already prefers mps on
 Apple Silicon. `configs/device/mps.yaml` carries the Apple-Silicon knobs (`amp: true` fp16,
-`pin_memory: false` unified memory, `allow_cpu_fallback: true`). On the Studio, raise batch and
-cache sizes to use the larger unified memory, and re-test the 64-frame encoder forward on Metal
-(the laptop hits an MPS-compiler limit on it; more GPU cores should lift it; see APPLE_SILICON.md).
+`pin_memory: false` unified memory, `allow_cpu_fallback: true`). On this M3 Pro, serial CPU is the
+verified path for the large V-JEPA forwards. Re-benchmark MPS on any future host before selecting it.
 
-`device=cuda` is the rented-box path used ONLY for Tier R environment rollouts (E5/E10), which
-Metal cannot cover cheaply. `configs/device/cuda.yaml` carries `amp: true`, `pin_memory: true`,
-`num_workers: 8`, `allow_cpu_fallback: false`. Select it only for those legs.
+`device=cuda` remains an optional rented-box throughput path. `configs/device/cuda.yaml` carries
+`amp: true`, `pin_memory: true`, `num_workers: 8`, `allow_cpu_fallback: false`. An environment
+dependency does not itself require CUDA: first supply the adapter and run a bounded local rung.
 
 ### 2. Larger encoder: vjepa2_vitl -> vjepa2_vitg
-Default substrate is `vjepa2_vitl_fpc64_256` (ViT-L, embed_dim 1024, 256px). On the Studio,
-go bigger:
+Default substrate is `vjepa2_vitl_fpc64_256` (ViT-L, embed_dim 1024, 256px). To run the largest
+verified local scale serially:
 
 ```
 encoder=vjepa2_vitg     # ViT-g, embed_dim 1408, 384px, 64 frames per clip
@@ -84,33 +91,31 @@ Tier tags come straight from EXPERIMENTS.md. Each experiment carries one.
 
 | Tier | Means | Needs | Unlocks |
 |---|---|---|---|
-| `cpu-now` | runs now, laptop, cached latents | nothing extra | E1, E2, E3, E4, E7, E8, E9, I4 (and E5 data-selection variant) |
-| `gpu-later` | needs the Studio for scale/speed | device=cuda (+ vitg) | E6 (gpu side), E7 speedup claim, E10 (gpu side) |
-| `env-later` | needs an environment + rollouts | an env adapter + rented CUDA | E5 rollout variant, E10 capstone |
+| `cpu-now` | runs now, laptop, cached latents or bounded local trajectories | nothing extra | E1-E5 where registered, E7-E9, I4, and local action mechanics |
+| `gpu-later` | legacy runnable enum, no current registry row uses it | no implied device | preserve only for backward compatibility |
+| `env-later` | needs evidence or ecology beyond the bounded local adapter | rendered/substrate trajectories or a generated population ecology | E10 capstone, substrate-grounded CM10 |
 | `2.1-only` | needs V-JEPA 2.1 dense weights | encoder=vjepa21_vitl + real cache | E6 relational-map dense-vs-pooled |
 
 Reading: the whole `cpu-now` column runs today and is what the laptop session built and
-tested. `gpu-later` is the same experiments at real scale (separate the representational
-claim from the compute claim: an experiment that ties at toy scale and wins at full scale is
-a compute result, taxonomy entry 9). `env-later` is blocked on an environment, not just a
-GPU: E5's curiosity-as-self-curriculum rollout variant and the E10 open-ended capstone both
-need an interactive env to act in. `2.1-only` is E6, which needs the dense per-patch tokens
+tested. The retained `gpu-later` value is schema compatibility, not an active hardware label;
+the current registry contains zero rows with it. `env-later` now means the bounded local adapter is
+scientifically insufficient: E10 needs a generated population ecology and substrate-grounded CM10
+needs rendered/citable action referents and exact controls. `2.1-only` is E6, which needs the dense per-patch tokens
 the 2.1 encoders emit (`dense: true`); on the pooled 2 encoders E6 has nothing to factorize.
 
-## Rented-CUDA path (E5/E10 rollouts, Tier R legs)
+## Optional rented-CUDA throughput path (only after local evidence gates)
 
-The rollout-heavy work and the synthesized campaign's Tier R legs are queued disabled and
-need a rented CUDA box plus a real environment, not just the Studio:
+The synthesized campaign's historical Tier R legs remain queued disabled. The local adapter exists;
+a rented CUDA box is only an optional higher-throughput rung after an exact row exceeds local bounds:
 
-- E5 env-rollout variant and E10 capstone (env-later): provide the env adapter, then run on
-  rented CUDA.
-- Tier R campaign legs (rollout-heavy E5, E10, POET env-generation, cultural accumulation):
-  they sit in the run queue with `enabled: false`. On the rented box, provide the env
-  adapter and flip `enabled: true`, then run the queue.
+- E10 capstone (env-later): extend the existing bounded adapter with population/environment generation, run a bounded
+  local rung, then move only a measured throughput remainder.
+- Tier R campaign legs (E10, POET env-generation, cultural accumulation) sit in the run queue with
+  `enabled: false`. First implement and measure a bounded local rung; only then consider enabling one.
 
 Tier mapping (from DECISIONS.md, synthesized from Vol I Section 9 tractability): Tier C =
 laptop-feasible cached-latent legs, Tier E = environment-needed, Tier R = rented-GPU /
-lab-scale. C runs now; E and R wait for env + rented CUDA.
+lab-scale. C runs now; E and R wait for scientific gates and local measurements, not merely a rental.
 
 ## First commands on the new machine
 
@@ -146,7 +151,8 @@ make diag                                            # determinism + diagnostics
 Current M3 Pro before the Studio arrives: `make local-max` (profile m3pro-local-max) does the
 most real work that is SAFE here (plan, dry-run acquire, generate control corpora, validate,
 tiny real cache, queue/cost audit, microbench, one gated leg, report) under hard kill switches
-(10 GB download default / 25 GB cap, 2 GB fixtures, 128 clips, 60 GB free-disk floor, 90 min,
+(10 GB download default / 25 GB cap, 2 GB fixtures, 128 clips, a derived 40 GB free-disk floor
+equal to 10 GB OS reserve + 25 GB maximum pending download + 5 GB working headroom, 180 min,
 Tier C only). It never downloads heavy assets or starts a long sweep.
 
 Rented CUDA (env rollouts, Tier R):
@@ -154,7 +160,7 @@ Rented CUDA (env rollouts, Tier R):
 ```
 uv venv --python 3.12 .venv && uv pip install -e ".[dev,ann,encoder]"
 make test
-# provide the env adapter, then enable the Tier R legs in the run queue and launch:
+# after the local adapter, exact evidence, and scientific gates are satisfied, enable the Tier R legs:
 make queue-dry                                    # confirm the plan with no compute spent
 .venv/bin/python scripts/run_queue.py             # after flipping enabled:true on Tier R legs
 make accept                                        # end-to-end acceptance

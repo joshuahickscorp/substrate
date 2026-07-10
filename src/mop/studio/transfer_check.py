@@ -19,7 +19,7 @@ from ..substrate.cache_manifest import validate_cache_manifest
 from .profiles import get_profile
 
 SCHEMA = "mop-studio-transfer-check/v1"
-DEFAULT_AUDIT_PATH = Path("/Users/scammermike/Downloads/project_audits/mop_deep_audit_2026_07_08.md")
+DEFAULT_AUDIT_PATH = REPO_ROOT / "FORM_SUBSTRATE_IMPLEMENTATION_PLAN.md"
 
 REQUIRED_PATHS = (
     "docs/mixture_of_perspectives/EXPAND_PHASE_PLAN.md",
@@ -56,8 +56,14 @@ REQUIRED_PATHS = (
     "scripts/studio/process_c_license_gate.py",
     "scripts/mop_encode_autoselect.py",
     "scripts/null_card_tool.py",
+    "scripts/form_substrate_campaign.py",
     "proof/NULL_CARDS/null_card.schema.json",
     "proof/ARTIFACT_INDEX/pre_studio.json",
+    "campaign/form_substrate_campaign.yaml",
+    "proof/FORM_SUBSTRATE/README.md",
+    "proof/FORM_SUBSTRATE/SCORECARD.json",
+    "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
+    "proof/ARTIFACT_INDEX/form_substrate.json",
 )
 
 DURABLE_RECEIPTS = (
@@ -87,6 +93,7 @@ def run_transfer_check(config: TransferCheckConfig | None = None) -> dict[str, A
     root = Path(cfg.repo_root)
     checks: list[dict[str, Any]] = []
     checks.append(_profile_check(cfg.profile_name))
+    checks.append(_profile_host_check(cfg.profile_name, root))
     checks.append(_audit_check(cfg.audit_path))
     checks.extend(_path_checks(root, REQUIRED_PATHS))
     checks.append(_schema_json_check(root / "proof/NULL_CARDS/null_card.schema.json"))
@@ -123,10 +130,23 @@ def _profile_check(profile_name: str) -> dict[str, Any]:
         return _check("profile", False, str(e))
     return _check(
         "profile",
-        profile.name == "studio-m1ultra",
+        profile.name.startswith("studio-"),
         f"{profile.name}: min_free_disk_gb={profile.min_free_disk_gb:g}, max_wall_min={profile.max_wall_min}",
         profile=profile.as_dict(),
     )
+
+
+def _profile_host_check(profile_name: str, root: Path) -> dict[str, Any]:
+    """A Studio profile slug is not proof that the current host satisfies its resource contract."""
+    try:
+        profile = get_profile(profile_name)
+        ok, problems, measured = profile.host_compatibility(disk_root=root)
+    except Exception as e:
+        return _check("profile_host_match", False, str(e))
+    detail = f"measured={measured}; requirements={profile.as_dict()}"
+    if problems:
+        detail += f"; mismatch={problems}"
+    return _check("profile_host_match", ok, detail, measured=measured, problems=problems)
 
 
 def _audit_check(path: Path | None) -> dict[str, Any]:
@@ -171,11 +191,17 @@ def _receipt_checks(root: Path, rels: tuple[str, ...]) -> list[dict[str, Any]]:
 
 
 def _cache_manifest_check(cache_root: Path) -> dict[str, Any]:
-    manifests = sorted(cache_root.glob("*/cache_manifest.json")) if cache_root.exists() else []
+    stores = (
+        sorted(path for path in cache_root.iterdir() if path.is_dir() and (path / "meta.json").exists())
+        if cache_root.exists()
+        else []
+    )
     problems: list[str] = []
-    for manifest in manifests:
-        problems.extend(f"{manifest.parent.name}: {p}" for p in validate_cache_manifest(manifest.parent))
-    detail = f"{len(manifests)} cache manifests checked"
+    for store in stores:
+        problems.extend(f"{store.name}: {p}" for p in validate_cache_manifest(store, citable=True))
+    if not stores:
+        problems.append("no latent stores found to transfer")
+    detail = f"{len(stores)} cache stores checked for citable manifests"
     if problems:
         detail += f"; first problem: {problems[0]}"
     return _check("cache_manifests", not problems, detail, problems=problems)

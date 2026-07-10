@@ -1,7 +1,9 @@
-# STUDIO GOAL PROMPT: the iterative maximization loop for the M1 Ultra
+# STUDIO GOAL PROMPT: legacy 8 TB envelope scenario
 
-This is the cold-start prompt for the first session ON the Mac Studio (M1 Ultra, 20-core CPU, 48 to 64-core
-GPU, 128 GB unified memory, 8 TB SSD). It is deliberately a GOAL prompt, not a task list: it sets a bar above
+This is a cold-start prompt written for the provisional 128 GB / 8 TB Studio envelope. It does not prove
+that an M1 Ultra was purchased or delivered. Before using it, run the strict doctor against the selected
+profile and replace every assumed hardware fact with the resulting measured receipt. It is deliberately
+a GOAL prompt, not a task list: it sets a bar above
 the honest expected value (the theoretical ceiling from `STUDIO_POTENTIAL_AUDIT.md`, both parts) and wraps
 the work in an explicit wave loop so every session converges on either a converted bet or a proven wall,
 never on drift.
@@ -37,11 +39,12 @@ Design notes (why each clause exists):
   audits and stays.
 
 ```text
-You are on the Mac Studio (M1 Ultra, 20-core CPU, 48-64 core GPU, 128 GB unified memory, 8 TB SSD), repo at
-~/mop. Read in order before any work: docs/mixture_of_perspectives/HANDOFF.md, STUDIO_POTENTIAL_AUDIT.md
+You are on an Apple Silicon host whose measured doctor receipt satisfies the selected Studio resource
+envelope, repo at ~/mop. Read in order before any work: docs/mixture_of_perspectives/HANDOFF.md, STUDIO_POTENTIAL_AUDIT.md
 (BOTH parts: inherited program AND Studio-native frontier), EXPAND_PHASE_PLAN.md, STUDIO_HANDOFF.md
 (transfer checklist). Hard rules: no em or en dashes anywhere; never attribute Claude in git;
-PYTHONPATH=<repo>/src for import mop; enforce profile studio-m1ultra; preregister every null and verdict
+verify `import mop` works outside the checkout without PYTHONPATH; enforce the doctor-verified profile;
+preregister every null and verdict
 threshold IN CODE before the run; a tie is a null; every candidate positive gets an INDEPENDENT adversarial
 verification pass before it may be written into any doc; a faked or unverified score is failure; a PROVEN
 wall with a mechanistic reason is success.

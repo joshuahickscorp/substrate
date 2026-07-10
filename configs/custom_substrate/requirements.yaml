@@ -1,0 +1,142 @@
+schema: mop-custom-substrate-requirements/v1
+claim_scope: >-
+  Machine-readable engineering requirements distilled from the local Form campaign and the
+  project-exhaustion ledger. These are design constraints and experiment targets, not claims about
+  cognition, sentience, natural-video performance, or a finished general substrate.
+
+requirements:
+  - id: csr1_referent_identity
+    title: Preserve immutable referent identity across views, checkpoints, and memory
+    status: required
+    sources:
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json
+        role: paired referent alignment result
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f5_cross_form_memory_binding.json
+        role: cross-form memory binding result
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f14_lifelong_form_expansion.json
+        role: immutable memory and referent invariants
+    design_response:
+      - content-addressed dataset manifest with disjoint immutable referent ids
+      - referent joins are explicit and never inferred from row order
+      - resume refuses a changed config, dataset, requirements ledger, or initialization
+    consumers: [dataset_manifest, checkpoint_contract, teacher_join]
+    promotion_gate: all referent and split integrity checks pass
+
+  - id: csr2_factor_decodability
+    title: Keep independent factors decodable off ceiling and on held-out combinations
+    status: required
+    sources:
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f2_heldout_form_transfer.json
+        role: held-out factor transfer
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f3_form_bottleneck_capacity.json
+        role: bottleneck capacity bound
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f9_cross_form_compositional_binding.json
+        role: held-out compositional binding
+      - path: proof/PROGRAMMATIC_FORM_CACHE.json
+        role: citable dense-token fixture contract
+    design_response:
+      - token-preserving video encoder rather than a pooled-only interface
+      - factor probes train only on train combinations and score immutable test combinations
+      - a programmatic oracle certifies that the task is solvable and not ceilinged by construction
+    consumers: [tiny_video_substrate, heldout_factor_probe, difficulty_calibration]
+    promotion_gate: oracle clears 0.90 and learned arms beat chance without exceeding 0.98
+
+  - id: csr3_cross_form_transfer
+    title: Make the representation alignable to another form through shared referents
+    status: required
+    sources:
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json
+        role: alignment must use disjoint anchors, labels, and tests
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f4_raw_payload_vs_form_tokens.json
+        role: structured form-token comparison
+    design_response:
+      - deterministic oracle-form tokens are paired by referent id
+      - ridge alignment is fitted on train referents and evaluated on held-out combinations
+      - the encoder exports dense tokens and pooled keys without changing referent identity
+    consumers: [oracle_form_alignment, token_export]
+    promotion_gate: held-out alignment beats the random-initialization control by the configured margin
+
+  - id: csr4_predictive_intervention
+    title: Learn temporally predictive structure that can later support intervention and action
+    status: required
+    sources:
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f6_sensorimotor_form_closure.json
+        role: action-conditioned predictive closure
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f18_counterfactual_form_intervention.json
+        role: counterfactual state prediction
+    design_response:
+      - masked latent prediction is a first-class objective, not a teacher-specific format
+      - spatial-temporal tokens remain available for later action-conditioned predictors
+      - objective tournament includes reconstruction and invariance alternatives at identical architecture
+    consumers: [predictive_objective, reconstruction_objective, token_export]
+    promotion_gate: predictive loss improves while held-out factors remain decodable
+
+  - id: csr5_plasticity_replay
+    title: Plastic updates must be resumable and must not silently destroy old identities
+    status: required
+    sources:
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f7_developmental_form_growth.json
+        role: developmental growth null warns against cosmetic schedules
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f11_form_dream_replay.json
+        role: generated replay manifold-validity failure
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f14_lifelong_form_expansion.json
+        role: old-memory invariants during expansion
+      - path: proof/FORM_SUBSTRATE/PREFLIGHT/f8_plastic_substrate_rewrite.json
+        role: adapting-substrate execution requirements
+      - path: proof/FORM_SUBSTRATE/PREFLIGHT/f16_perfect_slate_null.json
+        role: blank-substrate control requirements
+    design_response:
+      - EMA target path supplies a stable training target without freezing the learned encoder forever
+      - checkpoints contain optimizer, online model, target model, step, hashes, and RNG state
+      - exact resume verification is tested before any result can be promoted
+      - later replay modules must consume exported tokens by referent id and pass memory-invariant tests
+    consumers: [ema_target, checkpoint_contract, replay_export]
+    promotion_gate: deterministic interrupted resume matches uninterrupted training within tolerance
+
+  - id: csr6_density_cost
+    title: Measure capability density and whole-system cost, not accuracy alone
+    status: required
+    sources:
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f13_form_energy_budget.json
+        role: parameter, byte, FLOP, time, and energy frontier
+      - path: proof/FORM_SUBSTRATE/DENSITY_INPUT.json
+        role: canonical Form campaign density rows
+    design_response:
+      - enforce a 1 to 5 million trainable-parameter envelope
+      - keep trainable objective arms identical in architecture, initialization, batches, updates, and estimated FLOPs
+      - record wall time, RSS, accelerator allocation, checkpoint bytes, and capability per parameter and FLOP
+    consumers: [compute_accounting, resource_telemetry, promotion_gate]
+    promotion_gate: trained-arm estimated FLOPs match within 0.5 percent and all resource fields are finite
+
+  - id: csr7_failure_awareness
+    title: Fail closed when evidence, controls, or source identity are incomplete
+    status: required
+    sources:
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f17_missing_form_recovery.json
+        role: missing-form recovery and calibration null
+      - path: proof/FORM_SUBSTRATE/RECEIPTS/f20_substrate_crisis_test.json
+        role: substrate insufficiency and strongest-control null
+      - path: proof/PROJECT_EXPERIMENT_EXHAUSTION.json
+        role: unresolved data, model, implementation, and measured-hardware boundaries
+    design_response:
+      - local programmatic evidence is permanently tagged as programmatic rather than natural-video evidence
+      - CM8 refuses scientific promotion without a sufficiently large citable same-referent teacher control and upstream gates
+      - missing or changed requirements sources, teacher manifests, checkpoints, or split identities stop the run
+    consumers: [requirements_audit, teacher_control, scientific_promotion]
+    promotion_gate: no required source or control is missing and every scope label is internally consistent
+
+  - id: csr8_teacher_independence
+    title: Treat the inherited encoder as an optional measurement teacher, never as the platform
+    status: required
+    sources:
+      - path: proof/REAL_ENCODER_LOCAL_ATTEMPT.json
+        role: locally runnable inherited-encoder measurement on programmatic clips
+      - path: data/cache/vjepa2_vitl_local8_citable/cache_manifest.json
+        role: immutable optional teacher cache
+    design_response:
+      - predictive, invariance, and reconstruction arms train with no inherited-model import or weight dependency
+      - optional distillation joins teacher targets only by exact referent id
+      - teacher absence leaves CM7 runnable and makes CM8 promotion fail closed
+      - future teacher swaps require only the citable cache contract, not architecture-specific code
+    consumers: [optional_teacher_cache, teacher_distill_objective, cm8_preflight]
+    promotion_gate: teacher identity is hashed and a teacher-free objective remains the primary local path

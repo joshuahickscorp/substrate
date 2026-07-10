@@ -10,10 +10,19 @@ are not the goal; they exist to PRODUCE citable, reusable artifacts. A continuou
 essential, so this document is deliberately one narrative, not scattered files: Sections 1 to 6
 build the instrument and run it, Section 7 positions the results and turns them into standing.
 
-Target machine: Mac Studio, Apple M2 Max, 96 GB unified memory, 2 TB SSD, ~38-core GPU,
-~400 GB/s bandwidth. Apple Silicon only (Metal/MPS, no CUDA). Plugged-in 24/7 workstation,
-ONE project at a time at max capability. Wall-clock time is explicitly a NON-constraint:
-optimize for thoroughness, corpus scale, and statistical replication, not for speed.
+Historical planning scenario: Mac Studio, Apple M2 Max, 96 GB unified memory, 2 TB SSD. This is
+not a procurement receipt and must not be read as the current target identity. The live command
+surface treats `studio-1tb` and `studio-m1ultra` as resource envelopes; the strict doctor records the
+actual chip, memory, and disk and rejects a profile/host mismatch. Procurement remains unverified.
+The scientific sizing below remains useful as a scenario, but measured hardware replaces every
+throughput or residency projection before launch.
+
+Current correction (2026-07-10): all three published V-JEPA 2 scale points now load and execute
+locally in serial. ViT-H and ViT-g have finite supervised CPU-forward receipts and shared
+eight-referent caches. The 180-minute M3-Pro profile therefore replaces the old blanket encoder
+prohibitions below. Large-corpus throughput, raw-video storage, and rights-cleared inputs may still
+justify a larger rung, but an encoder name, a 32 GB policy guard, or a historical planning label is
+not a measured hardware boundary.
 
 This is additive to the canonical docs (corpus volumes + BLACKHOLE.md + this Studio plan)
 and the operational docs (README, SCALING, APPLE_SILICON, EXPERIMENTS, STATUS). Older goal and
@@ -456,15 +465,14 @@ scaffold, not the dense science. Also note: dense caches are ~32 MB/clip (ViT-L)
 corpus is ~313 GB; even when 2.1 ships, dense caching is a deliberate, budgeted, 2 TB-justified
 decision, not an automatic part of the corpus.
 
-### E5 env-rollout and E10 capstone (need a procedural environment + rented CUDA, Tier R)
+### E5 env-rollout and E10 capstone (2026-07-10 supersession)
 
-E5's curiosity-as-self-curriculum ROLLOUT variant and the E10 open-ended capstone both need an
-interactive environment to ACT in, not just a bigger GPU. They are blocked on an env adapter, not
-on compute. The Studio is Apple Silicon (no CUDA) and cannot cheaply cover environment rollouts;
-the rented-CUDA path (`device=cuda`) exists ONLY for these Tier R legs. In the queue,
+The bounded persistent action adapter now exists and E5's learnable-versus-noisy trajectory mechanics
+run locally (`proof/LOCAL_ACTION_ENVIRONMENT.json`). E10 is not unblocked by persistence alone: it still
+needs population search, environment generation, sustained-horizon evaluation, and transfer. In the historical queue,
 `track10_e5_curiosity` (Tier E), `track11_e10_autotelic`, `track11_poet_envgen`, and
 `track11_cultural_accumulation` (Tier R) are all `enabled: false`. They flip to enabled only after
-an env adapter is provided AND a CUDA box is rented. The DATA-SELECTION variant of E5 (curiosity
+those broader legs remain disabled until their scientific evidence gates pass; renting CUDA is not one of those gates. The DATA-SELECTION variant of E5 (curiosity
 as active curriculum over cached latents) IS runnable now on the Studio and is folded into the
 curriculum-engine work (it picks the learnable-but-not-mastered family and rejects the aleatoric
 noisy-TV); only the live-rollout variant is deferred.
@@ -2115,9 +2123,9 @@ Each item: what, why, command, est. size/disk/RAM/time, and whether it is safe o
 These need the M2 Max (more GPU cores + 96 GB unified memory) or the full disk, and are explicitly
 deferred off the M3 Pro:
 
-- The MPS blocker lift itself: the real 64-frame ViT-L / ViT-H / ViT-g forward on Metal
-  ([B, 64, 3, 256, 256] -> [B, 8192, 1024]). This is the Section 1 verification step and the thing
-  the M3 Pro cannot do (it hangs the Metal graph compiler and falls back to CPU at ~24 s/clip).
+- Historical full-corpus Metal comparison for the three V-JEPA scales. This is now a throughput
+  benchmark only: serial local CPU forwards and eight-referent caches pass for every scale, while
+  any MPS path must be re-measured rather than treated as an availability boundary.
 - Full multi-encoder latent caching at scale: the permanent pooled corpus over EPIC 20k + SSv2 +
   Ego4D + Kinetics, cached three times (ViT-L / H / g). The encode wall-clock and the raw-video
   disk footprint are Studio-sized.
@@ -2210,4 +2218,3 @@ Report continuously into runs/ and the proof/ tree. The deliverables are the atl
 gallery, the reusable cached-latent corpus with its corpus card, and the reproduce-one-plot path.
 The experiments exist to produce those artifacts, not the other way around.
 ```
-

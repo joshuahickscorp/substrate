@@ -3,6 +3,7 @@ contribution (P10), held-out-combination compositionality (C1/S6), seed/code con
 capability-per-bit (I1/I8), system identification (Y7), and the refine.py extensions (unroll, PC mode,
 Verifier). Known-answer checks; these are the shared toolkit every new experiment series builds on."""
 
+import numpy as np
 import torch
 
 from mop.diagnostics import (
@@ -15,6 +16,7 @@ from mop.diagnostics import (
     readout_contribution,
     sysid_report,
 )
+from mop.diagnostics.seed_consistency import _hungarian
 from mop.shell.refine import IterativeRefiner, Verifier
 
 
@@ -84,6 +86,14 @@ def test_code_stability_random_near_chance():
     codes = [torch.randint(0, 4, (60,), generator=_g(s)) for s in range(3)]
     cs = code_stability(codes, 4)
     assert cs["stable"] is False and abs(cs["mean_agreement"] - cs["chance"]) < 0.2
+
+
+def test_hungarian_assignment_is_exact_without_optional_scipy():
+    # Row-greedy takes 1 + 100 + 1 = 102. The exact assignment takes 2 + 1 + 1 = 4.
+    cost = np.array([[1.0, 2.0, 100.0], [1.0, 100.0, 100.0], [100.0, 1.0, 1.0]])
+    assignment = _hungarian(cost)
+    assert assignment == [1, 0, 2]
+    assert sum(cost[r, c] for r, c in enumerate(assignment)) == 4.0
 
 
 def test_capability_per_bit_curve():

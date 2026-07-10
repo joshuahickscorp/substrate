@@ -115,16 +115,16 @@ class LatentStore:
 
     def latents(self, idx=None) -> torch.Tensor:
         a = self._lat[: self.meta.count] if idx is None else self._lat[idx]
-        return torch.from_numpy(np.ascontiguousarray(a))
+        return torch.from_numpy(np.array(a, copy=True, order="C"))
 
     def keys(self, idx=None) -> torch.Tensor | None:
         if self._keys is None:
             return None
         a = self._keys[: self.meta.count] if idx is None else self._keys[idx]
-        return torch.from_numpy(np.ascontiguousarray(a))
+        return torch.from_numpy(np.array(a, copy=True, order="C"))
 
     def labels(self, idx=None) -> torch.Tensor | None:
         if self._labels is None:
             return None
         a = self._labels[: self.meta.count] if idx is None else self._labels[idx]
-        return torch.from_numpy(np.ascontiguousarray(a))
+        return torch.from_numpy(np.array(a, copy=True, order="C"))

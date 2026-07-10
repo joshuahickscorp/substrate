@@ -13,9 +13,10 @@ defaults:
 
 # Tier vocabulary (from DECISIONS.md, synthesized from Vol I Section 9 tractability):
 #   C = laptop-feasible cached-latent (runs now)
-#   E = environment-needed (env adapter + rented CUDA)
+#   E = row-specific evidence beyond the bounded local adapter
 #   R = rented-GPU / lab-scale (disabled by default)
-# Encoder tier tags reuse EXPERIMENTS.md labels (cpu-now, gpu-later, 2.1-only).
+# Encoder tier tags reuse EXPERIMENTS.md labels. A larger frozen encoder is not, by itself, a
+# hardware tier: all three published V-JEPA 2 scale points have completed local serial forwards.
 
 encoders:
 
@@ -39,7 +40,7 @@ encoders:
 
   vjepa2_vitg:
     config: configs/encoder/vjepa2_vitg.yaml
-    role: larger                   # bigger substrate, Studio scale-up (SCALING.md flip 2)
+    role: larger                   # bigger substrate, locally serial (SCALING.md flip 2)
     arch: vit_giant
     hf_id: facebook/vjepa2-vitg-fpc64-384
     embed_dim: 1408                # wider latent: shell resizes off this with no code change
@@ -47,53 +48,54 @@ encoders:
     frames_per_clip: 64
     dense: false
     frozen: true
-    tier_tag: gpu-later
-    unlocks_tier: E                # rented single GPU for scale and speed (separate compute from rep claim)
+    tier_tag: cpu-now
+    unlocks_tier: C                # local serial extraction; dataset breadth is a separate input gate
     note: >-
-      Larger frozen substrate for the Mac Studio or a rented box. Same pooled interface as
-      the default, just wider (1408) at 384px. Selected as encoder=vjepa2_vitg. Use it for
-      the gpu-later side of the bank: an experiment that ties at toy ViT-L scale and wins
-      here is a COMPUTE result (negative-result taxonomy entry 9), reported separately.
+      Larger frozen substrate with the same pooled interface as the default, just wider
+      (1408) at 384px. Selected as encoder=vjepa2_vitg. Strict offline load, a supervised
+      local CPU forward, and an eight-referent cache all pass. Run it serially under the
+      local resource envelope; a larger natural corpus remains a data and throughput scale
+      question, not a model-availability or hardware-boundary claim.
 
   vjepa21_vitb:
     config: configs/encoder/vjepa21_vitb.yaml
     role: dense_small              # cheapest dense substrate, lowers the 2.1 floor for the laptop
     arch: vit_base
-    hf_id: facebook/vjepa2.1-vitb-dense
+    source: official_pytorch_checkpoint
+    hub_entrypoint: vjepa2_1_vit_base_384
     embed_dim: 768                 # smaller pooled-equivalent dim, per-patch tokens
-    resolution: 256
-    frames_per_clip: 16            # 2.1 dense clips are shorter (16) than the pooled 2 encoders (64)
+    resolution: 384
+    frames_per_clip: 64
     dense: true                    # per-patch tokens, no pooling (pool: none)
     frozen: true
-    tier_tag: 2.1-only
+    tier_tag: weights-needed
     unlocks_tier: C                # dense science fits the laptop; the small 2.1 brings E6 into Tier C reach
     note: >-
-      V-JEPA 2.1 ViT-B dense. The corpus calls out ViT-B as good news for the laptop: it
-      lowers the floor for dense-feature work so the E6 relational map (which needs per-patch
-      object factorization the pooled 2 encoders threw away) can be prototyped on cached
-      dense latents without the Studio. Smallest dense embed_dim (768); dense extraction is
-      the storage cost, plan disk accordingly.
+      Meta released V-JEPA 2.1 ViT-B dense as an official PyTorch checkpoint on 2026-03-16.
+      The pinned source and 1.664 GB object metadata now preflight locally; real availability
+      remains false until full-byte hashing, strict ema_encoder load, and a finite forward pass.
+      Start with this 80M variant, serially, and keep E6 scientific promotion behind a citable
+      natural-video dense cache plus its matched controls.
 
   vjepa21_vitl:
     config: configs/encoder/vjepa21_vitl.yaml
     role: dense_default            # the dense substrate E6 prefers at quality
     arch: vit_large
-    hf_id: facebook/vjepa2.1-vitl-dense
+    source: official_pytorch_checkpoint
+    hub_entrypoint: vjepa2_1_vit_large_384
     embed_dim: 1024                # matches the pooled ViT-L dim, but dense per-patch tokens
-    resolution: 256
-    frames_per_clip: 16
+    resolution: 384
+    frames_per_clip: 64
     dense: true
     frozen: true
-    tier_tag: 2.1-only
-    unlocks_tier: E                # quality dense run wants a GPU + a real cache (gpu-later side of E6)
+    tier_tag: weights-needed
+    unlocks_tier: C                # only after the smaller ViT-B locally strict-loads and forwards
     note: >-
-      V-JEPA 2.1 ViT-L dense, the substrate the E6 dense-vs-pooled comparison prefers. Same
-      latent_dim (1024) as the pooled default, so the parameter-matched flat baseline and the
-      structured head are directly comparable: E6's contract is that the structured head must
-      beat the flat baseline AND the gain on 2.1 dense must exceed the gain on pooled 2,
-      otherwise the latent lacked the object factorization (taxonomy entries 3 and 8).
+      The official ViT-L checkpoint exists, but acquisition and execution are gated behind a
+      passing current-host ViT-B strict-load and forward receipt. Same latent_dim (1024) as the
+      pooled default, so it remains a later matched E6 comparison, not the first integration rung.
 
-# Cross-reference: SCALING.md flips device mps -> cuda (flip 1) and encoder
-# vjepa2_vitl -> vjepa2_vitg (flip 2); real latent caching (flip 3) flips the store backend
-# from frozen_random to vjepa_hf / vjepa_hub. The dense 2.1 encoders are the only ones with
+# Cross-reference: SCALING.md treats device and encoder scale as measured choices, not tier proof;
+# real latent caching flips the store backend
+# from frozen_random to a citable real backend. The dense 2.1 encoders are the only ones with
 # dense: true, which is exactly what E6 (2.1-only) consumes.

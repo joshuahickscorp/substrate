@@ -2,6 +2,7 @@
 name: vjepa2_vith
 arch: vit_huge
 hf_id: facebook/vjepa2-vith-fpc64-256   # verified present on HF
+revision: b5eac8703e3efdc1547fbb6ddfbeb133dc0bdee5
 hub: facebookresearch/jepa
 embed_dim: 1280                          # verified from the model config.json
 patch_size: 16
@@ -11,6 +12,8 @@ resolution: 256
 dense: false
 pool: mean
 frozen: true
+random_init: false
+random_init_seed: 0
 prefer_real: false    # opt-in: real weights need real video; default stays frozen-random/synthetic
 family: vjepa2           # WP-02: substrate family for the cross-substrate grid (AT1/AL2)
 training_objective: masked_latent_prediction   # video JEPA: predict masked spacetime patches in latent space

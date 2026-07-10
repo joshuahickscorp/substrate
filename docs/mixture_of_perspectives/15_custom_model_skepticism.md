@@ -131,8 +131,8 @@ continual-learning dynamics), and the program has only JUST learned how to do th
 before the evaluation methodology is trustworthy repeats the exact mistake the corpus spent its most important
 correction unlearning.
 
-**2.5 Compute reality.** The stated hardware is an M3 Pro (~18 to 19 GB unified, CPU-bound at 21 s/clip for
-real encoding, a hard per-buffer MPS ceiling on 64-frame ViT-L, ~60 GB disk floor already tight), plus a
+**2.5 Compute reality.** The stated hardware is an M3 Pro (~19.3 GB unified, CPU-bound at 22.34 s/clip in
+the current citable ViT-L run, supervised large-encoder forward probes, and a derived 40 GB disk floor), plus a
 future Mac Studio (Apple Silicon, NO CUDA) and a rented-CUDA path reserved for environment rollouts. Training a
 ViT-L encoder from scratch on video is a multi-GPU multi-week job (V-JEPA 2 itself was trained on large GPU
 clusters). Even continued-pretraining or a from-scratch SMALL encoder is far outside Tier 0 and Tier 1. The
@@ -151,8 +151,8 @@ the program (thousands of cheap shell experiments over a paid-once cache) is des
 Before any custom weights, four cheap moves extract most of what a custom model would tell us, at Tier 0 or
 Tier 1 cost, on cached latents.
 
-**3.1 Multi-encoder frozen census (already staged).** The repo has dinov2-large and VideoMAEv2-Base fully
-downloaded, plus config stubs for V-JEPA 2 ViT-H and ViT-g. Running the nuisance-invariance and
+**3.1 Multi-encoder frozen census (already staged).** The repo has dinov2-large, VideoMAEv2-Base, and
+full pinned V-JEPA 2 ViT-L, ViT-H, and ViT-g safetensors snapshots. Running the nuisance-invariance and
 held-out-combination tests across these DIFFERENT frozen encoders (different objectives: image-SSL DINOv2,
 masked-video VideoMAE, mask-prediction V-JEPA) is the frozen, cheap, doctrine-compliant version of "does the
 pretraining objective matter". This is the cross-substrate-convergence standing control (the newest one). If
@@ -161,8 +161,8 @@ either universal or universally absent, and a custom objective is unlikely to ad
 by objective, that is the FIRST real evidence that objective matters, and it costs zero training. This is
 strictly dominant over training a custom encoder to test the same hypothesis.
 
-**3.2 Encoder-SCALE falsifier (ex12_atlas).** Pull ViT-H and ViT-g (deferred only by the laptop disk floor,
-trivial on the Studio) and ask whether bigger frozen perception raises decodability on the non-ceiling
+**3.2 Encoder-SCALE falsifier (ex12_atlas).** ViT-H and ViT-g acquisition and strict offline loads are
+complete. Ask whether bigger frozen perception raises decodability on the non-ceiling
 nuisance test. If scale helps, the answer to "we need a better encoder" is "use a bigger FROZEN one", not
 "train our own". If scale does not help, a custom SAME-SIZE encoder is very unlikely to help either.
 

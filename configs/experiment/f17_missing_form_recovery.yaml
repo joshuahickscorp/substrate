@@ -2,7 +2,7 @@ id: f17_missing_form_recovery
 name: missing_form_recovery
 module: f_form_substrate
 metric: [recovery_acc, best_remaining_form_acc, absence_ece, recovery_per_extra_flop]
-null_hypothesis: "recovery ties best remaining form, or confidence does not predict correctness under absence"
+null_hypothesis: "recovery fails to beat the strongest tuned single-form, impute-by-mean, or zero-filled-concat control, or confidence does not predict correctness under a missing form, so recovery or monitoring is uninformative"
 tier: cpu-now
 
 # Deliberately noise-limited so a single form is below ceiling and fusing remaining forms denoises:
@@ -20,4 +20,4 @@ epochs: 60
 lr: 0.03
 margin: 0.02
 cal_margin: 0.03
-seeds: [0, 1]
+seeds: [0, 1, 2, 3, 4]

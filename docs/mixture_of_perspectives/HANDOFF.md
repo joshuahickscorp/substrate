@@ -207,11 +207,10 @@ comes before multi-seeding. Multi-seeding a p-value already owned while DR1 sits
 
 ## 6. How to run and verify
 
-- Python: `.venv/bin/python`. `import mop` REQUIRES `PYTHONPATH=/Users/scammermike/Downloads/mop/src`
-  (the venv has NO `pip` and NO editable install; there is no `__editable__` finder, so `src/mop` is not on
-  the path without it). Scripts self-insert the repo root for `import scripts.*`. Set `OMP_NUM_THREADS=4`.
-  Canonical recipe: `PYTHONPATH=/Users/scammermike/Downloads/mop/src OMP_NUM_THREADS=4
-  .venv/bin/python scripts/<x>.py`.
+- Python: `.venv/bin/python`. Run `make install` (or `make install-studio` on the target host), then
+  `make verify-install`. The verification imports `mop` from `/tmp` under isolated mode, with no
+  `PYTHONPATH`; an environment that only imports from the repository cwd is not portable. Set
+  `OMP_NUM_THREADS=4` where a CPU experiment requires it.
 - Gates (run before every commit): `.venv/bin/ruff format . && .venv/bin/ruff check . && .venv/bin/mypy
   src/mop && .venv/bin/python -m pytest -q && .venv/bin/python scripts/check_docs.py && .venv/bin/python
   scripts/acceptance.py`. All are currently green (pytest full suite, acceptance 10/10).

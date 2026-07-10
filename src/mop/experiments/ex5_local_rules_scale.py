@@ -7,9 +7,10 @@ mop.learning.alternatives.rules (which other experiments depend on exactly as-is
 
 Scope cut, documented honestly: the ORIGINAL registry entry for ex5_local_rules_scale
 describes a second half of the mechanism, probing across MULTIPLE real frozen encoders
-(V-JEPA 2 vs a hypothetical V-JEPA 2.1 etc). That half is explicitly OUT OF SCOPE here:
-dense V-JEPA 2.1 weights do not exist yet, so there is nothing to probe beyond the single
-frozen substrate this repo already has. This is a deliberate scope cut made up front, not
+(V-JEPA 2 vs V-JEPA 2.1 etc). That half is explicitly OUT OF SCOPE here: official dense
+V-JEPA 2.1 weights now exist, but the citable cache and matched integration controls remain
+separate work, so this runner uses only the frozen substrate the repo already has. This is a
+deliberate scope cut made up front, not
 a failed attempt. What IS built for real: local-rule backward-transfer/retention at scale
 on the single available frozen substrate, matched-budget across rules (same hidden width
 and epoch budget per rule, same seed protocol per task), plus a depth-sweep control that

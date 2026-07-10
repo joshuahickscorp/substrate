@@ -1,7 +1,7 @@
 # Budget Controls (campaign SHARED RESOURCE). SYNTHESIZED faithfully: no Volume IV exists, so
 # the tiers are the DECISIONS.md mapping of Vol I Section 9 compute tractability:
 #   Tier C = laptop-feasible cached-latent (runs now, the dominant cost is your time not compute)
-#   Tier E = environment-needed (env adapter + rented single GPU, rollout-bound)
+#   Tier E = exact evidence beyond the bounded local adapter, disabled until its row-specific gate
 #   Tier R = rented CUDA / lab-scale (env generation + population + long runs, DISABLED by default)
 # The corpus says rent a GPU only for rollout-bound and wall-clock-claim work, and only for
 # hours not weeks. Form: no em dashes or en dashes (commas, colons, parentheses only).
@@ -9,11 +9,11 @@
 # These controls gate the run queue (harness/queue.py): a leg runs only if its tier is enabled
 # here AND in the queue, its deps are satisfied, and it stays within max_run_units_per_leg.
 
-# Global per-tier enable flags. Matches queue defaults: C on, E and R off until env + rented box.
+# Global per-tier enable flags. C is on; E and R stay off until row-specific evidence and measurements.
 enabled:
   C: true        # cached-latent laptop legs run now
-  E: false       # flip true once an environment adapter exists and a single GPU is rented
-  R: false       # flip true only on a rented CUDA box with the env adapter, for hours
+  E: false       # adapter exists; flip only after rendered/substrate or ecology evidence is ready
+  R: false       # flip only after a measured local boundary and smallest-rung parity preflight
 
 tiers:
 
@@ -41,10 +41,10 @@ tiers:
       max_usd: 80                      # spot-instance dollar ceiling, accounting-brain guardrail
     max_run_units_per_leg: 3           # expensive seed set (rollouts are costly)
     seed_count: 3                      # expensive seeds (seeds.yaml seed_lists.expensive)
-    enabled: false                     # needs the env adapter; flip enabled.E true to arm
+    enabled: false                     # needs exact scientific evidence; adapter mechanics already pass
     note: >-
-      E5 curiosity rollout variant and the env side of E10. Bottleneck is environment steps,
-      not model size, so rent a single GPU for hours. Disabled until an env adapter exists.
+      Historical rollout tier. E5 mechanics are now local; E10 still needs a generated ecology.
+      Disabled until the exact evidence gate and a measured throughput need exist.
 
   R:
     name: rented_cuda
@@ -59,8 +59,8 @@ tiers:
     enabled: false                     # DISABLED BY DEFAULT (DECISIONS.md deferred + queue default)
     note: >-
       Tier R legs (rollout-heavy E5, E10 capstone, POET env-generation, cultural accumulation)
-      sit in the queue with enabled false. On a rented box provide the env adapter, flip
-      enabled.R true, then run the queue. Capstone honestly partly exceeds a solo year for the
+      sit in the queue with enabled false. Implement and measure their bounded local rungs first;
+      then enable only a smallest justified remainder. Capstone honestly partly exceeds a solo year for the
       full ambition; the single-agent autotelic version is the feasible rented-GPU prototype.
 
 # Global ceilings across all tiers (a stop is hit if any is exceeded; surface, do not swallow).

@@ -1,0 +1,487 @@
+#!/usr/bin/env python
+"""Freeze, attest, independently verify, and compose the completed CM7 receipt chain."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.metadata
+import json
+import math
+import os
+import platform
+import shutil
+import subprocess
+import sys
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+import torch
+
+from mop.config import REPO_ROOT
+from mop.substrate.custom_workbench import audit_requirements, sha256_file
+
+RAW_SCHEMA = "mop-custom-substrate-workbench/v1"
+ATTEST_SCHEMA = "mop-custom-substrate-current-evidence-attestation/v1"
+ENV_SCHEMA = "mop-custom-substrate-environment-receipt/v1"
+VERIFIER_SCHEMA = "mop-custom-substrate-cm7-independent-verifier/v1"
+CHAIN_SCHEMA = "mop-custom-substrate-receipt-chain/v1"
+CANDIDATES = ("predictive", "invariance", "reconstruction")
+CONTROLS = ("random_target", "frozen_random")
+
+
+def _json_bytes(payload: Any) -> bytes:
+    return (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
+
+
+def _atomic_json(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_bytes(_json_bytes(payload))
+    os.replace(tmp, path)
+
+
+def _sha_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def freeze_raw(run_dir: Path) -> tuple[dict[str, Any], str]:
+    current_path = run_dir / "workbench_receipt.json"
+    current = json.loads(current_path.read_text())
+    embedded = current.pop("evidence_attestation", None)
+    if not isinstance(embedded, dict):
+        raise RuntimeError("completed receipt has no embedded launch-time attestation")
+    raw_bytes = _json_bytes(current)
+    raw_hash = _sha_bytes(raw_bytes)
+    expected = str(embedded.get("original_receipt_sha256", ""))
+    if raw_hash != expected:
+        raise RuntimeError(f"raw reconstruction hash {raw_hash} does not match embedded {expected}")
+    raw_path = run_dir / "raw_workbench_receipt.json"
+    if raw_path.exists() and sha256_file(raw_path) != raw_hash:
+        raise RuntimeError("immutable raw receipt already exists with a different hash")
+    if not raw_path.exists():
+        tmp = raw_path.with_suffix(".json.tmp")
+        tmp.write_bytes(raw_bytes)
+        os.replace(tmp, raw_path)
+    if current.get("schema") != RAW_SCHEMA or not current.get("complete"):
+        raise RuntimeError("raw receipt is not a complete workbench result")
+    return current, raw_hash
+
+
+def build_attestation(run_dir: Path, raw_hash: str) -> dict[str, Any]:
+    start_path = run_dir / "requirements_audit.json"
+    config = json.loads((run_dir / "resolved_config.json").read_text())
+    start = json.loads(start_path.read_text())
+    current = audit_requirements(config["requirements_ledger"])
+    current_path = run_dir / "requirements_current_audit.json"
+    _atomic_json(current_path, current)
+    problems: list[str] = []
+    snapshot_checks: list[dict[str, Any]] = []
+    start_sources: dict[str, dict[str, Any]] = {}
+    for requirement in start["requirements"]:
+        for source in requirement["sources"]:
+            start_sources[str(source["path"])] = source
+            snapshot = REPO_ROOT / source["snapshot_path"]
+            actual = sha256_file(snapshot) if snapshot.is_file() else None
+            expected = source.get("snapshot_sha256")
+            ok = actual is not None and actual == expected
+            snapshot_checks.append(
+                {
+                    "source_path": source["path"],
+                    "snapshot_path": source["snapshot_path"],
+                    "expected_sha256": expected,
+                    "actual_sha256": actual,
+                    "ok": ok,
+                }
+            )
+            if not ok:
+                problems.append(f"invalid requirements snapshot: {source['path']}")
+
+    implementation_path = run_dir / "implementation_manifest.json"
+    implementation = json.loads(implementation_path.read_text())
+    implementation_checks: list[dict[str, Any]] = []
+    for row in implementation["files"]:
+        snapshot = REPO_ROOT / row["snapshot_path"]
+        actual = sha256_file(snapshot) if snapshot.is_file() else None
+        ok = actual is not None and actual == row["snapshot_sha256"]
+        implementation_checks.append(
+            {
+                "source_path": row["source_path"],
+                "snapshot_path": row["snapshot_path"],
+                "expected_sha256": row["snapshot_sha256"],
+                "actual_sha256": actual,
+                "ok": ok,
+            }
+        )
+        if not ok:
+            problems.append(f"invalid core implementation snapshot: {row['source_path']}")
+
+    live_sources = {
+        str(source["path"]): source
+        for requirement in current["requirements"]
+        for source in requirement["sources"]
+    }
+    drift: list[dict[str, Any]] = []
+    for path, old in start_sources.items():
+        live = live_sources.get(path)
+        if live is None:
+            problems.append(f"current source missing: {path}")
+            continue
+        old_schema = (old.get("observation") or {}).get("schema")
+        new_schema = (live.get("observation") or {}).get("schema")
+        compatible = old_schema == new_schema
+        if not compatible:
+            problems.append(f"source schema drift: {path}: {old_schema!r} -> {new_schema!r}")
+        if old.get("sha256") != live.get("sha256"):
+            drift.append(
+                {
+                    "path": path,
+                    "start_sha256": old.get("sha256"),
+                    "current_sha256": live.get("sha256"),
+                    "schema_compatible": compatible,
+                }
+            )
+    semantic_same = start.get("ledger_sha256") == current.get("ledger_sha256") and start.get(
+        "requirement_ids"
+    ) == current.get("requirement_ids")
+    if not semantic_same:
+        problems.append("requirements ledger semantics changed")
+    if not current.get("all_ok"):
+        problems.append("current requirements audit is not clean")
+    return {
+        "schema": ATTEST_SCHEMA,
+        "created_at": datetime.now(UTC).isoformat(),
+        "raw_training_receipt_path": "raw_workbench_receipt.json",
+        "raw_training_receipt_sha256": raw_hash,
+        "start_audit_path": "requirements_audit.json",
+        "start_audit_sha256": sha256_file(start_path),
+        "current_audit_path": "requirements_current_audit.json",
+        "current_audit_sha256": sha256_file(current_path),
+        "implementation_manifest_path": "implementation_manifest.json",
+        "implementation_manifest_sha256": sha256_file(implementation_path),
+        "implementation_snapshot_scope": (
+            "core experiment, generator, runner, experiment wrapper, config, and requirements only; "
+            "transitive runtime dependencies are recorded separately, not claimed as source snapshots"
+        ),
+        "training_design_snapshot_self_verifies": all(row["ok"] for row in snapshot_checks),
+        "implementation_snapshot_self_verifies": all(row["ok"] for row in implementation_checks),
+        "requirements_semantics_unchanged": semantic_same,
+        "current_evidence_all_ok": current.get("all_ok"),
+        "source_drift": drift,
+        "snapshot_checks": snapshot_checks,
+        "implementation_checks": implementation_checks,
+        "problems": problems,
+        "scientifically_current": not problems,
+        "all_ok": not problems,
+    }
+
+
+def _hash_command(command: list[str]) -> tuple[str, int]:
+    process = subprocess.Popen(command, cwd=REPO_ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    digest = hashlib.sha256()
+    assert process.stdout is not None
+    for chunk in iter(lambda: process.stdout.read(1024 * 1024), b""):
+        digest.update(chunk)
+    _, stderr = process.communicate()
+    if process.returncode != 0:
+        raise RuntimeError(f"{command} failed: {stderr.decode(errors='replace')}")
+    return digest.hexdigest(), process.returncode
+
+
+def build_environment(run_dir: Path, raw_hash: str) -> dict[str, Any]:
+    implementation_path = run_dir / "implementation_manifest.json"
+    implementation = json.loads(implementation_path.read_text())
+    lock_paths = [REPO_ROOT / "pyproject.toml", REPO_ROOT / "scaffolding/requirements.freeze.txt"]
+    diff_hash, _ = _hash_command(["git", "diff", "HEAD", "--binary", "--no-ext-diff"])
+    status_hash, _ = _hash_command(["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"])
+    head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT).decode().strip()
+    packages = {}
+    for name in ("torch", "numpy", "omegaconf", "psutil"):
+        try:
+            packages[name] = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            packages[name] = None
+    return {
+        "schema": ENV_SCHEMA,
+        "created_at": datetime.now(UTC).isoformat(),
+        "raw_training_receipt_sha256": raw_hash,
+        "implementation_manifest_sha256": sha256_file(implementation_path),
+        "implementation_aggregate_sha256": implementation["aggregate_sha256"],
+        "source_inventory_sha256": implementation["aggregate_sha256"],
+        "snapshot_scope": (
+            "five core experiment/generator/runner/config/requirements files; not every transitive dependency"
+        ),
+        "runtime": {
+            "python": sys.version,
+            "executable": sys.executable,
+            "torch": torch.__version__,
+            "packages": packages,
+        },
+        "host": {
+            "platform": platform.platform(),
+            "mac_ver": platform.mac_ver()[0],
+            "machine": platform.machine(),
+            "processor": platform.processor(),
+            "mps_built": torch.backends.mps.is_built(),
+            "mps_available": torch.backends.mps.is_available(),
+        },
+        "package_locks": [
+            {
+                "path": str(path.relative_to(REPO_ROOT)),
+                "sha256": sha256_file(path),
+                "bytes": path.stat().st_size,
+            }
+            for path in lock_paths
+        ],
+        "git": {
+            "head": head,
+            "dirty": bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=REPO_ROOT)),
+            "tracked_diff_sha256": diff_hash,
+            "status_inventory_sha256": status_hash,
+        },
+        "finalizer_sha256": sha256_file(Path(__file__)),
+        "free_disk_bytes": shutil.disk_usage(REPO_ROOT).free,
+        "all_ok": True,
+    }
+
+
+def _betacf(a: float, b: float, x: float) -> float:
+    qab, qap, qam = a + b, a + 1.0, a - 1.0
+    c, d = 1.0, 1.0 - qab * x / qap
+    d = 1.0 / max(abs(d), 1e-300) * (1.0 if d >= 0 else -1.0)
+    h = d
+    for m in range(1, 401):
+        m2 = 2 * m
+        aa = m * (b - m) * x / ((qam + m2) * (a + m2))
+        d = 1.0 + aa * d
+        d = 1.0 / (d if abs(d) > 1e-300 else 1e-300)
+        c = 1.0 + aa / c
+        c = c if abs(c) > 1e-300 else 1e-300
+        h *= d * c
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
+        d = 1.0 + aa * d
+        d = 1.0 / (d if abs(d) > 1e-300 else 1e-300)
+        c = 1.0 + aa / c
+        c = c if abs(c) > 1e-300 else 1e-300
+        delta = d * c
+        h *= delta
+        if abs(delta - 1.0) < 3e-14:
+            break
+    return h
+
+
+def _betai(a: float, b: float, x: float) -> float:
+    if x <= 0.0:
+        return 0.0
+    if x >= 1.0:
+        return 1.0
+    front = math.exp(
+        math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log1p(-x)
+    )
+    if x < (a + 1.0) / (a + b + 2.0):
+        return front * _betacf(a, b, x) / a
+    return 1.0 - front * _betacf(b, a, 1.0 - x) / b
+
+
+def student_t_cdf(value: float, df: int) -> float:
+    x = df / (df + value * value)
+    tail = 0.5 * _betai(df / 2.0, 0.5, x)
+    return 1.0 - tail if value >= 0 else tail
+
+
+def student_t_ppf(probability: float, df: int) -> float:
+    low, high = -64.0, 64.0
+    for _ in range(200):
+        middle = (low + high) / 2.0
+        if student_t_cdf(middle, df) < probability:
+            low = middle
+        else:
+            high = middle
+    return (low + high) / 2.0
+
+
+def _comparison(values: list[float], margin: float) -> dict[str, Any]:
+    n = len(values)
+    mean = sum(values) / n
+    sd = math.sqrt(sum((value - mean) ** 2 for value in values) / (n - 1))
+    se = sd / math.sqrt(n)
+    if se == 0:
+        statistic = math.inf if mean > margin else -math.inf
+        p_value = 0.0 if mean > margin else 1.0
+    else:
+        statistic = (mean - margin) / se
+        p_value = 1.0 - student_t_cdf(statistic, n - 1)
+    return {
+        "n": n,
+        "paired_deltas": values,
+        "mean_delta": mean,
+        "sd": sd,
+        "se": se,
+        "margin": margin,
+        "t_statistic": statistic,
+        "raw_one_sided_p": p_value,
+    }
+
+
+def build_verifier(
+    raw: dict[str, Any],
+    *,
+    raw_hash: str,
+    attestation_hash: str,
+    environment_hash: str,
+    evidence_ok: bool,
+    environment_ok: bool,
+) -> dict[str, Any]:
+    margin, alpha = 0.03, 0.05
+    seeds = sorted(raw["seed_results"], key=int)
+    scores = {
+        arm: [float(raw["seed_results"][seed][arm]["evaluation"]["heldout_combo_score"]) for seed in seeds]
+        for arm in (*CANDIDATES, *CONTROLS)
+    }
+    means = {arm: sum(values) / len(values) for arm, values in scores.items()}
+    raw_winner = max(CANDIDATES, key=lambda arm: means[arm])
+    comparisons: dict[str, dict[str, Any]] = {}
+    for candidate in CANDIDATES:
+        opponents = (*CONTROLS, *(arm for arm in CANDIDATES if arm != candidate))
+        for opponent in opponents:
+            key = f"{candidate}_vs_{opponent}"
+            comparisons[key] = _comparison(
+                [left - right for left, right in zip(scores[candidate], scores[opponent], strict=True)],
+                margin,
+            )
+            comparisons[key].update({"candidate": candidate, "opponent": opponent})
+    family_size = len(comparisons)
+    critical = student_t_ppf(1.0 - alpha / family_size, len(seeds) - 1)
+    ordered = sorted(comparisons, key=lambda key: comparisons[key]["raw_one_sided_p"])
+    previous = 0.0
+    for rank, key in enumerate(ordered):
+        adjusted = min(1.0, (family_size - rank) * comparisons[key]["raw_one_sided_p"])
+        previous = max(previous, adjusted)
+        comparisons[key]["holm_adjusted_p"] = previous
+    for row in comparisons.values():
+        row["simultaneous_lower_bound"] = row["mean_delta"] - critical * row["se"]
+        row["clears_margin"] = row["simultaneous_lower_bound"] > margin and row["holm_adjusted_p"] < alpha
+    winner_keys = [key for key, row in comparisons.items() if row["candidate"] == raw_winner]
+    gates = {
+        "raw_training_complete": bool(raw.get("complete")),
+        "five_complete_seeds": len(seeds) == 5
+        and all(
+            raw["seed_results"][seed][arm]["training"]["complete"]
+            for seed in seeds
+            for arm in CANDIDATES + ("random_target",)
+        ),
+        "compute_match": bool(raw["compute_match"]["all_ok"]),
+        "off_ceiling": means[raw_winner] < 0.98,
+        "winner_clears_all_corrected_comparisons": all(
+            comparisons[key]["clears_margin"] for key in winner_keys
+        ),
+        "current_evidence": evidence_ok,
+        "environment_receipt": environment_ok,
+    }
+    promotion = all(gates.values())
+    problems = [name for name, ok in gates.items() if not ok]
+    return {
+        "schema": VERIFIER_SCHEMA,
+        "created_at": datetime.now(UTC).isoformat(),
+        "bindings": {
+            "raw_training_receipt_sha256": raw_hash,
+            "current_evidence_attestation_sha256": attestation_hash,
+            "environment_receipt_sha256": environment_hash,
+        },
+        "selection": {
+            "candidate_objectives": list(CANDIDATES),
+            "raw_winner": raw_winner,
+            "candidate_means": {arm: means[arm] for arm in CANDIDATES},
+            "selection_status": "familywise-corrected",
+            "family_size": family_size,
+            "correction": "Holm one-sided tests plus simultaneous Bonferroni Student-t lower bounds",
+            "alpha": alpha,
+            "df": len(seeds) - 1,
+            "simultaneous_t_critical": critical,
+        },
+        "paired_comparisons": comparisons,
+        "gates": gates,
+        "verdict": "promote-local-objective-lever" if promotion else "not-promoted",
+        "promotion": promotion,
+        "problems": problems,
+        "all_ok": True,
+    }
+
+
+def finalize(run_dir: Path, proof_path: Path) -> dict[str, Any]:
+    raw, raw_hash = freeze_raw(run_dir)
+    attestation = build_attestation(run_dir, raw_hash)
+    attestation_path = run_dir / "current_evidence_attestation.json"
+    _atomic_json(attestation_path, attestation)
+    attestation_hash = sha256_file(attestation_path)
+    environment = build_environment(run_dir, raw_hash)
+    environment_path = run_dir / "environment_receipt.json"
+    _atomic_json(environment_path, environment)
+    environment_hash = sha256_file(environment_path)
+    verifier = build_verifier(
+        raw,
+        raw_hash=raw_hash,
+        attestation_hash=attestation_hash,
+        environment_hash=environment_hash,
+        evidence_ok=attestation["all_ok"],
+        environment_ok=environment["all_ok"],
+    )
+    verifier_path = run_dir / "independent_verifier.json"
+    _atomic_json(verifier_path, verifier)
+    verifier_hash = sha256_file(verifier_path)
+    links = {
+        "raw_training_receipt": {"path": "raw_workbench_receipt.json", "sha256": raw_hash},
+        "current_evidence_attestation": {
+            "path": "current_evidence_attestation.json",
+            "sha256": attestation_hash,
+        },
+        "environment_receipt": {"path": "environment_receipt.json", "sha256": environment_hash},
+        "independent_verifier": {"path": "independent_verifier.json", "sha256": verifier_hash},
+    }
+    gates = {
+        "raw_training_complete": bool(raw["complete"]),
+        "evidence_current": bool(attestation["scientifically_current"]),
+        "environment_all_ok": bool(environment["all_ok"]),
+        "independent_verifier_promotes": bool(verifier["promotion"]),
+    }
+    authoritative = {
+        "cm7_local_objective_lever_promotable": all(gates.values()),
+        "cm8_custom_build_promotable": False,
+        "verdict": "promote-local-objective-lever" if all(gates.values()) else "not-promoted",
+        "raw_promotion_is_preliminary": True,
+        "gates": gates,
+        "reasons": verifier["problems"],
+        "scope_boundary": (
+            "authoritative only for deterministic programmatic-video objective selection; never "
+            "natural-video, intelligence, sentience, or general-capability evidence"
+        ),
+    }
+    composite = dict(raw)
+    composite.update(
+        {
+            "receipt_chain_schema": CHAIN_SCHEMA,
+            "receipt_chain": links,
+            "authoritative_promotion": authoritative,
+        }
+    )
+    _atomic_json(run_dir / "workbench_receipt.json", composite)
+    proof = proof_path if proof_path.is_absolute() else REPO_ROOT / proof_path
+    _atomic_json(proof, composite)
+    return composite
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--run-dir", type=Path, required=True)
+    parser.add_argument("--proof", type=Path, default=Path("proof/CUSTOM_SUBSTRATE_PILOT.json"))
+    args = parser.parse_args()
+    if abs(student_t_ppf(0.95, 4) - 2.131846786) > 1e-6:
+        raise RuntimeError("dependency-free Student-t implementation failed its df=4 reference")
+    composite = finalize(args.run_dir, args.proof)
+    print(json.dumps(composite["authoritative_promotion"], indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,11 +1,11 @@
-# E5: curiosity as self-curriculum (data-selection variant). Tier: env-later.
-# The env-rollout arm (GridworldStub) is defined but NOT run at scale here.
+# E5: curiosity as self-curriculum. Tier: cpu-now. The scored fixed-pool comparison and a
+# deterministic persistent learnable-vs-noisy trajectory contract both execute locally.
 id: e5_curiosity
 name: curiosity_self_curriculum
 module: e5_curiosity
 metric: [noise_fraction, learnable_improvement, lp_resists_noise, pe_chases_noise]
 null_hypothesis: "prediction-error/RND curiosity chases the noisy-TV while learning-progress curiosity does not"
-tier: env-later
+tier: cpu-now
 
 # fixed pool: learnable (structured dynamics) + noise (irreducibly random targets)
 dim: 32
@@ -23,3 +23,7 @@ noise_threshold: 0.5   # selected-noise fraction above which a policy "chases" t
 hidden: 64
 depth: 2
 lr: 0.01
+
+# bounded persistent environment contract (programmatic mechanics, never natural embodiment)
+environment_episodes: 8
+environment_horizon: 10

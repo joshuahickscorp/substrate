@@ -124,19 +124,19 @@ experiments:
     kind: experiment
     series: E
     question: does learning-progress selection beat random on a learnable-vs-noisy budget
-    mechanism: data-selection curriculum over control families (live-RL variant deferred)
+    mechanism: data-selection curriculum plus a deterministic persistent learnable-vs-noisy rollout contract with exact replay
     null_hypothesis: prediction-error/RND curiosity equals random on a learnable-vs-noisy env; only learning-progress survives
     falsifier: learning-progress time-on-learnable within seed spread of random
     metrics: [steps_to_competence, fraction_time_learnable, noise_attraction]
     controls: [noisy-TV, random-selection]
     gates: [noisy_tv, linear_probe]
-    resource_tier: environment-needed
-    exp_tier: env-later
+    resource_tier: cpu-now
+    exp_tier: cpu-now
     runtime_class: minutes
     difficulty: medium
     sci_value: medium
     meaningless_risk: medium
-    relation: data-selection variant runnable now; sharpened by EX8 bake-off
+    relation: fixed-pool result and bounded trajectory mechanics both run locally; natural-environment generalization remains external evidence
     capacity_rungs: [6]
     paradigm_slugs: [learning_progress_sampling]
     taxonomy_slot: 5
@@ -148,7 +148,7 @@ experiments:
     kind: experiment
     series: E
     question: does a structured/relational head beat a flat baseline, and more on 2.1-dense than on 2
-    mechanism: structured (pairwise) vs flat head on 2 vs 2.1 encoders (frozen-random fallback today)
+    mechanism: structured (pairwise) vs flat head on 2 vs 2.1 encoders (fail closed until a verified local dense cache exists)
     null_hypothesis: structured head ties parameter-matched flat baseline; gain on 2.1 not larger than on 2 (pooled latent lacks object factorization)
     falsifier: structured recombination accuracy within seed spread of flat at matched params
     metrics: [recombination_generalization, planning_success, dense_delta]
@@ -160,7 +160,7 @@ experiments:
     difficulty: high
     sci_value: high
     meaningless_risk: medium
-    relation: pooled precursor is EX9; full dense path needs 2.1
+    relation: pooled precursor is EX9; official 2.1 weights exist, full dense path needs local ViT-B integration and a citable cache
     capacity_rungs: [2, 7]
     paradigm_slugs: [object_slot_probe]
     taxonomy_slot: 3
@@ -244,7 +244,7 @@ experiments:
     kind: experiment
     series: E
     question: can a solo agent exhibit open-ended skill growth without a population/environment generator
-    mechanism: stub env + skill archive + goal generator spine (env-later)
+    mechanism: skill archive + goal generator spine plus the shared persistent local action contract; population/environment generation remains deferred
     null_hypothesis: a solo agent plateaus; open-endedness is a population/env-generation property a solo agent cannot exhibit
     falsifier: a solo agent shows sustained non-collapsing skill/archive growth
     metrics: [distinct_skills, reuse, archive_diversity, transfer, non_collapse]
@@ -256,7 +256,7 @@ experiments:
     difficulty: high
     sci_value: medium
     meaningless_risk: high
-    relation: capstone; needs an environment + population (Tier R)
+    relation: local persistent action mechanics now exist; the scientific capstone still needs population search, environment generation, sustained horizons, and transfer
     capacity_rungs: [12, 13]
     paradigm_slugs: []
     taxonomy_slot: 7
@@ -2920,18 +2920,18 @@ experiments:
     metrics: [accuracy_at_matched_mean_flops, per_mode_selection_entropy]
     controls: [baseline-best-single-fixed-strategy, matched-mean-flops, shuffled-router-selection, seed-sweep]
     gates: [compute]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: hours
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: high
     sci_value: high
     meaningless_risk: medium
-    relation: "the synthesis test; HIGH dependency risk on MP5-MP8 producing genuinely distinct strategies"
+    relation: "local three-seed mechanics receipt exists; the scientific synthesis remains gated on compatible outputs and a distinct-error certificate from the six prerequisite strategies"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
     status: registry-only
-    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_FRONTIER_PREFLIGHTS.json"}
 
   - id: mop_mt5_adaptive_halting
     name: adaptive_halting_vs_fixed_depth
@@ -3040,13 +3040,13 @@ experiments:
     metrics: [held_out_combo_decode, d3_certificate, ceiling_check]
     controls: [baseline-none-prerequisite, d3-difficulty-calibration, random-encoder-floor]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "DECISIVE ENABLER; fork shortlist #1; unblocks DR3/DR4/DR7, CM1, CM3 and the compositional modes"
+    relation: "DECISIVE ENABLER; first blocker is rights-cleared bound-attribute natural video, not a measured hardware wall; programmatic video cannot substitute"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 5
@@ -3064,13 +3064,13 @@ experiments:
     metrics: [backward_transfer, forgetting_area, paired_significance]
     controls: [baseline-param-matched-dense, matched-activation-sparsity-dense, d3-regime-calibration, matched-compute]
     gates: [linear_probe, compute]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "cross-referenced as PR3 (one experiment); laptop 528K-cache pilot is mop_dr2 in configs/experiment; frozen_random VALID here (trained-shell dynamics)"
+    relation: "cross-referenced as PR3; local pilot exists, while the registered claim needs a citable full real-latent stream; this is an upstream-input gate, not hardware evidence"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
@@ -3088,8 +3088,8 @@ experiments:
     metrics: [accuracy_vs_memory_load_at_matched_compute]
     controls: [baseline-residual-only-refiner, matched-compute, dense-token-control]
     gates: [compute]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: high
@@ -3112,8 +3112,8 @@ experiments:
     metrics: [counterfactual_match_error, cross_factor_leakage]
     controls: [baseline-correlational-predictor, random-init-vit, cross-factor-leakage-audit]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: high
@@ -3136,13 +3136,13 @@ experiments:
     metrics: [per_substrate_gain, cross_substrate_correlation]
     controls: [baseline-best-single-substrate-gain, random-init-vit, cross-substrate-convergence]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "universality verdict; needs a surviving gain plus the dinov2-small cache (WP-01 staged)"
+    relation: "three real-weight encoder caches now run serially on eight shared programmatic referents; science still needs a surviving compatible-task gain, expanded rows, and the matched random-architecture control"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
@@ -3184,8 +3184,8 @@ experiments:
     metrics: [final_answer_accuracy, shuffle_delta]
     controls: [baseline-matched-compute-one-shot, chain-shuffle, matched-compute]
     gates: [compute]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: medium
@@ -3352,13 +3352,13 @@ experiments:
     metrics: [accuracy_vs_corruption_slope]
     controls: [baseline-matched-single-pass, noisy-tv, quantize-robustness-controls]
     gates: [noisy_tv, compute]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: medium
     meaningless_risk: medium
-    relation: "laptop runs the VQ/4-bit/noise arms (WP-13); the dropped-channel arm needs dense latents (Studio)"
+    relation: "laptop runs the VQ/4-bit/noise arms; the registered dropped-channel arm is not yet implemented and first needs a citable dense-token cache"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
@@ -3376,13 +3376,13 @@ experiments:
     metrics: [per_modality_gain]
     controls: [baseline-best-modality-shell, cross-substrate-convergence, random-init-vit-per-modality]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: medium
     meaningless_risk: medium
-    relation: "needs three encoder families cached (qwen05b and wav2vec2 staged by WP-01)"
+    relation: "first blocker is citable video, relational/language, and audio cache families over compatible tasks"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
@@ -3712,13 +3712,13 @@ experiments:
     metrics: [per_substrate_decodability_delta_over_random_init]
     controls: [baseline-random-init-same-arch-per-substrate, matched-resolution, seed-spread]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "DECISIVE (shortlist #4): types the +0.31 signal that reopened the fork; laptop grid pilot is WP-14"
+    relation: "DECISIVE: local grid pilot exists; the registered claim first needs a complete citable multi-encoder grid and matched random-init columns"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
@@ -3736,18 +3736,18 @@ experiments:
     metrics: [mode_gain_real_vs_random_init]
     controls: [baseline-random-init-vit-at-256px, matched-resolution]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: hours
+    resource_tier: weights-needed
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "ties a mode's gain to pretraining; needs a mode with a candidate gain; OOM caution with ViT jobs"
+    relation: "the matched-view mechanics run locally; science is upstream-input-gated on a verified winning mode and citable real plus same-architecture random-init caches, not on a measured hardware wall"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
     status: registry-only
-    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_FRONTIER_PREFLIGHTS.json"}
 
   - id: mop_at3_time_axis
     name: time_axis_ablation
@@ -3856,13 +3856,13 @@ experiments:
     metrics: [prediction_r2_over_random_map_floor]
     controls: [baseline-random-map-of-equal-rank]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: medium
     meaningless_risk: medium
-    relation: "separates real cross-currency exchange from map-induced agreement; laptop pilot is WP-14"
+    relation: "three-scale citable local atlas retires model availability at n=8 programmatic scope; expanded meaningful shared content and the equal-rank random-map claim controls remain"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
@@ -3880,13 +3880,13 @@ experiments:
     metrics: [boundary_co_location_over_shuffled_floor]
     controls: [baseline-shuffled-time]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: medium
     meaningless_risk: medium
-    relation: "needs an audio SSL encoder plus aligned audio-video clips (wav2vec2 staged by WP-01)"
+    relation: "first blocker is rights-cleared temporally aligned audio-video clips plus their citable encoder caches"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
@@ -3904,8 +3904,8 @@ experiments:
     metrics: [held_out_combo_accuracy, d3_certificate, off_ceiling_delta]
     controls: [baseline-random-init-same-arch-vit, d3-calibration]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: high
@@ -3928,13 +3928,13 @@ experiments:
     metrics: [per_substrate_off_ceiling_delta_over_random_init]
     controls: [baseline-best-frozen-atlas-substrate, per-substrate-random-init, difficulty-calibration]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: high
     meaningless_risk: low
-    relation: "DECISIVE swap-vs-build decider (shortlist #3); runs only if CM1 fails"
+    relation: "DECISIVE swap-vs-build decider; first needs a CM1 failure receipt and a complete citable multi-encoder atlas"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
@@ -3952,8 +3952,8 @@ experiments:
     metrics: [dense_coarse_vs_pooled_off_ceiling_delta]
     controls: [baseline-full-mean-pool, d3-calibration, pooled-dense-coarse-arms]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: high
@@ -3976,13 +3976,13 @@ experiments:
     metrics: [backward_transfer, planning_gain, seed_sign_flips]
     controls: [baseline-param-matched-dense-plus-unrolled-depth, matched-flop-unrolled-depth, seed-sweep]
     gates: [compute]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: high
     meaningless_risk: medium
-    relation: "a shell win argues against needing a custom encoder; laptop 528K-cache pilot is WP-10; frozen_random VALID (trained-shell metric)"
+    relation: "a shell win argues against a custom encoder; local pilot exists, while the registered grid first needs citable full real-cache inputs"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
@@ -3990,28 +3990,28 @@ experiments:
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
   - id: mop_cm5_studio_rejuvenation
-    name: studio_scale_rejuvenation_c3
+    name: local_max_rejuvenation_c3
     kind: experiment
     series: CM
-    question: "does rejuvenation at studio scale restore plasticity beyond frozen-random and matched compute, and does restoration require an adapting substrate"
-    mechanism: "ex15/b8 harness at dim 256 to low thousands over thousands of tasks; adapting-vs-frozen discriminating arm"
+    question: "does rejuvenation at the highest locally induced plasticity-loss rung restore adaptation beyond frozen-random and matched compute, and does restoration require an adapting substrate"
+    mechanism: "progressive ex15/b8-style stream within the 180-minute local envelope; adapting-vs-frozen and rejuvenation-vs-no-op arms share optimizer updates and accounting intervals"
     null_hypothesis: "plasticity loss never appears at reachable scale, OR rejuvenation ties doing-nothing, OR frozen-substrate restoration ties the adapting-substrate arm (no C3 signal)"
     falsifier: "no loss at scale, or rejuv==nothing, or frozen==adapting"
     metrics: [adaptation_speed_restoration_net_of_retention_cost]
     controls: [baseline-do-nothing-plus-matched-compute, frozen-random, adapting-vs-frozen-arm]
     gates: [compute]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: hours
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: high
     sci_value: medium
     meaningless_risk: medium
-    relation: "the C3 probe; if restoration needs an adapting substrate the frozen encoder is Q1-bounded"
+    relation: "local four-arm mechanics are receipt-backed; the scientific effect remains gated on first inducing measurable plasticity loss at a progressive local rung"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 1
     status: registry-only
-    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_FRONTIER_PREFLIGHTS.json"}
 
   - id: mop_cm6_distilled_density
     name: compressed_capability_density
@@ -4024,8 +4024,8 @@ experiments:
     metrics: [invariance_per_parameter]
     controls: [baseline-same-size-non-distilled-student, same-size-random-init]
     gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: weights-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: medium
     sci_value: medium
@@ -4042,23 +4042,23 @@ experiments:
     kind: experiment
     series: CM
     question: "at tiny capacity, matched data, matched 256px, is the SSL objective a live lever (invariance beats mask, both beat random-init)"
-    mechanism: "1-5M encoders trained on the nuisance clips under mask vs invariance objectives vs random-init same-arch, all else matched"
+    mechanism: "a 1-5M token-preserving video encoder trained on immutable 256px programmatic referents under predictive, invariance, reconstruction, and random-target objectives with identical initialization, architecture, batches, updates, and estimated core FLOPs; an inherited frozen teacher is an optional citable cache control rather than a dependency"
     null_hypothesis: "at matched tiny capacity, matched data, matched 256px, both custom objectives tie random-init same-arch AND tie each other; objective is not a lever at this scale and the +0.31 was scale/data/architecture/resolution. A tie is a strong negative closing the custom-encoder line"
-    falsifier: "both objectives tie random-init AND each other"
+    falsifier: "every learned objective ties both the exact frozen initialization and the compute-matched random-target arm, or objective rankings fail the five-seed margin"
     metrics: [nuisance_invariance_per_objective, held_out_combo_per_objective]
-    controls: [baseline-random-init-same-arch, d3-calibration, matched-capacity-data-resolution]
-    gates: [linear_probe]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: hours
+    controls: [exact-frozen-random-init-same-arch, compute-matched-random-target, optional-citable-frozen-teacher, d3-calibration, matched-capacity-data-resolution-updates-flops]
+    gates: [linear_probe, compute, difficulty_calibration, seed_consistency]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: high
     sci_value: high
     meaningless_risk: low
-    relation: "DECISIVE diagnostic (shortlist #6): the ONLY sanctioned custom-training pilot before a bounding result; never concurrent with a ViT job"
+    relation: "implemented local objective workbench: establishes only whether objective choice is a lever on deterministic programmatic video; CM8 and natural-video promotion remain fail-closed"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
 
   - id: mop_cm8_custom_jepa_pilot
@@ -4066,19 +4066,19 @@ experiments:
     kind: experiment
     series: CM
     question: "does a small custom JEPA with a bound-factor mask policy beat the best frozen atlas substrate on held-out factoring"
-    mechanism: "small custom JEPA (or frozen backbone plus trainable factoring adapter) with a mask policy targeting the bound factor, at matched shell compute"
+    mechanism: "the CM7 predictive encoder plus an optional exact-referent teacher-distillation arm and bound-factor masking, compared with a citable frozen teacher and random-init at matched compute; the local preflight refuses scientific execution until CM1, CM2, DR1, and teacher-row gates are present"
     null_hypothesis: "the custom-JEPA pilot ties both a random-init same-arch ViT and the best frozen atlas substrate on held-out combinations at matched compute: the custom objective bought nothing"
     falsifier: "ties random-init AND best frozen substrate"
     metrics: [held_out_factoring_off_ceiling]
     controls: [baseline-best-frozen-atlas-substrate, random-init-same-arch, matched-compute]
     gates: [linear_probe]
-    resource_tier: moonshot
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: high
     meaningless_risk: medium
-    relation: "the build-side decision (shortlist #9); gated behind CM1/CM2/CM7 plus DR1 and a wider box"
+    relation: "runnable local fail-closed preflight exists; the build-side scientific decision remains gated behind CM1/CM2/CM7, DR1, and a sufficiently large same-referent teacher cache"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
@@ -4096,13 +4096,13 @@ experiments:
     metrics: [multi_object_binding, swap_test_specificity]
     controls: [baseline-dense-without-slots, off-the-shelf-slot-model, swap-test, matched-compute]
     gates: [linear_probe]
-    resource_tier: moonshot
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: medium
     meaningless_risk: medium
-    relation: "slots-as-shell vs custom encoder; blocked on DR1 multi-object video plus a wider box"
+    relation: "slots-as-shell vs custom encoder; first blocker is DR1 multi-object dense-token video with binding annotations, not measured hardware"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
@@ -4120,18 +4120,18 @@ experiments:
     metrics: [planning_success_on_true_dynamics]
     controls: [baseline-reactive-plus-unrolled-depth-plus-vjepa2ac, action-shuffle, matched-compute]
     gates: [compute]
-    resource_tier: environment-needed
+    resource_tier: weights-needed
     exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: medium
     meaningless_risk: medium
-    relation: "blocked on an ENV ADAPTER (a real implementation gap), not compute"
+    relation: "the local environment/trajectory adapter and bounded action-forward mechanics now execute; the registered substrate claim still needs rendered action observations, a citable substrate cache, and the exact frozen V-JEPA 2-AC control"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 7
     status: registry-only
-    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_ACTION_ENVIRONMENT.json"}
 
   - id: mop_cm11_developmental_plasticity
     name: developmental_scheduled_plasticity
@@ -4144,18 +4144,18 @@ experiments:
     metrics: [d6_window, y4_area, d4_u_shape]
     controls: [baseline-flat-schedule-substrate, matched-compute, noisy-tv-guarded-ordering, seed-sweep]
     gates: [noisy_tv]
-    resource_tier: moonshot
-    exp_tier: gpu-later
-    runtime_class: hours
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: high
     sci_value: medium
     meaningless_risk: high
-    relation: "the one architecture that genuinely needs an adapting substrate; the highest-risk row"
+    relation: "the adapting substrate, flat schedule, order, onset, and noisy-TV mechanics execute locally; fixture signature signs are non-evidence pending a calibrated curriculum and independent verifier"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 1
     status: registry-only
-    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_FRONTIER_PREFLIGHTS.json"}
 
   - id: mop_cm12_mop_substrate_capstone
     name: mixture_of_perspectives_substrate_capstone
@@ -4168,29 +4168,29 @@ experiments:
     metrics: [combined_battery_score_at_matched_total_flops]
     controls: [baseline-best-single-expert-plus-workspace, single-pilot, strongest-open-model, matched-total-flops, random-router]
     gates: [compute]
-    resource_tier: moonshot
-    exp_tier: gpu-later
-    runtime_class: hours
+    resource_tier: weights-needed
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: high
     sci_value: high
     meaningless_risk: high
-    relation: "the full synthesis of the fork; blocked on multiple pilots plus open-model access"
+    relation: "matched-compute routing mechanics run locally; the capstone remains upstream-input-gated on cleared compatible experts, a combined battery, and the declared open-model control"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 2
     status: registry-only
-    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_FRONTIER_PREFLIGHTS.json"}
 
   - id: f1_form_alignment_gate
     name: form_alignment_gate
     kind: experiment
     series: F
     question: "can paired referents align one observation form to another better than raw transfer and shuffled-anchor alignment"
-    mechanism: "synthetic shared referents are rendered into vision/audio/symbolic/timeseries feature forms; an affine target-to-source map is fit from unlabeled paired referents"
-    null_hypothesis: "paired referent alignment ties raw transfer or shuffled-anchor alignment, so the form interface is just a coordinate relabeling and not a usable cross-form bridge"
-    falsifier: "aligned transfer beats both raw target transfer and shuffled-anchor alignment by the preregistered margin"
+    mechanism: "fit a target-to-source affine map on unlabeled paired anchors disjoint from source-head training and final test rows, then freeze one source head across paired and unpaired coordinate controls"
+    null_hypothesis: "paired referent alignment fails to beat the strongest raw, moment-matched, or shuffled-anchor control by the preregistered margin, or remains near chance"
+    falsifier: "paired alignment beats every raw, moment-matched, and shuffled-anchor control across five seeds while staying below a separately trained target oracle"
     metrics: [aligned_transfer, raw_transfer, shuffled_anchor_transfer]
-    controls: [raw-target-transfer, shuffled-referent-anchor-map, source-form-ceiling]
+    controls: [raw-target-transfer, unpaired-moment-match, shuffled-referent-anchor-map, source-form-ceiling, target-supervised-oracle, disjoint-anchor-label-test]
     gates: [referent_alignment]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -4210,11 +4210,11 @@ experiments:
     kind: experiment
     series: F
     question: "does a concept trained through several aligned forms transfer to a held-out observation family"
-    mechanism: "train a classifier over multiple referent-aligned forms, hold one form out of labeled training, and test that form after unlabeled alignment"
-    null_hypothesis: "multi-form training ties the single-form baseline on a held-out observation family, or the held-out family stays near chance after alignment"
-    falsifier: "multi-form training improves held-out-form accuracy over the single-form baseline beyond seed spread"
+    mechanism: "substitute exactly one aligned training form per referent and optimizer step, matching labeled rows, initialization, head topology, and updates to single-form and Gaussian-augmentation controls"
+    null_hypothesis: "matched-exposure multi-form training fails to beat the strongest single-reference or matched-noise control by the preregistered margin, the held-out form remains near chance, or referent-shuffled alignment ties the treatment"
+    falsifier: "multi-form training beats both exposure-matched single-form controls and shuffled held-out alignment across five seeds"
     metrics: [heldout_form_acc, single_form_baseline, multi_form_gain]
-    controls: [single-reference-form-baseline, chance-floor, referent-alignment-audit]
+    controls: [single-reference-form, single-form-matched-noise, shuffled-heldout-alignment, chance, matched-rows-updates-head, disjoint-anchor-label-test]
     gates: [referent_alignment]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -4234,11 +4234,11 @@ experiments:
     kind: experiment
     series: F
     question: "is the canonical form bottleneck itself load-bearing, or can an arbitrarily narrow interface preserve the useful factors"
-    mechanism: "align several observation forms to a canonical reference, project through small and wide bottlenecks, and compare matched heads"
-    null_hypothesis: "the wide canonical bottleneck ties the small bottleneck, so interface width is not the bound, or both sit near the shuffled-label floor"
-    falsifier: "wide bottleneck beats small bottleneck and shuffled-label floor under matched data and head"
+    mechanism: "project aligned forms through one nested orthonormal basis, zero-pad every arm into the same head dimension, and compare identical initialized heads at matched rows and updates"
+    null_hypothesis: "the nested wide bottleneck fails to beat the zero-padded small bottleneck by the preregistered margin, or wide performance remains near the chance or shuffled-label floor"
+    falsifier: "the nested wide prefix beats the small prefix across five seeds while remaining below no-bottleneck and concatenation upper bounds"
     metrics: [wide_form_acc, small_form_acc, wide_minus_small]
-    controls: [small-bottleneck, shuffled-label-floor, matched-head]
+    controls: [nested-small-bottleneck, shuffled-label-floor, no-bottleneck, all-form-concatenation-upper-bound, identical-zero-padded-head, matched-data-updates]
     gates: [referent_alignment]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -4258,11 +4258,11 @@ experiments:
     kind: experiment
     series: F
     question: "does a canonical form-token layer beat ad hoc raw featurizers across vision, audio, symbols, and telemetry at matched dimension"
-    mechanism: "normalize arbitrary payloads into token sequences with shared referent metadata; compare to raw flattened features and per-form handcrafted features"
-    null_hypothesis: "canonical form tokens tie raw flattened or handcrafted per-form features on every factor, so the form layer is ceremony"
-    falsifier: "canonical tokens improve cross-form transfer or retention per dimension over both raw controls"
+    mechanism: "render ordered heterogeneous token payloads, align each token position on disjoint paired anchors, preserve [N,T,D] geometry through a shared-token-transform probe, and compare matched token-shaped controls"
+    null_hypothesis: "ordered canonical form tokens fail to beat the strongest raw, handcrafted, shuffled-referent, or token-order control by the preregistered margin"
+    falsifier: "ordered canonical tokens beat all four token-shaped controls across five seeds while the Form audit verifies preserved token geometry"
     metrics: [cross_form_transfer_per_dim, retention_per_dim, control_delta]
-    controls: [raw-flattened-payload, handcrafted-per-form-features, matched-dimension]
+    controls: [raw-resized-token-payload, per-token-handcrafted-statistics, shuffled-referent-token-alignment, token-order-permutation, matched-token-shape-head-data-updates]
     gates: [difficulty_calibration]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -4283,10 +4283,10 @@ experiments:
     series: F
     question: "can memory retrieve the same referent when queried through a different form than the one stored"
     mechanism: "store referents through one form, query through another, and compare content-addressed retrieval to per-form nearest neighbor and shuffled-referent controls"
-    null_hypothesis: "cross-form retrieval ties per-form nearest neighbor or shuffled referents, so memory is form-local rather than referent-bound"
-    falsifier: "cross-form retrieval beats form-local and shuffled controls at matched memory slots"
-    metrics: [cross_form_recall_at_k, shuffled_referent_floor, recall_per_slot]
-    controls: [per-form-nearest-neighbor, shuffled-referent-pairs, matched-memory-slots]
+    null_hypothesis: "cross-form retrieval fails to beat raw or shuffled controls, or remains materially below same-form independent-view retrieval, so memory is form-local rather than referent-bound"
+    falsifier: "cross-form retrieval beats raw and shuffled controls and approaches same-form independent-view retrieval at matched memory slots"
+    metrics: [cross_form_recall_at_k, same_form_recall_at_k, shuffled_referent_floor, recall_per_slot]
+    controls: [same-form-independent-view, raw-cross-form, shuffled-referent-pairs, matched-memory-slots]
     gates: [referent_alignment]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -4306,39 +4306,39 @@ experiments:
     kind: experiment
     series: F
     question: "does adding action traces as a first-class form improve next-state prediction and planning beyond passive observation forms"
-    mechanism: "joint observation-action form stream with action-shuffle and action-blind controls, evaluated by rollout predictability and goal reachability"
-    null_hypothesis: "action-shuffle or action-blind controls tie true action-conditioned form closure, so the substrate is still a passive recorder"
-    falsifier: "true action form improves rollout R2 and goal success beyond action-shuffle and action-blind controls"
+    mechanism: "deterministic gridworld observation-action Form stream with identical-architecture action-shuffle and zero-action controls, evaluated by autoregressive rollout prediction and executed goal reachability"
+    null_hypothesis: "true action-conditioned Form closure fails to beat both action-blind and action-shuffled controls on held-out rollout prediction and deterministic goal reachability"
+    falsifier: "true action Form improves both autoregressive rollout R2 and executed goal success beyond the strongest zero-action or shuffled-action control across five seeds"
     metrics: [rollout_r2, goal_success, action_shuffle_delta]
-    controls: [action-blind, action-shuffle, matched-compute]
+    controls: [zero-action-form, shuffled-action-referents, identical-architecture, matched-updates]
     gates: [rollout_predictability]
-    resource_tier: environment-needed
-    exp_tier: env-later
-    runtime_class: hours
-    difficulty: high
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
     sci_value: high
     meaningless_risk: medium
-    relation: "moves the project from passive video substrate toward active perception without pretending offline clips are embodiment"
+    relation: "moves the project from passive video toward active perception; its exact local trajectory contract is durable without pretending programmatic actions are embodiment"
     capacity_rungs: [7, 9]
     paradigm_slugs: [latent_rollout_mpc]
     taxonomy_slot: 7
-    status: registry-only
-    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: controllability, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_ACTION_ENVIRONMENT.json"}
 
   - id: f7_developmental_form_growth
     name: developmental_form_growth
     kind: experiment
     series: F
     question: "does a substrate that can add or prune form capacity during a curriculum beat a fixed-size substrate at matched final parameters"
-    mechanism: "grow/prune token slots or subspaces in response to learning progress, then compare to fixed-final-size and random-growth schedules"
-    null_hypothesis: "fixed-final-size or random-growth schedules tie developmental growth, so structural plasticity is cosmetic"
-    falsifier: "learning-progress growth beats fixed and random schedules on adaptation-retention frontier at matched final parameters"
+    mechanism: "grow hidden Form capacity when measured learning progress stalls, then compare with fixed-final capacity and an event-count-matched random growth schedule"
+    null_hypothesis: "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters"
+    falsifier: "learning-progress growth beats both fixed-final and random-timing controls on the adaptation-retention frontier across five seeds with exact final-parameter and update equality"
     metrics: [frontier_auc_gain, growth_efficiency, retained_capacity]
-    controls: [fixed-final-size, random-growth-schedule, matched-final-params]
+    controls: [fixed-final-capacity, event-count-matched-random-growth, matched-final-params, matched-updates]
     gates: [difficulty_calibration, noisy_tv]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: hours
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
     difficulty: high
     sci_value: high
     meaningless_risk: high
@@ -4346,7 +4346,7 @@ experiments:
     capacity_rungs: [4, 6, 11]
     paradigm_slugs: [learning_progress_sampling]
     taxonomy_slot: 1
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: plasticity, null_card: "none", evidence_level: R0}
 
   - id: f8_plastic_substrate_rewrite
@@ -4354,14 +4354,14 @@ experiments:
     kind: experiment
     series: F
     question: "when the substrate itself is allowed to update, does it acquire factors a frozen form interface cannot expose"
-    mechanism: "train a small form encoder under a self-supervised objective, compare to frozen features plus a larger shell at matched total compute"
-    null_hypothesis: "a larger frozen-shell control ties the plastic substrate, so the gain is shell capacity rather than representation rewrite"
-    falsifier: "plastic substrate beats frozen-shell and random-init same-arch controls on held-out factors at matched total compute"
+    mechanism: "update inherited encoder weights under a paired-view self-supervised objective, measure cosine representation rewrite, and compare held-out transfer with frozen inherited, larger-shell, and SSL-trained random-init controls under one explicit end-to-end FLOP estimator"
+    null_hypothesis: "a plastic substrate fails to beat the frozen inherited, larger frozen-shell, or SSL-trained random-init controls on licensed held-out factors at a matched estimated end-to-end FLOP budget"
+    falsifier: "plastic substrate beats every declared control on held-out factors beyond the preregistered per-seed margin under the matched estimated FLOP convention, while the registered rewrite metric reports actual representation shift"
     metrics: [heldout_factor_acc, representation_rewrite_delta, matched_compute_delta]
-    controls: [larger-frozen-shell, random-init-same-arch, matched-total-compute]
+    controls: [frozen-inherited-linear, larger-frozen-shell, ssl-trained-random-init-same-arch, matched-estimated-end-to-end-flops]
     gates: [compute, difficulty_calibration]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: high
@@ -4379,8 +4379,8 @@ experiments:
     series: F
     question: "do factors learned in one form bind compositionally with factors introduced only in another form"
     mechanism: "hold out cross-form factor pairs, train on diagonal complements, and test held-out combinations after referent alignment"
-    null_hypothesis: "held-out cross-form combinations collapse to chance while seen pairs remain high, so the system memorized form-specific conjunctions"
-    falsifier: "held-out cross-form combinations match seen-combination accuracy above shuffle floor"
+    null_hypothesis: "held-out cross-form combinations collapse toward the strongest single-form, shuffled-label, or shuffled-referent floor while seen pairs stay high, so the system did not bind factors across forms"
+    falsifier: "factor-specific heads preserve held-out combinations above every single-form and shuffled-referent control"
     metrics: [heldout_combo_acc, seen_combo_acc, heldout_seen_gap]
     controls: [shuffle-label-floor, single-form-conjunction-baseline, shuffled-referent-pairs]
     gates: [difficulty_calibration, referent_alignment]
@@ -4403,8 +4403,8 @@ experiments:
     series: F
     question: "does learning-progress selection choose which form to study next better than error, novelty, or uniform sampling"
     mechanism: "candidate lessons span observation forms; scheduler chooses form and item by learning progress with noisy-TV and nuisance controls"
-    null_hypothesis: "learning-progress form selection ties uniform sampling or chases noisy forms, so curriculum is not form-aware"
-    falsifier: "learning-progress improves coverage per update and rejects noisy forms better than error and novelty"
+    null_hypothesis: "learning-progress selection fails to improve untouched held-out-form transfer over every control or spends as much time on noisy forms as uniform, so the curriculum is not form-aware"
+    falsifier: "learning-progress improves untouched held-out-form transfer and rejects refreshed noisy forms better than every control"
     metrics: [coverage_per_update, noisy_form_timeshare, transfer_gain]
     controls: [uniform-form-sampling, prediction-error-sampling, novelty-sampling, noisy-tv-form]
     gates: [noisy_tv]
@@ -4426,23 +4426,23 @@ experiments:
     kind: experiment
     series: F
     question: "can a generator replay canonical form states across modalities without storing every raw observation"
-    mechanism: "learn a tiny prior over canonical form tokens, replay generated tokens into the shell, compare to stored form memory and raw exemplar replay"
-    null_hypothesis: "generated form replay underperforms stored replay at matched memory or drifts off the factor manifold"
-    falsifier: "generated form replay matches stored replay within the preregistered retention band at lower bytes"
+    mechanism: "fit a class-conditional diagonal generator over canonical Form tokens, replay at matched sample count, and compare with byte-capped stored tokens, raw exemplars, no replay, and a random generator"
+    null_hypothesis: "generated Form replay falls outside the preregistered retention band of stored replay at the same memory ceiling or fails the held-out Form-manifold validity floor"
+    falsifier: "generated Form replay stays within the stored-replay retention band, clears the held-out manifold-validity floor, and improves retention per actual retained byte across five seeds"
     metrics: [retention_per_byte, manifold_validity, generated_vs_stored_gap]
-    controls: [stored-form-replay, raw-exemplar-replay, random-generator]
+    controls: [stored-form-replay, raw-exemplar-replay, random-generator, no-replay, matched-replay-samples, actual-byte-accounting]
     gates: [linear_probe, calibration]
-    resource_tier: studio-scale
-    exp_tier: gpu-later
-    runtime_class: hours
-    difficulty: high
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
     sci_value: medium
     meaningless_risk: medium
     relation: "moves dreaming/replay from latent video vectors to the canonical form substrate"
     capacity_rungs: [3, 10]
     paradigm_slugs: [generative_latent_replay]
     taxonomy_slot: 4
-    status: registry-only
+    status: implemented
     proof: {atlas_factor: memory, null_card: "none", evidence_level: R0}
 
   - id: f12_private_form_language_stability
@@ -4451,7 +4451,7 @@ experiments:
     series: F
     question: "do form codes recur across seeds and data families, or are they private idiolects"
     mechanism: "learn discrete form codes across multiple forms, then test cross-seed probe transfer, code agreement, and referent retrieval"
-    null_hypothesis: "cross-seed code transfer sits at chance or below random-code agreement, so the form language is private"
+    null_hypothesis: "cross-seed code agreement sits at or below the random-codebook floor and cross-seed probe transfer is at chance, so the form codes are private idiolects rather than a shared language"
     falsifier: "code transfer and agreement beat random-code floors across seeds and forms"
     metrics: [cross_seed_code_transfer, code_agreement, random_code_floor]
     controls: [random-codebook, shuffled-referents, seed-sweep]
@@ -4474,11 +4474,11 @@ experiments:
     kind: experiment
     series: F
     question: "which form interfaces buy the most capability per byte, parameter, and estimated joule"
-    mechanism: "sweep form width, token count, replay bytes, and shell size; report Pareto frontier instead of peak accuracy"
-    null_hypothesis: "all form interfaces lie on the same density frontier as raw features, so form structure buys no efficiency"
-    falsifier: "at least one form interface Pareto-dominates raw features over multiple density axes"
+    mechanism: "sweep form width, token count, replay bytes, and shell size while charging form production, alignment, fusion, projection, training, inference, parameters, and retained storage; report the frontier rather than peak accuracy"
+    null_hypothesis: "every form interface lies on the same full-system accuracy-versus-cost frontier as raw or matched random features, so form structure buys no capability per retained byte, parameter, FLOP, or analytically estimated joule"
+    falsifier: "the form family beats the strongest raw or random frontier across seeds and at least one operating point Pareto-dominates a control on accuracy, retained bytes, parameters, FLOPs, and analytically estimated energy"
     metrics: [accuracy_per_byte, accuracy_per_param, estimated_energy_per_correct]
-    controls: [raw-features, matched-width-random-features, matched-shell]
+    controls: [raw-features, matched-width-random-features, matched-shell, matched-replay-bytes, full-system-cost-accounting]
     gates: [compute]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -4498,11 +4498,11 @@ experiments:
     kind: experiment
     series: F
     question: "can the system add a new observation family after training without remapping old form memories"
-    mechanism: "train on two forms, introduce a third form later, align through shared referents, and measure old retention plus new-form transfer"
-    null_hypothesis: "adding the new form causes old-form forgetting or fails to transfer, so the interface is not expandable"
-    falsifier: "new form is inserted with bounded forgetting and above-floor transfer at matched alignment budget"
-    metrics: [old_form_bwt, new_form_transfer, alignment_budget]
-    controls: [retrain-from-scratch, no-alignment, shuffled-referents]
+    mechanism: "train on two forms, write immutable reference-form values, keys, and referent ids into ReplayBuffer/KVIndex, then align and replay a third form without rewriting any old memory tensor"
+    null_hypothesis: "new-form insertion changes any old-memory key, value, or referent id, changes old-memory retrieval, forgets old forms beyond the retention band, or fails to beat the strongest matched existing-head and raw or shuffled retrieval controls"
+    falsifier: "the new form beats matched existing-head and retrieval floors while old-form forgetting stays bounded and every old memory tensor, id, count, hash, and retrieval result remains bit-exact"
+    metrics: [old_form_bwt, new_form_transfer, old_memory_recall_delta, new_form_memory_recall, alignment_budget]
+    controls: [frozen-zero-shot, new-only-no-replay-matched-compute, retrain-from-scratch-matched-cumulative-compute, no-alignment, shuffled-referents, raw-memory-query, shuffled-memory-query, immutable-old-memory-snapshot]
     gates: [referent_alignment]
     resource_tier: cpu-now
     exp_tier: cpu-now
@@ -4521,39 +4521,39 @@ experiments:
     name: embodied_affordance_form
     kind: experiment
     series: F
-    question: "do affordances become more decodable when action consequences are represented as form tokens rather than passive labels"
-    mechanism: "paired observation/action/outcome episodes, compare passive affordance labels to consequence-conditioned form tokens"
-    null_hypothesis: "consequence-conditioned form tokens tie passive labels or action-shuffle, so affordance structure is not learned from intervention"
-    falsifier: "consequence-conditioned tokens improve affordance decoding and planning under action-shuffle control"
+    question: "in a deterministic intervention environment, do affordances become more decodable when action consequences are represented as Form tokens rather than passive observations"
+    mechanism: "paired object-action-outcome episodes under a held-out appearance shift, comparing consequence-conditioned Forms with zero-consequence passive and shuffled-action controls"
+    null_hypothesis: "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection"
+    falsifier: "consequence-conditioned Forms improve both held-out affordance decoding and selected-action success beyond passive and shuffled-action controls across five seeds"
     metrics: [affordance_decode_acc, intervention_gain, action_shuffle_delta]
-    controls: [passive-labels, action-shuffle, matched-compute]
+    controls: [zero-consequence-passive-form, shuffled-action-outcomes, identical-head, matched-updates]
     gates: [rollout_predictability]
-    resource_tier: environment-needed
-    exp_tier: env-later
-    runtime_class: hours
-    difficulty: high
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: medium
     sci_value: high
     meaningless_risk: medium
-    relation: "the embodied branch of form substrates, staged after passive cross-form gates"
+    relation: "paired cloned-state affordance mechanics run locally; natural-object embodiment remains a separate evidence tier"
     capacity_rungs: [7, 9]
     paradigm_slugs: [latent_rollout_mpc]
     taxonomy_slot: 7
-    status: registry-only
-    proof: {atlas_factor: affordance, null_card: "none", evidence_level: R0}
+    status: implemented
+    proof: {atlas_factor: affordance, null_card: "none", evidence_level: R1, local_preflight: "proof/LOCAL_ACTION_ENVIRONMENT.json"}
 
   - id: f16_perfect_slate_null
     name: perfect_slate_null
     kind: experiment
     series: F
     question: "does a blank trainable substrate trained on the same small curriculum actually beat inherited frozen substrates plus shell controls"
-    mechanism: "small randomly initialized substrate trained from scratch or self-supervised on the same curriculum, compared to frozen V-JEPA, random-init same-arch, and a larger shell"
-    null_hypothesis: "the blank substrate ties frozen inherited features plus a larger shell, or ties random-init same-arch, so the perfect-slate story bought nothing at this scale"
-    falsifier: "blank substrate beats inherited-frozen and random-init controls on held-out transfer at matched total compute"
+    mechanism: "initialize one blank encoder once, self-supervise one copy while freezing the identical-weight copy, then compare both with frozen inherited features and a larger inherited-feature shell under one explicit end-to-end FLOP estimator"
+    null_hypothesis: "the blank substrate fails to beat inherited frozen features, the larger shell, or its identical frozen-random initialization on licensed held-out transfer at a matched estimated end-to-end FLOP budget"
+    falsifier: "the self-supervised blank encoder beats inherited-frozen, larger-shell, and shared-initialization frozen-random controls beyond the preregistered per-seed margin under the matched estimated FLOP convention"
     metrics: [blank_vs_inherited_delta, heldout_transfer, matched_compute_delta]
-    controls: [frozen-inherited-substrate, larger-shell-on-frozen, random-init-same-arch, matched-total-compute]
+    controls: [frozen-inherited-substrate, larger-shell-on-frozen, shared-initialization-frozen-random-same-arch, matched-estimated-end-to-end-flops]
     gates: [compute, difficulty_calibration, seed_consistency]
-    resource_tier: moonshot
-    exp_tier: gpu-later
+    resource_tier: environment-needed
+    exp_tier: env-later
     runtime_class: hours
     difficulty: high
     sci_value: high
@@ -4571,8 +4571,8 @@ experiments:
     series: F
     question: "when one form is absent at test time, does the substrate recover the target from remaining forms while its confidence still predicts correctness"
     mechanism: "train on a multi-form matrix, drop one arm at evaluation, compare recovery against impute-by-mean and best-remaining-form controls while scoring whether confidence predicts correctness under absence (OA2 calibration AUROC)"
-    null_hypothesis: "recovery ties the best remaining single form, or confidence does not predict correctness under a missing form, so the forms were redundant channels and the monitor is uninformative"
-    falsifier: "recovery beats the best-remaining-form control while confidence still predicts correctness under absence above the chance floor"
+    null_hypothesis: "recovery fails to beat the strongest tuned single-form, impute-by-mean, or zero-filled-concat control, or confidence does not predict correctness under a missing form, so recovery or monitoring is uninformative"
+    falsifier: "recovery beats every declared control while confidence still predicts correctness under absence above the chance floor"
     metrics: [recovery_acc, best_remaining_form_acc, absence_ece, recovery_per_extra_flop]
     controls: [impute-by-mean, best-remaining-form, zero-filled-concat, matched-head]
     gates: [referent_alignment, calibration]
@@ -4594,9 +4594,9 @@ experiments:
     kind: experiment
     series: F
     question: "does intervening on a factor observed through one form predict the induced change in another form over the same referent, beyond a correlational map"
-    mechanism: "programmatic factor interventions rendered into paired forms as before-and-after referents; an intervention predictor is compared to a correlational predictor at matched compute on unseen intervention values"
+    mechanism: "programmatic randomized interventions rendered as paired Form-A before and Form-B after states; a vector-valued state transport is compared to an identical correlational map on unseen intervention values with rows, updates, parameters, and FLOPs matched"
     null_hypothesis: "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure"
-    falsifier: "counterfactual match on unseen intervention values beats correlational and shuffled-counterfactual controls at matched compute"
+    falsifier: "decoded and geometric Form-B predictions on unseen intervention values beat correlational, random-direction, and shuffled-counterfactual controls across five seeds at exactly matched training compute"
     metrics: [counterfactual_match_acc, correlational_baseline_acc, unseen_value_gap, counterfactual_acc_per_param]
     controls: [correlational-predictor, random-intervention-direction, shuffled-counterfactual-pairs, matched-compute]
     gates: [difficulty_calibration, referent_alignment]
@@ -4619,8 +4619,8 @@ experiments:
     series: F
     question: "can the same referent be stored and retrieved at object, scene, episode, and task scale without a separate memory per scale"
     mechanism: "nested referent ids (object within scene within episode within task) enforced at intake; store at one scale, query at another, compare hierarchical memory to flat and single-scale stores at matched bytes"
-    null_hypothesis: "hierarchical referent memory ties flat clip memory or single-scale stores at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped"
-    falsifier: "cross-scale retrieval beats flat and single-scale controls at matched memory bytes"
+    null_hypothesis: "hierarchical referent memory ties the strongest flat, single-scale, or random-hierarchy control at matched bytes, so scale structure buys no retrieval and memory stays clip-shaped"
+    falsifier: "bidirectional cross-scale retrieval beats every flat, single-scale, and random-hierarchy control across five seeds at exactly matched allocated bytes"
     metrics: [cross_scale_recall_at_k, flat_memory_recall_at_k, recall_per_byte]
     controls: [single-scale-memory, flat-clip-memory, random-hierarchy, matched-memory-bytes]
     gates: [referent_alignment]
@@ -4643,8 +4643,8 @@ experiments:
     series: F
     question: "can a monitor over the form matrix detect ahead of time that frozen forms plus larger shells will fail a target, while staying quiet on irreducible noise"
     mechanism: "build matrices containing known-insufficient arms (nuisance-carrier and predictor-wall exemplars) plus noisy-TV false-alarm streams; score crisis predictions against realized probe failure"
-    null_hypothesis: "the crisis detector ties the raw error signal or triggers on aleatoric noise, so substrate insufficiency is not predictable from the exposed signals"
-    falsifier: "crisis detection beats raw-error and fixed-threshold controls on AUROC while holding the false-trigger rate on noise below the preregistered bound"
+    null_hypothesis: "the crisis detector fails to beat the strongest raw-error, fixed-confidence, or random baseline, or triggers on aleatoric noise, so prospective insufficiency is not established"
+    falsifier: "a preregistered prospective crisis forecast beats every baseline, stays quiet on noise, and avoids a measured failed scale-up"
     metrics: [crisis_auroc, raw_error_auroc, false_trigger_rate, avoided_wasted_compute_per_monitor_flop]
     controls: [raw-error-signal, fixed-confidence-threshold, random-trigger-matched-rate, noisy-tv-stream]
     gates: [noisy_tv, calibration]

@@ -143,3 +143,32 @@ def test_cache_id_mismatch_flagged(tmp_path):
     (root / "provenance.json").write_text(json.dumps(prov))
     problems = validate_cache(root)
     assert any("cache_id mismatch" in p for p in problems)
+
+
+def test_cache_pipeline_preserves_dense_geometry(tmp_path):
+    from mop.substrate import EncoderSpec, FrozenEncoder, cache_latents, synthetic_clips
+
+    enc = FrozenEncoder(EncoderSpec("dense_fixture", 8, dense=True, pool="none"))
+    root = cache_latents(
+        enc,
+        synthetic_clips(n=6, batch=3),
+        tmp_path,
+        "dense",
+        total=6,
+        device=devices.resolve("cpu"),
+    ).root
+    latents = np.load(root / "latents.npy", mmap_mode="r")
+    keys = np.load(root / "keys.npy", mmap_mode="r")
+    assert latents.shape == (6, 1, 8)
+    assert keys.shape == (6, 8)
+    assert validate_cache(root) == []
+
+
+def test_validate_compatibility_store_without_native_keys(tmp_path):
+    root = tmp_path / "compat"
+    root.mkdir()
+    features = np.arange(24, dtype=np.float32).reshape(6, 4)
+    np.save(root / "features.npy", features)
+    np.save(root / "labels_shape.npy", np.arange(6, dtype=np.int64) % 2)
+    (root / "meta.json").write_text(json.dumps({"tag": "compat", "description": "legacy"}))
+    assert validate_cache(root) == []

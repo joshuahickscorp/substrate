@@ -5,8 +5,8 @@ thing licensed to run alongside the in-flight V-JEPA encode). Everything staged 
 transfers to the Studio.
 
 Exact ids and sizes per the manifest: facebook/dinov2-small (~90MB), Qwen/Qwen2.5-0.5B (~1.0GB, fallback
-HuggingFaceTB/SmolLM2-360M ~0.7GB), facebook/wav2vec2-base (~380MB). Total ~1.5GB against the 51GB free
-floor; nothing larger is permitted (disk is below the 60GB floor).
+HuggingFaceTB/SmolLM2-360M ~0.7GB), facebook/wav2vec2-base (~380MB). Total ~1.5GB against the measured
+51GB free space and the active derived 40GB profile floor. Nothing larger is permitted by this script.
 
 Usage: python scripts/stage_small_substrates.py   -> runs/mot/staging_manifest.json
 

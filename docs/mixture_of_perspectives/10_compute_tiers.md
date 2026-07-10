@@ -78,12 +78,10 @@ linear probe acc 1.0 vs chance 0.125).
 
 ### What NOT to attempt here
 
-- Do NOT try the 64-frame ViT-L forward on MPS: it overflows the per-buffer ceiling regardless of
-  RAM. Route encoder forwards above mps_safe_token_cap to CPU.
-- Do NOT pull both ViT-H (~2.5 GB) and ViT-g (~4 GB) weight shards at once: it would breach the
-  ~60 GB free-disk floor. This laptop already runs close to its own min_free_disk_gb=60 floor
-  (disk drifted 63 to 53 GB in one session from unrelated system activity, and correctly tripped
-  the kill switch).
+- Do NOT infer an MPS limit from an unsupervised crash or stale report. Run each 64-frame forward
+  through `scripts/encoder_scale_probe.py`; only a durable measured receipt may establish a wall.
+- ViT-H and ViT-g weights are already pinned, hash-verified, and staged. Do NOT load either beside
+  another encoder process: acquisition fits the derived disk envelope, concurrent residency does not.
 - Do NOT run a second torch/encoder job while a CPU-bound V-JEPA encode is in flight: an 18 GB
   pool OOMs on two encoders.
 - Do NOT cache DENSE latents here: dense ViT-L is ~32 MB/clip (8192 tokens), so 10k dense clips is
@@ -93,9 +91,10 @@ linear probe acc 1.0 vs chance 0.125).
 
 ### Expected bottlenecks
 
-Encode throughput (the 21 s/clip CPU floor), free disk (~60 GB floor, already tight), sustained
-thermal throttling (measured CPU timings are laptop-throttled and conservative vs a better-cooled
-box), and the per-buffer MPS ceiling on large-token forwards. NOT bottlenecked on latent storage
+Encode throughput (22.34 s/clip in the current citable ViT-L attempt), the 128-clip local profile cap,
+sustained thermal throttling, and any large-token memory wall actually recorded by the supervised
+forward probes. The active free-space floor is the derived 40 GB requirement, not the historical 60 GB
+round number. NOT bottlenecked on pooled-latent storage
 (pooled ViT-L is ~8 KB/clip; 10k clips ~= 78 MB) or on shell compute (seconds on MPS).
 
 ### Relative cost and implementation difficulty
@@ -116,10 +115,10 @@ logged manual profile override, never as a default-profile activity.
 Second, budget the RAW-VIDEO disk footprint, which the pooled-latent line (78 MB for 10k clips) hides:
 the raw clips must be decoded to disk before the encoder ever runs (roughly 1 to 3 MB/clip per
 STUDIO_MAXIMIZATION scale-of-100k), so a 5k slice is ~5 to 15 GB raw and a 20k slice ~20 to 60 GB raw.
-Against a laptop that sits at ~53 to 63 GB free with a 60 GB min_free_disk_gb floor (a floor that has
-ALREADY tripped the kill switch once), free_disk_ok() would REFUSE to start these caches: they are
-disk-blocked before they are time-blocked. So even under a manual max_cache_clips override, a 5k-20k
-real cache is not a laptop job at the current disk headroom; it is a Tier-1 job (900 GB budget).
+The current laptop has about 45 GB free against a derived 40 GB floor after all three V-JEPA scale
+weights are staged. A 5 to 60 GB raw corpus therefore cannot fit while preserving the safety reserve,
+and the default 128-clip cap blocks it first. Even under a manual clip-cap override, a 5k-20k real cache
+is not a current-headroom laptop job; it is a Tier-1 job (900 GB budget).
 
 ### Required code modules
 
@@ -208,9 +207,9 @@ gated run -> report), with the gated kill-switch chain (validate source -> cache
 -> linear probe -> noisy-TV/diagnostics -> E1 smoke -> Tier C toy -> Tier C full only if gates
 pass). Multi-encoder cache stage (--encoder flag, three runs over one corpus). All standing
 controls wired at real scale (the handoff's most important lesson: the most common corpus failure
-was a control existing in code but never wired into the specific experiment). Weights to pull once
-disk is a non-constraint: vjepa2-vith-fpc64-256 (~2.5 GB, currently config-only stub, unlocks the
-ex12 encoder-scale falsifier) then vjepa2-vitg-fpc64-384 (~4 GB, config-only stub).
+was a control existing in code but never wired into the specific experiment). ViT-L, ViT-H, and ViT-g
+weights are already pinned and staged; Tier 1 owns the shared natural-corpus caches and scale grid, not
+their acquisition.
 
 ### What NOT to attempt here
 
@@ -299,8 +298,8 @@ and must be justified by a bounding result (above), never entered to "just train
   CUDA (device=cuda, configs/device/cuda.yaml: amp true, pin_memory true, num_workers 8,
   allow_cpu_fallback false). ex2_latent_planning's LIVE closed-loop MPC (needs real
   action-conditioned rollout data from an interactive robot/ego environment), E5's curiosity
-  live-rollout arm, and the E10 open-ended capstone (procedural env + population). These are blocked
-  on an ENV ADAPTER, not on GPU alone: the compute is secondary to building the environment.
+  live-rollout arm, and the E10 open-ended capstone (procedural env + population). The bounded adapter
+  now exists; rendered/substrate evidence and the E10 population/environment generator remain, not a GPU premise.
 - The doctrine-questioning, out-of-scope-until-justified use: training or fine-tuning an encoder
   from scratch at the SAME resolution and frame budget to test whether a task-specific perceptual
   frontend beats the frozen general V-JEPA on the bounding target the frozen substrate could not
@@ -309,8 +308,8 @@ and must be justified by a bounding result (above), never entered to "just train
 
 ### Scaffolding / diagnostics / models supported
 
-configs/device/cuda.yaml (the rented-box path), the env-adapter interface that does not yet exist
-(the genuine build gap for E5-rollout/E10/ex2-live), standard multi-GPU training scaffolding (DDP,
+configs/device/cuda.yaml (the rented-box path), the now-implemented local action adapter
+(`proof/LOCAL_ACTION_ENVIRONMENT.json`) as the preflight for E5/CM10, standard multi-GPU training scaffolding (DDP,
 sharded checkpointing, mixed precision), and the SAME standing controls (a from-scratch encoder must
 still beat the frozen substrate, matched-compute, and a tuned baseline, and its features must beat
 random-init same-arch at the same resolution).
@@ -323,13 +322,13 @@ random-init same-arch at the same resolution).
   baseline the trained model must beat.
 - Do NOT treat "we rented a GPU" as license to abandon cached-latent-first for the shell: only the
   perceptual frontend (or the env rollout) needs the box; the shell stays tiny and latent-first.
-- Do NOT run env rollouts before an env adapter exists: the blocker is the environment harness the
-  repo has no code for, not the GPU. Build the adapter first.
+- Do NOT escalate an env rollout because an adapter is missing: the bounded adapter now exists.
+  First connect it to the exact rendered/substrate referents and controls, and measure locally.
 
 ### Expected bottlenecks
 
-For env rollouts: the missing environment adapter (a genuine implementation gap), then rented-CUDA
-cost and the sim-to-frozen-latent interface. For from-scratch training: real training-compute cost
+For env rollouts: the adapter gap is closed locally; the remaining bottleneck is the
+rendered-observation-to-citable-substrate interface and exact controls. For from-scratch training: real training-compute cost
 (this is the one tier that is genuinely training-compute-bound), data licensing for a from-scratch
 video corpus at scale, and the risk that the trained frontend fails to beat the frozen baseline
 (the most likely outcome given the +0.31 evidence that pretraining already buys real
@@ -338,13 +337,13 @@ nuisance-invariance).
 ### Relative cost and implementation difficulty
 
 Cost: HIGH and the only tier with real marginal spend (rented GPU-hours, possibly a cluster).
-Difficulty: HIGH (from-scratch training pipeline, DDP, data at scale) to VERY HIGH (a procedural
-interactive environment plus its adapter, which does not exist in the repo at all).
+Difficulty: HIGH (from-scratch training pipeline, DDP, data at scale) to VERY HIGH (a genuinely
+open-ended procedural ecology; the bounded deterministic adapter itself now exists).
 
 ### Required code modules
 
-configs/device/cuda.yaml (present), an env-adapter module and a rollout harness (both absent, must
-be built), standard distributed-training scaffolding (absent by design; the repo trains nothing
+configs/device/cuda.yaml (present), the local env-adapter/trajectory harness (present and proven),
+the still-missing rendered-substrate bridge, standard distributed-training scaffolding (absent by design; the repo trains nothing
 large), and the unchanged standing-control suite so any trained-encoder claim is gated the same way
 every frozen-substrate claim is.
 

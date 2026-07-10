@@ -1,16 +1,31 @@
-# V-JEPA 2.1 ViT-B, dense token output (for E6 dense-vs-pooled). Frozen, inference-only.
-# NOTE: V-JEPA 2.1 is NOT yet published on HF (probed 2026-06; the id below is a PLACEHOLDER).
-# Deferred until 2.1 releases; prefer_real=false keeps the scaffold on the frozen-random path.
+# V-JEPA 2.1 ViT-B, dense token output. Meta released this checkpoint on 2026-03-16.
+# `available` means locally hash-verified and strict-loaded, not merely published upstream, so it
+# stays false until the post-CM7 load/forward receipts pass. The legacy hf_id field is an explicit
+# non-HF sentinel: real loading goes only through mop.substrate.vjepa21_official.
 name: vjepa21_vitb
 arch: vit_base
-hf_id: facebook/vjepa2.1-vitb-dense      # PLACEHOLDER: not on HF yet (deferred)
+hf_id: official-pytorch-only-vjepa21-vitb
 available: false
-hub: facebookresearch/jepa
+release_available: true
+availability_state: released_not_local_verified
+prefer_real: false
+require_real: false
+source_kind: official_pytorch_checkpoint
+hub: facebookresearch/vjepa2
+official_repo: https://github.com/facebookresearch/vjepa2
+official_repo_commit: 204698b45b3712590f06245fbfba32d3be539812
+hub_entrypoint: vjepa2_1_vit_base_384
+checkpoint_url: https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt
+checkpoint_content_length: 1664223428
+checkpoint_etag: '"be0dc26f052ae6a7476714cd53176836-199"'
+checkpoint_version_id: xJBU4AkoA4gv5boeC6gOA7eElzWcubxY
+loader: mop.substrate.vjepa21_official.load_vitb_encoder
 embed_dim: 768
 patch_size: 16
 tubelet: 2
-frames_per_clip: 16
-resolution: 256
+frames_per_clip: 64
+resolution: 384
+dense_tokens_per_clip: 18432
 dense: true           # per-patch tokens, no pooling
 pool: none
 frozen: true

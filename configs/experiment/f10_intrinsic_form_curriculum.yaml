@@ -2,7 +2,7 @@ id: f10_intrinsic_form_curriculum
 name: intrinsic_form_curriculum
 module: f_form_substrate
 metric: [coverage_per_update, noisy_form_timeshare, transfer_gain]
-null_hypothesis: "learning-progress form selection ties uniform coverage or chases the noisy form"
+null_hypothesis: "learning-progress selection fails to improve untouched held-out-form transfer over every control or spends as much time on noisy forms as uniform, so the curriculum is not form-aware"
 tier: cpu-now
 
 # Real forms are kept hard and the budget tight (few rounds, few steps) so a form is NOT saturated
@@ -16,10 +16,11 @@ separation: 0.85
 world_noise: 0.9
 form_noise: 0.4
 train_frac: 0.6
+val_frac: 0.2
 n_noisy: 5
 rounds: 20
 steps: 1
 lr: 0.04
 margin: 0.02
 noisy_margin: 0.05
-seeds: [0, 1, 2]
+seeds: [0, 1, 2, 3, 4]

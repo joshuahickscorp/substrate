@@ -2,7 +2,7 @@
 
 This is the single operational document for (A) the laptop scaffolding build, (B) the Studio append, and
 (C) the laptop MAXIMIZATION RUN. Registry ids refer to docs/mixture_of_perspectives/11_experiment_registry.md.
-All paths are repo-relative under /Users/scammermike/Downloads/brain. House style: no em or en dashes,
+All paths are relative to the repository root; no clone location is assumed. House style: no em or en dashes,
 line length 110, preregistered nulls, non-vacuous controls (random-init or random-encoder features, never
 a square latent projection), matched compute, tuned baselines, noisy-TV guard, seed stability.
 
@@ -29,9 +29,12 @@ Standing rules:
   ceiling that fits inside that residual, and a light row with no stated ceiling does not run while an
   encode is in flight. No light job may batch clips: 200 nuisance clips at 64x3x256x256 float32 are
   ~50MB each, ~10GB batched, which OOMs the box and kills the encode. Streaming per clip is mandatory.
-- Disk is 51GB free, BELOW the 60GB floor. Large weight downloads (ViT-H, ViT-g, big LLMs) are
-  FORBIDDEN. Allowed small downloads: DINOv2-S ~90MB, a <=2GB small LLM, wav2vec2-base ~400MB. All small
-  downloads are STAGED: they back up and transfer to the Studio.
+- Disk was measured at 51GB free. That is above the current derived 40GB floor (10GB OS reserve +
+  25GB maximum pending download + 5GB working headroom); the earlier 60GB round-number policy is
+  superseded. ViT-H and ViT-g are now fully staged within the 25GB hard cap. New large downloads and
+  big LLMs remain gated by that cap and the one-encoder-at-a-time rule. Allowed small downloads include
+  DINOv2-S ~90MB, a <=2GB small LLM,
+  wav2vec2-base ~400MB. All small downloads are STAGED: they back up and transfer to the Studio.
 - No 64-frame ViT-L forward on MPS (per-buffer hang). No dense latent caching on the laptop. No real
   cache past the max_cache_clips=128 clamp without a logged override. No probe delta against
   frozen_random_projection read as a substrate claim (vacuous by construction).

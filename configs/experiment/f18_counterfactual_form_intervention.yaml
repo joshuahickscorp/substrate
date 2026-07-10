@@ -2,23 +2,25 @@ id: f18_counterfactual_form_intervention
 name: counterfactual_form_intervention
 module: f_form_substrate
 metric: [counterfactual_match_acc, correlational_baseline_acc, unseen_value_gap, counterfactual_acc_per_param]
-null_hypothesis: "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor"
+null_hypothesis: "the intervention predictor leaks (predicts only seen intervention values) or ties the correlational predictor, so the matrix binds appearances rather than intervention structure"
 tier: cpu-now
 
-samples: 320
+samples: 420
 world_dim: 16
 feature_dim: 24
-a_values: 5
-contexts: 3
-a_scale: 2.0
+a_values: 7
+contexts: 2
+a_scale: 2.5
 c_scale: 1.0
 nuisance: 0.6
-form_noise: 0.5
+form_noise: 0.4
 train_frac: 0.6
 train_deltas: [1, 2]
 test_delta: 3
 epochs: 260
 lr: 0.05
+probe_samples: 560
+probe_train_frac: 0.7
 margin: 0.05
 leak_margin: 0.15
-seeds: [0, 1, 2]
+seeds: [0, 1, 2, 3, 4]

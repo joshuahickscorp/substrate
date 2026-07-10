@@ -2,19 +2,22 @@ id: f2_heldout_form_transfer
 name: heldout_form_transfer
 module: f_form_substrate
 metric: [heldout_form_acc, single_form_baseline, multi_form_gain]
-null_hypothesis: "multi-form training ties the single-form baseline on a held-out observation family"
+null_hypothesis: "matched-exposure multi-form training fails to beat the strongest single-reference or matched-noise control by the preregistered margin, the held-out form remains near chance, or referent-shuffled alignment ties the treatment"
 tier: cpu-now
 
-samples: 240
-classes: 4
+samples: 400
+classes: 10
 world_dim: 28
 feature_dim: 36
-separation: 1.8
-world_noise: 0.7
-form_noise: 0.12
-train_frac: 0.55
+separation: 0.9
+world_noise: 1.2
+form_noise: 0.7
+anchor_frac: 0.25
+label_frac: 0.30
+reference_form: vision
 heldout_form: timeseries
-epochs: 80
+epochs: 60
 lr: 0.03
-margin: 0.03
-seeds: [0, 1]
+margin: 0.02
+chance_band: 0.10
+seeds: [0, 1, 2, 3, 4]

@@ -64,6 +64,7 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/13_code_scaffolding.md",
     "docs/mixture_of_perspectives/15_custom_model_skepticism.md",
     "docs/mixture_of_perspectives/16_form_substrate_program.md",
+    "docs/mixture_of_perspectives/17_local_frontier_localization.md",
     # the Form Substrate Program root docs (the active paradigm; see PARADIGM_MIGRATION.md)
     "FORM_SUBSTRATE_PROGRAM.md",
     "FORM_SUBSTRATE_DOCTRINE.md",
@@ -75,6 +76,21 @@ CANONICAL_MD = (
     "MIGRATION_PHASES.md",
     "LEGACY_INDEX.md",
     "FORM_SUBSTRATE_IMPLEMENTATION_PLAN.md",
+    "FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md",
+    "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
+    "EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
+    "EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
+    "EXTENDED_COMPUTE_EXECUTION_PLAN.md",
+    "docs/F8_F16_SCIENTIFIC_EXECUTION.md",
+    "docs/CUSTOM_SUBSTRATE_WORKBENCH.md",
+    "docs/CUSTOM_SUBSTRATE_PORTABLE_ARTIFACT.md",
+    "docs/SANPO_CUSTOM_SUBSTRATE_BRIDGE.md",
+    "docs/LOCAL_CEILING_RESIDUAL_AUDIT_2026_07_10.md",
+    "docs/LOCAL_ACTION_ENVIRONMENT.md",
+    "docs/VJEPA21_LOCAL_INTEGRATION.md",
+    "docs/E6_DENSE_RELATIONAL_CACHE.md",
+    "docs/WIKIMEDIA_AV_INTAKE.md",
+    "GOLD_PROMPT.md",
 )
 OPERATIONAL_MD = (
     "GO.md",
@@ -127,6 +143,29 @@ PROOF_MD = (
     "proof/NULL_CARDS/process_c_dense_token_pilot.md",
     "proof/NULL_CARDS/ex13_long_stream.md",
     "proof/NULL_CARDS/ex15_rejuvenation.md",
+    "proof/NULL_CARDS/mop_cm7_min_objective_probe.md",
+    # durable F1-F20 contract cards and their proof-system index
+    "proof/FORM_SUBSTRATE/README.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f1_form_alignment_gate.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f2_heldout_form_transfer.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f3_form_bottleneck_capacity.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f4_raw_payload_vs_form_tokens.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f5_cross_form_memory_binding.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f6_sensorimotor_form_closure.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f7_developmental_form_growth.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f8_plastic_substrate_rewrite.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f9_cross_form_compositional_binding.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f10_intrinsic_form_curriculum.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f11_form_dream_replay.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f12_private_form_language_stability.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f13_form_energy_budget.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f14_lifelong_form_expansion.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f15_embodied_affordance_form.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f16_perfect_slate_null.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f17_missing_form_recovery.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f18_counterfactual_form_intervention.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f19_cross_scale_referent_binding.md",
+    "proof/FORM_SUBSTRATE/NULL_CARDS/f20_substrate_crisis_test.md",
 )
 LEDGER_MD = frozenset(CANONICAL_MD + OPERATIONAL_MD + HISTORICAL_MD + PROOF_MD)
 # directories whose markdown is tooling/output, not project docs (excluded from the ledger scan)
@@ -266,11 +305,16 @@ def check_docs() -> list[str]:
 
         # acceptance ratio "k/k": a full-pass ratio whose denominator disagrees with the real
         # acceptance-check count is stale (e.g. doc says 10/10 but acceptance now has 12 steps).
-        for a, b in ((int(a), int(b)) for a, b in _RATIO_CLAIM.findall(text)):
-            if a == b and b != real_accept:
-                problems.append(
-                    f"{name}: acceptance ratio {a}/{b} but acceptance.py has {real_accept} checks"
-                )
+        # Scoped to lines that mention acceptance so unrelated full-pass counts (campaign legs,
+        # stage tallies like "run-local 18/18") cannot false-positive against acceptance.py.
+        for line in text.splitlines():
+            if "acceptance" not in line.lower():
+                continue
+            for a, b in ((int(a), int(b)) for a, b in _RATIO_CLAIM.findall(line)):
+                if a == b and b != real_accept:
+                    problems.append(
+                        f"{name}: acceptance ratio {a}/{b} but acceptance.py has {real_accept} checks"
+                    )
 
         # every referenced script path must exist on disk
         for ref in sorted(set(_SCRIPT_REF.findall(text))):

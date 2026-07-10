@@ -254,8 +254,9 @@ full-rank map between two 1024-d encoders absorbs almost all shared structure, s
 zero" is the expected outcome and the null is nearly unfalsifiable. Prefer the rank-limited-map +
 kNN-topology formulations (AL2-kNN, AT1-relrep); downgrade the global-residual version. And the
 AL2 positive control must be runnable: V-JEPA full-clip to single-frame (both scriptable via
-cache_vjepa_single_frame.py), NOT a ViT-H second scale that does not exist and would be
-out-of-doctrine frontier compute.
+cache_vjepa_single_frame.py). ViT-H is now a verified local second scale, but same-family scale is
+not the registered positive control: it does not replace the full-clip to single-frame control or
+the matched random-architecture and permutation floors.
 
 ---
 

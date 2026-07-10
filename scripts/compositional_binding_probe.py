@@ -92,7 +92,14 @@ def make_object_clip(shape: int, color: int, n_shape: int, n_color: int, g: torc
 
 
 def run(n_shape: int, n_color: int, per: int, seed: int) -> dict:
-    cfg = compose(["encoder=vjepa2_vitl_fpc64_256", "device=cpu", "encoder.prefer_real=true"])
+    cfg = compose(
+        [
+            "encoder=vjepa2_vitl_fpc64_256",
+            "device=cpu",
+            "encoder.prefer_real=true",
+            "+encoder.require_real=true",
+        ]
+    )
     dev = resolve("cpu")
     enc = load_encoder(cfg.encoder).to(dev.device)
     backend = enc.spec.backend

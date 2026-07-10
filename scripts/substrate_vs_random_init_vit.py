@@ -81,7 +81,14 @@ def _zscore(x: torch.Tensor) -> torch.Tensor:
 
 
 def run(n_shape: int, per: int, seed: int) -> dict:
-    cfg = compose(["encoder=vjepa2_vitl_fpc64_256", "device=cpu", "encoder.prefer_real=true"])
+    cfg = compose(
+        [
+            "encoder=vjepa2_vitl_fpc64_256",
+            "device=cpu",
+            "encoder.prefer_real=true",
+            "+encoder.require_real=true",
+        ]
+    )
     dev = resolve("cpu")
     real = load_encoder(cfg.encoder).to(dev.device)
     real_backend = real.spec.backend

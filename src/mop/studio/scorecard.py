@@ -373,7 +373,7 @@ def _durability_axis(
     indexes: dict[str, dict[str, Any] | None],
     spine_status: dict[str, Any] | None,
 ) -> dict[str, Any]:
-    required = ("wave0", "dr1", "pr9", "atlas", "spine")
+    required = ("wave0", "dr1", "pr9", "atlas", "form_substrate", "spine")
     missing = [name for name in required if indexes.get(name) is None]
     bad: list[str] = []
     for name in required:

@@ -2,7 +2,8 @@
 # Two encoders loaded (pooled vjepa2, dense vjepa21). A recombination-generalization task:
 # train on a subset of (attr_a, attr_b) pairs, test on held-out pairs. Structured (relational)
 # head vs parameter-matched flat head, per substrate. Headline = dense delta minus pooled delta.
-# Tier: 2.1-only (the comparison is the point; weights fall back to frozen-random this session).
+# Tier: 2.1-only (the comparison is the point). Official weights now exist, but this legacy direct
+# runner still falls back to frozen-random until the cache-first official loader path is integrated.
 id: e6_relational
 name: relational_map_2_vs_21
 module: e6_relational

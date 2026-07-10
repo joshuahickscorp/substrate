@@ -74,7 +74,13 @@ def _probe_pair(x: torch.Tensor, y: torch.Tensor, seed: int) -> dict:
 
 def run(n_a: int, n_b: int, per: int, grid: int, seed: int) -> dict:
     cfg = compose(
-        ["encoder=vjepa2_vitl_fpc64_256", "device=cpu", "encoder.dense=true", "encoder.prefer_real=true"]
+        [
+            "encoder=vjepa2_vitl_fpc64_256",
+            "device=cpu",
+            "encoder.dense=true",
+            "encoder.prefer_real=true",
+            "+encoder.require_real=true",
+        ]
     )
     dev = resolve("cpu")
     enc = load_encoder(cfg.encoder).to(dev.device)

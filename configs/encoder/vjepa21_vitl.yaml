@@ -1,17 +1,27 @@
-# V-JEPA 2.1 ViT-L, dense token output. Frozen, inference-only.
-# NOTE: V-JEPA 2.1 is NOT yet published on HF under any verified id (probed 2026-06; the id below
-# is a PLACEHOLDER, RepositoryNotFoundError). The 2.1-only experiments (E6 dense) stay deferred
-# until 2.1 releases; prefer_real=false keeps this on the frozen-random path so the scaffold runs.
+# V-JEPA 2.1 ViT-L, dense token output. Meta released the official PyTorch checkpoint on
+# 2026-03-16, but this larger variant remains deliberately gated behind a passing local ViT-B
+# strict-load and forward receipt. It is not a Hugging Face route and is not locally verified.
 name: vjepa21_vitl
 arch: vit_large
-hf_id: facebook/vjepa2.1-vitl-dense      # PLACEHOLDER: not on HF yet (deferred)
+hf_id: official-pytorch-only-vjepa21-vitl
 available: false
-hub: facebookresearch/jepa
+release_available: true
+availability_state: released_gated_behind_vitb_forward
+prefer_real: false
+require_real: false
+source_kind: official_pytorch_checkpoint
+hub: facebookresearch/vjepa2
+official_repo: https://github.com/facebookresearch/vjepa2
+official_repo_commit: 204698b45b3712590f06245fbfba32d3be539812
+hub_entrypoint: vjepa2_1_vit_large_384
+checkpoint_url: https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt
+loader_status: gated_behind_vitb_load_and_forward
 embed_dim: 1024
 patch_size: 16
 tubelet: 2
-frames_per_clip: 16
-resolution: 256
+frames_per_clip: 64
+resolution: 384
+dense_tokens_per_clip: 18432
 dense: true
 pool: none
 frozen: true
