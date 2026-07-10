@@ -15,8 +15,8 @@ defaults:
 #   C = laptop-feasible cached-latent (runs now)
 #   E = row-specific evidence beyond the bounded local adapter
 #   R = rented-GPU / lab-scale (disabled by default)
-# Encoder tier tags reuse EXPERIMENTS.md labels. A larger frozen encoder is not, by itself, a
-# hardware tier: all three published V-JEPA 2 scale points have completed local serial forwards.
+# Encoder tier tags reuse EXPERIMENTS.md labels. Archived inherited-scale controls are historical
+# evidence, not selectable campaign resources.
 
 encoders:
 
@@ -37,25 +37,6 @@ encoders:
       against cached latents (or the frozen-random synthetic fallback when no weights). This
       is what the whole Tier C cached-latent column trains against. embed_dim 1024 is the
       campaign baseline latent_dim; sizing of predictor and heads follows it automatically.
-
-  vjepa2_vitg:
-    config: configs/encoder/vjepa2_vitg.yaml
-    role: larger                   # bigger substrate, locally serial (SCALING.md flip 2)
-    arch: vit_giant
-    hf_id: facebook/vjepa2-vitg-fpc64-384
-    embed_dim: 1408                # wider latent: shell resizes off this with no code change
-    resolution: 384
-    frames_per_clip: 64
-    dense: false
-    frozen: true
-    tier_tag: cpu-now
-    unlocks_tier: C                # local serial extraction; dataset breadth is a separate input gate
-    note: >-
-      Larger frozen substrate with the same pooled interface as the default, just wider
-      (1408) at 384px. Selected as encoder=vjepa2_vitg. Strict offline load, a supervised
-      local CPU forward, and an eight-referent cache all pass. Run it serially under the
-      local resource envelope; a larger natural corpus remains a data and throughput scale
-      question, not a model-availability or hardware-boundary claim.
 
   vjepa21_vitb:
     config: configs/encoder/vjepa21_vitb.yaml

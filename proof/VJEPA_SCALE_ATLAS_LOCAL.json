@@ -322,38 +322,40 @@
     "promotable": false,
     "reasons": [
       "programmatic native-resolution renders rather than rights-clean natural video",
-      "n=8 is a mechanics and scale-signal pilot",
-      "byte-identical stimuli are not proven for every learned/control pair"
+      "n=8 is a mechanics and scale-signal pilot"
     ]
   },
   "controls": {
     "full_rank_random_map": false,
     "matched_random_architecture": true,
-    "matched_stimulus_hashes": false,
+    "matched_stimulus_hashes": true,
     "matches": {
       "vit_g": [
         {
           "architecture_exact": true,
           "seed": 0,
           "state_dict_sha256": "2c3c3ee71c78321302846f7c62f43e01748a27ec1ac0b2f3d740a7657dbc4fc3",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_g_random_s0"
         },
         {
           "architecture_exact": true,
           "seed": 1,
           "state_dict_sha256": "db2f4ee7f323d7da7de399bc6a78e84ba5f287d4740a519935121d46d3584137",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_g_random_s1"
         },
         {
           "architecture_exact": true,
           "seed": 2,
           "state_dict_sha256": "d63b5d64d367fdbfb963bc004758c730f56160d13cbcef4f8b19f8b92c6e4d7a",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_g_random_s2"
         }
       ],
@@ -362,24 +364,27 @@
           "architecture_exact": true,
           "seed": 0,
           "state_dict_sha256": "4bfa7f450b5f5f5cfd47bb83129feabf2594ad015e2eef23900ae38373ef603d",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_h_random_s0"
         },
         {
           "architecture_exact": true,
           "seed": 1,
           "state_dict_sha256": "daac38a8ed1b6f955f9b89990963f79ea46fe9d1adb6cc147c74a219d188fbc6",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_h_random_s1"
         },
         {
           "architecture_exact": true,
           "seed": 2,
           "state_dict_sha256": "76abe24d19d2e1ab4f01f77ecd03dc11efe7585652b7e443071a6adedecd08a0",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_h_random_s2"
         }
       ],
@@ -388,24 +393,27 @@
           "architecture_exact": true,
           "seed": 0,
           "state_dict_sha256": "dfbbe9d3a083771cca45d63f54d727077a4668c616017cd8996c1fd00051cada",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_l_random_s0"
         },
         {
           "architecture_exact": true,
           "seed": 1,
           "state_dict_sha256": "ed32846cdb96341c4f813ab481c7aa3edd7dae4b08b995cf8cc410adc862b880",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_l_random_s1"
         },
         {
           "architecture_exact": true,
           "seed": 2,
           "state_dict_sha256": "af1d1e13ab255eaaaa4648ede4c06dd2227200065e876418a9fe9306fcfcb975",
-          "stimulus_hash_exact": false,
-          "stimulus_hash_limitation": "one or both cache runs predate per-input stimulus hashes",
+          "stimulus_hash_exact": true,
+          "stimulus_hash_limitation": null,
+          "stimulus_hash_source": "validated-factorized-stimulus-identity",
           "tag": "vit_l_random_s2"
         }
       ]
@@ -431,7 +439,7 @@
     "shuffled_train_labels_on_frozen_split": true,
     "warning": "the former full-rank random-map arm was removed from claim evidence because an invertible linear map preserves linear decodability; matched random architectures are the relevant learned-code control"
   },
-  "created_at": "2026-07-10T09:08:12.196708+00:00",
+  "created_at": "2026-07-10T20:24:37.368420+00:00",
   "factor_reports": {
     "factor_a": [
       {
@@ -2470,8 +2478,9 @@
     "count": 8,
     "exact_order_match": true,
     "factors_match": true,
-    "limitation": "referent IDs and generative factors match exactly, but native-resolution renders are not the same pixel tensor and old runs lack input hashes",
-    "pixel_bytes_verified_across_caches": false,
+    "learned_control_pixel_bytes_verified_per_native_resolution": true,
+    "limitation": "learned/control pairs are bound to exact resolution-specific tensors; 256px and 384px native-resolution tensors necessarily differ and are not cross-resolution byte-identical",
+    "pixel_bytes_verified_across_caches": true,
     "referent_sha256": "c8bda04e164450cf36e3b904d133b69c40409f7ccdc6b42e90968045b5fe337c",
     "splits_match": true
   },
@@ -2483,5 +2492,91 @@
     43,
     59,
     71
-  ]
+  ],
+  "stimulus_identity_receipt": {
+    "claim_boundary": {
+      "scientific_promotion": false,
+      "statement": "input-identity and cache-integrity mechanics only; no capability claim"
+    },
+    "file": {
+      "bytes": 4861,
+      "exists": true,
+      "path": "proof/FACTORIZED_STIMULUS_IDENTITY.json",
+      "sha256": "d53bbc358ff1639d2237bc3778e3faad69d34b21786f12279182ce8083ccafcc"
+    },
+    "validation": {
+      "accepted": true,
+      "claim_boundary": "stimulus/cache identity mechanics only; capability promotion remains false",
+      "control_bindings": {
+        "vit_g_random_s0": {
+          "bound": true,
+          "cache": "vjepa2_vitg_local8_random_s0",
+          "resolution": 384
+        },
+        "vit_g_random_s1": {
+          "bound": true,
+          "cache": "vjepa2_vitg_local8_random_s1",
+          "resolution": 384
+        },
+        "vit_g_random_s2": {
+          "bound": true,
+          "cache": "vjepa2_vitg_local8_random_s2",
+          "resolution": 384
+        },
+        "vit_h_random_s0": {
+          "bound": true,
+          "cache": "vjepa2_vith_local8_random_s0",
+          "resolution": 256
+        },
+        "vit_h_random_s1": {
+          "bound": true,
+          "cache": "vjepa2_vith_local8_random_s1",
+          "resolution": 256
+        },
+        "vit_h_random_s2": {
+          "bound": true,
+          "cache": "vjepa2_vith_local8_random_s2",
+          "resolution": 256
+        },
+        "vit_l_random_s0": {
+          "bound": true,
+          "cache": "vjepa2_vitl_local8_random_s0",
+          "resolution": 256
+        },
+        "vit_l_random_s1": {
+          "bound": true,
+          "cache": "vjepa2_vitl_local8_random_s1",
+          "resolution": 256
+        },
+        "vit_l_random_s2": {
+          "bound": true,
+          "cache": "vjepa2_vitl_local8_random_s2",
+          "resolution": 256
+        }
+      },
+      "learned_bindings": {
+        "vit_g": {
+          "bound": true,
+          "cache": "vjepa2_vitg_local8_citable",
+          "resolution": 384
+        },
+        "vit_h": {
+          "bound": true,
+          "cache": "vjepa2_vith_local8_citable",
+          "resolution": 256
+        },
+        "vit_l": {
+          "bound": true,
+          "cache": "vjepa2_vitl_local8_citable",
+          "resolution": 256
+        }
+      },
+      "problems": [],
+      "resolutions": [
+        256,
+        384
+      ],
+      "schema": "mop-factorized-stimulus-identity/v1"
+    }
+  }
 }

@@ -1,7 +1,15 @@
+import copy
+from pathlib import Path
+
 import pytest
 import torch
 
-from mop.studies.vjepa_scale_atlas import _control_matches, frozen_split_probe, validate_shared_referents
+from mop.studies.vjepa_scale_atlas import (
+    _control_matches,
+    frozen_split_probe,
+    validate_factorized_stimulus_identity,
+    validate_shared_referents,
+)
 
 
 def _row(referents=("a", "b")):
@@ -103,3 +111,87 @@ def test_old_cache_without_input_hash_cannot_claim_byte_matched_stimuli():
     assert match["architecture_exact"] is True
     assert match["stimulus_hash_exact"] is False
     assert "predate" in match["stimulus_hash_limitation"]
+
+
+def _identity_fixture():
+    clip_hashes = ["b" * 64, "c" * 64]
+    learned = _control_row(objective="inherited-frozen")
+    learned.update(
+        {
+            "path": Path("/tmp/learned_cache"),
+            "latents": torch.zeros(2, 4),
+            "referents": ["r0", "r1"],
+            "factors_metadata": {"seed": 0},
+        }
+    )
+    learned["manifest"]["encoder_config"]["name"] = "fixture_encoder"
+    random = _control_row(objective="random-control", seed=7)
+    random.update(
+        {
+            "path": Path("/tmp/random_cache"),
+            "latents": torch.zeros(2, 4),
+            "referents": ["r0", "r1"],
+            "factors_metadata": {"seed": 0},
+            "run_receipt": {
+                "stimulus": {
+                    "records": [
+                        {"referent": referent, "sha256": digest}
+                        for referent, digest in zip(["r0", "r1"], clip_hashes, strict=True)
+                    ]
+                }
+            },
+        }
+    )
+    random["manifest"]["encoder_config"]["name"] = "fixture_encoder"
+    source_sha = "d" * 64
+    receipt = {
+        "schema": "mop-factorized-stimulus-identity/v1",
+        "all_ok": True,
+        "problems": [],
+        "generator_evidence": {
+            name: {
+                "identical": True,
+                "head_sha256": source_sha,
+                "current_sha256": source_sha,
+                "head_commit": "e" * 40,
+            }
+            for name in ("make_factorized_clip", "_hue_tint")
+        },
+        "regenerated_stimulus_hashes": {
+            "256": [
+                {"index": index, "sha256": digest} for index, digest in enumerate(clip_hashes)
+            ]
+        },
+        "learned_latent_rebinding": [
+            {
+                "tag": "learned",
+                "cache": "learned_cache",
+                "encoder": "fixture_encoder",
+                "resolution": 256,
+                "clip_index": 0,
+                "clip_sha256": clip_hashes[0],
+                "latent_dim": 4,
+                "bitwise_equal": True,
+                "max_abs_diff": 0.0,
+            }
+        ],
+    }
+    return {"learned": learned, "random": random}, receipt
+
+
+def test_separate_identity_receipt_fills_old_learned_hash_only_after_strict_binding():
+    rows, receipt = _identity_fixture()
+    validation = validate_factorized_stimulus_identity(rows, receipt)
+    assert validation["accepted"] is True
+    match = _control_matches(rows, validation)["learned"][0]
+    assert match["stimulus_hash_exact"] is True
+    assert match["stimulus_hash_source"] == "validated-factorized-stimulus-identity"
+
+
+def test_separate_identity_receipt_rejects_a_tampered_control_hash():
+    rows, receipt = _identity_fixture()
+    tampered = copy.deepcopy(rows)
+    tampered["random"]["run_receipt"]["stimulus"]["records"][1]["sha256"] = "f" * 64
+    validation = validate_factorized_stimulus_identity(tampered, receipt)
+    assert validation["accepted"] is False
+    assert any("random control" in problem for problem in validation["problems"])

@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 """Prove learned/control stimulus identity for the factorized local8 caches.
 
-The three learned local8 caches predate per-input stimulus hashing, so the scale atlas honestly
-refuses `matched_stimulus_hashes`. This script closes that gap with measured evidence instead of
-a rebuild:
+The three learned local8 caches predate per-input stimulus hashing. The scale-atlas builder consumes
+this receipt only after independently validating its generator, cache, resolution, rebinding, and
+random-control hashes; a failed or stale binding still refuses `matched_stimulus_hashes`. This closes
+the gap with measured evidence instead of a rebuild:
 
 1. Generator immutability: `make_factorized_clip` and `_hue_tint` are hashed in the last commit
    that touched the cache script (which predates every local8 build) and in the current working
@@ -35,7 +36,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
