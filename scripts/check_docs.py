@@ -2,8 +2,9 @@
 """Frontier 6: docs drift gate. Computes the ground truth (collected pytest test count, the
 experiment-registry size, the acceptance-check count) and scans README.md + STATUS.md for
 hardcoded claims that CONTRADICT it: an over-claimed test count, a wrong experiment count, a
-wrong acceptance ratio. Also verifies that every script path (scripts/foo.py) and make target
-(make foo) named in the docs actually exists on disk / in the Makefile.
+wrong acceptance ratio. It verifies that every script path (scripts/foo.py) and make target
+(make foo) named in the docs exists, and prevents current cold-start entrypoints from regressing
+to historical inherited-scale or presumed-hardware mandates.
 
 Tolerance is the whole point: a doc that states no number is fine, and in a suite that only
 grows, a build-log line stating an OLD (smaller) count is behind, not wrong. Only a number that
@@ -22,6 +23,43 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PY = str(ROOT / ".venv" / "bin" / "python")
 DOCS = ("README.md", "STATUS.md")
+
+# Current cold-start and execution entrypoints must not regress to the historical hardware-first
+# doctrine. Historical audits may retain exact model and machine names as evidence, but these files
+# drive new work and therefore use only measured requirement language.
+ACTIVE_HARDWARE_DOCS = (
+    "README.md",
+    "GO.md",
+    "GOLD_PROMPT.md",
+    "SCALING.md",
+    "APPLE_SILICON.md",
+    "MOP_MAXIMUM_POTENTIAL_GOAL.md",
+    "MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md",
+)
+_STALE_ACTIVE_HARDWARE = (
+    re.compile(r"\bViT-H\b"),
+    re.compile(r"\bViT-g\b"),
+    re.compile(r"\bViT-G\b"),
+    re.compile(r"(?<![A-Za-z0-9])vith(?![A-Za-z0-9])", re.I),
+    re.compile(r"(?<![A-Za-z0-9])vitg(?![A-Za-z0-9])", re.I),
+    re.compile(r"\bvit_huge\b", re.I),
+    re.compile(r"(?<![A-Za-z0-9])L/H/g(?![A-Za-z0-9])", re.I),
+    re.compile(r"(?<![A-Za-z0-9])H/g(?![A-Za-z0-9])", re.I),
+    re.compile(
+        r"\b(?:ENCODER_SCALE|REAL_ENCODER)_(?:VITH|VITG)(?:_[A-Z0-9]+)*\.json\b",
+        re.I,
+    ),
+    re.compile(r"\b(?:VJEPA_SCALE_ATLAS_LOCAL|FACTORIZED_STIMULUS_IDENTITY)\.json\b", re.I),
+    re.compile(r"\bM1 Ultra\b"),
+    re.compile(r"\bStudio-gated\b", re.I),
+    re.compile(r"\bstudio-scale\b", re.I),
+    re.compile(r"\bgpu-later\b", re.I),
+    re.compile(r"delivered Apple .*Mac Studio", re.I),
+)
+
+# Exact upstream object identity for the retained official dense ViT-B checkpoint. Its teacher
+# suffix is provenance, not a live larger-model selector, and must survive source citations.
+_VITB_PROVENANCE_TOKEN = "vjepa2_1_vitb_dist_vitG_384.pt"
 
 # Markdown ledger (Frontier 36): the COMPLETE set of markdown the project intends to keep, so stale
 # docs cannot silently regrow. canonical = doctrine (corpus + BLACKHOLE + active Studio plan);
@@ -78,6 +116,10 @@ CANONICAL_MD = (
     "FORM_SUBSTRATE_IMPLEMENTATION_PLAN.md",
     "FORM_SUBSTRATE_DEEP_EXPANSION_PLAN.md",
     "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
+    "MOP_POTENTIAL_ATLAS_2026_07.md",
+    "MOP_MAXIMUM_POTENTIAL_RESEARCH_2026_07.md",
+    "MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md",
+    "MOP_MAXIMUM_POTENTIAL_GOAL.md",
     "EXTENDED_COMPUTE_RESEARCH_PROMPT.md",
     "EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
     "EXTENDED_COMPUTE_EXECUTION_PLAN.md",
@@ -86,6 +128,12 @@ CANONICAL_MD = (
     "docs/CUSTOM_SUBSTRATE_PORTABLE_ARTIFACT.md",
     "docs/SANPO_CUSTOM_SUBSTRATE_BRIDGE.md",
     "docs/LOCAL_CEILING_RESIDUAL_AUDIT_2026_07_10.md",
+    "docs/LOCAL_EXECUTION_THROTTLE.md",
+    "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
+    "docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
+    "docs/P9_CAUSAL_MONITORING_PREFLIGHT.md",
+    "docs/COMPLETION_CLAIM_AUDIT_2026_07_10.md",
+    "docs/INDEPENDENT_REVERIFICATION_2026_07_10.md",
     "docs/LOCAL_ACTION_ENVIRONMENT.md",
     "docs/VJEPA21_LOCAL_INTEGRATION.md",
     "docs/E6_DENSE_RELATIONAL_CACHE.md",
@@ -271,6 +319,23 @@ def _markdown_ledger_problems() -> list[str]:
     return problems
 
 
+def _active_hardware_drift_problems() -> list[str]:
+    """Refuse stale inherited-scale or presumed-machine mandates in current entrypoints."""
+    problems: list[str] = []
+    for name in ACTIVE_HARDWARE_DOCS:
+        text = _read(name)
+        if not text:
+            continue
+        text = text.replace(_VITB_PROVENANCE_TOKEN, "<official-vitb-checkpoint>")
+        for pattern in _STALE_ACTIVE_HARDWARE:
+            if pattern.search(text):
+                problems.append(
+                    f"{name}: current entrypoint contains historical hardware-first phrase "
+                    f"matching {pattern.pattern!r}"
+                )
+    return problems
+
+
 def check_docs() -> list[str]:
     """Return a list of human-readable drift problems (empty == docs are consistent)."""
     problems: list[str] = []
@@ -282,6 +347,7 @@ def check_docs() -> list[str]:
     studio_subs = _studio_subcommands()
 
     problems += _markdown_ledger_problems()  # Frontier 36: stale markdown must not regrow
+    problems += _active_hardware_drift_problems()
 
     for name in DOCS:
         text = _read(name)
