@@ -21,6 +21,7 @@ from mop.falsification.integrity_scaffold import (
     EXERCISE_CASES,
     NON_ONTOLOGICAL_SCOPE,
     POISONING_CONTROLS,
+    REWRITE_STAGE_RECEIPT_SCHEMA,
     REWRITE_STAGES,
     AuthorityDeclaration,
     ConservativeRule,
@@ -53,7 +54,8 @@ from mop.falsification.integrity_scaffold import (
     verify_deletion_through_consolidation,
     verify_poisoning_resistance,
 )
-from mop.substrate.events import EventRef
+from mop.falsification.verdict_gate import truthy_top_level
+from mop.substrate.events import EventRef, canonical_sha256
 from mop.substrate.lifecycle import LifecycleJournal, MemoryRef
 
 FULL_DIGEST = "a" * 64
@@ -145,6 +147,11 @@ class TestThreatModelContract:
 
 
 class TestDefensePredicates:
+    def test_public_verdict_flag_predicate_uses_top_level_boolean_true_only(self):
+        assert truthy_top_level({"passed": True}, ("passed",))
+        assert not truthy_top_level({"nested": {"passed": True}}, ("passed",))
+        assert not truthy_top_level({"passed": 1}, ("passed",))
+
     def test_full_digest_refuses_truncation(self):
         assert predicate_full_digest({"sha256": FULL_DIGEST}) == []
         assert predicate_full_digest({"sha256": FULL_DIGEST[:12]})
@@ -327,10 +334,23 @@ class TestTransactionalRewrite:
             RewriteStageDeclaration("shadow", "entry", "abort", receipt_required=False)
 
     def _good_request(self, contract: TransactionalRewriteContract) -> dict:
+        artifacts = {
+            stage: {
+                "schema": REWRITE_STAGE_RECEIPT_SCHEMA,
+                "stage": stage,
+                "contract_sha256": contract.sha256,
+                "status": "pass",
+                "seed": 17,
+            }
+            for stage in REWRITE_STAGES
+        }
         return {
             "requested_by": contract.authority("promotion").principal,
             "executed_by": contract.authority("execution").principal,
-            "stage_receipts": {stage: FULL_DIGEST for stage in REWRITE_STAGES},
+            "stage_receipts": {
+                stage: canonical_sha256(artifact) for stage, artifact in artifacts.items()
+            },
+            "stage_artifacts": artifacts,
             "evaluator_verdicts": [
                 {"evaluator": "evaluator:a", "verdict": "pass"},
                 {"evaluator": "evaluator:b", "verdict": "pass"},
@@ -354,7 +374,21 @@ class TestTransactionalRewrite:
         contract = build_rewrite_drill_contract()
         request = self._good_request(contract)
         del request["stage_receipts"]["rollback"]
-        with pytest.raises(PromotionRefused, match="rollback"):
+        with pytest.raises(PromotionRefused, match="every stage"):
+            enforce_promotion_refusal(contract, request)
+
+    def test_forged_full_digest_without_matching_artifact_is_refused(self):
+        contract = build_rewrite_drill_contract()
+        request = self._good_request(contract)
+        request["stage_receipts"]["shadow"] = FULL_DIGEST
+        with pytest.raises(PromotionRefused, match="does not bind"):
+            enforce_promotion_refusal(contract, request)
+
+    def test_missing_stage_artifact_is_refused(self):
+        contract = build_rewrite_drill_contract()
+        request = self._good_request(contract)
+        request["stage_artifacts"].pop("shadow")
+        with pytest.raises(PromotionRefused, match="every stage"):
             enforce_promotion_refusal(contract, request)
 
     def test_truncated_stage_receipt_is_refused(self):

@@ -41,26 +41,13 @@ from ..substrate.lifecycle import (
     LifecycleOperation,
     MemoryRef,
 )
-from .verdict_gate import INDEPENDENCE_KEYS, PASS_KEYS
-
-
-def _truthy_top_level(obj: Any, keys: tuple[str, ...]) -> bool:
-    """Local re-declaration of verdict_gate's private top-level truth predicate.
-
-    Deliberate three-line duplication: verdict_gate.py's bytes are bound by existing receipt
-    hashes, so promoting its private helper to a public name is queued for the next coordinated
-    receipt-regeneration wave (docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md) instead of edited here.
-    """
-    if not isinstance(obj, dict):
-        return False
-    normalized = {str(key).strip().lower(): value for key, value in obj.items()}
-    return any(normalized.get(key) is True for key in keys)
-
+from .verdict_gate import INDEPENDENCE_KEYS, PASS_KEYS, truthy_top_level
 
 THREAT_MODEL_SCHEMA = "mop-integrity-threat-model/v1"
 THREAT_EVALUATION_SCHEMA = "mop-integrity-threat-evaluation/v1"
 MEMORY_DRILL_SCHEMA = "mop-memory-drill-contract/v1"
 REWRITE_CONTRACT_SCHEMA = "mop-transactional-rewrite-contract/v1"
+REWRITE_STAGE_RECEIPT_SCHEMA = "mop-rewrite-stage-receipt/v1"
 PROMOTION_DECISION_SCHEMA = "mop-rewrite-promotion-decision/v1"
 WELFARE_CONTRACT_SCHEMA = "mop-welfare-governance-contract/v1"
 
@@ -235,9 +222,9 @@ def predicate_verifier_flags(receipt: Mapping[str, Any]) -> list[str]:
     """Compose the verdict-gate discipline: promotion flags are top-level assertions only."""
 
     problems: list[str] = []
-    if not _truthy_top_level(dict(receipt), PASS_KEYS):
+    if not truthy_top_level(dict(receipt), PASS_KEYS):
         problems.append("verifier receipt lacks a top-level passed/all_ok/clean/ok true flag")
-    if not _truthy_top_level(dict(receipt), INDEPENDENCE_KEYS):
+    if not truthy_top_level(dict(receipt), INDEPENDENCE_KEYS):
         problems.append("verifier receipt lacks a top-level independent/adversarial true flag")
     declared_problems = receipt.get("problems")
     if declared_problems not in (None, [], ()):
@@ -914,10 +901,28 @@ def enforce_promotion_refusal(
     stage_receipts = request.get("stage_receipts")
     if not isinstance(stage_receipts, Mapping):
         raise PromotionRefused("promotion request lacks a stage receipt mapping")
+    stage_artifacts = request.get("stage_artifacts")
+    if not isinstance(stage_artifacts, Mapping):
+        raise PromotionRefused("promotion request lacks a stage artifact mapping")
+    if set(stage_receipts) != set(REWRITE_STAGES) or set(stage_artifacts) != set(REWRITE_STAGES):
+        raise PromotionRefused("stage receipt and artifact mappings must cover exactly every stage")
     for stage in REWRITE_STAGES:
         digest = stage_receipts.get(stage)
         if not isinstance(digest, str) or _SHA256_RE.fullmatch(digest) is None:
             raise PromotionRefused(f"stage {stage!r} lacks a full SHA-256 receipt digest")
+        artifact = stage_artifacts.get(stage)
+        if not isinstance(artifact, Mapping):
+            raise PromotionRefused(f"stage {stage!r} lacks an embedded receipt artifact")
+        if artifact.get("schema") != REWRITE_STAGE_RECEIPT_SCHEMA:
+            raise PromotionRefused(f"stage {stage!r} receipt artifact has the wrong schema")
+        if artifact.get("stage") != stage:
+            raise PromotionRefused(f"stage {stage!r} receipt artifact names a different stage")
+        if artifact.get("contract_sha256") != contract.sha256:
+            raise PromotionRefused(f"stage {stage!r} receipt artifact has contract identity drift")
+        if artifact.get("status") != "pass":
+            raise PromotionRefused(f"stage {stage!r} receipt artifact is not a passing receipt")
+        if canonical_sha256(dict(artifact)) != digest:
+            raise PromotionRefused(f"stage {stage!r} receipt digest does not bind its artifact")
 
     verdicts = request.get("evaluator_verdicts")
     if not isinstance(verdicts, list) or len(verdicts) < 2:
@@ -943,6 +948,9 @@ def enforce_promotion_refusal(
         "requested_by": requested_by,
         "executed_by": executed_by,
         "stage_receipts": {stage: stage_receipts[stage] for stage in REWRITE_STAGES},
+        "stage_artifacts_sha256": canonical_sha256(
+            {stage: dict(stage_artifacts[stage]) for stage in REWRITE_STAGES}
+        ),
         "evaluators": evaluators,
         "decision": "allow",
         "claim_scope": CLAIM_SCOPE,

@@ -1,0 +1,106 @@
+{
+  "adversarial": true,
+  "all_mutations_rejected": true,
+  "checks": {
+    "f59_unit_count": 6,
+    "f60_unit_count": 3,
+    "live_implementation_checked": true
+  },
+  "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+  "core_payload_sha256": "4142fd1ce8e482b241deb0509aaacb413907d6df833a178e65c1ecfde3c509a9",
+  "errors": [],
+  "fresh_seed_challenges": [
+    {
+      "all_pass": true,
+      "consolidation_pass": true,
+      "forged_artifact_refused": true,
+      "poisoning_pass": true,
+      "seed": 101,
+      "wellformed_rewrite_allowed": true
+    },
+    {
+      "all_pass": true,
+      "consolidation_pass": true,
+      "forged_artifact_refused": true,
+      "poisoning_pass": true,
+      "seed": 103,
+      "wellformed_rewrite_allowed": true
+    },
+    {
+      "all_pass": true,
+      "consolidation_pass": true,
+      "forged_artifact_refused": true,
+      "poisoning_pass": true,
+      "seed": 107,
+      "wellformed_rewrite_allowed": true
+    }
+  ],
+  "fresh_seed_count": 3,
+  "fresh_seeds_disjoint_from_primary": true,
+  "implementation": "independent raw JSON replay plus fresh-seed public-API attacks",
+  "independent": true,
+  "mutation_runner_error": null,
+  "mutation_tests": [
+    {
+      "id": "poison-chain",
+      "observed_errors": [
+        "lifecycle entry 1 digest drift",
+        "poisoning metric drift",
+        "poisoning journal digest drift",
+        "poisoning metric aggregate drift"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "rollback-target",
+      "observed_errors": [
+        "lifecycle entry 3 digest drift",
+        "poisoning rollback does not restore clean revision",
+        "poisoning metric drift",
+        "poisoning journal digest drift",
+        "poisoning metric aggregate drift"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "consolidation-token",
+      "observed_errors": [
+        "lifecycle entry 1 digest drift",
+        "consolidation metric drift",
+        "consolidation journal digest drift",
+        "consolidation metric aggregate drift"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "deletion-drop",
+      "observed_errors": [
+        "lifecycle entry 2 digest drift",
+        "consolidation operation sequence drift"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "stage-artifact",
+      "observed_errors": [
+        "f60 independent outcome drift for wellformed-request seed 17",
+        "f60 expectation drift for wellformed-request seed 17",
+        "f60 refusal reason missing at seed 17",
+        "f60 case count drift at seed 17"
+      ],
+      "rejected": true
+    },
+    {
+      "id": "rewrite-control",
+      "observed_errors": [
+        "f60 control coverage drift at seed 17"
+      ],
+      "rejected": true
+    }
+  ],
+  "payload_sha256_verified": true,
+  "receipt_file_sha256": "fbf5124b254b1ef2f21533326c527dec437c07b241d508687f01031d38850c21",
+  "receipt_payload_sha256": "eee75ac9b93bc5210aa447adf63f44d034986e8d4e0fcaccc2fed3f2cd35684a",
+  "schema": "mop-integrity-scaffold-independent-verifier/v1",
+  "verified": true
+}

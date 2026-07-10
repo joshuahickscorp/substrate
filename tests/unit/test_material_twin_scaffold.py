@@ -254,7 +254,7 @@ def test_damage_repair_rejects_control_drift() -> None:
                 "repair_time",
                 "restored_function",
                 "future_plasticity",
-                "energy",
+                "repair_energy",
                 "topology_change",
             ),
             selective_lesion_required=True,
@@ -271,7 +271,7 @@ def test_damage_repair_requires_selective_lesion() -> None:
                 "repair_time",
                 "restored_function",
                 "future_plasticity",
-                "energy",
+                "repair_energy",
                 "topology_change",
             ),
             selective_lesion_required=False,
@@ -308,6 +308,13 @@ def test_selective_lesion_delta_refuses_diffuse_lesion() -> None:
         selective_lesion_delta(twin, diffuse)
 
 
+def test_damage_rejects_fraction_that_does_not_match_selected_units() -> None:
+    twin = LeakyEchoStateReservoir(units=8, seed=0)
+    inconsistent = LesionSpec(unit_indices=(0,), fraction=0.5, seed=0, selective=True)
+    with pytest.raises(ValueError, match="fraction"):
+        twin.apply_damage(inconsistent)
+
+
 @pytest.mark.parametrize("policy", REPAIR_POLICIES)
 def test_repair_policies_run(policy: str) -> None:
     twin = LeakyEchoStateReservoir(units=8, seed=1)
@@ -335,7 +342,7 @@ def test_drift_contract_valid_and_fails_closed() -> None:
         drift_model="multiplicative parameter decay",
         adaptation_policy="periodic readout refit",
         controls=("no-adapt", "oracle-reset", "full-retraining"),
-        metrics=("drift_rate", "adaptation_lag", "retained_function", "energy"),
+        metrics=("drift_rate", "adaptation_lag", "retained_function", "adaptation_energy"),
     )
     assert ok.payload()["drift_model"]
     with pytest.raises(ValueError):
@@ -344,7 +351,7 @@ def test_drift_contract_valid_and_fails_closed() -> None:
             drift_model="",
             adaptation_policy="x",
             controls=("no-adapt", "oracle-reset", "full-retraining"),
-            metrics=("drift_rate", "adaptation_lag", "retained_function", "energy"),
+            metrics=("drift_rate", "adaptation_lag", "retained_function", "adaptation_energy"),
         )
 
 

@@ -1,0 +1,2044 @@
+{
+  "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+  "core_payload_sha256": "283ecb84fc8735df439fe9ef7849390f1f1efd6a71213b0bd72a9a4d4b5a9f3d",
+  "difficulty_calibration": {
+    "calibrated": true,
+    "ceilinged_tie_promoted": false,
+    "f61_nontrivial_control_rejections": true,
+    "f62_ceilinged": false,
+    "f62_score_max": 0.9564010432071173,
+    "f62_score_min": 0.4716299989251029,
+    "f63_calibrated": true,
+    "f63_control_separation": 0.022001603951088522,
+    "f64_calibrated": true,
+    "f64_damage_delta_min": 0.5659783403655948,
+    "f64_fixed_final_separation_min": 0.08405081441385154
+  },
+  "evidence_class": "deterministic programmatic pilot over toy numpy priors",
+  "f61": {
+    "experiment_id": "f61_physical_reservoir_digital_twin",
+    "interface_contract": {
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "interface_digest": "942b4cce21d8277c4f2866eda8e4a894f8d8c930303146e77a56a7c581bfd65b",
+      "required_methods": [
+        "reset",
+        "excite",
+        "evolve",
+        "readout",
+        "adapt",
+        "apply_drift",
+        "apply_damage",
+        "repair",
+        "energy",
+        "lineage"
+      ],
+      "schema": "mop-material-twin/v1"
+    },
+    "interface_contract_sha256": "942b4cce21d8277c4f2866eda8e4a894f8d8c930303146e77a56a7c581bfd65b",
+    "null_hypothesis": "a common interface or deterministic accounting fails for a toy prior",
+    "promotion": false,
+    "result": "programmatic-mechanics-pass",
+    "units": [
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          0.00444505235075469,
+          0.017795706176342883,
+          0.042066658366461084,
+          0.07900868034813832
+        ],
+        "lineage": {
+          "head_digest": "1a39ad4815aaf4c50cbf1c2c53a8df2c11ea194e14750bf3449d02b9d02fefe5",
+          "ops": [
+            "reset:seed=19",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "f2d26c681a6e12dd506fe13c5eda5a22aaf39f35d0d601e7dbaf04a5fd69e868",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "leaky-echo-state-reservoir",
+        "readout": [
+          -0.04633293226382652,
+          -0.038503537396148875,
+          -0.02798660903085979,
+          -0.07293569943388055,
+          0.03704991070455773,
+          -0.020978494878705976,
+          0.09750943093531758,
+          0.11676866850003145,
+          -0.02839528507095413,
+          -0.015222290994027603,
+          0.034343057236727384,
+          -0.006052462938067131
+        ],
+        "readout_sha256": "af0a3985c08f36b6926830c454411e1f65bcac409017f27659cc93b8064032a0",
+        "seed": 19
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          0.10707445510771041,
+          0.4539956896566921,
+          1.0914741655859568,
+          2.024553518028898
+        ],
+        "lineage": {
+          "head_digest": "1a39ad4815aaf4c50cbf1c2c53a8df2c11ea194e14750bf3449d02b9d02fefe5",
+          "ops": [
+            "reset:seed=19",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "f2d26c681a6e12dd506fe13c5eda5a22aaf39f35d0d601e7dbaf04a5fd69e868",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "decaying-conductance-map",
+        "readout": [
+          0.08708425717868919,
+          0.6024905462476442,
+          0.1415892022342017,
+          0.05926584719188759,
+          0.46594516595199864,
+          0.03546662136385652,
+          0.13057933927573495,
+          0.25368290197199306,
+          0.10841301462030076,
+          0.2376371900820478,
+          0.1373184284998401,
+          0.3899884091683522
+        ],
+        "readout_sha256": "c2da06f29e6bb5c7ff50ef9a64719f6cbc5bd602700ef93c3a743ac5ed9492fa",
+        "seed": 19
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          161.44897445498515,
+          331.3694168546076,
+          510.03260949850477,
+          697.7104757555651
+        ],
+        "lineage": {
+          "head_digest": "1a39ad4815aaf4c50cbf1c2c53a8df2c11ea194e14750bf3449d02b9d02fefe5",
+          "ops": [
+            "reset:seed=19",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "f2d26c681a6e12dd506fe13c5eda5a22aaf39f35d0d601e7dbaf04a5fd69e868",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "oscillator-bank",
+        "readout": [
+          2.934686465511641,
+          4.436120746873863,
+          4.782970268345145,
+          4.112987981074222,
+          3.0210115375281603,
+          3.260603950324296,
+          4.570950663843262,
+          6.169335727034075,
+          0.6261510756041917,
+          1.132192355157241,
+          5.355690335243362,
+          3.243941094494624
+        ],
+        "readout_sha256": "678a8477649f8bf768167fa2f1666cda48be858278a852e4e29a2b6f4ebe2ede",
+        "seed": 19
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          0.002529420205164535,
+          0.00915973282133242,
+          0.01970071953644675,
+          0.03367005266138286
+        ],
+        "lineage": {
+          "head_digest": "5ee3a86fc45c19f5a7c5818bc84a22a0324fccf463ff7192a30ecda72347db67",
+          "ops": [
+            "reset:seed=41",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "ed2522d1f4f22853405f299ec607bf52dd2367849036db331fc445b0c6d06b57",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "leaky-echo-state-reservoir",
+        "readout": [
+          0.017903984011843666,
+          0.0430037101483669,
+          0.03768087084976017,
+          -0.005325094389593813,
+          0.03814788473957721,
+          0.04661921225723764,
+          0.04658809891569826,
+          -0.013856345978259226,
+          0.04498587334491058,
+          0.03287713226233486,
+          0.024807475379976143,
+          -0.02530118434966127
+        ],
+        "readout_sha256": "db2e1bf810b8d95ff2b1c68f81be8db86b0863914bb54aadbb0932bc9829402b",
+        "seed": 41
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          0.02086885090112436,
+          0.08848392782076729,
+          0.2127287185457013,
+          0.3945862294287729
+        ],
+        "lineage": {
+          "head_digest": "5ee3a86fc45c19f5a7c5818bc84a22a0324fccf463ff7192a30ecda72347db67",
+          "ops": [
+            "reset:seed=41",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "ed2522d1f4f22853405f299ec607bf52dd2367849036db331fc445b0c6d06b57",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "decaying-conductance-map",
+        "readout": [
+          0.008449801892703576,
+          0.0037599153914362176,
+          0.047520929921604546,
+          0.05173600148925405,
+          0.17260467365003718,
+          0.04698095801170769,
+          0.015831591673624766,
+          0.08378635546071078,
+          0.1471780059886156,
+          0.13339518119016874,
+          0.19417429411619785,
+          0.24577926965404445
+        ],
+        "readout_sha256": "26ca9045a4ad20ab70481e8060147168d49a87feb452c6da699132590573e1ca",
+        "seed": 41
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          172.20919269970415,
+          312.87606080620685,
+          461.55962623319067,
+          578.0651941023351
+        ],
+        "lineage": {
+          "head_digest": "5ee3a86fc45c19f5a7c5818bc84a22a0324fccf463ff7192a30ecda72347db67",
+          "ops": [
+            "reset:seed=41",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "ed2522d1f4f22853405f299ec607bf52dd2367849036db331fc445b0c6d06b57",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "oscillator-bank",
+        "readout": [
+          2.705980079011843,
+          3.206063990047665,
+          3.987499282903949,
+          0.380982027670506,
+          0.08283005453117731,
+          0.7069548591534256,
+          5.213377298521951,
+          1.4295231753790154,
+          2.086814082215259,
+          4.121772891201868,
+          5.397635692361911,
+          1.6282918448318582
+        ],
+        "readout_sha256": "a722099637a7b55591f2eded2ed1654b357acf4013a493ce612a470bee3d65bf",
+        "seed": 41
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          0.010454930280520417,
+          0.04014000328218424,
+          0.08964649550106692,
+          0.15735574695451332
+        ],
+        "lineage": {
+          "head_digest": "fe89de6ae9ea655cc1fb898bddeeeaa0a3069d6c1f35dc6b06e777694ded0356",
+          "ops": [
+            "reset:seed=73",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "46b4315d30b48c9bd48a0d8fc4be6a1ef591a27da838e5e1b88e3a18b275940a",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "leaky-echo-state-reservoir",
+        "readout": [
+          -0.08592258837832718,
+          -0.0752355931827441,
+          0.03465257008431446,
+          0.008921120842003475,
+          -0.021679280667823035,
+          0.050685601675614964,
+          -0.051355562664550485,
+          0.01304627229316096,
+          0.027662984111714056,
+          0.07271503540298603,
+          0.1193379021072733,
+          0.1650603112801767
+        ],
+        "readout_sha256": "c5dbe0b17eb726fa06a74c0bc1ba5c2b9c8ed59beed1a53d8de029906fc53feb",
+        "seed": 73
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          0.08475864834345992,
+          0.3593766689762701,
+          0.8639957577538931,
+          1.6026083860478995
+        ],
+        "lineage": {
+          "head_digest": "fe89de6ae9ea655cc1fb898bddeeeaa0a3069d6c1f35dc6b06e777694ded0356",
+          "ops": [
+            "reset:seed=73",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "46b4315d30b48c9bd48a0d8fc4be6a1ef591a27da838e5e1b88e3a18b275940a",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "decaying-conductance-map",
+        "readout": [
+          0.04906552369343482,
+          0.2730454418786559,
+          0.044821854529430216,
+          0.028112446830308002,
+          0.14087318469967997,
+          0.2863366423904323,
+          0.4178557201887013,
+          0.11856466196587745,
+          0.3240679800920842,
+          0.3487868290143884,
+          0.2885105253296629,
+          0.24175719449999666
+        ],
+        "readout_sha256": "156bde37460d9502b4c2dbfc5fb83f47d3c2b8a0ee9b192eb3f05a317bf604d4",
+        "seed": 73
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "random-reservoir-arm": true,
+          "shape-mismatch-reject": true,
+          "tampered-lineage-reject": true
+        },
+        "energy_trace": [
+          0.0,
+          127.7971766132834,
+          261.91721215088427,
+          362.5079727458919,
+          468.1828089965712
+        ],
+        "lineage": {
+          "head_digest": "fe89de6ae9ea655cc1fb898bddeeeaa0a3069d6c1f35dc6b06e777694ded0356",
+          "ops": [
+            "reset:seed=73",
+            "excite",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "evolve:1",
+            "readout"
+          ],
+          "schema": "mop-material-twin/v1"
+        },
+        "lineage_sha256": "46b4315d30b48c9bd48a0d8fc4be6a1ef591a27da838e5e1b88e3a18b275940a",
+        "metrics": {
+          "energy_accounting_monotonicity": 1.0,
+          "interface_conformance_rate": 1.0,
+          "lineage_digest_stability": 1.0,
+          "seed_reproducibility_rate": 1.0
+        },
+        "prior": "oscillator-bank",
+        "readout": [
+          3.248117508796871,
+          5.0042162750533405,
+          1.041786391314377,
+          1.7190506557486458,
+          5.137406498802869,
+          2.2408638265739147,
+          5.597683929665686,
+          0.9881120110515724,
+          0.18723901398290732,
+          0.601198410245245,
+          1.1965555917736255,
+          0.6991738861008558
+        ],
+        "readout_sha256": "2ec4461814d52d542e75dd9c4b25735e017f34dec00976121436d0ab46c85e38",
+        "seed": 73
+      }
+    ]
+  },
+  "f62": {
+    "contract": {
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "controls": [
+        "associative-memory",
+        "fourier-features",
+        "random-reservoir",
+        "state-space-model",
+        "tuned-rnn"
+      ],
+      "matched_cost_required": true,
+      "replication_min": 3,
+      "retain_only": [
+        "cross-task-future-learnability",
+        "capability-density"
+      ],
+      "schema": "mop-material-twin/v1"
+    },
+    "control_declarations": {
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "declarations": [
+        {
+          "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+          "family": "associative-memory",
+          "id": "ctrl.associative_memory",
+          "matched": {
+            "flops": 4096,
+            "memory_bytes": 8192,
+            "params": 144,
+            "update_steps": 200
+          },
+          "rationale": "tuned associative-memory matched to the toy prior full-system budget",
+          "tuned": true
+        },
+        {
+          "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+          "family": "fourier-features",
+          "id": "ctrl.fourier_features",
+          "matched": {
+            "flops": 4096,
+            "memory_bytes": 8192,
+            "params": 144,
+            "update_steps": 200
+          },
+          "rationale": "tuned fourier-features matched to the toy prior full-system budget",
+          "tuned": true
+        },
+        {
+          "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+          "family": "random-reservoir",
+          "id": "ctrl.random_reservoir",
+          "matched": {
+            "flops": 4096,
+            "memory_bytes": 8192,
+            "params": 144,
+            "update_steps": 200
+          },
+          "rationale": "tuned random-reservoir matched to the toy prior full-system budget",
+          "tuned": true
+        },
+        {
+          "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+          "family": "state-space-model",
+          "id": "ctrl.state_space_model",
+          "matched": {
+            "flops": 4096,
+            "memory_bytes": 8192,
+            "params": 144,
+            "update_steps": 200
+          },
+          "rationale": "tuned state-space-model matched to the toy prior full-system budget",
+          "tuned": true
+        },
+        {
+          "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+          "family": "tuned-rnn",
+          "id": "ctrl.tuned_rnn",
+          "matched": {
+            "flops": 4096,
+            "memory_bytes": 8192,
+            "params": 144,
+            "update_steps": 200
+          },
+          "rationale": "tuned tuned-rnn matched to the toy prior full-system budget",
+          "tuned": true
+        }
+      ],
+      "schema": "mop-material-twin/v1"
+    },
+    "experiment_id": "f62_material_native_dynamics_value",
+    "null_hypothesis": "no toy material prior beats every tuned matched-budget conventional control by the SESOI",
+    "promotion": false,
+    "replicated_native_dynamics_win": false,
+    "result": "null",
+    "strongest_control": "fourier-features",
+    "units": [
+      {
+        "best_control": "fourier-features",
+        "best_control_score": 0.9564010432071173,
+        "best_material": "leaky-echo-state-reservoir",
+        "best_material_score": 0.7171416536437927,
+        "control_arms": [
+          {
+            "arm": "associative-memory",
+            "chosen_tuning_value": 2.0,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "8f50b51ea061bff846e15fa297e37dbc81cf8f2623b59b14a6688dc045b56eef",
+            "score": 0.9560081091748056
+          },
+          {
+            "arm": "fourier-features",
+            "chosen_tuning_value": 0.75,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "c6c9e67ccde021dfee41322eb6c5f367913a4e3aacbbdba5f1db8e3ae69c445c",
+            "score": 0.9564010432071173
+          },
+          {
+            "arm": "random-reservoir",
+            "chosen_tuning_value": 0.4,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "2e123dcd800a3d9fa2aa8c77a3daf865e7e133fe8d7c12d9799450beb762174b",
+            "score": 0.7675256957149358
+          },
+          {
+            "arm": "state-space-model",
+            "chosen_tuning_value": 0.45,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "4e87e6927b92e2e94d3dc7e3927f1bac8f77fc7295043f959ad125e0cfbba0eb",
+            "score": 0.7333239076928187
+          },
+          {
+            "arm": "tuned-rnn",
+            "chosen_tuning_value": 0.35,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "256387500b0102c72b982981a100c0d954d54c944b35f88c05467e9800eb322a",
+            "score": 0.7831444118449794
+          }
+        ],
+        "material_arms": [
+          {
+            "arm": "leaky-echo-state-reservoir",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "b9011e30bf3d3e11f4604836ba3a8290a8f6a76692877d74ee667f298cf1762b",
+            "score": 0.7171416536437927
+          },
+          {
+            "arm": "decaying-conductance-map",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "1dd18e504a34a24e5c680b4b82ce43ca5300aeab64653bb2088380e860f650e9",
+            "score": 0.4964590785231675
+          },
+          {
+            "arm": "oscillator-bank",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "1286b366837093c78cea568401c78172f4face8f942588df13954851c3e733ae",
+            "score": 0.4716299989251029
+          }
+        ],
+        "native_dynamics_win": false,
+        "retained_win_margin": -0.2392593895633246,
+        "score_ceilinged": false,
+        "seed": 19,
+        "task": "noisy held-out nonlinear scalar regression",
+        "test_target_sha256": "b399f003d8498d1b4a7855fb01e5519a6200856f36a358168a4e403a007fe4dd",
+        "tie_or_below_sesoi": true,
+        "train_target_sha256": "3ac6df408a9b72e0c3610d4ad08fc4fd156d70000ad7bb38e7a1a9f826e29118"
+      },
+      {
+        "best_control": "associative-memory",
+        "best_control_score": 0.9495411665140987,
+        "best_material": "leaky-echo-state-reservoir",
+        "best_material_score": 0.8050591382372871,
+        "control_arms": [
+          {
+            "arm": "associative-memory",
+            "chosen_tuning_value": 9.0,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "51b1572a4026887f6ea16ab4b55bd6c31672a55c36d31f43428da80d0ff62818",
+            "score": 0.9495411665140987
+          },
+          {
+            "arm": "fourier-features",
+            "chosen_tuning_value": 1.0,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "ec38383a5764389ffdcec72d90909bcff56151671d54d898880f08e05e13d1e9",
+            "score": 0.9472297778728491
+          },
+          {
+            "arm": "random-reservoir",
+            "chosen_tuning_value": 0.4,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "9404ebaf8a09cc49e0e632931cfe67efaa101331ba9aa6f62a0a36a95dbbd92d",
+            "score": 0.8134552004530995
+          },
+          {
+            "arm": "state-space-model",
+            "chosen_tuning_value": 0.45,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "715aa56a6cae1c97209c265996cfd41229dc696c787972896546e0115cea2d8b",
+            "score": 0.7467154616600765
+          },
+          {
+            "arm": "tuned-rnn",
+            "chosen_tuning_value": 0.35,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "c050ab2aab234b4905fef96fd5674b7ddb13c10f3bb9bd95ad5e70e35fbe6053",
+            "score": 0.8455543890078743
+          }
+        ],
+        "material_arms": [
+          {
+            "arm": "leaky-echo-state-reservoir",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "220a231b1bd63af4e430abc986d100c9c6ab1cce47c1ca61a3dfbfe059bfcf33",
+            "score": 0.8050591382372871
+          },
+          {
+            "arm": "decaying-conductance-map",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "37e8bd6053b4ebd53242b3b90515bee76eed080f6d4681c635d06cfec04c70d5",
+            "score": 0.5019322288502727
+          },
+          {
+            "arm": "oscillator-bank",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "a519ef6397976601a8b69a2af8000f061fa2cc7b71c839b0e81f46cd28955692",
+            "score": 0.49790798866988734
+          }
+        ],
+        "native_dynamics_win": false,
+        "retained_win_margin": -0.14448202827681156,
+        "score_ceilinged": false,
+        "seed": 41,
+        "task": "noisy held-out nonlinear scalar regression",
+        "test_target_sha256": "8a22ca7100f1b7dbc0e1fe4613bd5f42ce9debc54070fc55276a69dabdce33b8",
+        "tie_or_below_sesoi": true,
+        "train_target_sha256": "24237b72403a953acb97c75e7571c7e4165f36091f7f5690302988baa457f75f"
+      },
+      {
+        "best_control": "associative-memory",
+        "best_control_score": 0.9307023039116321,
+        "best_material": "leaky-echo-state-reservoir",
+        "best_material_score": 0.7356944929657768,
+        "control_arms": [
+          {
+            "arm": "associative-memory",
+            "chosen_tuning_value": 5.0,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "9ebc312f537c535ec5b640aa1edf4bb4cd17e50cc74554eb87cb1ee38a577d83",
+            "score": 0.9307023039116321
+          },
+          {
+            "arm": "fourier-features",
+            "chosen_tuning_value": 0.75,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "b8ff0791d71b66ac7c0b636049e569f9a2b0de14705eb833661e7946cada8450",
+            "score": 0.9290817277007696
+          },
+          {
+            "arm": "random-reservoir",
+            "chosen_tuning_value": 0.4,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "a5468d90c86f1311a6754aeb9cb061cd39c5d3f5561f86dafb8d93c1de206efe",
+            "score": 0.7890784160721782
+          },
+          {
+            "arm": "state-space-model",
+            "chosen_tuning_value": 0.7,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "0787a9d1f67013ef4720305a70da3c899637b9e306d510f7da6f1ac760a629d5",
+            "score": 0.6214423501464663
+          },
+          {
+            "arm": "tuned-rnn",
+            "chosen_tuning_value": 0.35,
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "6c029f7257a395272a1f783f63d521db8dca851f58dec4fadb7ccaedd9004672",
+            "score": 0.7889905618609312
+          }
+        ],
+        "material_arms": [
+          {
+            "arm": "leaky-echo-state-reservoir",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "b288b5aecd9fd8744284ccff8944ab6106292060c94d83f70cc79cb6f0979330",
+            "score": 0.7356944929657768
+          },
+          {
+            "arm": "decaying-conductance-map",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "b00a4583462656899094b082d3cfaa49c90ebbfe1f457a4fef083ed795fe5512",
+            "score": 0.4959107846524162
+          },
+          {
+            "arm": "oscillator-bank",
+            "matched_budget": {
+              "flops_per_example": 144,
+              "memory_bytes": 96,
+              "params": 12,
+              "update_steps": 72
+            },
+            "prediction_sha256": "ef2fce9df152f543cd4c79ddc4c8f6c2f7120b81397bd5a42a6d0e108ec56e76",
+            "score": 0.5120401199398764
+          }
+        ],
+        "native_dynamics_win": false,
+        "retained_win_margin": -0.1950078109458553,
+        "score_ceilinged": false,
+        "seed": 73,
+        "task": "noisy held-out nonlinear scalar regression",
+        "test_target_sha256": "5e4b268191d2c3d5eafc3f8e3dc5a2019aaa7f93922c68a76df8b8325a56981b",
+        "tie_or_below_sesoi": true,
+        "train_target_sha256": "8dc0e9b96543d8f71dc853eb3f2fd6fee515953a32842c123e56edf9eb964b41"
+      }
+    ]
+  },
+  "f63": {
+    "contract": {
+      "adaptation_policy": "one-step linear readout refit",
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "controls": [
+        "no-adapt",
+        "oracle-reset",
+        "full-retraining"
+      ],
+      "drift_model": "multiplicative parameter decay over 200 epochs",
+      "metrics": [
+        "drift_rate",
+        "adaptation_lag",
+        "retained_function",
+        "adaptation_energy"
+      ],
+      "schema": "mop-material-twin/v1"
+    },
+    "experiment_id": "f63_drift_and_aging_adaptation",
+    "null_hypothesis": "one-step adaptation does not clear the SESOI over no-adapt at lower declared energy than full retraining",
+    "promotion": false,
+    "replicated_adaptation_success": true,
+    "result": "favorable-programmatic-pilot",
+    "units": [
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9824777708616623,
+          "full-retraining": 0.9824777708616623,
+          "no-adapt": 0.9266809727530037,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.055796798108658674,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9824777708616623
+        },
+        "novel_input_sha256": "4ea1e7ec18d0888f13ea67f355911a0dadd98ce06b12b66aae5bc22d73a9cfbf",
+        "prior": "leaky-echo-state-reservoir",
+        "reference_sha256": "99a3ca02f1e0b1be647eb311be69c1a7dc51c2e4b8ac71fb8f4c0d999dd5e37f",
+        "seed": 19
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9692660458407693,
+          "full-retraining": 0.9692660458407693,
+          "no-adapt": 0.13397967485861517,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.8352863709821541,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9692660458407693
+        },
+        "novel_input_sha256": "4ea1e7ec18d0888f13ea67f355911a0dadd98ce06b12b66aae5bc22d73a9cfbf",
+        "prior": "decaying-conductance-map",
+        "reference_sha256": "a32bdcd3af98d03e1cb224582995731c72d417a9d14bb9b1e8a18bf8343df271",
+        "seed": 19
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9999944532373465,
+          "full-retraining": 0.9999944532373465,
+          "no-adapt": 0.977992849286258,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.022001603951088522,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9999944532373465
+        },
+        "novel_input_sha256": "4ea1e7ec18d0888f13ea67f355911a0dadd98ce06b12b66aae5bc22d73a9cfbf",
+        "prior": "oscillator-bank",
+        "reference_sha256": "d0bd77d5a44bbcf45f15757f96dffeb979c262db8ca5453a0fe3389542c763b2",
+        "seed": 19
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9931347188167954,
+          "full-retraining": 0.9931347188167954,
+          "no-adapt": 0.9398234342047931,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.053311284612002297,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9931347188167954
+        },
+        "novel_input_sha256": "715be1229c44cebdd86a1b9615fcfbd383f120276193337a56d1aef8f1d78862",
+        "prior": "leaky-echo-state-reservoir",
+        "reference_sha256": "eb170a8a57d5971f96bca940036cfaff1f2df7a124e780f87607ac62fad0388f",
+        "seed": 41
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9803991324636543,
+          "full-retraining": 0.9803991324636543,
+          "no-adapt": 0.1339796748584805,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.8464194576051738,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9803991324636543
+        },
+        "novel_input_sha256": "715be1229c44cebdd86a1b9615fcfbd383f120276193337a56d1aef8f1d78862",
+        "prior": "decaying-conductance-map",
+        "reference_sha256": "1f335ec946514b12f001dd86ea5c71d6ae85c0ffa95dbe4ef20b77d29290f18c",
+        "seed": 41
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9999910162377544,
+          "full-retraining": 0.9999910162377544,
+          "no-adapt": 0.9703655623861488,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.029625453851605643,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9999910162377544
+        },
+        "novel_input_sha256": "715be1229c44cebdd86a1b9615fcfbd383f120276193337a56d1aef8f1d78862",
+        "prior": "oscillator-bank",
+        "reference_sha256": "97b4e83ff3c986fbea377523111ec233235eddd4c44fac5dacfbc0f990bbfe38",
+        "seed": 41
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9872800848369728,
+          "full-retraining": 0.9872800848369728,
+          "no-adapt": 0.9421856337259529,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.04509445111101995,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9872800848369728
+        },
+        "novel_input_sha256": "b82ce6e115b38bd3f8fe73a61305daf3e8a321d3dd6faa78c6922a870c93614c",
+        "prior": "leaky-echo-state-reservoir",
+        "reference_sha256": "51f8c02460f71fe138ce407b114acf5b4c05df7213fb79a062c029c9ba1ff84a",
+        "seed": 73
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9539510422047904,
+          "full-retraining": 0.9539510422047904,
+          "no-adapt": 0.13397967485876805,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.8199713673460224,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9539510422047904
+        },
+        "novel_input_sha256": "b82ce6e115b38bd3f8fe73a61305daf3e8a321d3dd6faa78c6922a870c93614c",
+        "prior": "decaying-conductance-map",
+        "reference_sha256": "7964b78198d9e3a52a485e8d5246bb57de5f87124162ecc00c915cd87ae0de81",
+        "seed": 73
+      },
+      {
+        "adaptation_success": true,
+        "controls": {
+          "adaptation": 0.9999901974810825,
+          "full-retraining": 0.9999901974810825,
+          "no-adapt": 0.973578112889302,
+          "oracle-reset": 1.0
+        },
+        "drift_epochs": 200,
+        "energy_controls": {
+          "adaptation": 1.0,
+          "full-retraining": 20.0,
+          "oracle-reset": 4.0
+        },
+        "margin_over_no_adapt": 0.02641208459178057,
+        "metrics": {
+          "adaptation_energy": 1.0,
+          "adaptation_lag": 1.0,
+          "drift_rate": 0.005,
+          "retained_function": 0.9999901974810825
+        },
+        "novel_input_sha256": "b82ce6e115b38bd3f8fe73a61305daf3e8a321d3dd6faa78c6922a870c93614c",
+        "prior": "oscillator-bank",
+        "reference_sha256": "aaf43bd5f2dde553943e3a1546f280d088bf7e7b4896f842af0d44e36425accd",
+        "seed": 73
+      }
+    ]
+  },
+  "f64": {
+    "contract": {
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "controls": [
+        "fixed-final",
+        "restart",
+        "spare",
+        "random",
+        "full-retraining"
+      ],
+      "metrics": [
+        "repair_time",
+        "restored_function",
+        "future_plasticity",
+        "repair_energy",
+        "topology_change"
+      ],
+      "restoration_under_novelty_required": true,
+      "schema": "mop-material-twin/v1",
+      "selective_lesion_required": true
+    },
+    "experiment_id": "f64_damage_and_reattachment_recovery",
+    "null_hypothesis": "spare repair does not beat both fixed-final and restart by the SESOI under novel input",
+    "promotion": false,
+    "replicated_repair_success": false,
+    "result": "null",
+    "strongest_control": "restart",
+    "units": [
+      {
+        "calibration_input_sha256": "7eb578598b33be8ccc0dcb5638082b891e30201f0926779078bda4bbff0ad95b",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.26160493937284923,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "fd6e5de8ab285b6b17e094980ea05e639b56d00e9196d9cc91706898f74e5b69",
+        "policies": [
+          {
+            "damage_delta": 0.8606060796158677,
+            "future_plasticity": 0.9702498061092226,
+            "lineage_sha256": "222945f64fb49914c9be7c212fc2717cc927c8bb1c5b34f40f1c6f3e0c9c07fb",
+            "policy": "fixed-final",
+            "repair_energy": 0.08695377262247164,
+            "repair_time": 0.0,
+            "restored_function": 0.251250258009571,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.8606060796158677,
+            "future_plasticity": 0.9623123417967341,
+            "lineage_sha256": "3c40ea7c004ef68c0f53452d54b2099fb5752a912e90ee09342d0b5c62986a87",
+            "policy": "restart",
+            "repair_energy": 4.00896451207786,
+            "repair_time": 4.0,
+            "restored_function": 0.5128551973824202,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.8606060796158677,
+            "future_plasticity": 0.9623123417967341,
+            "lineage_sha256": "5275b6f240846b7ddd11f4af0e7c587cfec09af79fb52be8b1d34140d0778222",
+            "policy": "spare",
+            "repair_energy": 2.0568849365572457,
+            "repair_time": 2.0,
+            "restored_function": 0.5128551973824202,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.8606060796158677,
+            "future_plasticity": 0.9878616564354008,
+            "lineage_sha256": "ec083cda63bd6d9b9bdda04ea1c3066fecea270ffe4fe8184158dcb00e9a962a",
+            "policy": "random",
+            "repair_energy": 2.2727709904800473,
+            "repair_time": 2.0,
+            "restored_function": 0.0,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.8606060796158677,
+            "future_plasticity": 0.9764063210607397,
+            "lineage_sha256": "f31adae09b33e50708d0535b8b4ce34b8a1f42fc55ed8a50a5ffa90fb92a5500",
+            "policy": "full-retraining",
+            "repair_energy": 20.10549566818282,
+            "repair_time": 20.0,
+            "restored_function": 0.605296394354778,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "leaky-echo-state-reservoir",
+        "repair_success": false,
+        "result": "null",
+        "seed": 19,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "7eb578598b33be8ccc0dcb5638082b891e30201f0926779078bda4bbff0ad95b",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.08405081441385154,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "fd6e5de8ab285b6b17e094980ea05e639b56d00e9196d9cc91706898f74e5b69",
+        "policies": [
+          {
+            "damage_delta": 0.5659783403655948,
+            "future_plasticity": 0.998862524808321,
+            "lineage_sha256": "83735c1dd618b52f3698ae811979487c1a6c78b28562478da7d9f159202f75af",
+            "policy": "fixed-final",
+            "repair_energy": 2.6314098812412565,
+            "repair_time": 0.0,
+            "restored_function": 0.5915652439216443,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.5659783403655948,
+            "future_plasticity": 0.9981973634739906,
+            "lineage_sha256": "3c40ea7c004ef68c0f53452d54b2099fb5752a912e90ee09342d0b5c62986a87",
+            "policy": "restart",
+            "repair_energy": 4.0,
+            "repair_time": 4.0,
+            "restored_function": 0.6756160583354959,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.5659783403655948,
+            "future_plasticity": 0.9981973634739906,
+            "lineage_sha256": "d1dafeaadde6e62a98765045311052cffd930e7e2d9c3a31f7650b3ff93a7db0",
+            "policy": "spare",
+            "repair_energy": 3.2014866068414243,
+            "repair_time": 2.0,
+            "restored_function": 0.6756160583354959,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.5659783403655948,
+            "future_plasticity": 0.9982899550502622,
+            "lineage_sha256": "ca8c2a05acf67899d20bc003969c5a625d51d61ccd7bf0001ed9fb0b5707d10f",
+            "policy": "random",
+            "repair_energy": 3.3872071565727433,
+            "repair_time": 2.0,
+            "restored_function": 0.689260329500223,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.5659783403655948,
+            "future_plasticity": 0.998879757397126,
+            "lineage_sha256": "47ef6a7a2d16b9e175a03356cec21e49037a15423e1935897b8d0fb2a6590451",
+            "policy": "full-retraining",
+            "repair_energy": 22.66075306201547,
+            "repair_time": 20.0,
+            "restored_function": 0.7024906267486386,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "decaying-conductance-map",
+        "repair_success": false,
+        "result": "null",
+        "seed": 19,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "7eb578598b33be8ccc0dcb5638082b891e30201f0926779078bda4bbff0ad95b",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.12102409994400842,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "fd6e5de8ab285b6b17e094980ea05e639b56d00e9196d9cc91706898f74e5b69",
+        "policies": [
+          {
+            "damage_delta": 0.5843038739005694,
+            "future_plasticity": 0.9999918412965099,
+            "lineage_sha256": "01eb55ae5dfbcf64118e8d9c264f86795b7e199de54f51bf1b9fddbf826f0e53",
+            "policy": "fixed-final",
+            "repair_energy": 452.4802402022815,
+            "repair_time": 0.0,
+            "restored_function": 0.4196860235001396,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.5843038739005694,
+            "future_plasticity": 0.9999946822011525,
+            "lineage_sha256": "3c40ea7c004ef68c0f53452d54b2099fb5752a912e90ee09342d0b5c62986a87",
+            "policy": "restart",
+            "repair_energy": 94.41576519999262,
+            "repair_time": 4.0,
+            "restored_function": 0.540710123444148,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.5843038739005694,
+            "future_plasticity": 0.9999946822011525,
+            "lineage_sha256": "95281d24f8c5790d3d61f0f7453749d6714c35b5dc9d9e146860cf881a373564",
+            "policy": "spare",
+            "repair_energy": 700.6264158130275,
+            "repair_time": 2.0,
+            "restored_function": 0.540710123444148,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.5843038739005694,
+            "future_plasticity": 0.9994634543219155,
+            "lineage_sha256": "35dd8d2eb4cdbf7a9497f3383231e8eb1d77fc4949b490ad44b86cc84608c5ad",
+            "policy": "random",
+            "repair_energy": 199.7680120678924,
+            "repair_time": 2.0,
+            "restored_function": 0.0879867027118334,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.5843038739005694,
+            "future_plasticity": 0.9999918843493407,
+            "lineage_sha256": "c2b9a0ae253e4f3bf85100d5c935bb0242019953f30ee53906289dc6499cd0d2",
+            "policy": "full-retraining",
+            "repair_energy": 473.6879798723505,
+            "repair_time": 20.0,
+            "restored_function": 0.4677536404925957,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "oscillator-bank",
+        "repair_success": false,
+        "result": "null",
+        "seed": 19,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "7f6c576f6baa56c283c5611add8595c454678bdbbdfd2c34f034a62c1650ca05",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.2923746622822534,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "dde3f10c9e4aca050364568919fa25cbe8b7a3082cfa111da728cca48a5a14ae",
+        "policies": [
+          {
+            "damage_delta": 0.9965456698612681,
+            "future_plasticity": 0.9733682039928434,
+            "lineage_sha256": "954f3fa2333f2cd77d69fbb909f3015197b6d58116da60fb15b7f8777696b2cf",
+            "policy": "fixed-final",
+            "repair_energy": 0.09197249364619936,
+            "repair_time": 0.0,
+            "restored_function": 0.2432055880574029,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.9965456698612681,
+            "future_plasticity": 0.9870150341570073,
+            "lineage_sha256": "12df794e63528dd4e6e6f379de2c260f1000b61c351c5abf154b445de0a041e8",
+            "policy": "restart",
+            "repair_energy": 4.041329643908005,
+            "repair_time": 4.0,
+            "restored_function": 0.5355802503396563,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.9965456698612681,
+            "future_plasticity": 0.9870150341570073,
+            "lineage_sha256": "5e821ee9a3e8ecb9e25e86ada6e35fa9413784eff62a8c3090ad83a55f3db68d",
+            "policy": "spare",
+            "repair_energy": 2.174400800046445,
+            "repair_time": 2.0,
+            "restored_function": 0.5355802503396563,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.9965456698612681,
+            "future_plasticity": 0.9931438826272111,
+            "lineage_sha256": "159f09d2cb2be2cc12a22197cf81bc4778260cfb1da9c24250b741f93c0ce196",
+            "policy": "random",
+            "repair_energy": 2.516371305561312,
+            "repair_time": 2.0,
+            "restored_function": 0.0,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.9965456698612681,
+            "future_plasticity": 0.9871663192905358,
+            "lineage_sha256": "4b32891dd12b56a704cb916dfb58231ac733f37bda850a41cf7600ae50bcd320",
+            "policy": "full-retraining",
+            "repair_energy": 20.182983011166026,
+            "repair_time": 20.0,
+            "restored_function": 0.5171719304984287,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "leaky-echo-state-reservoir",
+        "repair_success": false,
+        "result": "null",
+        "seed": 41,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "7f6c576f6baa56c283c5611add8595c454678bdbbdfd2c34f034a62c1650ca05",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.32908706088395534,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "dde3f10c9e4aca050364568919fa25cbe8b7a3082cfa111da728cca48a5a14ae",
+        "policies": [
+          {
+            "damage_delta": 0.6774047037921941,
+            "future_plasticity": 0.9995010542761941,
+            "lineage_sha256": "5392ff8fedb39fc7055d8a4277e4463b4bb7b111877631ced23a9d1a21ce0aaa",
+            "policy": "fixed-final",
+            "repair_energy": 6.120364093082441,
+            "repair_time": 0.0,
+            "restored_function": 0.4207467522439452,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.6774047037921941,
+            "future_plasticity": 0.999377336706521,
+            "lineage_sha256": "12df794e63528dd4e6e6f379de2c260f1000b61c351c5abf154b445de0a041e8",
+            "policy": "restart",
+            "repair_energy": 5.1591255494266965,
+            "repair_time": 4.0,
+            "restored_function": 0.7498338131279005,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.6774047037921941,
+            "future_plasticity": 0.999377336706521,
+            "lineage_sha256": "b36aa4f7e87a3ed4588cbd1f35264b6eabb3f48ad0e4c53a27ed911ed608aa9d",
+            "policy": "spare",
+            "repair_energy": 5.4824662356724785,
+            "repair_time": 2.0,
+            "restored_function": 0.7498338131279005,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.6774047037921941,
+            "future_plasticity": 0.999425076545559,
+            "lineage_sha256": "c7851f9c4b3e00f638a59be838a9ae4347255d1690f3b7cecdac6136646287b9",
+            "policy": "random",
+            "repair_energy": 6.0316966616988195,
+            "repair_time": 2.0,
+            "restored_function": 0.7685249398796296,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.6774047037921941,
+            "future_plasticity": 0.9995829407775653,
+            "lineage_sha256": "addea806347117953d9d98874f931152fd3315d09753ac17fea3f4b3790d25e6",
+            "policy": "full-retraining",
+            "repair_energy": 26.97419518295627,
+            "repair_time": 20.0,
+            "restored_function": 0.800534730701868,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "decaying-conductance-map",
+        "repair_success": false,
+        "result": "null",
+        "seed": 41,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "7f6c576f6baa56c283c5611add8595c454678bdbbdfd2c34f034a62c1650ca05",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.5791402768736308,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "dde3f10c9e4aca050364568919fa25cbe8b7a3082cfa111da728cca48a5a14ae",
+        "policies": [
+          {
+            "damage_delta": 0.6865728822454424,
+            "future_plasticity": 0.9999874516541735,
+            "lineage_sha256": "3075610cc23c103b7e4e575bbaa960cb63ca45364f02aa26628994fc13b8084b",
+            "policy": "fixed-final",
+            "repair_energy": 288.1873145890703,
+            "repair_time": 0.0,
+            "restored_function": 0.31829935196943127,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.6865728822454424,
+            "future_plasticity": 0.999991444907973,
+            "lineage_sha256": "12df794e63528dd4e6e6f379de2c260f1000b61c351c5abf154b445de0a041e8",
+            "policy": "restart",
+            "repair_energy": 61.51023793855779,
+            "repair_time": 4.0,
+            "restored_function": 0.897439628843062,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.6865728822454424,
+            "future_plasticity": 0.999991444907973,
+            "lineage_sha256": "b076ecae6be054a501bc62c720b21cf9dd1301080739ed17d80c45b819dfd11b",
+            "policy": "spare",
+            "repair_energy": 581.1300218416311,
+            "repair_time": 2.0,
+            "restored_function": 0.897439628843062,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.6865728822454424,
+            "future_plasticity": 0.9996978230351781,
+            "lineage_sha256": "b47f7320acf4aeec3f8ad9b47bdfeca69c36ed5663c899f8e3ce36b683625479",
+            "policy": "random",
+            "repair_energy": 8.766612436193668,
+            "repair_time": 2.0,
+            "restored_function": 0.11887687842102768,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.6865728822454424,
+            "future_plasticity": 0.999987574918617,
+            "lineage_sha256": "035ec2fc727a682bb04a8a4bc5b757bd12fb256350e0914af88c1bb59ab18878",
+            "policy": "full-retraining",
+            "repair_energy": 309.6589190062931,
+            "repair_time": 20.0,
+            "restored_function": 0.37604868331141494,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "oscillator-bank",
+        "repair_success": false,
+        "result": "null",
+        "seed": 41,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "542af349eba5c599a6a44b38b084861ae938b81a76734e7a5be7952ef756f3f4",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.12730305301014577,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "be4d0b295cd787fdaedb340b4664444095f319e159b701fef3c36eee6ceefd3c",
+        "policies": [
+          {
+            "damage_delta": 0.768189937891978,
+            "future_plasticity": 0.9918285229650075,
+            "lineage_sha256": "0f952097b1530310c30aab6d5605d4ef438cac90881ab2b1a245cb5fe17fa647",
+            "policy": "fixed-final",
+            "repair_energy": 0.34220210887078006,
+            "repair_time": 0.0,
+            "restored_function": 0.5431364188016388,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.768189937891978,
+            "future_plasticity": 0.9915090052337484,
+            "lineage_sha256": "14c524dea0a8b13a416b2c1a51c1b03f203b6971c36f0348b91f9a03a7ece23b",
+            "policy": "restart",
+            "repair_energy": 4.155204542003321,
+            "repair_time": 4.0,
+            "restored_function": 0.6704394718117845,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.768189937891978,
+            "future_plasticity": 0.9915090052337484,
+            "lineage_sha256": "dc68282e44f2e09e70a3ff6038bfec401daa3847a7d7cf08c79f45bae986da63",
+            "policy": "spare",
+            "repair_energy": 2.2730253815036203,
+            "repair_time": 2.0,
+            "restored_function": 0.6704394718117845,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.768189937891978,
+            "future_plasticity": 0.9915139140129478,
+            "lineage_sha256": "c2a105a5a2ecc2d39fad24e47c0d3f146afbeded974812a1c8bec1f5f5372546",
+            "policy": "random",
+            "repair_energy": 2.321010707518284,
+            "repair_time": 2.0,
+            "restored_function": 0.409500375184916,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.768189937891978,
+            "future_plasticity": 0.992627595197456,
+            "lineage_sha256": "d9833791fbf62a2af4c98b4798457c58b05500b4946bcfdafe2122469a12fd71",
+            "policy": "full-retraining",
+            "repair_energy": 20.36880796900177,
+            "repair_time": 20.0,
+            "restored_function": 0.650715560697114,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "leaky-echo-state-reservoir",
+        "repair_success": false,
+        "result": "null",
+        "seed": 73,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "542af349eba5c599a6a44b38b084861ae938b81a76734e7a5be7952ef756f3f4",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.4768361658722674,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "be4d0b295cd787fdaedb340b4664444095f319e159b701fef3c36eee6ceefd3c",
+        "policies": [
+          {
+            "damage_delta": 0.7470707934509355,
+            "future_plasticity": 0.9995842901707923,
+            "lineage_sha256": "9b709635ccecba8a9f8ca2ec2d91168d6aed1e985ff011344dad3b6e4b6ed781",
+            "policy": "fixed-final",
+            "repair_energy": 7.290014044216262,
+            "repair_time": 0.0,
+            "restored_function": 0.32490478588899363,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.7470707934509355,
+            "future_plasticity": 0.9996408617055508,
+            "lineage_sha256": "14c524dea0a8b13a416b2c1a51c1b03f203b6971c36f0348b91f9a03a7ece23b",
+            "policy": "restart",
+            "repair_energy": 7.833190526842374,
+            "repair_time": 4.0,
+            "restored_function": 0.801740951761261,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.7470707934509355,
+            "future_plasticity": 0.9996408617055508,
+            "lineage_sha256": "fee3835a56639b26e38678b50aecb2a376b44e1e295738c6e4e2077ed5fc5caa",
+            "policy": "spare",
+            "repair_energy": 8.615036432208163,
+            "repair_time": 2.0,
+            "restored_function": 0.801740951761261,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.7470707934509355,
+            "future_plasticity": 0.9996274648702208,
+            "lineage_sha256": "949509033647aeee34ee1eac85c94ba5eed646bceb6df395263f2a009b0960d7",
+            "policy": "random",
+            "repair_energy": 8.526247827858988,
+            "repair_time": 2.0,
+            "restored_function": 0.7743564949234528,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.7470707934509355,
+            "future_plasticity": 0.9997313372742171,
+            "lineage_sha256": "2402d6e7215ee0a570bf8351fb214880933aecd167096deb34b17472e99c6c92",
+            "policy": "full-retraining",
+            "repair_energy": 30.72239364070743,
+            "repair_time": 20.0,
+            "restored_function": 0.8475194589953711,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "decaying-conductance-map",
+        "repair_success": false,
+        "result": "null",
+        "seed": 73,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      },
+      {
+        "calibration_input_sha256": "542af349eba5c599a6a44b38b084861ae938b81a76734e7a5be7952ef756f3f4",
+        "candidate_policy": "spare",
+        "inputs_are_distinct": true,
+        "margin_over_fixed_final": 0.7752086689896722,
+        "margin_over_restart": 0.0,
+        "novel_input_sha256": "be4d0b295cd787fdaedb340b4664444095f319e159b701fef3c36eee6ceefd3c",
+        "policies": [
+          {
+            "damage_delta": 0.8720736485663103,
+            "future_plasticity": 0.9999698946367174,
+            "lineage_sha256": "b48ea79ea69896ad293b69eb17368b14c5181e395f20400a3817966094b0e47d",
+            "policy": "fixed-final",
+            "repair_energy": 116.64447131446224,
+            "repair_time": 0.0,
+            "restored_function": 0.1312286643555709,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.8720736485663103,
+            "future_plasticity": 0.9999905895516543,
+            "lineage_sha256": "14c524dea0a8b13a416b2c1a51c1b03f203b6971c36f0348b91f9a03a7ece23b",
+            "policy": "restart",
+            "repair_energy": 88.22178693321757,
+            "repair_time": 4.0,
+            "restored_function": 0.9064373333452431,
+            "topology_change": 0.0
+          },
+          {
+            "damage_delta": 0.8720736485663103,
+            "future_plasticity": 0.9999905895516543,
+            "lineage_sha256": "12b0279fbf095be94c34de64d4b62be716bcf9a2625b623246984a504427da93",
+            "policy": "spare",
+            "repair_energy": 471.6741136099658,
+            "repair_time": 2.0,
+            "restored_function": 0.9064373333452431,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.8720736485663103,
+            "future_plasticity": 0.9995094020084428,
+            "lineage_sha256": "4c202e536df77219635598eeabd0c4d0466488d6d12a8ac8f45f2a9d9fee862b",
+            "policy": "random",
+            "repair_energy": 123.30363687791271,
+            "repair_time": 2.0,
+            "restored_function": 0.0982023795076663,
+            "topology_change": 1.0
+          },
+          {
+            "damage_delta": 0.8720736485663103,
+            "future_plasticity": 0.9999703918284493,
+            "lineage_sha256": "5380e1cb95d39c83d19ab9407848195a405b87a49caa39b20c7cda4063180eae",
+            "policy": "full-retraining",
+            "repair_energy": 137.68337275462937,
+            "repair_time": 20.0,
+            "restored_function": 0.19571903276530989,
+            "topology_change": 1.0
+          }
+        ],
+        "prior": "oscillator-bank",
+        "repair_success": false,
+        "result": "null",
+        "seed": 73,
+        "selective_lesion_fraction": 0.25,
+        "tie_with_restart": true
+      }
+    ]
+  },
+  "implementation": [
+    {
+      "path": "registry/experiments.yaml",
+      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+    },
+    {
+      "path": "src/mop/studies/material_twin_scaffold.py",
+      "sha256": "e368c2d9e4393403054b5815da3ad693976a25c9079c5213f163f2b77e39764c"
+    },
+    {
+      "path": "scripts/run_material_twin_batteries.py",
+      "sha256": "1b876fdbfef6218cec853af149ef5c497817dd9b237151eb8ab3435a2717a732"
+    },
+    {
+      "path": "scripts/verify_material_twin_batteries.py",
+      "sha256": "a993e557c846446fd81789b8ac9b4045eb652875571496f17d1cdae03824935f"
+    }
+  ],
+  "independent_verifier": {
+    "adversarial": true,
+    "all_mutations_rejected": true,
+    "checks": {
+      "f61_unit_count": 9,
+      "f62_unit_count": 3,
+      "f63_unit_count": 9,
+      "f64_unit_count": 9,
+      "live_implementation_checked": true
+    },
+    "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+    "core_payload_sha256": "283ecb84fc8735df439fe9ef7849390f1f1efd6a71213b0bd72a9a4d4b5a9f3d",
+    "errors": [],
+    "fresh_seed_challenges": [
+      {
+        "all_pass": true,
+        "priors": [
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.037446940257449435,
+            "f64_spare_restart_tie": true,
+            "prior": "leaky-echo-state-reservoir"
+          },
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.8090046565142858,
+            "f64_spare_restart_tie": true,
+            "prior": "decaying-conductance-map"
+          },
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.029983374634577342,
+            "f64_spare_restart_tie": true,
+            "prior": "oscillator-bank"
+          }
+        ],
+        "seed": 211
+      },
+      {
+        "all_pass": true,
+        "priors": [
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.06855154619720194,
+            "f64_spare_restart_tie": true,
+            "prior": "leaky-echo-state-reservoir"
+          },
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.8184596087248645,
+            "f64_spare_restart_tie": true,
+            "prior": "decaying-conductance-map"
+          },
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.027751485044678725,
+            "f64_spare_restart_tie": true,
+            "prior": "oscillator-bank"
+          }
+        ],
+        "seed": 223
+      },
+      {
+        "all_pass": true,
+        "priors": [
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.06270966908221409,
+            "f64_spare_restart_tie": true,
+            "prior": "leaky-echo-state-reservoir"
+          },
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.8294674601941228,
+            "f64_spare_restart_tie": true,
+            "prior": "decaying-conductance-map"
+          },
+          {
+            "all_pass": true,
+            "f61_bit_exact": true,
+            "f61_tampered_lineage_refused": true,
+            "f63_adaptation_success": true,
+            "f63_margin": 0.02185358976302132,
+            "f64_spare_restart_tie": true,
+            "prior": "oscillator-bank"
+          }
+        ],
+        "seed": 227
+      }
+    ],
+    "fresh_seed_count": 3,
+    "fresh_seeds_disjoint_from_primary": true,
+    "implementation": "independent raw JSON replay plus fresh-seed public-API attacks",
+    "independent": true,
+    "mutation_runner_error": null,
+    "mutation_tests": [
+      {
+        "id": "f61-readout",
+        "observed_errors": [
+          "f61 readout digest drift for leaky-echo-state-reservoir seed 19",
+          "f61 result scope drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "f61-lineage",
+        "observed_errors": [
+          "f61 lineage head drift for leaky-echo-state-reservoir seed 19",
+          "f61 lineage receipt drift for leaky-echo-state-reservoir seed 19",
+          "f61 result scope drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "f62-budget",
+        "observed_errors": [
+          "f62 controls seed 19 within-family budget drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "f63-energy",
+        "observed_errors": [
+          "f63 decision drift for leaky-echo-state-reservoir seed 19",
+          "f63 replication aggregate drift",
+          "f63 result scope drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "f64-tie-promotion",
+        "observed_errors": [
+          "f64 unit verdict drift for leaky-echo-state-reservoir seed 19"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "f64-control-drop",
+        "observed_errors": [
+          "f64 repair control coverage drift for leaky-echo-state-reservoir seed 19"
+        ],
+        "rejected": true
+      }
+    ],
+    "schema": "mop-material-twin-independent-verifier/v1",
+    "verified": true
+  },
+  "payload_sha256": "6facb26fe619d4a890246f605e2a2f67bc1e6d86619e822475b3ebf1c08f2037",
+  "preregistration": {
+    "primary_seeds": [
+      19,
+      41,
+      73
+    ],
+    "smallest_effect": 0.02,
+    "stop_rule": "three independent seeds across every toy prior, no adaptive extension",
+    "tie_rule": "a margin at or below the SESOI is a null"
+  },
+  "schema": "mop-material-twin-batteries/v1",
+  "scientific_scope": {
+    "biological_equivalence_claimed": false,
+    "native_dynamics_advantage_claimed": false,
+    "physical_specimens_tested": false,
+    "toy_programmatic_result_only": true
+  },
+  "status": "complete"
+}

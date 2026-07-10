@@ -1,0 +1,2524 @@
+{
+  "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+  "core_payload_sha256": "4142fd1ce8e482b241deb0509aaacb413907d6df833a178e65c1ecfde3c509a9",
+  "difficulty_calibration": {
+    "bed": "binary fail-closed boundary",
+    "calibrated": true,
+    "ceilinged_tie": false,
+    "negative_outcome": "single-fault controls refuse or expose the fault",
+    "observed_outcomes": [
+      "allow",
+      "refuse"
+    ],
+    "positive_outcome": "wellformed requests and complete recovery drills pass"
+  },
+  "evidence_class": "deterministic programmatic mechanics",
+  "f59": {
+    "all_declared_controls_exercised": true,
+    "consolidation_contract": {
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "controls": [
+        "clean-journal",
+        "token-free-consolidation",
+        "deletion-follow-up",
+        "exact-replay"
+      ],
+      "deletion_verification_declared": true,
+      "drill": "privacy-leakage-through-consolidation",
+      "experiment_id": "f59_privacy_leakage_consolidation",
+      "falsifier": "every seeded drill journal produces a token-free consolidated revision, closes all availability after deletion, and replays with an unbroken hash chain; append-only history retention is declared and byte-level erasure is out of scope",
+      "metrics": [
+        "consolidated_content_token_free",
+        "deletion_closes_availability",
+        "chain_verifies_after_drill"
+      ],
+      "null_hypothesis": "a consolidated summary carries a declared private token forward, or deletion after consolidation leaves the memory readable, so leakage resistance is not established",
+      "schema": "mop-memory-drill-contract/v1",
+      "seeds": [
+        13,
+        29,
+        53
+      ]
+    },
+    "consolidation_contract_sha256": "d27f62b113f8dc04ad76035c3e2c654aa1b83ad7c2f45ea9b460b05c545c7b86",
+    "consolidation_units": [
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "clean-journal": true,
+          "deletion-follow-up": true,
+          "exact-replay": true,
+          "token-free-consolidation": true
+        },
+        "journal": {
+          "entries": [
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "12a7fe6b4b389f1a1d1e023a0224a73c2e920421b0689e79cbe3e1e4753f332b",
+                "value": {
+                  "private_tokens_present": true,
+                  "raw_note": "visit by name-10086a6ca5f7 at place-f9ae9843f923"
+                }
+              },
+              "entry_sha256": "4e75a3dbf97f7d9fad636fad5f55767d620810936d15f73a93a0e7c5cdd930ad",
+              "event_ref": "event:consolidation-drill-13-record",
+              "memory_ref": "memory:consolidation-drill-13",
+              "operation": "record",
+              "previous_entry_sha256": null,
+              "reason": "raw private record",
+              "revision": 1,
+              "sequence": 0,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "8348a8ba4e8ff4666e2ca0c350cd9c0736f36d9d2a80151eba246e93576f4210",
+                "value": {
+                  "derived_from_revision": 1,
+                  "private_tokens_present": false,
+                  "summary": "one visit recorded"
+                }
+              },
+              "entry_sha256": "f609e805272a0786a4f3f9ec909ad343f089e21362b37645a8bba6d86893c9af",
+              "event_ref": "event:consolidation-drill-13-consolidate",
+              "memory_ref": "memory:consolidation-drill-13",
+              "operation": "revise",
+              "previous_entry_sha256": "4e75a3dbf97f7d9fad636fad5f55767d620810936d15f73a93a0e7c5cdd930ad",
+              "reason": "consolidation into a token-free summary",
+              "revision": 2,
+              "sequence": 1,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "a4706fc35b30df350bc697e48a66369104723b0fb3b29c7087ba25300f412333",
+              "event_ref": "event:consolidation-drill-13-delete",
+              "memory_ref": "memory:consolidation-drill-13",
+              "operation": "delete",
+              "previous_entry_sha256": "f609e805272a0786a4f3f9ec909ad343f089e21362b37645a8bba6d86893c9af",
+              "reason": "deletion follow-up after consolidation",
+              "revision": 3,
+              "sequence": 2,
+              "target_revision": null
+            }
+          ],
+          "head_sha256": "a4706fc35b30df350bc697e48a66369104723b0fb3b29c7087ba25300f412333",
+          "memory_ref": "memory:consolidation-drill-13",
+          "schema": "mop-lifecycle-journal/v1"
+        },
+        "journal_sha256": "faf21b18a17068a5d114192cdaa4cc188e8775d649b890c424e9210e81df8814",
+        "metrics": {
+          "chain_verifies_after_drill": true,
+          "consolidated_content_token_free": true,
+          "deletion_closes_availability": true
+        },
+        "private_tokens": [
+          "name-10086a6ca5f7",
+          "place-f9ae9843f923"
+        ],
+        "seed": 13
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "clean-journal": true,
+          "deletion-follow-up": true,
+          "exact-replay": true,
+          "token-free-consolidation": true
+        },
+        "journal": {
+          "entries": [
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "e462e08d9dc9e4e3b991d0aa87606798f1a34c29fb08f57d85fd1b4979986dc7",
+                "value": {
+                  "private_tokens_present": true,
+                  "raw_note": "visit by name-9a1772c93264 at place-ed371a1e0b17"
+                }
+              },
+              "entry_sha256": "4729e431d7b7d8a8a59a89fabc3599b42c1983cf8c9bc69e9aa67ea489192f17",
+              "event_ref": "event:consolidation-drill-29-record",
+              "memory_ref": "memory:consolidation-drill-29",
+              "operation": "record",
+              "previous_entry_sha256": null,
+              "reason": "raw private record",
+              "revision": 1,
+              "sequence": 0,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "8348a8ba4e8ff4666e2ca0c350cd9c0736f36d9d2a80151eba246e93576f4210",
+                "value": {
+                  "derived_from_revision": 1,
+                  "private_tokens_present": false,
+                  "summary": "one visit recorded"
+                }
+              },
+              "entry_sha256": "75bba0ae753698096c6e4e537d6b6285f71e1141361a81a23beec3d13bfafef6",
+              "event_ref": "event:consolidation-drill-29-consolidate",
+              "memory_ref": "memory:consolidation-drill-29",
+              "operation": "revise",
+              "previous_entry_sha256": "4729e431d7b7d8a8a59a89fabc3599b42c1983cf8c9bc69e9aa67ea489192f17",
+              "reason": "consolidation into a token-free summary",
+              "revision": 2,
+              "sequence": 1,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "2a32b664cc6cfa276d6b45778aff9d7d821f454ef447e354301be1b99313ac57",
+              "event_ref": "event:consolidation-drill-29-delete",
+              "memory_ref": "memory:consolidation-drill-29",
+              "operation": "delete",
+              "previous_entry_sha256": "75bba0ae753698096c6e4e537d6b6285f71e1141361a81a23beec3d13bfafef6",
+              "reason": "deletion follow-up after consolidation",
+              "revision": 3,
+              "sequence": 2,
+              "target_revision": null
+            }
+          ],
+          "head_sha256": "2a32b664cc6cfa276d6b45778aff9d7d821f454ef447e354301be1b99313ac57",
+          "memory_ref": "memory:consolidation-drill-29",
+          "schema": "mop-lifecycle-journal/v1"
+        },
+        "journal_sha256": "19c1f002dab0f98af24cc543a854b38a58a8120f9dd5c165dab9701ef9bf341f",
+        "metrics": {
+          "chain_verifies_after_drill": true,
+          "consolidated_content_token_free": true,
+          "deletion_closes_availability": true
+        },
+        "private_tokens": [
+          "name-9a1772c93264",
+          "place-ed371a1e0b17"
+        ],
+        "seed": 29
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "clean-journal": true,
+          "deletion-follow-up": true,
+          "exact-replay": true,
+          "token-free-consolidation": true
+        },
+        "journal": {
+          "entries": [
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "5fdd2a833807645e376ef839b4b4a7cdf0a08a6a2889ae726a6db4b558efd4f2",
+                "value": {
+                  "private_tokens_present": true,
+                  "raw_note": "visit by name-e5207f10097f at place-19f4e8849856"
+                }
+              },
+              "entry_sha256": "d1d6267f18a51b7c5acbd9ee4c43ab9966b24f12802b6623474d03266d6826cc",
+              "event_ref": "event:consolidation-drill-53-record",
+              "memory_ref": "memory:consolidation-drill-53",
+              "operation": "record",
+              "previous_entry_sha256": null,
+              "reason": "raw private record",
+              "revision": 1,
+              "sequence": 0,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "8348a8ba4e8ff4666e2ca0c350cd9c0736f36d9d2a80151eba246e93576f4210",
+                "value": {
+                  "derived_from_revision": 1,
+                  "private_tokens_present": false,
+                  "summary": "one visit recorded"
+                }
+              },
+              "entry_sha256": "8ab6441b6762b9ce57b4b2276911a0ac73e8f26b021eeba015e1c45f114b1494",
+              "event_ref": "event:consolidation-drill-53-consolidate",
+              "memory_ref": "memory:consolidation-drill-53",
+              "operation": "revise",
+              "previous_entry_sha256": "d1d6267f18a51b7c5acbd9ee4c43ab9966b24f12802b6623474d03266d6826cc",
+              "reason": "consolidation into a token-free summary",
+              "revision": 2,
+              "sequence": 1,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "0ce406fb6a3900a093ab22f29381e359085e49564824d3c4943261eb0a9233ba",
+              "event_ref": "event:consolidation-drill-53-delete",
+              "memory_ref": "memory:consolidation-drill-53",
+              "operation": "delete",
+              "previous_entry_sha256": "8ab6441b6762b9ce57b4b2276911a0ac73e8f26b021eeba015e1c45f114b1494",
+              "reason": "deletion follow-up after consolidation",
+              "revision": 3,
+              "sequence": 2,
+              "target_revision": null
+            }
+          ],
+          "head_sha256": "0ce406fb6a3900a093ab22f29381e359085e49564824d3c4943261eb0a9233ba",
+          "memory_ref": "memory:consolidation-drill-53",
+          "schema": "mop-lifecycle-journal/v1"
+        },
+        "journal_sha256": "f112fd08b75487cccb2c12bc13fef5770508a31744e4191fd3165217aee9bae6",
+        "metrics": {
+          "chain_verifies_after_drill": true,
+          "consolidated_content_token_free": true,
+          "deletion_closes_availability": true
+        },
+        "private_tokens": [
+          "name-e5207f10097f",
+          "place-19f4e8849856"
+        ],
+        "seed": 53
+      }
+    ],
+    "experiment_id": "f59_memory_poisoning_resistance",
+    "independent_unit_count": 6,
+    "null_hypothesis": "an injected adversarial revision stays readable after the poisoning mark, or rollback fails to restore the exact pre-injection content, so resistance is not established",
+    "poisoning_contract": {
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "controls": [
+        "clean-journal",
+        "quarantine-only",
+        "rollback-recovery",
+        "stale-memory",
+        "exact-replay"
+      ],
+      "deletion_verification_declared": false,
+      "drill": "memory-poisoning-resistance",
+      "experiment_id": "f59_memory_poisoning_resistance",
+      "falsifier": "every seeded drill journal closes availability at the quarantine mark, restores the byte-exact clean content on rollback, and replays with an unbroken hash chain",
+      "metrics": [
+        "quarantine_closes_availability",
+        "rollback_restores_clean_content",
+        "chain_verifies_after_drill"
+      ],
+      "null_hypothesis": "an injected adversarial revision stays readable after the poisoning mark, or rollback fails to restore the exact pre-injection content, so resistance is not established",
+      "schema": "mop-memory-drill-contract/v1",
+      "seeds": [
+        11,
+        23,
+        47
+      ]
+    },
+    "poisoning_contract_sha256": "d5f7eeb57561e0494c312081e4477ee543af81d8e60bfe4df1f94bfabe49804a",
+    "poisoning_units": [
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "clean-journal": true,
+          "exact-replay": true,
+          "quarantine-only": true,
+          "rollback-recovery": true,
+          "stale-memory": true
+        },
+        "journal": {
+          "entries": [
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "70ce66e16b376295ef2529abcd6cdbdc08814d3209791361051b4c9615d2c84e",
+                "value": {
+                  "fact": "clean-7718af3a35464459",
+                  "seed": 11
+                }
+              },
+              "entry_sha256": "e458deb17b019d48f6e73e0f23de5f1381d98e3cfd20739f1d50e3ff78cb09e5",
+              "event_ref": "event:poison-drill-11-record",
+              "memory_ref": "memory:poison-drill-11",
+              "operation": "record",
+              "previous_entry_sha256": null,
+              "reason": "clean initial record",
+              "revision": 1,
+              "sequence": 0,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "88c590c53758c98fb81ade5c970d1ec404a7bae075bc75b81a6719d1d327ca18",
+                "value": {
+                  "fact": "adversarial-cf362fba2e3f9dd3",
+                  "injected": true
+                }
+              },
+              "entry_sha256": "584c472efacd434d85d32ac84aa6db7928af2e3c978fc5b91b5c97c99bc14ccb",
+              "event_ref": "event:poison-drill-11-inject",
+              "memory_ref": "memory:poison-drill-11",
+              "operation": "revise",
+              "previous_entry_sha256": "e458deb17b019d48f6e73e0f23de5f1381d98e3cfd20739f1d50e3ff78cb09e5",
+              "reason": "adversarial injection under drill",
+              "revision": 2,
+              "sequence": 1,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "a07982aa1f63a1182e44883267ad015447e08e6a4d27402a7d8696aeeecad2b0",
+              "event_ref": "event:poison-drill-11-quarantine",
+              "memory_ref": "memory:poison-drill-11",
+              "operation": "poisoning",
+              "previous_entry_sha256": "584c472efacd434d85d32ac84aa6db7928af2e3c978fc5b91b5c97c99bc14ccb",
+              "reason": "poisoning quarantine",
+              "revision": 3,
+              "sequence": 2,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "69c213203fd6f329b517c80444ac4674c6bbf4e8e85010eb241a871afa110454",
+              "event_ref": "event:poison-drill-11-rollback",
+              "memory_ref": "memory:poison-drill-11",
+              "operation": "rollback",
+              "previous_entry_sha256": "a07982aa1f63a1182e44883267ad015447e08e6a4d27402a7d8696aeeecad2b0",
+              "reason": "recovery to pre-injection revision",
+              "revision": 4,
+              "sequence": 3,
+              "target_revision": 1
+            }
+          ],
+          "head_sha256": "69c213203fd6f329b517c80444ac4674c6bbf4e8e85010eb241a871afa110454",
+          "memory_ref": "memory:poison-drill-11",
+          "schema": "mop-lifecycle-journal/v1"
+        },
+        "journal_sha256": "51db1b7e4888bb2202c10dfedf4414c9237429438a5edaa84f09790c635aee02",
+        "metrics": {
+          "chain_verifies_after_drill": true,
+          "quarantine_closes_availability": true,
+          "rollback_restores_clean_content": true
+        },
+        "private_tokens": [],
+        "seed": 11
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "clean-journal": true,
+          "exact-replay": true,
+          "quarantine-only": true,
+          "rollback-recovery": true,
+          "stale-memory": true
+        },
+        "journal": {
+          "entries": [
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "49fecfd62ec5680d1b618de14090f36668a76092bffcf2800efe58de8497783f",
+                "value": {
+                  "fact": "clean-7072be4a640fac4c",
+                  "seed": 23
+                }
+              },
+              "entry_sha256": "cb22dbecc20a9d1b7d0caf8f1a470ebeb2b7e443155a1dfb81028966476c13ba",
+              "event_ref": "event:poison-drill-23-record",
+              "memory_ref": "memory:poison-drill-23",
+              "operation": "record",
+              "previous_entry_sha256": null,
+              "reason": "clean initial record",
+              "revision": 1,
+              "sequence": 0,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "54da3a892660c82917efb0d278d44a1c3d1b5507dfe11a5809f0e25cba249e23",
+                "value": {
+                  "fact": "adversarial-8a5106d8360144fa",
+                  "injected": true
+                }
+              },
+              "entry_sha256": "418fd0afd8c3ff442272c9872312d37eddfa4c5dd5620dd7069fd01893a594f2",
+              "event_ref": "event:poison-drill-23-inject",
+              "memory_ref": "memory:poison-drill-23",
+              "operation": "revise",
+              "previous_entry_sha256": "cb22dbecc20a9d1b7d0caf8f1a470ebeb2b7e443155a1dfb81028966476c13ba",
+              "reason": "adversarial injection under drill",
+              "revision": 2,
+              "sequence": 1,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "0270e3726b7db79712f17e1ad6d08621f17b07f5b1c5f3a46eb6d062efeaa7ad",
+              "event_ref": "event:poison-drill-23-quarantine",
+              "memory_ref": "memory:poison-drill-23",
+              "operation": "poisoning",
+              "previous_entry_sha256": "418fd0afd8c3ff442272c9872312d37eddfa4c5dd5620dd7069fd01893a594f2",
+              "reason": "poisoning quarantine",
+              "revision": 3,
+              "sequence": 2,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "503c6e8014563939332f1b857ca901225d6e9521f27a3d9e0e7dfe5d7b62da0d",
+              "event_ref": "event:poison-drill-23-rollback",
+              "memory_ref": "memory:poison-drill-23",
+              "operation": "rollback",
+              "previous_entry_sha256": "0270e3726b7db79712f17e1ad6d08621f17b07f5b1c5f3a46eb6d062efeaa7ad",
+              "reason": "recovery to pre-injection revision",
+              "revision": 4,
+              "sequence": 3,
+              "target_revision": 1
+            }
+          ],
+          "head_sha256": "503c6e8014563939332f1b857ca901225d6e9521f27a3d9e0e7dfe5d7b62da0d",
+          "memory_ref": "memory:poison-drill-23",
+          "schema": "mop-lifecycle-journal/v1"
+        },
+        "journal_sha256": "79f465d78d4ebc36bb671887e8fe2eb8815dceec2518f2f7fca97b0689e1f8ca",
+        "metrics": {
+          "chain_verifies_after_drill": true,
+          "quarantine_closes_availability": true,
+          "rollback_restores_clean_content": true
+        },
+        "private_tokens": [],
+        "seed": 23
+      },
+      {
+        "all_controls_pass": true,
+        "all_metrics_pass": true,
+        "controls": {
+          "clean-journal": true,
+          "exact-replay": true,
+          "quarantine-only": true,
+          "rollback-recovery": true,
+          "stale-memory": true
+        },
+        "journal": {
+          "entries": [
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "003345baf4680fe9d0e1e7872829113839b904d39067e5e3e53307e2082de539",
+                "value": {
+                  "fact": "clean-b227a3c14917ee2f",
+                  "seed": 47
+                }
+              },
+              "entry_sha256": "d6e45d100e7092b676e577e7261e72bce89543e22868d8acad7a19dadae8c421",
+              "event_ref": "event:poison-drill-47-record",
+              "memory_ref": "memory:poison-drill-47",
+              "operation": "record",
+              "previous_entry_sha256": null,
+              "reason": "clean initial record",
+              "revision": 1,
+              "sequence": 0,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": true,
+              "available_from_tick": 0,
+              "available_until_tick": null,
+              "content": {
+                "sha256": "f6477ec4d0b47050817c97c7e441be4ff0f06e00f0ebd9a6c62854fa0a86c465",
+                "value": {
+                  "fact": "adversarial-2c15eae277267dd9",
+                  "injected": true
+                }
+              },
+              "entry_sha256": "6961356a1d1b471f18aa8138afc902b9d4d010d6e377ea4eb658a699c08ff9b6",
+              "event_ref": "event:poison-drill-47-inject",
+              "memory_ref": "memory:poison-drill-47",
+              "operation": "revise",
+              "previous_entry_sha256": "d6e45d100e7092b676e577e7261e72bce89543e22868d8acad7a19dadae8c421",
+              "reason": "adversarial injection under drill",
+              "revision": 2,
+              "sequence": 1,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "c0d638887b29ef9f91f61014ec116bbe6397f63768fe1c9e4e6c9f84e151d2ce",
+              "event_ref": "event:poison-drill-47-quarantine",
+              "memory_ref": "memory:poison-drill-47",
+              "operation": "poisoning",
+              "previous_entry_sha256": "6961356a1d1b471f18aa8138afc902b9d4d010d6e377ea4eb658a699c08ff9b6",
+              "reason": "poisoning quarantine",
+              "revision": 3,
+              "sequence": 2,
+              "target_revision": null
+            },
+            {
+              "availability_enabled": null,
+              "available_from_tick": null,
+              "available_until_tick": null,
+              "content": null,
+              "entry_sha256": "4d0d2a4f53313d3fe62c87126554ba7598204f20cb6fd44fd1992be50ff008b8",
+              "event_ref": "event:poison-drill-47-rollback",
+              "memory_ref": "memory:poison-drill-47",
+              "operation": "rollback",
+              "previous_entry_sha256": "c0d638887b29ef9f91f61014ec116bbe6397f63768fe1c9e4e6c9f84e151d2ce",
+              "reason": "recovery to pre-injection revision",
+              "revision": 4,
+              "sequence": 3,
+              "target_revision": 1
+            }
+          ],
+          "head_sha256": "4d0d2a4f53313d3fe62c87126554ba7598204f20cb6fd44fd1992be50ff008b8",
+          "memory_ref": "memory:poison-drill-47",
+          "schema": "mop-lifecycle-journal/v1"
+        },
+        "journal_sha256": "8d4855e8905b0feaedf6240069cb39ec09cc4c8e00b2ef39441152bde762216f",
+        "metrics": {
+          "chain_verifies_after_drill": true,
+          "quarantine_closes_availability": true,
+          "rollback_restores_clean_content": true
+        },
+        "private_tokens": [],
+        "seed": 47
+      }
+    ],
+    "promotion": false,
+    "result": "programmatic-mechanics-pass"
+  },
+  "f60": {
+    "all_declared_controls_exercised": true,
+    "contract": {
+      "authorities": [
+        {
+          "principal": "executor:rewrite-runner",
+          "role": "execution",
+          "scope": "runs shadow and canary arms; cannot sign or request promotion"
+        },
+        {
+          "principal": "promoter:release-gate",
+          "role": "promotion",
+          "scope": "signs promotion only over complete stage receipts; cannot execute arms"
+        },
+        {
+          "principal": "evaluator:conflict-panel",
+          "role": "evaluation",
+          "scope": "scores receipts independently; disagreement blocks promotion"
+        }
+      ],
+      "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+      "experiment_id": "f60_transactional_self_rewrite",
+      "rollback_plan": "the incumbent checkpoint receipt is verified before shadow starts; any abort or refusal replays the incumbent from that receipt and records the restore digest",
+      "schema": "mop-transactional-rewrite-contract/v1",
+      "stages": [
+        {
+          "abort_criteria": "any metric regression, resource breach, or receipt gap aborts the stage",
+          "entry_criteria": "candidate rewrite runs beside the incumbent with zero routing weight",
+          "receipt_required": true,
+          "stage": "shadow"
+        },
+        {
+          "abort_criteria": "canary regression beyond the preregistered margin aborts and rolls back",
+          "entry_criteria": "shadow receipts complete and the evaluation authority signs them",
+          "receipt_required": true,
+          "stage": "canary"
+        },
+        {
+          "abort_criteria": "a failed or unverified restore blocks any promotion request",
+          "entry_criteria": "a rollback rehearsal restores the incumbent from its checkpoint receipt",
+          "receipt_required": true,
+          "stage": "rollback"
+        },
+        {
+          "abort_criteria": "any evaluator disagreement routes to review and blocks promotion",
+          "entry_criteria": "two evaluators score the same receipts independently",
+          "receipt_required": true,
+          "stage": "evaluator-conflict"
+        }
+      ]
+    },
+    "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+    "controls": [
+      "same-principal-request",
+      "missing-stage-receipt",
+      "truncated-receipt-digest",
+      "evaluator-disagreement",
+      "promoter-as-evaluator",
+      "forged-stage-artifact",
+      "wellformed-request"
+    ],
+    "experiment_id": "f60_transactional_self_rewrite",
+    "independent_unit_count": 3,
+    "null_hypothesis": "promotion is allowed under an authority confusion, receipt gap, or evaluator conflict",
+    "promotion": false,
+    "result": "programmatic-mechanics-pass",
+    "units": [
+      {
+        "all_controls_pass": true,
+        "allowed_count": 1,
+        "cases": [
+          {
+            "control": "same-principal-request",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "promotion requested by 'executor:rewrite-runner', not the promotion authority",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-17-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-17-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "executor:rewrite-runner",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa217571ad17fe4ddd11533e85d77feb25d4ce889d5eea6aaff0f6",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "rollback": "c3415c3bdf416dd081df848ca82f4c5187fa4fa4d9c62565baa30be4457ab21b",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            }
+          },
+          {
+            "control": "missing-stage-receipt",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage receipt and artifact mappings must cover exactly every stage",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-17-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-17-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa217571ad17fe4ddd11533e85d77feb25d4ce889d5eea6aaff0f6",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            }
+          },
+          {
+            "control": "truncated-receipt-digest",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage 'canary' lacks a full SHA-256 receipt digest",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-17-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-17-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "rollback": "c3415c3bdf416dd081df848ca82f4c5187fa4fa4d9c62565baa30be4457ab21b",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            }
+          },
+          {
+            "control": "evaluator-disagreement",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "evaluator conflict routes to review, not promotion",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-17-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-17-b",
+                  "verdict": "fail"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa217571ad17fe4ddd11533e85d77feb25d4ce889d5eea6aaff0f6",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "rollback": "c3415c3bdf416dd081df848ca82f4c5187fa4fa4d9c62565baa30be4457ab21b",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            }
+          },
+          {
+            "control": "promoter-as-evaluator",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "authority confusion refused: executor or promoter cannot evaluate",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "promoter:release-gate",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-17-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa217571ad17fe4ddd11533e85d77feb25d4ce889d5eea6aaff0f6",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "rollback": "c3415c3bdf416dd081df848ca82f4c5187fa4fa4d9c62565baa30be4457ab21b",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            }
+          },
+          {
+            "control": "forged-stage-artifact",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage 'shadow' receipt artifact is not a passing receipt",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-17-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-17-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "shadow",
+                  "status": "fail"
+                }
+              },
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa217571ad17fe4ddd11533e85d77feb25d4ce889d5eea6aaff0f6",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "rollback": "c3415c3bdf416dd081df848ca82f4c5187fa4fa4d9c62565baa30be4457ab21b",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            }
+          },
+          {
+            "control": "wellformed-request",
+            "decision": {
+              "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+              "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+              "decision": "allow",
+              "decision_sha256": "bf649e39250d1989ce9a3c5f314eced3b4561bda9cc974a77fbfd8b325f8c83a",
+              "evaluators": [
+                "evaluator:fresh-17-a",
+                "evaluator:fresh-17-b"
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "schema": "mop-rewrite-promotion-decision/v1",
+              "stage_artifacts_sha256": "29ebe97fd3e21de3bbd082f5ff976235bca8149dd6468c526471228bbe3b73c9",
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa217571ad17fe4ddd11533e85d77feb25d4ce889d5eea6aaff0f6",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "rollback": "c3415c3bdf416dd081df848ca82f4c5187fa4fa4d9c62565baa30be4457ab21b",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            },
+            "expectation_met": true,
+            "expected": "allow",
+            "observed": "allow",
+            "refusal": null,
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-17-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-17-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 17,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "4031a5c2dfaa217571ad17fe4ddd11533e85d77feb25d4ce889d5eea6aaff0f6",
+                "evaluator-conflict": "86584f5db5be9afa6f9dd6b72183280b32c97b5fdd508cafc62d8b57c50e0a11",
+                "rollback": "c3415c3bdf416dd081df848ca82f4c5187fa4fa4d9c62565baa30be4457ab21b",
+                "shadow": "319c6bee9ba87fdf1a6305fac7d6abf6840b2e0e1fa02231402a7fb36b45fc0f"
+              }
+            }
+          }
+        ],
+        "refused_count": 6,
+        "seed": 17
+      },
+      {
+        "all_controls_pass": true,
+        "allowed_count": 1,
+        "cases": [
+          {
+            "control": "same-principal-request",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "promotion requested by 'executor:rewrite-runner', not the promotion authority",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-37-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-37-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "executor:rewrite-runner",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "154b95d02c05fb8b17775aad55f3a9b28c6000f39f8c8535ac9da256e755a382",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "rollback": "e0fb66bf5cf3f70ea963d2f6bade4ede3fa3820bac8922cc292d05f47d989a6f",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            }
+          },
+          {
+            "control": "missing-stage-receipt",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage receipt and artifact mappings must cover exactly every stage",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-37-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-37-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "154b95d02c05fb8b17775aad55f3a9b28c6000f39f8c8535ac9da256e755a382",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            }
+          },
+          {
+            "control": "truncated-receipt-digest",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage 'canary' lacks a full SHA-256 receipt digest",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-37-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-37-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "154b95d02c05",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "rollback": "e0fb66bf5cf3f70ea963d2f6bade4ede3fa3820bac8922cc292d05f47d989a6f",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            }
+          },
+          {
+            "control": "evaluator-disagreement",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "evaluator conflict routes to review, not promotion",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-37-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-37-b",
+                  "verdict": "fail"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "154b95d02c05fb8b17775aad55f3a9b28c6000f39f8c8535ac9da256e755a382",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "rollback": "e0fb66bf5cf3f70ea963d2f6bade4ede3fa3820bac8922cc292d05f47d989a6f",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            }
+          },
+          {
+            "control": "promoter-as-evaluator",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "authority confusion refused: executor or promoter cannot evaluate",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "promoter:release-gate",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-37-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "154b95d02c05fb8b17775aad55f3a9b28c6000f39f8c8535ac9da256e755a382",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "rollback": "e0fb66bf5cf3f70ea963d2f6bade4ede3fa3820bac8922cc292d05f47d989a6f",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            }
+          },
+          {
+            "control": "forged-stage-artifact",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage 'shadow' receipt artifact is not a passing receipt",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-37-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-37-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "shadow",
+                  "status": "fail"
+                }
+              },
+              "stage_receipts": {
+                "canary": "154b95d02c05fb8b17775aad55f3a9b28c6000f39f8c8535ac9da256e755a382",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "rollback": "e0fb66bf5cf3f70ea963d2f6bade4ede3fa3820bac8922cc292d05f47d989a6f",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            }
+          },
+          {
+            "control": "wellformed-request",
+            "decision": {
+              "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+              "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+              "decision": "allow",
+              "decision_sha256": "5cd61b40dc473cdf851a2d04ef889b1e83b194ce6dd04bce8d7fe234970f1a92",
+              "evaluators": [
+                "evaluator:fresh-37-a",
+                "evaluator:fresh-37-b"
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "schema": "mop-rewrite-promotion-decision/v1",
+              "stage_artifacts_sha256": "5d65bac5d6e56d6553c0527f2ca9a15afce8b709ca21de80df671e6be84621f8",
+              "stage_receipts": {
+                "canary": "154b95d02c05fb8b17775aad55f3a9b28c6000f39f8c8535ac9da256e755a382",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "rollback": "e0fb66bf5cf3f70ea963d2f6bade4ede3fa3820bac8922cc292d05f47d989a6f",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            },
+            "expectation_met": true,
+            "expected": "allow",
+            "observed": "allow",
+            "refusal": null,
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-37-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-37-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 37,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "154b95d02c05fb8b17775aad55f3a9b28c6000f39f8c8535ac9da256e755a382",
+                "evaluator-conflict": "ba7435388217ef54c22856936d0d38366fbf324bde194852a5d1b0ad56ae5113",
+                "rollback": "e0fb66bf5cf3f70ea963d2f6bade4ede3fa3820bac8922cc292d05f47d989a6f",
+                "shadow": "c42d1b4c306767edf39b3712bce36c308a1f175935d10ecc60516f20a7329d7d"
+              }
+            }
+          }
+        ],
+        "refused_count": 6,
+        "seed": 37
+      },
+      {
+        "all_controls_pass": true,
+        "allowed_count": 1,
+        "cases": [
+          {
+            "control": "same-principal-request",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "promotion requested by 'executor:rewrite-runner', not the promotion authority",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-61-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-61-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "executor:rewrite-runner",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "c058704e9cb094abacdec92f0eb8204d48051d69d1e785ed1905c03b59a993ce",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "rollback": "df81889d6c9c2cf3832435037c77ddce526b6990322d3b5e696a14a930d8d51a",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            }
+          },
+          {
+            "control": "missing-stage-receipt",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage receipt and artifact mappings must cover exactly every stage",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-61-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-61-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "c058704e9cb094abacdec92f0eb8204d48051d69d1e785ed1905c03b59a993ce",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            }
+          },
+          {
+            "control": "truncated-receipt-digest",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage 'canary' lacks a full SHA-256 receipt digest",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-61-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-61-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "c058704e9cb0",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "rollback": "df81889d6c9c2cf3832435037c77ddce526b6990322d3b5e696a14a930d8d51a",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            }
+          },
+          {
+            "control": "evaluator-disagreement",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "evaluator conflict routes to review, not promotion",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-61-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-61-b",
+                  "verdict": "fail"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "c058704e9cb094abacdec92f0eb8204d48051d69d1e785ed1905c03b59a993ce",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "rollback": "df81889d6c9c2cf3832435037c77ddce526b6990322d3b5e696a14a930d8d51a",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            }
+          },
+          {
+            "control": "promoter-as-evaluator",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "authority confusion refused: executor or promoter cannot evaluate",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "promoter:release-gate",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-61-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "c058704e9cb094abacdec92f0eb8204d48051d69d1e785ed1905c03b59a993ce",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "rollback": "df81889d6c9c2cf3832435037c77ddce526b6990322d3b5e696a14a930d8d51a",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            }
+          },
+          {
+            "control": "forged-stage-artifact",
+            "decision": null,
+            "expectation_met": true,
+            "expected": "refuse",
+            "observed": "refuse",
+            "refusal": "stage 'shadow' receipt artifact is not a passing receipt",
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-61-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-61-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "shadow",
+                  "status": "fail"
+                }
+              },
+              "stage_receipts": {
+                "canary": "c058704e9cb094abacdec92f0eb8204d48051d69d1e785ed1905c03b59a993ce",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "rollback": "df81889d6c9c2cf3832435037c77ddce526b6990322d3b5e696a14a930d8d51a",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            }
+          },
+          {
+            "control": "wellformed-request",
+            "decision": {
+              "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+              "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+              "decision": "allow",
+              "decision_sha256": "e41290071353004f425b79a8142c58f2646d53fe344b9fd7da84dbb0ff9b14da",
+              "evaluators": [
+                "evaluator:fresh-61-a",
+                "evaluator:fresh-61-b"
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "schema": "mop-rewrite-promotion-decision/v1",
+              "stage_artifacts_sha256": "4ad1da53c1c803229073c5d955f6415f7af3c6494f5cca0b0974c09417c15e1a",
+              "stage_receipts": {
+                "canary": "c058704e9cb094abacdec92f0eb8204d48051d69d1e785ed1905c03b59a993ce",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "rollback": "df81889d6c9c2cf3832435037c77ddce526b6990322d3b5e696a14a930d8d51a",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            },
+            "expectation_met": true,
+            "expected": "allow",
+            "observed": "allow",
+            "refusal": null,
+            "request": {
+              "evaluator_verdicts": [
+                {
+                  "evaluator": "evaluator:fresh-61-a",
+                  "verdict": "pass"
+                },
+                {
+                  "evaluator": "evaluator:fresh-61-b",
+                  "verdict": "pass"
+                }
+              ],
+              "executed_by": "executor:rewrite-runner",
+              "requested_by": "promoter:release-gate",
+              "stage_artifacts": {
+                "canary": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "canary",
+                  "status": "pass"
+                },
+                "evaluator-conflict": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "evaluator-conflict",
+                  "status": "pass"
+                },
+                "rollback": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "rollback",
+                  "status": "pass"
+                },
+                "shadow": {
+                  "checks": [
+                    "entry-criteria-met",
+                    "abort-criteria-clear",
+                    "receipt-complete"
+                  ],
+                  "contract_sha256": "eddcfc311f96d58bc734e458507d60014a91a00e0dd03d066bede0d801d4d8fb",
+                  "schema": "mop-rewrite-stage-receipt/v1",
+                  "seed": 61,
+                  "stage": "shadow",
+                  "status": "pass"
+                }
+              },
+              "stage_receipts": {
+                "canary": "c058704e9cb094abacdec92f0eb8204d48051d69d1e785ed1905c03b59a993ce",
+                "evaluator-conflict": "2becd174deaa191b3ac490c2db8eb78572f0ce0885c24e120b7e58eb84417b44",
+                "rollback": "df81889d6c9c2cf3832435037c77ddce526b6990322d3b5e696a14a930d8d51a",
+                "shadow": "67193372ed3ee662530c49bb0444c073bea95f1c38847db953e0331fd1eebc77"
+              }
+            }
+          }
+        ],
+        "refused_count": 6,
+        "seed": 61
+      }
+    ]
+  },
+  "implementation": [
+    {
+      "path": "registry/experiments.yaml",
+      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+    },
+    {
+      "path": "src/mop/substrate/events.py",
+      "sha256": "cc0562fe8a3e5bd8caa67987e5be7581734e660e0f728619e44e4dc2d34fff48"
+    },
+    {
+      "path": "src/mop/substrate/lifecycle.py",
+      "sha256": "3539835531cbcfa50881bca8baa5148392827bd42a58be8413b2c990a6b2e161"
+    },
+    {
+      "path": "src/mop/falsification/verdict_gate.py",
+      "sha256": "069c908ba780f2a5e102bd3530e0b206c8cfd859da4ed13740fdc9012ba9175a"
+    },
+    {
+      "path": "src/mop/falsification/integrity_scaffold.py",
+      "sha256": "a46ff83ed73a23f9bff3049dcfb574cf26a6d45cff66d87b28c7eff947ae2a60"
+    },
+    {
+      "path": "scripts/run_integrity_scaffold_drills.py",
+      "sha256": "cf510f265152dee51509873127182df92c978de357d96fa52c66bf6eb1195acb"
+    },
+    {
+      "path": "scripts/verify_integrity_scaffold_drills.py",
+      "sha256": "a641a3561a2f636b7bbc3d70b3c131dd8da10e6abce6a843acbf893913d55a9e"
+    }
+  ],
+  "independent_verifier": {
+    "adversarial": true,
+    "all_mutations_rejected": true,
+    "checks": {
+      "f59_unit_count": 6,
+      "f60_unit_count": 3,
+      "live_implementation_checked": true
+    },
+    "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
+    "core_payload_sha256": "4142fd1ce8e482b241deb0509aaacb413907d6df833a178e65c1ecfde3c509a9",
+    "errors": [],
+    "fresh_seed_challenges": [
+      {
+        "all_pass": true,
+        "consolidation_pass": true,
+        "forged_artifact_refused": true,
+        "poisoning_pass": true,
+        "seed": 101,
+        "wellformed_rewrite_allowed": true
+      },
+      {
+        "all_pass": true,
+        "consolidation_pass": true,
+        "forged_artifact_refused": true,
+        "poisoning_pass": true,
+        "seed": 103,
+        "wellformed_rewrite_allowed": true
+      },
+      {
+        "all_pass": true,
+        "consolidation_pass": true,
+        "forged_artifact_refused": true,
+        "poisoning_pass": true,
+        "seed": 107,
+        "wellformed_rewrite_allowed": true
+      }
+    ],
+    "fresh_seed_count": 3,
+    "fresh_seeds_disjoint_from_primary": true,
+    "implementation": "independent raw JSON replay plus fresh-seed public-API attacks",
+    "independent": true,
+    "mutation_runner_error": null,
+    "mutation_tests": [
+      {
+        "id": "poison-chain",
+        "observed_errors": [
+          "lifecycle entry 1 digest drift",
+          "poisoning metric drift",
+          "poisoning journal digest drift",
+          "poisoning metric aggregate drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "rollback-target",
+        "observed_errors": [
+          "lifecycle entry 3 digest drift",
+          "poisoning rollback does not restore clean revision",
+          "poisoning metric drift",
+          "poisoning journal digest drift",
+          "poisoning metric aggregate drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "consolidation-token",
+        "observed_errors": [
+          "lifecycle entry 1 digest drift",
+          "consolidation metric drift",
+          "consolidation journal digest drift",
+          "consolidation metric aggregate drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "deletion-drop",
+        "observed_errors": [
+          "lifecycle entry 2 digest drift",
+          "consolidation operation sequence drift"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "stage-artifact",
+        "observed_errors": [
+          "f60 independent outcome drift for wellformed-request seed 17",
+          "f60 expectation drift for wellformed-request seed 17",
+          "f60 refusal reason missing at seed 17",
+          "f60 case count drift at seed 17"
+        ],
+        "rejected": true
+      },
+      {
+        "id": "rewrite-control",
+        "observed_errors": [
+          "f60 control coverage drift at seed 17"
+        ],
+        "rejected": true
+      }
+    ],
+    "schema": "mop-integrity-scaffold-independent-verifier/v1",
+    "verified": true
+  },
+  "payload_sha256": "eee75ac9b93bc5210aa447adf63f44d034986e8d4e0fcaccc2fed3f2cd35684a",
+  "schema": "mop-integrity-scaffold-run/v1",
+  "scientific_scope": {
+    "byte_level_history_erasure_claimed": false,
+    "natural_memory_content_tested": false,
+    "substrate_capability_claimed": false,
+    "transactional_policy_effectiveness_claimed": false
+  },
+  "status": "mechanics-pass"
+}
