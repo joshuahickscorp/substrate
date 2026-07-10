@@ -1,0 +1,297 @@
+{
+  "all_ok": true,
+  "artifacts": {
+    "atlas": {
+      "bytes": 122457,
+      "exists": true,
+      "path": "proof/MOP_POTENTIAL_ATLAS.json",
+      "sha256": "9b1f18ddba61e09c0c799fe7142620edd08bc244c67912e23062c331d465bc59"
+    },
+    "cli": {
+      "bytes": 432,
+      "exists": true,
+      "path": "scripts/validate_mop_potential_atlas.py",
+      "sha256": "328ad665b1d50d0316eba48979e28aa8a71eaa8c156cd047b2b653851bface05"
+    },
+    "markdown": {
+      "bytes": 76020,
+      "exists": true,
+      "path": "MOP_POTENTIAL_ATLAS_2026_07.md",
+      "sha256": "69f04f25eeb824f7132ff44f168327513eb104ea12bef2d5e3a79959726abf60"
+    },
+    "requirements": {
+      "bytes": 1274965,
+      "exists": true,
+      "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
+      "sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824"
+    },
+    "validator": {
+      "bytes": 103333,
+      "exists": true,
+      "path": "src/mop/studies/potential_atlas_validation.py",
+      "sha256": "85f6fd8ed5d32900d2d43a6d21ade57247dd100888fc5086d30a7b3def668d91"
+    }
+  },
+  "checks": [
+    {
+      "detail": {
+        "expected": "mop-potential-atlas/v1"
+      },
+      "name": "atlas_schema",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "facet_count": 41,
+        "facet_weight_total": 100.0,
+        "ids": [
+          "EV1",
+          "EV2",
+          "EV3",
+          "EV4",
+          "EV5",
+          "EV6",
+          "SR1",
+          "SR2",
+          "SR3",
+          "SR4",
+          "SR5",
+          "SR6",
+          "RA1",
+          "RA2",
+          "RA3",
+          "RA4",
+          "RA5",
+          "RA6",
+          "PA1",
+          "PA2",
+          "PA3",
+          "PA4",
+          "PA5",
+          "PA6",
+          "PA7",
+          "PA8",
+          "PA9",
+          "OP1",
+          "OP2",
+          "OP3",
+          "OP4",
+          "OP5",
+          "BM1",
+          "BM2",
+          "BM3",
+          "BM4",
+          "SG1",
+          "SG2",
+          "SG3",
+          "SG4",
+          "SG5"
+        ]
+      },
+      "name": "facet_contract",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "valid_weight_total": 100.0,
+        "weighted_score": 5.736000000000001
+      },
+      "name": "score_contract",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "domain_count": 7,
+        "domain_weight_total": 100.0
+      },
+      "name": "domain_contract",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "source_count": 45,
+        "verified_count": 45
+      },
+      "name": "source_snapshot",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "evidence_reference_count": 197
+      },
+      "name": "evidence_paths",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "bytes": 1274965,
+        "exists": true,
+        "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
+        "sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824"
+      },
+      "name": "requirements_binding",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "category2_member_count": 119,
+        "category2_source_count": 119,
+        "cluster_count": 8,
+        "primary_category_counts": {
+          "1": 168,
+          "2": 119,
+          "3": 29,
+          "6": 5
+        },
+        "requirements_row_count": 321,
+        "scope_counts": {
+          "candidate_frontier": 10,
+          "current_registry": 39,
+          "expansion_workstream": 10,
+          "proposed_F21_F66": 44,
+          "research_pillar": 16
+        }
+      },
+      "name": "category2_partition",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "category2_current_registry_rows": 39,
+        "frontier_historical_rows": 24,
+        "registry_non_f_rows": 177,
+        "scientific_claim_ready_rows": 0
+      },
+      "name": "snapshot_accounting",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "queue_count": 16,
+        "ranks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      },
+      "name": "queue_contract",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "facet_dependency_count": 114
+      },
+      "name": "dependency_contract",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "dense_integration_complete": true,
+        "p6_current_events_per_stream": 384,
+        "p6_mechanics_pass": true,
+        "p6_remaining_rungs": [
+          10000,
+          100000,
+          1000000
+        ],
+        "p7_arm_count": 8,
+        "p7_independent_units": 3,
+        "p7_mechanics_pass": true,
+        "p9_arm_count": 9,
+        "p9_independent_units": 5,
+        "p9_mechanics_pass": true,
+        "p9_total_branches": 1300,
+        "p9_total_lineages": 260,
+        "wave_e0_mechanics_pass": true
+      },
+      "name": "mechanics_progress",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "category8_count": 0,
+        "category9_count": 0,
+        "hardware_required_count": 0
+      },
+      "name": "studio_gate_consistency",
+      "ok": true,
+      "problems": []
+    },
+    {
+      "detail": {
+        "bytes": 76020,
+        "facet_score_rows": 41,
+        "sha256": "69f04f25eeb824f7132ff44f168327513eb104ea12bef2d5e3a79959726abf60"
+      },
+      "name": "markdown_binding",
+      "ok": true,
+      "problems": []
+    }
+  ],
+  "created_at": "2026-07-10T21:56:38.076924+00:00",
+  "payload_sha256": "f7706f312884e80fe1bf7968e05093398dc3ccf51a8c832817875f6266e1b1e9",
+  "problems": [],
+  "schema": "mop-potential-atlas-validation/v1",
+  "scope": "Structural and evidence-integrity validation only. A passing receipt does not promote any facet, experiment, hardware purchase, or external claim.",
+  "summary": {
+    "category2_cluster_count": 8,
+    "category2_count": 119,
+    "category2_current_registry_rows": 39,
+    "dense_integration_complete": true,
+    "domain_count": 7,
+    "evidence_reference_count": 197,
+    "facet_count": 41,
+    "facet_dependency_count": 114,
+    "facet_weight_total": 100.0,
+    "frontier_historical_rows": 24,
+    "p6_current_events_per_stream": 384,
+    "p6_mechanics_pass": true,
+    "p7_arm_count": 8,
+    "p7_independent_units": 3,
+    "p7_mechanics_pass": true,
+    "p9_arm_count": 9,
+    "p9_independent_units": 5,
+    "p9_mechanics_pass": true,
+    "p9_total_branches": 1300,
+    "p9_total_lineages": 260,
+    "primary_category_counts": {
+      "1": 168,
+      "2": 119,
+      "3": 29,
+      "6": 5
+    },
+    "queue_count": 16,
+    "registry_non_f_rows": 177,
+    "requirements_row_count": 321,
+    "scientific_claim_ready_rows": 0,
+    "source_count": 45,
+    "studio_scale_required_now": false,
+    "wave_e0_mechanics_pass": true,
+    "weighted_score": 5.736000000000001
+  }
+}
