@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:12.497622+00:00",
+  "created_at": "2026-07-10T07:02:33.432958+00:00",
   "experiment_id": "f19_cross_scale_referent_binding",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f19_cross_scale_referent_binding/002",
-    "manifest_path": "runs/f19_cross_scale_referent_binding/002/manifest.json",
-    "manifest_sha256": "68961200195fa121e4535ab96c518f9af5c3f6e0ac1b43a837a3cdf18999541e",
-    "config_path": "runs/f19_cross_scale_referent_binding/002/config.yaml",
-    "config_sha256": "db8ad902affcaa7d8ec325de51d0a8cea0fab354bfd5790d0811d097e69e1e79",
-    "git": "be7b5d9",
+    "run_dir": "runs/f19_cross_scale_referent_binding/003",
+    "manifest_path": "runs/f19_cross_scale_referent_binding/003/manifest.json",
+    "manifest_sha256": "448a94928cc088227689220eaf835bd9bfa866afa44588159f481385223ac245",
+    "config_path": "runs/f19_cross_scale_referent_binding/003/config.yaml",
+    "config_sha256": "27e191b06bda23aa7167b0e1dfea072128220c0beb0f68da43e551cb5b6bdde4",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640052.4588192,
-    "finished": 1783640052.497622
+    "started": 1783666953.4024909,
+    "finished": 1783666953.432958
   },
   "metrics": {
     "hierarchy": {
@@ -173,12 +173,12 @@
       "cost": {
         "flops": 1105920.0,
         "bytes": 18816.0,
-        "seconds": 0.033518249983899295
+        "seconds": 0.026186332921497524
       },
       "density": {
         "cross_scale_recall_at_k_per_flops": 6.643538627368225e-07,
         "cross_scale_recall_at_k_per_bytes": 3.904773723840916e-05,
-        "cross_scale_recall_at_k_per_seconds": 21.920065165419892
+        "cross_scale_recall_at_k_per_seconds": 28.057468988899192
       }
     }
   },
@@ -202,12 +202,12 @@
     "cost": {
       "flops": 1105920.0,
       "bytes": 18816.0,
-      "seconds": 0.033518249983899295
+      "seconds": 0.026186332921497524
     },
     "density": {
       "cross_scale_recall_at_k_per_flops": 6.643538627368225e-07,
       "cross_scale_recall_at_k_per_bytes": 3.904773723840916e-05,
-      "cross_scale_recall_at_k_per_seconds": 21.920065165419892
+      "cross_scale_recall_at_k_per_seconds": 28.057468988899192
     }
   },
   "operational_awareness": {
@@ -230,5 +230,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f19_cross_scale_referent_binding.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "dcdee3f9025f610087b92e582c1650a71f047d3845f6bc615d2b867615da3f8c"
+  "receipt_fingerprint": "4a52ad91652bd7250ccca7ce404ddfeba200621fcbc623558937c8324f46760c"
 }

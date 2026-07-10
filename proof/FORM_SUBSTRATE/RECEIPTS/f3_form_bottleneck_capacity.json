@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:33:57.916535+00:00",
+  "created_at": "2026-07-10T07:02:19.964923+00:00",
   "experiment_id": "f3_form_bottleneck_capacity",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f3_form_bottleneck_capacity/000",
-    "manifest_path": "runs/f3_form_bottleneck_capacity/000/manifest.json",
-    "manifest_sha256": "5bd523a5e5855c0a896faa67b8113114b8fabe8dbc3a1bae32bbe21be5cb8ad7",
-    "config_path": "runs/f3_form_bottleneck_capacity/000/config.yaml",
-    "config_sha256": "be9cd46fb6ffaea0cf71df5804213007cfa541a59b3711f0c6e7cfab5dbc83a2",
-    "git": "be7b5d9",
+    "run_dir": "runs/f3_form_bottleneck_capacity/001",
+    "manifest_path": "runs/f3_form_bottleneck_capacity/001/manifest.json",
+    "manifest_sha256": "b80b0a5d56ae5cfeb86b9af135da0313065f63dd91ce20e40808f3709304f062",
+    "config_path": "runs/f3_form_bottleneck_capacity/001/config.yaml",
+    "config_sha256": "ffe919f3a628cc66817e987773e00fc372eb5868b58ff8cf2f66c89326bee4fc",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640037.535386,
-    "finished": 1783640037.9165351
+    "started": 1783666939.583138,
+    "finished": 1783666939.964923
   },
   "metrics": {
     "wide_dim": 14,
@@ -189,11 +189,11 @@
       },
       "cost": {
         "params": 1130.0,
-        "seconds": 0.37656750006135553
+        "seconds": 0.37715166597627103
       },
       "density": {
         "wide_form_acc_per_params": 0.0005083032835901312,
-        "wide_form_acc_per_seconds": 1.5253114258752067
+        "wide_form_acc_per_seconds": 1.5229488884002071
       }
     }
   },
@@ -216,11 +216,11 @@
     },
     "cost": {
       "params": 1130.0,
-      "seconds": 0.37656750006135553
+      "seconds": 0.37715166597627103
     },
     "density": {
       "wide_form_acc_per_params": 0.0005083032835901312,
-      "wide_form_acc_per_seconds": 1.5253114258752067
+      "wide_form_acc_per_seconds": 1.5229488884002071
     }
   },
   "operational_awareness": {
@@ -243,5 +243,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f3_form_bottleneck_capacity.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "a75603e3360028a689dad4ccf4170b2cc8ef75d5dc2f8c34e4b3fe9dc14b52dd"
+  "receipt_fingerprint": "0a3f9e13b86f6ac8d7e6aaa3394b464cef5936549d8d7bda4f7d21c303fcfc5b"
 }

@@ -104,8 +104,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f10_intrinsic_form_curriculum/005",
-        "verifier": "runs/form_verifiers/f10_intrinsic_form_curriculum/002"
+        "canonical": "runs/f10_intrinsic_form_curriculum/007",
+        "verifier": "runs/form_verifiers/f10_intrinsic_form_curriculum/004"
       },
       "passed": true
     },
@@ -322,21 +322,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:25.500248+00:00",
+  "created_at": "2026-07-10T07:03:59.128401+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f10_intrinsic_form_curriculum.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f10_intrinsic_form_curriculum/002/config.yaml",
-    "config_snapshot_sha256": "f53575202ecbc4163aa3b1df46992001134647dc31e3bdcdb706eaa6df1f4904",
+    "config_snapshot_path": "runs/form_verifiers/f10_intrinsic_form_curriculum/004/config.yaml",
+    "config_snapshot_sha256": "d23bd9b54bf907c7ee1f4f283cf5c6132d399e9b54c862a76fe371565cee4374",
     "device": "cpu",
-    "finished": 1783652485.141846,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f10_intrinsic_form_curriculum/002/manifest.json",
-    "manifest_sha256": "5797123a836f786c4c7ea18cd62c0beae981bea7f37956ac61233a266172e673",
-    "run_dir": "runs/form_verifiers/f10_intrinsic_form_curriculum/002",
-    "seconds": 0.631666898727417,
-    "started": 1783652484.510179,
+    "finished": 1783667038.7186291,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f10_intrinsic_form_curriculum/004/manifest.json",
+    "manifest_sha256": "7195515833b3750ef3c9853dd0b5a7999cea34aefaafa1106031a9767701f92a",
+    "run_dir": "runs/form_verifiers/f10_intrinsic_form_curriculum/004",
+    "seconds": 0.49034619331359863,
+    "started": 1783667038.228283,
     "status": "ok"
   },
   "experiment_id": "f10_intrinsic_form_curriculum",
@@ -385,14 +385,14 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "12ab9c03e00aee5ff303518870b24911ff41e91e079bef3a5c81454049ea5da8",
+  "metrics_sha256": "59136175636ae0d69fa55f8ce08530a9b1f3475fb997bc995250942e236cb2a5",
   "passed": false,
   "problems": [
     "fresh_seed_ci_lower_bound_is_positive: adversarial check failed",
     "fresh_seed_effect_sign_is_stable: adversarial check failed",
     "f10_learning_progress_improves_untouched_form_transfer: adversarial check failed"
   ],
-  "receipt_fingerprint": "0de605d5511f13e8380fcfc43393c6a609ef0611d84a09492ec618dc09b69206",
+  "receipt_fingerprint": "db0518f192f0305036253da6191b72def389331cc1d799feba971ac1d95e33a1",
   "recomputed": {
     "aggregate_transfer_delta": 0.006700000000000039,
     "coverage_delta": 0.043399999999999994,
@@ -403,8 +403,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f10_intrinsic_form_curriculum.json",
-      "receipt_fingerprint": "09af538a3d32af630d684bc46a6e984a38b25bf363b7df45a0ba42e16699af50",
-      "sha256": "8e1994568a5980c4bf09c251e5a7e0505c0d1042de1a3427d261f5156f5355aa"
+      "receipt_fingerprint": "ec944a61773c1931757ecca158b6a957378b287521bac36c41a4b9a4f767d5d6",
+      "sha256": "b2ff19bdf4e2b9228999ea8289591fbcee8b76716fdef1448c08e890c587228c"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -416,11 +416,11 @@
         "coverage_per_update": 0.03327777793010076
       },
       "cost": {
-        "seconds": 0.16023683396633714,
+        "seconds": 0.12403595808427781,
         "updates": 20.0
       },
       "density": {
-        "coverage_per_update_per_seconds": 0.20767870349392836,
+        "coverage_per_update_per_seconds": 0.26829137650139934,
         "coverage_per_update_per_updates": 0.001663888896505038
       },
       "primary": "coverage_per_update",

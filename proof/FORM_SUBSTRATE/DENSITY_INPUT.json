@@ -1,7 +1,7 @@
 {
   "schema": "mop-form-density-input/v1",
   "density_schema": "mop-density-block/v1",
-  "created_at": "2026-07-10T06:53:16.905149+00:00",
+  "created_at": "2026-07-10T07:05:01.025963+00:00",
   "rows": [
     {
       "experiment_id": "f1_form_alignment_gate",
@@ -11,11 +11,11 @@
       },
       "cost": {
         "params": 248.0,
-        "seconds": 0.14495395799167454
+        "seconds": 0.12381679192185402
       },
       "density": {
         "aligned_transfer_per_params": 0.0032018049109366633,
-        "aligned_transfer_per_seconds": 5.477929881417235
+        "aligned_transfer_per_seconds": 6.413085055647778
       },
       "problems": [],
       "all_ok": true
@@ -28,12 +28,12 @@
       },
       "cost": {
         "params": 370.0,
-        "seconds": 0.21185874997172505,
+        "seconds": 0.22576070798095316,
         "updates": 60.0
       },
       "density": {
         "heldout_form_acc_per_params": 0.0017417417345820245,
-        "heldout_form_acc_per_seconds": 3.041858983314862,
+        "heldout_form_acc_per_seconds": 2.8545465132476426,
         "heldout_form_acc_per_updates": 0.010740740696589151
       },
       "problems": [],
@@ -47,11 +47,11 @@
       },
       "cost": {
         "params": 1130.0,
-        "seconds": 0.37656750006135553
+        "seconds": 0.37715166597627103
       },
       "density": {
         "wide_form_acc_per_params": 0.0005083032835901312,
-        "wide_form_acc_per_seconds": 1.5253114258752067
+        "wide_form_acc_per_seconds": 1.5229488884002071
       },
       "problems": [],
       "all_ok": true
@@ -64,11 +64,11 @@
       },
       "cost": {
         "params": 336.0,
-        "seconds": 0.2842478340025991
+        "seconds": 0.26210958405863494
       },
       "density": {
         "cross_form_transfer_per_dim_per_params": 6.328280017312085e-05,
-        "cross_form_transfer_per_dim_per_seconds": 0.07480451322620871
+        "cross_form_transfer_per_dim_per_seconds": 0.08112263782545236
       },
       "problems": [],
       "all_ok": true
@@ -82,11 +82,11 @@
       },
       "cost": {
         "bytes": 35816.0,
-        "seconds": 0.013187457923777401
+        "seconds": 0.013304166961461306
       },
       "density": {
         "cross_form_recall_at_k_per_bytes": 2.5151509218299018e-05,
-        "cross_form_recall_at_k_per_seconds": 68.30933295630686
+        "cross_form_recall_at_k_per_seconds": 67.71009840541362
       },
       "problems": [],
       "all_ok": true
@@ -135,11 +135,11 @@
       },
       "cost": {
         "params": 136.0,
-        "seconds": 0.8478466250235215
+        "seconds": 0.7740894999587908
       },
       "density": {
         "heldout_combo_acc_per_params": 0.005866474000846639,
-        "heldout_combo_acc_per_seconds": 0.9410198030722935
+        "heldout_combo_acc_per_seconds": 1.030682452297333
       },
       "problems": [],
       "all_ok": true
@@ -151,11 +151,11 @@
         "coverage_per_update": 0.03400000035762787
       },
       "cost": {
-        "seconds": 0.12159458303358406,
+        "seconds": 0.11659633403178304,
         "updates": 20.0
       },
       "density": {
-        "coverage_per_update_per_seconds": 0.2796177223473612,
+        "coverage_per_update_per_seconds": 0.29160436852465527,
         "coverage_per_update_per_updates": 0.0017000000178813933
       },
       "problems": [],
@@ -188,11 +188,11 @@
       },
       "cost": {
         "params": 1536.0,
-        "seconds": 0.08943529205862433
+        "seconds": 0.08080708305351436
       },
       "density": {
         "code_agreement_per_params": 0.00035319010416666664,
-        "code_agreement_per_seconds": 6.065838077035566
+        "code_agreement_per_seconds": 6.7135203932646625
       },
       "problems": [],
       "all_ok": true
@@ -208,13 +208,13 @@
         "params": 54.0,
         "flops": 7204992.0,
         "bytes": 11496.0,
-        "seconds": 4.6270304169738665
+        "seconds": 4.229958917014301
       },
       "density": {
         "accuracy_per_byte_per_params": 1.2611492936235203e-06,
         "accuracy_per_byte_per_flops": 9.45206626956284e-12,
         "accuracy_per_byte_per_bytes": 5.923978936644929e-09,
-        "accuracy_per_byte_per_seconds": 1.4718308659879022e-05
+        "accuracy_per_byte_per_seconds": 1.6099934583700322e-05
       },
       "problems": [],
       "all_ok": true
@@ -230,13 +230,13 @@
         "params": 310.0,
         "flops": 48960000.0,
         "bytes": 40320.0,
-        "seconds": 0.19940433406736702
+        "seconds": 0.21021016698796302
       },
       "density": {
         "new_form_transfer_per_params": 0.0023087557285062727,
         "new_form_transfer_per_flops": 1.4618347137192496e-08,
         "new_form_transfer_per_bytes": 1.7750850095162315e-05,
-        "new_form_transfer_per_seconds": 3.589261382830058
+        "new_form_transfer_per_seconds": 3.4047557551197207
       },
       "problems": [],
       "all_ok": true
@@ -269,12 +269,12 @@
       "cost": {
         "params": 150.0,
         "flops": 138528.0,
-        "seconds": 0.28481854195706546
+        "seconds": 0.3319298329297453
       },
       "density": {
         "recovery_acc_per_params": 0.00480092591047287,
         "recovery_acc_per_flops": 5.198507785941691e-06,
-        "recovery_acc_per_seconds": 2.5284129383665155
+        "recovery_acc_per_seconds": 2.169551559179532
       },
       "problems": [],
       "all_ok": true
@@ -289,13 +289,13 @@
       "cost": {
         "params": 624.0,
         "flops": 235872000.0,
-        "seconds": 0.3743771669687703,
+        "seconds": 0.3253037079703063,
         "updates": 260.0
       },
       "density": {
         "counterfactual_match_acc_per_params": 0.0013488247990608214,
         "counterfactual_match_acc_per_flops": 3.5683195742349777e-09,
-        "counterfactual_match_acc_per_seconds": 2.248178438414655,
+        "counterfactual_match_acc_per_seconds": 2.587325794302904,
         "counterfactual_match_acc_per_updates": 0.0032371795177459717
       },
       "problems": [],
@@ -310,12 +310,12 @@
       "cost": {
         "flops": 1105920.0,
         "bytes": 18816.0,
-        "seconds": 0.033518249983899295
+        "seconds": 0.026186332921497524
       },
       "density": {
         "cross_scale_recall_at_k_per_flops": 6.643538627368225e-07,
         "cross_scale_recall_at_k_per_bytes": 3.904773723840916e-05,
-        "cross_scale_recall_at_k_per_seconds": 21.920065165419892
+        "cross_scale_recall_at_k_per_seconds": 28.057468988899192
       },
       "problems": [],
       "all_ok": true
@@ -329,11 +329,11 @@
       },
       "cost": {
         "flops": 2256076800.0,
-        "seconds": 3.20717795798555
+        "seconds": 3.038289292016998
       },
       "density": {
         "crisis_auroc_per_flops": 4.2939584326207335e-10,
-        "crisis_auroc_per_seconds": 0.3020568277441263
+        "crisis_auroc_per_seconds": 0.31884718895773284
       },
       "problems": [],
       "all_ok": true

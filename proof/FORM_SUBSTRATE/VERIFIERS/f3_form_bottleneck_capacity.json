@@ -104,8 +104,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f3_form_bottleneck_capacity/000",
-        "verifier": "runs/form_verifiers/f3_form_bottleneck_capacity/001"
+        "canonical": "runs/f3_form_bottleneck_capacity/001",
+        "verifier": "runs/form_verifiers/f3_form_bottleneck_capacity/002"
       },
       "passed": true
     },
@@ -359,21 +359,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:17.042938+00:00",
+  "created_at": "2026-07-10T07:03:51.022720+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f3_form_bottleneck_capacity.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f3_form_bottleneck_capacity/001/config.yaml",
-    "config_snapshot_sha256": "e3f71923669d8d07519deec93effd557c9e6bb3fbe66ed90c0f1881b695c68c6",
+    "config_snapshot_path": "runs/form_verifiers/f3_form_bottleneck_capacity/002/config.yaml",
+    "config_snapshot_sha256": "8bcfcafcc6acd87a064c257f2e2e8292086b2bc4e0b88a5bfc0a13804c360582",
     "device": "cpu",
-    "finished": 1783652476.619881,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f3_form_bottleneck_capacity/001/manifest.json",
-    "manifest_sha256": "14c4118f943e43cce19f777d70332c368a1b76b68be77a49785f92d096d2bd35",
-    "run_dir": "runs/form_verifiers/f3_form_bottleneck_capacity/001",
-    "seconds": 0.8569819927215576,
-    "started": 1783652475.762899,
+    "finished": 1783667030.605472,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f3_form_bottleneck_capacity/002/manifest.json",
+    "manifest_sha256": "bcbfd67ac9ca66da036e09a349e7dd2840ed7c1035b0a91e7aaaf44f65c6c691",
+    "run_dir": "runs/form_verifiers/f3_form_bottleneck_capacity/002",
+    "seconds": 0.7408661842346191,
+    "started": 1783667029.864606,
     "status": "ok"
   },
   "experiment_id": "f3_form_bottleneck_capacity",
@@ -420,10 +420,10 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "78382aa98496a36b6321b805bd08a6b261c9eaef41d83b281f508d29e23ce9e1",
+  "metrics_sha256": "abe16d51060fff44e8173ab66f51d8adfd3a13396b10574bcb541a9980fcba89",
   "passed": true,
   "problems": [],
-  "receipt_fingerprint": "16dd4a1d64d19a9a09d5a4beae8e2c761c0486de1712da747f3217f925875e96",
+  "receipt_fingerprint": "6c46685c99a4c5df34906a70a8054ec4a3c3f40f75ec7e6b84ac4d011d538ddf",
   "recomputed": {
     "aggregate_delta": 0.38060000000000005,
     "floor": 0.1,
@@ -433,8 +433,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f3_form_bottleneck_capacity.json",
-      "receipt_fingerprint": "a75603e3360028a689dad4ccf4170b2cc8ef75d5dc2f8c34e4b3fe9dc14b52dd",
-      "sha256": "44dc4c8ad80537d476866b2a6b494a474d9142af70e3883a6663413bfd58fde4"
+      "receipt_fingerprint": "0a3f9e13b86f6ac8d7e6aaa3394b464cef5936549d8d7bda4f7d21c303fcfc5b",
+      "sha256": "135b746b538e5ba5c185176b70de7e28255740d4bdf3e3fd88fe2b66d3627a21"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -447,11 +447,11 @@
       },
       "cost": {
         "params": 1130.0,
-        "seconds": 0.38501249998807907
+        "seconds": 0.37939429108519107
       },
       "density": {
         "wide_form_acc_per_params": 0.0005241451010239863,
-        "wide_form_acc_per_seconds": 1.538349960521913
+        "wide_form_acc_per_seconds": 1.561130407268332
       },
       "primary": "wide_form_acc",
       "schema": "mop-density-block/v1"

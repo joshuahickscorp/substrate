@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:09.934489+00:00",
+  "created_at": "2026-07-10T07:02:31.012550+00:00",
   "experiment_id": "f14_lifelong_form_expansion",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f14_lifelong_form_expansion/002",
-    "manifest_path": "runs/f14_lifelong_form_expansion/002/manifest.json",
-    "manifest_sha256": "57d8b503069d745d1b49657254c01e9581e767a4d93ff28e794a28b353651f8a",
-    "config_path": "runs/f14_lifelong_form_expansion/002/config.yaml",
-    "config_sha256": "95a120c032334881440076c14183fe5c778c6413c1759ba601d8a3f8af5dd949",
-    "git": "be7b5d9",
+    "run_dir": "runs/f14_lifelong_form_expansion/003",
+    "manifest_path": "runs/f14_lifelong_form_expansion/003/manifest.json",
+    "manifest_sha256": "c63e37b0f804ba89584a441be14a2421c69b00bfed5a52a24744f03a5e5d0bc7",
+    "config_path": "runs/f14_lifelong_form_expansion/003/config.yaml",
+    "config_sha256": "578e32a9ea920ce84a5c7545cd6b2a7c739b8eb2104a5df818c9b6c7c9f0cf08",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -103,8 +103,8 @@
       3,
       4
     ],
-    "started": 1783640049.7299478,
-    "finished": 1783640049.934489
+    "started": 1783666950.798208,
+    "finished": 1783666951.0125499
   },
   "metrics": {
     "new_form": "timeseries",
@@ -484,13 +484,13 @@
         "params": 310.0,
         "flops": 48960000.0,
         "bytes": 40320.0,
-        "seconds": 0.19940433406736702
+        "seconds": 0.21021016698796302
       },
       "density": {
         "new_form_transfer_per_params": 0.0023087557285062727,
         "new_form_transfer_per_flops": 1.4618347137192496e-08,
         "new_form_transfer_per_bytes": 1.7750850095162315e-05,
-        "new_form_transfer_per_seconds": 3.589261382830058
+        "new_form_transfer_per_seconds": 3.4047557551197207
       }
     }
   },
@@ -518,13 +518,13 @@
       "params": 310.0,
       "flops": 48960000.0,
       "bytes": 40320.0,
-      "seconds": 0.19940433406736702
+      "seconds": 0.21021016698796302
     },
     "density": {
       "new_form_transfer_per_params": 0.0023087557285062727,
       "new_form_transfer_per_flops": 1.4618347137192496e-08,
       "new_form_transfer_per_bytes": 1.7750850095162315e-05,
-      "new_form_transfer_per_seconds": 3.589261382830058
+      "new_form_transfer_per_seconds": 3.4047557551197207
     }
   },
   "operational_awareness": {
@@ -547,5 +547,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f14_lifelong_form_expansion.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "7850dbb81d4157877a72fb9e2921d7af56b539ad9abe4fdf0ceb1661ff7fe11b"
+  "receipt_fingerprint": "3080322c283fb94463fcf1d222cd747e159bfdbec18f1ee1d8dda1cbf519f695"
 }

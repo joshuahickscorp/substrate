@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:10.497923+00:00",
+  "created_at": "2026-07-10T07:02:31.573918+00:00",
   "experiment_id": "f15_embodied_affordance_form",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f15_embodied_affordance_form/002",
-    "manifest_path": "runs/f15_embodied_affordance_form/002/manifest.json",
-    "manifest_sha256": "5ff0741ebe6acb5d3478874caa26e97389088d1e0ce46c6b4a3bb720e101452a",
-    "config_path": "runs/f15_embodied_affordance_form/002/config.yaml",
-    "config_sha256": "9f8f656d766a98be973a05cd09191fdeca4d1344b4841a0e74cd5888759a8581",
-    "git": "be7b5d9",
+    "run_dir": "runs/f15_embodied_affordance_form/003",
+    "manifest_path": "runs/f15_embodied_affordance_form/003/manifest.json",
+    "manifest_sha256": "6a52d5d5c823d3ccb25280d73530e031185bfa65f04e53871ce4c34f5627f1c3",
+    "config_path": "runs/f15_embodied_affordance_form/003/config.yaml",
+    "config_sha256": "5fb7464f355b3355ca545a9fe65c15bc42a77b5d6c1f3e4b4a1c76baf482c9fb",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -96,8 +96,8 @@
       3,
       4
     ],
-    "started": 1783640050.282559,
-    "finished": 1783640050.4979231
+    "started": 1783666951.341557,
+    "finished": 1783666951.5739179
   },
   "metrics": {
     "affordance_decode_acc": 0.8438,
@@ -114,6 +114,7 @@
     "form_audit": {
       "schema": "mop-form-matrix/v1",
       "n": 256,
+      "n_referents": 256,
       "tags": [
         "action_consequence",
         "observation"
@@ -126,12 +127,34 @@
           "observation"
         ]
       },
+      "modalities": {
+        "action_consequence": "control",
+        "observation": "symbolic"
+      },
+      "feature_dims": {
+        "action_consequence": 4,
+        "observation": 16
+      },
       "controls": {},
       "missing_controls": [
         "action_consequence",
         "observation"
       ],
       "trainable_tags": [],
+      "supervised": [],
+      "derived": [],
+      "licenses": {
+        "action_consequence": "unknown",
+        "observation": "unknown"
+      },
+      "objectives": {
+        "action_consequence": "programmatic",
+        "observation": "programmatic"
+      },
+      "referent_schemes": {
+        "action_consequence": "object-id",
+        "observation": "object-id"
+      },
       "implicit_referent_tags": [],
       "unverified_manifest_tags": [
         "action_consequence",
@@ -171,6 +194,34 @@
       "consistent_sign": 1
     },
     "null_supported": false,
+    "environment_contract": {
+      "schema": "mop-bounded-action-contract/v1",
+      "programmatic_only": true,
+      "natural_embodiment_claim": false,
+      "world_sha256": "5788e402f979fc6750abee564e370b3d8be4daf9be7111babfcea75dd60a503e",
+      "trajectory_sha256": "d51b8b2a635577e6bdb294e037ad498acd9e5dfffc5ec69be5f7a57515e8402a",
+      "episodes": 4,
+      "transitions": 29,
+      "counterfactuals": 116,
+      "observation_dim": 16,
+      "action_count": 4,
+      "has_learnable_rows": true,
+      "has_noisy_tv_rows": true,
+      "verified": true,
+      "checks": {
+        "schema": true,
+        "world_hash": true,
+        "content_hash": true,
+        "collections": true,
+        "counts": true,
+        "four_branches_per_clone": true,
+        "stable_unique_event_refs": true,
+        "stable_unique_sequence_states": true,
+        "required_causal_fields": true,
+        "exact_seeded_replay": true,
+        "episode_boundaries": true
+      }
+    },
     "density": {
       "schema": "mop-density-block/v1",
       "primary": "affordance_decode_acc",
@@ -237,5 +288,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f15_embodied_affordance_form.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "8b91a997491b3c2f0a71f06737f9e9964e86bba0df901b7d9d01647dd96ba198"
+  "receipt_fingerprint": "0996e01259e4acd25a21f825aee90b504d4464b1cfe6b8397a5f4c0ef2512fd5"
 }

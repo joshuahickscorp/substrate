@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:11.207641+00:00",
+  "created_at": "2026-07-10T07:02:32.299160+00:00",
   "experiment_id": "f17_missing_form_recovery",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f17_missing_form_recovery/005",
-    "manifest_path": "runs/f17_missing_form_recovery/005/manifest.json",
-    "manifest_sha256": "88053779a8558bd6beb4ee1d8ea1f2140c3368c3258d338f36405c5e3a31e262",
-    "config_path": "runs/f17_missing_form_recovery/005/config.yaml",
-    "config_sha256": "e9c6d8e35af08490edf884bb3b97f5e255bb5d770268b6f5af1d1702ab38eee2",
-    "git": "be7b5d9",
+    "run_dir": "runs/f17_missing_form_recovery/006",
+    "manifest_path": "runs/f17_missing_form_recovery/006/manifest.json",
+    "manifest_sha256": "d72337abad25d7988b5c98d1a9fe85be7313c2efbed05f6ae5eefc3826e06490",
+    "config_path": "runs/f17_missing_form_recovery/006/config.yaml",
+    "config_sha256": "edb6f2808c4232d23877b3ad6f61c6f3bfc8f0c9bababf992a31f12a84b3d0f7",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -99,8 +99,8 @@
       3,
       4
     ],
-    "started": 1783640050.9184158,
-    "finished": 1783640051.2076411
+    "started": 1783666951.962968,
+    "finished": 1783666952.29916
   },
   "metrics": {
     "recovery_acc": 0.7201,
@@ -158,12 +158,12 @@
       "cost": {
         "params": 150.0,
         "flops": 138528.0,
-        "seconds": 0.28481854195706546
+        "seconds": 0.3319298329297453
       },
       "density": {
         "recovery_acc_per_params": 0.00480092591047287,
         "recovery_acc_per_flops": 5.198507785941691e-06,
-        "recovery_acc_per_seconds": 2.5284129383665155
+        "recovery_acc_per_seconds": 2.169551559179532
       }
     }
   },
@@ -188,12 +188,12 @@
     "cost": {
       "params": 150.0,
       "flops": 138528.0,
-      "seconds": 0.28481854195706546
+      "seconds": 0.3319298329297453
     },
     "density": {
       "recovery_acc_per_params": 0.00480092591047287,
       "recovery_acc_per_flops": 5.198507785941691e-06,
-      "recovery_acc_per_seconds": 2.5284129383665155
+      "recovery_acc_per_seconds": 2.169551559179532
     }
   },
   "operational_awareness": {
@@ -228,5 +228,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f17_missing_form_recovery.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "5c025c749ab0e2ca72eac24b33e90e1cb7f69a0c6b1582c0958956e3bb9e4e34"
+  "receipt_fingerprint": "c9d3a05e1c1e1da06b6bb2c3b830e10273c1878e25d022149ee3e954d737044f"
 }

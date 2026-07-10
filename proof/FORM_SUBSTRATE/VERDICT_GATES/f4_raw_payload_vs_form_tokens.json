@@ -1,6 +1,6 @@
 {
   "schema": "mop-verdict-gate/v1",
-  "created_at": "2026-07-10T06:53:12.138950+00:00",
+  "created_at": "2026-07-10T07:04:55.802751+00:00",
   "claim_id": "f4_raw_payload_vs_form_tokens",
   "verdict": "PUBLISH-POSITIVE",
   "positive": true,
@@ -15,14 +15,14 @@
   "run_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f4_raw_payload_vs_form_tokens.json",
     "exists": true,
-    "sha256": "9cc57c4c637db65622de33099656422868f35d71a82be08e50795c006f3ecb02",
+    "sha256": "cf9771398d2f9958eed5d5e19a16a6b9ed168636dd5de2151884e03aa9ea73c9",
     "json_ok": true,
     "problems": []
   },
   "verifier_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f4_raw_payload_vs_form_tokens.json",
     "exists": true,
-    "sha256": "868bea5c9f444133705f8b610515b64991596b7cda99721e5743740ff3b5b395",
+    "sha256": "e4af85af1b21d8ec285e2b592bb96bc0c5f26a242e276723873b8d52f90ddcba",
     "json_ok": true,
     "passed": true,
     "independent": true,

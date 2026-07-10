@@ -1,6 +1,6 @@
 {
   "schema": "mop-verdict-gate/v1",
-  "created_at": "2026-07-10T06:53:12.115658+00:00",
+  "created_at": "2026-07-10T07:04:55.764527+00:00",
   "claim_id": "f12_private_form_language_stability",
   "verdict": "PUBLISH-POSITIVE",
   "positive": true,
@@ -15,14 +15,14 @@
   "run_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f12_private_form_language_stability.json",
     "exists": true,
-    "sha256": "608553fdbaebf2d433ca8e16061e1665376f884094ef14e3f991b881d61f2e48",
+    "sha256": "ef9c4cb2847b1889eb583e10a521cc13b4cf75142d662e5142543acfc018c194",
     "json_ok": true,
     "problems": []
   },
   "verifier_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f12_private_form_language_stability.json",
     "exists": true,
-    "sha256": "e2c8d433d5c4a63814d88da21b701d75ba079d1ac3edce1e757db7bf75a5f8e3",
+    "sha256": "b5a0fe3cefc53dce86e81a4b49b9f9a85baea90771d7faa06fdd2cfe54cc3352",
     "json_ok": true,
     "passed": true,
     "independent": true,

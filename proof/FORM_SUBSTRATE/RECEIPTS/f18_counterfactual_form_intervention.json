@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:12.036191+00:00",
+  "created_at": "2026-07-10T07:02:33.020151+00:00",
   "experiment_id": "f18_counterfactual_form_intervention",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f18_counterfactual_form_intervention/001",
-    "manifest_path": "runs/f18_counterfactual_form_intervention/001/manifest.json",
-    "manifest_sha256": "e25628ce182d8d8d522a1094636e5277d1fcf882d88ef5bda99a50783a9bc42d",
-    "config_path": "runs/f18_counterfactual_form_intervention/001/config.yaml",
-    "config_sha256": "bb9e8dbd4e7d639c26fe82343c4dee53e1466a082a01b3736d99319872455781",
-    "git": "be7b5d9",
+    "run_dir": "runs/f18_counterfactual_form_intervention/002",
+    "manifest_path": "runs/f18_counterfactual_form_intervention/002/manifest.json",
+    "manifest_sha256": "0728866418f06daa89e8da9d64dc1f44f2e2fb1ea16a8a31f195da96dcd2c799",
+    "config_path": "runs/f18_counterfactual_form_intervention/002/config.yaml",
+    "config_sha256": "0457dcf8903c5fe9708bb1e8274e3b0e34e0c792a7f43f69c5fc75b9ebb1b596",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -99,8 +99,8 @@
       3,
       4
     ],
-    "started": 1783640051.65578,
-    "finished": 1783640052.036191
+    "started": 1783666952.690603,
+    "finished": 1783666953.0201511
   },
   "metrics": {
     "counterfactual_match_acc": 0.8417,
@@ -176,13 +176,13 @@
       "cost": {
         "params": 624.0,
         "flops": 235872000.0,
-        "seconds": 0.3743771669687703,
+        "seconds": 0.3253037079703063,
         "updates": 260.0
       },
       "density": {
         "counterfactual_match_acc_per_params": 0.0013488247990608214,
         "counterfactual_match_acc_per_flops": 3.5683195742349777e-09,
-        "counterfactual_match_acc_per_seconds": 2.248178438414655,
+        "counterfactual_match_acc_per_seconds": 2.587325794302904,
         "counterfactual_match_acc_per_updates": 0.0032371795177459717
       }
     }
@@ -209,13 +209,13 @@
     "cost": {
       "params": 624.0,
       "flops": 235872000.0,
-      "seconds": 0.3743771669687703,
+      "seconds": 0.3253037079703063,
       "updates": 260.0
     },
     "density": {
       "counterfactual_match_acc_per_params": 0.0013488247990608214,
       "counterfactual_match_acc_per_flops": 3.5683195742349777e-09,
-      "counterfactual_match_acc_per_seconds": 2.248178438414655,
+      "counterfactual_match_acc_per_seconds": 2.587325794302904,
       "counterfactual_match_acc_per_updates": 0.0032371795177459717
     }
   },
@@ -239,5 +239,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f18_counterfactual_form_intervention.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "afb3605f0fcb6129192910ab75a7e372cf9a22bdca10b0878d9f1b21a4be0ce6"
+  "receipt_fingerprint": "3b5165bb1764b9522132abaf306fd6761985652bb5dbcf4b01ebe4f31f6c2113"
 }

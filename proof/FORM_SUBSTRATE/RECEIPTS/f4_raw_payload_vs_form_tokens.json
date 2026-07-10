@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:33:58.684309+00:00",
+  "created_at": "2026-07-10T07:02:20.649833+00:00",
   "experiment_id": "f4_raw_payload_vs_form_tokens",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f4_raw_payload_vs_form_tokens/001",
-    "manifest_path": "runs/f4_raw_payload_vs_form_tokens/001/manifest.json",
-    "manifest_sha256": "de6027abfd7fd96c836c2e113eb6c45b7a2ded828afe177d855d6f9088eedc9f",
-    "config_path": "runs/f4_raw_payload_vs_form_tokens/001/config.yaml",
-    "config_sha256": "80930986647e66769d50c4d164b402c2f179cbf55048de091cc405b18c019f55",
-    "git": "be7b5d9",
+    "run_dir": "runs/f4_raw_payload_vs_form_tokens/002",
+    "manifest_path": "runs/f4_raw_payload_vs_form_tokens/002/manifest.json",
+    "manifest_sha256": "0ceaa4ab1e2a8bca560923e73ecbdc26d606b812ae83eba9b3b658eba5900909",
+    "config_path": "runs/f4_raw_payload_vs_form_tokens/002/config.yaml",
+    "config_sha256": "37a66b5a03108ff05e7a3d4c98e69243b44601195eeca1cf5dedbc7f73530dc4",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -95,8 +95,8 @@
       3,
       4
     ],
-    "started": 1783640038.39478,
-    "finished": 1783640038.684309
+    "started": 1783666940.383456,
+    "finished": 1783666940.649833
   },
   "metrics": {
     "reference_form": "vision",
@@ -189,11 +189,11 @@
       },
       "cost": {
         "params": 336.0,
-        "seconds": 0.2842478340025991
+        "seconds": 0.26210958405863494
       },
       "density": {
         "cross_form_transfer_per_dim_per_params": 6.328280017312085e-05,
-        "cross_form_transfer_per_dim_per_seconds": 0.07480451322620871
+        "cross_form_transfer_per_dim_per_seconds": 0.08112263782545236
       }
     }
   },
@@ -216,11 +216,11 @@
     },
     "cost": {
       "params": 336.0,
-      "seconds": 0.2842478340025991
+      "seconds": 0.26210958405863494
     },
     "density": {
       "cross_form_transfer_per_dim_per_params": 6.328280017312085e-05,
-      "cross_form_transfer_per_dim_per_seconds": 0.07480451322620871
+      "cross_form_transfer_per_dim_per_seconds": 0.08112263782545236
     }
   },
   "operational_awareness": {
@@ -243,5 +243,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f4_raw_payload_vs_form_tokens.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "d078206ad40efdecc565fd31df2ff705890c7bca2386812356ecee5c2720080c"
+  "receipt_fingerprint": "2af6feb2a5202a8c803843b585b118e7b3a938701f1b0e7c388d41fd13ee28f9"
 }

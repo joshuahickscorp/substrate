@@ -1,6 +1,6 @@
 {
   "schema": "mop-verdict-gate/v1",
-  "created_at": "2026-07-10T06:53:12.111300+00:00",
+  "created_at": "2026-07-10T07:04:55.755637+00:00",
   "claim_id": "f10_intrinsic_form_curriculum",
   "verdict": "PUBLISH-POSITIVE",
   "positive": true,
@@ -15,14 +15,14 @@
   "run_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f10_intrinsic_form_curriculum.json",
     "exists": true,
-    "sha256": "8e1994568a5980c4bf09c251e5a7e0505c0d1042de1a3427d261f5156f5355aa",
+    "sha256": "b2ff19bdf4e2b9228999ea8289591fbcee8b76716fdef1448c08e890c587228c",
     "json_ok": true,
     "problems": []
   },
   "verifier_receipt": {
     "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f10_intrinsic_form_curriculum.json",
     "exists": true,
-    "sha256": "4c88331f49ed423be170d3e7b38377431219cb73e65e0f63639538d1bdbfe567",
+    "sha256": "717da79e2d7145112fdfc32a11e474cf42a25935ff4300cbdefebfda55aa40e8",
     "json_ok": true,
     "passed": false,
     "independent": false,

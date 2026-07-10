@@ -104,8 +104,8 @@
       "expected": "distinct runs/form_verifiers path",
       "name": "verifier_execution_path_is_separate",
       "observed": {
-        "canonical": "runs/f15_embodied_affordance_form/002",
-        "verifier": "runs/form_verifiers/f15_embodied_affordance_form/000"
+        "canonical": "runs/f15_embodied_affordance_form/003",
+        "verifier": "runs/form_verifiers/f15_embodied_affordance_form/002"
       },
       "passed": true
     },
@@ -300,21 +300,21 @@
       "passed": true
     }
   ],
-  "created_at": "2026-07-10T03:01:37.524769+00:00",
+  "created_at": "2026-07-10T07:04:09.110075+00:00",
   "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f15_embodied_affordance_form.json",
   "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
   "execution": {
     "completed": true,
-    "config_snapshot_path": "runs/form_verifiers/f15_embodied_affordance_form/000/config.yaml",
-    "config_snapshot_sha256": "49b849bf90f43129cffbbb4a1d716776607c48433f9a077ee5d1444626700459",
+    "config_snapshot_path": "runs/form_verifiers/f15_embodied_affordance_form/002/config.yaml",
+    "config_snapshot_sha256": "c513fdbda30b66b496432d74e56253564e1afb83dc5f99c1204a08209340b28e",
     "device": "cpu",
-    "finished": 1783652497.0848231,
-    "git": "be7b5d9",
-    "manifest_path": "runs/form_verifiers/f15_embodied_affordance_form/000/manifest.json",
-    "manifest_sha256": "9e41514a00fd23374b9fd0d0210a757a6a1e781b44294cce01abfb51ae237e94",
-    "run_dir": "runs/form_verifiers/f15_embodied_affordance_form/000",
-    "seconds": 0.6687781810760498,
-    "started": 1783652496.416045,
+    "finished": 1783667048.694506,
+    "git": "9ce4ce5",
+    "manifest_path": "runs/form_verifiers/f15_embodied_affordance_form/002/manifest.json",
+    "manifest_sha256": "ef9de11b5fdc13ceff0619b819dff71334d64c8bd31dbe1abf416ed668e2f456",
+    "run_dir": "runs/form_verifiers/f15_embodied_affordance_form/002",
+    "seconds": 0.6506969928741455,
+    "started": 1783667048.043809,
     "status": "ok"
   },
   "experiment_id": "f15_embodied_affordance_form",
@@ -336,15 +336,15 @@
       "null_hypothesis": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
       "tier": "cpu-now"
     },
-    "class_source_sha256": "fe4c47a93abde3bc368a82999f409b6683089979c7db5d66888727e08b2162d0",
+    "class_source_sha256": "19f731592a01e8b5c0abf033540638a55b9c01b1873fc006b383c648e35cc776",
     "config_path": "configs/experiment/f15_embodied_affordance_form.yaml",
     "config_sha256": "17365251fefb228070f6d2aaa10d06f652d182743c351cde260c564f05d074fe",
     "contract_fingerprint": "a38e6811168f2a2e72d00f77c67b53162caccfe8adf30010d0822ee74027bbcc",
     "contract_problems": [],
     "experiment_id": "f15_embodied_affordance_form",
     "module_path": "src/mop/experiments/f_form_substrate_missing.py",
-    "module_sha256": "be4aad9cd0b1b4b74f531727308aae56e69b99d2e1b8a99384c3224865ea4605",
-    "registry_row_fingerprint": "d592ba6f19ee0c8a10dea48f97fb80c95beac3bc3be5c5cb2b2093ade3007ee3",
+    "module_sha256": "35e4fd0f6829e8f4a887ccb6af16f3d8c794df2d7fcb489bcf19111aa9af06b9",
+    "registry_row_fingerprint": "1dbf2ee05891f1a75bbcd4af8d70b17638bba728bf9a9ae7a350a89cc51d5f9e",
     "source_requirements": [
       "_affordance_dataset",
       "outcomes_tr",
@@ -361,10 +361,10 @@
     "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
   },
   "independent": true,
-  "metrics_sha256": "527a778df10419429e952c3275ba0c171fedf61d33db607c384de09b019edc64",
+  "metrics_sha256": "e9482c9453f7a28e12ae90d6ada29ada7d1b4897e08349b07b0671d5efc69ab7",
   "passed": true,
   "problems": [],
-  "receipt_fingerprint": "c94acb392ebd2ad9375dff17ec92da4751b88f1da3862790f4c69d6edbca4caa",
+  "receipt_fingerprint": "27297a096cb49c05ef73067e01653d54fe9087c96e57c0a68150c3fdac200690",
   "recomputed": {
     "aggregate_delta": 0.5604,
     "strongest_control": 0.2302
@@ -373,8 +373,8 @@
   "source_receipts": [
     {
       "path": "proof/FORM_SUBSTRATE/RECEIPTS/f15_embodied_affordance_form.json",
-      "receipt_fingerprint": "ee7f2787e0cd7185a38ef5d5be1095931d96bec50c96eafc8915758b2b7b4898",
-      "sha256": "47aac2922a8f05a5aa3381c491e0652dcc9543c31e1988e21b72536645d546f8"
+      "receipt_fingerprint": "0996e01259e4acd25a21f825aee90b504d4464b1cfe6b8397a5f4c0ef2512fd5",
+      "sha256": "d8f1303800e3d9532ca9b716ace6ccf2a232dcd81a26088549a3a59ee04f9cc7"
     }
   ],
   "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
@@ -403,6 +403,34 @@
       },
       "primary": "affordance_decode_acc",
       "schema": "mop-density-block/v1"
+    },
+    "environment_contract": {
+      "action_count": 4,
+      "checks": {
+        "collections": true,
+        "content_hash": true,
+        "counts": true,
+        "episode_boundaries": true,
+        "exact_seeded_replay": true,
+        "four_branches_per_clone": true,
+        "required_causal_fields": true,
+        "schema": true,
+        "stable_unique_event_refs": true,
+        "stable_unique_sequence_states": true,
+        "world_hash": true
+      },
+      "counterfactuals": 116,
+      "episodes": 4,
+      "has_learnable_rows": true,
+      "has_noisy_tv_rows": true,
+      "natural_embodiment_claim": false,
+      "observation_dim": 16,
+      "programmatic_only": true,
+      "schema": "mop-bounded-action-contract/v1",
+      "trajectory_sha256": "f3ff6ae00d4b9bde33a92eb13ac9be4bae6775a8112715b90a4554f12ef177da",
+      "transitions": 29,
+      "verified": true,
+      "world_sha256": "1f769d1f66781d6cdb5ea3dd7a4dba0a607341fec5ec54a863bc657e4243c181"
     },
     "form_audit": {
       "all_ok": true,

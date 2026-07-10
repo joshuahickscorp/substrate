@@ -1,16 +1,16 @@
 {
   "schema": "mop-form-experiment-receipt/v1",
-  "created_at": "2026-07-09T23:34:00.080952+00:00",
+  "created_at": "2026-07-10T07:02:21.963229+00:00",
   "experiment_id": "f6_sensorimotor_form_closure",
   "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
   "canonical": true,
   "source": {
-    "run_dir": "runs/f6_sensorimotor_form_closure/001",
-    "manifest_path": "runs/f6_sensorimotor_form_closure/001/manifest.json",
-    "manifest_sha256": "729726bdc25f5ced81860369d1f6fa3972d29a58dd2dbcd7c5970cd6e8654a75",
-    "config_path": "runs/f6_sensorimotor_form_closure/001/config.yaml",
-    "config_sha256": "9e1b16408756554ae062cb3037110976439c6aca4dcedf2c5f07540b130f6a50",
-    "git": "be7b5d9",
+    "run_dir": "runs/f6_sensorimotor_form_closure/002",
+    "manifest_path": "runs/f6_sensorimotor_form_closure/002/manifest.json",
+    "manifest_sha256": "e360b5ac09e07e24b1a555eaee7b651826ade86075d7d14c1430583ec4e42547",
+    "config_path": "runs/f6_sensorimotor_form_closure/002/config.yaml",
+    "config_sha256": "241e0e3c4b43c7e8faf502851af5504c8a33b3ac7bf79058720a89b760518ba9",
+    "git": "9ce4ce5",
     "device": "cpu",
     "platform": "macOS-26.6-arm64-arm-64bit",
     "result_tag": "structured-synthetic"
@@ -96,8 +96,8 @@
       3,
       4
     ],
-    "started": 1783640039.4619992,
-    "finished": 1783640040.0809522
+    "started": 1783666941.403873,
+    "finished": 1783666941.963229
   },
   "metrics": {
     "rollout_r2": 0.8926,
@@ -120,6 +120,7 @@
     "form_audit": {
       "schema": "mop-form-matrix/v1",
       "n": 432,
+      "n_referents": 432,
       "tags": [
         "action_trace",
         "observation_state"
@@ -132,12 +133,34 @@
           "observation_state"
         ]
       },
+      "modalities": {
+        "action_trace": "control",
+        "observation_state": "symbolic"
+      },
+      "feature_dims": {
+        "action_trace": 4,
+        "observation_state": 12
+      },
       "controls": {},
       "missing_controls": [
         "action_trace",
         "observation_state"
       ],
       "trainable_tags": [],
+      "supervised": [],
+      "derived": [],
+      "licenses": {
+        "action_trace": "unknown",
+        "observation_state": "unknown"
+      },
+      "objectives": {
+        "action_trace": "programmatic",
+        "observation_state": "programmatic"
+      },
+      "referent_schemes": {
+        "action_trace": "transition-id",
+        "observation_state": "transition-id"
+      },
       "implicit_referent_tags": [],
       "unverified_manifest_tags": [
         "action_trace",
@@ -177,6 +200,34 @@
       "consistent_sign": 1
     },
     "null_supported": false,
+    "environment_contract": {
+      "schema": "mop-bounded-action-contract/v1",
+      "programmatic_only": true,
+      "natural_embodiment_claim": false,
+      "world_sha256": "b49c2086a702ea15e69984016bb29536cd10e94189086578b234a8e993672ea5",
+      "trajectory_sha256": "6db9fcafd2fd62b2c50eee47f88f475346d16323f687d756c66611af605a855b",
+      "episodes": 4,
+      "transitions": 23,
+      "counterfactuals": 92,
+      "observation_dim": 16,
+      "action_count": 4,
+      "has_learnable_rows": true,
+      "has_noisy_tv_rows": true,
+      "verified": true,
+      "checks": {
+        "schema": true,
+        "world_hash": true,
+        "content_hash": true,
+        "collections": true,
+        "counts": true,
+        "four_branches_per_clone": true,
+        "stable_unique_event_refs": true,
+        "stable_unique_sequence_states": true,
+        "required_causal_fields": true,
+        "exact_seeded_replay": true,
+        "episode_boundaries": true
+      }
+    },
     "density": {
       "schema": "mop-density-block/v1",
       "primary": "rollout_r2",
@@ -243,5 +294,5 @@
   "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f6_sensorimotor_form_closure.json",
   "problems": [],
   "all_ok": true,
-  "receipt_fingerprint": "d8d025805310fb81b9979c4fe1c4610d8ca5a550587d169c690979780f5d60e0"
+  "receipt_fingerprint": "b434989b015151dcd8126d58ec8febbeb02d0491b585e925f3422f42359bdda2"
 }

@@ -2,6 +2,24 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 ledger wave: exhaustion, frontier, F chain, requirements all regenerated
+
+- [x] PROJECT_EXPERIMENT_EXHAUSTION.json regenerated post-CM7: CM7 row freshly-executed-verified,
+  runnable-not-yet-run 0, measured-hardware-blocked 0, self-verification clean (175 entries).
+- [x] FRONTIER_LOCALIZATION.json regenerated; now embeds the current scale-atlas hash 21cc5a60,
+  measured_hardware_blocked_count 0 across all 24 historical rows.
+- [x] F campaign chain regenerated end to end (audit, preregister, preflight, run-local 18/18,
+  collect, fresh-seed verifiers, gates, scorecard, boundary, bundle). F8/F16 now carry env-later /
+  external-environment-scale semantics everywhere; zero gpu-later or studio-scale-claim-unproved
+  strings remain. 11 of 12 candidate positives passed fresh five-seed adversarial verifiers and are
+  fingerprint-bound; F10 FAILED its independent verifier again (fresh-seed CI lower bound not
+  positive, effect sign unstable) and its verdict gate stays blocked, retained per the residual
+  audit. finalize all_ok false comes only from that retained F10 refusal; every other stage green.
+- [!] F10 single-seed positive vs five-fresh-seed refutation is the one open contradiction; do not
+  cite F10 as a positive anywhere.
+- [x] EXTENDED_COMPUTE_REQUIREMENTS.json rebuilt (289 rows, payload e8743284) and byte-verified
+  with --check; negative gate tests pass.
+
 ## 2026-07-10 R0 closure: CM7 objective-selection null recorded
 
 - [x] CM7 five-seed local180 chain complete and hash-verified (raw receipt, current-evidence
