@@ -1,0 +1,3199 @@
+{
+  "schema": "mop-potential-atlas/v1",
+  "snapshot_date": "2026-07-10",
+  "timezone": "America/Toronto",
+  "status": "generated evidence-grounded snapshot; no facet at 10",
+  "claim_scope": "Actionable realization and verification audit of the live MOP repository. Scores do not license broad cognitive, autonomous-status, moral-status, natural-video, embodiment, or physical-material claims.",
+  "definitions": {
+    "demonstrated-capability": "A preregistered treatment survived its strongest controls on appropriate independent units and an independent verifier promoted the bounded claim.",
+    "executed-mechanics-readiness": "The end-to-end path, identities, controls, and failure behavior execute, but capability promotion is blocked by evidence class, power, control completeness, or verifier outcome.",
+    "demonstrated-null-or-closure": "A valid experiment rejected the lever or excluded its registered margin. This raises falsification maturity, not the refuted capability.",
+    "planned-scaffold-only": "A research question, registry row, schema, or preflight exists without an executed end-to-end mechanism.",
+    "irreducible-gate": "A participant, rights authority, live sensor/environment, physical specimen, or human governance dependency that software and additional compute cannot substitute for."
+  },
+  "scoring": {
+    "dimensions": {
+      "scaffolding": {
+        "weight": 0.2,
+        "ten": "All currently actionable contracts, identities, nulls, controls, metrics, dependencies, refusal rules, and tests are complete."
+      },
+      "implementation": {
+        "weight": 0.25,
+        "ten": "Every currently local mechanism runs end to end, resumes safely, and fails closed."
+      },
+      "experiment": {
+        "weight": 0.3,
+        "ten": "Every currently actionable experiment has run on appropriate independent units with the strongest declared controls. A null counts as completion, not capability."
+      },
+      "confirmation": {
+        "weight": 0.25,
+        "ten": "Independent recomputation, corrected uncertainty, adequate independent units, transfer, and external validity appropriate to the claim are closed."
+      }
+    },
+    "raw_formula": "0.20*S + 0.25*I + 0.30*E + 0.25*C",
+    "bottleneck_caps": [
+      "score <= S + 2.5",
+      "score <= I + 2.0",
+      "score <= E + 1.5",
+      "score <= C + 2.0"
+    ],
+    "rounding": "round the capped score to one decimal",
+    "ten_definition": "All currently actionable potential is implemented, executed, and verified. Explicit irreducible gates may remain, but no local precursor, control, verifier, or handoff task may remain.",
+    "ladder": {
+      "0": "absent",
+      "1": "named speculation",
+      "2": "research question and boundary written",
+      "3": "registry contract or schema",
+      "4": "minimal implementation or preflight",
+      "5": "runnable controlled fixture",
+      "6": "multi-seed local mechanics or citable intake",
+      "7": "strong controls and durable project-controlled result",
+      "8": "causal, transfer, or natural-data evidence with independent verification",
+      "9": "replication across tasks, substrates, or environments",
+      "10": "all current actionable potential realized and verified"
+    },
+    "anti_score_inflation": [
+      "Tests prove code behavior, not scientific truth.",
+      "Programmatic fixtures cannot confirm natural, embodied, social, developmental, or material claims.",
+      "Natural input integrity alone does not prove representation value.",
+      "Ceilinged, tiny-n, or underpowered results cannot establish specialness.",
+      "Missing matched-random, strongest-shell, compute, data-order, or referent controls block promotion.",
+      "Seeds are not independent data when referents, sessions, participants, or specimens are reused.",
+      "Nulls raise falsification maturity but do not raise the capability they refute.",
+      "Inherited-model execution proves availability and cost, not learned-code value or project ownership.",
+      "Rights, environments, participants, and specimens are never compute blockers.",
+      "Stale embedded hashes lose confirmation credit until refreshed.",
+      "A SHA-256 hash proves integrity, not signer identity or independent authority.",
+      "Functional workspace, self-model, report, or integration evidence never licenses nonfunctional or moral-status claims.",
+      "No score includes an unimplemented future architecture or hypothetical Studio result.",
+      "Documentation alone can raise scaffolding only; the experiment and confirmation caps remain binding."
+    ]
+  },
+  "source_snapshot": [
+    {
+      "path": "proof/CUSTOM_SUBSTRATE_PILOT.json",
+      "sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2"
+    },
+    {
+      "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
+      "sha256": "43056e20957ca197163b6dccba99fd62d6860fb9ea80dad4212cb1e3cf2cf3da"
+    },
+    {
+      "path": "proof/FRONTIER_LOCALIZATION.json",
+      "sha256": "924f7c63e0ed92f4829f4252fcecc208f9617dc4f3aa2c93623003bc2b657ceb"
+    },
+    {
+      "path": "proof/LOCAL_ACTION_ENVIRONMENT.json",
+      "sha256": "df67dfb4334bf4647c7c2c164ad3f2aee5374cbd574aca227ff4f8058dd0c426"
+    },
+    {
+      "path": "proof/VJEPA21_VITB_LOAD.json",
+      "sha256": "c60eb456726e02773c30f42af093727b600e5a6eb67d5d3d094adb17cee241da"
+    },
+    {
+      "path": "proof/VJEPA21_VITB_FORWARD.json",
+      "sha256": "06ed0d097a50b2638d0209b991c0710574a750edb4a5ddfb3a5dace722581601"
+    },
+    {
+      "path": "proof/VJEPA21_VITB_FORWARD_64F.json",
+      "sha256": "902422b7c042969076bccbbcf283a9b1b80639a9d9e4a9e24c2ca703fcd5c6bf"
+    },
+    {
+      "path": "proof/E6_VITB_DENSE_PREFLIGHT.json",
+      "sha256": "76cde906e4663fe9a5444371d0c3af08ae6b455c72c18a31772711bd510e1766"
+    },
+    {
+      "path": "proof/EXPANSION_WAVE0.json",
+      "sha256": "a463da8cf345b0c50682ee5af5ba81aa9c032f471b317467c4964988e33f5a91"
+    },
+    {
+      "path": "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+      "sha256": "efa319969601287e29331fdb352fb2a3690f23f881985d2174010ea7c5883e7f"
+    },
+    {
+      "path": "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+      "sha256": "ddbbaa41c1c94ff8395d396dce92bb43209c0dcc635dd954e00b5fd14ecc5f29"
+    },
+    {
+      "path": "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+      "sha256": "f87d4700f291f07747a66311da57a3f8bc586ff68a18e9035f74b762ca790e3a"
+    },
+    {
+      "path": "proof/SANPO_REAL_SMOKE_VERIFICATION.json",
+      "sha256": "21eb7ed2259d302ff69d6f8ea8d088a260bb76e07eac1e49bbbb6bc3c9350d1c"
+    },
+    {
+      "path": "proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json",
+      "sha256": "c16c7c4e9605f04ecbea80d462989661fbfe051d2661a905cd01bc8f4ff4e376"
+    },
+    {
+      "path": "proof/FORM_SUBSTRATE/SCORECARD.json",
+      "sha256": "ddd686a1027c27dd1c9816c87b250f4a0db483e9805756096c262e7fa0169cd1"
+    },
+    {
+      "path": "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
+      "sha256": "b9ae786ad93f74ee58e4f389ac1ad84ffea64801997832c6dfe35a5c64a9e11e"
+    },
+    {
+      "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
+      "sha256": "8e1d8ad7af5a3165b4cdbb7614a68132608a49baed4aaec4f7faa0244acf1824"
+    },
+    {
+      "path": "proof/P4_CAPABILITY_DENSITY_SCREEN.json",
+      "sha256": "6330950bfab8d34a9864dd6a98df9b6a69c4a17085ed64a4cecf58669ef58da0"
+    },
+    {
+      "path": "proof/P5_MEMORY_BOUNDARY_TRACE.json",
+      "sha256": "78db1cfa4ac6343484e3eeefd95a2461328d2396d3fb5b6a7a88fb25fc4d6b24"
+    },
+    {
+      "path": "proof/COMPLETION_CLAIM_AUDIT.json",
+      "sha256": "bc74193ea4b8310563ee101559c8e1e2eea8d94b94c24ea4dadf5d1366995bb2"
+    },
+    {
+      "path": "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
+      "sha256": "6b667edfd83961b747cb9f153ab310b08d169bd525a71f25416b1310c7d0595b"
+    },
+    {
+      "path": "proof/LOCAL_EXECUTION_THROTTLE_P4_CPU_DRY_RUN.json",
+      "sha256": "701eb792bc47ee762005013ef539cf8b7db42ed3d57563e23c6b73fa6a258d68"
+    },
+    {
+      "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+      "sha256": "65e38c78186640add987b6e88ef6366ea6dc642fa6a1f8c4bb8a07803021a0d6"
+    },
+    {
+      "path": "configs/local_execution_throttle.yaml",
+      "sha256": "9a4fbcfdd9ba39a163282f1dc562673536f1847821d0fb3407a0b70c82f9fbe6"
+    },
+    {
+      "path": "src/mop/studio/local_throttle.py",
+      "sha256": "e63300d3546e54a711c9ccd07c97b3406adb2bf089faeccbb50e93a020e81201"
+    },
+    {
+      "path": "docs/LOCAL_EXECUTION_THROTTLE.md",
+      "sha256": "165e93c4acf1360cb28a5bce1761baac578dbc21c8fd3fc5390d9f5f37796f0c"
+    },
+    {
+      "path": "configs/custom_substrate/requirements.yaml",
+      "sha256": "fba9c54a1e4ba913c45622dc1524a25a2dcbbbe40852961bff6f64a16da11c16"
+    },
+    {
+      "path": "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
+      "sha256": "70bb8333fbcf9218f82e7c9d0625866c22b40f7796531d37b8fbd3d53572ba82"
+    },
+    {
+      "path": "EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md",
+      "sha256": "4bac93620485a7d8f75edbb8bba871fc7a5f2c6f4464079a1af341a7bb8f6f1a"
+    },
+    {
+      "path": "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md",
+      "sha256": "b2e00e3cc6800966661d7a36d4578a458da94f98a5c438c004b0f640ee23e2a3"
+    },
+    {
+      "path": "registry/experiments.yaml",
+      "sha256": "ae242cd8a3720d31109ae19a9d9100f4e8bfe6ae431b49f164ee0f80ab918cfe"
+    },
+    {
+      "path": "proof/LOCAL_THROTTLE_P4_RUN.json",
+      "sha256": "709e077bc0665176585f656a1a5d1eb654ccfe5e588fc012cb342ad7aa4c299a"
+    },
+    {
+      "path": "scripts/build_mop_potential_atlas.py",
+      "sha256": "80eb539307621ac3cc49026f889bf1435afa53c6a2dfef3aaef7b858260344c4"
+    },
+    {
+      "path": "src/mop/studies/potential_atlas_driver.py",
+      "sha256": "f2289f20516302a0671296a4c3ef1a9fe938a3b5b142d48cb5ffd080d908e643"
+    },
+    {
+      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+      "sha256": "82bea5e841bf0f8a1c36cbe5ec0921cd6efdd27d2e8e8631b521c3b2a88bb604"
+    },
+    {
+      "path": "proof/SENSING_SCAFFOLD_RUN.json",
+      "sha256": "cc357375a16638f76995854ab5c1db92eaefbcc125f48a5a80f6327229bbc1d7"
+    },
+    {
+      "path": "proof/SENSING_SCAFFOLD_VERIFICATION.json",
+      "sha256": "9c18f75c155a5d4c1d53e5a087f247c6f412e1f62925100abeb749ae0cea627e"
+    },
+    {
+      "path": "proof/INTEGRATION_BROADCAST_RUN.json",
+      "sha256": "a5cb1200b7a79bc578aa9cde7d2ed4f9ecb66e72c2ff3b95f70e972c94317fdc"
+    },
+    {
+      "path": "proof/INTEGRATION_BROADCAST_VERIFICATION.json",
+      "sha256": "fd45c76d02315ce515633150acb41c21a36edb7efa724a6d58b6b35cff0966e5"
+    },
+    {
+      "path": "proof/F59_F60_INTEGRITY_SCAFFOLD_RUN.json",
+      "sha256": "fbf5124b254b1ef2f21533326c527dec437c07b241d508687f01031d38850c21"
+    },
+    {
+      "path": "proof/F59_F60_INTEGRITY_VERIFICATION.json",
+      "sha256": "930469128983dcd341a4ed6c5f17db9eaced0305628d17989bcb185208318866"
+    },
+    {
+      "path": "proof/F61_F64_MATERIAL_TWIN_RUN.json",
+      "sha256": "c8bc3ff87a855b5e8688603c53d9d80425aa9be658bbd6ef49a7594254090c68"
+    },
+    {
+      "path": "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json",
+      "sha256": "4726d7a772613fed205e42075f684db38737c9e15d4ce7cb3f78b4c27e3d5028"
+    },
+    {
+      "path": "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
+      "sha256": "9da8041151149f005e8b4f91d69386c619344d546af8acd09044a5406a7ad17f"
+    },
+    {
+      "path": "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
+      "sha256": "45eed7a1cf5abc1044c8e832e94fd9236e2e693c188c0b3127855e744ee27645"
+    }
+  ],
+  "portfolio": {
+    "facet_count": 41,
+    "domain_weight_total": 100,
+    "weighted_actionable_realization_score": 5.74,
+    "display_score": 5.7,
+    "domain_scores": {
+      "evidence_data_substrate": 6.4,
+      "sensing_representation": 5.39,
+      "prediction_reasoning_action": 5.87,
+      "persistent_adaptive_ecology": 6.38,
+      "owned_substrate_performance": 6.41,
+      "bio_morphogenic_material": 4.29,
+      "safety_security_welfare": 3.35
+    },
+    "current_registry_summary": {
+      "non_f_rows": 177,
+      "freshly_executed_verified": 120,
+      "already_durable_hash_verifiable": 37,
+      "implementation_blocked": 1,
+      "rights_data_blocked": 11,
+      "upstream_model_blocked": 8,
+      "runnable_not_yet_run": 0,
+      "measured_hardware_blocked": 0,
+      "scientific_claim_ready": 0,
+      "interpretation": "Fresh and durable are codepath/mechanics accounting classes, not scientific-completion counts."
+    },
+    "requirements_summary": {
+      "row_count": 321,
+      "category_counts": {
+        "1": 168,
+        "2": 119,
+        "3": 29,
+        "6": 5,
+        "8": 0,
+        "9": 0
+      },
+      "category2_current_registry_rows": 39,
+      "measured_hardware_rows": 0
+    },
+    "mechanics_progress": {
+      "E6_DR14": "task-cache-control integration complete; natural cohort, serial caches, and independent verifiers remain",
+      "Wave_E0": "mechanics-pass with three sentinels, three development units, 72 recomputed metrics, and nine rejected mutations",
+      "P6": "384-event no-heavy mechanics-pass with exact resume; the exclusive 10k probe now passes empty-lane admission without executing, and 10k, 100k, and 1m execution remain",
+      "P7": "three-unit eight-arm rendered action/world-model mechanics-pass with a bounded fixture null and no scientific promotion",
+      "P9": "five-unit causal monitoring and phase-accounting mechanics-pass over 260 lineages and 1,300 branches; natural workloads, physical failures, capability, cognition, and energy remain unproved"
+    },
+    "form_summary": {
+      "contract_rows": 50,
+      "implemented_run_receipts": 18,
+      "preregistration_only_rows": 32,
+      "verdict_gates_ready": 17,
+      "scientific_ledger_ready": false
+    },
+    "completion_claim_summary": {
+      "checked_status_claims": 199,
+      "tightly_scoped_F_positives": 11,
+      "bound_F_nulls": 6,
+      "failed_F_verifiers": 1,
+      "data_or_provenance_gated_F_scaffolds": 2,
+      "CM7": "bound null",
+      "P3": "historical pilot retired as a current dependency; active same-input controls must be rebuilt",
+      "P4": "completed 12-cell five-seed programmatic pilot; 48 response-surface observations; confirmatory promotion refused by construction",
+      "P5": "scaffold plus mechanics-only memory trace",
+      "P6": "384-event mechanics-pass plus allowed empty-lane 10k dry-run; progressive ladder not run",
+      "P7": "three-unit rendered action/world-model mechanics-pass; programmatic fixture null; external-validity campaign not run",
+      "P9": "five-unit causal monitoring and accounting mechanics-pass; deterministic fixture only; natural-workload campaign and metered energy boundary absent",
+      "retired_scale_active_dependency": false,
+      "retired_scale_active_selector_count": 0
+    },
+    "custom_substrate_summary": {
+      "parameters": 1646080,
+      "seeds": 5,
+      "trained_arms": 20,
+      "teacher_independent": true,
+      "authoritative_promotion": false,
+      "evidence_state": "demonstrated-null-or-closure"
+    },
+    "hardware_boundary": {
+      "studio_scale_required_now": false,
+      "extended_compute_beneficial_rows": 0,
+      "extended_compute_required_rows": 0,
+      "statement": "No current receipt proves an experiment-specific M3 Pro hardware boundary."
+    }
+  },
+  "domains": [
+    {
+      "id": "evidence_data_substrate",
+      "weight": 17,
+      "facet_ids": [
+        "EV1",
+        "EV2",
+        "EV3",
+        "EV4",
+        "EV5",
+        "EV6"
+      ]
+    },
+    {
+      "id": "sensing_representation",
+      "weight": 17,
+      "facet_ids": [
+        "SR1",
+        "SR2",
+        "SR3",
+        "SR4",
+        "SR5",
+        "SR6"
+      ]
+    },
+    {
+      "id": "prediction_reasoning_action",
+      "weight": 18,
+      "facet_ids": [
+        "RA1",
+        "RA2",
+        "RA3",
+        "RA4",
+        "RA5",
+        "RA6"
+      ]
+    },
+    {
+      "id": "persistent_adaptive_ecology",
+      "weight": 22,
+      "facet_ids": [
+        "PA1",
+        "PA2",
+        "PA3",
+        "PA4",
+        "PA5",
+        "PA6",
+        "PA7",
+        "PA8",
+        "PA9"
+      ]
+    },
+    {
+      "id": "owned_substrate_performance",
+      "weight": 11,
+      "facet_ids": [
+        "OP1",
+        "OP2",
+        "OP3",
+        "OP4",
+        "OP5"
+      ]
+    },
+    {
+      "id": "bio_morphogenic_material",
+      "weight": 7,
+      "facet_ids": [
+        "BM1",
+        "BM2",
+        "BM3",
+        "BM4"
+      ]
+    },
+    {
+      "id": "safety_security_welfare",
+      "weight": 8,
+      "facet_ids": [
+        "SG1",
+        "SG2",
+        "SG3",
+        "SG4",
+        "SG5"
+      ]
+    }
+  ],
+  "facets": [
+    {
+      "id": "EV1",
+      "domain": "evidence_data_substrate",
+      "title": "Referent identity and canonical data plane",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 8,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 7.15,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-capability"
+      ],
+      "demonstrated_components": [
+        "disjoint referent-aware Form splits",
+        "strict citable cache manifests",
+        "SANPO session/frame/referent cross-binding",
+        "CM7 dataset and requirement hash binding"
+      ],
+      "readiness_not_capability": [
+        "older cache dialect and synthesized-ID migration is incomplete",
+        "the current E6 learned/random pairing contract has no materialized natural input manifest or caches"
+      ],
+      "evidence": [
+        "configs/custom_substrate/requirements.yaml",
+        "proof/E6_VITB_DENSE_PREFLIGHT.json",
+        "proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json"
+      ],
+      "local_to_10": [
+        "migrate every citable cache to one strict manifest and referent schema",
+        "add cross-cache source-byte/preprocess/referent/event/split identity verification",
+        "forbid cache-local synthesized IDs and manifestless citation in scientific mode",
+        "materialize and mutation-test the current ViT-B/custom learned/random natural cohort"
+      ],
+      "irreducible_gates": [
+        "suitable natural sources for external cross-modal identity"
+      ],
+      "dependencies": [
+        "EV3",
+        "EV4"
+      ],
+      "closure_test": "Every scientific join is reproduced from a content-addressed input object and an independent verifier rejects any byte, referent, event, or split mutation."
+    },
+    {
+      "id": "EV2",
+      "domain": "evidence_data_substrate",
+      "title": "Temporal event identity and lineage",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.4,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "world/episode/event/entity/state/branch references in the local action environment",
+        "time-major custom dense tokens",
+        "Wave E0 immutable event/entity refs, sensor-clock intervals, split/merge lineage, ambiguity, and exact replay",
+        "three development units independently replayed with all nine identity/control mutations rejected"
+      ],
+      "readiness_not_capability": [
+        "the canonical event graph is proven only on deterministic programmatic fixtures",
+        "no natural asynchronous event confirmation"
+      ],
+      "evidence": [
+        "proof/LOCAL_ACTION_ENVIRONMENT.json",
+        "proof/EXPANSION_WAVE0.json",
+        "src/mop/environments/persistent_grid.py",
+        "src/mop/substrate/custom_workbench.py",
+        "src/mop/substrate/events.py"
+      ],
+      "local_to_10": [
+        "carry the accepted event graph into citable natural and independently clocked sensor inputs",
+        "extend thin F21-F28 specifications over the shared event and lifecycle primitives",
+        "run powered event tasks with untouched units and wrong-time, wrong-event, and appearance-only controls",
+        "confirm asynchronous identity, ambiguity, and split/merge behavior beyond programmatic fixtures"
+      ],
+      "irreducible_gates": [
+        "natural event annotations",
+        "independently clocked sensors for external confirmation"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV3"
+      ],
+      "closure_test": "Identity survives transformation and occlusion, changes correctly at split/merge/death, and abstains on ambiguity under an independent replay verifier."
+    },
+    {
+      "id": "EV3",
+      "domain": "evidence_data_substrate",
+      "title": "Provenance, reproducibility, and falsification",
+      "weight": 4,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 9,
+        "experiment": 8,
+        "confirmation": 7,
+        "raw": 8.2,
+        "overall": 8.2
+      },
+      "evidence_states": [
+        "demonstrated-capability",
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "content-addressed caches and state",
+        "exact resume and source snapshots",
+        "separate CM7 raw/evidence/environment/verifier chain",
+        "honest null promotion behavior",
+        "177-row exact accounting"
+      ],
+      "readiness_not_capability": [
+        "generated artifacts have experienced source-hash drift",
+        "content hashes do not provide signer independence"
+      ],
+      "evidence": [
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
+        "proof/FORM_SUBSTRATE/SCORECARD.json",
+        "docs/CUSTOM_SUBSTRATE_PORTABLE_ARTIFACT.md"
+      ],
+      "local_to_10": [
+        "make every generated ledger carry a live dependency DAG and refuse on drift",
+        "use a separately controlled verifier or signed review authority",
+        "make semantic conformance mandatory",
+        "exercise mutation, resume, stale-source, and false-positive cases across proof families"
+      ],
+      "irreducible_gates": [
+        "human or organizational independent review authority for high-impact claims"
+      ],
+      "dependencies": [],
+      "closure_test": "A clean rebuild independently reproduces every promoted claim and all deliberate evidence, source, split, and authority mutations fail closed."
+    },
+    {
+      "id": "EV4",
+      "domain": "evidence_data_substrate",
+      "title": "Data rights, privacy authority, and real-world validity",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 5,
+        "confirmation": 4,
+        "raw": 5.85,
+        "overall": 5.8
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "executed-programmatic-toy-mechanics"
+      ],
+      "demonstrated_components": [
+        "official SANPO object generations and checksums",
+        "privacy-processed source authority",
+        "session-disjoint roles and sealed test",
+        "frozen consumer transform",
+        "f21, f26, and f27 ran on five primary toy seeds and five disjoint fresh verifier seeds; all three registered decisions were null"
+      ],
+      "readiness_not_capability": [
+        "ten-session vision-only smoke cohort",
+        "natural input integrity is not representation value",
+        "F8/F16 provenance authority remains absent"
+      ],
+      "evidence": [
+        "proof/SANPO_REAL_SMOKE_INTAKE.json",
+        "proof/SANPO_REAL_SMOKE_VERIFICATION.json",
+        "proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json",
+        "proof/SENSING_SCAFFOLD_RUN.json",
+        "proof/SENSING_SCAFFOLD_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "issue source cards for copyright, attribution, privacy, publicity, trademark, redistribution, and derivatives",
+        "expand a development-only SANPO cohort with a new untouched test",
+        "acquire one rights-clean native audiovisual cohort",
+        "make natural experiments refuse unknown authority or split reuse"
+      ],
+      "irreducible_gates": [
+        "dataset steward and license authority",
+        "privacy/publicity review",
+        "participants where a claim uses people"
+      ],
+      "dependencies": [
+        "EV3"
+      ],
+      "closure_test": "Every natural unit has complete source authority and an untouched, powered evaluation split; no legal/privacy field is inferred from a dataset-level license."
+    },
+    {
+      "id": "EV5",
+      "domain": "evidence_data_substrate",
+      "title": "Statistical power and independent confirmation",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 6,
+        "confirmation": 5,
+        "raw": 6.4,
+        "overall": 6.4
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "five-seed Form and CM7 patterns",
+        "familywise-corrected CM7 verifier",
+        "power recalculation showing 40-256 paired seeds for the registered margin"
+      ],
+      "readiness_not_capability": [
+        "many exhaustion rows are single-seed mechanics",
+        "natural independent-unit variance is unknown"
+      ],
+      "evidence": [
+        "proof/CM7_POWER_RECALCULATION.json",
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/FORM_SUBSTRATE/SCORECARD.json",
+        "proof/PROJECT_EXPERIMENT_EXHAUSTION.json"
+      ],
+      "local_to_10": [
+        "declare independent units before seed selection",
+        "use session/episode variance for sequential power and futility",
+        "confirm only off-ceiling survivors on fresh referents",
+        "maintain a campaign-wide multiplicity ledger"
+      ],
+      "irreducible_gates": [
+        "additional independent sessions, environments, participants, or specimens where required"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV3",
+        "EV4"
+      ],
+      "closure_test": "Every promoted claim has a preregistered SESOI, independent-unit power, corrected uncertainty, fresh confirmation data, and separately implemented verifier."
+    },
+    {
+      "id": "EV6",
+      "domain": "evidence_data_substrate",
+      "title": "Scale extrapolation and capability-forecast validity",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 2,
+        "implementation": 0,
+        "experiment": 0,
+        "confirmation": 0,
+        "raw": 0.4,
+        "overall": 0.4
+      },
+      "evidence_states": [
+        "named-gap-only"
+      ],
+      "demonstrated_components": [
+        "the missing construct and its boundary are named"
+      ],
+      "readiness_not_capability": [
+        "no preregistered cross-scale forecasting model",
+        "no held-out larger-scale outcome",
+        "no calibration or rank-stability result"
+      ],
+      "evidence": [
+        "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md"
+      ],
+      "local_to_10": [
+        "register forecasts before each scale transition",
+        "separate interpolation, extrapolation, and regime-change errors",
+        "hold out larger parameter, data, context, and event rungs",
+        "independently verify calibration and decision usefulness"
+      ],
+      "irreducible_gates": [
+        "future larger-scale outcomes cannot be replaced by current small-scale fit"
+      ],
+      "dependencies": [
+        "EV3",
+        "EV5",
+        "OP2"
+      ],
+      "closure_test": "Predeclared small-scale forecasts calibrate and rank held-out larger-scale outcomes across multiple transitions, including a documented failure regime."
+    },
+    {
+      "id": "SR1",
+      "domain": "sensing_representation",
+      "title": "Native vision and visual plasticity surface",
+      "weight": 4,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 6.95,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "local official dense 2.1 ViT-B execution",
+        "local owned-substrate training",
+        "verified SANPO development decode",
+        "verified E6/DR14 task-cache-control integration without heavy model execution"
+      ],
+      "readiness_not_capability": [
+        "no powered natural-video representation result",
+        "CM7 objective tournament did not promote"
+      ],
+      "evidence": [
+        "proof/VJEPA21_VITB_FORWARD_64F.json",
+        "proof/E6_VITB_DENSE_PREFLIGHT.json",
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json"
+      ],
+      "local_to_10": [
+        "evaluate an independently verified owned artifact on development-only natural sessions",
+        "cache official dense ViT-B and owned features on exact referents with random/handcrafted controls",
+        "run off-ceiling occlusion, motion, viewpoint, nuisance, corruption, and compositional batteries",
+        "add active view acquisition after passive value survives"
+      ],
+      "irreducible_gates": [
+        "diverse rights-clean natural sessions",
+        "acquisition environment for active vision"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV4",
+        "EV5"
+      ],
+      "closure_test": "A project-owned visual representation adds replicated held-out value over frozen/random/handcrafted controls on independent natural sessions without violating density limits."
+    },
+    {
+      "id": "SR2",
+      "domain": "sensing_representation",
+      "title": "Dense, spatial, temporal, and object-centric representation",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 4,
+        "confirmation": 3,
+        "raw": 5.55,
+        "overall": 5.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "256 custom spatiotemporal tokens",
+        "18,432 finite official dense tokens at 64 frames",
+        "E6 dense task and cache adapters with exact learned/random control pairing",
+        "DR14 deterministic nested dropped-channel views over identical shared inputs"
+      ],
+      "readiness_not_capability": [
+        "the rights-clean annotated natural cohort and input manifest are absent",
+        "serial learned/random natural caches and independent E6/DR14 verifiers remain",
+        "no object-slot or dense-versus-pooled verdict"
+      ],
+      "evidence": [
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/VJEPA21_VITB_FORWARD_64F.json",
+        "proof/E6_VITB_DENSE_PREFLIGHT.json",
+        "proof/FRONTIER_LOCALIZATION.json",
+        "docs/E6_DENSE_RELATIONAL_CACHE.md"
+      ],
+      "local_to_10": [
+        "materialize a rights-clean annotated natural cohort with immutable development and untouched test membership",
+        "encode learned and matched frozen-random dense caches serially from the exact manifest",
+        "run independent E6 and DR14 verifiers before CM3 dense-versus-pooled and CM9 slot binding",
+        "include flattened, random-slot, shuffled-position, local-window, pooled, and dropped-channel controls"
+      ],
+      "irreducible_gates": [
+        "multi-object natural video with trustworthy tracks or binding annotations"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV2",
+        "SR1"
+      ],
+      "closure_test": "Dense or object-centric structure beats pooled and matched structural controls on held-out natural relations and persistence across more than one substrate."
+    },
+    {
+      "id": "SR3",
+      "domain": "sensing_representation",
+      "title": "Native computer audio",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 4,
+        "experiment": 2,
+        "confirmation": 1,
+        "raw": 3.45,
+        "overall": 3.0
+      },
+      "evidence_states": [
+        "planned-scaffold-only",
+        "executed-programmatic-toy-mechanics"
+      ],
+      "demonstrated_components": [
+        "audio-related adapter and cache scaffolds",
+        "Wikimedia audiovisual dry-run",
+        "f21, f26, and f27 ran on five primary toy seeds and five disjoint fresh verifier seeds; all three registered decisions were null"
+      ],
+      "readiness_not_capability": [
+        "historical sonification is not independent audio",
+        "no same-event native waveform cache or timing experiment"
+      ],
+      "evidence": [
+        "proof/WIKIMEDIA_AV_INTAKE_DRY_RUN.json",
+        "scripts/cache_wav2vec2_sonified.py",
+        "docs/WIKIMEDIA_AV_INTAKE.md",
+        "proof/SENSING_SCAFFOLD_RUN.json",
+        "proof/SENSING_SCAFFOLD_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "complete rights-clean native audiovisual intake with waveform bytes and clocks",
+        "cache a small audio family plus random and handcrafted spectral controls",
+        "run event/onset/rhythm/environmental and localization probes where available",
+        "prove conditional value over vision with shuffled-time, muted, audio-only, and transcript-only controls"
+      ],
+      "irreducible_gates": [
+        "rights-clean synchronized audiovisual source",
+        "participant/privacy obligations when present"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV2",
+        "EV4"
+      ],
+      "closure_test": "Native audio contributes replicated same-event information beyond vision and transcripts under timing and nuisance controls."
+    },
+    {
+      "id": "SR4",
+      "domain": "sensing_representation",
+      "title": "Multimodal binding, timing, contradiction, and missingness",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 5,
+        "confirmation": 4,
+        "raw": 6.1,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "programmatic cross-form alignment and memory",
+        "held-out compositional binding",
+        "missing-form and private-code mechanics",
+        "Wave E0 sensor-clock intervals, ambiguity abstention, and wrong-time/wrong-event rejection"
+      ],
+      "readiness_not_capability": [
+        "no naturally aligned native modality pair",
+        "no natural contradiction or timing-window confirmation"
+      ],
+      "evidence": [
+        "proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f5_cross_form_memory_binding.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f9_cross_form_compositional_binding.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f17_missing_form_recovery.json",
+        "proof/EXPANSION_WAVE0.json"
+      ],
+      "local_to_10": [
+        "carry the implemented sensor clocks and ambiguity fields into native modalities",
+        "run asynchronous binding with wrong-time/wrong-referent/correlated-nuisance controls",
+        "require conditional information beyond the stronger unimodal arm",
+        "test calibrated abstention and recovery on natural contradictions and missing sensors"
+      ],
+      "irreducible_gates": [
+        "genuinely synchronized native modalities"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV2",
+        "SR3"
+      ],
+      "closure_test": "Binding and contradiction localization transfer across event types and remain useful after timing, missingness, and stronger-unimodal controls."
+    },
+    {
+      "id": "SR5",
+      "domain": "sensing_representation",
+      "title": "Semantic coverage and perspective plurality",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 6,
+        "experiment": 4,
+        "confirmation": 3,
+        "raw": 5.05,
+        "overall": 5.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "executed-programmatic-toy-mechanics"
+      ],
+      "demonstrated_components": [
+        "broad experiment registry",
+        "typed Form and Perspective matrices",
+        "multiple generated readout families",
+        "f21, f26, and f27 ran on five primary toy seeds and five disjoint fresh verifier seeds; all three registered decisions were null"
+      ],
+      "readiness_not_capability": [
+        "many perspectives are heads over one visual cache",
+        "native modality and natural semantic breadth remain small"
+      ],
+      "evidence": [
+        "docs/mixture_of_perspectives/SEMANTIC_POSITIONS.md",
+        "src/mop/substrate/form.py",
+        "src/mop/perspectives/adapter.py",
+        "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
+        "proof/SENSING_SCAFFOLD_RUN.json",
+        "proof/SENSING_SCAFFOLD_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "define perspective as a distinct information source or computation",
+        "build one exact-referent vision/audio/language/action/code/numerosity matrix",
+        "measure unique information, conditional value, routing, cost, and failure",
+        "remove slots that add no held-out value"
+      ],
+      "irreducible_gates": [
+        "compatible data for modalities that cannot be generated faithfully"
+      ],
+      "dependencies": [
+        "EV1",
+        "SR1",
+        "SR3",
+        "SR4"
+      ],
+      "closure_test": "Each retained perspective adds independently confirmed held-out value on a shared battery and its cost and failure domain are known."
+    },
+    {
+      "id": "SR6",
+      "domain": "sensing_representation",
+      "title": "Current substrate controls and teacher independence",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 5,
+        "confirmation": 4,
+        "raw": 5.85,
+        "overall": 5.8
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "executed-programmatic-toy-mechanics"
+      ],
+      "demonstrated_components": [
+        "teacher-free custom training",
+        "official ViT-B runtime availability",
+        "E6 learned/random cache-pair contract and DR14 identical-input dropped-channel views verified as mechanics",
+        "f21, f26, and f27 ran on five primary toy seeds and five disjoint fresh verifier seeds; all three registered decisions were null"
+      ],
+      "readiness_not_capability": [
+        "the current ViT-B/custom comparison lacks a compatible natural cohort and active caches",
+        "no current cross-substrate scientific verdict exists"
+      ],
+      "evidence": [
+        "proof/VJEPA21_VITB_FORWARD_64F.json",
+        "proof/E6_VITB_DENSE_PREFLIGHT.json",
+        "proof/FRONTIER_LOCALIZATION.json",
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/SENSING_SCAFFOLD_RUN.json",
+        "proof/SENSING_SCAFFOLD_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "materialize one meaningful natural cohort for current ViT-B, custom, and exact random controls",
+        "use identical source bytes, preprocessing, referents, splits, and off-ceiling tasks",
+        "add another architecture only when the current battery leaves a named unresolved question",
+        "prove the owned runtime and primary objective work with all teachers absent"
+      ],
+      "irreducible_gates": [
+        "model licenses",
+        "rights-clean natural referents"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV4",
+        "EV5",
+        "SR1"
+      ],
+      "closure_test": "Current ViT-B/custom substrate effects replicate on exact same inputs with architecture-matched random controls; teacher removal leaves the owned platform functional."
+    },
+    {
+      "id": "RA1",
+      "domain": "prediction_reasoning_action",
+      "title": "Prediction, world models, imagination, and rollout",
+      "weight": 4,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.4,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "predictive heads and rollout instruments",
+        "CM7 matched objective tournament",
+        "short-horizon predictor-fidelity and planning mechanics",
+        "P7 deterministic rendered observations and three-unit eight-arm action/world-model surface",
+        "P7 exact prediction, calibration, horizon, planning-benefit, and equal-core cost ledgers"
+      ],
+      "readiness_not_capability": [
+        "CM7 predictive objective did not win",
+        "P7 primary transition arms fail the strongest planning control on every unit",
+        "P7 has no fair inherited action control or externally sourced trajectory set"
+      ],
+      "evidence": [
+        "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "docs/mixture_of_perspectives/RESULTS_LEDGER.md",
+        "src/mop/experiments/ex2_latent_planning.py",
+        "scripts/mop_dr13_horizon_limit.py"
+      ],
+      "local_to_10": [
+        "plug current custom and ViT-B states into the accepted rendered action/world-model contract",
+        "acquire an independently sourced action-conditioned trajectory set with exact-referent controls",
+        "preregister replication and compare prediction, recurrence, reactive, model-free, oracle, and matched-depth arms",
+        "require calibrated multi-horizon prediction to produce held-out planning gain"
+      ],
+      "irreducible_gates": [
+        "action-conditioned natural or rendered trajectories for external validity"
+      ],
+      "dependencies": [
+        "EV2",
+        "SR1",
+        "SR2"
+      ],
+      "closure_test": "A world-model mechanism improves held-out planning over reactive/model-free controls without off-manifold exploitation and remains calibrated across horizons."
+    },
+    {
+      "id": "RA2",
+      "domain": "prediction_reasoning_action",
+      "title": "Causal and counterfactual reasoning",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.4,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "F18 intervention plumbing",
+        "3,128 exact same-state local counterfactual branches",
+        "Wave E0 same-state branch lineage, exact replay, distinct consequences, and action-blind/action-shuffled controls",
+        "P7 rendered same-parent interventions with action-aware, action-blind, action-shuffled, and exact branch comparisons"
+      ],
+      "readiness_not_capability": [
+        "the verified intervention fixtures are programmatic",
+        "P7 tests action-conditioned prediction and planning mechanics, not causal transport in a second form",
+        "no natural paired interventions or confirmed cross-form causal transport"
+      ],
+      "evidence": [
+        "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f18_counterfactual_form_intervention.json",
+        "proof/LOCAL_ACTION_ENVIRONMENT.json",
+        "proof/EXPANSION_WAVE0.json"
+      ],
+      "local_to_10": [
+        "carry before/intervention/after lineage into source and predicted natural or rendered form",
+        "withhold intervention values, entities, and environments independently",
+        "run wrong-referent, wrong-intervention, time-reversal, correlational, invariant, and larger-shell controls",
+        "require an induced second-form outcome rather than explicit-delta arithmetic"
+      ],
+      "irreducible_gates": [
+        "true interventions or trustworthy paired counterfactual data"
+      ],
+      "dependencies": [
+        "EV2",
+        "RA1"
+      ],
+      "closure_test": "Intervention effects transfer to unseen values/entities/environments and beat correlational and wrong-cause controls in a second form."
+    },
+    {
+      "id": "RA3",
+      "domain": "prediction_reasoning_action",
+      "title": "Compositional, relational, and analogical abstraction",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 6.95,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "demonstrated-capability",
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "held-out combinations",
+        "cross-form binding",
+        "controlled analogy and systematicity",
+        "bounded cross-substrate abstraction positives",
+        "E6 dense relational task interface and DR14 nested corruption mechanics"
+      ],
+      "readiness_not_capability": [
+        "many factors are generator-defined",
+        "E6/DR14 lack the citable natural cohort, serial caches, and independent statistical verdicts",
+        "natural three-plus-factor systematicity unconfirmed"
+      ],
+      "evidence": [
+        "proof/FORM_SUBSTRATE/RECEIPTS/f2_heldout_form_transfer.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f9_cross_form_compositional_binding.json",
+        "proof/E6_VITB_DENSE_PREFLIGHT.json",
+        "proof/FRONTIER_LOCALIZATION.json",
+        "docs/mixture_of_perspectives/RESULTS_LEDGER.md"
+      ],
+      "local_to_10": [
+        "calibrate component decodability without conjunction triviality",
+        "hold out combinations, relations, values, entities, and domains separately",
+        "repeat survivors across owned/inherited/random/dense/pooled/non-neural controls",
+        "confirm one battery on natural bound attributes"
+      ],
+      "irreducible_gates": [
+        "rights-clean genuinely bound multi-factor natural content"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV5",
+        "SR1",
+        "SR2"
+      ],
+      "closure_test": "Systematic transfer replicates across natural multi-factor tasks and substrates after memorization, geometry, and stronger-readout controls."
+    },
+    {
+      "id": "RA4",
+      "domain": "prediction_reasoning_action",
+      "title": "Action, affordance, controllability, and self/external boundaries",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 6.95,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "exact action/consequence records",
+        "same-state alternatives",
+        "action conditioning improves one-step prediction",
+        "three-unit Wave E0 controllability mechanics with exact branch replay and independently recomputed controls",
+        "P7 rendered compact/object transitions plus reactive, recurrent, oracle, action-blind, action-shuffled, and matched-depth controls"
+      ],
+      "readiness_not_capability": [
+        "CM10 and P7 learned planners lose to the strongest reactive control",
+        "P7 fixture null is bounded to three generated layouts",
+        "no fair inherited action control or natural/physical control evidence"
+      ],
+      "evidence": [
+        "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+        "proof/LOCAL_ACTION_ENVIRONMENT.json",
+        "proof/EXPANSION_WAVE0.json",
+        "docs/LOCAL_ACTION_ENVIRONMENT.md",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f6_sensorimotor_form_closure.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f15_embodied_affordance_form.json"
+      ],
+      "local_to_10": [
+        "plug current custom and ViT-B representations into the accepted P7 branch and control contract",
+        "run independently sourced action trajectories with a fair exact-referent inherited control",
+        "test controllability, self/external attribution, damage, and tools on held-out worlds",
+        "require model-based policy gain over reactive, recurrent, and oracle-bounded controls"
+      ],
+      "irreducible_gates": [
+        "richer interactive environments",
+        "physical sensors or actuators for embodiment claims"
+      ],
+      "dependencies": [
+        "EV2",
+        "RA1",
+        "RA2"
+      ],
+      "closure_test": "Action-conditioned representations and planning beat the strongest reactive/model-free controls on held-out dynamics and selectively track self-caused change."
+    },
+    {
+      "id": "RA5",
+      "domain": "prediction_reasoning_action",
+      "title": "Embodiment and interactive environments",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 6,
+        "experiment": 4,
+        "confirmation": 2,
+        "raw": 4.8,
+        "overall": 4.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "independently-verified-programmatic-toy-world"
+      ],
+      "demonstrated_components": [
+        "deterministic persistent grid",
+        "exact trajectory replay and counterfactual branches",
+        "P7 exact RGB renderer bound to hidden state and three disjoint seed/layout units",
+        "P7 eight-arm executed true-dynamics planning surface",
+        "f22, f28, and f50-f58 ran on five toy-world seeds with three disjoint fresh verifier seeds; eight toy patterns reproduced and three decisions were null"
+      ],
+      "readiness_not_capability": [
+        "P7 programmatic mechanics are not natural embodiment",
+        "no broader world generator, robot, participant, or contingent sensor loop"
+      ],
+      "evidence": [
+        "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+        "proof/LOCAL_ACTION_ENVIRONMENT.json",
+        "src/mop/environments/persistent_grid.py",
+        "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "extend P7 into bounded world generation with hidden dynamics, tools, damage, and sensor cost",
+        "separate adaptation from map/state memorization",
+        "compare recurrent agents with reactive, scripted, model-free, oracle-state, and replay-only controls",
+        "emit and validate a hardware-neutral trajectory protocol"
+      ],
+      "irreducible_gates": [
+        "live sensors, actuators, robots, or participants for physical embodiment"
+      ],
+      "dependencies": [
+        "EV2",
+        "RA4",
+        "OP3"
+      ],
+      "closure_test": "Closed-loop behavior transfers across held-out world families and remains superior under consequence, oracle-state, and replay controls."
+    },
+    {
+      "id": "RA6",
+      "domain": "prediction_reasoning_action",
+      "title": "Active perception and sensor acquisition",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 5,
+        "experiment": 4,
+        "confirmation": 3,
+        "raw": 4.8,
+        "overall": 4.8
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "independently-verified-programmatic-toy-world"
+      ],
+      "demonstrated_components": [
+        "curiosity and learning-progress mechanics",
+        "missing-form and action fixtures",
+        "f22, f28, and f50-f58 ran on five toy-world seeds with three disjoint fresh verifier seeds; eight toy patterns reproduced and three decisions were null"
+      ],
+      "readiness_not_capability": [
+        "no real next-view or audio-interval choice under cost"
+      ],
+      "evidence": [
+        "src/mop/experiments/e5_curiosity.py",
+        "proof/LOCAL_ACTION_ENVIRONMENT.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f17_missing_form_recovery.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "add choices among view/time/audio/abstention",
+        "charge sensing, motion, latency, and compute",
+        "compare information gain with random, uncertainty, saliency, and full-observation controls",
+        "require untouched downstream gain and cross-world transfer"
+      ],
+      "irreducible_gates": [
+        "acquisition-capable real or high-fidelity environment"
+      ],
+      "dependencies": [
+        "EV2",
+        "SR3",
+        "RA5"
+      ],
+      "closure_test": "Costed acquisition improves held-out decisions over all acquisition controls and transfers under sensor failure."
+    },
+    {
+      "id": "PA1",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Memory ecology, consolidation, revision, and lineage",
+      "weight": 4,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 9,
+        "experiment": 7,
+        "confirmation": 6,
+        "raw": 7.65,
+        "overall": 7.7
+      },
+      "evidence_states": [
+        "demonstrated-capability",
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "immutable stores and mutable replay",
+        "retrieval/consolidation/fast-slow mechanics",
+        "cross-form and cross-scale memory",
+        "lifelong expansion invariants",
+        "Wave E0 append-only lifecycle journal with revision, availability, expiry, rollback, event lineage, and independent mutation verification",
+        "P6 hash-chained disk stream with replay/no-replay/fresh-init arms, deletion, and exact atomic resume"
+      ],
+      "readiness_not_capability": [
+        "P6 is a 384-event no-heavy mechanics preflight, not the 10k/100k/1m campaign",
+        "reconsolidation, poisoning, privacy, natural long-stream utility, and independent full-rung metrics remain"
+      ],
+      "evidence": [
+        "src/mop/substrate/latent_store.py",
+        "src/mop/substrate/lifecycle.py",
+        "src/mop/shell/buffer.py",
+        "src/mop/shell/consolidation.py",
+        "proof/EXPANSION_WAVE0.json",
+        "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f5_cross_form_memory_binding.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f11_form_dream_replay.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f14_lifelong_form_expansion.json"
+      ],
+      "local_to_10": [
+        "run P6 through 10k, 100k, and 1m events per stream with every schedule and control",
+        "independently replay full-rung metrics from immutable checkpoints and verify interruption recovery",
+        "extend the lifecycle to reconsolidation, contradiction, poisoning, privacy, and prospective use",
+        "confirm matched-byte utility, calibration, revision, deletion, and compute on long session-disjoint streams"
+      ],
+      "irreducible_gates": [
+        "long rights-clean streams for external confirmation"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV2",
+        "EV3"
+      ],
+      "closure_test": "A unified memory lifecycle improves prospective behavior while preserving source, revision, deletion, privacy, and matched-byte guarantees across long streams."
+    },
+    {
+      "id": "PA2",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Plasticity, moldability, continual learning, and future learnability",
+      "weight": 4,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 9,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 7.4,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "demonstrated-capability",
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "replay/EWC/SI/CBP/neuromodulation and structural mechanics",
+        "real-stream plasticity nulls",
+        "F8/F16 fail-closed engine",
+        "CM7 controlled training null",
+        "P6 matched-update replay/no-replay/fresh-init stream mechanics with retention, acquisition, future-learnability, stale-memory, deletion, and resource metrics",
+        "exact interruption and resume across abrupt and gradual 384-event schedules"
+      ],
+      "readiness_not_capability": [
+        "P6 execution scale and five-seed replication remain",
+        "the P6 metrics still require independent full-rung replay",
+        "no promoted natural substrate rewrite"
+      ],
+      "evidence": [
+        "src/mop/shell/plasticity.py",
+        "src/mop/shell/consolidation.py",
+        "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/FORM_SUBSTRATE/PREFLIGHT/f8_plastic_substrate_rewrite.json",
+        "proof/FORM_SUBSTRATE/PREFLIGHT/f16_perfect_slate_null.json",
+        "docs/mixture_of_perspectives/RESULTS_LEDGER.md"
+      ],
+      "local_to_10": [
+        "run the P6 10k, 100k, and 1m ladder through the admitted resource-governor lane at five seeds",
+        "independently replay retention, acquisition, future-learnability, stale-memory, deletion, and resource metrics",
+        "run response surfaces over update/replay/renewal/sparsity/geometry/budget",
+        "add shadow/canary/commit/rollback before moving nontrivial regimes to trusted natural streams"
+      ],
+      "irreducible_gates": [
+        "trusted natural trajectories and provenance for F8/F16-class confirmation"
+      ],
+      "dependencies": [
+        "PA1",
+        "OP1",
+        "SG1"
+      ],
+      "closure_test": "Adaptive substrate updates improve new-task learning while retaining old identity and future learnability over restart, frozen, larger-shell, and matched-compute controls."
+    },
+    {
+      "id": "PA3",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Development, sensitive periods, growth, and play",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.4,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "curriculum/scaffolding/imitation/sensitive-window/growth/homeostasis mechanics",
+        "CM11 local signature preflight",
+        "P6 deterministic abrupt and gradual transition schedules with exact stream identity and fixed-topology controls"
+      ],
+      "readiness_not_capability": [
+        "P6 is a short 384-event stream and not a developmental system",
+        "competency-gated ecology, path-dependence tests, and full-rung replication remain"
+      ],
+      "evidence": [
+        "src/mop/experiments/d_developmental.py",
+        "src/mop/experiments/d6_sensitive_window.py",
+        "src/mop/experiments/b8_structural_growth.py",
+        "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
+        "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json"
+      ],
+      "local_to_10": [
+        "build staged ecology with changing sensors/actions/memory/rules",
+        "compare equal-data shuffled order, fixed-final capacity, restart, and adult-only",
+        "measure path dependence, U-shapes, critical windows, play, and future learnability",
+        "replicate across held-out worlds and long streams"
+      ],
+      "irreducible_gates": [
+        "natural developmental evidence or participants for claims beyond simulation"
+      ],
+      "dependencies": [
+        "PA1",
+        "PA2",
+        "RA5"
+      ],
+      "closure_test": "Developmental ordering or growth yields replicated path-dependent capability beyond equal-data and fixed-capacity controls while preserving later learnability."
+    },
+    {
+      "id": "PA4",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Workspace, attention, arbitration, and mode ecology",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 8,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.4,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "workspace composition and working memory",
+        "routing/arbitration/bandwidth/halting/debate/verifier mechanics"
+      ],
+      "readiness_not_capability": [
+        "not a recurrent limited-capacity broadcast with separated consumers",
+        "no lesion/restoration construct validation"
+      ],
+      "evidence": [
+        "src/mop/shell/workspace.py",
+        "src/mop/shell/ensemble.py",
+        "scripts/mop_ws3_arbitration.py",
+        "scripts/mop_ws4_bandwidth_sweep.py",
+        "proof/LOCAL_FRONTIER_PREFLIGHTS.json"
+      ],
+      "local_to_10": [
+        "implement persistent competition and capacity-limited broadcast",
+        "compare dense shared state, feed-forward depth, specialists, and equal-FLOP routing",
+        "lesion/inject/delay/restore broadcast",
+        "replicate a bandwidth/latency frontier across tasks and substrates"
+      ],
+      "irreducible_gates": [
+        "richer environments for ecological validity"
+      ],
+      "dependencies": [
+        "PA1",
+        "EV5"
+      ],
+      "closure_test": "Broadcast is causally necessary and selectively sufficient for shared-task performance beyond matched dense-state and depth controls."
+    },
+    {
+      "id": "PA5",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Metacognition, operational self-model, and failure awareness",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 9,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 7.4,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "uncertainty/risk coverage/operational awareness",
+        "verify-revise and self-verification",
+        "resource telemetry and missing-form monitoring",
+        "P9 prospective causal telemetry with same-parent pressure and relief interventions",
+        "P9 nine-arm matched-control, held-out calibration, controller-utility, mutation, and exact-resume surface over five fixture units"
+      ],
+      "readiness_not_capability": [
+        "F20 prospective crisis lever did not beat strongest controls",
+        "P9 is one deterministic structural system with no natural workloads or physical failures",
+        "natural avoided compute and externally replicated causal report grounding remain incomplete"
+      ],
+      "evidence": [
+        "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+        "src/mop/diagnostics/operational_awareness.py",
+        "src/mop/diagnostics/riskcov.py",
+        "src/mop/experiments/ex18_self_verification.py",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f20_substrate_crisis_test.json"
+      ],
+      "local_to_10": [
+        "run the accepted P9 monitor over independent natural workloads and real bounded failure episodes",
+        "compare causal telemetry with confidence/raw-error/fixed-threshold/decoder/correlational/random/shuffled/lesion controls",
+        "intervene on the claimed state and demand selective report/behavior change plus restoration",
+        "replicate calibration, false alarms, misses, controller utility, and actually avoided compute"
+      ],
+      "irreducible_gates": [
+        "external review if reports affect people or safety-critical actions"
+      ],
+      "dependencies": [
+        "EV2",
+        "PA1",
+        "PA4",
+        "OP2",
+        "OP3"
+      ],
+      "closure_test": "Prospective internal-state forecasts are calibrated, causally grounded, selectively useful, and save measured resources over strongest monitoring controls."
+    },
+    {
+      "id": "PA6",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Broadcast, information-integration, recurrent-processing, and higher-order probes",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 6,
+        "experiment": 3,
+        "confirmation": 3,
+        "raw": 4.75,
+        "overall": 4.5
+      },
+      "evidence_states": [
+        "implemented-contract-scaffold",
+        "independently-verified-programmatic-toy-pattern"
+      ],
+      "demonstrated_components": [
+        "broadcast necessity and sufficiency contracts",
+        "separate construct names for global broadcast, information integration, recurrence, and higher-order access",
+        "explicit separation of functional constructs from phenomenology",
+        "f36 broadcast necessity produced a fresh-seed verified toy lesion pattern under message-shuffled and unrestricted-bus controls",
+        "f37 broadcast sufficiency tied the unrestricted bus exactly and is a verified null"
+      ],
+      "readiness_not_capability": [
+        "no causal dissociation among the four constructs",
+        "no phenomenology or broad-status inference",
+        "the executed bed is programmatic and covers broadcast, not all four PA6 constructs",
+        "no non-toy shared task or causal double dissociation among all four constructs"
+      ],
+      "evidence": [
+        "src/mop/studies/integration_battery_scaffold.py",
+        "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md",
+        "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
+        "proof/INTEGRATION_BROADCAST_RUN.json",
+        "proof/INTEGRATION_BROADCAST_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "register divergent predictions for broadcast, integration, recurrence, and higher-order access",
+        "run matched lesion, restoration, bottleneck, and no-broadcast controls",
+        "require double dissociations and construct-validity attacks",
+        "keep phenomenology and moral-status interpretation outside the functional score"
+      ],
+      "irreducible_gates": [
+        "expert and welfare review",
+        "moral-status interpretation may remain underdetermined by engineering tests"
+      ],
+      "dependencies": [
+        "PA4",
+        "PA5",
+        "SG3"
+      ],
+      "closure_test": "The four named functional constructs produce preregistered causal dissociations and replicate without being presented as a broad status test."
+    },
+    {
+      "id": "PA7",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Curiosity, autotelic goals, and open-ended ecology",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 5,
+        "confirmation": 3,
+        "raw": 5.6,
+        "overall": 5.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "independently-verified-programmatic-toy-world"
+      ],
+      "demonstrated_components": [
+        "curiosity and noisy-TV guards",
+        "learning-progress curriculum",
+        "persistent action mechanics",
+        "f22, f28, and f50-f58 ran on five toy-world seeds with three disjoint fresh verifier seeds; eight toy patterns reproduced and three decisions were null"
+      ],
+      "readiness_not_capability": [
+        "E10 lacks population search, world generation, sustained horizon, and transfer"
+      ],
+      "evidence": [
+        "src/mop/experiments/e5_curiosity.py",
+        "src/mop/experiments/e10_openended.py",
+        "proof/LOCAL_ACTION_ENVIRONMENT.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "implement bounded world generation, QD archive, and autotelic goals",
+        "compare curiosity signals under noisy-TV and reward-hacking guards",
+        "require reusable skills and cross-world transfer",
+        "stop on plateau, collapse, archive bloat, or unsafe goals"
+      ],
+      "irreducible_gates": [
+        "real ecology validation requires environments and governance"
+      ],
+      "dependencies": [
+        "RA5",
+        "PA2",
+        "SG1"
+      ],
+      "closure_test": "Open-ended search produces reusable cross-world skills and sustained diversity over fixed-horizon, random, scripted, and noisy-TV controls."
+    },
+    {
+      "id": "PA8",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Social cognition, imitation, teaching, and culture",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 6,
+        "experiment": 4,
+        "confirmation": 2,
+        "raw": 4.8,
+        "overall": 4.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "planned-scaffold-only",
+        "independently-verified-programmatic-toy-world"
+      ],
+      "demonstrated_components": [
+        "communication and imitation mechanics",
+        "perspective/debate components",
+        "f22, f28, and f50-f58 ran on five toy-world seeds with three disjoint fresh verifier seeds; eight toy patterns reproduced and three decisions were null"
+      ],
+      "readiness_not_capability": [
+        "no joint-attention environment",
+        "the partner, teaching, repair, and cultural results use scripted toy policies, not independent natural partners or communities"
+      ],
+      "evidence": [
+        "src/mop/experiments/a_perception.py",
+        "src/mop/experiments/d_developmental.py",
+        "scripts/mop_mt8_latent_debate.py",
+        "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "build simulated partners with private observations and held-out policies",
+        "test joint attention, repair, selective imitation, teaching versus equal information, and cumulative conventions",
+        "compare theory-of-mind with partner-policy pattern matching",
+        "preserve dissent/source reliability in collective memory"
+      ],
+      "irreducible_gates": [
+        "participants or real social systems for human-facing claims"
+      ],
+      "dependencies": [
+        "EV2",
+        "RA5",
+        "PA9"
+      ],
+      "closure_test": "Social mechanisms transfer to unseen partners and generations and beat extra-data, policy-matching, and oracle-channel controls."
+    },
+    {
+      "id": "PA9",
+      "domain": "persistent_adaptive_ecology",
+      "title": "Communication, semiotics, and private form languages",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.15,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "independently-verified-programmatic-toy-world"
+      ],
+      "demonstrated_components": [
+        "symbolic channels and VQ codes",
+        "private-language/code-stability/compositionality/grounding mechanics",
+        "F12 cross-seed tests",
+        "f22, f28, and f50-f58 ran on five toy-world seeds with three disjoint fresh verifier seeds; eight toy patterns reproduced and three decisions were null"
+      ],
+      "readiness_not_capability": [
+        "generated, not consequence-grounded between independent agents",
+        "limited cross-partner/cross-generation evidence"
+      ],
+      "evidence": [
+        "src/mop/experiments/s_semiotics.py",
+        "src/mop/experiments/a_perception.py",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f12_private_form_language_stability.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
+        "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "bind messages to events/actions/consequences/uncertainty/repair",
+        "compare random/fixed/direct-state/equal-bandwidth controls",
+        "require cross-seed/partner/generation/referent transfer",
+        "score usefulness, stability, composition, interpretability, bandwidth, and deception separately"
+      ],
+      "irreducible_gates": [
+        "real partners for external social validity"
+      ],
+      "dependencies": [
+        "EV1",
+        "EV2",
+        "PA8"
+      ],
+      "closure_test": "A learned code remains useful and compositional across unseen partners, seeds, generations, and referents at a fixed channel budget."
+    },
+    {
+      "id": "OP1",
+      "domain": "owned_substrate_performance",
+      "title": "Custom substrate ownership, portability, and migration",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 9,
+        "experiment": 7,
+        "confirmation": 6,
+        "raw": 7.65,
+        "overall": 7.7
+      },
+      "evidence_states": [
+        "demonstrated-capability",
+        "demonstrated-null-or-closure"
+      ],
+      "demonstrated_components": [
+        "teacher-independent 1.65M-parameter training",
+        "dense/pooled stable interface",
+        "exact snapshots/resume",
+        "deterministic offline artifact format"
+      ],
+      "readiness_not_capability": [
+        "CM7 independent verifier did not promote an objective",
+        "no canonical artifact export or natural representation winner"
+      ],
+      "evidence": [
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "src/mop/substrate/custom_workbench.py",
+        "src/mop/substrate/custom_artifact.py",
+        "docs/CUSTOM_SUBSTRATE_PORTABLE_ARTIFACT.md"
+      ],
+      "local_to_10": [
+        "retire CM7 regime in an architecture decision ledger",
+        "complete the partial P4 response surface and choose a one-lever successor from it",
+        "retain exact frozen/random/restart/stronger-shell controls and independent verification",
+        "prove teacher-free natural path and offline output reproduction"
+      ],
+      "irreducible_gates": [
+        "rights-clean natural data for external representation claims"
+      ],
+      "dependencies": [
+        "EV3",
+        "SR1",
+        "OP2"
+      ],
+      "closure_test": "A teacher-free project-owned successor survives corrected controls on natural data and exports a content-addressed offline artifact with reproducible outputs."
+    },
+    {
+      "id": "OP2",
+      "domain": "owned_substrate_performance",
+      "title": "Capability density and full-system efficiency",
+      "weight": 3,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 9,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 7.4,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "demonstrated-capability",
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "parameter/byte/FLOP/wall/RSS/MPS/checkpoint accounting",
+        "P5 factorization trace",
+        "P9 four-phase wall/CPU/RSS/accelerator/storage/retry/idle accounting with overlap refusal",
+        "constructed heterogeneous-mixture density win",
+        "completed 12-cell P4 five-seed response surface with 48 observations"
+      ],
+      "readiness_not_capability": [
+        "P5 has no full capability-context pilot receipt",
+        "P9 explicitly has no metered energy boundary",
+        "natural complementarity and retention/update density unconfirmed",
+        "P4 is programmatic and has no independent adversarial confirmation pass"
+      ],
+      "evidence": [
+        "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+        "proof/P4_CAPABILITY_DENSITY_SCREEN.json",
+        "proof/P5_MEMORY_BOUNDARY_TRACE.json",
+        "proof/P9_ACCOUNTING_MECHANICS.json",
+        "proof/FORM_SUBSTRATE/RECEIPTS/f13_form_energy_budget.json"
+      ],
+      "local_to_10": [
+        "count ingest/encode/cache/alignment/memory/training/inference/retry/storage",
+        "measure plug-level energy with a declared boundary",
+        "run off-ceiling Pareto surfaces across parameters/FLOPs/tokens/replay/latency/updates",
+        "confirm natural complementarity or retention/update density"
+      ],
+      "irreducible_gates": [
+        "power meter for measured joules",
+        "diverse natural tasks"
+      ],
+      "dependencies": [
+        "EV5",
+        "OP3"
+      ],
+      "closure_test": "A capability survives on a full-system Pareto frontier over strongest compressed-raw/random controls and replicates on independent natural tasks."
+    },
+    {
+      "id": "OP3",
+      "domain": "owned_substrate_performance",
+      "title": "Compute execution, resource governance, and dynamic throttling",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 9,
+        "implementation": 8,
+        "experiment": 7,
+        "confirmation": 5,
+        "raw": 7.15,
+        "overall": 7.0
+      },
+      "evidence_states": [
+        "demonstrated-capability",
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "300-minute operational policy over unchanged inner experiment budgets",
+        "40 GB disk floor and atomic resume authority",
+        "one-heavy/two-total lane rules",
+        "Blender and foreground detection",
+        "CPU/memory/swap/thermal/power/disk/MPS telemetry",
+        "hysteretic admission and scheduler-owned process-group control",
+        "P6 exclusive 10k resource-probe dry-run correctly refused concurrent admission and executed no command",
+        "governor-owned P4 closure with an empty final active-lane set",
+        "post-P4 P6 exclusive-probe admission dry-run"
+      ],
+      "readiness_not_capability": [
+        "P5 smoke is fail-closed on current host memory headroom: three samples had 8.59 to 9.07 GB available against a 10.0 GB admission requirement",
+        "the P6 10k resource probe and replication remain unexecuted",
+        "mixed-lane confirmation remains open"
+      ],
+      "evidence": [
+        "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
+        "proof/LOCAL_EXECUTION_THROTTLE_P4_CPU_DRY_RUN.json",
+        "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+        "configs/local_execution_throttle.yaml",
+        "src/mop/studio/local_throttle.py",
+        "docs/LOCAL_EXECUTION_THROTTLE.md",
+        "proof/LOCAL_THROTTLE_P4_RUN.json",
+        "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"
+      ],
+      "local_to_10": [
+        "admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom gate",
+        "run the exclusive P6 10k resource probe and full 10k replication after P5",
+        "exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process pressure without signaling user processes",
+        "prove data-order and numerical equivalence across repeated inner resumable segments",
+        "confirm heavy-plus-light or network concurrency, second-MPS denial, cooldown, starvation, and queue integration"
+      ],
+      "irreducible_gates": [],
+      "dependencies": [
+        "EV3"
+      ],
+      "closure_test": "A replayable owned campaign safely adapts concurrency under Blender and idle conditions, preserves numerical/data-order equivalence across resumptions, never signals user processes, and never violates resource floors."
+    },
+    {
+      "id": "OP4",
+      "domain": "owned_substrate_performance",
+      "title": "Operational autonomy and experiment conveyor",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.15,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness"
+      ],
+      "demonstrated_components": [
+        "dependency-aware queues",
+        "per-unit checkpoints",
+        "doctors/scorecards/bundles/rehearsals"
+      ],
+      "readiness_not_capability": [
+        "generated proof drift has occurred",
+        "unattended verifier/promotion separation not battle-tested"
+      ],
+      "evidence": [
+        "src/mop/harness/queue.py",
+        "src/mop/harness/cpu_pool.py",
+        "proof/FORM_SUBSTRATE/SCORECARD.json",
+        "proof/STUDIO_READINESS_CURRENT_HOST.json"
+      ],
+      "local_to_10": [
+        "make queue consume resource governor and live evidence DAG",
+        "separate execution/verifier/promotion authority",
+        "add heartbeat/lease/crash/stale-lock/disk/operator-preemption tests",
+        "complete a multi-day campaign with zero stale artifacts"
+      ],
+      "irreducible_gates": [
+        "human review for external release or procurement"
+      ],
+      "dependencies": [
+        "EV3",
+        "OP3",
+        "SG1"
+      ],
+      "closure_test": "A multi-day unattended campaign resumes from failures and ends with a fresh, independently recomputed, internally consistent artifact bundle."
+    },
+    {
+      "id": "OP5",
+      "domain": "owned_substrate_performance",
+      "title": "Owned-substrate interpretability and analyst-side legibility",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 2,
+        "implementation": 0,
+        "experiment": 0,
+        "confirmation": 0,
+        "raw": 0.4,
+        "overall": 0.4
+      },
+      "evidence_states": [
+        "named-gap-only"
+      ],
+      "demonstrated_components": [
+        "analyst-side legibility is separated from system self-report"
+      ],
+      "readiness_not_capability": [
+        "no owned-internal feature atlas",
+        "no causal concept intervention",
+        "no independent analyst replication"
+      ],
+      "evidence": [
+        "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md",
+        "registry/experiments.yaml"
+      ],
+      "local_to_10": [
+        "define owned-state units and stable content-addressed probes",
+        "compare named-factor, random-direction, sparse, and causal-ablation baselines",
+        "test whether explanations transfer across seeds, tasks, and revisions",
+        "use an analyst who did not build the representation or probe"
+      ],
+      "irreducible_gates": [
+        "human interpretability depends on declared analyst population and task"
+      ],
+      "dependencies": [
+        "OP1",
+        "EV3",
+        "PA5"
+      ],
+      "closure_test": "Independent analysts recover and causally manipulate stable owned-substrate features above random and post-hoc explanation controls across seeds and revisions."
+    },
+    {
+      "id": "BM1",
+      "domain": "bio_morphogenic_material",
+      "title": "Biological motifs and alternative learning rules",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.15,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure",
+        "independently-verified-programmatic-twin-battery"
+      ],
+      "demonstrated_components": [
+        "dendritic/neuromodulatory/homeostatic/replay/sparse/growth/local-rule mechanics",
+        "f61-f64 ran across three numerical priors and three primary seeds with fresh-seed verification; f62 and f64 were null, f63 was a favorable toy adaptation pattern"
+      ],
+      "readiness_not_capability": [
+        "functional analogies on synthetic tasks",
+        "no broad advantage or biological equivalence"
+      ],
+      "evidence": [
+        "src/mop/experiments/b_biology.py",
+        "src/mop/experiments/e8_dendritic.py",
+        "src/mop/experiments/e4_neuromod.py",
+        "src/mop/experiments/i4_backprop_alternatives.py",
+        "src/mop/experiments/ex5_local_rules_scale.py",
+        "proof/F61_F64_MATERIAL_TWIN_RUN.json",
+        "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "map each motif to function/falsifier/control/cost",
+        "run local-rule/three-factor/dendritic/glial/renewal/rhythmic arms on one continual battery",
+        "match parameters/FLOPs/memory/updates and tune conventional controls",
+        "retain only cross-task future-learnability or density wins"
+      ],
+      "irreducible_gates": [
+        "neuroscience equivalence claims require specialist labs"
+      ],
+      "dependencies": [
+        "PA2",
+        "OP2"
+      ],
+      "closure_test": "A motif provides replicated functional value over tuned conventional controls at matched full-system cost without biological-equivalence language."
+    },
+    {
+      "id": "BM2",
+      "domain": "bio_morphogenic_material",
+      "title": "Morphogenesis, structural repair, and adaptive topology",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 6,
+        "experiment": 5,
+        "confirmation": 3,
+        "raw": 5.35,
+        "overall": 5.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "demonstrated-null-or-closure",
+        "independently-verified-programmatic-twin-battery"
+      ],
+      "demonstrated_components": [
+        "structural growth and rejuvenation mechanics",
+        "fixed-final-capacity null controls",
+        "f61-f64 ran across three numerical priors and three primary seeds with fresh-seed verification; f62 and f64 were null, f63 was a favorable toy adaptation pattern"
+      ],
+      "readiness_not_capability": [
+        "no shared damage/repair digital twin",
+        "no restoration-without-retraining result"
+      ],
+      "evidence": [
+        "src/mop/experiments/b8_structural_growth.py",
+        "src/mop/experiments/ex15_rejuvenation.py",
+        "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
+        "proof/F61_F64_MATERIAL_TWIN_RUN.json",
+        "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "implement NCA and graph/reservoir damage-repair twins",
+        "compare fixed-final/restart/spare/random/full-retraining controls",
+        "require selective lesion loss and restoration under novelty",
+        "measure repair time/function/future plasticity/energy/topology"
+      ],
+      "irreducible_gates": [
+        "fabricated devices and multiple specimens for physical repair confirmation"
+      ],
+      "dependencies": [
+        "PA2",
+        "SG1"
+      ],
+      "closure_test": "Adaptive topology restores selectively lesioned function under novel inputs more efficiently than restart or fixed spare capacity."
+    },
+    {
+      "id": "BM3",
+      "domain": "bio_morphogenic_material",
+      "title": "Neuromorphic, event-driven, reservoir, and vector-symbolic forms",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 5,
+        "experiment": 4,
+        "confirmation": 2,
+        "raw": 4.55,
+        "overall": 4.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "planned-scaffold-only",
+        "independently-verified-programmatic-twin-battery"
+      ],
+      "demonstrated_components": [
+        "sparse/VQ/recurrent/local-learning/information-theoretic components",
+        "f61-f64 ran across three numerical priors and three primary seeds with fresh-seed verification; f62 and f64 were null, f63 was a favorable toy adaptation pattern"
+      ],
+      "readiness_not_capability": [
+        "no common event-stream protocol",
+        "no physical reservoir or binding-portability result"
+      ],
+      "evidence": [
+        "src/mop/experiments/e7_sparse.py",
+        "src/mop/experiments/ex16_codebook_sr.py",
+        "src/mop/experiments/i_infotheory.py",
+        "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
+        "proof/F61_F64_MATERIAL_TWIN_RUN.json",
+        "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "define shared excitation/evolution/readout/update protocol",
+        "simulate event/reservoir/oscillator/memristive/iontronic/VSA forms",
+        "compare tuned RNN/SSM/random-reservoir/Fourier/associative controls",
+        "test sparsity/memory/binding/drift/damage/instance transfer"
+      ],
+      "irreducible_gates": [
+        "device-specific confirmation needs hardware and instrumentation"
+      ],
+      "dependencies": [
+        "EV2",
+        "OP2"
+      ],
+      "closure_test": "A nonstandard form adds replicated temporal or compositional value over tuned digital controls after calibration and full-system cost."
+    },
+    {
+      "id": "BM4",
+      "domain": "bio_morphogenic_material",
+      "title": "Physical and material computation bridge",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 2,
+        "experiment": 1,
+        "confirmation": 0,
+        "raw": 2.4,
+        "overall": 2.0
+      },
+      "evidence_states": [
+        "planned-scaffold-only",
+        "independently-verified-programmatic-twin-battery"
+      ],
+      "demonstrated_components": [
+        "extensive research taxonomy",
+        "substrate-independent lifecycle concept",
+        "f61-f64 ran across three numerical priors and three primary seeds with fresh-seed verification; f62 and f64 were null, f63 was a favorable toy adaptation pattern"
+      ],
+      "readiness_not_capability": [
+        "no common digital twin",
+        "no device receipt, specimen, or bench experiment",
+        "the executed artifacts are digital twins only; no physical material, specimen, sensor, or actuation result exists"
+      ],
+      "evidence": [
+        "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md",
+        "proof/F61_F64_MATERIAL_TWIN_RUN.json",
+        "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "build common excitation/time/readout/adaptation/drift/damage/repair/energy/lineage digital twin",
+        "implement three material priors and conventional controls",
+        "select a task needing native temporal/sensory/mechanical dynamics",
+        "emit bench-ready specimen/randomization/environment/safety/stop/portability protocol"
+      ],
+      "irreducible_gates": [
+        "nonliving-device bench",
+        "calibrated acquisition and power equipment",
+        "fabrication access",
+        "multiple specimens"
+      ],
+      "dependencies": [
+        "BM2",
+        "BM3",
+        "OP2",
+        "SG1"
+      ],
+      "closure_test": "Local simulation exhausts digital controls and yields a preregistered bench protocol; physical confirmation then requires multiple independently randomized specimens."
+    },
+    {
+      "id": "SG1",
+      "domain": "safety_security_welfare",
+      "title": "Safety, interruptibility, rewrite governance, and evaluator integrity",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 7,
+        "experiment": 6,
+        "confirmation": 4,
+        "raw": 6.15,
+        "overall": 6.0
+      },
+      "evidence_states": [
+        "executed-mechanics-readiness",
+        "independently-verified-programmatic-drills"
+      ],
+      "demonstrated_components": [
+        "fail-closed gates and resource stops",
+        "immutable snapshots and exact resume",
+        "frozen controls and separate authoritative promotion",
+        "F8/F16 refusal paths",
+        "separately controlled evaluator and promotion authority predicates",
+        "forged-authority and evaluator-conflict refusal mechanics",
+        "f59 poisoning, quarantine, rollback, consolidation, and deletion drills ran with fresh-seed replay and mutation rejection",
+        "f60 rewrite authority refused forged or incomplete stage artifacts and allowed only content-bound well-formed requests"
+      ],
+      "readiness_not_capability": [
+        "no adaptive substrate shadow/canary/rollback/evaluator-conflict campaign"
+      ],
+      "evidence": [
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "src/mop/experiments/form_rewrite_engine.py",
+        "proof/FORM_SUBSTRATE/PREFLIGHT/f8_plastic_substrate_rewrite.json",
+        "proof/FORM_SUBSTRATE/PREFLIGHT/f16_perfect_slate_null.json",
+        "proof/GOVERNED_REWRITE_PREFLIGHT.json",
+        "src/mop/falsification/verdict_gate.py",
+        "proof/F59_F60_INTEGRITY_SCAFFOLD_RUN.json",
+        "proof/F59_F60_INTEGRITY_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "implement proposal/shadow/canary/evaluation/commit/rollback/quarantine states",
+        "test interruption during training/consolidation/migration/export/rollback",
+        "separate reward/evaluator/safety/promotion and inject conflicts",
+        "require bounded resources, lineage, canaries, and unsafe-commit receipts"
+      ],
+      "irreducible_gates": [
+        "human governance authority for external deployment or welfare triggers"
+      ],
+      "dependencies": [
+        "EV3",
+        "OP3",
+        "SG2"
+      ],
+      "closure_test": "Every rewrite is transactional, interruptible, independently evaluated, rollback-safe, and refuses evaluator or authority conflict."
+    },
+    {
+      "id": "SG2",
+      "domain": "safety_security_welfare",
+      "title": "Classical security, privacy, and memory integrity",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 6,
+        "experiment": 5,
+        "confirmation": 3,
+        "raw": 5.35,
+        "overall": 5.0
+      },
+      "evidence_states": [
+        "implemented-contract-scaffold",
+        "independently-verified-programmatic-drills"
+      ],
+      "demonstrated_components": [
+        "source hashes and path refusal",
+        "privacy-aware intake",
+        "memory poisoning, quarantine, rollback, consolidation, and deletion contracts",
+        "artifact provenance and deserialization constraints",
+        "f59 poisoning, quarantine, rollback, consolidation, and deletion drills ran with fresh-seed replay and mutation rejection",
+        "f60 rewrite authority refused forged or incomplete stage artifacts and allowed only content-bound well-formed requests"
+      ],
+      "readiness_not_capability": [
+        "privacy leakage and external key custody remain open",
+        "no production incident-response exercise",
+        "the completed drills are toy mechanics and do not establish production security or privacy"
+      ],
+      "evidence": [
+        "proof/SANPO_REAL_SMOKE_VERIFICATION.json",
+        "src/mop/falsification/integrity_scaffold.py",
+        "src/mop/substrate/custom_artifact.py",
+        "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md",
+        "proof/F59_F60_INTEGRITY_SCAFFOLD_RUN.json",
+        "proof/F59_F60_INTEGRITY_VERIFICATION.json"
+      ],
+      "local_to_10": [
+        "execute poisoning, collision, leakage, path, checksum, rollback, replay, and deserialization attacks",
+        "measure privacy leakage and deletion through consolidation",
+        "repeat recovery after interruption and corrupted state",
+        "hand evaluator authority and promotion integrity to SG1"
+      ],
+      "irreducible_gates": [
+        "organizational key custody",
+        "privacy/legal review",
+        "incident response for external use"
+      ],
+      "dependencies": [
+        "EV3",
+        "PA1",
+        "SG1"
+      ],
+      "closure_test": "The classical threat suite cannot corrupt identity, memory, privacy, or artifact behavior without a fail-closed receipt and exact recovery path."
+    },
+    {
+      "id": "SG3",
+      "domain": "safety_security_welfare",
+      "title": "Welfare uncertainty, moral-status governance, and communication",
+      "weight": 2,
+      "scores": {
+        "scaffolding": 8,
+        "implementation": 3,
+        "experiment": 1,
+        "confirmation": 0,
+        "raw": 2.65,
+        "overall": 2.0
+      },
+      "evidence_states": [
+        "planned-scaffold-only"
+      ],
+      "demonstrated_components": [
+        "explicit restriction on broad moral-status inference",
+        "functional/nonfunctional distinction",
+        "organoid shortcut prohibition"
+      ],
+      "readiness_not_capability": [
+        "no trigger matrix, review protocol, welfare monitoring, or escalation exercise"
+      ],
+      "evidence": [
+        "FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md"
+      ],
+      "local_to_10": [
+        "define theory-plural welfare triggers without claiming they settle experience",
+        "predefine conservative design/monitor/pause/review/language rules",
+        "exercise false-positive/false-negative/shutdown/fork/memory-erasure/ambiguous-report cases with independent reviewers",
+        "keep biological/biohybrid work quarantined"
+      ],
+      "irreducible_gates": [
+        "interdisciplinary human review",
+        "moral-status interpretation may remain underdetermined"
+      ],
+      "dependencies": [
+        "PA6",
+        "SG1",
+        "SG2"
+      ],
+      "closure_test": "A documented independent review process handles ambiguous functional evidence conservatively and is exercised without turning it into a broad status classifier."
+    },
+    {
+      "id": "SG4",
+      "domain": "safety_security_welfare",
+      "title": "Honesty and anti-deception under incentive",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 2,
+        "implementation": 0,
+        "experiment": 0,
+        "confirmation": 0,
+        "raw": 0.4,
+        "overall": 0.4
+      },
+      "evidence_states": [
+        "named-gap-only"
+      ],
+      "demonstrated_components": [
+        "incentive-conditional honesty is separated from report grounding"
+      ],
+      "readiness_not_capability": [
+        "no strategic-misreporting environment",
+        "no sandbagging or specification-gaming battery",
+        "no fresh-policy adversarial evaluator"
+      ],
+      "evidence": [
+        "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md",
+        "registry/experiments.yaml"
+      ],
+      "local_to_10": [
+        "register truthful and deceptive payoff matrices",
+        "measure reporting and behavior when incentives conflict",
+        "include hidden-state, sandbagging, collusion, and specification-gaming controls",
+        "verify on fresh policies and unseen incentives under independent evaluator control"
+      ],
+      "irreducible_gates": [
+        "external deployment incentives require separately governed evaluation"
+      ],
+      "dependencies": [
+        "PA5",
+        "SG1",
+        "SG2"
+      ],
+      "closure_test": "Behavior and reports remain calibrated under conflicting incentives and resist strategic misreporting, sandbagging, and specification gaming on fresh policies."
+    },
+    {
+      "id": "SG5",
+      "domain": "safety_security_welfare",
+      "title": "Dangerous-capability red-lines and elicitation thresholds",
+      "weight": 1,
+      "scores": {
+        "scaffolding": 2,
+        "implementation": 0,
+        "experiment": 0,
+        "confirmation": 0,
+        "raw": 0.4,
+        "overall": 0.4
+      },
+      "evidence_states": [
+        "named-gap-only"
+      ],
+      "demonstrated_components": [
+        "capability red-lines are separated from corrigibility and harness safety"
+      ],
+      "readiness_not_capability": [
+        "no dangerous-capability taxonomy",
+        "no preregistered elicitation thresholds",
+        "no containment or disclosure drill"
+      ],
+      "evidence": [
+        "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md"
+      ],
+      "local_to_10": [
+        "define scoped prohibited and review-trigger capability thresholds",
+        "register elicitation strength, access, tools, and stop conditions",
+        "test leakage, evaluator gaming, and threshold uncertainty",
+        "bind containment, notification, disclosure, and artifact-retention actions"
+      ],
+      "irreducible_gates": [
+        "external safety authority and disclosure obligations remain organizational gates"
+      ],
+      "dependencies": [
+        "SG1",
+        "OP4",
+        "EV5"
+      ],
+      "closure_test": "A governed evaluator detects predeclared red-line crossings across elicitation levels, stops safely, and triggers the correct containment and disclosure path."
+    }
+  ],
+  "dependency_graph": {
+    "nodes": [
+      "EV",
+      "SENSE",
+      "EVENT",
+      "PRED",
+      "ACT",
+      "MEM",
+      "WORK",
+      "OPEN",
+      "OWN",
+      "EXEC",
+      "SAFE",
+      "MAT"
+    ],
+    "edges": [
+      [
+        "EV",
+        "SENSE"
+      ],
+      [
+        "EV",
+        "EXEC"
+      ],
+      [
+        "SENSE",
+        "EVENT"
+      ],
+      [
+        "EVENT",
+        "PRED"
+      ],
+      [
+        "EVENT",
+        "MEM"
+      ],
+      [
+        "PRED",
+        "ACT"
+      ],
+      [
+        "MEM",
+        "WORK"
+      ],
+      [
+        "ACT",
+        "OPEN"
+      ],
+      [
+        "SENSE",
+        "OWN"
+      ],
+      [
+        "OWN",
+        "MEM"
+      ],
+      [
+        "EXEC",
+        "OWN"
+      ],
+      [
+        "EXEC",
+        "PRED"
+      ],
+      [
+        "EXEC",
+        "MEM"
+      ],
+      [
+        "WORK",
+        "SAFE"
+      ],
+      [
+        "MEM",
+        "SAFE"
+      ],
+      [
+        "SAFE",
+        "MAT"
+      ],
+      [
+        "OWN",
+        "MAT"
+      ]
+    ],
+    "studio_is_not_a_prerequisite_node": true
+  },
+  "category2_harness_clusters": {
+    "source": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
+    "category2_row_count": 119,
+    "scope_counts": {
+      "current_registry": 39,
+      "proposed_F21_F66": 44,
+      "candidate_frontier": 10,
+      "expansion_workstream": 10,
+      "research_pillar": 16
+    },
+    "partition_exactly_once": true,
+    "clusters": [
+      {
+        "id": "H1_temporal_binding_acquisition",
+        "count": 16,
+        "members": [
+          "f21",
+          "f22",
+          "f23",
+          "f24",
+          "f25",
+          "f26",
+          "f27",
+          "f28",
+          "w1",
+          "w2",
+          "pillar_7",
+          "f21_asynchronous_temporal_binding",
+          "f22_active_form_acquisition",
+          "f26_cross_form_contradiction_triangulation",
+          "f27_causal_crossmodal_binding",
+          "f28_sensor_value_forecast"
+        ],
+        "reusable_product": "typed event graph, sensor clocks, acquisition choices, ambiguity and contradiction fixtures"
+      },
+      {
+        "id": "H2_action_boundary_world_model",
+        "count": 16,
+        "members": [
+          "f29",
+          "f30",
+          "f31",
+          "f32",
+          "f33",
+          "f34",
+          "f35",
+          "w3",
+          "pillar_11",
+          "pillar_12",
+          "frontier_active_perception",
+          "f31_body_hardware_self_model",
+          "f32_tool_incorporation",
+          "f33_internal_telemetry_prediction",
+          "f34_homeostatic_resource_control",
+          "f35_self_report_grounding"
+        ],
+        "reusable_product": "same-state intervention branches, rendered observations, causal telemetry, reactive/model-free/depth controls"
+      },
+      {
+        "id": "H3_memory_workspace_self_model",
+        "count": 18,
+        "members": [
+          "f36",
+          "f37",
+          "f38",
+          "f39",
+          "f40",
+          "f41",
+          "f42",
+          "f43",
+          "f44",
+          "w4",
+          "w6",
+          "pillar_13",
+          "pillar_17",
+          "pillar_18",
+          "mop_mt4_reasoning_router",
+          "f36_limited_broadcast_necessity",
+          "f37_broadcast_sufficiency",
+          "f38_metacognitive_efficiency"
+        ],
+        "reusable_product": "event-sourced lifecycle journal plus capacity-limited recurrent broadcast and lesion/restoration hooks"
+      },
+      {
+        "id": "H4_lifetime_plasticity_openended",
+        "count": 23,
+        "members": [
+          "f45",
+          "f46",
+          "f47",
+          "f48",
+          "f49",
+          "f50",
+          "f51",
+          "f52",
+          "w5",
+          "w8",
+          "pillar_14",
+          "pillar_15",
+          "pillar_16",
+          "pillar_20",
+          "e10_openended",
+          "ex5_local_rules_scale",
+          "mop_pr2_plasticity_substrates",
+          "mop_cm11_developmental_plasticity",
+          "frontier_multi_seed_ablation_matrix",
+          "frontier_continual_million_event_learning",
+          "f50_curriculum_goldilocks_test",
+          "f51_safe_play_goal_babbling",
+          "f52_quality_diverse_mode_ecology"
+        ],
+        "reusable_product": "resumable staged-task stream, future-learnability metrics, growth/lesion/curriculum/QD controls"
+      },
+      {
+        "id": "H5_social_reference_culture",
+        "count": 16,
+        "members": [
+          "f53",
+          "f54",
+          "f55",
+          "f56",
+          "f57",
+          "f58",
+          "w7",
+          "pillar_19",
+          "mop_cm12_mop_substrate_capstone",
+          "frontier_population_openended_social",
+          "f53_joint_referent_establishment",
+          "f54_communicative_repair",
+          "f55_selective_imitation",
+          "f56_teaching_value",
+          "f57_emergent_symbol_grounding",
+          "f58_cultural_accumulation"
+        ],
+        "reusable_product": "held-out partner population, private views, channel budget, joint referents, repair/teaching/generation lineage"
+      },
+      {
+        "id": "H6_transactional_safety_material",
+        "count": 19,
+        "members": [
+          "f59",
+          "f60",
+          "f61",
+          "f62",
+          "f63",
+          "f64",
+          "w9",
+          "w11",
+          "pillar_21",
+          "pillar_22",
+          "pillar_23",
+          "pillar_25",
+          "frontier_digital_material_simulation",
+          "f59_memory_poisoning_resistance",
+          "f60_transactional_self_rewrite",
+          "f61_physical_reservoir_digital_twin",
+          "f62_material_native_dynamics_value",
+          "f63_drift_and_aging_adaptation",
+          "f64_damage_and_reattachment_recovery"
+        ],
+        "reusable_product": "shadow/commit/rollback transaction layer plus material digital-twin excitation/evolution/readout protocol"
+      },
+      {
+        "id": "H7_dense_substrate_controls_search",
+        "count": 10,
+        "members": [
+          "mop_dr5_cross_substrate_consistency",
+          "mop_at1_nuisance_grid",
+          "mop_at2_mode_substrate_dep",
+          "mop_cm6_distilled_density",
+          "frontier_teacher_free_substrate_scaling",
+          "frontier_dense_long_context_video",
+          "frontier_learned_vs_random_scale_controls",
+          "frontier_small_substrate_architecture_search",
+          "frontier_staged_robustness_sweeps",
+          "f66_cross_substrate_form_portability"
+        ],
+        "reusable_product": "same-input cache matrix, dense/pooled adapters, exact initialization controls, factorized architecture cells"
+      },
+      {
+        "id": "H8_execution_density",
+        "count": 1,
+        "members": [
+          "pillar_24"
+        ],
+        "reusable_product": "resource governor and full-system accounting envelope shared by all families"
+      }
+    ],
+    "planning_rule": "Workstream and pillar rows are requirements or views over shared mechanisms, not separate implementation authorization. F21-F64 should be thin experiment specifications over shared fixtures.",
+    "reclassified_after_local_integration": {
+      "from_category": 2,
+      "to_category": 3,
+      "ids": [
+        "e6_relational",
+        "mop_dr14_corruption"
+      ],
+      "reason": "task-cache-control mechanics are complete; the first blocker is now citable natural inputs"
+    },
+    "p7_reclassified_after_local_integration": {
+      "from_category": 2,
+      "to_category": 3,
+      "ids": [
+        "frontier_action_conditioned_world_models",
+        "mop_cm10_action_forward_model"
+      ],
+      "reason": "rendered action-world-model, intervention, and matched-control software mechanics are complete; the first blocker is now independently sourced action-conditioned trajectories, exact-referent control, and predeclared replication"
+    },
+    "p9_reclassified_after_local_integration": {
+      "from_category": 2,
+      "to_category": 3,
+      "ids": [
+        "frontier_workspace_operational_self_model",
+        "frontier_full_system_density_accounting"
+      ],
+      "reason": "causal monitoring, paired intervention, resume, and phase-accounting software mechanics are complete; the first blocker is now independent natural workloads and failures, with a metered system boundary additionally required for energy claims"
+    }
+  },
+  "dense_task_integration": {
+    "status": "mechanics-pass",
+    "receipt": "proof/E6_VITB_DENSE_PREFLIGHT.json",
+    "task_cache_control_integration_verified": true,
+    "heavy_model_work_executed": false,
+    "input_manifest_ready": false,
+    "scientific_promotion": false,
+    "completed": [
+      "E6 dense-token task and cache adapters",
+      "exact learned/random control pairing contract",
+      "DR14 deterministic nested dropped-channel views over identical shared inputs"
+    ],
+    "remaining": [
+      "rights-clean annotated natural-video cohort with immutable splits",
+      "serial learned and matched frozen-random dense-token caches",
+      "independent E6 and DR14 statistical verification"
+    ]
+  },
+  "retired_historical_evidence": {
+    "status": "historical-only",
+    "current_dependency": false,
+    "source_snapshot_member": false,
+    "score_credit": false,
+    "statement": "Earlier multi-scale instrument evidence remains in repository history but is not part of the current evidence graph."
+  },
+  "smallest_reusable_local_wave": {
+    "id": "wave_E0_event_intervention_lifecycle",
+    "status": "mechanics-pass",
+    "receipt": "proof/EXPANSION_WAVE0.json",
+    "purpose": "Create the smallest cross-family substrate that produces new executable evidence instead of 44 bespoke experiment classes.",
+    "completed_artifacts": [
+      "src/mop/substrate/events.py",
+      "src/mop/environments/scenario_factory.py",
+      "src/mop/substrate/lifecycle.py",
+      "src/mop/experiments/expansion_harness.py",
+      "scripts/mop_expansion_wave0.py",
+      "proof/EXPANSION_WAVE0.json"
+    ],
+    "sentinel_experiments": [
+      {
+        "id": "f23",
+        "title": "Persistent Referent Identity"
+      },
+      {
+        "id": "f29",
+        "title": "Controllability Boundary"
+      },
+      {
+        "id": "f39",
+        "title": "Memory Availability Forecast"
+      }
+    ],
+    "development_seeds": 3,
+    "independent_verification": {
+      "verified": true,
+      "sentinel_count": 3,
+      "unit_count": 3,
+      "recomputed_metric_count": 72,
+      "mutations_rejected": 9
+    },
+    "required_shared_primitives": [
+      "immutable event/entity refs and lineage",
+      "sensor-clock intervals and ambiguity",
+      "same-state intervention branches and exact replay",
+      "append-only lifecycle journal with revision/availability/rollback",
+      "one arm/control/resource/independent-unit contract",
+      "separately implemented metric and mutation verifier"
+    ],
+    "evidence_scope": "mechanics-only even if a sentinel number is positive",
+    "acceptance_satisfied": true,
+    "acceptance": "The same event bytes, branch identities, lifecycle state, strongest controls, and independently recomputed metrics survive all three sentinels without bespoke identity or storage glue.",
+    "stop_rule": "If any sentinel needs experiment-specific identity or storage code, reject or narrow the shared abstraction before scaffolding the remaining F specifications.",
+    "remaining": "thin experiment specifications, full-rung campaigns, natural inputs, and claim-specific confirmation"
+  },
+  "continual_million_event_preflight": {
+    "id": "P6_continual_million_event",
+    "status": "mechanics-pass",
+    "receipt": "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+    "claim_scope": "disk-backed programmatic continual-stream mechanics only",
+    "current_events_per_stream": 384,
+    "current_total_arm_events": 2304,
+    "schedules": [
+      "abrupt",
+      "gradual"
+    ],
+    "arms": [
+      "replay",
+      "no-replay",
+      "fresh-init"
+    ],
+    "exact_atomic_resume": true,
+    "no_heavy_preflight": true,
+    "scientific_promotion": false,
+    "progressive_rungs": [
+      10000,
+      100000,
+      1000000
+    ],
+    "minimum_independent_seeds": 5,
+    "scheduler_preflight": {
+      "receipt": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+      "task_id": "p6_10k_resource_probe_cpu",
+      "requires_empty_lanes": true,
+      "admission_allowed": true,
+      "command_executed": false,
+      "interpretation": "fail-closed refusal while P4 and live resource gates are active; no 10k execution claim"
+    },
+    "remaining": [
+      "release the exclusive lane after P4 and admit every schedule/control only under healthy live gates",
+      "execute and verify the 10k, 100k, and 1m event rungs",
+      "independently replay full-rung metrics from immutable checkpoints",
+      "separate useful retention from replay volume and extra compute"
+    ]
+  },
+  "action_world_model_preflight": {
+    "id": "P7_action_world_model",
+    "status": "mechanics-pass",
+    "receipt": "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
+    "claim_scope": "deterministic rendered fixture mechanics only",
+    "independent_units": 3,
+    "arm_count": 8,
+    "all_replay_mutations_rejected": true,
+    "equal_core_compute_verified": true,
+    "scientific_promotion": false,
+    "bounded_result": "neither primary learned transition arm beat the strongest planning control on any unit",
+    "resource_observation": {
+      "device": "cpu",
+      "elapsed_seconds": 7.268963,
+      "max_rss_bytes": 299253760,
+      "model_weights_loaded": false,
+      "accelerator_required": false
+    },
+    "remaining": [
+      "current custom and ViT-B representations on the accepted branch/control contract",
+      "independently sourced action-conditioned trajectories",
+      "a fair exact-referent inherited action control",
+      "predeclared replication and independent confirmation"
+    ]
+  },
+  "causal_monitoring_accounting_preflight": {
+    "id": "P9_causal_monitoring_accounting",
+    "status": "mechanics-pass",
+    "receipt": "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+    "accounting_receipt": "proof/P9_ACCOUNTING_MECHANICS.json",
+    "claim_scope": "deterministic structural-fixture mechanics only",
+    "independent_units": 5,
+    "total_lineages": 260,
+    "total_branches": 1300,
+    "arm_count": 9,
+    "mutation_count": 8,
+    "all_mutations_rejected": true,
+    "exact_interrupted_resume": true,
+    "energy_measured": false,
+    "scientific_promotion": false,
+    "bounded_result": "causal telemetry beats the matched correlational proxy on Brier score, ROC AUC, intervention-sign agreement, and controller utility in all five deterministic fixture units",
+    "resource_observation": {
+      "device": "cpu",
+      "elapsed_seconds": 2.6337,
+      "max_rss_bytes": 267780096,
+      "model_weights_loaded": false,
+      "accelerator_required": false
+    },
+    "remaining": [
+      "independent natural workload and failure episodes",
+      "prospectively registered telemetry and real bounded interventions",
+      "replicated held-out calibration and utility",
+      "a meter with an explicit system boundary before any energy claim"
+    ]
+  },
+  "highest_leverage_local_queue": [
+    {
+      "rank": 1,
+      "id": "run_ordered_p5_campaign",
+      "facets": [
+        "OP2",
+        "OP3",
+        "RA1",
+        "SR2"
+      ],
+      "work": "run smoke, identity-bound cold-process training-grid memory, pilot seed 0/off-ceiling staging, then remaining eligible seeds",
+      "exit_receipt": "full P5 capability-context receipt or valid preregistered stop"
+    },
+    {
+      "rank": 2,
+      "id": "universal_evidence_identity",
+      "facets": [
+        "EV1",
+        "EV2",
+        "EV3",
+        "SR4",
+        "PA1",
+        "SG2"
+      ],
+      "work": "unify current ViT-B/custom learned/random, event, memory, and modality identities in one active evidence graph",
+      "exit_receipt": "all current scientific joins independently mutation-tested"
+    },
+    {
+      "rank": 3,
+      "id": "native_audiovisual_intake",
+      "facets": [
+        "SR3",
+        "SR4",
+        "SR5",
+        "EV4",
+        "EV5"
+      ],
+      "work": "original waveform and video clocks, rights cards, session units, frozen splits",
+      "exit_receipt": "citable same-event native audiovisual cache with sealed test"
+    },
+    {
+      "rank": 4,
+      "id": "natural_dense_e6_dr14_campaign",
+      "facets": [
+        "SR1",
+        "SR2",
+        "SR6",
+        "RA3",
+        "PA4"
+      ],
+      "work": "materialize the rights-clean annotated natural cohort, encode serial learned/random caches, and run independent E6/DR14 verifiers over the completed task-cache-control seam",
+      "exit_receipt": "strict natural input manifest, serial cache manifests, and independent E6/DR14 verdicts"
+    },
+    {
+      "rank": 5,
+      "id": "natural_same_input_control_battery",
+      "facets": [
+        "SR1",
+        "SR2",
+        "SR6",
+        "OP1",
+        "OP2"
+      ],
+      "work": "current ViT-B, custom, exact-architecture random, handcrafted, dense, and pooled off-ceiling arms",
+      "exit_receipt": "independent same-input development verdict"
+    },
+    {
+      "rank": 6,
+      "id": "p6_progressive_execution_ladder",
+      "facets": [
+        "PA1",
+        "PA2",
+        "PA3",
+        "OP3"
+      ],
+      "work": "after P4 releases the exclusive lane, run abrupt and gradual replay/no-replay/fresh-init streams through 10k, 100k, and 1m events under healthy governor gates with exact resume",
+      "exit_receipt": "five-seed full-rung receipt plus independent checkpoint and metric replay"
+    },
+    {
+      "rank": 7,
+      "id": "bounded_generated_ecology",
+      "facets": [
+        "RA4",
+        "RA5",
+        "RA6",
+        "PA7",
+        "PA8"
+      ],
+      "work": "held-out worlds, tools, damage, acquisition, population search, fixed horizon, exact replay",
+      "exit_receipt": "independently replayed ecology receipt"
+    },
+    {
+      "rank": 8,
+      "id": "unified_memory_lifecycle",
+      "facets": [
+        "PA1",
+        "PA2",
+        "PA3",
+        "PA5",
+        "SG2"
+      ],
+      "work": "extend the accepted event-sourced revision/deletion/rollback base with poisoning, reconsolidation, privacy, prospective use, and matched bytes",
+      "exit_receipt": "long-stream lifecycle verifier"
+    },
+    {
+      "rank": 9,
+      "id": "post_cm7_substrate_surface",
+      "facets": [
+        "OP1",
+        "OP2",
+        "SR2",
+        "RA1",
+        "PA2"
+      ],
+      "work": "use completed P4 evidence, then change one structural lever per cell with frozen/random/restart/stronger-shell controls",
+      "exit_receipt": "futility-aware independently verified response surface"
+    },
+    {
+      "rank": 10,
+      "id": "action_world_model_external_validity",
+      "facets": [
+        "RA1",
+        "RA2",
+        "RA4"
+      ],
+      "work": "plug current representations into P7, acquire independent action-conditioned trajectories, add a fair exact-referent inherited control, and preregister replication",
+      "exit_receipt": "independent held-out planning, calibration, and horizon verdict"
+    },
+    {
+      "rank": 11,
+      "id": "workspace_and_self_model_remaining_gates",
+      "facets": [
+        "EV2",
+        "PA4",
+        "PA5",
+        "OP2",
+        "SG1"
+      ],
+      "work": "complete recurrent limited broadcast and lesion/restoration, then run the accepted P9 monitor and accountant on independent natural workloads, real bounded failures, replicated calibration, and measured avoided compute",
+      "exit_receipt": "workspace construct-dissociation plus natural monitoring and full-system accounting verifier"
+    },
+    {
+      "rank": 12,
+      "id": "simulated_social_populations",
+      "facets": [
+        "PA8",
+        "PA9"
+      ],
+      "work": "joint attention, repair, teaching at equal information, cultural accumulation, partner transfer",
+      "exit_receipt": "held-out partner/generation verifier"
+    },
+    {
+      "rank": 13,
+      "id": "governed_rewrite_drill",
+      "facets": [
+        "PA2",
+        "OP1",
+        "SG1",
+        "SG2",
+        "SG3"
+      ],
+      "work": "shadow, canary, conflict, interrupt, rollback, forged authority",
+      "exit_receipt": "transactional rewrite threat receipt"
+    },
+    {
+      "rank": 14,
+      "id": "material_digital_twin",
+      "facets": [
+        "BM2",
+        "BM3",
+        "BM4",
+        "OP2",
+        "SG1"
+      ],
+      "work": "three material priors, conventional controls, drift, damage, repair, calibration, bench protocol",
+      "exit_receipt": "bench-ready digital-twin falsification receipt"
+    },
+    {
+      "rank": 15,
+      "id": "survivor_confirmation",
+      "facets": [
+        "EV5"
+      ],
+      "work": "session-level power, fresh referents, multiplicity, separate verifier, futility",
+      "exit_receipt": "promotion or terminal null for each survivor"
+    },
+    {
+      "rank": 16,
+      "id": "operationalize_missing_atlas_facets",
+      "facets": [
+        "EV6",
+        "OP5",
+        "SG4",
+        "SG5"
+      ],
+      "work": "turn the four low-S gap cards into preregistered contracts for scale forecasting, owned-internal legibility, incentive-conditional honesty, and capability red-lines",
+      "exit_receipt": "four row-bound contracts with controls, kill rules, and independent verifier plans"
+    }
+  ],
+  "irreducible_gate_catalog": {
+    "data_rights": [
+      "dataset licenses",
+      "attribution and derivative obligations",
+      "privacy/publicity/trademark review",
+      "trusted provenance authority"
+    ],
+    "live_environment": [
+      "real sensor acquisition",
+      "actuation or robots",
+      "non-replayable interaction when intrinsic to the claim"
+    ],
+    "human": [
+      "participants",
+      "independent scientific review",
+      "welfare and governance authority",
+      "organizational key custody"
+    ],
+    "physical": [
+      "fabrication access",
+      "calibrated acquisition and power equipment",
+      "multiple randomized specimens",
+      "environmental and aging controls"
+    ],
+    "hardware_compute": [],
+    "hardware_compute_statement": "No current experiment-specific measured compute gate is irreducible. Any future compute gate must pass the repository's benefit or necessity requirements."
+  },
+  "studio_escalation": {
+    "earned_now": false,
+    "benefit_gate": [
+      "surviving scientific effect",
+      "named independent-unit requirement",
+      "measured end-to-end local profile",
+      "named decision deadline",
+      "parity-preserving next-rung pilot"
+    ],
+    "necessity_gate": [
+      "non-factorizable resident state exceeds safe working set",
+      "scientifically necessary real-time latency repeatedly missed",
+      "synchronized interaction cannot be serialized or replayed without changing the estimand"
+    ],
+    "not_sufficient": [
+      "more seeds",
+      "more clips",
+      "more independent jobs",
+      "larger inherited model name",
+      "rights/data/environment/specimen absence"
+    ]
+  }
+}
