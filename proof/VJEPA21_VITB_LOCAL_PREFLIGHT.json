@@ -1,0 +1,470 @@
+{
+  "all_ok": true,
+  "checkpoint_remote_validation": {
+    "all_ok": true,
+    "expected": {
+      "accept_ranges": "bytes",
+      "content_length": 1664223428,
+      "content_type": "application/vnd.snesdev-page-table",
+      "etag": "\"be0dc26f052ae6a7476714cd53176836-199\"",
+      "last_modified": "Mon, 16 Mar 2026 09:12:19 GMT",
+      "status": 200,
+      "version_id": "xJBU4AkoA4gv5boeC6gOA7eElzWcubxY"
+    },
+    "integrity_model": "before download: pinned HTTPS URL, exact S3 version/ETag/length/time, and two 64 KiB range hashes; after download: compute a full local SHA256 and bind it to those authorities",
+    "observed": {
+      "accept_ranges": "bytes",
+      "content_length": 1664223428,
+      "content_type": "application/vnd.snesdev-page-table",
+      "etag": "\"be0dc26f052ae6a7476714cd53176836-199\"",
+      "final_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+      "last_modified": "Mon, 16 Mar 2026 09:12:19 GMT",
+      "status": 200,
+      "version_id": "xJBU4AkoA4gv5boeC6gOA7eElzWcubxY"
+    },
+    "official_full_sha256_published": false,
+    "problems": [],
+    "ranges": {
+      "bytes_each": 65536,
+      "first": {
+        "content_range": "bytes 0-65535/1664223428",
+        "expected_sha256": "61efdf5f03e06d7d4dd6c4b35566dede6523453def98d51369e616093b23fbaf",
+        "sha256": "61efdf5f03e06d7d4dd6c4b35566dede6523453def98d51369e616093b23fbaf"
+      },
+      "last": {
+        "content_range": "bytes 1664157892-1664223427/1664223428",
+        "expected_sha256": "cc219dadd7ab9e7dcb37121380e1a6ec24a7d8684fef2a8438e0e64e5c23ae59",
+        "sha256": "cc219dadd7ab9e7dcb37121380e1a6ec24a7d8684fef2a8438e0e64e5c23ae59"
+      },
+      "probed": true,
+      "verified": true
+    },
+    "url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt"
+  },
+  "claim_boundary": {
+    "dr14_scientific_compatibility_proven": false,
+    "e6_scientific_compatibility_proven": false,
+    "forward_executed": false,
+    "hardware_limit_measured": false,
+    "interpretation": "upstream availability is retired; local integration, full-byte acquisition, strict load, tensor forward, natural referents, and task controls remain separate fail-closed gates",
+    "model_loaded": false
+  },
+  "config_validation": {
+    "all_ok": true,
+    "expected": {
+      "arch": "vit_base",
+      "available": false,
+      "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+      "dense": true,
+      "embed_dim": 768,
+      "frames_per_clip": 64,
+      "hub_entrypoint": "vjepa2_1_vit_base_384",
+      "name": "vjepa21_vitb",
+      "official_repo_commit": "204698b45b3712590f06245fbfba32d3be539812",
+      "patch_size": 16,
+      "pool": "none",
+      "prefer_real": false,
+      "resolution": 384,
+      "source_kind": "official_pytorch_checkpoint",
+      "tubelet": 2
+    },
+    "observed": {
+      "arch": "vit_base",
+      "availability_state": "released_not_local_verified",
+      "available": false,
+      "checkpoint_content_length": 1664223428,
+      "checkpoint_etag": "\"be0dc26f052ae6a7476714cd53176836-199\"",
+      "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+      "checkpoint_version_id": "xJBU4AkoA4gv5boeC6gOA7eElzWcubxY",
+      "dense": true,
+      "dense_tokens_per_clip": 18432,
+      "embed_dim": 768,
+      "family": "vjepa21",
+      "frames_per_clip": 64,
+      "frozen": true,
+      "hf_id": "official-pytorch-only-vjepa21-vitb",
+      "hub": "facebookresearch/vjepa2",
+      "hub_entrypoint": "vjepa2_1_vit_base_384",
+      "loader": "mop.substrate.vjepa21_official.load_vitb_encoder",
+      "name": "vjepa21_vitb",
+      "official_repo": "https://github.com/facebookresearch/vjepa2",
+      "official_repo_commit": "204698b45b3712590f06245fbfba32d3be539812",
+      "patch_size": 16,
+      "pool": "none",
+      "prefer_real": false,
+      "release_available": true,
+      "require_real": false,
+      "resolution": 384,
+      "source_kind": "official_pytorch_checkpoint",
+      "training_objective": "masked_latent_prediction",
+      "tubelet": 2
+    },
+    "path": "/Users/scammermike/Downloads/mop/configs/encoder/vjepa21_vitb.yaml",
+    "problems": [],
+    "sha256": "d146eda4648a83635f8b24d6a6605e3d8d99c3b79172b8d8114a7126f73441c9"
+  },
+  "created_at": "2026-07-10T05:53:53.876345+00:00",
+  "dependencies": {
+    "accelerator_warning": "Meta strongly recommends CUDA. CPU and MPS compatibility on this host remain unmeasured until supervised load/forward receipts exist.",
+    "decode": [
+      {
+        "distribution": "torchvision",
+        "module": "torchvision",
+        "present": true,
+        "version": "0.27.1"
+      },
+      {
+        "distribution": "av",
+        "module": "av",
+        "present": true,
+        "version": "18.0.0"
+      },
+      {
+        "distribution": "decord",
+        "module": "decord",
+        "present": false,
+        "version": null
+      }
+    ],
+    "encoder_only_ready": true,
+    "encoder_only_required": [
+      {
+        "distribution": "torch",
+        "module": "torch",
+        "present": true,
+        "version": "2.12.1"
+      },
+      {
+        "distribution": "timm",
+        "module": "timm",
+        "present": true,
+        "version": "1.0.27"
+      },
+      {
+        "distribution": "einops",
+        "module": "einops",
+        "present": true,
+        "version": "0.8.2"
+      }
+    ],
+    "macos_native_decord_ready": false,
+    "macos_warning": "Meta's README states that decord does not support macOS and leaves alternative selection to users. This seam bypasses decord; it does not claim the full official data pipeline works.",
+    "official_full_repository_requirement": "requirements.txt includes decord",
+    "project_tensor_decode_ready": true,
+    "selected_runtime_path": "decode with the project's torchvision/PyAV path (or use already-decoded frame tensors), then call the official encoder directly; do not import the official decord dataloader"
+  },
+  "disk": {
+    "atomic_download_peak_note": "the .part file is renamed in place, so the final checkpoint is not a second full copy",
+    "checkpoint_bytes": 1664223428,
+    "download_feasible_now": true,
+    "floor_bytes": 40000000000,
+    "free_bytes": 43960930304,
+    "path": "/Users/scammermike/Downloads/mop",
+    "projected_free_after_checkpoint_bytes": 42296706876,
+    "required_before_download_bytes": 42176223428,
+    "working_headroom_bytes": 512000000
+  },
+  "fresh_doctor": {
+    "age_seconds": 58.249688,
+    "created_at": "2026-07-10T05:52:55.575641+00:00",
+    "fresh_and_green": true,
+    "max_age_seconds": 900,
+    "path": "/Users/scammermike/Downloads/mop/proof/STUDIO_READINESS_CURRENT_HOST.json",
+    "problems": [],
+    "profile": "m3pro-local-max",
+    "sha256": "d36c42b0867466e3da5399fdfb473a151a88610d2445317d91d894c0200317b1",
+    "summary": {
+      "all_ok": true,
+      "failed": 0,
+      "passed": 15,
+      "total": 15
+    }
+  },
+  "gates": {
+    "download_permission_note": "ready_to_download becomes true only when the official source/object/disk checks pass, the local doctor is green and no more than 15 minutes old, and no known heavy lane is active",
+    "ready_to_construct_after_download": true,
+    "ready_to_download": false,
+    "ready_to_load_now": false,
+    "required_sequence": [
+      "install missing encoder-only dependencies without importing the full decord data path",
+      "download ViT-B while preserving the 40 GB disk floor",
+      "compute and receipt the full local checkpoint SHA256",
+      "strict-load ema_encoder in a supervised CPU child",
+      "run an 8-frame 384px tensor forward and verify [1,2304,768] finite output",
+      "only then schedule a 64-frame forward/cache and reconsider ViT-L"
+    ],
+    "source_and_disk_preflight_ok": true,
+    "vitl_vitg_vitG_allowed": false
+  },
+  "heavy_lane": {
+    "active": [
+      {
+        "matched_patterns": [
+          "custom_substrate_workbench.py cm7"
+        ],
+        "pid": 30056
+      }
+    ],
+    "active_count": 1,
+    "clear_for_new_heavy_lane": false,
+    "known_heavy_patterns": [
+      "custom_substrate_workbench.py cm7",
+      "cache_factorized_encoder.py",
+      "cache_real_encoder.py",
+      "encoder_scale_probe.py"
+    ],
+    "policy": "one model/training/encoder-cache lane at a time on the current host"
+  },
+  "larger_variants": [
+    {
+      "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitl_dist_vitG_384.pt",
+      "official_table_name": "ViT-L/16",
+      "parameter_label": "300M",
+      "resolution": 384,
+      "slug": "vjepa21_vitl",
+      "status": "gated-behind-vitb-load-and-forward"
+    },
+    {
+      "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitg_384.pt",
+      "official_table_name": "ViT-g/16",
+      "parameter_label": "1B",
+      "resolution": 384,
+      "slug": "vjepa21_vitg",
+      "status": "gated-behind-vitb-load-and-forward"
+    },
+    {
+      "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitG_384.pt",
+      "official_table_name": "ViT-G/16",
+      "parameter_label": "2B",
+      "resolution": 384,
+      "slug": "vjepa21_vitG",
+      "status": "gated-behind-vitb-load-and-forward"
+    }
+  ],
+  "local_checkpoint_validation": {
+    "actual_sha256": null,
+    "all_ok": false,
+    "path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt",
+    "problems": [
+      "checkpoint missing: /Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt",
+      "checkpoint receipt missing: /Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt.receipt.json",
+      "checkpoint receipt schema does not match pinned authority",
+      "checkpoint receipt source_url does not match pinned authority",
+      "checkpoint receipt source_etag does not match pinned authority",
+      "checkpoint receipt source_version_id does not match pinned authority",
+      "checkpoint receipt size does not match pinned authority",
+      "checkpoint receipt repository_commit does not match pinned authority",
+      "checkpoint receipt lacks a full local SHA256"
+    ],
+    "receipt": {},
+    "receipt_path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/vjepa2_1_vitb_dist_vitG_384.pt.receipt.json"
+  },
+  "model": {
+    "architecture": "vit_base",
+    "checkpoint_content_length": 1664223428,
+    "checkpoint_content_type": "application/vnd.snesdev-page-table",
+    "checkpoint_etag": "\"be0dc26f052ae6a7476714cd53176836-199\"",
+    "checkpoint_key": "ema_encoder",
+    "checkpoint_last_modified": "Mon, 16 Mar 2026 09:12:19 GMT",
+    "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+    "checkpoint_version_id": "xJBU4AkoA4gv5boeC6gOA7eElzWcubxY",
+    "configured_frames": 64,
+    "configured_output_shape": [
+      1,
+      18432,
+      768
+    ],
+    "dense_fp16_bytes_per_configured_clip": 28311552,
+    "dense_fp32_bytes_per_configured_clip": 56623104,
+    "depth": 12,
+    "embed_dim": 768,
+    "first_forward_shape_8f": [
+      1,
+      2304,
+      768
+    ],
+    "first_range_sha256": "61efdf5f03e06d7d4dd6c4b35566dede6523453def98d51369e616093b23fbaf",
+    "heads": 12,
+    "hub_entrypoint": "vjepa2_1_vit_base_384",
+    "input_layout": "B,C,T,H,W",
+    "last_range_sha256": "cc219dadd7ab9e7dcb37121380e1a6ec24a7d8684fef2a8438e0e64e5c23ae59",
+    "official_parameter_label": "80M",
+    "official_table_name": "ViT-B/16",
+    "output_layout": "B,(T/2)*(H/16)*(W/16),D",
+    "patch_size": 16,
+    "range_bytes": 65536,
+    "resolution": 384,
+    "slug": "vjepa21_vitb",
+    "tubelet_size": 2
+  },
+  "official_release": {
+    "paper": {
+      "abstract_url": "https://arxiv.org/abs/2603.14482v3",
+      "arxiv_id": "2603.14482",
+      "paper_license": "CC BY-NC-ND 4.0",
+      "pdf_content_length": 37389706,
+      "pdf_sha256": "6a7be4dbfd2131ef05640be457abef4cf57e1031dc97b894eab62c58782a3cac",
+      "pdf_url": "https://arxiv.org/pdf/2603.14482v3",
+      "published": "2026-03-15T17:02:40Z",
+      "title": "V-JEPA 2.1: Unlocking Dense Features in Video Self-Supervised Learning",
+      "updated": "2026-06-11T10:07:56Z",
+      "version": "v3"
+    },
+    "release_date": "2026-03-16",
+    "released": true,
+    "repository": "https://github.com/facebookresearch/vjepa2",
+    "repository_commit": "204698b45b3712590f06245fbfba32d3be539812",
+    "repository_commit_date": "2026-03-23T10:13:05Z",
+    "source_license": {
+      "apache_exceptions": "README lists three dataset augmentation/worker files; none are imported by the encoder seam",
+      "checkpoint_license_caveat": "the official repository publishes the checkpoint links but does not state a separate weight license in the pinned README; do not infer more than the published source terms",
+      "checkpoint_license_separately_stated": false,
+      "majority": "MIT"
+    }
+  },
+  "repository_validation": {
+    "all_ok": true,
+    "artifacts": [
+      {
+        "actual_sha256": "55f8485d734a08d23170322cd13ad5ac2f4d63b3d1fd542b10ec0907042c5bb6",
+        "actual_size": 21574,
+        "meaning": "official release, checkpoint table, macOS warning, and repository license statement",
+        "path": "README.md",
+        "present": true,
+        "sha256": "55f8485d734a08d23170322cd13ad5ac2f4d63b3d1fd542b10ec0907042c5bb6",
+        "size": 21574,
+        "verified": true
+      },
+      {
+        "actual_sha256": "6a61c46a80c82ed10331a19822d58e9a19f062e52845e1787fc810979ff03c7b",
+        "actual_size": 543,
+        "meaning": "official torch.hub entrypoints and declared inference dependencies",
+        "path": "hubconf.py",
+        "present": true,
+        "sha256": "6a61c46a80c82ed10331a19822d58e9a19f062e52845e1787fc810979ff03c7b",
+        "size": 543,
+        "verified": true
+      },
+      {
+        "actual_sha256": "391cdde1e9a1da47cb8094bbea5fbbe8acac0135b27e82f1a6ab19c0b39cc692",
+        "actual_size": 10164,
+        "meaning": "official 2.1 architecture/checkpoint-key mapping and checkpoint loader",
+        "path": "src/hub/backbones.py",
+        "present": true,
+        "sha256": "391cdde1e9a1da47cb8094bbea5fbbe8acac0135b27e82f1a6ab19c0b39cc692",
+        "size": 10164,
+        "verified": true
+      },
+      {
+        "actual_sha256": "d2932eabeba684d8f558302a13cfd4be70a0170ee5112f5a794652d0a29089b9",
+        "actual_size": 18195,
+        "meaning": "official dense encoder and final-token forward interface",
+        "path": "app/vjepa_2_1/models/vision_transformer.py",
+        "present": true,
+        "sha256": "d2932eabeba684d8f558302a13cfd4be70a0170ee5112f5a794652d0a29089b9",
+        "size": 18195,
+        "verified": true
+      },
+      {
+        "actual_sha256": "64be6a87bd9f18d385f4e44186db3347d1665e18a1f0511d51d3b305531562e2",
+        "actual_size": 16963,
+        "meaning": "official transformer block and RoPE implementation",
+        "path": "app/vjepa_2_1/models/utils/modules.py",
+        "present": true,
+        "sha256": "64be6a87bd9f18d385f4e44186db3347d1665e18a1f0511d51d3b305531562e2",
+        "size": 16963,
+        "verified": true
+      },
+      {
+        "actual_sha256": "29e11ab97ab3ccdef107d6a7d0d7b374b58e712076cc3561f07b7e603c9b5165",
+        "actual_size": 1883,
+        "meaning": "official 2D/3D tokenizer implementation",
+        "path": "app/vjepa_2_1/models/utils/patch_embed.py",
+        "present": true,
+        "sha256": "29e11ab97ab3ccdef107d6a7d0d7b374b58e712076cc3561f07b7e603c9b5165",
+        "size": 1883,
+        "verified": true
+      },
+      {
+        "actual_sha256": "833f111a0fa5ffdbd3a6412e2dace2517c3c178f49c14f8bb631d9f6a070dfd0",
+        "actual_size": 660,
+        "meaning": "official encoder mask helper",
+        "path": "src/masks/utils.py",
+        "present": true,
+        "sha256": "833f111a0fa5ffdbd3a6412e2dace2517c3c178f49c14f8bb631d9f6a070dfd0",
+        "size": 660,
+        "verified": true
+      },
+      {
+        "actual_sha256": "782b58bd2af456e184750e5318ab773105108383f61b280fe4c7a90f46add2c8",
+        "actual_size": 1832,
+        "meaning": "official tensor initialization helper",
+        "path": "src/utils/tensors.py",
+        "present": true,
+        "sha256": "782b58bd2af456e184750e5318ab773105108383f61b280fe4c7a90f46add2c8",
+        "size": 1832,
+        "verified": true
+      },
+      {
+        "actual_sha256": "df44fd5da9f5bcf9d76dbc354e1bf3fd0eef1528e26fa216ab5c91523b01285e",
+        "actual_size": 2444,
+        "meaning": "official ViT-B distillation pretraining phase config",
+        "path": "configs/train_2_1/vitb16/pretrain-256px-16f.yaml",
+        "present": true,
+        "sha256": "df44fd5da9f5bcf9d76dbc354e1bf3fd0eef1528e26fa216ab5c91523b01285e",
+        "size": 2444,
+        "verified": true
+      },
+      {
+        "actual_sha256": "303de8b7ea58a2df4acdd47052d2306b9bca6e398c3facc47d8e83bdce839e88",
+        "actual_size": 2501,
+        "meaning": "official ViT-B distillation cooldown phase config",
+        "path": "configs/train_2_1/vitb16/cooldown-256px-64f.yaml",
+        "present": true,
+        "sha256": "303de8b7ea58a2df4acdd47052d2306b9bca6e398c3facc47d8e83bdce839e88",
+        "size": 2501,
+        "verified": true
+      },
+      {
+        "actual_sha256": "86df4afafef209576d308aee6a6a2d13523805c1885f3e294f3a9541e6b2be23",
+        "actual_size": 212,
+        "meaning": "official broad repository dependency declaration",
+        "path": "requirements.txt",
+        "present": true,
+        "sha256": "86df4afafef209576d308aee6a6a2d13523805c1885f3e294f3a9541e6b2be23",
+        "size": 212,
+        "verified": true
+      },
+      {
+        "actual_sha256": "cf9b17822d1fcd4ff32ccbe14183386fb3adf6f2ff92dc184130823f7fc28173",
+        "actual_size": 1087,
+        "meaning": "MIT license for the majority of repository source",
+        "path": "LICENSE",
+        "present": true,
+        "sha256": "cf9b17822d1fcd4ff32ccbe14183386fb3adf6f2ff92dc184130823f7fc28173",
+        "size": 1087,
+        "verified": true
+      },
+      {
+        "actual_sha256": "a41e2fae9915ae56028f8dbd0bf27995f1907613cbcd2d81a61b010ad34e9fe9",
+        "actual_size": 11349,
+        "meaning": "Apache-2.0 text for the README-listed source exceptions",
+        "path": "APACHE-LICENSE",
+        "present": true,
+        "sha256": "a41e2fae9915ae56028f8dbd0bf27995f1907613cbcd2d81a61b010ad34e9fe9",
+        "size": 11349,
+        "verified": true
+      }
+    ],
+    "commit": "204698b45b3712590f06245fbfba32d3be539812",
+    "direct_loader_required": true,
+    "expected_commit": "204698b45b3712590f06245fbfba32d3be539812",
+    "local_path": "/Users/scammermike/Downloads/mop/data/models/vjepa21/official_repo",
+    "official_repository": "https://github.com/facebookresearch/vjepa2",
+    "problems": [],
+    "remote": "https://github.com/facebookresearch/vjepa2.git",
+    "torch_hub_block_reason": "the pinned official src/hub/backbones.py activates http://localhost:8300; the local seam constructs the official encoder with pretrained=False semantics and strict-loads ema_encoder from the separately verified checkpoint",
+    "torch_hub_pretrained_allowed": false
+  },
+  "schema": "mop-vjepa21-official-preflight/v1"
+}

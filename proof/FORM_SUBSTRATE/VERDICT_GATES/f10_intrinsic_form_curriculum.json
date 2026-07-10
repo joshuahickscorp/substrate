@@ -1,0 +1,44 @@
+{
+  "schema": "mop-verdict-gate/v1",
+  "created_at": "2026-07-10T06:53:12.111300+00:00",
+  "claim_id": "f10_intrinsic_form_curriculum",
+  "verdict": "PUBLISH-POSITIVE",
+  "positive": true,
+  "strict_card": true,
+  "all_ok": false,
+  "null_card": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/NULL_CARDS/f10_intrinsic_form_curriculum.md",
+    "exists": true,
+    "sha256": "143f796c5a4ed97e317e2fe3070ed171735807827afe15d478f5d9698bd43d7d",
+    "problems": []
+  },
+  "run_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f10_intrinsic_form_curriculum.json",
+    "exists": true,
+    "sha256": "8e1994568a5980c4bf09c251e5a7e0505c0d1042de1a3427d261f5156f5355aa",
+    "json_ok": true,
+    "problems": []
+  },
+  "verifier_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f10_intrinsic_form_curriculum.json",
+    "exists": true,
+    "sha256": "4c88331f49ed423be170d3e7b38377431219cb73e65e0f63639538d1bdbfe567",
+    "json_ok": true,
+    "passed": false,
+    "independent": false,
+    "problems": [
+      "form verifier top-level passed/all_ok flags must both be true",
+      "form verifier must be both independent and adversarial",
+      "form verifier contains a failed or malformed check",
+      "form verifier reports problems"
+    ]
+  },
+  "problems": [
+    "form verifier top-level passed/all_ok flags must both be true",
+    "form verifier must be both independent and adversarial",
+    "form verifier contains a failed or malformed check",
+    "form verifier reports problems",
+    "positive verdict requires verifier receipt with a passed/all_ok/clean/ok flag",
+    "positive verdict requires verifier receipt with an independent/adversarial flag"
+  ]
+}

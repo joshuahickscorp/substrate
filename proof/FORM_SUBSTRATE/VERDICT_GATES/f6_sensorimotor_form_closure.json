@@ -1,0 +1,38 @@
+{
+  "schema": "mop-verdict-gate/v1",
+  "created_at": "2026-07-10T06:53:12.143636+00:00",
+  "claim_id": "f6_sensorimotor_form_closure",
+  "verdict": "PUBLISH-POSITIVE",
+  "positive": true,
+  "strict_card": true,
+  "all_ok": false,
+  "null_card": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/NULL_CARDS/f6_sensorimotor_form_closure.md",
+    "exists": true,
+    "sha256": "3c0aec94d1ee7a299b19a4b383ac1498abdab2f23d70467c0693a2ba7f05e0fa",
+    "problems": []
+  },
+  "run_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f6_sensorimotor_form_closure.json",
+    "exists": true,
+    "sha256": "8059975eecf8adcfe428c33415d3bd08c8a1a1b424d5b5beeb76abcd09755580",
+    "json_ok": true,
+    "problems": []
+  },
+  "verifier_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f6_sensorimotor_form_closure.json",
+    "exists": true,
+    "sha256": "06bdf097c17b7d88ca80cdc910fee3b81ecb47cacf3cebec26f81c274e8c333c",
+    "json_ok": true,
+    "passed": false,
+    "independent": false,
+    "problems": [
+      "form verifier is not fingerprint-bound to this canonical run receipt"
+    ]
+  },
+  "problems": [
+    "form verifier is not fingerprint-bound to this canonical run receipt",
+    "positive verdict requires verifier receipt with a passed/all_ok/clean/ok flag",
+    "positive verdict requires verifier receipt with an independent/adversarial flag"
+  ]
+}

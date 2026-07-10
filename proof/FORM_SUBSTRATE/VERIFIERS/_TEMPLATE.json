@@ -1,0 +1,27 @@
+{
+  "schema": "mop-form-independent-verifier/v1",
+  "experiment_id": "replace-with-f-id",
+  "passed": false,
+  "independent": false,
+  "adversarial": false,
+  "verifier_implementation": "fresh-seed rerun plus independent control, uncertainty, and semantic recomputation",
+  "source_receipts": [],
+  "canonical_seeds": [],
+  "fresh_seeds_or_heldout_cases": [],
+  "frozen_live_contract": {
+    "contract_fingerprint": "",
+    "config_sha256": "",
+    "class_source_sha256": "",
+    "module_sha256": "",
+    "verifier_sha256": ""
+  },
+  "captured_effects": {
+    "values": [],
+    "independent_ci": {},
+    "independent_signs": {}
+  },
+  "checks": [],
+  "problems": [
+    "template only; a positive verdict cannot use this file"
+  ]
+}

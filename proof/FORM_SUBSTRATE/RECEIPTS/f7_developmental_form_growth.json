@@ -1,0 +1,289 @@
+{
+  "schema": "mop-form-experiment-receipt/v1",
+  "created_at": "2026-07-09T23:34:00.798516+00:00",
+  "experiment_id": "f7_developmental_form_growth",
+  "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
+  "canonical": true,
+  "source": {
+    "run_dir": "runs/f7_developmental_form_growth/001",
+    "manifest_path": "runs/f7_developmental_form_growth/001/manifest.json",
+    "manifest_sha256": "fd49acde3633d34b1db02aba855a4161ac1310ec1054207478909daf328f5faa",
+    "config_path": "runs/f7_developmental_form_growth/001/config.yaml",
+    "config_sha256": "c96266b6a439777209f60abd4a134de21cd654a4030e9ce610cee8186090cd94",
+    "git": "be7b5d9",
+    "device": "cpu",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "result_tag": "structured-synthetic"
+  },
+  "contract": {
+    "experiment_id": "f7_developmental_form_growth",
+    "required": true,
+    "comparisons": {
+      "id": {
+        "registry": "f7_developmental_form_growth",
+        "class": "f7_developmental_form_growth",
+        "config": "f7_developmental_form_growth",
+        "equal": true
+      },
+      "metric": {
+        "registry": [
+          "frontier_auc_gain",
+          "growth_efficiency",
+          "retained_capacity"
+        ],
+        "class": [
+          "frontier_auc_gain",
+          "growth_efficiency",
+          "retained_capacity"
+        ],
+        "config": [
+          "frontier_auc_gain",
+          "growth_efficiency",
+          "retained_capacity"
+        ],
+        "equal": true
+      },
+      "null_hypothesis": {
+        "registry": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+        "class": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+        "config": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+        "equal": true
+      },
+      "tier": {
+        "registry": "cpu-now",
+        "class": "cpu-now",
+        "config": "cpu-now",
+        "equal": true
+      }
+    },
+    "canonical": {
+      "id": "f7_developmental_form_growth",
+      "metric": [
+        "frontier_auc_gain",
+        "growth_efficiency",
+        "retained_capacity"
+      ],
+      "null_hypothesis": "learning-progress growth fails to beat the stronger fixed-final or random-growth control on the adaptation-retention frontier at matched final parameters",
+      "tier": "cpu-now"
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "registry": {
+    "status": "implemented",
+    "resource_tier": "cpu-now",
+    "proof": {
+      "atlas_factor": "plasticity",
+      "null_card": "none",
+      "evidence_level": "R0"
+    }
+  },
+  "execution": {
+    "status": "ok",
+    "outer_seed": 0,
+    "intended_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "observed_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "started": 1783640040.5054379,
+    "finished": 1783640040.798516
+  },
+  "metrics": {
+    "frontier_auc_gain": -0.1687,
+    "growth_efficiency": 1.8187,
+    "retained_capacity": 0.4347,
+    "frontier_auc_by_arm": {
+      "developmental": 0.6434,
+      "fixed_final": 0.8121,
+      "random": 0.7356
+    },
+    "retention_by_arm": {
+      "developmental": 0.4347,
+      "fixed_final": 0.5083,
+      "random": 0.5208
+    },
+    "growth_steps": {
+      "developmental": [
+        [
+          31,
+          61,
+          87
+        ],
+        [
+          31,
+          61,
+          87
+        ],
+        [
+          31,
+          61,
+          87
+        ],
+        [
+          31,
+          61,
+          87
+        ],
+        [
+          31,
+          61,
+          87
+        ]
+      ],
+      "random": [
+        [
+          7,
+          31,
+          74
+        ],
+        [
+          6,
+          32,
+          43
+        ],
+        [
+          35,
+          41,
+          56
+        ],
+        [
+          3,
+          37,
+          48
+        ],
+        [
+          32,
+          48,
+          83
+        ]
+      ]
+    },
+    "final_params": {
+      "developmental": [
+        874,
+        874,
+        874,
+        874,
+        874
+      ],
+      "fixed_final": [
+        874,
+        874,
+        874,
+        874,
+        874
+      ],
+      "random": [
+        874,
+        874,
+        874,
+        874,
+        874
+      ]
+    },
+    "average_active_params": {
+      "developmental": 380.76,
+      "fixed_final": 874.0,
+      "random": 556.56
+    },
+    "capacity_matched": true,
+    "updates_matched": true,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seed_ci": {
+      "n": 5,
+      "mean": -0.1687,
+      "sd": 0.0624,
+      "ci_half": 0.0547,
+      "lo": -0.2234,
+      "hi": -0.114,
+      "unstable": false
+    },
+    "sign_flip": {
+      "n": 5,
+      "n_pos": 0,
+      "n_neg": 5,
+      "n_zero": 0,
+      "any_flip": false,
+      "consistent_sign": -1
+    },
+    "null_supported": true,
+    "density": {
+      "schema": "mop-density-block/v1",
+      "primary": "frontier_auc_gain",
+      "capability": {
+        "frontier_auc_gain": -0.16865417919556924
+      },
+      "cost": {
+        "params": 2622.0,
+        "updates": 1350.0
+      },
+      "density": {
+        "frontier_auc_gain_per_params": -6.43227228053277e-05,
+        "frontier_auc_gain_per_updates": -0.0001249290216263476
+      }
+    }
+  },
+  "declared_metrics": {
+    "frontier_auc_gain": -0.1687,
+    "growth_efficiency": 1.8187,
+    "retained_capacity": 0.4347
+  },
+  "null_decision": {
+    "null_supported": true,
+    "declared_verdict": "DOWNGRADE-TIE",
+    "positive_requires_independent_verifier": false,
+    "ledger_ready": false
+  },
+  "density": {
+    "schema": "mop-density-block/v1",
+    "primary": "frontier_auc_gain",
+    "capability": {
+      "frontier_auc_gain": -0.16865417919556924
+    },
+    "cost": {
+      "params": 2622.0,
+      "updates": 1350.0
+    },
+    "density": {
+      "frontier_auc_gain_per_params": -6.43227228053277e-05,
+      "frontier_auc_gain_per_updates": -0.0001249290216263476
+    }
+  },
+  "operational_awareness": {
+    "schema": "mop-operational-awareness/v1",
+    "experiment_id": "f7_developmental_form_growth",
+    "components": {},
+    "components_present": [],
+    "components_missing": [
+      "oa1_missing_form",
+      "oa2_calibration",
+      "oa3_memory_availability",
+      "oa4_mode_selection",
+      "oa5_compute_value",
+      "oa6_crisis_detection",
+      "oa7_rewrite_caution",
+      "oa8_report_grounding"
+    ],
+    "composite_score": null
+  },
+  "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f7_developmental_form_growth.json",
+  "problems": [],
+  "all_ok": true,
+  "receipt_fingerprint": "1e7b5af4762adcfbf65bc133f3db9d04aee2d84472ddc380cc1a306665f8b7ee"
+}

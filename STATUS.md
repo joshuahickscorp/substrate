@@ -2,6 +2,39 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-10 R0 closure: CM7 objective-selection null recorded
+
+- [x] CM7 five-seed local180 chain complete and hash-verified (raw receipt, current-evidence
+  attestation, environment receipt, independent familywise-corrected verifier; composite
+  proof/CUSTOM_SUBSTRATE_PILOT.json). Verifier verdict not-promoted: no learned objective clears
+  the random-target control, the exact frozen initialization, or the strongest alternative after
+  Holm correction (best arm reconstruction 0.684 vs frozen_random 0.709, random_target 0.725;
+  Holm p 1.0 on both control comparisons).
+- [x] Objective-selection null recorded: proof/NULL_CARDS/mop_cm7_min_objective_probe.md
+  (validates clean, strict). The exact 1.65M/1,000-update/256px programmatic regime is retired in
+  proof/OBITUARIES.md (first entry). Platform contracts (receipt chain, resume, manifests,
+  compute match, D3 oracle gate) carry forward to CM8/P4.
+
+## 2026-07-09 non-F frontier localization
+
+- [x] Audited all 24 non-F rows carrying historical `studio-scale`, `gpu-later`, or `moonshot`
+  labels against measured M3 Pro evidence and a 180-minute local wall.
+- [x] Zero rows qualify as measured hardware-blocked; labels are planning metadata.
+- [x] MT4, AT2, CM5, CM11, and CM12 control/dataflow mechanics execute locally for three seeds and
+  remain fail-closed for science until their named receipt gates clear.
+- [x] Registry demotions: MT4/CM5/CM11 -> `cpu-now`; AT2/CM12 -> `weights-needed` with `cpu-now`
+  execution mechanics. Evidence: `proof/LOCAL_FRONTIER_PREFLIGHTS.json` and
+  `proof/FRONTIER_LOCALIZATION.json`.
+- [x] The other historical frontier rows were reclassified to their real first dependency:
+  `environment-needed/env-later` for rights/task data or `weights-needed/env-later` for citable
+  upstream caches/models. Zero non-F hardware-flavored planning tags remain.
+- [x] CM7 local training calibration: one complete MPS seed, 17.31 s, 0.582 GB peak RSS, 1.646M
+  trainable parameters, compute-match deviation below 0.008%; four seeds still required.
+- [x] CM8 fail-closed canonical class smoke executes in 0.99 s at 0.323 GB peak RSS; 8/64 teacher
+  referents and natural-data/prerequisite receipts remain. AL2/DR5 model availability is retired by
+  the citable three-scale n=8 local atlas, while meaningful shared/task rows and matched-random
+  controls remain.
+
 ## Phase 0 read+plan
 - [x] read all corpus volumes (I, II, III); confirmed NO Volume IV exists
 - [x] ARCHITECTURE.md (module -> lever map)
@@ -102,7 +135,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
 ## Studio acquisition layer (this session)
 - [x] ONE pipeline surface scripts/studio_pipeline.py: plan -> acquire -> validate -> cache -> run -> optimize -> report, plus local-max + profiles
-- [x] device profiles + kill switches (src/mop/studio/profiles.py): studio-1tb (900 GB usable) and m3pro-local-max (10/25 GB download, 2 GB fixtures, 128 clips, 60 GB free floor, 90 min, Tier C); hard caps enforced, dry-run by default
+- [x] device profiles + kill switches (src/mop/studio/profiles.py): studio-1tb (900 GB usable) and m3pro-local-max (10/25 GB download, 2 GB fixtures, 128 clips, derived 40 GB free floor, user-authorized 180 min, Tier C); hard caps enforced, dry-run by default
 - [x] dataset registry registry/datasets.yaml (11 sources: ssv2, kinetics700, epic, ego4d subset+full, ego-exo4d, howto100m, audioset, laion, synthetic, local) + model registry registry/models.yaml (aux/distilled/quantized, never replace canonical); schema + honesty validated
 - [x] 1 TB knapsack planner (studio/planner.py): breadth-first, budget + per-source + source-count caps, subset scaling, license gating; full Ego4D NEVER planned by default
 - [x] dry-run downloader orchestrator (studio/downloader.py): execute+budget+license gated, resume manifest, hash/dedup, unsafe-archive (path-traversal) refusal, clean remote-block without credentials
@@ -210,8 +243,8 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
     ex2_latent_planning, ex9_slot_attention, ex10_cross_modal), 5 deferred (studio-scale: ex13_long_stream,
     ex15_rejuvenation, ex5_local_rules_scale, e10_openended's full population form, ex2's live-env form).
     REGISTRY 100 registered (was 93). tests/integration/test_scaffolding_experiments.py, 8 tests green.
-- [x] real V-JEPA 2 weights confirmed already staged in the local HF cache (ViT-L, ViT-H; neither repo is
-  gated, no HF token needed) and a real-encoder latent cache built from them: scripts/cache_real_encoder.py
+- [x] real V-JEPA 2 weights staged in the local HF cache for ViT-L, ViT-H, and ViT-g at pinned revisions;
+  H/g local hashes match their Hub LFS digests and strict offline loads pass. A real-encoder latent cache built from ViT-L via scripts/cache_real_encoder.py
   device=mps overflowed the M3 Pro's ~16GB MPS attention buffer ceiling at 64-frame/256px clips even at
   batch=1 (a genuine, reproducible Studio-necessary boundary, not a bug); device=cpu succeeded (16 clips,
   333s, ~21s/clip, backend=vjepa_hf confirming real weights not the frozen-random fallback, linear-probe
@@ -267,15 +300,17 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   actually enabled:true Tier C legs that had simply never been executed, not disabled Tier E/R legs).
 - [x] real-encoder latent cache rebuilt larger in the background (64 clips vs the earlier 16, same verified
   device=cpu/batch=1 recipe) for a stronger real-weight evidence base to hand off.
-- [x] found the studio pipeline's disk kill-switch (min_free_disk_gb=60) now genuinely trips on this
+- [x] found the studio pipeline's historical disk kill-switch (min_free_disk_gb=60) genuinely tripped on this
   machine (free disk drifted from ~63GB to ~53-58GB over the session from system-level activity unrelated
   to this repo, confirmed by checking pytest tmp usage (~23MB) and runs/ growth (~176MB), both negligible).
   3 studio_pipeline integration tests that exercise the REAL kill switch against REAL disk_usage() are
-  consequently red at low-disk moments; this is the kill switch correctly refusing to proceed, not a code
+  consequently red at low-disk moments; this was the kill switch correctly refusing to proceed, not a code
   regression, and is itself a useful live confirmation the safety floor works as designed. At low-disk
   moments acceptance.py's "full test suite" step (and only that step) goes 9 of 10, purely from
   test_local_max_smoke; ruff, mypy, the E1 gate, diagnostics, I4, queue dry-run, the toy leg, and the
-  registry check all still pass cleanly regardless of disk state.
+  registry check all still pass cleanly regardless of disk state. The active profile now uses the auditable
+  40 GB safety requirement: 10 GB OS reserve + 25 GB maximum pending download + 5 GB working headroom. This
+  supersedes the unexplained 60 GB round number without changing the historical observation above.
 - [x] real-encoder cache quadrupled to 64 real V-JEPA 2 ViT-L latents (8 classes, ~21s/clip, ~23 minutes
   wall-clock on CPU, backend=vjepa_hf confirmed, linear-probe acc=1.0 vs chance=0.125), same verified
   device=cpu/batch=1 recipe as the earlier 16-clip build (MPS still overflows its attention buffer

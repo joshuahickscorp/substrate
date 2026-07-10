@@ -1,0 +1,241 @@
+{
+  "schema": "mop-form-experiment-receipt/v1",
+  "created_at": "2026-07-09T23:34:10.497923+00:00",
+  "experiment_id": "f15_embodied_affordance_form",
+  "evidence_scope": "structured synthetic or local mechanics only; not natural-form evidence",
+  "canonical": true,
+  "source": {
+    "run_dir": "runs/f15_embodied_affordance_form/002",
+    "manifest_path": "runs/f15_embodied_affordance_form/002/manifest.json",
+    "manifest_sha256": "5ff0741ebe6acb5d3478874caa26e97389088d1e0ce46c6b4a3bb720e101452a",
+    "config_path": "runs/f15_embodied_affordance_form/002/config.yaml",
+    "config_sha256": "9f8f656d766a98be973a05cd09191fdeca4d1344b4841a0e74cd5888759a8581",
+    "git": "be7b5d9",
+    "device": "cpu",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "result_tag": "structured-synthetic"
+  },
+  "contract": {
+    "experiment_id": "f15_embodied_affordance_form",
+    "required": true,
+    "comparisons": {
+      "id": {
+        "registry": "f15_embodied_affordance_form",
+        "class": "f15_embodied_affordance_form",
+        "config": "f15_embodied_affordance_form",
+        "equal": true
+      },
+      "metric": {
+        "registry": [
+          "affordance_decode_acc",
+          "intervention_gain",
+          "action_shuffle_delta"
+        ],
+        "class": [
+          "affordance_decode_acc",
+          "intervention_gain",
+          "action_shuffle_delta"
+        ],
+        "config": [
+          "affordance_decode_acc",
+          "intervention_gain",
+          "action_shuffle_delta"
+        ],
+        "equal": true
+      },
+      "null_hypothesis": {
+        "registry": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+        "class": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+        "config": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+        "equal": true
+      },
+      "tier": {
+        "registry": "cpu-now",
+        "class": "cpu-now",
+        "config": "cpu-now",
+        "equal": true
+      }
+    },
+    "canonical": {
+      "id": "f15_embodied_affordance_form",
+      "metric": [
+        "affordance_decode_acc",
+        "intervention_gain",
+        "action_shuffle_delta"
+      ],
+      "null_hypothesis": "consequence-conditioned Form tokens fail to beat both passive observation and action-shuffled controls on held-out affordance decoding and action selection",
+      "tier": "cpu-now"
+    },
+    "problems": [],
+    "all_ok": true
+  },
+  "registry": {
+    "status": "implemented",
+    "resource_tier": "cpu-now",
+    "proof": {
+      "atlas_factor": "affordance",
+      "null_card": "none",
+      "evidence_level": "R1",
+      "local_preflight": "proof/LOCAL_ACTION_ENVIRONMENT.json"
+    }
+  },
+  "execution": {
+    "status": "ok",
+    "outer_seed": 0,
+    "intended_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "observed_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "started": 1783640050.282559,
+    "finished": 1783640050.4979231
+  },
+  "metrics": {
+    "affordance_decode_acc": 0.8438,
+    "intervention_gain": 0.5927,
+    "action_shuffle_delta": 0.5906,
+    "action_selection_success": 0.8438,
+    "accuracy_by_arm": {
+      "intervention": 0.8438,
+      "passive": 0.251,
+      "action_shuffle": 0.2531
+    },
+    "matched_architecture": true,
+    "matched_updates": true,
+    "form_audit": {
+      "schema": "mop-form-matrix/v1",
+      "n": 256,
+      "tags": [
+        "action_consequence",
+        "observation"
+      ],
+      "kinds": {
+        "control": [
+          "action_consequence"
+        ],
+        "symbolic": [
+          "observation"
+        ]
+      },
+      "controls": {},
+      "missing_controls": [
+        "action_consequence",
+        "observation"
+      ],
+      "trainable_tags": [],
+      "implicit_referent_tags": [],
+      "unverified_manifest_tags": [
+        "action_consequence",
+        "observation"
+      ],
+      "uncitable_tags": [
+        "action_consequence",
+        "observation"
+      ],
+      "warnings": [
+        "one or more form arms lack a verified cache manifest"
+      ],
+      "all_ok": true
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seed_ci": {
+      "n": 5,
+      "mean": 0.5875,
+      "sd": 0.1404,
+      "ci_half": 0.123,
+      "lo": 0.4645,
+      "hi": 0.7105,
+      "unstable": false
+    },
+    "sign_flip": {
+      "n": 5,
+      "n_pos": 5,
+      "n_neg": 0,
+      "n_zero": 0,
+      "any_flip": false,
+      "consistent_sign": 1
+    },
+    "null_supported": false,
+    "density": {
+      "schema": "mop-density-block/v1",
+      "primary": "affordance_decode_acc",
+      "capability": {
+        "affordance_decode_acc": 0.84375
+      },
+      "cost": {
+        "params": 2412.0,
+        "flops": 353894400.0,
+        "updates": 900.0
+      },
+      "density": {
+        "affordance_decode_acc_per_params": 0.0003498134328358209,
+        "affordance_decode_acc_per_flops": 2.384185791015625e-09,
+        "affordance_decode_acc_per_updates": 0.0009375
+      }
+    }
+  },
+  "declared_metrics": {
+    "affordance_decode_acc": 0.8438,
+    "intervention_gain": 0.5927,
+    "action_shuffle_delta": 0.5906
+  },
+  "null_decision": {
+    "null_supported": false,
+    "declared_verdict": "PUBLISH-POSITIVE",
+    "positive_requires_independent_verifier": true,
+    "ledger_ready": false
+  },
+  "density": {
+    "schema": "mop-density-block/v1",
+    "primary": "affordance_decode_acc",
+    "capability": {
+      "affordance_decode_acc": 0.84375
+    },
+    "cost": {
+      "params": 2412.0,
+      "flops": 353894400.0,
+      "updates": 900.0
+    },
+    "density": {
+      "affordance_decode_acc_per_params": 0.0003498134328358209,
+      "affordance_decode_acc_per_flops": 2.384185791015625e-09,
+      "affordance_decode_acc_per_updates": 0.0009375
+    }
+  },
+  "operational_awareness": {
+    "schema": "mop-operational-awareness/v1",
+    "experiment_id": "f15_embodied_affordance_form",
+    "components": {},
+    "components_present": [],
+    "components_missing": [
+      "oa1_missing_form",
+      "oa2_calibration",
+      "oa3_memory_availability",
+      "oa4_mode_selection",
+      "oa5_compute_value",
+      "oa6_crisis_detection",
+      "oa7_rewrite_caution",
+      "oa8_report_grounding"
+    ],
+    "composite_score": null
+  },
+  "durable_path": "proof/FORM_SUBSTRATE/RECEIPTS/f15_embodied_affordance_form.json",
+  "problems": [],
+  "all_ok": true,
+  "receipt_fingerprint": "8b91a997491b3c2f0a71f06737f9e9964e86bba0df901b7d9d01647dd96ba198"
+}

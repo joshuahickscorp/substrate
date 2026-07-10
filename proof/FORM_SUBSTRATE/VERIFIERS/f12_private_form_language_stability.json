@@ -1,0 +1,790 @@
+{
+  "adversarial": true,
+  "all_ok": true,
+  "canonical_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "captured_effects": {
+    "hungarian_calls": [
+      {
+        "actual_cost": -64.0,
+        "exact": true,
+        "independent_optimum": -64.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -64.0,
+        "exact": true,
+        "independent_optimum": -64.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -66.0,
+        "exact": true,
+        "independent_optimum": -66.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -64.0,
+        "exact": true,
+        "independent_optimum": -64.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -60.0,
+        "exact": true,
+        "independent_optimum": -60.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -78.0,
+        "exact": true,
+        "independent_optimum": -78.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -74.0,
+        "exact": true,
+        "independent_optimum": -74.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -69.0,
+        "exact": true,
+        "independent_optimum": -69.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -75.0,
+        "exact": true,
+        "independent_optimum": -75.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -76.0,
+        "exact": true,
+        "independent_optimum": -76.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -29.0,
+        "exact": true,
+        "independent_optimum": -29.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -30.0,
+        "exact": true,
+        "independent_optimum": -30.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -32.0,
+        "exact": true,
+        "independent_optimum": -32.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -30.0,
+        "exact": true,
+        "independent_optimum": -30.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -26.0,
+        "exact": true,
+        "independent_optimum": -26.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -93.0,
+        "exact": true,
+        "independent_optimum": -93.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -35.0,
+        "exact": true,
+        "independent_optimum": -35.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -89.0,
+        "exact": true,
+        "independent_optimum": -89.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -36.0,
+        "exact": true,
+        "independent_optimum": -36.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -93.0,
+        "exact": true,
+        "independent_optimum": -93.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -43.0,
+        "exact": true,
+        "independent_optimum": -43.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -88.0,
+        "exact": true,
+        "independent_optimum": -88.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -38.0,
+        "exact": true,
+        "independent_optimum": -38.0,
+        "n": 16
+      }
+    ],
+    "independent_ci": {
+      "ci_half": 0.1431,
+      "hi": 0.9889,
+      "lo": 0.7027,
+      "mean": 0.8458,
+      "n": 4,
+      "sd": 0.146,
+      "unstable": false
+    },
+    "independent_signs": {
+      "any_flip": false,
+      "consistent_sign": 1,
+      "n": 4,
+      "n_neg": 0,
+      "n_pos": 4,
+      "n_zero": 0
+    },
+    "values": [
+      0.9249999783933163,
+      0.8250000104308128,
+      0.9833333408460021,
+      0.6500000059604645
+    ]
+  },
+  "checks": [
+    {
+      "category": "execution",
+      "expected": "ok",
+      "name": "fresh_harness_execution_completed",
+      "observed": "ok",
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "canonical PUBLISH-POSITIVE candidate",
+      "name": "canonical_candidate_receipt_is_positive_and_canonical",
+      "observed": {
+        "all_ok": true,
+        "null_decision": {
+          "declared_verdict": "PUBLISH-POSITIVE",
+          "ledger_ready": false,
+          "null_supported": false,
+          "positive_requires_independent_verifier": true
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "at least five unique disjoint seeds",
+      "name": "fresh_effective_seeds_are_disjoint",
+      "observed": {
+        "canonical": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "verifier": [
+          101,
+          211,
+          307,
+          401,
+          503
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": [
+        101,
+        211,
+        307,
+        401,
+        503
+      ],
+      "name": "fresh_seeds_reached_experiment",
+      "observed": [
+        101,
+        211,
+        307,
+        401,
+        503
+      ],
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "distinct runs/form_verifiers path",
+      "name": "verifier_execution_path_is_separate",
+      "observed": {
+        "canonical": "runs/f12_private_form_language_stability/002",
+        "verifier": "runs/form_verifiers/f12_private_form_language_stability/001"
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact stable live contract",
+      "name": "class_config_registry_contract_was_clean_and_frozen",
+      "observed": {
+        "after_contract": "805d23e4abaf4681b25567d41a2d6ba64254051c709a1c85085f23c60c918c90",
+        "before_contract": "805d23e4abaf4681b25567d41a2d6ba64254051c709a1c85085f23c60c918c90",
+        "problems": []
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "all experiment-specific source requirements present",
+      "name": "claim_semantics_are_load_bearing_in_fingerprinted_source",
+      "observed": {
+        "_hungarian": true,
+        "fit_idx=tr": true,
+        "remap": true,
+        "shuffled_j": true
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "name": "verifier_implementation_is_a_distinct_source_file",
+      "observed": {
+        "treatment": "src/mop/experiments/f_form_substrate.py",
+        "verifier": "src/mop/falsification/form_verifier.py"
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "all declared metrics and emitted numeric fields finite",
+      "name": "declared_and_emitted_numeric_metrics_are_finite",
+      "observed": {
+        "declared_bad": [],
+        "emitted_bad": []
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "0 < capability < 0.995",
+      "name": "capability_is_non_ceiling",
+      "observed": {
+        "field": "cross_seed_code_transfer",
+        "value": 0.9354
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "same live effect vector at both diagnostic boundaries",
+      "name": "live_per_seed_effects_were_captured",
+      "observed": {
+        "ci_effects": [
+          0.9249999783933163,
+          0.8250000104308128,
+          0.9833333408460021,
+          0.6500000059604645
+        ],
+        "sign_effects": [
+          0.9249999783933163,
+          0.8250000104308128,
+          0.9833333408460021,
+          0.6500000059604645
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact rounded normal CI from captured effects",
+      "name": "reported_ci_matches_independent_recomputation",
+      "observed": {
+        "independent": {
+          "ci_half": 0.1431,
+          "hi": 0.9889,
+          "lo": 0.7027,
+          "mean": 0.8458,
+          "n": 4,
+          "sd": 0.146,
+          "unstable": false
+        },
+        "reported": {
+          "ci_half": 0.1431,
+          "hi": 0.9889,
+          "lo": 0.7027,
+          "mean": 0.8458,
+          "n": 4,
+          "sd": 0.146,
+          "unstable": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "exact sign counts from captured effects",
+      "name": "reported_signs_match_independent_recomputation",
+      "observed": {
+        "independent": {
+          "any_flip": false,
+          "consistent_sign": 1,
+          "n": 4,
+          "n_neg": 0,
+          "n_pos": 4,
+          "n_zero": 0
+        },
+        "reported": {
+          "any_flip": false,
+          "consistent_sign": 1,
+          "n": 4,
+          "n_neg": 0,
+          "n_pos": 4,
+          "n_zero": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "stable CI with lo > 0",
+      "name": "fresh_seed_ci_lower_bound_is_positive",
+      "observed": {
+        "ci_half": 0.1431,
+        "hi": 0.9889,
+        "lo": 0.7027,
+        "mean": 0.8458,
+        "n": 4,
+        "sd": 0.146,
+        "unstable": false
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "no negative effects, no sign flip, and at least one positive effect",
+      "name": "fresh_seed_effect_sign_is_stable",
+      "observed": {
+        "any_flip": false,
+        "consistent_sign": 1,
+        "n": 4,
+        "n_neg": 0,
+        "n_pos": 4,
+        "n_zero": 0
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "same per-seed effects",
+      "name": "emitted_per_seed_effects_match_live_capture",
+      "observed": {
+        "captured": [
+          0.9249999783933163,
+          0.8250000104308128,
+          0.9833333408460021,
+          0.6500000059604645
+        ],
+        "emitted": [
+          0.925,
+          0.825,
+          0.9833,
+          0.65
+        ]
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "> 0.15",
+      "name": "f12_code_agreement_beats_random_codebook_floor",
+      "observed": 0.3358,
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "expected": "delta > 0.1",
+      "name": "f12_heldout_code_transfer_beats_shuffled_referents_and_chance",
+      "observed": {
+        "delta": 0.7354,
+        "floor": 0.2,
+        "transfer": 0.9354
+      },
+      "passed": true
+    },
+    {
+      "category": "independence",
+      "expected": "all live train-only and shuffled-control assignments globally optimal",
+      "name": "f12_every_live_hungarian_call_is_exact_under_independent_solver",
+      "observed": {
+        "all_exact": true,
+        "calls": 28,
+        "expected_min": 28
+      },
+      "passed": true
+    },
+    {
+      "category": "semantic",
+      "name": "f12_language_flag_matches_recomputed_claim",
+      "passed": true
+    }
+  ],
+  "created_at": "2026-07-10T03:01:29.700115+00:00",
+  "durable_path": "proof/FORM_SUBSTRATE/VERIFIERS/f12_private_form_language_stability.json",
+  "evidence_scope": "structured synthetic local fixture only; no natural-form generalization claim",
+  "execution": {
+    "completed": true,
+    "config_snapshot_path": "runs/form_verifiers/f12_private_form_language_stability/001/config.yaml",
+    "config_snapshot_sha256": "0f50d25807371fc56e01798d710ee440e176ccb2c912a2aca613bc640ca3edea",
+    "device": "cpu",
+    "finished": 1783652489.266122,
+    "git": "be7b5d9",
+    "manifest_path": "runs/form_verifiers/f12_private_form_language_stability/001/manifest.json",
+    "manifest_sha256": "12a57f0e31942c3a9676d7a1d26cf2db4f53164b5ebea30b9ca5f85cfa9cf29c",
+    "run_dir": "runs/form_verifiers/f12_private_form_language_stability/001",
+    "seconds": 3.3004651069641113,
+    "started": 1783652485.965657,
+    "status": "ok"
+  },
+  "experiment_id": "f12_private_form_language_stability",
+  "fresh_seeds_or_heldout_cases": [
+    101,
+    211,
+    307,
+    401,
+    503
+  ],
+  "frozen_live_contract": {
+    "canonical": {
+      "id": "f12_private_form_language_stability",
+      "metric": [
+        "cross_seed_code_transfer",
+        "code_agreement",
+        "random_code_floor"
+      ],
+      "null_hypothesis": "cross-seed code agreement sits at or below the random-codebook floor and cross-seed probe transfer is at chance, so the form codes are private idiolects rather than a shared language",
+      "tier": "cpu-now"
+    },
+    "class_source_sha256": "80a4ef982d7c0f8084a7681839b6afddf8d0eeba5d775775448ce7b50fffee6b",
+    "config_path": "configs/experiment/f12_private_form_language_stability.yaml",
+    "config_sha256": "18105dbf3e4691cccc50b5fc84e8748c5bcba6e554570e40f2f08dd3051cf269",
+    "contract_fingerprint": "805d23e4abaf4681b25567d41a2d6ba64254051c709a1c85085f23c60c918c90",
+    "contract_problems": [],
+    "experiment_id": "f12_private_form_language_stability",
+    "module_path": "src/mop/experiments/f_form_substrate.py",
+    "module_sha256": "f921c8f12ed6bb47da700698ad4865835f9eb3789e219e14ce65ea3f8e525c88",
+    "registry_row_fingerprint": "dcb842e344e5466735fa8017119ed2e934a6eec976a682806c694752aa33ad08",
+    "source_requirements": [
+      "_hungarian",
+      "fit_idx=tr",
+      "shuffled_j",
+      "remap"
+    ],
+    "source_requirements_present": {
+      "_hungarian": true,
+      "fit_idx=tr": true,
+      "remap": true,
+      "shuffled_j": true
+    },
+    "verifier_path": "src/mop/falsification/form_verifier.py",
+    "verifier_sha256": "22ba6ea206f7a74c900ef41f3a7da0b35f81c498147805c2e147ae904ff39ae5"
+  },
+  "independent": true,
+  "metrics_sha256": "2b3d1d16e645548a7de6bf4597a021b9486a8d936faaad1f23ae562ce9473201",
+  "passed": true,
+  "problems": [],
+  "receipt_fingerprint": "0e15406f92d7fd41da519850f6007ada1f57ecc5ee03a5eb2dda9cb040a7ba48",
+  "recomputed": {
+    "agreement_delta": 0.3358,
+    "hungarian_calls": [
+      {
+        "actual_cost": -64.0,
+        "exact": true,
+        "independent_optimum": -64.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -64.0,
+        "exact": true,
+        "independent_optimum": -64.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -66.0,
+        "exact": true,
+        "independent_optimum": -66.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -64.0,
+        "exact": true,
+        "independent_optimum": -64.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -60.0,
+        "exact": true,
+        "independent_optimum": -60.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -78.0,
+        "exact": true,
+        "independent_optimum": -78.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -74.0,
+        "exact": true,
+        "independent_optimum": -74.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -69.0,
+        "exact": true,
+        "independent_optimum": -69.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -75.0,
+        "exact": true,
+        "independent_optimum": -75.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -76.0,
+        "exact": true,
+        "independent_optimum": -76.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -29.0,
+        "exact": true,
+        "independent_optimum": -29.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -30.0,
+        "exact": true,
+        "independent_optimum": -30.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -32.0,
+        "exact": true,
+        "independent_optimum": -32.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -30.0,
+        "exact": true,
+        "independent_optimum": -30.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -26.0,
+        "exact": true,
+        "independent_optimum": -26.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -28.0,
+        "exact": true,
+        "independent_optimum": -28.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -93.0,
+        "exact": true,
+        "independent_optimum": -93.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -35.0,
+        "exact": true,
+        "independent_optimum": -35.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -89.0,
+        "exact": true,
+        "independent_optimum": -89.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -36.0,
+        "exact": true,
+        "independent_optimum": -36.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -93.0,
+        "exact": true,
+        "independent_optimum": -93.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -43.0,
+        "exact": true,
+        "independent_optimum": -43.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -88.0,
+        "exact": true,
+        "independent_optimum": -88.0,
+        "n": 16
+      },
+      {
+        "actual_cost": -38.0,
+        "exact": true,
+        "independent_optimum": -38.0,
+        "n": 16
+      }
+    ],
+    "transfer_delta": 0.7354,
+    "transfer_floor": 0.2
+  },
+  "schema": "mop-form-independent-verifier/v1",
+  "source_receipts": [
+    {
+      "path": "proof/FORM_SUBSTRATE/RECEIPTS/f12_private_form_language_stability.json",
+      "receipt_fingerprint": "0454606493362b58ee41742f750691e231bf49062e73b99c72107e66a4262e80",
+      "sha256": "608553fdbaebf2d433ca8e16061e1665376f884094ef14e3f991b881d61f2e48"
+    }
+  ],
+  "verifier_implementation": "fresh-seed canonical rerun observed through independent effect capture, strongest-control recomputation, semantic invariants, and fingerprint freeze",
+  "verifier_metrics": {
+    "chance": 0.2,
+    "code_agreement": 0.575,
+    "codebook_k": 16,
+    "codes_recur_across_seeds": true,
+    "cross_seed_code_transfer": 0.9354,
+    "density": {
+      "capability": {
+        "code_agreement": 0.575
+      },
+      "cost": {
+        "params": 1536.0,
+        "seconds": 2.828200416988693
+      },
+      "density": {
+        "code_agreement_per_params": 0.0003743489583333333,
+        "code_agreement_per_seconds": 0.2033094955173747
+      },
+      "primary": "code_agreement",
+      "schema": "mop-density-block/v1"
+    },
+    "null_supported": false,
+    "per_seed_transfer_deltas": [
+      0.925,
+      0.825,
+      0.9833,
+      0.65
+    ],
+    "random_code_floor": 0.2392,
+    "seed_ci": {
+      "ci_half": 0.1431,
+      "hi": 0.9889,
+      "lo": 0.7027,
+      "mean": 0.8458,
+      "n": 4,
+      "sd": 0.146,
+      "unstable": false
+    },
+    "seeds": [
+      101,
+      211,
+      307,
+      401,
+      503
+    ],
+    "shuffled_referent_transfer": 0.0896,
+    "sign_flip_report": {
+      "any_flip": false,
+      "consistent_sign": 1,
+      "n": 4,
+      "n_neg": 0,
+      "n_pos": 4,
+      "n_zero": 0
+    }
+  }
+}

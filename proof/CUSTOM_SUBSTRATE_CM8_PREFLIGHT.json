@@ -1,0 +1,66 @@
+{
+  "blockers": [
+    "durable CM7 workbench receipt is missing",
+    "teacher cache has 8 joined referents; need 64",
+    "teacher cache is programmatic rather than rights-cleared natural video",
+    "CM1 natural-video compositional gate is not supplied",
+    "CM2 multi-encoder atlas gate is not supplied",
+    "DR1 rights-cleared dense natural-video package is not supplied"
+  ],
+  "claim_scope": "local CM8 execution preflight; no custom-build scientific result",
+  "cm7_receipt": {
+    "exists": false,
+    "path": "/Users/scammermike/Downloads/mop/proof/CUSTOM_SUBSTRATE_PILOT.json",
+    "sha256": null
+  },
+  "created_at": "2026-07-10T03:59:30.116256+00:00",
+  "next_scientific_action": "expand an exact same-referent citable teacher cache and natural-video test package, then run teacher_distill beside the teacher-free objective winner at matched compute",
+  "requirements": {
+    "aggregate_sha256": "df197fe79f1eb5cb27680e24f5493dc92f1d328a9712cbe1860272641ec309a9",
+    "all_ok": true
+  },
+  "runnable_local_preflight": true,
+  "schema": "mop-custom-substrate-cm8-preflight/v1",
+  "scientific_execution_ready": false,
+  "scientific_promotion": false,
+  "teacher": {
+    "all_ok": true,
+    "available": true,
+    "claim_scope": "real frozen encoder over programmatic video; not natural-video evidence",
+    "configured": true,
+    "encoder_config_hash": "7fb41e664d1472d722e50497d1a03ecd276cfe4d57ab4d0d10172a18662de2aa",
+    "factor_columns": [
+      "composite_label",
+      "factor_a",
+      "factor_b"
+    ],
+    "feature_shape": [
+      8,
+      1024
+    ],
+    "form": {
+      "kind": "vision",
+      "objective": "inherited-frozen",
+      "referent_scheme": "synthetic-factor-cell-repeat"
+    },
+    "joined_referent_ids": [
+      "factorized:a0:b0:rep0",
+      "factorized:a0:b0:rep1",
+      "factorized:a0:b1:rep0",
+      "factorized:a0:b1:rep1",
+      "factorized:a1:b0:rep0",
+      "factorized:a1:b0:rep1",
+      "factorized:a1:b1:rep0",
+      "factorized:a1:b1:rep1"
+    ],
+    "joined_referents": 8,
+    "manifest_schema": "mop-cache-data-plane/v2",
+    "manifest_sha256": "bb4d93ce7841db5d3cd5ae48ed64d8a4ede97eeb11ecab423ce5d8c5304e8cb4",
+    "natural_video": false,
+    "path": "data/cache/vjepa2_vitl_local8_citable",
+    "problems": [],
+    "referent_count": 8,
+    "rows": 8,
+    "schema": "mop-custom-substrate-teacher-audit/v1"
+  }
+}

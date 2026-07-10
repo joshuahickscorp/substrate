@@ -1,0 +1,52 @@
+{
+  "cache": "/Users/scammermike/Downloads/mop/data/cache/vjepa2_vitg_local8_citable",
+  "claim_scope": "real frozen encoder over programmatic video; not natural-video evidence",
+  "completed": true,
+  "created_at": "2026-07-10T03:54:22.431661+00:00",
+  "encode_seconds": 1498.666513666045,
+  "encoder": {
+    "backend": "vjepa_hf",
+    "files": [
+      {
+        "bytes": 3210,
+        "path": "README.md",
+        "sha256": "8531bdab10066a8590e6caae30f3bf950733782946d8fc6fb9f105910c2b8224"
+      },
+      {
+        "bytes": 780,
+        "path": "config.json",
+        "sha256": "f61323b6d7d671e8d591c54cc1d7a518cfcde1281c4d9543069e04abd18d63c4"
+      },
+      {
+        "bytes": 4138311608,
+        "path": "model.safetensors",
+        "sha256": "861d9fafec3cf764f01f00ed26bf53bda531116cc6b67d7dbadd80e8be814e9b"
+      },
+      {
+        "bytes": 1298,
+        "path": "video_preprocessor_config.json",
+        "sha256": "9e09b7b3b6413f54f80510ccb356d2f47a598dfece8dc6bfb405d3af946eca36"
+      }
+    ],
+    "model_id": "facebook/vjepa2-vitg-fpc64-384",
+    "revision": "12ca91694b230e0d4b5b0078af6f4ae1d51e933d",
+    "schema": "mop-encoder-weight-receipt/v1",
+    "weights_real": true
+  },
+  "experiment": "factorized-real-encoder-cache",
+  "frames_per_sample": 64,
+  "hardware_limit_reached": false,
+  "host_device": "cpu",
+  "max_rss_bytes": 6615810048,
+  "probe": {
+    "factor_a_accuracy": 0.3333333432674408,
+    "factor_a_chance": 0.5,
+    "factor_b_accuracy": 1.0,
+    "factor_b_chance": 0.5
+  },
+  "resolution": 384,
+  "samples": 8,
+  "schema": "mop-real-encoder-local-attempt/v1",
+  "seconds_per_clip": 187.33331420825562,
+  "total_process_seconds": 1503.0876055839472
+}

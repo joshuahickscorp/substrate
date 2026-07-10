@@ -1,0 +1,32 @@
+{
+  "schema": "mop-verdict-gate/v1",
+  "created_at": "2026-07-10T06:53:12.141380+00:00",
+  "claim_id": "f5_cross_form_memory_binding",
+  "verdict": "PUBLISH-POSITIVE",
+  "positive": true,
+  "strict_card": true,
+  "all_ok": true,
+  "null_card": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/NULL_CARDS/f5_cross_form_memory_binding.md",
+    "exists": true,
+    "sha256": "05bc4a807c8b6d2d36187eb4e603c1ce5288d4948b4b4d819bf49d3a53e1fbda",
+    "problems": []
+  },
+  "run_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/RECEIPTS/f5_cross_form_memory_binding.json",
+    "exists": true,
+    "sha256": "370a97be9153e6ab7c9bb7790133fe5ea0a12a3057495b919dbe84705d107b6a",
+    "json_ok": true,
+    "problems": []
+  },
+  "verifier_receipt": {
+    "path": "/Users/scammermike/Downloads/mop/proof/FORM_SUBSTRATE/VERIFIERS/f5_cross_form_memory_binding.json",
+    "exists": true,
+    "sha256": "425a904a464e4377120a1f2ec9baf2fea5bf342c8aff9d3289d30bcc71c43afd",
+    "json_ok": true,
+    "passed": true,
+    "independent": true,
+    "problems": []
+  },
+  "problems": []
+}

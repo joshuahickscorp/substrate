@@ -11,10 +11,12 @@ only). No agency, intelligence, understanding, consciousness, sentience, or self
 language. The encoder is frozen and never trained. Vocabulary is engineering only
 (novelty, uncertainty, learning progress, prediction error, decodability).
 
-This file is the INDEX and the READING GUIDE. The rows live as machine-readable JSON
+This file is the INDEX and the READING GUIDE. Publication rows live as machine-readable JSON
 under `atlas/<encoder>/<factor>.json` and are summarized in `atlas/atlas_summary.csv`.
-This scaffold carries the schema and the frozen factor list; the Studio populates the
-real rows. Empty atlas dirs are expected at this stage.
+The current local scale pilot lives separately at `VJEPA_SCALE_ATLAS_LOCAL.json`: it verifies
+serial execution and shared-referent mechanics for all three published V-JEPA 2 scale points,
+but does not populate promotable factor rows because n=8 programmatic stimuli and the incomplete
+matched-control set do not meet this file's evidence standard.
 
 ## How to read a row
 
@@ -77,8 +79,9 @@ raw_run_id:     run hash + config path
 ```
 
 A template row lives at `atlas/_TEMPLATE.factor.json`. The per-encoder directories
-(`vjepa2_vitl_fpc64_256/`, `vjepa2_vith/`, `vjepa2_vitg/`) are created and empty; the
-Studio writes one JSON per probed factor into each.
+(`vjepa2_vitl_fpc64_256/`, `vjepa2_vith/`, `vjepa2_vitg/`) are reserved for one promotable
+JSON row per probed factor. Local availability and pilot geometry stay in their dedicated
+receipts until natural content, sample size, and matched controls clear the row gate.
 
 ## The summary matrix
 

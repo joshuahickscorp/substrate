@@ -8,9 +8,11 @@ or en dashes (commas, colons, parentheses only); no agency, intelligence, unders
 consciousness, or sentience language; the frozen encoder is never trained; the
 linear-probe gate precedes every mechanism claim.
 
-This tree is SCAFFOLD. It carries the schemas, the frozen factor list, and the templates,
-so the Studio populates real rows and cards instead of inventing structure. Empty atlas
-directories and stub cards are expected at this stage.
+This tree started as scaffold and now also carries durable local receipts. The per-factor
+`atlas/` directories remain the publication-oriented row format, while
+`VJEPA_SCALE_ATLAS_LOCAL.json` records the current eight-referent serial scale pilot. ViT-L,
+ViT-H, and ViT-g availability is locally verified; that pilot remains non-promotable because
+it is programmatic, tiny, and lacks every matched random-architecture cache.
 
 ## The tree
 
@@ -21,9 +23,9 @@ proof/
   atlas/
     _TEMPLATE.factor.json       # the per-(encoder x factor) row template
     atlas_summary.csv           # the flat matrix header (encoder x factor x probe-type x decodability)
-    vjepa2_vitl_fpc64_256/      # (empty) the Studio writes one <factor>.json per probed factor
-    vjepa2_vith/                # (empty)
-    vjepa2_vitg/                # (empty)
+    vjepa2_vitl_fpc64_256/      # publication rows, separate from the local scale-pilot receipt
+    vjepa2_vith/                # publication rows, model availability verified locally
+    vjepa2_vitg/                # publication rows, model availability verified locally
   NULL_CARDS/
     null_card.schema.json       # the machine-checkable Section 10.3 field list (probe_dependency REQUIRED)
     _TEMPLATE.md                # the human-readable card template
@@ -57,9 +59,10 @@ path. This scaffold is the structure that holds those.
 
 Two manual-access datasets are blocked on a person completing terms. The planner will NOT
 auto-select them until access is granted AND `--accept-license` is passed. Both approvals
-can take days, so starting now is what lets the Studio pull them on arrival. No download
-happens on the laptop for either; these are access grants only. Do NOT pull SSv2 or Ego4D
-video on the laptop (Studio-only).
+can take days, so starting now reduces external latency. No download is automatic for either;
+these are access grants only. Any later download must pass its license gate and the active host
+profile's per-source and free-disk limits. This is a data-rights and storage decision, not
+evidence of a compute boundary.
 
 ### 1. Something-Something V2 (SSv2), slug `ssv2`, status manual
 

@@ -1,0 +1,112 @@
+{
+  "schema": "mop-form-preflight-receipt/v1",
+  "created_at": "2026-07-10T06:53:04.540975+00:00",
+  "experiment_id": "f16_perfect_slate_null",
+  "preflight_kind": "mechanics smoke plus fail-closed scientific refusal",
+  "scientific_result": false,
+  "promotion_eligible": false,
+  "null_evaluated": false,
+  "smoke_mechanics_pass": true,
+  "fail_closed": true,
+  "source": {
+    "run_dir": "runs/f16_perfect_slate_null/003",
+    "manifest_sha256": "ddb64a2368efafe252af0eddaf1bd400b86c5bea9a6420b5fc9e1af42a74227e",
+    "raw_preflight_sha256": "2f8121602bc8ac819d3105f415104c96a19e1131669920dc386d3ea0edc98902"
+  },
+  "smoke_receipt": {
+    "checks": {
+      "data_rights_manifest": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "inherited_baseline_receipt": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "matched_compute_receipt": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "real_encoder_manifest": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "seed_plan_receipt": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      }
+    },
+    "evidence_eligible": false,
+    "experiment_id": "f16_perfect_slate_null",
+    "generated_at": "2026-07-10T06:53:04.538332+00:00",
+    "promotion_eligible": false,
+    "requested_mode": "smoke",
+    "schema": "mop-scientific-preflight/v2",
+    "scientific_result": false
+  },
+  "scientific_refusal_receipt": {
+    "checks": {
+      "data_rights_manifest": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "inherited_baseline_receipt": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "matched_compute_receipt": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "real_encoder_manifest": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      },
+      "seed_plan_receipt": {
+        "path": "",
+        "problems": [
+          "path is empty"
+        ],
+        "status": "missing"
+      }
+    },
+    "evidence_eligible": false,
+    "experiment_id": "f16_perfect_slate_null",
+    "generated_at": "2026-07-10T06:53:04.555221+00:00",
+    "promotion_eligible": false,
+    "requested_mode": "scientific",
+    "schema": "mop-scientific-preflight/v2",
+    "scientific_result": false
+  },
+  "scientific_refusal_error": "ScientificExecutionRefused: f16_perfect_slate_null scientific execution refused: missing or invalid evidence ['data_rights_manifest', 'real_encoder_manifest', 'matched_compute_receipt', 'seed_plan_receipt', 'inherited_baseline_receipt']; receipt=/var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gn/T/mop_f16_perfect_slate_null_refusal_ufgmxgof/preflight_receipt.json",
+  "problems": [],
+  "all_ok": true,
+  "receipt_fingerprint": "f9df0785c5f60dd4741dee8519c3cb647bedddb4affe54fa5a3ebcf69ac55191"
+}

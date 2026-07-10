@@ -1,0 +1,461 @@
+{
+  "all_mechanics_verified": true,
+  "demoted_blockers": {
+    "e5_curiosity": "bounded learnable-versus-noisy trajectory rollouts are locally executable",
+    "f15_embodied_affordance_form": "paired cloned-state intervention mechanics are locally executable",
+    "f6_sensorimotor_form_closure": "environment mechanics and exact action controls are locally executable",
+    "mop_cm10_action_forward_model": "the environment adapter and action-forward-model mechanics are locally executable"
+  },
+  "elapsed_seconds": 1.716465,
+  "host": {
+    "machine": "arm64",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "python": "3.12.13"
+  },
+  "max_rss_bytes": 263176192,
+  "profile": {
+    "episodes": 24,
+    "grid_size": 6,
+    "horizon": 16,
+    "policy": "mixed",
+    "required_action_count": 4,
+    "required_counterfactual_branches": 4,
+    "required_observation_dim": 16,
+    "ridge_l2": 0.001,
+    "schema": "mop-local-action-environment-profile/v1",
+    "scientific_promotion_allowed": false,
+    "scope": "programmatic local mechanics; never natural embodiment or open-ended-science evidence",
+    "seeds": [
+      20260709,
+      20260710,
+      20260711
+    ],
+    "train_episode_fraction": 0.75
+  },
+  "remaining_scientific_blockers": {
+    "e10_openended": "persistent action mechanics now exist, but sustained open-endedness still needs population-level search, environment generation, transfer, and a predeclared non-plateau horizon",
+    "e5_curiosity": "generalization beyond this programmatic ecology requires independent environments or trajectories",
+    "f15_embodied_affordance_form": "natural-object affordance claims require rights-cleared embodied interventions",
+    "f6_sensorimotor_form_closure": "natural sensorimotor or physical-embodiment claims require external evidence",
+    "mop_cm10_action_forward_model": "the registered claim still needs rendered action-conditioned observations with a citable substrate cache, the exact frozen V-JEPA 2-AC control, and the declared matched-compute unrolled-depth control"
+  },
+  "schema": "mop-local-action-environment-preflight/v1",
+  "scientific_promotion_allowed": false,
+  "scope": "bounded deterministic programmatic mechanics; no natural embodiment claim",
+  "seed_count": 3,
+  "seeds": [
+    {
+      "artifact": {
+        "bytes": 3402989,
+        "exists": true,
+        "path": "runs/local_action_environment/trajectory_seed_20260709.json",
+        "sha256": "cc92cf6c1a1093ac82daad3ba7f1111abab785fb5757523ae16e311abb62c302"
+      },
+      "counterfactual_count": 972,
+      "episode_count": 24,
+      "exact_replay_verified": true,
+      "lanes": {
+        "cm10": {
+          "controls_executed": [
+            "action-blind-same-shape",
+            "action-shuffled-same-shape",
+            "reactive-true-state-upper-control",
+            "true-dynamics-execution"
+          ],
+          "controls_not_yet_citable": [
+            "frozen-vjepa2-ac-on-the-exact-rendered-referents",
+            "matched-compute-unrolled-reactive-depth-on-the-citable-substrate"
+          ],
+          "experiment_id": "mop_cm10_action_forward_model",
+          "matched_dynamics_parameters": true,
+          "matched_planner_inference_calls": true,
+          "mechanics_verified": true,
+          "one_step_r2_by_arm": {
+            "action_blind": 0.9035904739668457,
+            "action_shuffled": 0.9039068007439194,
+            "true_action": 0.9771976780696741
+          },
+          "parameter_count_by_dynamics_arm": {
+            "action_blind": 34,
+            "action_shuffled": 34,
+            "true_action": 34
+          },
+          "pilot_deltas": {
+            "planning_over_reactive": -0.5,
+            "planning_over_strongest_action_control": 0.3333333333333333,
+            "r2_over_strongest_action_control": 0.07329087732575468
+          },
+          "planner_inference_calls_by_arm": {
+            "action_blind": 384,
+            "action_shuffled": 384,
+            "true_action": 384
+          },
+          "planning_success_by_arm": {
+            "action_blind": 0.0,
+            "action_shuffled": 0.0,
+            "reactive_true_state": 0.8333333333333334,
+            "true_action": 0.3333333333333333
+          },
+          "programmatic_only": true,
+          "scientific_ready": false,
+          "test_episode_ids": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "train_episode_count": 18,
+          "train_test_episode_disjoint": true
+        },
+        "e5": {
+          "experiment_id": "e5_curiosity",
+          "learnable_sensor_variance": 0.0,
+          "learnable_transition_rows": 108,
+          "mechanics_verified": true,
+          "noisy_tv_sensor_variance": 0.33614829182624817,
+          "noisy_tv_transition_rows": 135,
+          "prediction_error_and_learning_progress_selection_ready": true,
+          "programmatic_only": true
+        },
+        "f15": {
+          "action_shuffle_control_constructible": true,
+          "affordance_pattern_count": 8,
+          "complete_four_action_groups": true,
+          "experiment_id": "f15_embodied_affordance_form",
+          "goal_affordance_classes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "groups_with_distinct_consequences": 243,
+          "mechanics_verified": true,
+          "paired_clone_groups": 243,
+          "passive_zero_consequence_control_constructible": true,
+          "programmatic_only": true
+        },
+        "f6": {
+          "action_blind_control_constructible": true,
+          "action_shuffle_control_constructible": true,
+          "actual_action_counts": [
+            10,
+            107,
+            13,
+            113
+          ],
+          "actual_observation_action_consequence_rows": 243,
+          "experiment_id": "f6_sensorimotor_form_closure",
+          "mechanics_verified": true,
+          "programmatic_only": true
+        }
+      },
+      "seed": 20260709,
+      "trajectory_sha256": "50e8ac421c84bbab69c6a0c14eb0ebc68ed2d48f33610962757f29499337f9ee",
+      "transition_count": 243,
+      "verification": {
+        "checks": {
+          "collections": true,
+          "content_hash": true,
+          "counts": true,
+          "episode_boundaries": true,
+          "exact_seeded_replay": true,
+          "four_branches_per_clone": true,
+          "required_causal_fields": true,
+          "schema": true,
+          "stable_unique_event_refs": true,
+          "stable_unique_sequence_states": true,
+          "world_hash": true
+        },
+        "errors": [],
+        "verified": true
+      },
+      "world_sha256": "afe45b2f84ab11f9e55421dd650be97e7df8e790022e77c744db3030604e06c1"
+    },
+    {
+      "artifact": {
+        "bytes": 3577588,
+        "exists": true,
+        "path": "runs/local_action_environment/trajectory_seed_20260710.json",
+        "sha256": "c98fbf2e5c580cd20ea70aff160d1d3e741f3d35dd5b38b38e90196155797ed2"
+      },
+      "counterfactual_count": 1028,
+      "episode_count": 24,
+      "exact_replay_verified": true,
+      "lanes": {
+        "cm10": {
+          "controls_executed": [
+            "action-blind-same-shape",
+            "action-shuffled-same-shape",
+            "reactive-true-state-upper-control",
+            "true-dynamics-execution"
+          ],
+          "controls_not_yet_citable": [
+            "frozen-vjepa2-ac-on-the-exact-rendered-referents",
+            "matched-compute-unrolled-reactive-depth-on-the-citable-substrate"
+          ],
+          "experiment_id": "mop_cm10_action_forward_model",
+          "matched_dynamics_parameters": true,
+          "matched_planner_inference_calls": true,
+          "mechanics_verified": true,
+          "one_step_r2_by_arm": {
+            "action_blind": 0.901324435276589,
+            "action_shuffled": 0.9016155137945566,
+            "true_action": 0.9815854151507759
+          },
+          "parameter_count_by_dynamics_arm": {
+            "action_blind": 34,
+            "action_shuffled": 34,
+            "true_action": 34
+          },
+          "pilot_deltas": {
+            "planning_over_reactive": -0.33333333333333337,
+            "planning_over_strongest_action_control": 0.6666666666666666,
+            "r2_over_strongest_action_control": 0.07996990135621929
+          },
+          "planner_inference_calls_by_arm": {
+            "action_blind": 384,
+            "action_shuffled": 384,
+            "true_action": 384
+          },
+          "planning_success_by_arm": {
+            "action_blind": 0.0,
+            "action_shuffled": 0.0,
+            "reactive_true_state": 1.0,
+            "true_action": 0.6666666666666666
+          },
+          "programmatic_only": true,
+          "scientific_ready": false,
+          "test_episode_ids": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "train_episode_count": 18,
+          "train_test_episode_disjoint": true
+        },
+        "e5": {
+          "experiment_id": "e5_curiosity",
+          "learnable_sensor_variance": 0.0,
+          "learnable_transition_rows": 177,
+          "mechanics_verified": true,
+          "noisy_tv_sensor_variance": 0.31863832473754883,
+          "noisy_tv_transition_rows": 80,
+          "prediction_error_and_learning_progress_selection_ready": true,
+          "programmatic_only": true
+        },
+        "f15": {
+          "action_shuffle_control_constructible": true,
+          "affordance_pattern_count": 9,
+          "complete_four_action_groups": true,
+          "experiment_id": "f15_embodied_affordance_form",
+          "goal_affordance_classes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "groups_with_distinct_consequences": 257,
+          "mechanics_verified": true,
+          "paired_clone_groups": 257,
+          "passive_zero_consequence_control_constructible": true,
+          "programmatic_only": true
+        },
+        "f6": {
+          "action_blind_control_constructible": true,
+          "action_shuffle_control_constructible": true,
+          "actual_action_counts": [
+            6,
+            107,
+            25,
+            119
+          ],
+          "actual_observation_action_consequence_rows": 257,
+          "experiment_id": "f6_sensorimotor_form_closure",
+          "mechanics_verified": true,
+          "programmatic_only": true
+        }
+      },
+      "seed": 20260710,
+      "trajectory_sha256": "e53903fcc1c21e3ed8c88692b6e5bcee9dd0359d5e388994a79487a7fba6a3a4",
+      "transition_count": 257,
+      "verification": {
+        "checks": {
+          "collections": true,
+          "content_hash": true,
+          "counts": true,
+          "episode_boundaries": true,
+          "exact_seeded_replay": true,
+          "four_branches_per_clone": true,
+          "required_causal_fields": true,
+          "schema": true,
+          "stable_unique_event_refs": true,
+          "stable_unique_sequence_states": true,
+          "world_hash": true
+        },
+        "errors": [],
+        "verified": true
+      },
+      "world_sha256": "59fbd526fbed42d30988fed0ebf247b8b776226e198ecc3decc3bd2948329fd6"
+    },
+    {
+      "artifact": {
+        "bytes": 3938101,
+        "exists": true,
+        "path": "runs/local_action_environment/trajectory_seed_20260711.json",
+        "sha256": "9c0752ffe59539ed42f800acee5694c31e411e1ad803e8448f15cbeebe1be0d6"
+      },
+      "counterfactual_count": 1128,
+      "episode_count": 24,
+      "exact_replay_verified": true,
+      "lanes": {
+        "cm10": {
+          "controls_executed": [
+            "action-blind-same-shape",
+            "action-shuffled-same-shape",
+            "reactive-true-state-upper-control",
+            "true-dynamics-execution"
+          ],
+          "controls_not_yet_citable": [
+            "frozen-vjepa2-ac-on-the-exact-rendered-referents",
+            "matched-compute-unrolled-reactive-depth-on-the-citable-substrate"
+          ],
+          "experiment_id": "mop_cm10_action_forward_model",
+          "matched_dynamics_parameters": true,
+          "matched_planner_inference_calls": true,
+          "mechanics_verified": true,
+          "one_step_r2_by_arm": {
+            "action_blind": 0.9045092272488819,
+            "action_shuffled": 0.9044690558188612,
+            "true_action": 0.9814983228448185
+          },
+          "parameter_count_by_dynamics_arm": {
+            "action_blind": 34,
+            "action_shuffled": 34,
+            "true_action": 34
+          },
+          "pilot_deltas": {
+            "planning_over_reactive": -0.5,
+            "planning_over_strongest_action_control": 0.5,
+            "r2_over_strongest_action_control": 0.07698909559593659
+          },
+          "planner_inference_calls_by_arm": {
+            "action_blind": 384,
+            "action_shuffled": 384,
+            "true_action": 384
+          },
+          "planning_success_by_arm": {
+            "action_blind": 0.0,
+            "action_shuffled": 0.0,
+            "reactive_true_state": 1.0,
+            "true_action": 0.5
+          },
+          "programmatic_only": true,
+          "scientific_ready": false,
+          "test_episode_ids": [
+            18,
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "train_episode_count": 18,
+          "train_test_episode_disjoint": true
+        },
+        "e5": {
+          "experiment_id": "e5_curiosity",
+          "learnable_sensor_variance": 0.0,
+          "learnable_transition_rows": 150,
+          "mechanics_verified": true,
+          "noisy_tv_sensor_variance": 0.340089350938797,
+          "noisy_tv_transition_rows": 132,
+          "prediction_error_and_learning_progress_selection_ready": true,
+          "programmatic_only": true
+        },
+        "f15": {
+          "action_shuffle_control_constructible": true,
+          "affordance_pattern_count": 9,
+          "complete_four_action_groups": true,
+          "experiment_id": "f15_embodied_affordance_form",
+          "goal_affordance_classes": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "groups_with_distinct_consequences": 282,
+          "mechanics_verified": true,
+          "paired_clone_groups": 282,
+          "passive_zero_consequence_control_constructible": true,
+          "programmatic_only": true
+        },
+        "f6": {
+          "action_blind_control_constructible": true,
+          "action_shuffle_control_constructible": true,
+          "actual_action_counts": [
+            40,
+            103,
+            28,
+            111
+          ],
+          "actual_observation_action_consequence_rows": 282,
+          "experiment_id": "f6_sensorimotor_form_closure",
+          "mechanics_verified": true,
+          "programmatic_only": true
+        }
+      },
+      "seed": 20260711,
+      "trajectory_sha256": "0d12f4a298dc52a0ee20940339034162374cdbaf552b74c5651a74e06cc0858b",
+      "transition_count": 282,
+      "verification": {
+        "checks": {
+          "collections": true,
+          "content_hash": true,
+          "counts": true,
+          "episode_boundaries": true,
+          "exact_seeded_replay": true,
+          "four_branches_per_clone": true,
+          "required_causal_fields": true,
+          "schema": true,
+          "stable_unique_event_refs": true,
+          "stable_unique_sequence_states": true,
+          "world_hash": true
+        },
+        "errors": [],
+        "verified": true
+      },
+      "world_sha256": "4e1ca8488ae2de3fcdf484a6b7d74453051b7322694043adb8ff3ac2699fde07"
+    }
+  ],
+  "source_evidence": [
+    {
+      "bytes": 402,
+      "exists": true,
+      "path": "configs/environment/local_persistent_grid.yaml",
+      "sha256": "49e46c0591d5aabd144ea78633f0eeed5de9c2c5ff90089d9af75c2f81837ca7"
+    },
+    {
+      "bytes": 26479,
+      "exists": true,
+      "path": "src/mop/environments/persistent_grid.py",
+      "sha256": "81ca4aa648efc3632c7636c9b5327febd0e94776d6dc6231e19f88795d62f09f"
+    },
+    {
+      "bytes": 18595,
+      "exists": true,
+      "path": "src/mop/studies/local_action_environment.py",
+      "sha256": "fbc45bec9ab9aa73dfa971096c6c564190894c985ffb62bc4e1975cceaa7e4d6"
+    },
+    {
+      "bytes": 1440,
+      "exists": true,
+      "path": "scripts/local_action_environment.py",
+      "sha256": "3bd718c6e5f91d7796169c9e51c7e87bd08ce8ae07a8fe3b6e6a629d1cf884c4"
+    }
+  ]
+}

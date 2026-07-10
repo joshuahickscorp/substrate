@@ -1,0 +1,861 @@
+{
+  "all_mechanics_verified": true,
+  "all_scientific_paths_fail_closed": true,
+  "claim_boundary": "no fixture metric is a registered-result estimate; every scientific path remains receipt-gated and currently fails closed",
+  "generated_at_unix": 1783666295.2545469,
+  "host": {
+    "machine": "arm64",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "processor": "arm",
+    "python": "3.12.13"
+  },
+  "max_rss_bytes": 316915712,
+  "results": {
+    "mop_at2_mode_substrate_dep": {
+      "mechanics_verified": true,
+      "scientific_readiness": {
+        "checks": [
+          {
+            "description": "a candidate mode has a verified positive gain",
+            "key": "verified_winning_mode",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "a citable real-substrate cache covers the candidate mode's exact referents",
+            "key": "real_substrate_cache",
+            "receipts": [
+              {
+                "exists": false,
+                "path": "data/cache/vjepa2_vitl_local8_citable/manifest.json"
+              }
+            ],
+            "satisfied": false
+          },
+          {
+            "description": "a same-architecture, same-resolution random-init cache covers the same referents",
+            "key": "matched_random_cache",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "fresh seeds are checked by an independent verifier",
+            "key": "independent_verifier",
+            "receipts": [],
+            "satisfied": false
+          }
+        ],
+        "experiment_id": "mop_at2_mode_substrate_dep",
+        "missing": [
+          "verified_winning_mode",
+          "real_substrate_cache",
+          "matched_random_cache",
+          "independent_verifier"
+        ],
+        "ready": false
+      },
+      "scope": "bounded generated fixture; mechanics only, never scientific evidence",
+      "seconds": 0.0035,
+      "seed_count": 3,
+      "seed_results": [
+        {
+          "candidate_mode": "temporal-mean-refinement-fixture",
+          "controls_executed": [
+            "random-init-like-view",
+            "matched-resolution",
+            "same-head"
+          ],
+          "experiment_id": "mop_at2_mode_substrate_dep",
+          "fixture_only": true,
+          "matched_frames": 4,
+          "matched_resolution": 256,
+          "matched_shape": true,
+          "mechanics_verified": true,
+          "mode_gain_real_minus_random": 0.2250000238418579,
+          "random_init_like_fixture": {
+            "baseline_accuracy": 0.5583333373069763,
+            "mode_accuracy": 0.4333333373069763,
+            "mode_gain": -0.125
+          },
+          "real_like_fixture": {
+            "baseline_accuracy": 0.6499999761581421,
+            "mode_accuracy": 0.75,
+            "mode_gain": 0.10000002384185791
+          },
+          "same_probe_code": true,
+          "scientific_input_warning": "real_like_fixture is generated signal, not a real pretrained cache; random_init_like_fixture is generated noise, not a same-architecture checkpoint",
+          "seed": 20260709,
+          "train_test_disjoint": true
+        },
+        {
+          "candidate_mode": "temporal-mean-refinement-fixture",
+          "controls_executed": [
+            "random-init-like-view",
+            "matched-resolution",
+            "same-head"
+          ],
+          "experiment_id": "mop_at2_mode_substrate_dep",
+          "fixture_only": true,
+          "matched_frames": 4,
+          "matched_resolution": 256,
+          "matched_shape": true,
+          "mechanics_verified": true,
+          "mode_gain_real_minus_random": 0.15833339095115662,
+          "random_init_like_fixture": {
+            "baseline_accuracy": 0.5,
+            "mode_accuracy": 0.4833333194255829,
+            "mode_gain": -0.016666680574417114
+          },
+          "real_like_fixture": {
+            "baseline_accuracy": 0.6499999761581421,
+            "mode_accuracy": 0.7916666865348816,
+            "mode_gain": 0.1416667103767395
+          },
+          "same_probe_code": true,
+          "scientific_input_warning": "real_like_fixture is generated signal, not a real pretrained cache; random_init_like_fixture is generated noise, not a same-architecture checkpoint",
+          "seed": 20260710,
+          "train_test_disjoint": true
+        },
+        {
+          "candidate_mode": "temporal-mean-refinement-fixture",
+          "controls_executed": [
+            "random-init-like-view",
+            "matched-resolution",
+            "same-head"
+          ],
+          "experiment_id": "mop_at2_mode_substrate_dep",
+          "fixture_only": true,
+          "matched_frames": 4,
+          "matched_resolution": 256,
+          "matched_shape": true,
+          "mechanics_verified": true,
+          "mode_gain_real_minus_random": 0.02499997615814209,
+          "random_init_like_fixture": {
+            "baseline_accuracy": 0.4333333373069763,
+            "mode_accuracy": 0.5333333611488342,
+            "mode_gain": 0.10000002384185791
+          },
+          "real_like_fixture": {
+            "baseline_accuracy": 0.6583333611488342,
+            "mode_accuracy": 0.7833333611488342,
+            "mode_gain": 0.125
+          },
+          "same_probe_code": true,
+          "scientific_input_warning": "real_like_fixture is generated signal, not a real pretrained cache; random_init_like_fixture is generated noise, not a same-architecture checkpoint",
+          "seed": 20260711,
+          "train_test_disjoint": true
+        }
+      ]
+    },
+    "mop_cm11_developmental_plasticity": {
+      "mechanics_verified": true,
+      "scientific_readiness": {
+        "checks": [
+          {
+            "description": "the fixture is replaced by a calibrated non-ceiling curriculum with a noisy-TV guard",
+            "key": "developmental_regime_gate",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "window, path-dependence, and U-shape signatures are independently recomputed",
+            "key": "signature_verifier",
+            "receipts": [],
+            "satisfied": false
+          }
+        ],
+        "experiment_id": "mop_cm11_developmental_plasticity",
+        "missing": [
+          "developmental_regime_gate",
+          "signature_verifier"
+        ],
+        "ready": false
+      },
+      "scope": "bounded generated fixture; mechanics only, never scientific evidence",
+      "seconds": 0.027395,
+      "seed_count": 3,
+      "seed_results": [
+        {
+          "conditions": {
+            "early": {
+              "mean_accuracy": 0.6937499940395355,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.1884356141090393,
+              "task_accuracies": [
+                0.78125,
+                0.606249988079071
+              ],
+              "updates": 16
+            },
+            "flat_schedule": {
+              "mean_accuracy": 0.7437500059604645,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.24276578426361084,
+              "task_accuracies": [
+                0.737500011920929,
+                0.75
+              ],
+              "updates": 16
+            },
+            "late": {
+              "mean_accuracy": 0.699999988079071,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.20734286308288574,
+              "task_accuracies": [
+                0.59375,
+                0.8062499761581421
+              ],
+              "updates": 16
+            },
+            "middle": {
+              "mean_accuracy": 0.737500011920929,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.20646655559539795,
+              "task_accuracies": [
+                0.737500011920929,
+                0.737500011920929
+              ],
+              "updates": 16
+            },
+            "reverse_order": {
+              "mean_accuracy": 0.7312500178813934,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.06056720018386841,
+              "task_accuracies": [
+                0.6000000238418579,
+                0.862500011920929
+              ],
+              "updates": 16
+            }
+          },
+          "controls_executed": [
+            "flat-schedule",
+            "matched-compute",
+            "reverse-order",
+            "noisy-tv"
+          ],
+          "d4_u_shape_curvature": -0.08125004172325134,
+          "d6_window": -0.0062499940395355225,
+          "developmental_minus_flat": -0.050000011920928955,
+          "experiment_id": "mop_cm11_developmental_plasticity",
+          "fixture_only": true,
+          "matched_compute": true,
+          "mechanics_verified": true,
+          "noisy_tv_guard_applied": true,
+          "scientific_input_warning": "these are fixture-scale signature calculations; their signs and magnitudes are not developmental-plasticity evidence",
+          "seed": 20260709,
+          "y4_path_area_proxy": 0.1278684139251709
+        },
+        {
+          "conditions": {
+            "early": {
+              "mean_accuracy": 0.5875000059604645,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.3382713794708252,
+              "task_accuracies": [
+                0.606249988079071,
+                0.5687500238418579
+              ],
+              "updates": 16
+            },
+            "flat_schedule": {
+              "mean_accuracy": 0.59375,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.3082094192504883,
+              "task_accuracies": [
+                0.5625,
+                0.625
+              ],
+              "updates": 16
+            },
+            "late": {
+              "mean_accuracy": 0.59375,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.2876548767089844,
+              "task_accuracies": [
+                0.5375000238418579,
+                0.6499999761581421
+              ],
+              "updates": 16
+            },
+            "middle": {
+              "mean_accuracy": 0.59375,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.3110787868499756,
+              "task_accuracies": [
+                0.5625,
+                0.625
+              ],
+              "updates": 16
+            },
+            "reverse_order": {
+              "mean_accuracy": 0.6312499940395355,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": -0.2536238431930542,
+              "task_accuracies": [
+                0.48124998807907104,
+                0.78125
+              ],
+              "updates": 16
+            }
+          },
+          "controls_executed": [
+            "flat-schedule",
+            "matched-compute",
+            "reverse-order",
+            "noisy-tv"
+          ],
+          "d4_u_shape_curvature": -0.0062499940395355225,
+          "d6_window": -0.0062499940395355225,
+          "developmental_minus_flat": -0.0062499940395355225,
+          "experiment_id": "mop_cm11_developmental_plasticity",
+          "fixture_only": true,
+          "matched_compute": true,
+          "mechanics_verified": true,
+          "noisy_tv_guard_applied": true,
+          "scientific_input_warning": "these are fixture-scale signature calculations; their signs and magnitudes are not developmental-plasticity evidence",
+          "seed": 20260710,
+          "y4_path_area_proxy": 0.084647536277771
+        },
+        {
+          "conditions": {
+            "early": {
+              "mean_accuracy": 0.53125,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": 3.4410369396209717,
+              "task_accuracies": [
+                0.737500011920929,
+                0.32499998807907104
+              ],
+              "updates": 16
+            },
+            "flat_schedule": {
+              "mean_accuracy": 0.5875000059604645,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": 3.522413730621338,
+              "task_accuracies": [
+                0.71875,
+                0.45625001192092896
+              ],
+              "updates": 16
+            },
+            "late": {
+              "mean_accuracy": 0.5499999970197678,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": 3.5066192150115967,
+              "task_accuracies": [
+                0.4937500059604645,
+                0.606249988079071
+              ],
+              "updates": 16
+            },
+            "middle": {
+              "mean_accuracy": 0.543749988079071,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": 3.4819562435150146,
+              "task_accuracies": [
+                0.668749988079071,
+                0.41874998807907104
+              ],
+              "updates": 16
+            },
+            "reverse_order": {
+              "mean_accuracy": 0.5687499940395355,
+              "noisy_rows_seen": 16,
+              "parameter_fingerprint": 3.514315128326416,
+              "task_accuracies": [
+                0.40625,
+                0.731249988079071
+              ],
+              "updates": 16
+            }
+          },
+          "controls_executed": [
+            "flat-schedule",
+            "matched-compute",
+            "reverse-order",
+            "noisy-tv"
+          ],
+          "d4_u_shape_curvature": -0.006249979138374329,
+          "d6_window": -0.01874999701976776,
+          "developmental_minus_flat": -0.05625000596046448,
+          "experiment_id": "mop_cm11_developmental_plasticity",
+          "fixture_only": true,
+          "matched_compute": true,
+          "mechanics_verified": true,
+          "noisy_tv_guard_applied": true,
+          "scientific_input_warning": "these are fixture-scale signature calculations; their signs and magnitudes are not developmental-plasticity evidence",
+          "seed": 20260711,
+          "y4_path_area_proxy": 0.07327818870544434
+        }
+      ]
+    },
+    "mop_cm12_mop_substrate_capstone": {
+      "mechanics_verified": true,
+      "scientific_readiness": {
+        "checks": [
+          {
+            "description": "two to four expert/substrate pilots have verified receipts",
+            "key": "cleared_experts",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "all experts expose the same referents, tasks, metrics, and total-compute accounting",
+            "key": "compatible_battery",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "the declared strongest open-model control is available",
+            "key": "open_model_control",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "fresh seeds are checked by an independent verifier",
+            "key": "independent_verifier",
+            "receipts": [],
+            "satisfied": false
+          }
+        ],
+        "experiment_id": "mop_cm12_mop_substrate_capstone",
+        "missing": [
+          "cleared_experts",
+          "compatible_battery",
+          "open_model_control",
+          "independent_verifier"
+        ],
+        "ready": false
+      },
+      "scope": "bounded generated fixture; mechanics only, never scientific evidence",
+      "seconds": 0.026123,
+      "seed_count": 3,
+      "seed_results": [
+        {
+          "best_single_accuracy": 0.2916666567325592,
+          "controls_executed": [
+            "best-single-expert",
+            "random-router",
+            "matched-total-flops-with-accounting-padding"
+          ],
+          "experiment_id": "mop_cm12_mop_substrate_capstone",
+          "experts": 4,
+          "fixture_only": true,
+          "matched_total_flops": true,
+          "mechanics_verified": true,
+          "mixture_accuracy": 0.9750000238418579,
+          "mixture_total_flops": 8160,
+          "random_router_accuracy": 0.22499999403953552,
+          "scientific_input_warning": "fixture experts are deterministic specialists, not cleared substrate pilots; the strongest-open-model control is a required external prerequisite",
+          "seed": 20260709,
+          "selection_entropy_nats": 1.3728954792022705,
+          "single_control_padding_flops": 6000,
+          "single_control_total_flops": 8160
+        },
+        {
+          "best_single_accuracy": 0.3333333432674408,
+          "controls_executed": [
+            "best-single-expert",
+            "random-router",
+            "matched-total-flops-with-accounting-padding"
+          ],
+          "experiment_id": "mop_cm12_mop_substrate_capstone",
+          "experts": 4,
+          "fixture_only": true,
+          "matched_total_flops": true,
+          "mechanics_verified": true,
+          "mixture_accuracy": 0.9416666626930237,
+          "mixture_total_flops": 8160,
+          "random_router_accuracy": 0.2750000059604645,
+          "scientific_input_warning": "fixture experts are deterministic specialists, not cleared substrate pilots; the strongest-open-model control is a required external prerequisite",
+          "seed": 20260710,
+          "selection_entropy_nats": 1.3580827713012695,
+          "single_control_padding_flops": 6000,
+          "single_control_total_flops": 8160
+        },
+        {
+          "best_single_accuracy": 0.30000001192092896,
+          "controls_executed": [
+            "best-single-expert",
+            "random-router",
+            "matched-total-flops-with-accounting-padding"
+          ],
+          "experiment_id": "mop_cm12_mop_substrate_capstone",
+          "experts": 4,
+          "fixture_only": true,
+          "matched_total_flops": true,
+          "mechanics_verified": true,
+          "mixture_accuracy": 0.9750000238418579,
+          "mixture_total_flops": 8160,
+          "random_router_accuracy": 0.2666666805744171,
+          "scientific_input_warning": "fixture experts are deterministic specialists, not cleared substrate pilots; the strongest-open-model control is a required external prerequisite",
+          "seed": 20260711,
+          "selection_entropy_nats": 1.3778386116027832,
+          "single_control_padding_flops": 6000,
+          "single_control_total_flops": 8160
+        }
+      ]
+    },
+    "mop_cm5_studio_rejuvenation": {
+      "mechanics_verified": true,
+      "scientific_readiness": {
+        "checks": [
+          {
+            "description": "the no-rejuvenation arm first exhibits nontrivial plasticity loss at the chosen rung",
+            "key": "plasticity_loss_gate",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "adapting and frozen substrate arms share data, initialization family, and update budget",
+            "key": "adapting_frozen_pair",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "fresh seeds are checked by an independent verifier",
+            "key": "independent_verifier",
+            "receipts": [],
+            "satisfied": false
+          }
+        ],
+        "experiment_id": "mop_cm5_studio_rejuvenation",
+        "missing": [
+          "plasticity_loss_gate",
+          "adapting_frozen_pair",
+          "independent_verifier"
+        ],
+        "ready": false
+      },
+      "scope": "bounded generated fixture; mechanics only, never scientific evidence",
+      "seconds": 0.030434,
+      "seed_count": 3,
+      "seed_results": [
+        {
+          "arms": {
+            "adapting_noop": {
+              "adapt_substrate": true,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.815625011920929,
+              "mean_adaptation_gain": 0.1,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 0,
+              "rejuvenation": false,
+              "substrate_max_abs_drift": 0.08167824149131775
+            },
+            "adapting_rejuvenation": {
+              "adapt_substrate": true,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.8062499761581421,
+              "mean_adaptation_gain": 0.09375,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 20,
+              "rejuvenation": true,
+              "substrate_max_abs_drift": 0.2846413254737854
+            },
+            "frozen_noop": {
+              "adapt_substrate": false,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.715624988079071,
+              "mean_adaptation_gain": 0.06875,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 0,
+              "rejuvenation": false,
+              "substrate_max_abs_drift": 0.0
+            },
+            "frozen_rejuvenation": {
+              "adapt_substrate": false,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.706250011920929,
+              "mean_adaptation_gain": 0.071875,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 20,
+              "rejuvenation": true,
+              "substrate_max_abs_drift": 0.0
+            }
+          },
+          "controls_executed": [
+            "do-nothing-plus-accounting-padding",
+            "frozen-substrate",
+            "adapting-vs-frozen"
+          ],
+          "dimension": 12,
+          "experiment_id": "mop_cm5_studio_rejuvenation",
+          "fixture_only": true,
+          "frozen_substrates_bit_exact": true,
+          "matched_auxiliary_intervals": true,
+          "matched_gradient_compute_shape": true,
+          "matched_optimizer_updates": true,
+          "mechanics_verified": true,
+          "plasticity_loss_gate_cleared": false,
+          "restoration_net_of_retention_cost": -0.01562503576278687,
+          "scientific_input_warning": "the fixture does not establish plasticity loss at a target rung; no rejuvenation effect is interpretable until that prerequisite gate clears",
+          "seed": 20260709,
+          "tasks": 5
+        },
+        {
+          "arms": {
+            "adapting_noop": {
+              "adapt_substrate": true,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.7906249761581421,
+              "mean_adaptation_gain": 0.09375,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 0,
+              "rejuvenation": false,
+              "substrate_max_abs_drift": 0.06929072737693787
+            },
+            "adapting_rejuvenation": {
+              "adapt_substrate": true,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.765625,
+              "mean_adaptation_gain": 0.1125,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 20,
+              "rejuvenation": true,
+              "substrate_max_abs_drift": 0.2825031280517578
+            },
+            "frozen_noop": {
+              "adapt_substrate": false,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.7406250238418579,
+              "mean_adaptation_gain": 0.090625,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 0,
+              "rejuvenation": false,
+              "substrate_max_abs_drift": 0.0
+            },
+            "frozen_rejuvenation": {
+              "adapt_substrate": false,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.706250011920929,
+              "mean_adaptation_gain": 0.103125,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 20,
+              "rejuvenation": true,
+              "substrate_max_abs_drift": 0.0
+            }
+          },
+          "controls_executed": [
+            "do-nothing-plus-accounting-padding",
+            "frozen-substrate",
+            "adapting-vs-frozen"
+          ],
+          "dimension": 12,
+          "experiment_id": "mop_cm5_studio_rejuvenation",
+          "fixture_only": true,
+          "frozen_substrates_bit_exact": true,
+          "matched_auxiliary_intervals": true,
+          "matched_gradient_compute_shape": true,
+          "matched_optimizer_updates": true,
+          "mechanics_verified": true,
+          "plasticity_loss_gate_cleared": false,
+          "restoration_net_of_retention_cost": -0.006249976158142087,
+          "scientific_input_warning": "the fixture does not establish plasticity loss at a target rung; no rejuvenation effect is interpretable until that prerequisite gate clears",
+          "seed": 20260710,
+          "tasks": 5
+        },
+        {
+          "arms": {
+            "adapting_noop": {
+              "adapt_substrate": true,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.856249988079071,
+              "mean_adaptation_gain": 0.134375,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 0,
+              "rejuvenation": false,
+              "substrate_max_abs_drift": 0.09880805015563965
+            },
+            "adapting_rejuvenation": {
+              "adapt_substrate": true,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.8500000238418579,
+              "mean_adaptation_gain": 0.125,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 20,
+              "rejuvenation": true,
+              "substrate_max_abs_drift": 0.30866923928260803
+            },
+            "frozen_noop": {
+              "adapt_substrate": false,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.800000011920929,
+              "mean_adaptation_gain": 0.109375,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 0,
+              "rejuvenation": false,
+              "substrate_max_abs_drift": 0.0
+            },
+            "frozen_rejuvenation": {
+              "adapt_substrate": false,
+              "auxiliary_intervals": 4,
+              "final_retention": 0.7875000238418579,
+              "mean_adaptation_gain": 0.084375,
+              "optimizer_update_steps": 20,
+              "rejuvenated_units": 20,
+              "rejuvenation": true,
+              "substrate_max_abs_drift": 0.0
+            }
+          },
+          "controls_executed": [
+            "do-nothing-plus-accounting-padding",
+            "frozen-substrate",
+            "adapting-vs-frozen"
+          ],
+          "dimension": 12,
+          "experiment_id": "mop_cm5_studio_rejuvenation",
+          "fixture_only": true,
+          "frozen_substrates_bit_exact": true,
+          "matched_auxiliary_intervals": true,
+          "matched_gradient_compute_shape": true,
+          "matched_optimizer_updates": true,
+          "mechanics_verified": true,
+          "plasticity_loss_gate_cleared": false,
+          "restoration_net_of_retention_cost": -0.01562496423721313,
+          "scientific_input_warning": "the fixture does not establish plasticity loss at a target rung; no rejuvenation effect is interpretable until that prerequisite gate clears",
+          "seed": 20260711,
+          "tasks": 5
+        }
+      ]
+    },
+    "mop_mt4_reasoning_router": {
+      "mechanics_verified": true,
+      "scientific_readiness": {
+        "checks": [
+          {
+            "description": "all six reasoning primitives evaluated on the same referents with compatible outputs",
+            "key": "compatible_primitives",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "a preregistered gate proves the primitives make materially distinct errors",
+            "key": "distinct_strategy_gate",
+            "receipts": [],
+            "satisfied": false
+          },
+          {
+            "description": "fresh seeds are checked by an independent verifier",
+            "key": "independent_verifier",
+            "receipts": [],
+            "satisfied": false
+          }
+        ],
+        "experiment_id": "mop_mt4_reasoning_router",
+        "missing": [
+          "compatible_primitives",
+          "distinct_strategy_gate",
+          "independent_verifier"
+        ],
+        "ready": false
+      },
+      "scope": "bounded generated fixture; mechanics only, never scientific evidence",
+      "seconds": 0.669465,
+      "seed_count": 3,
+      "seed_results": [
+        {
+          "best_fixed_accuracy": 0.23000000417232513,
+          "best_fixed_primitive": "adaptive_halt",
+          "controls_executed": [
+            "best-single-fixed-strategy",
+            "matched-mean-flops",
+            "shuffled-router-selection"
+          ],
+          "experiment_id": "mop_mt4_reasoning_router",
+          "fixed_control_mean_flops": 1064,
+          "fixture_only": true,
+          "matched_mean_flops": true,
+          "mechanics_verified": true,
+          "primitive_names": [
+            "fixed_n",
+            "adaptive_halt",
+            "beam",
+            "memory",
+            "plan",
+            "verify"
+          ],
+          "router_accuracy": 0.8999999761581421,
+          "router_mean_flops": 1064,
+          "seed": 20260709,
+          "selection_entropy_nats": 1.7370316982269287,
+          "shuffled_router_accuracy": 0.15000000596046448,
+          "test_rows": 100,
+          "train_rows": 220,
+          "train_test_disjoint": true
+        },
+        {
+          "best_fixed_accuracy": 0.23000000417232513,
+          "best_fixed_primitive": "plan",
+          "controls_executed": [
+            "best-single-fixed-strategy",
+            "matched-mean-flops",
+            "shuffled-router-selection"
+          ],
+          "experiment_id": "mop_mt4_reasoning_router",
+          "fixed_control_mean_flops": 1064,
+          "fixture_only": true,
+          "matched_mean_flops": true,
+          "mechanics_verified": true,
+          "primitive_names": [
+            "fixed_n",
+            "adaptive_halt",
+            "beam",
+            "memory",
+            "plan",
+            "verify"
+          ],
+          "router_accuracy": 0.9100000262260437,
+          "router_mean_flops": 1064,
+          "seed": 20260710,
+          "selection_entropy_nats": 1.7569385766983032,
+          "shuffled_router_accuracy": 0.10999999940395355,
+          "test_rows": 100,
+          "train_rows": 220,
+          "train_test_disjoint": true
+        },
+        {
+          "best_fixed_accuracy": 0.20999999344348907,
+          "best_fixed_primitive": "plan",
+          "controls_executed": [
+            "best-single-fixed-strategy",
+            "matched-mean-flops",
+            "shuffled-router-selection"
+          ],
+          "experiment_id": "mop_mt4_reasoning_router",
+          "fixed_control_mean_flops": 1064,
+          "fixture_only": true,
+          "matched_mean_flops": true,
+          "mechanics_verified": true,
+          "primitive_names": [
+            "fixed_n",
+            "adaptive_halt",
+            "beam",
+            "memory",
+            "plan",
+            "verify"
+          ],
+          "router_accuracy": 0.8500000238418579,
+          "router_mean_flops": 1064,
+          "seed": 20260711,
+          "selection_entropy_nats": 1.7767536640167236,
+          "shuffled_router_accuracy": 0.18000000715255737,
+          "test_rows": 100,
+          "train_rows": 220,
+          "train_test_disjoint": true
+        }
+      ]
+    }
+  },
+  "schema": "mop-local-frontier-preflights/v1",
+  "scope": "local executable preflight over generated fixtures; proves control/dataflow mechanics and resource feasibility only",
+  "seconds": 0.778942,
+  "seeds": [
+    20260709,
+    20260710,
+    20260711
+  ],
+  "target_count": 5,
+  "wall_budget_minutes": 180
+}
