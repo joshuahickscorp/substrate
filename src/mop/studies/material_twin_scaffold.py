@@ -257,6 +257,11 @@ class _ToyMaterialPrior:
         self._ops.append(f"drift:{epochs}")
 
     def apply_damage(self, lesion: LesionSpec) -> None:
+        realized_fraction = len(lesion.unit_indices) / self.units
+        if not np.isclose(realized_fraction, lesion.fraction, rtol=0.0, atol=1e-12):
+            raise ValueError(
+                "lesion fraction must equal the fraction of uniquely selected twin units"
+            )
         for i in lesion.unit_indices:
             if i >= self.units:
                 raise ValueError("lesion unit index out of range for this prior")
@@ -549,7 +554,7 @@ DAMAGE_REPAIR_METRICS: tuple[str, ...] = (
     "repair_time",
     "restored_function",
     "future_plasticity",
-    "energy",
+    "repair_energy",
     "topology_change",
 )
 
@@ -611,7 +616,12 @@ def selective_lesion_delta(twin: _ToyMaterialPrior, lesion: LesionSpec) -> dict[
 # ---------------------------------------------------------------------------
 
 DRIFT_CONTROLS: tuple[str, ...] = ("no-adapt", "oracle-reset", "full-retraining")
-DRIFT_METRICS: tuple[str, ...] = ("drift_rate", "adaptation_lag", "retained_function", "energy")
+DRIFT_METRICS: tuple[str, ...] = (
+    "drift_rate",
+    "adaptation_lag",
+    "retained_function",
+    "adaptation_energy",
+)
 
 
 @dataclass(frozen=True, slots=True)
