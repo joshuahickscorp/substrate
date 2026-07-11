@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+import copy
 import json
+
+import pytest
 
 from mop.config import REPO_ROOT
 from mop.studies.potential_atlas_driver import (
+    P5_SMOKE_RECEIPT_PATH,
     SERVED_SCAFFOLD_FACETS,
+    _p5_smoke_refusal_summary,
     build_atlas,
     render_markdown,
 )
@@ -80,16 +85,72 @@ def test_operational_revision_removes_stale_p4_and_post_p4_claims() -> None:
     assert not any("refused concurrent admission" in value for value in op3["demonstrated_components"])
     assert not any("post-P4 P6 admission" in value for value in op3["readiness_not_capability"])
     assert any(
-        "7.039 to 7.243 GB" in value and "battery power" in value for value in op3["readiness_not_capability"]
+        "8.160 to 8.381 GB" in value and "AC power passed" in value
+        for value in op3["readiness_not_capability"]
     )
+    admission = atlas["p5_local_admission"]
+    assert admission["state"] == "memory-only-admission-refusal"
+    assert admission["available_memory_gb"] == [8.16013312, 8.30414848, 8.381218816]
+    assert admission["required_memory_gb"] == 10.0
+    assert admission["command_executed"] is False
     assert sum(value.startswith("P5 smoke is fail-closed") for value in op3["readiness_not_capability"]) == 1
-    assert "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json" in op3["evidence"]
+    assert "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json" in op3["evidence"]
+    assert "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json" not in op3["evidence"]
+    assert "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json" not in {
+        row["path"] for row in atlas["source_snapshot"]
+    }
     p6 = atlas["continual_million_event_preflight"]
     assert p6["scheduler_preflight"]["admission_allowed"] is False
     assert "post-P4" in p6["scheduler_preflight"]["interpretation"]
     assert "independent null or favorable verification" in p6["scheduler_preflight"]["interpretation"]
     assert not any("release the exclusive lane after P4" in value for value in p6["remaining"])
     assert any("verify the P5 sequence" in value for value in p6["remaining"])
+
+
+def test_atlas_p5_refusal_parser_rejects_stale_narrative_inputs() -> None:
+    receipt = json.loads((REPO_ROOT / P5_SMOKE_RECEIPT_PATH).read_text())
+    summary = _p5_smoke_refusal_summary(receipt)
+    assert min(summary["available_memory_gb"]) == 8.16013312
+    assert max(summary["available_memory_gb"]) == 8.381218816
+
+    for key, replacement in (
+        ("mode", "execute"),
+        ("status", "complete"),
+        ("command_executed", True),
+    ):
+        mutation = copy.deepcopy(receipt)
+        mutation[key] = replacement
+        with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
+            _p5_smoke_refusal_summary(mutation)
+
+    mutation = copy.deepcopy(receipt)
+    memory_gate = next(
+        gate for gate in mutation["decisions"][0]["gates"] if gate["name"] == "candidate_memory_headroom"
+    )
+    memory_gate["observed"] = memory_gate["limit"]
+    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
+        _p5_smoke_refusal_summary(mutation)
+
+    stale_run = copy.deepcopy(receipt)
+    stale_run["run_id"] = "p5smoke_20000101_leg99"
+    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
+        _p5_smoke_refusal_summary(stale_run)
+
+    fabricated_limit = copy.deepcopy(receipt)
+    for decision in fabricated_limit["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")["limit"] = (
+            11.0
+        )
+    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
+        _p5_smoke_refusal_summary(fabricated_limit)
+
+    fabricated_observation = copy.deepcopy(receipt)
+    for decision in fabricated_observation["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")[
+            "observed"
+        ] = 1.0
+    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
+        _p5_smoke_refusal_summary(fabricated_observation)
 
 
 def test_executed_toy_receipts_are_bound_without_physical_or_capability_score_inflation() -> None:

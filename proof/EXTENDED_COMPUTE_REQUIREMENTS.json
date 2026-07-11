@@ -56,6 +56,21 @@
         "local_runs_all_ok": true,
         "local_runs_completed": 18
       },
+      "p5_smoke_admission_refusal": {
+        "all_ok": true,
+        "available_memory_gb": [
+          8.16013312,
+          8.30414848,
+          8.381218816
+        ],
+        "command_executed": false,
+        "decision_count": 3,
+        "minimum_projected_disk_gb": 122.61212620799999,
+        "power_source": "AC Power",
+        "required_memory_gb": 10.0,
+        "run_id": "p5smoke_20260710_leg2",
+        "state": "memory-only-admission-refusal"
+      },
       "p6_10k_scheduler_dry_run": {
         "admission_allowed": false,
         "all_ok": true,
@@ -687,7 +702,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_adam_trainable_state": {
       "current_hash_verified": true,
@@ -695,7 +710,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_cache_10000": {
       "current_hash_verified": true,
@@ -703,7 +718,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_campaign_time_spec": {
       "current_hash_verified": true,
@@ -711,7 +726,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_checkpoint_volume_spec": {
       "current_hash_verified": true,
@@ -719,7 +734,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_cloud_cost_spec": {
       "current_hash_verified": true,
@@ -727,7 +742,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_dense_cache_storage": {
       "current_hash_verified": true,
@@ -735,7 +750,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_energy_scope": {
       "current_hash_verified": true,
@@ -743,7 +758,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_paired_seed_power": {
       "current_hash_verified": true,
@@ -751,7 +766,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "c_peak_memory_spec": {
       "current_hash_verified": true,
@@ -759,7 +774,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     "m_cm7_pilot": {
       "current_hash_verified": true,
@@ -1241,11 +1256,11 @@
       "sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
     },
     {
-      "bytes": 114567,
+      "bytes": 124970,
       "exists": true,
       "id": "local:scripts/build_extended_compute_requirements.py",
       "path": "scripts/build_extended_compute_requirements.py",
-      "sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
+      "sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
     },
     {
       "bytes": 56837,
@@ -3740,11 +3755,11 @@
       "sha256": "de0a80434e7b5f6a35cd28051af07ac84c23d804fb3566df13a056b940e7f884"
     },
     {
-      "bytes": 28255,
+      "bytes": 27906,
       "exists": true,
-      "id": "local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab"
+      "id": "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+      "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787"
     },
     {
       "bytes": 2084,
@@ -3831,7 +3846,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitl"
     }
   },
-  "payload_sha256": "dd7d6b3ee559e02450f46183fa6e71341abc45b2683f9db390becd6f41ebce0a",
+  "payload_sha256": "b5bbfcc2c47f3ff76408a43c3dc5b4029f621b5be3d284a5b8519983d82df5c7",
   "row_referenced_json_audits": {
     "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json": {
       "all_current": true,
@@ -3896,9 +3911,9 @@
       "mismatches": [],
       "missing": []
     },
-    "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json": {
+    "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json": {
       "all_current": true,
-      "artifact": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+      "artifact": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
       "checks": 2,
       "mismatches": [],
       "missing": []
@@ -17667,7 +17682,7 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"
+        "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -17703,8 +17718,22 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "implementation and governed admission evidence only; the source-current P5 scientific sequence has not executed",
+        "evidence_scope": "implementation and governed memory-only admission refusal evidence; the source-current P5 scientific sequence has not executed",
         "execution_verified_at_generation": false,
+        "governor_admission": {
+          "available_memory_gb": [
+            8.16013312,
+            8.30414848,
+            8.381218816
+          ],
+          "command_executed": false,
+          "decision_count": 3,
+          "minimum_projected_disk_gb": 122.61212620799999,
+          "power_source": "AC Power",
+          "required_memory_gb": 10.0,
+          "run_id": "p5smoke_20260710_leg2",
+          "state": "memory-only-admission-refusal"
+        },
         "implementation_surface": "experiment-class",
         "ledger_classification": "runnable-not-yet-run",
         "present": false

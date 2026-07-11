@@ -1,0 +1,888 @@
+{
+  "active_lanes": [],
+  "admission": {
+    "allowed": false,
+    "consecutive_bad_samples": 3,
+    "consecutive_good_samples": 0,
+    "reason": "admission requires the configured consecutive healthy samples",
+    "required_consecutive_good_samples": 3,
+    "samples_observed": 3
+  },
+  "command_executed": false,
+  "created_at": "2026-07-11T05:27:24.805203+00:00",
+  "decisions": [
+    {
+      "active_lanes": [],
+      "allowed": false,
+      "created_at": "2026-07-11T05:27:22.426526+00:00",
+      "critical": false,
+      "denied_reasons": [
+        "measured available unified memory covers candidate peak plus headroom"
+      ],
+      "disk_forecast": {
+        "floor_gb": 40.0,
+        "free_gb": 124.01278976,
+        "projected_free_gb": 122.61278976,
+        "reserved_write_gb": 1.4
+      },
+      "gates": [
+        {
+          "critical": false,
+          "limit": [],
+          "name": "required_telemetry",
+          "observed": [],
+          "ok": true,
+          "reason": "all required probes must report"
+        },
+        {
+          "critical": false,
+          "limit": "every declared prior-rung completion receipt must match exact fields",
+          "name": "receipt_prerequisites",
+          "observed": [],
+          "ok": true,
+          "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+        },
+        {
+          "critical": false,
+          "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+          "name": "resource_measurement",
+          "observed": {
+            "all_ok": true,
+            "effective_unified_memory_gb": 8.0,
+            "mode": "declared"
+          },
+          "ok": true,
+          "reason": "unknown memory never becomes an ordinary task estimate"
+        },
+        {
+          "critical": false,
+          "limit": "fewer than 2 active lanes",
+          "name": "lane_count",
+          "observed": 0,
+          "ok": true,
+          "reason": "at most two scheduler-owned lanes"
+        },
+        {
+          "critical": false,
+          "limit": {
+            "required_empty": false
+          },
+          "name": "exclusive_lane",
+          "observed": {
+            "active_count": 0,
+            "active_exclusive": []
+          },
+          "ok": true,
+          "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+        },
+        {
+          "critical": false,
+          "limit": 1,
+          "name": "one_heavy",
+          "observed": 0,
+          "ok": true,
+          "reason": "a second heavy lane is never admitted"
+        },
+        {
+          "critical": false,
+          "limit": [
+            "cpu",
+            "light",
+            "network"
+          ],
+          "name": "second_lane_kind",
+          "observed": "heavy",
+          "ok": true,
+          "reason": "only CPU, network, or light work may be the second lane"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "unmanaged_heavy_process",
+          "observed": [],
+          "ok": true,
+          "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "foreground_second_lane",
+          "observed": [],
+          "ok": true,
+          "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_load",
+          "observed": 0.55712890625,
+          "ok": true,
+          "reason": "first_lane normalized one-minute load ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_utilization",
+          "observed": 0.226,
+          "ok": true,
+          "reason": "first_lane instantaneous CPU ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 12,
+          "name": "declared_cpu_cores",
+          "observed": 10,
+          "ok": true,
+          "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+        },
+        {
+          "critical": false,
+          "limit": 20.0,
+          "name": "memory_pressure",
+          "observed": 42.2,
+          "ok": true,
+          "reason": "first_lane available-memory floor from both VM and memory_pressure"
+        },
+        {
+          "critical": false,
+          "limit": 10.0,
+          "name": "candidate_memory_headroom",
+          "observed": 8.16013312,
+          "ok": false,
+          "reason": "measured available unified memory covers candidate peak plus headroom"
+        },
+        {
+          "critical": false,
+          "limit": 17.327352832,
+          "name": "declared_memory_budget",
+          "observed": 8.0,
+          "ok": true,
+          "reason": "all declared lane peaks fit measured unified memory with headroom"
+        },
+        {
+          "critical": false,
+          "limit": 8.0,
+          "name": "swap",
+          "observed": 0.0,
+          "ok": true,
+          "reason": "first_lane swap-use ceiling"
+        },
+        {
+          "critical": false,
+          "limit": "normal",
+          "name": "thermal",
+          "observed": "normal",
+          "ok": true,
+          "reason": "thermal and performance pressure must be normal"
+        },
+        {
+          "critical": false,
+          "limit": "AC Power for heavy/CPU work",
+          "name": "power",
+          "observed": "AC Power",
+          "ok": true,
+          "reason": "battery power blocks compute-heavy admission"
+        },
+        {
+          "critical": false,
+          "limit": 40.0,
+          "name": "forecasted_disk",
+          "observed": {
+            "free_gb": 124.01278976,
+            "projected_free_gb": 122.61278976,
+            "reserve_gb": 1.4
+          },
+          "ok": true,
+          "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+        }
+      ],
+      "schema": "mop-local-throttle-decision/v1",
+      "task_id": "p5smoke_cpu",
+      "threshold_tier": "first_lane",
+      "user_process_policy": "observed only; scheduler signals only its own process group"
+    },
+    {
+      "active_lanes": [],
+      "allowed": false,
+      "created_at": "2026-07-11T05:27:23.604517+00:00",
+      "critical": false,
+      "denied_reasons": [
+        "measured available unified memory covers candidate peak plus headroom"
+      ],
+      "disk_forecast": {
+        "floor_gb": 40.0,
+        "free_gb": 124.012294144,
+        "projected_free_gb": 122.61229414399999,
+        "reserved_write_gb": 1.4
+      },
+      "gates": [
+        {
+          "critical": false,
+          "limit": [],
+          "name": "required_telemetry",
+          "observed": [],
+          "ok": true,
+          "reason": "all required probes must report"
+        },
+        {
+          "critical": false,
+          "limit": "every declared prior-rung completion receipt must match exact fields",
+          "name": "receipt_prerequisites",
+          "observed": [],
+          "ok": true,
+          "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+        },
+        {
+          "critical": false,
+          "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+          "name": "resource_measurement",
+          "observed": {
+            "all_ok": true,
+            "effective_unified_memory_gb": 8.0,
+            "mode": "declared"
+          },
+          "ok": true,
+          "reason": "unknown memory never becomes an ordinary task estimate"
+        },
+        {
+          "critical": false,
+          "limit": "fewer than 2 active lanes",
+          "name": "lane_count",
+          "observed": 0,
+          "ok": true,
+          "reason": "at most two scheduler-owned lanes"
+        },
+        {
+          "critical": false,
+          "limit": {
+            "required_empty": false
+          },
+          "name": "exclusive_lane",
+          "observed": {
+            "active_count": 0,
+            "active_exclusive": []
+          },
+          "ok": true,
+          "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+        },
+        {
+          "critical": false,
+          "limit": 1,
+          "name": "one_heavy",
+          "observed": 0,
+          "ok": true,
+          "reason": "a second heavy lane is never admitted"
+        },
+        {
+          "critical": false,
+          "limit": [
+            "cpu",
+            "light",
+            "network"
+          ],
+          "name": "second_lane_kind",
+          "observed": "heavy",
+          "ok": true,
+          "reason": "only CPU, network, or light work may be the second lane"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "unmanaged_heavy_process",
+          "observed": [],
+          "ok": true,
+          "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "foreground_second_lane",
+          "observed": [],
+          "ok": true,
+          "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_load",
+          "observed": 0.55712890625,
+          "ok": true,
+          "reason": "first_lane normalized one-minute load ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_utilization",
+          "observed": 0.26899999999999996,
+          "ok": true,
+          "reason": "first_lane instantaneous CPU ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 12,
+          "name": "declared_cpu_cores",
+          "observed": 10,
+          "ok": true,
+          "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+        },
+        {
+          "critical": false,
+          "limit": 20.0,
+          "name": "memory_pressure",
+          "observed": 43.0,
+          "ok": true,
+          "reason": "first_lane available-memory floor from both VM and memory_pressure"
+        },
+        {
+          "critical": false,
+          "limit": 10.0,
+          "name": "candidate_memory_headroom",
+          "observed": 8.30414848,
+          "ok": false,
+          "reason": "measured available unified memory covers candidate peak plus headroom"
+        },
+        {
+          "critical": false,
+          "limit": 17.327352832,
+          "name": "declared_memory_budget",
+          "observed": 8.0,
+          "ok": true,
+          "reason": "all declared lane peaks fit measured unified memory with headroom"
+        },
+        {
+          "critical": false,
+          "limit": 8.0,
+          "name": "swap",
+          "observed": 0.0,
+          "ok": true,
+          "reason": "first_lane swap-use ceiling"
+        },
+        {
+          "critical": false,
+          "limit": "normal",
+          "name": "thermal",
+          "observed": "normal",
+          "ok": true,
+          "reason": "thermal and performance pressure must be normal"
+        },
+        {
+          "critical": false,
+          "limit": "AC Power for heavy/CPU work",
+          "name": "power",
+          "observed": "AC Power",
+          "ok": true,
+          "reason": "battery power blocks compute-heavy admission"
+        },
+        {
+          "critical": false,
+          "limit": 40.0,
+          "name": "forecasted_disk",
+          "observed": {
+            "free_gb": 124.012294144,
+            "projected_free_gb": 122.61229414399999,
+            "reserve_gb": 1.4
+          },
+          "ok": true,
+          "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+        }
+      ],
+      "schema": "mop-local-throttle-decision/v1",
+      "task_id": "p5smoke_cpu",
+      "threshold_tier": "first_lane",
+      "user_process_policy": "observed only; scheduler signals only its own process group"
+    },
+    {
+      "active_lanes": [],
+      "allowed": false,
+      "created_at": "2026-07-11T05:27:24.805177+00:00",
+      "critical": false,
+      "denied_reasons": [
+        "measured available unified memory covers candidate peak plus headroom"
+      ],
+      "disk_forecast": {
+        "floor_gb": 40.0,
+        "free_gb": 124.012126208,
+        "projected_free_gb": 122.61212620799999,
+        "reserved_write_gb": 1.4
+      },
+      "gates": [
+        {
+          "critical": false,
+          "limit": [],
+          "name": "required_telemetry",
+          "observed": [],
+          "ok": true,
+          "reason": "all required probes must report"
+        },
+        {
+          "critical": false,
+          "limit": "every declared prior-rung completion receipt must match exact fields",
+          "name": "receipt_prerequisites",
+          "observed": [],
+          "ok": true,
+          "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+        },
+        {
+          "critical": false,
+          "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+          "name": "resource_measurement",
+          "observed": {
+            "all_ok": true,
+            "effective_unified_memory_gb": 8.0,
+            "mode": "declared"
+          },
+          "ok": true,
+          "reason": "unknown memory never becomes an ordinary task estimate"
+        },
+        {
+          "critical": false,
+          "limit": "fewer than 2 active lanes",
+          "name": "lane_count",
+          "observed": 0,
+          "ok": true,
+          "reason": "at most two scheduler-owned lanes"
+        },
+        {
+          "critical": false,
+          "limit": {
+            "required_empty": false
+          },
+          "name": "exclusive_lane",
+          "observed": {
+            "active_count": 0,
+            "active_exclusive": []
+          },
+          "ok": true,
+          "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+        },
+        {
+          "critical": false,
+          "limit": 1,
+          "name": "one_heavy",
+          "observed": 0,
+          "ok": true,
+          "reason": "a second heavy lane is never admitted"
+        },
+        {
+          "critical": false,
+          "limit": [
+            "cpu",
+            "light",
+            "network"
+          ],
+          "name": "second_lane_kind",
+          "observed": "heavy",
+          "ok": true,
+          "reason": "only CPU, network, or light work may be the second lane"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "unmanaged_heavy_process",
+          "observed": [],
+          "ok": true,
+          "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "foreground_second_lane",
+          "observed": [],
+          "ok": true,
+          "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_load",
+          "observed": 0.55712890625,
+          "ok": true,
+          "reason": "first_lane normalized one-minute load ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_utilization",
+          "observed": 0.207,
+          "ok": true,
+          "reason": "first_lane instantaneous CPU ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 12,
+          "name": "declared_cpu_cores",
+          "observed": 10,
+          "ok": true,
+          "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+        },
+        {
+          "critical": false,
+          "limit": 20.0,
+          "name": "memory_pressure",
+          "observed": 43.4,
+          "ok": true,
+          "reason": "first_lane available-memory floor from both VM and memory_pressure"
+        },
+        {
+          "critical": false,
+          "limit": 10.0,
+          "name": "candidate_memory_headroom",
+          "observed": 8.381218816,
+          "ok": false,
+          "reason": "measured available unified memory covers candidate peak plus headroom"
+        },
+        {
+          "critical": false,
+          "limit": 17.327352832,
+          "name": "declared_memory_budget",
+          "observed": 8.0,
+          "ok": true,
+          "reason": "all declared lane peaks fit measured unified memory with headroom"
+        },
+        {
+          "critical": false,
+          "limit": 8.0,
+          "name": "swap",
+          "observed": 0.0,
+          "ok": true,
+          "reason": "first_lane swap-use ceiling"
+        },
+        {
+          "critical": false,
+          "limit": "normal",
+          "name": "thermal",
+          "observed": "normal",
+          "ok": true,
+          "reason": "thermal and performance pressure must be normal"
+        },
+        {
+          "critical": false,
+          "limit": "AC Power for heavy/CPU work",
+          "name": "power",
+          "observed": "AC Power",
+          "ok": true,
+          "reason": "battery power blocks compute-heavy admission"
+        },
+        {
+          "critical": false,
+          "limit": 40.0,
+          "name": "forecasted_disk",
+          "observed": {
+            "free_gb": 124.012126208,
+            "projected_free_gb": 122.61212620799999,
+            "reserve_gb": 1.4
+          },
+          "ok": true,
+          "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+        }
+      ],
+      "schema": "mop-local-throttle-decision/v1",
+      "task_id": "p5smoke_cpu",
+      "threshold_tier": "first_lane",
+      "user_process_policy": "observed only; scheduler signals only its own process group"
+    }
+  ],
+  "implementation": {
+    "path": "src/mop/studio/local_throttle.py",
+    "sha256": "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"
+  },
+  "mode": "execute-refused",
+  "policy": {
+    "path": "/Users/scammermike/Downloads/mop/configs/local_execution_throttle.yaml",
+    "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
+  },
+  "profile": {
+    "allow_manual_auth": false,
+    "allowed_tiers": [
+      "C"
+    ],
+    "disk_total_gb": 80.0,
+    "download_budget_gb": 10.0,
+    "download_hard_cap_gb": 25.0,
+    "dry_run_default": true,
+    "fixture_budget_gb": 2.0,
+    "max_cache_clips": 128,
+    "max_per_source_gb": 5.0,
+    "max_run_count": 64,
+    "max_source_count": 8,
+    "max_wall_min": 300,
+    "min_free_disk_gb": 40.0,
+    "min_host_disk_gb": 70.0,
+    "min_host_unified_memory_gb": 15.0,
+    "name": "m3pro-local-max",
+    "procurement_status": "measured-current-host-envelope",
+    "raw_smoke_gb": 5.0,
+    "require_apple_silicon": true,
+    "reserve_gb": 10.0,
+    "usable_gb": 70.0
+  },
+  "run_id": "p5smoke_20260710_leg2",
+  "schema": "mop-local-throttle-receipt/v1",
+  "status": "admission-refused",
+  "task": {
+    "accelerator": "none",
+    "atomic_checkpoints": true,
+    "atomic_write_gb": 0.15,
+    "checkpoint_globs": [
+      "runs/p5_context/p5smoke/frames/f*/seed_*/*/checkpoint.pt",
+      "runs/p5_context/p5smoke/frames/f*/seed_*/*/arm_receipt.json",
+      "runs/p5_context/p5smoke/frames/f*/seed_*/seed_result.json",
+      "runs/p5_context/p5smoke/frames/f*/cell_receipt.json",
+      "runs/p5_context/p5smoke/p5_context_receipt.json",
+      "runs/p5_context/p5smoke/resolved_config.json",
+      "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+    ],
+    "command": [
+      ".venv/bin/python",
+      "scripts/p5_context_capability.py",
+      "--profile",
+      "p5smoke",
+      "--device",
+      "cpu",
+      "--run-dir",
+      "runs/p5_context/p5smoke",
+      "--out",
+      "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+    ],
+    "cpu_cores": 10,
+    "depends_on": [],
+    "estimated_mps_gb": 0.0,
+    "estimated_unified_memory_gb": 8.0,
+    "forecast_write_gb": 1.0,
+    "lane": "heavy",
+    "pause_safe": true,
+    "prerequisites": [],
+    "requires_empty_lanes": false,
+    "resource_basis": "P5 boundary probe measured 4.8474 GB max RSS at a larger exact-token cell; 8 GB is conservative",
+    "resource_probe": false,
+    "resource_receipt_path": null,
+    "resource_receipt_rung": null,
+    "resource_receipt_schema": null,
+    "restart_exit_codes": [
+      2
+    ],
+    "task_id": "p5smoke_cpu",
+    "wall_minutes": 180
+  },
+  "telemetry_samples": [
+    {
+      "all_required_available": true,
+      "cpu": {
+        "available": true,
+        "load_15m": 7.44970703125,
+        "load_1m": 6.685546875,
+        "load_1m_per_logical_cpu": 0.55712890625,
+        "load_5m": 6.302734375,
+        "logical_cpus": 12,
+        "utilization_fraction": 0.226
+      },
+      "created_at": "2026-07-11T05:27:22.409067+00:00",
+      "disk": {
+        "available": true,
+        "free_bytes": 124012789760,
+        "free_gb": 124.01278976,
+        "root": "/Users/scammermike/Downloads/mop",
+        "total_bytes": 494353338368
+      },
+      "memory": {
+        "available": true,
+        "available_bytes": 8160133120,
+        "available_percent": 42.2,
+        "pressure": {
+          "available": true,
+          "free_percent": 62.0,
+          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 62%"
+        },
+        "total_bytes": 19327352832
+      },
+      "missing_required_telemetry": [],
+      "mps": {
+        "available": true,
+        "built": true,
+        "current_allocated_bytes": 0,
+        "declared_headroom_bytes": 14301773824,
+        "driver_allocated_bytes": 475136,
+        "recommended_working_set_bytes": 14302248960,
+        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+        "telemetry_available": true
+      },
+      "power": {
+        "available": true,
+        "battery_percent": 71,
+        "on_ac": true,
+        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36569187)\t71%; charging; (no estimate) present: true",
+        "source": "AC Power"
+      },
+      "processes": {
+        "available": true,
+        "foreground_resource_processes": [],
+        "frontmost_application": {
+          "available": true,
+          "name": "Claude"
+        },
+        "inaccessible_processes": 0,
+        "unmanaged_known_heavy": []
+      },
+      "schema": "mop-local-host-telemetry/v1",
+      "swap": {
+        "available": true,
+        "free_bytes": 0,
+        "percent": 0.0,
+        "total_bytes": 0,
+        "used_bytes": 0,
+        "used_gb": 0.0
+      },
+      "thermal": {
+        "available": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+        "status": "normal"
+      }
+    },
+    {
+      "all_required_available": true,
+      "cpu": {
+        "available": true,
+        "load_15m": 7.44970703125,
+        "load_1m": 6.685546875,
+        "load_1m_per_logical_cpu": 0.55712890625,
+        "load_5m": 6.302734375,
+        "logical_cpus": 12,
+        "utilization_fraction": 0.26899999999999996
+      },
+      "created_at": "2026-07-11T05:27:23.604008+00:00",
+      "disk": {
+        "available": true,
+        "free_bytes": 124012294144,
+        "free_gb": 124.012294144,
+        "root": "/Users/scammermike/Downloads/mop",
+        "total_bytes": 494353338368
+      },
+      "memory": {
+        "available": true,
+        "available_bytes": 8304148480,
+        "available_percent": 43.0,
+        "pressure": {
+          "available": true,
+          "free_percent": 64.0,
+          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 64%"
+        },
+        "total_bytes": 19327352832
+      },
+      "missing_required_telemetry": [],
+      "mps": {
+        "available": true,
+        "built": true,
+        "current_allocated_bytes": 0,
+        "declared_headroom_bytes": 14301773824,
+        "driver_allocated_bytes": 475136,
+        "recommended_working_set_bytes": 14302248960,
+        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+        "telemetry_available": true
+      },
+      "power": {
+        "available": true,
+        "battery_percent": 71,
+        "on_ac": true,
+        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36569187)\t71%; charging; (no estimate) present: true",
+        "source": "AC Power"
+      },
+      "processes": {
+        "available": true,
+        "foreground_resource_processes": [],
+        "frontmost_application": {
+          "available": true,
+          "name": "Claude"
+        },
+        "inaccessible_processes": 0,
+        "unmanaged_known_heavy": []
+      },
+      "schema": "mop-local-host-telemetry/v1",
+      "swap": {
+        "available": true,
+        "free_bytes": 0,
+        "percent": 0.0,
+        "total_bytes": 0,
+        "used_bytes": 0,
+        "used_gb": 0.0
+      },
+      "thermal": {
+        "available": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+        "status": "normal"
+      }
+    },
+    {
+      "all_required_available": true,
+      "cpu": {
+        "available": true,
+        "load_15m": 7.44970703125,
+        "load_1m": 6.685546875,
+        "load_1m_per_logical_cpu": 0.55712890625,
+        "load_5m": 6.302734375,
+        "logical_cpus": 12,
+        "utilization_fraction": 0.207
+      },
+      "created_at": "2026-07-11T05:27:24.804846+00:00",
+      "disk": {
+        "available": true,
+        "free_bytes": 124012126208,
+        "free_gb": 124.012126208,
+        "root": "/Users/scammermike/Downloads/mop",
+        "total_bytes": 494353338368
+      },
+      "memory": {
+        "available": true,
+        "available_bytes": 8381218816,
+        "available_percent": 43.4,
+        "pressure": {
+          "available": true,
+          "free_percent": 64.0,
+          "raw": "The system has 19327352832 (1179648 pages with a page size of 16384).\nSystem-wide memory free percentage: 64%"
+        },
+        "total_bytes": 19327352832
+      },
+      "missing_required_telemetry": [],
+      "mps": {
+        "available": true,
+        "built": true,
+        "current_allocated_bytes": 0,
+        "declared_headroom_bytes": 14301773824,
+        "driver_allocated_bytes": 475136,
+        "recommended_working_set_bytes": 14302248960,
+        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+        "telemetry_available": true
+      },
+      "power": {
+        "available": true,
+        "battery_percent": 71,
+        "on_ac": true,
+        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=36569187)\t71%; charging; (no estimate) present: true",
+        "source": "AC Power"
+      },
+      "processes": {
+        "available": true,
+        "foreground_resource_processes": [],
+        "frontmost_application": {
+          "available": true,
+          "name": "Claude"
+        },
+        "inaccessible_processes": 0,
+        "unmanaged_known_heavy": []
+      },
+      "schema": "mop-local-host-telemetry/v1",
+      "swap": {
+        "available": true,
+        "free_bytes": 0,
+        "percent": 0.0,
+        "total_bytes": 0,
+        "used_bytes": 0,
+        "used_gb": 0.0
+      },
+      "thermal": {
+        "available": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+        "status": "normal"
+      }
+    }
+  ]
+}

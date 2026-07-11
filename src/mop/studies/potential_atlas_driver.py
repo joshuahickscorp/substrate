@@ -5,8 +5,11 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import math
 import os
+import re
 from collections import Counter
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -94,7 +97,7 @@ ADDITIONAL_SOURCE_PATHS = (
     "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
     "registry/experiments.yaml",
     "proof/LOCAL_THROTTLE_P4_RUN.json",
-    "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+    "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
     "proof/SENSING_SCAFFOLD_RUN.json",
     "proof/SENSING_SCAFFOLD_VERIFICATION.json",
     "proof/INTEGRATION_BROADCAST_RUN.json",
@@ -118,10 +121,239 @@ ADDITIONAL_SOURCE_PATHS = (
     "src/mop/studies/potential_atlas_driver.py",
     "src/mop/substrate/p5_context.py",
 )
+RETIRED_SOURCE_PATHS = frozenset({"proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"})
+P5_SMOKE_RECEIPT_PATH = "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
+P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260710_leg2"
+P5_SMOKE_MEMORY_REASON = "measured available unified memory covers candidate peak plus headroom"
+P5_SMOKE_COMMAND = [
+    ".venv/bin/python",
+    "scripts/p5_context_capability.py",
+    "--profile",
+    "p5smoke",
+    "--device",
+    "cpu",
+    "--run-dir",
+    "runs/p5_context/p5smoke",
+    "--out",
+    "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+]
 
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
+    """Parse the P5 memory-only refusal that the atlas is allowed to describe."""
+    problems: list[str] = []
+    if receipt.get("schema") != "mop-local-throttle-receipt/v1":
+        problems.append("schema")
+    run_id = receipt.get("run_id")
+    if run_id != P5_SMOKE_EXPECTED_RUN_ID:
+        problems.append("run_id")
+    expected_top = {
+        "mode": "execute-refused",
+        "status": "admission-refused",
+        "command_executed": False,
+        "active_lanes": [],
+    }
+    for key, expected in expected_top.items():
+        if receipt.get(key) != expected:
+            problems.append(key)
+
+    task = receipt.get("task")
+    if not isinstance(task, dict):
+        problems.append("task")
+        task = {}
+    if (
+        task.get("task_id") != "p5smoke_cpu"
+        or task.get("lane") != "heavy"
+        or task.get("accelerator") != "none"
+        or task.get("command") != P5_SMOKE_COMMAND
+    ):
+        problems.append("task.contract")
+
+    admission = receipt.get("admission")
+    expected_admission = {
+        "allowed": False,
+        "consecutive_bad_samples": 3,
+        "consecutive_good_samples": 0,
+        "required_consecutive_good_samples": 3,
+        "samples_observed": 3,
+        "reason": "admission requires the configured consecutive healthy samples",
+    }
+    if not isinstance(admission, dict) or any(
+        admission.get(key) != expected for key, expected in expected_admission.items()
+    ):
+        problems.append("admission")
+
+    decisions = receipt.get("decisions")
+    if not isinstance(decisions, list) or len(decisions) != 3:
+        problems.append("decisions")
+        decisions = []
+    expected_gate_names = {
+        "required_telemetry",
+        "receipt_prerequisites",
+        "resource_measurement",
+        "lane_count",
+        "exclusive_lane",
+        "one_heavy",
+        "second_lane_kind",
+        "unmanaged_heavy_process",
+        "foreground_second_lane",
+        "cpu_load",
+        "cpu_utilization",
+        "declared_cpu_cores",
+        "memory_pressure",
+        "candidate_memory_headroom",
+        "declared_memory_budget",
+        "swap",
+        "thermal",
+        "power",
+        "forecasted_disk",
+    }
+    memory_observations: list[float] = []
+    memory_limits: list[float] = []
+    projected_disk: list[float] = []
+    for index, decision in enumerate(decisions):
+        prefix = f"decisions[{index}]"
+        if not isinstance(decision, dict):
+            problems.append(prefix)
+            continue
+        if (
+            decision.get("schema") != "mop-local-throttle-decision/v1"
+            or decision.get("task_id") != "p5smoke_cpu"
+            or decision.get("allowed") is not False
+            or decision.get("active_lanes") != []
+            or decision.get("denied_reasons") != [P5_SMOKE_MEMORY_REASON]
+        ):
+            problems.append(f"{prefix}.contract")
+        raw_gates = decision.get("gates")
+        if not isinstance(raw_gates, list) or not all(isinstance(gate, dict) for gate in raw_gates):
+            problems.append(f"{prefix}.gates")
+            continue
+        names = [str(gate.get("name")) for gate in raw_gates]
+        if len(names) != len(set(names)) or set(names) != expected_gate_names:
+            problems.append(f"{prefix}.gate_names")
+            continue
+        gates = {str(gate["name"]): gate for gate in raw_gates}
+        if {name for name, gate in gates.items() if gate.get("ok") is not True} != {
+            "candidate_memory_headroom"
+        }:
+            problems.append(f"{prefix}.failing_gates")
+
+        memory = gates["candidate_memory_headroom"]
+        observed = memory.get("observed")
+        limit = memory.get("limit")
+        if (
+            memory.get("ok") is not False
+            or memory.get("reason") != P5_SMOKE_MEMORY_REASON
+            or isinstance(observed, bool)
+            or not isinstance(observed, (int, float))
+            or not math.isfinite(float(observed))
+            or isinstance(limit, bool)
+            or not isinstance(limit, (int, float))
+            or not math.isfinite(float(limit))
+            or float(observed) >= float(limit)
+        ):
+            problems.append(f"{prefix}.memory")
+        else:
+            memory_observations.append(float(observed))
+            memory_limits.append(float(limit))
+
+        power = gates["power"]
+        if power.get("ok") is not True or power.get("observed") != "AC Power":
+            problems.append(f"{prefix}.power")
+        disk = gates["forecasted_disk"]
+        disk_observed = disk.get("observed")
+        disk_limit = disk.get("limit")
+        projected = disk_observed.get("projected_free_gb") if isinstance(disk_observed, dict) else None
+        if (
+            disk.get("ok") is not True
+            or isinstance(disk_limit, bool)
+            or not isinstance(disk_limit, (int, float))
+            or float(disk_limit) != 40.0
+            or isinstance(projected, bool)
+            or not isinstance(projected, (int, float))
+            or not math.isfinite(float(projected))
+            or float(projected) < float(disk_limit)
+        ):
+            problems.append(f"{prefix}.disk")
+        else:
+            projected_disk.append(float(projected))
+    if memory_limits and len(set(memory_limits)) != 1:
+        problems.append("memory_limit_consistency")
+
+    for field, relative in (
+        ("policy", "configs/local_execution_throttle.yaml"),
+        ("implementation", "src/mop/studio/local_throttle.py"),
+    ):
+        record = receipt.get(field)
+        live_path = repo_root / relative
+        if not isinstance(record, dict):
+            problems.append(field)
+            continue
+        declared_path = record.get("path")
+        expected_hash = record.get("sha256")
+        if not isinstance(declared_path, str) or not declared_path.replace("\\", "/").endswith(relative):
+            problems.append(f"{field}.path")
+        if (
+            not live_path.is_file()
+            or not isinstance(expected_hash, str)
+            or re.fullmatch(r"[0-9a-f]{64}", expected_hash) is None
+            or _sha256(live_path) != expected_hash
+        ):
+            problems.append(f"{field}.sha256")
+
+    try:
+        from ..studio.local_throttle import aggregate_admission, evaluate_task, load_policy
+
+        policy = load_policy(repo_root / "configs" / "local_execution_throttle.yaml")
+        live_task = policy.tasks["p5smoke_cpu"]
+        canonical_task = json.loads(json.dumps(asdict(live_task)))
+        if receipt.get("task") != canonical_task:
+            problems.append("task.live_policy_binding")
+        telemetry_samples = receipt.get("telemetry_samples")
+        if not isinstance(telemetry_samples, list) or len(telemetry_samples) != 3:
+            problems.append("telemetry_samples")
+        else:
+            rebuilt_decisions: list[dict[str, Any]] = []
+            for index, telemetry in enumerate(telemetry_samples):
+                if not isinstance(telemetry, dict):
+                    problems.append(f"telemetry_samples[{index}]")
+                    continue
+                rebuilt = evaluate_task(
+                    live_task,
+                    telemetry,
+                    policy,
+                    active=[],
+                    evidence_root=repo_root,
+                )
+                rebuilt_decisions.append(rebuilt)
+                rebuilt_without_time = dict(rebuilt)
+                rebuilt_without_time.pop("created_at", None)
+                actual_without_time = dict(decisions[index]) if index < len(decisions) else {}
+                actual_without_time.pop("created_at", None)
+                if actual_without_time != rebuilt_without_time:
+                    problems.append(f"decisions[{index}].canonical_rebuild")
+            required_good = int(policy.monitor["admission_good_samples"])
+            if receipt.get("admission") != aggregate_admission(rebuilt_decisions, required_good):
+                problems.append("admission.canonical_rebuild")
+    except (KeyError, OSError, TypeError, ValueError) as exc:
+        problems.append(f"canonical_rebuild:{exc}")
+
+    if problems:
+        raise ValueError("invalid P5 smoke admission refusal: " + ", ".join(dict.fromkeys(problems)))
+    return {
+        "state": "memory-only-admission-refusal",
+        "run_id": run_id,
+        "command_executed": False,
+        "decision_count": len(decisions),
+        "available_memory_gb": memory_observations,
+        "required_memory_gb": memory_limits[0],
+        "power_source": "AC Power",
+        "minimum_projected_disk_gb": min(projected_disk),
+    }
 
 
 def _round_one_decimal(value: float) -> float:
@@ -460,7 +692,7 @@ def _extend_unique(facet: dict[str, Any], field: str, values: list[str]) -> None
     facet[field] = list(dict.fromkeys([*facet.get(field, []), *values]))
 
 
-def _update_operational_state(atlas: dict[str, Any]) -> None:
+def _update_operational_state(atlas: dict[str, Any], p5_refusal: dict[str, Any]) -> None:
     portfolio = atlas["portfolio"]
     mechanics = portfolio["mechanics_progress"]
     mechanics["P6"] = (
@@ -732,9 +964,10 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
                     if value not in stale_op3_readiness and not value.startswith("P5 smoke is fail-closed")
                 ],
                 (
-                    "P5 smoke is fail-closed on current local admission: three samples had 7.039 "
-                    "to 7.243 GB available against a 10.0 GB requirement, and the host was on "
-                    "battery power"
+                    "P5 smoke is fail-closed on current local admission: three samples had "
+                    f"{min(p5_refusal['available_memory_gb']):.3f} to "
+                    f"{max(p5_refusal['available_memory_gb']):.3f} GB available against a "
+                    f"{p5_refusal['required_memory_gb']:.1f} GB requirement; AC power passed"
                 ),
                 (
                     "the P6 10k resource probe is fail-closed until the final P5 verifier binds a "
@@ -748,7 +981,7 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
     op3["local_to_10"] = [
         (
             "admit and complete P5 only after three consecutive samples satisfy the unchanged "
-            "memory-headroom and AC-power gates"
+            "memory-headroom gate"
         ),
         (
             "run the exclusive P6 10k resource probe, full 10k replication, and independent "
@@ -767,10 +1000,10 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
     op3["evidence"] = list(
         dict.fromkeys(
             [
-                *op3.get("evidence", []),
+                *[value for value in op3.get("evidence", []) if value not in RETIRED_SOURCE_PATHS],
                 "proof/LOCAL_THROTTLE_P4_RUN.json",
                 "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
-                "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+                "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
             ]
         )
     )
@@ -862,7 +1095,11 @@ def _refresh_sources(atlas: dict[str, Any], repo_root: Path) -> None:
     snapshot = atlas.get("source_snapshot")
     if not isinstance(snapshot, list):
         raise ValueError("atlas source_snapshot must be a list")
-    paths = [str(row["path"]) for row in snapshot if isinstance(row, dict)]
+    paths = [
+        str(row["path"])
+        for row in snapshot
+        if isinstance(row, dict) and str(row.get("path")) not in RETIRED_SOURCE_PATHS
+    ]
     for source_path in ADDITIONAL_SOURCE_PATHS:
         if source_path not in paths:
             paths.append(source_path)
@@ -892,12 +1129,17 @@ def build_atlas(
         exhaustion = json.loads(exhaustion_path.read_text(encoding="utf-8"))
     if exhaustion.get("schema") != "mop-project-experiment-exhaustion/v1":
         raise ValueError("unexpected project exhaustion schema")
+    p5_receipt_path = repo_root / P5_SMOKE_RECEIPT_PATH
+    p5_receipt = json.loads(p5_receipt_path.read_text(encoding="utf-8"))
+    p5_refusal = _p5_smoke_refusal_summary(p5_receipt, repo_root=repo_root)
+    p5_refusal["receipt_sha256"] = _sha256(p5_receipt_path)
     atlas = copy.deepcopy(base)
     atlas["facets"] = _rebuild_facets(atlas)
     _rebuild_domains(atlas, atlas["facets"])
     _rebuild_category2(atlas, requirements)
-    _update_operational_state(atlas)
+    _update_operational_state(atlas, p5_refusal)
     _update_portfolio(atlas, requirements, exhaustion)
+    atlas["p5_local_admission"] = p5_refusal
     _refresh_sources(atlas, repo_root)
     atlas["status"] = "generated evidence-grounded snapshot; no facet at 10"
     return atlas

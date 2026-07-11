@@ -16,6 +16,7 @@ import re
 import sys
 from collections import Counter
 from collections.abc import Callable
+from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, TypeGuard
@@ -33,6 +34,21 @@ EXPECTED_CATEGORY2_COUNT = 119
 EXPECTED_PRIMARY_CATEGORY_COUNTS = {1: 168, 2: 119, 3: 29, 6: 5}
 P5_VERIFICATION_PATH = "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
 P5_VERIFICATION_SCHEMA = "mop-p5-context-independent-verifier/v1"
+P5_SMOKE_RECEIPT_PATH = "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
+P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260710_leg2"
+P5_SMOKE_MEMORY_REASON = "measured available unified memory covers candidate peak plus headroom"
+P5_SMOKE_COMMAND = [
+    ".venv/bin/python",
+    "scripts/p5_context_capability.py",
+    "--profile",
+    "p5smoke",
+    "--device",
+    "cpu",
+    "--run-dir",
+    "runs/p5_context/p5smoke",
+    "--out",
+    "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+]
 P6_PREREQUISITE_REASON = "P6 and other dependent tasks fail closed until immutable prior receipts pass"
 EXPECTED_EXHAUSTION_COUNTS = {
     "already-durable-hash-verifiable": 37,
@@ -161,6 +177,7 @@ REQUIRED_BOUND_SOURCES = (
     "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
     "proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json",
     "proof/P9_CAUSAL_MONITORING_PREFLIGHT.json",
+    P5_SMOKE_RECEIPT_PATH,
 )
 RETIRED_CURRENT_PATHS = frozenset(
     {
@@ -169,6 +186,7 @@ RETIRED_CURRENT_PATHS = frozenset(
         "proof/REAL_ENCODER_LOCAL_ATTEMPT.json",
         "proof/REAL_ENCODER_VITH_LOCAL8.json",
         "proof/REAL_ENCODER_VITG_LOCAL8.json",
+        "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
         "data/cache/vjepa2_vitl_local8_random_s0/cache_manifest.json",
     }
 )
@@ -178,6 +196,7 @@ RETIRED_TEXT_MARKERS = (
     "REAL_ENCODER_LOCAL_ATTEMPT",
     "REAL_ENCODER_VITH_LOCAL8",
     "REAL_ENCODER_VITG_LOCAL8",
+    "LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT",
     "vjepa2_vitl_local8",
     "ViT-H",
     "ViT-G",
@@ -651,6 +670,271 @@ def _evidence_contract(atlas: dict[str, Any], repo_root: Path) -> tuple[list[str
             elif path is None or not path.is_file():
                 problems.append(f"facet {facet_id} evidence path does not exist as a file: {raw}")
     return problems, {"evidence_reference_count": references}
+
+
+def _parse_p5_admission_refusal(receipt: dict[str, Any], repo_root: Path) -> tuple[list[str], dict[str, Any]]:
+    problems: list[str] = []
+    if receipt.get("schema") != "mop-local-throttle-receipt/v1":
+        problems.append("P5 smoke receipt schema has drifted")
+    run_id = receipt.get("run_id")
+    if run_id != P5_SMOKE_EXPECTED_RUN_ID:
+        problems.append("P5 smoke run_id has drifted")
+    expected_top = {
+        "mode": "execute-refused",
+        "status": "admission-refused",
+        "command_executed": False,
+        "active_lanes": [],
+    }
+    for key, expected in expected_top.items():
+        if receipt.get(key) != expected:
+            problems.append(f"P5 smoke {key} has drifted")
+
+    task = receipt.get("task")
+    if not isinstance(task, dict) or (
+        task.get("task_id") != "p5smoke_cpu"
+        or task.get("lane") != "heavy"
+        or task.get("accelerator") != "none"
+        or task.get("command") != P5_SMOKE_COMMAND
+    ):
+        problems.append("P5 smoke task contract has drifted")
+
+    admission = receipt.get("admission")
+    expected_admission = {
+        "allowed": False,
+        "consecutive_bad_samples": 3,
+        "consecutive_good_samples": 0,
+        "required_consecutive_good_samples": 3,
+        "samples_observed": 3,
+        "reason": "admission requires the configured consecutive healthy samples",
+    }
+    if not isinstance(admission, dict) or any(
+        admission.get(key) != expected for key, expected in expected_admission.items()
+    ):
+        problems.append("P5 smoke admission summary has drifted")
+
+    expected_gate_names = {
+        "required_telemetry",
+        "receipt_prerequisites",
+        "resource_measurement",
+        "lane_count",
+        "exclusive_lane",
+        "one_heavy",
+        "second_lane_kind",
+        "unmanaged_heavy_process",
+        "foreground_second_lane",
+        "cpu_load",
+        "cpu_utilization",
+        "declared_cpu_cores",
+        "memory_pressure",
+        "candidate_memory_headroom",
+        "declared_memory_budget",
+        "swap",
+        "thermal",
+        "power",
+        "forecasted_disk",
+    }
+    decisions = receipt.get("decisions")
+    if not isinstance(decisions, list) or len(decisions) != 3:
+        problems.append("P5 smoke decision count has drifted")
+        decisions = []
+    memory_observations: list[float] = []
+    memory_limits: list[float] = []
+    projected_disk: list[float] = []
+    for index, decision in enumerate(decisions):
+        prefix = f"P5 smoke decision {index}"
+        if not isinstance(decision, dict):
+            problems.append(f"{prefix} is not an object")
+            continue
+        if (
+            decision.get("schema") != "mop-local-throttle-decision/v1"
+            or decision.get("task_id") != "p5smoke_cpu"
+            or decision.get("allowed") is not False
+            or decision.get("active_lanes") != []
+            or decision.get("denied_reasons") != [P5_SMOKE_MEMORY_REASON]
+        ):
+            problems.append(f"{prefix} refusal contract has drifted")
+        raw_gates = decision.get("gates")
+        if not isinstance(raw_gates, list) or not all(isinstance(gate, dict) for gate in raw_gates):
+            problems.append(f"{prefix} gates are malformed")
+            continue
+        names = [str(gate.get("name")) for gate in raw_gates]
+        if len(names) != len(set(names)) or set(names) != expected_gate_names:
+            problems.append(f"{prefix} gate set has drifted")
+            continue
+        gates = {str(gate["name"]): gate for gate in raw_gates}
+        failing = {name for name, gate in gates.items() if gate.get("ok") is not True}
+        if failing != {"candidate_memory_headroom"}:
+            problems.append(f"{prefix} is not a memory-only refusal")
+
+        memory = gates["candidate_memory_headroom"]
+        observed = memory.get("observed")
+        limit = memory.get("limit")
+        if (
+            memory.get("ok") is not False
+            or memory.get("reason") != P5_SMOKE_MEMORY_REASON
+            or not _finite_number(observed)
+            or not _finite_number(limit)
+            or float(observed) >= float(limit)
+        ):
+            problems.append(f"{prefix} memory gate has drifted")
+        else:
+            memory_observations.append(float(observed))
+            memory_limits.append(float(limit))
+
+        power = gates["power"]
+        if power.get("ok") is not True or power.get("observed") != "AC Power":
+            problems.append(f"{prefix} power gate has drifted")
+        disk = gates["forecasted_disk"]
+        disk_observed = disk.get("observed")
+        disk_limit = disk.get("limit")
+        projected = disk_observed.get("projected_free_gb") if isinstance(disk_observed, dict) else None
+        if (
+            disk.get("ok") is not True
+            or not _finite_number(disk_limit)
+            or float(disk_limit) != 40.0
+            or not _finite_number(projected)
+            or float(projected) < float(disk_limit)
+        ):
+            problems.append(f"{prefix} disk gate has drifted")
+        else:
+            projected_disk.append(float(projected))
+    if memory_limits and len(set(memory_limits)) != 1:
+        problems.append("P5 smoke memory limit differs across decisions")
+
+    for field, relative in (
+        ("policy", "configs/local_execution_throttle.yaml"),
+        ("implementation", "src/mop/studio/local_throttle.py"),
+    ):
+        record = receipt.get(field)
+        live_path = repo_root / relative
+        if not isinstance(record, dict):
+            problems.append(f"P5 smoke {field} binding is absent")
+            continue
+        declared_path = record.get("path")
+        expected_hash = record.get("sha256")
+        if not isinstance(declared_path, str) or not declared_path.replace("\\", "/").endswith(relative):
+            problems.append(f"P5 smoke {field} path has drifted")
+        if not live_path.is_file() or not _valid_sha256(expected_hash) or _sha256(live_path) != expected_hash:
+            problems.append(f"P5 smoke {field} hash is not current")
+
+    try:
+        from ..studio.local_throttle import aggregate_admission, evaluate_task, load_policy
+
+        policy = load_policy(repo_root / "configs" / "local_execution_throttle.yaml")
+        live_task = policy.tasks["p5smoke_cpu"]
+        canonical_task = json.loads(json.dumps(asdict(live_task)))
+        if receipt.get("task") != canonical_task:
+            problems.append("P5 smoke task disagrees with the live policy")
+        telemetry_samples = receipt.get("telemetry_samples")
+        if not isinstance(telemetry_samples, list) or len(telemetry_samples) != 3:
+            problems.append("P5 smoke telemetry sample count has drifted")
+        else:
+            rebuilt_decisions: list[dict[str, Any]] = []
+            for index, telemetry in enumerate(telemetry_samples):
+                if not isinstance(telemetry, dict):
+                    problems.append(f"P5 smoke telemetry sample {index} is malformed")
+                    continue
+                rebuilt = evaluate_task(
+                    live_task,
+                    telemetry,
+                    policy,
+                    active=[],
+                    evidence_root=repo_root,
+                )
+                rebuilt_decisions.append(rebuilt)
+                rebuilt_without_time = dict(rebuilt)
+                rebuilt_without_time.pop("created_at", None)
+                actual_without_time = dict(decisions[index]) if index < len(decisions) else {}
+                actual_without_time.pop("created_at", None)
+                if actual_without_time != rebuilt_without_time:
+                    problems.append(f"P5 smoke decision {index} canonical rebuild drift")
+            required_good = int(policy.monitor["admission_good_samples"])
+            if receipt.get("admission") != aggregate_admission(rebuilt_decisions, required_good):
+                problems.append("P5 smoke admission canonical rebuild drift")
+    except (KeyError, OSError, TypeError, ValueError) as exc:
+        problems.append(f"P5 smoke canonical rebuild failed: {exc}")
+
+    if problems:
+        return problems, {}
+    return [], {
+        "state": "memory-only-admission-refusal",
+        "run_id": run_id,
+        "command_executed": False,
+        "decision_count": len(decisions),
+        "available_memory_gb": memory_observations,
+        "required_memory_gb": memory_limits[0],
+        "power_source": "AC Power",
+        "minimum_projected_disk_gb": min(projected_disk),
+    }
+
+
+def _p5_admission_contract(
+    atlas: dict[str, Any],
+    requirements: dict[str, Any],
+    parsed_sources: dict[str, dict[str, Any]],
+    repo_root: Path,
+) -> tuple[list[str], dict[str, Any]]:
+    problems: list[str] = []
+    receipt = parsed_sources.get(P5_SMOKE_RECEIPT_PATH)
+    if not isinstance(receipt, dict):
+        return ["verified P5 smoke receipt is unavailable"], {}
+    parse_problems, summary = _parse_p5_admission_refusal(receipt, repo_root)
+    problems.extend(parse_problems)
+    if parse_problems:
+        return problems, {}
+
+    receipt_path = repo_root / P5_SMOKE_RECEIPT_PATH
+    atlas_summary = {**summary, "receipt_sha256": _sha256(receipt_path)}
+    if atlas.get("p5_local_admission") != atlas_summary:
+        problems.append("atlas P5 local-admission summary disagrees with the verified receipt")
+
+    facets = atlas.get("facets")
+    op3 = next(
+        (facet for facet in facets or [] if isinstance(facet, dict) and facet.get("id") == "OP3"),
+        None,
+    )
+    expected_narrative = (
+        "P5 smoke is fail-closed on current local admission: three samples had "
+        f"{min(summary['available_memory_gb']):.3f} to "
+        f"{max(summary['available_memory_gb']):.3f} GB available against a "
+        f"{summary['required_memory_gb']:.1f} GB requirement; AC power passed"
+    )
+    readiness = op3.get("readiness_not_capability") if isinstance(op3, dict) else None
+    evidence = op3.get("evidence") if isinstance(op3, dict) else None
+    if not isinstance(readiness, list) or readiness.count(expected_narrative) != 1:
+        problems.append("OP3 P5 refusal narrative disagrees with the verified receipt")
+    if not isinstance(evidence, list) or evidence.count(P5_SMOKE_RECEIPT_PATH) != 1:
+        problems.append("OP3 does not bind the verified P5 smoke receipt exactly once")
+
+    rows = requirements.get("rows")
+    p5_row = next(
+        (row for row in rows or [] if isinstance(row, dict) and row.get("id") == "mop_p5_context_capability"),
+        None,
+    )
+    measured = p5_row.get("measured") if isinstance(p5_row, dict) else None
+    if not isinstance(measured, dict) or measured.get("governor_admission") != summary:
+        problems.append("requirements P5 admission summary disagrees with the verified receipt")
+    evidence_refs = p5_row.get("evidence_refs") if isinstance(p5_row, dict) else None
+    current_ref = f"local:{P5_SMOKE_RECEIPT_PATH}"
+    retired_ref = "local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"
+    if (
+        not isinstance(evidence_refs, list)
+        or evidence_refs.count(current_ref) != 1
+        or retired_ref in evidence_refs
+    ):
+        problems.append("requirements P5 evidence does not bind only the current smoke receipt")
+    authoritative = requirements.get("authoritative_receipt_checks")
+    checks = authoritative.get("checks") if isinstance(authoritative, dict) else None
+    requirement_check = checks.get("p5_smoke_admission_refusal") if isinstance(checks, dict) else None
+    if not isinstance(requirement_check, dict) or requirement_check != {"all_ok": True, **summary}:
+        problems.append("requirements P5 authoritative receipt check has drifted")
+    return problems, {
+        "run_id": summary["run_id"],
+        "decision_count": summary["decision_count"],
+        "available_memory_gb": summary["available_memory_gb"],
+        "required_memory_gb": summary["required_memory_gb"],
+        "command_executed": summary["command_executed"],
+    }
 
 
 def _category2_contract(
@@ -1931,6 +2215,11 @@ def validate_potential_atlas(
             _file_receipt(requirements_path, repo_root),
         )
     )
+    p5_problems, p5_detail = _guard_pair(
+        "P5 admission",
+        lambda: _p5_admission_contract(atlas, requirements, parsed_sources, repo_root),
+    )
+    checks.append(_check("p5_admission", p5_problems, p5_detail))
     category_problems, category_detail = _guard_pair(
         "category-2 partition", lambda: _category2_contract(atlas, requirements)
     )
@@ -1991,6 +2280,9 @@ def validate_potential_atlas(
         "p9_total_lineages": mechanics_detail.get("p9_total_lineages"),
         "p9_total_branches": mechanics_detail.get("p9_total_branches"),
         "p9_arm_count": mechanics_detail.get("p9_arm_count"),
+        "p5_admission_run_id": p5_detail.get("run_id"),
+        "p5_admission_decision_count": p5_detail.get("decision_count"),
+        "p5_command_executed": p5_detail.get("command_executed"),
         "studio_scale_required_now": False if not studio_problems else None,
     }
     receipt: dict[str, Any] = {

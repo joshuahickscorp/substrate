@@ -1,12 +1,20 @@
 from __future__ import annotations
 
+import copy
+import json
+
+import pytest
 from scripts.build_extended_compute_requirements import (
+    P5_SMOKE_RECEIPT_PATH,
     P5_VERIFICATION_FIELDS,
     P5_VERIFICATION_PATH,
     P5_VERIFICATION_SCHEMA,
+    _p5_smoke_refusal_summary,
     _p6_dry_prerequisite_state,
     registry_rows,
 )
+
+from mop.config import REPO_ROOT
 
 
 def test_registry_only_rows_are_preregistration_only_requirements() -> None:
@@ -33,7 +41,12 @@ def test_registry_only_rows_are_preregistration_only_requirements() -> None:
         "complete the implemented conditional P5 sequence through the local governor after three "
         "healthy admission samples"
     )
-    assert "local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json" in p5["evidence_refs"]
+    assert "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json" in p5["evidence_refs"]
+    admission = p5["measured"]["governor_admission"]
+    assert admission["state"] == "memory-only-admission-refusal"
+    assert admission["available_memory_gb"] == [8.16013312, 8.30414848, 8.381218816]
+    assert admission["required_memory_gb"] == 10.0
+    assert admission["command_executed"] is False
 
     e5 = by_id["e5_curiosity"]
     assert e5["primary_category"] == 1
@@ -44,6 +57,50 @@ def test_registry_only_rows_are_preregistration_only_requirements() -> None:
         row["scope"] == "current_registry" and row["primary_category"] == 2 for row in rows
     )
     assert category2_current == 39
+
+
+def test_p5_smoke_refusal_parser_fails_closed_on_semantic_drift() -> None:
+    receipt = json.loads((REPO_ROOT / P5_SMOKE_RECEIPT_PATH).read_text())
+    summary = _p5_smoke_refusal_summary(receipt)
+    assert summary["decision_count"] == 3
+    assert summary["power_source"] == "AC Power"
+    assert summary["minimum_projected_disk_gb"] > 40.0
+
+    mutations = []
+    changed_status = copy.deepcopy(receipt)
+    changed_status["status"] = "complete"
+    mutations.append(changed_status)
+    executed = copy.deepcopy(receipt)
+    executed["command_executed"] = True
+    mutations.append(executed)
+    admitted = copy.deepcopy(receipt)
+    admitted["admission"]["allowed"] = True
+    mutations.append(admitted)
+    mixed_failure = copy.deepcopy(receipt)
+    next(gate for gate in mixed_failure["decisions"][0]["gates"] if gate["name"] == "power")["ok"] = False
+    mutations.append(mixed_failure)
+    stale_policy = copy.deepcopy(receipt)
+    stale_policy["policy"]["sha256"] = "0" * 64
+    mutations.append(stale_policy)
+    stale_run = copy.deepcopy(receipt)
+    stale_run["run_id"] = "p5smoke_20000101_leg99"
+    mutations.append(stale_run)
+    fabricated_limit = copy.deepcopy(receipt)
+    for decision in fabricated_limit["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")["limit"] = (
+            11.0
+        )
+    mutations.append(fabricated_limit)
+    fabricated_observation = copy.deepcopy(receipt)
+    for decision in fabricated_observation["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")[
+            "observed"
+        ] = 1.0
+    mutations.append(fabricated_observation)
+
+    for mutation in mutations:
+        with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
+            _p5_smoke_refusal_summary(mutation)
 
 
 def test_p6_dry_receipt_accepts_only_exact_missing_p5_refusal(tmp_path) -> None:
