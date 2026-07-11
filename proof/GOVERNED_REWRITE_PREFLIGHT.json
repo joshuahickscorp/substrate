@@ -50,9 +50,9 @@
         "sha256": "6fb14d336d14bcd457e46629449ce10d7923dfeb4beb0feb5f08a3407a9810dd"
       },
       {
-        "bytes": 75604,
+        "bytes": 228472,
         "path": "src/mop/studio/local_throttle.py",
-        "sha256": "e63300d3546e54a711c9ccd07c97b3406adb2bf089faeccbb50e93a020e81201"
+        "sha256": "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"
       }
     ],
     "gap_closed": "none of the audited surfaces issued scoped single-use authority for a state rewrite or joined proposal, immutable base identity, canary, shadow, commit, rollback, and crash recovery into one project-owned transaction",
@@ -326,7 +326,7 @@
     "payload_sha256": "149ee0b3429ec91f1cfaea612b135dabacc642629f1c922687faef50056e7b75",
     "sha256": "e4395bec61e68c3a16e7c95b91c9b7475dcc4bb3f840387941dcefbb55bd3d85"
   },
-  "deterministic_core_sha256": "d2a93c28edd5ceed3f0db7d254ec0dfc26c406e20996309fe7648673f8441b94",
+  "deterministic_core_sha256": "7f12e1d02b3ac9e3c6d63ea1da6f8ddcc121cef1960c20958133623756f935c2",
   "drills": {
     "adversarial_attempts": {
       "authorized_regressing_proposal": {
@@ -1611,25 +1611,25 @@
     "device": "cpu",
     "downloads_attempted": false,
     "external_data_loaded": false,
-    "maximum_rss_bytes": 204423168,
+    "maximum_rss_bytes": 204947456,
     "model_weights_loaded": false,
-    "phase_local_peak_rss_increment_bytes": 425984,
+    "phase_local_peak_rss_increment_bytes": 442368,
     "platform": "macOS-26.6-arm64-arm-64bit",
     "rss_limit_bytes": 1073741824,
     "rss_limit_scope": "phase-local sampled peak increment above phase-start RSS",
     "rss_measurement": {
       "all_ok": true,
-      "end_rss_bytes": 204423168,
+      "end_rss_bytes": 204947456,
       "interval_seconds": 0.002,
       "method": "phase-local psutil current-RSS sampler",
-      "peak_increment_bytes": 425984,
-      "peak_rss_bytes": 204423168,
+      "peak_increment_bytes": 442368,
+      "peak_rss_bytes": 204947456,
       "sample_count": 9,
       "sampling_error": null,
-      "start_rss_bytes": 203997184
+      "start_rss_bytes": 204505088
     },
     "wall_limit_seconds": 10.0,
-    "wall_seconds": 0.022589667001739144
+    "wall_seconds": 0.02206762507557869
   },
   "schema": "mop-governed-rewrite-preflight/v1",
   "source_identity": {

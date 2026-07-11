@@ -1246,20 +1246,20 @@ Demonstrated:
 - Blender and foreground detection
 - CPU/memory/swap/thermal/power/disk/MPS telemetry
 - hysteretic admission and scheduler-owned process-group control
-- P6 exclusive 10k resource-probe dry-run correctly refused concurrent admission and executed no command
 - governor-owned P4 closure with an empty final active-lane set
-- post-P4 P6 exclusive-probe admission dry-run
+- P6 source, checkpoint, verifier, and strict non-tie joins enforced before scaling
 
 Not yet demonstrated:
 
-- P5 smoke is fail-closed on current host memory headroom: three samples had 8.59 to 9.07 GB available against a 10.0 GB admission requirement
 - the P6 10k resource probe and replication remain unexecuted
 - mixed-lane confirmation remains open
+- the P6 10k resource probe is fail-closed until the final P5 verifier binds a scientific null or a fresh-seed verified programmatic pattern
+- P5 smoke is fail-closed on current local admission: three samples had 7.039 to 7.243 GB available against a 10.0 GB requirement, and the host was on battery power
 
 Local path:
 
-- admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom gate
-- run the exclusive P6 10k resource probe and full 10k replication after P5
+- admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom and AC-power gates
+- run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after P5
 - exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process pressure without signaling user processes
 - prove data-order and numerical equivalence across repeated inner resumable segments
 - confirm heavy-plus-light or network concurrency, second-MPS denial, cooldown, starvation, and queue integration
@@ -1767,8 +1767,8 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 ## Source snapshot
 
 - `proof/CUSTOM_SUBSTRATE_PILOT.json`: `bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2`
-- `proof/PROJECT_EXPERIMENT_EXHAUSTION.json`: `4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317`
-- `proof/FRONTIER_LOCALIZATION.json`: `465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84`
+- `proof/PROJECT_EXPERIMENT_EXHAUSTION.json`: `1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65`
+- `proof/FRONTIER_LOCALIZATION.json`: `c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78`
 - `proof/LOCAL_ACTION_ENVIRONMENT.json`: `df67dfb4334bf4647c7c2c164ad3f2aee5374cbd574aca227ff4f8058dd0c426`
 - `proof/VJEPA21_VITB_LOAD.json`: `c60eb456726e02773c30f42af093727b600e5a6eb67d5d3d094adb17cee241da`
 - `proof/VJEPA21_VITB_FORWARD.json`: `06ed0d097a50b2638d0209b991c0710574a750edb4a5ddfb3a5dace722581601`
@@ -1782,16 +1782,16 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 - `proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json`: `c16c7c4e9605f04ecbea80d462989661fbfe051d2661a905cd01bc8f4ff4e376`
 - `proof/FORM_SUBSTRATE/SCORECARD.json`: `ddd686a1027c27dd1c9816c87b250f4a0db483e9805756096c262e7fa0169cd1`
 - `proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json`: `b9ae786ad93f74ee58e4f389ac1ad84ffea64801997832c6dfe35a5c64a9e11e`
-- `proof/EXTENDED_COMPUTE_REQUIREMENTS.json`: `d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff`
+- `proof/EXTENDED_COMPUTE_REQUIREMENTS.json`: `73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1`
 - `proof/P4_CAPABILITY_DENSITY_SCREEN.json`: `6330950bfab8d34a9864dd6a98df9b6a69c4a17085ed64a4cecf58669ef58da0`
 - `proof/P5_MEMORY_BOUNDARY_TRACE.json`: `78db1cfa4ac6343484e3eeefd95a2461328d2396d3fb5b6a7a88fb25fc4d6b24`
-- `proof/COMPLETION_CLAIM_AUDIT.json`: `01f472be310d9f7ebb911ffe16378d0008d7936a094f85ced7b95f9e0c8ae395`
+- `proof/COMPLETION_CLAIM_AUDIT.json`: `cfeb8189c634f2662a6d58bffd8bb80502d0f37d467b52ffd6091b456dee0694`
 - `proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json`: `6b667edfd83961b747cb9f153ab310b08d169bd525a71f25416b1310c7d0595b`
-- `proof/LOCAL_EXECUTION_THROTTLE_P4_CPU_DRY_RUN.json`: `84f6aad23b5205b367a08c375d1730ff3c4b248f429ccce446b4feb5684679e7`
-- `proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json`: `5c44afdc87b90c821480eccc2729a8b70f19dde7c23eac346cbbd18cd0e8933c`
-- `configs/local_execution_throttle.yaml`: `8e3c97bbb841f85a2b501df9d170adb500f10d407dafa62c95b52ace19f0376e`
-- `src/mop/studio/local_throttle.py`: `e63300d3546e54a711c9ccd07c97b3406adb2bf089faeccbb50e93a020e81201`
-- `docs/LOCAL_EXECUTION_THROTTLE.md`: `165e93c4acf1360cb28a5bce1761baac578dbc21c8fd3fc5390d9f5f37796f0c`
+- `proof/LOCAL_EXECUTION_THROTTLE_P4_CPU_DRY_RUN.json`: `609dac6539b09d8be887daadbb6b02b5cf889b77c3f468a620bb0aee804b42d0`
+- `proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json`: `656de322d5567a08dc5207c9d21983af3fe7fdef3b1ec389548a6a9e4bde3547`
+- `configs/local_execution_throttle.yaml`: `d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685`
+- `src/mop/studio/local_throttle.py`: `73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7`
+- `docs/LOCAL_EXECUTION_THROTTLE.md`: `71c8bfdfcdbd4a040c05fed51048b80bfbd9a072a09f7edff955ba00fe0032bc`
 - `configs/custom_substrate/requirements.yaml`: `fba9c54a1e4ba913c45622dc1524a25a2dcbbbe40852961bff6f64a16da11c16`
 - `FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md`: `70bb8333fbcf9218f82e7c9d0625866c22b40f7796531d37b8fbd3d53572ba82`
 - `EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md`: `4bac93620485a7d8f75edbb8bba871fc7a5f2c6f4464079a1af341a7bb8f6f1a`
@@ -1799,8 +1799,8 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 - `registry/experiments.yaml`: `2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64`
 - `proof/LOCAL_THROTTLE_P4_RUN.json`: `709e077bc0665176585f656a1a5d1eb654ccfe5e588fc012cb342ad7aa4c299a`
 - `scripts/build_mop_potential_atlas.py`: `80eb539307621ac3cc49026f889bf1435afa53c6a2dfef3aaef7b858260344c4`
-- `src/mop/studies/potential_atlas_driver.py`: `8006cfa70ab5d7261684f245361ca6ca6332fe059e28fb4ea5bb7b1fbd9810ca`
-- `proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json`: `f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794`
+- `src/mop/studies/potential_atlas_driver.py`: `4b734f566fdaa78c073b744b7448d64680e535dc38129c387c02ca568c00fab7`
+- `proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json`: `af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab`
 - `proof/SENSING_SCAFFOLD_RUN.json`: `870a3b81ba436fff9f70b63df87917b3b07ee8537ce33a3995452d7f10e3a5f6`
 - `proof/SENSING_SCAFFOLD_VERIFICATION.json`: `d0b62927ec225af9264e46e0e0806d52cbcd6e302d9711cbe1d63b6274e09d08`
 - `proof/INTEGRATION_BROADCAST_RUN.json`: `b3dc04a94f3a59ae2783785812db7a0914139cf2366f2fe122288d0a58cd4360`
@@ -1811,3 +1811,15 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 - `proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json`: `ca1e8041a938974db1bfe3c1bd8d9d849c26153002141c90252656e521d323c8`
 - `proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json`: `cab92d6c629a9601d88ec8ca27e61b7d07c64ed27546db13e1bcb5a56a49c1e1`
 - `proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json`: `fedfb423da6ea44017aa8de31d71fe637e76d732007b4db4ad6f57edbe5dca2e`
+- `configs/experiment/mop_p5_context_capability.yaml`: `fe704a6dc580a869812067f063db01d9417f1796ac359fc7dec02815959562f1`
+- `docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md`: `a6b99f2517947a9e5514804acc4f89e0d944a2b6bd0e692f0d6cba9f151bb482`
+- `scripts/continual_million_event_rung.py`: `19d86737e57df4df96dc2dced83847792b8bdb32e87a92aac90d723c999b4b90`
+- `scripts/p5_context_capability.py`: `f3ecc2fce57c03423a2ea28545737da934715dfdfc2423ae2b9920b1436755e8`
+- `scripts/p5_context_fresh_challenge.py`: `e1a935ae05b897eaa9bd78561e20085d8490fcb0a42fe044315cfb47bb7765c8`
+- `scripts/p5_traingrid_memory_probe.py`: `d083e2c9964a990c3eb9571431a7d40c975242be8a5f0e57baf13747e65eb263`
+- `scripts/verify_continual_million_event_rung.py`: `d14ae866050e92cd67fde7cc377a31c9a9de4fb98d5fad12094de74aa88490b0`
+- `scripts/verify_p5_context_capability.py`: `d91d2744cb161e53a5455d57ad66c2af41eca0cce5407bdf23a34099095dc908`
+- `src/mop/studies/continual_million_event_verify.py`: `f9508cc2edd9f01870c3060da6f67461e1fddac554520207277afa7cadc0f923`
+- `src/mop/studies/p5_context_challenge.py`: `ba28d1d005ab73f98b2cca0c7496b991659acb7530b153cdbdf177fee266962a`
+- `src/mop/studies/p5_context_verify.py`: `5cb684c2b42be0eac62adf2ce6f4af64dafc2735202457b78d88c07a70871c1d`
+- `src/mop/substrate/p5_context.py`: `0b8628e233b5647cdfc9405553683acbf21da6a0c2ed953b0fab5c71242b19d2`

@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 import yaml
 
+import mop.studies.project_exhaustion as exhaustion
 from mop.config import REPO_ROOT
 from mop.studies.project_exhaustion import (
     CATEGORIES,
@@ -61,6 +62,85 @@ def test_run_verifier_requires_real_manifest_config_and_metrics(tmp_path: Path):
         pass
     else:
         raise AssertionError("external run directories must not be accepted as portable evidence")
+
+
+def _write_bound_attempt(root: Path, *, copied_checkpoint_every: int, live_checkpoint_every: int) -> Path:
+    run = root / "runs" / "project_exhaustion" / "classes" / "demo" / "attempt_001"
+    run.mkdir(parents=True)
+    live_config = {
+        "id": "demo",
+        "profiles": {"p5smoke": {"checkpoint_every": live_checkpoint_every}},
+    }
+    config_path = root / "configs" / "experiment" / "demo.yaml"
+    config_path.parent.mkdir(parents=True)
+    config_path.write_text(yaml.safe_dump(live_config, sort_keys=True))
+    (run / "config.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "experiment": {
+                    "id": "demo",
+                    "profiles": {"p5smoke": {"checkpoint_every": copied_checkpoint_every}},
+                }
+            },
+            sort_keys=True,
+        )
+    )
+    (run / "manifest.json").write_text(
+        json.dumps(
+            {
+                "name": "demo",
+                "status": "ok",
+                "finished": 1.0,
+                "device": "cpu",
+                "seed": 0,
+                "metrics": {"score": 0.5},
+                "extra": {"contract": {"id": "demo"}},
+            }
+        )
+    )
+    source_evidence = [{"path": "demo.py", "sha256": "a" * 64}]
+    (run / "attempt_receipt.json").write_text(
+        json.dumps(
+            {
+                "schema": exhaustion.ATTEMPT_SCHEMA,
+                "experiment_id": "demo",
+                "run_dir": str(run.relative_to(root)),
+                "returncode": 0,
+                "timed_out": False,
+                "worker_report": {"experiment_id": "demo"},
+                "source_evidence": source_evidence,
+            }
+        )
+    )
+    return run
+
+
+def test_run_verifier_binds_attempt_sources_and_live_experiment_config(
+    tmp_path: Path,
+) -> None:
+    run = _write_bound_attempt(tmp_path, copied_checkpoint_every=1, live_checkpoint_every=1)
+    source_evidence = [{"path": "demo.py", "sha256": "a" * 64}]
+    with (
+        patch.object(exhaustion, "REPO_ROOT", tmp_path),
+        patch.object(exhaustion, "class_source_evidence", return_value=source_evidence),
+    ):
+        result = exhaustion.verify_experiment_run(run, "demo")
+    assert result["verified"] is True
+    assert result["checks"]["attempt_source_evidence_current"] is True
+    assert result["checks"]["resolved_experiment_config_current"] is True
+
+
+def test_run_verifier_rejects_source_or_resolved_config_drift(tmp_path: Path) -> None:
+    run = _write_bound_attempt(tmp_path, copied_checkpoint_every=6, live_checkpoint_every=1)
+    drifted_source = [{"path": "demo.py", "sha256": "b" * 64}]
+    with (
+        patch.object(exhaustion, "REPO_ROOT", tmp_path),
+        patch.object(exhaustion, "class_source_evidence", return_value=drifted_source),
+    ):
+        result = exhaustion.verify_experiment_run(run, "demo")
+    assert result["verified"] is False
+    assert result["checks"]["attempt_source_evidence_current"] is False
+    assert result["checks"]["resolved_experiment_config_current"] is False
 
 
 def test_ledger_categories_are_exhaustive_and_hardware_is_not_inferred_from_tier():

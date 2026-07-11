@@ -17,9 +17,11 @@ import json
 import math
 import os
 import re
+import resource
 import shutil
 import signal
 import subprocess
+import sys
 import time
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
@@ -30,21 +32,125 @@ import psutil
 import yaml
 
 from ..config import REPO_ROOT
+from ..studies.continual_million_event_verify import (
+    TIE_RULE as P6_TIE_RULE,
+)
+from ..studies.continual_million_event_verify import (
+    audit_rung_semantics,
+)
+from ..studies.continual_million_event_verify import (
+    build_verification_receipt as build_p6_verification_receipt,
+)
 from .profiles import get_profile
 
 POLICY_SCHEMA = "mop-local-execution-throttle-policy/v1"
 TELEMETRY_SCHEMA = "mop-local-host-telemetry/v1"
 DECISION_SCHEMA = "mop-local-throttle-decision/v1"
 RECEIPT_SCHEMA = "mop-local-throttle-receipt/v1"
+COMPLETION_AUTHORITY_SCHEMA = "mop-local-throttle-completion-authority/v1"
 REGISTRY_SCHEMA = "mop-local-throttle-active-registry/v1"
+PAYLOAD_DIGEST_REQUIRED_SCHEMAS = frozenset(
+    {
+        "mop-continual-progressive-rung/v1",
+        "mop-continual-progressive-rung-independent-verifier/v1",
+        "mop-p5-context-screen/v1",
+        "mop-p5-context-fresh-training-challenge/v1",
+        "mop-p5-context-independent-verifier/v1",
+        "mop-p5-traingrid-memory-trace/v1",
+    }
+)
 LANES = frozenset({"heavy", "cpu", "network", "light"})
 ACCELERATORS = frozenset({"none", "mps"})
 SECOND_LANES = frozenset({"cpu", "network", "light"})
 DEFAULT_POLICY = REPO_ROOT / "configs/local_execution_throttle.yaml"
 DEFAULT_STATE_ROOT = REPO_ROOT / "runs/local_throttle"
 IMPLEMENTATION_PATH = Path(__file__).resolve()
+P5_SCREEN_SCHEMA = "mop-p5-context-screen/v1"
+P5_GRID_SCHEMA = "mop-p5-traingrid-memory-trace/v1"
+P5_CHALLENGE_SCHEMA = "mop-p5-context-fresh-training-challenge/v1"
+P5_VERIFIER_SCHEMA = "mop-p5-context-independent-verifier/v1"
+P5_CONFIG_PATH = REPO_ROOT / "configs/experiment/mop_p5_context_capability.yaml"
+P5_BOUNDARY_TRACE = REPO_ROOT / "proof/P5_MEMORY_BOUNDARY_TRACE.json"
+P5_SOURCE_PATHS = (
+    "configs/experiment/mop_p5_context_capability.yaml",
+    "scripts/p5_context_capability.py",
+    "src/mop/substrate/p5_context.py",
+    "src/mop/substrate/custom_workbench.py",
+    "src/mop/substrate/p4_screen.py",
+)
+P5_GRID_SOURCE_PATHS = (
+    "configs/experiment/mop_p5_context_capability.yaml",
+    "scripts/p5_traingrid_memory_probe.py",
+    "scripts/p5_context_capability.py",
+    "src/mop/substrate/p5_context.py",
+    "src/mop/substrate/custom_workbench.py",
+    "src/mop/substrate/p4_screen.py",
+)
+P5_CLAIM_SCOPE = (
+    "exact-versus-factorized context pilot on deterministic programmatic video; "
+    "not natural-video, memory-rung, or general-capability evidence"
+)
+P5_EVIDENCE_CLASS = "R1 independently recomputed programmatic pilot evidence"
+P5_CHALLENGE_SOURCE_PATHS = P5_SOURCE_PATHS + (
+    "scripts/p5_context_fresh_challenge.py",
+    "src/mop/studies/p5_context_challenge.py",
+    "src/mop/studies/p5_context_verify.py",
+)
+P5_VERIFIER_SOURCE_PATHS = P5_SOURCE_PATHS + (
+    "scripts/verify_p5_context_capability.py",
+    "src/mop/studies/p5_context_verify.py",
+)
+P5_FRAME_COUNTS = (64, 32, 16)
+P5_PRIMARY_FRAMES = (64, 32)
+P5_MECHANISMS = ("exact_global", "window_local", "recurrent", "hierarchical_pooled")
+P5_FRESH_SEEDS = (5101, 5102, 5103)
+P5_TRAINABILITY_MARGIN = 0.05
+P5_CEILING_CHANCE_OFFSET = 0.05
+P5_CEILING_UPPER = 0.95
+P5_BASE_MUTATION_IDS = frozenset(
+    {
+        "incomplete-pilot",
+        "all-ok-false",
+        "source-hash-drift",
+        "config-binding-drift",
+        "confirmatory-promotion",
+        "raw-score-mutation",
+        "cached-seed-source-drift",
+        "checkpoint-source-drift",
+        "matched-compute-drift",
+        "threshold-tie-promotion",
+        "sealed-profile-config-mismatch",
+        "fresh-challenge-hint-flip",
+        "ceilinged-contrast-promotion",
+        "missing-seed-result-artifact",
+        "missing-arm-receipt-artifact",
+        "missing-checkpoint-artifact",
+        "checkpoint-file-hash-drift",
+        "seed-selection-drift",
+    }
+)
+P5_CHALLENGE_MUTATION_IDS = frozenset(
+    {
+        "fresh-seed-overlap",
+        "fresh-run-drop",
+        "fresh-confirmatory-promotion",
+        "challenge-shape-omission",
+        "fresh-trainability-gate-fabrication",
+    }
+)
 P6_PREFLIGHT = REPO_ROOT / "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json"
 P6_RUN_CONFIG = REPO_ROOT / "configs/experiment/continual_million_event_rungs.yaml"
+P6_RUNG_SCHEMA = "mop-continual-progressive-rung/v1"
+P6_VERIFIER_SCHEMA = "mop-continual-progressive-rung-independent-verifier/v1"
+P6_CLAIM_SCOPE = "disk-backed programmatic continual-stream mechanics only; no capability claim"
+P6_MINIMUM_SANE_RSS_BYTES = 16 * 1024 * 1024
+P6_VERIFIER_IMPLEMENTATION_PATHS = (
+    "src/mop/studies/continual_million_event_verify.py",
+    "scripts/verify_continual_million_event_rung.py",
+    "scripts/continual_million_event_rung.py",
+    "configs/experiment/continual_million_event_rungs.yaml",
+    "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+)
 
 
 class ThrottleRefused(RuntimeError):
@@ -253,6 +359,127 @@ def _canonical_sha256(value: Any) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
+def _json_value(value: Any) -> Any:
+    """Return the exact JSON representation persisted by the throttle."""
+
+    return json.loads(json.dumps(value, sort_keys=True, allow_nan=False))
+
+
+def _task_output_path(task: TaskDeclaration) -> str | None:
+    """Return the single repository-relative --out target declared by a task."""
+
+    indexes = [index for index, value in enumerate(task.command) if value == "--out"]
+    if not indexes:
+        return None
+    if len(indexes) != 1 or indexes[0] + 1 >= len(task.command):
+        raise ThrottleRefused(f"task {task.task_id}: command must declare exactly one --out target")
+    value = task.command[indexes[0] + 1]
+    path = Path(value)
+    if not value or path.is_absolute() or ".." in path.parts:
+        raise ThrottleRefused(f"task {task.task_id}: --out target must be repository-relative")
+    return value
+
+
+def _requires_completion_provenance(task: TaskDeclaration) -> bool:
+    return task.task_id.startswith(("p5", "p6"))
+
+
+def _command_sha256(command: tuple[str, ...] | list[str]) -> str:
+    return _canonical_sha256(list(command))
+
+
+def _rusage_children_peak_rss_bytes() -> int:
+    """Return the kernel child high-water RSS using platform-specific units."""
+
+    raw = int(resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)
+    return raw if sys.platform == "darwin" else raw * 1024
+
+
+def _process_tree_rss_bytes(pid: int) -> int:
+    """Sample RSS for one owned process and its current descendants."""
+
+    try:
+        process = psutil.Process(pid)
+        descendants = process.children(recursive=True)
+        values = [int(process.memory_info().rss)]
+        for child in descendants:
+            try:
+                values.append(int(child.memory_info().rss))
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                continue
+        return sum(values)
+    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+        return 0
+
+
+def _p6_source_live_binding_authority(receipt: dict[str, Any]) -> dict[str, Any]:
+    """Recompute the preflight authority digest used by every progressive P6 resume."""
+
+    def live_path(value: object) -> tuple[str, Path]:
+        if not isinstance(value, str) or not value.strip():
+            raise ThrottleRefused("P6 source binding path is missing")
+        relative = Path(value)
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ThrottleRefused("P6 source binding path escapes the repository")
+        path = (REPO_ROOT / relative).resolve()
+        if not path.is_relative_to(REPO_ROOT.resolve()):
+            raise ThrottleRefused("P6 source binding path escapes the repository")
+        return value, path
+
+    config = receipt.get("config")
+    if not isinstance(config, dict):
+        raise ThrottleRefused("P6 preflight config binding is missing")
+    config_name, config_path = live_path(config.get("path"))
+    config_sha256 = _sha256_file(config_path)
+    config_payload = config.get("payload")
+    if config_sha256 != config.get("sha256"):
+        raise ThrottleRefused("P6 preflight live config hash drift")
+    if not isinstance(config_payload, dict) or _canonical_sha256(config_payload) != config.get(
+        "profile_sha256"
+    ):
+        raise ThrottleRefused("P6 preflight embedded config digest drift")
+    if yaml.safe_load(config_path.read_text()) != config_payload:
+        raise ThrottleRefused("P6 preflight live config payload drift")
+
+    implementation = receipt.get("implementation")
+    if not isinstance(implementation, list) or not implementation:
+        raise ThrottleRefused("P6 preflight implementation bindings are missing")
+    implementation_rows: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for row in implementation:
+        if not isinstance(row, dict):
+            raise ThrottleRefused("P6 preflight implementation binding is invalid")
+        name, path = live_path(row.get("path"))
+        if name in seen:
+            raise ThrottleRefused("P6 preflight implementation binding is duplicated")
+        sha256 = _sha256_file(path)
+        if sha256 != row.get("sha256"):
+            raise ThrottleRefused(f"P6 preflight live implementation drift: {name}")
+        seen.add(name)
+        implementation_rows.append({"path": name, "sha256": sha256})
+    if config_name not in seen:
+        raise ThrottleRefused("P6 preflight config is absent from implementation bindings")
+
+    wave = receipt.get("wave_e0")
+    if not isinstance(wave, dict):
+        raise ThrottleRefused("P6 preflight Wave E0 binding is missing")
+    wave_name, wave_path = live_path(wave.get("path"))
+    wave_sha256 = _sha256_file(wave_path)
+    if wave_sha256 != wave.get("sha256"):
+        raise ThrottleRefused("P6 preflight live Wave E0 hash drift")
+    authority: dict[str, Any] = {
+        "config": {
+            "path": config_name,
+            "sha256": config_sha256,
+            "payload_sha256": str(config["profile_sha256"]),
+        },
+        "implementation": implementation_rows,
+        "wave_e0": {"path": wave_name, "sha256": wave_sha256},
+    }
+    authority["bindings_sha256"] = _canonical_sha256(authority)
+    return authority
+
+
 def _p6_resource_evidence() -> dict[str, Any]:
     """Read the immutable 384-event receipt used to derive P6 disk declarations."""
 
@@ -273,6 +500,7 @@ def _p6_resource_evidence() -> dict[str, Any]:
         "payload_sha256"
     ):
         raise ThrottleRefused("P6 384-event preflight payload digest drift")
+    live_authority = _p6_source_live_binding_authority(receipt)
     resources = [
         arm.get("result", {}).get("metrics", {}).get("resources", {})
         for schedule in receipt.get("schedules", [])
@@ -298,11 +526,21 @@ def _p6_resource_evidence() -> dict[str, Any]:
     multiplier = float(projection.get("evidence_multiplier", 0.0)) if isinstance(projection, dict) else 0.0
     if multiplier < 1.0:
         raise ThrottleRefused("P6 resource evidence multiplier must be at least one")
+    profile = config.get("profile")
+    if not isinstance(profile, dict):
+        raise ThrottleRefused("P6 progressive run config profile is missing")
+    minimum_chunk_events = int(profile.get("minimum_chunk_events", 0))
+    chunks_per_stream = int(profile.get("chunks_per_stream", 0))
+    if minimum_chunk_events <= 0 or chunks_per_stream <= 0:
+        raise ThrottleRefused("P6 chunk projection parameters must be positive")
     return {
         **observed,
         "multiplier": multiplier,
+        "minimum_chunk_events": minimum_chunk_events,
+        "chunks_per_stream": chunks_per_stream,
         "preflight_file_sha256": _sha256_file(P6_PREFLIGHT),
         "preflight_payload_sha256": declared_digest,
+        "preflight_live_bindings_sha256": live_authority["bindings_sha256"],
         "config_sha256": _sha256_file(P6_RUN_CONFIG),
     }
 
@@ -319,8 +557,35 @@ def _p6_write_projection(
     forecast_bytes = (
         per_stream * seeds * schedules + int(evidence["state_bytes"]) * seeds * schedules * arms
     ) * float(evidence["multiplier"])
-    atomic_bytes = int(evidence["state_bytes"]) * float(evidence["multiplier"])
+    cell_count = seeds * schedules * arms
+    chunk_events = max(
+        int(evidence["minimum_chunk_events"]),
+        rung // int(evidence["chunks_per_stream"]),
+    )
+    stream_chunk_bytes = math.ceil(
+        int(evidence["stream_bytes"]) * chunk_events / int(evidence["events"]) * float(evidence["multiplier"])
+    )
+    checkpoint_bytes = math.ceil(int(evidence["state_bytes"]) * float(evidence["multiplier"]))
+    progress_bytes = math.ceil(
+        (int(evidence["state_bytes"]) * cell_count + 16 * 1024) * float(evidence["multiplier"])
+    )
+    proof_bytes = math.ceil(
+        (int(evidence["state_bytes"]) * (cell_count + 1) + 32 * 1024) * float(evidence["multiplier"])
+    )
+    atomic_bytes = max(stream_chunk_bytes, checkpoint_bytes, progress_bytes, proof_bytes)
     return forecast_bytes / 1e9, atomic_bytes / 1e9
+
+
+def _p6_verifier_atomic_write_projection(
+    evidence: dict[str, Any], *, seeds: int, schedules: int, arms: int
+) -> float:
+    """Conservatively bound the one-shot independent verifier JSON publication."""
+
+    cell_count = seeds * schedules * arms
+    verifier_bytes = math.ceil(
+        (int(evidence["state_bytes"]) * cell_count * 2 + 64 * 1024) * float(evidence["multiplier"])
+    )
+    return verifier_bytes / 1e9
 
 
 def _p6_checkpoint_globs(root: str, proof: str, *, probe: bool = False) -> tuple[str, ...]:
@@ -348,6 +613,2157 @@ def _p6_checkpoint_globs(root: str, proof: str, *, probe: bool = False) -> tuple
     )
 
 
+def _safe_evidence_path(value: object, evidence_root: Path) -> Path:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError("evidence path is missing")
+    relative = Path(value)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise ValueError("evidence path must be repository-relative")
+    root = evidence_root.resolve()
+    path = (root / relative).resolve()
+    if not path.is_relative_to(root):
+        raise ValueError("evidence path resolves outside evidence root")
+    return path
+
+
+def _is_sha256(value: object) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _p5_live_bindings(paths: tuple[str, ...]) -> list[dict[str, str]]:
+    return [{"path": path, "file_sha256": _sha256_file(REPO_ROOT / path)} for path in paths]
+
+
+def _p5_resolved_config(profile: str) -> dict[str, Any]:
+    raw = yaml.safe_load(P5_CONFIG_PATH.read_text())
+    if not isinstance(raw, dict):
+        raise ValueError("live P5 config is not a mapping")
+    config = json.loads(json.dumps(raw))
+    profiles = config.pop("profiles", None)
+    if not isinstance(profiles, dict) or not isinstance(profiles.get(profile), dict):
+        raise ValueError(f"live P5 profile {profile!r} is missing")
+    training = config.get("training")
+    if not isinstance(training, dict):
+        raise ValueError("live P5 training config is missing")
+    config["training"] = {**training, **profiles[profile]}
+    config["profile"] = profile
+    return config
+
+
+def _p5_evidence_path(value: object, evidence_root: Path) -> Path:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError("P5 evidence path is missing")
+    root = evidence_root.resolve()
+    candidate = Path(value)
+    path = candidate.resolve() if candidate.is_absolute() else (root / candidate).resolve()
+    if not path.is_relative_to(root):
+        raise ValueError("P5 evidence path resolves outside evidence root")
+    return path
+
+
+def _p5_read_json(path: Path, label: str) -> dict[str, Any]:
+    loaded = json.loads(path.read_text())
+    if not isinstance(loaded, dict):
+        raise ValueError(f"{label} is not an object")
+    return loaded
+
+
+def _p5_payload_digest_ok(payload: dict[str, Any]) -> bool:
+    core = dict(payload)
+    declared = core.pop("payload_sha256", None)
+    return _is_sha256(declared) and _canonical_sha256(core) == declared
+
+
+def _p5_strict_patterns(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    sesoi = payload.get("sesoi")
+    if isinstance(sesoi, bool) or not isinstance(sesoi, int | float) or not math.isfinite(float(sesoi)):
+        raise ValueError("P5 SESOI is invalid")
+    threshold = float(sesoi)
+    patterns: list[dict[str, Any]] = []
+    fields = {64: "primary_contrasts_f64", 32: "secondary_contrasts_f32"}
+    for frames, field in fields.items():
+        frame_summary = _dotted_value(payload, f"frames.f{frames}")
+        if not isinstance(frame_summary, dict) or frame_summary.get("off_ceiling") is not True:
+            continue
+        contrasts = payload.get(field)
+        if not isinstance(contrasts, dict):
+            continue
+        for key, row in contrasts.items():
+            if not isinstance(row, dict):
+                continue
+            count, lo, hi = row.get("n"), row.get("lo"), row.get("hi")
+            if (
+                not isinstance(count, int)
+                or isinstance(count, bool)
+                or count < 2
+                or isinstance(lo, bool)
+                or not isinstance(lo, int | float)
+                or isinstance(hi, bool)
+                or not isinstance(hi, int | float)
+                or not math.isfinite(float(lo))
+                or not math.isfinite(float(hi))
+            ):
+                continue
+            direction: str | None = None
+            if float(lo) > threshold:
+                direction = "exact-over-factorized"
+            elif float(hi) < -threshold:
+                direction = "factorized-over-exact"
+            if direction is None:
+                continue
+            mechanism = str(key).removeprefix("exact_minus_")
+            patterns.append(
+                {
+                    "id": f"f{frames}-exact-minus-{mechanism}",
+                    "frames": frames,
+                    "mechanism": mechanism,
+                    "direction": direction,
+                    "primary_ci": dict(row),
+                }
+            )
+    return patterns
+
+
+def _p5_probability(value: Any, label: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        raise ValueError(f"{label} is not numeric")
+    number = float(value)
+    if not math.isfinite(number) or not 0.0 <= number <= 1.0:
+        raise ValueError(f"{label} is not a finite probability")
+    return number
+
+
+def _p5_arm_scores(
+    cell: dict[str, Any], *, frames: int, seed: int, mechanism: str
+) -> tuple[float, float, float]:
+    seed_results = cell.get("seed_results")
+    unit = seed_results.get(str(seed)) if isinstance(seed_results, dict) else None
+    mechanisms = unit.get("mechanisms") if isinstance(unit, dict) else None
+    arm = mechanisms.get(mechanism) if isinstance(mechanisms, dict) else None
+    if not isinstance(arm, dict):
+        raise ValueError(f"P5 f{frames} seed {seed} {mechanism} arm is missing")
+    trained = _p5_probability(
+        _dotted_value(arm, "evaluation.heldout_combo_score"),
+        f"P5 f{frames} seed {seed} {mechanism} trained score",
+    )
+    frozen = _p5_probability(
+        _dotted_value(arm, "frozen.evaluation.heldout_combo_score"),
+        f"P5 f{frames} seed {seed} {mechanism} frozen score",
+    )
+    chance = _p5_probability(
+        _dotted_value(arm, "evaluation.chance"),
+        f"P5 f{frames} seed {seed} {mechanism} chance",
+    )
+    return trained, frozen, chance
+
+
+def _p5_seed_selection_problems(
+    payload: dict[str, Any],
+    cells: dict[int, dict[str, Any]],
+    config: dict[str, Any],
+) -> list[str]:
+    """Reconstruct the exact seed set licensed by staging and futility rules."""
+
+    problems: list[str] = []
+    seeds = [int(value) for value in payload.get("seeds", [])]
+    if not seeds:
+        return ["P5 seed selection has no configured seeds"]
+    from ..studies.p5_context_verify import (
+        EXPECTED_TRANSFORMER_PARAMETERS,
+        FLOP_MATCH_TOLERANCE,
+        RECURRENT_PARAMETER_DEFICIT,
+        _expected_flops_per_step,
+        _expected_match,
+    )
+
+    first_seed = seeds[0]
+    trained_f64, frozen_f64, _ = _p5_arm_scores(
+        cells[64], frames=64, seed=first_seed, mechanism="exact_global"
+    )
+    trainability_failed = trained_f64 - frozen_f64 <= P5_TRAINABILITY_MARGIN
+    gate = payload.get("trainability_gate")
+    if not isinstance(gate, dict) or gate.get("failed") is not trainability_failed:
+        problems.append("P5 trainability gate does not independently recompute for seed selection")
+
+    futility_margin = float(config["screen"]["futility_margin"])
+    off_ceiling: dict[str, bool] = {}
+    truncation: dict[str, dict[str, Any] | None] = {}
+    for frames in P5_FRAME_COUNTS:
+        cell = cells[frames]
+        mechanisms = cell.get("mechanisms")
+        if not isinstance(mechanisms, list) or "exact_global" not in mechanisms:
+            raise ValueError(f"P5 f{frames} exact_global mechanism is missing")
+        trained, _, chance = _p5_arm_scores(
+            cell,
+            frames=frames,
+            seed=first_seed,
+            mechanism="exact_global",
+        )
+        difficulty = cell.get("difficulty_calibration")
+        clears_floor = isinstance(difficulty, dict) and difficulty.get("clears_floor") is True
+        off = bool(clears_floor and chance + P5_CEILING_CHANCE_OFFSET <= trained <= P5_CEILING_UPPER)
+        off_ceiling[f"f{frames}"] = off
+
+        futility_evidence: dict[str, Any] | None = None
+        if not trainability_failed and off and len(seeds) > 3:
+            first_three = seeds[:3]
+            seed_results = cell.get("seed_results")
+            complete_three = isinstance(seed_results, dict) and all(
+                isinstance(seed_results.get(str(seed)), dict)
+                and seed_results[str(seed)].get("complete") is True
+                for seed in first_three
+            )
+            if complete_three:
+                deltas: dict[str, float] = {}
+                for mechanism in mechanisms:
+                    if mechanism == "exact_global":
+                        continue
+                    values = []
+                    for seed in first_three:
+                        exact, _, _ = _p5_arm_scores(
+                            cell,
+                            frames=frames,
+                            seed=seed,
+                            mechanism="exact_global",
+                        )
+                        factorized, _, _ = _p5_arm_scores(
+                            cell,
+                            frames=frames,
+                            seed=seed,
+                            mechanism=str(mechanism),
+                        )
+                        values.append(exact - factorized)
+                    deltas[str(mechanism)] = sum(values) / len(values)
+                if (
+                    deltas
+                    and all(value <= 0.0 for value in deltas.values())
+                    and all(abs(value) < futility_margin for value in deltas.values())
+                ):
+                    futility_evidence = {
+                        "paired_mean_deltas": deltas,
+                        "futility_margin": futility_margin,
+                        "seeds_kept": first_three,
+                    }
+        truncation[f"f{frames}"] = futility_evidence
+        if trainability_failed or (len(seeds) > 1 and not off):
+            expected = seeds[:1]
+        elif futility_evidence is not None:
+            expected = seeds[:3]
+        else:
+            expected = seeds
+        if cell.get("expected_seeds") != expected:
+            problems.append(f"P5 f{frames} exact licensed seed set drift")
+        seed_results = cell.get("seed_results")
+        if not isinstance(seed_results, dict) or set(seed_results) != {str(seed) for seed in expected}:
+            problems.append(f"P5 f{frames} seed result coverage exceeds or omits licensed seeds")
+        if cell.get("seeds_completed") != len(expected):
+            problems.append(f"P5 f{frames} completed seed count drift")
+
+        expected_parameters = {
+            str(mechanism): (
+                EXPECTED_TRANSFORMER_PARAMETERS[frames] - RECURRENT_PARAMETER_DEFICIT
+                if mechanism == "recurrent"
+                else EXPECTED_TRANSFORMER_PARAMETERS[frames]
+            )
+            for mechanism in mechanisms
+        }
+        parameter_block = cell.get("parameters")
+        recurrent_deviation = RECURRENT_PARAMETER_DEFICIT / EXPECTED_TRANSFORMER_PARAMETERS[frames]
+        if (
+            not isinstance(parameter_block, dict)
+            or parameter_block.get("frames") != frames
+            or parameter_block.get("parameters") != expected_parameters
+            or parameter_block.get("tolerance_fraction") != 0.005
+            or isinstance(parameter_block.get("recurrent_fractional_deviation"), bool)
+            or not isinstance(parameter_block.get("recurrent_fractional_deviation"), int | float)
+            or not math.isclose(
+                float(parameter_block["recurrent_fractional_deviation"]),
+                recurrent_deviation,
+                rel_tol=0.0,
+                abs_tol=1e-15,
+            )
+        ):
+            problems.append(f"P5 f{frames} parameter-matching control drift")
+
+        dense_steps = int(config["training"]["dense_steps"])
+        checkpoint_every = int(config["training"]["checkpoint_every"])
+        batch_size = int(config["training"]["batch_size"])
+        expected_flops = {
+            str(mechanism): _expected_flops_per_step(
+                frames,
+                str(mechanism),
+                batch_size,
+            )
+            for mechanism in mechanisms
+        }
+        dense_flops = expected_flops["exact_global"]
+        expected_matches = {
+            mechanism: _expected_match(
+                dense_steps,
+                dense_flops,
+                flops,
+                checkpoint_every,
+                exact=mechanism == "exact_global",
+            )
+            for mechanism, flops in expected_flops.items()
+        }
+        compute = cell.get("compute")
+        compute_rows = compute.get("per_mechanism") if isinstance(compute, dict) else None
+        if (
+            not isinstance(compute, dict)
+            or compute.get("dense_reference_steps") != dense_steps
+            or compute.get("dense_flops_per_step") != dense_flops
+            or not isinstance(compute_rows, dict)
+            or set(compute_rows) != set(expected_flops)
+        ):
+            problems.append(f"P5 f{frames} dense compute reference drift")
+        else:
+            for mechanism, flops in expected_flops.items():
+                row = compute_rows[mechanism]
+                matched = row.get("matched") if isinstance(row, dict) else None
+                if (
+                    not isinstance(row, dict)
+                    or row.get("estimated_flops_per_step") != flops
+                    or not isinstance(matched, dict)
+                    or any(matched.get(key) != value for key, value in expected_matches[mechanism].items())
+                    or matched.get("tolerance_fraction") != FLOP_MATCH_TOLERANCE
+                    or row.get("estimated_total_flops_completed_seeds")
+                    != expected_matches[mechanism]["arm_total_flops"] * len(expected)
+                ):
+                    problems.append(f"P5 f{frames} {mechanism} matched-compute control drift")
+
+        trained_by_mechanism: dict[str, list[float]] = {}
+        frozen_by_mechanism: dict[str, list[float]] = {}
+        for mechanism in mechanisms:
+            mechanism_name = str(mechanism)
+            scored = [
+                _p5_arm_scores(
+                    cell,
+                    frames=frames,
+                    seed=seed,
+                    mechanism=mechanism_name,
+                )
+                for seed in expected
+            ]
+            trained_by_mechanism[mechanism_name] = [row[0] for row in scored]
+            frozen_by_mechanism[mechanism_name] = [row[1] for row in scored]
+        expected_scores = {
+            mechanism: _p5_paired_ci(values) for mechanism, values in trained_by_mechanism.items()
+        }
+        expected_frozen_scores = {
+            mechanism: _p5_paired_ci(values) for mechanism, values in frozen_by_mechanism.items()
+        }
+        expected_contrasts: dict[str, dict[str, Any]] = {}
+        exact_values = trained_by_mechanism["exact_global"]
+        sesoi = float(payload["sesoi"])
+        for mechanism, values in trained_by_mechanism.items():
+            if mechanism == "exact_global":
+                continue
+            ci = _p5_paired_ci([left - right for left, right in zip(exact_values, values, strict=True)])
+            if int(ci["n"]) < 2:
+                classification = "undetermined"
+            elif float(ci["lo"]) > sesoi:
+                classification = "meaningful_positive"
+            elif float(ci["hi"]) < -sesoi:
+                classification = "meaningful_negative"
+            elif float(ci["lo"]) >= -sesoi and float(ci["hi"]) <= sesoi:
+                classification = "bounded_within_sesoi"
+            else:
+                classification = "undetermined"
+            expected_contrasts[f"exact_minus_{mechanism}"] = {
+                **ci,
+                "classification": classification,
+            }
+        if cell.get("scores") != expected_scores:
+            problems.append(f"P5 f{frames} score aggregates do not independently recompute")
+        if cell.get("frozen_scores") != expected_frozen_scores:
+            problems.append(f"P5 f{frames} frozen score aggregates do not independently recompute")
+        if cell.get("paired_contrasts") != expected_contrasts:
+            problems.append(f"P5 f{frames} paired contrasts do not independently recompute")
+        if cell.get("off_ceiling") is not off:
+            problems.append(f"P5 f{frames} off-ceiling decision drift")
+        expected_staged_out = bool(len(seeds) > 1 and not off)
+        if cell.get("staged_out") is not expected_staged_out:
+            problems.append(f"P5 f{frames} staged-out decision drift")
+        if cell.get("futility_truncated") is not (futility_evidence is not None):
+            problems.append(f"P5 f{frames} futility truncation decision drift")
+        if cell.get("futility_evidence") != futility_evidence:
+            problems.append(f"P5 f{frames} futility evidence drift")
+
+    expected_staging = {
+        "off_ceiling": off_ceiling,
+        "futility_truncated": truncation,
+    }
+    if payload.get("staging") != expected_staging:
+        problems.append("P5 top-level staging authority drift")
+    expected_curve = {
+        mechanism: {
+            f"f{frames}": cells[frames]["scores"][mechanism]
+            for frames in sorted(P5_FRAME_COUNTS)
+            if mechanism in cells[frames].get("scores", {})
+        }
+        for mechanism in P5_MECHANISMS
+        if any(mechanism in cells[frames].get("scores", {}) for frames in P5_FRAME_COUNTS)
+    }
+    if payload.get("context_response_curve") != expected_curve:
+        problems.append("P5 context response curve drifted from raw cell scores")
+    return problems
+
+
+def _p5_paired_ci(values: list[float]) -> dict[str, Any]:
+    count = len(values)
+    mean = sum(values) / count if values else 0.0
+    if count < 2:
+        return {"n": count, "mean": mean, "lo": mean, "hi": mean, "half": 0.0}
+    variance = sum((value - mean) ** 2 for value in values) / (count - 1)
+    half = 1.96 * math.sqrt(variance) / math.sqrt(count)
+    return {"n": count, "mean": mean, "lo": mean - half, "hi": mean + half, "half": half}
+
+
+def _p5_canonical_challenge_patterns(
+    primary: dict[str, Any], challenge: dict[str, Any], evidence_root: Path
+) -> list[dict[str, Any]]:
+    """Rebuild final fresh-pattern decisions from the bound raw challenge cells."""
+
+    runs = challenge.get("training_runs")
+    if not isinstance(runs, list):
+        raise ValueError("P5 challenge training runs are missing")
+    by_seed = {int(row["seed"]): row for row in runs if isinstance(row, dict)}
+    if set(by_seed) != set(P5_FRESH_SEEDS):
+        raise ValueError("P5 challenge training seed coverage drift")
+    sesoi = float(primary["sesoi"])
+    result: list[dict[str, Any]] = []
+    for pattern in _p5_strict_patterns(primary):
+        frames = int(pattern["frames"])
+        mechanism = str(pattern["mechanism"])
+        units: list[dict[str, Any]] = []
+        for seed in P5_FRESH_SEEDS:
+            bindings = by_seed[seed].get("cell_receipts")
+            if not isinstance(bindings, dict):
+                raise ValueError(f"P5 challenge seed {seed} cell bindings are missing")
+            target_binding = bindings.get(f"f{frames}")
+            trainability_binding = bindings.get("f64")
+            if not isinstance(target_binding, dict) or not isinstance(trainability_binding, dict):
+                raise ValueError(f"P5 challenge seed {seed} required cell binding is missing")
+            target = _p5_read_json(
+                _p5_evidence_path(target_binding.get("path"), evidence_root),
+                f"P5 challenge seed {seed} f{frames} cell",
+            )
+            f64 = _p5_read_json(
+                _p5_evidence_path(trainability_binding.get("path"), evidence_root),
+                f"P5 challenge seed {seed} f64 cell",
+            )
+            exact, _, chance = _p5_arm_scores(
+                target,
+                frames=frames,
+                seed=seed,
+                mechanism="exact_global",
+            )
+            factorized, _, _ = _p5_arm_scores(
+                target,
+                frames=frames,
+                seed=seed,
+                mechanism=mechanism,
+            )
+            trained_f64, frozen_f64, _ = _p5_arm_scores(
+                f64,
+                frames=64,
+                seed=seed,
+                mechanism="exact_global",
+            )
+            trainability_delta = trained_f64 - frozen_f64
+            difficulty = target.get("difficulty_calibration")
+            off_ceiling = bool(
+                isinstance(difficulty, dict)
+                and difficulty.get("clears_floor") is True
+                and chance + P5_CEILING_CHANCE_OFFSET <= exact <= P5_CEILING_UPPER
+            )
+            units.append(
+                {
+                    "seed": seed,
+                    "delta": exact - factorized,
+                    "trainability_delta": trainability_delta,
+                    "trainability_ok": trainability_delta > P5_TRAINABILITY_MARGIN,
+                    "off_ceiling": off_ceiling,
+                }
+            )
+        fresh_ci = _p5_paired_ci([float(unit["delta"]) for unit in units])
+        same_direction = (
+            float(fresh_ci["lo"]) > sesoi
+            if pattern["direction"] == "exact-over-factorized"
+            else float(fresh_ci["hi"]) < -sesoi
+        )
+        verified = bool(
+            same_direction
+            and all(unit["trainability_ok"] is True for unit in units)
+            and all(unit["off_ceiling"] is True for unit in units)
+        )
+        result.append(
+            {
+                "id": pattern["id"],
+                "direction": pattern["direction"],
+                "fresh_training_units": units,
+                "fresh_ci": fresh_ci,
+                "tie_is_null": True,
+                "strict_direction_reproduced": same_direction,
+                "programmatic_pattern_verified": verified,
+                "scientific_promotion_allowed": False,
+                "outcome": "favorable-programmatic-only" if verified else "null",
+            }
+        )
+    return result
+
+
+def _p5_frame_summary(cell: dict[str, Any]) -> dict[str, Any]:
+    fields = (
+        "complete",
+        "off_ceiling",
+        "staged_out",
+        "futility_truncated",
+        "seeds_completed",
+        "scores",
+        "paired_contrasts",
+        "all_ok",
+    )
+    return {field: cell.get(field) for field in fields}
+
+
+def _p5_normalize_cached_seed(payload: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(payload)
+    if normalized.get("resumed_from_complete_receipt") is True:
+        normalized.pop("resumed_from_complete_receipt")
+    return normalized
+
+
+def _p5_seed_artifact_problems(
+    *,
+    seed: dict[str, Any],
+    seed_dir: Path,
+    mechanisms: list[str],
+    config_sha: str,
+    registry_sha: str,
+    source_sha: str,
+    checkpoint_sha: str,
+) -> list[str]:
+    """Join an embedded seed result to its durable seed, arm, and checkpoint artifacts."""
+
+    problems: list[str] = []
+    try:
+        seed_path = seed_dir / "seed_result.json"
+        persisted_seed = _p5_read_json(seed_path, "P5 durable seed result")
+        if _p5_normalize_cached_seed(seed) != _p5_normalize_cached_seed(persisted_seed):
+            problems.append("durable seed result differs from its cell receipt")
+        seed_value = seed.get("seed")
+        if (
+            not isinstance(seed_value, int)
+            or isinstance(seed_value, bool)
+            or seed.get("config_sha256") != config_sha
+            or seed.get("registry_sha256") != registry_sha
+            or seed.get("source_bindings_sha256") != source_sha
+            or seed.get("checkpoint_requirements_sha256") != checkpoint_sha
+        ):
+            problems.append("durable seed identity drift")
+        embedded_arms = seed.get("mechanisms")
+        if not isinstance(embedded_arms, dict) or set(embedded_arms) != set(mechanisms):
+            problems.append("durable seed arm coverage drift")
+            return problems
+        for mechanism in mechanisms:
+            embedded = embedded_arms[mechanism]
+            if not isinstance(embedded, dict):
+                problems.append(f"{mechanism} embedded arm is invalid")
+                continue
+            arm_dir = seed_dir / mechanism
+            arm_receipt = _p5_read_json(arm_dir / "arm_receipt.json", f"P5 {mechanism} arm receipt")
+            checkpoint_path = arm_dir / "checkpoint.pt"
+            matched = embedded.get("matched")
+            training = embedded.get("training")
+            requested_steps = matched.get("steps") if isinstance(matched, dict) else None
+            checkpoint = arm_receipt.get("checkpoint")
+            if (
+                not checkpoint_path.is_file()
+                or not isinstance(checkpoint, dict)
+                or checkpoint.get("sha256") != _sha256_file(checkpoint_path)
+                or arm_receipt.get("schema") != "mop-custom-substrate-arm/v1"
+                or arm_receipt.get("objective") != "predictive"
+                or arm_receipt.get("seed") != seed_value
+                or arm_receipt.get("complete") is not True
+                or arm_receipt.get("config_sha256") != config_sha
+                or arm_receipt.get("data_sha256") != seed.get("data_sha256")
+                or arm_receipt.get("requirements_sha256") != checkpoint_sha
+                or arm_receipt.get("initial_state_sha256") != embedded.get("initial_state_sha256")
+                or arm_receipt.get("requested_steps") != requested_steps
+                or not isinstance(arm_receipt.get("completed_steps"), int)
+                or arm_receipt["completed_steps"] < requested_steps
+                or not isinstance(training, dict)
+                or training.get("complete") is not True
+                or training.get("requirements_sha256") != checkpoint_sha
+                or training.get("completed_steps") != arm_receipt.get("completed_steps")
+                or training.get("final_state_sha256") != arm_receipt.get("final_state_sha256")
+            ):
+                problems.append(f"{mechanism} durable arm or checkpoint identity drift")
+    except (KeyError, OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+        problems.append(f"durable seed artifact invalid: {exc}")
+    return problems
+
+
+def _p5_tensor_state_sha256(state: object, label: str) -> str:
+    """Hash a checkpoint tensor state independently of verifier-declared digests."""
+
+    import torch
+
+    if not isinstance(state, dict) or not state:
+        raise ValueError(f"{label} is not a nonempty tensor state")
+    digest = hashlib.sha256()
+    for name in sorted(state):
+        value = state[name]
+        if not isinstance(name, str) or not isinstance(value, torch.Tensor):
+            raise ValueError(f"{label} contains a non-tensor entry")
+        tensor = value.detach().cpu().contiguous()
+        digest.update(name.encode("utf-8"))
+        digest.update(str(tensor.dtype).encode("ascii"))
+        digest.update(
+            json.dumps(
+                list(tensor.shape),
+                sort_keys=True,
+                separators=(",", ":"),
+                ensure_ascii=True,
+                allow_nan=False,
+            ).encode("utf-8")
+        )
+        digest.update(tensor.numpy().tobytes())
+    return digest.hexdigest()
+
+
+def _p5_artifact_evidence_problems(
+    evidence: object,
+    *,
+    expected_seeds: set[str],
+    evidence_root: Path,
+    label: str,
+) -> list[str]:
+    """Validate verifier-emitted durable seed, arm, checkpoint, and state bindings."""
+
+    problems: list[str] = []
+    if not isinstance(evidence, dict) or set(evidence) != expected_seeds:
+        return [f"{label} seed artifact evidence coverage drift"]
+    for seed, seed_evidence in evidence.items():
+        if not isinstance(seed_evidence, dict):
+            problems.append(f"{label} seed {seed} artifact evidence invalid")
+            continue
+        seed_result = seed_evidence.get("seed_result")
+        arms = seed_evidence.get("arms")
+        if not isinstance(seed_result, dict) or not isinstance(arms, dict) or set(arms) != set(P5_MECHANISMS):
+            problems.append(f"{label} seed {seed} artifact evidence shape drift")
+            continue
+        bindings: list[tuple[str, object]] = [("seed_result", seed_result)]
+        for mechanism, arm in arms.items():
+            if not isinstance(arm, dict):
+                problems.append(f"{label} seed {seed} {mechanism} artifact evidence invalid")
+                continue
+            bindings.extend(
+                (
+                    (f"{mechanism} arm receipt", arm.get("arm_receipt")),
+                    (f"{mechanism} checkpoint", arm.get("checkpoint")),
+                )
+            )
+        for binding_label, binding in bindings:
+            if not isinstance(binding, dict):
+                problems.append(f"{label} seed {seed} {binding_label} binding missing")
+                continue
+            try:
+                path = _p5_evidence_path(binding.get("path"), evidence_root)
+                if binding.get("sha256") != _sha256_file(path):
+                    problems.append(f"{label} seed {seed} {binding_label} file hash drift")
+                if binding_label.endswith("checkpoint") and (
+                    not _is_sha256(binding.get("model_state_sha256"))
+                    or not _is_sha256(binding.get("target_state_sha256"))
+                ):
+                    problems.append(f"{label} seed {seed} {binding_label} state hashes invalid")
+            except (OSError, TypeError, ValueError) as exc:
+                problems.append(f"{label} seed {seed} {binding_label} invalid: {exc}")
+        try:
+            seed_path = _p5_evidence_path(seed_result.get("path"), evidence_root)
+            if seed_path.name != "seed_result.json" or seed_path.parent.name != f"seed_{seed}":
+                raise ValueError("seed result path is not canonical")
+            durable_seed = _p5_read_json(seed_path, f"{label} seed {seed} durable result")
+            durable_arms = durable_seed.get("mechanisms")
+            if not isinstance(durable_arms, dict) or set(durable_arms) != set(P5_MECHANISMS):
+                raise ValueError("durable seed arm coverage drift")
+            for mechanism, arm in arms.items():
+                if not isinstance(arm, dict):
+                    continue
+                arm_binding = arm.get("arm_receipt")
+                checkpoint_binding = arm.get("checkpoint")
+                if not isinstance(arm_binding, dict) or not isinstance(checkpoint_binding, dict):
+                    raise ValueError(f"{mechanism} durable binding is missing")
+                expected_arm_path = seed_path.parent / mechanism / "arm_receipt.json"
+                expected_checkpoint_path = seed_path.parent / mechanism / "checkpoint.pt"
+                arm_path = _p5_evidence_path(arm_binding.get("path"), evidence_root)
+                checkpoint_path = _p5_evidence_path(checkpoint_binding.get("path"), evidence_root)
+                if arm_path != expected_arm_path or checkpoint_path != expected_checkpoint_path:
+                    raise ValueError(f"{mechanism} artifact path is not canonical")
+                arm_receipt = _p5_read_json(arm_path, f"{label} seed {seed} {mechanism} arm")
+                try:
+                    import torch
+
+                    checkpoint = torch.load(
+                        checkpoint_path,
+                        map_location="cpu",
+                        weights_only=True,
+                    )
+                except Exception as exc:
+                    raise ValueError(f"{mechanism} checkpoint is unreadable: {exc}") from exc
+                if not isinstance(checkpoint, dict):
+                    raise ValueError(f"{mechanism} checkpoint is not an object")
+                model_sha = _p5_tensor_state_sha256(
+                    checkpoint.get("model"),
+                    f"{label} seed {seed} {mechanism} checkpoint model",
+                )
+                target_sha = _p5_tensor_state_sha256(
+                    checkpoint.get("target"),
+                    f"{label} seed {seed} {mechanism} checkpoint target",
+                )
+                durable_arm = durable_arms[mechanism]
+                training = durable_arm.get("training") if isinstance(durable_arm, dict) else None
+                if (
+                    checkpoint_binding.get("model_state_sha256") != model_sha
+                    or checkpoint_binding.get("target_state_sha256") != target_sha
+                    or not isinstance(training, dict)
+                    or training.get("final_state_sha256") != model_sha
+                    or arm_receipt.get("final_state_sha256") != model_sha
+                    or arm_receipt.get("target_state_sha256") != target_sha
+                ):
+                    problems.append(f"{label} seed {seed} {mechanism} checkpoint state hash drift")
+        except (KeyError, OSError, TypeError, ValueError) as exc:
+            problems.append(f"{label} seed {seed} checkpoint state authority invalid: {exc}")
+    return problems
+
+
+def _p5_screen_authority_problems(
+    payload: dict[str, Any], evidence_root: Path, *, validate_ancestors: bool = True
+) -> list[str]:
+    """Validate a P5 screen against its live config, sources, raw receipt, and seed identities."""
+
+    problems: list[str] = []
+    try:
+        if payload.get("schema") != P5_SCREEN_SCHEMA or not _p5_payload_digest_ok(payload):
+            problems.append("P5 screen schema or payload digest drift")
+        profile = payload.get("profile")
+        if profile not in {"p5smoke", "p5pilot"}:
+            raise ValueError("P5 screen profile is not canonical")
+        config = _p5_resolved_config(str(profile))
+        bindings = _p5_live_bindings(P5_SOURCE_PATHS)
+        bindings_sha = _canonical_sha256(bindings)
+        if payload.get("source_bindings") != bindings:
+            problems.append("P5 screen live source bindings drift")
+        if payload.get("source_bindings_sha256") != bindings_sha:
+            problems.append("P5 screen aggregate source digest drift")
+        if payload.get("config_sha256") != _canonical_sha256(config):
+            problems.append("P5 screen resolved config digest drift")
+        cells_config = config.get("cells")
+        if not isinstance(cells_config, list):
+            raise ValueError("P5 screen cell registry is missing")
+        registry_sha = _canonical_sha256(cells_config)
+        checkpoint_sha = _canonical_sha256(
+            {"registry_sha256": registry_sha, "source_bindings_sha256": bindings_sha}
+        )
+        if payload.get("cell_registry_sha256") != registry_sha:
+            problems.append("P5 screen cell registry digest drift")
+        if payload.get("checkpoint_requirements_sha256") != checkpoint_sha:
+            problems.append("P5 screen checkpoint requirements digest drift")
+        expected_serial = [f"f{row['frames']}_{row['mechanism']}" for row in cells_config]
+        if payload.get("serial_order") != expected_serial:
+            problems.append("P5 screen serial order drift")
+        expected_seeds = [int(value) for value in config["training"]["seeds"]]
+        if payload.get("seeds") != expected_seeds:
+            problems.append("P5 screen configured seed set drift")
+        if payload.get("complete") is not True or payload.get("all_ok") is not True:
+            problems.append("P5 screen is incomplete or all_ok false")
+        if payload.get("resumable") is not False or payload.get("problems") != []:
+            problems.append("P5 screen retains resumability or problems")
+        if (
+            any(
+                payload.get(flag) is not False
+                for flag in (
+                    "stopped_for_wall_budget",
+                    "stopped_for_disk_floor",
+                    "stopped_for_required_arm_refusal",
+                )
+            )
+            or payload.get("required_arm_failure") is not None
+        ):
+            problems.append("P5 screen retains an operational or arm stop")
+        promotion = payload.get("promotion")
+        if not isinstance(promotion, dict) or (
+            promotion.get("confirmatory_promotable") is not False
+            or promotion.get("refused_by_construction") is not True
+            or promotion.get("category_9_possible") is not False
+        ):
+            problems.append("P5 screen promotion refusal drift")
+
+        gate = payload.get("trainability_gate")
+        if not isinstance(gate, dict) or gate.get("applies") is not True or gate.get("evaluated") is not True:
+            problems.append("P5 screen trainability gate is incomplete")
+            gate = gate if isinstance(gate, dict) else {}
+        terminal = payload.get("terminal_scientific_stop") is True
+        gate_failed = gate.get("failed") is True
+        if payload.get("trainability_gate_failed") is not gate_failed or terminal is not gate_failed:
+            problems.append("P5 screen terminal state and trainability gate disagree")
+        expected_status = "terminal-scientific-null" if terminal else "complete"
+        expected_reason = "f64-trainability-gate-null" if terminal else None
+        expected_outcome = "null" if terminal else "clears-margin"
+        if (
+            payload.get("execution_status") != expected_status
+            or payload.get("terminal_stop_reason") != expected_reason
+            or gate.get("outcome") != expected_outcome
+        ):
+            problems.append("P5 screen terminal status contract drift")
+
+        patterns = _p5_strict_patterns(payload)
+        hint = bool(patterns)
+        if payload.get("fresh_challenge_required") is not hint:
+            problems.append("P5 screen fresh challenge authorization hint drift")
+        if terminal and hint:
+            problems.append("P5 terminal null cannot authorize a fresh challenge")
+
+        run_dir_value = "runs/p5_context/p5smoke" if profile == "p5smoke" else "runs/p5_context/p5pilot"
+        run_dir = _p5_evidence_path(run_dir_value, evidence_root)
+        raw_path = run_dir / "p5_context_receipt.json"
+        raw = _p5_read_json(raw_path, "P5 raw screen receipt")
+        if raw != payload:
+            problems.append("P5 published screen differs from its raw run receipt")
+        resolved = _p5_read_json(run_dir / "resolved_config.json", "P5 resolved config")
+        if resolved != config:
+            problems.append("P5 raw resolved config differs from live profile config")
+
+        by_frame: dict[int, list[str]] = {frames: [] for frames in P5_FRAME_COUNTS}
+        for row in cells_config:
+            by_frame[int(row["frames"])].append(str(row["mechanism"]))
+        top_frames = payload.get("frames")
+        if not isinstance(top_frames, dict) or set(top_frames) != {
+            f"f{frames}" for frames in P5_FRAME_COUNTS
+        }:
+            problems.append("P5 screen frame coverage drift")
+            top_frames = top_frames if isinstance(top_frames, dict) else {}
+        loaded_cells: dict[int, dict[str, Any]] = {}
+        for frames in P5_FRAME_COUNTS:
+            cell = _p5_read_json(
+                run_dir / "frames" / f"f{frames}" / "cell_receipt.json",
+                f"P5 f{frames} cell receipt",
+            )
+            loaded_cells[frames] = cell
+            if (
+                cell.get("schema") != "mop-p5-context-cell/v1"
+                or cell.get("frames") != frames
+                or cell.get("mechanisms") != by_frame[frames]
+                or cell.get("complete") is not True
+                or cell.get("all_ok") is not True
+                or cell.get("problems") != []
+            ):
+                problems.append(f"P5 f{frames} cell contract drift")
+            if top_frames.get(f"f{frames}") != _p5_frame_summary(cell):
+                problems.append(f"P5 f{frames} top summary drift")
+            cell_seed_values = cell.get("expected_seeds")
+            seed_results = cell.get("seed_results")
+            if (
+                not isinstance(cell_seed_values, list)
+                or not cell_seed_values
+                or not set(int(value) for value in cell_seed_values) <= set(expected_seeds)
+                or not isinstance(seed_results, dict)
+                or set(seed_results) != {str(int(value)) for value in cell_seed_values}
+            ):
+                problems.append(f"P5 f{frames} seed coverage drift")
+                continue
+            for seed_value in cell_seed_values:
+                seed = seed_results[str(int(seed_value))]
+                if (
+                    not isinstance(seed, dict)
+                    or seed.get("schema") != "mop-p5-context-seed/v1"
+                    or seed.get("complete") is not True
+                    or seed.get("config_sha256") != payload.get("config_sha256")
+                    or seed.get("registry_sha256") != registry_sha
+                    or seed.get("source_bindings_sha256") != bindings_sha
+                    or seed.get("checkpoint_requirements_sha256") != checkpoint_sha
+                ):
+                    problems.append(f"P5 f{frames} seed {seed_value} identity drift")
+                    continue
+                mechanisms = seed.get("mechanisms")
+                if not isinstance(mechanisms, dict) or set(mechanisms) != set(by_frame[frames]):
+                    problems.append(f"P5 f{frames} seed {seed_value} mechanism coverage drift")
+                    continue
+                if any(
+                    not isinstance(arm, dict)
+                    or arm.get("training", {}).get("complete") is not True
+                    or arm.get("training", {}).get("requirements_sha256") != checkpoint_sha
+                    or arm.get("matched", {}).get("matched_ok") is not True
+                    for arm in mechanisms.values()
+                ):
+                    problems.append(f"P5 f{frames} seed {seed_value} arm identity drift")
+                problems.extend(
+                    f"P5 f{frames} seed {seed_value}: {problem}"
+                    for problem in _p5_seed_artifact_problems(
+                        seed=seed,
+                        seed_dir=run_dir / "frames" / f"f{frames}" / f"seed_{seed_value}",
+                        mechanisms=by_frame[frames],
+                        config_sha=payload["config_sha256"],
+                        registry_sha=registry_sha,
+                        source_sha=bindings_sha,
+                        checkpoint_sha=checkpoint_sha,
+                    )
+                )
+        problems.extend(_p5_seed_selection_problems(payload, loaded_cells, config))
+        if payload.get("primary_contrasts_f64") != loaded_cells[64].get("paired_contrasts"):
+            problems.append("P5 f64 primary contrast binding drift")
+        if payload.get("secondary_contrasts_f32") != loaded_cells[32].get("paired_contrasts"):
+            problems.append("P5 f32 secondary contrast binding drift")
+
+        if profile == "p5pilot" and validate_ancestors:
+            smoke_path = _p5_evidence_path("proof/P5_CONTEXT_CAPABILITY_SMOKE.json", evidence_root)
+            smoke = _p5_read_json(smoke_path, "P5 smoke ancestor")
+            problems.extend(
+                f"P5 pilot smoke ancestor: {problem}"
+                for problem in _p5_screen_authority_problems(smoke, evidence_root, validate_ancestors=False)
+            )
+            if (
+                smoke.get("profile") != "p5smoke"
+                or smoke.get("execution_status") != "complete"
+                or smoke.get("terminal_scientific_stop") is not False
+                or smoke.get("trainability_gate_failed") is not False
+                or smoke.get("fresh_challenge_required") is not False
+            ):
+                problems.append("P5 pilot smoke ancestor did not clear the smoke gate")
+            grid_path = _p5_evidence_path("proof/P5_TRAINGRID_MEMORY_TRACE.json", evidence_root)
+            grid = _p5_read_json(grid_path, "P5 training-grid ancestor")
+            problems.extend(
+                f"P5 pilot grid ancestor: {problem}"
+                for problem in _p5_grid_authority_problems(grid, evidence_root)
+            )
+    except (KeyError, OSError, json.JSONDecodeError, TypeError, ValueError, yaml.YAMLError) as exc:
+        problems.append(f"P5 screen authority invalid: {exc}")
+    return problems
+
+
+def _p5_grid_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
+    """Validate the final memory trace against its live sources and atomic progress authority."""
+
+    problems: list[str] = []
+    try:
+        if payload.get("schema") != P5_GRID_SCHEMA or not _p5_payload_digest_ok(payload):
+            problems.append("P5 training-grid schema or payload digest drift")
+        bindings = _p5_live_bindings(P5_GRID_SOURCE_PATHS)
+        bindings_sha = _canonical_sha256(bindings)
+        if payload.get("source_bindings") != bindings:
+            problems.append("P5 training-grid live source bindings drift")
+        if payload.get("source_bindings_sha256") != bindings_sha:
+            problems.append("P5 training-grid aggregate source digest drift")
+        if payload.get("all_ok") is not True:
+            problems.append("P5 training-grid all_ok is false")
+        boundary_sha = _sha256_file(P5_BOUNDARY_TRACE)
+        if payload.get("cited_boundary_trace") != {
+            "path": "proof/P5_MEMORY_BOUNDARY_TRACE.json",
+            "sha256": boundary_sha,
+        }:
+            problems.append("P5 training-grid boundary trace binding drift")
+        config = _p5_resolved_config("p5pilot")
+        expected_cells = config["cells"]
+        expected_grid_config = {
+            "cells": expected_cells,
+            "batch_rows": [4, 1],
+            "repeats": 3,
+            "seed": 0,
+            "mask_ratio": 0.5,
+            "ema_decay": 0.99,
+            "child_memory_guard_gb": 12.0,
+            "device": "cpu",
+        }
+        if payload.get("config") != expected_grid_config:
+            problems.append("P5 training-grid exact config drift")
+        claim = payload.get("claim_boundary")
+        if not isinstance(claim, dict) or (
+            claim.get("mechanics_only") is not True
+            or claim.get("moves_no_category") is not True
+            or claim.get("naive_formula_is_diagnostic_only") is not True
+        ):
+            problems.append("P5 training-grid claim boundary drift")
+        if payload.get("problems") not in (None, []) or payload.get("scientific_promotion") not in (
+            None,
+            False,
+        ):
+            problems.append("P5 training-grid retains problems or promotion")
+        progress_binding = payload.get("atomic_progress")
+        if not isinstance(progress_binding, dict):
+            raise ValueError("P5 training-grid progress binding is missing")
+        progress_path = _p5_evidence_path(progress_binding.get("path"), evidence_root)
+        progress = _p5_read_json(progress_path, "P5 training-grid progress")
+        identity = progress.get("identity")
+        expected_identity = {
+            "script_sha256": _sha256_file(REPO_ROOT / "scripts/p5_traingrid_memory_probe.py"),
+            "source_bindings": bindings,
+            "source_bindings_sha256": bindings_sha,
+            "boundary_trace_sha256": boundary_sha,
+            "cells": expected_cells,
+            "batch_rows": [4, 1],
+            "repeats": 3,
+            "seed": 0,
+            "mask_ratio": 0.5,
+            "ema_decay": 0.99,
+            "child_memory_guard_gb": 12.0,
+            "device": "cpu",
+        }
+        rows = progress.get("rows")
+        expected_row_keys = {
+            f"f{item['frames']}:{item['mechanism']}:b{batch}:r{repeat}"
+            for item in expected_cells
+            for batch in (4, 1)
+            for repeat in range(3)
+        }
+        if (
+            progress_binding.get("sha256") != _sha256_file(progress_path)
+            or progress_binding.get("identity_sha256") != _canonical_sha256(expected_identity)
+            or progress_binding.get("completed_rows") != 72
+            or progress.get("schema") != "mop-p5-traingrid-memory-progress/v1"
+            or identity != expected_identity
+            or progress.get("identity_sha256") != _canonical_sha256(expected_identity)
+            or progress.get("complete") is not True
+            or progress.get("completed_rows") != 72
+            or not isinstance(rows, dict)
+            or set(rows) != expected_row_keys
+        ):
+            problems.append("P5 training-grid live progress identity drift")
+        elif any(
+            not isinstance(row, dict)
+            or row.get("ok") is not True
+            or row.get("loss_finite") is not True
+            or row.get("memory_guard_exceeded") is not False
+            for row in rows.values()
+        ):
+            problems.append("P5 training-grid progress row validity drift")
+        receipt_rows = payload.get("cells")
+        if (
+            not isinstance(receipt_rows, list)
+            or len(receipt_rows) != 72
+            or any(
+                not isinstance(row, dict)
+                or row.get("ok") is not True
+                or row.get("loss_finite") is not True
+                or row.get("memory_guard_exceeded") is not False
+                for row in (receipt_rows if isinstance(receipt_rows, list) else [])
+            )
+        ):
+            problems.append("P5 training-grid final row validity drift")
+        elif isinstance(rows, dict):
+            joined: dict[str, dict[str, Any]] = {}
+            for row in receipt_rows:
+                key = f"f{row.get('frames')}:{row.get('mechanism')}:b{row.get('batch')}:r{row.get('repeat')}"
+                normalized = dict(row)
+                if normalized.get("resumed_from_atomic_progress") is True:
+                    normalized.pop("resumed_from_atomic_progress")
+                if key in joined or key not in expected_row_keys:
+                    problems.append("P5 training-grid final row coordinate drift")
+                    break
+                joined[key] = normalized
+            if set(joined) != expected_row_keys or any(
+                joined.get(key) != rows.get(key) for key in expected_row_keys
+            ):
+                problems.append("P5 training-grid final receipt does not join atomic progress")
+    except (KeyError, OSError, json.JSONDecodeError, TypeError, ValueError, yaml.YAMLError) as exc:
+        problems.append(f"P5 training-grid authority invalid: {exc}")
+    return problems
+
+
+def _p5_challenge_seed_config(seed: int) -> dict[str, Any]:
+    config = _p5_resolved_config("p5pilot")
+    config["profile"] = f"p5fresh-seed-{seed}"
+    config["training"]["seeds"] = [seed]
+    return config
+
+
+def _p5_challenge_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
+    """Validate a fresh challenge and every bound disjoint-seed raw subrun."""
+
+    problems: list[str] = []
+    try:
+        if payload.get("schema") != P5_CHALLENGE_SCHEMA or not _p5_payload_digest_ok(payload):
+            problems.append("P5 fresh challenge schema or payload digest drift")
+        if (
+            payload.get("complete") is not True
+            or payload.get("all_ok") is not True
+            or payload.get("verification_ready") is not True
+            or payload.get("resumable") is not False
+            or payload.get("problems") != []
+        ):
+            problems.append("P5 fresh challenge is incomplete, resumable, or reports problems")
+        if payload.get("source_bindings") != _p5_live_bindings(P5_CHALLENGE_SOURCE_PATHS):
+            problems.append("P5 fresh challenge live source bindings drift")
+        if payload.get("scientific_promotion") is not False or payload.get("promotion") != {
+            "confirmatory_promotable": False,
+            "refused_by_construction": True,
+            "scientific_capability_claim": False,
+        }:
+            problems.append("P5 fresh challenge promotion refusal drift")
+
+        primary_path = _p5_evidence_path("proof/P5_CONTEXT_CAPABILITY_PILOT.json", evidence_root)
+        primary = _p5_read_json(primary_path, "P5 challenge primary")
+        problems.extend(
+            f"P5 challenge primary: {problem}"
+            for problem in _p5_screen_authority_problems(primary, evidence_root)
+        )
+        if primary.get("fresh_challenge_required") is not True:
+            problems.append("P5 fresh challenge primary does not authorize challenge execution")
+        primary_binding = payload.get("primary_receipt")
+        if not isinstance(primary_binding, dict) or (
+            primary_binding.get("path") != "proof/P5_CONTEXT_CAPABILITY_PILOT.json"
+            or primary_binding.get("sha256") != _sha256_file(primary_path)
+            or primary_binding.get("payload_sha256") != primary.get("payload_sha256")
+        ):
+            problems.append("P5 fresh challenge primary proof binding drift")
+        expected_patterns = [
+            {key: value for key, value in pattern.items() if key != "primary_ci"}
+            for pattern in _p5_strict_patterns(primary)
+        ]
+        if not expected_patterns or payload.get("patterns") != expected_patterns:
+            problems.append("P5 fresh challenge pattern authorization drift")
+        if (
+            payload.get("fresh_training_seeds") != list(P5_FRESH_SEEDS)
+            or payload.get("fresh_seeds_disjoint_from_primary") is not True
+        ):
+            problems.append("P5 fresh challenge disjoint seed contract drift")
+        if set(P5_FRESH_SEEDS) & set(int(value) for value in primary.get("seeds", [])):
+            problems.append("P5 fresh challenge seeds overlap the primary")
+        controls = payload.get("controls")
+        if not isinstance(controls, dict) or any(
+            controls.get(field) is not True
+            for field in (
+                "shared_primary_training_contract",
+                "matched_parameter_and_flop_contract",
+                "same_initialization_frozen_control",
+                "f64_trainability_gate",
+                "threshold_tie_is_null",
+                "isolated_full_surface_seed_subruns",
+            )
+        ):
+            problems.append("P5 fresh challenge controls drift")
+        run_dir_value = payload.get("run_dir")
+        run_dir = _p5_evidence_path(run_dir_value, evidence_root)
+        run_dir_relative = str(run_dir.relative_to(evidence_root))
+        expected_checkpoint_globs = [
+            f"{run_dir_relative}/seed_*/frames/f*/seed_*/*/checkpoint.pt",
+            f"{run_dir_relative}/seed_*/frames/f*/seed_*/*/arm_receipt.json",
+            f"{run_dir_relative}/seed_*/frames/f*/seed_*/seed_result.json",
+            f"{run_dir_relative}/seed_*/frames/f*/cell_receipt.json",
+            f"{run_dir_relative}/seed_*/p5_context_receipt.json",
+            f"{run_dir_relative}/seed_*/resolved_config.json",
+        ]
+        if payload.get("checkpoint_globs") != expected_checkpoint_globs:
+            problems.append("P5 fresh challenge checkpoint glob authority drift")
+        rows = payload.get("training_runs")
+        if not isinstance(rows, list) or [row.get("seed") for row in rows] != list(P5_FRESH_SEEDS):
+            problems.append("P5 fresh challenge run coverage drift")
+            rows = rows if isinstance(rows, list) else []
+        expected_sources = _p5_live_bindings(P5_SOURCE_PATHS)
+        expected_source_sha = _canonical_sha256(expected_sources)
+        for row in rows:
+            if not isinstance(row, dict):
+                problems.append("P5 fresh challenge run row is not an object")
+                continue
+            seed = int(row.get("seed", -1))
+            if (
+                row.get("complete") is not True
+                or row.get("all_ok") is not True
+                or row.get("resumable") is not False
+                or row.get("problems") != []
+            ):
+                problems.append(f"P5 fresh challenge seed {seed} is not complete and valid")
+            raw_binding = row.get("raw_receipt")
+            config_binding = row.get("resolved_config")
+            cell_bindings = row.get("cell_receipts")
+            if (
+                not isinstance(raw_binding, dict)
+                or not isinstance(config_binding, dict)
+                or not isinstance(cell_bindings, dict)
+                or set(cell_bindings) != {f"f{frames}" for frames in P5_FRAME_COUNTS}
+            ):
+                problems.append(f"P5 fresh challenge seed {seed} artifact bindings drift")
+                continue
+            raw_path = _p5_evidence_path(raw_binding.get("path"), evidence_root)
+            config_path = _p5_evidence_path(config_binding.get("path"), evidence_root)
+            raw = _p5_read_json(raw_path, f"P5 fresh seed {seed} raw receipt")
+            resolved = _p5_read_json(config_path, f"P5 fresh seed {seed} config")
+            expected_config = _p5_challenge_seed_config(seed)
+            registry_sha = _canonical_sha256(expected_config["cells"])
+            checkpoint_sha = _canonical_sha256(
+                {
+                    "registry_sha256": registry_sha,
+                    "source_bindings_sha256": expected_source_sha,
+                }
+            )
+            terminal = raw.get("terminal_scientific_stop") is True
+            expected_status = "terminal-scientific-null" if terminal else "complete"
+            expected_reason = "f64-trainability-gate-null" if terminal else None
+            gate = raw.get("trainability_gate")
+            if (
+                raw_binding.get("sha256") != _sha256_file(raw_path)
+                or raw_binding.get("payload_sha256") != raw.get("payload_sha256")
+                or not _p5_payload_digest_ok(raw)
+                or config_binding.get("sha256") != _sha256_file(config_path)
+                or resolved != expected_config
+                or raw.get("config_sha256") != _canonical_sha256(expected_config)
+                or raw.get("cell_registry_sha256") != registry_sha
+                or raw.get("source_bindings") != expected_sources
+                or raw.get("source_bindings_sha256") != expected_source_sha
+                or raw.get("checkpoint_requirements_sha256") != checkpoint_sha
+                or raw.get("schema") != P5_SCREEN_SCHEMA
+                or raw.get("profile") != f"p5fresh-seed-{seed}"
+                or raw.get("seeds") != [seed]
+                or raw.get("serial_order")
+                != [f"f{item['frames']}_{item['mechanism']}" for item in expected_config["cells"]]
+                or raw.get("complete") is not True
+                or raw.get("all_ok") is not True
+                or raw.get("resumable") is not False
+                or raw.get("problems") != []
+                or raw.get("execution_status") != expected_status
+                or raw.get("terminal_stop_reason") != expected_reason
+                or raw.get("trainability_gate_failed") is not terminal
+                or not isinstance(gate, dict)
+                or gate.get("applies") is not True
+                or gate.get("evaluated") is not True
+                or gate.get("failed") is not terminal
+                or gate.get("outcome") != ("null" if terminal else "clears-margin")
+                or raw.get("fresh_challenge_required") is not False
+            ):
+                problems.append(f"P5 fresh challenge seed {seed} raw authority drift")
+            by_frame: dict[int, list[str]] = {frames: [] for frames in P5_FRAME_COUNTS}
+            for item in expected_config["cells"]:
+                by_frame[int(item["frames"])].append(str(item["mechanism"]))
+            for frames in P5_FRAME_COUNTS:
+                binding = cell_bindings[f"f{frames}"]
+                if not isinstance(binding, dict):
+                    problems.append(f"P5 fresh seed {seed} f{frames} binding drift")
+                    continue
+                cell_path = _p5_evidence_path(binding.get("path"), evidence_root)
+                cell = _p5_read_json(cell_path, f"P5 fresh seed {seed} f{frames} cell")
+                seed_payloads = cell.get("seed_results")
+                unit = seed_payloads.get(str(seed)) if isinstance(seed_payloads, dict) else None
+                if (
+                    binding.get("sha256") != _sha256_file(cell_path)
+                    or cell.get("complete") is not True
+                    or cell.get("all_ok") is not True
+                    or cell.get("problems") != []
+                    or raw.get("frames", {}).get(f"f{frames}") != _p5_frame_summary(cell)
+                    or not isinstance(unit, dict)
+                    or unit.get("source_bindings_sha256") != expected_source_sha
+                    or unit.get("checkpoint_requirements_sha256") != checkpoint_sha
+                    or any(
+                        arm.get("training", {}).get("requirements_sha256") != checkpoint_sha
+                        for arm in unit.get("mechanisms", {}).values()
+                        if isinstance(arm, dict)
+                    )
+                ):
+                    problems.append(f"P5 fresh seed {seed} f{frames} cell authority drift")
+                if isinstance(unit, dict):
+                    problems.extend(
+                        f"P5 fresh seed {seed} f{frames}: {problem}"
+                        for problem in _p5_seed_artifact_problems(
+                            seed=unit,
+                            seed_dir=cell_path.parent / f"seed_{seed}",
+                            mechanisms=by_frame[frames],
+                            config_sha=str(raw.get("config_sha256")),
+                            registry_sha=registry_sha,
+                            source_sha=expected_source_sha,
+                            checkpoint_sha=checkpoint_sha,
+                        )
+                    )
+    except (KeyError, OSError, json.JSONDecodeError, TypeError, ValueError, yaml.YAMLError) as exc:
+        problems.append(f"P5 fresh challenge authority invalid: {exc}")
+    return problems
+
+
+def _p5_verifier_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
+    """Cross-check the final independent verdict against its exact current primary and challenge."""
+
+    problems: list[str] = []
+    try:
+        if payload.get("schema") != P5_VERIFIER_SCHEMA or not _p5_payload_digest_ok(payload):
+            problems.append("P5 verifier schema or payload digest drift")
+        if payload.get("claim_scope") != P5_CLAIM_SCOPE or payload.get("evidence_class") != P5_EVIDENCE_CLASS:
+            problems.append("P5 verifier claim scope or evidence class drift")
+        if (
+            payload.get("verification_complete") is not True
+            or payload.get("all_ok") is not True
+            or payload.get("prerequisite_ready") is not True
+            or payload.get("problems") != []
+            or payload.get("all_controls_passed") is not True
+            or payload.get("all_mutations_rejected") is not True
+        ):
+            problems.append("P5 verifier is incomplete, not ready, or reports problems")
+        if payload.get("source_bindings") != _p5_live_bindings(P5_VERIFIER_SOURCE_PATHS):
+            problems.append("P5 verifier live source bindings drift")
+        if payload.get("scientific_promotion") is not False or payload.get("promotion") != {
+            "confirmatory_promotable": False,
+            "refused_by_construction": True,
+            "scientific_capability_claim": False,
+        }:
+            problems.append("P5 verifier promotion refusal drift")
+        controls = payload.get("controls")
+        if not isinstance(controls, dict) or any(
+            controls.get(field) is not True
+            for field in (
+                "same_initialization_frozen_control",
+                "matched_parameter_and_flop_contract",
+                "difficulty_calibration_checked",
+                "seed_arm_checkpoint_artifacts_exactly_joined",
+                "raw_per_seed_contrasts_independently_recomputed",
+                "fresh_disjoint_training_for_every_primary_pattern",
+                "threshold_tie_is_null",
+                "confirmatory_promotion_refused",
+            )
+        ):
+            problems.append("P5 verifier control contract drift")
+        independence = payload.get("independence")
+        expected_independence = {
+            "imports_p5_training_or_evaluator": False,
+            "raw_seed_score_recompute": True,
+            "checkpoint_files_opened_with_weights_only": True,
+            "checkpoint_model_and_target_state_hashes_recomputed": True,
+            "heldout_metrics_reexecuted_from_checkpoint": False,
+            "fresh_training_required_for_each_primary_pattern": True,
+            "fresh_training_seeds": list(P5_FRESH_SEEDS),
+            "fresh_seeds_disjoint_from_primary": True,
+        }
+        if independence != expected_independence:
+            problems.append("P5 verifier independence authority drift")
+        expected_metric_limit = (
+            "checkpoint model and target states, identities, completed steps, and compute are "
+            "independently hashed and joined; heldout scores are recomputed from durable per-seed "
+            "receipts but are not re-evaluated from model checkpoints"
+        )
+        if payload.get("metric_recomputation_limit") != expected_metric_limit:
+            problems.append("P5 verifier metric recomputation limit drift")
+        outcome_contract = payload.get("outcome_contract")
+        if outcome_contract != {
+            "allowed": ["mechanics", "null", "favorable-programmatic-only"],
+            "tie_is_null": True,
+            "programmatic_only": True,
+            "confirmatory_promotable": False,
+            "scientific_capability_claim": False,
+        }:
+            problems.append("P5 verifier outcome contract drift")
+        classification = payload.get("classification")
+        if (
+            classification not in {"null", "favorable-programmatic-only"}
+            or payload.get("outcome") != classification
+        ):
+            problems.append("P5 verifier classification is not a verified null or favorable pattern")
+
+        profile = payload.get("primary_profile")
+        if profile not in {"p5smoke", "p5pilot"}:
+            raise ValueError("P5 verifier primary profile is invalid")
+        expected_primary_relative = (
+            "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+            if profile == "p5smoke"
+            else "proof/P5_CONTEXT_CAPABILITY_PILOT.json"
+        )
+        expected_run_relative = (
+            "runs/p5_context/p5smoke/p5_context_receipt.json"
+            if profile == "p5smoke"
+            else "runs/p5_context/p5pilot/p5_context_receipt.json"
+        )
+        primary_path = _p5_evidence_path(expected_primary_relative, evidence_root)
+        run_path = _p5_evidence_path(expected_run_relative, evidence_root)
+        primary = _p5_read_json(primary_path, "P5 verifier primary")
+        raw = _p5_read_json(run_path, "P5 verifier raw primary")
+        problems.extend(
+            f"P5 verifier primary: {problem}"
+            for problem in _p5_screen_authority_problems(primary, evidence_root)
+        )
+        primary_binding = payload.get("primary_receipt")
+        raw_binding = payload.get("primary_run_receipt")
+        if not isinstance(primary_binding, dict) or (
+            primary_binding.get("path") != expected_primary_relative
+            or primary_binding.get("sha256") != _sha256_file(primary_path)
+            or primary_binding.get("payload_sha256") != primary.get("payload_sha256")
+        ):
+            problems.append("P5 verifier primary proof join drift")
+        if not isinstance(raw_binding, dict) or (
+            raw_binding.get("path") != expected_run_relative
+            or raw_binding.get("sha256") != _sha256_file(run_path)
+            or raw_binding.get("exactly_matches_published") is not True
+            or raw != primary
+        ):
+            problems.append("P5 verifier raw primary join drift")
+        config_binding = payload.get("config")
+        live_config = _p5_resolved_config(str(profile))
+        if not isinstance(config_binding, dict) or (
+            config_binding.get("path") != "configs/experiment/mop_p5_context_capability.yaml"
+            or config_binding.get("sha256") != _sha256_file(P5_CONFIG_PATH)
+            or config_binding.get("resolved_sha256") != _canonical_sha256(live_config)
+        ):
+            problems.append("P5 verifier live config join drift")
+        patterns = _p5_strict_patterns(primary)
+        hint = bool(patterns)
+        expected_primary_outcome = "favorable-programmatic-only" if hint else "null"
+        if payload.get("primary_outcome") != expected_primary_outcome:
+            problems.append("P5 verifier primary outcome drift")
+        if (
+            payload.get("fresh_challenge_required") is not hint
+            or primary.get("fresh_challenge_required") is not hint
+        ):
+            problems.append("P5 verifier fresh challenge authorization drift")
+        if payload.get("primary_patterns") != patterns:
+            problems.append("P5 verifier primary pattern binding drift")
+        expected_primary_off_ceiling = {
+            f"f{frames}": _dotted_value(primary, f"frames.f{frames}.off_ceiling")
+            for frames in P5_PRIMARY_FRAMES
+        }
+        if (
+            not isinstance(controls, dict)
+            or controls.get("primary_off_ceiling") != expected_primary_off_ceiling
+        ):
+            problems.append("P5 verifier primary off-ceiling control drift")
+        terminal_null = primary.get("terminal_scientific_stop") is True
+        if payload.get("terminal_null") is not terminal_null:
+            problems.append("P5 verifier terminal-null binding drift")
+        expected_nonterminal_support = terminal_null or any(
+            value is True for value in expected_primary_off_ceiling.values()
+        )
+        if (
+            not isinstance(controls, dict)
+            or controls.get("nonterminal_outcome_has_off_ceiling_multiunit_support")
+            is not expected_nonterminal_support
+        ):
+            problems.append("P5 verifier nonterminal off-ceiling support drift")
+
+        artifact_evidence = payload.get("artifact_evidence")
+        cell_receipt_evidence = payload.get("cell_receipt_evidence")
+        primary_cell_evidence = (
+            cell_receipt_evidence.get("primary") if isinstance(cell_receipt_evidence, dict) else None
+        )
+        if not isinstance(primary_cell_evidence, dict) or set(primary_cell_evidence) != {
+            f"f{frames}" for frames in P5_FRAME_COUNTS
+        }:
+            problems.append("P5 verifier primary cell receipt evidence coverage drift")
+        else:
+            for frames in P5_FRAME_COUNTS:
+                expected_relative = f"runs/p5_context/{profile}/frames/f{frames}/cell_receipt.json"
+                expected_path = _p5_evidence_path(expected_relative, evidence_root)
+                if primary_cell_evidence[f"f{frames}"] != {
+                    "path": expected_relative,
+                    "sha256": _sha256_file(expected_path),
+                }:
+                    problems.append(f"P5 verifier primary f{frames} cell receipt binding drift")
+        primary_artifacts = artifact_evidence.get("primary") if isinstance(artifact_evidence, dict) else None
+        if not isinstance(primary_artifacts, dict) or set(primary_artifacts) != {
+            f"f{frames}" for frames in P5_FRAME_COUNTS
+        }:
+            problems.append("P5 verifier primary artifact evidence frame coverage drift")
+        else:
+            for frames in P5_FRAME_COUNTS:
+                primary_cell = _p5_read_json(
+                    run_path.parent / "frames" / f"f{frames}" / "cell_receipt.json",
+                    f"P5 verifier primary f{frames} cell",
+                )
+                cell_seeds = primary_cell.get("expected_seeds")
+                expected_primary_seeds = (
+                    {str(int(value)) for value in cell_seeds} if isinstance(cell_seeds, list) else set()
+                )
+                problems.extend(
+                    _p5_artifact_evidence_problems(
+                        primary_artifacts[f"f{frames}"],
+                        expected_seeds=expected_primary_seeds,
+                        evidence_root=evidence_root,
+                        label=f"P5 verifier primary f{frames}",
+                    )
+                )
+        if profile == "p5smoke" and (
+            primary.get("terminal_scientific_stop") is not True
+            or primary.get("trainability_gate_failed") is not True
+            or primary.get("execution_status") != "terminal-scientific-null"
+            or hint
+            or classification != "null"
+        ):
+            problems.append("P5 verifier smoke branch is not the canonical terminal null")
+
+        mutation_rows = payload.get("mutation_tests")
+        mutation_map = (
+            {
+                str(row.get("id")): row
+                for row in mutation_rows
+                if isinstance(row, dict) and isinstance(row.get("id"), str)
+            }
+            if isinstance(mutation_rows, list)
+            else {}
+        )
+        required_mutations = set(P5_BASE_MUTATION_IDS)
+        if hint:
+            required_mutations.update(P5_CHALLENGE_MUTATION_IDS)
+        if (
+            not isinstance(mutation_rows, list)
+            or not mutation_rows
+            or len(mutation_rows) != len(mutation_map)
+            or len(mutation_rows) != len(required_mutations)
+            or set(mutation_map) != required_mutations
+            or any(row.get("rejected") is not True for row in mutation_map.values())
+        ):
+            problems.append("P5 verifier required mutation rejection set drift")
+
+        verified_patterns = payload.get("verified_patterns")
+        challenge_binding = payload.get("fresh_challenge")
+        if hint:
+            challenge_path = _p5_evidence_path(
+                "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json", evidence_root
+            )
+            challenge = _p5_read_json(challenge_path, "P5 verifier fresh challenge")
+            problems.extend(
+                f"P5 verifier challenge: {problem}"
+                for problem in _p5_challenge_authority_problems(challenge, evidence_root)
+            )
+            if not isinstance(challenge_binding, dict) or (
+                challenge_binding.get("path") != "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json"
+                or challenge_binding.get("sha256") != _sha256_file(challenge_path)
+                or challenge_binding.get("payload_sha256") != challenge.get("payload_sha256")
+            ):
+                problems.append("P5 verifier fresh challenge join drift")
+            expected_fresh_cells = {
+                str(row["seed"]): row["cell_receipts"]
+                for row in challenge.get("training_runs", [])
+                if isinstance(row, dict)
+            }
+            fresh_cell_evidence = (
+                cell_receipt_evidence.get("fresh_challenge")
+                if isinstance(cell_receipt_evidence, dict)
+                else None
+            )
+            if fresh_cell_evidence != expected_fresh_cells:
+                problems.append("P5 verifier fresh cell receipt evidence drift")
+            per_pattern = (
+                challenge_binding.get("per_pattern") if isinstance(challenge_binding, dict) else None
+            )
+            canonical_patterns = _p5_canonical_challenge_patterns(
+                primary,
+                challenge,
+                evidence_root,
+            )
+            if per_pattern != canonical_patterns:
+                problems.append("P5 verifier fresh pattern canonical rebuild drift")
+            fresh_artifacts = (
+                artifact_evidence.get("fresh_challenge") if isinstance(artifact_evidence, dict) else None
+            )
+            if not isinstance(fresh_artifacts, dict) or set(fresh_artifacts) != {
+                str(seed) for seed in P5_FRESH_SEEDS
+            }:
+                problems.append("P5 verifier fresh artifact evidence seed coverage drift")
+            else:
+                for seed in P5_FRESH_SEEDS:
+                    by_frame = fresh_artifacts[str(seed)]
+                    if not isinstance(by_frame, dict) or set(by_frame) != {
+                        f"f{frames}" for frames in P5_FRAME_COUNTS
+                    }:
+                        problems.append(f"P5 verifier fresh seed {seed} artifact frame coverage drift")
+                        continue
+                    for frames in P5_FRAME_COUNTS:
+                        problems.extend(
+                            _p5_artifact_evidence_problems(
+                                by_frame[f"f{frames}"],
+                                expected_seeds={str(seed)},
+                                evidence_root=evidence_root,
+                                label=f"P5 verifier fresh seed {seed} f{frames}",
+                            )
+                        )
+            expected_verified = [
+                row for row in canonical_patterns if row["programmatic_pattern_verified"] is True
+            ]
+            expected_classification = "favorable-programmatic-only" if expected_verified else "null"
+            if classification != expected_classification:
+                problems.append("P5 verifier classification canonical rebuild drift")
+            if verified_patterns != expected_verified:
+                problems.append("P5 verifier verified pattern canonical rebuild drift")
+        else:
+            if classification != "null" or payload.get("outcome") != "null":
+                problems.append("P5 no-pattern verdict must remain a canonical null")
+            if (
+                challenge_binding is not None
+                or verified_patterns not in ([], None)
+                or not isinstance(artifact_evidence, dict)
+                or artifact_evidence.get("fresh_challenge") is not None
+            ):
+                problems.append("P5 no-pattern verdict retains a fresh challenge or verified pattern")
+            if (
+                not isinstance(cell_receipt_evidence, dict)
+                or cell_receipt_evidence.get("fresh_challenge") is not None
+            ):
+                problems.append("P5 no-pattern verdict retains fresh cell receipt evidence")
+    except (KeyError, OSError, json.JSONDecodeError, TypeError, ValueError, yaml.YAMLError) as exc:
+        problems.append(f"P5 verifier authority invalid: {exc}")
+    return problems
+
+
+def _p5_schema_authority_problems(schema: str, payload: dict[str, Any], evidence_root: Path) -> list[str]:
+    if schema == P5_SCREEN_SCHEMA:
+        return _p5_screen_authority_problems(payload, evidence_root)
+    if schema == P5_GRID_SCHEMA:
+        return _p5_grid_authority_problems(payload, evidence_root)
+    if schema == P5_CHALLENGE_SCHEMA:
+        return _p5_challenge_authority_problems(payload, evidence_root)
+    if schema == P5_VERIFIER_SCHEMA:
+        return _p5_verifier_authority_problems(payload, evidence_root)
+    return []
+
+
+def _p6_expected_plan(config: dict[str, Any], *, rung: int, mode: str) -> dict[str, Any]:
+    replication = config["replication"]
+    profile = config["profile"]
+    all_seeds = [int(value) for value in replication["seeds"]]
+    if mode == "resource-probe":
+        seeds = all_seeds[:1]
+        schedules = ["abrupt"]
+        arms = ["replay"]
+    elif mode == "replication":
+        seeds = all_seeds
+        schedules = [str(value) for value in replication["schedules"]]
+        arms = [str(value) for value in replication["arms"]]
+    else:
+        raise ValueError(f"unsupported P6 rung mode {mode!r}")
+    cells = [
+        {"seed": seed, "schedule": schedule, "arm": arm}
+        for seed in seeds
+        for schedule in schedules
+        for arm in arms
+    ]
+    return {
+        "mode": mode,
+        "rung": rung,
+        "seeds": seeds,
+        "schedules": schedules,
+        "arms": arms,
+        "cells": cells,
+        "expected_cells": len(cells),
+        "stream": {
+            "chunk_events": max(
+                int(profile["minimum_chunk_events"]), rung // int(profile["chunks_per_stream"])
+            ),
+            "n_domains": 4,
+            "n_classes": 4,
+            "gradual_width_events": max(1, rung // int(profile["gradual_width_divisor"])),
+            "deletion_event": (
+                rung * int(profile["deletion_numerator"]) // int(profile["deletion_denominator"])
+            ),
+        },
+        "profile": {
+            "checkpoint_every": int(profile["checkpoint_every_events"]),
+            "replay_capacity": int(profile["replay_capacity"]),
+            "future_window_events": int(profile["future_window_events"]),
+            "threshold_window_events": int(profile["threshold_window_events"]),
+            "future_accuracy_threshold": float(profile["future_accuracy_threshold"]),
+            "matched_updates_per_event": int(profile["matched_updates_per_event"]),
+        },
+    }
+
+
+def _p6_rung_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
+    """Validate a P6 receipt as a complete live-bound runner authority."""
+
+    problems: list[str] = []
+    try:
+        if payload.get("schema") != P6_RUNG_SCHEMA:
+            problems.append("P6 rung schema drift")
+        core = dict(payload)
+        declared_payload_sha = core.pop("payload_sha256", None)
+        if not _is_sha256(declared_payload_sha) or _canonical_sha256(core) != declared_payload_sha:
+            problems.append("P6 rung payload digest drift")
+        if payload.get("claim_scope") != P6_CLAIM_SCOPE:
+            problems.append("P6 rung claim scope drift")
+        if payload.get("all_mechanics_ok") is not True:
+            problems.append("P6 rung mechanics did not complete")
+        if payload.get("independent_metric_verifier_complete") is not False:
+            problems.append("P6 source rung cannot self-assert independent verification")
+        if payload.get("scientific_promotion") is not False:
+            problems.append("P6 source rung cannot self-promote")
+
+        config = yaml.safe_load(P6_RUN_CONFIG.read_text())
+        if not isinstance(config, dict):
+            raise ValueError("live P6 rung config is invalid")
+        evidence = _p6_resource_evidence()
+        live_preflight = json.loads(P6_PREFLIGHT.read_text())
+        if not isinstance(live_preflight, dict):
+            raise ValueError("live P6 preflight is invalid")
+        live_source_authority = _p6_source_live_binding_authority(live_preflight)
+        identity = payload.get("identity")
+        if not isinstance(identity, dict):
+            raise ValueError("P6 rung identity is missing")
+        expected_live_identity = {
+            "config_sha256": evidence["config_sha256"],
+            "runner_sha256": _sha256_file(REPO_ROOT / "scripts/continual_million_event_rung.py"),
+            "source_preflight_file_sha256": evidence["preflight_file_sha256"],
+            "source_preflight_payload_sha256": evidence["preflight_payload_sha256"],
+            "source_live_bindings_sha256": evidence["preflight_live_bindings_sha256"],
+        }
+        for field, expected in expected_live_identity.items():
+            if identity.get(field) != expected:
+                problems.append(f"P6 rung live identity drift: {field}")
+        if identity.get("claim_scope") != P6_CLAIM_SCOPE:
+            problems.append("P6 rung identity claim scope drift")
+        if payload.get("identity_sha256") != _canonical_sha256(identity):
+            problems.append("P6 rung identity digest drift")
+        if payload.get("source_live_authority") != live_source_authority:
+            problems.append("P6 rung embedded source authority drift")
+
+        rung = payload.get("rung")
+        mode = payload.get("mode")
+        if not isinstance(rung, int) or isinstance(rung, bool) or rung not in (10_000, 100_000, 1_000_000):
+            raise ValueError("P6 rung value is invalid")
+        if not isinstance(mode, str):
+            raise ValueError("P6 rung mode is invalid")
+        expected_plan = _p6_expected_plan(config, rung=rung, mode=mode)
+        plan = payload.get("plan")
+        if plan != expected_plan or identity.get("plan") != expected_plan:
+            problems.append("P6 rung exact plan or identity plan drift")
+        expected_replication = mode == "replication"
+        if payload.get("replication_execution_complete") is not expected_replication:
+            problems.append("P6 rung replication completion drift")
+
+        expected_keys = {
+            f"seed_{cell['seed']}/{cell['schedule']}/{cell['arm']}" for cell in expected_plan["cells"]
+        }
+        cells = payload.get("cells")
+        if not isinstance(cells, dict) or set(cells) != expected_keys:
+            problems.append("P6 rung completed cell matrix drift")
+            cells = cells if isinstance(cells, dict) else {}
+        for key in sorted(expected_keys & set(cells)):
+            row = cells[key]
+            if not isinstance(row, dict):
+                problems.append(f"P6 cell {key} is not an object")
+                continue
+            if f"seed_{row.get('seed')}/{row.get('schedule')}/{row.get('arm')}" != key:
+                problems.append(f"P6 cell {key} coordinate drift")
+            if not all(
+                _is_sha256(row.get(field))
+                for field in (
+                    "stream_identity_sha256",
+                    "stream_sha256",
+                    "checkpoint_sha256",
+                    "state_sha256",
+                )
+            ):
+                problems.append(f"P6 cell {key} authority digest invalid")
+            if row.get("all_mechanics_ok") is not True or not isinstance(
+                row.get("resumed_from_atomic_checkpoint"), bool
+            ):
+                problems.append(f"P6 cell {key} mechanics or resume observation invalid")
+            controls = row.get("controls")
+            arm = row.get("arm")
+            if not isinstance(controls, dict) or controls != {
+                "replay_enabled": arm == "replay",
+                "fresh_init_on_transition": arm == "fresh-init",
+                "matched_updates_per_event": 2,
+                "actual_updates_per_event": 2.0,
+                "fixed_topology": True,
+                "reset_count": 3 if arm == "fresh-init" else 0,
+            }:
+                problems.append(f"P6 cell {key} control contract drift")
+            metrics = row.get("metrics")
+            resources = metrics.get("resources") if isinstance(metrics, dict) else None
+            if not isinstance(metrics, dict) or set(metrics) != {
+                "retention",
+                "acquisition",
+                "future_learnability",
+                "stale_memory",
+                "deletion",
+                "resources",
+            }:
+                problems.append(f"P6 cell {key} metric family drift")
+            elif not isinstance(resources, dict) or (
+                resources.get("events_processed") != rung
+                or resources.get("updates") != rung * 2
+                or resources.get("updates_per_event") != 2.0
+                or resources.get("model_weights_loaded") is not False
+                or resources.get("accelerator_required") is not False
+                or not isinstance(resources.get("checkpoint_state_bytes"), int)
+                or int(resources["checkpoint_state_bytes"]) <= 0
+                or not isinstance(resources.get("stream_disk_bytes"), int)
+                or int(resources["stream_disk_bytes"]) <= 0
+            ):
+                problems.append(f"P6 cell {key} resource metric drift")
+
+        progress_binding = payload.get("progress")
+        if not isinstance(progress_binding, dict):
+            raise ValueError("P6 rung progress binding is missing")
+        progress_path = _safe_evidence_path(progress_binding.get("path"), evidence_root)
+        progress = json.loads(progress_path.read_text())
+        if not isinstance(progress, dict):
+            raise ValueError("P6 rung progress authority is invalid")
+        if (
+            _sha256_file(progress_path) != progress_binding.get("sha256")
+            or progress.get("schema") != "mop-continual-progressive-rung-progress/v1"
+            or progress.get("identity") != identity
+            or progress.get("identity_sha256") != _canonical_sha256(identity)
+            or progress.get("cells") != cells
+            or progress.get("complete") is not True
+            or progress_binding.get("completed_cells") != len(expected_keys)
+            or progress_binding.get("expected_cells") != len(expected_keys)
+        ):
+            problems.append("P6 rung live progress authority drift")
+
+        work_root = progress_path.parent
+        for key, row in sorted(cells.items()):
+            if not isinstance(row, dict):
+                continue
+            checkpoint_path = (
+                work_root
+                / "checkpoints"
+                / f"seed_{row.get('seed')}"
+                / str(row.get("schedule"))
+                / f"{row.get('arm')}.json"
+            )
+            try:
+                checkpoint = json.loads(checkpoint_path.read_text())
+                if not isinstance(checkpoint, dict):
+                    raise ValueError("checkpoint is not an object")
+                checkpoint_identity = checkpoint.get("identity")
+                state = checkpoint.get("state")
+                result = checkpoint.get("result")
+                if (
+                    _sha256_file(checkpoint_path) != row.get("checkpoint_sha256")
+                    or checkpoint.get("schema") != "mop-continual-smoke-checkpoint/v1"
+                    or checkpoint.get("complete") is not True
+                    or not isinstance(checkpoint_identity, dict)
+                    or checkpoint.get("identity_sha256") != _canonical_sha256(checkpoint_identity)
+                    or not isinstance(state, dict)
+                    or checkpoint.get("state_sha256") != _canonical_sha256(state)
+                    or checkpoint.get("state_sha256") != row.get("state_sha256")
+                    or not isinstance(result, dict)
+                    or result.get("all_mechanics_ok") is not True
+                    or result.get("metrics") != row.get("metrics")
+                    or result.get("controls") != row.get("controls")
+                ):
+                    problems.append(f"P6 cell {key} live checkpoint authority drift")
+            except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+                problems.append(f"P6 cell {key} live checkpoint authority invalid: {exc}")
+
+        semantic_audit = audit_rung_semantics(payload, repo_root=evidence_root)
+        if semantic_audit.get("all_ok") is not True:
+            errors = semantic_audit.get("errors")
+            problems.append(
+                "P6 rung raw-stream semantic audit failed: "
+                + "; ".join(str(value) for value in errors if isinstance(errors, list))
+                if isinstance(errors, list)
+                else "P6 rung raw-stream semantic audit failed without an error list"
+            )
+
+        measurement = payload.get("resource_measurement")
+        rss_bytes = measurement.get("max_rss_bytes") if isinstance(measurement, dict) else None
+        if (
+            not isinstance(measurement, dict)
+            or not isinstance(rss_bytes, int)
+            or isinstance(rss_bytes, bool)
+            or rss_bytes < P6_MINIMUM_SANE_RSS_BYTES
+            or measurement.get("measured_after_complete") is not True
+            or measurement.get("events_per_stream") != rung
+        ):
+            problems.append(
+                f"P6 rung resource measurement must be complete and at least "
+                f"{P6_MINIMUM_SANE_RSS_BYTES} bytes RSS"
+            )
+    except (KeyError, OSError, json.JSONDecodeError, TypeError, ValueError, yaml.YAMLError) as exc:
+        problems.append(f"P6 rung authority invalid: {exc}")
+    return problems
+
+
+def _p6_verifier_required_fields(source_rung: int, next_rung: int) -> dict[str, Any]:
+    return {
+        "verification_complete": True,
+        "errors": [],
+        "source_rung.mode": "replication",
+        "source_rung.rung": source_rung,
+        "checks.source_payload_self_hash": True,
+        "checks.live_dependencies_current": True,
+        "checks.progress_and_checkpoints_current": True,
+        "checks.full_replication_structure_valid": True,
+        "checks.all_metrics_independently_recomputed": True,
+        "checks.all_controls_present_and_valid": True,
+        "checks.tie_is_null": True,
+        "checks.all_mutations_rejected": True,
+        "checks.scientific_promotion_blocked": True,
+        "independent_recompute.cell_count": 30,
+        "independent_recompute.checkpoint_state_recomputed": True,
+        "independent_recompute.controls_recomputed": True,
+        "independent_recompute.paired_metrics_recomputed": True,
+        "independent_recompute.decision.tie_rule": P6_TIE_RULE,
+        "independent_recompute.decision.aggregate_tie_count": 0,
+        "independent_recompute.decision.strict_joint_gain_all_schedules_and_controls": True,
+        "independent_recompute.decision.verdict": "favorable-rung-pattern",
+        "independent_recompute.decision.null_supported": False,
+        "independent_recompute.decision.scientific_promotion": False,
+        "mutation_suite.count": 12,
+        "mutation_suite.rejected": 12,
+        "mutation_suite.all_rejected": True,
+        "prerequisite.source_rung": source_rung,
+        "prerequisite.verification_complete": True,
+        "prerequisite.valid_controls": True,
+        "prerequisite.tie_is_null": True,
+        "prerequisite.mutation_suite_all_rejected": True,
+        "prerequisite.next_rung": next_rung,
+        "prerequisite.next_rung_allowed": True,
+        "prerequisite.next_rung_reason": (
+            "strict favorable programmatic pattern requires the next scale confirmation"
+        ),
+        "scientific_promotion": False,
+    }
+
+
+def _p6_verifier_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
+    """Cross-check an independent verifier against its exact live source rung."""
+
+    problems: list[str] = []
+    try:
+        if payload.get("schema") != P6_VERIFIER_SCHEMA:
+            problems.append("P6 verifier schema drift")
+        core = dict(payload)
+        declared_payload_sha = core.pop("payload_sha256", None)
+        if not _is_sha256(declared_payload_sha) or _canonical_sha256(core) != declared_payload_sha:
+            problems.append("P6 verifier payload digest drift")
+        if payload.get("claim_scope") != P6_CLAIM_SCOPE:
+            problems.append("P6 verifier claim scope drift")
+        if payload.get("verification_complete") is not True or payload.get("errors") != []:
+            problems.append("P6 verifier is incomplete or reports errors")
+        if payload.get("scientific_promotion") is not False:
+            problems.append("P6 verifier cannot self-promote")
+
+        implementation = payload.get("implementation")
+        expected_implementation = [
+            {"path": path, "sha256": _sha256_file(REPO_ROOT / path)}
+            for path in P6_VERIFIER_IMPLEMENTATION_PATHS
+        ]
+        if implementation != expected_implementation:
+            problems.append("P6 verifier live implementation binding drift")
+
+        source_info = payload.get("source_rung")
+        if not isinstance(source_info, dict):
+            raise ValueError("P6 verifier source rung binding is missing")
+        source_rung = source_info.get("rung")
+        expected_paths = {
+            10_000: "proof/P6_CONTINUAL_10K.json",
+            100_000: "proof/P6_CONTINUAL_100K.json",
+            1_000_000: "proof/P6_CONTINUAL_1M.json",
+        }
+        if source_rung not in expected_paths or source_info.get("path") != expected_paths[source_rung]:
+            raise ValueError("P6 verifier source rung path or value drift")
+        source_path = _safe_evidence_path(source_info["path"], evidence_root)
+        source = json.loads(source_path.read_text())
+        if not isinstance(source, dict):
+            raise ValueError("P6 verifier source rung is invalid")
+        source_problems = _p6_rung_authority_problems(source, evidence_root)
+        problems.extend(f"P6 verifier source: {problem}" for problem in source_problems)
+        if (
+            source_info.get("mode") != "replication"
+            or source_info.get("file_sha256") != _sha256_file(source_path)
+            or source_info.get("payload_sha256") != source.get("payload_sha256")
+            or source_info.get("identity_sha256") != source.get("identity_sha256")
+        ):
+            problems.append("P6 verifier source file, payload, or identity join drift")
+
+        identity = source.get("identity")
+        if not isinstance(identity, dict):
+            raise ValueError("P6 verifier source identity is missing")
+        expected_live_dependencies = {
+            field: identity.get(field)
+            for field in (
+                "config_sha256",
+                "runner_sha256",
+                "source_preflight_file_sha256",
+                "source_preflight_payload_sha256",
+                "source_live_bindings_sha256",
+            )
+        }
+        if payload.get("live_dependencies") != expected_live_dependencies:
+            problems.append("P6 verifier live dependency receipt drift")
+
+        progress = source.get("progress")
+        expected_progress = {
+            "path": progress.get("path") if isinstance(progress, dict) else None,
+            "file_sha256": progress.get("sha256") if isinstance(progress, dict) else None,
+            "identity_sha256": source.get("identity_sha256"),
+            "complete": True,
+            "cell_count": 30,
+        }
+        if payload.get("progress_authority") != expected_progress:
+            problems.append("P6 verifier progress authority join drift")
+
+        checks = payload.get("checks")
+        expected_check_names = {
+            "source_payload_self_hash",
+            "live_dependencies_current",
+            "progress_and_checkpoints_current",
+            "full_replication_structure_valid",
+            "all_metrics_independently_recomputed",
+            "all_controls_present_and_valid",
+            "tie_is_null",
+            "all_mutations_rejected",
+            "scientific_promotion_blocked",
+        }
+        if (
+            not isinstance(checks, dict)
+            or set(checks) != expected_check_names
+            or not all(value is True for value in checks.values())
+        ):
+            problems.append("P6 verifier canonical check set is incomplete or false")
+
+        recompute = payload.get("independent_recompute")
+        if not isinstance(recompute, dict) or (
+            recompute.get("cell_count") != 30
+            or recompute.get("metric_families")
+            != [
+                "retention",
+                "acquisition",
+                "future_learnability",
+                "stale_memory",
+                "deletion",
+                "resources",
+            ]
+            or recompute.get("checkpoint_state_recomputed") is not True
+            or recompute.get("controls_recomputed") is not True
+            or recompute.get("paired_metrics_recomputed") is not True
+        ):
+            problems.append("P6 verifier independent recompute envelope drift")
+        decision = recompute.get("decision") if isinstance(recompute, dict) else None
+        if not isinstance(decision, dict) or (
+            decision.get("primary_endpoints")
+            != [
+                "retention.domain_zero_final_accuracy",
+                "future_learnability.first_window_accuracy",
+            ]
+            or decision.get("independent_unit") != "seed within transition schedule"
+            or decision.get("controls") != ["no-replay", "fresh-init"]
+            or decision.get("tie_rule") != P6_TIE_RULE
+            or decision.get("aggregate_tie_count") != 0
+            or decision.get("strict_joint_gain_all_schedules_and_controls") is not True
+            or decision.get("verdict") != "favorable-rung-pattern"
+            or decision.get("null_supported") is not False
+            or decision.get("scientific_promotion") is not False
+        ):
+            problems.append("P6 verifier favorable non-tie decision drift")
+        contrasts = decision.get("contrasts") if isinstance(decision, dict) else None
+        expected_coordinates = {
+            (schedule, control)
+            for schedule in ("abrupt", "gradual")
+            for control in ("no-replay", "fresh-init")
+        }
+        observed_coordinates: set[tuple[object, object]] = set()
+        source_plan = source.get("plan")
+        seeds = source_plan.get("seeds") if isinstance(source_plan, dict) else None
+        if not isinstance(contrasts, list) or len(contrasts) != 4 or not isinstance(seeds, list):
+            problems.append("P6 verifier paired contrast matrix drift")
+        else:
+            for contrast in contrasts:
+                if not isinstance(contrast, dict):
+                    problems.append("P6 verifier paired contrast row invalid")
+                    continue
+                observed_coordinates.add((contrast.get("schedule"), contrast.get("control")))
+                retention = contrast.get("retention_mean_delta")
+                future = contrast.get("future_first_window_mean_delta")
+                pairs = contrast.get("paired_seed_deltas")
+                if (
+                    contrast.get("independent_units") != len(seeds)
+                    or not isinstance(retention, (int, float))
+                    or isinstance(retention, bool)
+                    or not math.isfinite(retention)
+                    or retention <= 0
+                    or not isinstance(future, (int, float))
+                    or isinstance(future, bool)
+                    or not math.isfinite(future)
+                    or future <= 0
+                    or contrast.get("aggregate_tie_is_null") is not False
+                    or contrast.get("any_seed_nonpositive_is_null") is not False
+                    or contrast.get("null_contrast") is not False
+                    or contrast.get("strict_joint_gain") is not True
+                    or not isinstance(pairs, list)
+                    or len(pairs) != len(seeds)
+                ):
+                    problems.append("P6 verifier favorable contrast row drift")
+                    continue
+                for expected_seed, pair in zip(seeds, pairs, strict=True):
+                    if not isinstance(pair, dict):
+                        problems.append("P6 verifier paired seed row invalid")
+                        continue
+                    retention_delta = pair.get("retention_delta")
+                    future_delta = pair.get("future_first_window_delta")
+                    if (
+                        pair.get("seed") != expected_seed
+                        or pair.get("tie_is_null") is not False
+                        or pair.get("nonpositive_is_null") is not False
+                        or not isinstance(retention_delta, (int, float))
+                        or isinstance(retention_delta, bool)
+                        or not math.isfinite(retention_delta)
+                        or retention_delta <= 0
+                        or not isinstance(future_delta, (int, float))
+                        or isinstance(future_delta, bool)
+                        or not math.isfinite(future_delta)
+                        or future_delta <= 0
+                    ):
+                        problems.append("P6 verifier paired seed favorable non-tie drift")
+            if observed_coordinates != expected_coordinates:
+                problems.append("P6 verifier paired contrast coordinates drift")
+
+        mutation_suite = payload.get("mutation_suite")
+        mutation_rows = mutation_suite.get("mutations") if isinstance(mutation_suite, dict) else None
+        if (
+            not isinstance(mutation_suite, dict)
+            or mutation_suite.get("count") != 12
+            or mutation_suite.get("rejected") != 12
+            or mutation_suite.get("all_rejected") is not True
+            or not isinstance(mutation_rows, list)
+            or len(mutation_rows) != 12
+            or len(
+                {
+                    row.get("mutation")
+                    for row in mutation_rows
+                    if isinstance(row, dict) and isinstance(row.get("mutation"), str)
+                }
+            )
+            != 12
+            or any(
+                not isinstance(row, dict)
+                or row.get("rejected") is not True
+                or not isinstance(row.get("problems"), list)
+                or not row["problems"]
+                for row in mutation_rows or []
+            )
+        ):
+            problems.append("P6 verifier mutation suite authority drift")
+
+        next_rung = {10_000: 100_000, 100_000: 1_000_000}.get(source_rung)
+        prerequisite = payload.get("prerequisite")
+        next_allowed = next_rung is not None
+        expected_prerequisite = {
+            "source_rung": source_rung,
+            "source_rung_file_sha256": _sha256_file(source_path),
+            "source_identity_sha256": source.get("identity_sha256"),
+            "verification_complete": True,
+            "valid_controls": True,
+            "tie_is_null": True,
+            "mutation_suite_all_rejected": True,
+            "next_rung": next_rung,
+            "next_rung_allowed": next_allowed,
+            "next_rung_reason": (
+                "strict favorable programmatic pattern requires the next scale confirmation"
+                if next_allowed
+                else "verified tie, null, invalid evidence, or final rung does not admit scaling"
+            ),
+        }
+        if prerequisite != expected_prerequisite:
+            problems.append("P6 verifier next-rung prerequisite join drift")
+
+        canonical = build_p6_verification_receipt(source_path, repo_root=evidence_root)
+        if payload != canonical:
+            problems.append("P6 verifier semantic canonical rebuild drift")
+    except (KeyError, OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+        problems.append(f"P6 verifier authority invalid: {exc}")
+    return problems
+
+
 def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
     policy_path = Path(path).resolve()
     raw = yaml.safe_load(policy_path.read_text())
@@ -371,6 +2787,8 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
     for name in ("first_lane", "second_lane"):
         if not isinstance(thresholds.get(name), dict):
             problems.append(f"thresholds.{name} must be a mapping")
+    if "p5_context_fresh_challenge.py" not in monitor.get("known_heavy_markers", []):
+        problems.append("monitor.known_heavy_markers must include the P5 fresh challenge")
     tasks_raw = raw.get("tasks")
     if not isinstance(tasks_raw, dict) or not tasks_raw:
         problems.append("tasks must be a non-empty mapping")
@@ -401,14 +2819,46 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
         for key, values in order_raw.items()
         if isinstance(values, list)
     }
-    expected_p5_order = ("p5smoke_cpu", "p5_traingrid_memory_probe_cpu", "p5pilot_cpu")
+    expected_p5_order = (
+        "p5smoke_cpu",
+        "p5_traingrid_memory_probe_cpu",
+        "p5pilot_cpu",
+        "p5fresh_challenge_cpu",
+        "p5verify_cpu",
+    )
     if execution_order.get("p5_cpu") != expected_p5_order:
         problems.append(f"execution_order.p5_cpu must be {list(expected_p5_order)}")
+    expected_p5_pilot_null_order = (
+        "p5smoke_cpu",
+        "p5_traingrid_memory_probe_cpu",
+        "p5pilot_cpu",
+        "p5verify_pilot_null_cpu",
+    )
+    if execution_order.get("p5_pilot_null_cpu") != expected_p5_pilot_null_order:
+        problems.append(f"execution_order.p5_pilot_null_cpu must be {list(expected_p5_pilot_null_order)}")
+    expected_p5_terminal_order = (
+        "p5smoke_cpu",
+        "p5verify_smoke_null_cpu",
+    )
+    if execution_order.get("p5_terminal_null_cpu") != expected_p5_terminal_order:
+        problems.append(f"execution_order.p5_terminal_null_cpu must be {list(expected_p5_terminal_order)}")
+    expected_p5_dependencies = {
+        expected_p5_order[0]: (),
+        expected_p5_order[1]: (expected_p5_order[0],),
+        expected_p5_order[2]: (expected_p5_order[1],),
+        expected_p5_order[3]: (expected_p5_order[2],),
+        expected_p5_order[4]: (expected_p5_order[3],),
+        expected_p5_pilot_null_order[3]: (expected_p5_pilot_null_order[2],),
+        expected_p5_terminal_order[1]: (expected_p5_terminal_order[0],),
+    }
     expected_p6_order = (
         "p6_10k_resource_probe_cpu",
         "p6_10k_replication_cpu",
+        "p6_10k_verify_cpu",
         "p6_100k_replication_cpu",
+        "p6_100k_verify_cpu",
         "p6_1m_replication_cpu",
+        "p6_1m_verify_cpu",
     )
     if execution_order.get("p6_cpu") != expected_p6_order:
         problems.append(f"execution_order.p6_cpu must be {list(expected_p6_order)}")
@@ -417,6 +2867,9 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
         expected_p6_order[1]: (expected_p6_order[0],),
         expected_p6_order[2]: (expected_p6_order[1],),
         expected_p6_order[3]: (expected_p6_order[2],),
+        expected_p6_order[4]: (expected_p6_order[3],),
+        expected_p6_order[5]: (expected_p6_order[4],),
+        expected_p6_order[6]: (expected_p6_order[5],),
     }
     for sequence, task_ids in execution_order.items():
         missing_tasks = [task_id for task_id in task_ids if task_id not in tasks]
@@ -440,10 +2893,22 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
                 problems.append(
                     f"task {task_id}: dependency {dependency!r} must precede it in one execution_order"
                 )
+        if _requires_completion_provenance(task):
+            try:
+                output_path = _task_output_path(task)
+            except ThrottleRefused as exc:
+                problems.append(str(exc))
+                output_path = None
+            if output_path is None or output_path not in task.checkpoint_globs:
+                problems.append(f"task {task_id}: every P5/P6 output must be in checkpoint_globs")
     for task_id, expected_dependencies in expected_p6_dependencies.items():
         p6_task = tasks.get(task_id)
         if p6_task is not None and p6_task.depends_on != expected_dependencies:
             problems.append(f"task {task_id}: P6 dependency chain drifted")
+    for task_id, expected_dependencies in expected_p5_dependencies.items():
+        p5_task = tasks.get(task_id)
+        if p5_task is not None and p5_task.depends_on != expected_dependencies:
+            problems.append(f"task {task_id}: P5 dependency chain drifted")
     expected_commands: dict[str, tuple[str, ...]] = {
         "p4_resume_cpu": (
             ".venv/bin/python",
@@ -503,6 +2968,52 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             "--out",
             "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
         ),
+        "p5fresh_challenge_cpu": (
+            ".venv/bin/python",
+            "scripts/p5_context_fresh_challenge.py",
+            "--primary",
+            "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+            "--primary-run-dir",
+            "runs/p5_context/p5pilot",
+            "--run-dir",
+            "runs/p5_context/fresh_challenge",
+            "--out",
+            "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+            "--device",
+            "cpu",
+        ),
+        "p5verify_cpu": (
+            ".venv/bin/python",
+            "scripts/verify_p5_context_capability.py",
+            "--primary",
+            "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+            "--primary-run-dir",
+            "runs/p5_context/p5pilot",
+            "--fresh-challenge",
+            "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+            "--out",
+            "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+        ),
+        "p5verify_pilot_null_cpu": (
+            ".venv/bin/python",
+            "scripts/verify_p5_context_capability.py",
+            "--primary",
+            "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+            "--primary-run-dir",
+            "runs/p5_context/p5pilot",
+            "--out",
+            "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+        ),
+        "p5verify_smoke_null_cpu": (
+            ".venv/bin/python",
+            "scripts/verify_p5_context_capability.py",
+            "--primary",
+            "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+            "--primary-run-dir",
+            "runs/p5_context/p5smoke",
+            "--out",
+            "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+        ),
         "p6_10k_resource_probe_cpu": (
             ".venv/bin/python",
             "scripts/continual_million_event_rung.py",
@@ -534,6 +3045,14 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             "--out",
             "proof/P6_CONTINUAL_10K.json",
         ),
+        "p6_10k_verify_cpu": (
+            ".venv/bin/python",
+            "scripts/verify_continual_million_event_rung.py",
+            "--source",
+            "proof/P6_CONTINUAL_10K.json",
+            "--out",
+            "proof/P6_CONTINUAL_10K_INDEPENDENT_VERIFICATION.json",
+        ),
         "p6_100k_replication_cpu": (
             ".venv/bin/python",
             "scripts/continual_million_event_rung.py",
@@ -545,6 +3064,14 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             "runs/continual_million_event/rung_100000",
             "--out",
             "proof/P6_CONTINUAL_100K.json",
+        ),
+        "p6_100k_verify_cpu": (
+            ".venv/bin/python",
+            "scripts/verify_continual_million_event_rung.py",
+            "--source",
+            "proof/P6_CONTINUAL_100K.json",
+            "--out",
+            "proof/P6_CONTINUAL_100K_INDEPENDENT_VERIFICATION.json",
         ),
         "p6_1m_replication_cpu": (
             ".venv/bin/python",
@@ -558,6 +3085,14 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             "--out",
             "proof/P6_CONTINUAL_1M.json",
         ),
+        "p6_1m_verify_cpu": (
+            ".venv/bin/python",
+            "scripts/verify_continual_million_event_rung.py",
+            "--source",
+            "proof/P6_CONTINUAL_1M.json",
+            "--out",
+            "proof/P6_CONTINUAL_1M_INDEPENDENT_VERIFICATION.json",
+        ),
     }
     for task_id, expected in expected_commands.items():
         canonical_task = tasks.get(task_id)
@@ -565,10 +3100,218 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             problems.append(f"required canonical task {task_id} is missing")
         elif canonical_task.command != expected:
             problems.append(f"task {task_id}: canonical command drifted")
-    for task_id in ("p4_resume_cpu", "p4_resume_mps", "p5smoke_cpu", "p5pilot_cpu"):
+    for task_id in (
+        "p4_resume_cpu",
+        "p4_resume_mps",
+        "p5smoke_cpu",
+        "p5pilot_cpu",
+        "p5fresh_challenge_cpu",
+    ):
         canonical_task = tasks.get(task_id)
         if canonical_task is not None and canonical_task.restart_exit_codes != (2,):
             problems.append(f"task {task_id}: exit code 2 must remain the resume boundary")
+    p5_smoke_fields = {
+        "profile": "p5smoke",
+        "complete": True,
+        "all_ok": True,
+        "resumable": False,
+        "execution_status": "complete",
+        "terminal_scientific_stop": False,
+        "terminal_stop_reason": None,
+        "trainability_gate_failed": False,
+        "fresh_challenge_required": False,
+        "promotion.confirmatory_promotable": False,
+    }
+    p5_terminal_smoke_fields = {
+        "profile": "p5smoke",
+        "complete": True,
+        "all_ok": True,
+        "resumable": False,
+        "execution_status": "terminal-scientific-null",
+        "terminal_scientific_stop": True,
+        "terminal_stop_reason": "f64-trainability-gate-null",
+        "trainability_gate_failed": True,
+        "fresh_challenge_required": False,
+        "promotion.confirmatory_promotable": False,
+    }
+    p5_grid_fields = {
+        "all_ok": True,
+        "claim_boundary.mechanics_only": True,
+        "config.repeats": 3,
+        "config.seed": 0,
+        "atomic_progress.completed_rows": 72,
+    }
+    p5_pilot_fields = {
+        "profile": "p5pilot",
+        "complete": True,
+        "all_ok": True,
+        "resumable": False,
+        "promotion.confirmatory_promotable": False,
+    }
+    p5_challenge_pilot_fields = {
+        **p5_pilot_fields,
+        "fresh_challenge_required": True,
+    }
+    p5_null_pilot_fields = {
+        **p5_pilot_fields,
+        "fresh_challenge_required": False,
+    }
+    p5_challenge_fields = {
+        "complete": True,
+        "all_ok": True,
+        "verification_ready": True,
+        "resumable": False,
+        "problems": [],
+        "fresh_seeds_disjoint_from_primary": True,
+        "promotion.confirmatory_promotable": False,
+        "scientific_promotion": False,
+    }
+    expected_p5_requirements = {
+        "p5_traingrid_memory_probe_cpu": (
+            ("proof/P5_CONTEXT_CAPABILITY_SMOKE.json", "mop-p5-context-screen/v1", p5_smoke_fields),
+        ),
+        "p5pilot_cpu": (
+            ("proof/P5_CONTEXT_CAPABILITY_SMOKE.json", "mop-p5-context-screen/v1", p5_smoke_fields),
+            (
+                "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+                "mop-p5-traingrid-memory-trace/v1",
+                p5_grid_fields,
+            ),
+        ),
+        "p5fresh_challenge_cpu": (
+            ("proof/P5_CONTEXT_CAPABILITY_SMOKE.json", P5_SCREEN_SCHEMA, p5_smoke_fields),
+            ("proof/P5_TRAINGRID_MEMORY_TRACE.json", P5_GRID_SCHEMA, p5_grid_fields),
+            (
+                "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+                P5_SCREEN_SCHEMA,
+                p5_challenge_pilot_fields,
+            ),
+        ),
+        "p5verify_cpu": (
+            ("proof/P5_CONTEXT_CAPABILITY_SMOKE.json", P5_SCREEN_SCHEMA, p5_smoke_fields),
+            ("proof/P5_TRAINGRID_MEMORY_TRACE.json", P5_GRID_SCHEMA, p5_grid_fields),
+            (
+                "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+                P5_SCREEN_SCHEMA,
+                p5_challenge_pilot_fields,
+            ),
+            (
+                "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+                P5_CHALLENGE_SCHEMA,
+                p5_challenge_fields,
+            ),
+        ),
+        "p5verify_pilot_null_cpu": (
+            ("proof/P5_CONTEXT_CAPABILITY_SMOKE.json", P5_SCREEN_SCHEMA, p5_smoke_fields),
+            ("proof/P5_TRAINGRID_MEMORY_TRACE.json", P5_GRID_SCHEMA, p5_grid_fields),
+            (
+                "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+                P5_SCREEN_SCHEMA,
+                p5_null_pilot_fields,
+            ),
+        ),
+        "p5verify_smoke_null_cpu": (
+            (
+                "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+                P5_SCREEN_SCHEMA,
+                p5_terminal_smoke_fields,
+            ),
+        ),
+    }
+    for task_id, expected_requirements in expected_p5_requirements.items():
+        p5_task = tasks.get(task_id)
+        if p5_task is None:
+            continue
+        observed_requirements = tuple(
+            (requirement.path, requirement.schema, dict(requirement.fields))
+            for requirement in p5_task.prerequisites
+        )
+        if observed_requirements != expected_requirements:
+            problems.append(f"task {task_id}: exact P5 completion prerequisites drifted")
+    expected_p5_checkpoint_globs = {
+        "p5smoke_cpu": (
+            "runs/p5_context/p5smoke/frames/f*/seed_*/*/checkpoint.pt",
+            "runs/p5_context/p5smoke/frames/f*/seed_*/*/arm_receipt.json",
+            "runs/p5_context/p5smoke/frames/f*/seed_*/seed_result.json",
+            "runs/p5_context/p5smoke/frames/f*/cell_receipt.json",
+            "runs/p5_context/p5smoke/p5_context_receipt.json",
+            "runs/p5_context/p5smoke/resolved_config.json",
+            "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+        ),
+        "p5pilot_cpu": (
+            "runs/p5_context/p5pilot/frames/f*/seed_*/*/checkpoint.pt",
+            "runs/p5_context/p5pilot/frames/f*/seed_*/*/arm_receipt.json",
+            "runs/p5_context/p5pilot/frames/f*/seed_*/seed_result.json",
+            "runs/p5_context/p5pilot/frames/f*/cell_receipt.json",
+            "runs/p5_context/p5pilot/p5_context_receipt.json",
+            "runs/p5_context/p5pilot/resolved_config.json",
+            "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+        ),
+        "p5fresh_challenge_cpu": (
+            "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/*/checkpoint.pt",
+            "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/*/arm_receipt.json",
+            "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/seed_result.json",
+            "runs/p5_context/fresh_challenge/seed_*/frames/f*/cell_receipt.json",
+            "runs/p5_context/fresh_challenge/seed_*/p5_context_receipt.json",
+            "runs/p5_context/fresh_challenge/seed_*/resolved_config.json",
+            "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        ),
+    }
+    for task_id, expected_globs in expected_p5_checkpoint_globs.items():
+        p5_task = tasks.get(task_id)
+        if p5_task is not None and p5_task.checkpoint_globs != expected_globs:
+            problems.append(f"task {task_id}: P5 checkpoint globs drifted")
+    p5_challenge = tasks.get("p5fresh_challenge_cpu")
+    if p5_challenge is not None and (
+        p5_challenge.lane != "heavy"
+        or p5_challenge.cpu_cores != 10
+        or p5_challenge.estimated_unified_memory_gb != 10.0
+        or p5_challenge.forecast_write_gb != 8.0
+        or not p5_challenge.pause_safe
+    ):
+        problems.append("task p5fresh_challenge_cpu: resource and resume contract drifted")
+    for task_id in (
+        "p5verify_cpu",
+        "p5verify_pilot_null_cpu",
+        "p5verify_smoke_null_cpu",
+    ):
+        p5_verifier = tasks.get(task_id)
+        if p5_verifier is not None and (
+            p5_verifier.lane != "light"
+            or p5_verifier.accelerator != "none"
+            or p5_verifier.cpu_cores != 2
+            or p5_verifier.estimated_unified_memory_gb != 2.0
+            or p5_verifier.pause_safe
+            or not p5_verifier.atomic_checkpoints
+            or p5_verifier.checkpoint_globs != ("proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",)
+            or p5_verifier.restart_exit_codes
+        ):
+            problems.append(f"task {task_id}: P5 verifier resource contract drifted")
+    p6_probe = tasks.get("p6_10k_resource_probe_cpu")
+    p5_verification_fields = {
+        "verification_complete": True,
+        "all_ok": True,
+        "prerequisite_ready": True,
+        "problems": [],
+        "all_controls_passed": True,
+        "all_mutations_rejected": True,
+        "controls.seed_arm_checkpoint_artifacts_exactly_joined": True,
+        "controls.nonterminal_outcome_has_off_ceiling_multiunit_support": True,
+        "controls.threshold_tie_is_null": True,
+        "independence.checkpoint_files_opened_with_weights_only": True,
+        "independence.checkpoint_model_and_target_state_hashes_recomputed": True,
+        "independence.heldout_metrics_reexecuted_from_checkpoint": False,
+        "outcome_contract.tie_is_null": True,
+        "promotion.confirmatory_promotable": False,
+        "scientific_promotion": False,
+    }
+    if p6_probe is not None and not any(
+        requirement.path == "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
+        and requirement.schema == "mop-p5-context-independent-verifier/v1"
+        and dict(requirement.fields) == p5_verification_fields
+        for requirement in p6_probe.prerequisites
+    ):
+        problems.append("task p6_10k_resource_probe_cpu: P5 verification prerequisite drifted")
     try:
         p6_evidence = _p6_resource_evidence()
     except (OSError, ValueError, json.JSONDecodeError, ThrottleRefused) as exc:
@@ -598,6 +3341,11 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             "runs/continual_million_event/rung_1000000",
             "proof/P6_CONTINUAL_1M.json",
         ),
+    }
+    p6_verifier_outputs = {
+        "p6_10k_verify_cpu": "proof/P6_CONTINUAL_10K_INDEPENDENT_VERIFICATION.json",
+        "p6_100k_verify_cpu": "proof/P6_CONTINUAL_100K_INDEPENDENT_VERIFICATION.json",
+        "p6_1m_verify_cpu": "proof/P6_CONTINUAL_1M_INDEPENDENT_VERIFICATION.json",
     }
     if p6_evidence is not None:
         runner_sha256 = _sha256_file(REPO_ROOT / "scripts/continual_million_event_rung.py")
@@ -631,6 +3379,8 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
                     "identity.config_sha256": p6_evidence["config_sha256"],
                     "identity.runner_sha256": runner_sha256,
                     "identity.source_preflight_file_sha256": p6_evidence["preflight_file_sha256"],
+                    "identity.source_preflight_payload_sha256": p6_evidence["preflight_payload_sha256"],
+                    "identity.source_live_bindings_sha256": p6_evidence["preflight_live_bindings_sha256"],
                 }
                 if not any(
                     all(
@@ -642,6 +3392,32 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
                     problems.append(
                         f"task {task_id}: prerequisite must bind runner, config, and source hashes"
                     )
+        expected_verifier_atomic = _p6_verifier_atomic_write_projection(
+            p6_evidence,
+            seeds=5,
+            schedules=2,
+            arms=3,
+        )
+        for task_id, output_path in p6_verifier_outputs.items():
+            verifier_task = tasks.get(task_id)
+            if verifier_task is None:
+                continue
+            if (
+                verifier_task.lane != "cpu"
+                or verifier_task.accelerator != "none"
+                or verifier_task.cpu_cores != 1
+                or verifier_task.pause_safe
+                or not verifier_task.atomic_checkpoints
+            ):
+                problems.append(f"task {task_id}: P6 verifier resource contract drifted")
+            if verifier_task.checkpoint_globs != (output_path,):
+                problems.append(f"task {task_id}: verifier output checkpoint glob drifted")
+            if not math.isclose(
+                verifier_task.atomic_write_gb,
+                expected_verifier_atomic,
+                abs_tol=1e-12,
+            ):
+                problems.append(f"task {task_id}: verifier atomic write projection drifted")
     if (
         tasks.get("p6_10k_resource_probe_cpu") is not None
         and not tasks["p6_10k_resource_probe_cpu"].resource_probe
@@ -673,6 +3449,98 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             or dependent_task.resource_receipt_rung != rung
         ):
             problems.append(f"task {task_id}: resource receipt dependency drifted")
+    if p6_evidence is not None:
+        live_identity_fields = {
+            "identity.config_sha256": p6_evidence["config_sha256"],
+            "identity.runner_sha256": _sha256_file(REPO_ROOT / "scripts/continual_million_event_rung.py"),
+            "identity.source_preflight_file_sha256": p6_evidence["preflight_file_sha256"],
+            "identity.source_preflight_payload_sha256": p6_evidence["preflight_payload_sha256"],
+            "identity.source_live_bindings_sha256": p6_evidence["preflight_live_bindings_sha256"],
+        }
+
+        def rung_requirement_fields(mode: str, rung: int) -> dict[str, Any]:
+            cell_count = 1 if mode == "resource-probe" else 30
+            fields: dict[str, Any] = {
+                "mode": mode,
+                "rung": rung,
+                "all_mechanics_ok": True,
+                "replication_execution_complete": mode == "replication",
+                "independent_metric_verifier_complete": False,
+                "scientific_promotion": False,
+                "progress.completed_cells": cell_count,
+                "progress.expected_cells": cell_count,
+                **live_identity_fields,
+            }
+            if mode == "resource-probe":
+                fields["resource_measurement.measured_after_complete"] = True
+            return fields
+
+        p6_source_requirements = {
+            "p6_10k_replication_cpu": (
+                "proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json",
+                "resource-probe",
+                10_000,
+            ),
+            "p6_10k_verify_cpu": ("proof/P6_CONTINUAL_10K.json", "replication", 10_000),
+            "p6_100k_replication_cpu": (
+                "proof/P6_CONTINUAL_10K.json",
+                "replication",
+                10_000,
+            ),
+            "p6_100k_verify_cpu": (
+                "proof/P6_CONTINUAL_100K.json",
+                "replication",
+                100_000,
+            ),
+            "p6_1m_replication_cpu": (
+                "proof/P6_CONTINUAL_100K.json",
+                "replication",
+                100_000,
+            ),
+            "p6_1m_verify_cpu": (
+                "proof/P6_CONTINUAL_1M.json",
+                "replication",
+                1_000_000,
+            ),
+        }
+        for task_id, (path, mode, rung) in p6_source_requirements.items():
+            p6_task = tasks.get(task_id)
+            if p6_task is None:
+                continue
+            matches = [
+                requirement
+                for requirement in p6_task.prerequisites
+                if requirement.path == path and requirement.schema == P6_RUNG_SCHEMA
+            ]
+            expected_fields = rung_requirement_fields(mode, rung)
+            if len(matches) != 1 or dict(matches[0].fields) != expected_fields:
+                problems.append(f"task {task_id}: exact live-bound P6 rung prerequisite drifted")
+
+        p6_next_rung_verifiers = {
+            "p6_100k_replication_cpu": (
+                "proof/P6_CONTINUAL_10K_INDEPENDENT_VERIFICATION.json",
+                10_000,
+                100_000,
+            ),
+            "p6_1m_replication_cpu": (
+                "proof/P6_CONTINUAL_100K_INDEPENDENT_VERIFICATION.json",
+                100_000,
+                1_000_000,
+            ),
+        }
+        for task_id, (path, source_rung, next_rung) in p6_next_rung_verifiers.items():
+            dependent_task = tasks.get(task_id)
+            if dependent_task is None:
+                continue
+            matches = [
+                requirement
+                for requirement in dependent_task.prerequisites
+                if requirement.path == path and requirement.schema == P6_VERIFIER_SCHEMA
+            ]
+            if len(matches) != 1 or dict(matches[0].fields) != _p6_verifier_required_fields(
+                source_rung, next_rung
+            ):
+                problems.append(f"task {task_id}: exact favorable independent verifier prerequisite drifted")
     if problems:
         raise ThrottleRefused("; ".join(problems))
     return ThrottlePolicy(
@@ -952,9 +3820,211 @@ def _dotted_value(payload: Any, dotted: str) -> Any:
     return value
 
 
+def _producer_tasks_for_receipt(
+    receipt_path: str,
+    payload: dict[str, Any],
+    policy: ThrottlePolicy,
+) -> list[TaskDeclaration]:
+    candidates = [
+        task
+        for task in policy.tasks.values()
+        if _requires_completion_provenance(task) and _task_output_path(task) == receipt_path
+    ]
+    if receipt_path == "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json":
+        primary_path = _dotted_value(payload, "primary_receipt.path")
+        if primary_path == "proof/P5_CONTEXT_CAPABILITY_SMOKE.json":
+            expected_task = "p5verify_smoke_null_cpu"
+        elif primary_path == "proof/P5_CONTEXT_CAPABILITY_PILOT.json":
+            expected_task = (
+                "p5verify_cpu"
+                if payload.get("fresh_challenge_required") is True
+                else "p5verify_pilot_null_cpu"
+            )
+        else:
+            expected_task = None
+        candidates = [task for task in candidates if task.task_id == expected_task]
+    return candidates
+
+
+def _completion_receipt_problems(
+    receipt: dict[str, Any],
+    *,
+    receipt_path: Path,
+    task: TaskDeclaration,
+    output_path: str,
+    policy: ThrottlePolicy,
+    evidence_root: Path,
+) -> list[str]:
+    problems: list[str] = []
+    core = dict(receipt)
+    declared_digest = core.pop("payload_sha256", None)
+    if not _is_sha256(declared_digest) or _canonical_sha256(core) != declared_digest:
+        problems.append("governor run receipt self seal drift")
+    expected_task = _json_value(asdict(task))
+    expected_command = list(task.command)
+    expected_command_sha = _command_sha256(task.command)
+    expected_policy = {"path": str(policy.path), "sha256": policy.sha256}
+    expected_implementation = {
+        "path": str(IMPLEMENTATION_PATH.relative_to(REPO_ROOT)),
+        "sha256": _sha256_file(IMPLEMENTATION_PATH),
+    }
+    if receipt.get("schema") != RECEIPT_SCHEMA or receipt.get("mode") != "execute":
+        problems.append("governor run receipt schema or mode drift")
+    if (
+        receipt.get("status") != "complete"
+        or receipt.get("command_executed") is not True
+        or receipt.get("final_returncode") != 0
+    ):
+        problems.append("governor run did not complete with return code zero")
+    if receipt.get("policy") != expected_policy:
+        problems.append("governor run current policy binding drift")
+    if receipt.get("implementation") != expected_implementation:
+        problems.append("governor run current implementation binding drift")
+    if receipt.get("task") != expected_task:
+        problems.append("governor run exact task declaration drift")
+    invocations = receipt.get("invocations")
+    if not isinstance(invocations, list) or not invocations:
+        problems.append("governor run has no completed invocation")
+    else:
+        for invocation in invocations:
+            if (
+                not isinstance(invocation, dict)
+                or invocation.get("command") != expected_command
+                or invocation.get("command_sha256") != expected_command_sha
+            ):
+                problems.append("governor run exact invocation command drift")
+                break
+        final_invocation = invocations[-1] if isinstance(invocations[-1], dict) else {}
+        if final_invocation.get("returncode") != 0:
+            problems.append("governor final invocation did not return zero")
+
+    output_file = (evidence_root / output_path).resolve()
+    output_sha = _sha256_file(output_file) if output_file.is_file() else None
+    if not output_file.is_relative_to(evidence_root.resolve()) or output_sha is None:
+        problems.append("governor bound output is missing or escapes the evidence root")
+    current_snapshot = checkpoint_snapshot(task, evidence_root)
+    final_checkpoint = receipt.get("final_checkpoint")
+    if final_checkpoint != current_snapshot:
+        problems.append("governor final checkpoint snapshot is stale")
+    output_rows = [
+        row for row in current_snapshot["files"] if isinstance(row, dict) and row.get("path") == output_path
+    ]
+    if len(output_rows) != 1 or output_rows[0].get("sha256") != output_sha:
+        problems.append("governor output is absent from the final checkpoint authority")
+
+    completion = receipt.get("completion_authority")
+    child_resource = completion.get("child_resource") if isinstance(completion, dict) else None
+    if not isinstance(completion, dict) or (
+        completion.get("schema") != COMPLETION_AUTHORITY_SCHEMA
+        or completion.get("task_id") != task.task_id
+        or completion.get("task") != expected_task
+        or completion.get("command") != expected_command
+        or completion.get("command_sha256") != expected_command_sha
+        or completion.get("policy") != expected_policy
+        or completion.get("implementation") != expected_implementation
+        or completion.get("returncode") != 0
+        or completion.get("output") != {"path": output_path, "sha256": output_sha}
+        or completion.get("final_checkpoint_aggregate_sha256") != current_snapshot["aggregate_sha256"]
+        or completion.get("owned_child_active") is not False
+    ):
+        problems.append("governor completion authority drift")
+    if not isinstance(child_resource, dict):
+        problems.append("governor child resource authority is missing")
+    else:
+        psutil_peak = child_resource.get("psutil_peak_rss_bytes")
+        rusage_peak = child_resource.get("direct_child_rusage_peak_rss_bytes")
+        peak = child_resource.get("peak_rss_bytes")
+        if (
+            not isinstance(psutil_peak, int)
+            or isinstance(psutil_peak, bool)
+            or psutil_peak < 0
+            or not isinstance(rusage_peak, int)
+            or isinstance(rusage_peak, bool)
+            or rusage_peak < 0
+            or not isinstance(peak, int)
+            or isinstance(peak, bool)
+            or peak <= 0
+            or peak != max(psutil_peak, rusage_peak)
+        ):
+            problems.append("governor child peak RSS authority is invalid")
+
+    state_root = receipt_path.parents[1]
+    try:
+        if any(row.get("run_id") == receipt.get("run_id") for row in active_lanes(state_root)):
+            problems.append("governor run still has an active owned child")
+    except ThrottleRefused as exc:
+        problems.append(f"governor active registry is invalid: {exc}")
+    return problems
+
+
+def _governor_provenance_report(
+    receipt_path: str,
+    payload: dict[str, Any],
+    policy: ThrottlePolicy,
+    evidence_root: Path,
+) -> dict[str, Any]:
+    producers = _producer_tasks_for_receipt(receipt_path, payload, policy)
+    problems: list[str] = []
+    if len(producers) != 1:
+        problems.append(
+            f"receipt maps to {len(producers)} canonical P5/P6 producer tasks, expected exactly one"
+        )
+        return {
+            "all_ok": False,
+            "producer_task_id": None,
+            "run_receipt": None,
+            "governor_peak_rss_bytes": None,
+            "problems": problems,
+        }
+    task = producers[0]
+    state_root = evidence_root / "runs/local_throttle"
+    reports: list[dict[str, Any]] = []
+    for path in sorted(state_root.glob("*/run_receipt.json")):
+        try:
+            loaded = json.loads(path.read_text())
+            receipt = loaded if isinstance(loaded, dict) else {}
+            receipt_problems = _completion_receipt_problems(
+                receipt,
+                receipt_path=path,
+                task=task,
+                output_path=receipt_path,
+                policy=policy,
+                evidence_root=evidence_root,
+            )
+        except (OSError, json.JSONDecodeError, TypeError, ValueError, ThrottleRefused) as exc:
+            receipt = {}
+            receipt_problems = [f"governor run receipt invalid: {type(exc).__name__}: {exc}"]
+        reports.append(
+            {
+                "path": str(path.relative_to(evidence_root)),
+                "run_id": receipt.get("run_id"),
+                "all_ok": not receipt_problems,
+                "problems": receipt_problems,
+                "governor_peak_rss_bytes": _dotted_value(
+                    receipt, "completion_authority.child_resource.peak_rss_bytes"
+                ),
+            }
+        )
+    valid = [report for report in reports if report["all_ok"]]
+    if not valid:
+        problems.append("no matching successful sealed governor run receipt")
+        problems.extend(
+            f"{report['path']}: {problem}" for report in reports for problem in report["problems"]
+        )
+    selected = valid[-1] if valid else None
+    return {
+        "all_ok": selected is not None,
+        "producer_task_id": task.task_id,
+        "run_receipt": selected["path"] if selected else None,
+        "governor_peak_rss_bytes": selected["governor_peak_rss_bytes"] if selected else None,
+        "problems": problems,
+    }
+
+
 def _receipt_requirement_report(
     requirement: ReceiptRequirement,
     evidence_root: Path,
+    policy: ThrottlePolicy,
 ) -> dict[str, Any]:
     path = (evidence_root / requirement.path).resolve()
     problems: list[str] = []
@@ -971,11 +4041,38 @@ def _receipt_requirement_report(
             problems.append(f"receipt is unreadable: {type(exc).__name__}")
     if payload and payload.get("schema") != requirement.schema:
         problems.append(f"schema {payload.get('schema')!r} != {requirement.schema!r}")
-    if payload and requirement.schema == "mop-continual-progressive-rung/v1":
+    if payload and requirement.schema in PAYLOAD_DIGEST_REQUIRED_SCHEMAS:
         receipt_payload = dict(payload)
         declared_digest = receipt_payload.pop("payload_sha256", None)
         if _canonical_sha256(receipt_payload) != declared_digest:
-            problems.append("progressive continual receipt payload digest drift")
+            problems.append("prerequisite receipt payload digest drift")
+    if payload and requirement.schema in {
+        P5_SCREEN_SCHEMA,
+        P5_GRID_SCHEMA,
+        P5_CHALLENGE_SCHEMA,
+        P5_VERIFIER_SCHEMA,
+    }:
+        problems.extend(_p5_schema_authority_problems(requirement.schema, payload, evidence_root))
+    elif payload and requirement.schema == P6_RUNG_SCHEMA:
+        problems.extend(_p6_rung_authority_problems(payload, evidence_root))
+    elif payload and requirement.schema == P6_VERIFIER_SCHEMA:
+        problems.extend(_p6_verifier_authority_problems(payload, evidence_root))
+    provenance: dict[str, Any] | None = None
+    if payload and requirement.schema in {
+        P5_SCREEN_SCHEMA,
+        P5_GRID_SCHEMA,
+        P5_CHALLENGE_SCHEMA,
+        P5_VERIFIER_SCHEMA,
+        P6_RUNG_SCHEMA,
+        P6_VERIFIER_SCHEMA,
+    }:
+        provenance = _governor_provenance_report(
+            requirement.path,
+            payload,
+            policy,
+            evidence_root,
+        )
+        problems.extend(provenance["problems"])
     observations: dict[str, Any] = {}
     for field, expected in requirement.fields:
         observed = _dotted_value(payload, field)
@@ -987,6 +4084,7 @@ def _receipt_requirement_report(
         "schema": payload.get("schema"),
         "sha256": _sha256_file(path) if path.is_file() else None,
         "observations": observations,
+        "governor_provenance": provenance,
         "problems": problems,
         "all_ok": not problems,
     }
@@ -1030,17 +4128,45 @@ def _task_resource_memory(
         declared_digest = receipt_payload.pop("payload_sha256", None)
         if _canonical_sha256(receipt_payload) != declared_digest:
             problems.append("resource receipt payload digest drift")
+        problems.extend(_p6_rung_authority_problems(payload, evidence_root))
     if payload and payload.get("rung") != task.resource_receipt_rung:
         problems.append("resource receipt rung drift")
     if payload and payload.get("all_mechanics_ok") is not True:
         problems.append("resource receipt mechanics did not complete")
     measurement = payload.get("resource_measurement") if isinstance(payload, dict) else None
-    rss_bytes = measurement.get("max_rss_bytes") if isinstance(measurement, dict) else None
-    if not isinstance(rss_bytes, int) or rss_bytes <= 0:
-        problems.append("resource receipt lacks a positive measured max_rss_bytes")
-        rss_bytes = 0
+    runner_rss_bytes = measurement.get("max_rss_bytes") if isinstance(measurement, dict) else None
+    if (
+        not isinstance(runner_rss_bytes, int)
+        or isinstance(runner_rss_bytes, bool)
+        or runner_rss_bytes < P6_MINIMUM_SANE_RSS_BYTES
+    ):
+        problems.append(
+            f"resource receipt max_rss_bytes is below the {P6_MINIMUM_SANE_RSS_BYTES}-byte sanity floor"
+        )
+        runner_rss_bytes = 0
     if isinstance(measurement, dict) and measurement.get("measured_after_complete") is not True:
         problems.append("resource receipt was not measured after a complete rung/probe")
+    provenance: dict[str, Any] = (
+        _governor_provenance_report(str(task.resource_receipt_path), payload, policy, evidence_root)
+        if payload
+        else {
+            "all_ok": False,
+            "producer_task_id": None,
+            "run_receipt": None,
+            "governor_peak_rss_bytes": None,
+            "problems": ["resource receipt has no governor provenance candidate"],
+        }
+    )
+    problems.extend(provenance["problems"])
+    governor_rss_bytes = provenance.get("governor_peak_rss_bytes")
+    if (
+        not isinstance(governor_rss_bytes, int)
+        or isinstance(governor_rss_bytes, bool)
+        or governor_rss_bytes <= 0
+    ):
+        problems.append("resource receipt governor peak RSS is missing")
+        governor_rss_bytes = 0
+    rss_bytes = max(runner_rss_bytes, governor_rss_bytes)
     uncertainty = float(policy.limits["forecast_uncertainty_fraction"])
     effective = rss_bytes / 1e9 * (1.0 + uncertainty)
     return effective, {
@@ -1048,7 +4174,10 @@ def _task_resource_memory(
         "path": str(task.resource_receipt_path),
         "schema": payload.get("schema"),
         "rung": payload.get("rung"),
+        "runner_max_rss_bytes": runner_rss_bytes or None,
+        "governor_max_rss_bytes": governor_rss_bytes or None,
         "max_rss_bytes": rss_bytes or None,
+        "governor_provenance": provenance,
         "uncertainty_fraction": uncertainty,
         "effective_unified_memory_gb": effective if not problems else None,
         "problems": problems,
@@ -1073,7 +4202,7 @@ def evaluate_task(
     missing = list(telemetry.get("missing_required_telemetry") or [])
     _gate(gates, "required_telemetry", not missing, missing, [], "all required probes must report")
     prerequisite_reports = [
-        _receipt_requirement_report(requirement, evidence_path) for requirement in task.prerequisites
+        _receipt_requirement_report(requirement, evidence_path, policy) for requirement in task.prerequisites
     ]
     _gate(
         gates,
@@ -1556,7 +4685,7 @@ def dry_run_decision(
             "sha256": _sha256_file(IMPLEMENTATION_PATH),
         },
         "profile": get_profile(policy.profile_name).as_dict(),
-        "task": asdict(task),
+        "task": _json_value(asdict(task)),
         "active_lanes": active,
         "telemetry_samples": snapshots,
         "decisions": decisions,
@@ -1602,9 +4731,10 @@ def _stop_at_wall(
     receipt: dict[str, Any],
     receipt_path: Path,
     grace_seconds: float,
+    evidence_root: Path,
 ) -> int | None:
     _signal_owned_group(process, signal.SIGSTOP)
-    snapshot = checkpoint_snapshot(task)
+    snapshot = checkpoint_snapshot(task, evidence_root)
     _event(
         receipt,
         "wall-boundary-pause",
@@ -1633,6 +4763,36 @@ def _stop_at_wall(
             return None
 
 
+def _stop_non_pause_safe_child(
+    process: subprocess.Popen[Any],
+    receipt: dict[str, Any],
+    receipt_path: Path,
+    grace_seconds: float,
+) -> int | None:
+    """Fail closed when runtime safety requires pausing a task that cannot pause."""
+
+    _signal_owned_group(process, signal.SIGTERM)
+    _event(
+        receipt,
+        "dynamic-safety-stop",
+        child_pid=process.pid,
+        note="non-pause-safe owned child received SIGTERM and cannot receive completion authority",
+    )
+    _atomic_json(receipt_path, receipt)
+    try:
+        return process.wait(timeout=grace_seconds)
+    except subprocess.TimeoutExpired:
+        _signal_owned_group(process, signal.SIGSTOP)
+        _event(
+            receipt,
+            "managed-child-stopped",
+            child_pid=process.pid,
+            reason="non-pause-safe child did not exit after SIGTERM and remains stopped",
+        )
+        _atomic_json(receipt_path, receipt)
+        return None
+
+
 def run_task(
     task: TaskDeclaration,
     policy: ThrottlePolicy,
@@ -1646,6 +4806,7 @@ def run_task(
     if not run_id or not re.fullmatch(r"[A-Za-z0-9_.-]+", run_id):
         raise ThrottleRefused("run_id must contain only letters, digits, dot, underscore, or hyphen")
     root = Path(state_root)
+    evidence_root = Path(disk_root).resolve()
     run_dir = root / run_id
     receipt_path = run_dir / "run_receipt.json"
     logs = run_dir / "logs"
@@ -1659,8 +4820,10 @@ def run_task(
     )
     if not admission_receipt["admission"]["allowed"]:
         admission_receipt["mode"] = "execute-refused"
+        admission_receipt["run_id"] = run_id
+        admission_receipt["status"] = "admission-refused"
         _atomic_json(receipt_path, admission_receipt)
-        raise ThrottleRefused("host admission denied; inspect " + str(receipt_path))
+        return admission_receipt
     receipt: dict[str, Any] = {
         **admission_receipt,
         "mode": "execute",
@@ -1697,6 +4860,9 @@ def run_task(
     bad_count = 0
     last_transition = started
     final_returncode: int | None = None
+    dynamic_safety_stop = False
+    psutil_peak_rss_bytes = 0
+    rusage_peak_rss_bytes = _rusage_children_peak_rss_bytes()
     try:
         while time.monotonic() < deadline:
             invocation += 1
@@ -1723,11 +4889,19 @@ def run_task(
                     "stderr": str(stderr_path),
                 }
                 receipt["invocations"].append(invocation_row)
+                psutil_peak_rss_bytes = max(
+                    psutil_peak_rss_bytes,
+                    _process_tree_rss_bytes(process.pid),
+                )
                 _event(receipt, "invocation-start", index=invocation, child_pid=process.pid)
                 _update_registry(root, run_id, _registry_row(task, run_id, process.pid, "running"))
                 _atomic_json(receipt_path, receipt)
                 while process.poll() is None and time.monotonic() < deadline:
                     time.sleep(max(0.1, float(policy.monitor["sample_interval_seconds"])))
+                    psutil_peak_rss_bytes = max(
+                        psutil_peak_rss_bytes,
+                        _process_tree_rss_bytes(process.pid),
+                    )
                     other_active = [row for row in active_lanes(root) if row.get("run_id") != run_id]
                     telemetry = collect_host_telemetry(
                         policy,
@@ -1756,7 +4930,7 @@ def run_task(
                         _signal_owned_group(process, signal.SIGSTOP)
                         paused = True
                         last_transition = time.monotonic()
-                        checkpoint = checkpoint_snapshot(task)
+                        checkpoint = checkpoint_snapshot(task, evidence_root)
                         _event(
                             receipt,
                             "dynamic-pause",
@@ -1766,14 +4940,15 @@ def run_task(
                         )
                         _update_registry(root, run_id, _registry_row(task, run_id, process.pid, "paused"))
                     elif transition["action"] == "pause":
-                        _event(
+                        dynamic_safety_stop = True
+                        final_returncode = _stop_non_pause_safe_child(
+                            process,
                             receipt,
-                            "pause-required-but-unsupported",
-                            decision=decision,
-                            note=(
-                                "task declaration is not pause-safe; no user or foreign process was signaled"
-                            ),
+                            receipt_path,
+                            float(policy.monitor["graceful_stop_seconds"]),
                         )
+                        receipt["dynamic_safety_decision"] = decision
+                        break
                     elif transition["action"] == "resume" and paused:
                         _signal_owned_group(process, signal.SIGCONT)
                         paused = False
@@ -1793,15 +4968,28 @@ def run_task(
                         receipt,
                         receipt_path,
                         float(policy.monitor["graceful_stop_seconds"]),
+                        evidence_root,
+                    )
+                    rusage_peak_rss_bytes = max(
+                        rusage_peak_rss_bytes,
+                        _rusage_children_peak_rss_bytes(),
                     )
                     invocation_row["returncode"] = final_returncode
                     invocation_row["finished_at"] = datetime.now(UTC).isoformat()
                     receipt["status"] = "resumable-wall-boundary"
                     break
                 final_returncode = process.poll()
+                psutil_peak_rss_bytes = max(
+                    psutil_peak_rss_bytes,
+                    _process_tree_rss_bytes(process.pid),
+                )
+                rusage_peak_rss_bytes = max(
+                    rusage_peak_rss_bytes,
+                    _rusage_children_peak_rss_bytes(),
+                )
                 invocation_row["returncode"] = final_returncode
                 invocation_row["finished_at"] = datetime.now(UTC).isoformat()
-                invocation_row["checkpoint_after"] = checkpoint_snapshot(task)
+                invocation_row["checkpoint_after"] = checkpoint_snapshot(task, evidence_root)
                 _event(
                     receipt,
                     "invocation-exit",
@@ -1809,6 +4997,9 @@ def run_task(
                     returncode=final_returncode,
                 )
                 _atomic_json(receipt_path, receipt)
+            if dynamic_safety_stop:
+                receipt["status"] = "failed-dynamic-safety-stop"
+                break
             if final_returncode == 0:
                 receipt["status"] = "complete"
                 break
@@ -1835,7 +5026,65 @@ def run_task(
         receipt["finished_at"] = datetime.now(UTC).isoformat()
         receipt["wall_seconds"] = time.monotonic() - started
         receipt["final_returncode"] = final_returncode
-        receipt["final_checkpoint"] = checkpoint_snapshot(task)
+        receipt["final_checkpoint"] = checkpoint_snapshot(task, evidence_root)
+        child_peak_rss_bytes = max(psutil_peak_rss_bytes, rusage_peak_rss_bytes)
+        child_resource = {
+            "psutil_peak_rss_bytes": psutil_peak_rss_bytes,
+            "direct_child_rusage_peak_rss_bytes": rusage_peak_rss_bytes,
+            "peak_rss_bytes": child_peak_rss_bytes,
+            "methods": ["psutil-process-tree", "getrusage-RUSAGE_CHILDREN"],
+        }
+        receipt["child_resource"] = child_resource
+        if receipt["status"] == "complete" and _requires_completion_provenance(task):
+            output_path = _task_output_path(task)
+            output_file = (evidence_root / str(output_path)).resolve()
+            output_rows = [
+                row
+                for row in receipt["final_checkpoint"]["files"]
+                if isinstance(row, dict) and row.get("path") == output_path
+            ]
+            completion_problems: list[str] = []
+            if (
+                output_path is None
+                or not output_file.is_relative_to(evidence_root)
+                or not output_file.is_file()
+            ):
+                completion_problems.append("successful task did not publish its declared output")
+            output_sha = _sha256_file(output_file) if output_file.is_file() else None
+            if len(output_rows) != 1 or output_rows[0].get("sha256") != output_sha:
+                completion_problems.append(
+                    "successful task output is absent from its final checkpoint snapshot"
+                )
+            if child_peak_rss_bytes <= 0:
+                completion_problems.append("successful task has no observed child peak RSS")
+            if process is not None and process.poll() is None:
+                completion_problems.append("successful task still has an active owned child")
+            if completion_problems:
+                receipt["status"] = "failed-completion-authority"
+                receipt["completion_problems"] = completion_problems
+            else:
+                expected_policy = {"path": str(policy.path), "sha256": policy.sha256}
+                expected_implementation = {
+                    "path": str(IMPLEMENTATION_PATH.relative_to(REPO_ROOT)),
+                    "sha256": _sha256_file(IMPLEMENTATION_PATH),
+                }
+                receipt["completion_authority"] = {
+                    "schema": COMPLETION_AUTHORITY_SCHEMA,
+                    "task_id": task.task_id,
+                    "task": _json_value(asdict(task)),
+                    "command": list(task.command),
+                    "command_sha256": _command_sha256(task.command),
+                    "policy": expected_policy,
+                    "implementation": expected_implementation,
+                    "returncode": 0,
+                    "output": {"path": output_path, "sha256": output_sha},
+                    "final_checkpoint_aggregate_sha256": receipt["final_checkpoint"]["aggregate_sha256"],
+                    "owned_child_active": False,
+                    "child_resource": child_resource,
+                }
+                core = dict(receipt)
+                core.pop("payload_sha256", None)
+                receipt["payload_sha256"] = _canonical_sha256(core)
         _atomic_json(receipt_path, receipt)
     return receipt
 

@@ -4,9 +4,10 @@
 Profiles are wall envelopes, not claim levels. ``p5smoke`` proves the plumbing end to end with one
 seed and a twelve-step dense reference; ``p5pilot`` is the staged five-seed pilot (seed 0 across
 all frame counts, an f64 trainability gate, then later seeds only on off-ceiling frame counts).
-A stopped run is resumable from content-addressed per-arm checkpoints and per-seed receipts by
-rerunning the exact same command. The proof artifact is written atomically and only when the pilot
-completes; the promotion block refuses confirmatory claims by construction.
+A resource-stopped run is resumable from content-addressed per-arm checkpoints and per-seed
+receipts by rerunning the exact same command. The proof artifact is written atomically only when
+the pilot is complete and all receipt checks pass. The promotion block refuses confirmatory claims
+by construction.
 """
 
 from __future__ import annotations
@@ -88,7 +89,8 @@ def main(argv: list[str] | None = None) -> int:
     run_dir = args.run_dir or REPO_ROOT / "runs/p5_context" / args.profile
     receipt = run_p5_pilot(config, run_dir, args.device)
     out = args.out or REPO_ROOT / "proof/P5_CONTEXT_CAPABILITY_PILOT.json"
-    if receipt["complete"]:
+    publishable = receipt["complete"] is True and receipt["all_ok"] is True
+    if publishable:
         _atomic_json(out, receipt)
     print(
         json.dumps(
@@ -97,16 +99,21 @@ def main(argv: list[str] | None = None) -> int:
                 "complete": receipt["complete"],
                 "resumable": receipt["resumable"],
                 "all_ok": receipt["all_ok"],
+                "execution_status": receipt["execution_status"],
+                "terminal_scientific_stop": receipt["terminal_scientific_stop"],
+                "terminal_stop_reason": receipt["terminal_stop_reason"],
                 "wall_seconds": receipt["resource_telemetry"]["wall_seconds_this_invocation"],
                 "frames_complete": sum(1 for row in receipt["frames"].values() if row["complete"]),
                 "trainability_gate_failed": receipt["trainability_gate_failed"],
                 "confirmatory_promotable": receipt["promotion"]["confirmatory_promotable"],
-                "proof": str(out) if receipt["complete"] else None,
+                "proof": str(out) if publishable else None,
             },
             indent=2,
         )
     )
-    return 0 if receipt["complete"] else 2
+    if publishable:
+        return 0
+    return 2 if receipt["resumable"] is True else 1
 
 
 if __name__ == "__main__":

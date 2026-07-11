@@ -1,15 +1,20 @@
+import copy
 import json
 from pathlib import Path
 
 import pytest
+import scripts.p5_context_capability as p5_cli
 import torch
 import yaml
 
+import mop.substrate.p5_context as p5_context
 from mop.config import REPO_ROOT
 from mop.substrate.custom_workbench import (
     WorkbenchRefused,
     estimated_train_step_flops,
+    json_sha256,
     parameter_count,
+    sha256_file,
 )
 from mop.substrate.p5_context import (
     P5_CELLS,
@@ -17,6 +22,7 @@ from mop.substrate.p5_context import (
     P5_MECHANISMS,
     P5CellSpec,
     WindowedBlocks,
+    _fresh_challenge_required,
     _unwindows,
     _verify_config_cells,
     _windows,
@@ -33,6 +39,10 @@ from mop.substrate.p5_context import (
 # 512-parameter deficit on the blocks (793088 transformer block parameters versus 792576).
 EXPECTED_TRANSFORMER_PARAMETERS = {16: 1_678_848, 32: 1_744_384, 64: 1_875_456}
 EXPECTED_RECURRENT_DEFICIT = 512
+P5_CORE_RUNTIME_SOURCES = (
+    "src/mop/substrate/custom_workbench.py",
+    "src/mop/substrate/p4_screen.py",
+)
 
 # Known-answer FLOP table at f64, batch 4 (the pilot's training batch size).
 EXPECTED_F64_FLOPS_PER_STEP = {
@@ -160,7 +170,9 @@ def test_solve_matched_steps_grain5_matches_every_mechanism_at_f64():
     assert tiny["steps"] == 5 and not tiny["matched_ok"]
 
 
-def test_run_p5_pilot_two_step_smoke_writes_receipts_resumes_and_refuses_promotion(tmp_path: Path):
+def test_run_p5_pilot_two_step_smoke_writes_receipts_resumes_and_refuses_promotion(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     cells = [P5CellSpec(16, "exact_global"), P5CellSpec(16, "window_local")]
     config = {
         "profile": "unit-smoke",
@@ -223,6 +235,18 @@ def test_run_p5_pilot_two_step_smoke_writes_receipts_resumes_and_refuses_promoti
     assert top["all_ok"] is False
     assert any("f64 primary contrasts" in problem for problem in top["problems"])
     assert receipt["complete"] and receipt["config_sha256"] == top["config_sha256"]
+    assert top["source_bindings_sha256"] == json_sha256(top["source_bindings"])
+    assert top["checkpoint_requirements_sha256"] == p5_context._checkpoint_requirements_sha256(
+        top["cell_registry_sha256"], top["source_bindings_sha256"]
+    )
+    assert seed_result["source_bindings_sha256"] == top["source_bindings_sha256"]
+    assert seed_result["checkpoint_requirements_sha256"] == top["checkpoint_requirements_sha256"]
+    for mechanism in ("exact_global", "window_local"):
+        arm_dir = run_dir / "frames/f16/seed_0" / mechanism
+        arm_receipt = json.loads((arm_dir / "arm_receipt.json").read_text())
+        checkpoint = torch.load(arm_dir / "checkpoint.pt", map_location="cpu", weights_only=True)
+        assert arm_receipt["requirements_sha256"] == top["checkpoint_requirements_sha256"]
+        assert checkpoint["requirements_sha256"] == top["checkpoint_requirements_sha256"]
     # The same command resumes from durable receipts without retraining.
     resumed = run_p5_pilot(
         config,
@@ -236,3 +260,272 @@ def test_run_p5_pilot_two_step_smoke_writes_receipts_resumes_and_refuses_promoti
     assert resumed["frames"]["f16"]["complete"]
     resumed_cell = json.loads((run_dir / "frames/f16/cell_receipt.json").read_text())
     assert resumed_cell["seed_results"]["0"].get("resumed_from_complete_receipt") is True
+
+    for relative in P5_CORE_RUNTIME_SOURCES:
+        mutated_source = copy.deepcopy(top["source_bindings"])
+        source_index = p5_context.P5_SOURCE_PATHS.index(relative)
+        mutated_source[source_index]["file_sha256"] = "0" * 64
+        with monkeypatch.context() as source_drift:
+            source_drift.setattr(
+                p5_context,
+                "_source_bindings",
+                lambda bindings=mutated_source: bindings,
+            )
+            with pytest.raises(WorkbenchRefused, match="source_bindings_sha256"):
+                run_p5_pilot(
+                    config,
+                    run_dir,
+                    "cpu",
+                    cells=cells,
+                    corpus_overrides={"replicates": 3},
+                    model_overrides={"dim": 32},
+                )
+
+    mutated_bindings = copy.deepcopy(top["source_bindings"])
+    mutated_bindings[-1]["file_sha256"] = "0" * 64
+    monkeypatch.setattr(p5_context, "_source_bindings", lambda: mutated_bindings)
+    with pytest.raises(WorkbenchRefused, match="source_bindings_sha256"):
+        run_p5_pilot(
+            config,
+            run_dir,
+            "cpu",
+            cells=cells,
+            corpus_overrides={"replicates": 3},
+            model_overrides={"dim": 32},
+        )
+
+    (run_dir / "frames/f16/seed_0/seed_result.json").unlink()
+    (run_dir / "frames/f16/seed_0/exact_global/arm_receipt.json").unlink()
+    checkpoint_refusal = run_p5_pilot(
+        config,
+        run_dir,
+        "cpu",
+        cells=cells,
+        corpus_overrides={"replicates": 3},
+        model_overrides={"dim": 32},
+    )
+    assert checkpoint_refusal["complete"] is False
+    assert checkpoint_refusal["resumable"] is False
+    assert checkpoint_refusal["stopped_for_required_arm_refusal"] is True
+    assert "checkpoint identity mismatch" in checkpoint_refusal["required_arm_failure"]["reason"]
+    assert "requirements_sha256" in checkpoint_refusal["required_arm_failure"]["reason"]
+
+
+def test_f64_trainability_null_is_terminal_complete_sealed_and_not_promotable(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cells = [
+        P5CellSpec(frames, mechanism)
+        for frames in (64, 32)
+        for mechanism in ("exact_global", "hierarchical_pooled")
+    ]
+    config = {
+        "profile": "unit-terminal-null",
+        "training": {
+            "seeds": [0, 1],
+            "dense_steps": 1,
+            "batch_size": 1,
+            "eval_batch_size": 8,
+            "learning_rate": 0.0005,
+            "weight_decay": 0.02,
+            "mask_ratio": 0.5,
+            "ema_decay": 0.99,
+            "variance_weight": 0.1,
+            "checkpoint_every": 1,
+            "wall_budget_seconds": 600.0,
+        },
+        "screen": {"sesoi": 0.10, "futility_margin": 0.10, "min_free_disk_gb": 0.0},
+    }
+    monkeypatch.setattr(p5_context, "P5_TRAINABILITY_MARGIN", 1.0)
+    receipt = run_p5_pilot(
+        config,
+        tmp_path / "terminal-null",
+        "cpu",
+        cells=cells,
+        corpus_overrides={"replicates": 3, "resolution": 64},
+        model_overrides={
+            "dim": 8,
+            "depth": 1,
+            "heads": 1,
+            "patch_size": 32,
+            "max_resolution": 64,
+        },
+    )
+
+    assert receipt["trainability_gate"]["outcome"] == "null"
+    assert receipt["trainability_gate_failed"] is True
+    assert receipt["complete"] is True
+    assert receipt["all_ok"] is True
+    assert receipt["resumable"] is False
+    assert receipt["execution_status"] == "terminal-scientific-null"
+    assert receipt["terminal_scientific_stop"] is True
+    assert receipt["terminal_stop_reason"] == "f64-trainability-gate-null"
+    assert receipt["fresh_challenge_required"] is False
+    assert receipt["promotion"]["confirmatory_promotable"] is False
+    assert receipt["frames"]["f64"]["seeds_completed"] == 1
+    assert receipt["frames"]["f32"]["seeds_completed"] == 1
+
+    without_digest = dict(receipt)
+    declared_digest = without_digest.pop("payload_sha256")
+    assert json_sha256(without_digest) == declared_digest
+    assert receipt["source_bindings"] == [
+        {"path": relative, "file_sha256": sha256_file(REPO_ROOT / relative)}
+        for relative in p5_context.P5_SOURCE_PATHS
+    ]
+    assert p5_context.P5_SOURCE_PATHS[-2:] == P5_CORE_RUNTIME_SOURCES
+    assert receipt["source_bindings_sha256"] == json_sha256(receipt["source_bindings"])
+    expected_requirements = p5_context._checkpoint_requirements_sha256(
+        receipt["cell_registry_sha256"], receipt["source_bindings_sha256"]
+    )
+    assert receipt["checkpoint_requirements_sha256"] == expected_requirements
+    for frames in (64, 32):
+        cell = json.loads(
+            (tmp_path / "terminal-null" / "frames" / f"f{frames}" / "cell_receipt.json").read_text()
+        )
+        seed = cell["seed_results"]["0"]
+        assert seed["source_bindings_sha256"] == receipt["source_bindings_sha256"]
+        assert seed["checkpoint_requirements_sha256"] == expected_requirements
+        assert all(
+            arm["training"]["requirements_sha256"] == expected_requirements
+            for arm in seed["mechanisms"].values()
+        )
+
+    tampered = copy.deepcopy(receipt)
+    tampered["trainability_gate"]["outcome"] = "clears-margin"
+    tampered_without_digest = dict(tampered)
+    tampered_without_digest.pop("payload_sha256")
+    assert json_sha256(tampered_without_digest) != declared_digest
+
+
+@pytest.mark.parametrize(
+    ("wall_budget", "min_free_disk_gb", "expected_status", "wall_stop", "disk_stop"),
+    [
+        (-1.0, 0.0, "resumable-wall-budget", True, False),
+        (600.0, 1.0e12, "resumable-disk-floor", False, True),
+    ],
+)
+def test_p5_resource_stops_are_incomplete_and_resumable(
+    tmp_path: Path,
+    wall_budget: float,
+    min_free_disk_gb: float,
+    expected_status: str,
+    wall_stop: bool,
+    disk_stop: bool,
+) -> None:
+    config = {
+        "profile": "unit-resource-stop",
+        "training": {
+            "seeds": [0],
+            "dense_steps": 1,
+            "batch_size": 1,
+            "eval_batch_size": 8,
+            "learning_rate": 0.0005,
+            "weight_decay": 0.02,
+            "mask_ratio": 0.5,
+            "ema_decay": 0.99,
+            "variance_weight": 0.1,
+            "checkpoint_every": 1,
+            "wall_budget_seconds": wall_budget,
+        },
+        "screen": {
+            "sesoi": 0.10,
+            "futility_margin": 0.10,
+            "min_free_disk_gb": min_free_disk_gb,
+        },
+    }
+    receipt = run_p5_pilot(
+        config,
+        tmp_path / expected_status,
+        "cpu",
+        cells=[P5CellSpec(64, "exact_global")],
+        corpus_overrides={"replicates": 3, "resolution": 64},
+        model_overrides={
+            "dim": 8,
+            "depth": 1,
+            "heads": 1,
+            "patch_size": 32,
+            "max_resolution": 64,
+        },
+        repo_root=tmp_path,
+    )
+
+    assert receipt["complete"] is False
+    assert receipt["all_ok"] is False
+    assert receipt["resumable"] is True
+    assert receipt["execution_status"] == expected_status
+    assert receipt["terminal_scientific_stop"] is False
+    assert receipt["stopped_for_wall_budget"] is wall_stop
+    assert receipt["stopped_for_disk_floor"] is disk_stop
+
+
+def test_fresh_challenge_hint_requires_strict_primary_ci_beyond_sesoi() -> None:
+    sesoi = 0.10
+    null_rows = {
+        "tie_positive": {"n": 5, "lo": sesoi, "hi": 0.30},
+        "tie_negative": {"n": 5, "lo": -0.30, "hi": -sesoi},
+        "too_few_units": {"n": 1, "lo": 0.20, "hi": 0.30},
+        "crosses_boundary": {"n": 5, "lo": 0.05, "hi": 0.30},
+    }
+    assert _fresh_challenge_required(null_rows, None, sesoi) is False
+    assert _fresh_challenge_required(None, null_rows, sesoi) is False
+    assert _fresh_challenge_required({}, {}, sesoi) is False
+
+    strict_positive = {"exact_minus_window": {"n": 2, "lo": 0.1000001, "hi": 0.30}}
+    strict_negative = {"exact_minus_recurrent": {"n": 3, "lo": -0.40, "hi": -0.1000001}}
+    assert _fresh_challenge_required(strict_positive, None, sesoi) is True
+    assert _fresh_challenge_required(None, strict_negative, sesoi) is True
+
+
+@pytest.mark.parametrize(
+    ("complete", "all_ok", "resumable", "expected_rc", "published"),
+    [
+        (True, True, False, 0, True),
+        (True, False, False, 1, False),
+        (False, False, True, 2, False),
+        (False, False, False, 1, False),
+    ],
+)
+def test_p5_cli_publishes_and_succeeds_only_for_complete_all_ok_receipts(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    complete: bool,
+    all_ok: bool,
+    resumable: bool,
+    expected_rc: int,
+    published: bool,
+) -> None:
+    receipt = {
+        "complete": complete,
+        "all_ok": all_ok,
+        "resumable": resumable,
+        "execution_status": "complete" if complete and all_ok else "fixture-stop",
+        "terminal_scientific_stop": False,
+        "terminal_stop_reason": None,
+        "resource_telemetry": {"wall_seconds_this_invocation": 0.0},
+        "frames": {"f64": {"complete": complete}},
+        "trainability_gate_failed": False,
+        "promotion": {"confirmatory_promotable": False},
+    }
+    monkeypatch.setattr(p5_cli, "assert_heavy_lane_free", lambda: None)
+    monkeypatch.setattr(p5_cli, "_config", lambda _profile: {"profile": "fixture"})
+    monkeypatch.setattr(p5_cli, "run_p5_pilot", lambda *_args: receipt)
+    out = tmp_path / "proof.json"
+
+    rc = p5_cli.main(
+        [
+            "--profile",
+            "p5smoke",
+            "--device",
+            "cpu",
+            "--run-dir",
+            str(tmp_path / "run"),
+            "--out",
+            str(out),
+        ]
+    )
+
+    summary = json.loads(capsys.readouterr().out)
+    assert rc == expected_rc
+    assert out.exists() is published
+    assert summary["proof"] == (str(out) if published else None)

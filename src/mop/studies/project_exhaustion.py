@@ -404,13 +404,16 @@ def _all_finite(value: Any) -> bool:
 def verify_experiment_run(run_dir: Path, experiment_id: str) -> dict[str, Any]:
     manifest_path = run_dir / "manifest.json"
     config_path = run_dir / "config.yaml"
+    receipt_path = run_dir / "attempt_receipt.json"
     checks: dict[str, bool] = {
         "manifest_exists": manifest_path.is_file(),
         "config_exists": config_path.is_file(),
+        "attempt_receipt_exists": receipt_path.is_file(),
     }
     errors: list[str] = []
     manifest: dict[str, Any] = {}
     cfg: dict[str, Any] = {}
+    attempt_receipt: dict[str, Any] = {}
     if checks["manifest_exists"]:
         try:
             manifest = json.loads(manifest_path.read_text())
@@ -429,9 +432,34 @@ def verify_experiment_run(run_dir: Path, experiment_id: str) -> dict[str, Any]:
             errors.append(f"config: {exc}")
     else:
         checks["config_yaml"] = False
+    if checks["attempt_receipt_exists"]:
+        try:
+            attempt_receipt = json.loads(receipt_path.read_text())
+            checks["attempt_receipt_json"] = isinstance(attempt_receipt, dict)
+        except (OSError, json.JSONDecodeError) as exc:
+            checks["attempt_receipt_json"] = False
+            errors.append(f"attempt receipt: {exc}")
+    else:
+        checks["attempt_receipt_json"] = False
+
+    live_experiment_path = REPO_ROOT / "configs" / "experiment" / f"{experiment_id}.yaml"
+    live_experiment: dict[str, Any] | None = None
+    if live_experiment_path.is_file():
+        try:
+            loaded = yaml.safe_load(live_experiment_path.read_text())
+            live_experiment = loaded if isinstance(loaded, dict) else None
+        except (OSError, yaml.YAMLError) as exc:
+            errors.append(f"live experiment config: {exc}")
+    expected_run_dir: str | None
+    try:
+        expected_run_dir = str(run_dir.relative_to(REPO_ROOT))
+    except ValueError as exc:
+        raise ValueError(f"run directory is outside repository: {run_dir}") from exc
+    expected_source_evidence = class_source_evidence(experiment_id)
 
     metrics = manifest.get("metrics")
     contract = (manifest.get("extra") or {}).get("contract") or {}
+    worker_report = attempt_receipt.get("worker_report") or {}
     checks.update(
         {
             "manifest_name_matches": manifest.get("name") == experiment_id,
@@ -442,18 +470,28 @@ def verify_experiment_run(run_dir: Path, experiment_id: str) -> dict[str, Any]:
             "contract_id_matches": contract.get("id") == experiment_id,
             "config_id_matches": (cfg.get("experiment") or {}).get("id") == experiment_id,
             "cpu_device_recorded": manifest.get("device") == "cpu",
+            "attempt_schema_matches": attempt_receipt.get("schema") == ATTEMPT_SCHEMA,
+            "attempt_experiment_id_matches": attempt_receipt.get("experiment_id") == experiment_id,
+            "attempt_run_dir_matches": expected_run_dir is not None
+            and attempt_receipt.get("run_dir") == expected_run_dir,
+            "attempt_returncode_zero": attempt_receipt.get("returncode") == 0,
+            "attempt_not_timed_out": attempt_receipt.get("timed_out") is False,
+            "attempt_worker_report_matches": worker_report.get("experiment_id") == experiment_id,
+            "attempt_source_evidence_current": attempt_receipt.get("source_evidence")
+            == expected_source_evidence,
+            "resolved_experiment_config_current": live_experiment is None
+            or cfg.get("experiment") == live_experiment,
         }
     )
     verified = all(checks.values())
     evidence = [file_evidence(path) for path in (manifest_path, config_path) if path.is_file()]
-    receipt_path = run_dir / "attempt_receipt.json"
     if receipt_path.is_file():
         evidence.append(file_evidence(receipt_path))
     return {
         "verified": verified,
         "checks": checks,
         "errors": errors,
-        "run_dir": str(run_dir.relative_to(REPO_ROOT)),
+        "run_dir": expected_run_dir,
         "seed": manifest.get("seed"),
         "result_tag": manifest.get("result_tag"),
         "metrics": metrics if isinstance(metrics, dict) else None,

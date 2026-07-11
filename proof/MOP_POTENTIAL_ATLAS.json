@@ -76,11 +76,11 @@
     },
     {
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317"
+      "sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65"
     },
     {
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84"
+      "sha256": "c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78"
     },
     {
       "path": "proof/LOCAL_ACTION_ENVIRONMENT.json",
@@ -136,7 +136,7 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff"
+      "sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1"
     },
     {
       "path": "proof/P4_CAPABILITY_DENSITY_SCREEN.json",
@@ -148,7 +148,7 @@
     },
     {
       "path": "proof/COMPLETION_CLAIM_AUDIT.json",
-      "sha256": "01f472be310d9f7ebb911ffe16378d0008d7936a094f85ced7b95f9e0c8ae395"
+      "sha256": "cfeb8189c634f2662a6d58bffd8bb80502d0f37d467b52ffd6091b456dee0694"
     },
     {
       "path": "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -156,23 +156,23 @@
     },
     {
       "path": "proof/LOCAL_EXECUTION_THROTTLE_P4_CPU_DRY_RUN.json",
-      "sha256": "84f6aad23b5205b367a08c375d1730ff3c4b248f429ccce446b4feb5684679e7"
+      "sha256": "609dac6539b09d8be887daadbb6b02b5cf889b77c3f468a620bb0aee804b42d0"
     },
     {
       "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
-      "sha256": "5c44afdc87b90c821480eccc2729a8b70f19dde7c23eac346cbbd18cd0e8933c"
+      "sha256": "656de322d5567a08dc5207c9d21983af3fe7fdef3b1ec389548a6a9e4bde3547"
     },
     {
       "path": "configs/local_execution_throttle.yaml",
-      "sha256": "8e3c97bbb841f85a2b501df9d170adb500f10d407dafa62c95b52ace19f0376e"
+      "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
     },
     {
       "path": "src/mop/studio/local_throttle.py",
-      "sha256": "e63300d3546e54a711c9ccd07c97b3406adb2bf089faeccbb50e93a020e81201"
+      "sha256": "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"
     },
     {
       "path": "docs/LOCAL_EXECUTION_THROTTLE.md",
-      "sha256": "165e93c4acf1360cb28a5bce1761baac578dbc21c8fd3fc5390d9f5f37796f0c"
+      "sha256": "71c8bfdfcdbd4a040c05fed51048b80bfbd9a072a09f7edff955ba00fe0032bc"
     },
     {
       "path": "configs/custom_substrate/requirements.yaml",
@@ -204,11 +204,11 @@
     },
     {
       "path": "src/mop/studies/potential_atlas_driver.py",
-      "sha256": "8006cfa70ab5d7261684f245361ca6ca6332fe059e28fb4ea5bb7b1fbd9810ca"
+      "sha256": "4b734f566fdaa78c073b744b7448d64680e535dc38129c387c02ca568c00fab7"
     },
     {
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "sha256": "f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794"
+      "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_RUN.json",
@@ -249,6 +249,54 @@
     {
       "path": "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
       "sha256": "fedfb423da6ea44017aa8de31d71fe637e76d732007b4db4ad6f57edbe5dca2e"
+    },
+    {
+      "path": "configs/experiment/mop_p5_context_capability.yaml",
+      "sha256": "fe704a6dc580a869812067f063db01d9417f1796ac359fc7dec02815959562f1"
+    },
+    {
+      "path": "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
+      "sha256": "a6b99f2517947a9e5514804acc4f89e0d944a2b6bd0e692f0d6cba9f151bb482"
+    },
+    {
+      "path": "scripts/continual_million_event_rung.py",
+      "sha256": "19d86737e57df4df96dc2dced83847792b8bdb32e87a92aac90d723c999b4b90"
+    },
+    {
+      "path": "scripts/p5_context_capability.py",
+      "sha256": "f3ecc2fce57c03423a2ea28545737da934715dfdfc2423ae2b9920b1436755e8"
+    },
+    {
+      "path": "scripts/p5_context_fresh_challenge.py",
+      "sha256": "e1a935ae05b897eaa9bd78561e20085d8490fcb0a42fe044315cfb47bb7765c8"
+    },
+    {
+      "path": "scripts/p5_traingrid_memory_probe.py",
+      "sha256": "d083e2c9964a990c3eb9571431a7d40c975242be8a5f0e57baf13747e65eb263"
+    },
+    {
+      "path": "scripts/verify_continual_million_event_rung.py",
+      "sha256": "d14ae866050e92cd67fde7cc377a31c9a9de4fb98d5fad12094de74aa88490b0"
+    },
+    {
+      "path": "scripts/verify_p5_context_capability.py",
+      "sha256": "d91d2744cb161e53a5455d57ad66c2af41eca0cce5407bdf23a34099095dc908"
+    },
+    {
+      "path": "src/mop/studies/continual_million_event_verify.py",
+      "sha256": "f9508cc2edd9f01870c3060da6f67461e1fddac554520207277afa7cadc0f923"
+    },
+    {
+      "path": "src/mop/studies/p5_context_challenge.py",
+      "sha256": "ba28d1d005ab73f98b2cca0c7496b991659acb7530b153cdbdf177fee266962a"
+    },
+    {
+      "path": "src/mop/studies/p5_context_verify.py",
+      "sha256": "5cb684c2b42be0eac62adf2ce6f4af64dafc2735202457b78d88c07a70871c1d"
+    },
+    {
+      "path": "src/mop/substrate/p5_context.py",
+      "sha256": "0b8628e233b5647cdfc9405553683acbf21da6a0c2ed953b0fab5c71242b19d2"
     }
   ],
   "portfolio": {
@@ -267,15 +315,14 @@
     },
     "current_registry_summary": {
       "non_f_rows": 177,
-      "freshly_executed_verified": 120,
+      "freshly_executed_verified": 117,
       "already_durable_hash_verifiable": 37,
       "implementation_blocked": 1,
       "rights_data_blocked": 11,
       "upstream_model_blocked": 8,
-      "runnable_not_yet_run": 0,
+      "runnable_not_yet_run": 3,
       "measured_hardware_blocked": 0,
-      "scientific_claim_ready": 0,
-      "interpretation": "Fresh and durable are codepath/mechanics accounting classes, not scientific-completion counts."
+      "scientific_claim_ready": 0
     },
     "requirements_summary": {
       "row_count": 321,
@@ -293,7 +340,7 @@
     "mechanics_progress": {
       "E6_DR14": "task-cache-control integration complete; natural cohort, serial caches, and independent verifiers remain",
       "Wave_E0": "mechanics-pass with three sentinels, three development units, 72 recomputed metrics, and nine rejected mutations",
-      "P6": "384-event no-heavy mechanics-pass with exact resume; the exclusive 10k probe now passes empty-lane admission without executing, and 10k, 100k, and 1m execution remain",
+      "P6": "384-event no-heavy mechanics-pass with exact resume; progressive resume and independent checkpoint verification are fail-closed, while 10k, 100k, and 1m execution remain",
       "P7": "three-unit eight-arm rendered action/world-model mechanics-pass with a bounded fixture null and no scientific promotion",
       "P9": "five-unit causal monitoring and phase-accounting mechanics-pass over 260 lineages and 1,300 branches; natural workloads, physical failures, capability, cognition, and energy remain unproved"
     },
@@ -314,7 +361,7 @@
       "P3": "historical pilot retired as a current dependency; active same-input controls must be rebuilt",
       "P4": "completed 12-cell five-seed programmatic pilot; 48 response-surface observations; confirmatory promotion refused by construction",
       "P5": "scaffold plus mechanics-only memory trace",
-      "P6": "384-event mechanics-pass plus allowed empty-lane 10k dry-run; progressive ladder not run",
+      "P6": "384-event mechanics-pass plus a hardened conditional ladder; no progressive rung has run",
       "P7": "three-unit rendered action/world-model mechanics-pass; programmatic fixture null; external-validity campaign not run",
       "P9": "five-unit causal monitoring and accounting mechanics-pass; deterministic fixture only; natural-workload campaign and metered energy boundary absent",
       "retired_scale_active_dependency": false,
@@ -1908,14 +1955,14 @@
         "Blender and foreground detection",
         "CPU/memory/swap/thermal/power/disk/MPS telemetry",
         "hysteretic admission and scheduler-owned process-group control",
-        "P6 exclusive 10k resource-probe dry-run correctly refused concurrent admission and executed no command",
         "governor-owned P4 closure with an empty final active-lane set",
-        "post-P4 P6 exclusive-probe admission dry-run"
+        "P6 source, checkpoint, verifier, and strict non-tie joins enforced before scaling"
       ],
       "readiness_not_capability": [
-        "P5 smoke is fail-closed on current host memory headroom: three samples had 8.59 to 9.07 GB available against a 10.0 GB admission requirement",
         "the P6 10k resource probe and replication remain unexecuted",
-        "mixed-lane confirmation remains open"
+        "mixed-lane confirmation remains open",
+        "the P6 10k resource probe is fail-closed until the final P5 verifier binds a scientific null or a fresh-seed verified programmatic pattern",
+        "P5 smoke is fail-closed on current local admission: three samples had 7.039 to 7.243 GB available against a 10.0 GB requirement, and the host was on battery power"
       ],
       "evidence": [
         "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -1928,8 +1975,8 @@
         "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"
       ],
       "local_to_10": [
-        "admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom gate",
-        "run the exclusive P6 10k resource probe and full 10k replication after P5",
+        "admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom and AC-power gates",
+        "run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after P5",
         "exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process pressure without signaling user processes",
         "prove data-order and numerical equivalence across repeated inner resumable segments",
         "confirm heavy-plus-light or network concurrency, second-MPS denial, cooldown, starvation, and queue integration"
@@ -2882,15 +2929,15 @@
       "receipt": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
       "task_id": "p6_10k_resource_probe_cpu",
       "requires_empty_lanes": true,
-      "admission_allowed": true,
+      "admission_allowed": false,
       "command_executed": false,
-      "interpretation": "fail-closed refusal while P4 and live resource gates are active; no 10k execution claim"
+      "interpretation": "the post-P4 dry decision launches nothing and fails closed until P5 has a current independent null or favorable verification"
     },
     "remaining": [
-      "release the exclusive lane after P4 and admit every schedule/control only under healthy live gates",
       "execute and verify the 10k, 100k, and 1m event rungs",
       "independently replay full-rung metrics from immutable checkpoints",
-      "separate useful retention from replay volume and extra compute"
+      "separate useful retention from replay volume and extra compute",
+      "complete and independently verify the P5 sequence before P6 admission"
     ]
   },
   "action_world_model_preflight": {

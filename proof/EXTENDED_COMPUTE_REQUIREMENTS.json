@@ -57,12 +57,13 @@
         "local_runs_completed": 18
       },
       "p6_10k_scheduler_dry_run": {
-        "admission_allowed": true,
+        "admission_allowed": false,
         "all_ok": true,
         "command_executed": false,
         "decision_count": 3,
         "estimated_unified_memory_gb": null,
         "exclusive_lane_state_consistent": true,
+        "prerequisite_state": "missing-sealed-p5-verifier",
         "resource_probe": true,
         "task_id": "p6_10k_resource_probe_cpu"
       },
@@ -262,7 +263,7 @@
     {
       "all_current": true,
       "artifact": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "checks": 671,
+      "checks": 657,
       "mismatches": [],
       "missing": []
     },
@@ -686,7 +687,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_adam_trainable_state": {
       "current_hash_verified": true,
@@ -694,7 +695,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_cache_10000": {
       "current_hash_verified": true,
@@ -702,7 +703,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_campaign_time_spec": {
       "current_hash_verified": true,
@@ -710,7 +711,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_checkpoint_volume_spec": {
       "current_hash_verified": true,
@@ -718,7 +719,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_cloud_cost_spec": {
       "current_hash_verified": true,
@@ -726,7 +727,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_dense_cache_storage": {
       "current_hash_verified": true,
@@ -734,7 +735,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_energy_scope": {
       "current_hash_verified": true,
@@ -742,7 +743,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_paired_seed_power": {
       "current_hash_verified": true,
@@ -750,7 +751,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "c_peak_memory_spec": {
       "current_hash_verified": true,
@@ -758,7 +759,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "source_sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     "m_cm7_pilot": {
       "current_hash_verified": true,
@@ -855,18 +856,18 @@
       "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
-      "bytes": 2010717,
+      "bytes": 1949404,
       "exists": true,
       "id": "local:proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317"
+      "sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65"
     },
     {
       "bytes": 34469,
       "exists": true,
       "id": "local:proof/FRONTIER_LOCALIZATION.json",
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84"
+      "sha256": "c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78"
     },
     {
       "bytes": 16404,
@@ -988,11 +989,11 @@
       "sha256": "fa1f65a6e839f0e4ac8c310da02f918a5666f70221f012dfb407eb4335d34e03"
     },
     {
-      "bytes": 28437,
+      "bytes": 37476,
       "exists": true,
       "id": "local:proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
       "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
-      "sha256": "5c44afdc87b90c821480eccc2729a8b70f19dde7c23eac346cbbd18cd0e8933c"
+      "sha256": "656de322d5567a08dc5207c9d21983af3fe7fdef3b1ec389548a6a9e4bde3547"
     },
     {
       "bytes": 72696,
@@ -1093,11 +1094,11 @@
       "sha256": "e91f3dc36532e451c4135e444b514d0f7bcc160b3c1ef4de6167d73eb457e81c"
     },
     {
-      "bytes": 17392,
+      "bytes": 38887,
       "exists": true,
       "id": "local:configs/local_execution_throttle.yaml",
       "path": "configs/local_execution_throttle.yaml",
-      "sha256": "8e3c97bbb841f85a2b501df9d170adb500f10d407dafa62c95b52ace19f0376e"
+      "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
     },
     {
       "bytes": 43134,
@@ -1135,11 +1136,11 @@
       "sha256": "2f224a67b7e8c5953cac7ea827c5cd4700f11d0e71a27ecc58d48d0d1da0c5d5"
     },
     {
-      "bytes": 18258,
+      "bytes": 26392,
       "exists": true,
       "id": "local:scripts/continual_million_event_rung.py",
       "path": "scripts/continual_million_event_rung.py",
-      "sha256": "043131b19fe0d7447ecb347a58c46132add17f6a6a4bc3e5c83ed235bd420fdc"
+      "sha256": "19d86737e57df4df96dc2dced83847792b8bdb32e87a92aac90d723c999b4b90"
     },
     {
       "bytes": 902,
@@ -1240,11 +1241,11 @@
       "sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
     },
     {
-      "bytes": 109591,
+      "bytes": 114567,
       "exists": true,
       "id": "local:scripts/build_extended_compute_requirements.py",
       "path": "scripts/build_extended_compute_requirements.py",
-      "sha256": "aa6694fe8a251554bf2cdcf0e15cb7d6e28ebf2e1f0cd2ac25d6134738de4f9e"
+      "sha256": "ae99d83f792844239459adaab136d0323bedba5262b28fa0d5ace52908548a59"
     },
     {
       "bytes": 56837,
@@ -1345,34 +1346,6 @@
       "sha256": "608e4fa69e32b77ea74f1110f33f814ad394db1b17f9cac12d8f54dc2ee38a87"
     },
     {
-      "bytes": 3622,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/manifest.json",
-      "path": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/manifest.json",
-      "sha256": "5b36781b3975809fdb1af4525757926d386281ce28e05c10136f1ac2986151a8"
-    },
-    {
-      "bytes": 2163,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/config.yaml",
-      "path": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/config.yaml",
-      "sha256": "110914eba7c7e673e07e3011b716d2cfe6c0f0dc3f04b3a47b10085c7c6689f9"
-    },
-    {
-      "bytes": 2056,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json",
-      "path": "runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json",
-      "sha256": "e55048ba256fcd275801e86f62024b6ed0ad602c742d374120a3b3c9f497940e"
-    },
-    {
-      "bytes": 2018,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/e6_relational/attempt_001/config.yaml",
-      "path": "runs/project_exhaustion/current/classes/e6_relational/attempt_001/config.yaml",
-      "sha256": "7c948560de3436ba73fe7a133ca2a9362febcb584afbebe2e34381dd9846c6a8"
-    },
-    {
       "bytes": 2707,
       "exists": true,
       "id": "local:runs/project_exhaustion/current/classes/e7_sparse/attempt_001/manifest.json",
@@ -1434,20 +1407,6 @@
       "id": "local:runs/project_exhaustion/current/classes/e9_local/attempt_001/attempt_receipt.json",
       "path": "runs/project_exhaustion/current/classes/e9_local/attempt_001/attempt_receipt.json",
       "sha256": "8277f2420287af10b0b1da5465ff609c348897100aadd05c6c90303f14b14e52"
-    },
-    {
-      "bytes": 2969,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/e10_openended/attempt_001/manifest.json",
-      "path": "runs/project_exhaustion/current/classes/e10_openended/attempt_001/manifest.json",
-      "sha256": "b3b1c5b0f1ee3c2f3c6b5ec44b469b0f20502006c4248460c38467722196c209"
-    },
-    {
-      "bytes": 2037,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/e10_openended/attempt_001/config.yaml",
-      "path": "runs/project_exhaustion/current/classes/e10_openended/attempt_001/config.yaml",
-      "sha256": "ef93b4ee144b1c82a2f7fb5b81daa42c4d90fcbf4523775f99613f10b075d08d"
     },
     {
       "bytes": 3730,
@@ -1553,20 +1512,6 @@
       "id": "local:runs/project_exhaustion/current/classes/ex4_fast_weights/attempt_001/attempt_receipt.json",
       "path": "runs/project_exhaustion/current/classes/ex4_fast_weights/attempt_001/attempt_receipt.json",
       "sha256": "a255fea521372694d5e39a725d052646dc60203186cd8e21af8c6f2a50ef69be"
-    },
-    {
-      "bytes": 6813,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/manifest.json",
-      "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/manifest.json",
-      "sha256": "6cdf8a17ff6a77ad7e3f3fda32be43710e95478d3059e66bfd629afc03d6cc35"
-    },
-    {
-      "bytes": 2174,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/config.yaml",
-      "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/config.yaml",
-      "sha256": "13cba351cd5ab8e88d8ac0a8b7adafae92eb5c670db4010cca31ec86e261bf0b"
     },
     {
       "bytes": 2321,
@@ -3795,25 +3740,11 @@
       "sha256": "de0a80434e7b5f6a35cd28051af07ac84c23d804fb3566df13a056b940e7f884"
     },
     {
-      "bytes": 2056,
+      "bytes": 28255,
       "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
-      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
-      "sha256": "3a054638ce937f2e2037d8fe74cbe1c132370b3cd9a4f9a0132c588716b0705f"
-    },
-    {
-      "bytes": 3245,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml",
-      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml",
-      "sha256": "6dda8178acdc12002246f236b3f2ea9779df5ac514e900c2495fdda4f37e2caa"
-    },
-    {
-      "bytes": 2011,
-      "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json",
-      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json",
-      "sha256": "b78eb4ecf889805b0caf8d885e90c87e37028bd6ae1097b58d1606396541b755"
+      "id": "local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+      "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab"
     },
     {
       "bytes": 2084,
@@ -3900,7 +3831,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitl"
     }
   },
-  "payload_sha256": "df5d0e4c976004db197c6f14ba9b3ccdf4e1a0dc1f06050895e54af899a4c0ca",
+  "payload_sha256": "dd7d6b3ee559e02450f46183fa6e71341abc45b2683f9db390becd6f41ebce0a",
   "row_referenced_json_audits": {
     "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json": {
       "all_current": true,
@@ -3962,6 +3893,13 @@
       "all_current": true,
       "artifact": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
       "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json": {
+      "all_current": true,
+      "artifact": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
+      "checks": 2,
       "mismatches": [],
       "missing": []
     },
@@ -4742,13 +4680,6 @@
       "mismatches": [],
       "missing": []
     },
-    "runs/project_exhaustion/current/classes/e10_openended/attempt_001/manifest.json": {
-      "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/e10_openended/attempt_001/manifest.json",
-      "checks": 0,
-      "mismatches": [],
-      "missing": []
-    },
     "runs/project_exhaustion/current/classes/e1_baseline/attempt_001/attempt_receipt.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/e1_baseline/attempt_001/attempt_receipt.json",
@@ -4801,20 +4732,6 @@
     "runs/project_exhaustion/current/classes/e4_neuromod/attempt_001/manifest.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/e4_neuromod/attempt_001/manifest.json",
-      "checks": 0,
-      "mismatches": [],
-      "missing": []
-    },
-    "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/manifest.json": {
-      "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/manifest.json",
-      "checks": 0,
-      "mismatches": [],
-      "missing": []
-    },
-    "runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json": {
-      "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -5039,13 +4956,6 @@
     "runs/project_exhaustion/current/classes/ex4_fast_weights/attempt_001/manifest.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/ex4_fast_weights/attempt_001/manifest.json",
-      "checks": 0,
-      "mismatches": [],
-      "missing": []
-    },
-    "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/manifest.json": {
-      "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -5284,20 +5194,6 @@
     "runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/manifest.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/manifest.json",
-      "checks": 0,
-      "mismatches": [],
-      "missing": []
-    },
-    "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json": {
-      "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json",
-      "checks": 2,
-      "mismatches": [],
-      "missing": []
-    },
-    "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json": {
-      "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -6087,7 +5983,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "registry-plus-project-exhaustion-ledger",
+      "classification_basis": "implemented-local-evidence-source-rerun-pending",
       "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -6096,8 +5992,6 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/manifest.json",
-        "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/config.yaml",
         "local:proof/LOCAL_ACTION_ENVIRONMENT.json"
       ],
       "hardware_benefit_gate": {
@@ -6135,15 +6029,15 @@
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
         "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
-        "execution_verified_at_generation": true,
+        "execution_verified_at_generation": false,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "freshly-executed-verified",
-        "present": true
+        "ledger_classification": "runnable-not-yet-run",
+        "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Curiosity as self-curriculum",
       "post_blocker_local_rung": null,
-      "primary_blocker": "none beyond executing or extending an already local implementation",
+      "primary_blocker": "rerun the current bounded curiosity class and retain the existing local action-environment mechanics as supporting evidence",
       "primary_category": 1,
       "primary_category_label": "already runnable locally",
       "promotion_blocker": null,
@@ -6167,8 +6061,6 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json",
-        "local:runs/project_exhaustion/current/classes/e6_relational/attempt_001/config.yaml",
         "local:proof/VJEPA21_VITB_LOAD.json",
         "local:proof/VJEPA21_VITB_FORWARD.json",
         "local:proof/VJEPA21_VITB_FORWARD_64F.json",
@@ -6460,9 +6352,7 @@
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml",
-        "local:runs/project_exhaustion/current/classes/e10_openended/attempt_001/manifest.json",
-        "local:runs/project_exhaustion/current/classes/e10_openended/attempt_001/config.yaml"
+        "local:registry/experiments.yaml"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -6885,9 +6775,7 @@
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml",
-        "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/manifest.json",
-        "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/config.yaml"
+        "local:registry/experiments.yaml"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -6924,10 +6812,10 @@
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
         "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
-        "execution_verified_at_generation": true,
+        "execution_verified_at_generation": false,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "freshly-executed-verified",
-        "present": true
+        "ledger_classification": "runnable-not-yet-run",
+        "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Local learning rules at scale (extend I4 to retention)",
@@ -17770,7 +17658,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "registry-plus-project-exhaustion-ledger",
+      "classification_basis": "implemented-governor-execution-pending",
       "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -17779,9 +17667,7 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
-        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml",
-        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json"
+        "local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -17817,16 +17703,16 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
-        "execution_verified_at_generation": true,
+        "evidence_scope": "implementation and governed admission evidence only; the source-current P5 scientific sequence has not executed",
+        "execution_verified_at_generation": false,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "freshly-executed-verified",
-        "present": true
+        "ledger_classification": "runnable-not-yet-run",
+        "present": false
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "context_capability_pilot",
       "post_blocker_local_rung": null,
-      "primary_blocker": "none beyond executing or extending an already local implementation",
+      "primary_blocker": "complete the implemented conditional P5 sequence through the local governor after three healthy admission samples",
       "primary_category": 1,
       "primary_category_label": "already runnable locally",
       "promotion_blocker": null,

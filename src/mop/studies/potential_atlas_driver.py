@@ -88,7 +88,10 @@ NEW_CURRENT_CLUSTER_MEMBERS = {
 }
 
 ADDITIONAL_SOURCE_PATHS = (
+    "configs/local_execution_throttle.yaml",
+    "configs/experiment/mop_p5_context_capability.yaml",
     "docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md",
+    "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
     "registry/experiments.yaml",
     "proof/LOCAL_THROTTLE_P4_RUN.json",
     "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
@@ -103,7 +106,17 @@ ADDITIONAL_SOURCE_PATHS = (
     "proof/F22_F28_F50_F58_ECOLOGY_SCAFFOLD_RUN.json",
     "proof/F22_F28_F50_F58_ECOLOGY_VERIFICATION.json",
     "scripts/build_mop_potential_atlas.py",
+    "scripts/continual_million_event_rung.py",
+    "scripts/p5_context_capability.py",
+    "scripts/p5_context_fresh_challenge.py",
+    "scripts/p5_traingrid_memory_probe.py",
+    "scripts/verify_continual_million_event_rung.py",
+    "scripts/verify_p5_context_capability.py",
+    "src/mop/studies/continual_million_event_verify.py",
+    "src/mop/studies/p5_context_challenge.py",
+    "src/mop/studies/p5_context_verify.py",
     "src/mop/studies/potential_atlas_driver.py",
+    "src/mop/substrate/p5_context.py",
 )
 
 
@@ -451,8 +464,8 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
     portfolio = atlas["portfolio"]
     mechanics = portfolio["mechanics_progress"]
     mechanics["P6"] = (
-        "384-event no-heavy mechanics-pass with exact resume; the exclusive 10k probe now passes "
-        "empty-lane admission without executing, and 10k, 100k, and 1m execution remain"
+        "384-event no-heavy mechanics-pass with exact resume; progressive resume and independent "
+        "checkpoint verification are fail-closed, while 10k, 100k, and 1m execution remain"
     )
     completion = portfolio["completion_claim_summary"]
     completion["P4"] = (
@@ -460,7 +473,7 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
         "confirmatory promotion refused by construction"
     )
     completion["P6"] = (
-        "384-event mechanics-pass plus allowed empty-lane 10k dry-run; progressive ladder not run"
+        "384-event mechanics-pass plus a hardened conditional ladder; no progressive rung has run"
     )
     portfolio["form_summary"] = {
         "contract_rows": 50,
@@ -471,7 +484,27 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
     }
 
     p6 = atlas["continual_million_event_preflight"]
-    p6["scheduler_preflight"]["admission_allowed"] = True
+    p6["scheduler_preflight"]["admission_allowed"] = False
+    p6["scheduler_preflight"]["interpretation"] = (
+        "the post-P4 dry decision launches nothing and fails closed until P5 has a current "
+        "independent null or favorable verification"
+    )
+    p6["remaining"] = list(
+        dict.fromkeys(
+            [
+                *[
+                    value
+                    for value in p6.get("remaining", [])
+                    if value
+                    != (
+                        "release the exclusive lane after P4 and admit every schedule/control "
+                        "only under healthy live gates"
+                    )
+                ],
+                "complete and independently verify the P5 sequence before P6 admission",
+            ]
+        )
+    )
 
     facets = {str(row["id"]): row for row in atlas["facets"]}
     sensing_evidence = [
@@ -654,6 +687,11 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
             ]
         )
     )
+    op2["local_to_10"] = [
+        value
+        for value in op2.get("local_to_10", [])
+        if value != "complete the partial P4 response surface and choose a one-lever successor from it"
+    ]
     op2["evidence"] = list(
         dict.fromkeys([*op2.get("evidence", []), "proof/P4_CAPABILITY_DENSITY_SCREEN.json"])
     )
@@ -663,7 +701,7 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
             [
                 *op3.get("demonstrated_components", []),
                 "governor-owned P4 closure with an empty final active-lane set",
-                "post-P4 P6 exclusive-probe admission dry-run",
+                "P6 source, checkpoint, verifier, and strict non-tie joins enforced before scaling",
             ]
         )
     )
@@ -675,17 +713,32 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
             "confirmation remain open"
         ),
     }
+    stale_op3_demonstrated = {
+        (
+            "P6 exclusive 10k resource-probe dry-run correctly refused concurrent admission "
+            "and executed no command"
+        ),
+        "post-P4 P6 exclusive-probe admission dry-run",
+    }
+    op3["demonstrated_components"] = [
+        value for value in op3.get("demonstrated_components", []) if value not in stale_op3_demonstrated
+    ]
     op3["readiness_not_capability"] = list(
         dict.fromkeys(
             [
                 *[
                     value
                     for value in op3.get("readiness_not_capability", [])
-                    if value not in stale_op3_readiness
+                    if value not in stale_op3_readiness and not value.startswith("P5 smoke is fail-closed")
                 ],
                 (
-                    "P5 smoke is fail-closed on current host memory headroom: three samples had "
-                    "8.59 to 9.07 GB available against a 10.0 GB admission requirement"
+                    "P5 smoke is fail-closed on current local admission: three samples had 7.039 "
+                    "to 7.243 GB available against a 10.0 GB requirement, and the host was on "
+                    "battery power"
+                ),
+                (
+                    "the P6 10k resource probe is fail-closed until the final P5 verifier binds a "
+                    "scientific null or a fresh-seed verified programmatic pattern"
                 ),
                 "the P6 10k resource probe and replication remain unexecuted",
                 "mixed-lane confirmation remains open",
@@ -695,9 +748,12 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
     op3["local_to_10"] = [
         (
             "admit and complete P5 only after three consecutive samples satisfy the unchanged "
-            "memory-headroom gate"
+            "memory-headroom and AC-power gates"
         ),
-        "run the exclusive P6 10k resource probe and full 10k replication after P5",
+        (
+            "run the exclusive P6 10k resource probe, full 10k replication, and independent "
+            "checkpoint verifier after P5"
+        ),
         (
             "exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process "
             "pressure without signaling user processes"
@@ -743,7 +799,9 @@ def _update_operational_state(atlas: dict[str, Any]) -> None:
     atlas["highest_leverage_local_queue"] = queue
 
 
-def _update_portfolio(atlas: dict[str, Any], requirements: dict[str, Any]) -> None:
+def _update_portfolio(
+    atlas: dict[str, Any], requirements: dict[str, Any], exhaustion: dict[str, Any]
+) -> None:
     facets = atlas["facets"]
     domains = atlas["domains"]
     portfolio = atlas["portfolio"]
@@ -775,6 +833,29 @@ def _update_portfolio(atlas: dict[str, Any], requirements: dict[str, Any]) -> No
         ),
         "measured_hardware_rows": sum(bool(row.get("hardware_required")) for row in rows),
     }
+    coverage = exhaustion.get("coverage")
+    entries = exhaustion.get("entries")
+    if not isinstance(coverage, dict) or not isinstance(entries, list):
+        raise ValueError("project exhaustion coverage or entries are absent")
+    classification_counts = coverage.get("classification_counts")
+    if not isinstance(classification_counts, dict):
+        raise ValueError("project exhaustion classification counts are absent")
+    registry_total = coverage.get("registry_non_f_total")
+    if not isinstance(registry_total, int) or sum(classification_counts.values()) != registry_total:
+        raise ValueError("project exhaustion classification counts do not cover the registry")
+    portfolio["current_registry_summary"] = {
+        "non_f_rows": registry_total,
+        "freshly_executed_verified": classification_counts.get("freshly-executed-verified", 0),
+        "already_durable_hash_verifiable": classification_counts.get("already-durable-hash-verifiable", 0),
+        "implementation_blocked": classification_counts.get("implementation-blocked", 0),
+        "rights_data_blocked": classification_counts.get("rights-data-blocked", 0),
+        "upstream_model_blocked": classification_counts.get("upstream-model-blocked", 0),
+        "runnable_not_yet_run": classification_counts.get("runnable-not-yet-run", 0),
+        "measured_hardware_blocked": classification_counts.get("measured-hardware-blocked", 0),
+        "scientific_claim_ready": sum(
+            row.get("scientific_claim_ready") is True for row in entries if isinstance(row, dict)
+        ),
+    }
 
 
 def _refresh_sources(atlas: dict[str, Any], repo_root: Path) -> None:
@@ -799,18 +880,24 @@ def build_atlas(
     requirements: dict[str, Any],
     *,
     repo_root: Path = REPO_ROOT,
+    exhaustion: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Return the current semantic atlas without mutating the input object."""
     if base.get("schema") != ATLAS_SCHEMA:
         raise ValueError("unexpected atlas schema")
     if requirements.get("schema") != "mop-extended-compute-requirements/v1":
         raise ValueError("unexpected requirements schema")
+    if exhaustion is None:
+        exhaustion_path = repo_root / "proof" / "PROJECT_EXPERIMENT_EXHAUSTION.json"
+        exhaustion = json.loads(exhaustion_path.read_text(encoding="utf-8"))
+    if exhaustion.get("schema") != "mop-project-experiment-exhaustion/v1":
+        raise ValueError("unexpected project exhaustion schema")
     atlas = copy.deepcopy(base)
     atlas["facets"] = _rebuild_facets(atlas)
     _rebuild_domains(atlas, atlas["facets"])
     _rebuild_category2(atlas, requirements)
     _update_operational_state(atlas)
-    _update_portfolio(atlas, requirements)
+    _update_portfolio(atlas, requirements, exhaustion)
     _refresh_sources(atlas, repo_root)
     atlas["status"] = "generated evidence-grounded snapshot; no facet at 10"
     return atlas

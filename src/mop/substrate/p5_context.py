@@ -14,6 +14,7 @@ construction and states that category 9 is impossible from this instrument.
 from __future__ import annotations
 
 import json
+import math
 import shutil
 import time
 from collections.abc import Callable, Mapping, Sequence
@@ -50,6 +51,7 @@ from .custom_workbench import (
     load_arm_model,
     oracle_difficulty_calibration,
     parameter_count,
+    sha256_file,
     token_count,
     train_arm,
 )
@@ -87,6 +89,13 @@ PROMOTION_REFUSAL = "context pilot; confirmatory claims refused by construction"
 CLAIM_SCOPE = (
     "exact-versus-factorized context pilot on deterministic programmatic video; "
     "not natural-video, memory-rung, or general-capability evidence"
+)
+P5_SOURCE_PATHS = (
+    "configs/experiment/mop_p5_context_capability.yaml",
+    "scripts/p5_context_capability.py",
+    "src/mop/substrate/p5_context.py",
+    "src/mop/substrate/custom_workbench.py",
+    "src/mop/substrate/p4_screen.py",
 )
 
 
@@ -435,6 +444,59 @@ def _frozen_heldout(payload: Mapping[str, Any], mechanism: str) -> float:
     return float(payload["mechanisms"][mechanism]["frozen"]["evaluation"]["heldout_combo_score"])
 
 
+def _source_bindings() -> list[dict[str, str]]:
+    """Bind the exact live P5 config, CLI, and runner sources into the sealed receipt."""
+
+    return [
+        {"path": relative, "file_sha256": sha256_file(REPO_ROOT / relative)} for relative in P5_SOURCE_PATHS
+    ]
+
+
+def _checkpoint_requirements_sha256(registry_sha256: str, source_bindings_sha256: str) -> str:
+    """Bind cell registration and live sources into every arm checkpoint identity."""
+
+    return json_sha256(
+        {
+            "registry_sha256": registry_sha256,
+            "source_bindings_sha256": source_bindings_sha256,
+        }
+    )
+
+
+def _fresh_challenge_required(
+    primary_contrasts_f64: Mapping[str, Mapping[str, Any]] | None,
+    secondary_contrasts_f32: Mapping[str, Mapping[str, Any]] | None,
+    sesoi: float,
+) -> bool:
+    """Return a non-evidentiary authorization hint for strict primary directional patterns.
+
+    Only f64 and f32 contrasts with at least two units qualify. A confidence interval must sit
+    wholly beyond either SESOI boundary. Equality to either boundary remains a null.
+    """
+
+    for contrasts in (primary_contrasts_f64, secondary_contrasts_f32):
+        if not isinstance(contrasts, Mapping):
+            continue
+        for row in contrasts.values():
+            count = row.get("n")
+            lo = row.get("lo")
+            hi = row.get("hi")
+            if (
+                isinstance(count, int)
+                and not isinstance(count, bool)
+                and count >= 2
+                and isinstance(lo, int | float)
+                and not isinstance(lo, bool)
+                and isinstance(hi, int | float)
+                and not isinstance(hi, bool)
+                and math.isfinite(float(lo))
+                and math.isfinite(float(hi))
+                and (float(lo) > sesoi or float(hi) < -sesoi)
+            ):
+                return True
+    return False
+
+
 def run_p5_pilot(
     config: Mapping[str, Any],
     run_dir: Path,
@@ -457,6 +519,8 @@ def run_p5_pilot(
     config_plain = json.loads(json.dumps(dict(config)))
     config_sha = json_sha256(config_plain)
     _atomic_json(run_dir / "resolved_config.json", config_plain)
+    source_bindings = _source_bindings()
+    source_bindings_sha = json_sha256(source_bindings)
 
     if cells is None:
         _verify_config_cells(config_plain.get("cells"))
@@ -468,6 +532,7 @@ def run_p5_pilot(
         if len(set(ordered)) != len(ordered):
             raise WorkbenchRefused("injected cells must be unique (frames, mechanism) pairs")
     registry_sha = json_sha256([asdict(cell) for cell in ordered])
+    checkpoint_requirements_sha = _checkpoint_requirements_sha256(registry_sha, source_bindings_sha)
     parameter_table = _verify_parameter_identity(ordered, model_overrides=model_overrides)
 
     device = resolve(device_kind)
@@ -563,6 +628,7 @@ def run_p5_pilot(
         "margin": P5_TRAINABILITY_MARGIN,
         "evaluated": False,
         "failed": False,
+        "outcome": "not-evaluated",
     }
     problems: list[str] = []
     stopped_for_wall = False
@@ -628,6 +694,8 @@ def run_p5_pilot(
                 "config_sha256": config_sha,
                 "data_sha256": context["manifest"]["content_sha256"],
                 "registry_sha256": registry_sha,
+                "source_bindings_sha256": source_bindings_sha,
+                "checkpoint_requirements_sha256": checkpoint_requirements_sha,
                 "dense_steps": dense_steps,
                 "requested_steps": {
                     mechanism: int(context["matched"][mechanism]["steps"]) for mechanism in mechanisms
@@ -698,7 +766,7 @@ def run_p5_pilot(
                             checkpoint_every=checkpoint_every,
                             config_sha256=config_sha,
                             data_sha256=context["manifest"]["content_sha256"],
-                            requirements_sha256=registry_sha,
+                            requirements_sha256=checkpoint_requirements_sha,
                             deadline=deadline,
                             disk_path=repo_root,
                             disk_floor_bytes=disk_floor_bytes,
@@ -741,6 +809,7 @@ def run_p5_pilot(
                     "completed_steps": arm.get("completed_steps"),
                     "estimated_flops_per_step": arm["compute"]["estimated_flops_per_step"],
                     "estimated_total_flops": arm["compute"]["estimated_total_flops"],
+                    "requirements_sha256": arm["requirements_sha256"],
                     "wall_seconds": arm["telemetry"]["seconds_this_invocation"],
                     "final_state_sha256": arm.get("final_state_sha256"),
                 }
@@ -811,14 +880,9 @@ def run_p5_pilot(
                             "frozen_heldout": frozen_score,
                             "delta": delta,
                             "failed": delta <= P5_TRAINABILITY_MARGIN,
+                            "outcome": ("null" if delta <= P5_TRAINABILITY_MARGIN else "clears-margin"),
                         }
                     )
-                    if trainability_gate["failed"]:
-                        problems.append(
-                            "trainability gate failed: seed-0 exact f64 arm does not beat its frozen "
-                            f"evaluation by more than {P5_TRAINABILITY_MARGIN} (delta {delta:.4f}); "
-                            "pilot stopped before any further seeds"
-                        )
         if seed_index == 2 and len(seeds) > 3:
             for frames in frames_order:
                 if truncated.get(frames):
@@ -906,7 +970,12 @@ def run_p5_pilot(
         }
         cell_problems: list[str] = []
         if not cell_complete:
-            cell_problems.append("frame count incomplete this invocation; rerun the same command to resume")
+            if stopped_for_wall or stopped_for_disk:
+                cell_problems.append(
+                    "frame count incomplete this invocation; rerun the same command to resume"
+                )
+            else:
+                cell_problems.append("frame count incomplete at a nonresumable terminal stop")
         unmatched = [mechanism for mechanism in mechanisms if not context["matched"][mechanism]["matched_ok"]]
         if unmatched:
             cell_problems.append(
@@ -969,19 +1038,20 @@ def run_p5_pilot(
         frame_receipts[f"f{frames}"] = cell_receipt
         problems.extend(f"f{frames}: {problem}" for problem in cell_problems)
 
-    complete = (
-        not (stopped_for_wall or stopped_for_disk or stopped_for_required_arm)
-        and not trainability_gate["failed"]
-        and all(frame_receipts[f"f{frames}"]["complete"] for frames in frames_order)
+    complete = not (stopped_for_wall or stopped_for_disk or stopped_for_required_arm) and all(
+        frame_receipts[f"f{frames}"]["complete"] for frames in frames_order
     )
+    resumable = not complete and (stopped_for_wall or stopped_for_disk)
     if required_arm_failure is not None:
         problems.append(
             "required arm refused and aborted the pilot: "
             f"seed={required_arm_failure['seed']} cell={required_arm_failure.get('cell_id')} "
             f"reason={required_arm_failure['reason']}"
         )
-    if not complete and not trainability_gate["failed"]:
+    if resumable:
         problems.append("pilot incomplete; rerun the same command to resume")
+    elif not complete and required_arm_failure is None:
+        problems.append("pilot incomplete at a nonresumable terminal stop")
 
     def _contrast_tier(frames: int) -> dict[str, Any] | None:
         row = frame_receipts.get(f"f{frames}")
@@ -997,6 +1067,21 @@ def run_p5_pilot(
         problems.append("f64 primary contrasts not estimable from this run")
     if secondary_contrasts is None:
         problems.append("f32 secondary contrasts not estimable from this run")
+    fresh_challenge_required = _fresh_challenge_required(primary_contrasts, secondary_contrasts, sesoi)
+    terminal_scientific_stop = bool(
+        complete and not problems and trainability_gate["evaluated"] and trainability_gate["failed"]
+    )
+    terminal_stop_reason = "f64-trainability-gate-null" if terminal_scientific_stop else None
+    if complete and not problems:
+        execution_status = "terminal-scientific-null" if terminal_scientific_stop else "complete"
+    elif resumable and stopped_for_disk:
+        execution_status = "resumable-disk-floor"
+    elif resumable:
+        execution_status = "resumable-wall-budget"
+    elif stopped_for_required_arm:
+        execution_status = "terminal-required-arm-refusal"
+    else:
+        execution_status = "terminal-invalid"
     context_response_curve = {
         mechanism: {
             f"f{frames}": frame_receipts[f"f{frames}"]["scores"][mechanism]
@@ -1031,6 +1116,9 @@ def run_p5_pilot(
         "claim_scope": CLAIM_SCOPE,
         "config_sha256": config_sha,
         "cell_registry_sha256": registry_sha,
+        "source_bindings": source_bindings,
+        "source_bindings_sha256": source_bindings_sha,
+        "checkpoint_requirements_sha256": checkpoint_requirements_sha,
         "profile": config_plain.get("profile"),
         "serial_order": [cell.cell_id for cell in ordered],
         "seeds": seeds,
@@ -1052,6 +1140,7 @@ def run_p5_pilot(
         },
         "primary_contrasts_f64": primary_contrasts,
         "secondary_contrasts_f32": secondary_contrasts,
+        "fresh_challenge_required": fresh_challenge_required,
         "context_response_curve": context_response_curve,
         "sesoi": sesoi,
         "parity_diagnostic": parity_diagnostic,
@@ -1078,7 +1167,10 @@ def run_p5_pilot(
             ),
         },
         "complete": complete,
-        "resumable": not complete and not trainability_gate["failed"],
+        "resumable": resumable,
+        "execution_status": execution_status,
+        "terminal_scientific_stop": terminal_scientific_stop,
+        "terminal_stop_reason": terminal_stop_reason,
         "stopped_for_wall_budget": stopped_for_wall,
         "stopped_for_disk_floor": stopped_for_disk,
         "stopped_for_required_arm_refusal": stopped_for_required_arm,
@@ -1094,5 +1186,6 @@ def run_p5_pilot(
             "disk_floor_bytes": disk_floor_bytes,
         },
     }
+    receipt["payload_sha256"] = json_sha256(receipt)
     _atomic_json(run_dir / "p5_context_receipt.json", receipt)
     return receipt

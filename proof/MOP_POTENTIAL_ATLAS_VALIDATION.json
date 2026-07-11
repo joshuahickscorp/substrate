@@ -2,10 +2,10 @@
   "all_ok": true,
   "artifacts": {
     "atlas": {
-      "bytes": 122457,
+      "bytes": 124339,
       "exists": true,
       "path": "proof/MOP_POTENTIAL_ATLAS.json",
-      "sha256": "231a5672dc3d5fb0de6de90a6b89452fc54daba4eb72206a0ff4ed4ab17f6a6c"
+      "sha256": "9b0599a547d86c2d208db3068d415d970b3f8ed3d7d30ed97c88c97bdccf100e"
     },
     "cli": {
       "bytes": 432,
@@ -14,22 +14,22 @@
       "sha256": "328ad665b1d50d0316eba48979e28aa8a71eaa8c156cd047b2b653851bface05"
     },
     "markdown": {
-      "bytes": 76020,
+      "bytes": 77520,
       "exists": true,
       "path": "MOP_POTENTIAL_ATLAS_2026_07.md",
-      "sha256": "94484102d15b3cea5692908226afebb70ffecbf027bff83a9f0941bc0af1c25f"
+      "sha256": "8b06e60a2e5862c04e1303c7d5fa9c689145a89bb01a9f6f97b45cfd11528076"
     },
     "requirements": {
-      "bytes": 1274982,
+      "bytes": 1268983,
       "exists": true,
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff"
+      "sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1"
     },
     "validator": {
-      "bytes": 103333,
+      "bytes": 105422,
       "exists": true,
       "path": "src/mop/studies/potential_atlas_validation.py",
-      "sha256": "85f6fd8ed5d32900d2d43a6d21ade57247dd100888fc5086d30a7b3def668d91"
+      "sha256": "f572e3d55b2c49d6d1a8844b86cc5f7da5d9b94d35f747d23f1f0511848c3b55"
     }
   },
   "checks": [
@@ -113,8 +113,8 @@
     },
     {
       "detail": {
-        "source_count": 45,
-        "verified_count": 45
+        "source_count": 57,
+        "verified_count": 57
       },
       "name": "source_snapshot",
       "ok": true,
@@ -130,10 +130,10 @@
     },
     {
       "detail": {
-        "bytes": 1274982,
+        "bytes": 1268983,
         "exists": true,
         "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-        "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff"
+        "sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1"
       },
       "name": "requirements_binding",
       "ok": true,
@@ -244,17 +244,17 @@
     },
     {
       "detail": {
-        "bytes": 76020,
+        "bytes": 77520,
         "facet_score_rows": 41,
-        "sha256": "94484102d15b3cea5692908226afebb70ffecbf027bff83a9f0941bc0af1c25f"
+        "sha256": "8b06e60a2e5862c04e1303c7d5fa9c689145a89bb01a9f6f97b45cfd11528076"
       },
       "name": "markdown_binding",
       "ok": true,
       "problems": []
     }
   ],
-  "created_at": "2026-07-10T23:44:29.559171+00:00",
-  "payload_sha256": "6da9030d6fd83fb1fe21e8caf795a323bc94656e5fd9a8dfc10b66f8276e01ce",
+  "created_at": "2026-07-11T05:23:03.324024+00:00",
+  "payload_sha256": "9f83a108753ac94925d980a4f03655b2851c36d0b58262a9c7b2490da0681e33",
   "problems": [],
   "schema": "mop-potential-atlas-validation/v1",
   "scope": "Structural and evidence-integrity validation only. A passing receipt does not promote any facet, experiment, hardware purchase, or external claim.",
@@ -289,7 +289,7 @@
     "registry_non_f_rows": 177,
     "requirements_row_count": 321,
     "scientific_claim_ready_rows": 0,
-    "source_count": 45,
+    "source_count": 57,
     "studio_scale_required_now": false,
     "wave_e0_mechanics_pass": true,
     "weighted_score": 5.736000000000001

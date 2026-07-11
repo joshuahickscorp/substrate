@@ -38,6 +38,11 @@ def test_semantic_driver_adds_low_scored_gaps_and_rescores_served_scaffolds() ->
     assert "recurrent-processing" in facets["PA6"]["title"].lower()
     assert "evaluator integrity" in facets["SG1"]["title"].lower()
     assert "evaluator" not in facets["SG2"]["title"].lower()
+    exhaustion = json.loads((REPO_ROOT / "proof/PROJECT_EXPERIMENT_EXHAUSTION.json").read_text())
+    counts = exhaustion["coverage"]["classification_counts"]
+    summary = atlas["portfolio"]["current_registry_summary"]
+    assert summary["freshly_executed_verified"] == counts["freshly-executed-verified"]
+    assert summary["runnable_not_yet_run"] == counts["runnable-not-yet-run"]
 
 
 def test_category2_partition_and_driver_are_exactly_idempotent() -> None:
@@ -70,10 +75,21 @@ def test_operational_revision_removes_stale_p4_and_post_p4_claims() -> None:
 
     assert "partial five-seed P4 execution" not in op2["demonstrated_components"]
     assert "full five-seed P4 response surface is incomplete" not in op2["readiness_not_capability"]
+    assert not any("partial P4" in value for value in op2["local_to_10"])
     assert any("completed 12-cell" in value for value in op2["demonstrated_components"])
+    assert not any("refused concurrent admission" in value for value in op3["demonstrated_components"])
     assert not any("post-P4 P6 admission" in value for value in op3["readiness_not_capability"])
-    assert any("10.0 GB" in value for value in op3["readiness_not_capability"])
+    assert any(
+        "7.039 to 7.243 GB" in value and "battery power" in value for value in op3["readiness_not_capability"]
+    )
+    assert sum(value.startswith("P5 smoke is fail-closed") for value in op3["readiness_not_capability"]) == 1
     assert "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json" in op3["evidence"]
+    p6 = atlas["continual_million_event_preflight"]
+    assert p6["scheduler_preflight"]["admission_allowed"] is False
+    assert "post-P4" in p6["scheduler_preflight"]["interpretation"]
+    assert "independent null or favorable verification" in p6["scheduler_preflight"]["interpretation"]
+    assert not any("release the exclusive lane after P4" in value for value in p6["remaining"])
+    assert any("verify the P5 sequence" in value for value in p6["remaining"])
 
 
 def test_executed_toy_receipts_are_bound_without_physical_or_capability_score_inflation() -> None:

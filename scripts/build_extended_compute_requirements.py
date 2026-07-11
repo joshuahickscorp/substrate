@@ -25,6 +25,25 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "proof" / "EXTENDED_COMPUTE_REQUIREMENTS.json"
 EXPECTED_REGISTRY_COUNT = 227
 EXPECTED_REGISTRY_ID_SHA256 = "53de3591be3ba7e8eeb7bf644e6b57063ee8d3a615898976b007b8fb7404b1c6"
+P5_VERIFICATION_PATH = "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
+P5_VERIFICATION_SCHEMA = "mop-p5-context-independent-verifier/v1"
+P5_VERIFICATION_FIELDS = {
+    "verification_complete": True,
+    "all_ok": True,
+    "prerequisite_ready": True,
+    "problems": [],
+    "all_controls_passed": True,
+    "all_mutations_rejected": True,
+    "controls.seed_arm_checkpoint_artifacts_exactly_joined": True,
+    "controls.nonterminal_outcome_has_off_ceiling_multiunit_support": True,
+    "controls.threshold_tie_is_null": True,
+    "independence.checkpoint_files_opened_with_weights_only": True,
+    "independence.checkpoint_model_and_target_state_hashes_recomputed": True,
+    "independence.heldout_metrics_reexecuted_from_checkpoint": False,
+    "outcome_contract.tie_is_null": True,
+    "promotion.confirmatory_promotable": False,
+    "scientific_promotion": False,
+}
 
 CATEGORY_LABELS = {
     1: "already runnable locally",
@@ -125,6 +144,16 @@ GATE_EVIDENCE_SPECS: dict[str, dict[str, Any]] = {
 # verified locally, so their first remaining blocker is a citable natural task cohort rather than
 # hardware.
 REGISTRY_OVERRIDES: dict[str, tuple[int, str, str]] = {
+    "e5_curiosity": (
+        1,
+        "rerun the current bounded curiosity class and retain the existing local action-environment mechanics as supporting evidence",
+        "implemented-local-evidence-source-rerun-pending",
+    ),
+    "mop_p5_context_capability": (
+        1,
+        "complete the implemented conditional P5 sequence through the local governor after three healthy admission samples",
+        "implemented-governor-execution-pending",
+    ),
     "e6_relational": (
         3,
         "materialize a rights-clean annotated natural-video cohort with untouched test membership, then encode the declared learned/random cache pair serially",
@@ -1098,6 +1127,13 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                     "five-seed, 1,000-update-per-arm teacher-independent programmatic-video pilot; "
                     "the bound independent verifier returned not-promoted after familywise correction"
                 )
+            if identifier == "mop_p5_context_capability":
+                refs.append("local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json")
+                measured["present"] = False
+                measured["evidence_scope"] = (
+                    "implementation and governed admission evidence only; the source-current P5 "
+                    "scientific sequence has not executed"
+                )
             if identifier == "e5_curiosity":
                 refs.append("local:proof/LOCAL_ACTION_ENVIRONMENT.json")
             if identifier == "mop_cm10_action_forward_model":
@@ -1401,6 +1437,78 @@ def load_cache_measurements() -> dict[str, Any]:
     return output
 
 
+def _p6_dry_prerequisite_state(
+    task: dict[str, Any], decisions: list[dict[str, Any]], *, evidence_root: Path = ROOT
+) -> tuple[bool, str]:
+    prerequisites = task.get("prerequisites")
+    if not isinstance(prerequisites, list) or len(prerequisites) != 1:
+        return False, "task-prerequisite-contract-drift"
+    requirement = prerequisites[0]
+    if not isinstance(requirement, dict):
+        return False, "task-prerequisite-contract-drift"
+    raw_fields = requirement.get("fields")
+    try:
+        fields = dict(raw_fields) if isinstance(raw_fields, (dict, list)) else {}
+    except (TypeError, ValueError):
+        fields = {}
+    if (
+        requirement.get("path") != P5_VERIFICATION_PATH
+        or requirement.get("schema") != P5_VERIFICATION_SCHEMA
+        or fields != P5_VERIFICATION_FIELDS
+    ):
+        return False, "task-prerequisite-contract-drift"
+
+    gates: list[dict[str, Any]] = []
+    for decision in decisions:
+        matches = [
+            gate
+            for gate in decision.get("gates") or []
+            if isinstance(gate, dict) and gate.get("name") == "receipt_prerequisites"
+        ]
+        if len(matches) != 1:
+            return False, "receipt-gate-count-drift"
+        gates.append(matches[0])
+    if gates and all(gate.get("ok") is True for gate in gates):
+        return True, "satisfied"
+    if not gates or any(gate.get("ok") is True for gate in gates):
+        return False, "mixed-prerequisite-state"
+    if (evidence_root / P5_VERIFICATION_PATH).exists():
+        return False, "present-p5-verifier-was-rejected"
+
+    expected_reason = "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+    for decision, gate in zip(decisions, gates, strict=True):
+        observed = gate.get("observed")
+        denied_reasons = decision.get("denied_reasons")
+        failing_gate_reasons = {
+            candidate.get("reason")
+            for candidate in decision.get("gates") or []
+            if isinstance(candidate, dict)
+            and candidate.get("ok") is False
+            and isinstance(candidate.get("reason"), str)
+        }
+        if (
+            not isinstance(denied_reasons, list)
+            or expected_reason not in denied_reasons
+            or len(denied_reasons) != len(set(denied_reasons))
+            or set(denied_reasons) != failing_gate_reasons
+            or gate.get("reason") != expected_reason
+            or not isinstance(observed, list)
+            or len(observed) != 1
+        ):
+            return False, "missing-prerequisite-refusal-drift"
+        row = observed[0]
+        if not isinstance(row, dict) or (
+            row.get("path") != P5_VERIFICATION_PATH
+            or row.get("all_ok") is not False
+            or row.get("schema") is not None
+            or row.get("sha256") is not None
+            or row.get("governor_provenance") is not None
+            or "receipt is missing" not in (row.get("problems") or [])
+        ):
+            return False, "missing-prerequisite-refusal-drift"
+    return True, "missing-sealed-p5-verifier"
+
+
 def authoritative_receipt_checks() -> dict[str, Any]:
     """Run schema-aware checks for evidence whose paths have scoped semantics."""
     errors: list[str] = []
@@ -1676,8 +1784,7 @@ def authoritative_receipt_checks() -> dict[str, Any]:
         and p9_resource.get("model_downloads_performed") is False
         and p9_resource.get("external_data_loaded") is False
         and p9_resource.get("command_executed_heavy_work") is False
-        and ((p9_resource.get("workload_accounting") or {}).get("energy") or {}).get("measured")
-        is False
+        and ((p9_resource.get("workload_accounting") or {}).get("energy") or {}).get("measured") is False
     )
     checks["p9_causal_monitoring_preflight"] = {
         "all_ok": p9_ok,
@@ -1701,6 +1808,9 @@ def authoritative_receipt_checks() -> dict[str, Any]:
     p6_dry_task = p6_dry.get("task") or {}
     p6_dry_decisions = p6_dry.get("decisions") or []
     p6_dry_allowed = [decision.get("allowed") is True for decision in p6_dry_decisions]
+    p6_dry_prerequisite_ok, p6_dry_prerequisite_state = _p6_dry_prerequisite_state(
+        p6_dry_task, p6_dry_decisions
+    )
     p6_dry_exclusive_consistent = all(
         any(
             gate.get("name") == "exclusive_lane"
@@ -1722,10 +1832,16 @@ def authoritative_receipt_checks() -> dict[str, Any]:
         and len(p6_dry_decisions) == 3
         and (p6_dry.get("admission") or {}).get("allowed") is all(p6_dry_allowed)
         and p6_dry_exclusive_consistent
+        and p6_dry_prerequisite_ok
         and all(
-            any(gate.get("name") == "resource_measurement" and gate.get("ok") is True for gate in decision.get("gates") or [])
-            and any(gate.get("name") == "receipt_prerequisites" and gate.get("ok") is True for gate in decision.get("gates") or [])
-            and any(gate.get("name") == "forecasted_disk" and gate.get("ok") is True for gate in decision.get("gates") or [])
+            any(
+                gate.get("name") == "resource_measurement" and gate.get("ok") is True
+                for gate in decision.get("gates") or []
+            )
+            and any(
+                gate.get("name") == "forecasted_disk" and gate.get("ok") is True
+                for gate in decision.get("gates") or []
+            )
             for decision in p6_dry_decisions
         )
     )
@@ -1738,6 +1854,7 @@ def authoritative_receipt_checks() -> dict[str, Any]:
         "estimated_unified_memory_gb": p6_dry_task.get("estimated_unified_memory_gb"),
         "decision_count": len(p6_dry_decisions),
         "exclusive_lane_state_consistent": p6_dry_exclusive_consistent,
+        "prerequisite_state": p6_dry_prerequisite_state,
     }
     if not p6_dry_ok:
         errors.append("P6 10k scheduler dry-run receipt failed")
