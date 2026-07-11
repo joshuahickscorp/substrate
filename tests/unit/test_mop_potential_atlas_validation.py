@@ -73,7 +73,7 @@ def test_canonical_contract_recomputes_every_fixed_total(canonical_atlas: Path) 
         "facet_weight_total": 100.0,
         "weighted_score": pytest.approx(5.736),
         "domain_count": 7,
-        "source_count": 45,
+        "source_count": 57,
         "evidence_reference_count": 197,
         "requirements_row_count": 321,
         "primary_category_counts": {1: 168, 2: 119, 3: 29, 6: 5},

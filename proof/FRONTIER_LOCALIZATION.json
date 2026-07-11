@@ -580,8 +580,8 @@
       "reclassified_away_from_hardware_planning_tags": true
     }
   ],
-  "generated_at_unix": 1783726845.244098,
-  "git_revision": "276c477",
+  "generated_at_unix": 1783742534.029402,
+  "git_revision": "3b4916e",
   "host_readiness": {
     "all_ok": true,
     "chip": "Apple M3 Pro",
@@ -746,10 +746,10 @@
       "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
-      "bytes": 61567,
+      "bytes": 63699,
       "exists": true,
       "path": "src/mop/studies/project_exhaustion.py",
-      "sha256": "397189a2d6b5cbd7874847f91777d067fd3187ab817417d515fbf9d3c2df3ca0"
+      "sha256": "cac5b3fcc7b7fa57a414146f882136940bbe734d7bb67e967c6046fe1ca74820"
     },
     {
       "bytes": 9466,

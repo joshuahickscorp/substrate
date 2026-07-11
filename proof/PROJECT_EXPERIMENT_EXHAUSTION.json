@@ -26,20 +26,20 @@
     "blocked_count": 20,
     "classification_counts": {
       "already-durable-hash-verifiable": 37,
-      "freshly-executed-verified": 120,
+      "freshly-executed-verified": 117,
       "implementation-blocked": 1,
       "measured-hardware-blocked": 0,
       "rights-data-blocked": 11,
-      "runnable-not-yet-run": 0,
+      "runnable-not-yet-run": 3,
       "upstream-model-blocked": 8
     },
-    "fresh_class_codepath_count": 113,
+    "fresh_class_codepath_count": 108,
     "measured_hardware_blocked_count": 0,
-    "pending_execution_count": 0,
+    "pending_execution_count": 3,
     "provisional_single_seed_null_signal_counts": {
-      "not_standardized": 6,
-      "null_not_supported": 32,
-      "null_supported": 75
+      "not_standardized": 4,
+      "null_not_supported": 30,
+      "null_supported": 74
     },
     "registry_non_f_total": 177,
     "surface_counts": {
@@ -347,15 +347,6 @@
         "runs/mot/pr4_epistemic_gate.json"
       ]
     },
-    "110914eba7c7e673e07e3011b716d2cfe6c0f0dc3f04b3a47b10085c7c6689f9": {
-      "bytes": 2163,
-      "encoding": "utf-8",
-      "exact_text": "device:\n  kind: cpu\n  amp: false\n  pin_memory: false\n  num_workers: 0\n  allow_cpu_fallback: true\n  matmul_precision: high\ndevice_name: cpu\nencoder:\n  name: vjepa2_vitl_fpc64_256\n  arch: vit_large\n  hf_id: facebook/vjepa2-vitl-fpc64-256\n  revision: b3c1679b7c34d3255ef3547f27c7b226aefab26f\n  hub: facebookresearch/jepa\n  embed_dim: 1024\n  patch_size: 16\n  tubelet: 2\n  frames_per_clip: 64\n  resolution: 256\n  dense: false\n  pool: mean\n  frozen: true\n  random_init: false\n  random_init_seed: 0\n  prefer_real: false\n  family: vjepa2\n  training_objective: masked_latent_prediction\nencoder_name: vjepa2_vitl_fpc64_256\nshell:\n  predictor:\n    kind: mlp\n    hidden: 1024\n    depth: 2\n    dropout: 0.0\n    action_dim: 0\n    layernorm: true\n  heads:\n    hidden: 512\n    probabilistic: true\n    n_classes: 10\n  ensemble:\n    size: 1\n    bootstrap: false\n  buffer:\n    capacity: 2048\n    prioritized: true\n    alpha: 0.6\n    beta: 0.4\n    index: brute\n    key_dim: 1024\n    eviction: reservoir\n  plasticity:\n    schedule: soft\n    lr: 0.001\n    rigidity: 0.0\n    pnn_fraction: 0.0\n  consolidation:\n    method: ewc\n    ewc_lambda: 1000.0\n    si_c: 0.1\n    si_xi: 0.001\n    fisher_samples: 64\n  neuromod:\n    enabled: true\n    surprise_gain: 1.0\n    novelty_gain: 1.0\n    uncertainty_gain: 1.0\n    gate_floor: 0.1\n    gate_ceil: 3.0\n  modulation:\n    context_gating: false\n    working_memory: false\n    chunking: false\n    n_contexts: 8\n    wm_slots: 4\nshell_name: predictor\nexperiment:\n  id: e5_curiosity\n  name: curiosity_self_curriculum\n  module: e5_curiosity\n  metric:\n  - noise_fraction\n  - learnable_improvement\n  - lp_resists_noise\n  - pe_chases_noise\n  null_hypothesis: prediction-error/RND curiosity chases the noisy-TV while learning-progress\n    curiosity does not\n  tier: cpu-now\n  dim: 32\n  n_each: 128\n  separation: 3.0\n  noise_scale: 5.0\n  rounds: 8\n  select_k: 32\n  train_steps: 12\n  noise_threshold: 0.5\n  hidden: 64\n  depth: 2\n  lr: 0.01\n  environment_episodes: 8\n  environment_horizon: 10\nexperiment_name: e5_curiosity\npackage: mop\nseed: 20260710\ndeterministic: true\nruns_dir: runs\ndata_dir: data\nlatent_dim: 1024\nresult_tag: project-exhaustion-provisional\n",
-      "sha256": "110914eba7c7e673e07e3011b716d2cfe6c0f0dc3f04b3a47b10085c7c6689f9",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/config.yaml"
-      ]
-    },
     "122c602be620ecaf5eda95b68d4f70073d09328ac1e97cef208fd1adeaa81b8a": {
       "bytes": 2131,
       "encoding": "utf-8",
@@ -372,15 +363,6 @@
       "sha256": "12dfd5f72475352b541c5bd8f465bc0147764764c4d744b7bd2d20e840c1df97",
       "source_paths": [
         "runs/project_exhaustion/current/classes/s6_compositionality/attempt_001/config.yaml"
-      ]
-    },
-    "13cba351cd5ab8e88d8ac0a8b7adafae92eb5c670db4010cca31ec86e261bf0b": {
-      "bytes": 2174,
-      "encoding": "utf-8",
-      "exact_text": "device:\n  kind: cpu\n  amp: false\n  pin_memory: false\n  num_workers: 0\n  allow_cpu_fallback: true\n  matmul_precision: high\ndevice_name: cpu\nencoder:\n  name: vjepa2_vitl_fpc64_256\n  arch: vit_large\n  hf_id: facebook/vjepa2-vitl-fpc64-256\n  revision: b3c1679b7c34d3255ef3547f27c7b226aefab26f\n  hub: facebookresearch/jepa\n  embed_dim: 1024\n  patch_size: 16\n  tubelet: 2\n  frames_per_clip: 64\n  resolution: 256\n  dense: false\n  pool: mean\n  frozen: true\n  prefer_real: false\n  family: vjepa2\n  training_objective: masked_latent_prediction\nencoder_name: vjepa2_vitl_fpc64_256\nshell:\n  predictor:\n    kind: mlp\n    hidden: 1024\n    depth: 2\n    dropout: 0.0\n    action_dim: 0\n    layernorm: true\n  heads:\n    hidden: 512\n    probabilistic: true\n    n_classes: 10\n  ensemble:\n    size: 1\n    bootstrap: false\n  buffer:\n    capacity: 2048\n    prioritized: true\n    alpha: 0.6\n    beta: 0.4\n    index: brute\n    key_dim: 1024\n    eviction: reservoir\n  plasticity:\n    schedule: soft\n    lr: 0.001\n    rigidity: 0.0\n    pnn_fraction: 0.0\n  consolidation:\n    method: ewc\n    ewc_lambda: 1000.0\n    si_c: 0.1\n    si_xi: 0.001\n    fisher_samples: 64\n  neuromod:\n    enabled: true\n    surprise_gain: 1.0\n    novelty_gain: 1.0\n    uncertainty_gain: 1.0\n    gate_floor: 0.1\n    gate_ceil: 3.0\n  modulation:\n    context_gating: false\n    working_memory: false\n    chunking: false\n    n_contexts: 8\n    wm_slots: 4\nshell_name: predictor\nexperiment:\n  id: ex5_local_rules_scale\n  name: local_rules_at_scale\n  module: ex5_local_rules_scale\n  metric:\n  - accuracy_gap\n  - activation_memory\n  - locality\n  - backward_transfer\n  null_hypothesis: no local rule comes within the accuracy margin of backprop AND\n    none offers a continual-learning or memory advantage that justifies the gap\n  tier: cpu-now\n  n_tasks: 80\n  dim: 48\n  classes_per_task: 4\n  samples_per_task: 80\n  separation: 0.6\n  hidden_widths:\n  - 32\n  - 64\n  - 96\n  epochs_per_task: 80\n  lr: 0.05\n  n_anchors: 8\n  margin: 0.03\n  seeds:\n  - 0\n  - 1\n  - 2\nexperiment_name: ex5_local_rules_scale\npackage: mop\nseed: 20260709\ndeterministic: true\nruns_dir: runs\ndata_dir: data\nlatent_dim: 1024\nresult_tag: project-exhaustion-provisional\n",
-      "sha256": "13cba351cd5ab8e88d8ac0a8b7adafae92eb5c670db4010cca31ec86e261bf0b",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/config.yaml"
       ]
     },
     "151599e32343e07151ed4e89e211fe5ef422ed642f0f524869ff8fd5c1097895": {
@@ -896,15 +878,6 @@
         "runs/project_exhaustion/current/classes/a5_action_loop/attempt_001/attempt_receipt.json"
       ]
     },
-    "3a054638ce937f2e2037d8fe74cbe1c132370b3cd9a4f9a0132c588716b0705f": {
-      "bytes": 2056,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"name\": \"mop_p5_context_capability\",\n  \"seed\": 20260709,\n  \"device\": \"cpu\",\n  \"git\": \"8b0e532\",\n  \"python\": \"3.12.13\",\n  \"platform\": \"macOS-26.6-arm64-arm-64bit\",\n  \"started\": 1783677924.858377,\n  \"finished\": 1783677943.798523,\n  \"status\": \"ok\",\n  \"metrics\": {\n    \"heldout_combo_per_context\": {\n      \"f16\": {\n        \"exact_global\": 0.45833333333333337,\n        \"window_local\": 0.41666666666666663\n      }\n    },\n    \"context_response_curve\": {},\n    \"complete\": true,\n    \"null_supported\": true,\n    \"scientific_scope\": \"bounded two-cell execution and integrity smoke of the registered P5 codepath; the pilot itself runs through scripts/p5_context_capability.py and no smoke result is a scientific verdict\",\n    \"receipt\": \"p5_context_receipt.json\"\n  },\n  \"extra\": {\n    \"contract\": {\n      \"id\": \"mop_p5_context_capability\",\n      \"metric\": [\n        \"heldout_combo_per_context\",\n        \"context_response_curve\"\n      ],\n      \"baseline\": \"per-mechanism exact frozen initialization plus the exact-global reference arm at matched parameters and matched active FLOPs\",\n      \"ablation\": \"context mechanism (exact global attention vs windowed, recurrent, and hierarchical pooled factorizations) at 16, 32, and 64 frames on one shared substrate trunk\",\n      \"null_hypothesis\": \"at matched parameters and matched active FLOPs, windowed, recurrent, and hierarchical factorized context mechanisms match exact global attention on held-out factor combinations within the 0.10 SESOI at 32 and 64 frames while peaking at lower measured bytes; exact global interaction is not a live capability lever in this context range\",\n      \"tier\": \"cpu-now\"\n    },\n    \"device_note\": \"resolved cpu\"\n  },\n  \"encoder_id\": \"vjepa2_vitl_fpc64_256\",\n  \"encoder_backend\": \"\",\n  \"cache_id\": \"\",\n  \"result_tag\": \"project-exhaustion-provisional\",\n  \"packages\": {\n    \"python\": \"3.12.13\",\n    \"torch\": \"2.12.1\",\n    \"numpy\": \"2.4.6\",\n    \"omegaconf\": \"2.3.1\",\n    \"faiss-cpu\": \"1.14.3\",\n    \"transformers\": \"5.12.1\",\n    \"torchvision\": \"0.27.1\",\n    \"matplotlib\": \"3.11.0\"\n  }\n}",
-      "sha256": "3a054638ce937f2e2037d8fe74cbe1c132370b3cd9a4f9a0132c588716b0705f",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json"
-      ]
-    },
     "3a35d549b1a0f4f5387a830ee779d47e74399231a58be88686ca836fb1265cbf": {
       "bytes": 2158,
       "encoding": "utf-8",
@@ -1373,15 +1346,6 @@
         "runs/project_exhaustion/current/classes/y4_hysteresis/attempt_001/attempt_receipt.json"
       ]
     },
-    "5b36781b3975809fdb1af4525757926d386281ce28e05c10136f1ac2986151a8": {
-      "bytes": 3622,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"name\": \"e5_curiosity\",\n  \"seed\": 20260710,\n  \"device\": \"cpu\",\n  \"git\": \"be7b5d9\",\n  \"python\": \"3.12.13\",\n  \"platform\": \"macOS-26.6-arm64-arm-64bit\",\n  \"started\": 1783661362.012768,\n  \"finished\": 1783661362.533856,\n  \"status\": \"ok\",\n  \"metrics\": {\n    \"policies\": {\n      \"random\": {\n        \"noise_fraction\": 0.484375,\n        \"base_learnable_err\": 9.316658973693848,\n        \"final_learnable_err\": 0.5712339878082275,\n        \"learnable_improvement\": 8.74542498588562\n      },\n      \"prediction_error\": {\n        \"noise_fraction\": 0.99609375,\n        \"base_learnable_err\": 9.316658973693848,\n        \"final_learnable_err\": 12.93235969543457,\n        \"learnable_improvement\": -3.6157007217407227\n      },\n      \"learning_progress\": {\n        \"noise_fraction\": 0.73828125,\n        \"base_learnable_err\": 9.316658973693848,\n        \"final_learnable_err\": 26.908292770385742,\n        \"learnable_improvement\": -17.591633796691895\n      }\n    },\n    \"noise_fraction\": {\n      \"random\": 0.484375,\n      \"prediction_error\": 0.99609375,\n      \"learning_progress\": 0.73828125\n    },\n    \"learnable_improvement\": {\n      \"random\": 8.74542498588562,\n      \"prediction_error\": -3.6157007217407227,\n      \"learning_progress\": -17.591633796691895\n    },\n    \"random_noise_fraction\": 0.484375,\n    \"noise_threshold\": 0.5,\n    \"pe_chases_noise\": true,\n    \"lp_resists_noise\": false,\n    \"null_supported\": false,\n    \"env_smoke_ok\": true,\n    \"env_rollout_ok\": true,\n    \"env_tier\": \"cpu-now\",\n    \"environment_contract\": {\n      \"schema\": \"mop-bounded-action-contract/v1\",\n      \"programmatic_only\": true,\n      \"natural_embodiment_claim\": false,\n      \"world_sha256\": \"37e18cf25135549b00d149fd0f76b1fd1b7a91f30d66d19135dc6d69a73eb554\",\n      \"trajectory_sha256\": \"c83a10e37a17688595d3f6e832d591802e0e2618d27a3ca93ded7d162239d4fe\",\n      \"episodes\": 8,\n      \"transitions\": 72,\n      \"counterfactuals\": 288,\n      \"observation_dim\": 16,\n      \"action_count\": 4,\n      \"has_learnable_rows\": true,\n      \"has_noisy_tv_rows\": true,\n      \"verified\": true,\n      \"checks\": {\n        \"schema\": true,\n        \"world_hash\": true,\n        \"content_hash\": true,\n        \"collections\": true,\n        \"counts\": true,\n        \"four_branches_per_clone\": true,\n        \"stable_unique_event_refs\": true,\n        \"stable_unique_sequence_states\": true,\n        \"required_causal_fields\": true,\n        \"exact_seeded_replay\": true,\n        \"episode_boundaries\": true\n      }\n    },\n    \"environment_scope\": \"programmatic local mechanics; no natural-embodiment claim\"\n  },\n  \"extra\": {\n    \"contract\": {\n      \"id\": \"e5_curiosity\",\n      \"metric\": [\n        \"noise_fraction\",\n        \"learnable_improvement\",\n        \"lp_resists_noise\",\n        \"pe_chases_noise\"\n      ],\n      \"baseline\": \"random/uniform data selection over the fixed learnable+noise pool\",\n      \"ablation\": \"selection policy: random vs prediction-error curiosity vs learning-progress curiosity\",\n      \"null_hypothesis\": \"prediction-error/RND curiosity chases the noisy-TV (high selected-noise fraction) while learning-progress curiosity does not; if even learning-progress fixates, the progress signal is miscomputed, not grounded in learnability\",\n      \"tier\": \"cpu-now\"\n    },\n    \"device_note\": \"resolved cpu\"\n  },\n  \"encoder_id\": \"vjepa2_vitl_fpc64_256\",\n  \"encoder_backend\": \"\",\n  \"cache_id\": \"\",\n  \"result_tag\": \"project-exhaustion-provisional\",\n  \"packages\": {\n    \"python\": \"3.12.13\",\n    \"torch\": \"2.12.1\",\n    \"numpy\": \"2.4.6\",\n    \"omegaconf\": \"2.3.1\",\n    \"faiss-cpu\": \"1.14.3\",\n    \"transformers\": \"5.12.1\",\n    \"torchvision\": \"0.27.1\",\n    \"matplotlib\": \"3.11.0\"\n  }\n}",
-      "sha256": "5b36781b3975809fdb1af4525757926d386281ce28e05c10136f1ac2986151a8",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/manifest.json"
-      ]
-    },
     "5b8b8e8e5af09011a838cfcbaf439d54640bd906f43a4f9b0a63633030da68de": {
       "bytes": 1904,
       "encoding": "utf-8",
@@ -1562,15 +1526,6 @@
         "runs/project_exhaustion/current/classes/a5_action_loop/attempt_001/config.yaml"
       ]
     },
-    "63bc13e8ecb8a31cf0ec43192b65bd5c5bbec256d450844614b023450bcd9a09": {
-      "bytes": 2146,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"command\": [\n    \"/Users/scammermike/Downloads/mop/.venv/bin/python\",\n    \"/Users/scammermike/Downloads/mop/scripts/project_experiment_exhaustion.py\",\n    \"--worker-experiment\",\n    \"e10_openended\",\n    \"--run-dir\",\n    \"/Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/e10_openended/attempt_001\",\n    \"--seed\",\n    \"20260709\"\n  ],\n  \"experiment_id\": \"e10_openended\",\n  \"recorded_at_unix\": 1783653185.497986,\n  \"returncode\": 0,\n  \"run_dir\": \"runs/project_exhaustion/current/classes/e10_openended/attempt_001\",\n  \"schema\": \"mop-project-experiment-attempt/v1\",\n  \"seconds\": 13.141858,\n  \"source_evidence\": [\n    {\n      \"bytes\": 11591,\n      \"exists\": true,\n      \"path\": \"src/mop/experiments/e10_openended.py\",\n      \"sha256\": \"fb4b256f15786289b8c0ccc9011fc500e3239246af5fa700c7d7602a5cac3045\"\n    },\n    {\n      \"bytes\": 1268,\n      \"exists\": true,\n      \"path\": \"configs/experiment/e10_openended.yaml\",\n      \"sha256\": \"6615d352721db7c29dfb99d51041655c8116af3e4fe3c89909fb04df9747b93a\"\n    }\n  ],\n  \"stderr_tail\": \"Matplotlib is building the font cache; this may take a moment.\\n23:13:04 INFO runner | run e10_openended on resolved cpu (seed=20260709) -> /Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/e10_openended/attempt_001\\n\",\n  \"stdout_tail\": \"PROJECT_EXHAUSTION_WORKER={\\\"experiment_id\\\": \\\"e10_openended\\\", \\\"max_rss_bytes\\\": 321896448, \\\"metric_keys\\\": [\\\"any_arm_collapsed\\\", \\\"arms\\\", \\\"best_prior_diversity\\\", \\\"best_rung_gain\\\", \\\"diversity_ladder\\\", \\\"last_rung_gain\\\", \\\"per_arm_diversity\\\", \\\"plateau_eps\\\", \\\"rel_gain_over_best\\\", \\\"scaffold_only\\\", \\\"single_agent_plateaus\\\", \\\"tier\\\"], \\\"seconds\\\": 0.836068}\\n\",\n  \"timed_out\": false,\n  \"worker_report\": {\n    \"experiment_id\": \"e10_openended\",\n    \"max_rss_bytes\": 321896448,\n    \"metric_keys\": [\n      \"any_arm_collapsed\",\n      \"arms\",\n      \"best_prior_diversity\",\n      \"best_rung_gain\",\n      \"diversity_ladder\",\n      \"last_rung_gain\",\n      \"per_arm_diversity\",\n      \"plateau_eps\",\n      \"rel_gain_over_best\",\n      \"scaffold_only\",\n      \"single_agent_plateaus\",\n      \"tier\"\n    ],\n    \"seconds\": 0.836068\n  }\n}\n",
-      "sha256": "63bc13e8ecb8a31cf0ec43192b65bd5c5bbec256d450844614b023450bcd9a09",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e10_openended/attempt_001/attempt_receipt.json"
-      ]
-    },
     "6498f18315ee6642a7b4d93150b6697f4150e44299f9fbe80b42b69db9407f84": {
       "bytes": 2099,
       "encoding": "utf-8",
@@ -1706,15 +1661,6 @@
         "runs/project_exhaustion/current/classes/ex16_codebook_sr/attempt_001/config.yaml"
       ]
     },
-    "6cdf8a17ff6a77ad7e3f3fda32be43710e95478d3059e66bfd629afc03d6cc35": {
-      "bytes": 6813,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"name\": \"ex5_local_rules_scale\",\n  \"seed\": 20260709,\n  \"device\": \"cpu\",\n  \"git\": \"be7b5d9\",\n  \"python\": \"3.12.13\",\n  \"platform\": \"macOS-26.6-arm64-arm-64bit\",\n  \"started\": 1783652948.393825,\n  \"finished\": 1783653046.231822,\n  \"status\": \"ok\",\n  \"metrics\": {\n    \"hidden_widths\": [\n      32,\n      64,\n      96\n    ],\n    \"primary_hidden\": 64,\n    \"n_tasks\": 80,\n    \"margin\": 0.03,\n    \"ceiling_backprop_acc\": 0.3359375,\n    \"ceiling_backprop_bwt\": -0.7232142857142857,\n    \"table\": {\n      \"backprop\": {\n        \"acc_mean\": 0.3359375,\n        \"acc_std\": 0.08861822670402893,\n        \"backward_transfer\": -0.7232142857142857,\n        \"seconds\": 1.225169860990718,\n        \"weight_transport\": true,\n        \"local\": false,\n        \"activation_memory\": 1.0,\n        \"gap_to_backprop\": 0.0\n      },\n      \"feedback_alignment\": {\n        \"acc_mean\": 0.4973958333333333,\n        \"acc_std\": 0.018414239093399672,\n        \"backward_transfer\": -0.5535714285714286,\n        \"seconds\": 0.45537449993814033,\n        \"weight_transport\": false,\n        \"local\": false,\n        \"activation_memory\": 1.0,\n        \"gap_to_backprop\": -0.16145833333333331\n      },\n      \"predictive_coding\": {\n        \"acc_mean\": 0.3984375,\n        \"acc_std\": 0.044652156769485016,\n        \"backward_transfer\": -0.6369047619047619,\n        \"seconds\": 8.731689999694936,\n        \"weight_transport\": false,\n        \"local\": true,\n        \"activation_memory\": 0.5,\n        \"gap_to_backprop\": -0.0625\n      }\n    },\n    \"depth_sweep\": {\n      \"32\": {\n        \"backprop\": {\n          \"acc_mean\": 0.3489583333333333,\n          \"acc_std\": 0.03845006005269115,\n          \"backward_transfer\": -0.6577380952380952,\n          \"seconds\": 1.278422486037016,\n          \"weight_transport\": true,\n          \"local\": false,\n          \"activation_memory\": 1.0,\n          \"gap_to_backprop\": 0.0\n        },\n        \"feedback_alignment\": {\n          \"acc_mean\": 0.4661458333333333,\n          \"acc_std\": 0.02240188871625684,\n          \"backward_transfer\": -0.5922619047619048,\n          \"seconds\": 0.4511459166727339,\n          \"weight_transport\": false,\n          \"local\": false,\n          \"activation_memory\": 1.0,\n          \"gap_to_backprop\": -0.1171875\n        },\n        \"predictive_coding\": {\n          \"acc_mean\": 0.4114583333333333,\n          \"acc_std\": 0.0916281879466624,\n          \"backward_transfer\": -0.6190476190476191,\n          \"seconds\": 6.969748555294548,\n          \"weight_transport\": false,\n          \"local\": true,\n          \"activation_memory\": 0.5,\n          \"gap_to_backprop\": -0.0625\n        }\n      },\n      \"64\": {\n        \"backprop\": {\n          \"acc_mean\": 0.3359375,\n          \"acc_std\": 0.08861822670402893,\n          \"backward_transfer\": -0.7232142857142857,\n          \"seconds\": 1.225169860990718,\n          \"weight_transport\": true,\n          \"local\": false,\n          \"activation_memory\": 1.0,\n          \"gap_to_backprop\": 0.0\n        },\n        \"feedback_alignment\": {\n          \"acc_mean\": 0.4973958333333333,\n          \"acc_std\": 0.018414239093399672,\n          \"backward_transfer\": -0.5535714285714286,\n          \"seconds\": 0.45537449993814033,\n          \"weight_transport\": false,\n          \"local\": false,\n          \"activation_memory\": 1.0,\n          \"gap_to_backprop\": -0.16145833333333331\n        },\n        \"predictive_coding\": {\n          \"acc_mean\": 0.3984375,\n          \"acc_std\": 0.044652156769485016,\n          \"backward_transfer\": -0.6369047619047619,\n          \"seconds\": 8.731689999694936,\n          \"weight_transport\": false,\n          \"local\": true,\n          \"activation_memory\": 0.5,\n          \"gap_to_backprop\": -0.0625\n        }\n      },\n      \"96\": {\n        \"backprop\": {\n          \"acc_mean\": 0.3255208333333333,\n          \"acc_std\": 0.01948779888944761,\n          \"backward_transfer\": -0.7619047619047619,\n          \"seconds\": 1.267892847303301,\n          \"weight_transport\": true,\n          \"local\": false,\n          \"activation_memory\": 1.0,\n          \"gap_to_backprop\": 0.0\n        },\n        \"feedback_alignment\": {\n          \"acc_mean\": 0.5286458333333334,\n          \"acc_std\": 0.04701945334705153,\n          \"backward_transfer\": -0.5238095238095238,\n          \"seconds\": 0.5002890136869004,\n          \"weight_transport\": false,\n          \"local\": false,\n          \"activation_memory\": 1.0,\n          \"gap_to_backprop\": -0.20312500000000006\n        },\n        \"predictive_coding\": {\n          \"acc_mean\": 0.4114583333333333,\n          \"acc_std\": 0.05425173608333245,\n          \"backward_transfer\": -0.6309523809523809,\n          \"seconds\": 11.678324708288224,\n          \"weight_transport\": false,\n          \"local\": true,\n          \"activation_memory\": 0.5,\n          \"gap_to_backprop\": -0.0859375\n        }\n      }\n    },\n    \"rules_within_accuracy_margin\": [\n      \"feedback_alignment\",\n      \"predictive_coding\"\n    ],\n    \"rules_with_bwt_advantage\": [\n      \"feedback_alignment\",\n      \"predictive_coding\"\n    ],\n    \"rules_whose_bwt_advantage_justifies_gap\": [\n      \"feedback_alignment\",\n      \"predictive_coding\"\n    ],\n    \"depth_sweep_bwt_ranking_stable\": {\n      \"feedback_alignment\": true,\n      \"predictive_coding\": true\n    },\n    \"accuracy_gap\": {\n      \"backprop\": 0.0,\n      \"feedback_alignment\": -0.16145833333333331,\n      \"predictive_coding\": -0.0625\n    },\n    \"activation_memory\": {\n      \"backprop\": 1.0,\n      \"feedback_alignment\": 1.0,\n      \"predictive_coding\": 0.5\n    },\n    \"locality\": {\n      \"backprop\": false,\n      \"feedback_alignment\": false,\n      \"predictive_coding\": true\n    },\n    \"backward_transfer\": {\n      \"backprop\": -0.7232142857142857,\n      \"feedback_alignment\": -0.5535714285714286,\n      \"predictive_coding\": -0.6369047619047619\n    },\n    \"null_supported\": false\n  },\n  \"extra\": {\n    \"contract\": {\n      \"id\": \"ex5_local_rules_scale\",\n      \"metric\": [\n        \"accuracy_gap\",\n        \"activation_memory\",\n        \"locality\",\n        \"backward_transfer\"\n      ],\n      \"baseline\": \"persistent backprop MLP trained incrementally across the same continual stream (the ceiling)\",\n      \"ablation\": \"persistent local rule = {feedback_alignment, predictive_coding} at matched hidden width and epoch budget, repeated at a depth-sweep of hidden widths\",\n      \"null_hypothesis\": \"no local rule comes within the accuracy margin of backprop AND none offers a continual-learning or memory advantage that justifies the gap\",\n      \"tier\": \"cpu-now\"\n    },\n    \"device_note\": \"resolved cpu\"\n  },\n  \"encoder_id\": \"vjepa2_vitl_fpc64_256\",\n  \"encoder_backend\": \"\",\n  \"cache_id\": \"\",\n  \"result_tag\": \"project-exhaustion-provisional\",\n  \"packages\": {\n    \"python\": \"3.12.13\",\n    \"torch\": \"2.12.1\",\n    \"numpy\": \"2.4.6\",\n    \"omegaconf\": \"2.3.1\",\n    \"faiss-cpu\": \"1.14.3\",\n    \"transformers\": \"5.12.1\",\n    \"torchvision\": \"0.27.1\",\n    \"matplotlib\": \"3.11.0\"\n  }\n}",
-      "sha256": "6cdf8a17ff6a77ad7e3f3fda32be43710e95478d3059e66bfd629afc03d6cc35",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/manifest.json"
-      ]
-    },
     "6d8316dbc7d26d9c4c3a0f7e266fe13083d37303e9ba3b28afbca5ba23189ce3": {
       "bytes": 2099,
       "encoding": "utf-8",
@@ -1722,15 +1668,6 @@
       "sha256": "6d8316dbc7d26d9c4c3a0f7e266fe13083d37303e9ba3b28afbca5ba23189ce3",
       "source_paths": [
         "runs/project_exhaustion/current/classes/s1_symbol_grounding/attempt_001/config.yaml"
-      ]
-    },
-    "6dda8178acdc12002246f236b3f2ea9779df5ac514e900c2495fdda4f37e2caa": {
-      "bytes": 3245,
-      "encoding": "utf-8",
-      "exact_text": "device:\n  kind: cpu\n  amp: false\n  pin_memory: false\n  num_workers: 0\n  allow_cpu_fallback: true\n  matmul_precision: high\ndevice_name: cpu\nencoder:\n  name: vjepa2_vitl_fpc64_256\n  arch: vit_large\n  hf_id: facebook/vjepa2-vitl-fpc64-256\n  revision: b3c1679b7c34d3255ef3547f27c7b226aefab26f\n  hub: facebookresearch/jepa\n  embed_dim: 1024\n  patch_size: 16\n  tubelet: 2\n  frames_per_clip: 64\n  resolution: 256\n  dense: false\n  pool: mean\n  frozen: true\n  random_init: false\n  random_init_seed: 0\n  prefer_real: false\n  family: vjepa2\n  training_objective: masked_latent_prediction\nencoder_name: vjepa2_vitl_fpc64_256\nshell:\n  predictor:\n    kind: mlp\n    hidden: 1024\n    depth: 2\n    dropout: 0.0\n    action_dim: 0\n    layernorm: true\n  heads:\n    hidden: 512\n    probabilistic: true\n    n_classes: 10\n  ensemble:\n    size: 1\n    bootstrap: false\n  buffer:\n    capacity: 2048\n    prioritized: true\n    alpha: 0.6\n    beta: 0.4\n    index: brute\n    key_dim: 1024\n    eviction: reservoir\n  plasticity:\n    schedule: soft\n    lr: 0.001\n    rigidity: 0.0\n    pnn_fraction: 0.0\n  consolidation:\n    method: ewc\n    ewc_lambda: 1000.0\n    si_c: 0.1\n    si_xi: 0.001\n    fisher_samples: 64\n  neuromod:\n    enabled: true\n    surprise_gain: 1.0\n    novelty_gain: 1.0\n    uncertainty_gain: 1.0\n    gate_floor: 0.1\n    gate_ceil: 3.0\n  modulation:\n    context_gating: false\n    working_memory: false\n    chunking: false\n    n_contexts: 8\n    wm_slots: 4\nshell_name: predictor\nexperiment:\n  id: mop_p5_context_capability\n  name: context_capability_pilot\n  module: p5_context\n  metric:\n  - heldout_combo_per_context\n  - context_response_curve\n  null_hypothesis: at matched parameters and matched active FLOPs, windowed, recurrent,\n    and hierarchical factorized context mechanisms match exact global attention on\n    held-out factor combinations within the 0.10 SESOI at 32 and 64 frames while peaking\n    at lower measured bytes; exact global interaction is not a live capability lever\n    in this context range\n  tier: cpu-now\n  profiles:\n    p5smoke:\n      seeds:\n      - 0\n      dense_steps: 12\n      checkpoint_every: 6\n      wall_budget_seconds: 10800.0\n    p5pilot:\n      seeds:\n      - 0\n      - 1\n      - 2\n      - 3\n      - 4\n      dense_steps: 200\n      checkpoint_every: 25\n      wall_budget_seconds: 10800.0\n  training:\n    batch_size: 4\n    learning_rate: 0.0005\n    weight_decay: 0.02\n    mask_ratio: 0.5\n    ema_decay: 0.99\n    variance_weight: 0.1\n  screen:\n    sesoi: 0.1\n    futility_margin: 0.1\n    min_free_disk_gb: 40.0\n  cells:\n  - frames: 64\n    mechanism: exact_global\n  - frames: 64\n    mechanism: window_local\n  - frames: 64\n    mechanism: recurrent\n  - frames: 64\n    mechanism: hierarchical_pooled\n  - frames: 32\n    mechanism: exact_global\n  - frames: 32\n    mechanism: window_local\n  - frames: 32\n    mechanism: recurrent\n  - frames: 32\n    mechanism: hierarchical_pooled\n  - frames: 16\n    mechanism: exact_global\n  - frames: 16\n    mechanism: window_local\n  - frames: 16\n    mechanism: recurrent\n  - frames: 16\n    mechanism: hierarchical_pooled\nexperiment_name: mop_p5_context_capability\npackage: mop\nseed: 20260709\ndeterministic: true\nruns_dir: runs\ndata_dir: data\nlatent_dim: 1024\nresult_tag: project-exhaustion-provisional\n",
-      "sha256": "6dda8178acdc12002246f236b3f2ea9779df5ac514e900c2495fdda4f37e2caa",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml"
       ]
     },
     "6f1e4a20f1ce9b4a5dda72429478c0ae7f819dd16ddd86b8f8e3cccc15753af9": {
@@ -1868,15 +1805,6 @@
         "runs/project_exhaustion/current/classes/d5_lp_self_curriculum/attempt_001/attempt_receipt.json"
       ]
     },
-    "7c948560de3436ba73fe7a133ca2a9362febcb584afbebe2e34381dd9846c6a8": {
-      "bytes": 2018,
-      "encoding": "utf-8",
-      "exact_text": "device:\n  kind: cpu\n  amp: false\n  pin_memory: false\n  num_workers: 0\n  allow_cpu_fallback: true\n  matmul_precision: high\ndevice_name: cpu\nencoder:\n  name: vjepa2_vitl_fpc64_256\n  arch: vit_large\n  hf_id: facebook/vjepa2-vitl-fpc64-256\n  revision: b3c1679b7c34d3255ef3547f27c7b226aefab26f\n  hub: facebookresearch/jepa\n  embed_dim: 1024\n  patch_size: 16\n  tubelet: 2\n  frames_per_clip: 64\n  resolution: 256\n  dense: false\n  pool: mean\n  frozen: true\n  prefer_real: false\n  family: vjepa2\n  training_objective: masked_latent_prediction\nencoder_name: vjepa2_vitl_fpc64_256\nshell:\n  predictor:\n    kind: mlp\n    hidden: 1024\n    depth: 2\n    dropout: 0.0\n    action_dim: 0\n    layernorm: true\n  heads:\n    hidden: 512\n    probabilistic: true\n    n_classes: 10\n  ensemble:\n    size: 1\n    bootstrap: false\n  buffer:\n    capacity: 2048\n    prioritized: true\n    alpha: 0.6\n    beta: 0.4\n    index: brute\n    key_dim: 1024\n    eviction: reservoir\n  plasticity:\n    schedule: soft\n    lr: 0.001\n    rigidity: 0.0\n    pnn_fraction: 0.0\n  consolidation:\n    method: ewc\n    ewc_lambda: 1000.0\n    si_c: 0.1\n    si_xi: 0.001\n    fisher_samples: 64\n  neuromod:\n    enabled: true\n    surprise_gain: 1.0\n    novelty_gain: 1.0\n    uncertainty_gain: 1.0\n    gate_floor: 0.1\n    gate_ceil: 3.0\n  modulation:\n    context_gating: false\n    working_memory: false\n    chunking: false\n    n_contexts: 8\n    wm_slots: 4\nshell_name: predictor\nexperiment:\n  id: e6_relational\n  name: relational_map_2_vs_21\n  module: e6_relational\n  metric:\n  - pooled_delta\n  - dense_delta\n  - headline_2_vs_21_delta\n  null_hypothesis: structured head ties the parameter-matched flat head on recombination,\n    and the dense (2.1) gain is no larger than the pooled (2) gain\n  tier: 2.1-only\n  samples: 192\n  n_attr: 4\n  attr_shift: 1.5\n  hidden: 64\n  epochs: 120\n  lr: 0.01\n  tie_eps: 0.01\nexperiment_name: e6_relational\npackage: mop\nseed: 20260709\ndeterministic: true\nruns_dir: runs\ndata_dir: data\nlatent_dim: 1024\nresult_tag: project-exhaustion-provisional\n",
-      "sha256": "7c948560de3436ba73fe7a133ca2a9362febcb584afbebe2e34381dd9846c6a8",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e6_relational/attempt_001/config.yaml"
-      ]
-    },
     "7cb18e0bf3eef865783c8fad6ca2348a3a2b71fc94bdfe3ee24bfbacf9a96792": {
       "bytes": 2177,
       "encoding": "utf-8",
@@ -1974,15 +1902,6 @@
       "sha256": "82cd1075dba7605e06480981911046833aec99b21f21d11ec911ef208d85802f",
       "source_paths": [
         "runs/project_exhaustion/current/classes/ex8_curiosity_bakeoff/attempt_001/attempt_receipt.json"
-      ]
-    },
-    "82e41682f4978f936934cfed7ccbd0c2b237ea05956eda158ac6f23db3971ad3": {
-      "bytes": 2541,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"command\": [\n    \"/Users/scammermike/Downloads/mop/.venv/bin/python\",\n    \"/Users/scammermike/Downloads/mop/scripts/project_experiment_exhaustion.py\",\n    \"--worker-experiment\",\n    \"ex5_local_rules_scale\",\n    \"--run-dir\",\n    \"/Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001\",\n    \"--seed\",\n    \"20260709\"\n  ],\n  \"experiment_id\": \"ex5_local_rules_scale\",\n  \"recorded_at_unix\": 1783653046.824013,\n  \"returncode\": 0,\n  \"run_dir\": \"runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001\",\n  \"schema\": \"mop-project-experiment-attempt/v1\",\n  \"seconds\": 112.149721,\n  \"source_evidence\": [\n    {\n      \"bytes\": 20773,\n      \"exists\": true,\n      \"path\": \"src/mop/experiments/ex5_local_rules_scale.py\",\n      \"sha256\": \"99c2ec96982e4c3df8dd26ad534351968d825755fc58657343c8c84a4785d189\"\n    },\n    {\n      \"bytes\": 2878,\n      \"exists\": true,\n      \"path\": \"configs/experiment/ex5_local_rules_scale.yaml\",\n      \"sha256\": \"d9ec805aad1d4c6d5d400076155e86a61a113ac1a952c422658ed295b163d5eb\"\n    }\n  ],\n  \"stderr_tail\": \"Matplotlib is building the font cache; this may take a moment.\\n23:09:08 INFO runner | run ex5_local_rules_scale on resolved cpu (seed=20260709) -> /Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001\\n\",\n  \"stdout_tail\": \"PROJECT_EXHAUSTION_WORKER={\\\"experiment_id\\\": \\\"ex5_local_rules_scale\\\", \\\"max_rss_bytes\\\": 332546048, \\\"metric_keys\\\": [\\\"accuracy_gap\\\", \\\"activation_memory\\\", \\\"backward_transfer\\\", \\\"ceiling_backprop_acc\\\", \\\"ceiling_backprop_bwt\\\", \\\"depth_sweep\\\", \\\"depth_sweep_bwt_ranking_stable\\\", \\\"hidden_widths\\\", \\\"locality\\\", \\\"margin\\\", \\\"n_tasks\\\", \\\"null_supported\\\", \\\"primary_hidden\\\", \\\"rules_whose_bwt_advantage_justifies_gap\\\", \\\"rules_with_bwt_advantage\\\", \\\"rules_within_accuracy_margin\\\", \\\"table\\\"], \\\"seconds\\\": 98.530666}\\n\",\n  \"timed_out\": false,\n  \"worker_report\": {\n    \"experiment_id\": \"ex5_local_rules_scale\",\n    \"max_rss_bytes\": 332546048,\n    \"metric_keys\": [\n      \"accuracy_gap\",\n      \"activation_memory\",\n      \"backward_transfer\",\n      \"ceiling_backprop_acc\",\n      \"ceiling_backprop_bwt\",\n      \"depth_sweep\",\n      \"depth_sweep_bwt_ranking_stable\",\n      \"hidden_widths\",\n      \"locality\",\n      \"margin\",\n      \"n_tasks\",\n      \"null_supported\",\n      \"primary_hidden\",\n      \"rules_whose_bwt_advantage_justifies_gap\",\n      \"rules_with_bwt_advantage\",\n      \"rules_within_accuracy_margin\",\n      \"table\"\n    ],\n    \"seconds\": 98.530666\n  }\n}\n",
-      "sha256": "82e41682f4978f936934cfed7ccbd0c2b237ea05956eda158ac6f23db3971ad3",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/attempt_receipt.json"
       ]
     },
     "83b4477db235132778a7b593f8e0f1e8d7462e859b5f141759fd857f7fbaa72a": {
@@ -2498,15 +2417,6 @@
         "runs/project_exhaustion/current/classes/a1_affordance_decode/attempt_001/config.yaml"
       ]
     },
-    "b3b1c5b0f1ee3c2f3c6b5ec44b469b0f20502006c4248460c38467722196c209": {
-      "bytes": 2969,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"name\": \"e10_openended\",\n  \"seed\": 20260709,\n  \"device\": \"cpu\",\n  \"git\": \"be7b5d9\",\n  \"python\": \"3.12.13\",\n  \"platform\": \"macOS-26.6-arm64-arm-64bit\",\n  \"started\": 1783653184.713418,\n  \"finished\": 1783653184.880181,\n  \"status\": \"ok\",\n  \"metrics\": {\n    \"arms\": {\n      \"curiosity_only\": {\n        \"distinct_skills\": 30,\n        \"skill_reuse\": 0.75,\n        \"archive_diversity\": 30,\n        \"collapse\": false,\n        \"components\": {\n          \"memory\": false,\n          \"plasticity\": false,\n          \"goals\": false\n        },\n        \"steps\": 120\n      },\n      \"+memory\": {\n        \"distinct_skills\": 24,\n        \"skill_reuse\": 0.8,\n        \"archive_diversity\": 24,\n        \"collapse\": false,\n        \"components\": {\n          \"memory\": true,\n          \"plasticity\": false,\n          \"goals\": false\n        },\n        \"steps\": 120\n      },\n      \"+plasticity\": {\n        \"distinct_skills\": 28,\n        \"skill_reuse\": 0.7666666666666667,\n        \"archive_diversity\": 28,\n        \"collapse\": false,\n        \"components\": {\n          \"memory\": true,\n          \"plasticity\": true,\n          \"goals\": false\n        },\n        \"steps\": 120\n      },\n      \"+goal_generation\": {\n        \"distinct_skills\": 19,\n        \"skill_reuse\": 0.8416666666666667,\n        \"archive_diversity\": 19,\n        \"collapse\": false,\n        \"components\": {\n          \"memory\": true,\n          \"plasticity\": true,\n          \"goals\": true\n        },\n        \"steps\": 120\n      }\n    },\n    \"per_arm_diversity\": {\n      \"curiosity_only\": 30,\n      \"+memory\": 24,\n      \"+plasticity\": 28,\n      \"+goal_generation\": 19\n    },\n    \"diversity_ladder\": [\n      30,\n      24,\n      28,\n      19\n    ],\n    \"last_rung_gain\": -9,\n    \"best_rung_gain\": 4,\n    \"best_prior_diversity\": 30,\n    \"rel_gain_over_best\": -0.36666666666666664,\n    \"plateau_eps\": 0.05,\n    \"single_agent_plateaus\": true,\n    \"any_arm_collapsed\": false,\n    \"tier\": \"env-later\",\n    \"scaffold_only\": true\n  },\n  \"extra\": {\n    \"contract\": {\n      \"id\": \"e10_openended\",\n      \"metric\": [\n        \"distinct_skills\",\n        \"skill_reuse\",\n        \"archive_diversity\",\n        \"collapse\"\n      ],\n      \"baseline\": \"fixed-task agent (no goal generation) and a random-goal agent\",\n      \"ablation\": \"ablation ladder: curiosity_only, +memory, +plasticity, +goal_generation\",\n      \"null_hypothesis\": \"the single agent plateaus: archive diversity stops growing across the ablation ladder, so open-endedness needs population-level search and environment generation, not just a richer single agent\",\n      \"tier\": \"env-later\"\n    },\n    \"device_note\": \"resolved cpu\"\n  },\n  \"encoder_id\": \"vjepa2_vitl_fpc64_256\",\n  \"encoder_backend\": \"\",\n  \"cache_id\": \"\",\n  \"result_tag\": \"project-exhaustion-provisional\",\n  \"packages\": {\n    \"python\": \"3.12.13\",\n    \"torch\": \"2.12.1\",\n    \"numpy\": \"2.4.6\",\n    \"omegaconf\": \"2.3.1\",\n    \"faiss-cpu\": \"1.14.3\",\n    \"transformers\": \"5.12.1\",\n    \"torchvision\": \"0.27.1\",\n    \"matplotlib\": \"3.11.0\"\n  }\n}",
-      "sha256": "b3b1c5b0f1ee3c2f3c6b5ec44b469b0f20502006c4248460c38467722196c209",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e10_openended/attempt_001/manifest.json"
-      ]
-    },
     "b40cf124eda86b3281aba13fae93af7e797ff1338eb77cefe067a1d69cc23202": {
       "bytes": 3127,
       "encoding": "utf-8",
@@ -2550,15 +2460,6 @@
       "sha256": "b677422aea01d921d7923309e1059d64b3189e955e58a8954b73f92b53e1fd3f",
       "source_paths": [
         "runs/project_exhaustion/current/classes/n11_self_verification/attempt_001/manifest.json"
-      ]
-    },
-    "b78eb4ecf889805b0caf8d885e90c87e37028bd6ae1097b58d1606396541b755": {
-      "bytes": 2011,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"command\": [\n    \"/Users/scammermike/Downloads/mop/.venv/bin/python\",\n    \"/Users/scammermike/Downloads/mop/scripts/project_experiment_exhaustion.py\",\n    \"--worker-experiment\",\n    \"mop_p5_context_capability\",\n    \"--run-dir\",\n    \"/Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001\",\n    \"--seed\",\n    \"20260709\"\n  ],\n  \"experiment_id\": \"mop_p5_context_capability\",\n  \"recorded_at_unix\": 1783677944.1251981,\n  \"returncode\": 0,\n  \"run_dir\": \"runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001\",\n  \"schema\": \"mop-project-experiment-attempt/v1\",\n  \"seconds\": 30.626921,\n  \"source_evidence\": [\n    {\n      \"bytes\": 3446,\n      \"exists\": true,\n      \"path\": \"src/mop/experiments/p5_context_wrapper.py\",\n      \"sha256\": \"01d24d3f7ab1089d429fa6f8c63d35492ebf928ac9ca8fa598d4efe14d8c7909\"\n    },\n    {\n      \"bytes\": 2153,\n      \"exists\": true,\n      \"path\": \"configs/experiment/mop_p5_context_capability.yaml\",\n      \"sha256\": \"b021cb410fb1793b436d9d39bc0e5d4d7688ff1732ba76682f1e140626d0b08a\"\n    }\n  ],\n  \"stderr_tail\": \"Matplotlib is building the font cache; this may take a moment.\\n06:05:24 INFO runner | run mop_p5_context_capability on resolved cpu (seed=20260709) -> /Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001\\n\",\n  \"stdout_tail\": \"PROJECT_EXHAUSTION_WORKER={\\\"experiment_id\\\": \\\"mop_p5_context_capability\\\", \\\"max_rss_bytes\\\": 734543872, \\\"metric_keys\\\": [\\\"complete\\\", \\\"context_response_curve\\\", \\\"heldout_combo_per_context\\\", \\\"null_supported\\\", \\\"receipt\\\", \\\"scientific_scope\\\"], \\\"seconds\\\": 19.418993}\\n\",\n  \"timed_out\": false,\n  \"worker_report\": {\n    \"experiment_id\": \"mop_p5_context_capability\",\n    \"max_rss_bytes\": 734543872,\n    \"metric_keys\": [\n      \"complete\",\n      \"context_response_curve\",\n      \"heldout_combo_per_context\",\n      \"null_supported\",\n      \"receipt\",\n      \"scientific_scope\"\n    ],\n    \"seconds\": 19.418993\n  }\n}\n",
-      "sha256": "b78eb4ecf889805b0caf8d885e90c87e37028bd6ae1097b58d1606396541b755",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json"
       ]
     },
     "b797b5ffe160093778a7d4f52e8c96e56731823ed47561c10ab6da05511e9970": {
@@ -3083,15 +2984,6 @@
         "runs/project_exhaustion/current/classes/p2_memorize_vs_concept/attempt_001/config.yaml"
       ]
     },
-    "e55048ba256fcd275801e86f62024b6ed0ad602c742d374120a3b3c9f497940e": {
-      "bytes": 2056,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"name\": \"e6_relational\",\n  \"seed\": 20260709,\n  \"device\": \"cpu\",\n  \"git\": \"be7b5d9\",\n  \"python\": \"3.12.13\",\n  \"platform\": \"macOS-26.6-arm64-arm-64bit\",\n  \"started\": 1783653184.818437,\n  \"finished\": 1783653185.505156,\n  \"status\": \"ok\",\n  \"metrics\": {\n    \"pooled\": {\n      \"structured_acc\": 0.0,\n      \"flat_acc\": 0.0,\n      \"chance\": 0.0625,\n      \"n_train\": 142,\n      \"n_test_heldout_pairs\": 50,\n      \"latent_dim\": 1024,\n      \"flat_params\": 132176,\n      \"structured_params\": 131632\n    },\n    \"dense\": {\n      \"structured_acc\": 0.0,\n      \"flat_acc\": 0.0,\n      \"chance\": 0.0625,\n      \"n_train\": 142,\n      \"n_test_heldout_pairs\": 50,\n      \"latent_dim\": 1024,\n      \"flat_params\": 132176,\n      \"structured_params\": 131632\n    },\n    \"pooled_delta\": 0.0,\n    \"dense_delta\": 0.0,\n    \"headline_2_vs_21_delta\": 0.0,\n    \"tie_eps\": 0.01,\n    \"structured_beats_flat\": false,\n    \"dense_gain_larger\": false,\n    \"null_rejected\": false,\n    \"backends\": {\n      \"pooled\": \"frozen_random\",\n      \"dense\": \"frozen_random\"\n    }\n  },\n  \"extra\": {\n    \"contract\": {\n      \"id\": \"e6_relational\",\n      \"metric\": [\n        \"pooled_delta\",\n        \"dense_delta\",\n        \"headline_2_vs_21_delta\"\n      ],\n      \"baseline\": \"parameter-matched flat head over concatenated latents [a||b]\",\n      \"ablation\": \"structured (relational features a,b,a*b,a-b) vs flat, on pooled (2) vs dense (2.1)\",\n      \"null_hypothesis\": \"the structured head ties the parameter-matched flat head on recombination generalization, AND its gain on dense (2.1) is no larger than on pooled (2); structure adds capacity, not relational generalization\",\n      \"tier\": \"2.1-only\"\n    },\n    \"device_note\": \"resolved cpu\"\n  },\n  \"encoder_id\": \"vjepa2_vitl_fpc64_256\",\n  \"encoder_backend\": \"\",\n  \"cache_id\": \"\",\n  \"result_tag\": \"project-exhaustion-provisional\",\n  \"packages\": {\n    \"python\": \"3.12.13\",\n    \"torch\": \"2.12.1\",\n    \"numpy\": \"2.4.6\",\n    \"omegaconf\": \"2.3.1\",\n    \"faiss-cpu\": \"1.14.3\",\n    \"transformers\": \"5.12.1\",\n    \"torchvision\": \"0.27.1\",\n    \"matplotlib\": \"3.11.0\"\n  }\n}",
-      "sha256": "e55048ba256fcd275801e86f62024b6ed0ad602c742d374120a3b3c9f497940e",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json"
-      ]
-    },
     "e6348c6b41d10a8eab3fd8b8fce87258dc9f98516297da2d756fefb7aaaf3b37": {
       "bytes": 1806,
       "encoding": "utf-8",
@@ -3225,15 +3117,6 @@
       "sha256": "eef5d0e0428a0b6f38a2f044be4a43b16ed2df8c1a3fbae877025300a9084b1f",
       "source_paths": [
         "runs/project_exhaustion/current/classes/n8_object_permanence_bound/attempt_001/attempt_receipt.json"
-      ]
-    },
-    "ef93b4ee144b1c82a2f7fb5b81daa42c4d90fcbf4523775f99613f10b075d08d": {
-      "bytes": 2037,
-      "encoding": "utf-8",
-      "exact_text": "device:\n  kind: cpu\n  amp: false\n  pin_memory: false\n  num_workers: 0\n  allow_cpu_fallback: true\n  matmul_precision: high\ndevice_name: cpu\nencoder:\n  name: vjepa2_vitl_fpc64_256\n  arch: vit_large\n  hf_id: facebook/vjepa2-vitl-fpc64-256\n  revision: b3c1679b7c34d3255ef3547f27c7b226aefab26f\n  hub: facebookresearch/jepa\n  embed_dim: 1024\n  patch_size: 16\n  tubelet: 2\n  frames_per_clip: 64\n  resolution: 256\n  dense: false\n  pool: mean\n  frozen: true\n  prefer_real: false\n  family: vjepa2\n  training_objective: masked_latent_prediction\nencoder_name: vjepa2_vitl_fpc64_256\nshell:\n  predictor:\n    kind: mlp\n    hidden: 1024\n    depth: 2\n    dropout: 0.0\n    action_dim: 0\n    layernorm: true\n  heads:\n    hidden: 512\n    probabilistic: true\n    n_classes: 10\n  ensemble:\n    size: 1\n    bootstrap: false\n  buffer:\n    capacity: 2048\n    prioritized: true\n    alpha: 0.6\n    beta: 0.4\n    index: brute\n    key_dim: 1024\n    eviction: reservoir\n  plasticity:\n    schedule: soft\n    lr: 0.001\n    rigidity: 0.0\n    pnn_fraction: 0.0\n  consolidation:\n    method: ewc\n    ewc_lambda: 1000.0\n    si_c: 0.1\n    si_xi: 0.001\n    fisher_samples: 64\n  neuromod:\n    enabled: true\n    surprise_gain: 1.0\n    novelty_gain: 1.0\n    uncertainty_gain: 1.0\n    gate_floor: 0.1\n    gate_ceil: 3.0\n  modulation:\n    context_gating: false\n    working_memory: false\n    chunking: false\n    n_contexts: 8\n    wm_slots: 4\nshell_name: predictor\nexperiment:\n  id: e10_openended\n  name: minimal_open_ended_jepa\n  module: e10_openended\n  metric:\n  - distinct_skills\n  - skill_reuse\n  - archive_diversity\n  - collapse\n  null_hypothesis: the single agent plateaus; open-endedness needs population-level\n    search and environment generation, not just a richer single agent\n  tier: env-later\n  dim: 32\n  n_primitives: 6\n  n_actions: 120\n  horizon: 4\n  bins: 4\n  descriptor_dim: 3\n  plateau_eps: 0.05\nexperiment_name: e10_openended\npackage: mop\nseed: 20260709\ndeterministic: true\nruns_dir: runs\ndata_dir: data\nlatent_dim: 1024\nresult_tag: project-exhaustion-provisional\n",
-      "sha256": "ef93b4ee144b1c82a2f7fb5b81daa42c4d90fcbf4523775f99613f10b075d08d",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e10_openended/attempt_001/config.yaml"
       ]
     },
     "f1097a471708df94852fb18eadc3a47576a207b76e00914a15c7629093f2ae79": {
@@ -3396,15 +3279,6 @@
       "sha256": "fbb1f28ee637637074baf5a50b29aa20621d783f005e2cf37e9932981309fc97",
       "source_paths": [
         "runs/project_exhaustion/current/classes/b1_clonal_selection/attempt_001/manifest.json"
-      ]
-    },
-    "fbf3f020b2155fdb540676da96cc89480d1793c0206b4aadfdead3e449859e89": {
-      "bytes": 2019,
-      "encoding": "utf-8",
-      "exact_text": "{\n  \"command\": [\n    \"/Users/scammermike/Downloads/mop/.venv/bin/python\",\n    \"/Users/scammermike/Downloads/mop/scripts/project_experiment_exhaustion.py\",\n    \"--worker-experiment\",\n    \"e6_relational\",\n    \"--run-dir\",\n    \"/Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/e6_relational/attempt_001\",\n    \"--seed\",\n    \"20260709\"\n  ],\n  \"experiment_id\": \"e6_relational\",\n  \"recorded_at_unix\": 1783653185.962528,\n  \"returncode\": 0,\n  \"run_dir\": \"runs/project_exhaustion/current/classes/e6_relational/attempt_001\",\n  \"schema\": \"mop-project-experiment-attempt/v1\",\n  \"seconds\": 13.59796,\n  \"source_evidence\": [\n    {\n      \"bytes\": 11476,\n      \"exists\": true,\n      \"path\": \"src/mop/experiments/e6_relational.py\",\n      \"sha256\": \"29ba61df0317b8af1cc30f6972fbb5bfe80b338b0f6dca761dd1b551adf2e500\"\n    },\n    {\n      \"bytes\": 1224,\n      \"exists\": true,\n      \"path\": \"configs/experiment/e6_relational.yaml\",\n      \"sha256\": \"09b2514c2c3cb01ed6720948a651d9221b87b1f384152cc221908ab5416ab289\"\n    }\n  ],\n  \"stderr_tail\": \"Matplotlib is building the font cache; this may take a moment.\\n23:13:04 INFO runner | run e6_relational on resolved cpu (seed=20260709) -> /Users/scammermike/Downloads/mop/runs/project_exhaustion/current/classes/e6_relational/attempt_001\\n\",\n  \"stdout_tail\": \"PROJECT_EXHAUSTION_WORKER={\\\"experiment_id\\\": \\\"e6_relational\\\", \\\"max_rss_bytes\\\": 381501440, \\\"metric_keys\\\": [\\\"backends\\\", \\\"dense\\\", \\\"dense_delta\\\", \\\"dense_gain_larger\\\", \\\"headline_2_vs_21_delta\\\", \\\"null_rejected\\\", \\\"pooled\\\", \\\"pooled_delta\\\", \\\"structured_beats_flat\\\", \\\"tie_eps\\\"], \\\"seconds\\\": 1.353767}\\n\",\n  \"timed_out\": false,\n  \"worker_report\": {\n    \"experiment_id\": \"e6_relational\",\n    \"max_rss_bytes\": 381501440,\n    \"metric_keys\": [\n      \"backends\",\n      \"dense\",\n      \"dense_delta\",\n      \"dense_gain_larger\",\n      \"headline_2_vs_21_delta\",\n      \"null_rejected\",\n      \"pooled\",\n      \"pooled_delta\",\n      \"structured_beats_flat\",\n      \"tie_eps\"\n    ],\n    \"seconds\": 1.353767\n  }\n}\n",
-      "sha256": "fbf3f020b2155fdb540676da96cc89480d1793c0206b4aadfdead3e449859e89",
-      "source_paths": [
-        "runs/project_exhaustion/current/classes/e6_relational/attempt_001/attempt_receipt.json"
       ]
     },
     "fd2c86bae157f06d1a0360dea13aca641b1e1a9342aa4a6fbe7e0ecaf8a745ee": {
@@ -3865,102 +3739,17 @@
       ]
     },
     {
-      "classification": "freshly-executed-verified",
-      "classification_reason": "fresh CPU execution has a matching config, contract, nonempty finite metrics, and hashed receipt",
-      "evidence": [
-        {
-          "bytes": 3622,
-          "embedded_artifact_sha256": "5b36781b3975809fdb1af4525757926d386281ce28e05c10136f1ac2986151a8",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/manifest.json",
-          "sha256": "5b36781b3975809fdb1af4525757926d386281ce28e05c10136f1ac2986151a8"
-        },
-        {
-          "bytes": 2163,
-          "embedded_artifact_sha256": "110914eba7c7e673e07e3011b716d2cfe6c0f0dc3f04b3a47b10085c7c6689f9",
-          "exists": true,
-          "path": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_002/config.yaml",
-          "sha256": "110914eba7c7e673e07e3011b716d2cfe6c0f0dc3f04b3a47b10085c7c6689f9"
-        }
-      ],
-      "execution_verified": true,
+      "classification": "runnable-not-yet-run",
+      "classification_reason": "runnable cpu-now class has no verified fresh attempt in the resumable execution root",
+      "evidence": [],
+      "execution_verified": false,
       "exp_tier": "cpu-now",
-      "fresh_class_codepath_verified": true,
+      "fresh_class_codepath_verified": false,
       "id": "e5_curiosity",
       "implementation_surface": "experiment-class",
       "kind": "experiment",
       "name": "Curiosity as self-curriculum",
-      "observed_result": {
-        "env_rollout_ok": true,
-        "env_smoke_ok": true,
-        "env_tier": "cpu-now",
-        "environment_contract": {
-          "action_count": 4,
-          "checks": {
-            "collections": true,
-            "content_hash": true,
-            "counts": true,
-            "episode_boundaries": true,
-            "exact_seeded_replay": true,
-            "four_branches_per_clone": true,
-            "required_causal_fields": true,
-            "schema": true,
-            "stable_unique_event_refs": true,
-            "stable_unique_sequence_states": true,
-            "world_hash": true
-          },
-          "counterfactuals": 288,
-          "episodes": 8,
-          "has_learnable_rows": true,
-          "has_noisy_tv_rows": true,
-          "natural_embodiment_claim": false,
-          "observation_dim": 16,
-          "programmatic_only": true,
-          "schema": "mop-bounded-action-contract/v1",
-          "trajectory_sha256": "c83a10e37a17688595d3f6e832d591802e0e2618d27a3ca93ded7d162239d4fe",
-          "transitions": 72,
-          "verified": true,
-          "world_sha256": "37e18cf25135549b00d149fd0f76b1fd1b7a91f30d66d19135dc6d69a73eb554"
-        },
-        "environment_scope": "programmatic local mechanics; no natural-embodiment claim",
-        "learnable_improvement": {
-          "learning_progress": -17.591633796691895,
-          "prediction_error": -3.6157007217407227,
-          "random": 8.74542498588562
-        },
-        "lp_resists_noise": false,
-        "noise_fraction": {
-          "learning_progress": 0.73828125,
-          "prediction_error": 0.99609375,
-          "random": 0.484375
-        },
-        "noise_threshold": 0.5,
-        "null_supported": false,
-        "pe_chases_noise": true,
-        "policies": {
-          "learning_progress": {
-            "base_learnable_err": 9.316658973693848,
-            "final_learnable_err": 26.908292770385742,
-            "learnable_improvement": -17.591633796691895,
-            "noise_fraction": 0.73828125
-          },
-          "prediction_error": {
-            "base_learnable_err": 9.316658973693848,
-            "final_learnable_err": 12.93235969543457,
-            "learnable_improvement": -3.6157007217407227,
-            "noise_fraction": 0.99609375
-          },
-          "random": {
-            "base_learnable_err": 9.316658973693848,
-            "final_learnable_err": 0.5712339878082275,
-            "learnable_improvement": 8.74542498588562,
-            "noise_fraction": 0.484375
-          }
-        },
-        "random_noise_fraction": 0.484375
-      },
+      "observed_result": null,
       "registry_status": "implemented",
       "remaining_scientific_blocker": null,
       "resource_tier": "cpu-now",
@@ -3987,31 +3776,6 @@
       "classification": "rights-data-blocked",
       "classification_reason": "official runtime and cache/control integration are verified; the registered claim now requires a rights-clean annotated natural cohort, untouched test membership, serial learned/random caches, and independent verification",
       "evidence": [
-        {
-          "bytes": 2056,
-          "embedded_artifact_sha256": "e55048ba256fcd275801e86f62024b6ed0ad602c742d374120a3b3c9f497940e",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/e6_relational/attempt_001/manifest.json",
-          "sha256": "e55048ba256fcd275801e86f62024b6ed0ad602c742d374120a3b3c9f497940e"
-        },
-        {
-          "bytes": 2018,
-          "embedded_artifact_sha256": "7c948560de3436ba73fe7a133ca2a9362febcb584afbebe2e34381dd9846c6a8",
-          "exists": true,
-          "path": "runs/project_exhaustion/current/classes/e6_relational/attempt_001/config.yaml",
-          "sha256": "7c948560de3436ba73fe7a133ca2a9362febcb584afbebe2e34381dd9846c6a8"
-        },
-        {
-          "bytes": 2019,
-          "embedded_artifact_sha256": "fbf3f020b2155fdb540676da96cc89480d1793c0206b4aadfdead3e449859e89",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/e6_relational/attempt_001/attempt_receipt.json",
-          "sha256": "fbf3f020b2155fdb540676da96cc89480d1793c0206b4aadfdead3e449859e89"
-        },
         {
           "bytes": 2993,
           "exists": true,
@@ -4047,7 +3811,7 @@
       ],
       "execution_verified": false,
       "exp_tier": "env-later",
-      "fresh_class_codepath_verified": true,
+      "fresh_class_codepath_verified": false,
       "id": "e6_relational",
       "implementation_surface": "experiment-class",
       "kind": "experiment",
@@ -4420,36 +4184,10 @@
     {
       "classification": "implementation-blocked",
       "classification_reason": "persistent action mechanics now exist; the registered capstone still needs bounded population search, environment generation, sustained-horizon evaluation, and transfer",
-      "evidence": [
-        {
-          "bytes": 2969,
-          "embedded_artifact_sha256": "b3b1c5b0f1ee3c2f3c6b5ec44b469b0f20502006c4248460c38467722196c209",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/e10_openended/attempt_001/manifest.json",
-          "sha256": "b3b1c5b0f1ee3c2f3c6b5ec44b469b0f20502006c4248460c38467722196c209"
-        },
-        {
-          "bytes": 2037,
-          "embedded_artifact_sha256": "ef93b4ee144b1c82a2f7fb5b81daa42c4d90fcbf4523775f99613f10b075d08d",
-          "exists": true,
-          "path": "runs/project_exhaustion/current/classes/e10_openended/attempt_001/config.yaml",
-          "sha256": "ef93b4ee144b1c82a2f7fb5b81daa42c4d90fcbf4523775f99613f10b075d08d"
-        },
-        {
-          "bytes": 2146,
-          "embedded_artifact_sha256": "63bc13e8ecb8a31cf0ec43192b65bd5c5bbec256d450844614b023450bcd9a09",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/e10_openended/attempt_001/attempt_receipt.json",
-          "sha256": "63bc13e8ecb8a31cf0ec43192b65bd5c5bbec256d450844614b023450bcd9a09"
-        }
-      ],
+      "evidence": [],
       "execution_verified": false,
       "exp_tier": "env-later",
-      "fresh_class_codepath_verified": true,
+      "fresh_class_codepath_verified": false,
       "id": "e10_openended",
       "implementation_surface": "experiment-class",
       "kind": "experiment",
@@ -4955,221 +4693,17 @@
       ]
     },
     {
-      "classification": "freshly-executed-verified",
-      "classification_reason": "fresh CPU execution has a matching config, contract, nonempty finite metrics, and hashed receipt",
-      "evidence": [
-        {
-          "bytes": 6813,
-          "embedded_artifact_sha256": "6cdf8a17ff6a77ad7e3f3fda32be43710e95478d3059e66bfd629afc03d6cc35",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/manifest.json",
-          "sha256": "6cdf8a17ff6a77ad7e3f3fda32be43710e95478d3059e66bfd629afc03d6cc35"
-        },
-        {
-          "bytes": 2174,
-          "embedded_artifact_sha256": "13cba351cd5ab8e88d8ac0a8b7adafae92eb5c670db4010cca31ec86e261bf0b",
-          "exists": true,
-          "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/config.yaml",
-          "sha256": "13cba351cd5ab8e88d8ac0a8b7adafae92eb5c670db4010cca31ec86e261bf0b"
-        },
-        {
-          "bytes": 2541,
-          "embedded_artifact_sha256": "82e41682f4978f936934cfed7ccbd0c2b237ea05956eda158ac6f23db3971ad3",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_001/attempt_receipt.json",
-          "sha256": "82e41682f4978f936934cfed7ccbd0c2b237ea05956eda158ac6f23db3971ad3"
-        }
-      ],
-      "execution_verified": true,
+      "classification": "runnable-not-yet-run",
+      "classification_reason": "runnable cpu-now class has no verified fresh attempt in the resumable execution root",
+      "evidence": [],
+      "execution_verified": false,
       "exp_tier": "cpu-now",
-      "fresh_class_codepath_verified": true,
+      "fresh_class_codepath_verified": false,
       "id": "ex5_local_rules_scale",
       "implementation_surface": "experiment-class",
       "kind": "cross-cutting",
       "name": "Local learning rules at scale (extend I4 to retention)",
-      "observed_result": {
-        "accuracy_gap": {
-          "backprop": 0.0,
-          "feedback_alignment": -0.16145833333333331,
-          "predictive_coding": -0.0625
-        },
-        "activation_memory": {
-          "backprop": 1.0,
-          "feedback_alignment": 1.0,
-          "predictive_coding": 0.5
-        },
-        "backward_transfer": {
-          "backprop": -0.7232142857142857,
-          "feedback_alignment": -0.5535714285714286,
-          "predictive_coding": -0.6369047619047619
-        },
-        "ceiling_backprop_acc": 0.3359375,
-        "ceiling_backprop_bwt": -0.7232142857142857,
-        "depth_sweep": {
-          "32": {
-            "backprop": {
-              "acc_mean": 0.3489583333333333,
-              "acc_std": 0.03845006005269115,
-              "activation_memory": 1.0,
-              "backward_transfer": -0.6577380952380952,
-              "gap_to_backprop": 0.0,
-              "local": false,
-              "seconds": 1.278422486037016,
-              "weight_transport": true
-            },
-            "feedback_alignment": {
-              "acc_mean": 0.4661458333333333,
-              "acc_std": 0.02240188871625684,
-              "activation_memory": 1.0,
-              "backward_transfer": -0.5922619047619048,
-              "gap_to_backprop": -0.1171875,
-              "local": false,
-              "seconds": 0.4511459166727339,
-              "weight_transport": false
-            },
-            "predictive_coding": {
-              "acc_mean": 0.4114583333333333,
-              "acc_std": 0.0916281879466624,
-              "activation_memory": 0.5,
-              "backward_transfer": -0.6190476190476191,
-              "gap_to_backprop": -0.0625,
-              "local": true,
-              "seconds": 6.969748555294548,
-              "weight_transport": false
-            }
-          },
-          "64": {
-            "backprop": {
-              "acc_mean": 0.3359375,
-              "acc_std": 0.08861822670402893,
-              "activation_memory": 1.0,
-              "backward_transfer": -0.7232142857142857,
-              "gap_to_backprop": 0.0,
-              "local": false,
-              "seconds": 1.225169860990718,
-              "weight_transport": true
-            },
-            "feedback_alignment": {
-              "acc_mean": 0.4973958333333333,
-              "acc_std": 0.018414239093399672,
-              "activation_memory": 1.0,
-              "backward_transfer": -0.5535714285714286,
-              "gap_to_backprop": -0.16145833333333331,
-              "local": false,
-              "seconds": 0.45537449993814033,
-              "weight_transport": false
-            },
-            "predictive_coding": {
-              "acc_mean": 0.3984375,
-              "acc_std": 0.044652156769485016,
-              "activation_memory": 0.5,
-              "backward_transfer": -0.6369047619047619,
-              "gap_to_backprop": -0.0625,
-              "local": true,
-              "seconds": 8.731689999694936,
-              "weight_transport": false
-            }
-          },
-          "96": {
-            "backprop": {
-              "acc_mean": 0.3255208333333333,
-              "acc_std": 0.01948779888944761,
-              "activation_memory": 1.0,
-              "backward_transfer": -0.7619047619047619,
-              "gap_to_backprop": 0.0,
-              "local": false,
-              "seconds": 1.267892847303301,
-              "weight_transport": true
-            },
-            "feedback_alignment": {
-              "acc_mean": 0.5286458333333334,
-              "acc_std": 0.04701945334705153,
-              "activation_memory": 1.0,
-              "backward_transfer": -0.5238095238095238,
-              "gap_to_backprop": -0.20312500000000006,
-              "local": false,
-              "seconds": 0.5002890136869004,
-              "weight_transport": false
-            },
-            "predictive_coding": {
-              "acc_mean": 0.4114583333333333,
-              "acc_std": 0.05425173608333245,
-              "activation_memory": 0.5,
-              "backward_transfer": -0.6309523809523809,
-              "gap_to_backprop": -0.0859375,
-              "local": true,
-              "seconds": 11.678324708288224,
-              "weight_transport": false
-            }
-          }
-        },
-        "depth_sweep_bwt_ranking_stable": {
-          "feedback_alignment": true,
-          "predictive_coding": true
-        },
-        "hidden_widths": [
-          32,
-          64,
-          96
-        ],
-        "locality": {
-          "backprop": false,
-          "feedback_alignment": false,
-          "predictive_coding": true
-        },
-        "margin": 0.03,
-        "n_tasks": 80,
-        "null_supported": false,
-        "primary_hidden": 64,
-        "rules_whose_bwt_advantage_justifies_gap": [
-          "feedback_alignment",
-          "predictive_coding"
-        ],
-        "rules_with_bwt_advantage": [
-          "feedback_alignment",
-          "predictive_coding"
-        ],
-        "rules_within_accuracy_margin": [
-          "feedback_alignment",
-          "predictive_coding"
-        ],
-        "table": {
-          "backprop": {
-            "acc_mean": 0.3359375,
-            "acc_std": 0.08861822670402893,
-            "activation_memory": 1.0,
-            "backward_transfer": -0.7232142857142857,
-            "gap_to_backprop": 0.0,
-            "local": false,
-            "seconds": 1.225169860990718,
-            "weight_transport": true
-          },
-          "feedback_alignment": {
-            "acc_mean": 0.4973958333333333,
-            "acc_std": 0.018414239093399672,
-            "activation_memory": 1.0,
-            "backward_transfer": -0.5535714285714286,
-            "gap_to_backprop": -0.16145833333333331,
-            "local": false,
-            "seconds": 0.45537449993814033,
-            "weight_transport": false
-          },
-          "predictive_coding": {
-            "acc_mean": 0.3984375,
-            "acc_std": 0.044652156769485016,
-            "activation_memory": 0.5,
-            "backward_transfer": -0.6369047619047619,
-            "gap_to_backprop": -0.0625,
-            "local": true,
-            "seconds": 8.731689999694936,
-            "weight_transport": false
-          }
-        }
-      },
+      "observed_result": null,
       "registry_status": "implemented",
       "remaining_scientific_blocker": null,
       "resource_tier": "cpu-now",
@@ -20834,55 +20368,17 @@
       ]
     },
     {
-      "classification": "freshly-executed-verified",
-      "classification_reason": "fresh CPU execution has a matching config, contract, nonempty finite metrics, and hashed receipt",
-      "evidence": [
-        {
-          "bytes": 2056,
-          "embedded_artifact_sha256": "3a054638ce937f2e2037d8fe74cbe1c132370b3cd9a4f9a0132c588716b0705f",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/manifest.json",
-          "sha256": "3a054638ce937f2e2037d8fe74cbe1c132370b3cd9a4f9a0132c588716b0705f"
-        },
-        {
-          "bytes": 3245,
-          "embedded_artifact_sha256": "6dda8178acdc12002246f236b3f2ea9779df5ac514e900c2495fdda4f37e2caa",
-          "exists": true,
-          "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/config.yaml",
-          "sha256": "6dda8178acdc12002246f236b3f2ea9779df5ac514e900c2495fdda4f37e2caa"
-        },
-        {
-          "bytes": 2011,
-          "embedded_artifact_sha256": "b78eb4ecf889805b0caf8d885e90c87e37028bd6ae1097b58d1606396541b755",
-          "exists": true,
-          "json_parse_ok": true,
-          "json_top_level": "dict",
-          "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_001/attempt_receipt.json",
-          "sha256": "b78eb4ecf889805b0caf8d885e90c87e37028bd6ae1097b58d1606396541b755"
-        }
-      ],
-      "execution_verified": true,
+      "classification": "runnable-not-yet-run",
+      "classification_reason": "runnable cpu-now class has no verified fresh attempt in the resumable execution root",
+      "evidence": [],
+      "execution_verified": false,
       "exp_tier": "cpu-now",
-      "fresh_class_codepath_verified": true,
+      "fresh_class_codepath_verified": false,
       "id": "mop_p5_context_capability",
       "implementation_surface": "experiment-class",
       "kind": "experiment",
       "name": "context_capability_pilot",
-      "observed_result": {
-        "complete": true,
-        "context_response_curve": {},
-        "heldout_combo_per_context": {
-          "f16": {
-            "exact_global": 0.45833333333333337,
-            "window_local": 0.41666666666666663
-          }
-        },
-        "null_supported": true,
-        "receipt": "p5_context_receipt.json",
-        "scientific_scope": "bounded two-cell execution and integrity smoke of the registered P5 codepath; the pilot itself runs through scripts/p5_context_capability.py and no smoke result is a scientific verdict"
-      },
+      "observed_result": null,
       "registry_status": "implemented",
       "remaining_scientific_blocker": null,
       "resource_tier": "cpu-now",
@@ -20898,10 +20394,10 @@
           "sha256": "01d24d3f7ab1089d429fa6f8c63d35492ebf928ac9ca8fa598d4efe14d8c7909"
         },
         {
-          "bytes": 2153,
+          "bytes": 2443,
           "exists": true,
           "path": "configs/experiment/mop_p5_context_capability.yaml",
-          "sha256": "b021cb410fb1793b436d9d39bc0e5d4d7688ff1732ba76682f1e140626d0b08a"
+          "sha256": "fe704a6dc580a869812067f063db01d9417f1796ac359fc7dec02815959562f1"
         }
       ]
     },
@@ -21227,13 +20723,13 @@
       ".venv/bin/python scripts/project_experiment_exhaustion.py --execute-diagnostics --ledger"
     ]
   },
-  "generated_at_unix": 1783726836.896085,
+  "generated_at_unix": 1783742526.48277,
   "generator_evidence": [
     {
-      "bytes": 61567,
+      "bytes": 63699,
       "exists": true,
       "path": "src/mop/studies/project_exhaustion.py",
-      "sha256": "397189a2d6b5cbd7874847f91777d067fd3187ab817417d515fbf9d3c2df3ca0"
+      "sha256": "cac5b3fcc7b7fa57a414146f882136940bbe734d7bb67e967c6046fe1ca74820"
     },
     {
       "bytes": 3606,
@@ -21245,7 +20741,7 @@
   "hardware_boundary_conclusion": "No non-F row is honestly proven M3-hardware-blocked by current experiment-specific evidence. GPU/studio tier labels are planning metadata, not measurements.",
   "host": {
     "cpu_brand": "Apple M3 Pro",
-    "free_disk_bytes_at_ledger": 85656358912,
+    "free_disk_bytes_at_ledger": 75543388160,
     "hardware_model": "Mac15,7",
     "logical_cpu_count": 12,
     "machine": "arm64",
@@ -21260,7 +20756,11 @@
     "path": "registry/experiments.yaml",
     "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
   },
-  "resumable_queue": [],
+  "resumable_queue": [
+    "e5_curiosity",
+    "ex5_local_rules_scale",
+    "mop_p5_context_capability"
+  ],
   "schema": "mop-project-experiment-exhaustion/v1",
   "scope": {
     "claim_boundary": "fresh execution verifies runnable code and durable output only; it does not by itself verify a hypothesis",
@@ -21269,10 +20769,10 @@
     "registry": "registry/experiments.yaml"
   },
   "self_verification": {
-    "embedded_artifact_count": 375,
+    "embedded_artifact_count": 361,
     "entry_count": 177,
     "errors": [],
-    "runtime_evidence_reference_count": 390,
+    "runtime_evidence_reference_count": 376,
     "verified": true
   }
 }

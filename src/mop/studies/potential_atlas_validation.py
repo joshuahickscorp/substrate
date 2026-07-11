@@ -31,13 +31,16 @@ EXPECTED_WEIGHT_TOTAL = 100
 EXPECTED_REQUIREMENTS_ROW_COUNT = 321
 EXPECTED_CATEGORY2_COUNT = 119
 EXPECTED_PRIMARY_CATEGORY_COUNTS = {1: 168, 2: 119, 3: 29, 6: 5}
+P5_VERIFICATION_PATH = "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
+P5_VERIFICATION_SCHEMA = "mop-p5-context-independent-verifier/v1"
+P6_PREREQUISITE_REASON = "P6 and other dependent tasks fail closed until immutable prior receipts pass"
 EXPECTED_EXHAUSTION_COUNTS = {
     "already-durable-hash-verifiable": 37,
-    "freshly-executed-verified": 120,
+    "freshly-executed-verified": 117,
     "implementation-blocked": 1,
     "measured-hardware-blocked": 0,
     "rights-data-blocked": 11,
-    "runnable-not-yet-run": 0,
+    "runnable-not-yet-run": 3,
     "upstream-model-blocked": 8,
 }
 EXPECTED_FACET_IDS = frozenset(
@@ -919,12 +922,12 @@ def _snapshot_accounting_contract(
     current_summary = portfolio.get("current_registry_summary")
     expected_current_summary = {
         "non_f_rows": 177,
-        "freshly_executed_verified": 120,
+        "freshly_executed_verified": 117,
         "already_durable_hash_verifiable": 37,
         "implementation_blocked": 1,
         "rights_data_blocked": 11,
         "upstream_model_blocked": 8,
-        "runnable_not_yet_run": 0,
+        "runnable_not_yet_run": 3,
         "measured_hardware_blocked": 0,
         "scientific_claim_ready": 0,
     }
@@ -1109,6 +1112,42 @@ def _dependency_contract(
     return problems, {"facet_dependency_count": dependency_count}
 
 
+def _p6_missing_verifier_refusal(decision: dict[str, Any]) -> bool:
+    gates = [gate for gate in decision.get("gates") or [] if isinstance(gate, dict)]
+    prerequisite_gates = [gate for gate in gates if gate.get("name") == "receipt_prerequisites"]
+    if len(prerequisite_gates) != 1:
+        return False
+    prerequisite_gate = prerequisite_gates[0]
+    observed = prerequisite_gate.get("observed")
+    row = observed[0] if isinstance(observed, list) and len(observed) == 1 else None
+    denied_reasons = decision.get("denied_reasons")
+    failing_reasons = {
+        gate.get("reason")
+        for gate in gates
+        if gate.get("ok") is False and isinstance(gate.get("reason"), str)
+    }
+    required_green_gates = {"exclusive_lane", "resource_measurement", "forecasted_disk"}
+    green_names = {gate.get("name") for gate in gates if gate.get("ok") is True}
+    return bool(
+        decision.get("allowed") is False
+        and decision.get("active_lanes") == []
+        and isinstance(denied_reasons, list)
+        and P6_PREREQUISITE_REASON in denied_reasons
+        and len(denied_reasons) == len(set(denied_reasons))
+        and set(denied_reasons) == failing_reasons
+        and prerequisite_gate.get("ok") is False
+        and prerequisite_gate.get("reason") == P6_PREREQUISITE_REASON
+        and isinstance(row, dict)
+        and row.get("path") == P5_VERIFICATION_PATH
+        and row.get("all_ok") is False
+        and row.get("schema") is None
+        and row.get("sha256") is None
+        and row.get("governor_provenance") is None
+        and "receipt is missing" in (row.get("problems") or [])
+        and required_green_gates <= green_names
+    )
+
+
 def _mechanics_progress_contract(
     atlas: dict[str, Any], parsed_sources: dict[str, dict[str, Any]], repo_root: Path
 ) -> tuple[list[str], dict[str, Any]]:
@@ -1243,7 +1282,7 @@ def _mechanics_progress_contract(
             "receipt": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
             "task_id": "p6_10k_resource_probe_cpu",
             "requires_empty_lanes": True,
-            "admission_allowed": True,
+            "admission_allowed": False,
             "command_executed": False,
         }
         if not isinstance(scheduler_atlas, dict):
@@ -1269,24 +1308,26 @@ def _mechanics_progress_contract(
             problems.append("P6 10k scheduler task identity has drifted")
         if not isinstance(task, dict) or task.get("requires_empty_lanes") is not True:
             problems.append("P6 10k resource probe is not exclusive")
-        if not isinstance(admission, dict) or admission.get("allowed") is not True:
-            problems.append("P6 10k scheduler receipt does not preserve allowed empty-lane admission")
+        prerequisites = task.get("prerequisites") if isinstance(task, dict) else None
+        if (
+            not isinstance(prerequisites, list)
+            or len(prerequisites) != 1
+            or not isinstance(prerequisites[0], dict)
+            or prerequisites[0].get("path") != P5_VERIFICATION_PATH
+            or prerequisites[0].get("schema") != P5_VERIFICATION_SCHEMA
+        ):
+            problems.append("P6 10k scheduler P5 prerequisite has drifted")
+        if not isinstance(admission, dict) or admission.get("allowed") is not False:
+            problems.append("P6 10k scheduler receipt does not fail closed before P5 verification")
         if (
             not isinstance(decisions, list)
             or len(decisions) != 3
             or any(
-                not isinstance(decision, dict)
-                or decision.get("allowed") is not True
-                or decision.get("active_lanes") != []
-                or not any(
-                    gate.get("name") == "exclusive_lane" and gate.get("ok") is True
-                    for gate in decision.get("gates") or []
-                    if isinstance(gate, dict)
-                )
+                not isinstance(decision, dict) or not _p6_missing_verifier_refusal(decision)
                 for decision in decisions
             )
         ):
-            problems.append("P6 10k scheduler hysteresis decisions have drifted")
+            problems.append("P6 10k scheduler missing-P5 refusal decisions have drifted")
 
     p7_source = parsed_sources.get("proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json")
     if not isinstance(p7_source, dict):

@@ -2,7 +2,7 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
-## 2026-07-10 landing wave closed; P4 closed; P5 admission held
+## 2026-07-10 landing wave closed; P4 closed; P5 local admission held
 
 - [x] The 30 staged F21-F66 contracts are live preregistration-only rows. The registry now has
   227 rows, including 50 F rows split into 18 implemented rows and 32 preregistration-only rows.
@@ -18,14 +18,17 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] P4 is governor-closed: all 12 cells completed across five registered seeds, six cells used the
   preregistered futility stop, and the response surface contains 48 observations. This is a bounded
   programmatic pilot. Confirmatory promotion remains refused by construction.
-- [!] P5 smoke admission failed closed again on three consecutive samples only because current
-  available unified memory was 8.007 to 8.045 GB against the unchanged 10.0 GB requirement. Disk, power,
-  thermal, lane, swap, and unmanaged-heavy gates passed. This is a transient current-host admission
-  blocker, not measured hardware necessity.
+- [!] P5 smoke admission failed closed on three consecutive samples. Available unified memory was
+  7.039 to 7.243 GB against the unchanged 10.0 GB requirement, and the host was on battery power.
+  Disk, thermal, lane, swap, and unmanaged-heavy gates passed. The first blocker is category 1 local
+  admission state, not measured hardware necessity.
+- [x] Project exhaustion now rejects an old class attempt when its attempt-time source hashes or
+  copied experiment config differ from the live source. The honest 177-row ledger contains 117
+  fresh, 37 durable, and 3 runnable rows: e5, ex5, and P5. It has zero measured hardware blockers.
 - [x] The generated potential atlas now has 41 facets. EV6, OP5, SG4, and SG5 enter at the honest
   low score S=2, I=0, E=0, C=0. PA6 separates broadcast, integration, recurrence, and higher-order
   probes, while SG2 is limited to classical security, privacy, and memory integrity. After binding
-  the executed scaffold batteries, the exact weighted score is 5.736 with 45 source files and 197
+  the executed scaffold batteries, the exact weighted score is 5.736 with 57 source files and 197
   evidence references; the displayed score remains 5.7.
 - [x] Twenty-two preregistered scaffold rows now have driver-generated R1 toy or mechanics receipts
   plus independent adversarial verification. Sensing f21/f26/f27 and broadcast sufficiency f37 are
@@ -73,8 +76,10 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   thermal/power/MPS/disk gates, atomic reservation, and pause/resume of its own process group only.
   P4/P5 scientific shard identities remain 10,800 seconds.
 - [x] Full P4 completed under the corrected CPU governor and was closed by the governor after C12.
-  P5 remains ordered as smoke, cold-process training-grid, then pilot, with smoke currently held by
-  the unchanged memory-headroom admission gate.
+  P5 now has separate terminal smoke-null, pilot-null, and favorable fresh-challenge branches. Its
+  independent verifier checks exact seed licensing, raw scores, parameter and FLOP arithmetic,
+  response curves, cell receipts, and checkpoint states. Smoke is currently held by the unchanged
+  memory-headroom and AC-power admission gates.
 - [x] The integrated research, execution plan, and durable standing goal are
   `MOP_MAXIMUM_POTENTIAL_RESEARCH_2026_07.md`,
   `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`, and `MOP_MAXIMUM_POTENTIAL_GOAL.md`.
@@ -93,9 +98,10 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   metric families. The 384-event preflight processed 2,304 total arm events and reproduced
   byte-identically without model weights or an accelerator. The remaining ladder is admitted 10k,
   100k, and conditional 1m runs across at least five independent seeds.
-- [x] P6 now has four fail-closed governor tasks: exclusive 10k RSS probe, full 10k, full 100k, and
-  full 1m. Later rungs require exact prior receipts and use measured peak RSS plus 25 percent. The
-  live dry run correctly refused admission while P4 owned the lane and executed no command.
+- [x] P6 now has seven fail-closed governor tasks: exclusive 10k RSS probe, full 10k, its independent
+  verifier, full 100k, its verifier, conditional full 1m, and its verifier. Later rungs require exact
+  prior receipts and use measured peak RSS plus 25 percent. The current dry run refused the missing
+  sealed P5 verifier, also observed battery power, and executed no command.
 - [x] P7 now has a project-owned rendered action/world-model mechanics surface over three independent
   seed/layout worlds and eight arms. Same-parent counterfactual branches, held-out prediction,
   calibration, horizons, planning, exact equal-core accounting, and six mutation attacks all pass.

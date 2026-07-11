@@ -57,7 +57,84 @@ def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
     os.replace(temporary, path)
 
 
-def _source_receipt(config: dict[str, Any]) -> dict[str, Any]:
+def _repo_path(value: object, *, repo_root: Path = REPO_ROOT) -> Path:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError("continual source binding path is missing")
+    relative = Path(value)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise ValueError(f"continual source binding path escapes the repository: {value!r}")
+    root = repo_root.resolve()
+    path = (root / relative).resolve()
+    if not path.is_relative_to(root):
+        raise ValueError(f"continual source binding path escapes the repository: {value!r}")
+    return path
+
+
+def _validate_source_live_bindings(receipt: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
+    """Revalidate every live authority embedded by the source preflight.
+
+    The preflight file digest alone is not enough for resume. Its purpose is to bind the live
+    implementation and config that produced it, so those embedded bindings must still resolve to
+    the same bytes every time a progressive rung starts or resumes.
+    """
+
+    config = receipt.get("config")
+    if not isinstance(config, dict):
+        raise ValueError("continual source preflight config binding missing")
+    config_path = _repo_path(config.get("path"), repo_root=repo_root)
+    config_sha256 = _sha256_file(config_path)
+    if config_sha256 != config.get("sha256"):
+        raise ValueError("continual source preflight live config hash drift")
+    config_payload = config.get("payload")
+    if not isinstance(config_payload, dict):
+        raise ValueError("continual source preflight embedded config payload missing")
+    if canonical_sha256(config_payload) != config.get("profile_sha256"):
+        raise ValueError("continual source preflight embedded config digest drift")
+    if yaml.safe_load(config_path.read_text(encoding="utf-8")) != config_payload:
+        raise ValueError("continual source preflight live config payload drift")
+
+    implementation = receipt.get("implementation")
+    if not isinstance(implementation, list) or not implementation:
+        raise ValueError("continual source preflight implementation bindings missing")
+    implementation_rows: list[dict[str, str]] = []
+    seen_paths: set[str] = set()
+    for index, row in enumerate(implementation):
+        if not isinstance(row, dict):
+            raise ValueError(f"continual source implementation binding {index} is invalid")
+        relative = row.get("path")
+        if not isinstance(relative, str) or relative in seen_paths:
+            raise ValueError("continual source implementation binding path is missing or duplicated")
+        path = _repo_path(relative, repo_root=repo_root)
+        observed_sha256 = _sha256_file(path)
+        if observed_sha256 != row.get("sha256"):
+            raise ValueError(f"continual source preflight live implementation drift: {relative}")
+        seen_paths.add(relative)
+        implementation_rows.append({"path": relative, "sha256": observed_sha256})
+    if str(config.get("path")) not in seen_paths:
+        raise ValueError("continual source config is absent from implementation bindings")
+
+    upstream = receipt.get("wave_e0")
+    if not isinstance(upstream, dict):
+        raise ValueError("continual source preflight Wave E0 binding missing")
+    upstream_path = _repo_path(upstream.get("path"), repo_root=repo_root)
+    upstream_sha256 = _sha256_file(upstream_path)
+    if upstream_sha256 != upstream.get("sha256"):
+        raise ValueError("continual source preflight live Wave E0 hash drift")
+
+    authority = {
+        "config": {
+            "path": str(config["path"]),
+            "sha256": config_sha256,
+            "payload_sha256": str(config["profile_sha256"]),
+        },
+        "implementation": implementation_rows,
+        "wave_e0": {"path": str(upstream["path"]), "sha256": upstream_sha256},
+    }
+    authority["bindings_sha256"] = canonical_sha256(authority)
+    return authority
+
+
+def _source_receipt(config: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
     source = config["source_preflight"]
     path = (REPO_ROOT / str(source["path"])).resolve()
     if _sha256_file(path) != source["file_sha256"]:
@@ -88,7 +165,7 @@ def _source_receipt(config: dict[str, Any]) -> dict[str, Any]:
     }
     if observed != expected:
         raise ValueError(f"continual source resource evidence drift: {observed} != {expected}")
-    return receipt
+    return receipt, _validate_source_live_bindings(receipt)
 
 
 def load_config(path: Path | str = DEFAULT_CONFIG) -> dict[str, Any]:
@@ -128,9 +205,11 @@ def load_config(path: Path | str = DEFAULT_CONFIG) -> dict[str, Any]:
     for field, expected in expected_profile.items():
         if profile.get(field) != expected:
             raise ValueError(f"progressive continual profile {field} drift")
-    _source_receipt(payload)
+    source_receipt, source_live_authority = _source_receipt(payload)
     payload["_config_path"] = str(config_path)
     payload["_config_sha256"] = _sha256_file(config_path)
+    payload["_source_preflight_payload_sha256"] = source_receipt["payload_sha256"]
+    payload["_source_live_authority"] = source_live_authority
     return payload
 
 
@@ -216,9 +295,49 @@ def _profile(plan: dict[str, Any]) -> ContinualSmokeProfile:
     return ContinualSmokeProfile(**plan["profile"])
 
 
+def _revalidate_live_identity(config: dict[str, Any], identity: dict[str, Any]) -> None:
+    """Refuse dependency edits between cells as well as between resume invocations."""
+
+    if _sha256_file(Path(config["_config_path"])) != identity["config_sha256"]:
+        raise ValueError("progressive continual live rung config drift")
+    if _sha256_file(Path(__file__).resolve()) != identity["runner_sha256"]:
+        raise ValueError("progressive continual live runner drift")
+    source_receipt, source_authority = _source_receipt(config)
+    expected = {
+        "source_preflight_file_sha256": config["source_preflight"]["file_sha256"],
+        "source_preflight_payload_sha256": source_receipt["payload_sha256"],
+        "source_live_bindings_sha256": source_authority["bindings_sha256"],
+    }
+    if any(identity.get(field) != value for field, value in expected.items()):
+        raise ValueError("progressive continual live source identity drift")
+    if source_authority != config["_source_live_authority"]:
+        raise ValueError("progressive continual live source authority drift")
+
+
 def _max_rss_bytes() -> int:
     value = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     return value if sys.platform == "darwin" else value * 1024
+
+
+def _update_peak_rss(progress: dict[str, Any], *, observed_bytes: int | None = None) -> int:
+    """Persist the maximum runner RSS across restartable invocations."""
+
+    observed = _max_rss_bytes() if observed_bytes is None else int(observed_bytes)
+    if observed < 0:
+        raise ValueError("progressive continual RSS observation must be nonnegative")
+    measurement = progress.get("resource_measurement")
+    if measurement is None:
+        measurement = {"max_rss_bytes": 0}
+        progress["resource_measurement"] = measurement
+    if not isinstance(measurement, dict):
+        raise ValueError("progressive continual progress resource measurement drift")
+    prior = measurement.get("max_rss_bytes", 0)
+    if not isinstance(prior, int) or isinstance(prior, bool) or prior < 0:
+        raise ValueError("progressive continual persisted RSS peak drift")
+    peak = max(prior, observed)
+    measurement["max_rss_bytes"] = peak
+    measurement["rss_scope"] = "maximum runner-process RSS across persisted invocations"
+    return peak
 
 
 def _tree_bytes(root: Path) -> int:
@@ -238,6 +357,14 @@ def _progress(path: Path, identity: dict[str, Any]) -> tuple[dict[str, Any], boo
             or not isinstance(payload.get("cells"), dict)
         ):
             raise ValueError("progressive continual progress identity drift")
+        measurement = payload.get("resource_measurement")
+        if measurement is not None and (
+            not isinstance(measurement, dict)
+            or not isinstance(measurement.get("max_rss_bytes"), int)
+            or isinstance(measurement.get("max_rss_bytes"), bool)
+            or int(measurement["max_rss_bytes"]) < 0
+        ):
+            raise ValueError("progressive continual progress RSS authority drift")
         return payload, True
     payload = {
         "schema": PROGRESS_SCHEMA,
@@ -245,6 +372,10 @@ def _progress(path: Path, identity: dict[str, Any]) -> tuple[dict[str, Any], boo
         "identity_sha256": canonical_sha256(identity),
         "cells": {},
         "complete": False,
+        "resource_measurement": {
+            "max_rss_bytes": 0,
+            "rss_scope": "maximum runner-process RSS across persisted invocations",
+        },
     }
     _atomic_json(path, payload)
     return payload, False
@@ -276,88 +407,103 @@ def run_rung(
         "config_sha256": config["_config_sha256"],
         "runner_sha256": _sha256_file(Path(__file__).resolve()),
         "source_preflight_file_sha256": config["source_preflight"]["file_sha256"],
+        "source_preflight_payload_sha256": config["_source_preflight_payload_sha256"],
+        "source_live_bindings_sha256": config["_source_live_authority"]["bindings_sha256"],
         "plan": plan,
         "claim_scope": CLAIM_SCOPE,
     }
+    _revalidate_live_identity(config, identity)
     if output_path.is_file():
         existing = json.loads(output_path.read_text())
         existing_payload = dict(existing) if isinstance(existing, dict) else {}
         declared_payload_sha = existing_payload.pop("payload_sha256", None)
-        if (
+        if not (
             isinstance(existing, dict)
             and existing.get("schema") == RESULT_SCHEMA
             and existing.get("identity") == identity
+            and existing.get("identity_sha256") == canonical_sha256(identity)
+            and existing.get("source_live_authority") == config["_source_live_authority"]
             and existing.get("all_mechanics_ok") is True
             and canonical_sha256(existing_payload) == declared_payload_sha
         ):
-            return existing
-        raise ValueError("existing progressive continual result identity drift")
+            raise ValueError("existing progressive continual result identity drift")
     progress_path = root / "progress.json"
     progress, resumed = _progress(progress_path, identity)
+    _update_peak_rss(progress)
+    _atomic_json(progress_path, progress)
     smoke_profile = _profile(plan)
     for cell in plan["cells"]:
-        seed = int(cell["seed"])
-        schedule = str(cell["schedule"])
-        arm = str(cell["arm"])
-        key = f"seed_{seed}/{schedule}/{arm}"
-        prior = progress["cells"].get(key)
-        stream_root = root / "streams" / f"seed_{seed}" / schedule
-        spec = _spec(plan, seed, schedule)
-        checkpoint = root / "checkpoints" / f"seed_{seed}" / schedule / f"{arm}.json"
-        if isinstance(prior, dict) and prior.get("all_mechanics_ok") is True:
-            prior_audit = verify_stream(stream_root, expected_spec=spec, require_complete=True)
-            if not prior_audit["verified"] or not checkpoint.is_file():
-                raise ValueError(f"completed progressive cell {key} lost its resume authority")
-            verified_result = run_smoke_arm(
+        try:
+            _revalidate_live_identity(config, identity)
+            seed = int(cell["seed"])
+            schedule = str(cell["schedule"])
+            arm = str(cell["arm"])
+            key = f"seed_{seed}/{schedule}/{arm}"
+            prior = progress["cells"].get(key)
+            stream_root = root / "streams" / f"seed_{seed}" / schedule
+            spec = _spec(plan, seed, schedule)
+            checkpoint = root / "checkpoints" / f"seed_{seed}" / schedule / f"{arm}.json"
+            if isinstance(prior, dict) and prior.get("all_mechanics_ok") is True:
+                prior_audit = verify_stream(stream_root, expected_spec=spec, require_complete=True)
+                if not prior_audit["verified"] or not checkpoint.is_file():
+                    raise ValueError(f"completed progressive cell {key} lost its resume authority")
+                verified_result = run_smoke_arm(
+                    stream_root=stream_root,
+                    spec=spec,
+                    arm=arm,
+                    profile=smoke_profile,
+                    checkpoint_path=checkpoint,
+                )
+                if any(
+                    prior.get(field) != verified_result.get(field)
+                    for field in (
+                        "stream_identity_sha256",
+                        "stream_sha256",
+                        "checkpoint_sha256",
+                        "state_sha256",
+                        "metrics",
+                        "controls",
+                        "all_mechanics_ok",
+                    )
+                ):
+                    raise ValueError(f"completed progressive cell {key} checkpoint identity drift")
+                continue
+            materialize_stream(stream_root, spec)
+            stream_audit = verify_stream(stream_root, expected_spec=spec, require_complete=True)
+            if not stream_audit["verified"]:
+                raise ValueError("progressive continual stream verification failed")
+            result = run_smoke_arm(
                 stream_root=stream_root,
                 spec=spec,
                 arm=arm,
                 profile=smoke_profile,
                 checkpoint_path=checkpoint,
             )
-            if any(
-                prior.get(field) != verified_result.get(field)
-                for field in (
-                    "stream_identity_sha256",
-                    "stream_sha256",
-                    "checkpoint_sha256",
-                    "state_sha256",
-                )
-            ):
-                raise ValueError(f"completed progressive cell {key} checkpoint identity drift")
-            continue
-        materialize_stream(stream_root, spec)
-        stream_audit = verify_stream(stream_root, expected_spec=spec, require_complete=True)
-        if not stream_audit["verified"]:
-            raise ValueError("progressive continual stream verification failed")
-        result = run_smoke_arm(
-            stream_root=stream_root,
-            spec=spec,
-            arm=arm,
-            profile=smoke_profile,
-            checkpoint_path=checkpoint,
-        )
-        progress["cells"][key] = {
-            "seed": seed,
-            "schedule": schedule,
-            "arm": arm,
-            "stream_identity_sha256": result["stream_identity_sha256"],
-            "stream_sha256": result["stream_sha256"],
-            "checkpoint_sha256": result["checkpoint_sha256"],
-            "state_sha256": result["state_sha256"],
-            "metrics": result["metrics"],
-            "controls": result["controls"],
-            "all_mechanics_ok": result["all_mechanics_ok"],
-            "resumed_from_atomic_checkpoint": result["resumed_from_atomic_checkpoint"],
-        }
-        progress["complete"] = False
-        _atomic_json(progress_path, progress)
+            progress["cells"][key] = {
+                "seed": seed,
+                "schedule": schedule,
+                "arm": arm,
+                "stream_identity_sha256": result["stream_identity_sha256"],
+                "stream_sha256": result["stream_sha256"],
+                "checkpoint_sha256": result["checkpoint_sha256"],
+                "state_sha256": result["state_sha256"],
+                "metrics": result["metrics"],
+                "controls": result["controls"],
+                "all_mechanics_ok": result["all_mechanics_ok"],
+                "resumed_from_atomic_checkpoint": result["resumed_from_atomic_checkpoint"],
+            }
+            progress["complete"] = False
+        finally:
+            _update_peak_rss(progress)
+            _atomic_json(progress_path, progress)
+    _revalidate_live_identity(config, identity)
     expected_keys = {f"seed_{cell['seed']}/{cell['schedule']}/{cell['arm']}" for cell in plan["cells"]}
     progress["complete"] = set(progress["cells"]) == expected_keys and all(
         row.get("all_mechanics_ok") is True for row in progress["cells"].values()
     )
+    current_invocation_max_rss = _max_rss_bytes()
+    max_rss = _update_peak_rss(progress, observed_bytes=current_invocation_max_rss)
     _atomic_json(progress_path, progress)
-    max_rss = _max_rss_bytes()
     work_bytes = _tree_bytes(root)
     full_replication = bool(
         plan["mode"] == "replication"
@@ -371,6 +517,7 @@ def run_rung(
         "claim_scope": CLAIM_SCOPE,
         "identity": identity,
         "identity_sha256": canonical_sha256(identity),
+        "source_live_authority": config["_source_live_authority"],
         "mode": plan["mode"],
         "rung": rung,
         "plan": plan,
@@ -384,7 +531,8 @@ def run_rung(
         "cells": progress["cells"],
         "resource_measurement": {
             "max_rss_bytes": max_rss,
-            "rss_scope": "progressive runner process",
+            "current_invocation_max_rss_bytes": current_invocation_max_rss,
+            "rss_scope": "maximum runner-process RSS across persisted invocations",
             "work_root_bytes": work_bytes,
             "work_root": str(root),
             "events_per_stream": rung,

@@ -193,6 +193,19 @@ event rung. The one-million rung is earned only after the two smaller rungs pass
 independent metric replay, resource admission, and useful-retention controls across at least five
 independent seeds. No hardware boundary or continual-learning result is established by 384 events.
 
+The current seven-task governor path now inserts an independent checkpoint-backed verifier after
+each full rung. Resume revalidates the live config, runner, source preflight payload, embedded
+implementation bindings, and Wave E0 authority. Scale-up requires a complete live progress and
+checkpoint join, all nine verifier checks, twelve rejected mutations, and strict non-tie replay
+gains on both registered endpoints against both controls in both schedules. P6 still has no executed
+progressive rung. Its first task remains blocked until P5 has a current independent null or
+fresh-seed verified programmatic result.
+
+The current scheduler dry receipt, `proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json`, SHA-256
+`656de322d5567a08dc5207c9d21983af3fe7fdef3b1ec389548a6a9e4bde3547`, ran no child. All three
+decisions preserved an empty exclusive lane and refused the missing sealed P5 verifier. Battery
+power was an additional live gate, not a scientific or hardware classification.
+
 ### P7 action-world-model fixture mechanics
 
 `proof/P7_ACTION_WORLD_MODEL_PREFLIGHT.json`, SHA-256
@@ -223,13 +236,13 @@ inherited-model import attempt and no forbidden source import. `scientific_claim
 ### Governed rewrite fixture mechanics
 
 `proof/GOVERNED_REWRITE_PREFLIGHT.json`, SHA-256
-`d94e046b0a3ae7843f490a41e992145e0e79405f2c9ace5ab49bc8a29b715df0`, binds deterministic core
-SHA-256 `d2a93c28edd5ceed3f0db7d254ec0dfc26c406e20996309fe7648673f8441b94`. A scoped single-use
+`c17a933e79d43080c27bad3a90b506dad9bc5817a661439cac82ee5364849989`, binds deterministic core
+SHA-256 `7f12e1d02b3ac9e3c6d63ea1da6f8ddcc121cef1960c20958133623756f935c2`. A scoped single-use
 fixture transaction improves canary accuracy from 7/8 to 8/8 and shadow accuracy from 9/12 to
 12/12 with zero protected regressions. Exact interrupt/resume and atomic commit pass; an authorized
 regressing proposal rolls back; all eight adversarial transactions fail closed; and all 14 semantic
-mutations are rejected. The CPU-only run took 0.022590 seconds and reached 204,423,168 bytes
-sampled peak RSS, with a 425,984-byte phase-local increment. This is mechanics only at R1 fixture
+mutations are rejected. The CPU-only run took 0.022068 seconds and reached 204,947,456 bytes
+sampled peak RSS, with a 442,368-byte phase-local increment. This is mechanics only at R1 fixture
 and R0 production. External authority, independent
 evaluator ownership, natural workloads, real rewrite artifacts, concurrent and power-loss
 durability, and replicated surveillance remain absent. `scientific_claim_ready` is false.
@@ -245,9 +258,10 @@ serial learned/random caches, and independent statistical verifiers are absent.
 
 ### Current project exhaustion and selector retirement
 
-The refreshed 177-row project ledger contains 120 freshly executed codepaths, 37 durable artifacts,
-1 implementation blocker, 11 rights/data blockers, 8 upstream/model blockers, and 0 measured
-hardware blockers. Every row still has `scientific_claim_ready: false`.
+The refreshed 177-row project ledger contains 117 freshly executed codepaths, 37 durable artifacts,
+3 runnable rows, 1 implementation blocker, 11 rights/data blockers, 8 upstream/model blockers, and
+0 measured hardware blockers. Every row still has `scientific_claim_ready: false`. The three
+runnable rows are e5, ex5, and P5. Their older attempts are not laundered through new source hashes.
 
 Inherited larger-scale configs and generators are archived outside the live encoder group. Current
 selectors, frontier classification, and requirements planning no longer consume the retired pilot.
@@ -272,46 +286,62 @@ execution-time policy snapshot, not a claim that it equals the current schedulin
 
 ## P5 is implemented and queued, not run as a full study
 
-P5 has code, configs, registration, preregistration, a bounded class smoke, and a cold-process memory
-trace. The memory trace is mechanics only:
+P5 has code, configs, registration, preregistration, and a cold-process memory trace. Its older
+bounded class smoke is now rejected as current evidence because its attempt-time config hash and
+copied experiment config predate the checkpoint-granularity amendment. The memory trace is
+mechanics only:
 
 - `proof/P5_MEMORY_BOUNDARY_TRACE.json`, SHA-256
   `78db1cfa4ac6343484e3eeefd95a2461328d2396d3fb5b6a7a88fb25fc4d6b24`
 
-The full pilot artifact `proof/P5_CAPABILITY_CONTEXT_SCREEN.json` does not exist. P4 released the
+The full pilot artifact `proof/P5_CONTEXT_CAPABILITY_PILOT.json` does not exist. P4 released the
 one-heavy-lane governor, but the first P5 execute attempt failed closed before its child command ran.
-The governed execute receipt recorded three available-memory samples of 8.044642304, 8.044658688,
-and 8.006565888 GB against the 10.0 GB admission threshold. Its first blocker is
-`transient-current-host-memory-headroom`, not hardware necessity. The current dry preflight also
-denies all three samples and is bound at `proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json`, SHA-256
-`f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794`.
+The current governed dry receipt recorded three available-memory samples of 7.039188992,
+7.232733184, and 7.242825728 GB against the 10.0 GB admission threshold. The host was also on
+battery power, so both gates failed and no child ran. The first blocker remains category 1 local
+admission state, not hardware necessity. The receipt is
+`proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json`, SHA-256
+`af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab`.
 
-The correct order after three healthy P5 admission samples is:
+P5 now has three explicit outcome paths after three healthy admission samples:
 
-1. `p5smoke`
-2. cold-process training-grid memory pass
-3. `p5pilot` seed-0 and off-ceiling staging
-4. remaining eligible seeds
+1. Run `p5smoke_cpu` through the governor.
+2. If the same-initialization f64 trainability gate is null, stop training and run the independent
+   `p5verify_smoke_null_cpu` light task.
+3. If smoke clears, run the cold-process training grid and then the five-seed staged pilot.
+4. If the pilot is null, skip challenge training and run `p5verify_pilot_null_cpu`.
+5. Run the three-seed full-surface fresh challenge only when the pilot emits its non-evidentiary
+   challenge authorization hint, then run `p5verify_cpu`.
+
+Every P5 checkpoint and seed now binds the live config, runner, cell registry, and source aggregate.
+The training grid binds its child implementation sources. A valid scientific null is complete and
+nonresumable; resource stops remain incomplete and resumable; invalid terminal states publish no
+proof. The independent verifier rejects 18 base mutations and 23 with the fresh challenge, and
+recomputes seed licensing, cell scores, response curves, parameter and FLOP contracts, receipt
+hashes, and checkpoint states. It does not rerun held-out metrics from checkpoints, which is an
+explicit limitation. The new verification code is scaffold and execution control until a P5
+receipt exists. It does not change the current scientific evidence class.
 
 ## Why the exhaustion ledger does not close the science
 
 `proof/PROJECT_EXPERIMENT_EXHAUSTION.json`, SHA-256
-`4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317`, accounts for 177 non-F
+`1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65`, accounts for 177 non-F
 rows:
 
-- 120 freshly executed and verified codepaths
+- 117 freshly executed and verified codepaths
 - 37 durable hash-verifiable artifacts
 - 1 implementation-blocked row
 - 11 rights or data-blocked rows
 - 8 upstream or citable-input-blocked rows
-- 0 runnable-not-yet-run rows
+- 3 runnable-not-yet-run rows
 - 0 measured-hardware-blocked rows
 
 Every one of the 177 entries has `scientific_claim_ready: false`.
 
-The ledger is internally honest about this, but the phrase `runnable-not-yet-run: 0` is easy to
-misread. It means every eligible experiment class or standalone artifact was exercised or accounted
-for. It does not mean every full registered study was run. P4 and P5 demonstrate the distinction.
+The verifier now requires each class attempt to bind current implementation and config hashes and
+requires the copied experiment config to equal the live config. That fail-closed rule exposes e5,
+ex5, and P5 as runnable instead of refreshing ledger hashes over stale attempts. A class codepath
+receipt still does not imply that a full registered study is complete.
 
 A future ledger should separate:
 
@@ -407,12 +437,12 @@ The frontier and requirements receipts are regenerated and current:
 1. `proof/FRONTIER_LOCALIZATION.json` consumes the complete five-seed CM7 null, the E6/DR14 task
    integration receipt, and no longer uses the retired inherited-scale pilot to classify AL2 or
    DR5. CM8 correctly says the positive CM7 prerequisite failed. SHA-256:
-   `465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84`.
+   `c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78`.
 2. `proof/EXTENDED_COMPUTE_REQUIREMENTS.json` treats E6 and DR14 implementation as complete,
    classifies their first blockers as natural data/cache/verification, and carries no active
    retired-scale requirement. File SHA-256:
-   `d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff`.
-   Payload SHA-256: `df5d0e4c976004db197c6f14ba9b3ccdf4e1a0dc1f06050895e54af899a4c0ca`.
+   `73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1`.
+   Payload SHA-256: `dd7d6b3ee559e02450f46183fa6e71341abc45b2683f9db390becd6f41ebce0a`.
 3. The immutable inherited-scale pilot still binds all nine random controls to exact stimulus
    identity. It is now historical evidence only and is absent from the authoritative current
    evidence list.
@@ -437,8 +467,9 @@ authoritative current evidence. They are not rerun targets.
 
 ## Rerun and integration priority
 
-1. Execute the P5 pilot sequence after three healthy governor samples.
-2. Run P6 at 10,000 events, then 100,000; admit one million only if the smaller rungs earn it.
+1. Execute the conditional P5 sequence after three healthy governor samples.
+2. Run and independently verify P6 at 10,000 events, then 100,000; admit one million only if the
+   smaller rungs earn it without a tie.
 3. Acquire and freeze the rights-clean natural cohort, learned/random caches, and independent
    verifiers required by E6 and DR14.
 4. Implement the bounded `e10_openended` population and sustained-horizon gates.

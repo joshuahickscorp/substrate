@@ -150,18 +150,18 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff",
-      "payload_sha256": "df5d0e4c976004db197c6f14ba9b3ccdf4e1a0dc1f06050895e54af899a4c0ca",
+      "sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1",
+      "payload_sha256": "dd7d6b3ee559e02450f46183fa6e71341abc45b2683f9db390becd6f41ebce0a",
       "use": "321 requirements rows; categories 1/2/3/6 are 168/119/29/5, categories 8 and 9 are empty, and no hardware row is required"
     },
     {
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317",
-      "use": "177 non-F entries; counts 120 fresh, 37 durable, 1 implementation, 11 rights/data, 8 upstream/model, 0 hardware; all scientific_claim_ready fields false"
+      "sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65",
+      "use": "177 non-F entries; counts 117 fresh, 37 durable, 3 runnable, 1 implementation, 11 rights/data, 8 upstream/model, 0 hardware; all scientific_claim_ready fields false"
     },
     {
       "path": "proof/FRONTIER_LOCALIZATION.json",
-      "sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84",
+      "sha256": "c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78",
       "use": "24 tagged non-F frontier rows; five local mechanics, one CM7 bound null, one CM8 upstream-blocked preflight, one dense-integration data blocker, 16 external-input blockers, and zero measured hardware blockers"
     },
     {
@@ -210,8 +210,8 @@
     },
     {
       "path": "proof/GOVERNED_REWRITE_PREFLIGHT.json",
-      "sha256": "d94e046b0a3ae7843f490a41e992145e0e79405f2c9ace5ab49bc8a29b715df0",
-      "deterministic_core_sha256": "d2a93c28edd5ceed3f0db7d254ec0dfc26c406e20996309fe7648673f8441b94",
+      "sha256": "c17a933e79d43080c27bad3a90b506dad9bc5817a661439cac82ee5364849989",
+      "deterministic_core_sha256": "7f12e1d02b3ac9e3c6d63ea1da6f8ddcc121cef1960c20958133623756f935c2",
       "use": "governed-rewrite transaction mechanics; R1 fixture, R0 production; canary/shadow improvement, exact resume and atomic commit, rollback, eight fail-closed adversarial transactions, 14 rejected mutations; no scientific or production-safety claim"
     },
     {
@@ -244,8 +244,13 @@
     },
     {
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "sha256": "f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794",
-      "use": "three-sample governed P5 smoke denial on current available-memory headroom only; no command executed and no hardware-necessity claim"
+      "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab",
+      "use": "three-sample governed P5 smoke denial on current memory-headroom and AC-power gates; no command executed and no hardware-necessity claim"
+    },
+    {
+      "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+      "sha256": "656de322d5567a08dc5207c9d21983af3fe7fdef3b1ec389548a6a9e4bde3547",
+      "use": "three-sample P6 dry refusal of the missing sealed P5 verifier with empty exclusive lanes; battery power was an additional live gate and no command executed"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_VERIFICATION.json",
@@ -363,12 +368,12 @@
         "classification": "mechanics_only",
         "mechanics_only": true,
         "evidence_path": "proof/GOVERNED_REWRITE_PREFLIGHT.json",
-        "evidence_sha256": "d94e046b0a3ae7843f490a41e992145e0e79405f2c9ace5ab49bc8a29b715df0",
-        "deterministic_core_sha256": "d2a93c28edd5ceed3f0db7d254ec0dfc26c406e20996309fe7648673f8441b94",
+        "evidence_sha256": "c17a933e79d43080c27bad3a90b506dad9bc5817a661439cac82ee5364849989",
+        "deterministic_core_sha256": "7f12e1d02b3ac9e3c6d63ea1da6f8ddcc121cef1960c20958133623756f935c2",
         "resource_observation": {
           "device": "cpu",
-          "elapsed_seconds": 0.022589667001739144,
-          "max_rss_bytes": 204423168,
+          "elapsed_seconds": 0.02206762507557869,
+          "max_rss_bytes": 204947456,
           "accelerator_required": false
         },
         "evidence_ceiling": {
@@ -411,10 +416,11 @@
         "id": "project_exhaustion_refresh",
         "classification": "ledger_mechanics",
         "evidence_path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-        "evidence_sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317",
+        "evidence_sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65",
         "classification_counts": {
-          "freshly_executed_verified": 120,
+          "freshly_executed_verified": 117,
           "already_durable_hash_verifiable": 37,
+          "runnable_not_yet_run": 3,
           "implementation_blocked": 1,
           "rights_data_blocked": 11,
           "upstream_model_blocked": 8,
@@ -449,9 +455,18 @@
         "p5_full_receipt_present": false,
         "p5_admission_receipt": {
           "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-          "sha256": "f3a06974e73a07ddf86347f95d79b630eee4782788a495d1e8313925cd4af794",
+          "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab",
           "allowed": false,
-          "first_blocker_category": "transient-current-host-memory-headroom"
+          "available_memory_gb": [7.039188992, 7.232733184, 7.242825728],
+          "power_source": "Battery Power",
+          "first_blocker_category": "category-1-local-admission"
+        },
+        "p6_dry_receipt": {
+          "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
+          "sha256": "656de322d5567a08dc5207c9d21983af3fe7fdef3b1ec389548a6a9e4bde3547",
+          "allowed": false,
+          "missing_prerequisite": "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+          "command_executed": false
         },
         "scientific_claim_ready": false
       },
@@ -498,7 +513,7 @@
         "binding_direction": "the downstream atlas binds this audit; this audit does not hash the atlas, avoiding a circular dependency",
         "facet_count": 41,
         "weighted_score": 5.736,
-        "source_count": 45,
+        "source_count": 57,
         "evidence_reference_count": 197,
         "category8_count": 0,
         "category9_count": 0,
@@ -508,9 +523,9 @@
     "source_hash_publication": {
       "status": "complete",
       "pending_paths": [],
-      "project_exhaustion_sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317",
-      "frontier_localization_sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84",
-      "extended_compute_requirements_sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff",
+      "project_exhaustion_sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65",
+      "frontier_localization_sha256": "c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78",
+      "extended_compute_requirements_sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1",
       "final_binding_complete": true
     }
   },
@@ -618,10 +633,16 @@
     },
     "P5_context_capability": {
       "classification": "scaffold",
-      "queue_state": "queued-after-p4-heavy-lane-release",
+      "queue_state": "category-1-local-admission-held",
       "memory_probe_classification": "mechanics_only",
+      "old_class_attempt_source_current": false,
+      "terminal_branches": [
+        "smoke-null-independent-verifier",
+        "pilot-null-independent-verifier",
+        "favorable-fresh-challenge-independent-verifier"
+      ],
       "full_pilot_receipt_present": false,
-      "expected_full_receipt": "proof/P5_CAPABILITY_CONTEXT_SCREEN.json"
+      "expected_full_receipt": "proof/P5_CONTEXT_CAPABILITY_PILOT.json"
     },
     "historical_closure_controls": {
       "classification": "confirmatory_result_with_incomplete_current_standard_binding",
@@ -655,17 +676,17 @@
   "current_non_F_ledger": {
     "entry_count": 177,
     "classification_counts": {
-      "freshly_executed_verified": 120,
+      "freshly_executed_verified": 117,
       "already_durable_hash_verifiable": 37,
       "implementation_blocked": 1,
       "rights_data_blocked": 11,
       "upstream_model_blocked": 8,
-      "runnable_not_yet_run": 0,
+      "runnable_not_yet_run": 3,
       "measured_hardware_blocked": 0
     },
     "scientific_claim_ready_true": 0,
     "scientific_claim_ready_false": 177,
-    "semantic_warning": "Freshly executed means a bounded class codepath with finite metrics and a hashed attempt receipt. It does not mean the registered multi-seed study is complete. Runnable-not-yet-run zero therefore cannot close P4, P5, or other standalone full campaigns."
+    "semantic_warning": "Freshly executed means a bounded class codepath with finite metrics and a source-current hashed attempt receipt. It does not mean the registered multi-seed study is complete. The fail-closed source and copied-config join leaves e5, ex5, and P5 honestly runnable."
   },
   "current_blockers": {
     "implementation_blocked": [
@@ -697,6 +718,11 @@
       "mop_cm6_distilled_density",
       "mop_cm8_custom_jepa_pilot"
     ],
+    "runnable_not_yet_run": [
+      "e5_curiosity",
+      "ex5_local_rules_scale",
+      "mop_p5_context_capability"
+    ],
     "measured_hardware_blocked": []
   },
   "discrepancies": [
@@ -709,11 +735,11 @@
       "current_receipt_sha256": "b9ae786ad93f74ee58e4f389ac1ad84ffea64801997832c6dfe35a5c64a9e11e"
     },
     {
-      "severity": "critical",
-      "id": "exhaustion_zero_pending_is_codepath_only",
+      "severity": "resolved-critical",
+      "id": "exhaustion_source_drift_is_fail_closed",
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "finding": "All 177 entries have scientific_claim_ready false. The zero runnable-not-yet-run count tracks class execution and durable artifacts, not full registered campaigns.",
-      "required_correction": "Add a separate full-study completion state and do not use this count to close P4, P5, or multi-seed science."
+      "finding": "The old verifier could accept a stale class attempt and then publish live source hashes on the refreshed ledger entry.",
+      "resolution": "Attempt receipts must now bind current class and config source evidence, and their copied experiment config must equal the live config. E5, ex5, and P5 are therefore runnable-not-yet-run instead of being laundered as fresh."
     },
     {
       "severity": "resolved-high",
@@ -725,8 +751,8 @@
     {
       "severity": "high",
       "id": "P5_not_run",
-      "finding": "P5 code, preregistration, class smoke, and a mechanics-only memory trace exist, but the full pilot proof is absent. After P4 released the lane, three governed smoke samples failed only the current available-memory headroom gate.",
-      "required_correction": "When three consecutive unchanged admission samples are healthy, run p5smoke, the cold-process training-grid memory pass, then p5pilot. Do not weaken the memory gate or infer hardware necessity from this transient denial."
+      "finding": "P5 code, preregistration, and a mechanics-only memory trace exist, but the full pilot proof is absent. The old bounded class attempt is source-stale. The current governed smoke samples failed the memory-headroom and AC-power gates, and no child ran.",
+      "required_correction": "When three consecutive unchanged admission samples are healthy, run the conditional P5 sequence through the governor. Preserve terminal smoke-null, pilot-null, and favorable fresh-challenge branches, and do not infer hardware necessity from this local admission denial."
     },
     {
       "severity": "resolved-high",
@@ -734,7 +760,7 @@
       "path": "proof/FRONTIER_LOCALIZATION.json",
       "finding": "The audit found that CM7 and CM8 still referred to the old one-seed calibration state.",
       "resolution": "The hardened frontier receipt consumes the five-seed familywise-corrected CM7 null, verifies E6/DR14 dense integration, and removes the retired scale pilot from current AL2/DR5 classification. CM8 states that positive objective-lever evidence is absent and a successor design is required.",
-      "current_receipt_sha256": "465974192469f12b1345e6fe6005ef2abf374319dc31d92aea2d67308df65c84"
+      "current_receipt_sha256": "c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78"
     },
     {
       "severity": "resolved-high",
@@ -742,8 +768,8 @@
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
       "finding": "The audit found an E6 row that still instructed already-completed model acquisition and forward probing.",
       "resolution": "The requirements matrix and exhaustion ledger bind official runtime and task/cache/control integration, classify E6 and DR14 as natural data/cache/verification blocked, and remove retired-scale requirements. Implementation is complete for the registered seam.",
-      "current_requirements_sha256": "d3c76b7218b65de0ae54693c1cea7115e7fd28a44717b2fd1dd44329671238ff",
-      "current_exhaustion_sha256": "4bf8830aaf02b9a15efa1b7b7f938f672bf3769e47f80fecef4320082d570317"
+      "current_requirements_sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1",
+      "current_exhaustion_sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65"
     },
     {
       "severity": "resolved-high",
@@ -792,7 +818,7 @@
     {
       "priority": 0,
       "item": "P5 full pilot sequence",
-      "reason": "P4 is complete and governor-closed. P5 is implemented and preregistered, but full execution is absent and the latest smoke admission was held only by current available-memory headroom."
+      "reason": "P4 is complete and governor-closed. P5 is implemented and preregistered, but full execution is absent and the latest smoke admission was held by current memory headroom and battery power."
     },
     {
       "priority": 1,
@@ -824,7 +850,7 @@
     "scientific_completion_is_not_equivalent_to_checked": true,
     "studio_is_currently_the_only_boundary": false,
     "measured_hardware_blocker_count": 0,
-    "statement": "The repository has substantial local implementation, mechanics, pilots, and several tightly scoped bound results. It has not exhausted all local scientific work. P4 is complete and governor-closed. Twenty-two new F rows now have independently verified toy or mechanics receipts, but retain their natural, environmental, social, or physical evidence ceilings. The active boundary is the memory-gated P5 sequence, the progressive P6 ladder, one bounded implementation row, remaining preregistration-only science, and rights-clean citable-input work for E6/DR14 and other studies, not a measured Studio requirement."
+    "statement": "The repository has substantial local implementation, mechanics, pilots, and several tightly scoped bound results. It has not exhausted all local scientific work. P4 is complete and governor-closed. Twenty-two new F rows now have independently verified toy or mechanics receipts, but retain their natural, environmental, social, or physical evidence ceilings. The active boundary is category 1 local admission for P5, the progressive P6 ladder, three source-current runnable rows, one bounded implementation row, remaining preregistration-only science, and rights-clean citable-input work for E6/DR14 and other studies, not a measured Studio requirement."
   },
   "self_verification": {
     "checkbox_claims_accounted_exactly_once": true,
@@ -873,12 +899,13 @@
     "retired_scale_active_selector_count": 0,
     "p5_smoke_admission_sample_count": 3,
     "p5_smoke_command_executed": false,
-    "p5_first_blocker_category": "transient-current-host-memory-headroom",
+    "p5_first_blocker_category": "category-1-local-admission",
     "new_scaffold_verification_receipt_count": 5,
     "new_scaffold_verified_row_count": 22,
     "new_scaffold_scientific_promotion_count": 0,
     "potential_atlas_facet_count": 41,
     "potential_atlas_weighted_score": 5.736,
+    "potential_atlas_source_count": 57,
     "potential_atlas_category8_count": 0,
     "potential_atlas_category9_count": 0,
     "final_source_hash_binding_complete": true,

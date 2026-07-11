@@ -52,6 +52,14 @@ BATCH_ROWS = (4, 1)
 DEFAULT_REPEATS = 3
 MASK_RATIO = 0.50
 EMA_DECAY = 0.99
+SOURCE_PATHS = (
+    "configs/experiment/mop_p5_context_capability.yaml",
+    "scripts/p5_traingrid_memory_probe.py",
+    "scripts/p5_context_capability.py",
+    "src/mop/substrate/p5_context.py",
+    "src/mop/substrate/custom_workbench.py",
+    "src/mop/substrate/p4_screen.py",
+)
 
 
 def _free_disk_gb(root: Path) -> float:
@@ -70,6 +78,14 @@ def _sha256_file(path: Path) -> str:
 def _json_sha256(payload: Any) -> str:
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _source_bindings() -> list[dict[str, str]]:
+    """Hash every live source that defines the training-grid measurement contract."""
+
+    return [
+        {"path": relative, "file_sha256": _sha256_file(REPO_ROOT / relative)} for relative in SOURCE_PATHS
+    ]
 
 
 def _atomic_json(path: Path, payload: Any) -> None:
@@ -275,8 +291,16 @@ def main() -> int:
     if args.repeats < 1:
         print("refusing: --repeats must be at least one")
         return 1
+    try:
+        source_bindings = _source_bindings()
+    except OSError as exc:
+        print(f"refusing: required live P5 source is unreadable: {exc}")
+        return 1
+    source_bindings_sha256 = _json_sha256(source_bindings)
     identity = {
         "script_sha256": _sha256_file(Path(__file__).resolve()),
+        "source_bindings": source_bindings,
+        "source_bindings_sha256": source_bindings_sha256,
         "boundary_trace_sha256": boundary_sha256,
         "cells": [{"frames": cell.frames, "mechanism": cell.mechanism} for cell in P5_CELLS],
         "batch_rows": list(BATCH_ROWS),
@@ -374,6 +398,8 @@ def main() -> int:
     receipt = {
         "schema": RECEIPT_SCHEMA,
         "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "source_bindings": source_bindings,
+        "source_bindings_sha256": source_bindings_sha256,
         "claim_boundary": {
             "mechanics_only": True,
             "moves_no_category": True,
@@ -413,6 +439,7 @@ def main() -> int:
         "cells": results,
         "all_ok": all_finite and not any(row.get("memory_guard_exceeded") for row in results),
     }
+    receipt["payload_sha256"] = _json_sha256(receipt)
     _atomic_json(args.out, receipt)
     print(f"wrote {args.out} rows={len(results)} all_ok={receipt['all_ok']}")
     return 0 if receipt["all_ok"] else 1

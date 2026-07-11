@@ -7,14 +7,17 @@ tier: cpu-now
 
 # Profiles are wall envelopes, not claim levels. p5smoke proves the plumbing end to end with one
 # seed and a twelve-step dense reference; p5pilot is the staged five-seed pilot. dense_steps is the
-# exact_global reference step count; factorized arms solve their own checkpoint-aligned step count
+# exact_global reference step count; factorized arms solve their own granularity-bounded step count
 # to match total estimated FLOPs. Rerunning the same command resumes from durable per-arm
 # checkpoints and per-seed receipts. The promotion block refuses confirmatory claims by construction.
+# Pre-execution amendment, 2026-07-10: the twelve-step smoke checkpoints every step so its matching
+# grid clamps to granularity 1. Granularity 5 leaves required f16 and f64 arms outside the registered
+# 0.02 FLOP tolerance. No P5 scientific run receipt exists at this amendment boundary.
 profiles:
   p5smoke:
     seeds: [0]
     dense_steps: 12
-    checkpoint_every: 6
+    checkpoint_every: 1
     wall_budget_seconds: 10800.0
   p5pilot:
     seeds: [0, 1, 2, 3, 4]
