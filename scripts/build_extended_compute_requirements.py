@@ -32,7 +32,8 @@ P5_VERIFICATION_SCHEMA = "mop-p5-context-independent-verifier/v1"
 P5_SMOKE_RECEIPT_PATH = "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
 P5_SMOKE_RECEIPT_SCHEMA = "mop-local-throttle-receipt/v1"
 P5_SMOKE_TASK_ID = "p5smoke_cpu"
-P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260710_leg2"
+P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260711_leg3"
+P5_SMOKE_CPU_REASON = "first_lane normalized one-minute load ceiling"
 P5_SMOKE_MEMORY_REASON = "measured available unified memory covers candidate peak plus headroom"
 P5_SMOKE_COMMAND = [
     ".venv/bin/python",
@@ -836,7 +837,7 @@ def sha256_path(path: Path) -> str:
 
 
 def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, evidence_root: Path = ROOT) -> dict[str, Any]:
-    """Parse the current memory-only P5 refusal or fail closed on semantic drift."""
+    """Parse the current P5 local-admission refusal or fail closed on semantic drift."""
     problems: list[str] = []
 
     if receipt.get("schema") != P5_SMOKE_RECEIPT_SCHEMA:
@@ -887,6 +888,8 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, evidence_root: Path = 
         decisions = []
     memory_observations: list[float] = []
     memory_limits: list[float] = []
+    cpu_observations: list[float] = []
+    cpu_limits: list[float] = []
     projected_disk: list[float] = []
     expected_gate_names = {
         "required_telemetry",
@@ -922,7 +925,7 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, evidence_root: Path = 
             problems.append(f"{prefix}.allowed")
         if decision.get("active_lanes") != []:
             problems.append(f"{prefix}.active_lanes")
-        if decision.get("denied_reasons") != [P5_SMOKE_MEMORY_REASON]:
+        if decision.get("denied_reasons") != [P5_SMOKE_CPU_REASON, P5_SMOKE_MEMORY_REASON]:
             problems.append(f"{prefix}.denied_reasons")
 
         raw_gates = decision.get("gates")
@@ -935,8 +938,27 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, evidence_root: Path = 
             continue
         gates = {str(gate["name"]): gate for gate in raw_gates}
         failing = {name for name, gate in gates.items() if gate.get("ok") is not True}
-        if failing != {"candidate_memory_headroom"}:
+        if failing != {"cpu_load", "candidate_memory_headroom"}:
             problems.append(f"{prefix}.failing_gates")
+
+        cpu = gates["cpu_load"]
+        cpu_observed = cpu.get("observed")
+        cpu_limit = cpu.get("limit")
+        if (
+            cpu.get("ok") is not False
+            or cpu.get("reason") != P5_SMOKE_CPU_REASON
+            or isinstance(cpu_observed, bool)
+            or not isinstance(cpu_observed, (int, float))
+            or not math.isfinite(float(cpu_observed))
+            or isinstance(cpu_limit, bool)
+            or not isinstance(cpu_limit, (int, float))
+            or not math.isfinite(float(cpu_limit))
+            or float(cpu_observed) <= float(cpu_limit)
+        ):
+            problems.append(f"{prefix}.cpu_load")
+        else:
+            cpu_observations.append(float(cpu_observed))
+            cpu_limits.append(float(cpu_limit))
 
         memory = gates["candidate_memory_headroom"]
         observed = memory.get("observed")
@@ -980,6 +1002,8 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, evidence_root: Path = 
 
     if memory_limits and len(set(memory_limits)) != 1:
         problems.append("memory_limit_consistency")
+    if cpu_limits and len(set(cpu_limits)) != 1:
+        problems.append("cpu_limit_consistency")
 
     for field, relative in (
         ("policy", "configs/local_execution_throttle.yaml"),
@@ -1042,10 +1066,13 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, evidence_root: Path = 
     if problems:
         raise ValueError("invalid P5 smoke admission refusal: " + ", ".join(dict.fromkeys(problems)))
     return {
-        "state": "memory-only-admission-refusal",
+        "state": "cpu-load-and-memory-admission-refusal",
         "run_id": run_id,
         "command_executed": False,
         "decision_count": len(decisions),
+        "failed_gates": ["cpu_load", "candidate_memory_headroom"],
+        "cpu_load_per_logical_cpu": cpu_observations,
+        "maximum_cpu_load_per_logical_cpu": cpu_limits[0],
         "available_memory_gb": memory_observations,
         "required_memory_gb": memory_limits[0],
         "power_source": "AC Power",
@@ -1371,7 +1398,7 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                 measured["present"] = False
                 measured["governor_admission"] = p5_refusal
                 measured["evidence_scope"] = (
-                    "implementation and governed memory-only admission refusal evidence; the "
+                    "implementation and governed local-admission refusal evidence; the "
                     "source-current P5 scientific sequence has not executed"
                 )
             if identifier == "e5_curiosity":

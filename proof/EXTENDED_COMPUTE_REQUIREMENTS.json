@@ -59,17 +59,27 @@
       "p5_smoke_admission_refusal": {
         "all_ok": true,
         "available_memory_gb": [
-          8.16013312,
-          8.30414848,
-          8.381218816
+          6.830424064,
+          8.909111296,
+          8.705048576
         ],
         "command_executed": false,
+        "cpu_load_per_logical_cpu": [
+          3.8621012369791665,
+          3.8621012369791665,
+          3.986572265625
+        ],
         "decision_count": 3,
-        "minimum_projected_disk_gb": 122.61212620799999,
+        "failed_gates": [
+          "cpu_load",
+          "candidate_memory_headroom"
+        ],
+        "maximum_cpu_load_per_logical_cpu": 0.85,
+        "minimum_projected_disk_gb": 112.378413568,
         "power_source": "AC Power",
         "required_memory_gb": 10.0,
-        "run_id": "p5smoke_20260710_leg2",
-        "state": "memory-only-admission-refusal"
+        "run_id": "p5smoke_20260711_leg3",
+        "state": "cpu-load-and-memory-admission-refusal"
       },
       "p6_10k_scheduler_dry_run": {
         "admission_allowed": false,
@@ -702,7 +712,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_adam_trainable_state": {
       "current_hash_verified": true,
@@ -710,7 +720,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_cache_10000": {
       "current_hash_verified": true,
@@ -718,7 +728,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_campaign_time_spec": {
       "current_hash_verified": true,
@@ -726,7 +736,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_checkpoint_volume_spec": {
       "current_hash_verified": true,
@@ -734,7 +744,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_cloud_cost_spec": {
       "current_hash_verified": true,
@@ -742,7 +752,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_dense_cache_storage": {
       "current_hash_verified": true,
@@ -750,7 +760,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_energy_scope": {
       "current_hash_verified": true,
@@ -758,7 +768,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_paired_seed_power": {
       "current_hash_verified": true,
@@ -766,7 +776,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "c_peak_memory_spec": {
       "current_hash_verified": true,
@@ -774,7 +784,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     "m_cm7_pilot": {
       "current_hash_verified": true,
@@ -1256,11 +1266,11 @@
       "sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
     },
     {
-      "bytes": 124970,
+      "bytes": 126192,
       "exists": true,
       "id": "local:scripts/build_extended_compute_requirements.py",
       "path": "scripts/build_extended_compute_requirements.py",
-      "sha256": "44c4074579b595d9de0fa2981a1f8b6ba8ae7a62e96fc971da44a39fe4ada715"
+      "sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
     },
     {
       "bytes": 56837,
@@ -3755,11 +3765,11 @@
       "sha256": "de0a80434e7b5f6a35cd28051af07ac84c23d804fb3566df13a056b940e7f884"
     },
     {
-      "bytes": 27906,
+      "bytes": 28125,
       "exists": true,
       "id": "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
-      "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787"
+      "sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd"
     },
     {
       "bytes": 2084,
@@ -3846,7 +3856,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitl"
     }
   },
-  "payload_sha256": "b5bbfcc2c47f3ff76408a43c3dc5b4029f621b5be3d284a5b8519983d82df5c7",
+  "payload_sha256": "1e43a13f2959ad9ee30fcd752f5d6553e43f7cb955e3867b9218b2979d2847e9",
   "row_referenced_json_audits": {
     "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json": {
       "all_current": true,
@@ -17718,21 +17728,31 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "implementation and governed memory-only admission refusal evidence; the source-current P5 scientific sequence has not executed",
+        "evidence_scope": "implementation and governed local-admission refusal evidence; the source-current P5 scientific sequence has not executed",
         "execution_verified_at_generation": false,
         "governor_admission": {
           "available_memory_gb": [
-            8.16013312,
-            8.30414848,
-            8.381218816
+            6.830424064,
+            8.909111296,
+            8.705048576
           ],
           "command_executed": false,
+          "cpu_load_per_logical_cpu": [
+            3.8621012369791665,
+            3.8621012369791665,
+            3.986572265625
+          ],
           "decision_count": 3,
-          "minimum_projected_disk_gb": 122.61212620799999,
+          "failed_gates": [
+            "cpu_load",
+            "candidate_memory_headroom"
+          ],
+          "maximum_cpu_load_per_logical_cpu": 0.85,
+          "minimum_projected_disk_gb": 112.378413568,
           "power_source": "AC Power",
           "required_memory_gb": 10.0,
-          "run_id": "p5smoke_20260710_leg2",
-          "state": "memory-only-admission-refusal"
+          "run_id": "p5smoke_20260711_leg3",
+          "state": "cpu-load-and-memory-admission-refusal"
         },
         "implementation_surface": "experiment-class",
         "ledger_classification": "runnable-not-yet-run",

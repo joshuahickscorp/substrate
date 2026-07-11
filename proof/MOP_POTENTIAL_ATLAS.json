@@ -136,7 +136,7 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062"
+      "sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85"
     },
     {
       "path": "proof/P4_CAPABILITY_DENSITY_SCREEN.json",
@@ -148,7 +148,7 @@
     },
     {
       "path": "proof/COMPLETION_CLAIM_AUDIT.json",
-      "sha256": "ee10b58e57851e4e01541526da8ffec4898769b64cd08f369c0a17bddc59ddc2"
+      "sha256": "bea938f35fa694d5877cde558d09fb8b171b159577a2acad0e29210733e24363"
     },
     {
       "path": "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -172,7 +172,7 @@
     },
     {
       "path": "docs/LOCAL_EXECUTION_THROTTLE.md",
-      "sha256": "3d3c691357a4c1e071589b245a028857b19d89d6354781b59627b444da98c4dd"
+      "sha256": "7659a694c14b0e79a2a0cc6b92ba284c9f0427bcb6d99e7f39aaf2ea6d1fc050"
     },
     {
       "path": "configs/custom_substrate/requirements.yaml",
@@ -204,7 +204,7 @@
     },
     {
       "path": "src/mop/studies/potential_atlas_driver.py",
-      "sha256": "3e675d713c192882a427fa6de151f6e38983d09a3186289227109db865fd30db"
+      "sha256": "3cc651e7a0fb6dda1627a88b09d0b2faccf9e5624138ab9071958ce60c139eb6"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_RUN.json",
@@ -296,7 +296,7 @@
     },
     {
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
-      "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787"
+      "sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd"
     }
   ],
   "portfolio": {
@@ -1962,7 +1962,7 @@
         "the P6 10k resource probe and replication remain unexecuted",
         "mixed-lane confirmation remains open",
         "the P6 10k resource probe is fail-closed until the final P5 verifier binds a scientific null or a fresh-seed verified programmatic pattern",
-        "P5 smoke is fail-closed on current local admission: three samples had 8.160 to 8.381 GB available against a 10.0 GB requirement; AC power passed"
+        "P5 smoke is fail-closed on current local admission: three samples had normalized one-minute load 3.862 to 3.987 against 0.85, and 6.830 to 8.909 GB available against a 10.0 GB requirement; AC power passed"
       ],
       "evidence": [
         "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -1975,7 +1975,7 @@
         "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
       ],
       "local_to_10": [
-        "admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom gate",
+        "admit and complete P5 only after three consecutive samples satisfy the unchanged CPU-load and memory-headroom gates",
         "run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after P5",
         "exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process pressure without signaling user processes",
         "prove data-order and numerical equivalence across repeated inner resumable segments",
@@ -3244,18 +3244,28 @@
     ]
   },
   "p5_local_admission": {
-    "state": "memory-only-admission-refusal",
-    "run_id": "p5smoke_20260710_leg2",
+    "state": "cpu-load-and-memory-admission-refusal",
+    "run_id": "p5smoke_20260711_leg3",
     "command_executed": false,
     "decision_count": 3,
+    "failed_gates": [
+      "cpu_load",
+      "candidate_memory_headroom"
+    ],
+    "cpu_load_per_logical_cpu": [
+      3.8621012369791665,
+      3.8621012369791665,
+      3.986572265625
+    ],
+    "maximum_cpu_load_per_logical_cpu": 0.85,
     "available_memory_gb": [
-      8.16013312,
-      8.30414848,
-      8.381218816
+      6.830424064,
+      8.909111296,
+      8.705048576
     ],
     "required_memory_gb": 10.0,
     "power_source": "AC Power",
-    "minimum_projected_disk_gb": 122.61212620799999,
-    "receipt_sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787"
+    "minimum_projected_disk_gb": 112.378413568,
+    "receipt_sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd"
   }
 }

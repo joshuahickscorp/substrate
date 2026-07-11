@@ -123,7 +123,8 @@ ADDITIONAL_SOURCE_PATHS = (
 )
 RETIRED_SOURCE_PATHS = frozenset({"proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"})
 P5_SMOKE_RECEIPT_PATH = "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
-P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260710_leg2"
+P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260711_leg3"
+P5_SMOKE_CPU_REASON = "first_lane normalized one-minute load ceiling"
 P5_SMOKE_MEMORY_REASON = "measured available unified memory covers candidate peak plus headroom"
 P5_SMOKE_COMMAND = [
     ".venv/bin/python",
@@ -144,7 +145,7 @@ def _sha256(path: Path) -> str:
 
 
 def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
-    """Parse the P5 memory-only refusal that the atlas is allowed to describe."""
+    """Parse the P5 local-admission refusal that the atlas is allowed to describe."""
     problems: list[str] = []
     if receipt.get("schema") != "mop-local-throttle-receipt/v1":
         problems.append("schema")
@@ -214,6 +215,8 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, repo_root: Path = REPO
     }
     memory_observations: list[float] = []
     memory_limits: list[float] = []
+    cpu_observations: list[float] = []
+    cpu_limits: list[float] = []
     projected_disk: list[float] = []
     for index, decision in enumerate(decisions):
         prefix = f"decisions[{index}]"
@@ -225,7 +228,7 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, repo_root: Path = REPO
             or decision.get("task_id") != "p5smoke_cpu"
             or decision.get("allowed") is not False
             or decision.get("active_lanes") != []
-            or decision.get("denied_reasons") != [P5_SMOKE_MEMORY_REASON]
+            or decision.get("denied_reasons") != [P5_SMOKE_CPU_REASON, P5_SMOKE_MEMORY_REASON]
         ):
             problems.append(f"{prefix}.contract")
         raw_gates = decision.get("gates")
@@ -238,9 +241,29 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, repo_root: Path = REPO
             continue
         gates = {str(gate["name"]): gate for gate in raw_gates}
         if {name for name, gate in gates.items() if gate.get("ok") is not True} != {
-            "candidate_memory_headroom"
+            "cpu_load",
+            "candidate_memory_headroom",
         }:
             problems.append(f"{prefix}.failing_gates")
+
+        cpu = gates["cpu_load"]
+        cpu_observed = cpu.get("observed")
+        cpu_limit = cpu.get("limit")
+        if (
+            cpu.get("ok") is not False
+            or cpu.get("reason") != P5_SMOKE_CPU_REASON
+            or isinstance(cpu_observed, bool)
+            or not isinstance(cpu_observed, (int, float))
+            or not math.isfinite(float(cpu_observed))
+            or isinstance(cpu_limit, bool)
+            or not isinstance(cpu_limit, (int, float))
+            or not math.isfinite(float(cpu_limit))
+            or float(cpu_observed) <= float(cpu_limit)
+        ):
+            problems.append(f"{prefix}.cpu")
+        else:
+            cpu_observations.append(float(cpu_observed))
+            cpu_limits.append(float(cpu_limit))
 
         memory = gates["candidate_memory_headroom"]
         observed = memory.get("observed")
@@ -283,6 +306,8 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, repo_root: Path = REPO
             projected_disk.append(float(projected))
     if memory_limits and len(set(memory_limits)) != 1:
         problems.append("memory_limit_consistency")
+    if cpu_limits and len(set(cpu_limits)) != 1:
+        problems.append("cpu_limit_consistency")
 
     for field, relative in (
         ("policy", "configs/local_execution_throttle.yaml"),
@@ -345,10 +370,13 @@ def _p5_smoke_refusal_summary(receipt: dict[str, Any], *, repo_root: Path = REPO
     if problems:
         raise ValueError("invalid P5 smoke admission refusal: " + ", ".join(dict.fromkeys(problems)))
     return {
-        "state": "memory-only-admission-refusal",
+        "state": "cpu-load-and-memory-admission-refusal",
         "run_id": run_id,
         "command_executed": False,
         "decision_count": len(decisions),
+        "failed_gates": ["cpu_load", "candidate_memory_headroom"],
+        "cpu_load_per_logical_cpu": cpu_observations,
+        "maximum_cpu_load_per_logical_cpu": cpu_limits[0],
         "available_memory_gb": memory_observations,
         "required_memory_gb": memory_limits[0],
         "power_source": "AC Power",
@@ -965,6 +993,9 @@ def _update_operational_state(atlas: dict[str, Any], p5_refusal: dict[str, Any])
                 ],
                 (
                     "P5 smoke is fail-closed on current local admission: three samples had "
+                    f"normalized one-minute load {min(p5_refusal['cpu_load_per_logical_cpu']):.3f} "
+                    f"to {max(p5_refusal['cpu_load_per_logical_cpu']):.3f} against "
+                    f"{p5_refusal['maximum_cpu_load_per_logical_cpu']:.2f}, and "
                     f"{min(p5_refusal['available_memory_gb']):.3f} to "
                     f"{max(p5_refusal['available_memory_gb']):.3f} GB available against a "
                     f"{p5_refusal['required_memory_gb']:.1f} GB requirement; AC power passed"
@@ -981,7 +1012,7 @@ def _update_operational_state(atlas: dict[str, Any], p5_refusal: dict[str, Any])
     op3["local_to_10"] = [
         (
             "admit and complete P5 only after three consecutive samples satisfy the unchanged "
-            "memory-headroom gate"
+            "CPU-load and memory-headroom gates"
         ),
         (
             "run the exclusive P6 10k resource probe, full 10k replication, and independent "

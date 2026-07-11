@@ -85,7 +85,7 @@ P5 is pinned to CPU. Every heavy step runs through the governor. The common entr
 ```bash
 PYTHONPATH=src .venv/bin/python scripts/local_execution_throttle.py run \
   --task p5smoke_cpu \
-  --run-id p5smoke_20260711_leg3 \
+  --run-id p5smoke_20260711_leg4 \
   --execute \
   --out proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json
 ```

@@ -150,8 +150,8 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062",
-      "payload_sha256": "b5bbfcc2c47f3ff76408a43c3dc5b4029f621b5be3d284a5b8519983d82df5c7",
+      "sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85",
+      "payload_sha256": "1e43a13f2959ad9ee30fcd752f5d6553e43f7cb955e3867b9218b2979d2847e9",
       "use": "321 requirements rows; categories 1/2/3/6 are 168/119/29/5, categories 8 and 9 are empty, and no hardware row is required"
     },
     {
@@ -244,8 +244,8 @@
     },
     {
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
-      "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787",
-      "use": "three-sample governed P5 execute refusal on current memory headroom only; AC power and every other live gate passed, no child executed, and no hardware-necessity claim is made"
+      "sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd",
+      "use": "three-sample governed P5 execute refusal on current CPU-load and memory-headroom gates; AC power and every other live gate passed, no child executed, and no hardware-necessity claim is made"
     },
     {
       "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
@@ -455,9 +455,14 @@
         "p5_full_receipt_present": false,
         "p5_admission_receipt": {
           "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
-          "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787",
+          "sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd",
           "allowed": false,
-          "available_memory_gb": [8.16013312, 8.30414848, 8.381218816],
+          "command_executed": false,
+          "failed_gates": ["cpu_load", "candidate_memory_headroom"],
+          "cpu_load_per_logical_cpu": [3.8621012369791665, 3.8621012369791665, 3.986572265625],
+          "maximum_cpu_load_per_logical_cpu": 0.85,
+          "available_memory_gb": [6.830424064, 8.909111296, 8.705048576],
+          "required_memory_gb": 10.0,
           "power_source": "AC Power",
           "first_blocker_category": "category-1-local-admission"
         },
@@ -525,7 +530,7 @@
       "pending_paths": [],
       "project_exhaustion_sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65",
       "frontier_localization_sha256": "c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78",
-      "extended_compute_requirements_sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062",
+      "extended_compute_requirements_sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85",
       "final_binding_complete": true
     }
   },
@@ -768,7 +773,7 @@
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
       "finding": "The audit found an E6 row that still instructed already-completed model acquisition and forward probing.",
       "resolution": "The requirements matrix and exhaustion ledger bind official runtime and task/cache/control integration, classify E6 and DR14 as natural data/cache/verification blocked, and remove retired-scale requirements. Implementation is complete for the registered seam.",
-      "current_requirements_sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062",
+      "current_requirements_sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85",
       "current_exhaustion_sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65"
     },
     {

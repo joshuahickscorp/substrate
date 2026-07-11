@@ -295,13 +295,14 @@ mechanics only:
   `78db1cfa4ac6343484e3eeefd95a2461328d2396d3fb5b6a7a88fb25fc4d6b24`
 
 The full pilot artifact `proof/P5_CONTEXT_CAPABILITY_PILOT.json` does not exist. P4 released the
-one-heavy-lane governor, but the first P5 execute attempt failed closed before its child command ran.
-The current governed execute receipt recorded three available-memory samples of 8.16013312,
-8.30414848, and 8.381218816 GB against the 10.0 GB admission threshold. AC power and every other
-live gate passed, but the memory gate failed and no child ran. The first blocker remains category 1
-local admission state, not hardware necessity. The receipt is
+one-heavy-lane governor, but the current P5 execute attempt failed closed before its child command
+ran. The receipt recorded normalized one-minute load samples of 3.8621012369791665,
+3.8621012369791665, and 3.986572265625 against the 0.85 ceiling, plus available-memory samples of
+6.830424064, 8.909111296, and 8.705048576 GB against the 10.0 GB threshold. AC power and every other
+live gate passed, but the CPU-load and memory gates failed and no child ran. The first blocker
+remains category 1 local admission state, not hardware necessity. The receipt is
 `proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json`, SHA-256
-`6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787`.
+`4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd`.
 
 P5 now has three explicit outcome paths after three healthy admission samples:
 
@@ -441,8 +442,8 @@ The frontier and requirements receipts are regenerated and current:
 2. `proof/EXTENDED_COMPUTE_REQUIREMENTS.json` treats E6 and DR14 implementation as complete,
    classifies their first blockers as natural data/cache/verification, and carries no active
    retired-scale requirement. File SHA-256:
-   `062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062`.
-   Payload SHA-256: `b5bbfcc2c47f3ff76408a43c3dc5b4029f621b5be3d284a5b8519983d82df5c7`.
+   `ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85`.
+   Payload SHA-256: `1e43a13f2959ad9ee30fcd752f5d6553e43f7cb955e3867b9218b2979d2847e9`.
 3. The immutable inherited-scale pilot still binds all nine random controls to exact stimulus
    identity. It is now historical evidence only and is absent from the authoritative current
    evidence list.

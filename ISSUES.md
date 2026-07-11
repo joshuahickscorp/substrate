@@ -5,10 +5,11 @@ Empty of hard failures means a clean run.
 
 ## Active local admission blocker (category 1, not a hardware boundary)
 - P5 smoke has no scientific run receipt. The current governed execute attempt failed closed across
-  three samples with 8.160 to 8.381 GB available against the unchanged 10.0 GB requirement. AC power
-  and every other live gate passed, and no child ran. Unblock: free enough local memory for three
-  healthy samples, then run the exact command recorded at the top of `STATUS.md`. Categories 8 and 9
-  remain empty, so the evidence does not justify a Studio purchase.
+  three samples with normalized one-minute CPU load at 3.862 to 3.987 per logical CPU against the
+  0.85 ceiling and 6.830 to 8.909 GB available against the unchanged 10.0 GB memory requirement.
+  AC power and every other live gate passed, and no child ran. Unblock: wait for both CPU load and
+  local memory to satisfy three healthy samples, then run the exact command recorded at the top of
+  `STATUS.md`. Categories 8 and 9 remain empty, so the evidence does not justify a Studio purchase.
 
 ## Known trap (2026-07-10)
 - `scripts/cache_factorized_encoder.py` (and any compose()-driven cache script) does not
