@@ -43,8 +43,15 @@ def test_registry_only_rows_are_preregistration_only_requirements() -> None:
     )
     assert "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json" in p5["evidence_refs"]
     admission = p5["measured"]["governor_admission"]
-    assert admission["state"] == "memory-only-admission-refusal"
-    assert admission["available_memory_gb"] == [8.16013312, 8.30414848, 8.381218816]
+    assert admission["state"] == "cpu-load-and-memory-admission-refusal"
+    assert admission["failed_gates"] == ["cpu_load", "candidate_memory_headroom"]
+    assert admission["cpu_load_per_logical_cpu"] == [
+        3.8621012369791665,
+        3.8621012369791665,
+        3.986572265625,
+    ]
+    assert admission["maximum_cpu_load_per_logical_cpu"] == 0.85
+    assert admission["available_memory_gb"] == [6.830424064, 8.909111296, 8.705048576]
     assert admission["required_memory_gb"] == 10.0
     assert admission["command_executed"] is False
 
@@ -83,7 +90,7 @@ def test_p5_smoke_refusal_parser_fails_closed_on_semantic_drift() -> None:
     stale_policy["policy"]["sha256"] = "0" * 64
     mutations.append(stale_policy)
     stale_run = copy.deepcopy(receipt)
-    stale_run["run_id"] = "p5smoke_20000101_leg99"
+    stale_run["run_id"] = "p5smoke_20260710_leg2"
     mutations.append(stale_run)
     fabricated_limit = copy.deepcopy(receipt)
     for decision in fabricated_limit["decisions"]:
@@ -97,6 +104,10 @@ def test_p5_smoke_refusal_parser_fails_closed_on_semantic_drift() -> None:
             "observed"
         ] = 1.0
     mutations.append(fabricated_observation)
+    fabricated_cpu_observation = copy.deepcopy(receipt)
+    for decision in fabricated_cpu_observation["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "cpu_load")["observed"] = 1.0
+    mutations.append(fabricated_cpu_observation)
 
     for mutation in mutations:
         with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):

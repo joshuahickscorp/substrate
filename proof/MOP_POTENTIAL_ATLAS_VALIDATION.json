@@ -2,10 +2,10 @@
   "all_ok": true,
   "artifacts": {
     "atlas": {
-      "bytes": 124763,
+      "bytes": 125083,
       "exists": true,
       "path": "proof/MOP_POTENTIAL_ATLAS.json",
-      "sha256": "fdde9abdd53cbedd3a2457a660c5f954fee3aa1edddd5941878687f873d05807"
+      "sha256": "3cd3c313227033251572db239ac0ebc3eef33ad3ee3761cfa78484ac00fb14f8"
     },
     "cli": {
       "bytes": 432,
@@ -14,22 +14,22 @@
       "sha256": "328ad665b1d50d0316eba48979e28aa8a71eaa8c156cd047b2b653851bface05"
     },
     "markdown": {
-      "bytes": 77476,
+      "bytes": 77550,
       "exists": true,
       "path": "MOP_POTENTIAL_ATLAS_2026_07.md",
-      "sha256": "99ccc0cff5a671be44ad3af899692136430bbcd06a90b26b3c57f4cdb5e13c02"
+      "sha256": "67917e95e694e13d13f9a4696240bf886817ac40b334613e103f93d800056b13"
     },
     "requirements": {
-      "bytes": 1269896,
+      "bytes": 1270482,
       "exists": true,
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062"
+      "sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85"
     },
     "validator": {
-      "bytes": 118445,
+      "bytes": 120450,
       "exists": true,
       "path": "src/mop/studies/potential_atlas_validation.py",
-      "sha256": "cd8a635b1d7dbf103ca27bebae0e14bcd1a86268550f00d911ea0ef37df8c09f"
+      "sha256": "ac32e9e52ef316eac6b5c3ec8b01afa828c3974ad2618fa80a9db660e3295e1c"
     }
   },
   "checks": [
@@ -130,10 +130,10 @@
     },
     {
       "detail": {
-        "bytes": 1269896,
+        "bytes": 1270482,
         "exists": true,
         "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-        "sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062"
+        "sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85"
       },
       "name": "requirements_binding",
       "ok": true,
@@ -142,14 +142,24 @@
     {
       "detail": {
         "available_memory_gb": [
-          8.16013312,
-          8.30414848,
-          8.381218816
+          6.830424064,
+          8.909111296,
+          8.705048576
         ],
         "command_executed": false,
+        "cpu_load_per_logical_cpu": [
+          3.8621012369791665,
+          3.8621012369791665,
+          3.986572265625
+        ],
         "decision_count": 3,
+        "failed_gates": [
+          "cpu_load",
+          "candidate_memory_headroom"
+        ],
+        "maximum_cpu_load_per_logical_cpu": 0.85,
         "required_memory_gb": 10.0,
-        "run_id": "p5smoke_20260710_leg2"
+        "run_id": "p5smoke_20260711_leg3"
       },
       "name": "p5_admission",
       "ok": true,
@@ -260,17 +270,17 @@
     },
     {
       "detail": {
-        "bytes": 77476,
+        "bytes": 77550,
         "facet_score_rows": 41,
-        "sha256": "99ccc0cff5a671be44ad3af899692136430bbcd06a90b26b3c57f4cdb5e13c02"
+        "sha256": "67917e95e694e13d13f9a4696240bf886817ac40b334613e103f93d800056b13"
       },
       "name": "markdown_binding",
       "ok": true,
       "problems": []
     }
   ],
-  "created_at": "2026-07-11T06:06:55.695060+00:00",
-  "payload_sha256": "f6f25c1d09224d0f1b41c17e89c4bfb0b6658fcccf1e9e53f45158366c923c82",
+  "created_at": "2026-07-11T07:05:39.718279+00:00",
+  "payload_sha256": "d357d2b9de5a4d5f04bd49fafe8db773c956a68f2f4d0ca56e253da911f367b3",
   "problems": [],
   "schema": "mop-potential-atlas-validation/v1",
   "scope": "Structural and evidence-integrity validation only. A passing receipt does not promote any facet, experiment, hardware purchase, or external claim.",
@@ -286,7 +296,11 @@
     "facet_weight_total": 100.0,
     "frontier_historical_rows": 24,
     "p5_admission_decision_count": 3,
-    "p5_admission_run_id": "p5smoke_20260710_leg2",
+    "p5_admission_failed_gates": [
+      "cpu_load",
+      "candidate_memory_headroom"
+    ],
+    "p5_admission_run_id": "p5smoke_20260711_leg3",
     "p5_command_executed": false,
     "p6_current_events_per_stream": 384,
     "p6_mechanics_pass": true,

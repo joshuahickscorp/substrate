@@ -85,12 +85,21 @@ def test_operational_revision_removes_stale_p4_and_post_p4_claims() -> None:
     assert not any("refused concurrent admission" in value for value in op3["demonstrated_components"])
     assert not any("post-P4 P6 admission" in value for value in op3["readiness_not_capability"])
     assert any(
-        "8.160 to 8.381 GB" in value and "AC power passed" in value
+        "normalized one-minute load 3.862 to 3.987 against 0.85" in value
+        and "6.830 to 8.909 GB" in value
+        and "AC power passed" in value
         for value in op3["readiness_not_capability"]
     )
     admission = atlas["p5_local_admission"]
-    assert admission["state"] == "memory-only-admission-refusal"
-    assert admission["available_memory_gb"] == [8.16013312, 8.30414848, 8.381218816]
+    assert admission["state"] == "cpu-load-and-memory-admission-refusal"
+    assert admission["failed_gates"] == ["cpu_load", "candidate_memory_headroom"]
+    assert admission["cpu_load_per_logical_cpu"] == [
+        3.8621012369791665,
+        3.8621012369791665,
+        3.986572265625,
+    ]
+    assert admission["maximum_cpu_load_per_logical_cpu"] == 0.85
+    assert admission["available_memory_gb"] == [6.830424064, 8.909111296, 8.705048576]
     assert admission["required_memory_gb"] == 10.0
     assert admission["command_executed"] is False
     assert sum(value.startswith("P5 smoke is fail-closed") for value in op3["readiness_not_capability"]) == 1
@@ -110,8 +119,10 @@ def test_operational_revision_removes_stale_p4_and_post_p4_claims() -> None:
 def test_atlas_p5_refusal_parser_rejects_stale_narrative_inputs() -> None:
     receipt = json.loads((REPO_ROOT / P5_SMOKE_RECEIPT_PATH).read_text())
     summary = _p5_smoke_refusal_summary(receipt)
-    assert min(summary["available_memory_gb"]) == 8.16013312
-    assert max(summary["available_memory_gb"]) == 8.381218816
+    assert min(summary["cpu_load_per_logical_cpu"]) == 3.8621012369791665
+    assert max(summary["cpu_load_per_logical_cpu"]) == 3.986572265625
+    assert min(summary["available_memory_gb"]) == 6.830424064
+    assert max(summary["available_memory_gb"]) == 8.909111296
 
     for key, replacement in (
         ("mode", "execute"),
@@ -132,7 +143,7 @@ def test_atlas_p5_refusal_parser_rejects_stale_narrative_inputs() -> None:
         _p5_smoke_refusal_summary(mutation)
 
     stale_run = copy.deepcopy(receipt)
-    stale_run["run_id"] = "p5smoke_20000101_leg99"
+    stale_run["run_id"] = "p5smoke_20260710_leg2"
     with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
         _p5_smoke_refusal_summary(stale_run)
 
@@ -151,6 +162,12 @@ def test_atlas_p5_refusal_parser_rejects_stale_narrative_inputs() -> None:
         ] = 1.0
     with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
         _p5_smoke_refusal_summary(fabricated_observation)
+
+    fabricated_cpu_observation = copy.deepcopy(receipt)
+    for decision in fabricated_cpu_observation["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "cpu_load")["observed"] = 1.0
+    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
+        _p5_smoke_refusal_summary(fabricated_cpu_observation)
 
 
 def test_executed_toy_receipts_are_bound_without_physical_or_capability_score_inflation() -> None:

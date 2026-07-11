@@ -35,7 +35,8 @@ EXPECTED_PRIMARY_CATEGORY_COUNTS = {1: 168, 2: 119, 3: 29, 6: 5}
 P5_VERIFICATION_PATH = "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
 P5_VERIFICATION_SCHEMA = "mop-p5-context-independent-verifier/v1"
 P5_SMOKE_RECEIPT_PATH = "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
-P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260710_leg2"
+P5_SMOKE_EXPECTED_RUN_ID = "p5smoke_20260711_leg3"
+P5_SMOKE_CPU_REASON = "first_lane normalized one-minute load ceiling"
 P5_SMOKE_MEMORY_REASON = "measured available unified memory covers candidate peak plus headroom"
 P5_SMOKE_COMMAND = [
     ".venv/bin/python",
@@ -739,6 +740,8 @@ def _parse_p5_admission_refusal(receipt: dict[str, Any], repo_root: Path) -> tup
         decisions = []
     memory_observations: list[float] = []
     memory_limits: list[float] = []
+    cpu_observations: list[float] = []
+    cpu_limits: list[float] = []
     projected_disk: list[float] = []
     for index, decision in enumerate(decisions):
         prefix = f"P5 smoke decision {index}"
@@ -750,7 +753,7 @@ def _parse_p5_admission_refusal(receipt: dict[str, Any], repo_root: Path) -> tup
             or decision.get("task_id") != "p5smoke_cpu"
             or decision.get("allowed") is not False
             or decision.get("active_lanes") != []
-            or decision.get("denied_reasons") != [P5_SMOKE_MEMORY_REASON]
+            or decision.get("denied_reasons") != [P5_SMOKE_CPU_REASON, P5_SMOKE_MEMORY_REASON]
         ):
             problems.append(f"{prefix} refusal contract has drifted")
         raw_gates = decision.get("gates")
@@ -763,8 +766,23 @@ def _parse_p5_admission_refusal(receipt: dict[str, Any], repo_root: Path) -> tup
             continue
         gates = {str(gate["name"]): gate for gate in raw_gates}
         failing = {name for name, gate in gates.items() if gate.get("ok") is not True}
-        if failing != {"candidate_memory_headroom"}:
-            problems.append(f"{prefix} is not a memory-only refusal")
+        if failing != {"cpu_load", "candidate_memory_headroom"}:
+            problems.append(f"{prefix} is not the current CPU-load and memory refusal")
+
+        cpu = gates["cpu_load"]
+        cpu_observed = cpu.get("observed")
+        cpu_limit = cpu.get("limit")
+        if (
+            cpu.get("ok") is not False
+            or cpu.get("reason") != P5_SMOKE_CPU_REASON
+            or not _finite_number(cpu_observed)
+            or not _finite_number(cpu_limit)
+            or float(cpu_observed) <= float(cpu_limit)
+        ):
+            problems.append(f"{prefix} CPU-load gate has drifted")
+        else:
+            cpu_observations.append(float(cpu_observed))
+            cpu_limits.append(float(cpu_limit))
 
         memory = gates["candidate_memory_headroom"]
         observed = memory.get("observed")
@@ -800,6 +818,8 @@ def _parse_p5_admission_refusal(receipt: dict[str, Any], repo_root: Path) -> tup
             projected_disk.append(float(projected))
     if memory_limits and len(set(memory_limits)) != 1:
         problems.append("P5 smoke memory limit differs across decisions")
+    if cpu_limits and len(set(cpu_limits)) != 1:
+        problems.append("P5 smoke CPU-load limit differs across decisions")
 
     for field, relative in (
         ("policy", "configs/local_execution_throttle.yaml"),
@@ -857,10 +877,13 @@ def _parse_p5_admission_refusal(receipt: dict[str, Any], repo_root: Path) -> tup
     if problems:
         return problems, {}
     return [], {
-        "state": "memory-only-admission-refusal",
+        "state": "cpu-load-and-memory-admission-refusal",
         "run_id": run_id,
         "command_executed": False,
         "decision_count": len(decisions),
+        "failed_gates": ["cpu_load", "candidate_memory_headroom"],
+        "cpu_load_per_logical_cpu": cpu_observations,
+        "maximum_cpu_load_per_logical_cpu": cpu_limits[0],
         "available_memory_gb": memory_observations,
         "required_memory_gb": memory_limits[0],
         "power_source": "AC Power",
@@ -895,16 +918,26 @@ def _p5_admission_contract(
     )
     expected_narrative = (
         "P5 smoke is fail-closed on current local admission: three samples had "
+        f"normalized one-minute load {min(summary['cpu_load_per_logical_cpu']):.3f} to "
+        f"{max(summary['cpu_load_per_logical_cpu']):.3f} against "
+        f"{summary['maximum_cpu_load_per_logical_cpu']:.2f}, and "
         f"{min(summary['available_memory_gb']):.3f} to "
         f"{max(summary['available_memory_gb']):.3f} GB available against a "
         f"{summary['required_memory_gb']:.1f} GB requirement; AC power passed"
     )
     readiness = op3.get("readiness_not_capability") if isinstance(op3, dict) else None
     evidence = op3.get("evidence") if isinstance(op3, dict) else None
+    local_to_10 = op3.get("local_to_10") if isinstance(op3, dict) else None
     if not isinstance(readiness, list) or readiness.count(expected_narrative) != 1:
         problems.append("OP3 P5 refusal narrative disagrees with the verified receipt")
     if not isinstance(evidence, list) or evidence.count(P5_SMOKE_RECEIPT_PATH) != 1:
         problems.append("OP3 does not bind the verified P5 smoke receipt exactly once")
+    expected_local_path = (
+        "admit and complete P5 only after three consecutive samples satisfy the unchanged "
+        "CPU-load and memory-headroom gates"
+    )
+    if not isinstance(local_to_10, list) or local_to_10.count(expected_local_path) != 1:
+        problems.append("OP3 P5 local path disagrees with the current failed admission gates")
 
     rows = requirements.get("rows")
     p5_row = next(
@@ -931,6 +964,9 @@ def _p5_admission_contract(
     return problems, {
         "run_id": summary["run_id"],
         "decision_count": summary["decision_count"],
+        "failed_gates": summary["failed_gates"],
+        "cpu_load_per_logical_cpu": summary["cpu_load_per_logical_cpu"],
+        "maximum_cpu_load_per_logical_cpu": summary["maximum_cpu_load_per_logical_cpu"],
         "available_memory_gb": summary["available_memory_gb"],
         "required_memory_gb": summary["required_memory_gb"],
         "command_executed": summary["command_executed"],
@@ -2282,6 +2318,7 @@ def validate_potential_atlas(
         "p9_arm_count": mechanics_detail.get("p9_arm_count"),
         "p5_admission_run_id": p5_detail.get("run_id"),
         "p5_admission_decision_count": p5_detail.get("decision_count"),
+        "p5_admission_failed_gates": p5_detail.get("failed_gates"),
         "p5_command_executed": p5_detail.get("command_executed"),
         "studio_scale_required_now": False if not studio_problems else None,
     }

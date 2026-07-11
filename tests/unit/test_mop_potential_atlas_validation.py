@@ -99,8 +99,9 @@ def test_canonical_contract_recomputes_every_fixed_total(canonical_atlas: Path) 
         "p9_total_lineages": 260,
         "p9_total_branches": 1300,
         "p9_arm_count": 9,
-        "p5_admission_run_id": "p5smoke_20260710_leg2",
+        "p5_admission_run_id": "p5smoke_20260711_leg3",
         "p5_admission_decision_count": 3,
+        "p5_admission_failed_gates": ["cpu_load", "candidate_memory_headroom"],
         "p5_command_executed": False,
         "studio_scale_required_now": False,
     }
@@ -215,12 +216,17 @@ def test_p5_admission_summary_and_op3_narrative_are_receipt_derived(
         if value.startswith("P5 smoke is fail-closed")
     )
     op3["readiness_not_capability"][index] = "P5 smoke completed successfully"
+    op3["local_to_10"][0] = (
+        "admit and complete P5 only after three consecutive samples satisfy the unchanged "
+        "memory-headroom gate"
+    )
     _write(canonical_atlas, payload)
     report = _validate(canonical_atlas)
     problems = " ".join(_check(report, "p5_admission")["problems"])
     assert not report["all_ok"]
     assert "summary disagrees" in problems
     assert "narrative disagrees" in problems
+    assert "local path disagrees" in problems
 
 
 def test_p5_admission_parser_rebuilds_decisions_from_raw_telemetry() -> None:
@@ -230,7 +236,7 @@ def test_p5_admission_parser_rebuilds_decisions_from_raw_telemetry() -> None:
     assert summary["required_memory_gb"] == 10.0
 
     stale_run = json.loads(json.dumps(receipt))
-    stale_run["run_id"] = "p5smoke_20000101_leg99"
+    stale_run["run_id"] = "p5smoke_20260710_leg2"
     assert _parse_p5_admission_refusal(stale_run, ROOT)[0]
 
     fabricated_limit = json.loads(json.dumps(receipt))
@@ -246,6 +252,11 @@ def test_p5_admission_parser_rebuilds_decisions_from_raw_telemetry() -> None:
             "observed"
         ] = 1.0
     assert _parse_p5_admission_refusal(fabricated_observation, ROOT)[0]
+
+    fabricated_cpu_observation = json.loads(json.dumps(receipt))
+    for decision in fabricated_cpu_observation["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "cpu_load")["observed"] = 1.0
+    assert _parse_p5_admission_refusal(fabricated_cpu_observation, ROOT)[0]
 
 
 def test_p5_requirements_cannot_restore_retired_preflight(canonical_atlas: Path, tmp_path: Path) -> None:
