@@ -2,7 +2,7 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
-## 2026-07-10 landing wave closed; P4 closed; P5 local admission held
+## 2026-07-11 landing wave closed; P4 closed; P5 leg 2 admission held
 
 - [x] The 30 staged F21-F66 contracts are live preregistration-only rows. The registry now has
   227 rows, including 50 F rows split into 18 implemented rows and 32 preregistration-only rows.
@@ -19,9 +19,9 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   preregistered futility stop, and the response surface contains 48 observations. This is a bounded
   programmatic pilot. Confirmatory promotion remains refused by construction.
 - [!] P5 smoke admission failed closed on three consecutive samples. Available unified memory was
-  7.039 to 7.243 GB against the unchanged 10.0 GB requirement, and the host was on battery power.
-  Disk, thermal, lane, swap, and unmanaged-heavy gates passed. The first blocker is category 1 local
-  admission state, not measured hardware necessity.
+  8.160 to 8.381 GB against the unchanged 10.0 GB requirement. AC power, disk, thermal, lane, swap,
+  and unmanaged-heavy gates passed. The first blocker is category 1 local admission state, not
+  measured hardware necessity. The execute attempt launched no child.
 - [x] Project exhaustion now rejects an old class attempt when its attempt-time source hashes or
   copied experiment config differ from the live source. The honest 177-row ledger contains 117
   fresh, 37 durable, and 3 runnable rows: e5, ex5, and P5. It has zero measured hardware blockers.
@@ -45,7 +45,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   ```bash
   PYTHONPATH=src .venv/bin/python scripts/local_execution_throttle.py run \
     --task p5smoke_cpu \
-    --run-id p5smoke_20260710_leg2 \
+    --run-id p5smoke_20260711_leg3 \
     --execute \
     --out proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json
   ```
@@ -79,7 +79,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   P5 now has separate terminal smoke-null, pilot-null, and favorable fresh-challenge branches. Its
   independent verifier checks exact seed licensing, raw scores, parameter and FLOP arithmetic,
   response curves, cell receipts, and checkpoint states. Smoke is currently held by the unchanged
-  memory-headroom and AC-power admission gates.
+  memory-headroom admission gate.
 - [x] The integrated research, execution plan, and durable standing goal are
   `MOP_MAXIMUM_POTENTIAL_RESEARCH_2026_07.md`,
   `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`, and `MOP_MAXIMUM_POTENTIAL_GOAL.md`.

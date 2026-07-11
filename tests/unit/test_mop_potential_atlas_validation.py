@@ -10,7 +10,9 @@ from typing import Any
 import pytest
 
 from mop.studies.potential_atlas_validation import (
+    P5_SMOKE_RECEIPT_PATH,
     RECEIPT_SCHEMA,
+    _parse_p5_admission_refusal,
     main,
     refresh_source_hashes,
     validate_potential_atlas,
@@ -97,6 +99,9 @@ def test_canonical_contract_recomputes_every_fixed_total(canonical_atlas: Path) 
         "p9_total_lineages": 260,
         "p9_total_branches": 1300,
         "p9_arm_count": 9,
+        "p5_admission_run_id": "p5smoke_20260710_leg2",
+        "p5_admission_decision_count": 3,
+        "p5_command_executed": False,
         "studio_scale_required_now": False,
     }
     unsealed = dict(report)
@@ -182,6 +187,82 @@ def test_retired_scale_instruments_cannot_reenter_current_evidence(canonical_atl
     assert "retired sources" in " ".join(_check(report, "source_snapshot")["problems"])
     assert "retired current-path evidence" in " ".join(_check(report, "evidence_paths")["problems"])
     assert "current_dependency" in " ".join(_check(report, "facet_contract")["problems"])
+
+
+def test_retired_p5_preflight_cannot_reenter_current_evidence(canonical_atlas: Path) -> None:
+    payload = _load(canonical_atlas)
+    retired = "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"
+    payload["source_snapshot"].append({"path": retired, "sha256": _sha256(ROOT / retired)})
+    op3 = next(facet for facet in payload["facets"] if facet["id"] == "OP3")
+    op3["evidence"].append(retired)
+    _write(canonical_atlas, payload)
+    report = _validate(canonical_atlas)
+    assert not report["all_ok"]
+    assert "retired sources" in " ".join(_check(report, "source_snapshot")["problems"])
+    assert "retired current-path evidence" in " ".join(_check(report, "evidence_paths")["problems"])
+
+
+def test_p5_admission_summary_and_op3_narrative_are_receipt_derived(
+    canonical_atlas: Path,
+) -> None:
+    payload = _load(canonical_atlas)
+    payload["p5_local_admission"]["state"] = "admitted-and-complete"
+    payload["p5_local_admission"]["command_executed"] = True
+    op3 = next(facet for facet in payload["facets"] if facet["id"] == "OP3")
+    index = next(
+        index
+        for index, value in enumerate(op3["readiness_not_capability"])
+        if value.startswith("P5 smoke is fail-closed")
+    )
+    op3["readiness_not_capability"][index] = "P5 smoke completed successfully"
+    _write(canonical_atlas, payload)
+    report = _validate(canonical_atlas)
+    problems = " ".join(_check(report, "p5_admission")["problems"])
+    assert not report["all_ok"]
+    assert "summary disagrees" in problems
+    assert "narrative disagrees" in problems
+
+
+def test_p5_admission_parser_rebuilds_decisions_from_raw_telemetry() -> None:
+    receipt = _load(ROOT / P5_SMOKE_RECEIPT_PATH)
+    problems, summary = _parse_p5_admission_refusal(receipt, ROOT)
+    assert not problems
+    assert summary["required_memory_gb"] == 10.0
+
+    stale_run = json.loads(json.dumps(receipt))
+    stale_run["run_id"] = "p5smoke_20000101_leg99"
+    assert _parse_p5_admission_refusal(stale_run, ROOT)[0]
+
+    fabricated_limit = json.loads(json.dumps(receipt))
+    for decision in fabricated_limit["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")["limit"] = (
+            11.0
+        )
+    assert _parse_p5_admission_refusal(fabricated_limit, ROOT)[0]
+
+    fabricated_observation = json.loads(json.dumps(receipt))
+    for decision in fabricated_observation["decisions"]:
+        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")[
+            "observed"
+        ] = 1.0
+    assert _parse_p5_admission_refusal(fabricated_observation, ROOT)[0]
+
+
+def test_p5_requirements_cannot_restore_retired_preflight(canonical_atlas: Path, tmp_path: Path) -> None:
+    requirements = _load(REQUIREMENTS)
+    p5 = next(row for row in requirements["rows"] if row["id"] == "mop_p5_context_capability")
+    p5["evidence_refs"].append("local:proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json")
+    mutated_requirements = tmp_path / "requirements.json"
+    _write(mutated_requirements, requirements)
+    report = validate_potential_atlas(
+        canonical_atlas,
+        repo_root=ROOT,
+        requirements_path=mutated_requirements,
+        markdown_path=MARKDOWN,
+    )
+    problems = " ".join(_check(report, "p5_admission")["problems"])
+    assert not report["all_ok"]
+    assert "bind only the current smoke receipt" in problems
 
 
 def test_category2_partition_requires_the_exact_member_set(canonical_atlas: Path) -> None:

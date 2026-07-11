@@ -296,12 +296,12 @@ mechanics only:
 
 The full pilot artifact `proof/P5_CONTEXT_CAPABILITY_PILOT.json` does not exist. P4 released the
 one-heavy-lane governor, but the first P5 execute attempt failed closed before its child command ran.
-The current governed dry receipt recorded three available-memory samples of 7.039188992,
-7.232733184, and 7.242825728 GB against the 10.0 GB admission threshold. The host was also on
-battery power, so both gates failed and no child ran. The first blocker remains category 1 local
-admission state, not hardware necessity. The receipt is
-`proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json`, SHA-256
-`af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab`.
+The current governed execute receipt recorded three available-memory samples of 8.16013312,
+8.30414848, and 8.381218816 GB against the 10.0 GB admission threshold. AC power and every other
+live gate passed, but the memory gate failed and no child ran. The first blocker remains category 1
+local admission state, not hardware necessity. The receipt is
+`proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json`, SHA-256
+`6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787`.
 
 P5 now has three explicit outcome paths after three healthy admission samples:
 
@@ -441,8 +441,8 @@ The frontier and requirements receipts are regenerated and current:
 2. `proof/EXTENDED_COMPUTE_REQUIREMENTS.json` treats E6 and DR14 implementation as complete,
    classifies their first blockers as natural data/cache/verification, and carries no active
    retired-scale requirement. File SHA-256:
-   `73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1`.
-   Payload SHA-256: `dd7d6b3ee559e02450f46183fa6e71341abc45b2683f9db390becd6f41ebce0a`.
+   `062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062`.
+   Payload SHA-256: `b5bbfcc2c47f3ff76408a43c3dc5b4029f621b5be3d284a5b8519983d82df5c7`.
 3. The immutable inherited-scale pilot still binds all nine random controls to exact stimulus
    identity. It is now historical evidence only and is absent from the authoritative current
    evidence list.

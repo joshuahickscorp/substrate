@@ -150,8 +150,8 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1",
-      "payload_sha256": "dd7d6b3ee559e02450f46183fa6e71341abc45b2683f9db390becd6f41ebce0a",
+      "sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062",
+      "payload_sha256": "b5bbfcc2c47f3ff76408a43c3dc5b4029f621b5be3d284a5b8519983d82df5c7",
       "use": "321 requirements rows; categories 1/2/3/6 are 168/119/29/5, categories 8 and 9 are empty, and no hardware row is required"
     },
     {
@@ -243,9 +243,9 @@
       "use": "P5 mechanics-only cold-process memory probe"
     },
     {
-      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab",
-      "use": "three-sample governed P5 smoke denial on current memory-headroom and AC-power gates; no command executed and no hardware-necessity claim"
+      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+      "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787",
+      "use": "three-sample governed P5 execute refusal on current memory headroom only; AC power and every other live gate passed, no child executed, and no hardware-necessity claim is made"
     },
     {
       "path": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
@@ -454,11 +454,11 @@
         "p4_full_receipt_complete": true,
         "p5_full_receipt_present": false,
         "p5_admission_receipt": {
-          "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-          "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab",
+          "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+          "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787",
           "allowed": false,
-          "available_memory_gb": [7.039188992, 7.232733184, 7.242825728],
-          "power_source": "Battery Power",
+          "available_memory_gb": [8.16013312, 8.30414848, 8.381218816],
+          "power_source": "AC Power",
           "first_blocker_category": "category-1-local-admission"
         },
         "p6_dry_receipt": {
@@ -525,7 +525,7 @@
       "pending_paths": [],
       "project_exhaustion_sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65",
       "frontier_localization_sha256": "c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78",
-      "extended_compute_requirements_sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1",
+      "extended_compute_requirements_sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062",
       "final_binding_complete": true
     }
   },
@@ -751,7 +751,7 @@
     {
       "severity": "high",
       "id": "P5_not_run",
-      "finding": "P5 code, preregistration, and a mechanics-only memory trace exist, but the full pilot proof is absent. The old bounded class attempt is source-stale. The current governed smoke samples failed the memory-headroom and AC-power gates, and no child ran.",
+      "finding": "P5 code, preregistration, and a mechanics-only memory trace exist, but the full pilot proof is absent. The old bounded class attempt is source-stale. The current governed execute samples failed only the memory-headroom gate, and no child ran.",
       "required_correction": "When three consecutive unchanged admission samples are healthy, run the conditional P5 sequence through the governor. Preserve terminal smoke-null, pilot-null, and favorable fresh-challenge branches, and do not infer hardware necessity from this local admission denial."
     },
     {
@@ -768,7 +768,7 @@
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
       "finding": "The audit found an E6 row that still instructed already-completed model acquisition and forward probing.",
       "resolution": "The requirements matrix and exhaustion ledger bind official runtime and task/cache/control integration, classify E6 and DR14 as natural data/cache/verification blocked, and remove retired-scale requirements. Implementation is complete for the registered seam.",
-      "current_requirements_sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1",
+      "current_requirements_sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062",
       "current_exhaustion_sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65"
     },
     {
@@ -818,7 +818,7 @@
     {
       "priority": 0,
       "item": "P5 full pilot sequence",
-      "reason": "P4 is complete and governor-closed. P5 is implemented and preregistered, but full execution is absent and the latest smoke admission was held by current memory headroom and battery power."
+      "reason": "P4 is complete and governor-closed. P5 is implemented and preregistered, but full execution is absent and the latest governed execute attempt was held only by current memory headroom."
     },
     {
       "priority": 1,

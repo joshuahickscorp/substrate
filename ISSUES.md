@@ -4,9 +4,9 @@ Degraded / deferred / expected-failure items, each with reason + unblock step.
 Empty of hard failures means a clean run.
 
 ## Active local admission blocker (category 1, not a hardware boundary)
-- P5 smoke has no scientific run receipt. The current governed preflight failed closed across three
-  samples with 7.039 to 7.243 GB available against the unchanged 10.0 GB requirement, while the host
-  was on battery power. No child ran. Unblock: connect AC power, free enough local memory for three
+- P5 smoke has no scientific run receipt. The current governed execute attempt failed closed across
+  three samples with 8.160 to 8.381 GB available against the unchanged 10.0 GB requirement. AC power
+  and every other live gate passed, and no child ran. Unblock: free enough local memory for three
   healthy samples, then run the exact command recorded at the top of `STATUS.md`. Categories 8 and 9
   remain empty, so the evidence does not justify a Studio purchase.
 

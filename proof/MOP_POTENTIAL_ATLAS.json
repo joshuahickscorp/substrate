@@ -136,7 +136,7 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "73197c5b406e1749b070101fd054aec636946cad868459acc084cdd1295683f1"
+      "sha256": "062cbcac9fd710c504d07fe753fd8b8290f69d52a8de296743877331b72fa062"
     },
     {
       "path": "proof/P4_CAPABILITY_DENSITY_SCREEN.json",
@@ -148,7 +148,7 @@
     },
     {
       "path": "proof/COMPLETION_CLAIM_AUDIT.json",
-      "sha256": "cfeb8189c634f2662a6d58bffd8bb80502d0f37d467b52ffd6091b456dee0694"
+      "sha256": "ee10b58e57851e4e01541526da8ffec4898769b64cd08f369c0a17bddc59ddc2"
     },
     {
       "path": "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -172,7 +172,7 @@
     },
     {
       "path": "docs/LOCAL_EXECUTION_THROTTLE.md",
-      "sha256": "71c8bfdfcdbd4a040c05fed51048b80bfbd9a072a09f7edff955ba00fe0032bc"
+      "sha256": "3d3c691357a4c1e071589b245a028857b19d89d6354781b59627b444da98c4dd"
     },
     {
       "path": "configs/custom_substrate/requirements.yaml",
@@ -204,11 +204,7 @@
     },
     {
       "path": "src/mop/studies/potential_atlas_driver.py",
-      "sha256": "4b734f566fdaa78c073b744b7448d64680e535dc38129c387c02ca568c00fab7"
-    },
-    {
-      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json",
-      "sha256": "af991cf95d2ade3a5bc190dc048452eb7d2337f3471475567c8dbb20c8e978ab"
+      "sha256": "3e675d713c192882a427fa6de151f6e38983d09a3186289227109db865fd30db"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_RUN.json",
@@ -297,6 +293,10 @@
     {
       "path": "src/mop/substrate/p5_context.py",
       "sha256": "0b8628e233b5647cdfc9405553683acbf21da6a0c2ed953b0fab5c71242b19d2"
+    },
+    {
+      "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+      "sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787"
     }
   ],
   "portfolio": {
@@ -1962,7 +1962,7 @@
         "the P6 10k resource probe and replication remain unexecuted",
         "mixed-lane confirmation remains open",
         "the P6 10k resource probe is fail-closed until the final P5 verifier binds a scientific null or a fresh-seed verified programmatic pattern",
-        "P5 smoke is fail-closed on current local admission: three samples had 7.039 to 7.243 GB available against a 10.0 GB requirement, and the host was on battery power"
+        "P5 smoke is fail-closed on current local admission: three samples had 8.160 to 8.381 GB available against a 10.0 GB requirement; AC power passed"
       ],
       "evidence": [
         "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -1972,10 +1972,10 @@
         "src/mop/studio/local_throttle.py",
         "docs/LOCAL_EXECUTION_THROTTLE.md",
         "proof/LOCAL_THROTTLE_P4_RUN.json",
-        "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json"
+        "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
       ],
       "local_to_10": [
-        "admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom and AC-power gates",
+        "admit and complete P5 only after three consecutive samples satisfy the unchanged memory-headroom gate",
         "run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after P5",
         "exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process pressure without signaling user processes",
         "prove data-order and numerical equivalence across repeated inner resumable segments",
@@ -3242,5 +3242,20 @@
       "larger inherited model name",
       "rights/data/environment/specimen absence"
     ]
+  },
+  "p5_local_admission": {
+    "state": "memory-only-admission-refusal",
+    "run_id": "p5smoke_20260710_leg2",
+    "command_executed": false,
+    "decision_count": 3,
+    "available_memory_gb": [
+      8.16013312,
+      8.30414848,
+      8.381218816
+    ],
+    "required_memory_gb": 10.0,
+    "power_source": "AC Power",
+    "minimum_projected_disk_gb": 122.61212620799999,
+    "receipt_sha256": "6b5be2793bab8cc8ea8abec890ea625b4688f0afaa77478da2a4b398f42e5787"
   }
 }
