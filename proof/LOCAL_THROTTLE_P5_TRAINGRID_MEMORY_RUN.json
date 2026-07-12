@@ -11,14 +11,14 @@
   "atomic_reservation_decision": {
     "active_lanes": [],
     "allowed": true,
-    "created_at": "2026-07-11T20:36:17.683055+00:00",
+    "created_at": "2026-07-11T20:59:17.270191+00:00",
     "critical": false,
     "denied_reasons": [],
     "disk_forecast": {
       "floor_gb": 40.0,
-      "free_gb": 569.006968832,
-      "projected_free_gb": 567.606968832,
-      "reserved_write_gb": 1.4
+      "free_gb": 568.27068416,
+      "projected_free_gb": 567.77068416,
+      "reserved_write_gb": 0.5
     },
     "gates": [
       {
@@ -33,7 +33,34 @@
         "critical": false,
         "limit": "every declared prior-rung completion receipt must match exact fields",
         "name": "receipt_prerequisites",
-        "observed": [],
+        "observed": [
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 2972368896,
+              "problems": [],
+              "producer_task_id": "p5smoke_cpu",
+              "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "complete": true,
+              "execution_status": "complete",
+              "fresh_challenge_required": false,
+              "profile": "p5smoke",
+              "promotion.confirmatory_promotable": false,
+              "resumable": false,
+              "terminal_scientific_stop": false,
+              "terminal_stop_reason": null,
+              "trainability_gate_failed": false
+            },
+            "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+            "problems": [],
+            "schema": "mop-p5-context-screen/v1",
+            "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+          }
+        ],
         "ok": true,
         "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
       },
@@ -43,7 +70,7 @@
         "name": "resource_measurement",
         "observed": {
           "all_ok": true,
-          "effective_unified_memory_gb": 8.0,
+          "effective_unified_memory_gb": 12.0,
           "mode": "declared"
         },
         "ok": true,
@@ -110,7 +137,7 @@
         "critical": false,
         "limit": 0.85,
         "name": "cpu_load",
-        "observed": 0.08858816964285714,
+        "observed": 0.09901646205357142,
         "ok": true,
         "reason": "first_lane normalized one-minute load ceiling"
       },
@@ -118,7 +145,7 @@
         "critical": false,
         "limit": 0.85,
         "name": "cpu_utilization",
-        "observed": 0.06,
+        "observed": 0.039,
         "ok": true,
         "reason": "first_lane instantaneous CPU ceiling"
       },
@@ -126,7 +153,7 @@
         "critical": false,
         "limit": 28,
         "name": "declared_cpu_cores",
-        "observed": 10,
+        "observed": 12,
         "ok": true,
         "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
       },
@@ -134,15 +161,15 @@
         "critical": false,
         "limit": 20.0,
         "name": "memory_pressure",
-        "observed": 78.7,
+        "observed": 78.1,
         "ok": true,
         "reason": "first_lane available-memory floor from both VM and memory_pressure"
       },
       {
         "critical": false,
-        "limit": 10.0,
+        "limit": 14.0,
         "name": "candidate_memory_headroom",
-        "observed": 81.073815552,
+        "observed": 80.463642624,
         "ok": true,
         "reason": "measured available unified memory covers candidate peak plus headroom"
       },
@@ -150,7 +177,7 @@
         "critical": false,
         "limit": 101.079215104,
         "name": "declared_memory_budget",
-        "observed": 8.0,
+        "observed": 12.0,
         "ok": true,
         "reason": "all declared lane peaks fit measured unified memory with headroom"
       },
@@ -183,60 +210,58 @@
         "limit": 40.0,
         "name": "forecasted_disk",
         "observed": {
-          "free_gb": 569.006968832,
-          "projected_free_gb": 567.606968832,
-          "reserve_gb": 1.4
+          "free_gb": 568.27068416,
+          "projected_free_gb": 567.77068416,
+          "reserve_gb": 0.5
         },
         "ok": true,
         "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
       }
     ],
     "schema": "mop-local-throttle-decision/v1",
-    "task_id": "p5smoke_cpu",
+    "task_id": "p5_traingrid_memory_probe_cpu",
     "threshold_tier": "first_lane",
     "user_process_policy": "observed only; scheduler signals only its own process group"
   },
   "child_resource": {
-    "direct_child_rusage_peak_rss_bytes": 2972368896,
+    "direct_child_rusage_peak_rss_bytes": 1133920256,
     "methods": [
       "psutil-process-tree",
       "getrusage-RUSAGE_CHILDREN"
     ],
-    "peak_rss_bytes": 2972368896,
-    "psutil_peak_rss_bytes": 2972368896
+    "peak_rss_bytes": 1133920256,
+    "psutil_peak_rss_bytes": 511393792
   },
   "command_executed": true,
   "completion_authority": {
     "child_resource": {
-      "direct_child_rusage_peak_rss_bytes": 2972368896,
+      "direct_child_rusage_peak_rss_bytes": 1133920256,
       "methods": [
         "psutil-process-tree",
         "getrusage-RUSAGE_CHILDREN"
       ],
-      "peak_rss_bytes": 2972368896,
-      "psutil_peak_rss_bytes": 2972368896
+      "peak_rss_bytes": 1133920256,
+      "psutil_peak_rss_bytes": 511393792
     },
     "command": [
       ".venv/bin/python",
-      "scripts/p5_context_capability.py",
-      "--profile",
-      "p5smoke",
-      "--device",
-      "cpu",
-      "--run-dir",
-      "runs/p5_context/p5smoke",
+      "scripts/p5_traingrid_memory_probe.py",
       "--out",
-      "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+      "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+      "--repeats",
+      "3",
+      "--seed",
+      "0"
     ],
-    "command_sha256": "bd7f16132407fd5de5ef47bfca658770f7da96b466112d096b4ac3b066c566a1",
-    "final_checkpoint_aggregate_sha256": "5bbd46d9c833881432cc774c72c14d1948d6a2e733ae9208bac792e244823b09",
+    "command_sha256": "6ef2cf84c42a7f5db5de419a1a4a4761dcdda318546f2024f54875004c2bc2a5",
+    "final_checkpoint_aggregate_sha256": "07ebe2391f81267c6f9b5cf25a118f4a570dec6de08b1e594751f13e7d618dd2",
     "implementation": {
       "path": "src/mop/studio/local_throttle.py",
-      "sha256": "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"
+      "sha256": "bd7dd790460adc7760620007c691e3c345e89d9630c303abf40de59b924fddfb"
     },
     "output": {
-      "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
-      "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+      "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+      "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
     },
     "owned_child_active": false,
     "policy": {
@@ -248,63 +273,103 @@
     "task": {
       "accelerator": "none",
       "atomic_checkpoints": true,
-      "atomic_write_gb": 0.15,
+      "atomic_write_gb": 0.02,
       "checkpoint_globs": [
-        "runs/p5_context/p5smoke/frames/f*/seed_*/*/checkpoint.pt",
-        "runs/p5_context/p5smoke/frames/f*/seed_*/*/arm_receipt.json",
-        "runs/p5_context/p5smoke/frames/f*/seed_*/seed_result.json",
-        "runs/p5_context/p5smoke/frames/f*/cell_receipt.json",
-        "runs/p5_context/p5smoke/p5_context_receipt.json",
-        "runs/p5_context/p5smoke/resolved_config.json",
-        "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+        "proof/P5_TRAINGRID_MEMORY_TRACE.json.progress.json",
+        "proof/P5_TRAINGRID_MEMORY_TRACE.json"
       ],
       "command": [
         ".venv/bin/python",
-        "scripts/p5_context_capability.py",
-        "--profile",
-        "p5smoke",
-        "--device",
-        "cpu",
-        "--run-dir",
-        "runs/p5_context/p5smoke",
+        "scripts/p5_traingrid_memory_probe.py",
         "--out",
-        "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+        "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+        "--repeats",
+        "3",
+        "--seed",
+        "0"
       ],
-      "cpu_cores": 10,
-      "depends_on": [],
+      "cpu_cores": 12,
+      "depends_on": [
+        "p5smoke_cpu"
+      ],
       "estimated_mps_gb": 0.0,
-      "estimated_unified_memory_gb": 8.0,
-      "forecast_write_gb": 1.0,
+      "estimated_unified_memory_gb": 12.0,
+      "forecast_write_gb": 0.2,
       "lane": "heavy",
       "pause_safe": true,
-      "prerequisites": [],
+      "prerequisites": [
+        {
+          "fields": [
+            [
+              "profile",
+              "p5smoke"
+            ],
+            [
+              "complete",
+              true
+            ],
+            [
+              "all_ok",
+              true
+            ],
+            [
+              "resumable",
+              false
+            ],
+            [
+              "execution_status",
+              "complete"
+            ],
+            [
+              "terminal_scientific_stop",
+              false
+            ],
+            [
+              "terminal_stop_reason",
+              null
+            ],
+            [
+              "trainability_gate_failed",
+              false
+            ],
+            [
+              "fresh_challenge_required",
+              false
+            ],
+            [
+              "promotion.confirmatory_promotable",
+              false
+            ]
+          ],
+          "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+          "schema": "mop-p5-context-screen/v1"
+        }
+      ],
       "requires_empty_lanes": false,
-      "resource_basis": "P5 boundary probe measured 4.8474 GB max RSS at a larger exact-token cell; 8 GB is conservative",
+      "resource_basis": "probe preregisters a 12 GB child guard; prior boundary trace peaked at 4.8474 GB",
       "resource_probe": false,
       "resource_receipt_path": null,
       "resource_receipt_rung": null,
       "resource_receipt_schema": null,
-      "restart_exit_codes": [
-        2
-      ],
-      "task_id": "p5smoke_cpu",
-      "wall_minutes": 180
+      "restart_exit_codes": [],
+      "task_id": "p5_traingrid_memory_probe_cpu",
+      "wall_minutes": 300
     },
-    "task_id": "p5smoke_cpu"
+    "task_id": "p5_traingrid_memory_probe_cpu"
   },
-  "created_at": "2026-07-11T20:36:17.682509+00:00",
+  "created_at": "2026-07-11T20:59:15.937129+00:00",
   "decisions": [
     {
       "active_lanes": [],
       "allowed": true,
-      "created_at": "2026-07-11T20:36:15.353349+00:00",
+      "created_at": "2026-07-11T20:59:10.953496+00:00",
       "critical": false,
       "denied_reasons": [],
       "disk_forecast": {
         "floor_gb": 40.0,
-        "free_gb": 569.007054848,
-        "projected_free_gb": 567.6070548480001,
-        "reserved_write_gb": 1.4
+        "free_gb": 568.272490496,
+        "projected_free_gb": 567.772490496,
+        "reserved_write_gb": 0.5
       },
       "gates": [
         {
@@ -319,7 +384,34 @@
           "critical": false,
           "limit": "every declared prior-rung completion receipt must match exact fields",
           "name": "receipt_prerequisites",
-          "observed": [],
+          "observed": [
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 2972368896,
+                "problems": [],
+                "producer_task_id": "p5smoke_cpu",
+                "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "execution_status": "complete",
+                "fresh_challenge_required": false,
+                "profile": "p5smoke",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false,
+                "terminal_scientific_stop": false,
+                "terminal_stop_reason": null,
+                "trainability_gate_failed": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            }
+          ],
           "ok": true,
           "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
         },
@@ -329,7 +421,7 @@
           "name": "resource_measurement",
           "observed": {
             "all_ok": true,
-            "effective_unified_memory_gb": 8.0,
+            "effective_unified_memory_gb": 12.0,
             "mode": "declared"
           },
           "ok": true,
@@ -396,7 +488,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_load",
-          "observed": 0.09320940290178571,
+          "observed": 0.10454450334821429,
           "ok": true,
           "reason": "first_lane normalized one-minute load ceiling"
         },
@@ -404,7 +496,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_utilization",
-          "observed": 0.0,
+          "observed": 0.028999999999999998,
           "ok": true,
           "reason": "first_lane instantaneous CPU ceiling"
         },
@@ -412,7 +504,7 @@
           "critical": false,
           "limit": 28,
           "name": "declared_cpu_cores",
-          "observed": 10,
+          "observed": 12,
           "ok": true,
           "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
         },
@@ -420,15 +512,15 @@
           "critical": false,
           "limit": 20.0,
           "name": "memory_pressure",
-          "observed": 78.6,
+          "observed": 78.1,
           "ok": true,
           "reason": "first_lane available-memory floor from both VM and memory_pressure"
         },
         {
           "critical": false,
-          "limit": 10.0,
+          "limit": 14.0,
           "name": "candidate_memory_headroom",
-          "observed": 81.040474112,
+          "observed": 80.46739456,
           "ok": true,
           "reason": "measured available unified memory covers candidate peak plus headroom"
         },
@@ -436,7 +528,7 @@
           "critical": false,
           "limit": 101.079215104,
           "name": "declared_memory_budget",
-          "observed": 8.0,
+          "observed": 12.0,
           "ok": true,
           "reason": "all declared lane peaks fit measured unified memory with headroom"
         },
@@ -469,30 +561,30 @@
           "limit": 40.0,
           "name": "forecasted_disk",
           "observed": {
-            "free_gb": 569.007054848,
-            "projected_free_gb": 567.6070548480001,
-            "reserve_gb": 1.4
+            "free_gb": 568.272490496,
+            "projected_free_gb": 567.772490496,
+            "reserve_gb": 0.5
           },
           "ok": true,
           "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
         }
       ],
       "schema": "mop-local-throttle-decision/v1",
-      "task_id": "p5smoke_cpu",
+      "task_id": "p5_traingrid_memory_probe_cpu",
       "threshold_tier": "first_lane",
       "user_process_policy": "observed only; scheduler signals only its own process group"
     },
     {
       "active_lanes": [],
       "allowed": true,
-      "created_at": "2026-07-11T20:36:16.516118+00:00",
+      "created_at": "2026-07-11T20:59:13.446719+00:00",
       "critical": false,
       "denied_reasons": [],
       "disk_forecast": {
         "floor_gb": 40.0,
-        "free_gb": 569.007026176,
-        "projected_free_gb": 567.607026176,
-        "reserved_write_gb": 1.4
+        "free_gb": 568.270749696,
+        "projected_free_gb": 567.770749696,
+        "reserved_write_gb": 0.5
       },
       "gates": [
         {
@@ -507,7 +599,34 @@
           "critical": false,
           "limit": "every declared prior-rung completion receipt must match exact fields",
           "name": "receipt_prerequisites",
-          "observed": [],
+          "observed": [
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 2972368896,
+                "problems": [],
+                "producer_task_id": "p5smoke_cpu",
+                "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "execution_status": "complete",
+                "fresh_challenge_required": false,
+                "profile": "p5smoke",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false,
+                "terminal_scientific_stop": false,
+                "terminal_stop_reason": null,
+                "trainability_gate_failed": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            }
+          ],
           "ok": true,
           "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
         },
@@ -517,7 +636,7 @@
           "name": "resource_measurement",
           "observed": {
             "all_ok": true,
-            "effective_unified_memory_gb": 8.0,
+            "effective_unified_memory_gb": 12.0,
             "mode": "declared"
           },
           "ok": true,
@@ -584,7 +703,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_load",
-          "observed": 0.09320940290178571,
+          "observed": 0.10454450334821429,
           "ok": true,
           "reason": "first_lane normalized one-minute load ceiling"
         },
@@ -592,7 +711,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_utilization",
-          "observed": 0.043,
+          "observed": 0.055,
           "ok": true,
           "reason": "first_lane instantaneous CPU ceiling"
         },
@@ -600,7 +719,7 @@
           "critical": false,
           "limit": 28,
           "name": "declared_cpu_cores",
-          "observed": 10,
+          "observed": 12,
           "ok": true,
           "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
         },
@@ -608,15 +727,15 @@
           "critical": false,
           "limit": 20.0,
           "name": "memory_pressure",
-          "observed": 78.6,
+          "observed": 78.1,
           "ok": true,
           "reason": "first_lane available-memory floor from both VM and memory_pressure"
         },
         {
           "critical": false,
-          "limit": 10.0,
+          "limit": 14.0,
           "name": "candidate_memory_headroom",
-          "observed": 81.055744,
+          "observed": 80.456024064,
           "ok": true,
           "reason": "measured available unified memory covers candidate peak plus headroom"
         },
@@ -624,7 +743,7 @@
           "critical": false,
           "limit": 101.079215104,
           "name": "declared_memory_budget",
-          "observed": 8.0,
+          "observed": 12.0,
           "ok": true,
           "reason": "all declared lane peaks fit measured unified memory with headroom"
         },
@@ -657,30 +776,30 @@
           "limit": 40.0,
           "name": "forecasted_disk",
           "observed": {
-            "free_gb": 569.007026176,
-            "projected_free_gb": 567.607026176,
-            "reserve_gb": 1.4
+            "free_gb": 568.270749696,
+            "projected_free_gb": 567.770749696,
+            "reserve_gb": 0.5
           },
           "ok": true,
           "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
         }
       ],
       "schema": "mop-local-throttle-decision/v1",
-      "task_id": "p5smoke_cpu",
+      "task_id": "p5_traingrid_memory_probe_cpu",
       "threshold_tier": "first_lane",
       "user_process_policy": "observed only; scheduler signals only its own process group"
     },
     {
       "active_lanes": [],
       "allowed": true,
-      "created_at": "2026-07-11T20:36:17.682491+00:00",
+      "created_at": "2026-07-11T20:59:15.937108+00:00",
       "critical": false,
       "denied_reasons": [],
       "disk_forecast": {
         "floor_gb": 40.0,
-        "free_gb": 569.006968832,
-        "projected_free_gb": 567.606968832,
-        "reserved_write_gb": 1.4
+        "free_gb": 568.27068416,
+        "projected_free_gb": 567.77068416,
+        "reserved_write_gb": 0.5
       },
       "gates": [
         {
@@ -695,7 +814,34 @@
           "critical": false,
           "limit": "every declared prior-rung completion receipt must match exact fields",
           "name": "receipt_prerequisites",
-          "observed": [],
+          "observed": [
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 2972368896,
+                "problems": [],
+                "producer_task_id": "p5smoke_cpu",
+                "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "execution_status": "complete",
+                "fresh_challenge_required": false,
+                "profile": "p5smoke",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false,
+                "terminal_scientific_stop": false,
+                "terminal_stop_reason": null,
+                "trainability_gate_failed": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            }
+          ],
           "ok": true,
           "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
         },
@@ -705,7 +851,7 @@
           "name": "resource_measurement",
           "observed": {
             "all_ok": true,
-            "effective_unified_memory_gb": 8.0,
+            "effective_unified_memory_gb": 12.0,
             "mode": "declared"
           },
           "ok": true,
@@ -772,7 +918,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_load",
-          "observed": 0.08858816964285714,
+          "observed": 0.09901646205357142,
           "ok": true,
           "reason": "first_lane normalized one-minute load ceiling"
         },
@@ -780,7 +926,7 @@
           "critical": false,
           "limit": 0.85,
           "name": "cpu_utilization",
-          "observed": 0.06,
+          "observed": 0.039,
           "ok": true,
           "reason": "first_lane instantaneous CPU ceiling"
         },
@@ -788,7 +934,7 @@
           "critical": false,
           "limit": 28,
           "name": "declared_cpu_cores",
-          "observed": 10,
+          "observed": 12,
           "ok": true,
           "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
         },
@@ -796,15 +942,15 @@
           "critical": false,
           "limit": 20.0,
           "name": "memory_pressure",
-          "observed": 78.7,
+          "observed": 78.1,
           "ok": true,
           "reason": "first_lane available-memory floor from both VM and memory_pressure"
         },
         {
           "critical": false,
-          "limit": 10.0,
+          "limit": 14.0,
           "name": "candidate_memory_headroom",
-          "observed": 81.073815552,
+          "observed": 80.463642624,
           "ok": true,
           "reason": "measured available unified memory covers candidate peak plus headroom"
         },
@@ -812,7 +958,7 @@
           "critical": false,
           "limit": 101.079215104,
           "name": "declared_memory_budget",
-          "observed": 8.0,
+          "observed": 12.0,
           "ok": true,
           "reason": "all declared lane peaks fit measured unified memory with headroom"
         },
@@ -845,485 +991,111 @@
           "limit": 40.0,
           "name": "forecasted_disk",
           "observed": {
-            "free_gb": 569.006968832,
-            "projected_free_gb": 567.606968832,
-            "reserve_gb": 1.4
+            "free_gb": 568.27068416,
+            "projected_free_gb": 567.77068416,
+            "reserve_gb": 0.5
           },
           "ok": true,
           "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
         }
       ],
       "schema": "mop-local-throttle-decision/v1",
-      "task_id": "p5smoke_cpu",
+      "task_id": "p5_traingrid_memory_probe_cpu",
       "threshold_tier": "first_lane",
       "user_process_policy": "observed only; scheduler signals only its own process group"
     }
   ],
   "events": [
     {
-      "at": "2026-07-11T20:36:17.694622+00:00",
-      "child_pid": 30088,
+      "at": "2026-07-11T20:59:17.282658+00:00",
+      "child_pid": 63859,
       "event": "invocation-start",
       "index": 1
     },
     {
-      "at": "2026-07-11T20:49:26.050096+00:00",
+      "at": "2026-07-11T21:00:57.466547+00:00",
       "event": "invocation-exit",
       "index": 1,
       "returncode": 0
     }
   ],
   "final_checkpoint": {
-    "aggregate_sha256": "5bbd46d9c833881432cc774c72c14d1948d6a2e733ae9208bac792e244823b09",
+    "aggregate_sha256": "07ebe2391f81267c6f9b5cf25a118f4a570dec6de08b1e594751f13e7d618dd2",
     "atomic_publications_only": true,
-    "file_count": 33,
+    "file_count": 2,
     "files": [
       {
-        "bytes": 16626,
-        "mtime_ns": 1783802958195578518,
-        "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
-        "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+        "bytes": 70598,
+        "mtime_ns": 1783803644829262543,
+        "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+        "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
       },
       {
-        "bytes": 16160,
-        "mtime_ns": 1783802958194367882,
-        "path": "runs/p5_context/p5smoke/frames/f16/cell_receipt.json",
-        "sha256": "8a1821aa41fee444235fb3e6efe5bf542b015c17941d8df75cbc37d6f3e92186"
-      },
-      {
-        "bytes": 1813,
-        "mtime_ns": 1783802864854071670,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/exact_global/arm_receipt.json",
-        "sha256": "ebc56993a3897263ce39ceae10d8fe4215650a7e26697c35ba24e5db3629b175"
-      },
-      {
-        "bytes": 26954775,
-        "mtime_ns": 1783802864826250414,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/exact_global/checkpoint.pt",
-        "sha256": "b6b141d9c18e66171ec3170e44fae0ae2a28882ca41f6d32e888c7255ea66cd1"
-      },
-      {
-        "bytes": 1823,
-        "mtime_ns": 1783802949136474270,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/hierarchical_pooled/arm_receipt.json",
-        "sha256": "1141196203c2fc7be3a146fd42be3ca8c6e16332af3b0acb099629cc6cec2ef1"
-      },
-      {
-        "bytes": 26954775,
-        "mtime_ns": 1783802949109340392,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/hierarchical_pooled/checkpoint.pt",
-        "sha256": "0a009dba9a1adef203c93b12d449dcc98b304407abb48237ae6940053b56adfc"
-      },
-      {
-        "bytes": 1815,
-        "mtime_ns": 1783802923927695194,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/recurrent/arm_receipt.json",
-        "sha256": "f409be0606b74099e9b6f376c6c7912b197642aa9628a8c400120988358162ed"
-      },
-      {
-        "bytes": 26923031,
-        "mtime_ns": 1783802923902661397,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/recurrent/checkpoint.pt",
-        "sha256": "eb5eac059a8878dec24e328a405d55c09b60674f6fb1c1afed760a78b1381e6d"
-      },
-      {
-        "bytes": 9589,
-        "mtime_ns": 1783802958192315838,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/seed_result.json",
-        "sha256": "b889032cefd6739b2fd7af5cc0dfe8ebe77c7068b2870021f2f9008f96ba34b1"
-      },
-      {
-        "bytes": 1816,
-        "mtime_ns": 1783802886434943565,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/window_local/arm_receipt.json",
-        "sha256": "42cb62e0dca4102b1fbc24c91e117eea243e78acbb56d0b755042f752a2d1d24"
-      },
-      {
-        "bytes": 26954775,
-        "mtime_ns": 1783802886407827975,
-        "path": "runs/p5_context/p5smoke/frames/f16/seed_0/window_local/checkpoint.pt",
-        "sha256": "64e8cf93329daa39c330767bbf3e7776ff5606a7add1f765a7f17787cf7d16b9"
-      },
-      {
-        "bytes": 15773,
-        "mtime_ns": 1783802958193961573,
-        "path": "runs/p5_context/p5smoke/frames/f32/cell_receipt.json",
-        "sha256": "52021259312f32c2a2a3d9e02a0b335bfc069b503f22c95dde715ae836a1a295"
-      },
-      {
-        "bytes": 1813,
-        "mtime_ns": 1783802661120264376,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/exact_global/arm_receipt.json",
-        "sha256": "c0a01ada95d6d501f3133239a219fbb1aef89b96b7e5053cba56a5454094bab4"
-      },
-      {
-        "bytes": 28003351,
-        "mtime_ns": 1783802661092217955,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/exact_global/checkpoint.pt",
-        "sha256": "3ff119e9005fc701a2b4f1cc8c6204ff6aec636411029cbbf384b741e6ac69ef"
-      },
-      {
-        "bytes": 1823,
-        "mtime_ns": 1783802834936606635,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/hierarchical_pooled/arm_receipt.json",
-        "sha256": "0423b585ba4f26a3bd651f869518760484c08499ec21342e9077377f57f31985"
-      },
-      {
-        "bytes": 28003351,
-        "mtime_ns": 1783802834908884378,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/hierarchical_pooled/checkpoint.pt",
-        "sha256": "2496bd3df9fdd5cd952942bcd16144325cfa0e3e17c57d4dd6c0152ecc7c66ac"
-      },
-      {
-        "bytes": 1812,
-        "mtime_ns": 1783802785016727062,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/recurrent/arm_receipt.json",
-        "sha256": "03591a83ab8c8df2b8c28772ce141cdd1f684ffe1057ded7c73eb77e222d59fc"
-      },
-      {
-        "bytes": 27971671,
-        "mtime_ns": 1783802784990890473,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/recurrent/checkpoint.pt",
-        "sha256": "7764fbaeffb13f30dbe2804e58a4dad22e30043ebe2c1faeba8551fdaec80a5a"
-      },
-      {
-        "bytes": 9602,
-        "mtime_ns": 1783802852095045902,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/seed_result.json",
-        "sha256": "e0e5f7d2d40ca8abcea13e6927e76f174d27c376f491e4f2c62e9e97ed43bd4d"
-      },
-      {
-        "bytes": 1813,
-        "mtime_ns": 1783802704125713048,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/window_local/arm_receipt.json",
-        "sha256": "a0b1b7764136f97a2989979a0a9165310ade02c20b862940a27cba63131cef7b"
-      },
-      {
-        "bytes": 28003351,
-        "mtime_ns": 1783802704097970125,
-        "path": "runs/p5_context/p5smoke/frames/f32/seed_0/window_local/checkpoint.pt",
-        "sha256": "690a597a1f4e674e4da432b4f47e7e9ac22ed637a25ee6a8d55ea7d6f8d8b172"
-      },
-      {
-        "bytes": 15570,
-        "mtime_ns": 1783802958193574472,
-        "path": "runs/p5_context/p5smoke/frames/f64/cell_receipt.json",
-        "sha256": "08651ebb0deb880accd55024b57d75519302fc31efd688f40eb732a1846eb884"
-      },
-      {
-        "bytes": 1816,
-        "mtime_ns": 1783802225539368264,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/exact_global/arm_receipt.json",
-        "sha256": "79684d0f6f1866f5b0ef01f90fd8cae1d1c86f0f5b3f34e6cd1b0bde7753a384"
-      },
-      {
-        "bytes": 30100503,
-        "mtime_ns": 1783802225510037341,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/exact_global/checkpoint.pt",
-        "sha256": "346828fbe5782e163040db0f532af191cc9b7648bbe5b137b0a94c8d0016add0"
-      },
-      {
-        "bytes": 1825,
-        "mtime_ns": 1783802603480016678,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/hierarchical_pooled/arm_receipt.json",
-        "sha256": "df3bd32f199b82ec53ee75bd5a44e5df1457517c55ea9a0434d7420763fc2484"
-      },
-      {
-        "bytes": 30100567,
-        "mtime_ns": 1783802603450330088,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/hierarchical_pooled/checkpoint.pt",
-        "sha256": "b4eda01ba621bc58842ab5439328e16993806e5ebc13ae7bedfc98e26fcd8c42"
-      },
-      {
-        "bytes": 1816,
-        "mtime_ns": 1783802501862557672,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/recurrent/arm_receipt.json",
-        "sha256": "b0423780ea7450115957f89a786340e64e33711f54ad6a797d075a134862fe25"
-      },
-      {
-        "bytes": 30068887,
-        "mtime_ns": 1783802501833811957,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/recurrent/checkpoint.pt",
-        "sha256": "08bcf452d9c7fc92df861249d09384c5dd2c11179275cd080cf77dc996180953"
-      },
-      {
-        "bytes": 9517,
-        "mtime_ns": 1783802636347173799,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/seed_result.json",
-        "sha256": "f93d1a3616112777cc976c206e9176a9de3d8cd5d7a5d5c664ba22e3bd74b441"
-      },
-      {
-        "bytes": 1818,
-        "mtime_ns": 1783802313417233367,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/window_local/arm_receipt.json",
-        "sha256": "14de83bbf888549031bec44be6dad4983919cc12534d5b31d6834cd5d8520de4"
-      },
-      {
-        "bytes": 30100567,
-        "mtime_ns": 1783802313388113610,
-        "path": "runs/p5_context/p5smoke/frames/f64/seed_0/window_local/checkpoint.pt",
-        "sha256": "bd69098ed03e3ccdf1068f27b57b87e0703f3fb266134f24b5557edb9fda9759"
-      },
-      {
-        "bytes": 16626,
-        "mtime_ns": 1783802958194969930,
-        "path": "runs/p5_context/p5smoke/p5_context_receipt.json",
-        "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
-      },
-      {
-        "bytes": 1803,
-        "mtime_ns": 1783802178197641463,
-        "path": "runs/p5_context/p5smoke/resolved_config.json",
-        "sha256": "a766010c9480dc63fcca4e8f6da740b9e27ea4a1572a1e0e7779425af5592999"
+        "bytes": 71142,
+        "mtime_ns": 1783803644815536908,
+        "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json.progress.json",
+        "sha256": "77d871faaa1bd5795f594144e8c591b8e2ed0bbd7ce1c31eb29e839ab32e4280"
       }
     ]
   },
   "final_returncode": 0,
-  "finished_at": "2026-07-11T20:49:26.051539+00:00",
+  "finished_at": "2026-07-11T21:00:57.467695+00:00",
   "implementation": {
     "path": "src/mop/studio/local_throttle.py",
-    "sha256": "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"
+    "sha256": "bd7dd790460adc7760620007c691e3c345e89d9630c303abf40de59b924fddfb"
   },
   "invocations": [
     {
       "checkpoint_after": {
-        "aggregate_sha256": "5bbd46d9c833881432cc774c72c14d1948d6a2e733ae9208bac792e244823b09",
+        "aggregate_sha256": "07ebe2391f81267c6f9b5cf25a118f4a570dec6de08b1e594751f13e7d618dd2",
         "atomic_publications_only": true,
-        "file_count": 33,
+        "file_count": 2,
         "files": [
           {
-            "bytes": 16626,
-            "mtime_ns": 1783802958195578518,
-            "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
-            "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            "bytes": 70598,
+            "mtime_ns": 1783803644829262543,
+            "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+            "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
           },
           {
-            "bytes": 16160,
-            "mtime_ns": 1783802958194367882,
-            "path": "runs/p5_context/p5smoke/frames/f16/cell_receipt.json",
-            "sha256": "8a1821aa41fee444235fb3e6efe5bf542b015c17941d8df75cbc37d6f3e92186"
-          },
-          {
-            "bytes": 1813,
-            "mtime_ns": 1783802864854071670,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/exact_global/arm_receipt.json",
-            "sha256": "ebc56993a3897263ce39ceae10d8fe4215650a7e26697c35ba24e5db3629b175"
-          },
-          {
-            "bytes": 26954775,
-            "mtime_ns": 1783802864826250414,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/exact_global/checkpoint.pt",
-            "sha256": "b6b141d9c18e66171ec3170e44fae0ae2a28882ca41f6d32e888c7255ea66cd1"
-          },
-          {
-            "bytes": 1823,
-            "mtime_ns": 1783802949136474270,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/hierarchical_pooled/arm_receipt.json",
-            "sha256": "1141196203c2fc7be3a146fd42be3ca8c6e16332af3b0acb099629cc6cec2ef1"
-          },
-          {
-            "bytes": 26954775,
-            "mtime_ns": 1783802949109340392,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/hierarchical_pooled/checkpoint.pt",
-            "sha256": "0a009dba9a1adef203c93b12d449dcc98b304407abb48237ae6940053b56adfc"
-          },
-          {
-            "bytes": 1815,
-            "mtime_ns": 1783802923927695194,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/recurrent/arm_receipt.json",
-            "sha256": "f409be0606b74099e9b6f376c6c7912b197642aa9628a8c400120988358162ed"
-          },
-          {
-            "bytes": 26923031,
-            "mtime_ns": 1783802923902661397,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/recurrent/checkpoint.pt",
-            "sha256": "eb5eac059a8878dec24e328a405d55c09b60674f6fb1c1afed760a78b1381e6d"
-          },
-          {
-            "bytes": 9589,
-            "mtime_ns": 1783802958192315838,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/seed_result.json",
-            "sha256": "b889032cefd6739b2fd7af5cc0dfe8ebe77c7068b2870021f2f9008f96ba34b1"
-          },
-          {
-            "bytes": 1816,
-            "mtime_ns": 1783802886434943565,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/window_local/arm_receipt.json",
-            "sha256": "42cb62e0dca4102b1fbc24c91e117eea243e78acbb56d0b755042f752a2d1d24"
-          },
-          {
-            "bytes": 26954775,
-            "mtime_ns": 1783802886407827975,
-            "path": "runs/p5_context/p5smoke/frames/f16/seed_0/window_local/checkpoint.pt",
-            "sha256": "64e8cf93329daa39c330767bbf3e7776ff5606a7add1f765a7f17787cf7d16b9"
-          },
-          {
-            "bytes": 15773,
-            "mtime_ns": 1783802958193961573,
-            "path": "runs/p5_context/p5smoke/frames/f32/cell_receipt.json",
-            "sha256": "52021259312f32c2a2a3d9e02a0b335bfc069b503f22c95dde715ae836a1a295"
-          },
-          {
-            "bytes": 1813,
-            "mtime_ns": 1783802661120264376,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/exact_global/arm_receipt.json",
-            "sha256": "c0a01ada95d6d501f3133239a219fbb1aef89b96b7e5053cba56a5454094bab4"
-          },
-          {
-            "bytes": 28003351,
-            "mtime_ns": 1783802661092217955,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/exact_global/checkpoint.pt",
-            "sha256": "3ff119e9005fc701a2b4f1cc8c6204ff6aec636411029cbbf384b741e6ac69ef"
-          },
-          {
-            "bytes": 1823,
-            "mtime_ns": 1783802834936606635,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/hierarchical_pooled/arm_receipt.json",
-            "sha256": "0423b585ba4f26a3bd651f869518760484c08499ec21342e9077377f57f31985"
-          },
-          {
-            "bytes": 28003351,
-            "mtime_ns": 1783802834908884378,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/hierarchical_pooled/checkpoint.pt",
-            "sha256": "2496bd3df9fdd5cd952942bcd16144325cfa0e3e17c57d4dd6c0152ecc7c66ac"
-          },
-          {
-            "bytes": 1812,
-            "mtime_ns": 1783802785016727062,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/recurrent/arm_receipt.json",
-            "sha256": "03591a83ab8c8df2b8c28772ce141cdd1f684ffe1057ded7c73eb77e222d59fc"
-          },
-          {
-            "bytes": 27971671,
-            "mtime_ns": 1783802784990890473,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/recurrent/checkpoint.pt",
-            "sha256": "7764fbaeffb13f30dbe2804e58a4dad22e30043ebe2c1faeba8551fdaec80a5a"
-          },
-          {
-            "bytes": 9602,
-            "mtime_ns": 1783802852095045902,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/seed_result.json",
-            "sha256": "e0e5f7d2d40ca8abcea13e6927e76f174d27c376f491e4f2c62e9e97ed43bd4d"
-          },
-          {
-            "bytes": 1813,
-            "mtime_ns": 1783802704125713048,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/window_local/arm_receipt.json",
-            "sha256": "a0b1b7764136f97a2989979a0a9165310ade02c20b862940a27cba63131cef7b"
-          },
-          {
-            "bytes": 28003351,
-            "mtime_ns": 1783802704097970125,
-            "path": "runs/p5_context/p5smoke/frames/f32/seed_0/window_local/checkpoint.pt",
-            "sha256": "690a597a1f4e674e4da432b4f47e7e9ac22ed637a25ee6a8d55ea7d6f8d8b172"
-          },
-          {
-            "bytes": 15570,
-            "mtime_ns": 1783802958193574472,
-            "path": "runs/p5_context/p5smoke/frames/f64/cell_receipt.json",
-            "sha256": "08651ebb0deb880accd55024b57d75519302fc31efd688f40eb732a1846eb884"
-          },
-          {
-            "bytes": 1816,
-            "mtime_ns": 1783802225539368264,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/exact_global/arm_receipt.json",
-            "sha256": "79684d0f6f1866f5b0ef01f90fd8cae1d1c86f0f5b3f34e6cd1b0bde7753a384"
-          },
-          {
-            "bytes": 30100503,
-            "mtime_ns": 1783802225510037341,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/exact_global/checkpoint.pt",
-            "sha256": "346828fbe5782e163040db0f532af191cc9b7648bbe5b137b0a94c8d0016add0"
-          },
-          {
-            "bytes": 1825,
-            "mtime_ns": 1783802603480016678,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/hierarchical_pooled/arm_receipt.json",
-            "sha256": "df3bd32f199b82ec53ee75bd5a44e5df1457517c55ea9a0434d7420763fc2484"
-          },
-          {
-            "bytes": 30100567,
-            "mtime_ns": 1783802603450330088,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/hierarchical_pooled/checkpoint.pt",
-            "sha256": "b4eda01ba621bc58842ab5439328e16993806e5ebc13ae7bedfc98e26fcd8c42"
-          },
-          {
-            "bytes": 1816,
-            "mtime_ns": 1783802501862557672,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/recurrent/arm_receipt.json",
-            "sha256": "b0423780ea7450115957f89a786340e64e33711f54ad6a797d075a134862fe25"
-          },
-          {
-            "bytes": 30068887,
-            "mtime_ns": 1783802501833811957,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/recurrent/checkpoint.pt",
-            "sha256": "08bcf452d9c7fc92df861249d09384c5dd2c11179275cd080cf77dc996180953"
-          },
-          {
-            "bytes": 9517,
-            "mtime_ns": 1783802636347173799,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/seed_result.json",
-            "sha256": "f93d1a3616112777cc976c206e9176a9de3d8cd5d7a5d5c664ba22e3bd74b441"
-          },
-          {
-            "bytes": 1818,
-            "mtime_ns": 1783802313417233367,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/window_local/arm_receipt.json",
-            "sha256": "14de83bbf888549031bec44be6dad4983919cc12534d5b31d6834cd5d8520de4"
-          },
-          {
-            "bytes": 30100567,
-            "mtime_ns": 1783802313388113610,
-            "path": "runs/p5_context/p5smoke/frames/f64/seed_0/window_local/checkpoint.pt",
-            "sha256": "bd69098ed03e3ccdf1068f27b57b87e0703f3fb266134f24b5557edb9fda9759"
-          },
-          {
-            "bytes": 16626,
-            "mtime_ns": 1783802958194969930,
-            "path": "runs/p5_context/p5smoke/p5_context_receipt.json",
-            "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
-          },
-          {
-            "bytes": 1803,
-            "mtime_ns": 1783802178197641463,
-            "path": "runs/p5_context/p5smoke/resolved_config.json",
-            "sha256": "a766010c9480dc63fcca4e8f6da740b9e27ea4a1572a1e0e7779425af5592999"
+            "bytes": 71142,
+            "mtime_ns": 1783803644815536908,
+            "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json.progress.json",
+            "sha256": "77d871faaa1bd5795f594144e8c591b8e2ed0bbd7ce1c31eb29e839ab32e4280"
           }
         ]
       },
       "command": [
         ".venv/bin/python",
-        "scripts/p5_context_capability.py",
-        "--profile",
-        "p5smoke",
-        "--device",
-        "cpu",
-        "--run-dir",
-        "runs/p5_context/p5smoke",
+        "scripts/p5_traingrid_memory_probe.py",
         "--out",
-        "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+        "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+        "--repeats",
+        "3",
+        "--seed",
+        "0"
       ],
-      "command_sha256": "bd7f16132407fd5de5ef47bfca658770f7da96b466112d096b4ac3b066c566a1",
-      "finished_at": "2026-07-11T20:49:25.918549+00:00",
+      "command_sha256": "6ef2cf84c42a7f5db5de419a1a4a4761dcdda318546f2024f54875004c2bc2a5",
+      "finished_at": "2026-07-11T21:00:57.466273+00:00",
       "index": 1,
-      "pid": 30088,
+      "pid": 63859,
       "returncode": 0,
-      "started_at": "2026-07-11T20:36:17.688586+00:00",
-      "stderr": "/Users/scammermike/Downloads/mop/runs/local_throttle/p5smoke_20260711_leg4/logs/invocation_01.stderr.log",
-      "stdout": "/Users/scammermike/Downloads/mop/runs/local_throttle/p5smoke_20260711_leg4/logs/invocation_01.stdout.log"
+      "started_at": "2026-07-11T20:59:17.275919+00:00",
+      "stderr": "/Users/scammermike/Downloads/mop/runs/local_throttle/p5grid_20260711_leg2/logs/invocation_01.stderr.log",
+      "stdout": "/Users/scammermike/Downloads/mop/runs/local_throttle/p5grid_20260711_leg2/logs/invocation_01.stdout.log"
     }
   ],
   "last_decision": {
     "active_lanes": [],
     "allowed": true,
-    "created_at": "2026-07-11T20:49:25.917290+00:00",
+    "created_at": "2026-07-11T21:00:57.464892+00:00",
     "critical": false,
     "denied_reasons": [],
     "disk_forecast": {
       "floor_gb": 40.0,
-      "free_gb": 568.227508224,
-      "projected_free_gb": 566.827508224,
-      "reserved_write_gb": 1.4
+      "free_gb": 568.122331136,
+      "projected_free_gb": 567.622331136,
+      "reserved_write_gb": 0.5
     },
     "gates": [
       {
@@ -1338,7 +1110,34 @@
         "critical": false,
         "limit": "every declared prior-rung completion receipt must match exact fields",
         "name": "receipt_prerequisites",
-        "observed": [],
+        "observed": [
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 2972368896,
+              "problems": [],
+              "producer_task_id": "p5smoke_cpu",
+              "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "complete": true,
+              "execution_status": "complete",
+              "fresh_challenge_required": false,
+              "profile": "p5smoke",
+              "promotion.confirmatory_promotable": false,
+              "resumable": false,
+              "terminal_scientific_stop": false,
+              "terminal_stop_reason": null,
+              "trainability_gate_failed": false
+            },
+            "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+            "problems": [],
+            "schema": "mop-p5-context-screen/v1",
+            "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+          }
+        ],
         "ok": true,
         "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
       },
@@ -1348,7 +1147,7 @@
         "name": "resource_measurement",
         "observed": {
           "all_ok": true,
-          "effective_unified_memory_gb": 8.0,
+          "effective_unified_memory_gb": 12.0,
           "mode": "declared"
         },
         "ok": true,
@@ -1415,7 +1214,7 @@
         "critical": false,
         "limit": "admission-only",
         "name": "cpu_load",
-        "observed": 0.20868791852678573,
+        "observed": 0.3232421875,
         "ok": true,
         "reason": "owned task CPU load is expected at runtime; memory, swap, thermal, and disk remain gated"
       },
@@ -1423,7 +1222,7 @@
         "critical": false,
         "limit": "admission-only",
         "name": "cpu_utilization",
-        "observed": 0.042,
+        "observed": 0.285,
         "ok": true,
         "reason": "owned task CPU utilization is expected at runtime; pressure gates remain active"
       },
@@ -1431,7 +1230,7 @@
         "critical": false,
         "limit": 28,
         "name": "declared_cpu_cores",
-        "observed": 10,
+        "observed": 12,
         "ok": true,
         "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
       },
@@ -1439,7 +1238,7 @@
         "critical": false,
         "limit": 20.0,
         "name": "memory_pressure",
-        "observed": 78.5,
+        "observed": 77.6,
         "ok": true,
         "reason": "first_lane available-memory floor from both VM and memory_pressure"
       },
@@ -1447,7 +1246,7 @@
         "critical": false,
         "limit": 2.0,
         "name": "candidate_memory_headroom",
-        "observed": 80.913793024,
+        "observed": 79.994781696,
         "ok": true,
         "reason": "running task retains the minimum unified-memory headroom"
       },
@@ -1455,7 +1254,7 @@
         "critical": false,
         "limit": 101.079215104,
         "name": "declared_memory_budget",
-        "observed": 8.0,
+        "observed": 12.0,
         "ok": true,
         "reason": "all declared lane peaks fit measured unified memory with headroom"
       },
@@ -1488,16 +1287,16 @@
         "limit": 40.0,
         "name": "forecasted_disk",
         "observed": {
-          "free_gb": 568.227508224,
-          "projected_free_gb": 566.827508224,
-          "reserve_gb": 1.4
+          "free_gb": 568.122331136,
+          "projected_free_gb": 567.622331136,
+          "reserve_gb": 0.5
         },
         "ok": true,
         "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
       }
     ],
     "schema": "mop-local-throttle-decision/v1",
-    "task_id": "p5smoke_cpu",
+    "task_id": "p5_traingrid_memory_probe_cpu",
     "threshold_tier": "first_lane",
     "user_process_policy": "observed only; scheduler signals only its own process group"
   },
@@ -1505,25 +1304,25 @@
     "all_required_available": true,
     "cpu": {
       "available": true,
-      "load_15m": 6.953125,
-      "load_1m": 5.84326171875,
-      "load_1m_per_logical_cpu": 0.20868791852678573,
-      "load_5m": 5.708984375,
+      "load_15m": 5.73974609375,
+      "load_1m": 9.05078125,
+      "load_1m_per_logical_cpu": 0.3232421875,
+      "load_5m": 5.53857421875,
       "logical_cpus": 28,
-      "utilization_fraction": 0.042
+      "utilization_fraction": 0.285
     },
-    "created_at": "2026-07-11T20:49:25.917093+00:00",
+    "created_at": "2026-07-11T21:00:56.022354+00:00",
     "disk": {
       "available": true,
-      "free_bytes": 568227508224,
-      "free_gb": 568.227508224,
+      "free_bytes": 568122331136,
+      "free_gb": 568.122331136,
       "root": "/Users/scammermike/Downloads/mop",
       "total_bytes": 994662584320
     },
     "memory": {
       "available": true,
-      "available_bytes": 80913793024,
-      "available_percent": 78.5,
+      "available_bytes": 79994781696,
+      "available_percent": 77.6,
       "pressure": {
         "available": true,
         "free_percent": 94.0,
@@ -1576,7 +1375,7 @@
   },
   "mode": "execute",
   "ownership": "only child process groups created by this scheduler may receive signals",
-  "payload_sha256": "279640dc65cb239a28fbc8a709b2efcbbee393a11c70189326900625f2e51de3",
+  "payload_sha256": "8177006029905fa4824e6f24902216edb72a8fc080c5143ec22297fd1278ac8f",
   "policy": {
     "path": "/Users/scammermike/Downloads/mop/configs/local_execution_throttle.yaml",
     "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
@@ -1606,79 +1405,119 @@
     "reserve_gb": 10.0,
     "usable_gb": 70.0
   },
-  "run_id": "p5smoke_20260711_leg4",
+  "run_id": "p5grid_20260711_leg2",
   "schema": "mop-local-throttle-receipt/v1",
-  "started_at": "2026-07-11T20:36:17.682846+00:00",
+  "started_at": "2026-07-11T20:59:15.937340+00:00",
   "status": "complete",
   "task": {
     "accelerator": "none",
     "atomic_checkpoints": true,
-    "atomic_write_gb": 0.15,
+    "atomic_write_gb": 0.02,
     "checkpoint_globs": [
-      "runs/p5_context/p5smoke/frames/f*/seed_*/*/checkpoint.pt",
-      "runs/p5_context/p5smoke/frames/f*/seed_*/*/arm_receipt.json",
-      "runs/p5_context/p5smoke/frames/f*/seed_*/seed_result.json",
-      "runs/p5_context/p5smoke/frames/f*/cell_receipt.json",
-      "runs/p5_context/p5smoke/p5_context_receipt.json",
-      "runs/p5_context/p5smoke/resolved_config.json",
-      "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+      "proof/P5_TRAINGRID_MEMORY_TRACE.json.progress.json",
+      "proof/P5_TRAINGRID_MEMORY_TRACE.json"
     ],
     "command": [
       ".venv/bin/python",
-      "scripts/p5_context_capability.py",
-      "--profile",
-      "p5smoke",
-      "--device",
-      "cpu",
-      "--run-dir",
-      "runs/p5_context/p5smoke",
+      "scripts/p5_traingrid_memory_probe.py",
       "--out",
-      "proof/P5_CONTEXT_CAPABILITY_SMOKE.json"
+      "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+      "--repeats",
+      "3",
+      "--seed",
+      "0"
     ],
-    "cpu_cores": 10,
-    "depends_on": [],
+    "cpu_cores": 12,
+    "depends_on": [
+      "p5smoke_cpu"
+    ],
     "estimated_mps_gb": 0.0,
-    "estimated_unified_memory_gb": 8.0,
-    "forecast_write_gb": 1.0,
+    "estimated_unified_memory_gb": 12.0,
+    "forecast_write_gb": 0.2,
     "lane": "heavy",
     "pause_safe": true,
-    "prerequisites": [],
+    "prerequisites": [
+      {
+        "fields": [
+          [
+            "profile",
+            "p5smoke"
+          ],
+          [
+            "complete",
+            true
+          ],
+          [
+            "all_ok",
+            true
+          ],
+          [
+            "resumable",
+            false
+          ],
+          [
+            "execution_status",
+            "complete"
+          ],
+          [
+            "terminal_scientific_stop",
+            false
+          ],
+          [
+            "terminal_stop_reason",
+            null
+          ],
+          [
+            "trainability_gate_failed",
+            false
+          ],
+          [
+            "fresh_challenge_required",
+            false
+          ],
+          [
+            "promotion.confirmatory_promotable",
+            false
+          ]
+        ],
+        "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+        "schema": "mop-p5-context-screen/v1"
+      }
+    ],
     "requires_empty_lanes": false,
-    "resource_basis": "P5 boundary probe measured 4.8474 GB max RSS at a larger exact-token cell; 8 GB is conservative",
+    "resource_basis": "probe preregisters a 12 GB child guard; prior boundary trace peaked at 4.8474 GB",
     "resource_probe": false,
     "resource_receipt_path": null,
     "resource_receipt_rung": null,
     "resource_receipt_schema": null,
-    "restart_exit_codes": [
-      2
-    ],
-    "task_id": "p5smoke_cpu",
-    "wall_minutes": 180
+    "restart_exit_codes": [],
+    "task_id": "p5_traingrid_memory_probe_cpu",
+    "wall_minutes": 300
   },
   "telemetry_samples": [
     {
       "all_required_available": true,
       "cpu": {
         "available": true,
-        "load_15m": 9.05517578125,
-        "load_1m": 2.60986328125,
-        "load_1m_per_logical_cpu": 0.09320940290178571,
-        "load_5m": 5.52978515625,
+        "load_15m": 5.10791015625,
+        "load_1m": 2.92724609375,
+        "load_1m_per_logical_cpu": 0.10454450334821429,
+        "load_5m": 3.43359375,
         "logical_cpus": 28,
-        "utilization_fraction": 0.0
+        "utilization_fraction": 0.028999999999999998
       },
-      "created_at": "2026-07-11T20:36:15.345617+00:00",
+      "created_at": "2026-07-11T20:59:09.614424+00:00",
       "disk": {
         "available": true,
-        "free_bytes": 569007054848,
-        "free_gb": 569.007054848,
+        "free_bytes": 568272490496,
+        "free_gb": 568.272490496,
         "root": "/Users/scammermike/Downloads/mop",
         "total_bytes": 994662584320
       },
       "memory": {
         "available": true,
-        "available_bytes": 81040474112,
-        "available_percent": 78.6,
+        "available_bytes": 80467394560,
+        "available_percent": 78.1,
         "pressure": {
           "available": true,
           "free_percent": 94.0,
@@ -1733,25 +1572,25 @@
       "all_required_available": true,
       "cpu": {
         "available": true,
-        "load_15m": 9.05517578125,
-        "load_1m": 2.60986328125,
-        "load_1m_per_logical_cpu": 0.09320940290178571,
-        "load_5m": 5.52978515625,
+        "load_15m": 5.10791015625,
+        "load_1m": 2.92724609375,
+        "load_1m_per_logical_cpu": 0.10454450334821429,
+        "load_5m": 3.43359375,
         "logical_cpus": 28,
-        "utilization_fraction": 0.043
+        "utilization_fraction": 0.055
       },
-      "created_at": "2026-07-11T20:36:16.515925+00:00",
+      "created_at": "2026-07-11T20:59:12.133099+00:00",
       "disk": {
         "available": true,
-        "free_bytes": 569007026176,
-        "free_gb": 569.007026176,
+        "free_bytes": 568270749696,
+        "free_gb": 568.270749696,
         "root": "/Users/scammermike/Downloads/mop",
         "total_bytes": 994662584320
       },
       "memory": {
         "available": true,
-        "available_bytes": 81055744000,
-        "available_percent": 78.6,
+        "available_bytes": 80456024064,
+        "available_percent": 78.1,
         "pressure": {
           "available": true,
           "free_percent": 94.0,
@@ -1806,25 +1645,25 @@
       "all_required_available": true,
       "cpu": {
         "available": true,
-        "load_15m": 9.0078125,
-        "load_1m": 2.48046875,
-        "load_1m_per_logical_cpu": 0.08858816964285714,
-        "load_5m": 5.4541015625,
+        "load_15m": 5.08349609375,
+        "load_1m": 2.7724609375,
+        "load_1m_per_logical_cpu": 0.09901646205357142,
+        "load_5m": 3.39306640625,
         "logical_cpus": 28,
-        "utilization_fraction": 0.06
+        "utilization_fraction": 0.039
       },
-      "created_at": "2026-07-11T20:36:17.682307+00:00",
+      "created_at": "2026-07-11T20:59:14.621393+00:00",
       "disk": {
         "available": true,
-        "free_bytes": 569006968832,
-        "free_gb": 569.006968832,
+        "free_bytes": 568270684160,
+        "free_gb": 568.27068416,
         "root": "/Users/scammermike/Downloads/mop",
         "total_bytes": 994662584320
       },
       "memory": {
         "available": true,
-        "available_bytes": 81073815552,
-        "available_percent": 78.7,
+        "available_bytes": 80463642624,
+        "available_percent": 78.1,
         "pressure": {
           "available": true,
           "free_percent": 94.0,
@@ -1876,5 +1715,5 @@
       }
     }
   ],
-  "wall_seconds": 788.6311123749999
+  "wall_seconds": 100.20221108399983
 }

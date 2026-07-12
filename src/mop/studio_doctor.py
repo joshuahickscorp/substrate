@@ -8,6 +8,7 @@ cache manifest, or measured host resource is a failed check with an explicit rem
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import platform
@@ -17,7 +18,9 @@ import sys
 import tempfile
 from collections.abc import Callable
 from datetime import UTC, datetime
+from functools import lru_cache
 from pathlib import Path
+from urllib.parse import urlparse
 
 from omegaconf import DictConfig, OmegaConf
 
@@ -250,13 +253,130 @@ def _local_weight_files(hf_id: str) -> list[Path]:
     return sorted(set(found))
 
 
+@lru_cache(maxsize=32)
+def _sha256_snapshot(path: str, size: int, mtime_ns: int, ctime_ns: int) -> str:
+    """Hash one immutable file snapshot while avoiding repeated multi-GB reads in one process."""
+    del size, mtime_ns, ctime_ns
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _sha256_current(path: Path) -> str:
+    stat = path.stat()
+    return _sha256_snapshot(
+        str(path.resolve()),
+        int(stat.st_size),
+        int(stat.st_mtime_ns),
+        int(stat.st_ctime_ns),
+    )
+
+
+def _direct_checkpoint_path(cfg: DictConfig) -> tuple[Path | None, str | None]:
+    """Resolve an official direct checkpoint without treating its sentinel hf_id as a Hub repo."""
+    configured = OmegaConf.select(cfg, "checkpoint_path", default=None)
+    if configured:
+        path = Path(str(configured)).expanduser()
+        return (path if path.is_absolute() else REPO_ROOT / path).resolve(), None
+
+    source_url = str(OmegaConf.select(cfg, "checkpoint_url", default="")).strip()
+    filename = Path(urlparse(source_url).path).name
+    if not filename:
+        return None, "direct checkpoint config lacks checkpoint_path and checkpoint_url filename"
+    model_root = REPO_ROOT / "data" / "models"
+    matches = sorted(path.resolve() for path in model_root.rglob(filename) if path.is_file())
+    if not matches:
+        return None, f"direct checkpoint {filename!r} is absent under {model_root}"
+    if len(matches) > 1:
+        return None, f"direct checkpoint {filename!r} is ambiguous under {model_root}: {matches}"
+    return matches[0], None
+
+
+def _check_direct_checkpoint(name: str, cfg: DictConfig) -> tuple[bool, str]:
+    """Validate direct checkpoint bytes and their adjacent immutable authority receipt."""
+    checkpoint, resolution_problem = _direct_checkpoint_path(cfg)
+    if checkpoint is None:
+        return False, str(resolution_problem)
+    problems: list[str] = []
+    if not checkpoint.is_file():
+        return False, f"direct checkpoint missing: {checkpoint}"
+
+    expected_size_raw = OmegaConf.select(cfg, "checkpoint_content_length", default=None)
+    try:
+        expected_size = int(expected_size_raw)
+    except (TypeError, ValueError):
+        expected_size = 0
+        problems.append("config lacks a positive checkpoint_content_length")
+    if expected_size <= 0:
+        problems.append("config checkpoint_content_length must be positive")
+    actual_size = int(checkpoint.stat().st_size)
+    if expected_size > 0 and actual_size != expected_size:
+        problems.append(f"file size {actual_size} does not match configured {expected_size}")
+
+    expected_sha = str(OmegaConf.select(cfg, "checkpoint_sha256", default="")).lower()
+    if len(expected_sha) != 64 or any(char not in "0123456789abcdef" for char in expected_sha):
+        problems.append("config lacks a valid checkpoint_sha256")
+        expected_sha = ""
+    actual_sha = _sha256_current(checkpoint)
+    if expected_sha and actual_sha != expected_sha:
+        problems.append("file SHA256 does not match configured checkpoint_sha256")
+
+    receipt_path_raw = OmegaConf.select(cfg, "checkpoint_receipt_path", default=None)
+    if receipt_path_raw:
+        receipt_path = Path(str(receipt_path_raw)).expanduser()
+        if not receipt_path.is_absolute():
+            receipt_path = REPO_ROOT / receipt_path
+        receipt_path = receipt_path.resolve()
+    else:
+        receipt_path = checkpoint.with_name(checkpoint.name + ".receipt.json")
+    receipt: dict = {}
+    if not receipt_path.is_file():
+        problems.append(f"checkpoint receipt missing: {receipt_path}")
+    else:
+        try:
+            loaded = json.loads(receipt_path.read_text())
+            receipt = loaded if isinstance(loaded, dict) else {}
+            if not isinstance(loaded, dict):
+                problems.append("checkpoint receipt must be a JSON mapping")
+        except (OSError, json.JSONDecodeError):
+            problems.append("checkpoint receipt is not valid JSON")
+    if receipt:
+        if receipt.get("schema") != "mop-vjepa21-official-checkpoint/v1":
+            problems.append("checkpoint receipt schema is not the official checkpoint schema")
+        if receipt.get("all_ok") is not True:
+            problems.append("checkpoint receipt is not green")
+        if receipt.get("size") != expected_size or receipt.get("size") != actual_size:
+            problems.append("checkpoint receipt size does not match config and file")
+        if receipt.get("sha256") != expected_sha or receipt.get("sha256") != actual_sha:
+            problems.append("checkpoint receipt SHA256 does not match config and file")
+        receipt_bindings = {
+            "source_url": OmegaConf.select(cfg, "checkpoint_url", default=None),
+            "source_etag": OmegaConf.select(cfg, "checkpoint_etag", default=None),
+            "source_version_id": OmegaConf.select(cfg, "checkpoint_version_id", default=None),
+            "repository_commit": OmegaConf.select(cfg, "official_repo_commit", default=None),
+        }
+        for field, expected in receipt_bindings.items():
+            if expected is not None and receipt.get(field) != expected:
+                problems.append(f"checkpoint receipt {field} does not match config")
+
+    detail = (
+        f"{name}: direct checkpoint {checkpoint}, {actual_size} bytes, sha256={actual_sha}, "
+        f"receipt={receipt_path}"
+    )
+    if problems:
+        detail += "; " + "; ".join(problems)
+    return not problems, detail
+
+
 def _check_encoder_weights(profile_name: str | None = None) -> tuple[bool, str]:
     """Require profile-relevant local weight shards without downloading them.
 
     Local-max requires the configured default encoder. Studio envelopes require the published
     encoder-scale grid. This keeps a missing giant model from masquerading as a laptop hardware wall.
     """
-    required: list[tuple[str, str]] = []
+    required: list[tuple[str, str, DictConfig]] = []
     default_cfg = OmegaConf.load(REPO_ROOT / "configs" / "config.yaml")
     default_name = str(OmegaConf.select(default_cfg, "defaults.encoder", default=""))
     studio_profile = str(profile_name or _infer_profile_name()).startswith("studio-")
@@ -266,18 +386,29 @@ def _check_encoder_weights(profile_name: str | None = None) -> tuple[bool, str]:
         name = str(OmegaConf.select(cfg, "name", default=path.stem))
         if not studio_profile and name != default_name:
             continue
+        source_kind = str(OmegaConf.select(cfg, "source_kind", default="huggingface"))
+        required.append((name, source_kind, cfg))
+    present: list[str] = []
+    missing: list[str] = []
+    direct_details: list[str] = []
+    for name, source_kind, cfg in required:
+        if source_kind == "official_pytorch_checkpoint":
+            ok, detail = _check_direct_checkpoint(name, cfg)
+            direct_details.append(detail)
+            (present if ok else missing).append(name if ok else f"{name}({detail})")
+            continue
         hf_id = str(OmegaConf.select(cfg, "hf_id", default=""))
-        if hf_id:
-            required.append((name, hf_id))
-    present = [name for name, hf_id in required if _local_weight_files(hf_id)]
-    missing = [f"{name}({hf_id})" for name, hf_id in required if not _local_weight_files(hf_id)]
+        files = _local_weight_files(hf_id) if hf_id else []
+        (present if files else missing).append(name if files else f"{name}({hf_id or 'missing hf_id'})")
     roots = ", ".join(str(root) for root in _hf_cache_roots())
+    authority = "; direct authorities: " + " | ".join(direct_details) if direct_details else ""
     if missing:
         return (
             False,
-            f"local weight shards {len(present)}/{len(required)}; missing {missing}; searched {roots}",
+            f"local weight shards {len(present)}/{len(required)}; missing {missing}; "
+            f"searched HF roots {roots}{authority}",
         )
-    return True, f"local weight shards present for {present}; searched {roots}"
+    return True, f"local weight shards present for {present}; searched HF roots {roots}{authority}"
 
 
 def _check_cache_manifests() -> tuple[bool, str]:

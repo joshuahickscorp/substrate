@@ -1,0 +1,109 @@
+schema: mop-recurrent-broadcast-config/v1
+id: recurrent_broadcast_preflight
+name: recurrent_capacity_limited_broadcast_mechanics
+claim_scope: >-
+  deterministic structural-fixture mechanics only; no natural-task, capability, cognition,
+  consciousness, sentience, or agency claim
+null_hypothesis: >-
+  a persistent capacity-limited winner and broadcast channel adds no held-out selective delivery,
+  lesion sensitivity, restoration, or bandwidth advantage beyond a global dense state, no
+  broadcast, a deeper feed-forward path, independent specialists, or equal-FLOP routing; this
+  bounded fixture cannot reject that null for natural data or a learned system
+
+fixture:
+  train_episodes_per_unit: 6
+  heldout_episodes_per_unit: 8
+  specialists: [visual, temporal, memory, checksum]
+  consumers:
+    - consumer_id: navigator
+      topic: route
+      local_specialist: visual
+    - consumer_id: predictor
+      topic: forecast
+      local_specialist: temporal
+    - consumer_id: verifier
+      topic: checksum
+      local_specialist: checksum
+  message_words: 4
+  target_salience: 10
+  distractor_salience_by_specialist: [2, 3, 2, 3]
+  activation_decay_per_tick: 1
+  workspace_capacity_messages: 1
+  query_gap_ticks: 2
+  blocks_per_episode: 3
+  independent_units:
+    - unit_id: north-grid
+      seed: 2026071101
+    - unit_id: west-grid
+      seed: 2026071102
+    - unit_id: relay-grid
+      seed: 2026071103
+    - unit_id: mirror-grid
+      seed: 2026071104
+    - unit_id: drift-grid
+      seed: 2026071105
+
+evaluation:
+  primary_arm: recurrent_limited_broadcast
+  arms:
+    - recurrent_limited_broadcast
+    - global_dense_state
+    - no_broadcast
+    - larger_feedforward_depth
+    - independent_specialists
+    - equal_flop_routing
+  perturbations:
+    - clean
+    - consumer_link_lesion
+    - wrong_message_injection
+    - delayed_stale_message
+    - restored_link
+    - shuffled_message
+  lesion_consumer: predictor
+  injection_consumer: verifier
+  stale_consumer: navigator
+  restoration_consumer: predictor
+  stale_delay_ticks: 3
+  feedforward_depth_blocks: 4
+  require_three_separated_consumers: true
+  require_consumer_specific_loss: true
+  require_exact_restoration: true
+
+cost_model:
+  matched_arms:
+    - recurrent_limited_broadcast
+    - larger_feedforward_depth
+    - equal_flop_routing
+  matched_modelled_flops_per_tick: 128
+  matched_fixed_parameter_slots: 35
+  matched_transmitted_words_per_tick: 12
+  global_dense_modelled_flops_per_tick: 192
+  global_dense_transmitted_words_per_tick: 48
+  global_dense_capacity_messages: 4
+  no_broadcast_modelled_flops_per_tick: 64
+  independent_specialist_modelled_flops_per_tick: 96
+  note: >-
+    FLOPs are an explicit algorithmic multiply-add estimate built from the repository compute
+    helpers, not hardware counters; every arm has zero trained parameters in this mechanics fixture
+
+resource_envelope:
+  device: cpu
+  cpu_threads: 1
+  maximum_wall_seconds: 10
+  maximum_rss_bytes: 1073741824
+  maximum_proof_bytes: 1048576
+  accelerator_required: false
+  model_weights_loaded: false
+  model_downloads_allowed: false
+  external_data_allowed: false
+
+stop_contract:
+  minimum_independent_units: 5
+  require_disjoint_train_heldout_units: true
+  require_persistent_recurrent_winner: true
+  require_capacity_limit: true
+  require_exact_resume: true
+  require_all_mutations_rejected: true
+  require_cost_match: true
+  stop_on_nonfinite_metric: true
+  scientific_promotion_allowed: false

@@ -65,6 +65,12 @@ SECOND_LANES = frozenset({"cpu", "network", "light"})
 DEFAULT_POLICY = REPO_ROOT / "configs/local_execution_throttle.yaml"
 DEFAULT_STATE_ROOT = REPO_ROOT / "runs/local_throttle"
 IMPLEMENTATION_PATH = Path(__file__).resolve()
+# Completed receipts remain valid across explicitly reviewed, backward-compatible governor fixes.
+# The hash below produced the completed P5 smoke immediately before descendant process-group
+# ownership was fixed. Arbitrary historic hashes remain invalid.
+COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256 = frozenset(
+    {"73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"}
+)
 P5_SCREEN_SCHEMA = "mop-p5-context-screen/v1"
 P5_GRID_SCHEMA = "mop-p5-traingrid-memory-trace/v1"
 P5_CHALLENGE_SCHEMA = "mop-p5-context-fresh-training-challenge/v1"
@@ -3612,9 +3618,23 @@ def _frontmost_app() -> dict[str, Any]:
     return {"available": bool(info_ok and match), "name": match.group(1) if match else None}
 
 
-def _processes(policy: ThrottlePolicy, excluded_pids: set[int]) -> dict[str, Any]:
+def _processes(
+    policy: ThrottlePolicy,
+    excluded_pids: set[int],
+    excluded_process_groups: set[int] | None = None,
+) -> dict[str, Any]:
+    """Classify foreground and heavy work while excluding scheduler-owned groups.
+
+    A declared task may create short-lived measurement or worker descendants. The supervisor owns
+    the complete process group created by ``start_new_session=True``, not only its direct child.
+    Excluding just the direct PID makes a legitimate grandchild look like unmanaged heavy work and
+    can deadlock pause-safe tasks: the governor stops the group, then waits for the stopped worker
+    to disappear before resuming it.
+    """
+
     foreground_markers = [str(value).lower() for value in policy.monitor.get("foreground_markers", [])]
     heavy_markers = [str(value).lower() for value in policy.monitor.get("known_heavy_markers", [])]
+    owned_groups = set(excluded_process_groups or ())
     foreground: list[dict[str, Any]] = []
     unmanaged_heavy: list[dict[str, Any]] = []
     inaccessible = 0
@@ -3624,6 +3644,15 @@ def _processes(policy: ThrottlePolicy, excluded_pids: set[int]) -> dict[str, Any
             pid = int(info["pid"])
             if pid in excluded_pids or pid in {os.getpid(), os.getppid()}:
                 continue
+            if owned_groups:
+                try:
+                    if os.getpgid(pid) in owned_groups:
+                        continue
+                except ProcessLookupError:
+                    continue
+                except PermissionError:
+                    # Failure to prove ownership must not hide another user's process.
+                    pass
             argv = [str(value) for value in (info.get("cmdline") or [])]
             command = " ".join(argv)
             searchable = f"{info.get('name') or ''} {command}".lower()
@@ -3693,6 +3722,7 @@ def collect_host_telemetry(
     *,
     disk_root: Path | str = REPO_ROOT,
     excluded_pids: set[int] | None = None,
+    excluded_process_groups: set[int] | None = None,
 ) -> dict[str, Any]:
     """Collect one complete host snapshot. Missing required probes remain explicit."""
 
@@ -3762,7 +3792,11 @@ def collect_host_telemetry(
     if not disk.get("available"):
         missing.append("disk")
     try:
-        processes = _processes(policy, excluded_pids or set())
+        processes = _processes(
+            policy,
+            excluded_pids or set(),
+            excluded_process_groups=excluded_process_groups,
+        )
     except (OSError, ValueError, psutil.Error) as exc:
         processes = {"available": False, "error": f"{type(exc).__name__}: {exc}"}
     if not processes.get("available"):
@@ -3864,9 +3898,14 @@ def _completion_receipt_problems(
     expected_command = list(task.command)
     expected_command_sha = _command_sha256(task.command)
     expected_policy = {"path": str(policy.path), "sha256": policy.sha256}
-    expected_implementation = {
+    current_implementation = {
         "path": str(IMPLEMENTATION_PATH.relative_to(REPO_ROOT)),
         "sha256": _sha256_file(IMPLEMENTATION_PATH),
+    }
+    declared_implementation = receipt.get("implementation")
+    compatible_implementation_hashes = {
+        current_implementation["sha256"],
+        *COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256,
     }
     if receipt.get("schema") != RECEIPT_SCHEMA or receipt.get("mode") != "execute":
         problems.append("governor run receipt schema or mode drift")
@@ -3878,7 +3917,10 @@ def _completion_receipt_problems(
         problems.append("governor run did not complete with return code zero")
     if receipt.get("policy") != expected_policy:
         problems.append("governor run current policy binding drift")
-    if receipt.get("implementation") != expected_implementation:
+    if not isinstance(declared_implementation, dict) or (
+        declared_implementation.get("path") != current_implementation["path"]
+        or declared_implementation.get("sha256") not in compatible_implementation_hashes
+    ):
         problems.append("governor run current implementation binding drift")
     if receipt.get("task") != expected_task:
         problems.append("governor run exact task declaration drift")
@@ -3921,7 +3963,7 @@ def _completion_receipt_problems(
         or completion.get("command") != expected_command
         or completion.get("command_sha256") != expected_command_sha
         or completion.get("policy") != expected_policy
-        or completion.get("implementation") != expected_implementation
+        or completion.get("implementation") != declared_implementation
         or completion.get("returncode") != 0
         or completion.get("output") != {"path": output_path, "sha256": output_sha}
         or completion.get("final_checkpoint_aggregate_sha256") != current_snapshot["aggregate_sha256"]
@@ -4907,6 +4949,7 @@ def run_task(
                         policy,
                         disk_root=disk_root,
                         excluded_pids={process.pid},
+                        excluded_process_groups={process.pid},
                     )
                     decision = evaluate_task(
                         task,
