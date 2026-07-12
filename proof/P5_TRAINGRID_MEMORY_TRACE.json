@@ -1,0 +1,2366 @@
+{
+  "all_ok": true,
+  "atomic_progress": {
+    "completed_rows": 72,
+    "identity_sha256": "601d6585fcd7965dcbaff9361da4b91e860fbf8e8c4496359d8c1e889fd742b7",
+    "path": "/Users/scammermike/Downloads/mop/proof/P5_TRAINGRID_MEMORY_TRACE.json.progress.json",
+    "sha256": "77d871faaa1bd5795f594144e8c591b8e2ed0bbd7ce1c31eb29e839ab32e4280"
+  },
+  "cells": [
+    {
+      "batch": 4,
+      "cell": "f64_exact_global_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.1324,
+      "repeat": 0,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.407,
+      "wall_seconds_step": 0.27
+    },
+    {
+      "batch": 4,
+      "cell": "f64_exact_global_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.1273,
+      "repeat": 1,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.425,
+      "wall_seconds_step": 0.274
+    },
+    {
+      "batch": 4,
+      "cell": "f64_exact_global_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.1317,
+      "repeat": 2,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.415,
+      "wall_seconds_step": 0.276
+    },
+    {
+      "batch": 1,
+      "cell": "f64_exact_global_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5217,
+      "repeat": 0,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.156,
+      "wall_seconds_step": 0.119
+    },
+    {
+      "batch": 1,
+      "cell": "f64_exact_global_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5232,
+      "repeat": 1,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.164,
+      "wall_seconds_step": 0.121
+    },
+    {
+      "batch": 1,
+      "cell": "f64_exact_global_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5246,
+      "repeat": 2,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.181,
+      "wall_seconds_step": 0.118
+    },
+    {
+      "batch": 4,
+      "cell": "f64_window_local_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.122,
+      "repeat": 0,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.326,
+      "wall_seconds_step": 0.209
+    },
+    {
+      "batch": 4,
+      "cell": "f64_window_local_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.122,
+      "repeat": 1,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.332,
+      "wall_seconds_step": 0.21
+    },
+    {
+      "batch": 4,
+      "cell": "f64_window_local_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.1188,
+      "repeat": 2,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.339,
+      "wall_seconds_step": 0.209
+    },
+    {
+      "batch": 1,
+      "cell": "f64_window_local_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5148,
+      "repeat": 0,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.131,
+      "wall_seconds_step": 0.103
+    },
+    {
+      "batch": 1,
+      "cell": "f64_window_local_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5167,
+      "repeat": 1,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.143,
+      "wall_seconds_step": 0.104
+    },
+    {
+      "batch": 1,
+      "cell": "f64_window_local_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5158,
+      "repeat": 2,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.179,
+      "wall_seconds_step": 0.106
+    },
+    {
+      "batch": 4,
+      "cell": "f64_recurrent_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1874944,
+      "peak_formula_components_bytes": {
+        "adamw_state": 14999552,
+        "ema_target_parameters": 7499776,
+        "gradients": 7499776,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7499776,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.3713,
+      "repeat": 0,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 4.308,
+      "wall_seconds_step": 3.074
+    },
+    {
+      "batch": 4,
+      "cell": "f64_recurrent_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1874944,
+      "peak_formula_components_bytes": {
+        "adamw_state": 14999552,
+        "ema_target_parameters": 7499776,
+        "gradients": 7499776,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7499776,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.3715,
+      "repeat": 1,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 4.263,
+      "wall_seconds_step": 3.07
+    },
+    {
+      "batch": 4,
+      "cell": "f64_recurrent_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1874944,
+      "peak_formula_components_bytes": {
+        "adamw_state": 14999552,
+        "ema_target_parameters": 7499776,
+        "gradients": 7499776,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7499776,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.3705,
+      "repeat": 2,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 4.222,
+      "wall_seconds_step": 3.048
+    },
+    {
+      "batch": 1,
+      "cell": "f64_recurrent_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1874944,
+      "peak_formula_components_bytes": {
+        "adamw_state": 14999552,
+        "ema_target_parameters": 7499776,
+        "gradients": 7499776,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7499776,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.8179,
+      "repeat": 0,
+      "resumed_from_atomic_progress": true,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 3.991,
+      "wall_seconds_step": 2.879
+    },
+    {
+      "batch": 1,
+      "cell": "f64_recurrent_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1874944,
+      "peak_formula_components_bytes": {
+        "adamw_state": 14999552,
+        "ema_target_parameters": 7499776,
+        "gradients": 7499776,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7499776,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.8231,
+      "repeat": 1,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 4.252,
+      "wall_seconds_step": 2.919
+    },
+    {
+      "batch": 1,
+      "cell": "f64_recurrent_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1874944,
+      "peak_formula_components_bytes": {
+        "adamw_state": 14999552,
+        "ema_target_parameters": 7499776,
+        "gradients": 7499776,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7499776,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.8158,
+      "repeat": 2,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 4.145,
+      "wall_seconds_step": 2.876
+    },
+    {
+      "batch": 4,
+      "cell": "f64_hierarchical_pooled_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.1217,
+      "repeat": 0,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.423,
+      "wall_seconds_step": 0.225
+    },
+    {
+      "batch": 4,
+      "cell": "f64_hierarchical_pooled_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.1232,
+      "repeat": 1,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.404,
+      "wall_seconds_step": 0.225
+    },
+    {
+      "batch": 4,
+      "cell": "f64_hierarchical_pooled_b4",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 201326592,
+        "naive_attention_score_diagnostic_only": 268435456,
+        "parameters": 7501824,
+        "token_activations_one_layer": 4194304
+      },
+      "peak_rss_gb": 1.1233,
+      "repeat": 2,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.393,
+      "wall_seconds_step": 0.217
+    },
+    {
+      "batch": 1,
+      "cell": "f64_hierarchical_pooled_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5119,
+      "repeat": 0,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.198,
+      "wall_seconds_step": 0.115
+    },
+    {
+      "batch": 1,
+      "cell": "f64_hierarchical_pooled_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5156,
+      "repeat": 1,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.23,
+      "wall_seconds_step": 0.116
+    },
+    {
+      "batch": 1,
+      "cell": "f64_hierarchical_pooled_b1",
+      "frames": 64,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1875456,
+      "peak_formula_components_bytes": {
+        "adamw_state": 15003648,
+        "ema_target_parameters": 7501824,
+        "gradients": 7501824,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 7501824,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5136,
+      "repeat": 2,
+      "tokens": 2048,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.262,
+      "wall_seconds_step": 0.116
+    },
+    {
+      "batch": 4,
+      "cell": "f32_exact_global_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.7521,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.255,
+      "wall_seconds_step": 0.159
+    },
+    {
+      "batch": 4,
+      "cell": "f32_exact_global_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.747,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.271,
+      "wall_seconds_step": 0.159
+    },
+    {
+      "batch": 4,
+      "cell": "f32_exact_global_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.7547,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.301,
+      "wall_seconds_step": 0.16
+    },
+    {
+      "batch": 1,
+      "cell": "f32_exact_global_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4292,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.186,
+      "wall_seconds_step": 0.084
+    },
+    {
+      "batch": 1,
+      "cell": "f32_exact_global_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4312,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.216,
+      "wall_seconds_step": 0.083
+    },
+    {
+      "batch": 1,
+      "cell": "f32_exact_global_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4304,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.172,
+      "wall_seconds_step": 0.083
+    },
+    {
+      "batch": 4,
+      "cell": "f32_window_local_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.7309,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.286,
+      "wall_seconds_step": 0.144
+    },
+    {
+      "batch": 4,
+      "cell": "f32_window_local_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.7265,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.305,
+      "wall_seconds_step": 0.145
+    },
+    {
+      "batch": 4,
+      "cell": "f32_window_local_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.7275,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.271,
+      "wall_seconds_step": 0.142
+    },
+    {
+      "batch": 1,
+      "cell": "f32_window_local_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4252,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.194,
+      "wall_seconds_step": 0.09
+    },
+    {
+      "batch": 1,
+      "cell": "f32_window_local_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4248,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.204,
+      "wall_seconds_step": 0.091
+    },
+    {
+      "batch": 1,
+      "cell": "f32_window_local_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4228,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.179,
+      "wall_seconds_step": 0.092
+    },
+    {
+      "batch": 4,
+      "cell": "f32_recurrent_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1743872,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13950976,
+        "ema_target_parameters": 6975488,
+        "gradients": 6975488,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6975488,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.8469,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 2.777,
+      "wall_seconds_step": 1.569
+    },
+    {
+      "batch": 4,
+      "cell": "f32_recurrent_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1743872,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13950976,
+        "ema_target_parameters": 6975488,
+        "gradients": 6975488,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6975488,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.8625,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 2.731,
+      "wall_seconds_step": 1.563
+    },
+    {
+      "batch": 4,
+      "cell": "f32_recurrent_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1743872,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13950976,
+        "ema_target_parameters": 6975488,
+        "gradients": 6975488,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6975488,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.8438,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 2.717,
+      "wall_seconds_step": 1.565
+    },
+    {
+      "batch": 1,
+      "cell": "f32_recurrent_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1743872,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13950976,
+        "ema_target_parameters": 6975488,
+        "gradients": 6975488,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6975488,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.5755,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 2.566,
+      "wall_seconds_step": 1.457
+    },
+    {
+      "batch": 1,
+      "cell": "f32_recurrent_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1743872,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13950976,
+        "ema_target_parameters": 6975488,
+        "gradients": 6975488,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6975488,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.5757,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 2.582,
+      "wall_seconds_step": 1.464
+    },
+    {
+      "batch": 1,
+      "cell": "f32_recurrent_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1743872,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13950976,
+        "ema_target_parameters": 6975488,
+        "gradients": 6975488,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6975488,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.5722,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 2.601,
+      "wall_seconds_step": 1.469
+    },
+    {
+      "batch": 4,
+      "cell": "f32_hierarchical_pooled_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.7361,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.297,
+      "wall_seconds_step": 0.161
+    },
+    {
+      "batch": 4,
+      "cell": "f32_hierarchical_pooled_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.731,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.336,
+      "wall_seconds_step": 0.16
+    },
+    {
+      "batch": 4,
+      "cell": "f32_hierarchical_pooled_b4",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 100663296,
+        "naive_attention_score_diagnostic_only": 67108864,
+        "parameters": 6977536,
+        "token_activations_one_layer": 2097152
+      },
+      "peak_rss_gb": 0.7349,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.284,
+      "wall_seconds_step": 0.159
+    },
+    {
+      "batch": 1,
+      "cell": "f32_hierarchical_pooled_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4248,
+      "repeat": 0,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.176,
+      "wall_seconds_step": 0.102
+    },
+    {
+      "batch": 1,
+      "cell": "f32_hierarchical_pooled_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.427,
+      "repeat": 1,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.18,
+      "wall_seconds_step": 0.102
+    },
+    {
+      "batch": 1,
+      "cell": "f32_hierarchical_pooled_b1",
+      "frames": 32,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1744384,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13955072,
+        "ema_target_parameters": 6977536,
+        "gradients": 6977536,
+        "input_clips": 25165824,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6977536,
+        "token_activations_one_layer": 524288
+      },
+      "peak_rss_gb": 0.4238,
+      "repeat": 2,
+      "tokens": 1024,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.177,
+      "wall_seconds_step": 0.102
+    },
+    {
+      "batch": 4,
+      "cell": "f16_exact_global_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5098,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.187,
+      "wall_seconds_step": 0.106
+    },
+    {
+      "batch": 4,
+      "cell": "f16_exact_global_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5106,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.179,
+      "wall_seconds_step": 0.108
+    },
+    {
+      "batch": 4,
+      "cell": "f16_exact_global_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5129,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.196,
+      "wall_seconds_step": 0.11
+    },
+    {
+      "batch": 1,
+      "cell": "f16_exact_global_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3716,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.13,
+      "wall_seconds_step": 0.067
+    },
+    {
+      "batch": 1,
+      "cell": "f16_exact_global_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3715,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.122,
+      "wall_seconds_step": 0.067
+    },
+    {
+      "batch": 1,
+      "cell": "f16_exact_global_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "exact_global",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3707,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.137,
+      "wall_seconds_step": 0.067
+    },
+    {
+      "batch": 4,
+      "cell": "f16_window_local_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5128,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.208,
+      "wall_seconds_step": 0.108
+    },
+    {
+      "batch": 4,
+      "cell": "f16_window_local_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5084,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.209,
+      "wall_seconds_step": 0.107
+    },
+    {
+      "batch": 4,
+      "cell": "f16_window_local_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5129,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.218,
+      "wall_seconds_step": 0.108
+    },
+    {
+      "batch": 1,
+      "cell": "f16_window_local_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3697,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.191,
+      "wall_seconds_step": 0.069
+    },
+    {
+      "batch": 1,
+      "cell": "f16_window_local_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3704,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.126,
+      "wall_seconds_step": 0.067
+    },
+    {
+      "batch": 1,
+      "cell": "f16_window_local_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "window_local",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3708,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.138,
+      "wall_seconds_step": 0.066
+    },
+    {
+      "batch": 4,
+      "cell": "f16_recurrent_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678336,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13426688,
+        "ema_target_parameters": 6713344,
+        "gradients": 6713344,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6713344,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5849,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.898,
+      "wall_seconds_step": 0.795
+    },
+    {
+      "batch": 4,
+      "cell": "f16_recurrent_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678336,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13426688,
+        "ema_target_parameters": 6713344,
+        "gradients": 6713344,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6713344,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5846,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.909,
+      "wall_seconds_step": 0.799
+    },
+    {
+      "batch": 4,
+      "cell": "f16_recurrent_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678336,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13426688,
+        "ema_target_parameters": 6713344,
+        "gradients": 6713344,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6713344,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5872,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.909,
+      "wall_seconds_step": 0.8
+    },
+    {
+      "batch": 1,
+      "cell": "f16_recurrent_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678336,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13426688,
+        "ema_target_parameters": 6713344,
+        "gradients": 6713344,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6713344,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.4479,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.847,
+      "wall_seconds_step": 0.75
+    },
+    {
+      "batch": 1,
+      "cell": "f16_recurrent_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678336,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13426688,
+        "ema_target_parameters": 6713344,
+        "gradients": 6713344,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6713344,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.4476,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.84,
+      "wall_seconds_step": 0.744
+    },
+    {
+      "batch": 1,
+      "cell": "f16_recurrent_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "recurrent",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678336,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13426688,
+        "ema_target_parameters": 6713344,
+        "gradients": 6713344,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6713344,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.4478,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.84,
+      "wall_seconds_step": 0.744
+    },
+    {
+      "batch": 4,
+      "cell": "f16_hierarchical_pooled_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5164,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.206,
+      "wall_seconds_step": 0.119
+    },
+    {
+      "batch": 4,
+      "cell": "f16_hierarchical_pooled_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.5133,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.236,
+      "wall_seconds_step": 0.122
+    },
+    {
+      "batch": 4,
+      "cell": "f16_hierarchical_pooled_b4",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 50331648,
+        "naive_attention_score_diagnostic_only": 16777216,
+        "parameters": 6715392,
+        "token_activations_one_layer": 1048576
+      },
+      "peak_rss_gb": 0.512,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.25,
+      "wall_seconds_step": 0.12
+    },
+    {
+      "batch": 1,
+      "cell": "f16_hierarchical_pooled_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3718,
+      "repeat": 0,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.142,
+      "wall_seconds_step": 0.076
+    },
+    {
+      "batch": 1,
+      "cell": "f16_hierarchical_pooled_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3717,
+      "repeat": 1,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.138,
+      "wall_seconds_step": 0.077
+    },
+    {
+      "batch": 1,
+      "cell": "f16_hierarchical_pooled_b1",
+      "frames": 16,
+      "loss_finite": true,
+      "mechanism": "hierarchical_pooled",
+      "memory_guard_exceeded": false,
+      "memory_pressure_level": 1,
+      "mps_memory": {
+        "current_allocated_bytes": 0,
+        "driver_allocated_bytes": 475136,
+        "recommended_max_bytes": 83494174720
+      },
+      "ok": true,
+      "parameters": 1678848,
+      "peak_formula_components_bytes": {
+        "adamw_state": 13430784,
+        "ema_target_parameters": 6715392,
+        "gradients": 6715392,
+        "input_clips": 12582912,
+        "naive_attention_score_diagnostic_only": 4194304,
+        "parameters": 6715392,
+        "token_activations_one_layer": 262144
+      },
+      "peak_rss_gb": 0.3719,
+      "repeat": 2,
+      "tokens": 512,
+      "torch_version": "2.12.1",
+      "wall_seconds_child": 1.147,
+      "wall_seconds_step": 0.076
+    }
+  ],
+  "cited_boundary_trace": {
+    "path": "proof/P5_MEMORY_BOUNDARY_TRACE.json",
+    "sha256": "78db1cfa4ac6343484e3eeefd95a2461328d2396d3fb5b6a7a88fb25fc4d6b24"
+  },
+  "claim_boundary": {
+    "interpretation": "Measured cold-process training-step peaks for the twelve P5 pilot cells at the pilot's exact model construction on this host. Any future memory-rung claim must cite these peaks, the P5 experiment card's estimand argument, and three repeated failures against the runtime safe envelope; this receipt alone earns nothing.",
+    "mechanics_only": true,
+    "moves_no_category": true,
+    "naive_formula_is_diagnostic_only": true
+  },
+  "config": {
+    "batch_rows": [
+      4,
+      1
+    ],
+    "cells": [
+      {
+        "frames": 64,
+        "mechanism": "exact_global"
+      },
+      {
+        "frames": 64,
+        "mechanism": "window_local"
+      },
+      {
+        "frames": 64,
+        "mechanism": "recurrent"
+      },
+      {
+        "frames": 64,
+        "mechanism": "hierarchical_pooled"
+      },
+      {
+        "frames": 32,
+        "mechanism": "exact_global"
+      },
+      {
+        "frames": 32,
+        "mechanism": "window_local"
+      },
+      {
+        "frames": 32,
+        "mechanism": "recurrent"
+      },
+      {
+        "frames": 32,
+        "mechanism": "hierarchical_pooled"
+      },
+      {
+        "frames": 16,
+        "mechanism": "exact_global"
+      },
+      {
+        "frames": 16,
+        "mechanism": "window_local"
+      },
+      {
+        "frames": 16,
+        "mechanism": "recurrent"
+      },
+      {
+        "frames": 16,
+        "mechanism": "hierarchical_pooled"
+      }
+    ],
+    "child_memory_guard_gb": 12.0,
+    "device": "cpu",
+    "ema_decay": 0.99,
+    "mask_ratio": 0.5,
+    "repeats": 3,
+    "seed": 0
+  },
+  "created_at": "2026-07-11T21:00:44Z",
+  "host": {
+    "free_disk_gb_at_start": 568.27,
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "python": "3.12.13"
+  },
+  "payload_sha256": "c3ee560383f6b3f826c1f502acb82c481c236d10e2ce582ef05aa0c26e846331",
+  "schema": "mop-p5-traingrid-memory-trace/v1",
+  "source_bindings": [
+    {
+      "file_sha256": "fe704a6dc580a869812067f063db01d9417f1796ac359fc7dec02815959562f1",
+      "path": "configs/experiment/mop_p5_context_capability.yaml"
+    },
+    {
+      "file_sha256": "d083e2c9964a990c3eb9571431a7d40c975242be8a5f0e57baf13747e65eb263",
+      "path": "scripts/p5_traingrid_memory_probe.py"
+    },
+    {
+      "file_sha256": "f3ecc2fce57c03423a2ea28545737da934715dfdfc2423ae2b9920b1436755e8",
+      "path": "scripts/p5_context_capability.py"
+    },
+    {
+      "file_sha256": "0b8628e233b5647cdfc9405553683acbf21da6a0c2ed953b0fab5c71242b19d2",
+      "path": "src/mop/substrate/p5_context.py"
+    },
+    {
+      "file_sha256": "032fdb41fe8d960277416f242d725e3b6049bf46f9082af7d95966e79021d2ae",
+      "path": "src/mop/substrate/custom_workbench.py"
+    },
+    {
+      "file_sha256": "d459c6da5e8041ff305563f9c92d57182afb7e809bd61e3cf7424f110ebfb1c9",
+      "path": "src/mop/substrate/p4_screen.py"
+    }
+  ],
+  "source_bindings_sha256": "22e0456d03eb6da8f067edd812738463105df0ef04e6ff1d68a24b9d3b4a9bc1"
+}

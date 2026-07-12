@@ -1647,6 +1647,29 @@ def test_p6_resource_admission_rejects_invalid_governor_provenance(tmp_path, mut
     assert any("governor" in problem for problem in resource_gate["observed"]["problems"])
 
 
+def test_p6_resource_admission_accepts_allowlisted_historic_governor(tmp_path):
+    policy = load_policy()
+    task = policy.task("p6_10k_replication_cpu")
+    output = tmp_path / "proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json"
+    _write_p6_receipt(
+        output,
+        rung=10_000,
+        mode="resource-probe",
+        replication=False,
+    )
+    run_path = tmp_path / "runs/local_throttle/fixture-p6_10k_resource_probe_cpu/run_receipt.json"
+    receipt = json.loads(run_path.read_text())
+    historic_sha = next(iter(throttle.COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256))
+    receipt["implementation"]["sha256"] = historic_sha
+    receipt["completion_authority"]["implementation"]["sha256"] = historic_sha
+    receipt.pop("payload_sha256", None)
+    receipt["payload_sha256"] = throttle._canonical_sha256(receipt)
+    run_path.write_text(json.dumps(receipt, sort_keys=True))
+
+    decision = evaluate_task(task, _snapshot(), policy, evidence_root=tmp_path)
+    assert decision["allowed"] is True
+
+
 def test_p6_100k_stops_on_canonical_strict_10k_null(tmp_path):
     policy = load_policy()
     task = policy.task("p6_100k_replication_cpu")
@@ -2045,6 +2068,40 @@ def test_owned_cpu_saturation_is_admission_only_not_a_runtime_self_pause():
         gate = next(value for value in runtime["gates"] if value["name"] == name)
         assert gate["ok"] is True
         assert gate["limit"] == "admission-only"
+
+
+def test_owned_worker_process_group_is_not_classified_as_unmanaged_heavy(monkeypatch):
+    policy = load_policy()
+
+    class FakeProcess:
+        def __init__(self, pid, ppid, command):
+            self.info = {
+                "pid": pid,
+                "ppid": ppid,
+                "name": "python3.12",
+                "cmdline": command.split(),
+                "username": "test-user",
+            }
+
+    processes = [
+        FakeProcess(101, 100, "python scripts/p5_traingrid_memory_probe.py _child owned"),
+        FakeProcess(202, 1, "python scripts/p5_traingrid_memory_probe.py _child external"),
+    ]
+    monkeypatch.setattr(throttle.psutil, "process_iter", lambda _fields: processes)
+    monkeypatch.setattr(throttle.os, "getpgid", lambda pid: {101: 100, 202: 200}[pid])
+    monkeypatch.setattr(
+        throttle,
+        "_frontmost_app",
+        lambda: {"available": False, "name": None},
+    )
+
+    observed = throttle._processes(
+        policy,
+        excluded_pids={100},
+        excluded_process_groups={100},
+    )
+
+    assert [row["pid"] for row in observed["unmanaged_known_heavy"]] == [202]
 
 
 def test_forecasted_writes_preserve_the_40gb_floor_and_fail_critical():
