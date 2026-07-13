@@ -1,0 +1,38 @@
+{
+  "activation_enabled": false,
+  "claim_scope": "generated-counterfactual-topology-transaction-mechanics-only",
+  "config_authority_sha256": "c12ea3ab8389bba62d5aa1812c652587cfcea11bbb2caac4e38ca73d90a5984b",
+  "contract_id": "escs-x3-v1-2026-07-12",
+  "manifest_sha256": "b8042a895afec9a15ebe5562e33ee38db44190e6721b5fca3ec3566be6f2f963",
+  "mode": "official",
+  "review_status": "preregistered-scaffold-unexecuted",
+  "schema": "mop-escs-x3-implementation-authority/v1",
+  "scientific_promotion_allowed": false,
+  "scoped_files": [
+    {
+      "bytes": 6901,
+      "path": "configs/experiment/escs_x3_topology_adaptation.json",
+      "sha256": "eb5023f4e1fd55d5763a0d21353d31319a30450feecaaee0ccf891193368c157"
+    },
+    {
+      "bytes": 68217,
+      "path": "src/mop/studies/escs_x3_topology_adaptation.py",
+      "sha256": "6c1467fc30067c79d6aeb40c4cc3b33ae2922d20c501f1accebc27d4b57b8801"
+    },
+    {
+      "bytes": 389,
+      "path": "scripts/run_escs_x3_topology_adaptation.py",
+      "sha256": "92809e7b38b6453c7642400638e7d293ef9b007fcf833aafe8b2684e827d5377"
+    },
+    {
+      "bytes": 12644,
+      "path": "tests/test_escs_x3_topology_adaptation.py",
+      "sha256": "8d145c66fe290368f00701d6ef8525c98575d1cd7a70247985b9a42ce3d19eb5"
+    },
+    {
+      "bytes": 9493,
+      "path": "docs/audits/escs_x3_topology_adaptation.md",
+      "sha256": "9e74037eb3bac3f3fda35e7c49ef3a1a5a24c054a5d07c0aca841984dee71d0d"
+    }
+  ]
+}

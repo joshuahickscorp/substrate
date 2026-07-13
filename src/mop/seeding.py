@@ -6,6 +6,8 @@ assume bit-exactness. Tests size their tolerances from `variance_of`.
 from __future__ import annotations
 
 import contextlib
+import hashlib
+import json
 import os
 import random
 from collections.abc import Callable
@@ -13,6 +15,28 @@ from dataclasses import dataclass
 
 import numpy as np
 import torch
+
+UINT32_MAX = (1 << 32) - 1
+
+
+def derive_seed32(seed: int, namespace: str) -> int:
+    """Return a NumPy-compatible child seed without discarding an oversized parent.
+
+    Existing in-range seeds are preserved byte-for-byte so historical experiment streams do not
+    drift. Oversized downstream seeds are domain-separated and hashed from the full integer rather
+    than truncated or reduced modulo 2**32, which keeps all of the parent seed in the derivation.
+    """
+    seed = int(seed)
+    if 0 <= seed <= UINT32_MAX:
+        return seed
+    payload = json.dumps(
+        {"namespace": str(namespace), "seed": seed},
+        ensure_ascii=True,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    digest = hashlib.sha256(b"mop-seed32-v1\0" + payload).digest()
+    return int.from_bytes(digest[:4], byteorder="big", signed=False)
 
 
 def seed_everything(seed: int, deterministic: bool = True) -> int:

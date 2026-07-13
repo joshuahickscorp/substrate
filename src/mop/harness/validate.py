@@ -22,6 +22,15 @@ class ConfigError(ValueError):
     """A configuration that cannot be trusted to run correctly."""
 
 
+def _declared_null_contract(cfg: DictConfig) -> str:
+    """Return the null declared by a composed config or a sealed study envelope."""
+    for path in ("null_hypothesis", "payload.strong_null", "payload.null"):
+        value = OmegaConf.select(cfg, path, default="")
+        if str(value).strip():
+            return str(value)
+    return ""
+
+
 def validate_device(cfg: DictConfig) -> None:
     kind = str(OmegaConf.select(cfg, "device.kind", default=""))
     if kind not in DEVICE_KINDS:
@@ -112,8 +121,7 @@ def check_all() -> list[dict]:
                         {"where": f"experiment/mirror/{m.get('id')}", "problem": "no null_hypothesis"}
                     )
             continue
-        nh = OmegaConf.select(cfg, "null_hypothesis", default="")
-        if not str(nh).strip():
+        if not _declared_null_contract(cfg):
             problems.append({"where": f"experiment/{f.stem}", "problem": "no null_hypothesis"})
     for problem in build_contract_audit(series="F", implemented_only=False).get("problems", []):
         problems.append({"where": "experiment-contract/F", "problem": str(problem)})

@@ -9,10 +9,13 @@ from typing import Any
 
 import pytest
 
-from mop.studies.potential_atlas_validation import (
+from mop.studies.p5_terminal_evidence import (
     P5_SMOKE_RECEIPT_PATH,
+    P5_TERMINAL_EVIDENCE_PATHS,
+)
+from mop.studies.potential_atlas_validation import (
     RECEIPT_SCHEMA,
-    _parse_p5_admission_refusal,
+    _parse_p5_terminal_evidence,
     main,
     refresh_source_hashes,
     validate_potential_atlas,
@@ -75,8 +78,8 @@ def test_canonical_contract_recomputes_every_fixed_total(canonical_atlas: Path) 
         "facet_weight_total": 100.0,
         "weighted_score": pytest.approx(5.736),
         "domain_count": 7,
-        "source_count": 57,
-        "evidence_reference_count": 197,
+        "source_count": 66,
+        "evidence_reference_count": 204,
         "requirements_row_count": 321,
         "primary_category_counts": {1: 168, 2: 119, 3: 29, 6: 5},
         "category2_count": 119,
@@ -99,10 +102,18 @@ def test_canonical_contract_recomputes_every_fixed_total(canonical_atlas: Path) 
         "p9_total_lineages": 260,
         "p9_total_branches": 1300,
         "p9_arm_count": 9,
-        "p5_admission_run_id": "p5smoke_20260711_leg3",
-        "p5_admission_decision_count": 3,
-        "p5_admission_failed_gates": ["cpu_load", "candidate_memory_headroom"],
-        "p5_command_executed": False,
+        "p5_terminal_state": "governed-terminal-null",
+        "p5_outcome": "null",
+        "p5_smoke_run_id": "p5smoke_20260711_leg4",
+        "p5_pilot_run_id": "p5pilot_20260712_leg6",
+        "p5_fresh_challenge_run_id": "p5fresh_challenge_20260712_leg2",
+        "p5_verifier_run_id": (
+            "mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01"
+        ),
+        "p5_primary_seed_count": 5,
+        "p5_fresh_training_seed_count": 3,
+        "p5_verified_pattern_count": 0,
+        "p5_scientific_promotion": False,
         "studio_scale_required_now": False,
     }
     unsealed = dict(report)
@@ -203,60 +214,50 @@ def test_retired_p5_preflight_cannot_reenter_current_evidence(canonical_atlas: P
     assert "retired current-path evidence" in " ".join(_check(report, "evidence_paths")["problems"])
 
 
-def test_p5_admission_summary_and_op3_narrative_are_receipt_derived(
+def test_p5_terminal_summary_and_op3_narrative_are_evidence_derived(
     canonical_atlas: Path,
 ) -> None:
     payload = _load(canonical_atlas)
-    payload["p5_local_admission"]["state"] = "admitted-and-complete"
-    payload["p5_local_admission"]["command_executed"] = True
+    payload["p5_terminal_evidence"]["state"] = "governed-favorable"
+    payload["p5_terminal_evidence"]["outcome"] = "favorable-programmatic-only"
     op3 = next(facet for facet in payload["facets"] if facet["id"] == "OP3")
     index = next(
         index
         for index, value in enumerate(op3["readiness_not_capability"])
-        if value.startswith("P5 smoke is fail-closed")
+        if value.startswith("P5 final verifier returned null")
     )
-    op3["readiness_not_capability"][index] = "P5 smoke completed successfully"
-    op3["local_to_10"][0] = (
-        "admit and complete P5 only after three consecutive samples satisfy the unchanged "
-        "memory-headroom gate"
-    )
+    op3["readiness_not_capability"][index] = "P5 produced a favorable capability result"
+    op3["local_to_10"][0] = "rerun P5 before any P6 work"
     _write(canonical_atlas, payload)
     report = _validate(canonical_atlas)
-    problems = " ".join(_check(report, "p5_admission")["problems"])
+    problems = " ".join(_check(report, "p5_terminal_evidence")["problems"])
     assert not report["all_ok"]
     assert "summary disagrees" in problems
     assert "narrative disagrees" in problems
-    assert "local path disagrees" in problems
+    assert "local path" in problems
 
 
-def test_p5_admission_parser_rebuilds_decisions_from_raw_telemetry() -> None:
-    receipt = _load(ROOT / P5_SMOKE_RECEIPT_PATH)
-    problems, summary = _parse_p5_admission_refusal(receipt, ROOT)
+def test_p5_terminal_parser_joins_every_governed_stage_and_rejects_splices() -> None:
+    documents = {path: _load(ROOT / path) for path in P5_TERMINAL_EVIDENCE_PATHS}
+    problems, summary = _parse_p5_terminal_evidence(documents, ROOT)
     assert not problems
-    assert summary["required_memory_gb"] == 10.0
+    assert summary["state"] == "governed-terminal-null"
+    assert summary["fresh_training_seeds"] == [5101, 5102, 5103]
+    assert summary["verified_pattern_count"] == 0
 
-    stale_run = json.loads(json.dumps(receipt))
-    stale_run["run_id"] = "p5smoke_20260710_leg2"
-    assert _parse_p5_admission_refusal(stale_run, ROOT)[0]
+    stale_run = json.loads(json.dumps(documents))
+    stale_run[P5_SMOKE_RECEIPT_PATH]["run_id"] = "p5smoke_20260711_leg3"
+    assert _parse_p5_terminal_evidence(stale_run, ROOT)[0]
 
-    fabricated_limit = json.loads(json.dumps(receipt))
-    for decision in fabricated_limit["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")["limit"] = (
-            11.0
-        )
-    assert _parse_p5_admission_refusal(fabricated_limit, ROOT)[0]
+    verifier_promotion = json.loads(json.dumps(documents))
+    verifier_path = "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
+    verifier_promotion[verifier_path]["classification"] = "favorable-programmatic-only"
+    assert _parse_p5_terminal_evidence(verifier_promotion, ROOT)[0]
 
-    fabricated_observation = json.loads(json.dumps(receipt))
-    for decision in fabricated_observation["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")[
-            "observed"
-        ] = 1.0
-    assert _parse_p5_admission_refusal(fabricated_observation, ROOT)[0]
-
-    fabricated_cpu_observation = json.loads(json.dumps(receipt))
-    for decision in fabricated_cpu_observation["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "cpu_load")["observed"] = 1.0
-    assert _parse_p5_admission_refusal(fabricated_cpu_observation, ROOT)[0]
+    cross_hash_splice = json.loads(json.dumps(documents))
+    fresh_path = "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json"
+    cross_hash_splice[fresh_path]["primary_receipt"]["sha256"] = "0" * 64
+    assert _parse_p5_terminal_evidence(cross_hash_splice, ROOT)[0]
 
 
 def test_p5_requirements_cannot_restore_retired_preflight(canonical_atlas: Path, tmp_path: Path) -> None:
@@ -271,9 +272,9 @@ def test_p5_requirements_cannot_restore_retired_preflight(canonical_atlas: Path,
         requirements_path=mutated_requirements,
         markdown_path=MARKDOWN,
     )
-    problems = " ".join(_check(report, "p5_admission")["problems"])
+    problems = " ".join(_check(report, "p5_terminal_evidence")["problems"])
     assert not report["all_ok"]
-    assert "bind only the current smoke receipt" in problems
+    assert "bind the exact terminal chain" in problems
 
 
 def test_category2_partition_requires_the_exact_member_set(canonical_atlas: Path) -> None:

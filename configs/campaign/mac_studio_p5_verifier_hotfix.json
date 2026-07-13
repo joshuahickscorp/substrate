@@ -1,0 +1,86 @@
+{
+  "schema": "mop-throttle-campaign-plan/v1",
+  "campaign_id": "mac-studio-p5-verifier-order-hotfix-v1",
+  "policy_path": "configs/local_execution_throttle.yaml",
+  "state_root": "runs/local_throttle",
+  "campaign_root": "runs/mac_studio_campaign",
+  "poll_seconds": 30,
+  "hourly_status_seconds": 3600,
+  "base_backoff_seconds": 60,
+  "max_backoff_seconds": 900,
+  "admission_samples": 3,
+  "admission_interval_seconds": 15,
+  "launch_grace_seconds": 120,
+  "steps": [
+    {
+      "id": "p5_fresh_challenge_existing",
+      "kind": "throttle-task",
+      "depends_on": [],
+      "task": "p5fresh_challenge_cpu",
+      "artifact": {
+        "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        "schema": "mop-p5-context-fresh-training-challenge/v1",
+        "fields": {
+          "complete": true,
+          "all_ok": true,
+          "verification_ready": true,
+          "resumable": false,
+          "problems": [],
+          "fresh_seeds_disjoint_from_primary": true,
+          "promotion.confirmatory_promotable": false,
+          "scientific_promotion": false
+        }
+      },
+      "max_failures": 1,
+      "max_no_progress_legs": 1
+    },
+    {
+      "id": "p5_verifier_order_hotfix_transition",
+      "kind": "marker",
+      "depends_on": [
+        "p5_fresh_challenge_existing"
+      ],
+      "task": null,
+      "artifact": {
+        "path": "runs/mac_studio_campaign/mac-studio-p5-verifier-order-hotfix-v1/HOTFIX_READY.json",
+        "schema": "mop-campaign-migration-ready/v1",
+        "fields": {
+          "ready": true
+        }
+      },
+      "max_failures": 1,
+      "max_no_progress_legs": 1
+    },
+    {
+      "id": "p5_independent_verification",
+      "kind": "throttle-task",
+      "depends_on": [
+        "p5_verifier_order_hotfix_transition"
+      ],
+      "task": "p5verify_cpu",
+      "artifact": {
+        "path": "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+        "schema": "mop-p5-context-independent-verifier/v1",
+        "fields": {
+          "verification_complete": true,
+          "all_ok": true,
+          "prerequisite_ready": true,
+          "problems": [],
+          "all_controls_passed": true,
+          "all_mutations_rejected": true,
+          "controls.seed_arm_checkpoint_artifacts_exactly_joined": true,
+          "controls.nonterminal_outcome_has_off_ceiling_multiunit_support": true,
+          "controls.threshold_tie_is_null": true,
+          "independence.checkpoint_files_opened_with_weights_only": true,
+          "independence.checkpoint_model_and_target_state_hashes_recomputed": true,
+          "independence.heldout_metrics_reexecuted_from_checkpoint": false,
+          "outcome_contract.tie_is_null": true,
+          "promotion.confirmatory_promotable": false,
+          "scientific_promotion": false
+        }
+      },
+      "max_failures": 3,
+      "max_no_progress_legs": 1
+    }
+  ]
+}

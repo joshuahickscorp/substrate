@@ -50,7 +50,7 @@ from torch import nn
 from ..devices import DeviceInfo
 from ..diagnostics.compute import matched_within, mlp_flops, param_count
 from ..diagnostics.linear_probe import linear_probe
-from ..seeding import seed_everything
+from ..seeding import derive_seed32, seed_everything
 from ..shell.predictor import mlp
 from .base import Experiment, _mean
 
@@ -60,6 +60,11 @@ def _stdev(v: list[float]) -> float:
         return 0.0
     m = _mean(v)
     return (sum((x - m) ** 2 for x in v) / (len(v) - 1)) ** 0.5
+
+
+def _modality_b_seed(seed: int, domain: int) -> int:
+    """Preserve the legacy stream when it fits, hash the full derived seed when it does not."""
+    return derive_seed32(seed * 1000 + domain, "ex10_cross_modal.modality_b")
 
 
 def _make_modality_b(xa: torch.Tensor, dim: int, hidden: int, seed: int) -> torch.Tensor:
@@ -176,7 +181,10 @@ class EX10(Experiment):
             )
             # modality B: a FROZEN random nonlinear re-embedding of each domain's A latents (a different
             # geometry of the same per-sample content, aligned sample-for-sample with A).
-            tasks_b = [_make_modality_b(t.x, dim, hidden, seed=s * 1000 + d) for d, t in enumerate(tasks_a)]
+            tasks_b = [
+                _make_modality_b(t.x, dim, hidden, seed=_modality_b_seed(s, d))
+                for d, t in enumerate(tasks_a)
+            ]
 
             # MANDATORY GATE: are the shared labels linearly decodable in EACH modality (else any
             # binding failure is pre-ordained by the substrate, taxonomy 3, not by the mechanism).

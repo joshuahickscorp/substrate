@@ -76,7 +76,7 @@
     },
     {
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65"
+      "sha256": "09be97f99ccfa357d2b151ab981c34649fd30b0775c54115573d625db4ef3a1e"
     },
     {
       "path": "proof/FRONTIER_LOCALIZATION.json",
@@ -136,7 +136,7 @@
     },
     {
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85"
+      "sha256": "acbacdf294ed4ce6fc39c009b19301a1d85ced8bd86af2f2a8977c00bf7b48b6"
     },
     {
       "path": "proof/P4_CAPABILITY_DENSITY_SCREEN.json",
@@ -164,11 +164,11 @@
     },
     {
       "path": "configs/local_execution_throttle.yaml",
-      "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
+      "sha256": "11a5cfe6515a77f27de00af683dd325152387c5a19bdd1c797a18e791fc01a0a"
     },
     {
       "path": "src/mop/studio/local_throttle.py",
-      "sha256": "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"
+      "sha256": "09f29e76dc6211e5a0ca918a16bda3e5f81c035853ae68f2e58e45d9ac926c91"
     },
     {
       "path": "docs/LOCAL_EXECUTION_THROTTLE.md",
@@ -204,7 +204,7 @@
     },
     {
       "path": "src/mop/studies/potential_atlas_driver.py",
-      "sha256": "3cc651e7a0fb6dda1627a88b09d0b2faccf9e5624138ab9071958ce60c139eb6"
+      "sha256": "19f65240a4afb60f58c86c05f8a51e464a0927d89cad400956154d3b5b7fa1f0"
     },
     {
       "path": "proof/SENSING_SCAFFOLD_RUN.json",
@@ -264,7 +264,7 @@
     },
     {
       "path": "scripts/p5_context_fresh_challenge.py",
-      "sha256": "e1a935ae05b897eaa9bd78561e20085d8490fcb0a42fe044315cfb47bb7765c8"
+      "sha256": "742df9c363e174dee1545a0123c492dd2e81a347b750e95daa79ffd485ce15de"
     },
     {
       "path": "scripts/p5_traingrid_memory_probe.py",
@@ -276,7 +276,7 @@
     },
     {
       "path": "scripts/verify_p5_context_capability.py",
-      "sha256": "d91d2744cb161e53a5455d57ad66c2af41eca0cce5407bdf23a34099095dc908"
+      "sha256": "240e2aab82dbf4dbb54707ce63a0a5dbc317025cc1d710f2bc1e5c2f507697fa"
     },
     {
       "path": "src/mop/studies/continual_million_event_verify.py",
@@ -296,7 +296,43 @@
     },
     {
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
-      "sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd"
+      "sha256": "717a7b0be5b394f17fa689ae2cb8d9d8756616ee2da6b3e0215c0a2667406fb0"
+    },
+    {
+      "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+      "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+    },
+    {
+      "path": "proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+      "sha256": "cdfa7345ece609fc2aa273166630c264bd251e421647a6c6fbb08b7847f447b5"
+    },
+    {
+      "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+      "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+    },
+    {
+      "path": "proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+      "sha256": "762d31163e22a6637da4f78d741d2dd6a104da4eeb33ba41f7d6a0d5cd062a86"
+    },
+    {
+      "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+      "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+    },
+    {
+      "path": "runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+      "sha256": "4abb704f4c0ae12033b7c60184ea7878713844e976432194f0171120ba69ae7d"
+    },
+    {
+      "path": "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+      "sha256": "743ce07180f0728f3074b2ac9c78a9aa12ff23f33aeebeffd45bebecacb5f077"
+    },
+    {
+      "path": "src/mop/studies/p5_terminal_evidence.py",
+      "sha256": "986216dc18158ff7253b5325a1c9f383255afc9db1a5460a968409f621e3d2ff"
+    },
+    {
+      "path": "src/mop/studies/potential_atlas_validation.py",
+      "sha256": "38cc47f61c91be862690f11d02b4bbcd17f384ecba6d272b8d941af2a2fae1d9"
     }
   ],
   "portfolio": {
@@ -315,12 +351,12 @@
     },
     "current_registry_summary": {
       "non_f_rows": 177,
-      "freshly_executed_verified": 117,
+      "freshly_executed_verified": 120,
       "already_durable_hash_verifiable": 37,
       "implementation_blocked": 1,
       "rights_data_blocked": 11,
       "upstream_model_blocked": 8,
-      "runnable_not_yet_run": 3,
+      "runnable_not_yet_run": 0,
       "measured_hardware_blocked": 0,
       "scientific_claim_ready": 0
     },
@@ -360,7 +396,7 @@
       "CM7": "bound null",
       "P3": "historical pilot retired as a current dependency; active same-input controls must be rebuilt",
       "P4": "completed 12-cell five-seed programmatic pilot; 48 response-surface observations; confirmatory promotion refused by construction",
-      "P5": "scaffold plus mechanics-only memory trace",
+      "P5": "governed smoke and five-seed pilot completed; three disjoint fresh-training seeds did not verify any pilot pattern; independent verifier classification null; scientific promotion refused",
       "P6": "384-event mechanics-pass plus a hardened conditional ladder; no progressive rung has run",
       "P7": "three-unit rendered action/world-model mechanics-pass; programmatic fixture null; external-validity campaign not run",
       "P9": "five-unit causal monitoring and accounting mechanics-pass; deterministic fixture only; natural-workload campaign and metered energy boundary absent",
@@ -1956,13 +1992,13 @@
         "CPU/memory/swap/thermal/power/disk/MPS telemetry",
         "hysteretic admission and scheduler-owned process-group control",
         "governor-owned P4 closure with an empty final active-lane set",
-        "P6 source, checkpoint, verifier, and strict non-tie joins enforced before scaling"
+        "P6 source, checkpoint, verifier, and strict non-tie joins enforced before scaling",
+        "governed P5 smoke, five-seed pilot, three-seed fresh challenge, and independent verifier closed with a null"
       ],
       "readiness_not_capability": [
         "the P6 10k resource probe and replication remain unexecuted",
         "mixed-lane confirmation remains open",
-        "the P6 10k resource probe is fail-closed until the final P5 verifier binds a scientific null or a fresh-seed verified programmatic pattern",
-        "P5 smoke is fail-closed on current local admission: three samples had normalized one-minute load 3.862 to 3.987 against 0.85, and 6.830 to 8.909 GB available against a 10.0 GB requirement; AC power passed"
+        "P5 final verifier returned null after three disjoint fresh-training seeds verified 0 of 4 pilot patterns; the result is programmatic-only and grants no scientific or confirmatory promotion"
       ],
       "evidence": [
         "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json",
@@ -1972,11 +2008,17 @@
         "src/mop/studio/local_throttle.py",
         "docs/LOCAL_EXECUTION_THROTTLE.md",
         "proof/LOCAL_THROTTLE_P4_RUN.json",
-        "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
+        "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+        "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+        "proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+        "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+        "proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+        "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        "runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+        "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
       ],
       "local_to_10": [
-        "admit and complete P5 only after three consecutive samples satisfy the unchanged CPU-load and memory-headroom gates",
-        "run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after P5",
+        "run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after the terminal P5 null",
         "exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process pressure without signaling user processes",
         "prove data-order and numerical equivalence across repeated inner resumable segments",
         "confirm heavy-plus-light or network concurrency, second-MPS denial, cooldown, starvation, and queue integration"
@@ -2931,13 +2973,13 @@
       "requires_empty_lanes": true,
       "admission_allowed": false,
       "command_executed": false,
-      "interpretation": "the post-P4 dry decision launches nothing and fails closed until P5 has a current independent null or favorable verification"
+      "interpretation": "the historical dry decision launched nothing; P5 now supplies the required independent null, while any P6 launch remains fail-closed on current live resource gates"
     },
     "remaining": [
       "execute and verify the 10k, 100k, and 1m event rungs",
       "independently replay full-rung metrics from immutable checkpoints",
       "separate useful retention from replay volume and extra compute",
-      "complete and independently verify the P5 sequence before P6 admission"
+      "admit the P6 10k resource probe only when its current live resource gates pass"
     ]
   },
   "action_world_model_preflight": {
@@ -3243,29 +3285,64 @@
       "rights/data/environment/specimen absence"
     ]
   },
-  "p5_local_admission": {
-    "state": "cpu-load-and-memory-admission-refusal",
-    "run_id": "p5smoke_20260711_leg3",
-    "command_executed": false,
-    "decision_count": 3,
-    "failed_gates": [
-      "cpu_load",
-      "candidate_memory_headroom"
+  "p5_terminal_evidence": {
+    "state": "governed-terminal-null",
+    "outcome": "null",
+    "classification": "null",
+    "primary_outcome": "favorable-programmatic-only",
+    "primary_seed_count": 5,
+    "fresh_training_seeds": [
+      5101,
+      5102,
+      5103
     ],
-    "cpu_load_per_logical_cpu": [
-      3.8621012369791665,
-      3.8621012369791665,
-      3.986572265625
-    ],
-    "maximum_cpu_load_per_logical_cpu": 0.85,
-    "available_memory_gb": [
-      6.830424064,
-      8.909111296,
-      8.705048576
-    ],
-    "required_memory_gb": 10.0,
-    "power_source": "AC Power",
-    "minimum_projected_disk_gb": 112.378413568,
-    "receipt_sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd"
+    "fresh_pattern_count": 4,
+    "verified_pattern_count": 0,
+    "mutation_count": 23,
+    "prerequisite_ready": true,
+    "programmatic_only": true,
+    "scientific_promotion": false,
+    "confirmatory_promotable": false,
+    "claim_scope": "exact-versus-factorized context pilot on deterministic programmatic video; not natural-video, memory-rung, or general-capability evidence",
+    "governor_receipts": {
+      "smoke": {
+        "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+        "run_id": "p5smoke_20260711_leg4",
+        "sha256": "717a7b0be5b394f17fa689ae2cb8d9d8756616ee2da6b3e0215c0a2667406fb0"
+      },
+      "pilot": {
+        "path": "proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+        "run_id": "p5pilot_20260712_leg6",
+        "sha256": "cdfa7345ece609fc2aa273166630c264bd251e421647a6c6fbb08b7847f447b5"
+      },
+      "fresh_challenge": {
+        "path": "proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+        "run_id": "p5fresh_challenge_20260712_leg2",
+        "sha256": "762d31163e22a6637da4f78d741d2dd6a104da4eeb33ba41f7d6a0d5cd062a86"
+      },
+      "verifier": {
+        "path": "runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+        "run_id": "mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01",
+        "sha256": "4abb704f4c0ae12033b7c60184ea7878713844e976432194f0171120ba69ae7d"
+      }
+    },
+    "artifacts": {
+      "smoke": {
+        "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+        "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+      },
+      "pilot": {
+        "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+        "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+      },
+      "fresh_challenge": {
+        "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+      },
+      "verifier": {
+        "path": "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+        "sha256": "743ce07180f0728f3074b2ac9c78a9aa12ff23f33aeebeffd45bebecacb5f077"
+      }
+    }
   }
 }

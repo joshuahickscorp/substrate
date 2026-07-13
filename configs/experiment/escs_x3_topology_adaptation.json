@@ -1,0 +1,198 @@
+{
+  "schema": "mop-escs-x3-envelope/v1",
+  "authority": {
+    "schema": "mop-escs-x3-config-authority/v1",
+    "contract_id": "escs-x3-v1-2026-07-12",
+    "mode": "official",
+    "payload_sha256": "c12ea3ab8389bba62d5aa1812c652587cfcea11bbb2caac4e38ca73d90a5984b"
+  },
+  "payload": {
+    "schema": "mop-escs-x3-config/v1",
+    "claim_scope": "generated-counterfactual-topology-transaction-mechanics-only",
+    "activation": {
+      "enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    "arms": [
+      "escs_g0_transactional",
+      "fixed_final_capacity_from_start",
+      "same_final_genotype_from_start",
+      "same_grammar_random_search",
+      "mutation_disabled",
+      "fixed_spare_capacity",
+      "restart_current_stream_position",
+      "full_retraining_non_efficiency_upper_bound",
+      "oracle_topology_nonpromotable"
+    ],
+    "permutations": [
+      "canonical",
+      "actor_id_permuted",
+      "scope_label_permuted",
+      "topology_permuted"
+    ],
+    "seeds": [830260713, 830260729, 830260747, 830260761, 830260779],
+    "fresh_verifier_seeds": [930260713, 930260729, 930260747, 930260761, 930260779],
+    "stream": {
+      "events_per_seed": 384,
+      "abrupt_drift_fraction": 0.18,
+      "gradual_drift_fraction": 0.32,
+      "lesion_fraction": 0.48,
+      "recovery_fraction": 0.60,
+      "old_regime_return_fraction": 0.76,
+      "future_learning_fraction": 0.88,
+      "schedules": ["abrupt", "gradual"],
+      "contains_recurring_niches": true,
+      "contains_new_regimes": true,
+      "contains_selective_actor_lesions": true,
+      "contains_sensor_failures": true,
+      "contains_old_regime_return": true,
+      "contains_untouched_future_learning": true
+    },
+    "topology": {
+      "matched_final_capacity": 6,
+      "bytes_per_actor": 4096,
+      "neutral_initialization_required": true,
+      "shadow_events_per_candidate": 6,
+      "canary_events_per_candidate": 3,
+      "max_candidates_per_regime": 8,
+      "max_topology_churn": 12,
+      "commitment_before_effect_required": true,
+      "consequence_before_retention_required": true,
+      "rollback_snapshot_required": true,
+      "original_stream_retraining_for_repair_forbidden": true
+    },
+    "structural_accounting": {
+      "components": [
+        "candidate_generation_trials",
+        "mutation_search_work",
+        "proposed_mutations",
+        "shadow_events",
+        "shadow_work",
+        "canary_events",
+        "canary_work",
+        "failed_candidates",
+        "failed_candidate_work",
+        "counterfactual_commit_candidates",
+        "factual_mutations_committed",
+        "consequence_evaluations",
+        "rollbacks",
+        "rollback_work",
+        "genotype_receipt_bytes",
+        "retained_genotype_bytes",
+        "retained_genotype_byte_time",
+        "replay_bytes",
+        "topology_churn"
+      ],
+      "retained_byte_time_is_separate_from_operation_work": true,
+      "failed_candidates_are_never_free": true,
+      "shadow_and_canary_are_never_free": true
+    },
+    "difficulty_gate": {
+      "min_selective_lesion_loss": 0.12,
+      "min_oracle_utility": 0.97,
+      "max_mutation_disabled_utility": 0.78,
+      "require_all_stream_phases": true,
+      "require_heldout_future_learning": true
+    },
+    "criteria": {
+      "min_paired_seeds": 5,
+      "min_utility_margin": 0.0,
+      "min_recovery_margin": 0.0,
+      "max_old_regime_regression": 0.05,
+      "min_future_learnability": 0.80,
+      "max_topology_churn": 12,
+      "max_permutation_utility_range": 0.02,
+      "positive_confidence_bound_required": true,
+      "no_extra_work_required": true,
+      "no_extra_peak_state_required": true,
+      "same_final_genotype_must_not_match_frontier": true,
+      "same_grammar_random_must_not_match_frontier": true,
+      "full_retraining_must_not_match_pareto_frontier": true
+    },
+    "prerequisites": {
+      "escs_mechanics": {
+        "path": "proof/ESCS_MECHANICS_CHASSIS.json",
+        "required": true,
+        "evidence_ceiling": "scripted-mechanics-only"
+      },
+      "g0": {
+        "path": "configs/experiment/escs_g0_topology_grammar.json",
+        "required": true,
+        "required_status": "frozen",
+        "implementation_complete_required": true,
+        "freeze_authority_required": true
+      },
+      "p6_1m": {
+        "path": "proof/P6_CONTINUAL_1M_INDEPENDENT_VERIFICATION.json",
+        "required": true,
+        "rung": 1000000,
+        "schemas": ["mop-continual-progressive-rung-independent-verifier/v1"]
+      },
+      "x1_or_x2": {
+        "required": "at-least-one-positive-fresh-verification",
+        "artifacts": [
+          {
+            "stage": "X1",
+            "path": "proof/ESCS_X1_DISPATCH.verification.json",
+            "schemas": [
+              "mop-escs-x1-verification/v1",
+              "mop-escs-x1-verification-artifact/v1"
+            ]
+          },
+          {
+            "stage": "X2",
+            "path": "proof/ESCS_X2_EVENT_GRAPH.verification.json",
+            "schemas": ["mop-escs-x2-verification/v1"]
+          }
+        ]
+      },
+      "f63_f64": {
+        "run_path": "proof/F61_F64_MATERIAL_TWIN_RUN.json",
+        "verification_path": "proof/F61_F64_MATERIAL_TWIN_VERIFICATION.json",
+        "f63_binding": "favorable-programmatic-pilot-only",
+        "f64_binding": "spare-ties-restart-null-control",
+        "scientific_promotion_from_prior": false
+      }
+    },
+    "routing": {
+      "positive": "feature_flagged_x3_candidate_only_pending_external_replication",
+      "null": "retain_fixed_or_scope_adaptive_topology_and_retire_morphogenic_promotion",
+      "invalid_bed": "repair_and_reseal_drift_lesion_bed_without_mechanism_inference",
+      "failed": "repair_and_reseal_x3_mechanics_or_authority"
+    },
+    "verdict": {
+      "terminal_routes": ["positive", "null", "invalid_bed", "failed"],
+      "scientific_promotion": "blocked",
+      "interpretation_limit": "Counterfactual generated mechanics only. No factual topology mutation, morphogenesis, new-perspective, capability, efficiency, biological, developmental, or natural-world claim."
+    },
+    "measurement": {
+      "primary_endpoints": [
+        "online_utility_area",
+        "post_lesion_recovery",
+        "retention",
+        "future_learnability",
+        "old_regime_regression",
+        "adaptation_speed",
+        "lifecycle_work",
+        "peak_state_bytes",
+        "retained_byte_time",
+        "replay_bytes",
+        "topology_churn",
+        "failed_candidate_work",
+        "functional_role_permutation_stability"
+      ],
+      "evaluation_axes": [
+        "biological_plausibility",
+        "computational_plausibility",
+        "engineering_feasibility",
+        "scaling_behavior",
+        "sample_efficiency",
+        "reasoning_quality",
+        "robustness",
+        "interpretability",
+        "emergent_behavior",
+        "computational_efficiency"
+      ]
+    }
+  }
+}

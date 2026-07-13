@@ -1,8 +1,9 @@
 # EDCM-1 v3 preregistration audit
 
 Status: implemented and intentionally unexecuted while the P5 heavy lane owns
-local compute. The config authority is frozen; the external implementation
-authority must be finalized after the last scoped code/test/document edit.
+local compute. The config authority is frozen. The external implementation
+authority is regenerated only after the last scoped code/test/document edit
+and must match every scoped file before execution.
 
 ## Scope and claim boundary
 
@@ -168,11 +169,14 @@ Execution states are explicit:
 - `terminal_scientific_stop`: completed gate failure, not resumable, exit 0;
 - `complete`: completed held-out study, exit 0.
 
-Verification exits 0 only after a valid receipt completes its configured
-verification mode. Any cap, canonical encoding, schema, authority, checkpoint
-join, or regeneration mismatch fails closed and exits nonzero. The lighter
-structural-diagnostics-only verifier mode is permitted only by an exploratory
-receipt with an explicit nonofficial implementation authority.
+Verification refuses resumable partial receipts. It exits 0 only after a valid
+`complete` or `terminal_scientific_stop` receipt completes its configured
+verification mode and an atomic, self-hashed verification artifact is written.
+Any cap, canonical encoding, schema, authority, checkpoint join, regeneration,
+terminal-state, or verification-publication mismatch fails closed and exits
+nonzero. The lighter structural-diagnostics-only verifier mode is permitted
+only by an exploratory receipt with an explicit nonofficial implementation
+authority.
 
 ### Finalize the implementation authority
 
@@ -180,7 +184,7 @@ After final review, and only after no further edits will be made to the five
 scoped EDCM files, generate the external manifest:
 
 ~~~bash
-PYTHONPATH=src python -c 'from mop.studies.edcm1_event_triggered_coalition import write_implementation_authority; d = write_implementation_authority(); print(d["manifest_sha256"])'
+PYTHONPATH=src .venv/bin/python -c 'from mop.studies.edcm1_event_triggered_coalition import write_implementation_authority; d = write_implementation_authority(); print(d["manifest_sha256"])'
 ~~~
 
 Any later scoped edit invalidates the manifest. Repeat review and regenerate it
@@ -195,11 +199,12 @@ export EDCM1_IMPL_SHA256=<reviewed manifest_sha256>
 After the heavy lane clears, intended commands are:
 
 ```bash
-python scripts/run_edcm1_event_triggered_coalition.py \
+.venv/bin/python scripts/run_edcm1_event_triggered_coalition.py \
   --implementation-authority-sha256 "$EDCM1_IMPL_SHA256"
-python scripts/run_edcm1_event_triggered_coalition.py \
+.venv/bin/python scripts/run_edcm1_event_triggered_coalition.py \
   --verify proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.json \
   --checkpoint proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.checkpoint.json \
+  --verification-out proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.verification.json \
   --implementation-authority-sha256 "$EDCM1_IMPL_SHA256"
 ```
 

@@ -22,7 +22,7 @@ import statistics
 import tempfile
 import unicodedata
 from collections import Counter, defaultdict, deque
-from collections.abc import Mapping, MutableMapping, Sequence
+from collections.abc import Collection, Mapping, MutableMapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -34,6 +34,7 @@ CHECKPOINT_SCHEMA = "mop-edcm1-checkpoint/v3"
 RECEIPT_SCHEMA = "mop-edcm1-receipt/v3"
 PROPOSAL_SCHEMA = "mop-edcm1-proposal/v3"
 VERIFICATION_SCHEMA = "mop-edcm1-verification/v3"
+VERIFICATION_ARTIFACT_SCHEMA = "mop-edcm1-verification-artifact/v1"
 IMPLEMENTATION_AUTHORITY_SCHEMA = "mop-edcm1-implementation-authority/v1"
 CLAIM_SCOPE = "event-triggered-coalition-mechanics-only"
 OFFICIAL_CONTRACT_ID = "edcm1-v3-2026-07-11"
@@ -208,10 +209,12 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG_PATH = REPO_ROOT / "configs/experiment/edcm1_event_triggered_coalition.yaml"
 DEFAULT_OUTPUT_PATH = REPO_ROOT / "proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.json"
 DEFAULT_CHECKPOINT_PATH = REPO_ROOT / "proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.checkpoint.json"
+DEFAULT_VERIFICATION_OUTPUT_PATH = REPO_ROOT / "proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.verification.json"
 DEFAULT_IMPLEMENTATION_AUTHORITY_PATH = (
     REPO_ROOT / "proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.implementation-authority.json"
 )
 MAX_IMPLEMENTATION_AUTHORITY_BYTES = 1_048_576
+MAX_VERIFICATION_ARTIFACT_BYTES = 1_048_576
 MAX_CONFIG_BYTES = 1_048_576
 MAX_SCOPED_FILE_RECEIPT_BYTES = 67_108_864
 
@@ -240,7 +243,7 @@ def _require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
-def _require_exact_keys(value: Any, allowed: Sequence[str], label: str) -> None:
+def _require_exact_keys(value: Any, allowed: Collection[str], label: str) -> None:
     _require(isinstance(value, Mapping), f"{label} must be a mapping")
     actual = set(value)
     expected = set(allowed)
@@ -451,7 +454,8 @@ def _validate_config(config: Mapping[str, Any]) -> None:
     _require(config.get("schema") == CONFIG_SCHEMA, "unexpected config schema")
     _require(config.get("claim_scope") == CLAIM_SCOPE, "claim scope drift")
     seeds = config.get("seeds")
-    _require(isinstance(seeds, list) and len(seeds) == 5, "exactly five seeds required")
+    if not isinstance(seeds, list) or len(seeds) != 5:
+        raise ValueError("exactly five seeds required")
     _require(len(set(seeds)) == 5 and all(isinstance(seed, int) for seed in seeds), "invalid seeds")
     _require(
         0 < int(config["splits"]["intervention_episodes"]) <= int(config["splits"]["heldout_episodes"]),
@@ -1095,6 +1099,7 @@ class EpisodicRetrievalProposer(Proposer):
             work.scalar_ops += len(query) + 6
             if score > best_score:
                 best, best_score = record, score
+        evidence: tuple[str, ...]
         if best is None:
             action = _goal_action(observation)
             confidence = 0.16
@@ -1842,28 +1847,26 @@ class CoalitionController:
         return resolution
 
     def update(self, transition: VisibleTransition) -> AbstractWork:
-        _require(
-            self.last_prepared is not None and self.last_resolution is not None,
-            "prepare/resolve must precede update",
-        )
+        prepared = self.last_prepared
+        resolution = self.last_resolution
+        if prepared is None or resolution is None:
+            raise ValueError("prepare/resolve must precede update")
         before = {kind: proposer.telemetry.update_calls for kind, proposer in self.proposers.items()}
         work = AbstractWork()
-        for kind in self.last_prepared.active_ids:
+        for kind in prepared.active_ids:
             work.add(self.proposers[kind].update(transition))
         for kind, proposer in self.proposers.items():
-            expected = int(kind in self.last_prepared.active_ids)
+            expected = int(kind in prepared.active_ids)
             if proposer.telemetry.update_calls - before[kind] != expected:
                 self.hard_dispatch_violations += 1
         before_verifier_update = self.verifier.update_calls
-        if self.last_resolution.verifier_executed:
-            work.add(self.verifier.update(transition, self.last_resolution.delivered))
-        if self.verifier.update_calls - before_verifier_update != int(self.last_resolution.verifier_executed):
+        if resolution.verifier_executed:
+            work.add(self.verifier.update(transition, resolution.delivered))
+        if self.verifier.update_calls - before_verifier_update != int(resolution.verifier_executed):
             self.hard_dispatch_violations += 1
         self.previous_feedback = transition.feedback
         self.published_memory_age += 1
-        if any(
-            proposal.specialist_kind == "episodic_retrieval" for proposal in self.last_resolution.delivered
-        ):
+        if any(proposal.specialist_kind == "episodic_retrieval" for proposal in resolution.delivered):
             self.published_memory_age = 0
         return work
 
@@ -1958,11 +1961,13 @@ class HomogeneousController:
                 identifier in self.last_active_ids
             ):
                 self.hard_dispatch_violations += 1
-        _require(self.last_resolution is not None, "resolve must precede update")
+        resolution = self.last_resolution
+        if resolution is None:
+            raise ValueError("resolve must precede update")
         before_verifier_update = self.verifier.update_calls
-        if self.last_resolution.verifier_executed:
-            work.add(self.verifier.update(transition, self.last_resolution.delivered))
-        if self.verifier.update_calls - before_verifier_update != int(self.last_resolution.verifier_executed):
+        if resolution.verifier_executed:
+            work.add(self.verifier.update(transition, resolution.delivered))
+        if self.verifier.update_calls - before_verifier_update != int(resolution.verifier_executed):
             self.hard_dispatch_violations += 1
         return work
 
@@ -2143,10 +2148,10 @@ class EqualBudgetRecurrentController:
         if transition.terminal:
             bootstrap = 0.0
         else:
-            _require(
-                transition.after is not None, "nonterminal recurrent update requires successor observation"
-            )
-            successor_work = self._sweep(transition.after.full_vector())
+            successor = transition.after
+            if successor is None:
+                raise ValueError("nonterminal recurrent update requires successor observation")
+            successor_work = self._sweep(successor.full_vector())
             self.ledger.spend(successor_work.total(self.weights))
             work.add(successor_work)
             next_values = [
@@ -2839,6 +2844,12 @@ def _niche_values(summary: Mapping[str, Any], niche: str) -> list[float | None]:
     ]
 
 
+def _required_niche_value(value: float | None) -> float:
+    if value is None:
+        raise ValueError("required niche value is missing")
+    return value
+
+
 def _candidate_key(hidden_size: int, learning_rate: float, reservoir_scale: float) -> str:
     return f"h{hidden_size}:lr{learning_rate:.6f}:rs{reservoir_scale:.6f}"
 
@@ -2965,7 +2976,8 @@ def validate_arm_summary(
         for series in list(direct["metrics"].values()) + [direct["restoration"]]:
             validate_compact_evidence(series)
     if config is not None:
-        _require(seed is not None and split is not None, "semantic replay context incomplete")
+        if seed is None or split is None:
+            raise ValueError("semantic replay context incomplete")
         for episode in episodes:
             _require(
                 int(episode["work_units"])
@@ -2985,7 +2997,7 @@ def validate_arm_summary(
             "arm accounting-sensitivity mismatch",
         )
         for episode_index, episode in enumerate(episodes):
-            replayed = replay_episode_actions(config, int(seed), split, episode_index, episode["actions"])
+            replayed = replay_episode_actions(config, seed, split, episode_index, episode["actions"])
             for key in ("total_return", "success", "utility", "niche_values"):
                 _require(episode[key] == replayed[key], f"semantic replay {key} mismatch")
 
@@ -3046,7 +3058,8 @@ def validate_gate_row(row: Mapping[str, Any], config: Mapping[str, Any]) -> None
         own = _niche_values(row["gate"][kind], kind)
         others = {other: _niche_values(row["gate"][other], kind) for other in PROPOSER_ORDER if other != kind}
         expected_niches[kind] = [
-            float(own[index]) - max(float(others[other][index]) for other in others)
+            _required_niche_value(own[index])
+            - max(_required_niche_value(others[other][index]) for other in others)
             for index in range(gate_episodes)
             if own[index] is not None and all(others[other][index] is not None for other in others)
         ]
@@ -3189,7 +3202,8 @@ def run_gate_seed(config: Mapping[str, Any], seed: int) -> dict[str, Any]:
         own = _niche_values(gate[kind], kind)
         others = {other: _niche_values(gate[other], kind) for other in PROPOSER_ORDER if other != kind}
         niche_advantages[kind] = [
-            float(own[index]) - max(float(others[other][index]) for other in others)
+            _required_niche_value(own[index])
+            - max(_required_niche_value(others[other][index]) for other in others)
             for index in range(gate_episodes)
             if own[index] is not None and all(others[other][index] is not None for other in others)
         ]
@@ -4200,7 +4214,8 @@ def _validate_checkpoint_document(
     _require(payload.get("runtime_identity") == _runtime_identity(), "checkpoint runtime mismatch")
     gate_rows = payload.get("gate_rows")
     heldout_rows = payload.get("heldout_rows")
-    _require(isinstance(gate_rows, list) and isinstance(heldout_rows, list), "checkpoint rows missing")
+    if not isinstance(gate_rows, list) or not isinstance(heldout_rows, list):
+        raise ValueError("checkpoint rows missing")
     for row in gate_rows:
         _require_exact_keys(row, GATE_ROW_KEYS, "checkpoint gate row")
     for row in heldout_rows:
@@ -4400,6 +4415,10 @@ def run_from_config(
     verifier_mode: str | None = None,
     exploratory: bool = False,
 ) -> dict[str, Any]:
+    _require(
+        max_new_seeds is None or max_new_seeds >= 0,
+        "max_new_seeds must be nonnegative",
+    )
     source = Path(config_path).resolve()
     output = Path(output_path).resolve()
     checkpoint = Path(checkpoint_path).resolve()
@@ -4611,7 +4630,7 @@ def verify_receipt(
         config_source,
         exploratory=exploratory,
     )
-    receipt = _read_json_artifact(
+    receipt, receipt_source_receipt = _read_json_artifact_snapshot(
         receipt_path,
         int(config["resources"]["max_receipt_bytes"]),
         "receipt",
@@ -4744,6 +4763,10 @@ def verify_receipt(
     for row in heldout_rows:
         validate_heldout_row(row, config)
     _validate_selected_controls(heldout_rows, gate_result)
+    expected_execution = _execution_manifest(config, gate_result, gate_rows, heldout_rows)
+    for key, expected in expected_execution.items():
+        _require(receipt.get(key) == expected, f"receipt execution field mismatch: {key}")
+    _require_terminal_execution(expected_execution)
     if selected_verifier_mode == OFFICIAL_VERIFIER_MODE:
         regeneration = validate_full_regeneration(
             config,
@@ -4757,9 +4780,6 @@ def verify_receipt(
             "regenerated_gate_seeds": [],
             "regenerated_heldout_seeds": [],
         }
-    expected_execution = _execution_manifest(config, gate_result, gate_rows, heldout_rows)
-    for key, expected in expected_execution.items():
-        _require(receipt.get(key) == expected, f"receipt execution field mismatch: {key}")
     binding = receipt["checkpoint_binding"]
     bound_checkpoint = Path(
         checkpoint_path if checkpoint_path is not None else receipt["resume"]["checkpoint_path"]
@@ -4810,8 +4830,79 @@ def verify_receipt(
         "execution_status": receipt["execution_status"],
         "verifier_mode": selected_verifier_mode,
         "regeneration": regeneration,
+        "authority_sha256": receipt["authority_sha256"],
+        "implementation_authority_sha256": implementation_authority_hash,
+        "verified_sources": {
+            "receipt": receipt_source_receipt,
+            "receipt_path": str(receipt_path),
+            "checkpoint": dict(binding["file"]),
+            "checkpoint_path": str(bound_checkpoint),
+            "config": config_source_receipt,
+            "implementation_authority": implementation_authority_source_receipt,
+        },
         "scientific_promotion": False,
     }
+
+
+def _require_terminal_execution(execution: Mapping[str, Any]) -> None:
+    _require(
+        execution.get("execution_status") in {"complete", "terminal_scientific_stop"}
+        and execution.get("all_ok") is True
+        and execution.get("problems") == []
+        and execution.get("resumable") is False,
+        "verification refuses a nonterminal partial receipt",
+    )
+
+
+def _require_terminal_verification_result(result: Mapping[str, Any]) -> None:
+    _require(
+        result.get("valid") is True
+        and result.get("execution_status") in {"complete", "terminal_scientific_stop"}
+        and result.get("scientific_promotion") is False,
+        "verification artifact requires a valid terminal result",
+    )
+
+
+def build_verification_artifact(result: Mapping[str, Any]) -> dict[str, Any]:
+    """Seal one successful terminal verification result for durable publication."""
+
+    _require_terminal_verification_result(result)
+    core = {
+        "schema": VERIFICATION_ARTIFACT_SCHEMA,
+        "study_id": "edcm1-event-triggered-heterogeneous-coalition-crossover-v3",
+        "claim_scope": CLAIM_SCOPE,
+        "verification": dict(result),
+        "scientific_promotion": False,
+    }
+    artifact = dict(core)
+    artifact["verification_artifact_sha256"] = canonical_sha256(core)
+    return artifact
+
+
+def write_verification_artifact(
+    path: Path | str,
+    result: Mapping[str, Any],
+    *,
+    protected_paths: Mapping[str, Path | str] | None = None,
+) -> dict[str, Any]:
+    target = Path(path).resolve()
+    identities: dict[str, Path] = {"verification_output": target}
+    if protected_paths is not None:
+        identities.update({label: Path(value).resolve() for label, value in protected_paths.items()})
+    _require_distinct_paths(identities)
+    artifact = build_verification_artifact(result)
+    _require(
+        len(canonical_bytes(artifact)) + 1 <= MAX_VERIFICATION_ARTIFACT_BYTES,
+        "verification artifact byte envelope exceeded",
+    )
+    _atomic_json(target, artifact)
+    written, _ = _read_json_artifact_snapshot(
+        target,
+        MAX_VERIFICATION_ARTIFACT_BYTES,
+        "verification artifact",
+    )
+    _require(written == artifact, "written verification artifact snapshot mismatch")
+    return written
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -4831,6 +4922,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--max-new-seeds", type=int)
     parser.add_argument("--verify", type=Path)
+    parser.add_argument(
+        "--verification-out",
+        type=Path,
+        default=DEFAULT_VERIFICATION_OUTPUT_PATH,
+    )
     parser.add_argument("--exploratory", action="store_true")
     return parser
 
@@ -4838,6 +4934,20 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Sequence[str] | None = None) -> int:
     arguments = build_parser().parse_args(argv)
     if arguments.verify is not None:
+        verification_paths: dict[str, Path] = {
+            "config": arguments.config,
+            "receipt": arguments.verify,
+            "implementation_authority": arguments.implementation_authority,
+            "verification_output": arguments.verification_out,
+        }
+        if arguments.checkpoint is not None:
+            verification_paths["checkpoint"] = arguments.checkpoint
+        _require_distinct_paths(verification_paths)
+        if arguments.exploratory:
+            _require(
+                arguments.verification_out.resolve() != DEFAULT_VERIFICATION_OUTPUT_PATH.resolve(),
+                "exploratory verification may not use the official verification artifact path",
+            )
         result = verify_receipt(
             arguments.verify,
             arguments.config,
@@ -4846,6 +4956,24 @@ def main(argv: Sequence[str] | None = None) -> int:
             implementation_authority_sha256=arguments.implementation_authority_sha256,
             verifier_mode=arguments.verifier_mode,
             exploratory=arguments.exploratory,
+        )
+        _require_terminal_verification_result(result)
+        protected_paths: dict[str, Path | str] = {
+            "config": arguments.config,
+            "receipt": arguments.verify,
+            "implementation_authority": arguments.implementation_authority,
+        }
+        verified_sources = result.get("verified_sources")
+        if isinstance(verified_sources, Mapping):
+            checkpoint_source = verified_sources.get("checkpoint_path")
+            if isinstance(checkpoint_source, str):
+                protected_paths["checkpoint"] = checkpoint_source
+        if "checkpoint" not in protected_paths and arguments.checkpoint is not None:
+            protected_paths["checkpoint"] = arguments.checkpoint
+        write_verification_artifact(
+            arguments.verification_out,
+            result,
+            protected_paths=protected_paths,
         )
     else:
         result = run_from_config(
@@ -4889,6 +5017,7 @@ __all__ = [
     "aggregate_heldout",
     "accounting_sensitivity",
     "build_parser",
+    "build_verification_artifact",
     "build_implementation_authority",
     "canonical_bytes",
     "canonical_sha256",
@@ -4907,5 +5036,6 @@ __all__ = [
     "validate_full_regeneration",
     "validate_heldout_row",
     "verify_receipt",
+    "write_verification_artifact",
     "write_implementation_authority",
 ]

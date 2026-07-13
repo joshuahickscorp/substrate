@@ -1,0 +1,37 @@
+{
+  "candidate_activation_enabled": false,
+  "config_authority_sha256": "c35967980e8b3c878e72a0e134862dd1227c4e88ded8db4b29880b60da8f405a",
+  "files": [
+    {
+      "bytes": 9456,
+      "path": "configs/experiment/escs_x1_dispatch.json",
+      "sha256": "6b89d415c7261b42a746389e6aad45cc2b0a2b1bcfed258d145b708c39b54a00"
+    },
+    {
+      "bytes": 126662,
+      "path": "src/mop/studies/escs_x1_dispatch.py",
+      "sha256": "f7ee3eeee8fa882c2c69a4f61e00c2830e99e4dad05dfdffcb7f82d0ebf9f166"
+    },
+    {
+      "bytes": 376,
+      "path": "scripts/run_escs_x1_dispatch.py",
+      "sha256": "c2f84b6c68dfffdccc1c27edeb2f9a4e58e8f3394ea00a596641896507c193da"
+    },
+    {
+      "bytes": 15419,
+      "path": "tests/test_escs_x1_dispatch.py",
+      "sha256": "2557fcb6b02c2dc296481a64bcc5065dd2717dfce08079d92b9bf9c1b7eeca5a"
+    },
+    {
+      "bytes": 12486,
+      "path": "docs/audits/escs_x1_dispatch.md",
+      "sha256": "1204e0358c7886b4151cc7ab913a70dd99e30437da5343758c49ad278605bfa9"
+    }
+  ],
+  "manifest_sha256": "a56460ec34e96f8ba8bc5849779ab7bf75efeda66d7de10cb5dff87944df0145",
+  "mode": "official",
+  "review_status": "preregistered-scaffold-unexecuted",
+  "schema": "mop-escs-x1-implementation-authority/v1",
+  "scientific_promotion": false,
+  "study_id": "escs-x1-counterfactual-voc-dispatch-v1"
+}

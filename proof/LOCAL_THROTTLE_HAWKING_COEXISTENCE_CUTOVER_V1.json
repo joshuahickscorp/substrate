@@ -1,0 +1,171 @@
+{
+  "created_at": "2026-07-12T18:48:42.488145+00:00",
+  "cutover_precondition": {
+    "active_governor_lanes": [],
+    "external_process_ownership": "observation-only; Hawking is never signaled",
+    "no_owned_lane_overlap": true
+  },
+  "cutover_sha256": "013db5986364b68dc834012a84c9723355e809c4db7a61de9c352adaf707ff42",
+  "external_profile_authority": {
+    "expected_files": [
+      {
+        "path": "tools/condense/audit_ladder.py",
+        "sha256": "1568651c1c2b9001ae6e6c9b62307ec1cf392147d9c77f8805e31fad4368cf68"
+      },
+      {
+        "path": "tools/condense/doctor.py",
+        "sha256": "b47f89aba05b8b2957293d0e19cabdcc1b07d94233992c13c6c0e675a5e8f32f"
+      },
+      {
+        "path": "tools/condense/studio_run.py",
+        "sha256": "8bdea3ee4f51207493c958fdbb086f44e2e29462c5f4da24bf5a69cb4ec1d28c"
+      },
+      {
+        "path": "vendor/strand-quant/target/release/quantize-model",
+        "sha256": "54e9689064244e3e337152e0dc77807f24dba73bd12f68a9ad88ccf3d5548416"
+      }
+    ],
+    "expected_uid": 503,
+    "limits": {
+      "maximum_aggregate_cpu_percent": 2700.0,
+      "maximum_aggregate_rss_gb": 64.0,
+      "maximum_processes": 8,
+      "maximum_quant_threads": 4,
+      "maximum_roots": 3
+    },
+    "profile": "hawking_serial_cpu_v1",
+    "profile_sha256": "9557068ba88c164c86ec96da022115273572e57bcab928dff03dfd5e29af36fa",
+    "python_executable": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python",
+    "quantize_executable": "/Users/scammermike/Downloads/hawking/vendor/strand-quant/target/release/quantize-model",
+    "root": "/Users/scammermike/Downloads/hawking",
+    "schema": "mop-external-coexistence-profile/v1",
+    "scientific_promotion": false
+  },
+  "new_authority": {
+    "campaign_supervisor": {
+      "path": "src/mop/studio/campaign_supervisor.py",
+      "sha256": "9516355d31f9c3f3814bc94e9281c6d15d1d49d7895a5cc1a53187cfcea9bac3"
+    },
+    "coexistence_overlay": {
+      "path": "configs/campaign/substrate_coexistence_task_overlay.yaml",
+      "sha256": "e8716926187b274120b19a92e0196d93d4b5e42ff585b665dfdbae09ad64fd92"
+    },
+    "governor": {
+      "path": "src/mop/studio/local_throttle.py",
+      "sha256": "57fa605ac22577d60e1bf11cd08289804f006aab797f506b99789b5edd562d86"
+    },
+    "historical_overlay": {
+      "path": "configs/campaign/substrate_task_overlay.yaml",
+      "sha256": "023852c5d044c2da6275d55d4bcaa186ecc1bda98907ac6bb613299a1fb255b7"
+    },
+    "phase1_plan": {
+      "path": "configs/campaign/mac_studio_substrate_phase1_null_safe_10k.json",
+      "sha256": "f5fd5d9c0857947fa676c04f6dc9f2446fd3cfe3d4f257609899068a06faafb6"
+    },
+    "policy": {
+      "path": "configs/local_execution_throttle.yaml",
+      "sha256": "3a56673755cf5623f67fe6897f1251967c68e0664bcbebd56a83855aa5c477a5"
+    },
+    "router": {
+      "path": "src/mop/studio/null_safe_campaign_router.py",
+      "sha256": "eab8ed77b563ba1f91d8bb40399134e1b9cfa47a647afb763e8c0f2cf6be4bb8"
+    },
+    "router_plan": {
+      "path": "configs/campaign/mac_studio_substrate_null_safe_router.json",
+      "sha256": "7e3602c7b897332bd09d173d1d7466fefcad630b8181eae86b5acbc578e6b42f"
+    }
+  },
+  "no_launch_calibrations": {
+    "finding": "transient Hawking CPU bursts use background QoS; sustained load uses the reviewed 0.85 first-lane ceiling; memory gates are unchanged",
+    "trials": [
+      {
+        "campaign": {
+          "active_lanes": [],
+          "campaign_id": "mac-studio-substrate-phase1-coexistence-10k-v2",
+          "problems": [],
+          "router_id": null,
+          "state": "drained",
+          "status_path": "runs/mac_studio_campaign/mac-studio-substrate-phase1-coexistence-10k-v2/current_status.json",
+          "status_sha256": "abb6fc8753d43f6d8c36a76be7671d36a377c04c2224f3f4742d979e9bcacfcf"
+        },
+        "owned_task_launched": false,
+        "router": {
+          "active_lanes": [],
+          "campaign_id": null,
+          "problems": [],
+          "router_id": "mac-studio-substrate-null-safe-coexistence-v2",
+          "state": "drained",
+          "status_path": "runs/mac_studio_null_safe_router/mac-studio-substrate-null-safe-coexistence-v2/current_status.json",
+          "status_sha256": "776f9a29bdedd7ab08733e7b1e1af5eadd64ae71a66d982203e04eccae39cc10"
+        }
+      },
+      {
+        "campaign": {
+          "active_lanes": [],
+          "campaign_id": "mac-studio-substrate-phase1-coexistence-10k-v3",
+          "problems": [],
+          "router_id": null,
+          "state": "drained",
+          "status_path": "runs/mac_studio_campaign/mac-studio-substrate-phase1-coexistence-10k-v3/current_status.json",
+          "status_sha256": "6c0c81f834290ebdd561cb5f446138e53551f7043d49f9a5ffd9c28a5ac2fcf2"
+        },
+        "owned_task_launched": false,
+        "router": {
+          "active_lanes": [],
+          "campaign_id": null,
+          "problems": [],
+          "router_id": "mac-studio-substrate-null-safe-coexistence-v3",
+          "state": "drained",
+          "status_path": "runs/mac_studio_null_safe_router/mac-studio-substrate-null-safe-coexistence-v3/current_status.json",
+          "status_sha256": "aa333a50d38f138ae5eccfb1ee8ec9d04bb22afeb9ac771c08b3dd7c150e5413"
+        }
+      }
+    ]
+  },
+  "prior_terminal_campaign": {
+    "active_lanes": [],
+    "campaign_id": "mac-studio-substrate-phase1-null-safe-10k-v1",
+    "governor_sha256": "0101d5d58f0fd7b2f0717a59b7704fca79b8440baa741c979ea6ff65d4e4a5da",
+    "plan_sha256": "6a12241bfad7894882e291c019d66780ad241346f9fcd268a3a694355a0520ca",
+    "policy_sha256": "bdea49bb90990016600778ed79ddbf3519f19e186d92d88c1917424951bc6d97",
+    "problems": [
+      "campaign plan or supervisor implementation drifted"
+    ],
+    "router_id": null,
+    "state": "integrity_hold",
+    "status_path": "runs/mac_studio_campaign/mac-studio-substrate-phase1-null-safe-10k-v1/current_status.json",
+    "status_sha256": "22a494c6dcf10e26b616dc711468eea562d847db867bcb4ab87d5abd4e01585d"
+  },
+  "reason": "replace an absolute Hawking veto with an exact, pressure-gated, one-core coexistence lane",
+  "runtime_gates": {
+    "external_cpu_percent_cap": 2700.0,
+    "maximum_load_per_logical_cpu": 0.85,
+    "maximum_swap_used_gb": 0.0,
+    "maximum_transient_cpu_utilization_fraction": 1.0,
+    "minimum_available_memory_gb": 40.0,
+    "minimum_available_memory_percent": 40.0,
+    "minimum_memory_pressure_free_percent": 80.0,
+    "power": "AC",
+    "thermal": "normal"
+  },
+  "schema": "mop-local-throttle-external-coexistence-cutover/v1",
+  "scientific_configuration_changed": false,
+  "scientific_promotion": false,
+  "task_envelope": {
+    "accelerator": "none",
+    "cpu_cores": 1,
+    "darwin_background_priority": true,
+    "p6_coexistence_allowed": false,
+    "producer_invocations_per_governor_leg": 1,
+    "scheduler_exclusive": true,
+    "task_ids": [
+      "edcm1_official_cpu",
+      "edcm1_verify_cpu",
+      "escs_x0_official_cpu",
+      "escs_x0_verify_cpu"
+    ],
+    "taskpolicy_memory_mib": 4096,
+    "taskpolicy_process_control": "kill",
+    "thread_environment_cap": 1
+  }
+}

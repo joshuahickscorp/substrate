@@ -1,0 +1,1890 @@
+{
+  "all_controls_passed": true,
+  "all_mutations_rejected": true,
+  "all_ok": true,
+  "artifact_evidence": {
+    "fresh_challenge": {
+      "5101": {
+        "f16": {
+          "5101": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/exact_global/arm_receipt.json",
+                  "sha256": "c86b6e77828982d3397972811b42fbdbdfbdeef0465bc4d3dcfdbb75670e5763"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "28fdcaf990c03f8d1b5788be897564e6f49a95dab76b01d7ff33ea6c29234ab4",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/exact_global/checkpoint.pt",
+                  "sha256": "365fbab2a454f7d6b24d0cda7f69420dfb4e201c0a27fad3f032e574642c6193",
+                  "target_state_sha256": "ebfceee0ffac1f2e6cb2c1d55462da0a037f91477aa5cb3a13251ef9063e383b"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "39c8e37e3dcf436274e7141eb1d04f5036febf6c85c295f2a59075383b73b4be"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "e9db00438ef3d4949cd6e575a5fe2feb64c2eb44069fcf6181f0d083adee03ce",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "64d15bdb61f10f28b0e146135e69ddaf18923fcdad8752430655f84dfbf87cd3",
+                  "target_state_sha256": "f64494d12b70b32a1c4f54e4e5dc23ef55c416484ca9c4e7017521bc2a5e187a"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/recurrent/arm_receipt.json",
+                  "sha256": "a8516c8197783c390f4249b35101450883b5e1534794ff414f66f414f83b4076"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "16485d620cdfa0cd094d8a7df6fb1c75ac3cd318b89f798c927553d1fc0175bb",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/recurrent/checkpoint.pt",
+                  "sha256": "41246bfa17d405cbb53a6ec971ff6c67a4add5c37da721883e847565a8822a60",
+                  "target_state_sha256": "b4e7b3c2806a988b6b34da7507854af0ec015840418a358f639c13905ddd7fde"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/window_local/arm_receipt.json",
+                  "sha256": "94fe39600d2027b7785b99ebc7011bdb5e23463d425d3d717ff96d46328298fd"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "1988d572a06db9deb8b76a2904330f7660fad816b77e0b93266d50c7fcaac2e9",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/window_local/checkpoint.pt",
+                  "sha256": "6761578487d03962c30e3eaba0d4b20a308fcf0d02689f3ffbea5869d0373392",
+                  "target_state_sha256": "3a8ad3a2e6dc47d12fbe3002ad58e0d85783e2e6e40a24023a6b2cbc384cd4f8"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/seed_result.json",
+              "sha256": "ce08ae590bd5b965c8ed722b781f2e8c773a533942be62f21341af8dcbe28494"
+            }
+          }
+        },
+        "f32": {
+          "5101": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/exact_global/arm_receipt.json",
+                  "sha256": "589c760d7211a9d2aca2f6da72e8beb8168769ceedbded507d11801abab8feb1"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "b88e4b4ee993521dc906b378cf2618f9ad5641c640687dce8e8a32413fc5bd68",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/exact_global/checkpoint.pt",
+                  "sha256": "c70ee1526f0b0615ec9ae5037415924110cbf62a370e7a67012858e1f6e1ed77",
+                  "target_state_sha256": "05ed1f68e9dae6b237c1b26db38b45b7eae897e66a15cab5f3443316fa69b4cd"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "fae77c560e6802440efde6884ee0f441a6c457a361cf8c08c9e59781d533257b"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "0d45b52e5531dca51e61624b3a1f05ff089fcff9b2cd2225d4dc233bf2d63495",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "8820a29347e1f708cf1308f436cd56bd3552e333de094490eb2842734e64569e",
+                  "target_state_sha256": "7b5dd479b690f8f9067d94d41236ca1a9421d3f63975bb695fac78f78709ea09"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/recurrent/arm_receipt.json",
+                  "sha256": "ca74a1f8987b76e9078594ad603a660350c59a441bdd9f5e3ce31dbf51430e03"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "b18ffd15f48e674a4d41e770d62483f30fd03c5ece74632e6913b208253bce86",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/recurrent/checkpoint.pt",
+                  "sha256": "7f84585268905fb661965648d1200ec26a7d817580cf0056e81d81fcbe38c36a",
+                  "target_state_sha256": "bfcaec333be335f525f3e8904036e0352d202b6f12584efe016d69625953c7ae"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/window_local/arm_receipt.json",
+                  "sha256": "bdb30be46efc29299cc0d110ec4c3aff0c68d6eaa3d288c76b3e7d9a71ee6058"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "458272400839faf149fc6fcbbcbe9d83087c3c0c16aebed413092ec094440e05",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/window_local/checkpoint.pt",
+                  "sha256": "a7dd60a5e4a81fff5c6a4a2befde69565331ae404b9e366c234cf42b4498bc62",
+                  "target_state_sha256": "664055652cac24863671bc3648f5f552ee00b046ff836d438231951f5c63d373"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/seed_result.json",
+              "sha256": "f328e80f771e88476afd015d1d4f3ee8cee2bf10afbc9df3d91ab2070afbf4fe"
+            }
+          }
+        },
+        "f64": {
+          "5101": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/exact_global/arm_receipt.json",
+                  "sha256": "3f53e512e1e8d4122e29f51e9acd336db15dc9422d34c66c4f712fac0b103869"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "fc5efd2da5cff7c11183528f7c4b1dffe39babd9ff9c12639a79530fb9d00257",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/exact_global/checkpoint.pt",
+                  "sha256": "eabb145de85d96b0cb1648e7065bb71bf9fc36165616b745c486215e01e2c422",
+                  "target_state_sha256": "b593d9a3b284a8b8c3855d79843e3c153c2a08c32613792b7b67455d7d8eae82"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "15301728f82e680b0a79b6e6935add8d437bcd7ba2a55dc55f877a95a9b166ef"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "0f062aa87cd90209877e1ee9c2c1a82870cad2cd26bc19209ff9820b28d9a82e",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "ffd66c0d18f38155383439f5147674fc170e17098f7c63d72882848cced26ff1",
+                  "target_state_sha256": "6622333cfbee44ea5009724fa5781ff2a23f50727a4208387e1523d7b714f8ab"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/recurrent/arm_receipt.json",
+                  "sha256": "bdd2665ac44ea568a89ce78a5f8a92ef9da12c6a311cc65bc8ddc6247b0d9ddd"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "e9a81917c3445febdec23e8f660e688663ad379f6a96457ea39019b9f30cd744",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/recurrent/checkpoint.pt",
+                  "sha256": "f2a3be075d8d82f0b5ba7b6f295bd11cc482f981854f9f1802ed5fe737cc5beb",
+                  "target_state_sha256": "4216567d7c9aaa6d3bbdffdd2c0a012330ecae0569bbe0330bf4e93fe515a159"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/window_local/arm_receipt.json",
+                  "sha256": "b5084402e7c79bd38e3f4cfea412f83f7f2882a428f7866a1a4de6160a2197ce"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "436ed5e86b2916bff0ddb743bf737e429a034b1cc7d8a65feb90364ed9b48ced",
+                  "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/window_local/checkpoint.pt",
+                  "sha256": "609c13de89a9387c3fe3ad9992206a23c89c68e60e867246da1f6acf4dfba150",
+                  "target_state_sha256": "ad9d287b5cc0972726f8b47d2876e710393e632ddf2b4fc756808e772aedd3a9"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/seed_result.json",
+              "sha256": "5dbe22aee26f87d5d8bb2d6372cccbc94c94ce7c07ffaf2b8cdb325ab9eec9b7"
+            }
+          }
+        }
+      },
+      "5102": {
+        "f16": {
+          "5102": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/exact_global/arm_receipt.json",
+                  "sha256": "25df32532c3004b921ec4ce20290acdb7fd4f7a101eb2e9735cd89f6fd6bbed1"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "272a59f2d401b314af1ce0296dacd5bbf6237cbed80ef6cc2c9129de82740bc9",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/exact_global/checkpoint.pt",
+                  "sha256": "77e488245c4d413b10acc620992c67d5e140d161b7a748be406ab6b2fc961b57",
+                  "target_state_sha256": "081a4a38f81410a554d3636499ac007a0bf2c192c2fa481f420cf1112085c42b"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "b2881e4ecf26dfeb9d28f0d2eb9f924bdd335efa638a87643a57c97c06eda7ff"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "6c6e0b99a38c37592c9417b792dd86117de1b68462b6df0e4a186e7f7f6d0c69",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "75f66bd5e948339378dce5994390a0bd7fe0937da69ec99283b16c00345ce464",
+                  "target_state_sha256": "8b59980788d8354bd7dbb2bd618c8f6b969143a27ce2148fcf6a633ef2f1c559"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/recurrent/arm_receipt.json",
+                  "sha256": "702b33bd4888ee9ae032bfb3f4794e371d2f87b92e9d31181f5d21416684d5a6"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "7a50463f705c572e81911b80683250ae5effaed832631495005fb044731aa090",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/recurrent/checkpoint.pt",
+                  "sha256": "821d7aeebff72bae2f253e85e583a7c7d5206375f40f6b3e8c4124af89eb12f0",
+                  "target_state_sha256": "e66641f78ce8775550b95f6b2bc730995cfd331cdf847b961814d951a597b678"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/window_local/arm_receipt.json",
+                  "sha256": "ec2711782464b37ba6557c2504a7e5a2a294a41475260b0ee786592d168ac703"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "835c462dd6ca34e7a28847ea4ba42330bb5886dbdc11e886e93748bac70848ef",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/window_local/checkpoint.pt",
+                  "sha256": "3a4a143c944001cef86687fac1d7ca49caa00a1fb943ed6faedc9619c44e1a2e",
+                  "target_state_sha256": "1f824ba6c8eb54eb6ac013116f959103427685ff6edb54babe6cf1efc02e07f5"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/seed_result.json",
+              "sha256": "b9fe8248aaa5847687aa6d3e2ef5bc40d5a6932a40ab49b178dfd24ee674a4d0"
+            }
+          }
+        },
+        "f32": {
+          "5102": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/exact_global/arm_receipt.json",
+                  "sha256": "a83bf721000c019b81332683596666cc3a5f139231b89e2f090743304007fb45"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "c579980858c9f2e141660a4799c1f8ecfbf914b102de907b09de3b4ceb60b087",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/exact_global/checkpoint.pt",
+                  "sha256": "efad6a9f852173cf495183e6c3d9598cd007ae5863f3eccdf1572fb6ae41b818",
+                  "target_state_sha256": "2e209eb4a066789ee5e7a2299cb7f2c4e53de1fe2a91f2ecf9033e5b4d21c546"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "852298a934f2aa383ded6316156d50110173a5c62dc783b24de296194992f81f"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "5edc6261b3464caff238d4048f185909d07eae77f8806132668b534af2b541b0",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "3cca61df9bde67af49b814268a2349e3fd788ff141b5917e3d5a40183734b38e",
+                  "target_state_sha256": "8130365e0c728dfab6ea30946c6994d8b854443728b113830f7f671d5bc492d8"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/recurrent/arm_receipt.json",
+                  "sha256": "327664dc6cb6c935f921cbc2036968fb08b26318a611c63675330ea72882c8f6"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "da5468ba6268b539330c1f0d6f6d6f1f961340adce3eb49eafdee739b439c3da",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/recurrent/checkpoint.pt",
+                  "sha256": "b22bfa039ace839b16d6c8e42951ca3824670693bfc4f2b4a9b82b4b1bbe5191",
+                  "target_state_sha256": "06b49c46810377568063331193c8454d6ea5614400b359196418211fe0e80d7d"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/window_local/arm_receipt.json",
+                  "sha256": "f14dad64bc44c83fcae1961f392e99af73c50fb3a6604ce9cc03c5e67aaff550"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "f0992dafb740bd84bdea6ff3a58b9ba2dcffe7e93f7af78b19ee5095bd697ee7",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/window_local/checkpoint.pt",
+                  "sha256": "4d9e3c410566ec3a88cfa2a957723624b81768177a3d443f771ebb5552705ab5",
+                  "target_state_sha256": "2ba8f9922cd2458f167360c643e13a2f1bfb9c6ae22f2fc28e40069a6afe5e4a"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/seed_result.json",
+              "sha256": "2635d2c3e5a31b85d1dcd8caf8610f37ce75c0d178e8139cb9e0d0197ed1b12e"
+            }
+          }
+        },
+        "f64": {
+          "5102": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/exact_global/arm_receipt.json",
+                  "sha256": "27e68ea20b55f269ae3c6b79d0869a704bc1ba36b59636338fa17671982e0c89"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "a7f9a04b89c5b0900951e4cedcb8fc37651ac88717d5ff330e9ce093b546fa57",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/exact_global/checkpoint.pt",
+                  "sha256": "6c3918fc83c94ca6e01fe0742dcbaf49ea9b6b29d66a4ff4b75a758fe0585cd7",
+                  "target_state_sha256": "60d440312a028a1bda99b5398cbd90a06ed0cfc5ef048bf2df6ccce617501d3a"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "ec4186ab9b85668adfe99f76076417f24580ace5e06510ed2b4d2165693a5a34"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "a426d8e8d16e549bad121b5c03f8d6b676b06059da30d147ba3ee8b2014ce7f7",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "d9710d8a5ad6c50ae4234917c150f2e7423398e04dd316c26e13766c28bc8de5",
+                  "target_state_sha256": "7c096e112e4dbc7b5765dbd1022289095531709518b46ab64501404ac7ff7960"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/recurrent/arm_receipt.json",
+                  "sha256": "ca06a89e237c19e13abd40e0e025e4a6030577552b4071d96b7c28a4fde75144"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "ad4ecdddcab812a8a884f47de99dd5d01047ef5b197782f91c75930e17fe1d9d",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/recurrent/checkpoint.pt",
+                  "sha256": "6686283c4812867ee77ff9f8904f5d07a3a631d5171934df4840f3de95f6dbc0",
+                  "target_state_sha256": "a901760e492783af9179ef76292194e5610c7129b661cef8f49f5ac810217e20"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/window_local/arm_receipt.json",
+                  "sha256": "76329bfc3dbf705c97b23ddc247ce9a840e1305634cf7a76cc139ee63fe6ea57"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "3bc11b95e64d644ebb6f353a5692f32edbe99ae38163c6935b38260342bae548",
+                  "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/window_local/checkpoint.pt",
+                  "sha256": "c7c6842e5aa16f9a73931801bb23d263cb7e8dea091dcfc42183e8e5430c4348",
+                  "target_state_sha256": "2bbd506b714685e40e8eb1c1d32e333626656bebe82684f97f17b1aa8da877b2"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/seed_result.json",
+              "sha256": "d8e6f846e35e69e062ea1e2931808b6e11055965914c30b0319325b17c3faf35"
+            }
+          }
+        }
+      },
+      "5103": {
+        "f16": {
+          "5103": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/exact_global/arm_receipt.json",
+                  "sha256": "5ba8e3fb0bca1f3c045ee3fa6f161a5a1f1f650c6d8352160f82f60c31af8082"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "7e753678a0373a25855a254aa744b4414f096d53802a29cc93799a322b79bfdd",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/exact_global/checkpoint.pt",
+                  "sha256": "fdca6685925b296d0fbe3db28a2f43666b758920d41beae63951049adefa88ef",
+                  "target_state_sha256": "4ea1c6a0565135d4ae763e7b881bbed2db4ca59295e0c2c50a4569e9f3cd1051"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "90f53ecf355da55ed55d331359976c3daff97c246cf2903999ba7bcfe3f313be"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "1a8976fad4f289be3557b1c475e095704a81a3a6683a9b9b80dbcde5cdb5a2cd",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "c0b94bb2e4ab0ec9739a22be8de18393e2a9c0241a18842f1fbe9dc38ea48487",
+                  "target_state_sha256": "35ca1850d4fed49412afb34e09b39ce2364bc3fc148ee604f15cd93757bc956b"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/recurrent/arm_receipt.json",
+                  "sha256": "fb1ad0c6e326797439d25c5ce373d14514170a9c8a71d189fad70e21ff6c0d54"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "d2b8da4a8f0b5723febd028bd400c51ff1090382759ddea8b5821c5ae8bf8f94",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/recurrent/checkpoint.pt",
+                  "sha256": "4da3ac63e16a7d5ca7df023fec7ee6e840e62dce4919a30617e318a5eccc963f",
+                  "target_state_sha256": "de2ee47dc9079026006a470cdf8f34f9a97a4ae6a34476cf71db78cd0c6127f5"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/window_local/arm_receipt.json",
+                  "sha256": "b19167ac6cca9d56272c78140fab787eea080653d559e2bf8f2c14e4470a343c"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "2c7bee65a31b45063deed203e9c91022936f7c684eecee9dec6449283f281f74",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/window_local/checkpoint.pt",
+                  "sha256": "41ccb0a9f96d096d9d97ae0d19aa645eaf061c9593838acb7bbdee35f785777b",
+                  "target_state_sha256": "7c4d68f67b7139899898b52149e681b5fda50772acfd0d1cfc1c24f278b51928"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/seed_result.json",
+              "sha256": "353f0a238675511f5bb99658ff6b1c7f6c66706bbb9c39db56b7941be4509381"
+            }
+          }
+        },
+        "f32": {
+          "5103": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/exact_global/arm_receipt.json",
+                  "sha256": "398b75a79ce077d5ebf5bbf15bfedf9f0fa2d0b34ac4914c6cebe923bdabdd9b"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "d0b18d749b7353158798294153b2aba675392a19d6c945fb6d227c9f8ea2f9a1",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/exact_global/checkpoint.pt",
+                  "sha256": "e6983dd41dcd729f6adb741df66f72a1106f70ee6155c3880e3315a850152c24",
+                  "target_state_sha256": "0e43ccd0761a7b0513a07934d0d66b687e5d37eb859ad20eaae43cf2cdc57a82"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "a45af77a8c147e2e29382a5e2fe0edd75cf624a07c24b6a0304ce7a478d813df"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "5c96583d70f5f3eca2adf655bdb71cd10463e036ccd643cfb2c3b231bdcf8322",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "754a729d395ff63419031a627b18e012e9713b33fc76b9c804af118cc0187649",
+                  "target_state_sha256": "c302b97f542321ca9b76a59a9d0c2ad0ed47f799bc46134db2f4c327f61903d6"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/recurrent/arm_receipt.json",
+                  "sha256": "c2f505c6cd50abb6f3a8ec4bccb576c6172c251c06d88de76ad5c643b018c5d1"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "5cedb1b70dd812308054d1f95c4852a9dbf93275f19ffaae626521210a8d8dfa",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/recurrent/checkpoint.pt",
+                  "sha256": "d55ee163949022b0539873b8f5b047a7ca7780ae5769ee6b387263b34b43c106",
+                  "target_state_sha256": "a4a74a5272222e9e7ab4227e9e62e6ec36116061e4aa51c4d7fdebf91d46281e"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/window_local/arm_receipt.json",
+                  "sha256": "49801428984bb7fe30c47899fa93250d5593494986c76050a7042b1d10accc8d"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "f0fa0b353c9d67c39480cfea22e83718af7153633ebe38a64a155630b4e6c22b",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/window_local/checkpoint.pt",
+                  "sha256": "091c370cf079f823086a15b4103bcdaf8818427a0fe848e1c311990cf85f0960",
+                  "target_state_sha256": "e5d8fe5e94d68898e0bda1cb40f8c74db41ee25e14f9f408af0d4aabc3a5034b"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/seed_result.json",
+              "sha256": "b4661fd99ae8c3e294d3952a045d71e9262bb1a33d5ecdf3466e724e8ba3eeac"
+            }
+          }
+        },
+        "f64": {
+          "5103": {
+            "arms": {
+              "exact_global": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/exact_global/arm_receipt.json",
+                  "sha256": "eeeb73c5b0ff1d74deda652871498d38002b38214928b3ae2fa7cb8852bbcdd0"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "5fa13b0625cb970ddfee7d24d87d3203dda7b13d2834c4d7cfe9ec53d1d80a5d",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/exact_global/checkpoint.pt",
+                  "sha256": "2acd45f00a69d78ead4addf9beaa371bcc3e5467aa9178114a29228c07c65265",
+                  "target_state_sha256": "cfe7dc82e4666c6137fabcdd9bab58d0499b62e0138f5a15295b87361b2dbda3"
+                }
+              },
+              "hierarchical_pooled": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/hierarchical_pooled/arm_receipt.json",
+                  "sha256": "9588e219e21f9e77d532f15757c04a085d62907ff6173ec338cea06e0610b1c4"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "0e8b21cb4e875958b856b7131a7e0bf19a09b758e436afdee64c4e939facb7a3",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/hierarchical_pooled/checkpoint.pt",
+                  "sha256": "5225ccf7dab09331e612e4d1be6939d632eea62a9e4b9cfe70f4094a3dd46f65",
+                  "target_state_sha256": "b6994368dc41b294513233f2783612b6a85e4c74a895a5104c6374fdf9ca97b8"
+                }
+              },
+              "recurrent": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/recurrent/arm_receipt.json",
+                  "sha256": "d81d0b333351256275f1ee34970eaf42cc6c85d6be524962ac5d13e9feeac176"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "64479242ad6a3d8e38584f7d9fc2f7d606d1fedecfed3a20cad71495c7d0f49e",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/recurrent/checkpoint.pt",
+                  "sha256": "f99578a6b7128269c84e1dff99bee2ce5e37af36de9408950bb98d59cb03fb20",
+                  "target_state_sha256": "6dd18c02da96d5dd0a268e439485a77845d2ea9eaf8f093aebaf8e5b5891de4e"
+                }
+              },
+              "window_local": {
+                "arm_receipt": {
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/window_local/arm_receipt.json",
+                  "sha256": "428323a569c48f3ed75d8b611000c1b0b72c9e5b5bea3f685e53c35019672148"
+                },
+                "checkpoint": {
+                  "model_state_sha256": "1f66701b5ccc96bdc606add7e5a23259da8ea27623606e23339520692e2a3c1a",
+                  "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/window_local/checkpoint.pt",
+                  "sha256": "664a224649db9daae640d03fbec14b87118f57c4e7f780fd1ce228b4d024ce88",
+                  "target_state_sha256": "bcef00abfeb3626abc1986b58025db9634aabab0d227a92f7566ec7eb09c4be3"
+                }
+              }
+            },
+            "seed_result": {
+              "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/seed_result.json",
+              "sha256": "3eada85be87f6cd62884a70a4038fdbcb23f9f964c3964c050e3d51b079fa37c"
+            }
+          }
+        }
+      }
+    },
+    "primary": {
+      "f16": {
+        "0": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/exact_global/arm_receipt.json",
+                "sha256": "f17c716dc26b992763c8307ca442fb82309d15c1dedd8996a449f56045d53914"
+              },
+              "checkpoint": {
+                "model_state_sha256": "84d0a2e9212dc705e16adf7d3ee48809cf318557bbb33781cc0c596a75fa199a",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/exact_global/checkpoint.pt",
+                "sha256": "87b4c9c10783c351b1dcaede2dd28794a7d443cfe0b9a5fc0daf04763773a3b0",
+                "target_state_sha256": "ae7ea71e427f6f1e6fecb3aa0ac66c87693baad82cceca4fd40dbdcca7be66a3"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/hierarchical_pooled/arm_receipt.json",
+                "sha256": "e6336d3219b8b4929261263ca1b4ebdc7bd2b2c8adf8ba8e98916781106b5f84"
+              },
+              "checkpoint": {
+                "model_state_sha256": "7a8498f730e23ab364f9c4d69c2965ea287b8a16f1a9015795e3ba4b1209dd4d",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/hierarchical_pooled/checkpoint.pt",
+                "sha256": "60a8d263a9fc73b34176e3ba48ad7ed1d2872385a49c0926d4fccf4eeeb4af81",
+                "target_state_sha256": "0a3ca706d4f8d442a80364c1e879ee4c362113c50c837f5a962dd99456b9ca39"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/recurrent/arm_receipt.json",
+                "sha256": "14dc4b3ae937753c58a2b0a58d10814eecf7b5a96188b798b9d381cc08b43d17"
+              },
+              "checkpoint": {
+                "model_state_sha256": "793e10b287d41f4a6d89187355fb3812ba5cb98a2c7113627509705addc3d13b",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/recurrent/checkpoint.pt",
+                "sha256": "30d91a4f9c6e1d1fb0559f989bc287bffb7200237d48a43a2cb5c5f157644c84",
+                "target_state_sha256": "c4eb9de44d18ac38c509fdab1fb66fca54c8498ed677355acabecaa2424a83f5"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/window_local/arm_receipt.json",
+                "sha256": "7e02312aea5c3be65eab13a3e5d7c9c52d60f1665cd40ca9205917e99d92fb47"
+              },
+              "checkpoint": {
+                "model_state_sha256": "240378549bdb0cea0660b2451c88fcfb69f046964204825f2c09f889ffe2144c",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_0/window_local/checkpoint.pt",
+                "sha256": "94dbcacc937ebc6c379132bf787ee4d6ba31fa36d8df0678a3ee24ee84e83211",
+                "target_state_sha256": "bf90c24daf5befcc070d766b4efc9132e7dba945718d924fc3c14581302d2712"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f16/seed_0/seed_result.json",
+            "sha256": "a9b56dc1d5446f115f236fe2e0331cb206a1ea7df3bfeb96c6dc6e361b7c8881"
+          }
+        },
+        "1": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/exact_global/arm_receipt.json",
+                "sha256": "e477246743509a6851ee6cc6d86ff43bb9e3461ec3f26f3e97037da55bb3a654"
+              },
+              "checkpoint": {
+                "model_state_sha256": "2d2ae5ad8f4b2eb72d2c0bd023cce0245bd9517ba6df4add5d2953fa9baf986c",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/exact_global/checkpoint.pt",
+                "sha256": "1f19f776d20b29b93ff534634a11371e2e21688264e008b9763f1cff34232ef3",
+                "target_state_sha256": "139844dab27a6c5622c5af1663215cc2881cb67e80d3487a7908884f2158d7af"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/hierarchical_pooled/arm_receipt.json",
+                "sha256": "66fee6fd86e0187f51d09fdee2243269ccbc7744d1ba7caf01ad26d73736da5b"
+              },
+              "checkpoint": {
+                "model_state_sha256": "a682b6147b45144c9eea41eabef73bb6194673a71217fa788f5727105e00a1cf",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/hierarchical_pooled/checkpoint.pt",
+                "sha256": "e2cc437df2fca1df18b2dae18c7a31463d9f24d6974c019202c984db25b2df3b",
+                "target_state_sha256": "a571fbb32938c0a73419b9ca6b2a36839de475dcf83687a7f1ceb0d32aa3a450"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/recurrent/arm_receipt.json",
+                "sha256": "4fd455366218139c40de39b6f10d4772df569c0a896f1a192cce9b12235a392c"
+              },
+              "checkpoint": {
+                "model_state_sha256": "857b0c2aa00fbf76d6fd55b08c3925d27ebcddbedc8ade26314f6affed81c6e3",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/recurrent/checkpoint.pt",
+                "sha256": "8e3703148e87329d36eee5b9ef2f4af412945c5692d5e61bad0f1b62d155c6d9",
+                "target_state_sha256": "81a488446cecb976b47d66f7e0ccdd2dd9cce1f5f4da8d7c8ae10880a681785c"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/window_local/arm_receipt.json",
+                "sha256": "f7aa0ca1159d745c3d7e51403beb4b75cb07ae93c21b42a651624c5d93df52e6"
+              },
+              "checkpoint": {
+                "model_state_sha256": "1f1965bccbf8633be84273e35e1d997af0aa6e18d2fdb85dec5d6fa5d50fd734",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_1/window_local/checkpoint.pt",
+                "sha256": "a1210f6e06fd5a015a2db440532ac459f87b11c8ad275002591c3d177c5435cc",
+                "target_state_sha256": "825b9838b311fb226bc48e9c0dbe67ad324012d34bd4059ae7b2a306b5f5b2d6"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f16/seed_1/seed_result.json",
+            "sha256": "1e6ab156951c5243ecbce3d17ddf8882769fc0aa76ef205bcce5012008a40c1c"
+          }
+        },
+        "2": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/exact_global/arm_receipt.json",
+                "sha256": "b8733eed1a0564e94cbdb27a9e460a60cafe9576993878a4220dcfa6f9c15140"
+              },
+              "checkpoint": {
+                "model_state_sha256": "b66eea7629ad489f49e2487fbf4bc160fb1433a6990c78759fbfa9324fd1b9c4",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/exact_global/checkpoint.pt",
+                "sha256": "6f856889d562098884b91c23aff5fb3bf99aa8ae6dcc4efc86d520fb79308bfe",
+                "target_state_sha256": "2a698cb06452591187d8738babff9c24b8daff204f94a276a500850e9c0c9ef2"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/hierarchical_pooled/arm_receipt.json",
+                "sha256": "a8f815cae48df602601e7ffa77706bc514c8a287eeeb9f9fb98c23c3965b2070"
+              },
+              "checkpoint": {
+                "model_state_sha256": "fde16a33f2c9e4db0aea07157d29acf2b72e9d49ad97e8c38123ee7341ff332d",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/hierarchical_pooled/checkpoint.pt",
+                "sha256": "55456bf46a59797475f784cd0715dc1152b625d846608555707d6e397290966d",
+                "target_state_sha256": "bbf67521da7c8afc313acd2a6a3804b593edc29493ff67ffde565904931cf595"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/recurrent/arm_receipt.json",
+                "sha256": "221e3393fbc31f4ebea59627e79f615230ba8cbda3b357b2e03f6309057b0eaf"
+              },
+              "checkpoint": {
+                "model_state_sha256": "f6c8489910d480d564d2bdad38ef7d4b3f5a30bfe6e5b3147c943577f37e6ee5",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/recurrent/checkpoint.pt",
+                "sha256": "96b699639e5693236d3b1477addf7405915e3342c8a03bba177e2c25ac21c27a",
+                "target_state_sha256": "535caa0428c423a884610e695ac2dd7690b11b6a19e6d7abc10418139e1192e4"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/window_local/arm_receipt.json",
+                "sha256": "2d30e5b9565a4250a5f64db8f9d5f51db76deeb41c64acc99d902aa446d05b81"
+              },
+              "checkpoint": {
+                "model_state_sha256": "bda92f97260b714b857b9f904b8f9a3bbbd741b47f3db364e0d9361f2d0ea85f",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_2/window_local/checkpoint.pt",
+                "sha256": "0449a37a3ed6727b1be3d5fd961ad2ae34a9e69087c9a0d72f6447ff96803178",
+                "target_state_sha256": "ecd0536b0d1304b57408f1b3811c8cd97826e64bf05c4f686e46a9e9ef6f8b54"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f16/seed_2/seed_result.json",
+            "sha256": "32ca30c3612eefc2fbda9173594726965fb358f7d3c5a609d84d0148b2658632"
+          }
+        },
+        "3": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/exact_global/arm_receipt.json",
+                "sha256": "3114a4139490a47d7f427000570645305b19c43c26a483dc10611e92171b4f3a"
+              },
+              "checkpoint": {
+                "model_state_sha256": "feb22fc18aa51d765aa3f541369b0b74a45362881d8da73eeef69ef92b8c1c0e",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/exact_global/checkpoint.pt",
+                "sha256": "9cd98112a40e48e663a84026e39f7597d206093b21747f00f206ca16dd1ca314",
+                "target_state_sha256": "0e307e6b9370f0a911c50e0992f6c39f506f44acc71fe27836a92d8cda584c47"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/hierarchical_pooled/arm_receipt.json",
+                "sha256": "6fd3396754c08b991d2e8158fd9f8755e4b92445bf437d7b168863ca238b9a5f"
+              },
+              "checkpoint": {
+                "model_state_sha256": "fc589a30be36c34494544e6103272246044cadfd05065b459d36da77a3a85bd9",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/hierarchical_pooled/checkpoint.pt",
+                "sha256": "51a8a4f5bcb7b1031b1c0d1930db9409ba2b299477cf943be09444f4aa5ea766",
+                "target_state_sha256": "f6e1b5dd1edeac0a2a1a26906c740c32f2fdb9c11ec904a070d857c85d773530"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/recurrent/arm_receipt.json",
+                "sha256": "f9585618779fec7efa7c98d31ac6cad2c31fd5f9744f124c645856b9f79b0a93"
+              },
+              "checkpoint": {
+                "model_state_sha256": "c03ec4abda1cfffe01e152268107551187d0ee9946f9d129da1bc28ab9e802c5",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/recurrent/checkpoint.pt",
+                "sha256": "221decc46b83c0c2c3d4ccb9b00430b9cb612c478e5f4b999f10765485a838bd",
+                "target_state_sha256": "668fbb85a04885804b76f2f7bbe29490b12f25c821064990f74987ad476081a9"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/window_local/arm_receipt.json",
+                "sha256": "aff427b29008ed6c60e41ac03a6a2447fb30fca83c4825881dfdb2126b3e4583"
+              },
+              "checkpoint": {
+                "model_state_sha256": "f30f325fc337299b6e6eb10edafad398e9561549b503bd876e81873fa0eade88",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_3/window_local/checkpoint.pt",
+                "sha256": "dbd5adadf740edb29eac0b8ce092934caa5c952df9041e67a6040fa7b65ea474",
+                "target_state_sha256": "6ed0c22599a3619c43356439b36732fb215e628e506f0a677ec3c53bb606d3a8"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f16/seed_3/seed_result.json",
+            "sha256": "043fd108553d8098477fc2050f1fc2758cbbff23d2465a5745c84e8f0582a2d4"
+          }
+        },
+        "4": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/exact_global/arm_receipt.json",
+                "sha256": "df74822a27880dc182a44d62c20b77868ad25b5dcc2beebf5859552af41f0e43"
+              },
+              "checkpoint": {
+                "model_state_sha256": "8a85add8d6a083240071a46fe6ae335639805932cc0330778060073b1d8aafc2",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/exact_global/checkpoint.pt",
+                "sha256": "22d5a3e80bcfbc11d3363779fd23433dd1083969735a3d1ccf0a28d911f22713",
+                "target_state_sha256": "f655b19fd62fbfa0b33b0d53bbb888bc28ab5980c711215197a86ade6d4dcd18"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/hierarchical_pooled/arm_receipt.json",
+                "sha256": "f5311c1d71b71b2cd0ff567ae963b38da14c875905f4da014688829428f82202"
+              },
+              "checkpoint": {
+                "model_state_sha256": "fc40494956f159b0746c75ffb288b31a4a59781811b02351df57cd062fbc0d00",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/hierarchical_pooled/checkpoint.pt",
+                "sha256": "428c9e4d29484ad98a38e9832cf1c9ebc7fc3921c96ef132109558655c32cc68",
+                "target_state_sha256": "fab5d4b6772202e8dbb715cd507e88e570d155dad0f840a2e2e83fc8d1cf0612"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/recurrent/arm_receipt.json",
+                "sha256": "e34a3ff6d712fe36c6ffb5fbe8367649f3d2fe51b21557828f66d3864db5361b"
+              },
+              "checkpoint": {
+                "model_state_sha256": "c4a1a0c85b5fec8da448015b2a526ccd972206bf9977cc34cb1ac5634e6f28d0",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/recurrent/checkpoint.pt",
+                "sha256": "c34a43ef32c47155118f218cf617e846251cc330d42e9f2c87eb0d71fb9496e2",
+                "target_state_sha256": "8e1799c8ded206773677e51a5024e18f838e2d05c96808ec42bcfa11bbb9b2a9"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/window_local/arm_receipt.json",
+                "sha256": "dbeaf7c3dcb5614c94f7ef4086a1364c150b2e6673158db546f26132d29ecd86"
+              },
+              "checkpoint": {
+                "model_state_sha256": "1e83cdeb2b49501f69f0d7fc433bd60cdb1045883a36748e5460e2afc5661625",
+                "path": "runs/p5_context/p5pilot/frames/f16/seed_4/window_local/checkpoint.pt",
+                "sha256": "91fac94800a5b355b2fa6746b0d63798277e824d6aa876a2ee9666132e8cadee",
+                "target_state_sha256": "ac1726a9c8123c4d0218b64cce891a05e05d8ecb74530fae48222e90dd35765a"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f16/seed_4/seed_result.json",
+            "sha256": "c4f5befd50c60ca321f54a13788a74c5f54770fb1929ae01d13a185fe30eb3cf"
+          }
+        }
+      },
+      "f32": {
+        "0": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/exact_global/arm_receipt.json",
+                "sha256": "ae7818f99834db3b52a8f0bb014eedde1bec6dc1f5d98a7a298ef5706739d071"
+              },
+              "checkpoint": {
+                "model_state_sha256": "e9c0e4335e834ec60a290eddc8a2ba7a7156a6afe3c2538e0412ef0674fdc5fa",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/exact_global/checkpoint.pt",
+                "sha256": "3d57feffbcf1b756c8b335c22ef1dbbd6afb2117cfd9b24a93e023f271029927",
+                "target_state_sha256": "60e4754c3db7816c6de14bcb8a3619695323d37f4d6e70d3501e324bf17498c7"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/hierarchical_pooled/arm_receipt.json",
+                "sha256": "b90d4039a5a071b2545d16f68c8b0679a8815879f26f6dbd2990c84ee1df4105"
+              },
+              "checkpoint": {
+                "model_state_sha256": "05c2281769641a02bc17a287c033143387cb8e94f0a4eb143ad16ad7a406d5e2",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/hierarchical_pooled/checkpoint.pt",
+                "sha256": "7e73d4f7699e81306cd66f4c933bac07fdaea66ee6e5054f7af2488102c8b15d",
+                "target_state_sha256": "cd8d99ba70a66a4ff640cae7942d06ee5d7705ab768a916124269aa038ed2f6e"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/recurrent/arm_receipt.json",
+                "sha256": "caab79b3aaf47bd8aa494a84c545b2dddb6bff2277546ba102f1ca794f78d70e"
+              },
+              "checkpoint": {
+                "model_state_sha256": "07c6f0471b0a1e57b4e5f8a20cd937624b27c5448dfdec72b05484a4ae23a7c3",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/recurrent/checkpoint.pt",
+                "sha256": "cc48a01cb7a54fb7e309fcbe6b678152fe79cedcdcdc4071e1be6c27829b2291",
+                "target_state_sha256": "cd26cf6f52aae62e3c5e8e39f6eeb902a9561f47686b23fef8134277d86b9556"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/window_local/arm_receipt.json",
+                "sha256": "3894b0329fbba776689a2581f3cadd8416b117a4ed4b4a989d8b8cf8eb514800"
+              },
+              "checkpoint": {
+                "model_state_sha256": "8141ec2b0ee8bce1641fb5414a5ac241323d47e0fb6466cc2874c92a9d2d3460",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_0/window_local/checkpoint.pt",
+                "sha256": "36be88298fa0f09b2c646ba485a5868d79bf5a5c0aa588af03351ff6dc7371e8",
+                "target_state_sha256": "e22ec947b4e6a75e313b8daa5515340a37a54c6fe48bdb9aa63fec28461916c6"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f32/seed_0/seed_result.json",
+            "sha256": "f603bfe1dedb12d4532e3fa8cbc6a3a7c183793868790fc90e5ea0895f60bb9b"
+          }
+        },
+        "1": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/exact_global/arm_receipt.json",
+                "sha256": "c946f9f2fe16ce3898f9f3a2b8d8a302c38598e27afe56e0284044e14b0d3211"
+              },
+              "checkpoint": {
+                "model_state_sha256": "1a9a8ddaefa1e39e025232f670afdf015e5ff9aaa1befba66bef91351e9f7c78",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/exact_global/checkpoint.pt",
+                "sha256": "76363ea844fa562944425eb8d360e63ee65f4af637d2861138d18d565df34794",
+                "target_state_sha256": "b6f97a0be9386970b67fc097def444b5405637db3ef98ddb9d0681308b6c9716"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/hierarchical_pooled/arm_receipt.json",
+                "sha256": "c40c8201be268e14c6ecaf8a3ec873e5eda4408517bf6669689b156178cdc49c"
+              },
+              "checkpoint": {
+                "model_state_sha256": "56ed8afad2269acca708e8b8979e81a307826f62d6d37112ae9607c59c54779a",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/hierarchical_pooled/checkpoint.pt",
+                "sha256": "4afdc8ef868196bca950e64c6d0f5616a34f79b6a9b3a1a78d36afd8364f09e0",
+                "target_state_sha256": "47fa7554438b7b8890f1b1ea6beb894c6bf6f290fb27d694fdffed41762174d3"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/recurrent/arm_receipt.json",
+                "sha256": "a23828b02413f91d80ba1074bd5a59f7d215fecffc0d3a653abfe194383b6229"
+              },
+              "checkpoint": {
+                "model_state_sha256": "424960f05625b4890d4638e8f7ebc9fbbc1f75f3ece3700d372e11aacb571925",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/recurrent/checkpoint.pt",
+                "sha256": "37179c0dab5a13ddd0b12ce1c69dbd0c808fb54e8cdab966e879f6f9537eedfa",
+                "target_state_sha256": "80d0ad2c317f17b17caae1b3ff9c2d5912a7ca5b83e7680d37289d2b47b8bab2"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/window_local/arm_receipt.json",
+                "sha256": "60e21faeb954cf17e367d45a7c69d6b6a77ecd16504013d257f5370183a3b405"
+              },
+              "checkpoint": {
+                "model_state_sha256": "7a7536a582c943e08b00aa39254086dafd411c5ae56c3d1d8864a7049a74626b",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_1/window_local/checkpoint.pt",
+                "sha256": "8ca3564c2ed828c5f758df40f52d6d1d488bdf1fb654ec27f4695a7a33dc49fa",
+                "target_state_sha256": "11482bcc6f7d0dbbf83fce65c40129209ce14a3c369805f36c238b40e1234531"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f32/seed_1/seed_result.json",
+            "sha256": "eaddaee01ea25acd49a0e0abace2850097c849038b8833b2a8f72b8e9dd2fc2b"
+          }
+        },
+        "2": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/exact_global/arm_receipt.json",
+                "sha256": "d10dc15b4c7a30fcf22473385fa1828a812014aa307c0bb9040651abf99c7c0e"
+              },
+              "checkpoint": {
+                "model_state_sha256": "23f13e16e094669c06abb487bc5764b8f32c44e11b8718224d5ab42558c704ce",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/exact_global/checkpoint.pt",
+                "sha256": "5270c3805b60a677c301ac191e57b7fdf854b806d3549d470a056c744195ac0c",
+                "target_state_sha256": "2fd46c7cec34544e51c6bab8f3874e315e54c61e53a9bbb945b61b849e568bd4"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/hierarchical_pooled/arm_receipt.json",
+                "sha256": "ce52b5d2075e8d2d7eb64351533c01d6f66e05e2fc90df6285d194bfabe89841"
+              },
+              "checkpoint": {
+                "model_state_sha256": "26b01275dbcec9e0aa71f0d0409816fa66da7e2445d0834a8a8b097e021c3ff4",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/hierarchical_pooled/checkpoint.pt",
+                "sha256": "101658e6c0d83fdc931c63e69e605a0f4ec1150b420c5d80fc46b4bb481b6c23",
+                "target_state_sha256": "24fa2f351bd8a9616e7725bbdc4a78b1cede3519c3f5f34aa1ab81f4edd76216"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/recurrent/arm_receipt.json",
+                "sha256": "5eb4920dcf3657e1899d83efacea0c9005381e9ba4b3429219b705484976e78f"
+              },
+              "checkpoint": {
+                "model_state_sha256": "ef7db7ab4ef47db7e6c1df0829a95ca59f886186129f3dc40f8e05bb5831223d",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/recurrent/checkpoint.pt",
+                "sha256": "69750201cb980b5030abd5c985584868f1caae79701f115c0ebc8e1b996c8cd9",
+                "target_state_sha256": "fb11f305ab8b5ed7f031880852d4262edf29b554075629fd7790117a6a59a0a0"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/window_local/arm_receipt.json",
+                "sha256": "94bd8b2cfd72a6059eca757e57a3cc13d4fcb4ddd0671749826325b10935ed28"
+              },
+              "checkpoint": {
+                "model_state_sha256": "8c5b3071e1a9e28d1a26523f0a0e3a43718f107fde21091ac7225fdb1c1ed769",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_2/window_local/checkpoint.pt",
+                "sha256": "0a0e6c43191ce32e296a7c64d6fbe185c785542de70927227f2d2f83abef54fc",
+                "target_state_sha256": "9eedadea1e0dbce56e7dd922892f40ea3b7d463d7d712776d164c0f2a65d0ccf"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f32/seed_2/seed_result.json",
+            "sha256": "510d5f53ee213244fd398fb0e232d67d5b2ad5225c24e07481f359724de5cadf"
+          }
+        },
+        "3": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/exact_global/arm_receipt.json",
+                "sha256": "219f516aa7f4cacd02f611c54bbba370ae0965690069ae00297a85255cfa2980"
+              },
+              "checkpoint": {
+                "model_state_sha256": "d96ca993a57b73ebfed393a7d73cb00c2dcc4badc1a7caa6016c9ec12cf672d2",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/exact_global/checkpoint.pt",
+                "sha256": "59e21073471ff1ed3fd3557c1d222cb32ba32a0848cea6f48640a5d0aa481fd8",
+                "target_state_sha256": "2706e750b1cb4d25f42db09036d368e319d3b4ad96d785c2073f8044630ac96e"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/hierarchical_pooled/arm_receipt.json",
+                "sha256": "2db215f0ff16c4d50e590ee84d457bfb16d661ea069a9cbe5a451837eed2c567"
+              },
+              "checkpoint": {
+                "model_state_sha256": "ff54973b9441fdcc4558130d8f08c5ca49a9dc9d0fe0188c051d9f50a71be0f4",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/hierarchical_pooled/checkpoint.pt",
+                "sha256": "1d7e6de62935771d05173c62201a25ab0545a92bb6f552aadaca97a337fb85e2",
+                "target_state_sha256": "5c2c8790b1de4a5d1fb727c5bd0dd0a089e0c0e2aca91e4570c7746f0616cd59"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/recurrent/arm_receipt.json",
+                "sha256": "61f53693bc79648637823ee4620bf14f2a21b720abe2c847fb9184ce4910c5a8"
+              },
+              "checkpoint": {
+                "model_state_sha256": "290d91f1a6e4ddd7e6095ed07ecb2eca08eb22f05de394383f3c73bfabb53f6f",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/recurrent/checkpoint.pt",
+                "sha256": "61fce8134574cd26a748439a232b0bd99f553ee575237dd0b18cd4a992dbb700",
+                "target_state_sha256": "329c764e8833ce993e3d3814650ed3f6bf551079aa66d8c513263cfcf844fe32"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/window_local/arm_receipt.json",
+                "sha256": "adda941e8f3760c5db641cb22d0d7e6eb6f07238b99d9ca8e04bd6f8ed7f4ff8"
+              },
+              "checkpoint": {
+                "model_state_sha256": "cdd665f9af51007167ecced552c87fc8694412f8f4bee7a05ddd68b901ce4bad",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_3/window_local/checkpoint.pt",
+                "sha256": "859cf9bab762fb8f3f285a051249969581f7ea2b4a2bbc92e16d6b8bcbaab277",
+                "target_state_sha256": "f96a3dd0529b143b461b6bacfbaff996d795d6d00ccc66d6db448408f0b1b23c"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f32/seed_3/seed_result.json",
+            "sha256": "5841035578accae8a30913ad086c4911fde28e56825941d07293b13868289d73"
+          }
+        },
+        "4": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/exact_global/arm_receipt.json",
+                "sha256": "5aaa3fcbc5e4bcaaacb2680c62fa1ec50f708612571b1eccf65f31af71d23954"
+              },
+              "checkpoint": {
+                "model_state_sha256": "67747a118cc79842e000c1a75ebbf07678fa1eda2a8d947b0645b35636160201",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/exact_global/checkpoint.pt",
+                "sha256": "7cc57a0ab4cf216ab203bd58103ce5d7e06a311b2d37306f33b6206acdba077a",
+                "target_state_sha256": "dc00a72e7bc324cf83ca53bac32558f18d1a9a6b67f182082d5c3ae973f10459"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/hierarchical_pooled/arm_receipt.json",
+                "sha256": "5a4644ac18a367d7b6c8f3a0af7d9e699ee245a27f8d29f96f37c9777a81a3b0"
+              },
+              "checkpoint": {
+                "model_state_sha256": "af3d0a1b9c7fb180fdbecca6f8c51ab6363e6d7ff24603ad901cda88685cdd95",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/hierarchical_pooled/checkpoint.pt",
+                "sha256": "b117806f425e75548db5ce731981e0286e9f687d6201437d77d65cb7b860007d",
+                "target_state_sha256": "ab91d23aead5a7da772e4ea5c0e8fb18190a501316c1ffd8b5793926ccea7cf2"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/recurrent/arm_receipt.json",
+                "sha256": "2d813aa0fc299f9bbf89762c74cf534417b8635eb0043de38cf7102cc769bcee"
+              },
+              "checkpoint": {
+                "model_state_sha256": "540ab2b891c1f083b84fa216635a5cc367e883bd24ab9cb349f63b9541007a04",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/recurrent/checkpoint.pt",
+                "sha256": "4714bc3eae4d4bbcbd8287185d4e4487e649f7cdd3206da5c1ce8a42e2d5f33a",
+                "target_state_sha256": "597b897e6e73dcafac9c35f243553eba7cbac324add389ed64047eb58dfd29ad"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/window_local/arm_receipt.json",
+                "sha256": "abe0efcea6a76182bae404a5ef49d536c1e1ccd14d16265e97dda66c7efb36e5"
+              },
+              "checkpoint": {
+                "model_state_sha256": "1a05f5e264f52cbbd1b90ad9566377d3f6a5da5560e7e72182ca731e6afcbe54",
+                "path": "runs/p5_context/p5pilot/frames/f32/seed_4/window_local/checkpoint.pt",
+                "sha256": "6fcf7e8750edca2498c8240de235529fe8fb87f1f9e7eaee6256ee6918b71808",
+                "target_state_sha256": "216f85cbca0ceada8b0fd0df86bab9019506c4809118157e048bf75d099b1924"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f32/seed_4/seed_result.json",
+            "sha256": "d0e3f1f4b44c64d0155c84dc4402a90d5b0f14860621b178b0099ec3a9c69a8e"
+          }
+        }
+      },
+      "f64": {
+        "0": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/exact_global/arm_receipt.json",
+                "sha256": "dbb0018998231111f6120f99073f4b7c97ae68824b8e4f73f011470046ed4932"
+              },
+              "checkpoint": {
+                "model_state_sha256": "09fa9c45ab1282f0c720bd6cc71d964ca6770b4877272b02e28d1ad8afa1b55e",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/exact_global/checkpoint.pt",
+                "sha256": "e777c3b3ae26b9e83be9426a41093ca1c5d89bbd012eec1a8d87b10598fd772e",
+                "target_state_sha256": "a2d2fc92c2dde00759fdb3cb7315968fca83a5bed632a215faee8ed4dbc80087"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/hierarchical_pooled/arm_receipt.json",
+                "sha256": "714777b2df520c3d47a027d6f5191839040e82acdf1f8f3125908f5121fdab3c"
+              },
+              "checkpoint": {
+                "model_state_sha256": "d4006c17bd42e1068337cf353e8278b76b05540bdfe5eb0a9d46dfe3353adb2e",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/hierarchical_pooled/checkpoint.pt",
+                "sha256": "97ba1e6e7f6e3e7b17d5448c8f2b052f7f3c6492b7c9cc30ca413a188513b7eb",
+                "target_state_sha256": "75c24df311719391a3747c58480abb0ef7b015f3d1b213a26b1c814393bae416"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/recurrent/arm_receipt.json",
+                "sha256": "04ec5ccdc132ccafa1f6ef9b02c2fd8d8b8f79e26110ff65e6a73a46b620e4f5"
+              },
+              "checkpoint": {
+                "model_state_sha256": "1aa416a1953bebc8af88f01c05704cd0cb2e563f34f48a180c07352da3e2a385",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/recurrent/checkpoint.pt",
+                "sha256": "9f601ad5107a158a5ce6f38f1e03febddd2b4f71c568a5ff851c9b70557b7710",
+                "target_state_sha256": "b23021d19da01a8a2d5dc464c955af6fc3e7135b6b3bb003640bd5b029a0f2e3"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/window_local/arm_receipt.json",
+                "sha256": "6579199d4766c90b9a4a80d375d16a0bc164bb7c1d5e252a6260f03244216875"
+              },
+              "checkpoint": {
+                "model_state_sha256": "94d808b355a313a01434b671f47913704cf64e5ed9b43c37e74f7f0241a5dd8c",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_0/window_local/checkpoint.pt",
+                "sha256": "7c9414dd46a8b790640e5694af1705e42f1314a7156ac9cb045520f625a32822",
+                "target_state_sha256": "c832375498d98fb3c9aeba6bab5b2264d49ea96335aa5569817549c2b9fa54d6"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f64/seed_0/seed_result.json",
+            "sha256": "1ba56b55ebee802cee516a0342e826dea2c4d26824bb9aa31dca24454d86db0f"
+          }
+        },
+        "1": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/exact_global/arm_receipt.json",
+                "sha256": "51273e2abf048988ec6a2247d76b4fe05e145d5c76a97e2df58ea6caf2ece4f2"
+              },
+              "checkpoint": {
+                "model_state_sha256": "56dc6e8e43fd3eb013345d0b45338b37d4fc131d69ff10ca1ef608418a35d535",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/exact_global/checkpoint.pt",
+                "sha256": "5d7ed5377dd00d2fee6958da934fadb2176af8e4d81c9b6f42a26f134caf908f",
+                "target_state_sha256": "df425dab9830b5ef05f1dea1ad561c079f7b9d3e529bebd10338a0402a7ad593"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/hierarchical_pooled/arm_receipt.json",
+                "sha256": "93b1d59403c8d46f5d52b39a83beb00627a7dbd05bd136247fbdf81083e88da2"
+              },
+              "checkpoint": {
+                "model_state_sha256": "50e733a6e68cb492e5cde5b3630c557aec18abbc143b7920f6f2fc0ded436e19",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/hierarchical_pooled/checkpoint.pt",
+                "sha256": "004ea759b0bda6e44aa30e22547dcdcd2f5a2ef9877f22a9ef9761c1e0ebf83d",
+                "target_state_sha256": "fb9cfba4cd22a6832dbe18c8324a9bc2f8af9989dd6f1791eaa248f19cfb5a07"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/recurrent/arm_receipt.json",
+                "sha256": "d50fe77cfad49a5db02c91053f267929cd715f42acba58df9b07406e1db230ac"
+              },
+              "checkpoint": {
+                "model_state_sha256": "bfde45e143e1d16288ebdd17b129214f45b16877442dfa50f5fda57fa891e2e0",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/recurrent/checkpoint.pt",
+                "sha256": "187b5e22a9fba18ee1da0add7794eeddde7224afa0ccd6fb15d47e26697853c5",
+                "target_state_sha256": "f4112f2b95dc6cd2fea0ea534da9633c29c33f0c74f3c2e0bb87d8cb71cd58bb"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/window_local/arm_receipt.json",
+                "sha256": "53f757542ab7573439ad44d2a748c3699c2e252322d6b7b9522c161d44db3a71"
+              },
+              "checkpoint": {
+                "model_state_sha256": "da72cf9ad0f9e14002624b85f413978b707d2474320d1c621b5b6d2fa895fe3b",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_1/window_local/checkpoint.pt",
+                "sha256": "624110e5909a8299510c6959f41ca9a35824c4f52c6c2de5c4cd71023843f72c",
+                "target_state_sha256": "75959be415fb874e14de9b4b44328ee2b9143e1b36fb1e74c5d3780d8d7d8cf2"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f64/seed_1/seed_result.json",
+            "sha256": "c3d50b01bac6ead1eb76b0fcb828d047b7f29b01d4da6d02d23567cf05de7e93"
+          }
+        },
+        "2": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/exact_global/arm_receipt.json",
+                "sha256": "7355355da37b43d87c065b49c873f14bf8e8dff76be6ad46a95645d2a8ba89dc"
+              },
+              "checkpoint": {
+                "model_state_sha256": "094170e5a5ae3b6b4d357bd89831d04e7fb83ad4f358104266bd713c5d1537a1",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/exact_global/checkpoint.pt",
+                "sha256": "151da8b98b2189da65549581355bca4b748be4022f4f92fb061b5fa2be0f87e0",
+                "target_state_sha256": "19d60037cab95443a563ad8a49aaa3e908c89a70909c65ade90e76effdf7a567"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/hierarchical_pooled/arm_receipt.json",
+                "sha256": "4b5bf2cf3c02244aec929af6b4d43e2944cc5da271fbc5a7fe0ab7dbdb4a5a11"
+              },
+              "checkpoint": {
+                "model_state_sha256": "c1983ea28165c07bc7981732ab382618b7420f47eb3fea905931e52601a5ebfb",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/hierarchical_pooled/checkpoint.pt",
+                "sha256": "04689414c6fe6f049e5b59eff9e8c9bc87992cb6288b70b2524b0d8212408e00",
+                "target_state_sha256": "dda413b9ae4ddede871f5c8a136c42cf6ce2e3f90a5f464fe9cf9d5f5b96314c"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/recurrent/arm_receipt.json",
+                "sha256": "bb2952ff3c57067a254b5c86aeb1a2f375d00f3c0380c65ae35d2b2f32a2b40e"
+              },
+              "checkpoint": {
+                "model_state_sha256": "9987668f5473503eb9fea1334213e9cb47d38667d185f9feba31e2753b586f42",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/recurrent/checkpoint.pt",
+                "sha256": "416ca83fc58482cd11b4423147001d0bb9463c79f40616a9459926cda7b71656",
+                "target_state_sha256": "da8d339e5a29570d0abeb35e70a8e761a49742cbb606f08d4f07b568f0a2fbfe"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/window_local/arm_receipt.json",
+                "sha256": "7cd1d639b586a3a64e78e677a4f8f902c1607f7c63b683610306ddded6dbd9db"
+              },
+              "checkpoint": {
+                "model_state_sha256": "2cc590aeca2fae6cb2d3ecc723655034166d506c968c7d64edb39d657b1f0245",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_2/window_local/checkpoint.pt",
+                "sha256": "06a1e03dacd5ef52381123e338efc83ddd75e1644546022da38c51473e4a976b",
+                "target_state_sha256": "12c6c2d19f160be19379b88181cd166e077b321f45460faf6e890a0af366f3a3"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f64/seed_2/seed_result.json",
+            "sha256": "8793d62fd7708de28b8a2cda7712fa04f151575feae4960272df3061fc4167ab"
+          }
+        },
+        "3": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/exact_global/arm_receipt.json",
+                "sha256": "d30b856d0158941adffe53a3ab24395674cca966c1dcce80a4601aea340964b9"
+              },
+              "checkpoint": {
+                "model_state_sha256": "cf468031c037e89cfc6a7381550e7d38636da8ab0f4ccfb8b883d81a3929a56f",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/exact_global/checkpoint.pt",
+                "sha256": "5417859bb588ed43e155055016776a1bfd4a5d79b12f1e2379aebf697dce18b3",
+                "target_state_sha256": "c08ca944c32c7ec3ebdf64952658188cf52829005a5d309b4fc13afdc7dd1efd"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/hierarchical_pooled/arm_receipt.json",
+                "sha256": "727611319f57caf5fe1d86d54f72773b9f8d94367385b4771d76e38bc3aa5194"
+              },
+              "checkpoint": {
+                "model_state_sha256": "dfa02e259cef1e092c2fd6f3767388c747a98487cf083b0710e78e30c8b68931",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/hierarchical_pooled/checkpoint.pt",
+                "sha256": "03c7fce828cee267a3a4312b1a25d88981a77293dc031bff32614bc517a2b3c6",
+                "target_state_sha256": "4ba9b71028fee7c548df84a05e7ae169403feb611a3285bb79f9ff10044b25d8"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/recurrent/arm_receipt.json",
+                "sha256": "480d483799bd4344e330a48e5c415f7a4f31233a82fda84a3782a14f1f73a004"
+              },
+              "checkpoint": {
+                "model_state_sha256": "580b315d98beb902c68f72dee7112242c6a6bedfdd8222074b349ba7cd4cbadb",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/recurrent/checkpoint.pt",
+                "sha256": "845d8629ea76f28b5f4360e521c507dd66d21a46e83b7f8f0796164f2a21f7f0",
+                "target_state_sha256": "dfacd8400a5f3c34fe50a29e6b62daa89cc821e842d76007b058e5996e8e0227"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/window_local/arm_receipt.json",
+                "sha256": "e9dc9c74b1ad68a2fe0329f03fd05691977047d65842267850d4afd2282f6e24"
+              },
+              "checkpoint": {
+                "model_state_sha256": "163d977008ddd8684a3aba54a652b4fe16c0fcbf0e13bc3dd01e0534617fb87b",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_3/window_local/checkpoint.pt",
+                "sha256": "147e9a209973158238a71000f5eaac99866ed504a7dd6ec48af3126af271da70",
+                "target_state_sha256": "e988426f7b561e67ca28bce3931d023f9d256561bd44665c0897c2bd2b769d6d"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f64/seed_3/seed_result.json",
+            "sha256": "408ca068454637b129da86d43e9e82308d93a2d357a8d5934ce0f3647cb4a3df"
+          }
+        },
+        "4": {
+          "arms": {
+            "exact_global": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/exact_global/arm_receipt.json",
+                "sha256": "8ae36838f447020c3e3543e0c2c85e4dc4542750db385bd624155e237c6845e2"
+              },
+              "checkpoint": {
+                "model_state_sha256": "967d68accacb9c3c09964099c8293dc442b4d40e80447384a316a6b2b95df9d8",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/exact_global/checkpoint.pt",
+                "sha256": "a67929a6a4a4c796dde70a8d2cbb881867058135ff3baf1bffface1fbe2e429c",
+                "target_state_sha256": "512dc217cd9b991d3297068cb917767ffc7ef033adb7578ccb7bc1e444f84fed"
+              }
+            },
+            "hierarchical_pooled": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/hierarchical_pooled/arm_receipt.json",
+                "sha256": "51e9b4b29667a0985b4c580a9a6a12aca0e51dd91f55bafae50d404b43ebf1ad"
+              },
+              "checkpoint": {
+                "model_state_sha256": "4872aa42ed75058e07a058a4b72638a37ea249be76b0a00fd63801b3bc6c180f",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/hierarchical_pooled/checkpoint.pt",
+                "sha256": "59169ff28387595761fda7846fd76fd2c2a6adcd22f75314466a9b5c0e9237cd",
+                "target_state_sha256": "059b6671834b3f496b5a62b63c1c370e7ce7a302091d7f64c02c581756dc9d90"
+              }
+            },
+            "recurrent": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/recurrent/arm_receipt.json",
+                "sha256": "1851a1daa0c2fb12756f1ecd20b278e87f4fece5625adf5d23021623c326b4f6"
+              },
+              "checkpoint": {
+                "model_state_sha256": "93353b04d82cf2a02c97e616fbf6fb76534cfaaf88976989344025a35e2a1f4c",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/recurrent/checkpoint.pt",
+                "sha256": "1e711b53fca3c1ceb2bbd8185e16bfdaa80f64e629345e7379368b511f8cb01f",
+                "target_state_sha256": "22461a1e3299e8360aa6500723707e53a3e123132e50e9ee8381276e7643b31a"
+              }
+            },
+            "window_local": {
+              "arm_receipt": {
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/window_local/arm_receipt.json",
+                "sha256": "74f634f4310bbd27eed43059a8776f5dea976c2456703ef5820f21965242bce0"
+              },
+              "checkpoint": {
+                "model_state_sha256": "fa6ddb303125c7e5f05d0ef9968d264861d6e1fbd362b0ab9f8f5b1a023fdeb3",
+                "path": "runs/p5_context/p5pilot/frames/f64/seed_4/window_local/checkpoint.pt",
+                "sha256": "acd7d88d773ccb63b762a02c2de653848d6b17a5799ebbb2274dc1882fb7e104",
+                "target_state_sha256": "8f6cc63e1d380c44a9a7a40962f97680747b59ebc8c5b4c0322677fb45e6ebff"
+              }
+            }
+          },
+          "seed_result": {
+            "path": "runs/p5_context/p5pilot/frames/f64/seed_4/seed_result.json",
+            "sha256": "91466fcfa786d8f20e26ca9409f460197ef8ebb8ca1ec1d05ef4dc9031e0741c"
+          }
+        }
+      }
+    }
+  },
+  "cell_receipt_evidence": {
+    "fresh_challenge": {
+      "5101": {
+        "f16": {
+          "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/cell_receipt.json",
+          "sha256": "940ccbfb698daef57ca512654902ff344a173dde4ffa64aeaf7195828f7b38d2"
+        },
+        "f32": {
+          "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/cell_receipt.json",
+          "sha256": "4ca1953fcb8c3952e30954ff5aace65c77a5b1bf996b39a6e955077d0bf73f4b"
+        },
+        "f64": {
+          "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/cell_receipt.json",
+          "sha256": "ec47c1295a63ed77202aad19ffd323ed46e8c35ac28fcfd3aee87a95d85a0bc2"
+        }
+      },
+      "5102": {
+        "f16": {
+          "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/cell_receipt.json",
+          "sha256": "cf5f2c617a8ca53dadc73cbc5b842ea134e16217ac8e6ac81497bd67ba99b1fc"
+        },
+        "f32": {
+          "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/cell_receipt.json",
+          "sha256": "c36201f220cc2e23b1a0f9b112ced078dac47052918a6b2cd28ff4fa4717b7ad"
+        },
+        "f64": {
+          "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/cell_receipt.json",
+          "sha256": "38058fa69144614e27b3902da0e9ccfea81b16be4fc742ee89af944a6391ae8f"
+        }
+      },
+      "5103": {
+        "f16": {
+          "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/cell_receipt.json",
+          "sha256": "73c4e4bd36d8fa2b2cdc54b756d9179573d534777d8984e260f31538209428c2"
+        },
+        "f32": {
+          "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/cell_receipt.json",
+          "sha256": "5c91ad332de95f1c8b9798064e44308f39006f2de2353db517b51ba0ba7aaeca"
+        },
+        "f64": {
+          "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/cell_receipt.json",
+          "sha256": "0941cb7664ac12f194774bea0749f9ca2e5a0bda90f3e7b3083cf4ee0d2795f5"
+        }
+      }
+    },
+    "primary": {
+      "f16": {
+        "path": "runs/p5_context/p5pilot/frames/f16/cell_receipt.json",
+        "sha256": "0e912a290582477f6b94488036fdaae7cb0a734cc278c12290042145a813bf62"
+      },
+      "f32": {
+        "path": "runs/p5_context/p5pilot/frames/f32/cell_receipt.json",
+        "sha256": "8c30c6b9a4c89e6c42789760390a67aebed87c0bc5c9a9125280b0895ff9556a"
+      },
+      "f64": {
+        "path": "runs/p5_context/p5pilot/frames/f64/cell_receipt.json",
+        "sha256": "a995a42c42fec1e958c24968355a42f2652b7ac14377a41f1354e5d53e260a5e"
+      }
+    }
+  },
+  "claim_scope": "exact-versus-factorized context pilot on deterministic programmatic video; not natural-video, memory-rung, or general-capability evidence",
+  "classification": "null",
+  "config": {
+    "path": "configs/experiment/mop_p5_context_capability.yaml",
+    "resolved_sha256": "9efdce82c1e813b9a938356eb859e8b4a5351457063cd11c528c22c2f43a8233",
+    "sha256": "fe704a6dc580a869812067f063db01d9417f1796ac359fc7dec02815959562f1"
+  },
+  "controls": {
+    "confirmatory_promotion_refused": true,
+    "difficulty_calibration_checked": true,
+    "fresh_disjoint_training_for_every_primary_pattern": true,
+    "matched_parameter_and_flop_contract": true,
+    "nonterminal_outcome_has_off_ceiling_multiunit_support": true,
+    "primary_off_ceiling": {
+      "f32": true,
+      "f64": true
+    },
+    "raw_per_seed_contrasts_independently_recomputed": true,
+    "same_initialization_frozen_control": true,
+    "seed_arm_checkpoint_artifacts_exactly_joined": true,
+    "threshold_tie_is_null": true
+  },
+  "evidence_class": "R1 independently recomputed programmatic pilot evidence",
+  "fresh_challenge": {
+    "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+    "payload_sha256": "5707ba8981d9f9a3086e1aedf299d85136e724b02a3ac70b96f2182754a7b63b",
+    "per_pattern": [
+      {
+        "direction": "exact-over-factorized",
+        "fresh_ci": {
+          "half": 0.024007743378178674,
+          "hi": 0.25085959523003054,
+          "lo": 0.20284410847367318,
+          "mean": 0.22685185185185186,
+          "n": 3
+        },
+        "fresh_training_units": [
+          {
+            "delta": 0.20833333333333337,
+            "off_ceiling": true,
+            "seed": 5101,
+            "trainability_delta": 0.08333333333333337,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.25,
+            "off_ceiling": true,
+            "seed": 5102,
+            "trainability_delta": 0.125,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.2222222222222222,
+            "off_ceiling": true,
+            "seed": 5103,
+            "trainability_delta": -0.1527777777777778,
+            "trainability_ok": false
+          }
+        ],
+        "id": "f64-exact-minus-recurrent",
+        "outcome": "null",
+        "programmatic_pattern_verified": false,
+        "scientific_promotion_allowed": false,
+        "strict_direction_reproduced": true,
+        "tie_is_null": true
+      },
+      {
+        "direction": "exact-over-factorized",
+        "fresh_ci": {
+          "half": 0.024007743378178674,
+          "hi": 0.25085959523003054,
+          "lo": 0.20284410847367318,
+          "mean": 0.22685185185185186,
+          "n": 3
+        },
+        "fresh_training_units": [
+          {
+            "delta": 0.20833333333333337,
+            "off_ceiling": true,
+            "seed": 5101,
+            "trainability_delta": 0.08333333333333337,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.25,
+            "off_ceiling": true,
+            "seed": 5102,
+            "trainability_delta": 0.125,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.2222222222222222,
+            "off_ceiling": true,
+            "seed": 5103,
+            "trainability_delta": -0.1527777777777778,
+            "trainability_ok": false
+          }
+        ],
+        "id": "f64-exact-minus-hierarchical_pooled",
+        "outcome": "null",
+        "programmatic_pattern_verified": false,
+        "scientific_promotion_allowed": false,
+        "strict_direction_reproduced": true,
+        "tie_is_null": true
+      },
+      {
+        "direction": "exact-over-factorized",
+        "fresh_ci": {
+          "half": 0.14937811185640038,
+          "hi": 0.3901188525971412,
+          "lo": 0.09136262888434041,
+          "mean": 0.24074074074074078,
+          "n": 3
+        },
+        "fresh_training_units": [
+          {
+            "delta": 0.375,
+            "off_ceiling": true,
+            "seed": 5101,
+            "trainability_delta": 0.08333333333333337,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.23611111111111116,
+            "off_ceiling": true,
+            "seed": 5102,
+            "trainability_delta": 0.125,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.11111111111111116,
+            "off_ceiling": true,
+            "seed": 5103,
+            "trainability_delta": -0.1527777777777778,
+            "trainability_ok": false
+          }
+        ],
+        "id": "f32-exact-minus-recurrent",
+        "outcome": "null",
+        "programmatic_pattern_verified": false,
+        "scientific_promotion_allowed": false,
+        "strict_direction_reproduced": false,
+        "tie_is_null": true
+      },
+      {
+        "direction": "exact-over-factorized",
+        "fresh_ci": {
+          "half": 0.12703703703703703,
+          "hi": 0.3816666666666667,
+          "lo": 0.12759259259259262,
+          "mean": 0.25462962962962965,
+          "n": 3
+        },
+        "fresh_training_units": [
+          {
+            "delta": 0.375,
+            "off_ceiling": true,
+            "seed": 5101,
+            "trainability_delta": 0.08333333333333337,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.23611111111111116,
+            "off_ceiling": true,
+            "seed": 5102,
+            "trainability_delta": 0.125,
+            "trainability_ok": true
+          },
+          {
+            "delta": 0.1527777777777778,
+            "off_ceiling": true,
+            "seed": 5103,
+            "trainability_delta": -0.1527777777777778,
+            "trainability_ok": false
+          }
+        ],
+        "id": "f32-exact-minus-hierarchical_pooled",
+        "outcome": "null",
+        "programmatic_pattern_verified": false,
+        "scientific_promotion_allowed": false,
+        "strict_direction_reproduced": true,
+        "tie_is_null": true
+      }
+    ],
+    "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+  },
+  "fresh_challenge_required": true,
+  "independence": {
+    "checkpoint_files_opened_with_weights_only": true,
+    "checkpoint_model_and_target_state_hashes_recomputed": true,
+    "fresh_seeds_disjoint_from_primary": true,
+    "fresh_training_required_for_each_primary_pattern": true,
+    "fresh_training_seeds": [
+      5101,
+      5102,
+      5103
+    ],
+    "heldout_metrics_reexecuted_from_checkpoint": false,
+    "imports_p5_training_or_evaluator": false,
+    "raw_seed_score_recompute": true
+  },
+  "metric_recomputation_limit": "checkpoint model and target states, identities, completed steps, and compute are independently hashed and joined; heldout scores are recomputed from durable per-seed receipts but are not re-evaluated from model checkpoints",
+  "mutation_tests": [
+    {
+      "id": "incomplete-pilot",
+      "observed_error": "P5 pilot is incomplete",
+      "rejected": true
+    },
+    {
+      "id": "all-ok-false",
+      "observed_error": "P5 pilot all_ok is false",
+      "rejected": true
+    },
+    {
+      "id": "source-hash-drift",
+      "observed_error": "P5 pilot source binding is stale or incomplete",
+      "rejected": true
+    },
+    {
+      "id": "config-binding-drift",
+      "observed_error": "P5 pilot resolved config binding drifted",
+      "rejected": true
+    },
+    {
+      "id": "sealed-profile-config-mismatch",
+      "observed_error": "sealed P5 profile and resolved config profile disagree",
+      "rejected": true
+    },
+    {
+      "id": "fresh-challenge-hint-flip",
+      "observed_error": "P5 fresh_challenge_required hint disagrees with recomputed primary patterns",
+      "rejected": true
+    },
+    {
+      "id": "seed-selection-drift",
+      "observed_error": "P5 context response curve drifted from raw cell scores",
+      "rejected": true
+    },
+    {
+      "id": "confirmatory-promotion",
+      "observed_error": "P5 pilot promotion and scope-refusal block drifted",
+      "rejected": true
+    },
+    {
+      "id": "raw-score-mutation",
+      "observed_error": "f64 score aggregates do not independently recompute",
+      "rejected": true
+    },
+    {
+      "id": "cached-seed-source-drift",
+      "observed_error": "f64 seed 0 identity or completion drifted",
+      "rejected": true
+    },
+    {
+      "id": "checkpoint-source-drift",
+      "observed_error": "f64 seed 0 exact_global checkpoint source binding drifted",
+      "rejected": true
+    },
+    {
+      "id": "matched-compute-drift",
+      "observed_error": "f64 window_local matched-compute control drifted",
+      "rejected": true
+    },
+    {
+      "id": "threshold-tie-promotion",
+      "observed_error": "f64 paired contrasts do not independently recompute",
+      "rejected": true
+    },
+    {
+      "id": "ceilinged-contrast-promotion",
+      "observed_error": "nonterminal ceilinged contrasts classify as mechanics",
+      "rejected": true
+    },
+    {
+      "id": "missing-seed-result-artifact",
+      "observed_error": "f64 seed 0 durable result is missing: /Users/scammermike/Downloads/mop/tmpd0hl5k6j/seed_0/seed_result.json",
+      "rejected": true
+    },
+    {
+      "id": "missing-arm-receipt-artifact",
+      "observed_error": "f64 seed 0 exact_global arm receipt is missing: /Users/scammermike/Downloads/mop/tmp8l409r98/seed_0/exact_global/arm_receipt.json",
+      "rejected": true
+    },
+    {
+      "id": "missing-checkpoint-artifact",
+      "observed_error": "f64 seed 0 exact_global checkpoint is missing",
+      "rejected": true
+    },
+    {
+      "id": "checkpoint-file-hash-drift",
+      "observed_error": "f64 seed 0 exact_global checkpoint file hash or size drifted",
+      "rejected": true
+    },
+    {
+      "id": "fresh-seed-overlap",
+      "observed_error": "P5 challenge fresh training seeds drifted",
+      "rejected": true
+    },
+    {
+      "id": "fresh-run-drop",
+      "observed_error": "P5 challenge full-surface seed run coverage drifted",
+      "rejected": true
+    },
+    {
+      "id": "fresh-confirmatory-promotion",
+      "observed_error": "P5 challenge promotion refusal drifted",
+      "rejected": true
+    },
+    {
+      "id": "challenge-shape-omission",
+      "observed_error": "P5 challenge receipt shape drifted from the governed runner",
+      "rejected": true
+    },
+    {
+      "id": "fresh-trainability-gate-fabrication",
+      "observed_error": "P5 trainability gate delta drifted",
+      "rejected": true
+    }
+  ],
+  "outcome": "null",
+  "outcome_contract": {
+    "allowed": [
+      "mechanics",
+      "null",
+      "favorable-programmatic-only"
+    ],
+    "confirmatory_promotable": false,
+    "programmatic_only": true,
+    "scientific_capability_claim": false,
+    "tie_is_null": true
+  },
+  "payload_sha256": "70451959089b50249dd1b63a46f1a68bca1cbea59e36c57340f24877adec9589",
+  "prerequisite_ready": true,
+  "primary_outcome": "favorable-programmatic-only",
+  "primary_patterns": [
+    {
+      "direction": "exact-over-factorized",
+      "frames": 64,
+      "id": "f64-exact-minus-recurrent",
+      "mechanism": "recurrent",
+      "primary_ci": {
+        "classification": "meaningful_positive",
+        "half": 0.06854380414318827,
+        "hi": 0.2740993596987438,
+        "lo": 0.13701175141236727,
+        "mean": 0.20555555555555555,
+        "n": 5
+      }
+    },
+    {
+      "direction": "exact-over-factorized",
+      "frames": 64,
+      "id": "f64-exact-minus-hierarchical_pooled",
+      "mechanism": "hierarchical_pooled",
+      "primary_ci": {
+        "classification": "meaningful_positive",
+        "half": 0.06854380414318827,
+        "hi": 0.2740993596987438,
+        "lo": 0.13701175141236727,
+        "mean": 0.20555555555555555,
+        "n": 5
+      }
+    },
+    {
+      "direction": "exact-over-factorized",
+      "frames": 32,
+      "id": "f32-exact-minus-recurrent",
+      "mechanism": "recurrent",
+      "primary_ci": {
+        "classification": "meaningful_positive",
+        "half": 0.05444444444444446,
+        "hi": 0.2766666666666667,
+        "lo": 0.16777777777777778,
+        "mean": 0.22222222222222224,
+        "n": 5
+      }
+    },
+    {
+      "direction": "exact-over-factorized",
+      "frames": 32,
+      "id": "f32-exact-minus-hierarchical_pooled",
+      "mechanism": "hierarchical_pooled",
+      "primary_ci": {
+        "classification": "meaningful_positive",
+        "half": 0.05444444444444446,
+        "hi": 0.2766666666666667,
+        "lo": 0.16777777777777778,
+        "mean": 0.22222222222222224,
+        "n": 5
+      }
+    }
+  ],
+  "primary_profile": "p5pilot",
+  "primary_receipt": {
+    "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+    "payload_sha256": "b34ab78340d8e0005e4e7af89ac4bb0a19693263f9a42ef7556d811a70483d71",
+    "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+  },
+  "primary_run_receipt": {
+    "exactly_matches_published": true,
+    "path": "runs/p5_context/p5pilot/p5_context_receipt.json",
+    "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+  },
+  "problems": [],
+  "promotion": {
+    "confirmatory_promotable": false,
+    "refused_by_construction": true,
+    "scientific_capability_claim": false
+  },
+  "schema": "mop-p5-context-independent-verifier/v1",
+  "scientific_promotion": false,
+  "source_bindings": [
+    {
+      "file_sha256": "fe704a6dc580a869812067f063db01d9417f1796ac359fc7dec02815959562f1",
+      "path": "configs/experiment/mop_p5_context_capability.yaml"
+    },
+    {
+      "file_sha256": "f3ecc2fce57c03423a2ea28545737da934715dfdfc2423ae2b9920b1436755e8",
+      "path": "scripts/p5_context_capability.py"
+    },
+    {
+      "file_sha256": "0b8628e233b5647cdfc9405553683acbf21da6a0c2ed953b0fab5c71242b19d2",
+      "path": "src/mop/substrate/p5_context.py"
+    },
+    {
+      "file_sha256": "032fdb41fe8d960277416f242d725e3b6049bf46f9082af7d95966e79021d2ae",
+      "path": "src/mop/substrate/custom_workbench.py"
+    },
+    {
+      "file_sha256": "d459c6da5e8041ff305563f9c92d57182afb7e809bd61e3cf7424f110ebfb1c9",
+      "path": "src/mop/substrate/p4_screen.py"
+    },
+    {
+      "file_sha256": "240e2aab82dbf4dbb54707ce63a0a5dbc317025cc1d710f2bc1e5c2f507697fa",
+      "path": "scripts/verify_p5_context_capability.py"
+    },
+    {
+      "file_sha256": "5cb684c2b42be0eac62adf2ce6f4af64dafc2735202457b78d88c07a70871c1d",
+      "path": "src/mop/studies/p5_context_verify.py"
+    }
+  ],
+  "strongest_control": "three disjoint fresh training seeds with matched compute and same-initialization frozen arms",
+  "terminal_null": false,
+  "verification_complete": true,
+  "verified_patterns": []
+}

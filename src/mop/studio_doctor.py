@@ -173,22 +173,45 @@ def _check_profile_floor(profile_name: str | None = None) -> tuple[bool, str]:
     )
 
 
+def _isolated_import_probe(modules: tuple[str, ...]) -> tuple[bool, str]:
+    """Import optional native modules outside the doctor process.
+
+    Video backends load codec and accelerator libraries with process-global destructors.  A broken
+    optional backend must be reported as unavailable without being able to crash the readiness
+    process later during interpreter teardown.
+    """
+
+    imports = ";".join(f"importlib.import_module({module!r})" for module in modules)
+    proc = subprocess.run(
+        [sys.executable, "-I", "-c", f"import importlib;{imports}"],
+        cwd=tempfile.gettempdir(),
+        env=dict(os.environ),
+        text=True,
+        capture_output=True,
+        timeout=15,
+        check=False,
+    )
+    if proc.returncode == 0:
+        return True, "ok"
+    lines = (proc.stderr or proc.stdout).strip().splitlines()
+    detail = lines[-1] if lines else f"exit {proc.returncode}"
+    return False, detail
+
+
+@lru_cache(maxsize=1)
 def _check_video_backend() -> tuple[bool, str]:
-    """Require a decoder that can exercise the real-video path, not just cached latents."""
+    """Require an importable real-video decoder while containing native-library failures."""
+
     errors: list[str] = []
-    try:
-        import decord  # noqa: F401
+    ok, detail = _isolated_import_probe(("decord",))
+    if ok:
+        return True, "present: decord (isolated import)"
+    errors.append(f"decord={detail}")
 
-        return True, "present: decord"
-    except Exception as e:
-        errors.append(f"decord={type(e).__name__}")
-    try:
-        import av  # noqa: F401
-        import torchvision.io  # noqa: F401
-
-        return True, "present: torchvision.io + PyAV"
-    except Exception as e:
-        errors.append(f"torchvision/PyAV={type(e).__name__}")
+    ok, detail = _isolated_import_probe(("av", "torchvision.io"))
+    if ok:
+        return True, "present: torchvision.io + PyAV (isolated import)"
+    errors.append(f"torchvision/PyAV={detail}")
     return False, ", ".join(errors) + "; install `.[video]` before real-video work"
 
 

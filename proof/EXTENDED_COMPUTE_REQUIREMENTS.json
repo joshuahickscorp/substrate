@@ -56,30 +56,66 @@
         "local_runs_all_ok": true,
         "local_runs_completed": 18
       },
-      "p5_smoke_admission_refusal": {
+      "p5_terminal_evidence": {
         "all_ok": true,
-        "available_memory_gb": [
-          6.830424064,
-          8.909111296,
-          8.705048576
+        "artifacts": {
+          "fresh_challenge": {
+            "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+            "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+          },
+          "pilot": {
+            "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+            "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+          },
+          "smoke": {
+            "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+            "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+          },
+          "verifier": {
+            "path": "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+            "sha256": "743ce07180f0728f3074b2ac9c78a9aa12ff23f33aeebeffd45bebecacb5f077"
+          }
+        },
+        "claim_scope": "exact-versus-factorized context pilot on deterministic programmatic video; not natural-video, memory-rung, or general-capability evidence",
+        "classification": "null",
+        "confirmatory_promotable": false,
+        "fresh_pattern_count": 4,
+        "fresh_training_seeds": [
+          5101,
+          5102,
+          5103
         ],
-        "command_executed": false,
-        "cpu_load_per_logical_cpu": [
-          3.8621012369791665,
-          3.8621012369791665,
-          3.986572265625
-        ],
-        "decision_count": 3,
-        "failed_gates": [
-          "cpu_load",
-          "candidate_memory_headroom"
-        ],
-        "maximum_cpu_load_per_logical_cpu": 0.85,
-        "minimum_projected_disk_gb": 112.378413568,
-        "power_source": "AC Power",
-        "required_memory_gb": 10.0,
-        "run_id": "p5smoke_20260711_leg3",
-        "state": "cpu-load-and-memory-admission-refusal"
+        "governor_receipts": {
+          "fresh_challenge": {
+            "path": "proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+            "run_id": "p5fresh_challenge_20260712_leg2",
+            "sha256": "762d31163e22a6637da4f78d741d2dd6a104da4eeb33ba41f7d6a0d5cd062a86"
+          },
+          "pilot": {
+            "path": "proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+            "run_id": "p5pilot_20260712_leg6",
+            "sha256": "cdfa7345ece609fc2aa273166630c264bd251e421647a6c6fbb08b7847f447b5"
+          },
+          "smoke": {
+            "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+            "run_id": "p5smoke_20260711_leg4",
+            "sha256": "717a7b0be5b394f17fa689ae2cb8d9d8756616ee2da6b3e0215c0a2667406fb0"
+          },
+          "verifier": {
+            "path": "runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+            "run_id": "mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01",
+            "sha256": "4abb704f4c0ae12033b7c60184ea7878713844e976432194f0171120ba69ae7d"
+          }
+        },
+        "mutation_count": 23,
+        "outcome": "null",
+        "prerequisite_ready": true,
+        "primary_outcome": "favorable-programmatic-only",
+        "primary_seed_count": 5,
+        "programmatic_only": true,
+        "scientific_promotion": false,
+        "state": "governed-terminal-null",
+        "verified_pattern_count": 0
       },
       "p6_10k_scheduler_dry_run": {
         "admission_allowed": false,
@@ -88,7 +124,7 @@
         "decision_count": 3,
         "estimated_unified_memory_gb": null,
         "exclusive_lane_state_consistent": true,
-        "prerequisite_state": "missing-sealed-p5-verifier",
+        "prerequisite_state": "historical-missing-sealed-p5-verifier",
         "resource_probe": true,
         "task_id": "p6_10k_resource_probe_cpu"
       },
@@ -288,7 +324,7 @@
     {
       "all_current": true,
       "artifact": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "checks": 657,
+      "checks": 666,
       "mismatches": [],
       "missing": []
     },
@@ -712,7 +748,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_adam_trainable_state": {
       "current_hash_verified": true,
@@ -720,7 +756,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_cache_10000": {
       "current_hash_verified": true,
@@ -728,7 +764,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_campaign_time_spec": {
       "current_hash_verified": true,
@@ -736,7 +772,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_checkpoint_volume_spec": {
       "current_hash_verified": true,
@@ -744,7 +780,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_cloud_cost_spec": {
       "current_hash_verified": true,
@@ -752,7 +788,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_dense_cache_storage": {
       "current_hash_verified": true,
@@ -760,7 +796,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_energy_scope": {
       "current_hash_verified": true,
@@ -768,7 +804,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_paired_seed_power": {
       "current_hash_verified": true,
@@ -776,7 +812,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "c_peak_memory_spec": {
       "current_hash_verified": true,
@@ -784,7 +820,7 @@
       "record_type": "calculation",
       "schema_validated_role": true,
       "source_ref": "local:scripts/build_extended_compute_requirements.py",
-      "source_sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "source_sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     "m_cm7_pilot": {
       "current_hash_verified": true,
@@ -881,11 +917,11 @@
       "sha256": "2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64"
     },
     {
-      "bytes": 1949404,
+      "bytes": 2002043,
       "exists": true,
       "id": "local:proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
       "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "sha256": "1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65"
+      "sha256": "09be97f99ccfa357d2b151ab981c34649fd30b0775c54115573d625db4ef3a1e"
     },
     {
       "bytes": 34469,
@@ -1119,11 +1155,11 @@
       "sha256": "e91f3dc36532e451c4135e444b514d0f7bcc160b3c1ef4de6167d73eb457e81c"
     },
     {
-      "bytes": 38887,
+      "bytes": 47732,
       "exists": true,
       "id": "local:configs/local_execution_throttle.yaml",
       "path": "configs/local_execution_throttle.yaml",
-      "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
+      "sha256": "11a5cfe6515a77f27de00af683dd325152387c5a19bdd1c797a18e791fc01a0a"
     },
     {
       "bytes": 43134,
@@ -1252,6 +1288,13 @@
       "sha256": "a89986cbf656d65a52fc75610ad30b780bb2a46758b898202a3948ea81d3293a"
     },
     {
+      "bytes": 15810,
+      "exists": true,
+      "id": "local:src/mop/studies/p5_terminal_evidence.py",
+      "path": "src/mop/studies/p5_terminal_evidence.py",
+      "sha256": "986216dc18158ff7253b5325a1c9f383255afc9db1a5460a968409f621e3d2ff"
+    },
+    {
       "bytes": 5054,
       "exists": true,
       "id": "local:data/cache/vjepa2_vitl_local8_citable/cache_manifest.json",
@@ -1266,11 +1309,11 @@
       "sha256": "ea08314b8e969bb8d36f93cd4d0442740f2e3f7e985deefea929c054715631c0"
     },
     {
-      "bytes": 126192,
+      "bytes": 115600,
       "exists": true,
       "id": "local:scripts/build_extended_compute_requirements.py",
       "path": "scripts/build_extended_compute_requirements.py",
-      "sha256": "86a9449016ffed361a99fa98ad88a9f7857e49caa11c8f811fb254ee7f09c26c"
+      "sha256": "7a8931d80af8430c38d1133adf7cf4a875c956eac958e43c3e4217c63cf1001e"
     },
     {
       "bytes": 56837,
@@ -1369,6 +1412,27 @@
       "id": "local:runs/project_exhaustion/current/classes/e4_neuromod/attempt_001/attempt_receipt.json",
       "path": "runs/project_exhaustion/current/classes/e4_neuromod/attempt_001/attempt_receipt.json",
       "sha256": "608e4fa69e32b77ea74f1110f33f814ad394db1b17f9cac12d8f54dc2ee38a87"
+    },
+    {
+      "bytes": 3608,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/manifest.json",
+      "path": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/manifest.json",
+      "sha256": "4c797a9f64a5b1138d6711a4564838a3bc31f265c7c3864b89e97808a22c6d20"
+    },
+    {
+      "bytes": 2163,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/config.yaml",
+      "path": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/config.yaml",
+      "sha256": "e90aad85afd0afee8afa21eb36bb4df6d3e340e675a020d74b937d26be36dd1a"
+    },
+    {
+      "bytes": 2203,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/attempt_receipt.json",
+      "path": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/attempt_receipt.json",
+      "sha256": "f1c1a6f8e23326577ce2945432c15ae993f3bed2b5495049df9dee1288d0bf21"
     },
     {
       "bytes": 2707,
@@ -1539,6 +1603,27 @@
       "sha256": "a255fea521372694d5e39a725d052646dc60203186cd8e21af8c6f2a50ef69be"
     },
     {
+      "bytes": 6815,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/manifest.json",
+      "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/manifest.json",
+      "sha256": "3a2923f8ce48320e385894809a7d6e53ea0b61c802ee8170d41cb16f9a76e561"
+    },
+    {
+      "bytes": 2217,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/config.yaml",
+      "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/config.yaml",
+      "sha256": "187516d14baa1cf0e0091103b51c07c356ff81b3790128e26f5569cdbec02b1d"
+    },
+    {
+      "bytes": 2540,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/attempt_receipt.json",
+      "path": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/attempt_receipt.json",
+      "sha256": "294d54bad0174939052e3c30cc8164daf35bb22333396a17ee4d1fc217e71b8c"
+    },
+    {
       "bytes": 2321,
       "exists": true,
       "id": "local:runs/project_exhaustion/current/classes/ex6_active_inference/attempt_001/manifest.json",
@@ -1623,25 +1708,25 @@
       "sha256": "4333c3c7f0ad02ab9672cd66c745c3d46c8008da724171029505d69516e219f8"
     },
     {
-      "bytes": 2126,
+      "bytes": 2128,
       "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/manifest.json",
-      "path": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/manifest.json",
-      "sha256": "8475c36b90e82dca441a9808a10dc30ed7150bb7fe355b594a958d0ec02e4b2b"
+      "id": "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/manifest.json",
+      "path": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/manifest.json",
+      "sha256": "32d11aa5ccd3bb99ed599101d220b1b36d3fc9ba11df43e3105ccdd37a3c1d1a"
     },
     {
-      "bytes": 2266,
+      "bytes": 2309,
       "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/config.yaml",
-      "path": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/config.yaml",
-      "sha256": "0687638a67e0016f2012c6f585943ebc2d799aadca2e4756ad349b6a3dd91f54"
+      "id": "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/config.yaml",
+      "path": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/config.yaml",
+      "sha256": "93b58396e3b2a5eb0282b1552392449933021cf14fb22435d26168715fb9a777"
     },
     {
-      "bytes": 2685,
+      "bytes": 2686,
       "exists": true,
-      "id": "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/attempt_receipt.json",
-      "path": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/attempt_receipt.json",
-      "sha256": "4a04c66ee60dd6056afc9cab98a29f7577038130fa0ee7bf599a969e8068cbdd"
+      "id": "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/attempt_receipt.json",
+      "path": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/attempt_receipt.json",
+      "sha256": "acf14b5e6f265d0f75199b826d422243d959affb367c04460156c2659fbcb97a"
     },
     {
       "bytes": 1661,
@@ -3765,11 +3850,81 @@
       "sha256": "de0a80434e7b5f6a35cd28051af07ac84c23d804fb3566df13a056b940e7f884"
     },
     {
-      "bytes": 28125,
+      "bytes": 2055,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/manifest.json",
+      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/manifest.json",
+      "sha256": "30fe771c383c28d9439cb5f0462a5a3c8af9b0a6375faa84f0056c9077b184c5"
+    },
+    {
+      "bytes": 3245,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/config.yaml",
+      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/config.yaml",
+      "sha256": "9f64ecef38e8f494761eb2690b74b7d2c6160ca53ab871325fbc277ebfdf81f8"
+    },
+    {
+      "bytes": 2010,
+      "exists": true,
+      "id": "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/attempt_receipt.json",
+      "path": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/attempt_receipt.json",
+      "sha256": "825bbdac3f1023eaafcf733116f1eeff7b9f02c6d90de671e8b45ceee3a872b1"
+    },
+    {
+      "bytes": 63134,
       "exists": true,
       "id": "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
       "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
-      "sha256": "4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd"
+      "sha256": "717a7b0be5b394f17fa689ae2cb8d9d8756616ee2da6b3e0215c0a2667406fb0"
+    },
+    {
+      "bytes": 16626,
+      "exists": true,
+      "id": "local:proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+      "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+      "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+    },
+    {
+      "bytes": 134268,
+      "exists": true,
+      "id": "local:proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+      "path": "proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+      "sha256": "cdfa7345ece609fc2aa273166630c264bd251e421647a6c6fbb08b7847f447b5"
+    },
+    {
+      "bytes": 17636,
+      "exists": true,
+      "id": "local:proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+      "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+      "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+    },
+    {
+      "bytes": 120594,
+      "exists": true,
+      "id": "local:proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+      "path": "proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+      "sha256": "762d31163e22a6637da4f78d741d2dd6a104da4eeb33ba41f7d6a0d5cd062a86"
+    },
+    {
+      "bytes": 7910,
+      "exists": true,
+      "id": "local:proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+      "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+      "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+    },
+    {
+      "bytes": 71496,
+      "exists": true,
+      "id": "local:runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+      "path": "runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+      "sha256": "4abb704f4c0ae12033b7c60184ea7878713844e976432194f0171120ba69ae7d"
+    },
+    {
+      "bytes": 97524,
+      "exists": true,
+      "id": "local:proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+      "path": "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+      "sha256": "743ce07180f0728f3074b2ac9c78a9aa12ff23f33aeebeffd45bebecacb5f077"
     },
     {
       "bytes": 2084,
@@ -3856,7 +4011,7 @@
       "pointer": "/measured_ceiling_evidence/vjepa_serial_cache/vitl"
     }
   },
-  "payload_sha256": "1e43a13f2959ad9ee30fcd752f5d6553e43f7cb955e3867b9218b2979d2847e9",
+  "payload_sha256": "8f1eb1d4411d6c08626a498ce6ca5bb9b90c893ca329e8e76764f61c31aa439d",
   "row_referenced_json_audits": {
     "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json": {
       "all_current": true,
@@ -3907,24 +4062,10 @@
       "mismatches": [],
       "missing": []
     },
-    "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json": {
-      "all_current": true,
-      "artifact": "proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json",
-      "checks": 2,
-      "mismatches": [],
-      "missing": []
-    },
     "proof/LOCAL_FRONTIER_PREFLIGHTS.json": {
       "all_current": true,
       "artifact": "proof/LOCAL_FRONTIER_PREFLIGHTS.json",
       "checks": 0,
-      "mismatches": [],
-      "missing": []
-    },
-    "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json": {
-      "all_current": true,
-      "artifact": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
-      "checks": 2,
       "mismatches": [],
       "missing": []
     },
@@ -4761,6 +4902,20 @@
       "mismatches": [],
       "missing": []
     },
+    "runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/attempt_receipt.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/attempt_receipt.json",
+      "checks": 2,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/manifest.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/manifest.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
     "runs/project_exhaustion/current/classes/e7_sparse/attempt_001/attempt_receipt.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/e7_sparse/attempt_001/attempt_receipt.json",
@@ -4803,16 +4958,16 @@
       "mismatches": [],
       "missing": []
     },
-    "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/attempt_receipt.json": {
+    "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/attempt_receipt.json": {
       "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/attempt_receipt.json",
+      "artifact": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/attempt_receipt.json",
       "checks": 2,
       "mismatches": [],
       "missing": []
     },
-    "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/manifest.json": {
+    "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/manifest.json": {
       "all_current": true,
-      "artifact": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/manifest.json",
+      "artifact": "runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -4981,6 +5136,20 @@
     "runs/project_exhaustion/current/classes/ex4_fast_weights/attempt_001/manifest.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/ex4_fast_weights/attempt_001/manifest.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/attempt_receipt.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/attempt_receipt.json",
+      "checks": 2,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/manifest.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -5219,6 +5388,20 @@
     "runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/manifest.json": {
       "all_current": true,
       "artifact": "runs/project_exhaustion/current/classes/mop_p4_capability_density_screen/attempt_001/manifest.json",
+      "checks": 0,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/attempt_receipt.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/attempt_receipt.json",
+      "checks": 2,
+      "mismatches": [],
+      "missing": []
+    },
+    "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/manifest.json": {
+      "all_current": true,
+      "artifact": "runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/manifest.json",
       "checks": 0,
       "mismatches": [],
       "missing": []
@@ -6017,6 +6200,9 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
+        "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/manifest.json",
+        "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/config.yaml",
+        "local:runs/project_exhaustion/current/classes/e5_curiosity/attempt_003/attempt_receipt.json",
         "local:proof/LOCAL_ACTION_ENVIRONMENT.json"
       ],
       "hardware_benefit_gate": {
@@ -6054,10 +6240,10 @@
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
         "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
-        "execution_verified_at_generation": false,
+        "execution_verified_at_generation": true,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "runnable-not-yet-run",
-        "present": false
+        "ledger_classification": "freshly-executed-verified",
+        "present": true
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Curiosity as self-curriculum",
@@ -6800,7 +6986,10 @@
         "present": false
       },
       "evidence_refs": [
-        "local:registry/experiments.yaml"
+        "local:registry/experiments.yaml",
+        "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/manifest.json",
+        "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/config.yaml",
+        "local:runs/project_exhaustion/current/classes/ex5_local_rules_scale/attempt_002/attempt_receipt.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -6837,10 +7026,10 @@
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
         "evidence_scope": "generation-time; current-source mismatches are separately audited and stale paths are not treated as closed",
-        "execution_verified_at_generation": false,
+        "execution_verified_at_generation": true,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "runnable-not-yet-run",
-        "present": false
+        "ledger_classification": "freshly-executed-verified",
+        "present": true
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "Local learning rules at scale (extend I4 to retention)",
@@ -7153,9 +7342,9 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/manifest.json",
-        "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/config.yaml",
-        "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_001/attempt_receipt.json"
+        "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/manifest.json",
+        "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/config.yaml",
+        "local:runs/project_exhaustion/current/classes/ex10_cross_modal/attempt_002/attempt_receipt.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -17683,7 +17872,7 @@
     },
     {
       "calculation_refs": [],
-      "classification_basis": "implemented-governor-execution-pending",
+      "classification_basis": "governed-programmatic-terminal-null",
       "classified_stage": "current registered experiment; category 1 means executable local mechanics, not a promotion-grade scientific verdict",
       "controls": "registry controls or matched controls named in the narrative plan",
       "dependence_structure": "must be preregistered before promotion testing",
@@ -17692,7 +17881,17 @@
       },
       "evidence_refs": [
         "local:registry/experiments.yaml",
-        "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json"
+        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/manifest.json",
+        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/config.yaml",
+        "local:runs/project_exhaustion/current/classes/mop_p5_context_capability/attempt_002/attempt_receipt.json",
+        "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+        "local:proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+        "local:proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+        "local:proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+        "local:proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+        "local:proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        "local:runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+        "local:proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json"
       ],
       "hardware_benefit_gate": {
         "evidence_ids": [],
@@ -17728,40 +17927,77 @@
       "kill_rule": "kill or redesign on failed validity/control gate before scaling",
       "local_feasibility_attack": "implementation/data/environment blocker must clear before any compute escalation",
       "measured": {
-        "evidence_scope": "implementation and governed local-admission refusal evidence; the source-current P5 scientific sequence has not executed",
-        "execution_verified_at_generation": false,
-        "governor_admission": {
-          "available_memory_gb": [
-            6.830424064,
-            8.909111296,
-            8.705048576
-          ],
-          "command_executed": false,
-          "cpu_load_per_logical_cpu": [
-            3.8621012369791665,
-            3.8621012369791665,
-            3.986572265625
-          ],
-          "decision_count": 3,
-          "failed_gates": [
-            "cpu_load",
-            "candidate_memory_headroom"
-          ],
-          "maximum_cpu_load_per_logical_cpu": 0.85,
-          "minimum_projected_disk_gb": 112.378413568,
-          "power_source": "AC Power",
-          "required_memory_gb": 10.0,
-          "run_id": "p5smoke_20260711_leg3",
-          "state": "cpu-load-and-memory-admission-refusal"
-        },
+        "evidence_scope": "governed smoke, five-seed pilot, three-disjoint-seed fresh challenge, and independent verifier; final classification null on deterministic programmatic video, with scientific and confirmatory promotion refused",
+        "execution_verified_at_generation": true,
         "implementation_surface": "experiment-class",
-        "ledger_classification": "runnable-not-yet-run",
-        "present": false
+        "ledger_classification": "freshly-executed-verified",
+        "ledger_snapshot_superseded_by_terminal_evidence": true,
+        "present": true,
+        "terminal_evidence": {
+          "artifacts": {
+            "fresh_challenge": {
+              "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+              "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+            },
+            "pilot": {
+              "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+              "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+            },
+            "smoke": {
+              "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+              "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            },
+            "verifier": {
+              "path": "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
+              "sha256": "743ce07180f0728f3074b2ac9c78a9aa12ff23f33aeebeffd45bebecacb5f077"
+            }
+          },
+          "claim_scope": "exact-versus-factorized context pilot on deterministic programmatic video; not natural-video, memory-rung, or general-capability evidence",
+          "classification": "null",
+          "confirmatory_promotable": false,
+          "fresh_pattern_count": 4,
+          "fresh_training_seeds": [
+            5101,
+            5102,
+            5103
+          ],
+          "governor_receipts": {
+            "fresh_challenge": {
+              "path": "proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json",
+              "run_id": "p5fresh_challenge_20260712_leg2",
+              "sha256": "762d31163e22a6637da4f78d741d2dd6a104da4eeb33ba41f7d6a0d5cd062a86"
+            },
+            "pilot": {
+              "path": "proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json",
+              "run_id": "p5pilot_20260712_leg6",
+              "sha256": "cdfa7345ece609fc2aa273166630c264bd251e421647a6c6fbb08b7847f447b5"
+            },
+            "smoke": {
+              "path": "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json",
+              "run_id": "p5smoke_20260711_leg4",
+              "sha256": "717a7b0be5b394f17fa689ae2cb8d9d8756616ee2da6b3e0215c0a2667406fb0"
+            },
+            "verifier": {
+              "path": "runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json",
+              "run_id": "mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01",
+              "sha256": "4abb704f4c0ae12033b7c60184ea7878713844e976432194f0171120ba69ae7d"
+            }
+          },
+          "mutation_count": 23,
+          "outcome": "null",
+          "prerequisite_ready": true,
+          "primary_outcome": "favorable-programmatic-only",
+          "primary_seed_count": 5,
+          "programmatic_only": true,
+          "scientific_promotion": false,
+          "state": "governed-terminal-null",
+          "verified_pattern_count": 0
+        }
       },
       "minimum_model_data": "smallest registered or planned mechanics rung",
       "name": "context_capability_pilot",
       "post_blocker_local_rung": null,
-      "primary_blocker": "complete the implemented conditional P5 sequence through the local governor after three healthy admission samples",
+      "primary_blocker": "the registered deterministic-programmatic P5 sequence is closed by an independent null; natural-video and general-capability claims remain outside its validated scope",
       "primary_category": 1,
       "primary_category_label": "already runnable locally",
       "promotion_blocker": null,

@@ -33,7 +33,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--device", choices=("cpu", "mps"), default="cpu")
     args = parser.parse_args(sys.argv[1:] if argv is None else argv)
 
-    from scripts.p5_context_capability import HEAVY_PROCESS_MARKERS, assert_heavy_lane_free
+    # Direct execution places ``scripts/`` rather than the repository root on
+    # ``sys.path``.  Module execution/import has the opposite layout.
+    if __package__:
+        from scripts.p5_context_capability import HEAVY_PROCESS_MARKERS, assert_heavy_lane_free
+    else:
+        from p5_context_capability import HEAVY_PROCESS_MARKERS, assert_heavy_lane_free
 
     assert_heavy_lane_free(HEAVY_PROCESS_MARKERS + ("p5_context_fresh_challenge.py",))
     try:
