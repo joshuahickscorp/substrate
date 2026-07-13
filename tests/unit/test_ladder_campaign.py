@@ -212,6 +212,25 @@ def test_census_complete_false_while_running(tmp_path: Path) -> None:
     assert census_complete(state) is False
 
 
+def test_census_complete_handles_dict_keyed_capsules_all_done(tmp_path: Path) -> None:
+    # The real census stores capsules as a dict keyed by capsule id, not a list.
+    state = tmp_path / "census.json"
+    state.write_text(
+        json.dumps({"status": "running", "capsules": {"a": {"status": "complete"}, "b": {"status": "complete"}}}),
+        encoding="utf-8",
+    )
+    assert census_complete(state) is True
+
+
+def test_census_complete_false_when_dict_capsules_partial(tmp_path: Path) -> None:
+    state = tmp_path / "census.json"
+    state.write_text(
+        json.dumps({"status": "running", "capsules": {"a": {"status": "complete"}, "b": {"status": "running"}}}),
+        encoding="utf-8",
+    )
+    assert census_complete(state) is False
+
+
 def test_minimal_end_to_end_run_writes_sealed_report(tmp_path: Path) -> None:
     config = tiny_config(tmp_path, seeds=(0,), reps=1, epochs=("event_formation",))
     report = LadderCampaign(config).run()

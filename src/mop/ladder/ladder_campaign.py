@@ -51,6 +51,18 @@ class CampaignRefusal(RuntimeError):
     """Raised when a campaign configuration or state is malformed. Fails closed."""
 
 
+def _capsule_rows(capsules: object) -> list[dict[str, Any]]:
+    """Normalize the census capsule inventory, which is a dict keyed by id, into a list of rows."""
+
+    if isinstance(capsules, dict):
+        values: list[Any] = list(capsules.values())
+    elif isinstance(capsules, list):
+        values = capsules
+    else:
+        return []
+    return [row for row in values if isinstance(row, dict)]
+
+
 def census_complete(state_path: Path = CENSUS_STATE) -> bool:
     """True if the competence census has finished (or is absent, so there is nothing to wait for)."""
 
@@ -62,10 +74,8 @@ def census_complete(state_path: Path = CENSUS_STATE) -> bool:
         return False
     if state.get("status") == "complete":
         return True
-    capsules = state.get("capsules", [])
-    return bool(capsules) and all(
-        isinstance(row, dict) and row.get("status") == "complete" for row in capsules
-    )
+    rows = _capsule_rows(state.get("capsules"))
+    return bool(rows) and all(row.get("status") == "complete" for row in rows)
 
 
 def _atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -321,11 +331,9 @@ class LadderCampaign:
         if census_state.is_file():
             try:
                 state = json.loads(census_state.read_text(encoding="utf-8"))
-                capsules = state.get("capsules", [])
-                detail["census_complete"] = sum(
-                    1 for row in capsules if isinstance(row, dict) and row.get("status") == "complete"
-                )
-                detail["census_total"] = len(capsules)
+                rows = _capsule_rows(state.get("capsules"))
+                detail["census_complete"] = sum(1 for row in rows if row.get("status") == "complete")
+                detail["census_total"] = len(rows)
                 detail["census_status"] = state.get("status")
             except (OSError, json.JSONDecodeError):
                 detail["census_present"] = False
