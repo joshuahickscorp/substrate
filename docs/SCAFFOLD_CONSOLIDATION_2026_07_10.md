@@ -28,14 +28,16 @@ summarized per facet in the module docstrings. Adversarial doctrine review found
 its two blocking findings were both about landing registry rows, which is why rows are staged, not
 landed (section 4).
 
-## 2. Staged registry rows
+## 2. Registry rows (LANDED)
 
-registry/staged/f21_f66_scaffold_rows.yaml holds 30 schema-shaped rows (f21, f22, f26-f28, f31-f38,
-f50-f66), status registry-only, evidence R0, honest nulls and controls, sentience-rail-clean, with
-the one out-of-vocabulary tier pair (f65) corrected to environment-needed / env-later. The file is
-inert: no driver loads registry/staged/. The remaining proposed rows (f23-f25, f29, f30, f39-f49)
-belong to facets already at S>=8 whose scaffolds exist (Wave E0 covers f23/f29/f39 as sentinels;
-the memory ladder rows ride the P6 lane).
+Update 2026-07-13: the 30 rows (f21, f22, f26-f28, f31-f38, f50-f66) are now LANDED in
+registry/experiments.yaml as status registry-only, cpu-now (f65 environment-needed / env-later),
+evidence R0, sentience-rail-clean. validate_experiments passes; build_contract_audit treats them as
+preregistration-only records (no runnable class or config required). The vestigial staging file
+registry/staged/f21_f66_scaffold_rows.yaml was removed, since the registry is now the single source
+of truth for these rows. The remaining proposed rows (f23-f25, f29, f30, f39-f49) belong to facets
+already at S>=8 whose scaffolds exist (Wave E0 covers f23/f29/f39 as sentinels; the memory ladder
+rows ride the P6 lane).
 
 ## 3. Breadth verdict: four missing facets, two conflations
 
