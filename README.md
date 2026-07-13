@@ -5,16 +5,21 @@
 > Natural-video work is serialized locally after input, rights, identity, and control gates pass.
 > No receipt proves that a Mac Studio was delivered or that one is currently required.
 
+**Start here: `GENERATIONS.md`** is the one-page ladder that batches the whole arc (Stage 0 to 5,
+Generation 0's verified nulls, Generation 1's running census, and the mechanism epochs). Read it
+first; everything below is detail beneath it.
+
 The Form Substrate Program: a referent-bound, form-receiving, memory-bearing,
 performance-measured substrate for intelligence. Any observation family (video, audio, text,
 symbols, telemetry, action traces) enters as a form over shared referents; capabilities are earned
 through preregistered experiments with nulls, controls, and density accounting. Frozen inherited
 encoders are measurement instruments and controls while the owned trainable substrate develops
 behind evidence gates. Root docs:
-FORM_SUBSTRATE_PROGRAM.md (worldview), FORM_SUBSTRATE_DOCTRINE.md (methods),
-FORM_SUBSTRATE_EXPERIMENTS.md (F-series bank), FORM_SUBSTRATE_CODEMAP.md (code map),
+GENERATIONS.md (the ladder), FORM_SUBSTRATE_PROGRAM.md (worldview), FORM_SUBSTRATE_DOCTRINE.md
+(methods), FORM_SUBSTRATE_EXPERIMENTS.md (F-series bank), FORM_SUBSTRATE_CODEMAP.md (code map),
 MOP_MAXIMUM_POTENTIAL_GOAL.md (standing execution loop), MOP_POTENTIAL_ATLAS_2026_07.md (37-facet
-audit), PERFORMANCE_DENSITY_DOCTRINE.md, PARADIGM_MIGRATION.md, and LEGACY_INDEX.md.
+audit), PERFORMANCE_DENSITY_DOCTRINE.md, PARADIGM_MIGRATION.md, and LEGACY_INDEX.md. Superseded
+eras are archived under docs/archive/ (studio_legacy, vjepa_legacy, mop_legacy, biology_levers).
 
 ## What this is (and is not)
 

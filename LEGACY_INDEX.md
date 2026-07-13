@@ -1,9 +1,22 @@
 # LEGACY INDEX
 
-The per-document archive index of the paradigm migration. Legacy documents are archived IN PLACE:
-their paths do not move (the markdown ledger, cross-references, and the /goal handoff stack depend
-on them), but their ACTIVE status is fixed here. docs/archive/ holds the pointer indexes per legacy
-family. Physical relocation, if ever, is a Phase 6 decision (MIGRATION_PHASES.md).
+The per-document archive index. The apex reading order is now GENERATIONS.md (the one-page ladder),
+then the active Form Substrate and Maximum-Potential docs; this index records what everything else
+is and where it lives.
+
+Update 2026-07-13 (tabula-rasa consolidation): the anticipated physical relocation has begun. Two
+clusters were physically MOVED into docs/archive/ rather than left in place:
+
+- docs/archive/studio_legacy/ : the eight Mac Studio procurement and maximization docs
+  (STUDIO_HANDOFF, STUDIO_MAXIMIZATION, STUDIO_GOAL_PROMPT, STUDIO_POTENTIAL_AUDIT, STUDIO_RUN_REPORT,
+  STUDIO_TURNKEY_PLAN, MAC_STUDIO_CAMPAIGN, M3PRO_RUN_REPORT), all superseded 2026-07-10, zero live
+  references, retained as historical planning evidence only.
+- docs/archive/vjepa_legacy/ : the three developmental_jepa_corpus files, moved out of the repo root.
+
+Everything else below remains archived IN PLACE (paths unchanged): the markdown ledger,
+cross-references, and the /goal handoff stack still point at those paths; their ACTIVE status is
+fixed in this index. Further relocation is incremental and only for clusters with zero live
+references.
 
 Status vocabulary: preserve (active doctrine or law), demote (era doctrine or instrument, cited not
 governing), archive (frozen historical narrative), rewrite (superseded by a named new doc).
