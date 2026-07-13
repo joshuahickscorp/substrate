@@ -1,0 +1,123 @@
+{
+  "schema": "mop-escs-topology-grammar/v1",
+  "grammar_id": "escs_g0",
+  "revision": 1,
+  "status": "scaffold",
+  "activation_enabled": false,
+  "scientific_promotion_allowed": false,
+  "candidate_registry_path": "configs/experiment/escs_perspective_candidates.json",
+  "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+  "construction_language": {
+    "state_primitives": [
+      "bounded_categorical_tables",
+      "bounded_recurrent_state",
+      "bounded_scalar_or_vector_distributions",
+      "bounded_temporal_deques",
+      "bounded_typed_factor_subgraphs"
+    ],
+    "operator_primitives": [
+      "affine_or_nonlinear_local_update",
+      "bounded_retrieval",
+      "bounded_rollout_or_search",
+      "constraint_filtering_or_propagation",
+      "graph_neighborhood_aggregation",
+      "table_lookup_or_update",
+      "temporal_accumulation",
+      "typed_message_transform_and_emit"
+    ],
+    "composition_bounds": {
+      "max_operator_nodes_per_actor": 64,
+      "max_dag_depth": 8,
+      "max_state_bytes_per_actor": 67108864,
+      "max_operations_per_activation": 1000000,
+      "max_message_bytes": 262144,
+      "max_message_edges": 128
+    },
+    "allowed_mutations": [
+      "add_or_remove_typed_message_edge",
+      "add_remove_or_replace_g0_operator",
+      "adjust_bounded_timescale_or_memory_capacity",
+      "clone_actor",
+      "merge_causally_redundant_actors",
+      "split_or_merge_factor_scope"
+    ],
+    "forbidden_capabilities": [
+      "arbitrary_generated_code",
+      "mutation_outside_transactional_governance",
+      "silent_schema_creation",
+      "unbounded_recursion",
+      "undeclared_operators"
+    ],
+    "implementation_complete": false
+  },
+  "caps": {
+    "max_mutations_per_transaction": 8,
+    "max_actor_delta": 4,
+    "max_routing_delta": 16,
+    "max_peer_edge_delta": 16,
+    "max_factor_scope_delta": 16,
+    "max_shadow_events": 1024,
+    "max_canary_events": 256,
+    "max_rollback_events": 256,
+    "max_structural_work": 1000000,
+    "max_retained_state_bytes_delta": 67108864
+  },
+  "operators": [
+    {
+      "kind": "add_actor_slot",
+      "enabled": false,
+      "max_per_transaction": 2,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "add_factor_scope",
+      "enabled": false,
+      "max_per_transaction": 4,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "add_peer_edge",
+      "enabled": false,
+      "max_per_transaction": 4,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "add_routing_subscription",
+      "enabled": false,
+      "max_per_transaction": 4,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "remove_factor_scope",
+      "enabled": false,
+      "max_per_transaction": 4,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "remove_peer_edge",
+      "enabled": false,
+      "max_per_transaction": 4,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "remove_routing_subscription",
+      "enabled": false,
+      "max_per_transaction": 4,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "retire_actor_slot",
+      "enabled": false,
+      "max_per_transaction": 2,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    },
+    {
+      "kind": "swap_to_spare",
+      "enabled": false,
+      "max_per_transaction": 1,
+      "required_guards": ["canary", "commitment", "consequence", "lifecycle-accounting", "mutation-budget", "rollback", "shadow", "state-digest"]
+    }
+  ],
+  "freeze_authority": null,
+  "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0"
+}

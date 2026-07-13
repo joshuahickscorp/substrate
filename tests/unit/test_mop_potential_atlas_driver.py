@@ -8,8 +8,9 @@ import pytest
 from mop.config import REPO_ROOT
 from mop.studies.potential_atlas_driver import (
     P5_SMOKE_RECEIPT_PATH,
+    P5_TERMINAL_EVIDENCE_PATHS,
     SERVED_SCAFFOLD_FACETS,
-    _p5_smoke_refusal_summary,
+    _p5_terminal_evidence_summary,
     build_atlas,
     render_markdown,
 )
@@ -85,89 +86,63 @@ def test_operational_revision_removes_stale_p4_and_post_p4_claims() -> None:
     assert not any("refused concurrent admission" in value for value in op3["demonstrated_components"])
     assert not any("post-P4 P6 admission" in value for value in op3["readiness_not_capability"])
     assert any(
-        "normalized one-minute load 3.862 to 3.987 against 0.85" in value
-        and "6.830 to 8.909 GB" in value
-        and "AC power passed" in value
+        "P5 final verifier returned null" in value
+        and "verified 0 of 4 pilot patterns" in value
+        and "grants no scientific or confirmatory promotion" in value
         for value in op3["readiness_not_capability"]
     )
-    admission = atlas["p5_local_admission"]
-    assert admission["state"] == "cpu-load-and-memory-admission-refusal"
-    assert admission["failed_gates"] == ["cpu_load", "candidate_memory_headroom"]
-    assert admission["cpu_load_per_logical_cpu"] == [
-        3.8621012369791665,
-        3.8621012369791665,
-        3.986572265625,
-    ]
-    assert admission["maximum_cpu_load_per_logical_cpu"] == 0.85
-    assert admission["available_memory_gb"] == [6.830424064, 8.909111296, 8.705048576]
-    assert admission["required_memory_gb"] == 10.0
-    assert admission["command_executed"] is False
-    assert sum(value.startswith("P5 smoke is fail-closed") for value in op3["readiness_not_capability"]) == 1
-    assert "proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json" in op3["evidence"]
+    terminal = atlas["p5_terminal_evidence"]
+    assert "p5_local_admission" not in atlas
+    assert terminal["state"] == "governed-terminal-null"
+    assert terminal["outcome"] == "null"
+    assert terminal["primary_outcome"] == "favorable-programmatic-only"
+    assert terminal["fresh_training_seeds"] == [5101, 5102, 5103]
+    assert terminal["verified_pattern_count"] == 0
+    assert terminal["scientific_promotion"] is False
+    assert (
+        sum(value.startswith("P5 final verifier returned null") for value in op3["readiness_not_capability"])
+        == 1
+    )
+    assert set(P5_TERMINAL_EVIDENCE_PATHS).issubset(op3["evidence"])
     assert "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json" not in op3["evidence"]
     assert "proof/LOCAL_THROTTLE_P5_SMOKE_PREFLIGHT.json" not in {
         row["path"] for row in atlas["source_snapshot"]
     }
     p6 = atlas["continual_million_event_preflight"]
     assert p6["scheduler_preflight"]["admission_allowed"] is False
-    assert "post-P4" in p6["scheduler_preflight"]["interpretation"]
-    assert "independent null or favorable verification" in p6["scheduler_preflight"]["interpretation"]
+    assert "P5 now supplies the required independent null" in p6["scheduler_preflight"]["interpretation"]
+    assert "live resource gates" in p6["scheduler_preflight"]["interpretation"]
     assert not any("release the exclusive lane after P4" in value for value in p6["remaining"])
-    assert any("verify the P5 sequence" in value for value in p6["remaining"])
+    assert not any("verify the P5 sequence" in value for value in p6["remaining"])
+    assert any("admit the P6 10k resource probe" in value for value in p6["remaining"])
 
 
-def test_atlas_p5_refusal_parser_rejects_stale_narrative_inputs() -> None:
+def test_atlas_p5_terminal_parser_rejects_stale_inputs() -> None:
     receipt = json.loads((REPO_ROOT / P5_SMOKE_RECEIPT_PATH).read_text())
-    summary = _p5_smoke_refusal_summary(receipt)
-    assert min(summary["cpu_load_per_logical_cpu"]) == 3.8621012369791665
-    assert max(summary["cpu_load_per_logical_cpu"]) == 3.986572265625
-    assert min(summary["available_memory_gb"]) == 6.830424064
-    assert max(summary["available_memory_gb"]) == 8.909111296
+    summary = _p5_terminal_evidence_summary(receipt)
+    assert summary["state"] == "governed-terminal-null"
+    assert summary["governor_receipts"]["smoke"]["run_id"] == "p5smoke_20260711_leg4"
+    assert summary["governor_receipts"]["pilot"]["run_id"] == "p5pilot_20260712_leg6"
 
     for key, replacement in (
-        ("mode", "execute"),
-        ("status", "complete"),
-        ("command_executed", True),
+        ("mode", "execute-refused"),
+        ("status", "admission-refused"),
+        ("command_executed", False),
     ):
         mutation = copy.deepcopy(receipt)
         mutation[key] = replacement
-        with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
-            _p5_smoke_refusal_summary(mutation)
+        with pytest.raises(ValueError, match="invalid terminal P5 evidence"):
+            _p5_terminal_evidence_summary(mutation)
 
     mutation = copy.deepcopy(receipt)
-    memory_gate = next(
-        gate for gate in mutation["decisions"][0]["gates"] if gate["name"] == "candidate_memory_headroom"
-    )
-    memory_gate["observed"] = memory_gate["limit"]
-    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
-        _p5_smoke_refusal_summary(mutation)
+    mutation["completion_authority"]["output"]["sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="invalid terminal P5 evidence"):
+        _p5_terminal_evidence_summary(mutation)
 
     stale_run = copy.deepcopy(receipt)
-    stale_run["run_id"] = "p5smoke_20260710_leg2"
-    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
-        _p5_smoke_refusal_summary(stale_run)
-
-    fabricated_limit = copy.deepcopy(receipt)
-    for decision in fabricated_limit["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")["limit"] = (
-            11.0
-        )
-    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
-        _p5_smoke_refusal_summary(fabricated_limit)
-
-    fabricated_observation = copy.deepcopy(receipt)
-    for decision in fabricated_observation["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")[
-            "observed"
-        ] = 1.0
-    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
-        _p5_smoke_refusal_summary(fabricated_observation)
-
-    fabricated_cpu_observation = copy.deepcopy(receipt)
-    for decision in fabricated_cpu_observation["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "cpu_load")["observed"] = 1.0
-    with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
-        _p5_smoke_refusal_summary(fabricated_cpu_observation)
+    stale_run["run_id"] = "p5smoke_20260711_leg3"
+    with pytest.raises(ValueError, match="invalid terminal P5 evidence"):
+        _p5_terminal_evidence_summary(stale_run)
 
 
 def test_executed_toy_receipts_are_bound_without_physical_or_capability_score_inflation() -> None:

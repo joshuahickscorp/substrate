@@ -24,6 +24,12 @@ def test_missing_null_hypothesis_raises():
         validate.validate_experiment(cfg)
 
 
+@pytest.mark.parametrize("field", ["strong_null", "null"])
+def test_sealed_envelope_payload_declares_null_contract(field):
+    cfg = OmegaConf.create({"payload": {field: "registered null"}})
+    assert validate._declared_null_contract(cfg) == "registered null"
+
+
 def test_f_series_run_refuses_contract_drift_before_compute():
     cfg = config.compose(["experiment=f5_cross_form_memory_binding"])
     validate.validate_experiment(cfg)

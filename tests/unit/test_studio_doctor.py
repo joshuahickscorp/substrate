@@ -107,19 +107,29 @@ def test_video_is_strict_and_hf_never_probes_network():
     assert "network not probed" in _find(report, "huggingface")["detail"]
 
 
-def test_video_backend_absent_fails_closed(monkeypatch):
-    import builtins
+def test_video_backend_absent_fails_closed_in_isolated_process(monkeypatch):
+    calls = []
 
-    real_import = builtins.__import__
+    class MissingBackend:
+        returncode = 1
+        stdout = ""
+        stderr = "ModuleNotFoundError: forced absent"
 
-    def fake_import(name, *a, **k):
-        if name in ("torchvision.io", "decord", "av"):
-            raise ImportError("forced absent")
-        return real_import(name, *a, **k)
+    def missing_backend(command, **kwargs):
+        calls.append((command, kwargs))
+        return MissingBackend()
 
-    monkeypatch.setattr(builtins, "__import__", fake_import)
-    ok, detail = sd._check_video_backend()
+    sd._check_video_backend.cache_clear()
+    monkeypatch.setattr(sd.subprocess, "run", missing_backend)
+    try:
+        ok, detail = sd._check_video_backend()
+    finally:
+        sd._check_video_backend.cache_clear()
+
     assert not ok and ".[video]" in detail
+    assert len(calls) == 2
+    assert all(command[1:3] == ["-I", "-c"] for command, _kwargs in calls)
+    assert all(kwargs["cwd"] != str(sd.REPO_ROOT) for _command, kwargs in calls)
 
 
 def test_huggingface_check_does_not_call_network(monkeypatch):

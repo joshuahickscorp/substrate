@@ -806,6 +806,10 @@ def test_execution_manifest_distinguishes_partial_gate_stop_and_complete() -> No
     )
     assert complete["execution_status"] == "complete"
     assert complete["completed_heldout_seeds"] == seeds
+    with pytest.raises(ValueError, match="nonterminal partial"):
+        edcm._require_terminal_execution(partial)
+    edcm._require_terminal_execution(stopped)
+    edcm._require_terminal_execution(complete)
 
 
 def test_out_alias_and_partial_exit_code(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
@@ -828,24 +832,104 @@ def test_out_alias_and_partial_exit_code(monkeypatch: pytest.MonkeyPatch, tmp_pa
     assert edcm.main(["--out", str(tmp_path / "proof.json")]) == 0
 
 
+def test_negative_max_new_seeds_is_rejected_before_execution() -> None:
+    with pytest.raises(ValueError, match="must be nonnegative"):
+        edcm.run_from_config(max_new_seeds=-1)
+
+
 def test_verification_exit_is_zero_only_after_valid_result(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
     proof = tmp_path / "proof.json"
+    verification_output = tmp_path / "verification.json"
+    terminal_result = {
+        "valid": True,
+        "execution_status": "complete",
+        "scientific_promotion": False,
+    }
     monkeypatch.setattr(
         edcm,
         "verify_receipt",
-        lambda *args, **kwargs: {"valid": True, "execution_status": "partial"},
+        lambda *args, **kwargs: dict(terminal_result),
     )
-    assert edcm.main(["--verify", str(proof)]) == 0
+    assert (
+        edcm.main(
+            [
+                "--verify",
+                str(proof),
+                "--verification-out",
+                str(verification_output),
+            ]
+        )
+        == 0
+    )
+    artifact = json.loads(verification_output.read_text())
+    artifact_core = dict(artifact)
+    artifact_digest = artifact_core.pop("verification_artifact_sha256")
+    assert artifact["schema"] == edcm.VERIFICATION_ARTIFACT_SCHEMA
+    assert artifact["verification"] == terminal_result
+    assert artifact_digest == edcm.canonical_sha256(artifact_core)
+
+    partial_output = tmp_path / "partial-verification.json"
+    monkeypatch.setattr(
+        edcm,
+        "verify_receipt",
+        lambda *args, **kwargs: {
+            "valid": True,
+            "execution_status": "partial",
+            "scientific_promotion": False,
+        },
+    )
+    with pytest.raises(ValueError, match="valid terminal result"):
+        edcm.main(
+            [
+                "--verify",
+                str(proof),
+                "--verification-out",
+                str(partial_output),
+            ]
+        )
+    assert not partial_output.exists()
 
     def invalid(*args, **kwargs):
         raise ValueError("invalid receipt")
 
     monkeypatch.setattr(edcm, "verify_receipt", invalid)
     with pytest.raises(ValueError, match="invalid receipt"):
-        edcm.main(["--verify", str(proof)])
+        edcm.main(
+            [
+                "--verify",
+                str(proof),
+                "--verification-out",
+                str(tmp_path / "invalid-verification.json"),
+            ]
+        )
+
+
+def test_verification_artifact_is_atomic_bounded_and_cannot_overwrite_inputs(
+    tmp_path: Path,
+) -> None:
+    result = {
+        "valid": True,
+        "execution_status": "terminal_scientific_stop",
+        "scientific_promotion": False,
+    }
+    output = tmp_path / "verification.json"
+    artifact = edcm.write_verification_artifact(output, result)
+    assert json.loads(output.read_text()) == artifact
+    assert not output.with_suffix(".json.tmp").exists()
+    with pytest.raises(ValueError, match="artifact path collision"):
+        edcm.write_verification_artifact(
+            output,
+            result,
+            protected_paths={"source_receipt": output},
+        )
+
+
+def test_exploratory_verification_requires_a_nonofficial_artifact_path(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="exploratory verification may not use"):
+        edcm.main(["--verify", str(tmp_path / "receipt.json"), "--exploratory"])
 
 
 def test_official_receipt_cannot_select_diagnostic_verifier_mode() -> None:

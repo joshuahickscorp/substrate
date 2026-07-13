@@ -24,7 +24,7 @@ from torch import nn
 
 from ..devices import DeviceInfo
 from ..diagnostics.performance_density import density_block
-from ..seeding import seed_everything
+from ..seeding import derive_seed32, seed_everything
 from ..substrate.form import (
     FormMeta,
     TensorFormAdapter,
@@ -2924,6 +2924,11 @@ def _f20_arm(
     return x.float(), y.long(), nuis.long(), xdec.float()
 
 
+def _f20_probe_seed(seed: int, probe_index: int) -> int:
+    """Preserve F20's legacy sequence while bounding high-seed Generation 1 child streams."""
+    return derive_seed32(seed * 1000 + probe_index, "f20_substrate_crisis_test.probe")
+
+
 def _f20_score(
     x: torch.Tensor,
     y: torch.Tensor,
@@ -3025,10 +3030,11 @@ class F20(Experiment):
         for s in seeds:
             score_start = len(scores)
             noise_start = len(noise_scores)
-            aseed = s * 1000
+            probe_index = 0
             for _kind, count, sig, nui, fnoise in families:
                 for _ in range(count):
-                    aseed += 1
+                    probe_index += 1
+                    probe_seed = _f20_probe_seed(s, probe_index)
                     x, y, g, xdec = _f20_arm(
                         n=n,
                         dim=dim,
@@ -3038,7 +3044,7 @@ class F20(Experiment):
                         nuisance=nui,
                         rho=rho,
                         noise=fnoise,
-                        seed=aseed,
+                        seed=probe_seed,
                     )
                     r = _f20_score(
                         x,
@@ -3049,7 +3055,7 @@ class F20(Experiment):
                         epochs=epochs,
                         lr=lr,
                         train_frac=train_frac,
-                        seed=aseed,
+                        seed=probe_seed,
                     )
                     n_probes += 1
                     scores.append(r["crisis_score"])
@@ -3057,7 +3063,8 @@ class F20(Experiment):
                     confidences.append(r["confidence"])
                     failed.append(1.0 if r["decorr_acc"] < fail_th else 0.0)
             for _ in range(_int(e, "n_noise", 10)):
-                aseed += 1
+                probe_index += 1
+                probe_seed = _f20_probe_seed(s, probe_index)
                 x, y, g, xdec = _f20_arm(
                     n=n,
                     dim=dim,
@@ -3067,7 +3074,7 @@ class F20(Experiment):
                     nuisance=0.0,
                     rho=rho,
                     noise=wnoise,
-                    seed=aseed,
+                    seed=probe_seed,
                 )
                 r = _f20_score(
                     x,
@@ -3078,7 +3085,7 @@ class F20(Experiment):
                     epochs=epochs,
                     lr=lr,
                     train_frac=train_frac,
-                    seed=aseed,
+                    seed=probe_seed,
                 )
                 n_probes += 1
                 noise_scores.append(r["crisis_score"])

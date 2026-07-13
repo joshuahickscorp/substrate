@@ -1,0 +1,3216 @@
+{
+  "active_lanes": [],
+  "admission": {
+    "allowed": true,
+    "consecutive_bad_samples": 0,
+    "consecutive_good_samples": 3,
+    "reason": "admission hysteresis satisfied",
+    "required_consecutive_good_samples": 3,
+    "samples_observed": 3
+  },
+  "atomic_reservation_decision": {
+    "active_lanes": [],
+    "allowed": true,
+    "created_at": "2026-07-12T07:23:45.720218+00:00",
+    "critical": false,
+    "denied_reasons": [],
+    "disk_forecast": {
+      "floor_gb": 40.0,
+      "free_gb": 390.129881088,
+      "projected_free_gb": 379.979881088,
+      "reserved_write_gb": 10.15
+    },
+    "gates": [
+      {
+        "critical": false,
+        "limit": [],
+        "name": "required_telemetry",
+        "observed": [],
+        "ok": true,
+        "reason": "all required probes must report"
+      },
+      {
+        "critical": false,
+        "limit": "every declared prior-rung completion receipt must match exact fields",
+        "name": "receipt_prerequisites",
+        "observed": [
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 2972368896,
+              "problems": [],
+              "producer_task_id": "p5smoke_cpu",
+              "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "complete": true,
+              "execution_status": "complete",
+              "fresh_challenge_required": false,
+              "profile": "p5smoke",
+              "promotion.confirmatory_promotable": false,
+              "resumable": false,
+              "terminal_scientific_stop": false,
+              "terminal_stop_reason": null,
+              "trainability_gate_failed": false
+            },
+            "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+            "problems": [],
+            "schema": "mop-p5-context-screen/v1",
+            "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+          },
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 1133920256,
+              "problems": [],
+              "producer_task_id": "p5_traingrid_memory_probe_cpu",
+              "run_receipt": "runs/local_throttle/p5grid_20260711_leg2/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "atomic_progress.completed_rows": 72,
+              "claim_boundary.mechanics_only": true,
+              "config.repeats": 3,
+              "config.seed": 0
+            },
+            "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+            "problems": [],
+            "schema": "mop-p5-traingrid-memory-trace/v1",
+            "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
+          },
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 283656192,
+              "problems": [],
+              "producer_task_id": "p5pilot_cpu",
+              "run_receipt": "runs/local_throttle/p5pilot_20260712_leg6/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "complete": true,
+              "fresh_challenge_required": true,
+              "profile": "p5pilot",
+              "promotion.confirmatory_promotable": false,
+              "resumable": false
+            },
+            "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+            "problems": [],
+            "schema": "mop-p5-context-screen/v1",
+            "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+          }
+        ],
+        "ok": true,
+        "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+      },
+      {
+        "critical": false,
+        "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+        "name": "resource_measurement",
+        "observed": {
+          "all_ok": true,
+          "effective_unified_memory_gb": 10.0,
+          "mode": "declared"
+        },
+        "ok": true,
+        "reason": "unknown memory never becomes an ordinary task estimate"
+      },
+      {
+        "critical": false,
+        "limit": "fewer than 2 active lanes",
+        "name": "lane_count",
+        "observed": 0,
+        "ok": true,
+        "reason": "at most two scheduler-owned lanes"
+      },
+      {
+        "critical": false,
+        "limit": {
+          "required_empty": false
+        },
+        "name": "exclusive_lane",
+        "observed": {
+          "active_count": 0,
+          "active_exclusive": []
+        },
+        "ok": true,
+        "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+      },
+      {
+        "critical": false,
+        "limit": 1,
+        "name": "one_heavy",
+        "observed": 0,
+        "ok": true,
+        "reason": "a second heavy lane is never admitted"
+      },
+      {
+        "critical": false,
+        "limit": [
+          "cpu",
+          "light",
+          "network"
+        ],
+        "name": "second_lane_kind",
+        "observed": "heavy",
+        "ok": true,
+        "reason": "only CPU, network, or light work may be the second lane"
+      },
+      {
+        "critical": false,
+        "limit": [],
+        "name": "unmanaged_heavy_process",
+        "observed": [],
+        "ok": true,
+        "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+      },
+      {
+        "critical": false,
+        "limit": [],
+        "name": "foreground_second_lane",
+        "observed": [],
+        "ok": true,
+        "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+      },
+      {
+        "critical": false,
+        "limit": 0.85,
+        "name": "cpu_load",
+        "observed": 0.42911202566964285,
+        "ok": true,
+        "reason": "first_lane normalized one-minute load ceiling"
+      },
+      {
+        "critical": false,
+        "limit": 0.85,
+        "name": "cpu_utilization",
+        "observed": 0.25,
+        "ok": true,
+        "reason": "first_lane instantaneous CPU ceiling"
+      },
+      {
+        "critical": false,
+        "limit": 28,
+        "name": "declared_cpu_cores",
+        "observed": 10,
+        "ok": true,
+        "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+      },
+      {
+        "critical": false,
+        "limit": 20.0,
+        "name": "memory_pressure",
+        "observed": 46.3,
+        "ok": true,
+        "reason": "first_lane available-memory floor from both VM and memory_pressure"
+      },
+      {
+        "critical": false,
+        "limit": 12.0,
+        "name": "candidate_memory_headroom",
+        "observed": 47.772762112,
+        "ok": true,
+        "reason": "measured available unified memory covers candidate peak plus headroom"
+      },
+      {
+        "critical": false,
+        "limit": 101.079215104,
+        "name": "declared_memory_budget",
+        "observed": 10.0,
+        "ok": true,
+        "reason": "all declared lane peaks fit measured unified memory with headroom"
+      },
+      {
+        "critical": false,
+        "limit": 8.0,
+        "name": "swap",
+        "observed": 0.0,
+        "ok": true,
+        "reason": "first_lane swap-use ceiling"
+      },
+      {
+        "critical": false,
+        "limit": "normal",
+        "name": "thermal",
+        "observed": "normal",
+        "ok": true,
+        "reason": "thermal and performance pressure must be normal"
+      },
+      {
+        "critical": false,
+        "limit": "AC Power for heavy/CPU work",
+        "name": "power",
+        "observed": "AC Power",
+        "ok": true,
+        "reason": "battery power blocks compute-heavy admission"
+      },
+      {
+        "critical": false,
+        "limit": 40.0,
+        "name": "forecasted_disk",
+        "observed": {
+          "free_gb": 390.129881088,
+          "projected_free_gb": 379.979881088,
+          "reserve_gb": 10.15
+        },
+        "ok": true,
+        "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+      }
+    ],
+    "schema": "mop-local-throttle-decision/v1",
+    "task_id": "p5fresh_challenge_cpu",
+    "threshold_tier": "first_lane",
+    "user_process_policy": "observed only; scheduler signals only its own process group"
+  },
+  "child_resource": {
+    "direct_child_rusage_peak_rss_bytes": 3198074880,
+    "methods": [
+      "psutil-process-tree",
+      "getrusage-RUSAGE_CHILDREN"
+    ],
+    "peak_rss_bytes": 3198074880,
+    "psutil_peak_rss_bytes": 3198042112
+  },
+  "command_executed": true,
+  "completion_authority": {
+    "child_resource": {
+      "direct_child_rusage_peak_rss_bytes": 3198074880,
+      "methods": [
+        "psutil-process-tree",
+        "getrusage-RUSAGE_CHILDREN"
+      ],
+      "peak_rss_bytes": 3198074880,
+      "psutil_peak_rss_bytes": 3198042112
+    },
+    "command": [
+      ".venv/bin/python",
+      "scripts/p5_context_fresh_challenge.py",
+      "--primary",
+      "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+      "--primary-run-dir",
+      "runs/p5_context/p5pilot",
+      "--run-dir",
+      "runs/p5_context/fresh_challenge",
+      "--out",
+      "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+      "--device",
+      "cpu"
+    ],
+    "command_sha256": "dda2ad95b1fc2b72b299f87fee6f74413b5bc5f51d3c4309465fe5a9f48ae564",
+    "final_checkpoint_aggregate_sha256": "bf129629a84cfe5d207f1d687396babc621bfe8badc0a3901fb5aacbe91e426a",
+    "implementation": {
+      "path": "src/mop/studio/local_throttle.py",
+      "sha256": "bd7dd790460adc7760620007c691e3c345e89d9630c303abf40de59b924fddfb"
+    },
+    "output": {
+      "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+      "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+    },
+    "owned_child_active": false,
+    "policy": {
+      "path": "/Users/scammermike/Downloads/mop/configs/local_execution_throttle.yaml",
+      "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
+    },
+    "returncode": 0,
+    "schema": "mop-local-throttle-completion-authority/v1",
+    "task": {
+      "accelerator": "none",
+      "atomic_checkpoints": true,
+      "atomic_write_gb": 0.15,
+      "checkpoint_globs": [
+        "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/*/checkpoint.pt",
+        "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/*/arm_receipt.json",
+        "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/seed_result.json",
+        "runs/p5_context/fresh_challenge/seed_*/frames/f*/cell_receipt.json",
+        "runs/p5_context/fresh_challenge/seed_*/p5_context_receipt.json",
+        "runs/p5_context/fresh_challenge/seed_*/resolved_config.json",
+        "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json"
+      ],
+      "command": [
+        ".venv/bin/python",
+        "scripts/p5_context_fresh_challenge.py",
+        "--primary",
+        "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+        "--primary-run-dir",
+        "runs/p5_context/p5pilot",
+        "--run-dir",
+        "runs/p5_context/fresh_challenge",
+        "--out",
+        "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        "--device",
+        "cpu"
+      ],
+      "cpu_cores": 10,
+      "depends_on": [
+        "p5pilot_cpu"
+      ],
+      "estimated_mps_gb": 0.0,
+      "estimated_unified_memory_gb": 10.0,
+      "forecast_write_gb": 8.0,
+      "lane": "heavy",
+      "pause_safe": true,
+      "prerequisites": [
+        {
+          "fields": [
+            [
+              "profile",
+              "p5smoke"
+            ],
+            [
+              "complete",
+              true
+            ],
+            [
+              "all_ok",
+              true
+            ],
+            [
+              "resumable",
+              false
+            ],
+            [
+              "execution_status",
+              "complete"
+            ],
+            [
+              "terminal_scientific_stop",
+              false
+            ],
+            [
+              "terminal_stop_reason",
+              null
+            ],
+            [
+              "trainability_gate_failed",
+              false
+            ],
+            [
+              "fresh_challenge_required",
+              false
+            ],
+            [
+              "promotion.confirmatory_promotable",
+              false
+            ]
+          ],
+          "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+          "schema": "mop-p5-context-screen/v1"
+        },
+        {
+          "fields": [
+            [
+              "all_ok",
+              true
+            ],
+            [
+              "claim_boundary.mechanics_only",
+              true
+            ],
+            [
+              "config.repeats",
+              3
+            ],
+            [
+              "config.seed",
+              0
+            ],
+            [
+              "atomic_progress.completed_rows",
+              72
+            ]
+          ],
+          "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+          "schema": "mop-p5-traingrid-memory-trace/v1"
+        },
+        {
+          "fields": [
+            [
+              "profile",
+              "p5pilot"
+            ],
+            [
+              "complete",
+              true
+            ],
+            [
+              "all_ok",
+              true
+            ],
+            [
+              "resumable",
+              false
+            ],
+            [
+              "fresh_challenge_required",
+              true
+            ],
+            [
+              "promotion.confirmatory_promotable",
+              false
+            ]
+          ],
+          "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+          "schema": "mop-p5-context-screen/v1"
+        }
+      ],
+      "requires_empty_lanes": false,
+      "resource_basis": "fresh P5 subruns use the measured 4.8474 GB training path; 10 GB is conservative",
+      "resource_probe": false,
+      "resource_receipt_path": null,
+      "resource_receipt_rung": null,
+      "resource_receipt_schema": null,
+      "restart_exit_codes": [
+        2
+      ],
+      "task_id": "p5fresh_challenge_cpu",
+      "wall_minutes": 300
+    },
+    "task_id": "p5fresh_challenge_cpu"
+  },
+  "created_at": "2026-07-12T07:23:29.738923+00:00",
+  "decisions": [
+    {
+      "active_lanes": [],
+      "allowed": true,
+      "created_at": "2026-07-12T07:22:55.181882+00:00",
+      "critical": false,
+      "denied_reasons": [],
+      "disk_forecast": {
+        "floor_gb": 40.0,
+        "free_gb": 390.12984832,
+        "projected_free_gb": 379.97984832000003,
+        "reserved_write_gb": 10.15
+      },
+      "gates": [
+        {
+          "critical": false,
+          "limit": [],
+          "name": "required_telemetry",
+          "observed": [],
+          "ok": true,
+          "reason": "all required probes must report"
+        },
+        {
+          "critical": false,
+          "limit": "every declared prior-rung completion receipt must match exact fields",
+          "name": "receipt_prerequisites",
+          "observed": [
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 2972368896,
+                "problems": [],
+                "producer_task_id": "p5smoke_cpu",
+                "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "execution_status": "complete",
+                "fresh_challenge_required": false,
+                "profile": "p5smoke",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false,
+                "terminal_scientific_stop": false,
+                "terminal_stop_reason": null,
+                "trainability_gate_failed": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            },
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 1133920256,
+                "problems": [],
+                "producer_task_id": "p5_traingrid_memory_probe_cpu",
+                "run_receipt": "runs/local_throttle/p5grid_20260711_leg2/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "atomic_progress.completed_rows": 72,
+                "claim_boundary.mechanics_only": true,
+                "config.repeats": 3,
+                "config.seed": 0
+              },
+              "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+              "problems": [],
+              "schema": "mop-p5-traingrid-memory-trace/v1",
+              "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
+            },
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 283656192,
+                "problems": [],
+                "producer_task_id": "p5pilot_cpu",
+                "run_receipt": "runs/local_throttle/p5pilot_20260712_leg6/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "fresh_challenge_required": true,
+                "profile": "p5pilot",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+            }
+          ],
+          "ok": true,
+          "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+        },
+        {
+          "critical": false,
+          "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+          "name": "resource_measurement",
+          "observed": {
+            "all_ok": true,
+            "effective_unified_memory_gb": 10.0,
+            "mode": "declared"
+          },
+          "ok": true,
+          "reason": "unknown memory never becomes an ordinary task estimate"
+        },
+        {
+          "critical": false,
+          "limit": "fewer than 2 active lanes",
+          "name": "lane_count",
+          "observed": 0,
+          "ok": true,
+          "reason": "at most two scheduler-owned lanes"
+        },
+        {
+          "critical": false,
+          "limit": {
+            "required_empty": false
+          },
+          "name": "exclusive_lane",
+          "observed": {
+            "active_count": 0,
+            "active_exclusive": []
+          },
+          "ok": true,
+          "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+        },
+        {
+          "critical": false,
+          "limit": 1,
+          "name": "one_heavy",
+          "observed": 0,
+          "ok": true,
+          "reason": "a second heavy lane is never admitted"
+        },
+        {
+          "critical": false,
+          "limit": [
+            "cpu",
+            "light",
+            "network"
+          ],
+          "name": "second_lane_kind",
+          "observed": "heavy",
+          "ok": true,
+          "reason": "only CPU, network, or light work may be the second lane"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "unmanaged_heavy_process",
+          "observed": [],
+          "ok": true,
+          "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "foreground_second_lane",
+          "observed": [],
+          "ok": true,
+          "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_load",
+          "observed": 0.48399135044642855,
+          "ok": true,
+          "reason": "first_lane normalized one-minute load ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_utilization",
+          "observed": 0.245,
+          "ok": true,
+          "reason": "first_lane instantaneous CPU ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 28,
+          "name": "declared_cpu_cores",
+          "observed": 10,
+          "ok": true,
+          "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+        },
+        {
+          "critical": false,
+          "limit": 20.0,
+          "name": "memory_pressure",
+          "observed": 46.4,
+          "ok": true,
+          "reason": "first_lane available-memory floor from both VM and memory_pressure"
+        },
+        {
+          "critical": false,
+          "limit": 12.0,
+          "name": "candidate_memory_headroom",
+          "observed": 47.852306432,
+          "ok": true,
+          "reason": "measured available unified memory covers candidate peak plus headroom"
+        },
+        {
+          "critical": false,
+          "limit": 101.079215104,
+          "name": "declared_memory_budget",
+          "observed": 10.0,
+          "ok": true,
+          "reason": "all declared lane peaks fit measured unified memory with headroom"
+        },
+        {
+          "critical": false,
+          "limit": 8.0,
+          "name": "swap",
+          "observed": 0.0,
+          "ok": true,
+          "reason": "first_lane swap-use ceiling"
+        },
+        {
+          "critical": false,
+          "limit": "normal",
+          "name": "thermal",
+          "observed": "normal",
+          "ok": true,
+          "reason": "thermal and performance pressure must be normal"
+        },
+        {
+          "critical": false,
+          "limit": "AC Power for heavy/CPU work",
+          "name": "power",
+          "observed": "AC Power",
+          "ok": true,
+          "reason": "battery power blocks compute-heavy admission"
+        },
+        {
+          "critical": false,
+          "limit": 40.0,
+          "name": "forecasted_disk",
+          "observed": {
+            "free_gb": 390.12984832,
+            "projected_free_gb": 379.97984832000003,
+            "reserve_gb": 10.15
+          },
+          "ok": true,
+          "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+        }
+      ],
+      "schema": "mop-local-throttle-decision/v1",
+      "task_id": "p5fresh_challenge_cpu",
+      "threshold_tier": "first_lane",
+      "user_process_policy": "observed only; scheduler signals only its own process group"
+    },
+    {
+      "active_lanes": [],
+      "allowed": true,
+      "created_at": "2026-07-12T07:23:12.418564+00:00",
+      "critical": false,
+      "denied_reasons": [],
+      "disk_forecast": {
+        "floor_gb": 40.0,
+        "free_gb": 390.130028544,
+        "projected_free_gb": 379.98002854400005,
+        "reserved_write_gb": 10.15
+      },
+      "gates": [
+        {
+          "critical": false,
+          "limit": [],
+          "name": "required_telemetry",
+          "observed": [],
+          "ok": true,
+          "reason": "all required probes must report"
+        },
+        {
+          "critical": false,
+          "limit": "every declared prior-rung completion receipt must match exact fields",
+          "name": "receipt_prerequisites",
+          "observed": [
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 2972368896,
+                "problems": [],
+                "producer_task_id": "p5smoke_cpu",
+                "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "execution_status": "complete",
+                "fresh_challenge_required": false,
+                "profile": "p5smoke",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false,
+                "terminal_scientific_stop": false,
+                "terminal_stop_reason": null,
+                "trainability_gate_failed": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            },
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 1133920256,
+                "problems": [],
+                "producer_task_id": "p5_traingrid_memory_probe_cpu",
+                "run_receipt": "runs/local_throttle/p5grid_20260711_leg2/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "atomic_progress.completed_rows": 72,
+                "claim_boundary.mechanics_only": true,
+                "config.repeats": 3,
+                "config.seed": 0
+              },
+              "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+              "problems": [],
+              "schema": "mop-p5-traingrid-memory-trace/v1",
+              "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
+            },
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 283656192,
+                "problems": [],
+                "producer_task_id": "p5pilot_cpu",
+                "run_receipt": "runs/local_throttle/p5pilot_20260712_leg6/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "fresh_challenge_required": true,
+                "profile": "p5pilot",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+            }
+          ],
+          "ok": true,
+          "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+        },
+        {
+          "critical": false,
+          "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+          "name": "resource_measurement",
+          "observed": {
+            "all_ok": true,
+            "effective_unified_memory_gb": 10.0,
+            "mode": "declared"
+          },
+          "ok": true,
+          "reason": "unknown memory never becomes an ordinary task estimate"
+        },
+        {
+          "critical": false,
+          "limit": "fewer than 2 active lanes",
+          "name": "lane_count",
+          "observed": 0,
+          "ok": true,
+          "reason": "at most two scheduler-owned lanes"
+        },
+        {
+          "critical": false,
+          "limit": {
+            "required_empty": false
+          },
+          "name": "exclusive_lane",
+          "observed": {
+            "active_count": 0,
+            "active_exclusive": []
+          },
+          "ok": true,
+          "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+        },
+        {
+          "critical": false,
+          "limit": 1,
+          "name": "one_heavy",
+          "observed": 0,
+          "ok": true,
+          "reason": "a second heavy lane is never admitted"
+        },
+        {
+          "critical": false,
+          "limit": [
+            "cpu",
+            "light",
+            "network"
+          ],
+          "name": "second_lane_kind",
+          "observed": "heavy",
+          "ok": true,
+          "reason": "only CPU, network, or light work may be the second lane"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "unmanaged_heavy_process",
+          "observed": [],
+          "ok": true,
+          "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "foreground_second_lane",
+          "observed": [],
+          "ok": true,
+          "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_load",
+          "observed": 0.4462890625,
+          "ok": true,
+          "reason": "first_lane normalized one-minute load ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_utilization",
+          "observed": 0.297,
+          "ok": true,
+          "reason": "first_lane instantaneous CPU ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 28,
+          "name": "declared_cpu_cores",
+          "observed": 10,
+          "ok": true,
+          "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+        },
+        {
+          "critical": false,
+          "limit": 20.0,
+          "name": "memory_pressure",
+          "observed": 46.2,
+          "ok": true,
+          "reason": "first_lane available-memory floor from both VM and memory_pressure"
+        },
+        {
+          "critical": false,
+          "limit": 12.0,
+          "name": "candidate_memory_headroom",
+          "observed": 47.64065792,
+          "ok": true,
+          "reason": "measured available unified memory covers candidate peak plus headroom"
+        },
+        {
+          "critical": false,
+          "limit": 101.079215104,
+          "name": "declared_memory_budget",
+          "observed": 10.0,
+          "ok": true,
+          "reason": "all declared lane peaks fit measured unified memory with headroom"
+        },
+        {
+          "critical": false,
+          "limit": 8.0,
+          "name": "swap",
+          "observed": 0.0,
+          "ok": true,
+          "reason": "first_lane swap-use ceiling"
+        },
+        {
+          "critical": false,
+          "limit": "normal",
+          "name": "thermal",
+          "observed": "normal",
+          "ok": true,
+          "reason": "thermal and performance pressure must be normal"
+        },
+        {
+          "critical": false,
+          "limit": "AC Power for heavy/CPU work",
+          "name": "power",
+          "observed": "AC Power",
+          "ok": true,
+          "reason": "battery power blocks compute-heavy admission"
+        },
+        {
+          "critical": false,
+          "limit": 40.0,
+          "name": "forecasted_disk",
+          "observed": {
+            "free_gb": 390.130028544,
+            "projected_free_gb": 379.98002854400005,
+            "reserve_gb": 10.15
+          },
+          "ok": true,
+          "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+        }
+      ],
+      "schema": "mop-local-throttle-decision/v1",
+      "task_id": "p5fresh_challenge_cpu",
+      "threshold_tier": "first_lane",
+      "user_process_policy": "observed only; scheduler signals only its own process group"
+    },
+    {
+      "active_lanes": [],
+      "allowed": true,
+      "created_at": "2026-07-12T07:23:29.738906+00:00",
+      "critical": false,
+      "denied_reasons": [],
+      "disk_forecast": {
+        "floor_gb": 40.0,
+        "free_gb": 390.129881088,
+        "projected_free_gb": 379.979881088,
+        "reserved_write_gb": 10.15
+      },
+      "gates": [
+        {
+          "critical": false,
+          "limit": [],
+          "name": "required_telemetry",
+          "observed": [],
+          "ok": true,
+          "reason": "all required probes must report"
+        },
+        {
+          "critical": false,
+          "limit": "every declared prior-rung completion receipt must match exact fields",
+          "name": "receipt_prerequisites",
+          "observed": [
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 2972368896,
+                "problems": [],
+                "producer_task_id": "p5smoke_cpu",
+                "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "execution_status": "complete",
+                "fresh_challenge_required": false,
+                "profile": "p5smoke",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false,
+                "terminal_scientific_stop": false,
+                "terminal_stop_reason": null,
+                "trainability_gate_failed": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+            },
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 1133920256,
+                "problems": [],
+                "producer_task_id": "p5_traingrid_memory_probe_cpu",
+                "run_receipt": "runs/local_throttle/p5grid_20260711_leg2/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "atomic_progress.completed_rows": 72,
+                "claim_boundary.mechanics_only": true,
+                "config.repeats": 3,
+                "config.seed": 0
+              },
+              "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+              "problems": [],
+              "schema": "mop-p5-traingrid-memory-trace/v1",
+              "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
+            },
+            {
+              "all_ok": true,
+              "governor_provenance": {
+                "all_ok": true,
+                "governor_peak_rss_bytes": 283656192,
+                "problems": [],
+                "producer_task_id": "p5pilot_cpu",
+                "run_receipt": "runs/local_throttle/p5pilot_20260712_leg6/run_receipt.json"
+              },
+              "observations": {
+                "all_ok": true,
+                "complete": true,
+                "fresh_challenge_required": true,
+                "profile": "p5pilot",
+                "promotion.confirmatory_promotable": false,
+                "resumable": false
+              },
+              "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+              "problems": [],
+              "schema": "mop-p5-context-screen/v1",
+              "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+            }
+          ],
+          "ok": true,
+          "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+        },
+        {
+          "critical": false,
+          "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+          "name": "resource_measurement",
+          "observed": {
+            "all_ok": true,
+            "effective_unified_memory_gb": 10.0,
+            "mode": "declared"
+          },
+          "ok": true,
+          "reason": "unknown memory never becomes an ordinary task estimate"
+        },
+        {
+          "critical": false,
+          "limit": "fewer than 2 active lanes",
+          "name": "lane_count",
+          "observed": 0,
+          "ok": true,
+          "reason": "at most two scheduler-owned lanes"
+        },
+        {
+          "critical": false,
+          "limit": {
+            "required_empty": false
+          },
+          "name": "exclusive_lane",
+          "observed": {
+            "active_count": 0,
+            "active_exclusive": []
+          },
+          "ok": true,
+          "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+        },
+        {
+          "critical": false,
+          "limit": 1,
+          "name": "one_heavy",
+          "observed": 0,
+          "ok": true,
+          "reason": "a second heavy lane is never admitted"
+        },
+        {
+          "critical": false,
+          "limit": [
+            "cpu",
+            "light",
+            "network"
+          ],
+          "name": "second_lane_kind",
+          "observed": "heavy",
+          "ok": true,
+          "reason": "only CPU, network, or light work may be the second lane"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "unmanaged_heavy_process",
+          "observed": [],
+          "ok": true,
+          "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+        },
+        {
+          "critical": false,
+          "limit": [],
+          "name": "foreground_second_lane",
+          "observed": [],
+          "ok": true,
+          "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_load",
+          "observed": 0.42911202566964285,
+          "ok": true,
+          "reason": "first_lane normalized one-minute load ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 0.85,
+          "name": "cpu_utilization",
+          "observed": 0.25,
+          "ok": true,
+          "reason": "first_lane instantaneous CPU ceiling"
+        },
+        {
+          "critical": false,
+          "limit": 28,
+          "name": "declared_cpu_cores",
+          "observed": 10,
+          "ok": true,
+          "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+        },
+        {
+          "critical": false,
+          "limit": 20.0,
+          "name": "memory_pressure",
+          "observed": 46.3,
+          "ok": true,
+          "reason": "first_lane available-memory floor from both VM and memory_pressure"
+        },
+        {
+          "critical": false,
+          "limit": 12.0,
+          "name": "candidate_memory_headroom",
+          "observed": 47.772762112,
+          "ok": true,
+          "reason": "measured available unified memory covers candidate peak plus headroom"
+        },
+        {
+          "critical": false,
+          "limit": 101.079215104,
+          "name": "declared_memory_budget",
+          "observed": 10.0,
+          "ok": true,
+          "reason": "all declared lane peaks fit measured unified memory with headroom"
+        },
+        {
+          "critical": false,
+          "limit": 8.0,
+          "name": "swap",
+          "observed": 0.0,
+          "ok": true,
+          "reason": "first_lane swap-use ceiling"
+        },
+        {
+          "critical": false,
+          "limit": "normal",
+          "name": "thermal",
+          "observed": "normal",
+          "ok": true,
+          "reason": "thermal and performance pressure must be normal"
+        },
+        {
+          "critical": false,
+          "limit": "AC Power for heavy/CPU work",
+          "name": "power",
+          "observed": "AC Power",
+          "ok": true,
+          "reason": "battery power blocks compute-heavy admission"
+        },
+        {
+          "critical": false,
+          "limit": 40.0,
+          "name": "forecasted_disk",
+          "observed": {
+            "free_gb": 390.129881088,
+            "projected_free_gb": 379.979881088,
+            "reserve_gb": 10.15
+          },
+          "ok": true,
+          "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+        }
+      ],
+      "schema": "mop-local-throttle-decision/v1",
+      "task_id": "p5fresh_challenge_cpu",
+      "threshold_tier": "first_lane",
+      "user_process_policy": "observed only; scheduler signals only its own process group"
+    }
+  ],
+  "events": [
+    {
+      "at": "2026-07-12T07:23:45.734769+00:00",
+      "child_pid": 61787,
+      "event": "invocation-start",
+      "index": 1
+    },
+    {
+      "at": "2026-07-12T11:49:56.817031+00:00",
+      "event": "invocation-exit",
+      "index": 1,
+      "returncode": 0
+    }
+  ],
+  "final_checkpoint": {
+    "aggregate_sha256": "bf129629a84cfe5d207f1d687396babc621bfe8badc0a3901fb5aacbe91e426a",
+    "atomic_publications_only": true,
+    "file_count": 97,
+    "files": [
+      {
+        "bytes": 7910,
+        "mtime_ns": 1783856973899288719,
+        "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+      },
+      {
+        "bytes": 16290,
+        "mtime_ns": 1783846892388621335,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/cell_receipt.json",
+        "sha256": "940ccbfb698daef57ca512654902ff344a173dde4ffa64aeaf7195828f7b38d2"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783846226885494888,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/exact_global/arm_receipt.json",
+        "sha256": "c86b6e77828982d3397972811b42fbdbdfbdeef0465bc4d3dcfdbb75670e5763"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783846226853666156,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/exact_global/checkpoint.pt",
+        "sha256": "365fbab2a454f7d6b24d0cda7f69420dfb4e201c0a27fad3f032e574642c6193"
+      },
+      {
+        "bytes": 1853,
+        "mtime_ns": 1783846880489260979,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/hierarchical_pooled/arm_receipt.json",
+        "sha256": "39c8e37e3dcf436274e7141eb1d04f5036febf6c85c295f2a59075383b73b4be"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783846880459670946,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/hierarchical_pooled/checkpoint.pt",
+        "sha256": "64d15bdb61f10f28b0e146135e69ddaf18923fcdad8752430655f84dfbf87cd3"
+      },
+      {
+        "bytes": 1843,
+        "mtime_ns": 1783846771411065822,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/recurrent/arm_receipt.json",
+        "sha256": "a8516c8197783c390f4249b35101450883b5e1534794ff414f66f414f83b4076"
+      },
+      {
+        "bytes": 26925271,
+        "mtime_ns": 1783846771382179254,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/recurrent/checkpoint.pt",
+        "sha256": "41246bfa17d405cbb53a6ec971ff6c67a4add5c37da721883e847565a8822a60"
+      },
+      {
+        "bytes": 9601,
+        "mtime_ns": 1783846892386385147,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/seed_result.json",
+        "sha256": "ce08ae590bd5b965c8ed722b781f2e8c773a533942be62f21341af8dcbe28494"
+      },
+      {
+        "bytes": 1845,
+        "mtime_ns": 1783846348212447873,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/window_local/arm_receipt.json",
+        "sha256": "94fe39600d2027b7785b99ebc7011bdb5e23463d425d3d717ff96d46328298fd"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783846348179194425,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/window_local/checkpoint.pt",
+        "sha256": "6761578487d03962c30e3eaba0d4b20a308fcf0d02689f3ffbea5869d0373392"
+      },
+      {
+        "bytes": 15787,
+        "mtime_ns": 1783846892388203539,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/cell_receipt.json",
+        "sha256": "4ca1953fcb8c3952e30954ff5aace65c77a5b1bf996b39a6e955077d0bf73f4b"
+      },
+      {
+        "bytes": 1846,
+        "mtime_ns": 1783844863335328554,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/exact_global/arm_receipt.json",
+        "sha256": "589c760d7211a9d2aca2f6da72e8beb8168769ceedbded507d11801abab8feb1"
+      },
+      {
+        "bytes": 28005015,
+        "mtime_ns": 1783844863304338687,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/exact_global/checkpoint.pt",
+        "sha256": "c70ee1526f0b0615ec9ae5037415924110cbf62a370e7a67012858e1f6e1ed77"
+      },
+      {
+        "bytes": 1855,
+        "mtime_ns": 1783846090344521815,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/hierarchical_pooled/arm_receipt.json",
+        "sha256": "fae77c560e6802440efde6884ee0f441a6c457a361cf8c08c9e59781d533257b"
+      },
+      {
+        "bytes": 28005463,
+        "mtime_ns": 1783846090312251164,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/hierarchical_pooled/checkpoint.pt",
+        "sha256": "8820a29347e1f708cf1308f436cd56bd3552e333de094490eb2842734e64569e"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783845883347246940,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/recurrent/arm_receipt.json",
+        "sha256": "ca74a1f8987b76e9078594ad603a660350c59a441bdd9f5e3ce31dbf51430e03"
+      },
+      {
+        "bytes": 27974423,
+        "mtime_ns": 1783845883318068011,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/recurrent/checkpoint.pt",
+        "sha256": "7f84585268905fb661965648d1200ec26a7d817580cf0056e81d81fcbe38c36a"
+      },
+      {
+        "bytes": 9616,
+        "mtime_ns": 1783846114353668099,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/seed_result.json",
+        "sha256": "f328e80f771e88476afd015d1d4f3ee8cee2bf10afbc9df3d91ab2070afbf4fe"
+      },
+      {
+        "bytes": 1846,
+        "mtime_ns": 1783845050750142822,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/window_local/arm_receipt.json",
+        "sha256": "bdb30be46efc29299cc0d110ec4c3aff0c68d6eaa3d288c76b3e7d9a71ee6058"
+      },
+      {
+        "bytes": 28005463,
+        "mtime_ns": 1783845050718366776,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/window_local/checkpoint.pt",
+        "sha256": "a7dd60a5e4a81fff5c6a4a2befde69565331ae404b9e366c234cf42b4498bc62"
+      },
+      {
+        "bytes": 15852,
+        "mtime_ns": 1783846892387793286,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/cell_receipt.json",
+        "sha256": "ec47c1295a63ed77202aad19ffd323ed46e8c35ac28fcfd3aee87a95d85a0bc2"
+      },
+      {
+        "bytes": 1847,
+        "mtime_ns": 1783841308266543530,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/exact_global/arm_receipt.json",
+        "sha256": "3f53e512e1e8d4122e29f51e9acd336db15dc9422d34c66c4f712fac0b103869"
+      },
+      {
+        "bytes": 30102167,
+        "mtime_ns": 1783841308233707932,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/exact_global/checkpoint.pt",
+        "sha256": "eabb145de85d96b0cb1648e7065bb71bf9fc36165616b745c486215e01e2c422"
+      },
+      {
+        "bytes": 1857,
+        "mtime_ns": 1783844680023811122,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/hierarchical_pooled/arm_receipt.json",
+        "sha256": "15301728f82e680b0a79b6e6935add8d437bcd7ba2a55dc55f877a95a9b166ef"
+      },
+      {
+        "bytes": 30103511,
+        "mtime_ns": 1783844679986834285,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/hierarchical_pooled/checkpoint.pt",
+        "sha256": "ffd66c0d18f38155383439f5147674fc170e17098f7c63d72882848cced26ff1"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783844197344951556,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/recurrent/arm_receipt.json",
+        "sha256": "bdd2665ac44ea568a89ce78a5f8a92ef9da12c6a311cc65bc8ddc6247b0d9ddd"
+      },
+      {
+        "bytes": 30072791,
+        "mtime_ns": 1783844197314341148,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/recurrent/checkpoint.pt",
+        "sha256": "f2a3be075d8d82f0b5ba7b6f295bd11cc482f981854f9f1802ed5fe737cc5beb"
+      },
+      {
+        "bytes": 9596,
+        "mtime_ns": 1783844718814079727,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/seed_result.json",
+        "sha256": "5dbe22aee26f87d5d8bb2d6372cccbc94c94ce7c07ffaf2b8cdb325ab9eec9b7"
+      },
+      {
+        "bytes": 1847,
+        "mtime_ns": 1783841766068247023,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/window_local/arm_receipt.json",
+        "sha256": "b5084402e7c79bd38e3f4cfea412f83f7f2882a428f7866a1a4de6160a2197ce"
+      },
+      {
+        "bytes": 30103511,
+        "mtime_ns": 1783841766037077432,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/window_local/checkpoint.pt",
+        "sha256": "609c13de89a9387c3fe3ad9992206a23c89c68e60e867246da1f6acf4dfba150"
+      },
+      {
+        "bytes": 16675,
+        "mtime_ns": 1783846892389240716,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/p5_context_receipt.json",
+        "sha256": "0f1ffde6a8ec1f1d7d30dce7ae7aee2981c5015ac8b7a481fe61234b9142458d"
+      },
+      {
+        "bytes": 1818,
+        "mtime_ns": 1783841028146720361,
+        "path": "runs/p5_context/fresh_challenge/seed_5101/resolved_config.json",
+        "sha256": "d99c98a71894f67b4e5dff46b55cd70fe24b1863a917e20a4b234adb1b69fed5"
+      },
+      {
+        "bytes": 16208,
+        "mtime_ns": 1783852227352381107,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/cell_receipt.json",
+        "sha256": "cf5f2c617a8ca53dadc73cbc5b842ea134e16217ac8e6ac81497bd67ba99b1fc"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783851747495901439,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/exact_global/arm_receipt.json",
+        "sha256": "25df32532c3004b921ec4ce20290acdb7fd4f7a101eb2e9735cd89f6fd6bbed1"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783851747467930225,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/exact_global/checkpoint.pt",
+        "sha256": "77e488245c4d413b10acc620992c67d5e140d161b7a748be406ab6b2fc961b57"
+      },
+      {
+        "bytes": 1855,
+        "mtime_ns": 1783852217284680066,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/hierarchical_pooled/arm_receipt.json",
+        "sha256": "b2881e4ecf26dfeb9d28f0d2eb9f924bdd335efa638a87643a57c97c06eda7ff"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783852217257185387,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/hierarchical_pooled/checkpoint.pt",
+        "sha256": "75f66bd5e948339378dce5994390a0bd7fe0937da69ec99283b16c00345ce464"
+      },
+      {
+        "bytes": 1843,
+        "mtime_ns": 1783852130818863525,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/recurrent/arm_receipt.json",
+        "sha256": "702b33bd4888ee9ae032bfb3f4794e371d2f87b92e9d31181f5d21416684d5a6"
+      },
+      {
+        "bytes": 26925271,
+        "mtime_ns": 1783852130793194591,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/recurrent/checkpoint.pt",
+        "sha256": "821d7aeebff72bae2f253e85e583a7c7d5206375f40f6b3e8c4124af89eb12f0"
+      },
+      {
+        "bytes": 9566,
+        "mtime_ns": 1783852227349870697,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/seed_result.json",
+        "sha256": "b9fe8248aaa5847687aa6d3e2ef5bc40d5a6932a40ab49b178dfd24ee674a4d0"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783851826655127817,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/window_local/arm_receipt.json",
+        "sha256": "ec2711782464b37ba6557c2504a7e5a2a294a41475260b0ee786592d168ac703"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783851826627240431,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/window_local/checkpoint.pt",
+        "sha256": "3a4a143c944001cef86687fac1d7ca49caa00a1fb943ed6faedc9619c44e1a2e"
+      },
+      {
+        "bytes": 15844,
+        "mtime_ns": 1783852227351930483,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/cell_receipt.json",
+        "sha256": "c36201f220cc2e23b1a0f9b112ced078dac47052918a6b2cd28ff4fa4717b7ad"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783850571177877650,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/exact_global/arm_receipt.json",
+        "sha256": "a83bf721000c019b81332683596666cc3a5f139231b89e2f090743304007fb45"
+      },
+      {
+        "bytes": 28005015,
+        "mtime_ns": 1783850571148906266,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/exact_global/checkpoint.pt",
+        "sha256": "efad6a9f852173cf495183e6c3d9598cd007ae5863f3eccdf1572fb6ae41b818"
+      },
+      {
+        "bytes": 1855,
+        "mtime_ns": 1783851659894056860,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/hierarchical_pooled/arm_receipt.json",
+        "sha256": "852298a934f2aa383ded6316156d50110173a5c62dc783b24de296194992f81f"
+      },
+      {
+        "bytes": 28005463,
+        "mtime_ns": 1783851659865631201,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/hierarchical_pooled/checkpoint.pt",
+        "sha256": "3cca61df9bde67af49b814268a2349e3fd788ff141b5917e3d5a40183734b38e"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783851481925777574,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/recurrent/arm_receipt.json",
+        "sha256": "327664dc6cb6c935f921cbc2036968fb08b26318a611c63675330ea72882c8f6"
+      },
+      {
+        "bytes": 27974423,
+        "mtime_ns": 1783851481899041496,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/recurrent/checkpoint.pt",
+        "sha256": "b22bfa039ace839b16d6c8e42951ca3824670693bfc4f2b4a9b82b4b1bbe5191"
+      },
+      {
+        "bytes": 9598,
+        "mtime_ns": 1783851677154152175,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/seed_result.json",
+        "sha256": "2635d2c3e5a31b85d1dcd8caf8610f37ce75c0d178e8139cb9e0d0197ed1b12e"
+      },
+      {
+        "bytes": 1847,
+        "mtime_ns": 1783850745878985935,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/window_local/arm_receipt.json",
+        "sha256": "f14dad64bc44c83fcae1961f392e99af73c50fb3a6604ce9cc03c5e67aaff550"
+      },
+      {
+        "bytes": 28005463,
+        "mtime_ns": 1783850745847743843,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/window_local/checkpoint.pt",
+        "sha256": "4d9e3c410566ec3a88cfa2a957723624b81768177a3d443f771ebb5552705ab5"
+      },
+      {
+        "bytes": 15657,
+        "mtime_ns": 1783852227351452109,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/cell_receipt.json",
+        "sha256": "38058fa69144614e27b3902da0e9ccfea81b16be4fc742ee89af944a6391ae8f"
+      },
+      {
+        "bytes": 1845,
+        "mtime_ns": 1783847202553322329,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/exact_global/arm_receipt.json",
+        "sha256": "27e68ea20b55f269ae3c6b79d0869a704bc1ba36b59636338fa17671982e0c89"
+      },
+      {
+        "bytes": 30102167,
+        "mtime_ns": 1783847202516789729,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/exact_global/checkpoint.pt",
+        "sha256": "6c3918fc83c94ca6e01fe0742dcbaf49ea9b6b29d66a4ff4b75a758fe0585cd7"
+      },
+      {
+        "bytes": 1857,
+        "mtime_ns": 1783850410443746689,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/hierarchical_pooled/arm_receipt.json",
+        "sha256": "ec4186ab9b85668adfe99f76076417f24580ace5e06510ed2b4d2165693a5a34"
+      },
+      {
+        "bytes": 30103511,
+        "mtime_ns": 1783850410413935139,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/hierarchical_pooled/checkpoint.pt",
+        "sha256": "d9710d8a5ad6c50ae4234917c150f2e7423398e04dd316c26e13766c28bc8de5"
+      },
+      {
+        "bytes": 1845,
+        "mtime_ns": 1783849980615763078,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/recurrent/arm_receipt.json",
+        "sha256": "ca06a89e237c19e13abd40e0e025e4a6030577552b4071d96b7c28a4fde75144"
+      },
+      {
+        "bytes": 30072791,
+        "mtime_ns": 1783849980587503193,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/recurrent/checkpoint.pt",
+        "sha256": "6686283c4812867ee77ff9f8904f5d07a3a631d5171934df4840f3de95f6dbc0"
+      },
+      {
+        "bytes": 9584,
+        "mtime_ns": 1783850443651312139,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/seed_result.json",
+        "sha256": "d8e6f846e35e69e062ea1e2931808b6e11055965914c30b0319325b17c3faf35"
+      },
+      {
+        "bytes": 1848,
+        "mtime_ns": 1783847718736346416,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/window_local/arm_receipt.json",
+        "sha256": "76329bfc3dbf705c97b23ddc247ce9a840e1305634cf7a76cc139ee63fe6ea57"
+      },
+      {
+        "bytes": 30103511,
+        "mtime_ns": 1783847718703395562,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/window_local/checkpoint.pt",
+        "sha256": "c7c6842e5aa16f9a73931801bb23d263cb7e8dea091dcfc42183e8e5430c4348"
+      },
+      {
+        "bytes": 16437,
+        "mtime_ns": 1783852227353049564,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/p5_context_receipt.json",
+        "sha256": "f909c56f332182467cc6ec881e330a85078b28da78341b4fc415f8a64883763c"
+      },
+      {
+        "bytes": 1818,
+        "mtime_ns": 1783846892391883616,
+        "path": "runs/p5_context/fresh_challenge/seed_5102/resolved_config.json",
+        "sha256": "53f866075523db5cfef706a40a2c8be49782fb9ee7e711d9921cf5ff27172670"
+      },
+      {
+        "bytes": 15882,
+        "mtime_ns": 1783856973896633408,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/cell_receipt.json",
+        "sha256": "73c4e4bd36d8fa2b2cdc54b756d9179573d534777d8984e260f31538209428c2"
+      },
+      {
+        "bytes": 1846,
+        "mtime_ns": 1783856507832261473,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/exact_global/arm_receipt.json",
+        "sha256": "5ba8e3fb0bca1f3c045ee3fa6f161a5a1f1f650c6d8352160f82f60c31af8082"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783856507804002217,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/exact_global/checkpoint.pt",
+        "sha256": "fdca6685925b296d0fbe3db28a2f43666b758920d41beae63951049adefa88ef"
+      },
+      {
+        "bytes": 1850,
+        "mtime_ns": 1783856964659312181,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/hierarchical_pooled/arm_receipt.json",
+        "sha256": "90f53ecf355da55ed55d331359976c3daff97c246cf2903999ba7bcfe3f313be"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783856964632167861,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/hierarchical_pooled/checkpoint.pt",
+        "sha256": "c0b94bb2e4ab0ec9739a22be8de18393e2a9c0241a18842f1fbe9dc38ea48487"
+      },
+      {
+        "bytes": 1844,
+        "mtime_ns": 1783856880506156201,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/recurrent/arm_receipt.json",
+        "sha256": "fb1ad0c6e326797439d25c5ce373d14514170a9c8a71d189fad70e21ff6c0d54"
+      },
+      {
+        "bytes": 26925271,
+        "mtime_ns": 1783856880480880686,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/recurrent/checkpoint.pt",
+        "sha256": "4da3ac63e16a7d5ca7df023fec7ee6e840e62dce4919a30617e318a5eccc963f"
+      },
+      {
+        "bytes": 9504,
+        "mtime_ns": 1783856973894518310,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/seed_result.json",
+        "sha256": "353f0a238675511f5bb99658ff6b1c7f6c66706bbb9c39db56b7941be4509381"
+      },
+      {
+        "bytes": 1846,
+        "mtime_ns": 1783856586075846248,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/window_local/arm_receipt.json",
+        "sha256": "b19167ac6cca9d56272c78140fab787eea080653d559e2bf8f2c14e4470a343c"
+      },
+      {
+        "bytes": 26956439,
+        "mtime_ns": 1783856586046299202,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/window_local/checkpoint.pt",
+        "sha256": "41ccb0a9f96d096d9d97ae0d19aa645eaf061c9593838acb7bbdee35f785777b"
+      },
+      {
+        "bytes": 15923,
+        "mtime_ns": 1783856973896225864,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/cell_receipt.json",
+        "sha256": "5c91ad332de95f1c8b9798064e44308f39006f2de2353db517b51ba0ba7aaeca"
+      },
+      {
+        "bytes": 1846,
+        "mtime_ns": 1783855374369266552,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/exact_global/arm_receipt.json",
+        "sha256": "398b75a79ce077d5ebf5bbf15bfedf9f0fa2d0b34ac4914c6cebe923bdabdd9b"
+      },
+      {
+        "bytes": 28005015,
+        "mtime_ns": 1783855374340889722,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/exact_global/checkpoint.pt",
+        "sha256": "e6983dd41dcd729f6adb741df66f72a1106f70ee6155c3880e3315a850152c24"
+      },
+      {
+        "bytes": 1856,
+        "mtime_ns": 1783856421466773235,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/hierarchical_pooled/arm_receipt.json",
+        "sha256": "a45af77a8c147e2e29382a5e2fe0edd75cf624a07c24b6a0304ce7a478d813df"
+      },
+      {
+        "bytes": 28005463,
+        "mtime_ns": 1783856421438638321,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/hierarchical_pooled/checkpoint.pt",
+        "sha256": "754a729d395ff63419031a627b18e012e9713b33fc76b9c804af118cc0187649"
+      },
+      {
+        "bytes": 1843,
+        "mtime_ns": 1783856246012676445,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/recurrent/arm_receipt.json",
+        "sha256": "c2f505c6cd50abb6f3a8ec4bccb576c6172c251c06d88de76ad5c643b018c5d1"
+      },
+      {
+        "bytes": 27974423,
+        "mtime_ns": 1783856245986683262,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/recurrent/checkpoint.pt",
+        "sha256": "d55ee163949022b0539873b8f5b047a7ca7780ae5769ee6b387263b34b43c106"
+      },
+      {
+        "bytes": 9638,
+        "mtime_ns": 1783856438563155674,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/seed_result.json",
+        "sha256": "b4661fd99ae8c3e294d3952a045d71e9262bb1a33d5ecdf3466e724e8ba3eeac"
+      },
+      {
+        "bytes": 1845,
+        "mtime_ns": 1783855541083531058,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/window_local/arm_receipt.json",
+        "sha256": "49801428984bb7fe30c47899fa93250d5593494986c76050a7042b1d10accc8d"
+      },
+      {
+        "bytes": 28005463,
+        "mtime_ns": 1783855541055438023,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/window_local/checkpoint.pt",
+        "sha256": "091c370cf079f823086a15b4103bcdaf8818427a0fe848e1c311990cf85f0960"
+      },
+      {
+        "bytes": 15754,
+        "mtime_ns": 1783856973895824486,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/cell_receipt.json",
+        "sha256": "0941cb7664ac12f194774bea0749f9ca2e5a0bda90f3e7b3083cf4ee0d2795f5"
+      },
+      {
+        "bytes": 1847,
+        "mtime_ns": 1783852478547726903,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/exact_global/arm_receipt.json",
+        "sha256": "eeeb73c5b0ff1d74deda652871498d38002b38214928b3ae2fa7cb8852bbcdd0"
+      },
+      {
+        "bytes": 30102167,
+        "mtime_ns": 1783852478517979604,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/exact_global/checkpoint.pt",
+        "sha256": "2acd45f00a69d78ead4addf9beaa371bcc3e5467aa9178114a29228c07c65265"
+      },
+      {
+        "bytes": 1857,
+        "mtime_ns": 1783855214995542824,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/hierarchical_pooled/arm_receipt.json",
+        "sha256": "9588e219e21f9e77d532f15757c04a085d62907ff6173ec338cea06e0610b1c4"
+      },
+      {
+        "bytes": 30103511,
+        "mtime_ns": 1783855214966087210,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/hierarchical_pooled/checkpoint.pt",
+        "sha256": "5225ccf7dab09331e612e4d1be6939d632eea62a9e4b9cfe70f4094a3dd46f65"
+      },
+      {
+        "bytes": 1847,
+        "mtime_ns": 1783854791479702410,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/recurrent/arm_receipt.json",
+        "sha256": "d81d0b333351256275f1ee34970eaf42cc6c85d6be524962ac5d13e9feeac176"
+      },
+      {
+        "bytes": 30072791,
+        "mtime_ns": 1783854791451661495,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/recurrent/checkpoint.pt",
+        "sha256": "f99578a6b7128269c84e1dff99bee2ce5e37af36de9408950bb98d59cb03fb20"
+      },
+      {
+        "bytes": 9543,
+        "mtime_ns": 1783855247853932655,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/seed_result.json",
+        "sha256": "3eada85be87f6cd62884a70a4038fdbcb23f9f964c3964c050e3d51b079fa37c"
+      },
+      {
+        "bytes": 1845,
+        "mtime_ns": 1783852894371940975,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/window_local/arm_receipt.json",
+        "sha256": "428323a569c48f3ed75d8b611000c1b0b72c9e5b5bea3f685e53c35019672148"
+      },
+      {
+        "bytes": 30103511,
+        "mtime_ns": 1783852894342366891,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/window_local/checkpoint.pt",
+        "sha256": "664a224649db9daae640d03fbec14b87118f57c4e7f780fd1ce228b4d024ce88"
+      },
+      {
+        "bytes": 16580,
+        "mtime_ns": 1783856973897194829,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/p5_context_receipt.json",
+        "sha256": "0df67d3436c05dbaa23d4faa633b19d3e05bdfd8be646a2f863424414482604f"
+      },
+      {
+        "bytes": 1818,
+        "mtime_ns": 1783852227356240389,
+        "path": "runs/p5_context/fresh_challenge/seed_5103/resolved_config.json",
+        "sha256": "31b46a205738c3bfc31cb0fac5183308e7b620be2c9e2fd2502c8edab8f66c9c"
+      }
+    ]
+  },
+  "final_returncode": 0,
+  "finished_at": "2026-07-12T11:49:56.818846+00:00",
+  "implementation": {
+    "path": "src/mop/studio/local_throttle.py",
+    "sha256": "bd7dd790460adc7760620007c691e3c345e89d9630c303abf40de59b924fddfb"
+  },
+  "invocations": [
+    {
+      "checkpoint_after": {
+        "aggregate_sha256": "bf129629a84cfe5d207f1d687396babc621bfe8badc0a3901fb5aacbe91e426a",
+        "atomic_publications_only": true,
+        "file_count": 97,
+        "files": [
+          {
+            "bytes": 7910,
+            "mtime_ns": 1783856973899288719,
+            "path": "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+            "sha256": "99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7"
+          },
+          {
+            "bytes": 16290,
+            "mtime_ns": 1783846892388621335,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/cell_receipt.json",
+            "sha256": "940ccbfb698daef57ca512654902ff344a173dde4ffa64aeaf7195828f7b38d2"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783846226885494888,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/exact_global/arm_receipt.json",
+            "sha256": "c86b6e77828982d3397972811b42fbdbdfbdeef0465bc4d3dcfdbb75670e5763"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783846226853666156,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/exact_global/checkpoint.pt",
+            "sha256": "365fbab2a454f7d6b24d0cda7f69420dfb4e201c0a27fad3f032e574642c6193"
+          },
+          {
+            "bytes": 1853,
+            "mtime_ns": 1783846880489260979,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/hierarchical_pooled/arm_receipt.json",
+            "sha256": "39c8e37e3dcf436274e7141eb1d04f5036febf6c85c295f2a59075383b73b4be"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783846880459670946,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/hierarchical_pooled/checkpoint.pt",
+            "sha256": "64d15bdb61f10f28b0e146135e69ddaf18923fcdad8752430655f84dfbf87cd3"
+          },
+          {
+            "bytes": 1843,
+            "mtime_ns": 1783846771411065822,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/recurrent/arm_receipt.json",
+            "sha256": "a8516c8197783c390f4249b35101450883b5e1534794ff414f66f414f83b4076"
+          },
+          {
+            "bytes": 26925271,
+            "mtime_ns": 1783846771382179254,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/recurrent/checkpoint.pt",
+            "sha256": "41246bfa17d405cbb53a6ec971ff6c67a4add5c37da721883e847565a8822a60"
+          },
+          {
+            "bytes": 9601,
+            "mtime_ns": 1783846892386385147,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/seed_result.json",
+            "sha256": "ce08ae590bd5b965c8ed722b781f2e8c773a533942be62f21341af8dcbe28494"
+          },
+          {
+            "bytes": 1845,
+            "mtime_ns": 1783846348212447873,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/window_local/arm_receipt.json",
+            "sha256": "94fe39600d2027b7785b99ebc7011bdb5e23463d425d3d717ff96d46328298fd"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783846348179194425,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f16/seed_5101/window_local/checkpoint.pt",
+            "sha256": "6761578487d03962c30e3eaba0d4b20a308fcf0d02689f3ffbea5869d0373392"
+          },
+          {
+            "bytes": 15787,
+            "mtime_ns": 1783846892388203539,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/cell_receipt.json",
+            "sha256": "4ca1953fcb8c3952e30954ff5aace65c77a5b1bf996b39a6e955077d0bf73f4b"
+          },
+          {
+            "bytes": 1846,
+            "mtime_ns": 1783844863335328554,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/exact_global/arm_receipt.json",
+            "sha256": "589c760d7211a9d2aca2f6da72e8beb8168769ceedbded507d11801abab8feb1"
+          },
+          {
+            "bytes": 28005015,
+            "mtime_ns": 1783844863304338687,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/exact_global/checkpoint.pt",
+            "sha256": "c70ee1526f0b0615ec9ae5037415924110cbf62a370e7a67012858e1f6e1ed77"
+          },
+          {
+            "bytes": 1855,
+            "mtime_ns": 1783846090344521815,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/hierarchical_pooled/arm_receipt.json",
+            "sha256": "fae77c560e6802440efde6884ee0f441a6c457a361cf8c08c9e59781d533257b"
+          },
+          {
+            "bytes": 28005463,
+            "mtime_ns": 1783846090312251164,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/hierarchical_pooled/checkpoint.pt",
+            "sha256": "8820a29347e1f708cf1308f436cd56bd3552e333de094490eb2842734e64569e"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783845883347246940,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/recurrent/arm_receipt.json",
+            "sha256": "ca74a1f8987b76e9078594ad603a660350c59a441bdd9f5e3ce31dbf51430e03"
+          },
+          {
+            "bytes": 27974423,
+            "mtime_ns": 1783845883318068011,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/recurrent/checkpoint.pt",
+            "sha256": "7f84585268905fb661965648d1200ec26a7d817580cf0056e81d81fcbe38c36a"
+          },
+          {
+            "bytes": 9616,
+            "mtime_ns": 1783846114353668099,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/seed_result.json",
+            "sha256": "f328e80f771e88476afd015d1d4f3ee8cee2bf10afbc9df3d91ab2070afbf4fe"
+          },
+          {
+            "bytes": 1846,
+            "mtime_ns": 1783845050750142822,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/window_local/arm_receipt.json",
+            "sha256": "bdb30be46efc29299cc0d110ec4c3aff0c68d6eaa3d288c76b3e7d9a71ee6058"
+          },
+          {
+            "bytes": 28005463,
+            "mtime_ns": 1783845050718366776,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f32/seed_5101/window_local/checkpoint.pt",
+            "sha256": "a7dd60a5e4a81fff5c6a4a2befde69565331ae404b9e366c234cf42b4498bc62"
+          },
+          {
+            "bytes": 15852,
+            "mtime_ns": 1783846892387793286,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/cell_receipt.json",
+            "sha256": "ec47c1295a63ed77202aad19ffd323ed46e8c35ac28fcfd3aee87a95d85a0bc2"
+          },
+          {
+            "bytes": 1847,
+            "mtime_ns": 1783841308266543530,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/exact_global/arm_receipt.json",
+            "sha256": "3f53e512e1e8d4122e29f51e9acd336db15dc9422d34c66c4f712fac0b103869"
+          },
+          {
+            "bytes": 30102167,
+            "mtime_ns": 1783841308233707932,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/exact_global/checkpoint.pt",
+            "sha256": "eabb145de85d96b0cb1648e7065bb71bf9fc36165616b745c486215e01e2c422"
+          },
+          {
+            "bytes": 1857,
+            "mtime_ns": 1783844680023811122,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/hierarchical_pooled/arm_receipt.json",
+            "sha256": "15301728f82e680b0a79b6e6935add8d437bcd7ba2a55dc55f877a95a9b166ef"
+          },
+          {
+            "bytes": 30103511,
+            "mtime_ns": 1783844679986834285,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/hierarchical_pooled/checkpoint.pt",
+            "sha256": "ffd66c0d18f38155383439f5147674fc170e17098f7c63d72882848cced26ff1"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783844197344951556,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/recurrent/arm_receipt.json",
+            "sha256": "bdd2665ac44ea568a89ce78a5f8a92ef9da12c6a311cc65bc8ddc6247b0d9ddd"
+          },
+          {
+            "bytes": 30072791,
+            "mtime_ns": 1783844197314341148,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/recurrent/checkpoint.pt",
+            "sha256": "f2a3be075d8d82f0b5ba7b6f295bd11cc482f981854f9f1802ed5fe737cc5beb"
+          },
+          {
+            "bytes": 9596,
+            "mtime_ns": 1783844718814079727,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/seed_result.json",
+            "sha256": "5dbe22aee26f87d5d8bb2d6372cccbc94c94ce7c07ffaf2b8cdb325ab9eec9b7"
+          },
+          {
+            "bytes": 1847,
+            "mtime_ns": 1783841766068247023,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/window_local/arm_receipt.json",
+            "sha256": "b5084402e7c79bd38e3f4cfea412f83f7f2882a428f7866a1a4de6160a2197ce"
+          },
+          {
+            "bytes": 30103511,
+            "mtime_ns": 1783841766037077432,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/frames/f64/seed_5101/window_local/checkpoint.pt",
+            "sha256": "609c13de89a9387c3fe3ad9992206a23c89c68e60e867246da1f6acf4dfba150"
+          },
+          {
+            "bytes": 16675,
+            "mtime_ns": 1783846892389240716,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/p5_context_receipt.json",
+            "sha256": "0f1ffde6a8ec1f1d7d30dce7ae7aee2981c5015ac8b7a481fe61234b9142458d"
+          },
+          {
+            "bytes": 1818,
+            "mtime_ns": 1783841028146720361,
+            "path": "runs/p5_context/fresh_challenge/seed_5101/resolved_config.json",
+            "sha256": "d99c98a71894f67b4e5dff46b55cd70fe24b1863a917e20a4b234adb1b69fed5"
+          },
+          {
+            "bytes": 16208,
+            "mtime_ns": 1783852227352381107,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/cell_receipt.json",
+            "sha256": "cf5f2c617a8ca53dadc73cbc5b842ea134e16217ac8e6ac81497bd67ba99b1fc"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783851747495901439,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/exact_global/arm_receipt.json",
+            "sha256": "25df32532c3004b921ec4ce20290acdb7fd4f7a101eb2e9735cd89f6fd6bbed1"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783851747467930225,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/exact_global/checkpoint.pt",
+            "sha256": "77e488245c4d413b10acc620992c67d5e140d161b7a748be406ab6b2fc961b57"
+          },
+          {
+            "bytes": 1855,
+            "mtime_ns": 1783852217284680066,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/hierarchical_pooled/arm_receipt.json",
+            "sha256": "b2881e4ecf26dfeb9d28f0d2eb9f924bdd335efa638a87643a57c97c06eda7ff"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783852217257185387,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/hierarchical_pooled/checkpoint.pt",
+            "sha256": "75f66bd5e948339378dce5994390a0bd7fe0937da69ec99283b16c00345ce464"
+          },
+          {
+            "bytes": 1843,
+            "mtime_ns": 1783852130818863525,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/recurrent/arm_receipt.json",
+            "sha256": "702b33bd4888ee9ae032bfb3f4794e371d2f87b92e9d31181f5d21416684d5a6"
+          },
+          {
+            "bytes": 26925271,
+            "mtime_ns": 1783852130793194591,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/recurrent/checkpoint.pt",
+            "sha256": "821d7aeebff72bae2f253e85e583a7c7d5206375f40f6b3e8c4124af89eb12f0"
+          },
+          {
+            "bytes": 9566,
+            "mtime_ns": 1783852227349870697,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/seed_result.json",
+            "sha256": "b9fe8248aaa5847687aa6d3e2ef5bc40d5a6932a40ab49b178dfd24ee674a4d0"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783851826655127817,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/window_local/arm_receipt.json",
+            "sha256": "ec2711782464b37ba6557c2504a7e5a2a294a41475260b0ee786592d168ac703"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783851826627240431,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f16/seed_5102/window_local/checkpoint.pt",
+            "sha256": "3a4a143c944001cef86687fac1d7ca49caa00a1fb943ed6faedc9619c44e1a2e"
+          },
+          {
+            "bytes": 15844,
+            "mtime_ns": 1783852227351930483,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/cell_receipt.json",
+            "sha256": "c36201f220cc2e23b1a0f9b112ced078dac47052918a6b2cd28ff4fa4717b7ad"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783850571177877650,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/exact_global/arm_receipt.json",
+            "sha256": "a83bf721000c019b81332683596666cc3a5f139231b89e2f090743304007fb45"
+          },
+          {
+            "bytes": 28005015,
+            "mtime_ns": 1783850571148906266,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/exact_global/checkpoint.pt",
+            "sha256": "efad6a9f852173cf495183e6c3d9598cd007ae5863f3eccdf1572fb6ae41b818"
+          },
+          {
+            "bytes": 1855,
+            "mtime_ns": 1783851659894056860,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/hierarchical_pooled/arm_receipt.json",
+            "sha256": "852298a934f2aa383ded6316156d50110173a5c62dc783b24de296194992f81f"
+          },
+          {
+            "bytes": 28005463,
+            "mtime_ns": 1783851659865631201,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/hierarchical_pooled/checkpoint.pt",
+            "sha256": "3cca61df9bde67af49b814268a2349e3fd788ff141b5917e3d5a40183734b38e"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783851481925777574,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/recurrent/arm_receipt.json",
+            "sha256": "327664dc6cb6c935f921cbc2036968fb08b26318a611c63675330ea72882c8f6"
+          },
+          {
+            "bytes": 27974423,
+            "mtime_ns": 1783851481899041496,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/recurrent/checkpoint.pt",
+            "sha256": "b22bfa039ace839b16d6c8e42951ca3824670693bfc4f2b4a9b82b4b1bbe5191"
+          },
+          {
+            "bytes": 9598,
+            "mtime_ns": 1783851677154152175,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/seed_result.json",
+            "sha256": "2635d2c3e5a31b85d1dcd8caf8610f37ce75c0d178e8139cb9e0d0197ed1b12e"
+          },
+          {
+            "bytes": 1847,
+            "mtime_ns": 1783850745878985935,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/window_local/arm_receipt.json",
+            "sha256": "f14dad64bc44c83fcae1961f392e99af73c50fb3a6604ce9cc03c5e67aaff550"
+          },
+          {
+            "bytes": 28005463,
+            "mtime_ns": 1783850745847743843,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f32/seed_5102/window_local/checkpoint.pt",
+            "sha256": "4d9e3c410566ec3a88cfa2a957723624b81768177a3d443f771ebb5552705ab5"
+          },
+          {
+            "bytes": 15657,
+            "mtime_ns": 1783852227351452109,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/cell_receipt.json",
+            "sha256": "38058fa69144614e27b3902da0e9ccfea81b16be4fc742ee89af944a6391ae8f"
+          },
+          {
+            "bytes": 1845,
+            "mtime_ns": 1783847202553322329,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/exact_global/arm_receipt.json",
+            "sha256": "27e68ea20b55f269ae3c6b79d0869a704bc1ba36b59636338fa17671982e0c89"
+          },
+          {
+            "bytes": 30102167,
+            "mtime_ns": 1783847202516789729,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/exact_global/checkpoint.pt",
+            "sha256": "6c3918fc83c94ca6e01fe0742dcbaf49ea9b6b29d66a4ff4b75a758fe0585cd7"
+          },
+          {
+            "bytes": 1857,
+            "mtime_ns": 1783850410443746689,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/hierarchical_pooled/arm_receipt.json",
+            "sha256": "ec4186ab9b85668adfe99f76076417f24580ace5e06510ed2b4d2165693a5a34"
+          },
+          {
+            "bytes": 30103511,
+            "mtime_ns": 1783850410413935139,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/hierarchical_pooled/checkpoint.pt",
+            "sha256": "d9710d8a5ad6c50ae4234917c150f2e7423398e04dd316c26e13766c28bc8de5"
+          },
+          {
+            "bytes": 1845,
+            "mtime_ns": 1783849980615763078,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/recurrent/arm_receipt.json",
+            "sha256": "ca06a89e237c19e13abd40e0e025e4a6030577552b4071d96b7c28a4fde75144"
+          },
+          {
+            "bytes": 30072791,
+            "mtime_ns": 1783849980587503193,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/recurrent/checkpoint.pt",
+            "sha256": "6686283c4812867ee77ff9f8904f5d07a3a631d5171934df4840f3de95f6dbc0"
+          },
+          {
+            "bytes": 9584,
+            "mtime_ns": 1783850443651312139,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/seed_result.json",
+            "sha256": "d8e6f846e35e69e062ea1e2931808b6e11055965914c30b0319325b17c3faf35"
+          },
+          {
+            "bytes": 1848,
+            "mtime_ns": 1783847718736346416,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/window_local/arm_receipt.json",
+            "sha256": "76329bfc3dbf705c97b23ddc247ce9a840e1305634cf7a76cc139ee63fe6ea57"
+          },
+          {
+            "bytes": 30103511,
+            "mtime_ns": 1783847718703395562,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/frames/f64/seed_5102/window_local/checkpoint.pt",
+            "sha256": "c7c6842e5aa16f9a73931801bb23d263cb7e8dea091dcfc42183e8e5430c4348"
+          },
+          {
+            "bytes": 16437,
+            "mtime_ns": 1783852227353049564,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/p5_context_receipt.json",
+            "sha256": "f909c56f332182467cc6ec881e330a85078b28da78341b4fc415f8a64883763c"
+          },
+          {
+            "bytes": 1818,
+            "mtime_ns": 1783846892391883616,
+            "path": "runs/p5_context/fresh_challenge/seed_5102/resolved_config.json",
+            "sha256": "53f866075523db5cfef706a40a2c8be49782fb9ee7e711d9921cf5ff27172670"
+          },
+          {
+            "bytes": 15882,
+            "mtime_ns": 1783856973896633408,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/cell_receipt.json",
+            "sha256": "73c4e4bd36d8fa2b2cdc54b756d9179573d534777d8984e260f31538209428c2"
+          },
+          {
+            "bytes": 1846,
+            "mtime_ns": 1783856507832261473,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/exact_global/arm_receipt.json",
+            "sha256": "5ba8e3fb0bca1f3c045ee3fa6f161a5a1f1f650c6d8352160f82f60c31af8082"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783856507804002217,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/exact_global/checkpoint.pt",
+            "sha256": "fdca6685925b296d0fbe3db28a2f43666b758920d41beae63951049adefa88ef"
+          },
+          {
+            "bytes": 1850,
+            "mtime_ns": 1783856964659312181,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/hierarchical_pooled/arm_receipt.json",
+            "sha256": "90f53ecf355da55ed55d331359976c3daff97c246cf2903999ba7bcfe3f313be"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783856964632167861,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/hierarchical_pooled/checkpoint.pt",
+            "sha256": "c0b94bb2e4ab0ec9739a22be8de18393e2a9c0241a18842f1fbe9dc38ea48487"
+          },
+          {
+            "bytes": 1844,
+            "mtime_ns": 1783856880506156201,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/recurrent/arm_receipt.json",
+            "sha256": "fb1ad0c6e326797439d25c5ce373d14514170a9c8a71d189fad70e21ff6c0d54"
+          },
+          {
+            "bytes": 26925271,
+            "mtime_ns": 1783856880480880686,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/recurrent/checkpoint.pt",
+            "sha256": "4da3ac63e16a7d5ca7df023fec7ee6e840e62dce4919a30617e318a5eccc963f"
+          },
+          {
+            "bytes": 9504,
+            "mtime_ns": 1783856973894518310,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/seed_result.json",
+            "sha256": "353f0a238675511f5bb99658ff6b1c7f6c66706bbb9c39db56b7941be4509381"
+          },
+          {
+            "bytes": 1846,
+            "mtime_ns": 1783856586075846248,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/window_local/arm_receipt.json",
+            "sha256": "b19167ac6cca9d56272c78140fab787eea080653d559e2bf8f2c14e4470a343c"
+          },
+          {
+            "bytes": 26956439,
+            "mtime_ns": 1783856586046299202,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f16/seed_5103/window_local/checkpoint.pt",
+            "sha256": "41ccb0a9f96d096d9d97ae0d19aa645eaf061c9593838acb7bbdee35f785777b"
+          },
+          {
+            "bytes": 15923,
+            "mtime_ns": 1783856973896225864,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/cell_receipt.json",
+            "sha256": "5c91ad332de95f1c8b9798064e44308f39006f2de2353db517b51ba0ba7aaeca"
+          },
+          {
+            "bytes": 1846,
+            "mtime_ns": 1783855374369266552,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/exact_global/arm_receipt.json",
+            "sha256": "398b75a79ce077d5ebf5bbf15bfedf9f0fa2d0b34ac4914c6cebe923bdabdd9b"
+          },
+          {
+            "bytes": 28005015,
+            "mtime_ns": 1783855374340889722,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/exact_global/checkpoint.pt",
+            "sha256": "e6983dd41dcd729f6adb741df66f72a1106f70ee6155c3880e3315a850152c24"
+          },
+          {
+            "bytes": 1856,
+            "mtime_ns": 1783856421466773235,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/hierarchical_pooled/arm_receipt.json",
+            "sha256": "a45af77a8c147e2e29382a5e2fe0edd75cf624a07c24b6a0304ce7a478d813df"
+          },
+          {
+            "bytes": 28005463,
+            "mtime_ns": 1783856421438638321,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/hierarchical_pooled/checkpoint.pt",
+            "sha256": "754a729d395ff63419031a627b18e012e9713b33fc76b9c804af118cc0187649"
+          },
+          {
+            "bytes": 1843,
+            "mtime_ns": 1783856246012676445,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/recurrent/arm_receipt.json",
+            "sha256": "c2f505c6cd50abb6f3a8ec4bccb576c6172c251c06d88de76ad5c643b018c5d1"
+          },
+          {
+            "bytes": 27974423,
+            "mtime_ns": 1783856245986683262,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/recurrent/checkpoint.pt",
+            "sha256": "d55ee163949022b0539873b8f5b047a7ca7780ae5769ee6b387263b34b43c106"
+          },
+          {
+            "bytes": 9638,
+            "mtime_ns": 1783856438563155674,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/seed_result.json",
+            "sha256": "b4661fd99ae8c3e294d3952a045d71e9262bb1a33d5ecdf3466e724e8ba3eeac"
+          },
+          {
+            "bytes": 1845,
+            "mtime_ns": 1783855541083531058,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/window_local/arm_receipt.json",
+            "sha256": "49801428984bb7fe30c47899fa93250d5593494986c76050a7042b1d10accc8d"
+          },
+          {
+            "bytes": 28005463,
+            "mtime_ns": 1783855541055438023,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f32/seed_5103/window_local/checkpoint.pt",
+            "sha256": "091c370cf079f823086a15b4103bcdaf8818427a0fe848e1c311990cf85f0960"
+          },
+          {
+            "bytes": 15754,
+            "mtime_ns": 1783856973895824486,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/cell_receipt.json",
+            "sha256": "0941cb7664ac12f194774bea0749f9ca2e5a0bda90f3e7b3083cf4ee0d2795f5"
+          },
+          {
+            "bytes": 1847,
+            "mtime_ns": 1783852478547726903,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/exact_global/arm_receipt.json",
+            "sha256": "eeeb73c5b0ff1d74deda652871498d38002b38214928b3ae2fa7cb8852bbcdd0"
+          },
+          {
+            "bytes": 30102167,
+            "mtime_ns": 1783852478517979604,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/exact_global/checkpoint.pt",
+            "sha256": "2acd45f00a69d78ead4addf9beaa371bcc3e5467aa9178114a29228c07c65265"
+          },
+          {
+            "bytes": 1857,
+            "mtime_ns": 1783855214995542824,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/hierarchical_pooled/arm_receipt.json",
+            "sha256": "9588e219e21f9e77d532f15757c04a085d62907ff6173ec338cea06e0610b1c4"
+          },
+          {
+            "bytes": 30103511,
+            "mtime_ns": 1783855214966087210,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/hierarchical_pooled/checkpoint.pt",
+            "sha256": "5225ccf7dab09331e612e4d1be6939d632eea62a9e4b9cfe70f4094a3dd46f65"
+          },
+          {
+            "bytes": 1847,
+            "mtime_ns": 1783854791479702410,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/recurrent/arm_receipt.json",
+            "sha256": "d81d0b333351256275f1ee34970eaf42cc6c85d6be524962ac5d13e9feeac176"
+          },
+          {
+            "bytes": 30072791,
+            "mtime_ns": 1783854791451661495,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/recurrent/checkpoint.pt",
+            "sha256": "f99578a6b7128269c84e1dff99bee2ce5e37af36de9408950bb98d59cb03fb20"
+          },
+          {
+            "bytes": 9543,
+            "mtime_ns": 1783855247853932655,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/seed_result.json",
+            "sha256": "3eada85be87f6cd62884a70a4038fdbcb23f9f964c3964c050e3d51b079fa37c"
+          },
+          {
+            "bytes": 1845,
+            "mtime_ns": 1783852894371940975,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/window_local/arm_receipt.json",
+            "sha256": "428323a569c48f3ed75d8b611000c1b0b72c9e5b5bea3f685e53c35019672148"
+          },
+          {
+            "bytes": 30103511,
+            "mtime_ns": 1783852894342366891,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/frames/f64/seed_5103/window_local/checkpoint.pt",
+            "sha256": "664a224649db9daae640d03fbec14b87118f57c4e7f780fd1ce228b4d024ce88"
+          },
+          {
+            "bytes": 16580,
+            "mtime_ns": 1783856973897194829,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/p5_context_receipt.json",
+            "sha256": "0df67d3436c05dbaa23d4faa633b19d3e05bdfd8be646a2f863424414482604f"
+          },
+          {
+            "bytes": 1818,
+            "mtime_ns": 1783852227356240389,
+            "path": "runs/p5_context/fresh_challenge/seed_5103/resolved_config.json",
+            "sha256": "31b46a205738c3bfc31cb0fac5183308e7b620be2c9e2fd2502c8edab8f66c9c"
+          }
+        ]
+      },
+      "command": [
+        ".venv/bin/python",
+        "scripts/p5_context_fresh_challenge.py",
+        "--primary",
+        "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+        "--primary-run-dir",
+        "runs/p5_context/p5pilot",
+        "--run-dir",
+        "runs/p5_context/fresh_challenge",
+        "--out",
+        "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+        "--device",
+        "cpu"
+      ],
+      "command_sha256": "dda2ad95b1fc2b72b299f87fee6f74413b5bc5f51d3c4309465fe5a9f48ae564",
+      "finished_at": "2026-07-12T11:49:56.329834+00:00",
+      "index": 1,
+      "pid": 61787,
+      "returncode": 0,
+      "started_at": "2026-07-12T07:23:45.726829+00:00",
+      "stderr": "/Users/scammermike/Downloads/mop/runs/local_throttle/p5fresh_challenge_20260712_leg2/logs/invocation_01.stderr.log",
+      "stdout": "/Users/scammermike/Downloads/mop/runs/local_throttle/p5fresh_challenge_20260712_leg2/logs/invocation_01.stdout.log"
+    }
+  ],
+  "last_decision": {
+    "active_lanes": [],
+    "allowed": true,
+    "created_at": "2026-07-12T11:49:56.328037+00:00",
+    "critical": false,
+    "denied_reasons": [],
+    "disk_forecast": {
+      "floor_gb": 40.0,
+      "free_gb": 335.74426624,
+      "projected_free_gb": 325.59426624,
+      "reserved_write_gb": 10.15
+    },
+    "gates": [
+      {
+        "critical": false,
+        "limit": [],
+        "name": "required_telemetry",
+        "observed": [],
+        "ok": true,
+        "reason": "all required probes must report"
+      },
+      {
+        "critical": false,
+        "limit": "every declared prior-rung completion receipt must match exact fields",
+        "name": "receipt_prerequisites",
+        "observed": [
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 2972368896,
+              "problems": [],
+              "producer_task_id": "p5smoke_cpu",
+              "run_receipt": "runs/local_throttle/p5smoke_20260711_leg4/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "complete": true,
+              "execution_status": "complete",
+              "fresh_challenge_required": false,
+              "profile": "p5smoke",
+              "promotion.confirmatory_promotable": false,
+              "resumable": false,
+              "terminal_scientific_stop": false,
+              "terminal_stop_reason": null,
+              "trainability_gate_failed": false
+            },
+            "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+            "problems": [],
+            "schema": "mop-p5-context-screen/v1",
+            "sha256": "fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f"
+          },
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 1133920256,
+              "problems": [],
+              "producer_task_id": "p5_traingrid_memory_probe_cpu",
+              "run_receipt": "runs/local_throttle/p5grid_20260711_leg2/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "atomic_progress.completed_rows": 72,
+              "claim_boundary.mechanics_only": true,
+              "config.repeats": 3,
+              "config.seed": 0
+            },
+            "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+            "problems": [],
+            "schema": "mop-p5-traingrid-memory-trace/v1",
+            "sha256": "27a0cc9deac6871c7dc0b5a67a587b2a03526c3f77d2ad231aa8a69a62977114"
+          },
+          {
+            "all_ok": true,
+            "governor_provenance": {
+              "all_ok": true,
+              "governor_peak_rss_bytes": 283656192,
+              "problems": [],
+              "producer_task_id": "p5pilot_cpu",
+              "run_receipt": "runs/local_throttle/p5pilot_20260712_leg6/run_receipt.json"
+            },
+            "observations": {
+              "all_ok": true,
+              "complete": true,
+              "fresh_challenge_required": true,
+              "profile": "p5pilot",
+              "promotion.confirmatory_promotable": false,
+              "resumable": false
+            },
+            "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+            "problems": [],
+            "schema": "mop-p5-context-screen/v1",
+            "sha256": "8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a"
+          }
+        ],
+        "ok": true,
+        "reason": "P6 and other dependent tasks fail closed until immutable prior receipts pass"
+      },
+      {
+        "critical": false,
+        "limit": "declared peak, exclusive probe, or measured prior-rung max RSS",
+        "name": "resource_measurement",
+        "observed": {
+          "all_ok": true,
+          "effective_unified_memory_gb": 10.0,
+          "mode": "declared"
+        },
+        "ok": true,
+        "reason": "unknown memory never becomes an ordinary task estimate"
+      },
+      {
+        "critical": false,
+        "limit": "fewer than 2 active lanes",
+        "name": "lane_count",
+        "observed": 0,
+        "ok": true,
+        "reason": "at most two scheduler-owned lanes"
+      },
+      {
+        "critical": false,
+        "limit": {
+          "required_empty": false
+        },
+        "name": "exclusive_lane",
+        "observed": {
+          "active_count": 0,
+          "active_exclusive": []
+        },
+        "ok": true,
+        "reason": "exclusive measurement and progressive P6 lanes never overlap P4, P5, or another task"
+      },
+      {
+        "critical": false,
+        "limit": 1,
+        "name": "one_heavy",
+        "observed": 0,
+        "ok": true,
+        "reason": "a second heavy lane is never admitted"
+      },
+      {
+        "critical": false,
+        "limit": [
+          "cpu",
+          "light",
+          "network"
+        ],
+        "name": "second_lane_kind",
+        "observed": "heavy",
+        "ok": true,
+        "reason": "only CPU, network, or light work may be the second lane"
+      },
+      {
+        "critical": false,
+        "limit": [],
+        "name": "unmanaged_heavy_process",
+        "observed": [],
+        "ok": true,
+        "reason": "unknown heavy work has no resource declaration, so admission fails closed"
+      },
+      {
+        "critical": false,
+        "limit": [],
+        "name": "foreground_second_lane",
+        "observed": [],
+        "ok": true,
+        "reason": "Blender or another declared foreground workload permits one experiment lane, never two"
+      },
+      {
+        "critical": false,
+        "limit": "admission-only",
+        "name": "cpu_load",
+        "observed": 0.20652553013392858,
+        "ok": true,
+        "reason": "owned task CPU load is expected at runtime; memory, swap, thermal, and disk remain gated"
+      },
+      {
+        "critical": false,
+        "limit": "admission-only",
+        "name": "cpu_utilization",
+        "observed": 0.107,
+        "ok": true,
+        "reason": "owned task CPU utilization is expected at runtime; pressure gates remain active"
+      },
+      {
+        "critical": false,
+        "limit": 28,
+        "name": "declared_cpu_cores",
+        "observed": 10,
+        "ok": true,
+        "reason": "declared concurrent core demand cannot exceed measured logical CPUs"
+      },
+      {
+        "critical": false,
+        "limit": 20.0,
+        "name": "memory_pressure",
+        "observed": 82.7,
+        "ok": true,
+        "reason": "first_lane available-memory floor from both VM and memory_pressure"
+      },
+      {
+        "critical": false,
+        "limit": 2.0,
+        "name": "candidate_memory_headroom",
+        "observed": 85.213970432,
+        "ok": true,
+        "reason": "running task retains the minimum unified-memory headroom"
+      },
+      {
+        "critical": false,
+        "limit": 101.079215104,
+        "name": "declared_memory_budget",
+        "observed": 10.0,
+        "ok": true,
+        "reason": "all declared lane peaks fit measured unified memory with headroom"
+      },
+      {
+        "critical": false,
+        "limit": 8.0,
+        "name": "swap",
+        "observed": 0.0,
+        "ok": true,
+        "reason": "first_lane swap-use ceiling"
+      },
+      {
+        "critical": false,
+        "limit": "normal",
+        "name": "thermal",
+        "observed": "normal",
+        "ok": true,
+        "reason": "thermal and performance pressure must be normal"
+      },
+      {
+        "critical": false,
+        "limit": "AC Power for heavy/CPU work",
+        "name": "power",
+        "observed": "AC Power",
+        "ok": true,
+        "reason": "battery power blocks compute-heavy admission"
+      },
+      {
+        "critical": false,
+        "limit": 40.0,
+        "name": "forecasted_disk",
+        "observed": {
+          "free_gb": 335.74426624,
+          "projected_free_gb": 325.59426624,
+          "reserve_gb": 10.15
+        },
+        "ok": true,
+        "reason": "40 GB floor is preserved after declared writes, atomic temp space, and uncertainty"
+      }
+    ],
+    "schema": "mop-local-throttle-decision/v1",
+    "task_id": "p5fresh_challenge_cpu",
+    "threshold_tier": "first_lane",
+    "user_process_policy": "observed only; scheduler signals only its own process group"
+  },
+  "last_telemetry": {
+    "all_required_available": true,
+    "cpu": {
+      "available": true,
+      "load_15m": 7.15234375,
+      "load_1m": 5.78271484375,
+      "load_1m_per_logical_cpu": 0.20652553013392858,
+      "load_5m": 6.94384765625,
+      "logical_cpus": 28,
+      "utilization_fraction": 0.107
+    },
+    "created_at": "2026-07-12T11:49:40.268918+00:00",
+    "disk": {
+      "available": true,
+      "free_bytes": 335744266240,
+      "free_gb": 335.74426624,
+      "root": "/Users/scammermike/Downloads/mop",
+      "total_bytes": 994662584320
+    },
+    "memory": {
+      "available": true,
+      "available_bytes": 85213970432,
+      "available_percent": 82.7,
+      "pressure": {
+        "available": true,
+        "free_percent": 92.0,
+        "raw": "The system has 103079215104 (6291456 pages with a page size of 16384).\nSystem-wide memory free percentage: 92%"
+      },
+      "total_bytes": 103079215104
+    },
+    "missing_required_telemetry": [],
+    "mps": {
+      "available": true,
+      "built": true,
+      "current_allocated_bytes": 0,
+      "declared_headroom_bytes": 83493699584,
+      "driver_allocated_bytes": 475136,
+      "recommended_working_set_bytes": 83494174720,
+      "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+      "telemetry_available": true
+    },
+    "power": {
+      "available": true,
+      "battery_percent": null,
+      "on_ac": true,
+      "raw": "Now drawing from 'AC Power'",
+      "source": "AC Power"
+    },
+    "processes": {
+      "available": true,
+      "foreground_resource_processes": [],
+      "frontmost_application": {
+        "available": false,
+        "name": null
+      },
+      "inaccessible_processes": 0,
+      "unmanaged_known_heavy": []
+    },
+    "schema": "mop-local-host-telemetry/v1",
+    "swap": {
+      "available": true,
+      "free_bytes": 0,
+      "percent": 0.0,
+      "total_bytes": 0,
+      "used_bytes": 0,
+      "used_gb": 0.0
+    },
+    "thermal": {
+      "available": true,
+      "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+      "status": "normal"
+    }
+  },
+  "mode": "execute",
+  "ownership": "only child process groups created by this scheduler may receive signals",
+  "payload_sha256": "49ac25db39933b1d722f488de4d400d0c147b61308e7a6bbc61436115646e51c",
+  "policy": {
+    "path": "/Users/scammermike/Downloads/mop/configs/local_execution_throttle.yaml",
+    "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
+  },
+  "profile": {
+    "allow_manual_auth": false,
+    "allowed_tiers": [
+      "C"
+    ],
+    "disk_total_gb": 80.0,
+    "download_budget_gb": 10.0,
+    "download_hard_cap_gb": 25.0,
+    "dry_run_default": true,
+    "fixture_budget_gb": 2.0,
+    "max_cache_clips": 128,
+    "max_per_source_gb": 5.0,
+    "max_run_count": 64,
+    "max_source_count": 8,
+    "max_wall_min": 300,
+    "min_free_disk_gb": 40.0,
+    "min_host_disk_gb": 70.0,
+    "min_host_unified_memory_gb": 15.0,
+    "name": "m3pro-local-max",
+    "procurement_status": "measured-current-host-envelope",
+    "raw_smoke_gb": 5.0,
+    "require_apple_silicon": true,
+    "reserve_gb": 10.0,
+    "usable_gb": 70.0
+  },
+  "run_id": "p5fresh_challenge_20260712_leg2",
+  "schema": "mop-local-throttle-receipt/v1",
+  "started_at": "2026-07-12T07:23:29.739178+00:00",
+  "status": "complete",
+  "task": {
+    "accelerator": "none",
+    "atomic_checkpoints": true,
+    "atomic_write_gb": 0.15,
+    "checkpoint_globs": [
+      "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/*/checkpoint.pt",
+      "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/*/arm_receipt.json",
+      "runs/p5_context/fresh_challenge/seed_*/frames/f*/seed_*/seed_result.json",
+      "runs/p5_context/fresh_challenge/seed_*/frames/f*/cell_receipt.json",
+      "runs/p5_context/fresh_challenge/seed_*/p5_context_receipt.json",
+      "runs/p5_context/fresh_challenge/seed_*/resolved_config.json",
+      "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json"
+    ],
+    "command": [
+      ".venv/bin/python",
+      "scripts/p5_context_fresh_challenge.py",
+      "--primary",
+      "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+      "--primary-run-dir",
+      "runs/p5_context/p5pilot",
+      "--run-dir",
+      "runs/p5_context/fresh_challenge",
+      "--out",
+      "proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json",
+      "--device",
+      "cpu"
+    ],
+    "cpu_cores": 10,
+    "depends_on": [
+      "p5pilot_cpu"
+    ],
+    "estimated_mps_gb": 0.0,
+    "estimated_unified_memory_gb": 10.0,
+    "forecast_write_gb": 8.0,
+    "lane": "heavy",
+    "pause_safe": true,
+    "prerequisites": [
+      {
+        "fields": [
+          [
+            "profile",
+            "p5smoke"
+          ],
+          [
+            "complete",
+            true
+          ],
+          [
+            "all_ok",
+            true
+          ],
+          [
+            "resumable",
+            false
+          ],
+          [
+            "execution_status",
+            "complete"
+          ],
+          [
+            "terminal_scientific_stop",
+            false
+          ],
+          [
+            "terminal_stop_reason",
+            null
+          ],
+          [
+            "trainability_gate_failed",
+            false
+          ],
+          [
+            "fresh_challenge_required",
+            false
+          ],
+          [
+            "promotion.confirmatory_promotable",
+            false
+          ]
+        ],
+        "path": "proof/P5_CONTEXT_CAPABILITY_SMOKE.json",
+        "schema": "mop-p5-context-screen/v1"
+      },
+      {
+        "fields": [
+          [
+            "all_ok",
+            true
+          ],
+          [
+            "claim_boundary.mechanics_only",
+            true
+          ],
+          [
+            "config.repeats",
+            3
+          ],
+          [
+            "config.seed",
+            0
+          ],
+          [
+            "atomic_progress.completed_rows",
+            72
+          ]
+        ],
+        "path": "proof/P5_TRAINGRID_MEMORY_TRACE.json",
+        "schema": "mop-p5-traingrid-memory-trace/v1"
+      },
+      {
+        "fields": [
+          [
+            "profile",
+            "p5pilot"
+          ],
+          [
+            "complete",
+            true
+          ],
+          [
+            "all_ok",
+            true
+          ],
+          [
+            "resumable",
+            false
+          ],
+          [
+            "fresh_challenge_required",
+            true
+          ],
+          [
+            "promotion.confirmatory_promotable",
+            false
+          ]
+        ],
+        "path": "proof/P5_CONTEXT_CAPABILITY_PILOT.json",
+        "schema": "mop-p5-context-screen/v1"
+      }
+    ],
+    "requires_empty_lanes": false,
+    "resource_basis": "fresh P5 subruns use the measured 4.8474 GB training path; 10 GB is conservative",
+    "resource_probe": false,
+    "resource_receipt_path": null,
+    "resource_receipt_rung": null,
+    "resource_receipt_schema": null,
+    "restart_exit_codes": [
+      2
+    ],
+    "task_id": "p5fresh_challenge_cpu",
+    "wall_minutes": 300
+  },
+  "telemetry_samples": [
+    {
+      "all_required_available": true,
+      "cpu": {
+        "available": true,
+        "load_15m": 17.40283203125,
+        "load_1m": 13.5517578125,
+        "load_1m_per_logical_cpu": 0.48399135044642855,
+        "load_5m": 15.91943359375,
+        "logical_cpus": 28,
+        "utilization_fraction": 0.245
+      },
+      "created_at": "2026-07-12T07:22:38.892863+00:00",
+      "disk": {
+        "available": true,
+        "free_bytes": 390129848320,
+        "free_gb": 390.12984832,
+        "root": "/Users/scammermike/Downloads/mop",
+        "total_bytes": 994662584320
+      },
+      "memory": {
+        "available": true,
+        "available_bytes": 47852306432,
+        "available_percent": 46.4,
+        "pressure": {
+          "available": true,
+          "free_percent": 90.0,
+          "raw": "The system has 103079215104 (6291456 pages with a page size of 16384).\nSystem-wide memory free percentage: 90%"
+        },
+        "total_bytes": 103079215104
+      },
+      "missing_required_telemetry": [],
+      "mps": {
+        "available": true,
+        "built": true,
+        "current_allocated_bytes": 0,
+        "declared_headroom_bytes": 83493699584,
+        "driver_allocated_bytes": 475136,
+        "recommended_working_set_bytes": 83494174720,
+        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+        "telemetry_available": true
+      },
+      "power": {
+        "available": true,
+        "battery_percent": null,
+        "on_ac": true,
+        "raw": "Now drawing from 'AC Power'",
+        "source": "AC Power"
+      },
+      "processes": {
+        "available": true,
+        "foreground_resource_processes": [],
+        "frontmost_application": {
+          "available": false,
+          "name": null
+        },
+        "inaccessible_processes": 0,
+        "unmanaged_known_heavy": []
+      },
+      "schema": "mop-local-host-telemetry/v1",
+      "swap": {
+        "available": true,
+        "free_bytes": 0,
+        "percent": 0.0,
+        "total_bytes": 0,
+        "used_bytes": 0,
+        "used_gb": 0.0
+      },
+      "thermal": {
+        "available": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+        "status": "normal"
+      }
+    },
+    {
+      "all_required_available": true,
+      "cpu": {
+        "available": true,
+        "load_15m": 17.22998046875,
+        "load_1m": 12.49609375,
+        "load_1m_per_logical_cpu": 0.4462890625,
+        "load_5m": 15.5322265625,
+        "logical_cpus": 28,
+        "utilization_fraction": 0.297
+      },
+      "created_at": "2026-07-12T07:22:56.356533+00:00",
+      "disk": {
+        "available": true,
+        "free_bytes": 390130028544,
+        "free_gb": 390.130028544,
+        "root": "/Users/scammermike/Downloads/mop",
+        "total_bytes": 994662584320
+      },
+      "memory": {
+        "available": true,
+        "available_bytes": 47640657920,
+        "available_percent": 46.2,
+        "pressure": {
+          "available": true,
+          "free_percent": 90.0,
+          "raw": "The system has 103079215104 (6291456 pages with a page size of 16384).\nSystem-wide memory free percentage: 90%"
+        },
+        "total_bytes": 103079215104
+      },
+      "missing_required_telemetry": [],
+      "mps": {
+        "available": true,
+        "built": true,
+        "current_allocated_bytes": 0,
+        "declared_headroom_bytes": 83493699584,
+        "driver_allocated_bytes": 475136,
+        "recommended_working_set_bytes": 83494174720,
+        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+        "telemetry_available": true
+      },
+      "power": {
+        "available": true,
+        "battery_percent": null,
+        "on_ac": true,
+        "raw": "Now drawing from 'AC Power'",
+        "source": "AC Power"
+      },
+      "processes": {
+        "available": true,
+        "foreground_resource_processes": [],
+        "frontmost_application": {
+          "available": false,
+          "name": null
+        },
+        "inaccessible_processes": 0,
+        "unmanaged_known_heavy": []
+      },
+      "schema": "mop-local-host-telemetry/v1",
+      "swap": {
+        "available": true,
+        "free_bytes": 0,
+        "percent": 0.0,
+        "total_bytes": 0,
+        "used_bytes": 0,
+        "used_gb": 0.0
+      },
+      "thermal": {
+        "available": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+        "status": "normal"
+      }
+    },
+    {
+      "all_required_available": true,
+      "cpu": {
+        "available": true,
+        "load_15m": 17.10888671875,
+        "load_1m": 12.01513671875,
+        "load_1m_per_logical_cpu": 0.42911202566964285,
+        "load_5m": 15.27685546875,
+        "logical_cpus": 28,
+        "utilization_fraction": 0.25
+      },
+      "created_at": "2026-07-12T07:23:13.574915+00:00",
+      "disk": {
+        "available": true,
+        "free_bytes": 390129881088,
+        "free_gb": 390.129881088,
+        "root": "/Users/scammermike/Downloads/mop",
+        "total_bytes": 994662584320
+      },
+      "memory": {
+        "available": true,
+        "available_bytes": 47772762112,
+        "available_percent": 46.3,
+        "pressure": {
+          "available": true,
+          "free_percent": 90.0,
+          "raw": "The system has 103079215104 (6291456 pages with a page size of 16384).\nSystem-wide memory free percentage: 90%"
+        },
+        "total_bytes": 103079215104
+      },
+      "missing_required_telemetry": [],
+      "mps": {
+        "available": true,
+        "built": true,
+        "current_allocated_bytes": 0,
+        "declared_headroom_bytes": 83493699584,
+        "driver_allocated_bytes": 475136,
+        "recommended_working_set_bytes": 83494174720,
+        "scope": "scheduler-process plus declared child peak; no global per-process Metal API",
+        "telemetry_available": true
+      },
+      "power": {
+        "available": true,
+        "battery_percent": null,
+        "on_ac": true,
+        "raw": "Now drawing from 'AC Power'",
+        "source": "AC Power"
+      },
+      "processes": {
+        "available": true,
+        "foreground_resource_processes": [],
+        "frontmost_application": {
+          "available": false,
+          "name": null
+        },
+        "inaccessible_processes": 0,
+        "unmanaged_known_heavy": []
+      },
+      "schema": "mop-local-host-telemetry/v1",
+      "swap": {
+        "available": true,
+        "free_bytes": 0,
+        "percent": 0.0,
+        "total_bytes": 0,
+        "used_bytes": 0,
+        "used_gb": 0.0
+      },
+      "thermal": {
+        "available": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+        "status": "normal"
+      }
+    }
+  ],
+  "wall_seconds": 15970.936559041998
+}

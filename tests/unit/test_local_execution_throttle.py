@@ -86,6 +86,42 @@ def _write_payload_receipt(path, payload):
     path.write_text(json.dumps(payload))
 
 
+def _native_seal(payload, field):
+    payload.pop(field, None)
+    payload[field] = throttle._canonical_sha256(payload)
+    return payload
+
+
+def _write_native_payload(path, payload):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n")
+
+
+def _edcm_native_producer():
+    core = {
+        "schema": throttle.EDCM_RECEIPT_SCHEMA,
+        "authority_sha256": "a" * 64,
+        "implementation_authority_sha256": "b" * 64,
+        "execution_status": "complete",
+        "aggregate": {"verdict": "strong-null-not-supported"},
+        "scientific_promotion": False,
+    }
+    payload = {**core, "deterministic_core_sha256": throttle._canonical_sha256(core)}
+    return _native_seal(payload, "receipt_sha256")
+
+
+def _x0_native_producer():
+    return _native_seal(
+        {
+            "schema": throttle.X0_RECEIPT_SCHEMA,
+            "implementation_authority": {"manifest_sha256": "c" * 64},
+            "aggregate": {"verdict": "strong_null_not_rejected"},
+            "scientific_promotion": False,
+        },
+        "receipt_sha256",
+    )
+
+
 def _seal_governor_run(root: Path, task_id: str) -> dict:
     policy = load_policy()
     task = policy.task(task_id)
@@ -108,6 +144,7 @@ def _seal_governor_run(root: Path, task_id: str) -> dict:
     }
     command = list(task.command)
     command_sha = throttle._command_sha256(task.command)
+    task_policy_authority = throttle._build_task_policy_authority(policy, task)
     receipt = {
         "schema": throttle.RECEIPT_SCHEMA,
         "mode": "execute",
@@ -115,6 +152,7 @@ def _seal_governor_run(root: Path, task_id: str) -> dict:
         "status": "complete",
         "policy": policy_binding,
         "implementation": implementation,
+        "task_policy_authority": task_policy_authority,
         "task": throttle._json_value(throttle.asdict(task)),
         "command_executed": True,
         "invocations": [
@@ -137,6 +175,7 @@ def _seal_governor_run(root: Path, task_id: str) -> dict:
             "command_sha256": command_sha,
             "policy": policy_binding,
             "implementation": implementation,
+            "task_policy_authority": task_policy_authority,
             "returncode": 0,
             "output": {"path": output_path, "sha256": output_sha},
             "final_checkpoint_aggregate_sha256": snapshot["aggregate_sha256"],
@@ -683,6 +722,189 @@ def test_policy_pins_cpu_p5_order_and_exact_commands():
         "--out",
         "proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json",
     )
+
+
+def test_task_output_path_accepts_all_three_authority_flags_and_rejects_multiplicity():
+    base = load_policy().task("p5verify_cpu")
+    for flag in throttle.OUTPUT_AUTHORITY_FLAGS:
+        task = replace(base, command=("runner", flag, "proof/output.json"))
+        assert throttle._task_output_path(task) == "proof/output.json"
+
+    with pytest.raises(ThrottleRefused, match="exactly one output-authority"):
+        throttle._task_output_path(
+            replace(
+                base,
+                command=(
+                    "runner",
+                    "--out",
+                    "proof/one.json",
+                    "--verification-out",
+                    "proof/two.json",
+                ),
+            )
+        )
+    with pytest.raises(ThrottleRefused, match="repository-relative"):
+        throttle._task_output_path(replace(base, command=("runner", "--output", "../escape.json")))
+
+
+def test_substrate_task_prefixes_require_completion_provenance():
+    base = load_policy().task("p4_resume_cpu")
+    for task_id in (
+        "edcm1_official_cpu",
+        "edcm1_verify_cpu",
+        "escs_x0_official_cpu",
+        "escs_x0_verify_cpu",
+    ):
+        assert throttle._requires_completion_provenance(replace(base, task_id=task_id)) is True
+    assert throttle._requires_completion_provenance(base) is False
+
+
+def test_policy_load_fails_closed_on_task_policy_helper_drift(monkeypatch):
+    monkeypatch.setattr(throttle, "TASK_POLICY_HELPER_SHA256", "0" * 64)
+    with pytest.raises(ThrottleRefused, match="helper implementation drifted"):
+        load_policy()
+
+
+def test_legacy_baseline_loader_rejects_a_self_consistent_splice(monkeypatch, tmp_path):
+    source_path, expected_manifest, expected_governor = throttle.LEGACY_POLICY_BASELINE_BINDINGS[1]
+    payload = json.loads(source_path.read_text())
+    authority = payload["task_authorities"][0]
+    authority["task_sha256"] = "0" * 64
+    authority.pop("authority_sha256")
+    authority["authority_sha256"] = throttle.task_policy.canonical_sha256(authority)
+    payload.pop("manifest_sha256")
+    payload["manifest_sha256"] = throttle.task_policy.canonical_sha256(payload)
+    spliced = tmp_path / "spliced-baseline.json"
+    spliced.write_text(json.dumps(payload))
+    monkeypatch.setattr(
+        throttle,
+        "LEGACY_POLICY_BASELINE_BINDINGS",
+        ((spliced, expected_manifest, expected_governor),),
+    )
+
+    with pytest.raises(ThrottleRefused, match="binding drifted"):
+        throttle._load_legacy_policy_baselines()
+
+
+def test_native_substrate_seals_fail_closed_on_payload_mutation(tmp_path):
+    cases = (
+        (
+            throttle.ESCS_PREFLIGHT_SCHEMA,
+            _native_seal(
+                {
+                    "schema": throttle.ESCS_PREFLIGHT_SCHEMA,
+                    "scaffold_ready": True,
+                    "scientific_promotion_allowed": False,
+                },
+                "report_sha256",
+            ),
+        ),
+        (throttle.EDCM_RECEIPT_SCHEMA, _edcm_native_producer()),
+        (throttle.X0_RECEIPT_SCHEMA, _x0_native_producer()),
+    )
+    for schema, payload in cases:
+        assert throttle._native_schema_authority_problems(schema, payload, tmp_path) == []
+        mutated = json.loads(json.dumps(payload))
+        mutated["post_seal_mutation"] = True
+        problems = throttle._native_schema_authority_problems(schema, mutated, tmp_path)
+        assert any("drift" in problem for problem in problems)
+
+
+def test_edcm_native_verifier_exactly_joins_live_producer(tmp_path):
+    producer_path = tmp_path / throttle.EDCM_RECEIPT_PATH
+    producer = _edcm_native_producer()
+    _write_native_payload(producer_path, producer)
+    producer_file = throttle._scoped_file_receipt(producer_path, tmp_path)
+    verification = {
+        "authority_sha256": producer["authority_sha256"],
+        "implementation_authority_sha256": producer["implementation_authority_sha256"],
+        "execution_status": producer["execution_status"],
+        "verdict": producer["aggregate"]["verdict"],
+        "verified_sources": {
+            "receipt": producer_file,
+            "receipt_path": throttle.EDCM_RECEIPT_PATH,
+        },
+        "scientific_promotion": False,
+    }
+    artifact = _native_seal(
+        {
+            "schema": throttle.EDCM_VERIFICATION_SCHEMA,
+            "verification": verification,
+            "scientific_promotion": False,
+        },
+        "verification_artifact_sha256",
+    )
+    assert (
+        throttle._native_schema_authority_problems(
+            throttle.EDCM_VERIFICATION_SCHEMA,
+            artifact,
+            tmp_path,
+        )
+        == []
+    )
+
+    spliced = json.loads(json.dumps(artifact))
+    spliced["verification"]["verified_sources"]["receipt"]["sha256"] = "0" * 64
+    _native_seal(spliced, "verification_artifact_sha256")
+    problems = throttle._native_schema_authority_problems(
+        throttle.EDCM_VERIFICATION_SCHEMA,
+        spliced,
+        tmp_path,
+    )
+    assert "EDCM verifier producer file join drift" in problems
+
+
+def test_x0_native_verifier_exactly_joins_live_producer(tmp_path):
+    producer_path = tmp_path / throttle.X0_RECEIPT_PATH
+    producer = _x0_native_producer()
+    _write_native_payload(producer_path, producer)
+    artifact = _native_seal(
+        {
+            "schema": throttle.X0_VERIFICATION_SCHEMA,
+            "producer_receipt": throttle._scoped_file_receipt(producer_path, tmp_path),
+            "producer_receipt_sha256": producer["receipt_sha256"],
+            "implementation_authority_sha256": producer["implementation_authority"]["manifest_sha256"],
+            "primary_aggregate": producer["aggregate"],
+            "scientific_promotion": False,
+        },
+        "verification_sha256",
+    )
+    assert (
+        throttle._native_schema_authority_problems(
+            throttle.X0_VERIFICATION_SCHEMA,
+            artifact,
+            tmp_path,
+        )
+        == []
+    )
+
+    spliced = json.loads(json.dumps(artifact))
+    spliced["producer_receipt_sha256"] = "0" * 64
+    _native_seal(spliced, "verification_sha256")
+    problems = throttle._native_schema_authority_problems(
+        throttle.X0_VERIFICATION_SCHEMA,
+        spliced,
+        tmp_path,
+    )
+    assert "X0 verifier producer receipt seal join drift" in problems
+
+
+def test_governor_provenance_rejects_ambiguous_output_producers(tmp_path):
+    policy = load_policy()
+    producer = policy.task("p6_10k_resource_probe_cpu")
+    duplicate = replace(producer, task_id="p6_duplicate_resource_probe_cpu")
+    ambiguous = replace(policy, tasks={**policy.tasks, duplicate.task_id: duplicate})
+
+    report = throttle._governor_provenance_report(
+        "proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json",
+        {"schema": throttle.P6_RUNG_SCHEMA},
+        ambiguous,
+        tmp_path,
+    )
+
+    assert report["all_ok"] is False
+    assert report["producer_task_id"] is None
+    assert "maps to 2 governed producer tasks" in report["problems"][0]
 
 
 def test_p5_order_fails_closed_on_missing_or_tampered_receipts(tmp_path):
@@ -1480,6 +1702,33 @@ def test_p5_fresh_pattern_decision_is_rebuilt_from_raw_cells(tmp_path):
     assert fabricated != canonical
 
 
+def test_p5_strict_pattern_order_survives_sorted_json_round_trip():
+    primary = {
+        "sesoi": 0.1,
+        "frames": {"f64": {"off_ceiling": True}, "f32": {"off_ceiling": True}},
+        "primary_contrasts_f64": {
+            "exact_minus_recurrent": {"n": 5, "lo": 0.2, "hi": 0.4},
+            "exact_minus_hierarchical_pooled": {"n": 5, "lo": 0.2, "hi": 0.4},
+            "exact_minus_window_local": {"n": 5, "lo": -0.05, "hi": 0.05},
+        },
+        "secondary_contrasts_f32": {
+            "exact_minus_recurrent": {"n": 5, "lo": 0.2, "hi": 0.4},
+            "exact_minus_hierarchical_pooled": {"n": 5, "lo": 0.2, "hi": 0.4},
+            "exact_minus_window_local": {"n": 5, "lo": -0.05, "hi": 0.05},
+        },
+    }
+    sorted_round_trip = json.loads(json.dumps(primary, sort_keys=True))
+
+    patterns = throttle._p5_strict_patterns(sorted_round_trip)
+
+    assert [row["id"] for row in patterns] == [
+        "f64-exact-minus-recurrent",
+        "f64-exact-minus-hierarchical_pooled",
+        "f32-exact-minus-recurrent",
+        "f32-exact-minus-hierarchical_pooled",
+    ]
+
+
 def test_p5_primary_aggregate_is_rebuilt_from_licensed_seed_scores(tmp_path):
     primary = _write_p5_ancestors(tmp_path, pilot_outcome="null")
     cell_path = tmp_path / "runs/p5_context/p5pilot/frames/f64/cell_receipt.json"
@@ -1647,7 +1896,11 @@ def test_p6_resource_admission_rejects_invalid_governor_provenance(tmp_path, mut
     assert any("governor" in problem for problem in resource_gate["observed"]["problems"])
 
 
-def test_p6_resource_admission_accepts_allowlisted_historic_governor(tmp_path):
+@pytest.mark.parametrize(
+    "historic_sha",
+    sorted(throttle.COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256),
+)
+def test_p6_resource_admission_accepts_exact_reviewed_legacy_baseline(tmp_path, historic_sha):
     policy = load_policy()
     task = policy.task("p6_10k_replication_cpu")
     output = tmp_path / "proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json"
@@ -1659,15 +1912,104 @@ def test_p6_resource_admission_accepts_allowlisted_historic_governor(tmp_path):
     )
     run_path = tmp_path / "runs/local_throttle/fixture-p6_10k_resource_probe_cpu/run_receipt.json"
     receipt = json.loads(run_path.read_text())
-    historic_sha = next(iter(throttle.COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256))
     receipt["implementation"]["sha256"] = historic_sha
     receipt["completion_authority"]["implementation"]["sha256"] = historic_sha
+    legacy_policy = {
+        "path": str(policy.path),
+        "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685",
+    }
+    receipt["policy"] = legacy_policy
+    receipt["completion_authority"]["policy"] = legacy_policy
+    receipt.pop("task_policy_authority")
+    receipt["completion_authority"].pop("task_policy_authority")
     receipt.pop("payload_sha256", None)
     receipt["payload_sha256"] = throttle._canonical_sha256(receipt)
     run_path.write_text(json.dumps(receipt, sort_keys=True))
 
     decision = evaluate_task(task, _snapshot(), policy, evidence_root=tmp_path)
     assert decision["allowed"] is True
+
+
+def test_p6_governor_provenance_accepts_additive_policy_and_marker_growth(tmp_path):
+    policy = load_policy()
+    output = tmp_path / "proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json"
+    _write_p6_receipt(output, rung=10_000, mode="resource-probe", replication=False)
+    extended = replace(
+        policy,
+        monitor={
+            **policy.monitor,
+            "known_heavy_markers": [*policy.monitor["known_heavy_markers"], "new_substrate.py"],
+        },
+        sha256="d" * 64,
+    )
+
+    decision = evaluate_task(
+        extended.task("p6_10k_replication_cpu"),
+        _snapshot(),
+        extended,
+        evidence_root=tmp_path,
+    )
+
+    assert decision["allowed"] is True
+
+
+@pytest.mark.parametrize("mutation", ("marker-removal", "safety-contract"))
+def test_p6_governor_provenance_rejects_scoped_policy_weakening(tmp_path, mutation):
+    policy = load_policy()
+    output = tmp_path / "proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json"
+    _write_p6_receipt(output, rung=10_000, mode="resource-probe", replication=False)
+    if mutation == "marker-removal":
+        changed = replace(
+            policy,
+            monitor={
+                **policy.monitor,
+                "known_heavy_markers": policy.monitor["known_heavy_markers"][:-1],
+            },
+            sha256="d" * 64,
+        )
+        expected = "known_heavy_markers were removed"
+    else:
+        changed = replace(
+            policy,
+            limits={**policy.limits, "minimum_unified_memory_headroom_gb": 3.0},
+            sha256="d" * 64,
+        )
+        expected = "safety contract drifted"
+
+    decision = evaluate_task(
+        changed.task("p6_10k_replication_cpu"),
+        _snapshot(),
+        changed,
+        evidence_root=tmp_path,
+    )
+    resource = next(row for row in decision["gates"] if row["name"] == "resource_measurement")
+    assert any(expected in problem for problem in resource["observed"]["problems"])
+
+
+def test_p6_governor_provenance_rejects_unknown_authorityless_governor(tmp_path):
+    policy = load_policy()
+    output = tmp_path / "proof/P6_CONTINUAL_10K_RESOURCE_PILOT.json"
+    _write_p6_receipt(output, rung=10_000, mode="resource-probe", replication=False)
+    run_path = tmp_path / "runs/local_throttle/fixture-p6_10k_resource_probe_cpu/run_receipt.json"
+    receipt = json.loads(run_path.read_text())
+    receipt["implementation"]["sha256"] = "0" * 64
+    receipt["completion_authority"]["implementation"]["sha256"] = "0" * 64
+    receipt.pop("task_policy_authority")
+    receipt["completion_authority"].pop("task_policy_authority")
+    receipt.pop("payload_sha256", None)
+    receipt["payload_sha256"] = throttle._canonical_sha256(receipt)
+    run_path.write_text(json.dumps(receipt, sort_keys=True))
+
+    decision = evaluate_task(
+        policy.task("p6_10k_replication_cpu"),
+        _snapshot(),
+        policy,
+        evidence_root=tmp_path,
+    )
+    resource = next(row for row in decision["gates"] if row["name"] == "resource_measurement")
+    assert any(
+        "0 reviewed legacy policy baselines" in problem for problem in resource["observed"]["problems"]
+    )
 
 
 def test_p6_100k_stops_on_canonical_strict_10k_null(tmp_path):
@@ -2117,8 +2459,17 @@ def test_forecasted_writes_preserve_the_40gb_floor_and_fail_critical():
 def test_admission_and_runtime_hysteresis_require_consecutive_samples():
     policy = load_policy()
     allowed = {"allowed": True, "critical": False}
-    denied = {"allowed": False, "critical": False}
-    assert aggregate_admission([allowed, allowed], 3)["allowed"] is False
+    denied = {
+        "allowed": False,
+        "critical": False,
+        "denied_reasons": ["memory pressure gate failed"],
+    }
+    short = aggregate_admission([allowed, allowed], 3)
+    assert short["allowed"] is False
+    assert short["denied_reasons"] == ["admission observed 2 of 3 required consecutive samples"]
+    refused = aggregate_admission([allowed, denied, denied], 3)
+    assert refused["denied_reasons"] == ["memory pressure gate failed"]
+    assert refused["reason"] == "memory pressure gate failed"
     assert aggregate_admission([denied, allowed, allowed, allowed], 3)["allowed"] is True
     first = hysteresis_transition(
         "running",
@@ -2208,6 +2559,13 @@ def test_dry_receipt_binds_policy_and_implementation(monkeypatch):
     assert receipt["policy"]["sha256"] == policy.sha256
     assert receipt["implementation"]["path"] == "src/mop/studio/local_throttle.py"
     assert len(receipt["implementation"]["sha256"]) == 64
+    authority = receipt["task_policy_authority"]
+    assert authority["schema"] == throttle.task_policy.TASK_POLICY_AUTHORITY_SCHEMA
+    assert authority["task_id"] == "p4_resume_cpu"
+    assert authority["task_sha256"] == throttle.task_policy.canonical_sha256(receipt["task"])
+    unsealed = dict(authority)
+    declared = unsealed.pop("authority_sha256")
+    assert declared == throttle.task_policy.canonical_sha256(unsealed)
 
 
 def test_fast_child_rusage_fallback_persists_positive_peak(monkeypatch, tmp_path):
@@ -2253,6 +2611,209 @@ def test_fast_child_rusage_fallback_persists_positive_peak(monkeypatch, tmp_path
         receipt["child_resource"]["peak_rss_bytes"]
         == receipt["child_resource"]["direct_child_rusage_peak_rss_bytes"]
     )
+
+
+def test_seed_boundary_yields_after_one_restart_exit_and_seals_progress(monkeypatch, tmp_path):
+    base_policy = load_policy()
+    policy = replace(
+        base_policy,
+        monitor={
+            **base_policy.monitor,
+            "admission_good_samples": 1,
+            "sample_interval_seconds": 0.01,
+        },
+    )
+    command_source = (
+        "from pathlib import Path; import sys; "
+        "Path('proof').mkdir(exist_ok=True); "
+        "Path('proof/seed.checkpoint.json').write_text('{\"seed\": 1}'); "
+        "sys.exit(2)"
+    )
+    task = TaskDeclaration(
+        task_id="edcm1_official_cpu",
+        lane="cpu",
+        accelerator="none",
+        cpu_cores=1,
+        estimated_unified_memory_gb=0.1,
+        estimated_mps_gb=0.0,
+        resource_basis="one-invocation progress-authority fixture",
+        forecast_write_gb=0.0,
+        atomic_write_gb=0.0,
+        wall_minutes=1,
+        pause_safe=True,
+        atomic_checkpoints=True,
+        checkpoint_globs=("proof/seed.checkpoint.json",),
+        restart_exit_codes=(2,),
+        command=(throttle.sys.executable, "-c", command_source),
+    )
+    governor = tmp_path / "src/mop/studio/local_throttle.py"
+    governor.parent.mkdir(parents=True)
+    governor.write_text("progress-authority-fixture")
+    monkeypatch.setattr(throttle, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(throttle, "IMPLEMENTATION_PATH", governor)
+    monkeypatch.setattr(throttle, "_is_seed_boundary_task", lambda _task: True)
+    monkeypatch.setattr(throttle, "collect_host_telemetry", lambda *_args, **_kwargs: _snapshot())
+
+    receipt = throttle.run_task(
+        task,
+        policy,
+        run_id="one-seed-boundary",
+        state_root=tmp_path / "runs/local_throttle",
+        disk_root=tmp_path,
+    )
+
+    assert receipt["status"] == "resumable-invocation-boundary"
+    assert receipt["final_returncode"] == 2
+    assert len(receipt["invocations"]) == 1
+    assert receipt["progress_authority"]["schema"] == throttle.PROGRESS_AUTHORITY_SCHEMA
+    assert receipt["progress_authority"]["owned_child_active"] is False
+    assert receipt["progress_authority"]["final_checkpoint_aggregate_sha256"] == (
+        receipt["final_checkpoint"]["aggregate_sha256"]
+    )
+    unsealed = dict(receipt)
+    declared = unsealed.pop("payload_sha256")
+    assert declared == throttle._canonical_sha256(unsealed)
+
+
+def test_validated_external_profile_keeps_cpu_gates_live_at_runtime(monkeypatch):
+    policy = load_policy()
+    task = policy.task("edcm1_official_cpu")
+    unmanaged = [{"pid": 101, "name": "Python"}]
+    monkeypatch.setattr(
+        throttle,
+        "_external_coexistence_report",
+        lambda _task, _rows: {"allowed": True, "all_ok": True, "problems": []},
+    )
+    memory = {
+        "available": True,
+        "total_bytes": int(100e9),
+        "available_bytes": int(45e9),
+        "available_percent": 45.0,
+        "pressure": {"available": True, "free_percent": 85.0},
+    }
+    processes = {
+        "available": True,
+        "foreground_resource_processes": [],
+        "unmanaged_known_heavy": unmanaged,
+    }
+    healthy = _snapshot(memory=memory, processes=processes, swap={"available": True, "used_gb": 0.0})
+    decision = evaluate_task(task, healthy, policy, task_already_active=True)
+    assert decision["allowed"] is True
+    assert decision["threshold_tier"] == "external_coexistence"
+
+    saturated = _snapshot(
+        cpu={
+            "available": True,
+            "logical_cpus": 28,
+            "load_1m_per_logical_cpu": 0.90,
+            "utilization_fraction": 0.90,
+        },
+        memory=memory,
+        processes=processes,
+        swap={"available": True, "used_gb": 0.0},
+    )
+    denied = evaluate_task(task, saturated, policy, task_already_active=True)
+    assert denied["allowed"] is False
+    failing = {gate["name"] for gate in denied["gates"] if not gate["ok"]}
+    assert "cpu_load" in failing
+    assert "cpu_utilization" not in failing
+
+    transient_burst = _snapshot(
+        cpu={
+            "available": True,
+            "logical_cpus": 28,
+            "load_1m_per_logical_cpu": 0.50,
+            "utilization_fraction": 1.0,
+        },
+        memory=memory,
+        processes=processes,
+        swap={"available": True, "used_gb": 0.0},
+    )
+    burst_decision = evaluate_task(task, transient_burst, policy, task_already_active=True)
+    assert burst_decision["allowed"] is True
+
+    low_pressure_memory = {
+        **memory,
+        "pressure": {"available": True, "free_percent": 74.0},
+    }
+    low_pressure = evaluate_task(
+        task,
+        _snapshot(
+            memory=low_pressure_memory,
+            processes=processes,
+            swap={"available": True, "used_gb": 0.0},
+        ),
+        policy,
+        task_already_active=True,
+    )
+    pressure_gate = next(
+        gate for gate in low_pressure["gates"] if gate["name"] == "external_coexistence_pressure_free"
+    )
+    assert pressure_gate["ok"] is False
+    assert pressure_gate["limit"] == 75.0
+
+
+def test_completion_reuses_admission_time_policy_and_governor_bindings(monkeypatch, tmp_path):
+    base_policy = load_policy()
+    policy = replace(
+        base_policy,
+        monitor={
+            **base_policy.monitor,
+            "admission_good_samples": 1,
+            "sample_interval_seconds": 0.01,
+        },
+    )
+    governor = tmp_path / "src/mop/studio/local_throttle.py"
+    governor.parent.mkdir(parents=True)
+    governor.write_text("admission-version")
+    before_sha = throttle._sha256_file(governor)
+    command_source = (
+        "from pathlib import Path; "
+        "Path('proof/output.json').parent.mkdir(parents=True, exist_ok=True); "
+        "Path('proof/output.json').write_text('{}'); "
+        "Path('src/mop/studio/local_throttle.py').write_text('completion-version')"
+    )
+    task = TaskDeclaration(
+        task_id="p5-admission-binding-fixture",
+        lane="light",
+        accelerator="none",
+        cpu_cores=1,
+        estimated_unified_memory_gb=0.1,
+        estimated_mps_gb=0.0,
+        resource_basis="admission-binding fixture",
+        forecast_write_gb=0.0,
+        atomic_write_gb=0.0,
+        wall_minutes=1,
+        pause_safe=False,
+        atomic_checkpoints=True,
+        checkpoint_globs=("proof/output.json",),
+        restart_exit_codes=(),
+        command=(
+            throttle.sys.executable,
+            "-c",
+            command_source,
+            "--out",
+            "proof/output.json",
+        ),
+    )
+    monkeypatch.setattr(throttle, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(throttle, "IMPLEMENTATION_PATH", governor)
+    monkeypatch.setattr(throttle, "collect_host_telemetry", lambda *_args, **_kwargs: _snapshot())
+
+    receipt = throttle.run_task(
+        task,
+        policy,
+        run_id="admission-binding",
+        state_root=tmp_path / "runs/local_throttle",
+        disk_root=tmp_path,
+    )
+
+    assert receipt["status"] == "complete"
+    assert throttle._sha256_file(governor) != before_sha
+    assert receipt["implementation"]["sha256"] == before_sha
+    assert receipt["completion_authority"]["implementation"] == receipt["implementation"]
+    assert receipt["completion_authority"]["policy"] == receipt["policy"]
+    assert receipt["completion_authority"]["task_policy_authority"] == receipt["task_policy_authority"]
 
 
 def test_non_pause_safe_child_is_stopped_on_critical_runtime_gate(monkeypatch, tmp_path):

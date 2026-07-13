@@ -6,10 +6,11 @@ import json
 import pytest
 from scripts.build_extended_compute_requirements import (
     P5_SMOKE_RECEIPT_PATH,
+    P5_TERMINAL_EVIDENCE_PATHS,
     P5_VERIFICATION_FIELDS,
     P5_VERIFICATION_PATH,
     P5_VERIFICATION_SCHEMA,
-    _p5_smoke_refusal_summary,
+    _p5_terminal_evidence_summary,
     _p6_dry_prerequisite_state,
     registry_rows,
 )
@@ -35,25 +36,24 @@ def test_registry_only_rows_are_preregistration_only_requirements() -> None:
 
     p5 = by_id["mop_p5_context_capability"]
     assert p5["primary_category"] == 1
-    assert p5["classification_basis"] == "implemented-governor-execution-pending"
-    assert p5["measured"]["present"] is False
+    assert p5["classification_basis"] == "governed-programmatic-terminal-null"
+    assert p5["measured"]["present"] is True
+    assert p5["measured"]["execution_verified_at_generation"] is True
+    assert p5["measured"]["ledger_snapshot_superseded_by_terminal_evidence"] is True
     assert p5["primary_blocker"] == (
-        "complete the implemented conditional P5 sequence through the local governor after three "
-        "healthy admission samples"
+        "the registered deterministic-programmatic P5 sequence is closed by an independent null; "
+        "natural-video and general-capability claims remain outside its validated scope"
     )
-    assert "local:proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json" in p5["evidence_refs"]
-    admission = p5["measured"]["governor_admission"]
-    assert admission["state"] == "cpu-load-and-memory-admission-refusal"
-    assert admission["failed_gates"] == ["cpu_load", "candidate_memory_headroom"]
-    assert admission["cpu_load_per_logical_cpu"] == [
-        3.8621012369791665,
-        3.8621012369791665,
-        3.986572265625,
-    ]
-    assert admission["maximum_cpu_load_per_logical_cpu"] == 0.85
-    assert admission["available_memory_gb"] == [6.830424064, 8.909111296, 8.705048576]
-    assert admission["required_memory_gb"] == 10.0
-    assert admission["command_executed"] is False
+    assert {f"local:{path}" for path in P5_TERMINAL_EVIDENCE_PATHS}.issubset(p5["evidence_refs"])
+    terminal = p5["measured"]["terminal_evidence"]
+    assert terminal["state"] == "governed-terminal-null"
+    assert terminal["outcome"] == "null"
+    assert terminal["primary_outcome"] == "favorable-programmatic-only"
+    assert terminal["primary_seed_count"] == 5
+    assert terminal["fresh_training_seeds"] == [5101, 5102, 5103]
+    assert terminal["verified_pattern_count"] == 0
+    assert terminal["mutation_count"] == 23
+    assert terminal["scientific_promotion"] is False
 
     e5 = by_id["e5_curiosity"]
     assert e5["primary_category"] == 1
@@ -66,52 +66,38 @@ def test_registry_only_rows_are_preregistration_only_requirements() -> None:
     assert category2_current == 39
 
 
-def test_p5_smoke_refusal_parser_fails_closed_on_semantic_drift() -> None:
+def test_p5_terminal_parser_fails_closed_on_semantic_drift() -> None:
     receipt = json.loads((REPO_ROOT / P5_SMOKE_RECEIPT_PATH).read_text())
-    summary = _p5_smoke_refusal_summary(receipt)
-    assert summary["decision_count"] == 3
-    assert summary["power_source"] == "AC Power"
-    assert summary["minimum_projected_disk_gb"] > 40.0
+    summary = _p5_terminal_evidence_summary(receipt)
+    assert summary["state"] == "governed-terminal-null"
+    assert summary["governor_receipts"]["smoke"]["run_id"] == "p5smoke_20260711_leg4"
+    assert summary["artifacts"]["verifier"]["sha256"] == (
+        "743ce07180f0728f3074b2ac9c78a9aa12ff23f33aeebeffd45bebecacb5f077"
+    )
 
     mutations = []
     changed_status = copy.deepcopy(receipt)
-    changed_status["status"] = "complete"
+    changed_status["status"] = "admission-refused"
     mutations.append(changed_status)
     executed = copy.deepcopy(receipt)
-    executed["command_executed"] = True
+    executed["command_executed"] = False
     mutations.append(executed)
     admitted = copy.deepcopy(receipt)
-    admitted["admission"]["allowed"] = True
+    admitted["admission"]["allowed"] = False
     mutations.append(admitted)
-    mixed_failure = copy.deepcopy(receipt)
-    next(gate for gate in mixed_failure["decisions"][0]["gates"] if gate["name"] == "power")["ok"] = False
-    mutations.append(mixed_failure)
+    output_splice = copy.deepcopy(receipt)
+    output_splice["completion_authority"]["output"]["sha256"] = "0" * 64
+    mutations.append(output_splice)
     stale_policy = copy.deepcopy(receipt)
     stale_policy["policy"]["sha256"] = "0" * 64
     mutations.append(stale_policy)
     stale_run = copy.deepcopy(receipt)
-    stale_run["run_id"] = "p5smoke_20260710_leg2"
+    stale_run["run_id"] = "p5smoke_20260711_leg3"
     mutations.append(stale_run)
-    fabricated_limit = copy.deepcopy(receipt)
-    for decision in fabricated_limit["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")["limit"] = (
-            11.0
-        )
-    mutations.append(fabricated_limit)
-    fabricated_observation = copy.deepcopy(receipt)
-    for decision in fabricated_observation["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "candidate_memory_headroom")[
-            "observed"
-        ] = 1.0
-    mutations.append(fabricated_observation)
-    fabricated_cpu_observation = copy.deepcopy(receipt)
-    for decision in fabricated_cpu_observation["decisions"]:
-        next(gate for gate in decision["gates"] if gate["name"] == "cpu_load")["observed"] = 1.0
-    mutations.append(fabricated_cpu_observation)
 
     for mutation in mutations:
-        with pytest.raises(ValueError, match="invalid P5 smoke admission refusal"):
-            _p5_smoke_refusal_summary(mutation)
+        with pytest.raises(ValueError, match="invalid terminal P5 evidence"):
+            _p5_terminal_evidence_summary(mutation)
 
 
 def test_p6_dry_receipt_accepts_only_exact_missing_p5_refusal(tmp_path) -> None:

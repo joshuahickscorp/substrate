@@ -1,0 +1,4577 @@
+{
+  "activation_enabled": false,
+  "all_ok": true,
+  "candidate_registry_authority": {
+    "bytes": 31740,
+    "path": "configs/experiment/escs_perspective_candidates.json",
+    "sha256": "cbfbe66e955ade61b759bea1f7e021a1a1a3f4321163fe22e1cb7d720b9521ab"
+  },
+  "claim_scope": "deterministic-synthetic-shadow-formation-mechanics-only",
+  "config_authority": {
+    "bytes": 2735,
+    "path": "configs/experiment/escs_g0_formation_study.json",
+    "sha256": "d11f0ca53fa1d325d7b6eb6d1a28a828eb8906e71829b9c948f90ff8812f5f31"
+  },
+  "counterfactual_only": true,
+  "episodes": [
+    {
+      "candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+      "episode": {
+        "activation_enabled": false,
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "caps": {
+          "max_activations": 16,
+          "max_actor_operations": 256,
+          "max_messages": 16,
+          "max_queue_depth": 16,
+          "max_repeated_state_visits": 1,
+          "max_retained_state_bytes": 4096,
+          "max_rounds": 8,
+          "max_routed_payload_bytes": 4096
+        },
+        "counterfactual_only": true,
+        "episode_id": "episode.identity.high",
+        "episode_sha256": "0f970ba13867168704eac67fd3c566c13dc04d7f76b4e712e7d51587b7c60951",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "initial_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          }
+        ],
+        "ports": [
+          {
+            "actor_id": "planning",
+            "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "stimulus-v1"
+          },
+          {
+            "actor_id": "verification",
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "claim-v1"
+          }
+        ],
+        "schema": "mop-escs-g0-shadow-episode/v1",
+        "scientific_promotion_allowed": false,
+        "seeds": [
+          {
+            "actor_id": "planning",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "schema_id": "stimulus-v1",
+            "seed_id": "root",
+            "seed_sha256": "08076fd6db8097faeceb4fd388af34fdbc2d5c7bd5c11be6aaa7948efa2068f7"
+          }
+        ],
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de"
+      },
+      "formation_attempt_id": "formation.base",
+      "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+      "task_id": "identity.high"
+    },
+    {
+      "candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+      "episode": {
+        "activation_enabled": false,
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "caps": {
+          "max_activations": 16,
+          "max_actor_operations": 256,
+          "max_messages": 16,
+          "max_queue_depth": 16,
+          "max_repeated_state_visits": 1,
+          "max_retained_state_bytes": 4096,
+          "max_rounds": 8,
+          "max_routed_payload_bytes": 4096
+        },
+        "counterfactual_only": true,
+        "episode_id": "episode.identity.low",
+        "episode_sha256": "71f2d378e46bf9ab1c20ed92fd32e39b2c07f2c6782590216d65db446f4d0e5d",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "initial_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          }
+        ],
+        "ports": [
+          {
+            "actor_id": "planning",
+            "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "stimulus-v1"
+          },
+          {
+            "actor_id": "verification",
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "claim-v1"
+          }
+        ],
+        "schema": "mop-escs-g0-shadow-episode/v1",
+        "scientific_promotion_allowed": false,
+        "seeds": [
+          {
+            "actor_id": "planning",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "schema_id": "stimulus-v1",
+            "seed_id": "root",
+            "seed_sha256": "e64e24f07b96527103136dbc6b34931cd66b6a70ba57edf66501bf601b722016"
+          }
+        ],
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de"
+      },
+      "formation_attempt_id": "formation.base",
+      "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+      "task_id": "identity.low"
+    },
+    {
+      "candidate_sha256": "0805131190ec1a4526475360bb7482e02a37924685a7791e0990755a0b4c4a4f",
+      "episode": {
+        "activation_enabled": false,
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "caps": {
+          "max_activations": 16,
+          "max_actor_operations": 256,
+          "max_messages": 16,
+          "max_queue_depth": 16,
+          "max_repeated_state_visits": 1,
+          "max_retained_state_bytes": 4096,
+          "max_rounds": 8,
+          "max_routed_payload_bytes": 4096
+        },
+        "counterfactual_only": true,
+        "episode_id": "episode.identity.high",
+        "episode_sha256": "2fb40ffddb5f8369ef9d4df945dd9d5a080df1ab802025a3642caeb2b7d9c94c",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "initial_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          }
+        ],
+        "ports": [
+          {
+            "actor_id": "planning",
+            "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "stimulus-v1"
+          },
+          {
+            "actor_id": "verification",
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "claim-v1"
+          }
+        ],
+        "schema": "mop-escs-g0-shadow-episode/v1",
+        "scientific_promotion_allowed": false,
+        "seeds": [
+          {
+            "actor_id": "planning",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "schema_id": "stimulus-v1",
+            "seed_id": "root",
+            "seed_sha256": "08076fd6db8097faeceb4fd388af34fdbc2d5c7bd5c11be6aaa7948efa2068f7"
+          }
+        ],
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603"
+      },
+      "formation_attempt_id": "formation.amplified",
+      "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+      "task_id": "identity.high"
+    },
+    {
+      "candidate_sha256": "0805131190ec1a4526475360bb7482e02a37924685a7791e0990755a0b4c4a4f",
+      "episode": {
+        "activation_enabled": false,
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "caps": {
+          "max_activations": 16,
+          "max_actor_operations": 256,
+          "max_messages": 16,
+          "max_queue_depth": 16,
+          "max_repeated_state_visits": 1,
+          "max_retained_state_bytes": 4096,
+          "max_rounds": 8,
+          "max_routed_payload_bytes": 4096
+        },
+        "counterfactual_only": true,
+        "episode_id": "episode.identity.low",
+        "episode_sha256": "675b05e8e09072cb5f1afb692251178ac30432af8be13f894699badd5643b506",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "initial_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          }
+        ],
+        "ports": [
+          {
+            "actor_id": "planning",
+            "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "stimulus-v1"
+          },
+          {
+            "actor_id": "verification",
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "claim-v1"
+          }
+        ],
+        "schema": "mop-escs-g0-shadow-episode/v1",
+        "scientific_promotion_allowed": false,
+        "seeds": [
+          {
+            "actor_id": "planning",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "schema_id": "stimulus-v1",
+            "seed_id": "root",
+            "seed_sha256": "e64e24f07b96527103136dbc6b34931cd66b6a70ba57edf66501bf601b722016"
+          }
+        ],
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603"
+      },
+      "formation_attempt_id": "formation.amplified",
+      "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+      "task_id": "identity.low"
+    },
+    {
+      "candidate_sha256": "3823ac0e8c6c17921bedc360ea58518085e9fbc0397adcf36a29a9f4258e0a71",
+      "episode": {
+        "activation_enabled": false,
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "caps": {
+          "max_activations": 16,
+          "max_actor_operations": 256,
+          "max_messages": 16,
+          "max_queue_depth": 16,
+          "max_repeated_state_visits": 1,
+          "max_retained_state_bytes": 4096,
+          "max_rounds": 8,
+          "max_routed_payload_bytes": 4096
+        },
+        "counterfactual_only": true,
+        "episode_id": "episode.identity.high",
+        "episode_sha256": "99beae8d98d3eb58df5276485581348ad43f2487970d1850238bf147c2fae135",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "initial_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          }
+        ],
+        "ports": [
+          {
+            "actor_id": "planning",
+            "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "stimulus-v1"
+          },
+          {
+            "actor_id": "verification",
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "claim-v1"
+          }
+        ],
+        "schema": "mop-escs-g0-shadow-episode/v1",
+        "scientific_promotion_allowed": false,
+        "seeds": [
+          {
+            "actor_id": "planning",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "schema_id": "stimulus-v1",
+            "seed_id": "root",
+            "seed_sha256": "08076fd6db8097faeceb4fd388af34fdbc2d5c7bd5c11be6aaa7948efa2068f7"
+          }
+        ],
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba"
+      },
+      "formation_attempt_id": "formation.capacity",
+      "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+      "task_id": "identity.high"
+    },
+    {
+      "candidate_sha256": "3823ac0e8c6c17921bedc360ea58518085e9fbc0397adcf36a29a9f4258e0a71",
+      "episode": {
+        "activation_enabled": false,
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "caps": {
+          "max_activations": 16,
+          "max_actor_operations": 256,
+          "max_messages": 16,
+          "max_queue_depth": 16,
+          "max_repeated_state_visits": 1,
+          "max_retained_state_bytes": 4096,
+          "max_rounds": 8,
+          "max_routed_payload_bytes": 4096
+        },
+        "counterfactual_only": true,
+        "episode_id": "episode.identity.low",
+        "episode_sha256": "e0fa4970eb89128957523580753802ac66f4ac6d900bff33d6c73a3b15d1973a",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "initial_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "value": {
+                "memory": [
+                  0.0
+                ]
+              }
+            }
+          }
+        ],
+        "ports": [
+          {
+            "actor_id": "planning",
+            "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "stimulus-v1"
+          },
+          {
+            "actor_id": "verification",
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "max_encoded_bytes": 64,
+            "payload_form": "numeric-vector",
+            "root_node_id": "update",
+            "schema_id": "claim-v1"
+          }
+        ],
+        "schema": "mop-escs-g0-shadow-episode/v1",
+        "scientific_promotion_allowed": false,
+        "seeds": [
+          {
+            "actor_id": "planning",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "schema_id": "stimulus-v1",
+            "seed_id": "root",
+            "seed_sha256": "e64e24f07b96527103136dbc6b34931cd66b6a70ba57edf66501bf601b722016"
+          }
+        ],
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba"
+      },
+      "formation_attempt_id": "formation.capacity",
+      "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+      "task_id": "identity.low"
+    }
+  ],
+  "factual_effects": false,
+  "factual_mutation_authorized": false,
+  "grammar_authority": {
+    "bytes": 4484,
+    "path": "configs/experiment/escs_g0_topology_grammar.json",
+    "sha256": "c9dacc11dba69965208e90643ef8da43dda41b9236c5a56232dd59d58cadfa9f"
+  },
+  "implementation_authority": {
+    "files": [
+      {
+        "bytes": 37736,
+        "path": "src/mop/studies/escs_g0_formation_study.py",
+        "sha256": "fbd2c1184888775f8b1fc6769d205aff9e508dbd288ab1462590ac7f2b5b1d0a"
+      },
+      {
+        "bytes": 71560,
+        "path": "src/mop/studies/escs_g0_formation.py",
+        "sha256": "ab219362cfc6fbe8a4e736e73dac78afd896a91d1e35ac97abec41cd1e5dc9bc"
+      },
+      {
+        "bytes": 53718,
+        "path": "src/mop/studies/escs_g0_construction.py",
+        "sha256": "c7bf8ba1dcbf139b6a2fce20852024114186f184cc96f56c364596373aed8d36"
+      },
+      {
+        "bytes": 61759,
+        "path": "src/mop/studies/escs_g0_shadow_coalition.py",
+        "sha256": "d6c3b3f2a2f46d5fad40ae8db6d100624ba4cb115325b4a121c1a1801f9a9941"
+      },
+      {
+        "bytes": 84408,
+        "path": "src/mop/escs/g0_evaluator.py",
+        "sha256": "719c331b7bd95e4106443a4947f186753fe9fbfac126685c98efb658c1bc6b11"
+      },
+      {
+        "bytes": 31506,
+        "path": "src/mop/escs/g0_genotype.py",
+        "sha256": "77dacd35bb89b73a7ed44f8347456952c485ebe2e2f59bf953d125fb29a25862"
+      },
+      {
+        "bytes": 45356,
+        "path": "src/mop/escs/topology_grammar.py",
+        "sha256": "279cc77f461dacba252c3800a72c9270ad94740512f211d771e45e89fb22de47"
+      },
+      {
+        "bytes": 21829,
+        "path": "src/mop/escs/perspective_registry.py",
+        "sha256": "66ad763292a48fb63decf31a4219a20c57767a7f05a1b2368e0efb64b1298d39"
+      },
+      {
+        "bytes": 16026,
+        "path": "src/mop/escs/accounting.py",
+        "sha256": "4d9d201251a18d0398fceacecf5823fd702a15bc62e1ab8efd3cf81afa7b4a26"
+      },
+      {
+        "bytes": 17942,
+        "path": "src/mop/substrate/events.py",
+        "sha256": "cc0562fe8a3e5bd8caa67987e5be7581734e660e0f728619e44e4dc2d34fff48"
+      },
+      {
+        "bytes": 3035,
+        "path": "src/mop/config.py",
+        "sha256": "7d344a2929428b40195d05778e4f8c3fc6739f733be31ed6ce8d372a7d743b1c"
+      },
+      {
+        "bytes": 413,
+        "path": "scripts/run_escs_g0_formation_study.py",
+        "sha256": "f776239a189c9f59019750a8338b2143fc9dd63237032fdbf92963d4b5e4d751"
+      }
+    ],
+    "manifest_sha256": "472b510d94d3b23f5ad0c11d33c5e9f53cb77cee81a59d8fac6f4828ec54d2e0"
+  },
+  "ledger": {
+    "entries": [
+      {
+        "attempt": {
+          "activation_enabled": false,
+          "assessments": [
+            {
+              "assessment_sha256": "e94e2f0891d65eb20067afccd84693fbccd638dcc5679c0266a75ee08d752e1f",
+              "diversity_microunits": 500000,
+              "episode_sha256": "0f970ba13867168704eac67fd3c566c13dc04d7f76b4e712e7d51587b7c60951",
+              "message_envelope_bytes": 1122,
+              "quality_microunits": 1000000,
+              "retained_state_byte_rounds": 256,
+              "retained_state_bytes": 128,
+              "robustness_microunits": 1000000,
+              "routed_payload_bytes": 5,
+              "schema": "mop-escs-g0-trace-assessment/v1",
+              "scorer_sha256": "bf6840cff3fdcccd9e6fbbdac0db226fc3af6ab64f83099a512aaeef3fdd7a5e",
+              "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+              "task_id": "identity.high",
+              "trace_sha256": "3758d7466bc4ea71b13d9ee76c384466b1da26d4cccdec3dfe5a0417a6145687",
+              "work": {
+                "actor_execution": 9,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 2,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 4,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 256
+              }
+            },
+            {
+              "assessment_sha256": "5a89f94a82a9747518768d714c41d5fc28cc7ced5ddf3a426ce3ef3fa031688b",
+              "diversity_microunits": 125000,
+              "episode_sha256": "71f2d378e46bf9ab1c20ed92fd32e39b2c07f2c6782590216d65db446f4d0e5d",
+              "message_envelope_bytes": 1123,
+              "quality_microunits": 1000000,
+              "retained_state_byte_rounds": 256,
+              "retained_state_bytes": 128,
+              "robustness_microunits": 1000000,
+              "routed_payload_bytes": 6,
+              "schema": "mop-escs-g0-trace-assessment/v1",
+              "scorer_sha256": "bf6840cff3fdcccd9e6fbbdac0db226fc3af6ab64f83099a512aaeef3fdd7a5e",
+              "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+              "task_id": "identity.low",
+              "trace_sha256": "d590c60e4a598073ca63a4ec0c4857f200b3941e95ab2ce3cae539654d787877",
+              "work": {
+                "actor_execution": 9,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 2,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 4,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 256
+              }
+            }
+          ],
+          "attempt_sha256": "407721fc6df754e35ea4088831c8d6280f07ba233834ebc580cbf4a798cc7b68",
+          "candidate": {
+            "activation_enabled": false,
+            "bundle_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+            "candidate_id": "coalition.base",
+            "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+            "construction_attempt_sha256": null,
+            "counterfactual_only": true,
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+            "mutation_request_sha256": null,
+            "origin": "base",
+            "parent_candidate_sha256": null,
+            "schema": "mop-escs-g0-candidate-bundle/v1",
+            "scientific_promotion_allowed": false,
+            "shadow_execution_authorized": false,
+            "snapshot": {
+              "activation_enabled": false,
+              "actors": [
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "planning",
+                  "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+                  "message_edges": [
+                    {
+                      "edge_id": "out",
+                      "max_encoded_bytes": 64,
+                      "schema_id": "claim-v1"
+                    }
+                  ],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 1,
+                      "input_node_ids": [
+                        "update"
+                      ],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [
+                        "out"
+                      ],
+                      "node_id": "emit",
+                      "operator": "typed_message_transform_and_emit",
+                      "parameters": {
+                        "sha256": "f93bd1224477c1d05c8551a6ee7c53c666a513d5bef08f849e83bbcca75ad3b7",
+                        "value": {
+                          "payload_form": "numeric-vector",
+                          "recipient": "actor:verification",
+                          "schema_id": "claim-v1"
+                        }
+                      },
+                      "state_slot_ids": []
+                    },
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "emit"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                },
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "verification",
+                  "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+                  "message_edges": [],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "update"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                }
+              ],
+              "factor_scopes": [
+                {
+                  "actor_id": "planning",
+                  "scope_ids": [
+                    "scope.planning"
+                  ]
+                },
+                {
+                  "actor_id": "verification",
+                  "scope_ids": [
+                    "scope.verification"
+                  ]
+                }
+              ],
+              "factual_mutation_authorized": false,
+              "schema": "mop-escs-g0-construction-snapshot/v1",
+              "scientific_promotion_allowed": false,
+              "snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de"
+            }
+          },
+          "construction_attempt": null,
+          "construction_request": null,
+          "costs": {
+            "construction_work": 0,
+            "costs_sha256": "480cde80b6c573fc63da2b4467b2d81c9529d802232fe6bc870f5c5727062aec",
+            "evaluated_episode_count": 2,
+            "message_envelope_bytes": 2245,
+            "retained_state_byte_rounds": 512,
+            "retained_state_bytes": 128,
+            "routed_payload_bytes": 11,
+            "schema": "mop-escs-g0-formation-costs/v1",
+            "trace_work": {
+              "actor_execution": 18,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 4,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 8,
+              "learning": 0,
+              "messages": 2,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 512
+            }
+          },
+          "counterfactual_only": true,
+          "factual_effects": false,
+          "factual_mutation_authorized": false,
+          "formation_attempt_id": "formation.base",
+          "objective": {
+            "communicated_bytes": 2256,
+            "diversity_microunits": 625000,
+            "evaluation_cohort_sha256": "561b4701e0e3293748bc2eacdee129227805ca50ac0db8de6768f084e42587e4",
+            "objective_sha256": "58a34c8efe19724c2d3bef56a017b5294c0e5a283d03b0b4b71e59ac8924eef9",
+            "quality_microunits": 2000000,
+            "retained_state_byte_rounds": 512,
+            "retained_state_bytes": 128,
+            "robustness_microunits": 2000000,
+            "schema": "mop-escs-g0-objective-vector/v1",
+            "total_work": 32
+          },
+          "parent_candidate_sha256": null,
+          "schema": "mop-escs-g0-formation-attempt/v1",
+          "scientific_promotion_allowed": false,
+          "shadow_execution_authorized": false,
+          "status": "evaluated",
+          "validation_problems": []
+        },
+        "entry_sha256": "b113a35e23138e9d6ed84d40769ddbcded22119c4de0b2e39db88c0bfc874155",
+        "previous_entry_sha256": null,
+        "schema": "mop-escs-g0-formation-ledger-entry/v1",
+        "sequence": 0
+      },
+      {
+        "attempt": {
+          "activation_enabled": false,
+          "assessments": [
+            {
+              "assessment_sha256": "6e102c040776d5832ffc0d0f535942b7e150bcfa5c6dd8c8e0b4f16b3499a259",
+              "diversity_microunits": 1000000,
+              "episode_sha256": "2fb40ffddb5f8369ef9d4df945dd9d5a080df1ab802025a3642caeb2b7d9c94c",
+              "message_envelope_bytes": 1122,
+              "quality_microunits": 0,
+              "retained_state_byte_rounds": 256,
+              "retained_state_bytes": 128,
+              "robustness_microunits": 1000000,
+              "routed_payload_bytes": 5,
+              "schema": "mop-escs-g0-trace-assessment/v1",
+              "scorer_sha256": "bf6840cff3fdcccd9e6fbbdac0db226fc3af6ab64f83099a512aaeef3fdd7a5e",
+              "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+              "task_id": "identity.high",
+              "trace_sha256": "99bd331f5f2bb0f03d0464b21130f8608d2236b2dbf030bffa24b4d0a0919bda",
+              "work": {
+                "actor_execution": 9,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 2,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 4,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 256
+              }
+            },
+            {
+              "assessment_sha256": "d0933ebb20a1d60b419f5b5ce34fecd31fb387da30277df57dcaeaa6fae455fd",
+              "diversity_microunits": 250000,
+              "episode_sha256": "675b05e8e09072cb5f1afb692251178ac30432af8be13f894699badd5643b506",
+              "message_envelope_bytes": 1122,
+              "quality_microunits": 750000,
+              "retained_state_byte_rounds": 256,
+              "retained_state_bytes": 128,
+              "robustness_microunits": 1000000,
+              "routed_payload_bytes": 5,
+              "schema": "mop-escs-g0-trace-assessment/v1",
+              "scorer_sha256": "bf6840cff3fdcccd9e6fbbdac0db226fc3af6ab64f83099a512aaeef3fdd7a5e",
+              "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+              "task_id": "identity.low",
+              "trace_sha256": "0040d78c53a5d5ab20395af14d8de74bf8cabf6b678da8f3c795a94b5e4ba663",
+              "work": {
+                "actor_execution": 9,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 2,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 4,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 256
+              }
+            }
+          ],
+          "attempt_sha256": "f028939ca86bff717b376d3ddf2a3b476f599e14b420340dc6b417ddf1a505d3",
+          "candidate": {
+            "activation_enabled": false,
+            "bundle_sha256": "0805131190ec1a4526475360bb7482e02a37924685a7791e0990755a0b4c4a4f",
+            "candidate_id": "coalition.amplified",
+            "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+            "construction_attempt_sha256": "9c40eed7be85c24da76a3048335886f782629aa23f9c0da3ef0cbc08886da7c7",
+            "counterfactual_only": true,
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+            "mutation_request_sha256": "970d7c8c25194337e737dab6996c2774ccc7a200280fca10e04352bf7f025e82",
+            "origin": "mutation",
+            "parent_candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+            "schema": "mop-escs-g0-candidate-bundle/v1",
+            "scientific_promotion_allowed": false,
+            "shadow_execution_authorized": false,
+            "snapshot": {
+              "activation_enabled": false,
+              "actors": [
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "planning",
+                  "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+                  "message_edges": [
+                    {
+                      "edge_id": "out",
+                      "max_encoded_bytes": 64,
+                      "schema_id": "claim-v1"
+                    }
+                  ],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 1,
+                      "input_node_ids": [
+                        "update"
+                      ],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [
+                        "out"
+                      ],
+                      "node_id": "emit",
+                      "operator": "typed_message_transform_and_emit",
+                      "parameters": {
+                        "sha256": "f93bd1224477c1d05c8551a6ee7c53c666a513d5bef08f849e83bbcca75ad3b7",
+                        "value": {
+                          "payload_form": "numeric-vector",
+                          "recipient": "actor:verification",
+                          "schema_id": "claim-v1"
+                        }
+                      },
+                      "state_slot_ids": []
+                    },
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "43fc984d6861cd2b90661a0c7ded802550570d57da7e4109d054dc85c64e3797",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              2.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "emit"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                },
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "verification",
+                  "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+                  "message_edges": [],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "update"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                }
+              ],
+              "factor_scopes": [
+                {
+                  "actor_id": "planning",
+                  "scope_ids": [
+                    "scope.planning"
+                  ]
+                },
+                {
+                  "actor_id": "verification",
+                  "scope_ids": [
+                    "scope.verification"
+                  ]
+                }
+              ],
+              "factual_mutation_authorized": false,
+              "schema": "mop-escs-g0-construction-snapshot/v1",
+              "scientific_promotion_allowed": false,
+              "snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603"
+            }
+          },
+          "construction_attempt": {
+            "activation_enabled": false,
+            "actor_delta": 0,
+            "attempt_sha256": "9c40eed7be85c24da76a3048335886f782629aa23f9c0da3ef0cbc08886da7c7",
+            "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+            "candidate_snapshot": {
+              "activation_enabled": false,
+              "actors": [
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "planning",
+                  "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+                  "message_edges": [
+                    {
+                      "edge_id": "out",
+                      "max_encoded_bytes": 64,
+                      "schema_id": "claim-v1"
+                    }
+                  ],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 1,
+                      "input_node_ids": [
+                        "update"
+                      ],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [
+                        "out"
+                      ],
+                      "node_id": "emit",
+                      "operator": "typed_message_transform_and_emit",
+                      "parameters": {
+                        "sha256": "f93bd1224477c1d05c8551a6ee7c53c666a513d5bef08f849e83bbcca75ad3b7",
+                        "value": {
+                          "payload_form": "numeric-vector",
+                          "recipient": "actor:verification",
+                          "schema_id": "claim-v1"
+                        }
+                      },
+                      "state_slot_ids": []
+                    },
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "43fc984d6861cd2b90661a0c7ded802550570d57da7e4109d054dc85c64e3797",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              2.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "emit"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                },
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "verification",
+                  "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+                  "message_edges": [],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "update"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                }
+              ],
+              "factor_scopes": [
+                {
+                  "actor_id": "planning",
+                  "scope_ids": [
+                    "scope.planning"
+                  ]
+                },
+                {
+                  "actor_id": "verification",
+                  "scope_ids": [
+                    "scope.verification"
+                  ]
+                }
+              ],
+              "factual_mutation_authorized": false,
+              "schema": "mop-escs-g0-construction-snapshot/v1",
+              "scientific_promotion_allowed": false,
+              "snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603"
+            },
+            "candidate_snapshot_bytes": 2369,
+            "charged_work": 32,
+            "counterfactual_only": true,
+            "factor_scope_delta": 0,
+            "factual_mutation_authorized": false,
+            "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+            "problems": [],
+            "request_sha256": "970d7c8c25194337e737dab6996c2774ccc7a200280fca10e04352bf7f025e82",
+            "retained_state_bytes_delta": 0,
+            "schema": "mop-escs-g0-construction-attempt/v1",
+            "scientific_promotion_allowed": false,
+            "shadow_execution_authorized": false,
+            "source_snapshot_bytes": 2369,
+            "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+            "status": "applied-shadow"
+          },
+          "construction_request": {
+            "activation_enabled": false,
+            "attempt_id": "formation.amplified",
+            "declared_work": 32,
+            "factual_mutation_authorized": false,
+            "family": "add_remove_or_replace_g0_operator",
+            "operation": "replace_operator",
+            "parameters": {
+              "sha256": "65ae2641d0a198edb72b348a25b475b056298d6c4b82bb1bd6e9f5a139dd898f",
+              "value": {
+                "actor_id": "planning",
+                "node": {
+                  "declared_operations": 4,
+                  "input_node_ids": [],
+                  "max_output_bytes": 64,
+                  "message_edge_ids": [],
+                  "node_id": "update",
+                  "operator": "affine_or_nonlinear_local_update",
+                  "parameters": {
+                    "sha256": "43fc984d6861cd2b90661a0c7ded802550570d57da7e4109d054dc85c64e3797",
+                    "value": {
+                      "activation": "identity",
+                      "bias": [
+                        0.0
+                      ],
+                      "state_mode": "concatenate",
+                      "weights": [
+                        [
+                          2.0,
+                          1.0
+                        ]
+                      ]
+                    }
+                  },
+                  "state_slot_ids": [
+                    "memory"
+                  ]
+                }
+              }
+            },
+            "request_sha256": "970d7c8c25194337e737dab6996c2774ccc7a200280fca10e04352bf7f025e82",
+            "schema": "mop-escs-g0-construction-request/v1",
+            "scientific_promotion_allowed": false,
+            "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de"
+          },
+          "costs": {
+            "construction_work": 32,
+            "costs_sha256": "6cda335676375e77cb5fb9d2a43646e17f2e5d7f4c0b74e0bd35f9628e2c630e",
+            "evaluated_episode_count": 2,
+            "message_envelope_bytes": 2244,
+            "retained_state_byte_rounds": 512,
+            "retained_state_bytes": 128,
+            "routed_payload_bytes": 10,
+            "schema": "mop-escs-g0-formation-costs/v1",
+            "trace_work": {
+              "actor_execution": 18,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 4,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 8,
+              "learning": 0,
+              "messages": 2,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 512
+            }
+          },
+          "counterfactual_only": true,
+          "factual_effects": false,
+          "factual_mutation_authorized": false,
+          "formation_attempt_id": "formation.amplified",
+          "objective": {
+            "communicated_bytes": 2254,
+            "diversity_microunits": 1250000,
+            "evaluation_cohort_sha256": "561b4701e0e3293748bc2eacdee129227805ca50ac0db8de6768f084e42587e4",
+            "objective_sha256": "5a3b4de75f55904eedb768bd3b0d46e083921955ee5deda121c20999d6fb33c6",
+            "quality_microunits": 750000,
+            "retained_state_byte_rounds": 512,
+            "retained_state_bytes": 128,
+            "robustness_microunits": 2000000,
+            "schema": "mop-escs-g0-objective-vector/v1",
+            "total_work": 64
+          },
+          "parent_candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+          "schema": "mop-escs-g0-formation-attempt/v1",
+          "scientific_promotion_allowed": false,
+          "shadow_execution_authorized": false,
+          "status": "evaluated",
+          "validation_problems": []
+        },
+        "entry_sha256": "2f3de6e06f6a6f6207c93005c5f75ca718d92b00e66e92b8cc5e0faf461e8d72",
+        "previous_entry_sha256": "b113a35e23138e9d6ed84d40769ddbcded22119c4de0b2e39db88c0bfc874155",
+        "schema": "mop-escs-g0-formation-ledger-entry/v1",
+        "sequence": 1
+      },
+      {
+        "attempt": {
+          "activation_enabled": false,
+          "assessments": [
+            {
+              "assessment_sha256": "a634b8a4cab66fa3770b12c455341873a2f0245c38c230698fd46f7765697556",
+              "diversity_microunits": 500000,
+              "episode_sha256": "99beae8d98d3eb58df5276485581348ad43f2487970d1850238bf147c2fae135",
+              "message_envelope_bytes": 1122,
+              "quality_microunits": 1000000,
+              "retained_state_byte_rounds": 384,
+              "retained_state_bytes": 192,
+              "robustness_microunits": 1000000,
+              "routed_payload_bytes": 5,
+              "schema": "mop-escs-g0-trace-assessment/v1",
+              "scorer_sha256": "bf6840cff3fdcccd9e6fbbdac0db226fc3af6ab64f83099a512aaeef3fdd7a5e",
+              "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+              "task_id": "identity.high",
+              "trace_sha256": "f5ab1883b2577a50ead8f8aa75331c528d06bd424818e9021dd7ce11b9e1dbf1",
+              "work": {
+                "actor_execution": 9,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 2,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 4,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 384
+              }
+            },
+            {
+              "assessment_sha256": "d9e52dc654678b4f610b29a8f144b4557f7e7dc6f43d98bdfa34ed44a6c630f4",
+              "diversity_microunits": 125000,
+              "episode_sha256": "e0fa4970eb89128957523580753802ac66f4ac6d900bff33d6c73a3b15d1973a",
+              "message_envelope_bytes": 1123,
+              "quality_microunits": 1000000,
+              "retained_state_byte_rounds": 384,
+              "retained_state_bytes": 192,
+              "robustness_microunits": 1000000,
+              "routed_payload_bytes": 6,
+              "schema": "mop-escs-g0-trace-assessment/v1",
+              "scorer_sha256": "bf6840cff3fdcccd9e6fbbdac0db226fc3af6ab64f83099a512aaeef3fdd7a5e",
+              "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+              "task_id": "identity.low",
+              "trace_sha256": "382bcb400bdbb9a8591806b4cd42c1733fdf94b8a0aa1020fee134a62e6b1b33",
+              "work": {
+                "actor_execution": 9,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 2,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 4,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 384
+              }
+            }
+          ],
+          "attempt_sha256": "95519d9260d9fbed54456f63a3e29f42bba822c65e16e0a08fee7a8162677213",
+          "candidate": {
+            "activation_enabled": false,
+            "bundle_sha256": "3823ac0e8c6c17921bedc360ea58518085e9fbc0397adcf36a29a9f4258e0a71",
+            "candidate_id": "coalition.capacity",
+            "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+            "construction_attempt_sha256": "4520fcf7e4bbdf3c85770451c1e3f2fddba706ac181816eb2f1d96fc75bb8713",
+            "counterfactual_only": true,
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+            "mutation_request_sha256": "12e7996288e8427cc002bf4e2afb21e727904c99ac49c09f483fb5d04a08623f",
+            "origin": "mutation",
+            "parent_candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+            "schema": "mop-escs-g0-candidate-bundle/v1",
+            "scientific_promotion_allowed": false,
+            "shadow_execution_authorized": false,
+            "snapshot": {
+              "activation_enabled": false,
+              "actors": [
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "planning",
+                  "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+                  "message_edges": [
+                    {
+                      "edge_id": "out",
+                      "max_encoded_bytes": 64,
+                      "schema_id": "claim-v1"
+                    }
+                  ],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 1,
+                      "input_node_ids": [
+                        "update"
+                      ],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [
+                        "out"
+                      ],
+                      "node_id": "emit",
+                      "operator": "typed_message_transform_and_emit",
+                      "parameters": {
+                        "sha256": "f93bd1224477c1d05c8551a6ee7c53c666a513d5bef08f849e83bbcca75ad3b7",
+                        "value": {
+                          "payload_form": "numeric-vector",
+                          "recipient": "actor:verification",
+                          "schema_id": "claim-v1"
+                        }
+                      },
+                      "state_slot_ids": []
+                    },
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "emit"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 128,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                },
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "verification",
+                  "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+                  "message_edges": [],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "update"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                }
+              ],
+              "factor_scopes": [
+                {
+                  "actor_id": "planning",
+                  "scope_ids": [
+                    "scope.planning"
+                  ]
+                },
+                {
+                  "actor_id": "verification",
+                  "scope_ids": [
+                    "scope.verification"
+                  ]
+                }
+              ],
+              "factual_mutation_authorized": false,
+              "schema": "mop-escs-g0-construction-snapshot/v1",
+              "scientific_promotion_allowed": false,
+              "snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba"
+            }
+          },
+          "construction_attempt": {
+            "activation_enabled": false,
+            "actor_delta": 0,
+            "attempt_sha256": "4520fcf7e4bbdf3c85770451c1e3f2fddba706ac181816eb2f1d96fc75bb8713",
+            "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+            "candidate_snapshot": {
+              "activation_enabled": false,
+              "actors": [
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "planning",
+                  "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+                  "message_edges": [
+                    {
+                      "edge_id": "out",
+                      "max_encoded_bytes": 64,
+                      "schema_id": "claim-v1"
+                    }
+                  ],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 1,
+                      "input_node_ids": [
+                        "update"
+                      ],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [
+                        "out"
+                      ],
+                      "node_id": "emit",
+                      "operator": "typed_message_transform_and_emit",
+                      "parameters": {
+                        "sha256": "f93bd1224477c1d05c8551a6ee7c53c666a513d5bef08f849e83bbcca75ad3b7",
+                        "value": {
+                          "payload_form": "numeric-vector",
+                          "recipient": "actor:verification",
+                          "schema_id": "claim-v1"
+                        }
+                      },
+                      "state_slot_ids": []
+                    },
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "emit"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 128,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                },
+                {
+                  "activation_enabled": false,
+                  "candidate_id": "verification",
+                  "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+                  "message_edges": [],
+                  "operator_nodes": [
+                    {
+                      "declared_operations": 4,
+                      "input_node_ids": [],
+                      "max_output_bytes": 64,
+                      "message_edge_ids": [],
+                      "node_id": "update",
+                      "operator": "affine_or_nonlinear_local_update",
+                      "parameters": {
+                        "sha256": "8c0937d96c13d1718830af99d4ec736e48e3ebb076da219dd96fec4533d3fbf6",
+                        "value": {
+                          "activation": "identity",
+                          "bias": [
+                            0.0
+                          ],
+                          "state_mode": "concatenate",
+                          "weights": [
+                            [
+                              1.0,
+                              1.0
+                            ]
+                          ]
+                        }
+                      },
+                      "state_slot_ids": [
+                        "memory"
+                      ]
+                    }
+                  ],
+                  "output_node_ids": [
+                    "update"
+                  ],
+                  "schema": "mop-escs-g0-actor-genotype/v1",
+                  "scientific_promotion_allowed": false,
+                  "state_slots": [
+                    {
+                      "capacity_bytes": 64,
+                      "primitive": "bounded_recurrent_state",
+                      "schema_id": "memory-v1",
+                      "slot_id": "memory"
+                    }
+                  ]
+                }
+              ],
+              "factor_scopes": [
+                {
+                  "actor_id": "planning",
+                  "scope_ids": [
+                    "scope.planning"
+                  ]
+                },
+                {
+                  "actor_id": "verification",
+                  "scope_ids": [
+                    "scope.verification"
+                  ]
+                }
+              ],
+              "factual_mutation_authorized": false,
+              "schema": "mop-escs-g0-construction-snapshot/v1",
+              "scientific_promotion_allowed": false,
+              "snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba"
+            },
+            "candidate_snapshot_bytes": 2370,
+            "charged_work": 24,
+            "counterfactual_only": true,
+            "factor_scope_delta": 0,
+            "factual_mutation_authorized": false,
+            "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+            "problems": [],
+            "request_sha256": "12e7996288e8427cc002bf4e2afb21e727904c99ac49c09f483fb5d04a08623f",
+            "retained_state_bytes_delta": 64,
+            "schema": "mop-escs-g0-construction-attempt/v1",
+            "scientific_promotion_allowed": false,
+            "shadow_execution_authorized": false,
+            "source_snapshot_bytes": 2369,
+            "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+            "status": "applied-shadow"
+          },
+          "construction_request": {
+            "activation_enabled": false,
+            "attempt_id": "formation.capacity",
+            "declared_work": 24,
+            "factual_mutation_authorized": false,
+            "family": "adjust_bounded_timescale_or_memory_capacity",
+            "operation": "adjust_state_capacity",
+            "parameters": {
+              "sha256": "0ad12b5f8f286eacc0c7494f07320df840b0ca6c4b72184097e2faf35ba46feb",
+              "value": {
+                "actor_id": "planning",
+                "capacity_bytes": 128,
+                "slot_id": "memory"
+              }
+            },
+            "request_sha256": "12e7996288e8427cc002bf4e2afb21e727904c99ac49c09f483fb5d04a08623f",
+            "schema": "mop-escs-g0-construction-request/v1",
+            "scientific_promotion_allowed": false,
+            "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de"
+          },
+          "costs": {
+            "construction_work": 24,
+            "costs_sha256": "d45632136adb19388f3e0959fe4540ddb04524feb4de129724f7730f074f0f12",
+            "evaluated_episode_count": 2,
+            "message_envelope_bytes": 2245,
+            "retained_state_byte_rounds": 768,
+            "retained_state_bytes": 192,
+            "routed_payload_bytes": 11,
+            "schema": "mop-escs-g0-formation-costs/v1",
+            "trace_work": {
+              "actor_execution": 18,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 4,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 8,
+              "learning": 0,
+              "messages": 2,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 768
+            }
+          },
+          "counterfactual_only": true,
+          "factual_effects": false,
+          "factual_mutation_authorized": false,
+          "formation_attempt_id": "formation.capacity",
+          "objective": {
+            "communicated_bytes": 2256,
+            "diversity_microunits": 625000,
+            "evaluation_cohort_sha256": "561b4701e0e3293748bc2eacdee129227805ca50ac0db8de6768f084e42587e4",
+            "objective_sha256": "ceb6a097a5fc418de69df9a5213693d61d2ea0ddbb07151721a0c3be528cc7e0",
+            "quality_microunits": 2000000,
+            "retained_state_byte_rounds": 768,
+            "retained_state_bytes": 192,
+            "robustness_microunits": 2000000,
+            "schema": "mop-escs-g0-objective-vector/v1",
+            "total_work": 56
+          },
+          "parent_candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+          "schema": "mop-escs-g0-formation-attempt/v1",
+          "scientific_promotion_allowed": false,
+          "shadow_execution_authorized": false,
+          "status": "evaluated",
+          "validation_problems": []
+        },
+        "entry_sha256": "eb3c7e2de3acf5eefeb520433623d3591cf71bfad8d617e5d0db9485ab86d3bf",
+        "previous_entry_sha256": "2f3de6e06f6a6f6207c93005c5f75ca718d92b00e66e92b8cc5e0faf461e8d72",
+        "schema": "mop-escs-g0-formation-ledger-entry/v1",
+        "sequence": 2
+      },
+      {
+        "attempt": {
+          "activation_enabled": false,
+          "assessments": [],
+          "attempt_sha256": "e824ce2f2b0906ba5bc56e0d7c5e53bc868b13880e06355a591531840a456f27",
+          "candidate": null,
+          "construction_attempt": {
+            "activation_enabled": false,
+            "actor_delta": 0,
+            "attempt_sha256": "60caef56712a4217810e3238bd96d05273c7c9a7f4eeb736cd2ee9155cbf6b8b",
+            "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+            "candidate_snapshot": null,
+            "candidate_snapshot_bytes": 0,
+            "charged_work": 24,
+            "counterfactual_only": true,
+            "factor_scope_delta": 0,
+            "factual_mutation_authorized": false,
+            "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+            "problems": [
+              "candidate:planning:actor-total-byte-cap-exceeded",
+              "candidate:planning:state-byte-cap-exceeded"
+            ],
+            "request_sha256": "f9e77f9607e194e85f7d1be7cf6868bbab73580246868c6085ca820ad2808255",
+            "retained_state_bytes_delta": 0,
+            "schema": "mop-escs-g0-construction-attempt/v1",
+            "scientific_promotion_allowed": false,
+            "shadow_execution_authorized": false,
+            "source_snapshot_bytes": 2369,
+            "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+            "status": "refused"
+          },
+          "construction_request": {
+            "activation_enabled": false,
+            "attempt_id": "formation.oversize-control",
+            "declared_work": 24,
+            "factual_mutation_authorized": false,
+            "family": "adjust_bounded_timescale_or_memory_capacity",
+            "operation": "adjust_state_capacity",
+            "parameters": {
+              "sha256": "689d45baaecbbb722a9a977bfeb535e433e116164e8bbd5bb22a42df33efc0da",
+              "value": {
+                "actor_id": "planning",
+                "capacity_bytes": 67108865,
+                "slot_id": "memory"
+              }
+            },
+            "request_sha256": "f9e77f9607e194e85f7d1be7cf6868bbab73580246868c6085ca820ad2808255",
+            "schema": "mop-escs-g0-construction-request/v1",
+            "scientific_promotion_allowed": false,
+            "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de"
+          },
+          "costs": {
+            "construction_work": 24,
+            "costs_sha256": "1cfeff46034bdeb6a96ffd572cf024d0e8c3a2dc30265b082a819c258eae3fb0",
+            "evaluated_episode_count": 0,
+            "message_envelope_bytes": 0,
+            "retained_state_byte_rounds": 0,
+            "retained_state_bytes": 0,
+            "routed_payload_bytes": 0,
+            "schema": "mop-escs-g0-formation-costs/v1",
+            "trace_work": {
+              "actor_execution": 0,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 0,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          },
+          "counterfactual_only": true,
+          "factual_effects": false,
+          "factual_mutation_authorized": false,
+          "formation_attempt_id": "formation.oversize-control",
+          "objective": null,
+          "parent_candidate_sha256": null,
+          "schema": "mop-escs-g0-formation-attempt/v1",
+          "scientific_promotion_allowed": false,
+          "shadow_execution_authorized": false,
+          "status": "refused",
+          "validation_problems": [
+            "candidate:planning:actor-total-byte-cap-exceeded",
+            "candidate:planning:state-byte-cap-exceeded"
+          ]
+        },
+        "entry_sha256": "19d6f26b1b27b16bda73e3a06174ab95f91de6b043c8fa360d99c129b03ffb61",
+        "previous_entry_sha256": "eb3c7e2de3acf5eefeb520433623d3591cf71bfad8d617e5d0db9485ab86d3bf",
+        "schema": "mop-escs-g0-formation-ledger-entry/v1",
+        "sequence": 3
+      }
+    ],
+    "head_sha256": "19d6f26b1b27b16bda73e3a06174ab95f91de6b043c8fa360d99c129b03ffb61",
+    "schema": "mop-escs-g0-formation-ledger/v1"
+  },
+  "nonclaims": [
+    "Synthetic trace scores are mechanics fixtures, not capability evidence.",
+    "The quality, robustness, and diversity coordinates are declared synthetic mechanics proxies; their names do not establish those scientific properties.",
+    "Pareto retention does not authorize activation, installation, or factual effects.",
+    "The study does not establish natural-task transfer, general intelligence, or hardware energy savings.",
+    "Verification is same-implementation deterministic regeneration, not an independent scientific replication.",
+    "The refused oversize mutation is a boundary control, not evidence against adaptive topology."
+  ],
+  "pareto_archive": {
+    "archive_sha256": "1cc1426f8419b50101a9ff3d2d1ce5262b89550907e5e83862cf4182df3f4600",
+    "decisions": [
+      {
+        "attempt_sha256": "407721fc6df754e35ea4088831c8d6280f07ba233834ebc580cbf4a798cc7b68",
+        "candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+        "dominating_attempt_sha256s": [],
+        "schema": "mop-escs-g0-pareto-decision/v1",
+        "status": "retained"
+      },
+      {
+        "attempt_sha256": "f028939ca86bff717b376d3ddf2a3b476f599e14b420340dc6b417ddf1a505d3",
+        "candidate_sha256": "0805131190ec1a4526475360bb7482e02a37924685a7791e0990755a0b4c4a4f",
+        "dominating_attempt_sha256s": [],
+        "schema": "mop-escs-g0-pareto-decision/v1",
+        "status": "retained"
+      },
+      {
+        "attempt_sha256": "95519d9260d9fbed54456f63a3e29f42bba822c65e16e0a08fee7a8162677213",
+        "candidate_sha256": "3823ac0e8c6c17921bedc360ea58518085e9fbc0397adcf36a29a9f4258e0a71",
+        "dominating_attempt_sha256s": [
+          "407721fc6df754e35ea4088831c8d6280f07ba233834ebc580cbf4a798cc7b68"
+        ],
+        "schema": "mop-escs-g0-pareto-decision/v1",
+        "status": "dominated"
+      },
+      {
+        "attempt_sha256": "e824ce2f2b0906ba5bc56e0d7c5e53bc868b13880e06355a591531840a456f27",
+        "candidate_sha256": null,
+        "dominating_attempt_sha256s": [],
+        "schema": "mop-escs-g0-pareto-decision/v1",
+        "status": "ineligible"
+      }
+    ],
+    "retained_attempt_sha256s": [
+      "407721fc6df754e35ea4088831c8d6280f07ba233834ebc580cbf4a798cc7b68",
+      "f028939ca86bff717b376d3ddf2a3b476f599e14b420340dc6b417ddf1a505d3"
+    ],
+    "schema": "mop-escs-g0-pareto-archive/v1",
+    "source_ledger_sha256": "3baedda46c63ac02d5b5de2d59615f7f00a381c3b1568a1b58770923b031be60"
+  },
+  "problems": [],
+  "receipt_sha256": "316190b0d229fef658a7a9d46caad2d9e750fa38abdf383863f3eebf74345d74",
+  "schema": "mop-escs-g0-formation-study-receipt/v1",
+  "scientific_promotion_allowed": false,
+  "scorer_authority_sha256": "bf6840cff3fdcccd9e6fbbdac0db226fc3af6ab64f83099a512aaeef3fdd7a5e",
+  "shadow_execution_authorized": false,
+  "study_id": "escs-g0-formation-mechanics-v1",
+  "summary": {
+    "attempt_count": 4,
+    "evaluated_candidate_count": 3,
+    "ledger_head_sha256": "19d6f26b1b27b16bda73e3a06174ab95f91de6b043c8fa360d99c129b03ffb61",
+    "ledger_sha256": "3baedda46c63ac02d5b5de2d59615f7f00a381c3b1568a1b58770923b031be60",
+    "mutation_admission_fraction_microunits": 666666,
+    "mutation_evaluated_count": 2,
+    "mutation_proposal_count": 3,
+    "pareto_archive_sha256": "1cc1426f8419b50101a9ff3d2d1ce5262b89550907e5e83862cf4182df3f4600",
+    "pareto_retained_count": 2,
+    "proposal_admission_fraction_microunits": 750000,
+    "proposed_candidate_count": 4,
+    "refused_control_count": 1,
+    "structurally_valid_candidate_count": 3,
+    "task_count": 2,
+    "trace_count": 6,
+    "valid_candidate_admission_fraction_microunits": 1000000
+  },
+  "task_authorities": [
+    {
+      "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+      "task_id": "identity.high"
+    },
+    {
+      "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+      "task_id": "identity.low"
+    }
+  ],
+  "traces": [
+    {
+      "candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+      "formation_attempt_id": "formation.base",
+      "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+      "task_id": "identity.high",
+      "trace": {
+        "activation_enabled": false,
+        "activations": [
+          {
+            "activation_enabled": false,
+            "activation_sha256": "bc6a0a1aa875d12318d9b640a14cd169196a4f5e0e243cd54572ec9b9b52fd84",
+            "actor_id": "planning",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [
+              "78ac75bfe49d314c8127021a9d39f6b14650aaf8396b3193a41b6b6002e18057"
+            ],
+            "enqueued_delivery_sha256s": [
+              "4c110b005529d408dbe5d591e498c73705cb2b476262d2831ce4b2fd0084a833"
+            ],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/4be5ecc3bbceae9bab11f2ac338e52542ab14b89b850571fda40a7dd5fdfe49b",
+              "counterfactual_only": true,
+              "evaluation_sha256": "316523ea440560bd9522ab072ff7344847cec706374e068f2734169ed2ed640f",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                "value": {
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 16,
+              "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+              "message_count": 1,
+              "message_envelope_bytes": 1122,
+              "message_payload_bytes": 5,
+              "node_costs": {
+                "sha256": "30a3dfa1a538eac65e30397b2a0ca0fe33b6664c89b39d9bd4d77bbf0128d710",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  },
+                  {
+                    "declared_operations": 1,
+                    "message_count": 1,
+                    "message_payload_bytes": 5,
+                    "node_cost_sha256": "97f5932e5a2f915d1bd831f7042fc0f6a6f56d4a64a1384bccf503c861a1b0d0",
+                    "node_id": "emit",
+                    "operator": "typed_message_transform_and_emit",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 1
+                  }
+                ]
+              },
+              "node_output_bytes": 10,
+              "node_outputs": {
+                "sha256": "e0f104ab45c2dad012ca37f462cf604f38a879c7237ce75ee1fc00957c92ef75",
+                "value": {
+                  "emit": [
+                    1.0
+                  ],
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "operations": 5,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [
+                {
+                  "sha256": "ff10457b52303429a7bd889796b85e9e451225202063650e310fd6988cd3ce41",
+                  "value": {
+                    "activation_enabled": false,
+                    "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+                    "counterfactual_branch_id": "branch:g0-shadow/4be5ecc3bbceae9bab11f2ac338e52542ab14b89b850571fda40a7dd5fdfe49b",
+                    "counterfactual_only": true,
+                    "edge_id": "out",
+                    "encoded_bytes": 5,
+                    "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+                    "factual_effects": false,
+                    "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+                    "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+                    "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                    "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                    "message_sha256": "78ac75bfe49d314c8127021a9d39f6b14650aaf8396b3193a41b6b6002e18057",
+                    "node_id": "emit",
+                    "payload": [
+                      1.0
+                    ],
+                    "payload_form": "numeric-vector",
+                    "payload_sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+                    "recipient": "actor:verification",
+                    "schema": "mop-escs-g0-staged-message/v1",
+                    "schema_id": "claim-v1",
+                    "scientific_promotion_allowed": false
+                  }
+                }
+              ],
+              "staged_state": {
+                "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+                "value": {
+                  "memory": [
+                    1.0
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 5,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            },
+            "round_index": 0,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 0,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "499b4be93af80a5f42f5c5c666149e4b8808412601d7406e96ad668deba99481",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 5,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 1,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          },
+          {
+            "activation_enabled": false,
+            "activation_sha256": "f276381931f74aa5b15a343c171e166ce658fb41c64aa820aa5356b575cef039",
+            "actor_id": "verification",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [],
+            "enqueued_delivery_sha256s": [],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/c17c9e90a86e9532e8ef1166193b2a5c1b417f995249c0f5f0085afcca9e18b5",
+              "counterfactual_only": true,
+              "evaluation_sha256": "8c90ef75353570474499716b6525532d892db3da3753dcca37360d960b74830b",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                "value": {
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 16,
+              "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+              "message_count": 0,
+              "message_envelope_bytes": 0,
+              "message_payload_bytes": 0,
+              "node_costs": {
+                "sha256": "a2164e4973d95df4bfe8760dea63a31b6e97219b57e1a8bd0ea9215facb1e279",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  }
+                ]
+              },
+              "node_output_bytes": 5,
+              "node_outputs": {
+                "sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                "value": {
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "operations": 4,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [],
+              "staged_state": {
+                "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+                "value": {
+                  "memory": [
+                    1.0
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 4,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 0,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            },
+            "round_index": 1,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 1,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "4c110b005529d408dbe5d591e498c73705cb2b476262d2831ce4b2fd0084a833",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 4,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 0,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          }
+        ],
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "completed_rounds": 2,
+        "counterfactual_only": true,
+        "declared_retained_state_bytes": 128,
+        "deliveries": [
+          {
+            "activation_enabled": false,
+            "available_round": 0,
+            "counterfactual_only": true,
+            "delivery_sha256": "499b4be93af80a5f42f5c5c666149e4b8808412601d7406e96ad668deba99481",
+            "factual_effects": false,
+            "kind": "seed",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "planning",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "stimulus-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": null,
+            "sequence": 0,
+            "source_sha256": "08076fd6db8097faeceb4fd388af34fdbc2d5c7bd5c11be6aaa7948efa2068f7"
+          },
+          {
+            "activation_enabled": false,
+            "available_round": 1,
+            "counterfactual_only": true,
+            "delivery_sha256": "4c110b005529d408dbe5d591e498c73705cb2b476262d2831ce4b2fd0084a833",
+            "factual_effects": false,
+            "kind": "message",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "verification",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "claim-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": "planning",
+            "sequence": 1,
+            "source_sha256": "78ac75bfe49d314c8127021a9d39f6b14650aaf8396b3193a41b6b6002e18057"
+          }
+        ],
+        "delivery_attempts": 2,
+        "effective_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+        "episode_sha256": "0f970ba13867168704eac67fd3c566c13dc04d7f76b4e712e7d51587b7c60951",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "final_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            }
+          }
+        ],
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "message_envelope_bytes": 1122,
+        "pending_delivery_count": 0,
+        "problems": [],
+        "produced_message_count": 1,
+        "retained_state_byte_rounds": 256,
+        "rollback_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+        "routed_message_count": 1,
+        "routed_payload_bytes": 5,
+        "schema": "mop-escs-g0-shadow-trace/v1",
+        "scientific_promotion_allowed": false,
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+        "terminal_reason": "quiescent",
+        "trace_sha256": "3758d7466bc4ea71b13d9ee76c384466b1da26d4cccdec3dfe5a0417a6145687",
+        "work": {
+          "actor_execution": 9,
+          "archival_and_erasure": 0,
+          "counterfactual_credit": 0,
+          "dispatch_and_exploration": 2,
+          "event_formation": 0,
+          "idle_floor": 0,
+          "indexing_and_graph_maintenance": 4,
+          "learning": 0,
+          "messages": 1,
+          "raw_transport_and_adapters": 0,
+          "retained_byte_time": 256
+        }
+      }
+    },
+    {
+      "candidate_sha256": "19827ea419094c3107c33f637cac635594b5f963259254c0559cf4e1ccc25b4a",
+      "formation_attempt_id": "formation.base",
+      "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+      "task_id": "identity.low",
+      "trace": {
+        "activation_enabled": false,
+        "activations": [
+          {
+            "activation_enabled": false,
+            "activation_sha256": "98414c1d9e3784b3121a6eb91dbe71be878598c9fe1cd6f27319db49aa9763c0",
+            "actor_id": "planning",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [
+              "0434bb7386eef065fc72535d39270631a6fd86d2a1f8b6ec419c64a47b7d15cc"
+            ],
+            "enqueued_delivery_sha256s": [
+              "fe55ce444b18547cbd8aa642a8d94773a0c8a7d93dd7ed6ec1222d534d0f4a05"
+            ],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/ba528a73ba2a26c4c80bfe017282f8b730daf6f3c91b810634f00eb3b5dd3b3f",
+              "counterfactual_only": true,
+              "evaluation_sha256": "dd6994f9e255e32ac4c7576c5026ed5cece9ed80633ad5a1b108db8e11494a17",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                "value": {
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 17,
+              "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+              "message_count": 1,
+              "message_envelope_bytes": 1123,
+              "message_payload_bytes": 6,
+              "node_costs": {
+                "sha256": "ff42eddfc1616a9a64a334f56faac298c6bb0f7fabcca5bf2e85bcc514f987cf",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "3c0ec061bd6714422c712a035ea5ff314df43e49a68ca7cf8ceba485c66d66df",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 6,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  },
+                  {
+                    "declared_operations": 1,
+                    "message_count": 1,
+                    "message_payload_bytes": 6,
+                    "node_cost_sha256": "98d91501e329977912e5737004b54d3b470e7123d47b9aecd7db68d403da9234",
+                    "node_id": "emit",
+                    "operator": "typed_message_transform_and_emit",
+                    "output_bytes": 6,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 1
+                  }
+                ]
+              },
+              "node_output_bytes": 12,
+              "node_outputs": {
+                "sha256": "da2cfa7761dce5e2c802d8d3cff5efc9fbb90ea6c2f538c4c1f96b5a77e485ec",
+                "value": {
+                  "emit": [
+                    0.25
+                  ],
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "operations": 5,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [
+                {
+                  "sha256": "e68b7ea7ca8be871444ee342a9dc99f42dd6606e86536a14cf75d4aa5061b700",
+                  "value": {
+                    "activation_enabled": false,
+                    "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+                    "counterfactual_branch_id": "branch:g0-shadow/ba528a73ba2a26c4c80bfe017282f8b730daf6f3c91b810634f00eb3b5dd3b3f",
+                    "counterfactual_only": true,
+                    "edge_id": "out",
+                    "encoded_bytes": 6,
+                    "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+                    "factual_effects": false,
+                    "genotype_sha256": "850bc93f45d1c1f29a4847536c993b7e6ab74917bcf8de29d653a22fdad033db",
+                    "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+                    "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                    "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                    "message_sha256": "0434bb7386eef065fc72535d39270631a6fd86d2a1f8b6ec419c64a47b7d15cc",
+                    "node_id": "emit",
+                    "payload": [
+                      0.25
+                    ],
+                    "payload_form": "numeric-vector",
+                    "payload_sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+                    "recipient": "actor:verification",
+                    "schema": "mop-escs-g0-staged-message/v1",
+                    "schema_id": "claim-v1",
+                    "scientific_promotion_allowed": false
+                  }
+                }
+              ],
+              "staged_state": {
+                "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+                "value": {
+                  "memory": [
+                    0.25
+                  ]
+                }
+              },
+              "staged_state_bytes": 17,
+              "work": {
+                "actor_execution": 5,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            },
+            "round_index": 0,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 0,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "113f1c633263f14df24144f7ac5b91310de9ff7149e0b22c3952eb23c907963d",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 5,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 1,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          },
+          {
+            "activation_enabled": false,
+            "activation_sha256": "389fc07d447322cc1a25905c5af361d22e4d1ccad12195df6f9c6607d8e05150",
+            "actor_id": "verification",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [],
+            "enqueued_delivery_sha256s": [],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/2d570b797f6a06ab07c339b0868760d20a3e430ad0c9b67a0c4b47985b5d5078",
+              "counterfactual_only": true,
+              "evaluation_sha256": "c1337ca42fa2c6ba8727c5cd331a8336516646e2366407a7cfd00aa8f9b8594a",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                "value": {
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 17,
+              "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+              "message_count": 0,
+              "message_envelope_bytes": 0,
+              "message_payload_bytes": 0,
+              "node_costs": {
+                "sha256": "1554acef8a5cbb89ae49a76c9b5e57f588dbaa5cd55dd817ce46d187b74d8713",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "3c0ec061bd6714422c712a035ea5ff314df43e49a68ca7cf8ceba485c66d66df",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 6,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  }
+                ]
+              },
+              "node_output_bytes": 6,
+              "node_outputs": {
+                "sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                "value": {
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "operations": 4,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [],
+              "staged_state": {
+                "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+                "value": {
+                  "memory": [
+                    0.25
+                  ]
+                }
+              },
+              "staged_state_bytes": 17,
+              "work": {
+                "actor_execution": 4,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 0,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            },
+            "round_index": 1,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 1,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "fe55ce444b18547cbd8aa642a8d94773a0c8a7d93dd7ed6ec1222d534d0f4a05",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 4,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 0,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          }
+        ],
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "completed_rounds": 2,
+        "counterfactual_only": true,
+        "declared_retained_state_bytes": 128,
+        "deliveries": [
+          {
+            "activation_enabled": false,
+            "available_round": 0,
+            "counterfactual_only": true,
+            "delivery_sha256": "113f1c633263f14df24144f7ac5b91310de9ff7149e0b22c3952eb23c907963d",
+            "factual_effects": false,
+            "kind": "seed",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "planning",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "stimulus-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": null,
+            "sequence": 0,
+            "source_sha256": "e64e24f07b96527103136dbc6b34931cd66b6a70ba57edf66501bf601b722016"
+          },
+          {
+            "activation_enabled": false,
+            "available_round": 1,
+            "counterfactual_only": true,
+            "delivery_sha256": "fe55ce444b18547cbd8aa642a8d94773a0c8a7d93dd7ed6ec1222d534d0f4a05",
+            "factual_effects": false,
+            "kind": "message",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "verification",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "claim-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": "planning",
+            "sequence": 1,
+            "source_sha256": "0434bb7386eef065fc72535d39270631a6fd86d2a1f8b6ec419c64a47b7d15cc"
+          }
+        ],
+        "delivery_attempts": 2,
+        "effective_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+        "episode_sha256": "71f2d378e46bf9ab1c20ed92fd32e39b2c07f2c6782590216d65db446f4d0e5d",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "final_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            }
+          }
+        ],
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "message_envelope_bytes": 1123,
+        "pending_delivery_count": 0,
+        "problems": [],
+        "produced_message_count": 1,
+        "retained_state_byte_rounds": 256,
+        "rollback_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+        "routed_message_count": 1,
+        "routed_payload_bytes": 6,
+        "schema": "mop-escs-g0-shadow-trace/v1",
+        "scientific_promotion_allowed": false,
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eaebde6878cb2749f72713d50ff029515095953dff9ba5d8b259c89a5891e6de",
+        "terminal_reason": "quiescent",
+        "trace_sha256": "d590c60e4a598073ca63a4ec0c4857f200b3941e95ab2ce3cae539654d787877",
+        "work": {
+          "actor_execution": 9,
+          "archival_and_erasure": 0,
+          "counterfactual_credit": 0,
+          "dispatch_and_exploration": 2,
+          "event_formation": 0,
+          "idle_floor": 0,
+          "indexing_and_graph_maintenance": 4,
+          "learning": 0,
+          "messages": 1,
+          "raw_transport_and_adapters": 0,
+          "retained_byte_time": 256
+        }
+      }
+    },
+    {
+      "candidate_sha256": "0805131190ec1a4526475360bb7482e02a37924685a7791e0990755a0b4c4a4f",
+      "formation_attempt_id": "formation.amplified",
+      "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+      "task_id": "identity.high",
+      "trace": {
+        "activation_enabled": false,
+        "activations": [
+          {
+            "activation_enabled": false,
+            "activation_sha256": "07713ff1ae1e0da25406444f279f52c53e5e3a281dfc50c5e9de423d8234844d",
+            "actor_id": "planning",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [
+              "e9fed9315acef0f451374e5bef8924ede4db09f01deb3fe5a28faf64c3528dae"
+            ],
+            "enqueued_delivery_sha256s": [
+              "cba2f47563928f7cdfb9e218f84566b2ed41fee27fd5550e8be262102ac7ba40"
+            ],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/e60216a924a8b8f42d924e0cc4c3bce83397b4ff7bb24e4387aa5291ccbc803d",
+              "counterfactual_only": true,
+              "evaluation_sha256": "c7a41ab8f0e13e693d26a90297763269cc13de566093ff36623f3fd9c5d0f933",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                "value": {
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 16,
+              "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+              "message_count": 1,
+              "message_envelope_bytes": 1122,
+              "message_payload_bytes": 5,
+              "node_costs": {
+                "sha256": "30a3dfa1a538eac65e30397b2a0ca0fe33b6664c89b39d9bd4d77bbf0128d710",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  },
+                  {
+                    "declared_operations": 1,
+                    "message_count": 1,
+                    "message_payload_bytes": 5,
+                    "node_cost_sha256": "97f5932e5a2f915d1bd831f7042fc0f6a6f56d4a64a1384bccf503c861a1b0d0",
+                    "node_id": "emit",
+                    "operator": "typed_message_transform_and_emit",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 1
+                  }
+                ]
+              },
+              "node_output_bytes": 10,
+              "node_outputs": {
+                "sha256": "946450fbb492e73188927f3cc0512683a7ea838cfb45897e10fa9e6317613068",
+                "value": {
+                  "emit": [
+                    2.0
+                  ],
+                  "update": [
+                    2.0
+                  ]
+                }
+              },
+              "operations": 5,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [
+                {
+                  "sha256": "7a11008f32fb323593e10fcbbd379696bf4f34c1e3805abed19803693d16eb16",
+                  "value": {
+                    "activation_enabled": false,
+                    "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+                    "counterfactual_branch_id": "branch:g0-shadow/e60216a924a8b8f42d924e0cc4c3bce83397b4ff7bb24e4387aa5291ccbc803d",
+                    "counterfactual_only": true,
+                    "edge_id": "out",
+                    "encoded_bytes": 5,
+                    "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+                    "factual_effects": false,
+                    "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+                    "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+                    "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                    "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                    "message_sha256": "e9fed9315acef0f451374e5bef8924ede4db09f01deb3fe5a28faf64c3528dae",
+                    "node_id": "emit",
+                    "payload": [
+                      2.0
+                    ],
+                    "payload_form": "numeric-vector",
+                    "payload_sha256": "0ab68d8d90cafd43c23b8c452065235fc46ddba926ce9ae5d211724647314785",
+                    "recipient": "actor:verification",
+                    "schema": "mop-escs-g0-staged-message/v1",
+                    "schema_id": "claim-v1",
+                    "scientific_promotion_allowed": false
+                  }
+                }
+              ],
+              "staged_state": {
+                "sha256": "44d4fb54f349b02cf1de3ff85c304bfd7839d2f5e3796f79242b97d956c1b0af",
+                "value": {
+                  "memory": [
+                    2.0
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 5,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "44d4fb54f349b02cf1de3ff85c304bfd7839d2f5e3796f79242b97d956c1b0af",
+              "value": {
+                "memory": [
+                  2.0
+                ]
+              }
+            },
+            "round_index": 0,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 0,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "499b4be93af80a5f42f5c5c666149e4b8808412601d7406e96ad668deba99481",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 5,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 1,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          },
+          {
+            "activation_enabled": false,
+            "activation_sha256": "07a652fc0c29c3d13715990ecdaf3bc50f82f45f1863ad1e980d0d0f7274205a",
+            "actor_id": "verification",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [],
+            "enqueued_delivery_sha256s": [],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/bcc45656a10ac60e4ecbe029059985486a88a725c7b58b82af5efed51409169c",
+              "counterfactual_only": true,
+              "evaluation_sha256": "86ce231103fddf5ad5abf88a361f5f3eeee165cf15cdb9a4b132d9fe1e9442f2",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "50b2cee48fc010550b25e5ed574de2b75d31cc98ae78595552586d43145250ad",
+                "value": {
+                  "update": [
+                    2.0
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 16,
+              "input_sha256": "50b2cee48fc010550b25e5ed574de2b75d31cc98ae78595552586d43145250ad",
+              "message_count": 0,
+              "message_envelope_bytes": 0,
+              "message_payload_bytes": 0,
+              "node_costs": {
+                "sha256": "a2164e4973d95df4bfe8760dea63a31b6e97219b57e1a8bd0ea9215facb1e279",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  }
+                ]
+              },
+              "node_output_bytes": 5,
+              "node_outputs": {
+                "sha256": "50b2cee48fc010550b25e5ed574de2b75d31cc98ae78595552586d43145250ad",
+                "value": {
+                  "update": [
+                    2.0
+                  ]
+                }
+              },
+              "operations": 4,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [],
+              "staged_state": {
+                "sha256": "44d4fb54f349b02cf1de3ff85c304bfd7839d2f5e3796f79242b97d956c1b0af",
+                "value": {
+                  "memory": [
+                    2.0
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 4,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 0,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "44d4fb54f349b02cf1de3ff85c304bfd7839d2f5e3796f79242b97d956c1b0af",
+              "value": {
+                "memory": [
+                  2.0
+                ]
+              }
+            },
+            "round_index": 1,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 1,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "cba2f47563928f7cdfb9e218f84566b2ed41fee27fd5550e8be262102ac7ba40",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 4,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 0,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          }
+        ],
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "completed_rounds": 2,
+        "counterfactual_only": true,
+        "declared_retained_state_bytes": 128,
+        "deliveries": [
+          {
+            "activation_enabled": false,
+            "available_round": 0,
+            "counterfactual_only": true,
+            "delivery_sha256": "499b4be93af80a5f42f5c5c666149e4b8808412601d7406e96ad668deba99481",
+            "factual_effects": false,
+            "kind": "seed",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "planning",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "stimulus-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": null,
+            "sequence": 0,
+            "source_sha256": "08076fd6db8097faeceb4fd388af34fdbc2d5c7bd5c11be6aaa7948efa2068f7"
+          },
+          {
+            "activation_enabled": false,
+            "available_round": 1,
+            "counterfactual_only": true,
+            "delivery_sha256": "cba2f47563928f7cdfb9e218f84566b2ed41fee27fd5550e8be262102ac7ba40",
+            "factual_effects": false,
+            "kind": "message",
+            "payload": {
+              "sha256": "0ab68d8d90cafd43c23b8c452065235fc46ddba926ce9ae5d211724647314785",
+              "value": [
+                2.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "verification",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "claim-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": "planning",
+            "sequence": 1,
+            "source_sha256": "e9fed9315acef0f451374e5bef8924ede4db09f01deb3fe5a28faf64c3528dae"
+          }
+        ],
+        "delivery_attempts": 2,
+        "effective_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603",
+        "episode_sha256": "2fb40ffddb5f8369ef9d4df945dd9d5a080df1ab802025a3642caeb2b7d9c94c",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "final_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "44d4fb54f349b02cf1de3ff85c304bfd7839d2f5e3796f79242b97d956c1b0af",
+              "value": {
+                "memory": [
+                  2.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "44d4fb54f349b02cf1de3ff85c304bfd7839d2f5e3796f79242b97d956c1b0af",
+              "value": {
+                "memory": [
+                  2.0
+                ]
+              }
+            }
+          }
+        ],
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "message_envelope_bytes": 1122,
+        "pending_delivery_count": 0,
+        "problems": [],
+        "produced_message_count": 1,
+        "retained_state_byte_rounds": 256,
+        "rollback_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603",
+        "routed_message_count": 1,
+        "routed_payload_bytes": 5,
+        "schema": "mop-escs-g0-shadow-trace/v1",
+        "scientific_promotion_allowed": false,
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603",
+        "terminal_reason": "quiescent",
+        "trace_sha256": "99bd331f5f2bb0f03d0464b21130f8608d2236b2dbf030bffa24b4d0a0919bda",
+        "work": {
+          "actor_execution": 9,
+          "archival_and_erasure": 0,
+          "counterfactual_credit": 0,
+          "dispatch_and_exploration": 2,
+          "event_formation": 0,
+          "idle_floor": 0,
+          "indexing_and_graph_maintenance": 4,
+          "learning": 0,
+          "messages": 1,
+          "raw_transport_and_adapters": 0,
+          "retained_byte_time": 256
+        }
+      }
+    },
+    {
+      "candidate_sha256": "0805131190ec1a4526475360bb7482e02a37924685a7791e0990755a0b4c4a4f",
+      "formation_attempt_id": "formation.amplified",
+      "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+      "task_id": "identity.low",
+      "trace": {
+        "activation_enabled": false,
+        "activations": [
+          {
+            "activation_enabled": false,
+            "activation_sha256": "2ec4ef7366ed7405d600e47660261e61589b245af7ed44dce588401187234e21",
+            "actor_id": "planning",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [
+              "e360c91591db288c707c5aa0672904b09f16e4bdefee0a585c2ebf2a99d7482a"
+            ],
+            "enqueued_delivery_sha256s": [
+              "fd926e7ee73e713b01e01b849d13b4d93e7374233fb3044cedf847ddda66cb03"
+            ],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/764a39782f1357b88e1d7332d2d1f0d1956d7b86718b1ef04b4e98968a448076",
+              "counterfactual_only": true,
+              "evaluation_sha256": "5665173be9632ca1a439e903bd91cd29779bf66ebbca28787dcc437aebd12afc",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                "value": {
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 17,
+              "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+              "message_count": 1,
+              "message_envelope_bytes": 1122,
+              "message_payload_bytes": 5,
+              "node_costs": {
+                "sha256": "30a3dfa1a538eac65e30397b2a0ca0fe33b6664c89b39d9bd4d77bbf0128d710",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  },
+                  {
+                    "declared_operations": 1,
+                    "message_count": 1,
+                    "message_payload_bytes": 5,
+                    "node_cost_sha256": "97f5932e5a2f915d1bd831f7042fc0f6a6f56d4a64a1384bccf503c861a1b0d0",
+                    "node_id": "emit",
+                    "operator": "typed_message_transform_and_emit",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 1
+                  }
+                ]
+              },
+              "node_output_bytes": 10,
+              "node_outputs": {
+                "sha256": "4c02770b1dce1c407f7eeae02e40007a43a20919d37639913fc9f54edf9e8012",
+                "value": {
+                  "emit": [
+                    0.5
+                  ],
+                  "update": [
+                    0.5
+                  ]
+                }
+              },
+              "operations": 5,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [
+                {
+                  "sha256": "697a1496caa102216721425f56c59dcbdfb7a522b640dc7191c94fbc65e408ef",
+                  "value": {
+                    "activation_enabled": false,
+                    "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+                    "counterfactual_branch_id": "branch:g0-shadow/764a39782f1357b88e1d7332d2d1f0d1956d7b86718b1ef04b4e98968a448076",
+                    "counterfactual_only": true,
+                    "edge_id": "out",
+                    "encoded_bytes": 5,
+                    "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+                    "factual_effects": false,
+                    "genotype_sha256": "c7c0531380680f3315251e3b732674f0cbcfa01b6c6539b7672155685f527a2c",
+                    "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+                    "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                    "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                    "message_sha256": "e360c91591db288c707c5aa0672904b09f16e4bdefee0a585c2ebf2a99d7482a",
+                    "node_id": "emit",
+                    "payload": [
+                      0.5
+                    ],
+                    "payload_form": "numeric-vector",
+                    "payload_sha256": "04065541cad7c748322a0786efb913ff311c5a0e2fc3e7644f4af209b070c39c",
+                    "recipient": "actor:verification",
+                    "schema": "mop-escs-g0-staged-message/v1",
+                    "schema_id": "claim-v1",
+                    "scientific_promotion_allowed": false
+                  }
+                }
+              ],
+              "staged_state": {
+                "sha256": "999cd52c3c6600716b207de8585dc975b86b2f9935eab2ddae160a00285afe05",
+                "value": {
+                  "memory": [
+                    0.5
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 5,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "999cd52c3c6600716b207de8585dc975b86b2f9935eab2ddae160a00285afe05",
+              "value": {
+                "memory": [
+                  0.5
+                ]
+              }
+            },
+            "round_index": 0,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 0,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "113f1c633263f14df24144f7ac5b91310de9ff7149e0b22c3952eb23c907963d",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 5,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 1,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          },
+          {
+            "activation_enabled": false,
+            "activation_sha256": "7255083faf0eba35fa3d14fabb843b97fc58961515b8ed63f7a9d71fe68b4ca9",
+            "actor_id": "verification",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [],
+            "enqueued_delivery_sha256s": [],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/b267f77ab0d6e76321e5182047dceb52ce4c48fa1fc7029e4f6ecbeeb0e89f6b",
+              "counterfactual_only": true,
+              "evaluation_sha256": "c303eb5ba3f69034971bbf1b83b4c27d2e598f4519d818082d32d4dae7f29fb9",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "d7f03f0974d90efe679ed07ca5af44fb810095b9073063e07475c87069f96564",
+                "value": {
+                  "update": [
+                    0.5
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 16,
+              "input_sha256": "d7f03f0974d90efe679ed07ca5af44fb810095b9073063e07475c87069f96564",
+              "message_count": 0,
+              "message_envelope_bytes": 0,
+              "message_payload_bytes": 0,
+              "node_costs": {
+                "sha256": "a2164e4973d95df4bfe8760dea63a31b6e97219b57e1a8bd0ea9215facb1e279",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  }
+                ]
+              },
+              "node_output_bytes": 5,
+              "node_outputs": {
+                "sha256": "d7f03f0974d90efe679ed07ca5af44fb810095b9073063e07475c87069f96564",
+                "value": {
+                  "update": [
+                    0.5
+                  ]
+                }
+              },
+              "operations": 4,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [],
+              "staged_state": {
+                "sha256": "999cd52c3c6600716b207de8585dc975b86b2f9935eab2ddae160a00285afe05",
+                "value": {
+                  "memory": [
+                    0.5
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 4,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 0,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "999cd52c3c6600716b207de8585dc975b86b2f9935eab2ddae160a00285afe05",
+              "value": {
+                "memory": [
+                  0.5
+                ]
+              }
+            },
+            "round_index": 1,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 1,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "fd926e7ee73e713b01e01b849d13b4d93e7374233fb3044cedf847ddda66cb03",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 4,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 0,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          }
+        ],
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "completed_rounds": 2,
+        "counterfactual_only": true,
+        "declared_retained_state_bytes": 128,
+        "deliveries": [
+          {
+            "activation_enabled": false,
+            "available_round": 0,
+            "counterfactual_only": true,
+            "delivery_sha256": "113f1c633263f14df24144f7ac5b91310de9ff7149e0b22c3952eb23c907963d",
+            "factual_effects": false,
+            "kind": "seed",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "planning",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "stimulus-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": null,
+            "sequence": 0,
+            "source_sha256": "e64e24f07b96527103136dbc6b34931cd66b6a70ba57edf66501bf601b722016"
+          },
+          {
+            "activation_enabled": false,
+            "available_round": 1,
+            "counterfactual_only": true,
+            "delivery_sha256": "fd926e7ee73e713b01e01b849d13b4d93e7374233fb3044cedf847ddda66cb03",
+            "factual_effects": false,
+            "kind": "message",
+            "payload": {
+              "sha256": "04065541cad7c748322a0786efb913ff311c5a0e2fc3e7644f4af209b070c39c",
+              "value": [
+                0.5
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "verification",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "claim-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": "planning",
+            "sequence": 1,
+            "source_sha256": "e360c91591db288c707c5aa0672904b09f16e4bdefee0a585c2ebf2a99d7482a"
+          }
+        ],
+        "delivery_attempts": 2,
+        "effective_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603",
+        "episode_sha256": "675b05e8e09072cb5f1afb692251178ac30432af8be13f894699badd5643b506",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "final_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "999cd52c3c6600716b207de8585dc975b86b2f9935eab2ddae160a00285afe05",
+              "value": {
+                "memory": [
+                  0.5
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "999cd52c3c6600716b207de8585dc975b86b2f9935eab2ddae160a00285afe05",
+              "value": {
+                "memory": [
+                  0.5
+                ]
+              }
+            }
+          }
+        ],
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "message_envelope_bytes": 1122,
+        "pending_delivery_count": 0,
+        "problems": [],
+        "produced_message_count": 1,
+        "retained_state_byte_rounds": 256,
+        "rollback_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603",
+        "routed_message_count": 1,
+        "routed_payload_bytes": 5,
+        "schema": "mop-escs-g0-shadow-trace/v1",
+        "scientific_promotion_allowed": false,
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "d429de7e2f15e97a01b23f546d5723ab7a64833edeeb455c216458c57922f603",
+        "terminal_reason": "quiescent",
+        "trace_sha256": "0040d78c53a5d5ab20395af14d8de74bf8cabf6b678da8f3c795a94b5e4ba663",
+        "work": {
+          "actor_execution": 9,
+          "archival_and_erasure": 0,
+          "counterfactual_credit": 0,
+          "dispatch_and_exploration": 2,
+          "event_formation": 0,
+          "idle_floor": 0,
+          "indexing_and_graph_maintenance": 4,
+          "learning": 0,
+          "messages": 1,
+          "raw_transport_and_adapters": 0,
+          "retained_byte_time": 256
+        }
+      }
+    },
+    {
+      "candidate_sha256": "3823ac0e8c6c17921bedc360ea58518085e9fbc0397adcf36a29a9f4258e0a71",
+      "formation_attempt_id": "formation.capacity",
+      "task_authority_sha256": "ee6c28eb99e3ae2b52c24130c22c99b58185e645ba75f5c65e61f30fafe43279",
+      "task_id": "identity.high",
+      "trace": {
+        "activation_enabled": false,
+        "activations": [
+          {
+            "activation_enabled": false,
+            "activation_sha256": "53a6ecf0d0fa8a7be6a51fcc74439e018d914a9c530d422baf5082e93b566056",
+            "actor_id": "planning",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [
+              "1a77badae9fa29fd57f9074771b2f86da8159ad368b83b539a6b4c84397f22c9"
+            ],
+            "enqueued_delivery_sha256s": [
+              "69ff9bda4784dd5bc1f8c9a96ae7194b8687d3adabb4b7f76be23baa5f74f478"
+            ],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/dab68bbd66ce869ba20f43b2079d6fba2bc6687ecb93351509c61e2839e2408b",
+              "counterfactual_only": true,
+              "evaluation_sha256": "41ac73bee330bbcad3782288d980589727fcf5ae9633332bc521f971cad03d37",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                "value": {
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 16,
+              "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+              "message_count": 1,
+              "message_envelope_bytes": 1122,
+              "message_payload_bytes": 5,
+              "node_costs": {
+                "sha256": "30a3dfa1a538eac65e30397b2a0ca0fe33b6664c89b39d9bd4d77bbf0128d710",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  },
+                  {
+                    "declared_operations": 1,
+                    "message_count": 1,
+                    "message_payload_bytes": 5,
+                    "node_cost_sha256": "97f5932e5a2f915d1bd831f7042fc0f6a6f56d4a64a1384bccf503c861a1b0d0",
+                    "node_id": "emit",
+                    "operator": "typed_message_transform_and_emit",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 1
+                  }
+                ]
+              },
+              "node_output_bytes": 10,
+              "node_outputs": {
+                "sha256": "e0f104ab45c2dad012ca37f462cf604f38a879c7237ce75ee1fc00957c92ef75",
+                "value": {
+                  "emit": [
+                    1.0
+                  ],
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "operations": 5,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [
+                {
+                  "sha256": "92eb98c4c8aaddc81e28b61cf715a05fc0be887baea7ce6eb89490cdc55affb0",
+                  "value": {
+                    "activation_enabled": false,
+                    "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+                    "counterfactual_branch_id": "branch:g0-shadow/dab68bbd66ce869ba20f43b2079d6fba2bc6687ecb93351509c61e2839e2408b",
+                    "counterfactual_only": true,
+                    "edge_id": "out",
+                    "encoded_bytes": 5,
+                    "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+                    "factual_effects": false,
+                    "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+                    "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+                    "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                    "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                    "message_sha256": "1a77badae9fa29fd57f9074771b2f86da8159ad368b83b539a6b4c84397f22c9",
+                    "node_id": "emit",
+                    "payload": [
+                      1.0
+                    ],
+                    "payload_form": "numeric-vector",
+                    "payload_sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+                    "recipient": "actor:verification",
+                    "schema": "mop-escs-g0-staged-message/v1",
+                    "schema_id": "claim-v1",
+                    "scientific_promotion_allowed": false
+                  }
+                }
+              ],
+              "staged_state": {
+                "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+                "value": {
+                  "memory": [
+                    1.0
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 5,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            },
+            "round_index": 0,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 0,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "499b4be93af80a5f42f5c5c666149e4b8808412601d7406e96ad668deba99481",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 5,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 1,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          },
+          {
+            "activation_enabled": false,
+            "activation_sha256": "22bacc6d05b361158dd3bd239f50c47534b0b7d344b413caadf3bf940ddad6ac",
+            "actor_id": "verification",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [],
+            "enqueued_delivery_sha256s": [],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/c17c9e90a86e9532e8ef1166193b2a5c1b417f995249c0f5f0085afcca9e18b5",
+              "counterfactual_only": true,
+              "evaluation_sha256": "8c90ef75353570474499716b6525532d892db3da3753dcca37360d960b74830b",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                "value": {
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 16,
+              "input_sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+              "message_count": 0,
+              "message_envelope_bytes": 0,
+              "message_payload_bytes": 0,
+              "node_costs": {
+                "sha256": "a2164e4973d95df4bfe8760dea63a31b6e97219b57e1a8bd0ea9215facb1e279",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "f40feee3b85ae7594f4a764c01ddae7a3829ddcb1ec9a23e6f3128fe475e0d2c",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 5,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  }
+                ]
+              },
+              "node_output_bytes": 5,
+              "node_outputs": {
+                "sha256": "3611b0abd201d72c28ee5cbf3510b690510e5a12d45716679a204449bc1aa0f1",
+                "value": {
+                  "update": [
+                    1.0
+                  ]
+                }
+              },
+              "operations": 4,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [],
+              "staged_state": {
+                "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+                "value": {
+                  "memory": [
+                    1.0
+                  ]
+                }
+              },
+              "staged_state_bytes": 16,
+              "work": {
+                "actor_execution": 4,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 0,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            },
+            "round_index": 1,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 1,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "69ff9bda4784dd5bc1f8c9a96ae7194b8687d3adabb4b7f76be23baa5f74f478",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 4,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 0,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          }
+        ],
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "completed_rounds": 2,
+        "counterfactual_only": true,
+        "declared_retained_state_bytes": 192,
+        "deliveries": [
+          {
+            "activation_enabled": false,
+            "available_round": 0,
+            "counterfactual_only": true,
+            "delivery_sha256": "499b4be93af80a5f42f5c5c666149e4b8808412601d7406e96ad668deba99481",
+            "factual_effects": false,
+            "kind": "seed",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "planning",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "stimulus-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": null,
+            "sequence": 0,
+            "source_sha256": "08076fd6db8097faeceb4fd388af34fdbc2d5c7bd5c11be6aaa7948efa2068f7"
+          },
+          {
+            "activation_enabled": false,
+            "available_round": 1,
+            "counterfactual_only": true,
+            "delivery_sha256": "69ff9bda4784dd5bc1f8c9a96ae7194b8687d3adabb4b7f76be23baa5f74f478",
+            "factual_effects": false,
+            "kind": "message",
+            "payload": {
+              "sha256": "c2272c0a862f11de35da66ec8be34349001ddebae43b85ab1dafb188f8ad7b30",
+              "value": [
+                1.0
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "verification",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "claim-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": "planning",
+            "sequence": 1,
+            "source_sha256": "1a77badae9fa29fd57f9074771b2f86da8159ad368b83b539a6b4c84397f22c9"
+          }
+        ],
+        "delivery_attempts": 2,
+        "effective_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba",
+        "episode_sha256": "99beae8d98d3eb58df5276485581348ad43f2487970d1850238bf147c2fae135",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "final_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "3c41021deac662be24163b572be423a6f2d62b999996c30ea8aeacbefb1225e3",
+              "value": {
+                "memory": [
+                  1.0
+                ]
+              }
+            }
+          }
+        ],
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "message_envelope_bytes": 1122,
+        "pending_delivery_count": 0,
+        "problems": [],
+        "produced_message_count": 1,
+        "retained_state_byte_rounds": 384,
+        "rollback_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba",
+        "routed_message_count": 1,
+        "routed_payload_bytes": 5,
+        "schema": "mop-escs-g0-shadow-trace/v1",
+        "scientific_promotion_allowed": false,
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba",
+        "terminal_reason": "quiescent",
+        "trace_sha256": "f5ab1883b2577a50ead8f8aa75331c528d06bd424818e9021dd7ce11b9e1dbf1",
+        "work": {
+          "actor_execution": 9,
+          "archival_and_erasure": 0,
+          "counterfactual_credit": 0,
+          "dispatch_and_exploration": 2,
+          "event_formation": 0,
+          "idle_floor": 0,
+          "indexing_and_graph_maintenance": 4,
+          "learning": 0,
+          "messages": 1,
+          "raw_transport_and_adapters": 0,
+          "retained_byte_time": 384
+        }
+      }
+    },
+    {
+      "candidate_sha256": "3823ac0e8c6c17921bedc360ea58518085e9fbc0397adcf36a29a9f4258e0a71",
+      "formation_attempt_id": "formation.capacity",
+      "task_authority_sha256": "fb43ec96b43e0324f36fa92ae3777d5b28177f4d558e1d98dd3e0dec0040d638",
+      "task_id": "identity.low",
+      "trace": {
+        "activation_enabled": false,
+        "activations": [
+          {
+            "activation_enabled": false,
+            "activation_sha256": "c4feb0cd20f373893ca4176b4990732296cdc0c2a3c7d09cbf91992911a4f7e5",
+            "actor_id": "planning",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [
+              "96f820b2f90a8c2c5cb65ee8218760808e82737da33e8097c7e7229cf993eb01"
+            ],
+            "enqueued_delivery_sha256s": [
+              "278eb4ccf78ac6357282973c243e71d9e07564d19ce88f9ab7cd1f624243db22"
+            ],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/6f6276d835882131fc1434f6f228018af399782439b81503c906dc9f723fe249",
+              "counterfactual_only": true,
+              "evaluation_sha256": "d446a9ef8acdf9caea0eb50bfa7f05bbe9cd2b33a2dcbe819cc548324ae38551",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                "value": {
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 17,
+              "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+              "message_count": 1,
+              "message_envelope_bytes": 1123,
+              "message_payload_bytes": 6,
+              "node_costs": {
+                "sha256": "ff42eddfc1616a9a64a334f56faac298c6bb0f7fabcca5bf2e85bcc514f987cf",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "3c0ec061bd6714422c712a035ea5ff314df43e49a68ca7cf8ceba485c66d66df",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 6,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  },
+                  {
+                    "declared_operations": 1,
+                    "message_count": 1,
+                    "message_payload_bytes": 6,
+                    "node_cost_sha256": "98d91501e329977912e5737004b54d3b470e7123d47b9aecd7db68d403da9234",
+                    "node_id": "emit",
+                    "operator": "typed_message_transform_and_emit",
+                    "output_bytes": 6,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 1
+                  }
+                ]
+              },
+              "node_output_bytes": 12,
+              "node_outputs": {
+                "sha256": "da2cfa7761dce5e2c802d8d3cff5efc9fbb90ea6c2f538c4c1f96b5a77e485ec",
+                "value": {
+                  "emit": [
+                    0.25
+                  ],
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "operations": 5,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [
+                {
+                  "sha256": "a6ec8372c2be8f2e1d57a9beadf6117726620ffcfa53157f860df49c799e0178",
+                  "value": {
+                    "activation_enabled": false,
+                    "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+                    "counterfactual_branch_id": "branch:g0-shadow/6f6276d835882131fc1434f6f228018af399782439b81503c906dc9f723fe249",
+                    "counterfactual_only": true,
+                    "edge_id": "out",
+                    "encoded_bytes": 6,
+                    "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+                    "factual_effects": false,
+                    "genotype_sha256": "28c192e33154fc8dd0de54d69183fbea5a74b0d358f397f18d4807d0aafd94b2",
+                    "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+                    "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                    "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                    "message_sha256": "96f820b2f90a8c2c5cb65ee8218760808e82737da33e8097c7e7229cf993eb01",
+                    "node_id": "emit",
+                    "payload": [
+                      0.25
+                    ],
+                    "payload_form": "numeric-vector",
+                    "payload_sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+                    "recipient": "actor:verification",
+                    "schema": "mop-escs-g0-staged-message/v1",
+                    "schema_id": "claim-v1",
+                    "scientific_promotion_allowed": false
+                  }
+                }
+              ],
+              "staged_state": {
+                "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+                "value": {
+                  "memory": [
+                    0.25
+                  ]
+                }
+              },
+              "staged_state_bytes": 17,
+              "work": {
+                "actor_execution": 5,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 1,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            },
+            "round_index": 0,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 0,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "113f1c633263f14df24144f7ac5b91310de9ff7149e0b22c3952eb23c907963d",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 5,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 1,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          },
+          {
+            "activation_enabled": false,
+            "activation_sha256": "fc93d38c2685da93c94b6e1766e28ff1e8ff1f88b1d4ff5bbafd70340660078b",
+            "actor_id": "verification",
+            "counterfactual_only": true,
+            "emitted_message_sha256s": [],
+            "enqueued_delivery_sha256s": [],
+            "factual_effects": false,
+            "factual_mutation_authorized": false,
+            "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+            "prior_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+            "problems": [],
+            "result": {
+              "activation_enabled": false,
+              "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+              "counterfactual_branch_id": "branch:g0-shadow/2d570b797f6a06ab07c339b0868760d20a3e430ad0c9b67a0c4b47985b5d5078",
+              "counterfactual_only": true,
+              "evaluation_sha256": "c1337ca42fa2c6ba8727c5cd331a8336516646e2366407a7cfd00aa8f9b8594a",
+              "evaluator_contract_sha256": "8cf02f4f6dd524e5b87665fa83793edb7b24e35711a629a7afb729d1c3935c3b",
+              "external_inputs": {
+                "sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                "value": {
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "factual_effects": false,
+              "genotype_sha256": "352212624a0b95f9be748f66a2e38e2f6b2f54590cdacc77d69969858eecc1ed",
+              "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+              "initial_state": {
+                "sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+                "value": {
+                  "memory": [
+                    0.0
+                  ]
+                }
+              },
+              "initial_state_bytes": 16,
+              "initial_state_sha256": "965c212ced3312ba7400ece517d05d1322f2c252854bd070d3a23a162833f71f",
+              "input_bytes": 17,
+              "input_sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+              "message_count": 0,
+              "message_envelope_bytes": 0,
+              "message_payload_bytes": 0,
+              "node_costs": {
+                "sha256": "1554acef8a5cbb89ae49a76c9b5e57f588dbaa5cd55dd817ce46d187b74d8713",
+                "value": [
+                  {
+                    "declared_operations": 4,
+                    "message_count": 0,
+                    "message_payload_bytes": 0,
+                    "node_cost_sha256": "3c0ec061bd6714422c712a035ea5ff314df43e49a68ca7cf8ceba485c66d66df",
+                    "node_id": "update",
+                    "operator": "affine_or_nonlinear_local_update",
+                    "output_bytes": 6,
+                    "schema": "mop-escs-g0-node-cost/v1",
+                    "status": "completed",
+                    "used_operations": 4
+                  }
+                ]
+              },
+              "node_output_bytes": 6,
+              "node_outputs": {
+                "sha256": "ed1cd6713549c805eabc1a3d2c789f14effa954f788a309b723b86ee7c0d0310",
+                "value": {
+                  "update": [
+                    0.25
+                  ]
+                }
+              },
+              "operations": 4,
+              "schema": "mop-escs-g0-counterfactual-evaluation/v1",
+              "scientific_promotion_allowed": false,
+              "staged_messages": [],
+              "staged_state": {
+                "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+                "value": {
+                  "memory": [
+                    0.25
+                  ]
+                }
+              },
+              "staged_state_bytes": 17,
+              "work": {
+                "actor_execution": 4,
+                "archival_and_erasure": 0,
+                "counterfactual_credit": 0,
+                "dispatch_and_exploration": 0,
+                "event_formation": 0,
+                "idle_floor": 0,
+                "indexing_and_graph_maintenance": 0,
+                "learning": 0,
+                "messages": 0,
+                "raw_transport_and_adapters": 0,
+                "retained_byte_time": 0
+              }
+            },
+            "resulting_state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            },
+            "round_index": 1,
+            "schema": "mop-escs-g0-shadow-activation/v1",
+            "scientific_promotion_allowed": false,
+            "sequence": 1,
+            "shadow_execution_authorized": false,
+            "source_delivery_sha256": "278eb4ccf78ac6357282973c243e71d9e07564d19ce88f9ab7cd1f624243db22",
+            "state_applied": true,
+            "status": "evaluated",
+            "work": {
+              "actor_execution": 4,
+              "archival_and_erasure": 0,
+              "counterfactual_credit": 0,
+              "dispatch_and_exploration": 0,
+              "event_formation": 0,
+              "idle_floor": 0,
+              "indexing_and_graph_maintenance": 0,
+              "learning": 0,
+              "messages": 0,
+              "raw_transport_and_adapters": 0,
+              "retained_byte_time": 0
+            }
+          }
+        ],
+        "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+        "completed_rounds": 2,
+        "counterfactual_only": true,
+        "declared_retained_state_bytes": 192,
+        "deliveries": [
+          {
+            "activation_enabled": false,
+            "available_round": 0,
+            "counterfactual_only": true,
+            "delivery_sha256": "113f1c633263f14df24144f7ac5b91310de9ff7149e0b22c3952eb23c907963d",
+            "factual_effects": false,
+            "kind": "seed",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "planning",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "stimulus-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": null,
+            "sequence": 0,
+            "source_sha256": "e64e24f07b96527103136dbc6b34931cd66b6a70ba57edf66501bf601b722016"
+          },
+          {
+            "activation_enabled": false,
+            "available_round": 1,
+            "counterfactual_only": true,
+            "delivery_sha256": "278eb4ccf78ac6357282973c243e71d9e07564d19ce88f9ab7cd1f624243db22",
+            "factual_effects": false,
+            "kind": "message",
+            "payload": {
+              "sha256": "f512f7ecf7ff038e0ebb6a4f1ee832b0951d1f96acd470c46ff0c5c6f23a06f6",
+              "value": [
+                0.25
+              ]
+            },
+            "payload_form": "numeric-vector",
+            "recipient_actor_id": "verification",
+            "schema": "mop-escs-g0-shadow-delivery/v1",
+            "schema_id": "claim-v1",
+            "scientific_promotion_allowed": false,
+            "sender_actor_id": "planning",
+            "sequence": 1,
+            "source_sha256": "96f820b2f90a8c2c5cb65ee8218760808e82737da33e8097c7e7229cf993eb01"
+          }
+        ],
+        "delivery_attempts": 2,
+        "effective_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba",
+        "episode_sha256": "e0fa4970eb89128957523580753802ac66f4ac6d900bff33d6c73a3b15d1973a",
+        "executor_contract_sha256": "8ac1820c9b9a3142eebd12315648b4646515b297a6e0bc37cb782581a4236160",
+        "factual_effects": false,
+        "factual_mutation_authorized": false,
+        "final_states": [
+          {
+            "actor_id": "planning",
+            "state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            }
+          },
+          {
+            "actor_id": "verification",
+            "state": {
+              "sha256": "fa88e66097ae0dea1f107ff861872735846ddcb1113fcb0033bd9df95f07f139",
+              "value": {
+                "memory": [
+                  0.25
+                ]
+              }
+            }
+          }
+        ],
+        "grammar_sha256": "a8f2a6de60a79a2f9aa64e3f0ea5cdb522798f5ee3f545a067bf402e2b9efae0",
+        "message_envelope_bytes": 1123,
+        "pending_delivery_count": 0,
+        "problems": [],
+        "produced_message_count": 1,
+        "retained_state_byte_rounds": 384,
+        "rollback_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba",
+        "routed_message_count": 1,
+        "routed_payload_bytes": 6,
+        "schema": "mop-escs-g0-shadow-trace/v1",
+        "scientific_promotion_allowed": false,
+        "shadow_execution_authorized": false,
+        "source_snapshot_sha256": "eac7c6b5299e9152c25d59cf193b764b5832e2381421edb1efedd095efae91ba",
+        "terminal_reason": "quiescent",
+        "trace_sha256": "382bcb400bdbb9a8591806b4cd42c1733fdf94b8a0aa1020fee134a62e6b1b33",
+        "work": {
+          "actor_execution": 9,
+          "archival_and_erasure": 0,
+          "counterfactual_credit": 0,
+          "dispatch_and_exploration": 2,
+          "event_formation": 0,
+          "idle_floor": 0,
+          "indexing_and_graph_maintenance": 4,
+          "learning": 0,
+          "messages": 1,
+          "raw_transport_and_adapters": 0,
+          "retained_byte_time": 384
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+schema: mop-local-throttle-task-overlay/v1
+baseline_policy_sha256: d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685
+baseline_manifest: proof/LOCAL_THROTTLE_POLICY_BASELINE_V1.json
+add_known_heavy_markers:
+  - run_edcm1_event_triggered_coalition.py
+  - run_escs_x0_event_formation.py
+  - tools/condense/audit_ladder.py
+  - tools/condense/doctor.py
+  - vendor/strand-quant/target/release/quantize-model
+  - bin/hf download
+  - bin/hf cache verify
+  - computexchange/agent/target/release
+execution_order:
+  escs_substrate_cpu:
+    - p5verify_cpu
+    - edcm1_official_cpu
+    - edcm1_verify_cpu
+    - escs_x0_official_cpu
+    - escs_x0_verify_cpu
+
+tasks:
+  edcm1_official_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 1
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      First official EDCM-1 v3 execution has no governed process-RSS receipt; it runs exclusively,
+      keeps every preregistered seed/control, and publishes the measured peak in its governor receipt.
+    forecast_write_gb: 0.25
+    atomic_write_gb: 0.05
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.checkpoint.json
+      - proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.json
+    restart_exit_codes: [2]
+    depends_on: [p5verify_cpu]
+    prerequisites: &p5_and_substrate_ready
+      - path: proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json
+        schema: mop-p5-context-independent-verifier/v1
+        fields:
+          verification_complete: true
+          all_ok: true
+          prerequisite_ready: true
+          problems: []
+          all_controls_passed: true
+          all_mutations_rejected: true
+          controls.seed_arm_checkpoint_artifacts_exactly_joined: true
+          controls.nonterminal_outcome_has_off_ceiling_multiunit_support: true
+          controls.threshold_tie_is_null: true
+          independence.checkpoint_files_opened_with_weights_only: true
+          independence.checkpoint_model_and_target_state_hashes_recomputed: true
+          independence.heldout_metrics_reexecuted_from_checkpoint: false
+          outcome_contract.tie_is_null: true
+          promotion.confirmatory_promotable: false
+          scientific_promotion: false
+      - path: proof/ESCS_SUBSTRATE_PREFLIGHT.json
+        schema: mop-escs-substrate-preflight-report/v1
+        fields:
+          scaffold_ready: true
+          activation_ready: false
+          problems: []
+          default_quiescent: true
+          perspective_count: 31
+          installed_slot_count: 31
+          binding_count: 9
+          exact_binding_count: 9
+          topology_status: scaffold
+          topology_implementation_complete: false
+          manifest_sha256: 0cc1e60718b71ac9e74ab33057545691c86d2a579d09de89346b8c86eb23ffde
+          report_sha256: 5b896fdaf89f5aef4772f25cf9cf052fd9c3e2632a0631ef8b65ce5ec8b9c0bc
+          scientific_promotion_allowed: false
+    resource_probe: true
+    requires_empty_lanes: true
+    command:
+      - .venv/bin/python
+      - scripts/run_edcm1_event_triggered_coalition.py
+      - --out
+      - proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.json
+      - --checkpoint
+      - proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.checkpoint.json
+      - --implementation-authority-sha256
+      - 5c64fbb99788b43c51abb66c3d77e68204326183916cecc73a93d3be28adeff8
+      - --verifier-mode
+      - full-deterministic-regeneration/v1
+      - --max-new-seeds
+      - "1"
+
+  edcm1_verify_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 1
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      First full deterministic EDCM-1 regeneration has no governed RSS receipt; it is exclusive and
+      publishes a distinct atomic verification artifact without changing the scientific configuration.
+    forecast_write_gb: 0.25
+    atomic_write_gb: 0.05
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.verification.json
+    restart_exit_codes: []
+    depends_on: [edcm1_official_cpu]
+    prerequisites:
+      - path: proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.json
+        schema: mop-edcm1-receipt/v3
+        fields:
+          all_ok: true
+          problems: []
+          resumable: false
+          scientific_promotion: false
+          implementation_authority_sha256: 5c64fbb99788b43c51abb66c3d77e68204326183916cecc73a93d3be28adeff8
+    resource_probe: true
+    requires_empty_lanes: true
+    command:
+      - .venv/bin/python
+      - scripts/run_edcm1_event_triggered_coalition.py
+      - --verify
+      - proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.json
+      - --verification-out
+      - proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.verification.json
+      - --implementation-authority-sha256
+      - 5c64fbb99788b43c51abb66c3d77e68204326183916cecc73a93d3be28adeff8
+      - --verifier-mode
+      - full-deterministic-regeneration/v1
+
+  escs_x0_official_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 1
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      First governed X0 execution has no measured process-RSS authority; it runs exclusively and
+      advances only one complete paired-seed boundary per resumable governor invocation.
+    forecast_write_gb: 0.25
+    atomic_write_gb: 0.05
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - proof/ESCS_X0_EVENT_FORMATION.checkpoint.json
+      - proof/ESCS_X0_EVENT_FORMATION.json
+    restart_exit_codes: [2]
+    depends_on: [p5verify_cpu]
+    prerequisites: *p5_and_substrate_ready
+    resource_probe: true
+    requires_empty_lanes: true
+    command:
+      - .venv/bin/python
+      - scripts/run_escs_x0_event_formation.py
+      - --output
+      - proof/ESCS_X0_EVENT_FORMATION.json
+      - --checkpoint
+      - proof/ESCS_X0_EVENT_FORMATION.checkpoint.json
+      - --implementation-authority-sha256
+      - 3ada805ce564141694927de541121e1f57137533df987352302cca4409f36433
+      - --max-new-seeds
+      - "1"
+
+  escs_x0_verify_cpu:
+    lane: heavy
+    accelerator: none
+    cpu_cores: 1
+    estimated_unified_memory_gb: null
+    estimated_mps_gb: 0.0
+    resource_basis: >-
+      First disjoint X0 regeneration/fresh verification has no governed RSS receipt; it runs
+      exclusively and publishes an atomic verification artifact under the same frozen authority.
+    forecast_write_gb: 0.25
+    atomic_write_gb: 0.05
+    wall_minutes: 300
+    pause_safe: true
+    atomic_checkpoints: true
+    checkpoint_globs:
+      - proof/ESCS_X0_EVENT_FORMATION.verification.json
+    restart_exit_codes: []
+    depends_on: [escs_x0_official_cpu]
+    prerequisites:
+      - path: proof/ESCS_X0_EVENT_FORMATION.json
+        schema: mop-escs-x0-receipt/v1
+        fields:
+          execution_status: complete
+          resumable: false
+          all_ok: true
+          scientific_promotion: false
+          implementation_authority.manifest_sha256: 3ada805ce564141694927de541121e1f57137533df987352302cca4409f36433
+    resource_probe: true
+    requires_empty_lanes: true
+    command:
+      - .venv/bin/python
+      - scripts/run_escs_x0_event_formation.py
+      - --verify
+      - proof/ESCS_X0_EVENT_FORMATION.json
+      - --verification-out
+      - proof/ESCS_X0_EVENT_FORMATION.verification.json
+      - --implementation-authority-sha256
+      - 3ada805ce564141694927de541121e1f57137533df987352302cca4409f36433

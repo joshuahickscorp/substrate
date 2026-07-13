@@ -41,6 +41,8 @@ from ..studies.continual_million_event_verify import (
 from ..studies.continual_million_event_verify import (
     build_verification_receipt as build_p6_verification_receipt,
 )
+from . import external_coexistence as coexistence
+from . import task_policy_authority as task_policy
 from .profiles import get_profile
 
 POLICY_SCHEMA = "mop-local-execution-throttle-policy/v1"
@@ -48,6 +50,7 @@ TELEMETRY_SCHEMA = "mop-local-host-telemetry/v1"
 DECISION_SCHEMA = "mop-local-throttle-decision/v1"
 RECEIPT_SCHEMA = "mop-local-throttle-receipt/v1"
 COMPLETION_AUTHORITY_SCHEMA = "mop-local-throttle-completion-authority/v1"
+PROGRESS_AUTHORITY_SCHEMA = "mop-local-throttle-progress-authority/v1"
 REGISTRY_SCHEMA = "mop-local-throttle-active-registry/v1"
 PAYLOAD_DIGEST_REQUIRED_SCHEMAS = frozenset(
     {
@@ -62,15 +65,92 @@ PAYLOAD_DIGEST_REQUIRED_SCHEMAS = frozenset(
 LANES = frozenset({"heavy", "cpu", "network", "light"})
 ACCELERATORS = frozenset({"none", "mps"})
 SECOND_LANES = frozenset({"cpu", "network", "light"})
+EXTERNAL_COEXISTENCE_PROFILE = "hawking_serial_cpu_v1"
+EXTERNAL_COEXISTENCE_TASKS = frozenset(
+    {
+        "edcm1_official_cpu",
+        "edcm1_verify_cpu",
+        "escs_x0_official_cpu",
+        "escs_x0_verify_cpu",
+    }
+)
+SEED_BOUNDARY_TASKS = frozenset({"edcm1_official_cpu", "escs_x0_official_cpu"})
+TASKPOLICY_COEXISTENCE_PREFIX = (
+    "/usr/sbin/taskpolicy",
+    "-b",
+    "-d",
+    "throttle",
+    "-c",
+    "background",
+    "-m",
+    "4096",
+    "-P",
+    "kill",
+    "/usr/bin/env",
+    "OMP_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "VECLIB_MAXIMUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+)
+TASKPOLICY_COEXISTENCE_CAP_GB = 4096 * 1024 * 1024 / 1e9
 DEFAULT_POLICY = REPO_ROOT / "configs/local_execution_throttle.yaml"
 DEFAULT_STATE_ROOT = REPO_ROOT / "runs/local_throttle"
 IMPLEMENTATION_PATH = Path(__file__).resolve()
-# Completed receipts remain valid across explicitly reviewed, backward-compatible governor fixes.
-# The hash below produced the completed P5 smoke immediately before descendant process-group
-# ownership was fixed. Arbitrary historic hashes remain invalid.
-COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256 = frozenset(
-    {"73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7"}
+TASK_POLICY_HELPER_PATH = Path(task_policy.__file__).resolve()
+TASK_POLICY_HELPER_SHA256 = "7a31d461e3fb795ff137816696c82139903bde5ac2e19462a2c61c4fbf52780e"
+EXTERNAL_COEXISTENCE_HELPER_PATH = Path(coexistence.__file__).resolve()
+EXTERNAL_COEXISTENCE_HELPER_SHA256 = (
+    "425baed83d9f6875722afe6dfba1d52dedd80625de9f8925e18ddf894a3c365a"
 )
+HAWKING_ROOT = Path.home() / "Downloads/hawking"
+HAWKING_PYTHON = Path(
+    "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python"
+)
+OUTPUT_AUTHORITY_FLAGS = ("--out", "--output", "--verification-out")
+# Completed receipts remain valid across explicitly reviewed, backward-compatible governor fixes.
+# These are identifiers only. Historic completion authority is granted exclusively by an exact,
+# self-sealed legacy baseline below; membership in this set alone is never sufficient.
+COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256 = frozenset(
+    {
+        "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7",
+        "bd7dd790460adc7760620007c691e3c345e89d9630c303abf40de59b924fddfb",
+        "a1a8d4e3d6ca23d50808e6657eaa6c68eadffa4d8f29d81f98da49b4eb014d40",
+    }
+)
+LEGACY_POLICY_BASELINE_BINDINGS = (
+    (
+        REPO_ROOT / "proof/LOCAL_THROTTLE_POLICY_BASELINE_V0.json",
+        "228916fc01f99796179aa7d9402fb46c974c602c28951d0a0e981e2678582f37",
+        "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7",
+    ),
+    (
+        REPO_ROOT / "proof/LOCAL_THROTTLE_POLICY_BASELINE_V1.json",
+        "6203b72f8e12bedecc3f7aa460c7d6e9a9827c28a1c052d7928c1fe8c6ca65a6",
+        "bd7dd790460adc7760620007c691e3c345e89d9630c303abf40de59b924fddfb",
+    ),
+    (
+        REPO_ROOT / "proof/LOCAL_THROTTLE_POLICY_BASELINE_V2.json",
+        "4c34619ea2a7bdcde9526f9c86245cc990c6c6aaaad8e59abb1c06f37d7fd5ce",
+        "a1a8d4e3d6ca23d50808e6657eaa6c68eadffa4d8f29d81f98da49b4eb014d40",
+    ),
+)
+ESCS_PREFLIGHT_SCHEMA = "mop-escs-substrate-preflight-report/v1"
+EDCM_RECEIPT_SCHEMA = "mop-edcm1-receipt/v3"
+EDCM_VERIFICATION_SCHEMA = "mop-edcm1-verification-artifact/v1"
+X0_RECEIPT_SCHEMA = "mop-escs-x0-receipt/v1"
+X0_VERIFICATION_SCHEMA = "mop-escs-x0-verification/v1"
+EDCM_RECEIPT_PATH = "proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.json"
+EDCM_VERIFICATION_PATH = "proof/EDCM1_EVENT_TRIGGERED_COALITION_V3.verification.json"
+X0_RECEIPT_PATH = "proof/ESCS_X0_EVENT_FORMATION.json"
+X0_VERIFICATION_PATH = "proof/ESCS_X0_EVENT_FORMATION.verification.json"
+NATIVE_SEAL_FIELDS = {
+    ESCS_PREFLIGHT_SCHEMA: "report_sha256",
+    EDCM_RECEIPT_SCHEMA: "receipt_sha256",
+    EDCM_VERIFICATION_SCHEMA: "verification_artifact_sha256",
+    X0_RECEIPT_SCHEMA: "receipt_sha256",
+    X0_VERIFICATION_SCHEMA: "verification_sha256",
+}
 P5_SCREEN_SCHEMA = "mop-p5-context-screen/v1"
 P5_GRID_SCHEMA = "mop-p5-traingrid-memory-trace/v1"
 P5_CHALLENGE_SCHEMA = "mop-p5-context-fresh-training-challenge/v1"
@@ -156,6 +236,20 @@ P6_VERIFIER_IMPLEMENTATION_PATHS = (
     "scripts/continual_million_event_rung.py",
     "configs/experiment/continual_million_event_rungs.yaml",
     "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json",
+)
+GOVERNED_PROVENANCE_SCHEMAS = frozenset(
+    {
+        P5_SCREEN_SCHEMA,
+        P5_GRID_SCHEMA,
+        P5_CHALLENGE_SCHEMA,
+        P5_VERIFIER_SCHEMA,
+        P6_RUNG_SCHEMA,
+        P6_VERIFIER_SCHEMA,
+        EDCM_RECEIPT_SCHEMA,
+        EDCM_VERIFICATION_SCHEMA,
+        X0_RECEIPT_SCHEMA,
+        X0_VERIFICATION_SCHEMA,
+    }
 )
 
 
@@ -322,6 +416,33 @@ class TaskDeclaration:
         return problems
 
 
+def _external_coexistence_task_problems(task: TaskDeclaration) -> list[str]:
+    problems: list[str] = []
+    if task.task_id not in EXTERNAL_COEXISTENCE_TASKS:
+        problems.append("task id is outside the reviewed EDCM/X0 coexistence set")
+    if task.lane != "cpu" or task.accelerator != "none" or task.cpu_cores != 1:
+        problems.append("coexistence is restricted to a one-core CPU lane")
+    if task.estimated_unified_memory_gb != TASKPOLICY_COEXISTENCE_CAP_GB:
+        problems.append("task must declare the exact 4096-MiB taskpolicy cap")
+    if task.resource_probe:
+        problems.append("kernel-bounded coexistence tasks are declared, not unmeasured, probes")
+    if not task.requires_empty_lanes:
+        problems.append("coexistence task must remain exclusive within the MOP scheduler")
+    if not task.pause_safe or not task.atomic_checkpoints or not task.checkpoint_globs:
+        problems.append("coexistence task must retain an atomic pause/replay authority")
+    if task.command[: len(TASKPOLICY_COEXISTENCE_PREFIX)] != TASKPOLICY_COEXISTENCE_PREFIX:
+        problems.append("task must use the pinned background 4096-MiB taskpolicy wrapper")
+    return problems
+
+
+def _is_external_coexistence_task(task: TaskDeclaration) -> bool:
+    return not _external_coexistence_task_problems(task)
+
+
+def _is_seed_boundary_task(task: TaskDeclaration) -> bool:
+    return task.task_id in SEED_BOUNDARY_TASKS and _is_external_coexistence_task(task)
+
+
 @dataclass(frozen=True)
 class ThrottlePolicy:
     path: Path
@@ -371,23 +492,123 @@ def _json_value(value: Any) -> Any:
     return json.loads(json.dumps(value, sort_keys=True, allow_nan=False))
 
 
-def _task_output_path(task: TaskDeclaration) -> str | None:
-    """Return the single repository-relative --out target declared by a task."""
+def _assert_task_policy_helper_pin() -> None:
+    try:
+        observed = _sha256_file(TASK_POLICY_HELPER_PATH)
+    except OSError as exc:
+        raise ThrottleRefused(f"task-policy helper is unreadable: {type(exc).__name__}") from exc
+    if observed != TASK_POLICY_HELPER_SHA256:
+        raise ThrottleRefused("task-policy helper implementation drifted from the governor-pinned authority")
 
-    indexes = [index for index, value in enumerate(task.command) if value == "--out"]
+
+def _assert_external_coexistence_helper_pin() -> None:
+    try:
+        observed = _sha256_file(EXTERNAL_COEXISTENCE_HELPER_PATH)
+    except OSError as exc:
+        raise ThrottleRefused(
+            f"external-coexistence helper is unreadable: {type(exc).__name__}"
+        ) from exc
+    if observed != EXTERNAL_COEXISTENCE_HELPER_SHA256:
+        raise ThrottleRefused(
+            "external-coexistence helper implementation drifted from the governor-pinned authority"
+        )
+
+
+def _hawking_coexistence_profile() -> coexistence.HawkingSerialCPUProfile:
+    _assert_external_coexistence_helper_pin()
+    return coexistence.HawkingSerialCPUProfile.create(
+        root=HAWKING_ROOT,
+        python_executable=HAWKING_PYTHON,
+        expected_uid=os.getuid(),
+    )
+
+
+def _task_policy_context(policy: ThrottlePolicy, task: TaskDeclaration) -> dict[str, Any]:
+    safety = task_policy.build_policy_safety_contract(
+        profile=get_profile(policy.profile_name).as_dict(),
+        limits=policy.limits,
+        monitor=policy.monitor,
+        thresholds=policy.thresholds,
+    )
+    return {
+        "policy_schema": POLICY_SCHEMA,
+        "policy_path": str(policy.path),
+        "full_policy_sha256": policy.sha256,
+        "profile_name": policy.profile_name,
+        "safety_contract": safety,
+        "foreground_markers": tuple(str(value) for value in policy.monitor["foreground_markers"]),
+        "known_heavy_markers": tuple(str(value) for value in policy.monitor["known_heavy_markers"]),
+        "task_id": task.task_id,
+        "task_payload": _json_value(asdict(task)),
+    }
+
+
+def _build_task_policy_authority(
+    policy: ThrottlePolicy,
+    task: TaskDeclaration,
+) -> dict[str, Any]:
+    _assert_task_policy_helper_pin()
+    return task_policy.build_task_policy_authority(**_task_policy_context(policy, task))
+
+
+def _load_legacy_policy_baselines() -> tuple[dict[str, Any], ...]:
+    _assert_task_policy_helper_pin()
+    manifests: list[dict[str, Any]] = []
+    identities: set[tuple[str, str, str, str]] = set()
+    for path, expected_manifest_sha256, expected_governor_sha256 in LEGACY_POLICY_BASELINE_BINDINGS:
+        try:
+            loaded = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ThrottleRefused(
+                f"reviewed legacy baseline {path.name} is unreadable: {type(exc).__name__}"
+            ) from exc
+        if not isinstance(loaded, dict):
+            raise ThrottleRefused(f"reviewed legacy baseline {path.name} is not an object")
+        problems = task_policy.policy_baseline_manifest_problems(loaded)
+        if problems:
+            raise ThrottleRefused(f"reviewed legacy baseline {path.name} is invalid: {'; '.join(problems)}")
+        implementation = loaded.get("governor_implementation")
+        if (
+            loaded.get("manifest_sha256") != expected_manifest_sha256
+            or not isinstance(implementation, dict)
+            or implementation.get("sha256") != expected_governor_sha256
+        ):
+            raise ThrottleRefused(f"reviewed legacy baseline {path.name} binding drifted")
+        policy_binding = loaded.get("policy")
+        if not isinstance(policy_binding, dict):
+            raise ThrottleRefused(f"reviewed legacy baseline {path.name} policy binding is invalid")
+        identity = (
+            str(policy_binding.get("path")),
+            str(policy_binding.get("sha256")),
+            str(implementation.get("path")),
+            str(implementation.get("sha256")),
+        )
+        if identity in identities:
+            raise ThrottleRefused("reviewed legacy policy baselines contain an ambiguous identity")
+        identities.add(identity)
+        manifests.append(loaded)
+    return tuple(manifests)
+
+
+def _task_output_path(task: TaskDeclaration) -> str | None:
+    """Return the task's single repository-relative output-authority target."""
+
+    indexes = [index for index, value in enumerate(task.command) if value in OUTPUT_AUTHORITY_FLAGS]
     if not indexes:
         return None
     if len(indexes) != 1 or indexes[0] + 1 >= len(task.command):
-        raise ThrottleRefused(f"task {task.task_id}: command must declare exactly one --out target")
+        raise ThrottleRefused(
+            f"task {task.task_id}: command must declare exactly one output-authority target"
+        )
     value = task.command[indexes[0] + 1]
     path = Path(value)
-    if not value or path.is_absolute() or ".." in path.parts:
-        raise ThrottleRefused(f"task {task.task_id}: --out target must be repository-relative")
+    if not value or value.startswith("-") or path.is_absolute() or ".." in path.parts:
+        raise ThrottleRefused(f"task {task.task_id}: output-authority target must be repository-relative")
     return value
 
 
 def _requires_completion_provenance(task: TaskDeclaration) -> bool:
-    return task.task_id.startswith(("p5", "p6"))
+    return task.task_id.startswith(("p5", "p6", "edcm1_", "escs_x0_"))
 
 
 def _command_sha256(command: tuple[str, ...] | list[str]) -> str:
@@ -698,7 +919,11 @@ def _p5_strict_patterns(payload: dict[str, Any]) -> list[dict[str, Any]]:
         contrasts = payload.get(field)
         if not isinstance(contrasts, dict):
             continue
-        for key, row in contrasts.items():
+        for registered_mechanism in P5_MECHANISMS:
+            if registered_mechanism == "exact_global":
+                continue
+            key = f"exact_minus_{registered_mechanism}"
+            row = contrasts.get(key)
             if not isinstance(row, dict):
                 continue
             count, lo, hi = row.get("n"), row.get("lo"), row.get("hi")
@@ -2771,6 +2996,8 @@ def _p6_verifier_authority_problems(payload: dict[str, Any], evidence_root: Path
 
 
 def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
+    _assert_task_policy_helper_pin()
+    _assert_external_coexistence_helper_pin()
     policy_path = Path(path).resolve()
     raw = yaml.safe_load(policy_path.read_text())
     if not isinstance(raw, dict) or raw.get("schema") != POLICY_SCHEMA:
@@ -2795,6 +3022,14 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
             problems.append(f"thresholds.{name} must be a mapping")
     if "p5_context_fresh_challenge.py" not in monitor.get("known_heavy_markers", []):
         problems.append("monitor.known_heavy_markers must include the P5 fresh challenge")
+    for field in ("foreground_markers", "known_heavy_markers"):
+        markers = monitor.get(field)
+        if (
+            not isinstance(markers, list)
+            or any(not isinstance(value, str) or not value.strip() for value in markers)
+            or len(markers) != len(set(markers))
+        ):
+            problems.append(f"monitor.{field} must be a unique nonempty-string list")
     tasks_raw = raw.get("tasks")
     if not isinstance(tasks_raw, dict) or not tasks_raw:
         problems.append("tasks must be a non-empty mapping")
@@ -2816,6 +3051,23 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
         task = TaskDeclaration.from_mapping(str(task_id), value)
         tasks[task.task_id] = task
         problems.extend(f"task {task.task_id}: {problem}" for problem in task.validate(hard_wall))
+        coexistence_value = value.get("external_coexistence")
+        invocation_value = value.get("max_invocations_per_run")
+        if coexistence_value is not None:
+            if coexistence_value != EXTERNAL_COEXISTENCE_PROFILE:
+                problems.append(f"task {task.task_id}: external coexistence profile is unsupported")
+            problems.extend(
+                f"task {task.task_id}: {problem}"
+                for problem in _external_coexistence_task_problems(task)
+            )
+            if task.task_id in SEED_BOUNDARY_TASKS and invocation_value != 1:
+                problems.append(
+                    f"task {task.task_id}: every run must yield after exactly one invocation"
+                )
+            if task.task_id not in SEED_BOUNDARY_TASKS and invocation_value is not None:
+                problems.append(f"task {task.task_id}: full verifier must not yield between invocations")
+        elif invocation_value is not None:
+            problems.append(f"task {task.task_id}: invocation yield is not reviewed")
     order_raw = raw.get("execution_order") or {}
     if not isinstance(order_raw, dict):
         problems.append("execution_order must be a mapping")
@@ -2906,7 +3158,9 @@ def load_policy(path: Path | str = DEFAULT_POLICY) -> ThrottlePolicy:
                 problems.append(str(exc))
                 output_path = None
             if output_path is None or output_path not in task.checkpoint_globs:
-                problems.append(f"task {task_id}: every P5/P6 output must be in checkpoint_globs")
+                problems.append(
+                    f"task {task_id}: every provenance-governed output must be in checkpoint_globs"
+                )
     for task_id, expected_dependencies in expected_p6_dependencies.items():
         p6_task = tasks.get(task_id)
         if p6_task is not None and p6_task.depends_on != expected_dependencies:
@@ -3669,6 +3923,46 @@ def _processes(
             if any(marker in foreground_searchable for marker in foreground_markers):
                 foreground.append(row)
             if any(marker in searchable for marker in heavy_markers):
+                identity_error: str | None = None
+                try:
+                    environment = process.environ()
+                    row = {
+                        **row,
+                        "uid": int(process.uids().real),
+                        "create_time": float(process.create_time()),
+                        "exe": process.exe(),
+                        "cwd": process.cwd(),
+                        "cmdline": argv,
+                        "rss_bytes": int(process.memory_info().rss),
+                        "cpu_percent": float(process.cpu_percent(interval=0.01)),
+                        "environment": {
+                            "DOCTOR_DEVICE": environment.get("DOCTOR_DEVICE"),
+                            "CUDA_VISIBLE_DEVICES": environment.get("CUDA_VISIBLE_DEVICES"),
+                            "PYTORCH_ENABLE_MPS_FALLBACK": environment.get(
+                                "PYTORCH_ENABLE_MPS_FALLBACK"
+                            ),
+                        },
+                    }
+                except (
+                    AttributeError,
+                    psutil.AccessDenied,
+                    psutil.NoSuchProcess,
+                    psutil.ZombieProcess,
+                    OSError,
+                ) as exc:
+                    identity_error = f"{type(exc).__name__}: {exc}"
+                    row = {
+                        **row,
+                        "uid": None,
+                        "create_time": None,
+                        "exe": None,
+                        "cwd": None,
+                        "cmdline": argv,
+                        "rss_bytes": None,
+                        "cpu_percent": None,
+                        "environment": None,
+                    }
+                row["identity_error"] = identity_error
                 unmanaged_heavy.append(row)
         except (psutil.AccessDenied, psutil.NoSuchProcess, psutil.ZombieProcess):
             inaccessible += 1
@@ -3877,6 +4171,23 @@ def _producer_tasks_for_receipt(
         else:
             expected_task = None
         candidates = [task for task in candidates if task.task_id == expected_task]
+    substrate_producers = {
+        (EDCM_RECEIPT_PATH, EDCM_RECEIPT_SCHEMA): "edcm1_official_cpu",
+        (EDCM_VERIFICATION_PATH, EDCM_VERIFICATION_SCHEMA): "edcm1_verify_cpu",
+        (X0_RECEIPT_PATH, X0_RECEIPT_SCHEMA): "escs_x0_official_cpu",
+        (X0_VERIFICATION_PATH, X0_VERIFICATION_SCHEMA): "escs_x0_verify_cpu",
+    }
+    payload_schema = payload.get("schema")
+    expected_substrate_task = (
+        substrate_producers.get((receipt_path, payload_schema)) if isinstance(payload_schema, str) else None
+    )
+    if receipt_path in {
+        EDCM_RECEIPT_PATH,
+        EDCM_VERIFICATION_PATH,
+        X0_RECEIPT_PATH,
+        X0_VERIFICATION_PATH,
+    }:
+        candidates = [task for task in candidates if task.task_id == expected_substrate_task]
     return candidates
 
 
@@ -3897,16 +4208,14 @@ def _completion_receipt_problems(
     expected_task = _json_value(asdict(task))
     expected_command = list(task.command)
     expected_command_sha = _command_sha256(task.command)
-    expected_policy = {"path": str(policy.path), "sha256": policy.sha256}
     current_implementation = {
         "path": str(IMPLEMENTATION_PATH.relative_to(REPO_ROOT)),
         "sha256": _sha256_file(IMPLEMENTATION_PATH),
     }
+    declared_policy = receipt.get("policy")
     declared_implementation = receipt.get("implementation")
-    compatible_implementation_hashes = {
-        current_implementation["sha256"],
-        *COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256,
-    }
+    declared_task = receipt.get("task")
+    embedded_task_policy_authority = receipt.get("task_policy_authority")
     if receipt.get("schema") != RECEIPT_SCHEMA or receipt.get("mode") != "execute":
         problems.append("governor run receipt schema or mode drift")
     if (
@@ -3915,15 +4224,42 @@ def _completion_receipt_problems(
         or receipt.get("final_returncode") != 0
     ):
         problems.append("governor run did not complete with return code zero")
-    if receipt.get("policy") != expected_policy:
-        problems.append("governor run current policy binding drift")
+    if declared_task != expected_task:
+        problems.append("governor run exact task declaration drift")
     if not isinstance(declared_implementation, dict) or (
         declared_implementation.get("path") != current_implementation["path"]
-        or declared_implementation.get("sha256") not in compatible_implementation_hashes
     ):
-        problems.append("governor run current implementation binding drift")
-    if receipt.get("task") != expected_task:
-        problems.append("governor run exact task declaration drift")
+        problems.append("governor run implementation path drift")
+    if embedded_task_policy_authority is not None and (
+        not isinstance(declared_implementation, dict)
+        or declared_implementation.get("sha256") != current_implementation["sha256"]
+    ):
+        problems.append("embedded task-policy authority uses a noncurrent governor implementation")
+    try:
+        legacy_manifests = _load_legacy_policy_baselines() if embedded_task_policy_authority is None else ()
+        current_context = _task_policy_context(policy, task)
+        problems.extend(
+            task_policy.receipt_task_policy_authority_problems(
+                declared_policy=declared_policy,
+                declared_implementation=declared_implementation,
+                declared_task_id=(
+                    str(declared_task.get("task_id", "")) if isinstance(declared_task, dict) else ""
+                ),
+                declared_task_payload=declared_task if isinstance(declared_task, dict) else {},
+                embedded_authority=embedded_task_policy_authority,
+                legacy_manifests=legacy_manifests,
+                current_policy_schema=current_context["policy_schema"],
+                current_policy_path=current_context["policy_path"],
+                current_full_policy_sha256=current_context["full_policy_sha256"],
+                current_profile_name=current_context["profile_name"],
+                current_safety_contract=current_context["safety_contract"],
+                current_foreground_markers=current_context["foreground_markers"],
+                current_known_heavy_markers=current_context["known_heavy_markers"],
+                current_task_payload=current_context["task_payload"],
+            )
+        )
+    except (OSError, TypeError, ValueError, ThrottleRefused) as exc:
+        problems.append(f"governor task-policy authority invalid: {type(exc).__name__}: {exc}")
     invocations = receipt.get("invocations")
     if not isinstance(invocations, list) or not invocations:
         problems.append("governor run has no completed invocation")
@@ -3962,8 +4298,9 @@ def _completion_receipt_problems(
         or completion.get("task") != expected_task
         or completion.get("command") != expected_command
         or completion.get("command_sha256") != expected_command_sha
-        or completion.get("policy") != expected_policy
+        or completion.get("policy") != declared_policy
         or completion.get("implementation") != declared_implementation
+        or completion.get("task_policy_authority") != embedded_task_policy_authority
         or completion.get("returncode") != 0
         or completion.get("output") != {"path": output_path, "sha256": output_sha}
         or completion.get("final_checkpoint_aggregate_sha256") != current_snapshot["aggregate_sha256"]
@@ -4008,9 +4345,7 @@ def _governor_provenance_report(
     producers = _producer_tasks_for_receipt(receipt_path, payload, policy)
     problems: list[str] = []
     if len(producers) != 1:
-        problems.append(
-            f"receipt maps to {len(producers)} canonical P5/P6 producer tasks, expected exactly one"
-        )
+        problems.append(f"receipt maps to {len(producers)} governed producer tasks, expected exactly one")
         return {
             "all_ok": False,
             "producer_task_id": None,
@@ -4063,6 +4398,134 @@ def _governor_provenance_report(
     }
 
 
+def _scoped_file_receipt(path: Path, evidence_root: Path) -> dict[str, Any]:
+    raw = path.read_bytes()
+    try:
+        label = str(path.resolve().relative_to(evidence_root.resolve()))
+    except ValueError:
+        label = str(path.resolve())
+    return {"path": label, "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def _joined_producer_payload(
+    relative_path: str,
+    expected_schema: str,
+    evidence_root: Path,
+) -> tuple[dict[str, Any], dict[str, Any] | None, list[str]]:
+    path = (evidence_root / relative_path).resolve()
+    problems: list[str] = []
+    if not path.is_relative_to(evidence_root.resolve()) or not path.is_file():
+        return {}, None, [f"joined producer {relative_path} is missing or escapes the evidence root"]
+    try:
+        loaded = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        return {}, None, [f"joined producer is unreadable: {type(exc).__name__}"]
+    payload = loaded if isinstance(loaded, dict) else {}
+    if payload.get("schema") != expected_schema:
+        problems.append("joined producer schema drift")
+    problems.extend(_native_schema_authority_problems(expected_schema, payload, evidence_root))
+    try:
+        file_receipt = _scoped_file_receipt(path, evidence_root)
+    except OSError as exc:
+        problems.append(f"joined producer changed during validation: {type(exc).__name__}")
+        file_receipt = None
+    return payload, file_receipt, problems
+
+
+def _native_schema_authority_problems(
+    schema: str,
+    payload: dict[str, Any],
+    evidence_root: Path,
+) -> list[str]:
+    """Validate native substrate seals and cheap exact producer joins."""
+
+    problems: list[str] = []
+    seal_field = NATIVE_SEAL_FIELDS.get(schema)
+    if seal_field is None:
+        return problems
+    if payload.get("schema") != schema:
+        problems.append("native authority schema drift")
+        return problems
+    core = dict(payload)
+    declared_seal = core.pop(seal_field, None)
+    if not _is_sha256(declared_seal) or declared_seal != _canonical_sha256(core):
+        problems.append(f"native {schema} {seal_field} drift")
+    if schema == ESCS_PREFLIGHT_SCHEMA:
+        if payload.get("scientific_promotion_allowed") is not False:
+            problems.append("substrate preflight scientific promotion escaped")
+        return problems
+    if payload.get("scientific_promotion") is not False:
+        problems.append("native substrate scientific promotion escaped")
+    if schema == EDCM_RECEIPT_SCHEMA:
+        deterministic_core = dict(core)
+        declared_deterministic = deterministic_core.pop("deterministic_core_sha256", None)
+        if not _is_sha256(declared_deterministic) or declared_deterministic != _canonical_sha256(
+            deterministic_core
+        ):
+            problems.append("EDCM deterministic core seal drift")
+        return problems
+    if schema == EDCM_VERIFICATION_SCHEMA:
+        producer, producer_file, producer_problems = _joined_producer_payload(
+            EDCM_RECEIPT_PATH,
+            EDCM_RECEIPT_SCHEMA,
+            evidence_root,
+        )
+        problems.extend(producer_problems)
+        verification = payload.get("verification")
+        if not isinstance(verification, dict):
+            problems.append("EDCM verification result is missing")
+            return problems
+        sources = verification.get("verified_sources")
+        if not isinstance(sources, dict) or producer_file is None:
+            problems.append("EDCM verified producer sources are missing")
+        else:
+            if sources.get("receipt") != producer_file:
+                problems.append("EDCM verifier producer file join drift")
+            declared_path = sources.get("receipt_path")
+            if not isinstance(declared_path, str):
+                problems.append("EDCM verifier producer path is missing")
+            else:
+                source_path = Path(declared_path)
+                resolved = (
+                    source_path.resolve()
+                    if source_path.is_absolute()
+                    else (evidence_root / source_path).resolve()
+                )
+                if resolved != (evidence_root / EDCM_RECEIPT_PATH).resolve():
+                    problems.append("EDCM verifier producer path join drift")
+        if verification.get("authority_sha256") != producer.get("authority_sha256"):
+            problems.append("EDCM verifier config authority join drift")
+        if verification.get("implementation_authority_sha256") != producer.get(
+            "implementation_authority_sha256"
+        ):
+            problems.append("EDCM verifier implementation authority join drift")
+        if verification.get("execution_status") != producer.get("execution_status"):
+            problems.append("EDCM verifier execution-status join drift")
+        if verification.get("verdict") != _dotted_value(producer, "aggregate.verdict"):
+            problems.append("EDCM verifier verdict join drift")
+        if verification.get("scientific_promotion") is not False:
+            problems.append("EDCM verification scientific promotion escaped")
+        return problems
+    if schema == X0_VERIFICATION_SCHEMA:
+        producer, producer_file, producer_problems = _joined_producer_payload(
+            X0_RECEIPT_PATH,
+            X0_RECEIPT_SCHEMA,
+            evidence_root,
+        )
+        problems.extend(producer_problems)
+        if producer_file is None or payload.get("producer_receipt") != producer_file:
+            problems.append("X0 verifier producer file join drift")
+        if payload.get("producer_receipt_sha256") != producer.get("receipt_sha256"):
+            problems.append("X0 verifier producer receipt seal join drift")
+        if payload.get("implementation_authority_sha256") != _dotted_value(
+            producer, "implementation_authority.manifest_sha256"
+        ):
+            problems.append("X0 verifier implementation authority join drift")
+        if payload.get("primary_aggregate") != producer.get("aggregate"):
+            problems.append("X0 verifier primary aggregate join drift")
+    return problems
+
+
 def _receipt_requirement_report(
     requirement: ReceiptRequirement,
     evidence_root: Path,
@@ -4099,15 +4562,10 @@ def _receipt_requirement_report(
         problems.extend(_p6_rung_authority_problems(payload, evidence_root))
     elif payload and requirement.schema == P6_VERIFIER_SCHEMA:
         problems.extend(_p6_verifier_authority_problems(payload, evidence_root))
+    elif payload and requirement.schema in NATIVE_SEAL_FIELDS:
+        problems.extend(_native_schema_authority_problems(requirement.schema, payload, evidence_root))
     provenance: dict[str, Any] | None = None
-    if payload and requirement.schema in {
-        P5_SCREEN_SCHEMA,
-        P5_GRID_SCHEMA,
-        P5_CHALLENGE_SCHEMA,
-        P5_VERIFIER_SCHEMA,
-        P6_RUNG_SCHEMA,
-        P6_VERIFIER_SCHEMA,
-    }:
+    if payload and requirement.schema in GOVERNED_PROVENANCE_SCHEMAS:
         provenance = _governor_provenance_report(
             requirement.path,
             payload,
@@ -4227,6 +4685,27 @@ def _task_resource_memory(
     }
 
 
+def _external_coexistence_report(
+    task: TaskDeclaration,
+    unmanaged: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    if not unmanaged or not _is_external_coexistence_task(task):
+        return None
+    try:
+        profile = _hawking_coexistence_profile()
+        return coexistence.validate_hawking_serial_cpu_snapshot(unmanaged, profile)
+    except (OSError, TypeError, ValueError, ThrottleRefused) as exc:
+        return {
+            "schema": coexistence.REPORT_SCHEMA,
+            "profile": EXTERNAL_COEXISTENCE_PROFILE,
+            "allowed": False,
+            "all_ok": False,
+            "problems": [f"profile validation failed closed: {type(exc).__name__}: {exc}"],
+            "ownership": "observation-only; external processes must never receive signals",
+            "scientific_promotion": False,
+        }
+
+
 def evaluate_task(
     task: TaskDeclaration,
     telemetry: dict[str, Any],
@@ -4300,13 +4779,29 @@ def evaluate_task(
     )
     processes = telemetry.get("processes") or {}
     unmanaged = list(processes.get("unmanaged_known_heavy") or [])
+    external_report = _external_coexistence_report(task, unmanaged)
+    validated_external_coexistence = bool(
+        unmanaged and external_report is not None and external_report.get("allowed") is True
+    )
     _gate(
         gates,
         "unmanaged_heavy_process",
-        not unmanaged,
-        [{"pid": row.get("pid"), "name": row.get("name")} for row in unmanaged],
+        not unmanaged or validated_external_coexistence,
+        (
+            external_report
+            if external_report is not None
+            else [{"pid": row.get("pid"), "name": row.get("name")} for row in unmanaged]
+        ),
         [],
-        "unknown heavy work has no resource declaration, so admission fails closed",
+        (
+            "exact Hawking serial-CPU profile permits one bounded background CPU lane"
+            if validated_external_coexistence
+            else (
+                "unknown or profile-invalid heavy work has no resource declaration, "
+                "so admission fails closed"
+            )
+        ),
+        critical=bool(task_already_active and unmanaged and not validated_external_coexistence),
     )
     foreground = list(processes.get("foreground_resource_processes") or [])
     _gate(
@@ -4318,35 +4813,41 @@ def evaluate_task(
         "Blender or another declared foreground workload permits one experiment lane, never two",
     )
     tier_name = "second_lane" if active else "first_lane"
+    decision_tier_name = "external_coexistence" if validated_external_coexistence else tier_name
     thresholds = policy.thresholds[tier_name]
     cpu = telemetry.get("cpu") or {}
     load = cpu.get("load_1m_per_logical_cpu")
-    load_max = thresholds["maximum_load_per_logical_cpu"]
+    load_max = (
+        0.85 if validated_external_coexistence else thresholds["maximum_load_per_logical_cpu"]
+    )
+    cpu_is_admission_only = task_already_active and not validated_external_coexistence
     _gate(
         gates,
         "cpu_load",
-        task_already_active or (isinstance(load, int | float) and float(load) <= load_max),
+        cpu_is_admission_only or (isinstance(load, int | float) and float(load) <= load_max),
         load,
-        "admission-only" if task_already_active else load_max,
+        "admission-only" if cpu_is_admission_only else load_max,
         (
             "owned task CPU load is expected at runtime; memory, swap, thermal, and disk remain gated"
-            if task_already_active
-            else f"{tier_name} normalized one-minute load ceiling"
+            if cpu_is_admission_only
+            else f"{decision_tier_name} normalized one-minute load ceiling"
         ),
     )
     utilization = cpu.get("utilization_fraction")
-    utilization_max = thresholds["maximum_cpu_utilization_fraction"]
+    utilization_max = (
+        1.0 if validated_external_coexistence else thresholds["maximum_cpu_utilization_fraction"]
+    )
     _gate(
         gates,
         "cpu_utilization",
-        task_already_active
+        cpu_is_admission_only
         or (isinstance(utilization, int | float) and float(utilization) <= utilization_max),
         utilization,
-        "admission-only" if task_already_active else utilization_max,
+        "admission-only" if cpu_is_admission_only else utilization_max,
         (
             "owned task CPU utilization is expected at runtime; pressure gates remain active"
-            if task_already_active
-            else f"{tier_name} instantaneous CPU ceiling"
+            if cpu_is_admission_only
+            else f"{decision_tier_name} instantaneous CPU ceiling"
         ),
     )
     logical = int(cpu.get("logical_cpus") or 0)
@@ -4378,6 +4879,36 @@ def evaluate_task(
         critical=effective_percent is not None and effective_percent < 10.0,
     )
     available_gb = float(memory.get("available_bytes") or 0) / 1e9
+    if validated_external_coexistence:
+        _gate(
+            gates,
+            "external_coexistence_memory_percent",
+            effective_percent is not None and effective_percent >= 40.0,
+            effective_percent,
+            40.0,
+            "validated Hawking coexistence keeps at least forty percent available by both probes",
+            critical=effective_percent is not None and effective_percent < 32.0,
+        )
+        _gate(
+            gates,
+            "external_coexistence_memory_gb",
+            available_gb >= 40.0,
+            available_gb,
+            40.0,
+            "validated Hawking coexistence keeps at least forty decimal GB available",
+            critical=available_gb < 32.0,
+        )
+        _gate(
+            gates,
+            "external_coexistence_pressure_free",
+            isinstance(pressure_percent, int | float) and float(pressure_percent) >= 75.0,
+            pressure_percent,
+            75.0,
+            "memory_pressure must report at least seventy-five percent free during coexistence",
+            critical=(
+                isinstance(pressure_percent, int | float) and float(pressure_percent) < 70.0
+            ),
+        )
     memory_headroom = float(policy.limits["minimum_unified_memory_headroom_gb"])
     required_available_gb = memory_headroom + (0.0 if task_already_active else effective_task_memory)
     _gate(
@@ -4414,6 +4945,16 @@ def evaluate_task(
         swap_max,
         f"{tier_name} swap-use ceiling",
     )
+    if validated_external_coexistence:
+        _gate(
+            gates,
+            "external_coexistence_zero_swap",
+            isinstance(swap_used, int | float) and float(swap_used) == 0.0,
+            swap_used,
+            0.0,
+            "coexistence requires exactly zero swap use",
+            critical=isinstance(swap_used, int | float) and float(swap_used) > 0.0,
+        )
     thermal = telemetry.get("thermal") or {}
     _gate(
         gates,
@@ -4491,7 +5032,7 @@ def evaluate_task(
         "schema": DECISION_SCHEMA,
         "created_at": datetime.now(UTC).isoformat(),
         "task_id": task.task_id,
-        "threshold_tier": tier_name,
+        "threshold_tier": decision_tier_name,
         "active_lanes": active,
         "gates": gates,
         "allowed": not reasons,
@@ -4510,16 +5051,32 @@ def evaluate_task(
 def aggregate_admission(decisions: list[dict[str, Any]], required_good: int) -> dict[str, Any]:
     tail = decisions[-required_good:] if required_good > 0 else []
     allowed = len(tail) == required_good and all(bool(value.get("allowed")) for value in tail)
+    denied_reasons: list[str] = []
+    for decision in tail:
+        if bool(decision.get("allowed")):
+            continue
+        values = decision.get("denied_reasons")
+        if not isinstance(values, list):
+            continue
+        for value in values:
+            reason = str(value)
+            if reason and reason not in denied_reasons:
+                denied_reasons.append(reason)
+    if not allowed and len(tail) < required_good:
+        denied_reasons.append(
+            f"admission observed {len(tail)} of {required_good} required consecutive samples"
+        )
     return {
         "allowed": allowed,
         "required_consecutive_good_samples": required_good,
         "samples_observed": len(decisions),
         "consecutive_good_samples": _trailing_count(decisions, True),
         "consecutive_bad_samples": _trailing_count(decisions, False),
+        "denied_reasons": denied_reasons,
         "reason": (
             "admission hysteresis satisfied"
             if allowed
-            else "admission requires the configured consecutive healthy samples"
+            else "; ".join(denied_reasons) or "admission requires the configured consecutive healthy samples"
         ),
     }
 
@@ -4706,6 +5263,13 @@ def dry_run_decision(
     interval = float(
         policy.monitor["sample_interval_seconds"] if interval_seconds is None else interval_seconds
     )
+    policy_binding = {"path": str(policy.path), "sha256": policy.sha256}
+    implementation_binding = {
+        "path": str(IMPLEMENTATION_PATH.relative_to(REPO_ROOT)),
+        "sha256": _sha256_file(IMPLEMENTATION_PATH),
+    }
+    task_payload = _json_value(asdict(task))
+    admission_task_policy_authority = _build_task_policy_authority(policy, task)
     snapshots: list[dict[str, Any]] = []
     decisions: list[dict[str, Any]] = []
     active = active_lanes(state_root)
@@ -4721,13 +5285,11 @@ def dry_run_decision(
         "schema": RECEIPT_SCHEMA,
         "created_at": datetime.now(UTC).isoformat(),
         "mode": "dry-run",
-        "policy": {"path": str(policy.path), "sha256": policy.sha256},
-        "implementation": {
-            "path": str(IMPLEMENTATION_PATH.relative_to(REPO_ROOT)),
-            "sha256": _sha256_file(IMPLEMENTATION_PATH),
-        },
+        "policy": policy_binding,
+        "implementation": implementation_binding,
+        "task_policy_authority": admission_task_policy_authority,
         "profile": get_profile(policy.profile_name).as_dict(),
-        "task": _json_value(asdict(task)),
+        "task": task_payload,
         "active_lanes": active,
         "telemetry_samples": snapshots,
         "decisions": decisions,
@@ -4755,6 +5317,10 @@ def _registry_row(task: TaskDeclaration, run_id: str, child_pid: int | None, sta
         "atomic_write_gb": task.atomic_write_gb,
         "requires_empty_lanes": task.requires_empty_lanes,
         "resource_probe": task.resource_probe,
+        "external_coexistence": (
+            EXTERNAL_COEXISTENCE_PROFILE if _is_external_coexistence_task(task) else None
+        ),
+        "max_invocations_per_run": 1 if _is_seed_boundary_task(task) else None,
         "command": list(task.command),
         "updated_at": datetime.now(UTC).isoformat(),
     }
@@ -5049,6 +5615,18 @@ def run_task(
             if final_returncode not in task.restart_exit_codes:
                 receipt["status"] = "failed"
                 break
+            if _is_seed_boundary_task(task) and invocation >= 1:
+                receipt["status"] = "resumable-invocation-boundary"
+                _event(
+                    receipt,
+                    "invocation-boundary-yield",
+                    invocation=invocation,
+                    returncode=final_returncode,
+                    checkpoint=checkpoint_snapshot(task, evidence_root),
+                    note="campaign must re-run admission before the next deterministic seed boundary",
+                )
+                _atomic_json(receipt_path, receipt)
+                break
             if time.monotonic() >= deadline:
                 receipt["status"] = "resumable-wall-boundary"
                 break
@@ -5078,6 +5656,54 @@ def run_task(
             "methods": ["psutil-process-tree", "getrusage-RUSAGE_CHILDREN"],
         }
         receipt["child_resource"] = child_resource
+        if receipt["status"] in {
+            "resumable-wall-boundary",
+            "resumable-invocation-boundary",
+        }:
+            progress_problems: list[str] = []
+            if final_returncode not in task.restart_exit_codes and receipt["status"] == (
+                "resumable-invocation-boundary"
+            ):
+                progress_problems.append("invocation-boundary return code is not restart-authorized")
+            if child_peak_rss_bytes <= 0:
+                progress_problems.append("resumable task has no observed child peak RSS")
+            if process is not None and process.poll() is None:
+                progress_problems.append("resumable task still has an active owned child")
+            admission_task = receipt.get("task")
+            admission_policy = receipt.get("policy")
+            admission_implementation = receipt.get("implementation")
+            admission_task_policy_authority = receipt.get("task_policy_authority")
+            if admission_task != _json_value(asdict(task)):
+                progress_problems.append("resumable task admission declaration drifted")
+            if not isinstance(admission_policy, dict):
+                progress_problems.append("resumable task has no admission-time policy binding")
+            if not isinstance(admission_implementation, dict):
+                progress_problems.append("resumable task has no admission-time implementation binding")
+            if not isinstance(admission_task_policy_authority, dict):
+                progress_problems.append("resumable task has no task-policy authority")
+            if progress_problems:
+                receipt["status"] = "failed-progress-authority"
+                receipt["progress_problems"] = progress_problems
+            else:
+                receipt["progress_authority"] = {
+                    "schema": PROGRESS_AUTHORITY_SCHEMA,
+                    "task_id": task.task_id,
+                    "task": admission_task,
+                    "command": list(task.command),
+                    "command_sha256": _command_sha256(task.command),
+                    "policy": admission_policy,
+                    "implementation": admission_implementation,
+                    "task_policy_authority": admission_task_policy_authority,
+                    "returncode": final_returncode,
+                    "final_checkpoint_aggregate_sha256": receipt["final_checkpoint"][
+                        "aggregate_sha256"
+                    ],
+                    "owned_child_active": False,
+                    "child_resource": child_resource,
+                }
+                core = dict(receipt)
+                core.pop("payload_sha256", None)
+                receipt["payload_sha256"] = _canonical_sha256(core)
         if receipt["status"] == "complete" and _requires_completion_provenance(task):
             output_path = _task_output_path(task)
             output_file = (evidence_root / str(output_path)).resolve()
@@ -5102,23 +5728,31 @@ def run_task(
                 completion_problems.append("successful task has no observed child peak RSS")
             if process is not None and process.poll() is None:
                 completion_problems.append("successful task still has an active owned child")
+            admission_policy = receipt.get("policy")
+            admission_implementation = receipt.get("implementation")
+            admission_task = receipt.get("task")
+            admission_task_policy_authority = receipt.get("task_policy_authority")
+            if not isinstance(admission_policy, dict):
+                completion_problems.append("successful task has no admission-time policy binding")
+            if not isinstance(admission_implementation, dict):
+                completion_problems.append("successful task has no admission-time implementation binding")
+            if admission_task != _json_value(asdict(task)):
+                completion_problems.append("successful task admission declaration drifted")
+            if not isinstance(admission_task_policy_authority, dict):
+                completion_problems.append("successful task has no admission-time task-policy authority")
             if completion_problems:
                 receipt["status"] = "failed-completion-authority"
                 receipt["completion_problems"] = completion_problems
             else:
-                expected_policy = {"path": str(policy.path), "sha256": policy.sha256}
-                expected_implementation = {
-                    "path": str(IMPLEMENTATION_PATH.relative_to(REPO_ROOT)),
-                    "sha256": _sha256_file(IMPLEMENTATION_PATH),
-                }
                 receipt["completion_authority"] = {
                     "schema": COMPLETION_AUTHORITY_SCHEMA,
                     "task_id": task.task_id,
-                    "task": _json_value(asdict(task)),
+                    "task": admission_task,
                     "command": list(task.command),
                     "command_sha256": _command_sha256(task.command),
-                    "policy": expected_policy,
-                    "implementation": expected_implementation,
+                    "policy": admission_policy,
+                    "implementation": admission_implementation,
+                    "task_policy_authority": admission_task_policy_authority,
                     "returncode": 0,
                     "output": {"path": output_path, "sha256": output_sha},
                     "final_checkpoint_aggregate_sha256": receipt["final_checkpoint"]["aggregate_sha256"],

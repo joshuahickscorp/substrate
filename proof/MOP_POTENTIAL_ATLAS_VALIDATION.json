@@ -2,10 +2,10 @@
   "all_ok": true,
   "artifacts": {
     "atlas": {
-      "bytes": 125083,
+      "bytes": 128809,
       "exists": true,
       "path": "proof/MOP_POTENTIAL_ATLAS.json",
-      "sha256": "3cd3c313227033251572db239ac0ebc3eef33ad3ee3761cfa78484ac00fb14f8"
+      "sha256": "f63295e9e729e23fbb2d47e3a2487566dcdc21b7684d9613cfd7c621deb1e942"
     },
     "cli": {
       "bytes": 432,
@@ -14,22 +14,22 @@
       "sha256": "328ad665b1d50d0316eba48979e28aa8a71eaa8c156cd047b2b653851bface05"
     },
     "markdown": {
-      "bytes": 77550,
+      "bytes": 78937,
       "exists": true,
       "path": "MOP_POTENTIAL_ATLAS_2026_07.md",
-      "sha256": "67917e95e694e13d13f9a4696240bf886817ac40b334613e103f93d800056b13"
+      "sha256": "68ddef774534db8b52e026642a12ba4eb45f1c899c1e2d2a4266ac0803773e23"
     },
     "requirements": {
-      "bytes": 1270482,
+      "bytes": 1283019,
       "exists": true,
       "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-      "sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85"
+      "sha256": "acbacdf294ed4ce6fc39c009b19301a1d85ced8bd86af2f2a8977c00bf7b48b6"
     },
     "validator": {
-      "bytes": 120450,
+      "bytes": 111467,
       "exists": true,
       "path": "src/mop/studies/potential_atlas_validation.py",
-      "sha256": "ac32e9e52ef316eac6b5c3ec8b01afa828c3974ad2618fa80a9db660e3295e1c"
+      "sha256": "38cc47f61c91be862690f11d02b4bbcd17f384ecba6d272b8d941af2a2fae1d9"
     }
   },
   "checks": [
@@ -113,8 +113,8 @@
     },
     {
       "detail": {
-        "source_count": 57,
-        "verified_count": 57
+        "source_count": 66,
+        "verified_count": 66
       },
       "name": "source_snapshot",
       "ok": true,
@@ -122,7 +122,7 @@
     },
     {
       "detail": {
-        "evidence_reference_count": 197
+        "evidence_reference_count": 204
       },
       "name": "evidence_paths",
       "ok": true,
@@ -130,10 +130,10 @@
     },
     {
       "detail": {
-        "bytes": 1270482,
+        "bytes": 1283019,
         "exists": true,
         "path": "proof/EXTENDED_COMPUTE_REQUIREMENTS.json",
-        "sha256": "ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85"
+        "sha256": "acbacdf294ed4ce6fc39c009b19301a1d85ced8bd86af2f2a8977c00bf7b48b6"
       },
       "name": "requirements_binding",
       "ok": true,
@@ -141,27 +141,18 @@
     },
     {
       "detail": {
-        "available_memory_gb": [
-          6.830424064,
-          8.909111296,
-          8.705048576
-        ],
-        "command_executed": false,
-        "cpu_load_per_logical_cpu": [
-          3.8621012369791665,
-          3.8621012369791665,
-          3.986572265625
-        ],
-        "decision_count": 3,
-        "failed_gates": [
-          "cpu_load",
-          "candidate_memory_headroom"
-        ],
-        "maximum_cpu_load_per_logical_cpu": 0.85,
-        "required_memory_gb": 10.0,
-        "run_id": "p5smoke_20260711_leg3"
+        "fresh_challenge_run_id": "p5fresh_challenge_20260712_leg2",
+        "fresh_training_seed_count": 3,
+        "outcome": "null",
+        "pilot_run_id": "p5pilot_20260712_leg6",
+        "primary_seed_count": 5,
+        "scientific_promotion": false,
+        "smoke_run_id": "p5smoke_20260711_leg4",
+        "state": "governed-terminal-null",
+        "verified_pattern_count": 0,
+        "verifier_run_id": "mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01"
       },
-      "name": "p5_admission",
+      "name": "p5_terminal_evidence",
       "ok": true,
       "problems": []
     },
@@ -270,17 +261,17 @@
     },
     {
       "detail": {
-        "bytes": 77550,
+        "bytes": 78937,
         "facet_score_rows": 41,
-        "sha256": "67917e95e694e13d13f9a4696240bf886817ac40b334613e103f93d800056b13"
+        "sha256": "68ddef774534db8b52e026642a12ba4eb45f1c899c1e2d2a4266ac0803773e23"
       },
       "name": "markdown_binding",
       "ok": true,
       "problems": []
     }
   ],
-  "created_at": "2026-07-11T07:05:39.718279+00:00",
-  "payload_sha256": "d357d2b9de5a4d5f04bd49fafe8db773c956a68f2f4d0ca56e253da911f367b3",
+  "created_at": "2026-07-13T13:23:01.050979+00:00",
+  "payload_sha256": "34bf5601bd5a65dd1a94cc42c76c4784c399b07bcde95b4478b1abddaf3a860f",
   "problems": [],
   "schema": "mop-potential-atlas-validation/v1",
   "scope": "Structural and evidence-integrity validation only. A passing receipt does not promote any facet, experiment, hardware purchase, or external claim.",
@@ -290,18 +281,21 @@
     "category2_current_registry_rows": 39,
     "dense_integration_complete": true,
     "domain_count": 7,
-    "evidence_reference_count": 197,
+    "evidence_reference_count": 204,
     "facet_count": 41,
     "facet_dependency_count": 114,
     "facet_weight_total": 100.0,
     "frontier_historical_rows": 24,
-    "p5_admission_decision_count": 3,
-    "p5_admission_failed_gates": [
-      "cpu_load",
-      "candidate_memory_headroom"
-    ],
-    "p5_admission_run_id": "p5smoke_20260711_leg3",
-    "p5_command_executed": false,
+    "p5_fresh_challenge_run_id": "p5fresh_challenge_20260712_leg2",
+    "p5_fresh_training_seed_count": 3,
+    "p5_outcome": "null",
+    "p5_pilot_run_id": "p5pilot_20260712_leg6",
+    "p5_primary_seed_count": 5,
+    "p5_scientific_promotion": false,
+    "p5_smoke_run_id": "p5smoke_20260711_leg4",
+    "p5_terminal_state": "governed-terminal-null",
+    "p5_verified_pattern_count": 0,
+    "p5_verifier_run_id": "mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01",
     "p6_current_events_per_stream": 384,
     "p6_mechanics_pass": true,
     "p7_arm_count": 8,
@@ -322,7 +316,7 @@
     "registry_non_f_rows": 177,
     "requirements_row_count": 321,
     "scientific_claim_ready_rows": 0,
-    "source_count": 57,
+    "source_count": 66,
     "studio_scale_required_now": false,
     "wave_e0_mechanics_pass": true,
     "weighted_score": 5.736000000000001

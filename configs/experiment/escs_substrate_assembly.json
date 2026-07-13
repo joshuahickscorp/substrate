@@ -1,0 +1,538 @@
+{
+  "schema": "mop-escs-substrate-assembly/v1",
+  "assembly_id": "escs_all_perspectives_gate_a_v1",
+  "candidate_registry_sha256": "16a1354c3693d1ad6139bb8295c34f977bff5582552ce890023e7fc1fef1ce39",
+  "slots": [
+    {
+      "candidate_id": "abstraction",
+      "candidate_sha256": "38a547d05ef38cd5ab256bb3d7a2a541bab7a88b0e7dab36599b8b14d8ffa26f",
+      "facet": "abstraction",
+      "mode": "feature-candidate-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "matched-compute",
+        "random-init-control",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "adaptive_activation",
+      "candidate_sha256": "119eb7015831fc080b2b30ae5181622ffd558e3c44022f51ed269c3f791c78c7",
+      "facet": "adaptive_activation",
+      "mode": "sandbox-stub-inert",
+      "interface": "sandbox",
+      "effect_boundary": "none",
+      "trigger_authority": "decision-value-gated",
+      "required_guards": [
+        "bounded-activation",
+        "decision-value",
+        "lifecycle-accounting",
+        "matched-compute"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "causal_reasoning",
+      "candidate_sha256": "b5c134ec6fdc8ad340f5e22f2abdd902b9c56887218e0ed728c1592d6e42c8dc",
+      "facet": "causal_reasoning",
+      "mode": "feature-candidate-inert",
+      "interface": "endogenous-hypothesis",
+      "effect_boundary": "counterfactual-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "counterfactual-branch",
+        "evidence-taint",
+        "no-factual-effect",
+        "parent-authority"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "confidence_calibration",
+      "candidate_sha256": "9a1772d147c006eebe9d7704b5f73e70928b21b7ea4445ef0e52385bb5d2ca7f",
+      "facet": "confidence_calibration",
+      "mode": "infrastructure-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "lifecycle-accounting",
+        "noisy-tv",
+        "shuffled-control",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "contradiction_detection",
+      "candidate_sha256": "945ee980f3efc0a5fb6bfc4cb6cc22d25fbdbbf8a55826e220ba8a58c80fb81a",
+      "facet": "contradiction_detection",
+      "mode": "infrastructure-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "bounded-activation",
+        "parent-authority",
+        "schema-version",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "curiosity",
+      "candidate_sha256": "17c7930f7842595591fc308bb49e16271478acc276ae5546cb078cfdd9a2ad11",
+      "facet": "curiosity",
+      "mode": "excluded",
+      "interface": "control-arm",
+      "effect_boundary": "none",
+      "trigger_authority": "none",
+      "required_guards": [
+        "decision-value",
+        "noisy-tv",
+        "reducible-error"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "decomposition",
+      "candidate_sha256": "05c709e9129edc3baadc8eb9038bc57c2ec34dff81039089a28a03fd1ba22ced",
+      "facet": "decomposition",
+      "mode": "sandbox-stub-inert",
+      "interface": "sandbox",
+      "effect_boundary": "none",
+      "trigger_authority": "none",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "quiescence",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "episodic_memory",
+      "candidate_sha256": "90759aebad26bada0f784ab5074688cc1eab9b24f62fa9929900b6b1c0d6b10c",
+      "facet": "episodic_memory",
+      "mode": "feature-candidate-inert",
+      "interface": "event-memory",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "atomic-rollback",
+        "retention-cap",
+        "snapshot-isolation",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "event_driven_cognition",
+      "candidate_sha256": "5e2751c1f5558fe497b65b2c4dd201be9b1d0aded53d4abd7f9e86bf5febe923",
+      "facet": "event_driven_cognition",
+      "mode": "sandbox-stub-inert",
+      "interface": "raw-event-former",
+      "effect_boundary": "none",
+      "trigger_authority": "external-event",
+      "required_guards": [
+        "bounded-activation",
+        "decision-value",
+        "lifecycle-accounting",
+        "noisy-tv",
+        "quiescence",
+        "reducible-error"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "imagination",
+      "candidate_sha256": "99fdca2012fb55652d7d6f3ed1cf2126aafa8ba082394a738d2a8dad2792fbd7",
+      "facet": "imagination",
+      "mode": "sandbox-stub-inert",
+      "interface": "endogenous-hypothesis",
+      "effect_boundary": "counterfactual-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "bounded-activation",
+        "counterfactual-branch",
+        "no-factual-effect",
+        "quiescence"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "intuition",
+      "candidate_sha256": "5e1199741ee63f2bca65956b3d66f46c70f0bf22f83c20e152a01ba5e646e8f6",
+      "facet": "intuition",
+      "mode": "sandbox-stub-inert",
+      "interface": "sandbox",
+      "effect_boundary": "none",
+      "trigger_authority": "none",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "motor_reasoning",
+      "candidate_sha256": "0e3760dcf5e59bd71267e018b704b78caa24e0fc67cc26c03e97a410acb4a953",
+      "facet": "motor_reasoning",
+      "mode": "feature-candidate-inert",
+      "interface": "chassis-action",
+      "effect_boundary": "chassis-commitment",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "action-shuffle",
+        "atomic-rollback",
+        "chassis-commitment",
+        "external-consequence",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "novelty_detection",
+      "candidate_sha256": "279c0e1a96b6d8a534ed6a8b93fa6e700178da918fa010dfe920a12051b2f895",
+      "facet": "novelty_detection",
+      "mode": "control-inert",
+      "interface": "control-arm",
+      "effect_boundary": "none",
+      "trigger_authority": "none",
+      "required_guards": [
+        "decision-value",
+        "noisy-tv",
+        "reducible-error",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "perspective_arbitration",
+      "candidate_sha256": "337cc4dce88a81743ed357b548b1ee90f607deda8b4a335fcf17f45b811f2ed9",
+      "facet": "perspective_arbitration",
+      "mode": "control-inert",
+      "interface": "control-arm",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "noisy-tv",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "perspective_communication",
+      "candidate_sha256": "da16e65c930c5a66b9e79bb4d80893d2df80a7c0b6e8c602f9ee52d0f2f0b650",
+      "facet": "perspective_communication",
+      "mode": "infrastructure-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "bounded-activation",
+        "content-digest",
+        "parent-authority",
+        "schema-version"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "perspective_competition",
+      "candidate_sha256": "d6e4994f7d496d76fca7071a67d9cf137330a34b73b80d8861cbdaa1f2796593",
+      "facet": "perspective_competition",
+      "mode": "infrastructure-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "decision-value-gated",
+      "required_guards": [
+        "bounded-activation",
+        "decision-value",
+        "lifecycle-accounting",
+        "matched-compute"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "perspective_cooperation",
+      "candidate_sha256": "6c2a17a64aada14ee1e004d66f32035dc0bb53044e88fb4c36d8616ffdb010c1",
+      "facet": "perspective_cooperation",
+      "mode": "feature-candidate-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "shuffled-control",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "planning",
+      "candidate_sha256": "4ab562787d8dd72245d20e6b6c2f3e6ee7e8428f5e0a6b1218be4fbe4ea23e2c",
+      "facet": "planning",
+      "mode": "feature-candidate-inert",
+      "interface": "chassis-action",
+      "effect_boundary": "chassis-commitment",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "action-shuffle",
+        "atomic-rollback",
+        "chassis-commitment",
+        "counterfactual-branch",
+        "external-consequence",
+        "matched-compute"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "probabilistic_reasoning",
+      "candidate_sha256": "8a1029740b13d5aed9e6995947277c6302dff8f0500efdd870445c8bd47b1262",
+      "facet": "probabilistic_reasoning",
+      "mode": "control-inert",
+      "interface": "control-arm",
+      "effect_boundary": "counterfactual-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "counterfactual-branch",
+        "matched-compute",
+        "no-factual-effect",
+        "noisy-tv"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "reflection",
+      "candidate_sha256": "07b752e979bd77ad1bec6f8467dda0f766b675fefc071d4b214ba50a95a463ff",
+      "facet": "reflection",
+      "mode": "control-inert",
+      "interface": "control-arm",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "quiescence",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "retrieval",
+      "candidate_sha256": "6b9a333268e08e55b9270f856cf276d12cdf7c7792f37daea5b3c1b2639e3973",
+      "facet": "retrieval",
+      "mode": "feature-candidate-inert",
+      "interface": "event-memory",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "retention-cap",
+        "shuffled-control",
+        "snapshot-isolation",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "selective_computation",
+      "candidate_sha256": "b4ad46646f4b76519dc13f3a554575ecc34b20e28215cb564a4b31d4e8f780c1",
+      "facet": "selective_computation",
+      "mode": "sandbox-stub-inert",
+      "interface": "sandbox",
+      "effect_boundary": "none",
+      "trigger_authority": "decision-value-gated",
+      "required_guards": [
+        "bounded-activation",
+        "decision-value",
+        "lifecycle-accounting",
+        "matched-compute"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "self_critique",
+      "candidate_sha256": "718d2951400df17c2207f3afe934b1ac8be0d6d1a04b54867138a786d83deb03",
+      "facet": "self_critique",
+      "mode": "control-inert",
+      "interface": "control-arm",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "parent-authority",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "semantic_memory",
+      "candidate_sha256": "d40b2e634d27e0aab598b0b5f5954a457a56083a89faee37db40456024eb2daf",
+      "facet": "semantic_memory",
+      "mode": "sandbox-stub-inert",
+      "interface": "event-memory",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "atomic-rollback",
+        "retention-cap",
+        "schema-version",
+        "snapshot-isolation",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "simulation",
+      "candidate_sha256": "2c26e15a07b3ff271c837e2227e664d28c39cbdc6ad83cd97b998fed562929a9",
+      "facet": "simulation",
+      "mode": "feature-candidate-inert",
+      "interface": "endogenous-hypothesis",
+      "effect_boundary": "counterfactual-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "bounded-activation",
+        "counterfactual-branch",
+        "no-factual-effect",
+        "quiescence"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "spatial_reasoning",
+      "candidate_sha256": "84119c48021b18e258e514cde50835b79c33b47cc868a201b0be6d06504e4d1b",
+      "facet": "spatial_reasoning",
+      "mode": "sandbox-stub-inert",
+      "interface": "sandbox",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "bounded-activation",
+        "random-init-control",
+        "retention-cap",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "symbolic_reasoning",
+      "candidate_sha256": "54744dfa68a3e93a9e60dec930bc976f55ee106337eeea97acb55c384831cfcb",
+      "facet": "symbolic_reasoning",
+      "mode": "feature-candidate-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "schema-version",
+        "shuffled-control",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "temporal_reasoning",
+      "candidate_sha256": "0835b9661f6941ecf2d242237ee0ab3c250c122b74b1bcb6967db2e962a133e6",
+      "facet": "temporal_reasoning",
+      "mode": "feature-candidate-inert",
+      "interface": "actor-claims",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "event-authorized",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "parent-authority",
+        "quiescence"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "uncertainty_estimation",
+      "candidate_sha256": "7c18579439dabfaf4ef9f56d88c3cb33e00024c15f220999e95c392676c84c7d",
+      "facet": "uncertainty_estimation",
+      "mode": "control-inert",
+      "interface": "control-arm",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "decision-value",
+        "noisy-tv",
+        "reducible-error",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "verification",
+      "candidate_sha256": "2a9ae144e8a52ac93c5123b8311a4cc775a2c264b3b6b87202bd28280754f273",
+      "facet": "verification",
+      "mode": "control-inert",
+      "interface": "control-arm",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "none",
+      "required_guards": [
+        "bounded-activation",
+        "matched-compute",
+        "parent-authority",
+        "shuffled-control"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    },
+    {
+      "candidate_id": "visual_reasoning",
+      "candidate_sha256": "60936062004f007ba97069bca08fb5290656de9e6b32d425ae851355e7d65710",
+      "facet": "visual_reasoning",
+      "mode": "feature-candidate-inert",
+      "interface": "raw-event-former",
+      "effect_boundary": "claims-only",
+      "trigger_authority": "external-event",
+      "required_guards": [
+        "content-digest",
+        "random-init-control",
+        "source-provenance"
+      ],
+      "activation_enabled": false,
+      "scientific_promotion_allowed": false
+    }
+  ],
+  "default_quiescent": true,
+  "scientific_promotion_allowed": false,
+  "assembly_sha256": "6e9207767480c9727105a1800268b75a05873a745dc1fe590aaf4dafd4f28d4c"
+}

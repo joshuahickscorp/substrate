@@ -1,0 +1,20 @@
+{
+  "activation_enabled": false,
+  "all_ok": true,
+  "claim_scope": "deterministic-synthetic-shadow-formation-mechanics-only",
+  "config_path": "/Users/scammermike/Downloads/mop/configs/experiment/escs_g0_formation_study.json",
+  "counterfactual_only": true,
+  "declared_receipt_sha256": "316190b0d229fef658a7a9d46caad2d9e750fa38abdf383863f3eebf74345d74",
+  "factual_effects": false,
+  "factual_mutation_authorized": false,
+  "problems": [],
+  "receipt_authority": {
+    "bytes": 194734,
+    "path": "/Users/scammermike/Downloads/mop/proof/ESCS_G0_FORMATION_STUDY.json",
+    "sha256": "ec44576bb056237f7216b725308237cf3928927782a2b92085e01accf632e499"
+  },
+  "schema": "mop-escs-g0-formation-study-verification/v1",
+  "scientific_promotion_allowed": false,
+  "shadow_execution_authorized": false,
+  "verification_sha256": "65a43340952fd235753da9dd74eec7c27880c16ed25aed4d249e1f48630f92f0"
+}

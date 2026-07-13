@@ -8,7 +8,9 @@ from typing import Any
 import pytest
 import torch
 import yaml
+from scripts.verify_p5_context_capability import _correct_singleton_contrast_classification
 
+from mop.studies import p5_context_verify as verifier_module
 from mop.studies.p5_context_challenge import challenge_exit_code, run_fresh_challenge
 from mop.studies.p5_context_verify import (
     ARM_SCHEMA,
@@ -53,6 +55,21 @@ P5_CORE_RUNTIME_SOURCES = (
     "src/mop/substrate/custom_workbench.py",
     "src/mop/substrate/p4_screen.py",
 )
+
+
+def test_verifier_entrypoint_preserves_singleton_undetermined_rule() -> None:
+    original_paired_ci = verifier_module._paired_ci
+    original_classify_ci = verifier_module.classify_ci
+
+    with _correct_singleton_contrast_classification():
+        singleton = verifier_module._paired_ci([0.2])
+        assert verifier_module.classify_ci(singleton["lo"], singleton["hi"], 0.1) == "undetermined"
+
+        repeated = verifier_module._paired_ci([0.2, 0.2])
+        assert verifier_module.classify_ci(repeated["lo"], repeated["hi"], 0.1) == "meaningful_positive"
+
+    assert verifier_module._paired_ci is original_paired_ci
+    assert verifier_module.classify_ci is original_classify_ci
 
 
 def _ci(values: list[float]) -> dict[str, Any]:

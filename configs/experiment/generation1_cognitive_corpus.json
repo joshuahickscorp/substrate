@@ -1,0 +1,283 @@
+{
+  "schema": "mop-generation1-cognitive-corpus-config/v2",
+  "campaign_id": "generation1-empirical-cognitive-corpus-v2",
+  "claim_scope": "fresh-seed programmatic and synthetic capability census only; no natural-world, biological-equivalence, substrate-superiority, or scientific-promotion claim",
+  "result_tag": "generation1-exploratory-corpus-v2",
+  "seeds": [
+    20260801,
+    20260802,
+    20260803,
+    20260804,
+    20260805,
+    20260806,
+    20260807,
+    20260808,
+    20260809,
+    20260810,
+    20260811,
+    20260812,
+    20260813,
+    20260814,
+    20260815,
+    20260816,
+    20260817,
+    20260818,
+    20260819,
+    20260820,
+    20260821,
+    20260822,
+    20260823,
+    20260824
+  ],
+  "experiment_scope": {
+    "tiers": ["cpu-now"],
+    "include_f_series": true,
+    "include_wrapper_smokes": true,
+    "excluded_ids": []
+  },
+  "classification": {
+    "minimum_complete_seeds": 20,
+    "stable_fraction": 0.8,
+    "minimum_boolean_observations": 20,
+    "tie_label": "mixed_or_seed_sensitive",
+    "missing_null_label": "descriptive_only"
+  },
+  "seed_authority": {
+    "schema": "mop-generation1-seed-authority-policy/v1",
+    "algorithm": "sha256-domain-separated-31bit-v1",
+    "variation_canary_outer_seeds": [
+      20260801,
+      20260802,
+      20260803,
+      20260804,
+      20260805
+    ],
+    "outer_seed_experiment_ids": [
+      "e1_baseline",
+      "e2_replay",
+      "e3_plasticity",
+      "e4_neuromod",
+      "e5_curiosity",
+      "e7_sparse",
+      "ex9_slot_attention",
+      "ex13_long_stream",
+      "ex15_rejuvenation"
+    ],
+    "fixed_case_experiment_ids": [
+      "s5_code_stability"
+    ],
+    "mechanics_only_experiment_ids": [
+      "mop_p4_capability_density_screen",
+      "mop_p5_context_capability"
+    ],
+    "experiment_seed_paths": {
+      "ex2_latent_planning": [
+        "experiment.seed"
+      ],
+      "mop_cm7_min_objective_probe": [
+        "experiment.data.seed",
+        "experiment.training.seeds"
+      ],
+      "p5_private_language": [
+        "experiment.data_seed"
+      ],
+      "y3_seed_consistent_fixed_points": [
+        "experiment.data_seed"
+      ],
+      "f12_private_form_language_stability": [
+        "experiment.seeds",
+        "experiment.base_seed"
+      ]
+    }
+  },
+  "capability_packs": {
+    "perception_grounding": [
+      "a1_affordance_decode",
+      "a2_viewpoint_invariance",
+      "a3_what_where_when",
+      "a6_object_permanence",
+      "d2_object_permanence_voe",
+      "ex9_slot_attention",
+      "ex10_cross_modal",
+      "n8_object_permanence_bound",
+      "s1_symbol_grounding",
+      "f15_embodied_affordance_form"
+    ],
+    "spatial_temporal_motor": [
+      "a3_what_where_when",
+      "a4_cognitive_map",
+      "a5_action_loop",
+      "b9_cerebellar_forward_model",
+      "c4_event_segmentation",
+      "d8_imitation_conditioned_rollout",
+      "ex2_latent_planning",
+      "f6_sensorimotor_form_closure",
+      "y7_controllability_sysid_gate"
+    ],
+    "symbolic_compositional_abstraction": [
+      "c1_held_out_combination",
+      "c2_latent_analogy",
+      "c5_transfer_matrix",
+      "c8_concept_blending",
+      "c9_systematicity_sweep",
+      "d9_relation_transfer_gate",
+      "s3_concept_arithmetic",
+      "s4_latent_vs_discrete",
+      "s6_compositionality",
+      "f2_heldout_form_transfer",
+      "f9_cross_form_compositional_binding"
+    ],
+    "causal_counterfactual_reasoning": [
+      "d3_blicket_causal",
+      "ex11_causal_probing",
+      "p3_knowledge_is_prediction",
+      "y7_controllability_sysid_gate",
+      "f18_counterfactual_form_intervention",
+      "f20_substrate_crisis_test"
+    ],
+    "planning_imagination_simulation": [
+      "a5_action_loop",
+      "b9_cerebellar_forward_model",
+      "d8_imitation_conditioned_rollout",
+      "ex2_latent_planning",
+      "ex6_active_inference",
+      "ex17_latent_reasoning",
+      "n3_pc_refiner",
+      "p9_thought_without_language",
+      "y1_fixed_point_convergence"
+    ],
+    "episodic_semantic_working_memory": [
+      "e2_replay",
+      "ex1_generative_replay",
+      "ex4_fast_weights",
+      "ex14_memory_bakeoff",
+      "n1_replay_ordering",
+      "n4_tag_and_capture",
+      "n7_wm_delayed_match",
+      "f5_cross_form_memory_binding",
+      "f11_form_dream_replay",
+      "f17_missing_form_recovery"
+    ],
+    "continual_learning_plasticity": [
+      "b2_baldwin_meta_init",
+      "b4_homeostatic_scaling",
+      "b6_offline_consolidation",
+      "b7_developmental_curriculum",
+      "d1_fast_mapping",
+      "d6_sensitive_window",
+      "e3_plasticity",
+      "e7_sparse",
+      "e9_local",
+      "ex3_test_time_adaptation",
+      "ex5_local_rules_scale",
+      "ex7_meta_learning",
+      "ex13_long_stream",
+      "ex15_rejuvenation",
+      "f7_developmental_form_growth",
+      "f14_lifelong_form_expansion"
+    ],
+    "uncertainty_calibration_selective_compute": [
+      "c6_dual_process_halting",
+      "e4_neuromod",
+      "e5_curiosity",
+      "ex6_active_inference",
+      "ex8_curiosity_bakeoff",
+      "ex18_self_verification",
+      "n6_ach_ne_dissociation",
+      "n10_halting_difficulty",
+      "n11_self_verification",
+      "s10_anti_self_deception",
+      "y9_verifier_contraction"
+    ],
+    "communication_social_distributed_cognition": [
+      "a7_comm_channel",
+      "b3_stigmergic_curriculum",
+      "d7_scaffolding",
+      "d8_imitation_conditioned_rollout",
+      "p5_private_language",
+      "s7_learned_vs_designed",
+      "f12_private_form_language_stability",
+      "f15_embodied_affordance_form"
+    ],
+    "concepts_meaning_language_independence": [
+      "c3_prototype_typicality",
+      "c7_chunking_expertise",
+      "d4_ushaped_overgen",
+      "ex16_codebook_sr",
+      "f1_form_alignment_gate",
+      "f4_raw_payload_vs_form_tokens",
+      "f19_cross_scale_referent_binding",
+      "p1_concept_no_labels",
+      "p2_memorize_vs_concept",
+      "p4_intelligence_is_compression",
+      "p5_private_language",
+      "p6_meaning_without_symbols",
+      "p9_thought_without_language",
+      "s1_symbol_grounding"
+    ],
+    "robustness_dynamics_contradiction": [
+      "b5_degeneracy_robustness",
+      "e1_baseline",
+      "i8_quant_robustness",
+      "mop_p4_capability_density_screen",
+      "mop_p5_context_capability",
+      "n9_attractor_convergence",
+      "s5_code_stability",
+      "s10_anti_self_deception",
+      "y1_fixed_point_convergence",
+      "y2_basin_stability",
+      "y3_seed_consistent_fixed_points",
+      "y4_hysteresis",
+      "y8_recurrent_bibs_stability",
+      "y9_verifier_contraction",
+      "f20_substrate_crisis_test"
+    ],
+    "information_efficiency_compression": [
+      "b10_energy_budget",
+      "e7_sparse",
+      "e8_dendritic",
+      "i1_info_bottleneck",
+      "i2_mdl_selection",
+      "i3_compression_reasoning",
+      "i4i_redundancy_reduction",
+      "i5_rate_distortion_replay",
+      "i6_mi_audit",
+      "i7_predictive_information",
+      "i9_vq_rate_distortion",
+      "n10_halting_difficulty",
+      "mop_cm7_min_objective_probe",
+      "f3_form_bottleneck_capacity",
+      "f13_form_energy_budget"
+    ],
+    "curiosity_novelty_curriculum": [
+      "a8_affordance_curiosity",
+      "d5_lp_self_curriculum",
+      "e5_curiosity",
+      "ex8_curiosity_bakeoff",
+      "b3_stigmergic_curriculum",
+      "b7_developmental_curriculum",
+      "y6_free_energy_vs_lp",
+      "f10_intrinsic_form_curriculum"
+    ],
+    "topology_ecology_reorganization": [
+      "b1_clonal_selection",
+      "b5_degeneracy_robustness",
+      "b8_structural_growth",
+      "i4_backprop_alts",
+      "ex12_atlas",
+      "ex15_rejuvenation",
+      "n5_fisher_reopen",
+      "y5_homeostatic_lr_loop",
+      "f14_lifelong_form_expansion",
+      "f20_substrate_crisis_test"
+    ],
+    "metacognition_verification_reflection": [
+      "ex18_self_verification",
+      "n11_self_verification",
+      "p10_theory_ladenness",
+      "s9_interpretable_vs_useful",
+      "s10_anti_self_deception",
+      "y9_verifier_contraction"
+    ]
+  }
+}

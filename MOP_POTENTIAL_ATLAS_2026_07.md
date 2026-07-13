@@ -1248,18 +1248,17 @@ Demonstrated:
 - hysteretic admission and scheduler-owned process-group control
 - governor-owned P4 closure with an empty final active-lane set
 - P6 source, checkpoint, verifier, and strict non-tie joins enforced before scaling
+- governed P5 smoke, five-seed pilot, three-seed fresh challenge, and independent verifier closed with a null
 
 Not yet demonstrated:
 
 - the P6 10k resource probe and replication remain unexecuted
 - mixed-lane confirmation remains open
-- the P6 10k resource probe is fail-closed until the final P5 verifier binds a scientific null or a fresh-seed verified programmatic pattern
-- P5 smoke is fail-closed on current local admission: three samples had normalized one-minute load 3.862 to 3.987 against 0.85, and 6.830 to 8.909 GB available against a 10.0 GB requirement; AC power passed
+- P5 final verifier returned null after three disjoint fresh-training seeds verified 0 of 4 pilot patterns; the result is programmatic-only and grants no scientific or confirmatory promotion
 
 Local path:
 
-- admit and complete P5 only after three consecutive samples satisfy the unchanged CPU-load and memory-headroom gates
-- run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after P5
+- run the exclusive P6 10k resource probe, full 10k replication, and independent checkpoint verifier after the terminal P5 null
 - exercise pause and resume under foreground, memory, thermal, disk, and unmanaged-process pressure without signaling user processes
 - prove data-order and numerical equivalence across repeated inner resumable segments
 - confirm heavy-plus-light or network concurrency, second-MPS denial, cooldown, starvation, and queue integration
@@ -1277,6 +1276,13 @@ Evidence:
 - `docs/LOCAL_EXECUTION_THROTTLE.md`
 - `proof/LOCAL_THROTTLE_P4_RUN.json`
 - `proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json`
+- `proof/P5_CONTEXT_CAPABILITY_SMOKE.json`
+- `proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json`
+- `proof/P5_CONTEXT_CAPABILITY_PILOT.json`
+- `proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json`
+- `proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json`
+- `runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json`
+- `proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json`
 
 Dependencies: EV3.
 
@@ -1767,7 +1773,7 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 ## Source snapshot
 
 - `proof/CUSTOM_SUBSTRATE_PILOT.json`: `bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2`
-- `proof/PROJECT_EXPERIMENT_EXHAUSTION.json`: `1aefde57c76e8e5483c83ba700d22c999c061a8b0ad5a8c7d1944b4b2d5d2d65`
+- `proof/PROJECT_EXPERIMENT_EXHAUSTION.json`: `09be97f99ccfa357d2b151ab981c34649fd30b0775c54115573d625db4ef3a1e`
 - `proof/FRONTIER_LOCALIZATION.json`: `c6445900cdc0b817fae46e7835ece92110182fffab1acdbaec7a3d5df3e00d78`
 - `proof/LOCAL_ACTION_ENVIRONMENT.json`: `df67dfb4334bf4647c7c2c164ad3f2aee5374cbd574aca227ff4f8058dd0c426`
 - `proof/VJEPA21_VITB_LOAD.json`: `c60eb456726e02773c30f42af093727b600e5a6eb67d5d3d094adb17cee241da`
@@ -1782,15 +1788,15 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 - `proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json`: `c16c7c4e9605f04ecbea80d462989661fbfe051d2661a905cd01bc8f4ff4e376`
 - `proof/FORM_SUBSTRATE/SCORECARD.json`: `ddd686a1027c27dd1c9816c87b250f4a0db483e9805756096c262e7fa0169cd1`
 - `proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json`: `b9ae786ad93f74ee58e4f389ac1ad84ffea64801997832c6dfe35a5c64a9e11e`
-- `proof/EXTENDED_COMPUTE_REQUIREMENTS.json`: `ed176ce25b88d2ddcc9e2be54ab4a3a2fd031ef22256628d89f1070bbfa03c85`
+- `proof/EXTENDED_COMPUTE_REQUIREMENTS.json`: `acbacdf294ed4ce6fc39c009b19301a1d85ced8bd86af2f2a8977c00bf7b48b6`
 - `proof/P4_CAPABILITY_DENSITY_SCREEN.json`: `6330950bfab8d34a9864dd6a98df9b6a69c4a17085ed64a4cecf58669ef58da0`
 - `proof/P5_MEMORY_BOUNDARY_TRACE.json`: `78db1cfa4ac6343484e3eeefd95a2461328d2396d3fb5b6a7a88fb25fc4d6b24`
 - `proof/COMPLETION_CLAIM_AUDIT.json`: `bea938f35fa694d5877cde558d09fb8b171b159577a2acad0e29210733e24363`
 - `proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json`: `6b667edfd83961b747cb9f153ab310b08d169bd525a71f25416b1310c7d0595b`
 - `proof/LOCAL_EXECUTION_THROTTLE_P4_CPU_DRY_RUN.json`: `609dac6539b09d8be887daadbb6b02b5cf889b77c3f468a620bb0aee804b42d0`
 - `proof/LOCAL_EXECUTION_THROTTLE_P6_10K_DRY_RUN.json`: `656de322d5567a08dc5207c9d21983af3fe7fdef3b1ec389548a6a9e4bde3547`
-- `configs/local_execution_throttle.yaml`: `d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685`
-- `src/mop/studio/local_throttle.py`: `73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7`
+- `configs/local_execution_throttle.yaml`: `11a5cfe6515a77f27de00af683dd325152387c5a19bdd1c797a18e791fc01a0a`
+- `src/mop/studio/local_throttle.py`: `09f29e76dc6211e5a0ca918a16bda3e5f81c035853ae68f2e58e45d9ac926c91`
 - `docs/LOCAL_EXECUTION_THROTTLE.md`: `7659a694c14b0e79a2a0cc6b92ba284c9f0427bcb6d99e7f39aaf2ea6d1fc050`
 - `configs/custom_substrate/requirements.yaml`: `fba9c54a1e4ba913c45622dc1524a25a2dcbbbe40852961bff6f64a16da11c16`
 - `FORM_SUBSTRATE_DEEP_RESEARCH_2026_07.md`: `70bb8333fbcf9218f82e7c9d0625866c22b40f7796531d37b8fbd3d53572ba82`
@@ -1799,7 +1805,7 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 - `registry/experiments.yaml`: `2061af6e6a58b2baf48d9e2f1ddb0b2c127bb70cb20fc5e8b638e2be22ca4b64`
 - `proof/LOCAL_THROTTLE_P4_RUN.json`: `709e077bc0665176585f656a1a5d1eb654ccfe5e588fc012cb342ad7aa4c299a`
 - `scripts/build_mop_potential_atlas.py`: `80eb539307621ac3cc49026f889bf1435afa53c6a2dfef3aaef7b858260344c4`
-- `src/mop/studies/potential_atlas_driver.py`: `3cc651e7a0fb6dda1627a88b09d0b2faccf9e5624138ab9071958ce60c139eb6`
+- `src/mop/studies/potential_atlas_driver.py`: `19f65240a4afb60f58c86c05f8a51e464a0927d89cad400956154d3b5b7fa1f0`
 - `proof/SENSING_SCAFFOLD_RUN.json`: `870a3b81ba436fff9f70b63df87917b3b07ee8537ce33a3995452d7f10e3a5f6`
 - `proof/SENSING_SCAFFOLD_VERIFICATION.json`: `d0b62927ec225af9264e46e0e0806d52cbcd6e302d9711cbe1d63b6274e09d08`
 - `proof/INTEGRATION_BROADCAST_RUN.json`: `b3dc04a94f3a59ae2783785812db7a0914139cf2366f2fe122288d0a58cd4360`
@@ -1814,12 +1820,21 @@ Categories 8 and 9 remain empty. Rights, data, environments, participants, and s
 - `docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md`: `a6b99f2517947a9e5514804acc4f89e0d944a2b6bd0e692f0d6cba9f151bb482`
 - `scripts/continual_million_event_rung.py`: `19d86737e57df4df96dc2dced83847792b8bdb32e87a92aac90d723c999b4b90`
 - `scripts/p5_context_capability.py`: `f3ecc2fce57c03423a2ea28545737da934715dfdfc2423ae2b9920b1436755e8`
-- `scripts/p5_context_fresh_challenge.py`: `e1a935ae05b897eaa9bd78561e20085d8490fcb0a42fe044315cfb47bb7765c8`
+- `scripts/p5_context_fresh_challenge.py`: `742df9c363e174dee1545a0123c492dd2e81a347b750e95daa79ffd485ce15de`
 - `scripts/p5_traingrid_memory_probe.py`: `d083e2c9964a990c3eb9571431a7d40c975242be8a5f0e57baf13747e65eb263`
 - `scripts/verify_continual_million_event_rung.py`: `d14ae866050e92cd67fde7cc377a31c9a9de4fb98d5fad12094de74aa88490b0`
-- `scripts/verify_p5_context_capability.py`: `d91d2744cb161e53a5455d57ad66c2af41eca0cce5407bdf23a34099095dc908`
+- `scripts/verify_p5_context_capability.py`: `240e2aab82dbf4dbb54707ce63a0a5dbc317025cc1d710f2bc1e5c2f507697fa`
 - `src/mop/studies/continual_million_event_verify.py`: `f9508cc2edd9f01870c3060da6f67461e1fddac554520207277afa7cadc0f923`
 - `src/mop/studies/p5_context_challenge.py`: `ba28d1d005ab73f98b2cca0c7496b991659acb7530b153cdbdf177fee266962a`
 - `src/mop/studies/p5_context_verify.py`: `5cb684c2b42be0eac62adf2ce6f4af64dafc2735202457b78d88c07a70871c1d`
 - `src/mop/substrate/p5_context.py`: `0b8628e233b5647cdfc9405553683acbf21da6a0c2ed953b0fab5c71242b19d2`
-- `proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json`: `4ef308285a26401ee489c3d83d4eebb72f8420a6b3dc68120126260254d018cd`
+- `proof/LOCAL_THROTTLE_P5_SMOKE_RUN.json`: `717a7b0be5b394f17fa689ae2cb8d9d8756616ee2da6b3e0215c0a2667406fb0`
+- `proof/P5_CONTEXT_CAPABILITY_SMOKE.json`: `fedc57d9211b3ebe9a9ff7ed958df5f4328bcb9c62b42198876a6b9ac5b00b5f`
+- `proof/LOCAL_THROTTLE_P5_PILOT_RUN_LEG6.json`: `cdfa7345ece609fc2aa273166630c264bd251e421647a6c6fbb08b7847f447b5`
+- `proof/P5_CONTEXT_CAPABILITY_PILOT.json`: `8133f1872bbd5ebdfb0e7deaf4e628ce9b6e2022b97e473e99da9a94fb03b69a`
+- `proof/LOCAL_THROTTLE_P5_FRESH_CHALLENGE_RUN_LEG2.json`: `762d31163e22a6637da4f78d741d2dd6a104da4eeb33ba41f7d6a0d5cd062a86`
+- `proof/P5_CONTEXT_CAPABILITY_FRESH_CHALLENGE.json`: `99ef54ea48452f4283cef0e6c90d90d64144604cc391cfb757e5ce94056150b7`
+- `runs/local_throttle/mac-studio-substrate-policy-transition-v1-p5verify_cpu-20260712T135308Z-leg01/run_receipt.json`: `4abb704f4c0ae12033b7c60184ea7878713844e976432194f0171120ba69ae7d`
+- `proof/P5_CONTEXT_CAPABILITY_VERIFICATION.json`: `743ce07180f0728f3074b2ac9c78a9aa12ff23f33aeebeffd45bebecacb5f077`
+- `src/mop/studies/p5_terminal_evidence.py`: `986216dc18158ff7253b5325a1c9f383255afc9db1a5460a968409f621e3d2ff`
+- `src/mop/studies/potential_atlas_validation.py`: `38cc47f61c91be862690f11d02b4bbcd17f384ecba6d272b8d941af2a2fae1d9`

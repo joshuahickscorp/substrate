@@ -1,0 +1,38 @@
+{
+  "added_execution_order_ids": [
+    "escs_substrate_cpu"
+  ],
+  "added_known_heavy_markers": [
+    "run_edcm1_event_triggered_coalition.py",
+    "run_escs_x0_event_formation.py",
+    "tools/condense/audit_ladder.py",
+    "tools/condense/doctor.py",
+    "vendor/strand-quant/target/release/quantize-model",
+    "bin/hf download",
+    "bin/hf cache verify",
+    "computexchange/agent/target/release"
+  ],
+  "added_task_ids": [
+    "edcm1_official_cpu",
+    "edcm1_verify_cpu",
+    "escs_x0_official_cpu",
+    "escs_x0_verify_cpu"
+  ],
+  "baseline_manifest": {
+    "manifest_sha256": "6203b72f8e12bedecc3f7aa460c7d6e9a9827c28a1c052d7928c1fe8c6ca65a6",
+    "path": "/Users/scammermike/Downloads/mop/proof/LOCAL_THROTTLE_POLICY_BASELINE_V1.json"
+  },
+  "new_policy_sha256": "bdea49bb90990016600778ed79ddbf3519f19e186d92d88c1917424951bc6d97",
+  "old_policy": {
+    "path": "/Users/scammermike/Downloads/mop/configs/local_execution_throttle.yaml",
+    "sha256": "d2d113bf77daabe977515049e226d20b5333dac2597888ae756d5fd5908dd685"
+  },
+  "overlay": {
+    "path": "/Users/scammermike/Downloads/mop/configs/campaign/substrate_task_overlay.yaml",
+    "sha256": "023852c5d044c2da6275d55d4bcaa186ecc1bda98907ac6bb613299a1fb255b7"
+  },
+  "preview_sha256": "b899a0d44710d6792511f282ec37e150ae715749d276828841cafc757f5c0209",
+  "safety_contract_sha256": "b7e764e511ccf13425a3a917d0cde0705f134a3d7b4b88b75f33432ab99cbdd6",
+  "schema": "mop-local-throttle-policy-migration-preview/v1",
+  "scientific_promotion": false
+}
