@@ -1,12 +1,13 @@
 # Generation 1 Empirical Campaign
 
-**Status:** detached v2 census launched; durable supervisor status is inspected only on operator request
+**Status:** detached v2 census running with one accepted, dependency-gated post-run synthesis injection; durable supervisor status is inspected only on operator request
 **Snapshot date:** 2026-07-13
 **Immediate launch scope:** 24 fresh seeds by 128 existing CPU-now experiment classes
+**Accepted derived scope:** conservative evidence synthesis plus an independent mutation-tested verifier after the empirical report
 **External benchmark scope:** future injectable epochs only, excluded from the immediate launch
 **Optimization target:** verified intelligence and adaptability per unit of fully charged computation
 
-The launched program is `generation1-empirical-cognitive-corpus-v2`, sealed as `a787b871315b491c6bbbf6a24da279dab3462d173a011d4e23692e7dbac12893`. It contains 43 deterministic capsules and 459 file authorities. The initial detached supervisor identity was acknowledged alive with no problems; subsequent progress is event-driven and does not require conversational polling.
+The launched base program is `generation1-empirical-cognitive-corpus-v2`, sealed as `31bd05924a9ebd9a97f05acc46503bb4ab6f9a37ff4e8c9e3c89ceecfa01bfa8`. It contains 43 deterministic base capsules and 459 file authorities. The detached supervisor accepted injection `inj-000001-bc8051b78fba`, sealed as `91f6ae230a5b2bf12fb7ff7d67cd89cb1ba04d6ad68b26fdd9ea70097cdddd23`, at the exact first queue boundary. The immutable receipt is sealed as `dc4f92384062ae4d2934efeed8c1e2a3a8a865257d74c5d3c3c9f11d853e6e31` and advances queue head `bd03c9fcdf89606c1a39c834dc398885bf225a3852e2b903570e847ecbaf7e34` to `2dda8a13000eba58c95a5e389f7ff6d50b302a80762408e69e77f6f47a33b25d`. The accepted child adds two exploratory capsules, for 45 total, and cannot run until `g1_empirical_report` completes. Its receipt reports no problems and keeps scientific promotion false. Progress remains event-driven and does not require conversational polling.
 
 This document consolidates the empirical starting point, the immediate Generation 1 local corpus, and the longer mechanism sequence needed to turn the existing Event-Sourced Coalition Substrate scaffolding into an evidence-bearing cognitive substrate. It extends, but does not override, the evidence and governance contracts in [the one-shot ESCS campaign](./19_one_shot_escs_campaign.md), [the ESCS architecture](./18_event_sourced_coalition_substrate.md), and [the substrate assembly](../ESCS_SUBSTRATE_ASSEMBLY.md).
 
@@ -227,7 +228,7 @@ It can answer:
 
 - Which prior programmatic directions are stable across substantially more outer seeds.
 - Which effects are fragile, mixed, or missing an explicit null contract.
-- Which capability packs contain several independent candidate traces.
+- Which capability packs tag several recurring candidate traces from distinct implementation-source families, without treating tag overlap as independence or complementarity.
 - Which classes repeatedly favor cheap specialized controls over mixtures or loops.
 - Where the next mechanistic bed should be built and where further scaling is unwarranted.
 
@@ -276,55 +277,38 @@ G1-C0: 24 seeds x 128 local experiment classes             [configured immediate
     v
 aggregate + structural verifier + immutable corpus
     |
-    +--------------------+----------------------+--------------------+
-    |                    |                      |                    |
- stable null      mixed/seed-sensitive   descriptive-only   stable candidate trace
-    |                    |                      |                    |
- control/retire    targeted fresh epoch   repair metrics       competence atlas
-    |                    |                      |                    |
-    +--------------------+----------------------+--------------------+
-                                                                  |
-                                                                  v
-                                                   G1-C1 actor niche validation
-                                                                  |
-                                             +--------------------+------------------+
-                                             |                                       |
-                                    no oracle headroom or                       disjoint niches
-                                    off-ceiling difficulty                           |
-                                             |                                       v
-                                      invalid bed, repair                  G1-C2 complementarity
-                                                                                     |
-                                                      +------------------------------+------------------+
-                                                      |                              |                  |
-                                                G1-E1 events                    G1-R1/P1 memory     G1-A1/S1 causal
-                                                X0-R redesign                   and plasticity      planning/simulation
-                                                      |                              |                  |
-                                                      +---------------+--------------+------------------+
-                                                                      |
-                                                                      v
-                                                           G1-D1 shadow arbitration
-                                                                      |
-                                              +-----------------------+------------------------+
-                                              |                       |                        |
-                                         G1-M1 messages          G1-V1/K1 verifier        G1-U1/N1 risk,
-                                         and cooperation         and contradiction         novelty, curiosity
-                                              |                       |                        |
-                                              +-----------------------+------------------------+
-                                                                      |
-                                                                      v
-                                                       G1-G1 counterfactual G0 formation
-                                                                      |
-                                                                      v
-                                                        G1-I1 integrated ESCS shadow test
-                                                                      |
-                                              +-----------------------+------------------------+
-                                              |                                                |
-                                            null                                      positive local pattern
-                                              |                                                |
-                                   retain simpler control                           fresh independent epoch
-                                                                                              |
-                                                                                              v
-                                                                                strict promotion review
+empirical report -> evidence synthesis -> independent synthesis verifier
+    |
+    +-- stable null ----------> control or retire
+    +-- mixed/seed-sensitive -> targeted fresh epoch
+    +-- descriptive-only ----> repair instrumentation
+    +-- candidate trace -----> bounded successor-hypothesis selection only
+    |
+    +-- direct C0 successors eligible for separate preregistration, not activation:
+    |      G1-C1 niches       G1-E1 events       G1-R1 memory      G1-P1 plasticity
+    |      G1-A1 causality    G1-S1 simulation   G1-U1 uncertainty G1-N1 curiosity
+    |
+    +-- G1-C1 ----------------------> G1-C2 complementarity
+    |       |                              |
+    |       +--> G1-V1 verification       +--> G1-M1 messages
+    |       +--> G1-K1 contradiction      |
+    |                                      |
+    +-- G1-C1 + G1-C2 --------------------+--> G1-D1 arbitration
+    |                                      +--> G1-G1 counterfactual formation
+    |
+    +-- G1-E1 + G1-D1 + G1-M1 + G1-V1 + G1-R1 + G1-P1
+                                           |
+                                           v
+                               G1-I1 integrated ESCS shadow test
+                                           |
+                          +----------------+----------------+
+                          |                                 |
+                        null                    positive local pattern
+                          |                                 |
+               retain simpler control             fresh independent epoch
+                                                            |
+                                                            v
+                                                 strict promotion review
 
 future external procedural benchmark packs
     -> separately versioned injectable epochs
@@ -483,7 +467,7 @@ Nulls are productive terminal results. The campaign should continue to independe
 
 ### 8.2 Injection contract
 
-The detached workflow may accept later work without mutating an active or completed epoch. Every injection is a new child epoch containing:
+The detached workflow may accept later work without mutating an active or completed epoch. Every data-producing injection is a new child epoch containing:
 
 - A unique epoch ID and parent corpus digest.
 - Exact code, config, generator, dependency, and license identities.
@@ -493,6 +477,8 @@ The detached workflow may accept later work without mutating an active or comple
 - Explicit controls, null, SESOI, output paths, retry semantics, and terminal routes.
 - A statement of whether it is discovery, mechanism, confirmation, or promotion evidence.
 - A separate aggregate and verifier artifact.
+
+A read-only derived-analysis injection does not invent new empirical cells merely to satisfy the data-epoch shape. It instead depends on the completed source aggregate and verifier, binds their exact bytes when it executes, declares every scientific boundary it cannot test, and emits its own sealed result plus an independent verifier. The accepted `inj-000001-bc8051b78fba` child follows this second form: `g1_evidence_synthesis` depends on `g1_empirical_report`, and `g1_evidence_synthesis_verify` depends on the synthesis. It adds no seeds, experiment classes, or activation authority.
 
 An injection may add an experiment family, independent generator, metric, actor implementation, or confirmation test. It may not change the 24 local seeds, 128-class set, stability thresholds, completed manifests, or interpretation of the immediate corpus. If a new insight changes the question, it creates a new epoch rather than editing history.
 
@@ -642,6 +628,9 @@ The immediate launch is complete only when these artifacts exist and verify:
 5. `proof/GENERATION1_COGNITIVE_CORPUS.verification.json`, independently reconstructing seed derivation, execute-once references, current implementation/config hashes, manifests, attempts, seed receipts, scientific fingerprints, summaries, packs, operations, and the full corpus. Its required checks include `all_attempt_receipts_valid`, `all_cell_authorities_valid`, `seed_authority_exact`, `no_pseudoreplication`, `independent_summary_match`, and `directional_inference_fail_closed`.
 6. The sealed resource-canary receipt that justifies the frozen worker and memory envelope from the exact 16-worker batch.
 7. The sealed program manifest, program state, on-demand status snapshot, per-capsule logs, shared-lane reservation receipts, and bounded live resource-event summaries produced by the detached supervisor.
+8. `proof/GENERATION1_EVIDENCE_SYNTHESIS.json`, binding the verified corpus, corpus verifier, empirical report, and the base-runtime subset of program state while deriving exact traces, null-safe actions, untested claim boundaries, the 16-by-10 mechanism evidence matrix, and a dependency-only successor queue.
+9. `proof/GENERATION1_EVIDENCE_SYNTHESIS.verification.json`, independently recomputing the synthesis views, requiring every source verifier check, and rejecting all eight semantic mutation probes while keeping activation and promotion false.
+10. `proof/GENERATION1_RELEASE_AUDIT.json`, produced only after terminal completion, binding the final 45-capsule state/status pair, injection chain and receipt, all proof bytes, artifact gates, and verifier outcomes into one non-promotional release receipt.
 
 ### 11.2 Derived Generation 1 report artifacts
 
@@ -655,7 +644,7 @@ After verification, read-only analytics should derive:
 - A candidate competence tensor proposal mapping tasks, contexts, difficulties, shifts, actors, seeds, quality, and cost.
 - A complementarity shortlist requiring independent niche tests before any dispatch training.
 - A redesign queue for X0-R, memory/plasticity ecology, action-value simulation, and disagreement-triggered verification.
-- An innovation trace report describing only patterns supported by the corpus, such as context-disjoint niches, nonlinear interactions, repeated control dominance, or unexpected cross-pack stability.
+- An innovation trace report describing only patterns supported by the corpus, such as stability margin to the frozen threshold, source-family diversity, candidate/null/mixed topology across overlapping packs, repeated control dominance, instrumentation debt, or source-distinct recurrence. The C0 census cannot establish context-disjoint actor niches, nonlinear cooperation, or complementarity.
 - A resource report covering attempts, retries, wall time, peak RSS evidence where available, pause/resume events, and disk use.
 
 Derived reports may recommend new epochs. They cannot edit the source corpus or promote a mechanism automatically.
@@ -679,9 +668,9 @@ Until those artifacts exist, the honest result is a mechanically formed substrat
 
 ## 12. Decision after the immediate run
 
-The first decision is not whether to turn on all 31 perspectives. It is whether the 24-seed census reveals enough stable, context-disjoint competence to justify a small shadow coalition.
+The first decision is not whether to turn on all 31 perspectives. It is which bounded successor hypotheses, if any, the 24-seed census supports preregistering. The census cannot reveal context-disjoint actor competence or justify a shadow coalition; those are separate G1-C1 and G1-C2 questions.
 
-If it does, the next high-information sequence is:
+If verified source-distinct traces and null-safe constraints identify a worthwhile successor bed, the next high-information sequence is:
 
 1. Validate actor niches on explicit task families.
 2. Establish complementarity and oracle-routing headroom.
