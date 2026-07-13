@@ -1,8 +1,8 @@
 # ESCS X1 counterfactual dispatch preregistration audit
 
-**Status:** runnable scaffold, preregistered, intentionally unexecuted
-**Evidence ceiling:** generated structured-observation mechanics only
-**Candidate activation:** disabled
+**Status:** runnable scaffold, preregistered, intentionally unexecuted  
+**Evidence ceiling:** generated structured-observation mechanics only  
+**Candidate activation:** disabled  
 **Scientific promotion:** blocked regardless of outcome
 
 X1 is Experiment 1 from `docs/mixture_of_perspectives/18_event_sourced_coalition_substrate.md`.
