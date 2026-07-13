@@ -1,8 +1,9 @@
 # Archive: V-JEPA-era legacy
 
-Pointer index only. Members are archived IN PLACE; statuses are fixed in the root LEGACY_INDEX.md.
+Pointer index. As of 2026-07-13 the corpus trilogy was physically relocated here from the repo root
+during the tabula-rasa docs consolidation; statuses are fixed in the root LEGACY_INDEX.md.
 
-Members (frozen origin narrative; evidence and citations only):
+Members now living in this directory (frozen origin narrative; evidence and citations only):
 
 - developmental_jepa_corpus.md
 - developmental_jepa_corpus_vol2.md
