@@ -1,7 +1,7 @@
 # ESCS X0 charged event-formation preregistration audit
 
-**Status:** implemented, preregistered, and intentionally unexecuted
-**Evidence ceiling:** Gate-A generated candidate/control evidence only
+**Status:** implemented, preregistered, and intentionally unexecuted  
+**Evidence ceiling:** Gate-A generated candidate/control evidence only  
 **Scientific promotion:** blocked regardless of outcome
 
 X0 is Experiment 0 from `docs/mixture_of_perspectives/18_event_sourced_coalition_substrate.md`.
