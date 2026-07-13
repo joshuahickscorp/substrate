@@ -2,8 +2,8 @@
 
 `configs/experiment/escs_substrate_assembly.json` projects the complete perspective-candidate registry
 into one content-addressed ESCS assembly. All 31 requested facets have a stable slot. This is the low
-Gate-A integration boundary: inclusion is cheap and reversible, while activation and scientific promotion
-remain separate authorities.
+Gate-R registry and assembly boundary: inclusion is cheap and reversible, while Gate-A activation and
+scientific promotion remain separate authorities.
 
 The projection preserves evidence rather than flattening it:
 
@@ -33,6 +33,8 @@ rebuilds those joins and publishes `proof/ESCS_SUBSTRATE_PREFLIGHT.json`.
 
 The current preflight is scaffold-ready with all declared bindings exact and all 31 perspective slots
 installed. It also records the intentionally negative activation facts: runtime activation is not ready,
-G0 evaluator construction is incomplete, and scientific promotion is unavailable. A valid preflight is
-therefore consolidated integration evidence, not a capability result. Any artifact drift, registry splice,
-schema mismatch, enabled slot, or enabled topology grammar fails the report closed.
+G0 topology efficacy and live mutation authority remain absent, and scientific promotion is unavailable.
+The bounded G0 evaluator and formation mechanics now exist, but they authorize no factual effects or live
+topology change. Generation-1 C0 remains a discovery census and cannot itself upgrade a slot or cross Gate
+A. A valid preflight is therefore consolidated integration evidence, not a capability result. Any artifact
+drift, registry splice, schema mismatch, enabled slot, or enabled topology grammar fails the report closed.

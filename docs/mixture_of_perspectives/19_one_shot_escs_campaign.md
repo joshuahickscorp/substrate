@@ -1,10 +1,12 @@
 # One-Shot ESCS Campaign
 
-**Status:** canonical execution plan
+**Status:** frozen historical execution contract; current live authority is the Generation-1 campaign record
 **Campaign schema:** `mop-escs-one-shot-campaign/v1`
 **Snapshot date:** 2026-07-12
 **Scope:** Event-Sourced Coalition Substrate (ESCS), prerequisite experiments, integration, and promotion
 **Optimization target:** maximize verified intelligence produced per unit of computation, not model size or aggregate compute
+
+> **Outcome supersession, 2026-07-13:** This document preserves the preregistered one-shot design and must not be rewritten as though later outcomes were known in advance. Current execution state, the Generation-1 discovery census, and the accepted post-run synthesis child are governed by [the Generation-1 empirical campaign](./20_generation1_empirical_campaign.md) and their sealed proof artifacts. Later evidence established X0 as a strong null for its tested learner, EDCM-1/X1 as an invalid complementarity bed, and P6-10k as a joint retention/future-learning null that blocks its larger rungs. None establishes an active or superior integrated ESCS.
 
 This document is the execution contract for taking the existing ESCS mechanics, active prerequisite work, and surviving Mixture-of-Perspectives evidence through an autonomous experimental campaign. It is deliberately stricter than an implementation roadmap: every long-running stage has an entry gate, a terminal verdict, and an explicit route after positive, null, failed, blocked, or invalid-bed outcomes.
 
@@ -75,6 +77,16 @@ These codes describe evidence, not software completeness. A component can be ful
 | P5 context control | `N` | The fresh challenge and independent verifier are complete. The verifier accepted every control and mutation test but returned a terminal null. P5 therefore fixes a bounded context control/constraint; it supplies no architectural efficacy premise and grants no promotion. |
 | P6 continual stream | `P` | The 384-event mechanics pass. The exclusive 10k to 100k to 1m ladder remains pending. |
 | EDCM-1 | `P` | Implemented and preregistered; official governed run and independent verification remain pending. |
+
+### 2.5 Post-snapshot outcome ledger
+
+| Work | Terminal standing | Current consequence |
+|---|---:|---|
+| X0 event formation | `N` | The tested learner saved work while destroying utility; relational and temporal event state require a new sealed design. |
+| EDCM-1 and X1 | invalid bed | Complementarity failed before routing, so no learned-dispatch inference or activation premise exists. |
+| P6 10k | `N` | Replay improved retention without joint future-learning benefit; the 100k and 1m scale-ups remain blocked. |
+| G0 formation | `M` | Counterfactual formation and bounded archive mechanics exist; topology efficacy, factual effects, and live mutation authority remain absent. |
+| Generation-1 C0 | discovery only | The 24-seed census and its derived synthesis may select bounded successor hypotheses. They cannot establish actor niches, cooperation, integrated substrate advantage, activation, or promotion. |
 
 ## 3. Architectural hypothesis under test
 
