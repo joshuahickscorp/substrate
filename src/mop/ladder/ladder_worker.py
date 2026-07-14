@@ -8,9 +8,9 @@ a sealed receipt JSON atomically to the output path. Nondeterminism across repet
 a failure: the worker exits nonzero and writes no receipt.
 
 Wall clock time is never placed inside the sealed payload so the receipt stays deterministic; timing
-is printed to stderr only. Top level imports are kept to the standard library plus the demonstration
-adapter, and the adapter defers each mechanism import into its epoch handler, so a worker pays only
-for the one epoch it runs. That matters because the campaign schedules many concurrent workers.
+is printed to stderr only. The run registry imports each mechanism's bed and runner on demand, so a
+worker pays only for the one epoch it runs. That matters because the campaign schedules many concurrent
+workers. The runner mints a mechanics-demonstration RunReceipt; this worker never emits a confirmation.
 
 Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
 House style: no em dashes and no en dashes.
@@ -28,7 +28,7 @@ import time
 from typing import Any
 
 from ..substrate.events import canonical_sha256
-from .stage3_demonstrations import run_demonstration
+from .stage3_registry import run_demonstration
 
 RECEIPT_SCHEMA = "mop-ladder-worker-receipt/v1"
 
@@ -55,9 +55,13 @@ def build_receipt(epoch: str, seed: int, reps: int) -> dict[str, Any]:
         "epoch": epoch,
         "seed": seed,
         "reps": reps,
-        "verdict_status": first.verdict_status,
-        "null_holds": first.null_holds,
-        "controls_ok": first.controls_ok,
+        "mechanism_id": first.mechanism_id,
+        "stage": first.stage,
+        "requirement_id": first.requirement_id,
+        "verdict": first.verdict,
+        "kind": first.kind,
+        "is_confirmation": first.is_confirmation,
+        "controls_cleared": list(first.controls_cleared),
         "result_digest": reference_digest,
         "claim_scope": first.claim_scope,
     }

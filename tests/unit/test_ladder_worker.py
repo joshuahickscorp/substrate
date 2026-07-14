@@ -14,7 +14,7 @@ from typing import Any
 import pytest
 
 from mop.ladder import ladder_worker
-from mop.ladder.stage3_demonstrations import run_demonstration
+from mop.ladder.stage3_registry import run_demonstration
 from mop.substrate.events import canonical_sha256
 
 
@@ -35,8 +35,10 @@ def test_main_writes_a_sealed_receipt_and_exits_zero(tmp_path: Path) -> None:
     assert receipt["epoch"] == "event_formation"
     assert receipt["seed"] == 0
     assert receipt["reps"] == 3
-    assert receipt["null_holds"] is True
-    assert receipt["controls_ok"] is True
+    assert receipt["mechanism_id"] == "event_formation"
+    assert receipt["kind"] == "mechanics-demonstration"
+    assert receipt["is_confirmation"] is False
+    assert receipt["verdict"] in ("null", "pending", "mechanics-ok")
 
     # The seal is over every field except receipt_sha256, exactly as the orchestrator recomputes it.
     declared = receipt["receipt_sha256"]
