@@ -349,12 +349,31 @@ class LadderCampaign:
             "detail": detail,
         }
 
+    def _run_stage45_harnesses(self) -> dict[str, dict[str, Any]]:
+        """Execute the Stage 4 and Stage 5 harness machinery once, in-process. Both are light and gated.
+
+        These run the real harnesses so the whole ladder executes, not just Stage 3. With zero Stage 3
+        confirmations the Stage 4 harness fails closed to null; the Stage 5 harness demonstrates its own
+        machinery on its favorable bed. Neither can mint a confirmation, so neither opens a gate.
+        """
+
+        from ..mechanisms import stage4_integration_bed, stage4_integration_runner, stage5_validity_runner
+        from ..mechanisms.stage5_validity_bed import Stage5ValidityBed
+
+        s4 = stage4_integration_runner.run([], stage4_integration_bed.build_default_bed(), 0)
+        s5 = stage5_validity_runner.run(Stage5ValidityBed(), 0)
+        return {
+            "stage4": {"verdict": s4.verdict, "kind": s4.kind, "is_confirmation": s4.is_confirmation},
+            "stage5": {"verdict": s5.verdict, "kind": s5.kind, "is_confirmation": s5.is_confirmation},
+        }
+
     def _stage45(self, stage3: dict[str, Any]) -> dict[str, Any]:
         confirmed = sum(
             1
             for epoch in stage3.get("by_epoch", {}).values()
             if int(epoch.get("confirmations", 0)) > 0
         )
+        harnesses = self._run_stage45_harnesses()
         return {
             "stage4": {
                 "name": "integrated architecture advantage",
@@ -364,11 +383,13 @@ class LadderCampaign:
                     "the honest null demonstrations mint no confirmation receipt"
                 ),
                 "confirmed_mechanisms": confirmed,
+                "harness_ran": harnesses["stage4"],
             },
             "stage5": {
                 "name": "natural, session-disjoint general validity",
                 "status": "not entered",
                 "reason": "entry needs Stage 4 plus measured session-disjoint validity across every axis",
+                "harness_ran": harnesses["stage5"],
             },
         }
 
