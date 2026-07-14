@@ -32,7 +32,7 @@ from typing import Any
 
 from ..substrate.events import canonical_sha256
 from .dynamic_throttle import DynamicThrottleController, ThrottlePolicy, read_host_sample
-from .stage3_demonstrations import STAGE3_EPOCHS
+from .stage3_registry import STAGE3_EPOCHS
 
 SCHEMA = "mop-ladder-campaign/v1"
 REPORT_SCHEMA = "mop-ladder-campaign-report/v1"
@@ -226,9 +226,10 @@ class LadderCampaign:
             declared = receipt.get("receipt_sha256")
             core = {key: value for key, value in receipt.items() if key != "receipt_sha256"}
             record["ok"] = declared == canonical_sha256(core)
-            record["verdict_status"] = receipt.get("verdict_status")
-            record["null_holds"] = receipt.get("null_holds")
-            record["controls_ok"] = receipt.get("controls_ok")
+            record["verdict"] = receipt.get("verdict")
+            record["kind"] = receipt.get("kind")
+            record["is_confirmation"] = bool(receipt.get("is_confirmation"))
+            record["controls_cleared"] = receipt.get("controls_cleared", [])
             if not record["ok"]:
                 record["error"] = "receipt seal mismatch"
         else:
@@ -297,10 +298,11 @@ class LadderCampaign:
             by_epoch[epoch] = {
                 "seeds_ok": len(rows),
                 "seeds_total": len(self.config.seeds),
-                "null_holds_all": bool(rows) and all(row.get("null_holds") is True for row in rows),
-                "controls_ok_all": bool(rows) and all(row.get("controls_ok") is True for row in rows),
-                "verdicts": sorted({str(row.get("verdict_status")) for row in rows}),
+                "verdicts": sorted({str(row.get("verdict")) for row in rows}),
+                "mechanics_ok_seeds": sum(1 for row in rows if row.get("verdict") == "mechanics-ok"),
+                "confirmations": sum(1 for row in rows if row.get("is_confirmation") is True),
             }
+        confirmations = sum(int(entry["confirmations"]) for entry in by_epoch.values())
         return {
             "total_work": total,
             "completed": len(completed),
@@ -308,6 +310,8 @@ class LadderCampaign:
             "failed": len(completed) - len(ok),
             "peak_concurrency": peak_concurrency,
             "shed_total": shed_total,
+            "scientific_confirmations": confirmations,
+            "note": "demonstration receipts only; a confirmation needs real compute and verification",
             "by_epoch": by_epoch,
         }
 
@@ -349,7 +353,7 @@ class LadderCampaign:
         confirmed = sum(
             1
             for epoch in stage3.get("by_epoch", {}).values()
-            if epoch.get("null_holds_all") is False and epoch.get("seeds_ok", 0) > 0
+            if int(epoch.get("confirmations", 0)) > 0
         )
         return {
             "stage4": {

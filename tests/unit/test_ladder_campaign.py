@@ -104,15 +104,19 @@ def _write_receipt(path: Path, *, tamper: bool = False) -> None:
         "epoch": "event_formation",
         "seed": 0,
         "reps": 1,
-        "verdict_status": "x0-strong-null",
-        "null_holds": True,
-        "controls_ok": True,
+        "mechanism_id": "event_formation",
+        "stage": 3,
+        "requirement_id": "s3.event_formation",
+        "verdict": "mechanics-ok",
+        "kind": "mechanics-demonstration",
+        "is_confirmation": False,
+        "controls_cleared": ["wrong-time", "wrong-event"],
         "result_digest": "0" * 64,
         "claim_scope": "deterministic programmatic mechanics only; no capability or natural-data claim",
     }
     receipt = {**core, "receipt_sha256": canonical_sha256(core)}
     if tamper:
-        receipt["null_holds"] = False  # break the seal without recomputing it
+        receipt["verdict"] = "null"  # break the seal without recomputing it
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(receipt), encoding="utf-8")
 
@@ -128,7 +132,8 @@ def test_collect_accepts_valid_receipt(tmp_path: Path) -> None:
     )
     record = campaign._collect(handle, exit_code=0)
     assert record["ok"] is True
-    assert record["null_holds"] is True
+    assert record["verdict"] == "mechanics-ok"
+    assert record["is_confirmation"] is False
 
 
 def test_collect_rejects_tampered_receipt(tmp_path: Path) -> None:
