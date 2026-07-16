@@ -227,6 +227,13 @@ def test_planned_successor_programs_have_compact_labels() -> None:
     assert notifier._program_label("generation1-successor-horizon-v1") == "Successor Horizon"
     assert notifier._program_label("generation1-successor-extension-chain-v1") == "Successor Extension"
     assert notifier._program_label("generation1-successor-horizon-v2") == "Successor Horizon V2"
+    assert (
+        notifier._program_label("generation1-categorized-batch-extension-chain-v1")
+        == "Categorized Batch Extension"
+    )
+    assert (
+        notifier._program_label("generation1-successor-categorized-batch-wave-v1") == "Categorized Batch Wave"
+    )
 
 
 def test_event_eta_prefers_next_rung_cost() -> None:
