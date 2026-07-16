@@ -12,6 +12,7 @@ import pytest
 from mop.studio import generation1_successor_extension_chain as chain
 
 NOW = dt.datetime(2026, 7, 16, 8, 0, tzinfo=dt.UTC)
+_TEST_VALIDATOR = object()
 
 
 def _write(path: Path, payload: Mapping[str, Any]) -> None:
@@ -145,6 +146,8 @@ def _extension(
     target_starter: Any = None,
     process_table: Any = None,
     identity_probe: Any = None,
+    predecessor_completion_validator: Any = _TEST_VALIDATOR,
+    predecessor_launch_validator: Any = _TEST_VALIDATOR,
 ) -> tuple[chain.SuccessorExtensionChain, list[Path], SimpleNamespace]:
     manifest_path = tmp_path / "configs/campaign/generation1_successor_horizon_v2.json"
     program_sha256 = _target_manifest(manifest_path)
@@ -185,6 +188,16 @@ def _extension(
     )
     if target_status is not None:
         complete = target_status.get("state") == "complete"
+        generic_implementation = chain._generic_supervisor_authority(tmp_path)
+        supervisor = {
+            "pid": 4201,
+            "create_time": 4201.5,
+            "implementation_path": generic_implementation["path"],
+            "implementation_sha256": generic_implementation["sha256"],
+        }
+        supplied_supervisor = target_status.get("supervisor")
+        if isinstance(supplied_supervisor, Mapping):
+            supervisor.update(supplied_supervisor)
         target_artifact_report = _artifact_report(
             tmp_path,
             target_artifact_path,
@@ -199,7 +212,7 @@ def _extension(
                 "file_sha256": program.file_sha256,
                 "program_sha256": program.program_sha256,
             },
-            "supervisor": {"pid": 4201, "create_time": 4201.5},
+            "supervisor": supervisor,
             "execution_enabled": True,
             "state": target_status["state"],
             "queue_head_sha256": chain.canonical_sha256(
@@ -221,7 +234,7 @@ def _extension(
             "last_admission": {"allowed": True} if complete else None,
             "lane_reservation": None,
             "problems": [],
-            **target_status,
+            **{key: value for key, value in target_status.items() if key != "supervisor"},
         }
         normalized_core.pop("status_sha256", None)
         _write(status_path, _sealed(normalized_core, "status_sha256"))
@@ -233,6 +246,15 @@ def _extension(
         return program
 
     starter = target_starter if target_starter is not None else lambda *_args, **_kwargs: {}
+    validators: dict[str, Any] = {}
+    if predecessor_completion_validator is _TEST_VALIDATOR:
+        validators["predecessor_completion_validator_fn"] = lambda status: status
+    elif predecessor_completion_validator is not None:
+        validators["predecessor_completion_validator_fn"] = predecessor_completion_validator
+    if predecessor_launch_validator is _TEST_VALIDATOR:
+        validators["predecessor_launch_validator_fn"] = lambda: None
+    elif predecessor_launch_validator is not None:
+        validators["predecessor_launch_validator_fn"] = predecessor_launch_validator
     extension = chain.SuccessorExtensionChain(
         root=tmp_path / "runs/generation1" / chain.PROGRAM_ID,
         repo_root=tmp_path,
@@ -246,6 +268,7 @@ def _extension(
         target_starter_fn=starter,
         now_fn=lambda: NOW,
         sleep_fn=lambda _seconds: None,
+        **validators,
     )
     return extension, loads, program
 
@@ -323,6 +346,179 @@ def test_self_sealed_empty_v4_complete_status_is_rejected(tmp_path: Path) -> Non
     assert "v4 predecessor status fields drifted" in status["problems"][-1]
 
 
+def test_structurally_complete_fake_v4_status_without_durable_state_is_rejected(
+    tmp_path: Path,
+) -> None:
+    starts: list[object] = []
+    extension, _loads, _program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_starter=lambda *args, **kwargs: starts.append((args, kwargs)),
+        predecessor_completion_validator=None,
+    )
+
+    status = extension.tick()
+
+    assert status["state"] == "integrity_hold"
+    assert status["capsules"]["successor_horizon_v2"]["status"] == "pending"
+    assert starts == []
+    assert "v4 predecessor complete snapshot is invalid" in status["problems"][-1]
+
+
+def test_prelaunch_parent_authority_replay_failure_prevents_v2_start(
+    tmp_path: Path,
+) -> None:
+    starts: list[object] = []
+
+    def reject_launch() -> None:
+        raise ValueError("independent v1 replay rejected fabricated completion")
+
+    extension, _loads, _program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_starter=lambda *args, **kwargs: starts.append((args, kwargs)),
+        predecessor_launch_validator=reject_launch,
+    )
+
+    status = extension.tick()
+
+    assert status["state"] == "integrity_hold"
+    assert status["capsules"]["successor_horizon_v2"]["status"] == "pending"
+    assert starts == []
+    assert "independent v1 replay rejected fabricated completion" in status["problems"][-1]
+
+
+def test_prelaunch_parent_authority_replay_runs_before_v2_starter(
+    tmp_path: Path,
+) -> None:
+    calls: list[str] = []
+
+    def validate_launch() -> None:
+        calls.append("validate")
+
+    def start(_program: Any, **_kwargs: Any) -> Mapping[str, Any]:
+        calls.append("start")
+        return {}
+
+    extension, _loads, _program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_starter=start,
+        predecessor_launch_validator=validate_launch,
+    )
+
+    status = extension.tick()
+
+    assert status["state"] == "waiting_target"
+    assert calls == ["validate", "validate", "start"]
+
+
+def test_prelaunch_replays_v4_again_after_v1_before_v2_starter(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[str] = []
+    starts: list[object] = []
+    snapshots = [
+        {"state": "complete", "status_sha256": "a" * 64},
+        {"state": "integrity_hold", "status_sha256": "b" * 64},
+    ]
+    extension, _loads, _program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_starter=lambda *args, **kwargs: starts.append((args, kwargs)),
+        predecessor_launch_validator=None,
+    )
+
+    def replay_v4(_status: Mapping[str, Any]) -> Mapping[str, Any]:
+        calls.append("v4")
+        return snapshots.pop(0)
+
+    def build_admission(**_kwargs: Any) -> Mapping[str, Any]:
+        calls.append("v1-build")
+        return {"allowed": True}
+
+    def validate_admission(_admission: Mapping[str, Any]) -> None:
+        calls.append("v1-validate")
+
+    extension._validate_complete_predecessor_snapshot = replay_v4  # type: ignore[method-assign]
+    monkeypatch.setattr(chain.horizon_v2, "build_admission", build_admission)
+    monkeypatch.setattr(chain.horizon_v2, "validate_admission", validate_admission)
+
+    status = extension.tick()
+
+    assert status["state"] == "integrity_hold"
+    assert status["capsules"]["successor_horizon_v2"]["status"] == "pending"
+    assert calls == ["v4", "v1-build", "v1-validate", "v4"]
+    assert snapshots == []
+    assert starts == []
+    assert "changed during v2 prelaunch authority replay" in status["problems"][-1]
+
+
+def test_prelaunch_authority_is_rechecked_after_intent_publish(
+    tmp_path: Path,
+) -> None:
+    calls: list[str] = []
+    starts: list[object] = []
+
+    def validate_launch() -> None:
+        calls.append("validate")
+        if calls.count("validate") == 2:
+            raise ValueError("v4 regressed after launch intent")
+
+    extension, _loads, _program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_starter=lambda *args, **kwargs: starts.append((args, kwargs)),
+        predecessor_launch_validator=validate_launch,
+    )
+
+    status = extension.tick()
+
+    assert status["state"] == "integrity_hold"
+    assert calls == ["validate", "validate"]
+    assert starts == []
+    assert "v4 regressed after launch intent" in status["problems"][-1]
+
+
+def test_launch_intent_publish_is_an_authoritative_waiting_target_status(
+    tmp_path: Path,
+) -> None:
+    observed: list[dict[str, Any]] = []
+    extension: chain.SuccessorExtensionChain
+
+    def start(_program: Any, **_kwargs: Any) -> Mapping[str, Any]:
+        published = json.loads(extension.status_path.read_text(encoding="utf-8"))
+        observed.append(published)
+        assert (
+            chain.validate_extension_status(
+                published,
+                repo_root=tmp_path,
+                target_program_path=extension.target_program_path,
+                predecessor_status_path=extension.predecessor_status_path,
+            )
+            == "waiting_target"
+        )
+        return {}
+
+    extension, _loads, _program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_starter=start,
+    )
+
+    status = extension.tick()
+
+    assert status["state"] == "waiting_target"
+    assert observed[0]["capsules"]["successor_horizon_v2"]["status"] == "launching"
+
+
 def test_launch_updates_persist_in_same_tick_after_intent_publish(
     tmp_path: Path,
 ) -> None:
@@ -392,20 +588,37 @@ def test_live_target_is_monitored_without_duplicate_start(tmp_path: Path) -> Non
     assert starts == []
 
 
-def test_execution_disabled_target_status_is_recoverable_by_execute_start(
+@pytest.mark.parametrize(
+    ("target_state", "execution_enabled"),
+    (("execution_disabled", False), ("retry_wait", True)),
+)
+def test_recoverable_target_status_replays_authority_before_execute_start(
     tmp_path: Path,
+    target_state: str,
+    execution_enabled: bool,
 ) -> None:
+    calls: list[str] = []
     starts: list[tuple[Any, dict[str, Any]]] = []
+
+    def validate_launch() -> None:
+        calls.append("validate")
+
+    def start(program: Any, **kwargs: Any) -> Mapping[str, Any]:
+        calls.append("start")
+        starts.append((program, kwargs))
+        return {}
+
     extension, _loads, _program = _extension(
         tmp_path,
         predecessor_state="complete",
         execute=True,
         target_status={
-            "state": "execution_disabled",
-            "execution_enabled": False,
+            "state": target_state,
+            "execution_enabled": execution_enabled,
         },
-        target_starter=lambda program, **kwargs: starts.append((program, kwargs)) or {},
+        target_starter=start,
         identity_probe=lambda _identity: "gone",
+        predecessor_launch_validator=validate_launch,
     )
 
     status = extension.tick()
@@ -414,6 +627,7 @@ def test_execution_disabled_target_status_is_recoverable_by_execute_start(
     assert status["capsules"]["successor_horizon_v2"]["status"] == "running"
     assert len(starts) == 1
     assert starts[0][1] == {"execute": True, "use_caffeinate": True}
+    assert calls == ["validate", "validate", "start"]
 
 
 def test_complete_target_completes_extension_with_bound_status_artifact(
@@ -442,6 +656,76 @@ def test_complete_target_completes_extension_with_bound_status_artifact(
             "problems": [],
         }
     ]
+
+
+@pytest.mark.parametrize("drift", ("empty", "stale_implementation"))
+def test_target_status_requires_exact_generic_supervisor_authority(
+    tmp_path: Path,
+    drift: str,
+) -> None:
+    extension, _loads, program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_status={"state": "complete"},
+    )
+    forged = json.loads(program.status_path.read_text(encoding="utf-8"))
+    forged.pop("status_sha256")
+    if drift == "empty":
+        forged["supervisor"] = {}
+    else:
+        forged["supervisor"]["implementation_sha256"] = "0" * 64
+    _write(program.status_path, _sealed(forged, "status_sha256"))
+
+    status = extension.tick()
+
+    assert status["state"] == "integrity_hold"
+    assert "status metadata drifted" in status["problems"][-1]
+
+
+def test_complete_extension_snapshot_requires_exact_sibling_state_status(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    extension, _loads, program = _extension(
+        tmp_path,
+        predecessor_state="complete",
+        execute=True,
+        target_status={"state": "complete"},
+    )
+    status = extension.tick()
+    monkeypatch.setattr(
+        chain.SuccessorExtensionChain,
+        "_load_target_program",
+        lambda _self: program,
+    )
+    monkeypatch.setattr(
+        chain.SuccessorExtensionChain,
+        "_validate_terminal_artifacts",
+        lambda _self, _program: None,
+    )
+
+    validated = chain.read_validated_complete_extension_status(
+        root=extension.root,
+        repo_root=tmp_path,
+        target_program_path=extension.target_program_path,
+        predecessor_status_path=extension.predecessor_status_path,
+    )
+
+    assert validated == status
+    assert validated["state"] == "complete"
+
+    extension.state_path.unlink()
+    with pytest.raises(
+        chain.SuccessorExtensionRefused,
+        match="successor extension state is missing",
+    ):
+        chain.read_validated_complete_extension_status(
+            root=extension.root,
+            repo_root=tmp_path,
+            target_program_path=extension.target_program_path,
+            predecessor_status_path=extension.predecessor_status_path,
+        )
 
 
 def test_self_sealed_injected_empty_target_complete_status_is_rejected(
@@ -504,6 +788,15 @@ def test_completed_target_status_must_not_disappear(tmp_path: Path) -> None:
 
     assert first["state"] == "complete"
     assert second["state"] == "integrity_hold"
+    assert (
+        chain.validate_extension_status(
+            second,
+            repo_root=tmp_path,
+            target_program_path=extension.target_program_path,
+            predecessor_status_path=extension.predecessor_status_path,
+        )
+        == "integrity_hold"
+    )
     assert "evidence disappeared or regressed" in second["problems"][-1]
 
 
@@ -633,6 +926,38 @@ def test_run_reloads_sealed_state_after_acquiring_lifetime_lock(
     assert calls == 1
 
 
+def test_parent_command_fallback_requires_exact_python_entrypoint_positions(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(chain, "REPO_ROOT", tmp_path)
+    entrypoint = tmp_path / "scripts/mop_generation1_successor_extension_chain.py"
+    exact = chain.ProcessSnapshot(
+        pid=2467,
+        create_time=2467.5,
+        pgid=2467,
+        cwd=str(tmp_path.resolve()),
+        label=str(tmp_path / ".venv/bin/python"),
+        command=(
+            str(tmp_path / ".venv/bin/python"),
+            str(entrypoint),
+            "run",
+            "--execute",
+        ),
+    )
+    mention = chain.ProcessSnapshot(
+        pid=2468,
+        create_time=2468.5,
+        pgid=2468,
+        cwd=str(tmp_path.resolve()),
+        label="/usr/bin/sed",
+        command=("/usr/bin/sed", "-n", str(entrypoint), "run"),
+    )
+
+    assert chain._runs_parent_command(exact, entrypoint) is True
+    assert chain._runs_parent_command(mention, entrypoint) is False
+
+
 def test_manifest_drift_enters_integrity_hold(tmp_path: Path) -> None:
     extension, loads, _program = _extension(
         tmp_path,
@@ -646,6 +971,51 @@ def test_manifest_drift_enters_integrity_hold(tmp_path: Path) -> None:
     assert status["state"] == "integrity_hold"
     assert "manifest authority drifted" in status["problems"][-1]
     assert loads == []
+
+
+def test_detached_start_rejects_live_sealed_identity_without_exact_parent(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "runs/generation1" / chain.PROGRAM_ID
+    target_program_path = tmp_path / "configs/campaign/generation1_successor_horizon_v2.json"
+    predecessor_status_path = (
+        tmp_path / "runs/generation1/generation1-successor-evidence-chain-v4/current_status.json"
+    )
+    _target_manifest(target_program_path)
+    status_core = {
+        "schema": chain.STATUS_SCHEMA,
+        "program_id": chain.PROGRAM_ID,
+        "state": "waiting_predecessor",
+        "supervisor": {"pid": 2468, "create_time": 2468.5},
+        "parent_implementation": chain._implementation_authority(tmp_path),
+        "predecessor": chain._predecessor_observation_binding(
+            predecessor_status_path,
+            tmp_path,
+        ),
+        "target_program": chain._target_program_authority(
+            target_program_path,
+            tmp_path,
+        ),
+        "activation_allowed": False,
+        "scientific_promotion": False,
+    }
+    _write(root / chain.STATUS_FILE, _sealed(status_core, "status_sha256"))
+    monkeypatch.setattr(chain, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(chain, "DEFAULT_TARGET_PROGRAM", target_program_path)
+    monkeypatch.setattr(chain, "DEFAULT_PREDECESSOR_STATUS", predecessor_status_path)
+    monkeypatch.setattr(chain, "_process_identity_alive", lambda _identity: True)
+    monkeypatch.setattr(chain, "_visible_parent_process", lambda _entrypoint: None)
+
+    with pytest.raises(
+        chain.SuccessorExtensionRefused,
+        match="no exact visible parent",
+    ):
+        chain.start_extension_detached(
+            root=root,
+            execute=True,
+            use_caffeinate=False,
+        )
 
 
 def test_detached_terminal_shortcut_rejects_stale_bound_authority(
@@ -735,7 +1105,7 @@ def test_detached_terminal_shortcut_revalidates_completed_evidence_idempotently(
     assert second["status"]["problems"] == first["status"]["problems"]
 
 
-def test_detached_live_parent_resolves_before_stale_authority_or_terminal_revalidation(
+def test_detached_live_parent_with_stale_authority_is_rejected_before_acknowledgement(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -785,15 +1155,83 @@ def test_detached_live_parent_resolves_before_stale_authority_or_terminal_revali
         lambda requested_root: revalidations.append(requested_root),
     )
 
+    with pytest.raises(
+        chain.SuccessorExtensionRefused,
+        match="target authority drifted",
+    ):
+        chain.start_extension_detached(
+            root=root,
+            execute=True,
+            use_caffeinate=False,
+        )
+
+    assert revalidations == []
+
+
+def test_detached_start_waits_past_transient_non_authoritative_status(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "runs/generation1" / chain.PROGRAM_ID
+    status_path = root / chain.STATUS_FILE
+    target_program_path = tmp_path / "configs/campaign/generation1_successor_horizon_v2.json"
+    predecessor_status_path = (
+        tmp_path / "runs/generation1/generation1-successor-evidence-chain-v4/current_status.json"
+    )
+    _target_manifest(target_program_path)
+    seen: list[str] = []
+
+    def write_status(state: str) -> None:
+        core = {
+            "schema": chain.STATUS_SCHEMA,
+            "program_id": chain.PROGRAM_ID,
+            "state": state,
+            "parent_implementation": chain._implementation_authority(tmp_path),
+            "predecessor": chain._predecessor_observation_binding(
+                predecessor_status_path,
+                tmp_path,
+            ),
+            "target_program": chain._target_program_authority(
+                target_program_path,
+                tmp_path,
+            ),
+            "activation_allowed": False,
+            "scientific_promotion": False,
+        }
+        _write(status_path, _sealed(core, "status_sha256"))
+
+    def validate(status: Mapping[str, Any], **_kwargs: Any) -> str:
+        state = str(status["state"])
+        seen.append(state)
+        if state != "waiting_predecessor":
+            raise chain.SuccessorExtensionRefused("transient launch intent")
+        return state
+
+    monkeypatch.setattr(chain, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(chain, "DEFAULT_TARGET_PROGRAM", target_program_path)
+    monkeypatch.setattr(chain, "DEFAULT_PREDECESSOR_STATUS", predecessor_status_path)
+    monkeypatch.setattr(chain, "_visible_parent_process", lambda _entrypoint: None)
+    monkeypatch.setattr(chain, "_process_identity_alive", lambda _identity: False)
+    monkeypatch.setattr(chain, "validate_extension_status", validate)
+    monkeypatch.setattr(
+        chain.subprocess,
+        "Popen",
+        lambda *_args, **_kwargs: write_status("starting") or SimpleNamespace(pid=2468, poll=lambda: None),
+    )
+    monkeypatch.setattr(
+        chain.time,
+        "sleep",
+        lambda _seconds: write_status("waiting_predecessor"),
+    )
+
     result = chain.start_extension_detached(
         root=root,
         execute=True,
         use_caffeinate=False,
     )
 
-    assert result["already_running"] is True
-    assert result["observed_process"] == visible.identity()
-    assert revalidations == []
+    assert seen == ["starting", "waiting_predecessor"]
+    assert result["status"]["state"] == "waiting_predecessor"
 
 
 def test_detached_start_uses_caffeinate_and_requires_sealed_acknowledgement(
@@ -837,6 +1275,11 @@ def test_detached_start_uses_caffeinate_and_requires_sealed_acknowledgement(
     monkeypatch.setattr(chain, "DEFAULT_PREDECESSOR_STATUS", predecessor_status_path)
     monkeypatch.setattr(chain, "_visible_parent_process", lambda _entrypoint: None)
     monkeypatch.setattr(chain, "_process_identity_alive", lambda _identity: False)
+    monkeypatch.setattr(
+        chain,
+        "validate_extension_status",
+        lambda *_args, **_kwargs: "waiting_predecessor",
+    )
     monkeypatch.setattr(chain.shutil, "which", lambda _name: "/usr/bin/caffeinate")
     monkeypatch.setattr(chain.subprocess, "Popen", popen)
 
