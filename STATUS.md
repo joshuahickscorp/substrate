@@ -2,21 +2,31 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
-## 2026-07-16 Generation 1 successor evidence chain v3
+## 2026-07-16 Generation 1 successor evidence chain v4
 
 - [x] The C0 corpus and synthesis, C1 generated competence atlas, and C2 context-labeled frozen
   routing authorities are complete and independently verified at their declared bounded scopes.
   None authorizes runtime activation, natural-world generality, or scientific promotion.
 - [x] The v2 adopter preserved exactly one immutable observation-only receipt for each of the D1,
   successor-mechanics, and consolidated-v1 parents, then failed closed on a transient pre-label
-  multiprocessing child. `generation1-successor-evidence-chain-v3` supersedes that immutable hold
-  with an exact interpreter, command, PGID, PPID, and cwd check. No legacy process is relaunched or
-  signaled, and repeating the start command is idempotent.
+  multiprocessing child. V3 repaired that boundary but later entered its own immutable hold because
+  it treated any argv mention of a legacy script and any foreign `mop-g1-*` label as a residual.
+  `generation1-successor-evidence-chain-v4` supersedes that hold with exact executable/argv-position
+  matching plus original-cwd, parent-PGID, and parent-PPID ownership. No legacy process is relaunched
+  or signaled, and repeating the v4 start command is idempotent.
 - [~] Its sealed child `generation1-successor-horizon-v1` adds five bounded, disjoint robustness
   epochs followed by cross-epoch aggregation, separate streaming artifact verification, and a
   generated report. The 74-capsule maximum is 234.43 serial compute-hours, or 29.30 ideal hours at
   eight idle workers, subject to frozen result-based pruning. Canonical contract:
   `docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md`.
+- [~] The append-only `generation1-successor-extension-chain-v1` queues
+  `generation1-successor-horizon-v2` behind the clean v1 result. V2 adds H06 through H10 on fresh
+  cycles 7 through 11, applies dependency closure to surviving mechanics lanes, and contributes
+  another maximum 234.43 serial hours or 29.30 ideal eight-worker hours. It starts no additional
+  compute while the current host envelope is occupied. The complete future chain starts
+  idempotently with
+  `.venv/bin/python scripts/mop_generation1_successor_future_chain.py start --execute`. Canonical contract:
+  `docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`.
 
 ## 2026-07-11 landing wave closed; P4 closed; P5 leg 3 admission held
 

@@ -62,7 +62,10 @@ PROGRAM_LABELS = {
     "generation1-successor-mechanics-extended-v1": "Successor Mechanics",
     "generation1-successor-evidence-chain-v2": "Successor Evidence Chain",
     "generation1-successor-evidence-chain-v3": "Successor Evidence Chain",
+    "generation1-successor-evidence-chain-v4": "Successor Evidence Chain",
     "generation1-successor-horizon-v1": "Successor Horizon",
+    "generation1-successor-extension-chain-v1": "Successor Extension",
+    "generation1-successor-horizon-v2": "Successor Horizon V2",
     "generation1-consolidated-final-campaign-v1": "Final Campaign",
 }
 
@@ -387,9 +390,11 @@ def collect_events(
             continue
         statuses.append(status)
         program_id = str(status.get("program_id") or path.parent.name)
-        capsules = status.get("capsules") if isinstance(status.get("capsules"), dict) else {}
+        raw_capsules = status.get("capsules")
+        capsules: dict[str, Any] = raw_capsules if isinstance(raw_capsules, dict) else {}
         completed = [name for name, row in capsules.items() if _capsule_complete(row)]
-        counts = status.get("counts") if isinstance(status.get("counts"), dict) else {}
+        raw_counts = status.get("counts")
+        counts: dict[str, Any] = raw_counts if isinstance(raw_counts, dict) else {}
         declared_complete = counts.get("complete")
         declared_total = counts.get("total")
         complete = (
