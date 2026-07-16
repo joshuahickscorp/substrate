@@ -61,29 +61,37 @@ The three negative constraints Generation 0 hands forward:
 
 ---
 
-## Generation 1 (running): turn the inventory into a competence atlas
+## Generation 1 (active): verified atlas, bounded successor evidence
 
-Generation 1 does not assume any organization wins. It builds the evidence that decides which, if
-any, mechanism should ever be activated. Two strands:
+Generation 1 does not assume any organization wins. Its C0 cognitive census is complete across the
+frozen 24 outer seeds and 128 experiment classes, and both the corpus and evidence synthesis have
+independent verification receipts. The generated C1 competence atlas and C2 context-labeled frozen
+routing study are also complete and independently verified. They establish bounded generated niche
+and fixed-route candidates only. They do not establish learned routing, runtime activation, natural
+generality, or substrate advantage.
 
-- **The cognitive census** (`generation1-empirical-cognitive-corpus-v2`): 24 outer seeds by 128
-  experiment classes across 15 capability packs, plus the mechanism scaffolds run fresh and
-  independently re-executed (sensing, ecology, integrity, material-twin, broadcast, G0 formation, all
-  R1 mechanics, `scientific_capability_claim: false`). Its job is a competence, null-result,
-  seed-sensitivity, complementarity, and instrumentation atlas. Status at last read: 32 of 45 capsules
-  complete, healthy, parked in `resource_wait` behind an external quantize process holding the heavy
-  lane. It self-completes when that lane frees.
-- **The scaffold consolidation**: every potential-atlas facet that was below scaffolding score 7 now
-  has a fail-closed contract, deterministic fixtures, declared controls, and tests
-  (docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md). Readiness rose; confirmation still has to be earned.
+Successor work is now split cleanly by evidence class. D1 has exploratory tuning evidence for one
+frozen router design, while V1, M1, and G1 have deterministic mechanics pilots. Their larger
+producer, challenge, robustness, and consolidation work must emit clean terminal authorities before
+it can be cited. The adopting parent `generation1-successor-evidence-chain-v3` supersedes the
+immutable v2 pre-label race hold and observes the three exact legacy parents; its bounded five-epoch
+`generation1-successor-horizon-v1` is sealed behind their consolidated terminal result. The canonical
+taxonomy, dependency graph, null-safe routes, and active one-command contract are in
+`docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md`. Live rung counts and ETA
+estimates are operational telemetry, not project standing.
+
+The scaffold consolidation still supplies the fail-closed contracts, deterministic fixtures,
+declared controls, and tests recorded in `docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md`. Readiness rose;
+confirmation still has to be earned.
 
 ### The Generation 1 mechanism epochs (what people have been calling "Generation 2")
 
-These are the licensed hypotheses that the census feeds. They are documented in full in
-`docs/mixture_of_perspectives/20_generation1_empirical_campaign.md` section 4 (the mechanism matrix)
-and section 5 (the dependency graph). Each carries a positive route and a null-safe route; NONE may
-start until the census corpus licenses it. Terminology note: the project folds these into Generation
-1 as "mechanism epochs" rather than a separately named Generation 2; the content is identical.
+These are the licensed hypotheses that the verified census feeds. Document 20 preserves the original
+mechanism matrix and C0 design. Document 21 is authoritative for current successor state and future
+execution. Each epoch carries a positive route and a null-safe route; upstream completion licenses
+only the exact next bounded study, never activation. Terminology note: the project folds these into
+Generation 1 as "mechanism epochs" rather than a separately named Generation 2; the content is
+identical.
 
 | Epoch | Question | Forced by |
 |---|---|---|
@@ -132,7 +140,8 @@ plasticity, and structural change under matched cost.
 - Standing goal loop: `MOP_MAXIMUM_POTENTIAL_GOAL.md` (with `GOLD_PROMPT.md`).
 - The 37-facet scored readiness atlas: `MOP_POTENTIAL_ATLAS_2026_07.md` and `proof/MOP_POTENTIAL_ATLAS.json`.
 - The substrate and campaigns: `docs/mixture_of_perspectives/18_event_sourced_coalition_substrate.md`,
-  `19_one_shot_escs_campaign.md`, `20_generation1_empirical_campaign.md`.
+  `19_one_shot_escs_campaign.md`, `20_generation1_empirical_campaign.md`, and
+  `21_generation1_successor_evidence_chain.md`.
 - The form-substrate paradigm root: `FORM_SUBSTRATE_PROGRAM.md`.
 - The audits that make the nulls trustworthy: `docs/INDEPENDENT_REVERIFICATION_2026_07_10.md`,
   `docs/COMPLETION_CLAIM_AUDIT_2026_07_10.md`, `docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md`.

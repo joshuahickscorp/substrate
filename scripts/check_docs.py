@@ -98,6 +98,7 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/18_event_sourced_coalition_substrate.md",
     "docs/mixture_of_perspectives/19_one_shot_escs_campaign.md",
     "docs/mixture_of_perspectives/20_generation1_empirical_campaign.md",
+    "docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md",
     # the Form Substrate Program root docs (the active paradigm; see PARADIGM_MIGRATION.md)
     "FORM_SUBSTRATE_PROGRAM.md",
     "FORM_SUBSTRATE_DOCTRINE.md",
@@ -124,6 +125,7 @@ CANONICAL_MD = (
     "docs/SANPO_CUSTOM_SUBSTRATE_BRIDGE.md",
     "docs/LOCAL_CEILING_RESIDUAL_AUDIT_2026_07_10.md",
     "docs/LOCAL_EXECUTION_THROTTLE.md",
+    "docs/MOP_TELEGRAM_NOTIFICATIONS.md",
     "docs/P6_CONTINUAL_MILLION_EVENT_AUDIT_2026_07.md",
     "docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
     "docs/P9_CAUSAL_MONITORING_PREFLIGHT.md",

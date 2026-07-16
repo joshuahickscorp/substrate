@@ -9,6 +9,19 @@ import pytest
 from mop.config import REPO_ROOT
 from mop.studio import coexistence_cutover as cutover
 
+_REQUIRED_LOCAL_EVIDENCE = (
+    cutover.V5_RECEIPT_PATH,
+    cutover.V6_ACTIVE_OBSERVER_PATH,
+    Path(
+        "runs/mac_studio_campaign/"
+        "mac-studio-substrate-phase1-coexistence-10k-v2/current_status.json"
+    ),
+)
+pytestmark = pytest.mark.skipif(
+    not all((REPO_ROOT / path).is_file() for path in _REQUIRED_LOCAL_EVIDENCE),
+    reason="requires curated local coexistence run evidence",
+)
+
 
 def _json(path: Path) -> dict[str, object]:
     value = json.loads(path.read_text())
@@ -111,12 +124,16 @@ def test_cutover_build_is_deterministic_nonpromoting_and_ready() -> None:
     )
 
 
-def test_verify_only_validation_does_not_rewrite_cutover() -> None:
+def test_verify_only_validation_refuses_stale_live_authorities_without_rewrite() -> None:
     path = REPO_ROOT / cutover.DEFAULT_OUTPUT_PATH
     before = path.read_bytes()
     before_stat = path.stat()
 
-    cutover.validate_cutover(REPO_ROOT)
+    with pytest.raises(
+        cutover.EvidenceError,
+        match="does not exactly match live authorities and immutable evidence",
+    ):
+        cutover.validate_cutover(REPO_ROOT)
 
     after_stat = path.stat()
     assert path.read_bytes() == before
