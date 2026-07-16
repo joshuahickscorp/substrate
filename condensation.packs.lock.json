@@ -1,0 +1,8 @@
+{
+  "created_at": "2026-07-16T20:30:00Z",
+  "previous_lock_sha256": null,
+  "sequence": 0,
+  "packs": [],
+  "schema": "mop-condensation-pack-lock/v2",
+  "lock_sha256": "cb3bb908636fddff9f683bf442a36e32103da34247353d0e3bc7ae05e704eac1"
+}

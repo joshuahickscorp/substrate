@@ -1,0 +1,406 @@
+{
+  "bindings": [
+    {
+      "path": "configs/campaign/generation1_successor_categorized_batch_wave_v1.json",
+      "sha256": "e7508ca626fd25b80e327788dfa9184225acafcf0950f95de3b07a434061ffa7"
+    },
+    {
+      "path": "configs/campaign/generation1_successor_horizon_v1.json",
+      "sha256": "0456f4c0b86f5b5df62b14ac63f7514c66ef6d02c85779ec8a52c2d777682508"
+    },
+    {
+      "path": "configs/campaign/generation1_successor_horizon_v2.json",
+      "sha256": "ceed1c381c265bb8beb5374df115b6e961271dba720f7b1cd6368fc018db918b"
+    },
+    {
+      "path": "proof/GENERATION1_CONSOLIDATED_FINAL_MANIFEST.json",
+      "sha256": "94e5f6a700eb07d28bcc1285db479a7c92b33b725076f6ec93546c50ebc9644d"
+    },
+    {
+      "path": "proof/GENERATION1_CONTEXT_ROUTING.json",
+      "sha256": "4844ddffdf13db6bc8e5102e3095c4aa83ff5286bbf707e2b67d864c6db125f8"
+    },
+    {
+      "path": "proof/GENERATION1_CONTEXT_ROUTING.verification.json",
+      "sha256": "ac927e7fc39de83a48cfe33b90e493fd720a5ea86524226922c89e1dc32f5c52"
+    },
+    {
+      "path": "scripts/generation1_successor_categorized_batch_wave/mop_generation1_successor_categorized_batch_wave.py",
+      "sha256": "78775db269a70f369bcc96e2b50458228dc419bc4cbb248ddda5e632c85a6be7"
+    },
+    {
+      "path": "scripts/generation1_successor_horizon_v2/mop_generation1_successor_horizon.py",
+      "sha256": "77405265ef683d4a83aa18b7ad1e430d77a5dba6713273107321b9c60475fc35"
+    },
+    {
+      "path": "scripts/mop_generation1_successor_horizon.py",
+      "sha256": "c13927cb200c850844936ba78bd0670b5e4c1e4b98a1b39927e0ae9499dcf488"
+    },
+    {
+      "path": "scripts/pr1_mode_error_disjointness.py",
+      "sha256": "8cf48391f7b791a0badcdba731a6e528cc8c170a6f07d4df2dbc4184f5505da9"
+    },
+    {
+      "path": "src/mop/__init__.py",
+      "sha256": "5ee2759c426fc84e2dc3e7e90eca087ad01fa5ac7527d1c516b5ac29d1325281"
+    },
+    {
+      "path": "src/mop/config.py",
+      "sha256": "7d344a2929428b40195d05778e4f8c3fc6739f733be31ed6ce8d372a7d743b1c"
+    },
+    {
+      "path": "src/mop/ladder/__init__.py",
+      "sha256": "bfbe27a87e0184c4ee4095324f3ce81595f92f895b3a184a0a74e15e110354ef"
+    },
+    {
+      "path": "src/mop/ladder/ladder_contracts.py",
+      "sha256": "197138d42808518ba6384b6cf30b9976d461d760c044e95607ce3654d46d9f90"
+    },
+    {
+      "path": "src/mop/ladder/stage3_registry.py",
+      "sha256": "38ed66337fb14b188a81bef1c9f8c4e518084949bd992ead5522a3fb20ced976"
+    },
+    {
+      "path": "src/mop/ladder/stage_ladder.py",
+      "sha256": "673dabf43aba90b2f9b6fdac87eff4cc66658f954951e30a7eb5e8dee9b3a529"
+    },
+    {
+      "path": "src/mop/mechanisms/__init__.py",
+      "sha256": "f7bedba0f617b1743febbf6941c041b697c73040970295d349256cb681451e16"
+    },
+    {
+      "path": "src/mop/mechanisms/construction_search_bed.py",
+      "sha256": "52302ad18cfd68985268faac5554968577847828013b3dddf631310d3f3a5063"
+    },
+    {
+      "path": "src/mop/mechanisms/construction_search_impl.py",
+      "sha256": "28bf99a6e3468b6efe4e0d18b732e77368e752030d264d7c883b9c2ea1e49ed7"
+    },
+    {
+      "path": "src/mop/mechanisms/construction_search_runner.py",
+      "sha256": "d0fe8b2fed8a126cc78feb9a7ea85ea149e49f1c8610d18f9a07f2cdb6a1f0cb"
+    },
+    {
+      "path": "src/mop/mechanisms/construction_search_scaffold.py",
+      "sha256": "22c31f0b87fa7822385320505800d9dfde7561a71b185f154f874ef3fde4a048"
+    },
+    {
+      "path": "src/mop/mechanisms/event_formation_bed.py",
+      "sha256": "371efddaceaee8b5adb18ffbd2301f24162cb5bad3b3d5032a6a0bb80f9e7b46"
+    },
+    {
+      "path": "src/mop/mechanisms/event_formation_impl.py",
+      "sha256": "f4f1d286d93da5f36465a2691006e5863237ce0925f4c16c72279aae007c6e17"
+    },
+    {
+      "path": "src/mop/mechanisms/event_formation_runner.py",
+      "sha256": "f9c41eac7a71b9f5e05938cc34ba4ae1791f49a68091ce6e0c7871395f1e3a0d"
+    },
+    {
+      "path": "src/mop/mechanisms/event_formation_scaffold.py",
+      "sha256": "ca5c9def93ed1f7141d4b8a11bf6f1913ea0fec094c248659d58dd1cff8a709f"
+    },
+    {
+      "path": "src/mop/mechanisms/integrated_escs_bed.py",
+      "sha256": "7cd65666d566e3249b5e4c18e449eafd6bac6c7f52bb5d4e68597ffb417f8cad"
+    },
+    {
+      "path": "src/mop/mechanisms/integrated_escs_impl.py",
+      "sha256": "c32b32fa60f10598d05de396bae983fac67c2d421f6fa9b8db4aa5443b529371"
+    },
+    {
+      "path": "src/mop/mechanisms/integrated_escs_runner.py",
+      "sha256": "b32469a3a6e79efe7a2bd63195950837ea2eb02917e0d928ebdd654d13aef5df"
+    },
+    {
+      "path": "src/mop/mechanisms/integrated_escs_scaffold.py",
+      "sha256": "92059db151120813a24950c266897351be6d7b856964003ef3959b63d277518c"
+    },
+    {
+      "path": "src/mop/mechanisms/intervention_simulation_bed.py",
+      "sha256": "2ac393ce53b741dcd645f6dcc3dd7f01d14135c6866f30854bbf7d6c7155df3f"
+    },
+    {
+      "path": "src/mop/mechanisms/intervention_simulation_impl.py",
+      "sha256": "816b72d87aadcceab45bd43ea3ebb93bfb5260f6ae4db437050b682003b24196"
+    },
+    {
+      "path": "src/mop/mechanisms/intervention_simulation_runner.py",
+      "sha256": "f5bc73558da85f91048dd8b428365b1d45ba8c67a0a2f5faf066f54f9fe692b9"
+    },
+    {
+      "path": "src/mop/mechanisms/intervention_simulation_scaffold.py",
+      "sha256": "598fc375d96da4df6c726de236975ea58057876755a9c5306db41796f5e21f01"
+    },
+    {
+      "path": "src/mop/mechanisms/memory_organization_bed.py",
+      "sha256": "f9b6c063c131ab7bcafb693fbf4f1884c39b2d44f582a3182c0933f094641770"
+    },
+    {
+      "path": "src/mop/mechanisms/memory_organization_impl.py",
+      "sha256": "1b734ae4c855a20c3ab17958c253311a9b0ad0b36650e143fb7b4f3bdd161c9d"
+    },
+    {
+      "path": "src/mop/mechanisms/memory_organization_runner.py",
+      "sha256": "cbdf9f9b5f79ad78112911d4d294a0bf0fad4bd6899d9c8d7c9dee2c9ade32ae"
+    },
+    {
+      "path": "src/mop/mechanisms/memory_organization_scaffold.py",
+      "sha256": "a5801161b4a66eb1f7317047bc0806047a56820832adddd2383bd414c94edd32"
+    },
+    {
+      "path": "src/mop/mechanisms/messaging_repair_bed.py",
+      "sha256": "7b0a9bc41ba95ac52e66151dda6566ce384f468f4d1643bac56a5c69d5cbdbc6"
+    },
+    {
+      "path": "src/mop/mechanisms/messaging_repair_impl.py",
+      "sha256": "16acf54f71a382684f60f3aeed039c9d8308a54a8b4ae194f83fded68a1eb46d"
+    },
+    {
+      "path": "src/mop/mechanisms/messaging_repair_runner.py",
+      "sha256": "25dc63e5f628c33d6b1ad42d75b406c5975ae60fc70368755f2187160c2f4e96"
+    },
+    {
+      "path": "src/mop/mechanisms/messaging_repair_scaffold.py",
+      "sha256": "ccac254909442ef0f33c763991722065927b86ef7fde8a1853f9b1953ccef1bd"
+    },
+    {
+      "path": "src/mop/mechanisms/niche_dispatch_bed.py",
+      "sha256": "d0baa45b55cd9fbddceac456a982920a7970584697bd5b483abeae7a49e51e19"
+    },
+    {
+      "path": "src/mop/mechanisms/niche_dispatch_impl.py",
+      "sha256": "210d96d242f71ddfa038c6a58b0c4c7bdc6a114531069db0bbdc453b9f6b8ece"
+    },
+    {
+      "path": "src/mop/mechanisms/niche_dispatch_runner.py",
+      "sha256": "d1217e4d0dc70717fef292fa5c741eea463d3f891f48d00ed6bd0b00db29ffc6"
+    },
+    {
+      "path": "src/mop/mechanisms/niche_dispatch_scaffold.py",
+      "sha256": "ae033d036f562c295873d9122a03e8df39ad3f1d24b2463801630bc2bb8cd19d"
+    },
+    {
+      "path": "src/mop/mechanisms/stability_plasticity_bed.py",
+      "sha256": "fa74e35176d152cf28a85f9b4d82be6e13d1daae35d1fc13c72c864755887ff6"
+    },
+    {
+      "path": "src/mop/mechanisms/stability_plasticity_impl.py",
+      "sha256": "d9451ab6984af98c29c71ce79f703b18249401a913d4283d2fb9b729aa74f705"
+    },
+    {
+      "path": "src/mop/mechanisms/stability_plasticity_runner.py",
+      "sha256": "b44d5380068228d2345f465e2b52602ac43568b8337db068f9273bc3aaeac645"
+    },
+    {
+      "path": "src/mop/mechanisms/stability_plasticity_scaffold.py",
+      "sha256": "4c49eba2b54fb32cc92e40c7ea50e5626891cee6d7380883dc56db2eaba55efb"
+    },
+    {
+      "path": "src/mop/mechanisms/stage4_integration_advantage_scaffold.py",
+      "sha256": "4c088d8644450a4c474bf1f4ca80cc13cb756bc9fa45c72087d7e7a980c30409"
+    },
+    {
+      "path": "src/mop/mechanisms/stage4_integration_bed.py",
+      "sha256": "56dae55b10c77b705742837ae4fdd6f060ca402aaa73b22fd66d8c09e2e6e3a5"
+    },
+    {
+      "path": "src/mop/mechanisms/stage4_integration_impl.py",
+      "sha256": "07d652be629248c792438d24e98487f019ec3f436b5bc628ec921822df50f859"
+    },
+    {
+      "path": "src/mop/mechanisms/stage4_integration_runner.py",
+      "sha256": "7ad06cc5af9e0427913a362ccbe39752aeab10a57671b22fb3bdd8b4fc44c8ac"
+    },
+    {
+      "path": "src/mop/mechanisms/stage5_session_disjoint_validity_scaffold.py",
+      "sha256": "60776174fd695e3fa0eca824e4894be2f328ac64cca6a95d49707d8a13fd1cbb"
+    },
+    {
+      "path": "src/mop/mechanisms/stage5_validity_bed.py",
+      "sha256": "af10a04be12c6da287676afc75c038f0bdc2fde39672d3deab9e037baacb5d1b"
+    },
+    {
+      "path": "src/mop/mechanisms/stage5_validity_impl.py",
+      "sha256": "fc0d4d2bd96f507e974b5544292a631ca76dd222569cd337dff5825ce4442a37"
+    },
+    {
+      "path": "src/mop/mechanisms/stage5_validity_runner.py",
+      "sha256": "ab28f5249e48fd263e2b44da7051005e9b2a9d9093c0dc4b0dcbf8ba29a9d28b"
+    },
+    {
+      "path": "src/mop/mechanisms/trace_stability_bed.py",
+      "sha256": "9fcd6b85e5677159dcf16e68efdedeeffb6f4ec9c838d02cc4e4e67fe573a888"
+    },
+    {
+      "path": "src/mop/mechanisms/trace_stability_impl.py",
+      "sha256": "2e8aacb2e595accd426d486aec256fb920508ab2805bae31d75b80bdd9361a14"
+    },
+    {
+      "path": "src/mop/mechanisms/trace_stability_runner.py",
+      "sha256": "5c5b55b5c8db2b5226c9fa51a47529e2f67bc6c69d9e9cd5fa221248233eb644"
+    },
+    {
+      "path": "src/mop/mechanisms/trace_stability_scaffold.py",
+      "sha256": "ab2c41c316e683bc688172e387088305d524fdeb48df340a150e6ef114ff0b8d"
+    },
+    {
+      "path": "src/mop/process_labels.py",
+      "sha256": "6d50eaf1ada46815031af07ae6483e63e2ce5c808f1e79ada96b42855d7fff7f"
+    },
+    {
+      "path": "src/mop/studies/__init__.py",
+      "sha256": "344f368f1807a6685320122aaec6e3afb2ca8d7171c2d8b9073f663b9f3ea80b"
+    },
+    {
+      "path": "src/mop/studies/generation1_c3_d1_frozen_queue.py",
+      "sha256": "391f18d2385c98f154fff9e0373476ed20e5a19425dc51b64a3bc88193024fab"
+    },
+    {
+      "path": "src/mop/studies/generation1_c3_dispatch.py",
+      "sha256": "260b98b1eb60202724f72bd1d80572877301c27399ba4b8c7368d4f8dd5f49ce"
+    },
+    {
+      "path": "src/mop/studies/generation1_c3_dispatch_queue.py",
+      "sha256": "047e4137434094188f9bb2656a5150456e73f6b34a09dac7fe16c2c7ea3231e9"
+    },
+    {
+      "path": "src/mop/studies/generation1_c3_router_redesign.py",
+      "sha256": "a2eac6e182e394cf992d59c928570b7e995c89e10d1089b16e2e250693c8b0a0"
+    },
+    {
+      "path": "src/mop/studies/generation1_consolidated_final_campaign.py",
+      "sha256": "58ad8ddc945f359005c5349947362fa4e04e3797a760cd18e2b9ce7989a15894"
+    },
+    {
+      "path": "src/mop/studies/generation1_context_routing.py",
+      "sha256": "b5098ba250d7d63538eff26aff382d108f36c2c17f902c9593f566bfe9bd72e4"
+    },
+    {
+      "path": "src/mop/studies/generation1_d1_frozen_verify.py",
+      "sha256": "87805f8f6309b7065bc6359deb3ea2b75a925d3df46fc726c34a5e45d0be1727"
+    },
+    {
+      "path": "src/mop/studies/generation1_d1_redesign_v2.py",
+      "sha256": "e26f6add4c5424a62a9e7af2a52a9f0c335b89b953a9285d6833ae5bf45c13cf"
+    },
+    {
+      "path": "src/mop/studies/generation1_successor_categorized_batch_wave.py",
+      "sha256": "c3df65492ccabbcc45ed88193b14ea753cecf4e0cd24f737245d0cc3625054ff"
+    },
+    {
+      "path": "src/mop/studies/generation1_successor_categorized_batch_wave_verify.py",
+      "sha256": "908970a7ac3dc4b8a46fee7ea8a6d078f7232d8df2957d1c7adec79e90192e2c"
+    },
+    {
+      "path": "src/mop/studies/generation1_successor_horizon.py",
+      "sha256": "e17e66c7e2a64994e0096cbe55ce298eca0eb240c2a806d52c0578e3c445c6e8"
+    },
+    {
+      "path": "src/mop/studies/generation1_successor_horizon_v2.py",
+      "sha256": "d8d4dfce0ad2cf4f640a7615f7af6f38272380808e4304a7384029aca3655cb5"
+    },
+    {
+      "path": "src/mop/studies/generation1_successor_horizon_v2_verify.py",
+      "sha256": "3abb0544a21039322ef2b9879228f678aa5cff425930c4d79b4432cb634ecba4"
+    },
+    {
+      "path": "src/mop/studies/generation1_successor_horizon_verify.py",
+      "sha256": "772a3ab7b26633bb1f14bc3d54484ffbe642d338ddf66f6d28abc5df174e2b05"
+    },
+    {
+      "path": "src/mop/studies/generation1_successor_mechanics_queue.py",
+      "sha256": "955036b46d8c1a8ed0d22753fb4156433a31f086ca084246cb49378889987f7e"
+    },
+    {
+      "path": "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+      "sha256": "389db3602f84b62402fea6a9228f529de2bc45530bb2ca2670de314e1dfd43e2"
+    },
+    {
+      "path": "src/mop/studio/generation1_successor_chain.py",
+      "sha256": "539d42dfa65cb43f9a8ba11cf9d53eb0ef2d894c9a7c6c3b285cb24e0d5a7b3a"
+    },
+    {
+      "path": "src/mop/studio/generation1_successor_chain_v4.py",
+      "sha256": "4d7ad13c3df7873bce467acd42c191512dbaa84179d83c68f626b30fa732568f"
+    },
+    {
+      "path": "src/mop/studio/generation1_successor_chain_v5.py",
+      "sha256": "c66f6351942b98bff5459a8f3bd77c5e96fd38e041f2b75882c19f6de289b5f2"
+    },
+    {
+      "path": "src/mop/studio/generation1_successor_extension_chain_v2.py",
+      "sha256": "c1f08330991ada0f7ba7061b687f42184fd8da592aca89a9c7cc6f45d4ccfea2"
+    },
+    {
+      "path": "src/mop/studio/generation1_supervisor.py",
+      "sha256": "06eb87a235cdf3ddc218addbefe7d932799ae4d9979935b814362f9ee4ecd51c"
+    },
+    {
+      "path": "src/mop/substrate/__init__.py",
+      "sha256": "1523c401c5136cd42b1cf01b74685588c34a5562aea5f1478cd58f6d05a5019c"
+    },
+    {
+      "path": "src/mop/substrate/events.py",
+      "sha256": "cc0562fe8a3e5bd8caa67987e5be7581734e660e0f728619e44e4dc2d34fff48"
+    }
+  ],
+  "canonicalization": "SHA-256 of UTF-8 JSON with sorted keys and separators (comma, colon), excluding snapshot_sha256",
+  "claim_scope": "static no-touch boundary for isolated condensation work; mutable run status/state and logs are referenced but not frozen here",
+  "observed_at": "2026-07-16T20:24:44Z",
+  "schema": "mop-condensation-live-bindings/v1",
+  "snapshot_sha256": "932924322ec5a76e0b3b1f01d3340c34f26a8ab4d4f2c8321b8d66ea5484a779",
+  "source_programs": [
+    {
+      "program_id": "generation1-successor-mechanics-extended-v1",
+      "status_path": "runs/generation1/generation1-successor-mechanics-extended-v1/current_status.json"
+    },
+    {
+      "manifest_file_sha256": "94e5f6a700eb07d28bcc1285db479a7c92b33b725076f6ec93546c50ebc9644d",
+      "manifest_path": "proof/GENERATION1_CONSOLIDATED_FINAL_MANIFEST.json",
+      "manifest_sha256": "6b4dd457fc333fa9ad5f0dbde5183c157281ac9c342f098c6e5b60edea6e75fc",
+      "program_id": "generation1-consolidated-final-campaign-v1",
+      "status_path": "runs/generation1/generation1-consolidated-final-campaign-v1/current_status.json"
+    },
+    {
+      "program_id": "generation1-successor-evidence-chain-v5",
+      "status_path": "runs/generation1/generation1-successor-evidence-chain-v5/current_status.json"
+    },
+    {
+      "manifest_file_sha256": "0456f4c0b86f5b5df62b14ac63f7514c66ef6d02c85779ec8a52c2d777682508",
+      "manifest_path": "configs/campaign/generation1_successor_horizon_v1.json",
+      "program_id": "generation1-successor-horizon-v1",
+      "program_sha256": "450c922025d87c76b5f27e65d7d0d2a057e65b1f5477e5c50259e4e761e942ea",
+      "status_path": "runs/generation1/generation1-successor-horizon-v1/current_status.json"
+    },
+    {
+      "program_id": "generation1-successor-extension-chain-v2",
+      "status_path": "runs/generation1/generation1-successor-extension-chain-v2/current_status.json"
+    },
+    {
+      "manifest_file_sha256": "ceed1c381c265bb8beb5374df115b6e961271dba720f7b1cd6368fc018db918b",
+      "manifest_path": "configs/campaign/generation1_successor_horizon_v2.json",
+      "program_id": "generation1-successor-horizon-v2",
+      "program_sha256": "fc4dfb3a620f0549221aa91c82d8f741ede8948e953f6fd61deca7c1f3877a33",
+      "status_path": "runs/generation1/generation1-successor-horizon-v2/current_status.json"
+    },
+    {
+      "program_id": "generation1-categorized-batch-extension-chain-v1",
+      "status_path": "runs/generation1/generation1-categorized-batch-extension-chain-v1/current_status.json"
+    },
+    {
+      "manifest_file_sha256": "e7508ca626fd25b80e327788dfa9184225acafcf0950f95de3b07a434061ffa7",
+      "manifest_path": "configs/campaign/generation1_successor_categorized_batch_wave_v1.json",
+      "program_id": "generation1-successor-categorized-batch-wave-v1",
+      "program_sha256": "0f5a2db00c9e94d7105ab1458f02c717af0c7e4e85263dee9fe9bf1a12ef9e2f",
+      "status_path": "runs/generation1/generation1-successor-categorized-batch-wave-v1/current_status.json"
+    }
+  ],
+  "summary": {
+    "binding_count": 86,
+    "categorized_target_manifest_additions": 1,
+    "chain_implementation_additions": 5,
+    "mutable_status_files_included": false,
+    "program_authority_union_count": 80
+  }
+}
