@@ -10,6 +10,7 @@ generic Generation 1 supervisor.
 from __future__ import annotations
 
 import argparse
+import copy
 import datetime as dt
 import json
 import math
@@ -26,6 +27,9 @@ import psutil
 
 from mop.config import REPO_ROOT
 from mop.process_labels import set_process_label
+from mop.studies import generation1_successor_horizon_v2 as horizon_v2
+from mop.studio import generation1_successor_chain_v4 as predecessor_v4
+from mop.studio import generation1_supervisor
 from mop.studio.generation1_supervisor import (
     STATUS_SCHEMA as GENERIC_STATUS_SCHEMA,
 )
@@ -68,6 +72,10 @@ POLL_SECONDS = 30.0
 STARTUP_ACK_SECONDS = 30.0
 PROCESS_TIME_TOLERANCE_SECONDS = 0.02
 MAX_JSON_BYTES = 64 * 1024 * 1024
+SNAPSHOT_ATTEMPTS = 5
+SNAPSHOT_INTERVAL_SECONDS = 0.05
+LOCK_ATTEMPTS = 41
+LOCK_INTERVAL_SECONDS = 0.05
 
 TERMINAL_STATES = frozenset({"complete", "failure_hold", "integrity_hold", "drained"})
 PREDECESSOR_TERMINAL_STATES = frozenset({"complete", "failure_hold", "integrity_hold", "drained"})
@@ -109,6 +117,15 @@ TARGET_STATES = frozenset(
         "recovery_observe",
         "recovery_wait",
         *TARGET_TERMINAL_STATES,
+    }
+)
+EXTENSION_STATES = frozenset(
+    {
+        "starting",
+        "waiting_predecessor",
+        "waiting_target",
+        "retry_wait",
+        *TERMINAL_STATES,
     }
 )
 PREDECESSOR_STATUS_FIELDS = frozenset(
@@ -186,6 +203,87 @@ GENERIC_CAPSULE_FIELDS = frozenset(
         "runtime",
     }
 )
+EXTENSION_STATUS_FIELDS = frozenset(
+    {
+        "schema",
+        "program_id",
+        "created_at",
+        "updated_at",
+        "finished_at",
+        "execution_enabled",
+        "state",
+        "supervisor",
+        "parent_implementation",
+        "predecessor",
+        "target_program",
+        "capsules",
+        "counts",
+        "problems",
+        "activation_allowed",
+        "scientific_promotion",
+        "status_sha256",
+    }
+)
+EXTENSION_STATE_FIELDS = frozenset(
+    {
+        "schema",
+        "program_id",
+        "created_at",
+        "updated_at",
+        "finished_at",
+        "execution_enabled",
+        "status",
+        "supervisor",
+        "parent_implementation",
+        "predecessor",
+        "target_program",
+        "capsules",
+        "problems",
+        "state_sha256",
+    }
+)
+EXTENSION_CAPSULE_FIELDS = frozenset(
+    {
+        "status",
+        "attempts",
+        "returncode",
+        "started_at",
+        "finished_at",
+        "artifacts",
+        "last_problem",
+        "process",
+        "launch_requested_at",
+        "launched_pid",
+    }
+)
+EXTENSION_CAPSULE_STATES = frozenset(
+    {
+        "pending",
+        "observed",
+        "running",
+        "adoption_wait",
+        "launching",
+        "retry_wait",
+        "complete",
+        "failure_hold",
+    }
+)
+SUPERVISOR_FIELDS = frozenset(
+    {
+        "pid",
+        "create_time",
+        "implementation_path",
+        "implementation_sha256",
+    }
+)
+GENERIC_SUPERVISOR_FIELDS = frozenset(
+    {
+        "pid",
+        "create_time",
+        "implementation_path",
+        "implementation_sha256",
+    }
+)
 IMPLEMENTATION_PATH = Path(__file__).resolve()
 
 
@@ -197,6 +295,8 @@ IdentityProbe = Callable[[Mapping[str, Any]], str]
 ProgramLoader = Callable[..., Program]
 StatusReader = Callable[[Program], Mapping[str, Any]]
 SupervisorStarter = Callable[..., Mapping[str, Any]]
+PredecessorCompletionValidator = Callable[[Mapping[str, Any]], Mapping[str, Any]]
+PredecessorLaunchValidator = Callable[[], None]
 NowFn = Callable[[], dt.datetime]
 
 
@@ -228,6 +328,18 @@ def _now() -> dt.datetime:
 
 def _iso(value: dt.datetime) -> str:
     return value.astimezone(dt.UTC).isoformat()
+
+
+def _parse_time(value: object) -> dt.datetime | None:
+    if not isinstance(value, str):
+        return None
+    try:
+        parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return None
+    return parsed.astimezone(dt.UTC)
 
 
 def _read_json(path: Path, label: str) -> dict[str, Any]:
@@ -369,6 +481,19 @@ def _implementation_authority(repo_root: Path) -> dict[str, Any]:
     }
 
 
+def _generic_supervisor_authority(repo_root: Path) -> dict[str, str]:
+    implementation = Path(generation1_supervisor.__file__).resolve()
+    resolved_root = repo_root.resolve()
+    return {
+        "path": (
+            str(implementation.relative_to(resolved_root))
+            if implementation.is_relative_to(resolved_root)
+            else str(implementation)
+        ),
+        "sha256": sha256_file(implementation),
+    }
+
+
 def _target_program_authority(
     target_program_path: Path,
     repo_root: Path,
@@ -470,6 +595,34 @@ def _empty_row() -> dict[str, Any]:
     }
 
 
+def _extension_status_payload(state: Mapping[str, Any]) -> dict[str, Any]:
+    capsules = state["capsules"]
+    complete = sum(row.get("status") == "complete" for row in capsules.values())
+    core = {
+        "schema": STATUS_SCHEMA,
+        "program_id": PROGRAM_ID,
+        "created_at": state["created_at"],
+        "updated_at": state["updated_at"],
+        "finished_at": state["finished_at"],
+        "execution_enabled": state["execution_enabled"],
+        "state": state["status"],
+        "supervisor": state["supervisor"],
+        "parent_implementation": state["parent_implementation"],
+        "predecessor": state["predecessor"],
+        "target_program": state["target_program"],
+        "capsules": capsules,
+        "counts": {
+            "complete": complete,
+            "total": len(capsules),
+            "remaining": len(capsules) - complete,
+        },
+        "problems": state["problems"],
+        "activation_allowed": False,
+        "scientific_promotion": False,
+    }
+    return {**core, "status_sha256": canonical_sha256(core)}
+
+
 class SuccessorExtensionChain:
     """Wait for v4 completion and then own the v2 supervisor lifecycle."""
 
@@ -486,6 +639,8 @@ class SuccessorExtensionChain:
         program_loader_fn: ProgramLoader = load_program,
         target_status_reader_fn: StatusReader = read_generation1_status,
         target_starter_fn: SupervisorStarter = start_generation1_detached,
+        predecessor_completion_validator_fn: PredecessorCompletionValidator | None = None,
+        predecessor_launch_validator_fn: PredecessorLaunchValidator | None = None,
         now_fn: NowFn = _now,
         sleep_fn: Callable[[float], None] = time.sleep,
         poll_seconds: float = POLL_SECONDS,
@@ -500,6 +655,13 @@ class SuccessorExtensionChain:
         self.program_loader_fn = program_loader_fn
         self.target_status_reader_fn = target_status_reader_fn
         self.target_starter_fn = target_starter_fn
+        self.predecessor_completion_validator_fn = (
+            predecessor_completion_validator_fn or self._validate_complete_predecessor_snapshot
+        )
+        self.predecessor_launch_validator_fn = (
+            predecessor_launch_validator_fn or self._validate_predecessor_launch_authority
+        )
+        self._predecessor_lock_held = False
         self.now_fn = now_fn
         self.sleep_fn = sleep_fn
         self.poll_seconds = poll_seconds
@@ -713,6 +875,66 @@ class SuccessorExtensionChain:
             for report in artifacts:
                 self._validate_predecessor_artifact(report, capsule_id)
 
+    def _validate_complete_predecessor_snapshot(
+        self,
+        _status: Mapping[str, Any],
+    ) -> Mapping[str, Any]:
+        horizon_program_path = self.repo_root / "configs/campaign/generation1_successor_horizon_v1.json"
+        try:
+            return predecessor_v4.read_validated_complete_chain_status(
+                root=self.predecessor_status_path.parent,
+                repo_root=self.repo_root,
+                horizon_program_path=horizon_program_path,
+                acquire_lock=not self._predecessor_lock_held,
+            )
+        except (
+            predecessor_v4.SuccessorChainRefused,
+            Generation1Refused,
+            AttributeError,
+            IndexError,
+            KeyError,
+            OSError,
+            OverflowError,
+            RuntimeError,
+            TypeError,
+            ValueError,
+        ) as exc:
+            raise SuccessorExtensionRefused(
+                f"v4 predecessor complete snapshot is invalid: {type(exc).__name__}: {exc}"
+            ) from exc
+
+    def _validate_predecessor_launch_authority(self) -> None:
+        try:
+            before = dict(self._validate_complete_predecessor_snapshot({}))
+            admission = horizon_v2.build_admission(
+                parent_result_path=self.repo_root / "proof/GENERATION1_SUCCESSOR_HORIZON.json",
+                parent_verification_path=(
+                    self.repo_root / "proof/GENERATION1_SUCCESSOR_HORIZON.verification.json"
+                ),
+                parent_report_receipt_path=(
+                    self.repo_root / "runs/generation1/generation1-successor-horizon-v1/report_receipt.json"
+                ),
+            )
+            horizon_v2.validate_admission(admission)
+            after = dict(self._validate_complete_predecessor_snapshot(before))
+        except (
+            SuccessorExtensionRefused,
+            Generation1Refused,
+            AttributeError,
+            IndexError,
+            KeyError,
+            OSError,
+            OverflowError,
+            RuntimeError,
+            TypeError,
+            ValueError,
+        ) as exc:
+            raise SuccessorExtensionRefused(
+                f"v2 prelaunch predecessor authority replay failed: {type(exc).__name__}: {exc}"
+            ) from exc
+        if after != before:
+            raise SuccessorExtensionRefused("v4 predecessor changed during v2 prelaunch authority replay")
+
     def _publish(self) -> dict[str, Any]:
         now = _iso(self.now_fn())
         self.state["updated_at"] = now
@@ -721,31 +943,7 @@ class SuccessorExtensionChain:
         sealed_state = {**core, "state_sha256": canonical_sha256(core)}
         atomic_write_json(self.state_path, sealed_state)
         self.state = dict(sealed_state)
-        capsules = self.state["capsules"]
-        complete = sum(row.get("status") == "complete" for row in capsules.values())
-        status_core = {
-            "schema": STATUS_SCHEMA,
-            "program_id": PROGRAM_ID,
-            "created_at": self.state["created_at"],
-            "updated_at": now,
-            "finished_at": self.state["finished_at"],
-            "execution_enabled": self.state["execution_enabled"],
-            "state": self.state["status"],
-            "supervisor": self.state["supervisor"],
-            "parent_implementation": self.state["parent_implementation"],
-            "predecessor": self.state["predecessor"],
-            "target_program": self.state["target_program"],
-            "capsules": capsules,
-            "counts": {
-                "complete": complete,
-                "total": len(capsules),
-                "remaining": len(capsules) - complete,
-            },
-            "problems": self.state["problems"],
-            "activation_allowed": False,
-            "scientific_promotion": False,
-        }
-        status = {**status_core, "status_sha256": canonical_sha256(status_core)}
+        status = _extension_status_payload(self.state)
         atomic_write_json(self.status_path, status)
         return status
 
@@ -755,6 +953,19 @@ class SuccessorExtensionChain:
         value = _read_json(self.predecessor_status_path, "v4 predecessor status")
         _validate_seal(value, "status_sha256", "v4 predecessor status")
         self._validate_predecessor_status(value)
+        if value.get("state") == "complete":
+            validated = self.predecessor_completion_validator_fn(value)
+            if not isinstance(validated, Mapping):
+                raise SuccessorExtensionRefused(
+                    "v4 predecessor completion validator returned no authoritative status"
+                )
+            value = dict(validated)
+            _validate_seal(value, "status_sha256", "v4 predecessor status")
+            self._validate_predecessor_status(value)
+            if value.get("state") != "complete":
+                raise SuccessorExtensionRefused(
+                    "v4 predecessor changed state during complete snapshot validation"
+                )
         return value
 
     def _reconcile_predecessor(self, row: dict[str, Any]) -> bool:
@@ -783,6 +994,7 @@ class SuccessorExtensionChain:
             row["returncode"] = 0
             row["finished_at"] = row.get("finished_at") or _iso(self.now_fn())
             row["artifacts"] = [self._artifact(self.predecessor_status_path, status)]
+            row["last_problem"] = None
             return True
         if state in PREDECESSOR_TERMINAL_STATES:
             row["status"] = "failure_hold"
@@ -839,9 +1051,21 @@ class SuccessorExtensionChain:
             state == "execution_disabled" and execution_enabled is False
         ):
             raise SuccessorExtensionRefused("successor horizon v2 status execution authority drifted")
+        supervisor = status.get("supervisor")
+        implementation = _generic_supervisor_authority(self.repo_root)
         if (
             not isinstance(status.get("created_at"), str)
-            or not isinstance(status.get("supervisor"), Mapping)
+            or not isinstance(supervisor, Mapping)
+            or set(supervisor) != GENERIC_SUPERVISOR_FIELDS
+            or isinstance(supervisor.get("pid"), bool)
+            or not isinstance(supervisor.get("pid"), int)
+            or supervisor["pid"] <= 0
+            or isinstance(supervisor.get("create_time"), bool)
+            or not isinstance(supervisor.get("create_time"), int | float)
+            or not math.isfinite(float(supervisor["create_time"]))
+            or float(supervisor["create_time"]) <= 0
+            or supervisor.get("implementation_path") != implementation["path"]
+            or supervisor.get("implementation_sha256") != implementation["sha256"]
             or (
                 status.get("lane_reservation") is not None
                 and not isinstance(status.get("lane_reservation"), Mapping)
@@ -1060,33 +1284,43 @@ class SuccessorExtensionChain:
             row["last_problem"] = "successor horizon v2 start requires explicit --execute"
             return row
 
-        row["status"] = "launching"
-        row["attempts"] = int(row.get("attempts") or 0) + 1
-        row["launch_requested_at"] = _iso(self.now_fn())
-        row["last_problem"] = "requesting idempotent generic supervisor start"
-        self._publish()
-        row = self.state["capsules"]["successor_horizon_v2"]
-        try:
-            launched = self.target_starter_fn(
-                program,
-                execute=True,
-                use_caffeinate=True,
-            )
-        except (Generation1Refused, OSError, RuntimeError, ValueError) as exc:
-            row["status"] = "retry_wait"
-            row["last_problem"] = f"v2 startup acknowledgement pending: {type(exc).__name__}: {exc}"
-            return row
-        launched_pid = launched.get("launched_pid")
-        row["launched_pid"] = launched_pid if isinstance(launched_pid, int) else None
-        returned_status = launched.get("status")
-        row["status"] = "running"
-        row["started_at"] = row.get("started_at") or _iso(self.now_fn())
-        row["last_problem"] = "generic Generation 1 supervisor start accepted"
-        if isinstance(returned_status, Mapping):
-            supervisor = returned_status.get("supervisor")
-            if isinstance(supervisor, Mapping):
-                row["process"] = dict(supervisor)
-        return row
+        predecessor_lock = self.predecessor_status_path.parent / predecessor_v4.LOCK_FILE
+        with FileLock(predecessor_lock):
+            self._predecessor_lock_held = True
+            try:
+                self.predecessor_launch_validator_fn()
+                row["status"] = "launching"
+                row["attempts"] = int(row.get("attempts") or 0) + 1
+                row["launch_requested_at"] = _iso(self.now_fn())
+                row["last_problem"] = "requesting idempotent generic supervisor start"
+                self.state["status"] = "waiting_target"
+                self.state["finished_at"] = None
+                self._publish()
+                row = self.state["capsules"]["successor_horizon_v2"]
+                self.predecessor_launch_validator_fn()
+                try:
+                    launched = self.target_starter_fn(
+                        program,
+                        execute=True,
+                        use_caffeinate=True,
+                    )
+                except (Generation1Refused, OSError, RuntimeError, ValueError) as exc:
+                    row["status"] = "retry_wait"
+                    row["last_problem"] = f"v2 startup acknowledgement pending: {type(exc).__name__}: {exc}"
+                    return row
+                launched_pid = launched.get("launched_pid")
+                row["launched_pid"] = launched_pid if isinstance(launched_pid, int) else None
+                returned_status = launched.get("status")
+                row["status"] = "running"
+                row["started_at"] = row.get("started_at") or _iso(self.now_fn())
+                row["last_problem"] = "generic Generation 1 supervisor start accepted"
+                if isinstance(returned_status, Mapping):
+                    supervisor = returned_status.get("supervisor")
+                    if isinstance(supervisor, Mapping):
+                        row["process"] = dict(supervisor)
+                return row
+            finally:
+                self._predecessor_lock_held = False
 
     def _validate_terminal_artifacts(self, program: Program) -> None:
         predecessor = self.state["capsules"]["predecessor_chain_v4"]
@@ -1131,8 +1365,13 @@ class SuccessorExtensionChain:
         except (
             SuccessorExtensionRefused,
             Generation1Refused,
+            AttributeError,
+            IndexError,
+            KeyError,
             OSError,
+            OverflowError,
             RuntimeError,
+            TypeError,
             ValueError,
         ) as exc:
             self.state["status"] = "integrity_hold"
@@ -1155,6 +1394,353 @@ class SuccessorExtensionChain:
                 self.sleep_fn(self.poll_seconds)
 
 
+def validate_extension_status(
+    status: Mapping[str, Any],
+    *,
+    repo_root: Path = REPO_ROOT,
+    target_program_path: Path = DEFAULT_TARGET_PROGRAM,
+    predecessor_status_path: Path = DEFAULT_PREDECESSOR_STATUS,
+) -> str:
+    """Validate one exact extension status acknowledgement without mutating state."""
+
+    repo_root = repo_root.resolve()
+    target_program_path = target_program_path.resolve()
+    predecessor_status_path = predecessor_status_path.resolve()
+    if set(status) != EXTENSION_STATUS_FIELDS:
+        raise SuccessorExtensionRefused("successor extension status fields drifted")
+    _validate_seal(status, "status_sha256", "successor extension status")
+    state = status.get("state")
+    problems = status.get("problems")
+    if (
+        status.get("schema") != STATUS_SCHEMA
+        or status.get("program_id") != PROGRAM_ID
+        or status.get("activation_allowed") is not False
+        or status.get("scientific_promotion") is not False
+        or not isinstance(status.get("execution_enabled"), bool)
+        or not isinstance(state, str)
+        or state not in EXTENSION_STATES
+        or not isinstance(problems, list)
+        or any(not isinstance(problem, str) or not problem for problem in problems)
+    ):
+        raise SuccessorExtensionRefused("successor extension status identity or state drifted")
+    if (state == "complete" or state not in TERMINAL_STATES) and (
+        status.get("execution_enabled") is not True or problems != []
+    ):
+        raise SuccessorExtensionRefused("successor extension safe acknowledgement is not clean")
+    _validate_extension_status_authorities(
+        status,
+        repo_root=repo_root,
+        target_program_path=target_program_path,
+        predecessor_status_path=predecessor_status_path,
+    )
+    created_at = _parse_time(status.get("created_at"))
+    updated_at = _parse_time(status.get("updated_at"))
+    finished_at = _parse_time(status.get("finished_at"))
+    if created_at is None or updated_at is None or created_at > updated_at:
+        raise SuccessorExtensionRefused("successor extension status timestamps drifted")
+    if state in TERMINAL_STATES:
+        if finished_at is None or finished_at > updated_at:
+            raise SuccessorExtensionRefused("successor extension terminal timestamp drifted")
+    elif status.get("finished_at") is not None:
+        raise SuccessorExtensionRefused("successor extension nonterminal status is marked finished")
+    supervisor = status.get("supervisor")
+    implementation = _implementation_authority(repo_root)
+    if (
+        not isinstance(supervisor, Mapping)
+        or set(supervisor) != SUPERVISOR_FIELDS
+        or isinstance(supervisor.get("pid"), bool)
+        or not isinstance(supervisor.get("pid"), int)
+        or supervisor["pid"] <= 0
+        or isinstance(supervisor.get("create_time"), bool)
+        or not isinstance(supervisor.get("create_time"), int | float)
+        or not math.isfinite(float(supervisor["create_time"]))
+        or float(supervisor["create_time"]) <= 0
+        or supervisor.get("implementation_path") != implementation["path"]
+        or supervisor.get("implementation_sha256") != implementation["sha256"]
+    ):
+        raise SuccessorExtensionRefused("successor extension supervisor authority drifted")
+    capsules = status.get("capsules")
+    expected_ids = {"predecessor_chain_v4", "successor_horizon_v2"}
+    if not isinstance(capsules, Mapping) or set(capsules) != expected_ids:
+        raise SuccessorExtensionRefused("successor extension status capsule inventory drifted")
+    complete = 0
+    for capsule_id, raw_row in capsules.items():
+        if not isinstance(raw_row, Mapping) or set(raw_row) != EXTENSION_CAPSULE_FIELDS:
+            raise SuccessorExtensionRefused(f"successor extension capsule {capsule_id} fields drifted")
+        row_state = raw_row.get("status")
+        attempts = raw_row.get("attempts")
+        returncode = raw_row.get("returncode")
+        started_at = _parse_time(raw_row.get("started_at"))
+        finished_at = _parse_time(raw_row.get("finished_at"))
+        launch_requested_at = _parse_time(raw_row.get("launch_requested_at"))
+        artifacts = raw_row.get("artifacts")
+        last_problem = raw_row.get("last_problem")
+        process = raw_row.get("process")
+        launched_pid = raw_row.get("launched_pid")
+        if (
+            not isinstance(row_state, str)
+            or row_state not in EXTENSION_CAPSULE_STATES
+            or isinstance(attempts, bool)
+            or not isinstance(attempts, int)
+            or attempts < 0
+            or (returncode is not None and (isinstance(returncode, bool) or not isinstance(returncode, int)))
+            or (raw_row.get("started_at") is not None and started_at is None)
+            or (raw_row.get("finished_at") is not None and finished_at is None)
+            or (raw_row.get("launch_requested_at") is not None and launch_requested_at is None)
+            or (started_at is not None and finished_at is not None and started_at > finished_at)
+            or not isinstance(artifacts, list)
+            or any(not isinstance(report, Mapping) for report in artifacts)
+            or (last_problem is not None and (not isinstance(last_problem, str) or not last_problem))
+            or (process is not None and not isinstance(process, Mapping))
+            or (
+                launched_pid is not None
+                and (isinstance(launched_pid, bool) or not isinstance(launched_pid, int) or launched_pid <= 0)
+            )
+        ):
+            raise SuccessorExtensionRefused(f"successor extension capsule {capsule_id} receipt shape drifted")
+        if isinstance(process, Mapping):
+            process_pid = process.get("pid")
+            process_create_time = process.get("create_time")
+            if (
+                isinstance(process_pid, bool)
+                or not isinstance(process_pid, int)
+                or process_pid <= 0
+                or isinstance(process_create_time, bool)
+                or not isinstance(process_create_time, int | float)
+                or not math.isfinite(float(process_create_time))
+                or float(process_create_time) <= 0
+            ):
+                raise SuccessorExtensionRefused(
+                    f"successor extension capsule {capsule_id} process identity drifted"
+                )
+        if row_state == "complete":
+            complete += 1
+            if returncode != 0 or finished_at is None or not artifacts or last_problem is not None:
+                raise SuccessorExtensionRefused(
+                    f"successor extension capsule {capsule_id} completion drifted"
+                )
+        elif (
+            returncode is not None
+            or artifacts != []
+            or (row_state == "failure_hold" and (finished_at is None or not isinstance(last_problem, str)))
+            or (row_state != "failure_hold" and finished_at is not None)
+        ):
+            raise SuccessorExtensionRefused(f"successor extension capsule {capsule_id} noncompletion drifted")
+    expected_counts = {
+        "complete": complete,
+        "total": len(expected_ids),
+        "remaining": len(expected_ids) - complete,
+    }
+    if status.get("counts") != expected_counts:
+        raise SuccessorExtensionRefused("successor extension status counts drifted")
+    predecessor_state = capsules["predecessor_chain_v4"].get("status")
+    target_state = capsules["successor_horizon_v2"].get("status")
+    all_complete = complete == len(expected_ids)
+    pristine_target = capsules["successor_horizon_v2"] == _empty_row()
+    coherent = True
+    if state == "starting":
+        coherent = all(row == _empty_row() for row in capsules.values())
+    elif state == "waiting_predecessor":
+        coherent = predecessor_state in {"pending", "observed"} and pristine_target
+    elif state == "waiting_target":
+        coherent = predecessor_state == "complete" and target_state in {
+            "pending",
+            "running",
+            "adoption_wait",
+            "launching",
+        }
+    elif state == "retry_wait":
+        coherent = predecessor_state == "complete" and target_state == "retry_wait"
+    elif state == "complete":
+        coherent = all_complete
+    elif state == "failure_hold":
+        coherent = "failure_hold" in {predecessor_state, target_state}
+    if not coherent or (state not in TERMINAL_STATES and all_complete):
+        raise SuccessorExtensionRefused("successor extension state and capsule progression drifted")
+    if state not in TERMINAL_STATES and any(row.get("status") == "failure_hold" for row in capsules.values()):
+        raise SuccessorExtensionRefused("successor extension safe status contains a failed capsule")
+    return state
+
+
+def _read_stable_extension_state_status(
+    state_path: Path,
+    status_path: Path,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    for attempt in range(SNAPSHOT_ATTEMPTS):
+        before = _read_json(state_path, "successor extension state")
+        first_status = _read_json(status_path, "successor extension status")
+        after = _read_json(state_path, "successor extension state")
+        second_status = _read_json(status_path, "successor extension status")
+        try:
+            projected = _extension_status_payload(before)
+        except (
+            AttributeError,
+            IndexError,
+            KeyError,
+            TypeError,
+            ValueError,
+        ):
+            projected = None
+        if before == after and first_status == second_status and first_status == projected:
+            return before, first_status
+        if attempt + 1 < SNAPSHOT_ATTEMPTS:
+            time.sleep(SNAPSHOT_INTERVAL_SECONDS)
+    raise SuccessorExtensionRefused("successor extension state/status snapshot did not become coherent")
+
+
+def _validate_extension_bound_artifact_hashes(
+    repo_root: Path,
+    capsules: Mapping[str, Any],
+) -> None:
+    for capsule_id, row in capsules.items():
+        if not isinstance(row, Mapping):
+            raise SuccessorExtensionRefused(f"successor extension capsule {capsule_id} is not an object")
+        artifacts = row.get("artifacts")
+        if not isinstance(artifacts, list):
+            raise SuccessorExtensionRefused(f"successor extension capsule {capsule_id} artifacts drifted")
+        for report in artifacts:
+            if not isinstance(report, Mapping):
+                raise SuccessorExtensionRefused(
+                    f"successor extension capsule {capsule_id} artifact report drifted"
+                )
+            raw_path = report.get("path")
+            if not isinstance(raw_path, str) or not raw_path:
+                raise SuccessorExtensionRefused(
+                    f"successor extension capsule {capsule_id} artifact path drifted"
+                )
+            relative = Path(raw_path)
+            candidate = repo_root / relative
+            if (
+                relative.is_absolute()
+                or ".." in relative.parts
+                or candidate.is_symlink()
+                or not candidate.is_file()
+            ):
+                raise SuccessorExtensionRefused(
+                    f"successor extension capsule {capsule_id} artifact path is unsafe"
+                )
+            path = candidate.resolve()
+            if not path.is_relative_to(repo_root) or report.get("sha256") != sha256_file(path):
+                raise SuccessorExtensionRefused(
+                    f"successor extension capsule {capsule_id} final artifact hash drifted"
+                )
+
+
+def read_validated_complete_extension_status(
+    *,
+    root: Path = DEFAULT_ROOT,
+    repo_root: Path = REPO_ROOT,
+    target_program_path: Path | None = None,
+    predecessor_status_path: Path | None = None,
+    acquire_lock: bool = True,
+) -> dict[str, Any]:
+    """Read and replay one stable, exact, complete extension snapshot."""
+
+    root = root.resolve()
+    repo_root = repo_root.resolve()
+    if not root.is_dir() or not root.is_relative_to(repo_root):
+        raise SuccessorExtensionRefused("successor extension root is absent or outside the repository")
+    if acquire_lock:
+        for attempt in range(LOCK_ATTEMPTS):
+            try:
+                with FileLock(root / LOCK_FILE):
+                    return read_validated_complete_extension_status(
+                        root=root,
+                        repo_root=repo_root,
+                        target_program_path=target_program_path,
+                        predecessor_status_path=predecessor_status_path,
+                        acquire_lock=False,
+                    )
+            except Generation1Refused as exc:
+                if not isinstance(exc.__cause__, BlockingIOError):
+                    raise
+                if attempt + 1 < LOCK_ATTEMPTS:
+                    time.sleep(LOCK_INTERVAL_SECONDS)
+                    continue
+                raise SuccessorExtensionRefused(
+                    "successor extension lifetime lock remained held while validating a complete snapshot"
+                ) from exc
+        raise SuccessorExtensionRefused("successor extension lifetime lock acquisition exhausted")
+    if target_program_path is None:
+        relative = DEFAULT_TARGET_PROGRAM.resolve().relative_to(REPO_ROOT.resolve())
+        target_program_path = repo_root / relative
+    if predecessor_status_path is None:
+        relative = DEFAULT_PREDECESSOR_STATUS.resolve().relative_to(REPO_ROOT.resolve())
+        predecessor_status_path = repo_root / relative
+    target_program_path = target_program_path.resolve()
+    predecessor_status_path = predecessor_status_path.resolve()
+    state_path = root / STATE_FILE
+    status_path = root / STATUS_FILE
+    stable_state, stable_status = _read_stable_extension_state_status(
+        state_path,
+        status_path,
+    )
+    if set(stable_state) != EXTENSION_STATE_FIELDS:
+        raise SuccessorExtensionRefused("successor extension complete state fields drifted")
+    _validate_seal(
+        stable_state,
+        "state_sha256",
+        "successor extension state",
+    )
+    if (
+        stable_state.get("schema") != STATE_SCHEMA
+        or stable_state.get("program_id") != PROGRAM_ID
+        or stable_state.get("status") != "complete"
+        or stable_state.get("execution_enabled") is not True
+        or stable_state.get("problems") != []
+    ):
+        raise SuccessorExtensionRefused("successor extension complete state boundary drifted")
+    validated_state = validate_extension_status(
+        stable_status,
+        repo_root=repo_root,
+        target_program_path=target_program_path,
+        predecessor_status_path=predecessor_status_path,
+    )
+    if validated_state != "complete":
+        raise SuccessorExtensionRefused("successor extension durable status is not complete")
+    owner = SuccessorExtensionChain(
+        root=root,
+        repo_root=repo_root,
+        predecessor_status_path=predecessor_status_path,
+        target_program_path=target_program_path,
+        execute=True,
+    )
+    state_core = copy.deepcopy(dict(stable_state))
+    state_core.pop("state_sha256", None)
+    owner.state = state_core
+    target_program = owner._load_target_program()
+    before_capsules = copy.deepcopy(owner.state["capsules"])
+    owner._validate_terminal_artifacts(target_program)
+    if owner.state["capsules"] != before_capsules:
+        raise SuccessorExtensionRefused(
+            "successor extension evidence required reconciliation during terminal replay"
+        )
+    current_state, current_status = _read_stable_extension_state_status(
+        state_path,
+        status_path,
+    )
+    if current_state != stable_state or current_status != stable_status:
+        raise SuccessorExtensionRefused("successor extension state/status changed during terminal replay")
+    owner._validate_terminal_artifacts(target_program)
+    if owner.state["capsules"] != before_capsules:
+        raise SuccessorExtensionRefused(
+            "successor extension evidence required reconciliation during final replay"
+        )
+    final_state, final_status = _read_stable_extension_state_status(
+        state_path,
+        status_path,
+    )
+    if final_state != stable_state or final_status != stable_status:
+        raise SuccessorExtensionRefused(
+            "successor extension state/status changed during final evidence replay"
+        )
+    _validate_extension_bound_artifact_hashes(
+        repo_root,
+        stable_state["capsules"],
+    )
+    return stable_status
+
+
 def read_extension_status(root: Path = DEFAULT_ROOT) -> dict[str, Any]:
     status = _read_json(root.resolve() / STATUS_FILE, "successor extension status")
     _validate_seal(status, "status_sha256", "successor extension status")
@@ -1173,19 +1759,19 @@ def _process_identity_alive(identity: object) -> bool:
 
 
 def _runs_parent_command(process: ProcessSnapshot, entrypoint: Path) -> bool:
-    for index, argument in enumerate(process.command[:-1]):
-        if not argument or argument.startswith("-"):
-            continue
-        candidate = Path(argument)
-        if not candidate.is_absolute():
-            candidate = Path(process.cwd) / candidate
-        try:
-            matches = candidate.resolve() == entrypoint
-        except OSError:
-            matches = False
-        if matches and process.command[index + 1] == "run":
-            return True
-    return False
+    if len(process.command) < 3 or process.command[2] != "run":
+        return False
+    expected_python = (REPO_ROOT / ".venv/bin/python").resolve()
+    actual_entrypoint = Path(process.command[1])
+    if not actual_entrypoint.is_absolute():
+        actual_entrypoint = Path(process.cwd) / actual_entrypoint
+    try:
+        return (
+            Path(process.command[0]).resolve() == expected_python
+            and actual_entrypoint.resolve() == entrypoint.resolve()
+        )
+    except OSError:
+        return False
 
 
 def _visible_parent_process(entrypoint: Path) -> ProcessSnapshot | None:
@@ -1250,10 +1836,20 @@ def start_extension_detached(
         status = None
         if status_path.is_file():
             status = read_extension_status(root)
+            _validate_extension_status_authorities(
+                status,
+                repo_root=REPO_ROOT,
+                target_program_path=DEFAULT_TARGET_PROGRAM,
+                predecessor_status_path=DEFAULT_PREDECESSOR_STATUS,
+            )
         visible = _visible_parent_process(entrypoint)
         status_identity = status.get("supervisor") if status is not None else None
         if _process_identity_alive(status_identity):
-            if visible is not None and (
+            if visible is None:
+                raise SuccessorExtensionRefused(
+                    "sealed successor extension identity has no exact visible parent"
+                )
+            if (
                 not isinstance(status_identity, Mapping)
                 or status_identity.get("pid") != visible.pid
                 or not math.isclose(
@@ -1264,6 +1860,21 @@ def start_extension_detached(
                 )
             ):
                 raise SuccessorExtensionRefused("sealed extension identity conflicts with the visible parent")
+            if status is None:
+                raise SuccessorExtensionRefused("live successor extension identity lacks a sealed status")
+            try:
+                validate_extension_status(
+                    status,
+                    repo_root=REPO_ROOT,
+                    target_program_path=DEFAULT_TARGET_PROGRAM,
+                    predecessor_status_path=DEFAULT_PREDECESSOR_STATUS,
+                )
+            except (SuccessorExtensionRefused, OSError, ValueError):
+                return {
+                    "already_running": True,
+                    "status": status,
+                    "observed_process": visible.identity(),
+                }
             return {"already_running": True, "status": status}
         if visible is not None:
             return {
@@ -1271,13 +1882,6 @@ def start_extension_detached(
                 "status": status,
                 "observed_process": visible.identity(),
             }
-        if status is not None:
-            _validate_extension_status_authorities(
-                status,
-                repo_root=REPO_ROOT,
-                target_program_path=DEFAULT_TARGET_PROGRAM,
-                predecessor_status_path=DEFAULT_PREDECESSOR_STATUS,
-            )
         if status is not None and status.get("state") in TERMINAL_STATES:
             return {
                 "already_terminal": True,
@@ -1319,8 +1923,15 @@ def start_extension_detached(
             if status_path.is_file() and status_path.stat().st_mtime_ns > prior_mtime:
                 try:
                     acknowledged = read_extension_status(root)
+                    validate_extension_status(
+                        acknowledged,
+                        repo_root=REPO_ROOT,
+                        target_program_path=DEFAULT_TARGET_PROGRAM,
+                        predecessor_status_path=DEFAULT_PREDECESSOR_STATUS,
+                    )
                     break
                 except (SuccessorExtensionRefused, OSError, ValueError):
+                    acknowledged = None
                     pass
             if process.poll() is not None:
                 break
@@ -1416,7 +2027,9 @@ __all__ = [
     "build_parser",
     "main",
     "read_extension_status",
+    "read_validated_complete_extension_status",
     "start_extension_detached",
+    "validate_extension_status",
 ]
 
 
