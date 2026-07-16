@@ -1,0 +1,472 @@
+{
+  "schema": "mop-extreme-condensation-contract/v1",
+  "program_id": "mop-extreme-condensation-v1",
+  "recommended_target_active_repo_loc": 25000,
+  "stretch_target_runtime_core_loc": 18000,
+  "elimination_gate_profile": "full",
+  "fallback_ladder": [
+    250000,
+    225000,
+    200000,
+    175000,
+    150000,
+    125000,
+    100000,
+    75000,
+    50000,
+    35000,
+    25000
+  ],
+  "measurement": {
+    "definition": "Raw physical UTF-8 lines in Git-tracked code, configuration, validation, laboratory, and build/operations surfaces. Documentation, evidence, generated campaign manifests, and binary assets are reported separately, never silently discarded.",
+    "max_active_line_bytes": 4096,
+    "surfaces": [
+      {
+        "name": "evidence",
+        "active": false,
+        "include": [
+          "proof/**",
+          "runs/**",
+          "reports/**"
+        ]
+      },
+      {
+        "name": "documentation",
+        "active": false,
+        "include": [
+          "*.md",
+          "docs/**",
+          "LICENSE*"
+        ]
+      },
+      {
+        "name": "generated_program_manifests",
+        "active": false,
+        "include": [
+          "configs/campaign/generation1_*.json",
+          "configs/experiment/generation1_c3_successor_mechanisms_draft.json"
+        ]
+      },
+      {
+        "name": "condensation_receipts",
+        "active": false,
+        "include": [
+          "condensation.baseline.json",
+          "condensation.live-bindings.json",
+          "condensation.eliminations.json",
+          "condensation/history/**"
+        ]
+      },
+      {
+        "name": "validation",
+        "active": true,
+        "include": [
+          "tests/**"
+        ]
+      },
+      {
+        "name": "laboratory",
+        "active": true,
+        "include": [
+          "src/mop/studies/**",
+          "src/mop/experiments/**",
+          "src/mop/falsification/**",
+          "scripts/**",
+          "configs/experiment/**",
+          "registry/**",
+          "campaign/**"
+        ]
+      },
+      {
+        "name": "campaign_control",
+        "active": true,
+        "include": [
+          "src/mop/studio/**",
+          "configs/campaign/**"
+        ]
+      },
+      {
+        "name": "runtime",
+        "active": true,
+        "include": [
+          "src/mop/**",
+          "configs/**"
+        ]
+      },
+      {
+        "name": "build_operations",
+        "active": true,
+        "include": [
+          "pyproject.toml",
+          "uv.lock",
+          "Makefile",
+          "Dockerfile*",
+          ".github/**",
+          ".gitignore",
+          ".python-version",
+          "condensation*.json"
+        ]
+      },
+      {
+        "name": "assets",
+        "active": false,
+        "include": [
+          "assets/**",
+          "*.png",
+          "*.jpg",
+          "*.jpeg",
+          "*.gif",
+          "*.pdf",
+          "*.svg"
+        ]
+      },
+      {
+        "name": "unclassified_active",
+        "active": true,
+        "default": true
+      }
+    ],
+    "required_accounting": [
+      "active_repo_LOC",
+      "runtime_core_LOC",
+      "stretch_target_runtime_core_LOC",
+      "stretch_target_runtime_core_met",
+      "hydrated_owned_LOC",
+      "hydrated_tracked_text_LOC",
+      "eliminated_LOC",
+      "relocated_LOC",
+      "added_LOC",
+      "unexplained_reduction_LOC",
+      "tracked_text_LOC",
+      "active_surface_LOC",
+      "surface_LOC"
+    ],
+    "forbidden_reduction_methods": [
+      "minification",
+      "line packing",
+      "comment stripping for LOC credit",
+      "source extension disguises",
+      "generated source blobs",
+      "Git-history execution loaders",
+      "network-required runtime hydration",
+      "deleting evidence or tests to claim refactoring"
+    ]
+  },
+  "planned_packs": [
+    {
+      "pack_id": "mop-research",
+      "role": "Studies, experiments, falsification programs, builders, registries, and experiment configuration",
+      "source_roots": [
+        "src/mop/studies",
+        "src/mop/experiments",
+        "src/mop/falsification",
+        "scripts",
+        "configs/experiment",
+        "registry"
+      ],
+      "required_profiles": [
+        "research",
+        "release"
+      ],
+      "status": "embedded_until_extracted"
+    },
+    {
+      "pack_id": "mop-validation",
+      "role": "Complete logical test inventory, parity cases, release checks, and deterministic replay",
+      "source_roots": [
+        "tests"
+      ],
+      "required_profiles": [
+        "ci",
+        "release"
+      ],
+      "status": "embedded_until_extracted"
+    },
+    {
+      "pack_id": "mop-studio-replay",
+      "role": "Immutable historical and live-bound supervisor implementations plus exact compatibility authorities",
+      "source_roots": [
+        "src/mop/studio",
+        "configs/campaign"
+      ],
+      "required_profiles": [
+        "recovery",
+        "release"
+      ],
+      "status": "frozen_until_live_chain_terminal"
+    },
+    {
+      "pack_id": "mop-evidence",
+      "role": "Content-addressed proof, terminal receipts, large generated manifests, and authoritative run artifacts",
+      "source_roots": [
+        "proof",
+        "runs"
+      ],
+      "required_profiles": [
+        "audit",
+        "release"
+      ],
+      "status": "index_design_required"
+    },
+    {
+      "pack_id": "mop-optional-backends",
+      "role": "Concrete encoder, substrate workbench, SANPO, media, and machine-specific adapters",
+      "source_roots": [
+        "src/mop/substrate"
+      ],
+      "required_profiles": [
+        "backend",
+        "release"
+      ],
+      "status": "interface_split_required"
+    }
+  ],
+  "waves": [
+    {
+      "wave": 0,
+      "name": "authority_and_measurement_freeze",
+      "mode": "serial",
+      "exit": "Baseline, pack lock, live-binding snapshot, no-gaming checks, and rollback receipt are self-consistent."
+    },
+    {
+      "wave": 1,
+      "name": "parallel_pack_boundaries",
+      "mode": "parallel",
+      "categories": [
+        "mop-research extraction and lazy registry",
+        "mop-validation signed case inventory",
+        "mop-evidence content-addressed index",
+        "optional backend interface boundary"
+      ],
+      "exit": "Every relocated file is checksum-locked, offline-hydratable, and still counted in hydrated_owned_LOC."
+    },
+    {
+      "wave": 2,
+      "name": "unified_campaign_engine",
+      "mode": "serial_after_wave_1",
+      "categories": [
+        "parameterized successor state machine",
+        "shared receipt and recovery authority",
+        "data-driven profile registry",
+        "immutable replay compatibility"
+      ],
+      "exit": "Overlapping Studio controllers are replaced without changing historical or live-bound hashes."
+    },
+    {
+      "wave": 3,
+      "name": "runtime_kernel",
+      "mode": "parallel_then_serial",
+      "categories": [
+        "lean ESCS event-message-ledger kernel",
+        "declarative mechanism family engine",
+        "substrate interface and optional backend split",
+        "single registry-driven CLI"
+      ],
+      "exit": "The lean kernel architecture and all pack interfaces are ready for checkpoint descent."
+    },
+    {
+      "wave": 4,
+      "name": "checkpoint_descent",
+      "mode": "serial",
+      "checkpoints": [
+        250000,
+        225000,
+        200000,
+        175000,
+        150000,
+        125000,
+        100000,
+        75000,
+        50000,
+        35000,
+        25000
+      ],
+      "exit": "Lowest fully green checkpoint is retained with exact relocated-versus-eliminated accounting."
+    }
+  ],
+  "fallback_rule": {
+    "materially_different_architectures_required": 2,
+    "structural_failure_required": true,
+    "measure_irreducible_subsystem_budget": true,
+    "restore_previous_green_checkpoint": true
+  },
+  "gates": {
+    "quick": [
+      {
+        "id": "ruff",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--extra",
+          "dev",
+          "ruff",
+          "check",
+          "src/mop/condensation.py",
+          "scripts/mop_condense.py",
+          "tests/unit/test_condensation.py",
+          "src/mop/studio/telegram_rung_notifier.py",
+          "tests/unit/test_telegram_rung_notifier.py"
+        ]
+      },
+      {
+        "id": "ruff-format",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--extra",
+          "dev",
+          "ruff",
+          "format",
+          "--check",
+          "src/mop/condensation.py",
+          "scripts/mop_condense.py",
+          "tests/unit/test_condensation.py",
+          "src/mop/studio/telegram_rung_notifier.py",
+          "tests/unit/test_telegram_rung_notifier.py"
+        ]
+      },
+      {
+        "id": "focused-tests",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--extra",
+          "dev",
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "tests/unit/test_condensation.py",
+          "tests/unit/test_telegram_rung_notifier.py"
+        ],
+        "env": {
+          "PYTHONPATH": "src"
+        }
+      }
+    ],
+    "full": [
+      {
+        "id": "ruff",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--all-extras",
+          "ruff",
+          "check",
+          "."
+        ]
+      },
+      {
+        "id": "ruff-format",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--all-extras",
+          "ruff",
+          "format",
+          "--check",
+          "."
+        ]
+      },
+      {
+        "id": "mypy",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--all-extras",
+          "mypy"
+        ]
+      },
+      {
+        "id": "test-inventory-and-suite",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--all-extras",
+          "python",
+          "-m",
+          "pytest",
+          "-q"
+        ],
+        "env": {
+          "PYTHONPATH": "src"
+        }
+      },
+      {
+        "id": "docs",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--all-extras",
+          "python",
+          "scripts/check_docs.py"
+        ],
+        "env": {
+          "PYTHONPATH": "src"
+        }
+      },
+      {
+        "id": "performance",
+        "argv": [
+          "uv",
+          "run",
+          "--frozen",
+          "--all-extras",
+          "python",
+          "scripts/bench.py",
+          "--reps",
+          "5"
+        ],
+        "env": {
+          "PYTHONPATH": "src"
+        }
+      }
+    ]
+  },
+  "baseline_release_gate_debt": {
+    "whole_repository_ruff_check": "green",
+    "whole_repository_ruff_format": {
+      "green": false,
+      "pre_existing_files_requiring_format": 82,
+      "policy": "Do not mechanically rewrite live-bound files while Generation 1 is active."
+    },
+    "whole_repository_mypy": {
+      "green": false,
+      "pre_existing_error_count": 42,
+      "pre_existing_file_count": 7,
+      "new_condensation_module": "green",
+      "policy": "Resolve after the live authority boundary opens; do not weaken typing or add blanket ignores."
+    },
+    "documentation_inventory": "green"
+  },
+  "activation": {
+    "allowed_while_live_campaigns_run": false,
+    "required_terminal_programs": [
+      "generation1-successor-mechanics-extended-v1",
+      "generation1-consolidated-final-campaign-v1",
+      "generation1-successor-evidence-chain-v5",
+      "generation1-successor-horizon-v1",
+      "generation1-successor-extension-chain-v2",
+      "generation1-successor-horizon-v2",
+      "generation1-categorized-batch-extension-chain-v1",
+      "generation1-successor-categorized-batch-wave-v1"
+    ],
+    "required_release_evidence": [
+      "all static live bindings unchanged",
+      "all live programs terminal clean",
+      "full gate profile green",
+      "offline hydration green",
+      "crash-resume and rollback green",
+      "signed supersession receipt"
+    ],
+    "merge_policy": "Draft and push isolated checkpoints now; do not merge or activate until every required terminal and release condition is satisfied."
+  }
+}

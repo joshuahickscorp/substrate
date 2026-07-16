@@ -14,6 +14,8 @@ runs/
 runs/cpu_campaign/ckpt/
 runs/studio_rehearsal/
 reports/telegram_notifier/
+reports/condensation/
+.mop/
 
 # durability: track the load-bearing verdict evidence in place (the rest of runs/ stays ignored).
 # git cannot re-include a file whose parent dir is excluded, so re-include the dirs, re-exclude their
