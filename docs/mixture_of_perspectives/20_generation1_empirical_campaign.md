@@ -1,5 +1,12 @@
 # Generation 1 Empirical Campaign
 
+> **Superseded for current status and successor execution:** This document remains authoritative for
+> the frozen C0 empirical campaign, its evidence contract, and its historical design. The canonical
+> current successor taxonomy, dependency graph, and launched one-command horizon chain are now in
+> [21_generation1_successor_evidence_chain.md](./21_generation1_successor_evidence_chain.md). Any
+> live-status wording or future execution sequence below is historical and must not override that
+> note.
+
 **Status:** detached v2 census running with one accepted, dependency-gated post-run synthesis injection; durable supervisor status is inspected only on operator request
 **Snapshot date:** 2026-07-13
 **Immediate launch scope:** 24 fresh seeds by 128 existing CPU-now experiment classes

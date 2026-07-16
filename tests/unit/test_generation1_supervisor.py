@@ -731,6 +731,39 @@ def test_live_resource_stop_signals_only_owned_groups_and_retries_are_bounded(
     assert row["attempts"] == g1.MAX_CAPSULE_ATTEMPTS
 
 
+def test_pause_safe_resource_deferrals_do_not_consume_failure_budget(tmp_path: Path) -> None:
+    path, _runner_path, _sha = _program(tmp_path, [_base_capsule(tmp_path)])
+    program = g1.load_program(path, repo_root=tmp_path)
+    supervisor = _supervisor(program)
+    capsule = program.capsules[0]
+    row = supervisor.state["capsules"][capsule.capsule_id]
+
+    for _ in range(10):
+        row["attempts"] += 1
+        status = supervisor._retry_or_hold(
+            capsule=capsule,
+            row=row,
+            problem="dynamic resource gate requested a replay boundary",
+            hold_problem="must not hold on resource deferral",
+            resource_deferred=True,
+        )
+
+    assert status["state"] == "resource_wait"
+    assert row["runtime"]["retry_count"] == 10
+    assert row["runtime"]["failure_attempt_count"] == 0
+    for failure in range(1, g1.MAX_CAPSULE_ATTEMPTS + 1):
+        row["attempts"] += 1
+        status = supervisor._retry_or_hold(
+            capsule=capsule,
+            row=row,
+            problem="real command failure",
+            hold_problem="failure budget exhausted",
+        )
+        assert row["runtime"]["failure_attempt_count"] == failure
+
+    assert status["state"] == "failure_hold"
+
+
 def test_crash_recovery_retries_when_recorded_child_is_gone(tmp_path: Path) -> None:
     path, _runner_path, _sha = _program(tmp_path, [_base_capsule(tmp_path)])
     program = g1.load_program(path, repo_root=tmp_path)
