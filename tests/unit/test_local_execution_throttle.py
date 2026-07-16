@@ -2667,8 +2667,9 @@ def test_seed_boundary_yields_after_one_restart_exit_and_seals_progress(monkeypa
     assert len(receipt["invocations"]) == 1
     assert receipt["progress_authority"]["schema"] == throttle.PROGRESS_AUTHORITY_SCHEMA
     assert receipt["progress_authority"]["owned_child_active"] is False
-    assert receipt["progress_authority"]["final_checkpoint_aggregate_sha256"] == (
-        receipt["final_checkpoint"]["aggregate_sha256"]
+    assert (
+        receipt["progress_authority"]["final_checkpoint_aggregate_sha256"]
+        == (receipt["final_checkpoint"]["aggregate_sha256"])
     )
     unsealed = dict(receipt)
     declared = unsealed.pop("payload_sha256")
@@ -2718,6 +2719,42 @@ def test_validated_external_profile_keeps_cpu_gates_live_at_runtime(monkeypatch)
     assert "cpu_load" in failing
     assert "cpu_utilization" not in failing
 
+    monkeypatch.setattr(
+        throttle,
+        "_external_coexistence_report",
+        lambda _task, _rows: {
+            "profile": "hawking_v5_ultra_cpu_v1",
+            "allowed": True,
+            "all_ok": True,
+            "problems": [],
+        },
+    )
+    v5_residual = _snapshot(
+        cpu={
+            "available": True,
+            "logical_cpus": 28,
+            "load_1m_per_logical_cpu": 0.97,
+            "utilization_fraction": 0.97,
+        },
+        memory=memory,
+        processes=processes,
+        swap={"available": True, "used_gb": 0.0},
+    )
+    assert evaluate_task(task, v5_residual, policy, task_already_active=True)["allowed"] is True
+    v5_saturated = {
+        **v5_residual,
+        "cpu": {
+            **v5_residual["cpu"],
+            "load_1m_per_logical_cpu": 2.0,
+            "utilization_fraction": 1.0,
+        },
+    }
+    v5_decision = evaluate_task(task, v5_saturated, policy, task_already_active=True)
+    assert v5_decision["allowed"] is True
+    cpu_gates = {gate["name"]: gate for gate in v5_decision["gates"] if gate["name"].startswith("cpu_")}
+    assert cpu_gates["cpu_load"]["limit"] == "kernel-enforced background QoS"
+    assert cpu_gates["cpu_utilization"]["limit"] == "kernel-enforced background QoS"
+
     transient_burst = _snapshot(
         cpu={
             "available": True,
@@ -2751,6 +2788,432 @@ def test_validated_external_profile_keeps_cpu_gates_live_at_runtime(monkeypatch)
     )
     assert pressure_gate["ok"] is False
     assert pressure_gate["limit"] == 75.0
+
+
+def test_opportunistic_profile_claims_sub_95_percent_gaps_and_bounds_v5_memory(monkeypatch):
+    policy = load_policy(REPO_ROOT / "configs/local_execution_throttle_v5_opportunistic.yaml")
+    task = replace(policy.task("edcm1_official_cpu"), prerequisites=())
+    memory = {
+        "available": True,
+        "total_bytes": int(100e9),
+        "available_bytes": int(13e9),
+        "available_percent": 13.0,
+        "pressure": {"available": True, "free_percent": 50.0},
+    }
+    cpu = {
+        "available": True,
+        "logical_cpus": 28,
+        "load_1m_per_logical_cpu": 0.94,
+        "utilization_fraction": 0.94,
+    }
+    base = _snapshot(memory=memory, cpu=cpu, swap={"available": True, "used_gb": 3.0})
+
+    assert evaluate_task(task, base, policy)["allowed"] is True
+    over_ceiling = {
+        **base,
+        "cpu": {**cpu, "load_1m_per_logical_cpu": 0.96, "utilization_fraction": 0.96},
+    }
+    assert evaluate_task(task, over_ceiling, policy)["allowed"] is False
+
+    unmanaged = [{"pid": 101, "name": "quantize-model-block-parallel"}]
+    monkeypatch.setattr(
+        throttle,
+        "_external_coexistence_report",
+        lambda _task, _rows: {
+            "profile": "hawking_v5_ultra_cpu_v1",
+            "allowed": True,
+            "all_ok": True,
+            "problems": [],
+        },
+    )
+    coexistence = {
+        **over_ceiling,
+        "processes": {
+            "available": True,
+            "foreground_resource_processes": [],
+            "unmanaged_known_heavy": unmanaged,
+        },
+    }
+    decision = evaluate_task(task, coexistence, policy)
+    assert decision["allowed"] is True
+    gates = {gate["name"]: gate for gate in decision["gates"]}
+    assert gates["external_coexistence_memory_percent"]["limit"] == 12.0
+    assert gates["external_coexistence_memory_gb"]["limit"] == 8.0
+    assert gates["external_coexistence_pressure_free"]["limit"] == 40.0
+    assert gates["external_coexistence_low_swap"]["limit"] == 4.0
+
+    parallel_task = replace(
+        task,
+        task_id="g1_c1_difficulty_atlas",
+        cpu_cores=6,
+        command=(*task.command, "--seed-workers", "6"),
+    )
+    assert throttle._external_coexistence_task_problems(parallel_task) == []
+    monkeypatch.setattr(
+        throttle,
+        "_external_coexistence_report",
+        lambda _task, _rows: {
+            "profile": "hawking_v5_ultra_cpu_v1",
+            "allowed": True,
+            "all_ok": True,
+            "problems": [],
+            "observed": {
+                "aggregate_cpu_percent": 1900.0,
+                "processes": [{"quant_threads": 20}],
+            },
+        },
+    )
+    parallel_decision = evaluate_task(parallel_task, coexistence, policy)
+    assert parallel_decision["allowed"] is True
+    parallel_gate = next(
+        gate for gate in parallel_decision["gates"] if gate["name"] == "external_coexistence_cpu_budget"
+    )
+    assert parallel_gate["observed"] == {
+        "candidate_cores": 6,
+        "observed_external_cores": 20,
+        "quant_threads": 20,
+    }
+    assert parallel_gate["limit"] == 26
+
+    bad_parallel = replace(
+        parallel_task,
+        command=(*parallel_task.command[:-1], "5"),
+    )
+    assert "parallel C1 atlas cores must equal the exact seed-worker argument" in (
+        throttle._external_coexistence_task_problems(bad_parallel)
+    )
+
+    adaptive_task = replace(
+        task,
+        task_id="g1_c2_context_routing_shard_00",
+        cpu_cores=25,
+        estimated_unified_memory_gb=throttle.TASKPOLICY_ADAPTIVE_CAP_GB,
+        command=(
+            *throttle.TASKPOLICY_ADAPTIVE_PREFIX,
+            ".venv/bin/python",
+            "scripts/generation1_context_routing/run_shard.py",
+            "--idle-workers",
+            "25",
+            "--hawking-workers",
+            "6",
+        ),
+    )
+    assert throttle.is_taskpolicy_coexistence_command(adaptive_task.command) is True
+    assert throttle._external_coexistence_task_problems(adaptive_task) == []
+    parallel_verify_task = replace(
+        adaptive_task,
+        task_id="g1_c2_context_routing_verify_parallel",
+        command=(
+            *throttle.TASKPOLICY_ADAPTIVE_PREFIX,
+            ".venv/bin/python",
+            "scripts/generation1_context_routing_parallel/verify.py",
+            "--idle-workers",
+            "25",
+            "--hawking-workers",
+            "6",
+        ),
+    )
+    assert throttle._external_coexistence_task_problems(parallel_verify_task) == []
+    adaptive_memory = {
+        **memory,
+        "available_bytes": int(60e9),
+        "available_percent": 60.0,
+        "pressure": {"available": True, "free_percent": 60.0},
+    }
+    adaptive_decision = evaluate_task(
+        adaptive_task,
+        {**coexistence, "memory": adaptive_memory},
+        policy,
+    )
+    assert adaptive_decision["allowed"] is True
+    adaptive_gate = next(
+        gate for gate in adaptive_decision["gates"] if gate["name"] == "external_coexistence_cpu_budget"
+    )
+    assert adaptive_gate["observed"] == {
+        "candidate_cores": 6,
+        "declared_idle_cores": 25,
+        "observed_external_cores": 20,
+        "quant_threads": 20,
+    }
+    assert adaptive_gate["limit"] == 26
+
+    monkeypatch.setattr(
+        throttle,
+        "_external_coexistence_report",
+        lambda _task, _rows: {
+            "profile": "hawking_v5_ultra_cpu_v1",
+            "allowed": False,
+            "all_ok": False,
+            "problems": ["transient external identity"],
+        },
+    )
+    invalid_external = {
+        **coexistence,
+        "memory": adaptive_memory,
+        "cpu": {
+            **cpu,
+            "load_1m_per_logical_cpu": 1.25,
+            "utilization_fraction": 1.0,
+        },
+    }
+    adaptive_passthrough = evaluate_task(adaptive_task, invalid_external, policy)
+    assert adaptive_passthrough["allowed"] is True
+    passthrough_gates = {gate["name"]: gate for gate in adaptive_passthrough["gates"]}
+    assert passthrough_gates["unmanaged_heavy_process"]["ok"] is True
+    assert (
+        "sealed Hawking queue owns the six-worker downshift"
+        in passthrough_gates["unmanaged_heavy_process"]["reason"]
+    )
+    assert passthrough_gates["cpu_load"]["limit"] == "admission-only"
+    assert passthrough_gates["cpu_utilization"]["limit"] == "admission-only"
+    assert evaluate_task(parallel_verify_task, invalid_external, policy)["allowed"] is True
+
+    aggregate_task = replace(task, task_id="g1_c2_context_routing_aggregate")
+    assert throttle._external_coexistence_task_problems(aggregate_task) == []
+    aggregate_passthrough = evaluate_task(aggregate_task, invalid_external, policy)
+    assert aggregate_passthrough["allowed"] is True
+    aggregate_gates = {gate["name"]: gate for gate in aggregate_passthrough["gates"]}
+    assert aggregate_gates["unmanaged_heavy_process"]["ok"] is True
+    assert "one-core C2 aggregation boundary" in aggregate_gates["unmanaged_heavy_process"]["reason"]
+    assert aggregate_gates["cpu_load"]["limit"] == "admission-only"
+    assert aggregate_gates["cpu_utilization"]["limit"] == "admission-only"
+
+    nonadaptive_invalid = evaluate_task(task, invalid_external, policy)
+    assert nonadaptive_invalid["allowed"] is False
+    assert (
+        next(gate for gate in nonadaptive_invalid["gates"] if gate["name"] == "unmanaged_heavy_process")["ok"]
+        is False
+    )
+
+
+def _successor_horizon_task(
+    base: TaskDeclaration,
+    task_id: str,
+    *,
+    idle_workers: str = "8",
+    hawking_workers: str = "1",
+) -> TaskDeclaration:
+    return replace(
+        base,
+        task_id=task_id,
+        cpu_cores=8,
+        estimated_unified_memory_gb=throttle.TASKPOLICY_ADAPTIVE_CAP_GB,
+        prerequisites=(),
+        command=(
+            *throttle.TASKPOLICY_ADAPTIVE_PREFIX,
+            ".venv/bin/python",
+            "scripts/mop_generation1_successor_horizon.py",
+            "run-shard",
+            "--idle-workers",
+            idle_workers,
+            "--hawking-workers",
+            hawking_workers,
+        ),
+    )
+
+
+def test_successor_horizon_exact_allowlists_accept_all_five_epochs():
+    policy = load_policy(REPO_ROOT / "configs/local_execution_throttle_v5_opportunistic.yaml")
+    base = replace(policy.task("edcm1_official_cpu"), prerequisites=())
+    expected_epochs = {f"h{index:02d}" for index in range(1, 6)}
+    expected_compute = {
+        f"g1_{epoch}_{lane}_shard_{shard:02d}"
+        for epoch in expected_epochs
+        for lane, shard_count in (("d1", 5), ("mechanics", 8))
+        for shard in range(shard_count)
+    }
+    expected_light = {
+        "g1_horizon_admit",
+        "g1_horizon_aggregate",
+        "g1_horizon_verify",
+        "g1_horizon_report",
+        *(f"g1_{epoch}_classify" for epoch in expected_epochs),
+    }
+
+    assert set(throttle.GENERATION1_SUCCESSOR_HORIZON_EPOCHS) == expected_epochs
+    assert expected_compute == throttle.GENERATION1_SUCCESSOR_HORIZON_COMPUTE_TASKS
+    assert expected_light == throttle.GENERATION1_SUCCESSOR_HORIZON_LIGHT_TASKS
+    assert expected_compute | expected_light == throttle.GENERATION1_SUCCESSOR_HORIZON_TASKS
+    assert len(throttle.GENERATION1_SUCCESSOR_HORIZON_TASKS) == 74
+    assert "mop_generation1_successor_horizon.py" in policy.monitor["known_heavy_markers"]
+
+    for task_id in sorted(expected_compute):
+        task = _successor_horizon_task(base, task_id)
+        assert throttle.is_taskpolicy_coexistence_command(task.command) is True
+        assert throttle._external_coexistence_task_problems(task) == []
+        assert throttle._effective_external_task_cores(task) == 1
+
+    for task_id in sorted(expected_light):
+        task = replace(
+            base,
+            task_id=task_id,
+            prerequisites=(),
+            command=(
+                *throttle.TASKPOLICY_COEXISTENCE_PREFIX,
+                ".venv/bin/python",
+                "scripts/mop_generation1_successor_horizon.py",
+                "light-step",
+            ),
+        )
+        assert throttle.is_taskpolicy_coexistence_command(task.command) is True
+        assert throttle._external_coexistence_task_problems(task) == []
+        assert throttle._effective_external_task_cores(task) == 1
+
+
+def test_successor_horizon_uses_one_effective_core_during_hawking_downshift(monkeypatch):
+    policy = load_policy(REPO_ROOT / "configs/local_execution_throttle_v5_opportunistic.yaml")
+    base = replace(policy.task("edcm1_official_cpu"), prerequisites=())
+    task = _successor_horizon_task(base, "g1_h05_mechanics_shard_07")
+    unmanaged = [{"pid": 101, "name": "quantize-model-block-parallel"}]
+    memory = {
+        "available": True,
+        "total_bytes": int(100e9),
+        "available_bytes": int(60e9),
+        "available_percent": 60.0,
+        "pressure": {"available": True, "free_percent": 60.0},
+    }
+    snapshot = _snapshot(
+        cpu={
+            "available": True,
+            "logical_cpus": 28,
+            "load_1m_per_logical_cpu": 1.25,
+            "utilization_fraction": 1.0,
+        },
+        memory=memory,
+        processes={
+            "available": True,
+            "foreground_resource_processes": [],
+            "unmanaged_known_heavy": unmanaged,
+        },
+        swap={"available": True, "used_gb": 0.0},
+    )
+
+    def report_with_threads(threads: int) -> dict:
+        return {
+            "profile": "hawking_v5_ultra_cpu_v1",
+            "allowed": True,
+            "all_ok": True,
+            "problems": [],
+            "observed": {
+                "aggregate_cpu_percent": float(threads * 100),
+                "processes": [{"quant_threads": threads}],
+            },
+        }
+
+    monkeypatch.setattr(
+        throttle,
+        "_external_coexistence_report",
+        lambda _task, _rows: report_with_threads(25),
+    )
+    admitted = evaluate_task(task, snapshot, policy)
+    assert admitted["allowed"] is True
+    admitted_gate = next(
+        gate for gate in admitted["gates"] if gate["name"] == "external_coexistence_cpu_budget"
+    )
+    assert admitted_gate["observed"] == {
+        "candidate_cores": 1,
+        "declared_idle_cores": 8,
+        "observed_external_cores": 25,
+        "quant_threads": 25,
+    }
+    assert admitted_gate["limit"] == 26
+
+    monkeypatch.setattr(
+        throttle,
+        "_external_coexistence_report",
+        lambda _task, _rows: report_with_threads(26),
+    )
+    rejected = evaluate_task(task, snapshot, policy)
+    assert rejected["allowed"] is False
+    rejected_gate = next(
+        gate for gate in rejected["gates"] if gate["name"] == "external_coexistence_cpu_budget"
+    )
+    assert rejected_gate["ok"] is False
+    assert rejected_gate["observed"]["candidate_cores"] == 1
+
+
+def test_successor_horizon_rejections_preserve_exact_c2_contract():
+    policy = load_policy(REPO_ROOT / "configs/local_execution_throttle_v5_opportunistic.yaml")
+    base = replace(policy.task("edcm1_official_cpu"), prerequisites=())
+
+    wrong_horizon_workers = _successor_horizon_task(
+        base,
+        "g1_h01_d1_shard_00",
+        idle_workers="25",
+        hawking_workers="6",
+    )
+    horizon_problems = throttle._external_coexistence_task_problems(wrong_horizon_workers)
+    assert "successor-horizon command must declare exact --idle-workers 8" in horizon_problems
+    assert "successor-horizon command must declare exact --hawking-workers 1" in horizon_problems
+
+    c2_with_horizon_workers = replace(
+        wrong_horizon_workers,
+        task_id="g1_c2_context_routing_shard_00",
+        cpu_cores=25,
+        command=(
+            *throttle.TASKPOLICY_ADAPTIVE_PREFIX,
+            ".venv/bin/python",
+            "scripts/generation1_context_routing/run_shard.py",
+            "--idle-workers",
+            "8",
+            "--hawking-workers",
+            "1",
+        ),
+    )
+    c2_problems = throttle._external_coexistence_task_problems(c2_with_horizon_workers)
+    assert "adaptive C2 command must declare exact --idle-workers 25" in c2_problems
+    assert "adaptive C2 command must declare exact --hawking-workers 6" in c2_problems
+
+    one_core_horizon = replace(
+        _successor_horizon_task(base, "g1_h01_d1_shard_00"),
+        cpu_cores=1,
+    )
+    assert "successor-horizon envelope" in " ".join(
+        throttle._external_coexistence_task_problems(one_core_horizon)
+    )
+
+    valid_c2 = replace(
+        c2_with_horizon_workers,
+        command=(
+            *throttle.TASKPOLICY_ADAPTIVE_PREFIX,
+            ".venv/bin/python",
+            "scripts/generation1_context_routing/run_shard.py",
+            "--idle-workers",
+            "25",
+            "--hawking-workers",
+            "6",
+        ),
+    )
+    assert throttle._external_coexistence_task_problems(valid_c2) == []
+    assert throttle._effective_external_task_cores(valid_c2) == 6
+    assert "25-to-6 adaptive C2 envelope" in " ".join(
+        throttle._external_coexistence_task_problems(replace(valid_c2, cpu_cores=1))
+    )
+
+    lookalike = _successor_horizon_task(base, "g1_h06_d1_shard_00")
+    lookalike_problems = throttle._external_coexistence_task_problems(lookalike)
+    assert "task id is outside the exact reviewed coexistence set" in lookalike_problems
+
+    light_with_adaptive_wrapper = replace(
+        _successor_horizon_task(base, "g1_horizon_report"),
+        cpu_cores=1,
+    )
+    light_problems = throttle._external_coexistence_task_problems(light_with_adaptive_wrapper)
+    assert "task must declare its exact reviewed taskpolicy memory cap" in light_problems
+    assert "task must use its pinned lower-priority taskpolicy wrapper" in light_problems
+
+    duplicate_worker_flag = replace(
+        _successor_horizon_task(base, "g1_h01_mechanics_shard_00"),
+        command=(
+            *_successor_horizon_task(base, "g1_h01_mechanics_shard_00").command,
+            "--hawking-workers",
+            "1",
+        ),
+    )
+    assert "successor-horizon command must declare exact --hawking-workers 1" in (
+        throttle._external_coexistence_task_problems(duplicate_worker_flag)
+    )
+    assert throttle._effective_external_task_cores(duplicate_worker_flag) == 8
 
 
 def test_completion_reuses_admission_time_policy_and_governor_bindings(monkeypatch, tmp_path):

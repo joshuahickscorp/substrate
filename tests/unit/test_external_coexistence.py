@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 from pathlib import Path
 from typing import Any
@@ -9,7 +10,9 @@ import pytest
 
 from mop.studio.external_coexistence import (
     HawkingSerialCPUProfile,
+    HawkingV5UltraCPUProfile,
     validate_hawking_serial_cpu_snapshot,
+    validate_hawking_v5_ultra_snapshot,
 )
 
 
@@ -46,6 +49,142 @@ def _environment() -> dict[str, str | None]:
         "DOCTOR_DEVICE": "cpu",
         "PYTORCH_ENABLE_MPS_FALLBACK": None,
     }
+
+
+def _seal(payload: dict[str, Any], field: str) -> dict[str, Any]:
+    core = dict(payload)
+    core.pop(field, None)
+    encoded = json.dumps(
+        core,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+        allow_nan=False,
+    ).encode()
+    return {**core, field: hashlib.sha256(encoded).hexdigest()}
+
+
+def _v5_profile(tmp_path: Path) -> HawkingV5UltraCPUProfile:
+    root = tmp_path / "hawking-v5"
+    python_executable = tmp_path / "Python-v5"
+    python_argv0 = tmp_path / "python3.12-v5"
+    root.mkdir()
+    python_executable.touch()
+    python_argv0.touch()
+    contents = {
+        "tools/condense/doctor_v5_qwen_treatment_adapter.py": b"qwen-adapter\n",
+        "tools/condense/doctor_v5_sharded_eval.py": b"evaluator\n",
+        "tools/condense/doctor_v5_strand_ladder_adapter.py": b"strand-adapter\n",
+        "tools/condense/doctor_v5_ultra_queue.py": b"queue\n",
+        "tools/condense/doctor_v5_ultra_accelerated_queue.py": b"accelerated-queue\n",
+        "tools/condense/doctor_v5_qwen_treatment_block_parallel_adapter.py": b"qwen-block-adapter\n",
+        "tools/condense/doctor_v5_strand_ladder_block_parallel_adapter.py": b"strand-block-adapter\n",
+        "tools/condense/doctor_v5_strand_ladder_block_parallel_worker.py": b"strand-block-worker\n",
+        "vendor/strand-quant/target/release/quantize-model": b"quantize\n",
+        "build/strand-block-parallel/release/quantize-model-block-parallel": b"block-quantize\n",
+        "vendor/strand-decode-kernel/target/release/attest-strand": b"attest\n",
+        "vendor/strand-decode-kernel/target/release/archive-to-safetensors": b"decode\n",
+    }
+    expected: dict[str, str] = {}
+    for relative, payload in contents.items():
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+        expected[relative] = hashlib.sha256(payload).hexdigest()
+    return HawkingV5UltraCPUProfile.create(
+        root=root,
+        python_executable=python_executable,
+        python_argv0=python_argv0,
+        expected_plan_sha256="a" * 64,
+        expected_file_sha256=expected,
+    )
+
+
+def _v5_snapshot(profile: HawkingV5UltraCPUProfile) -> list[dict[str, Any]]:
+    cell_id = "qwen2-5-0-5b__4bpw__doctor-conditional"
+    request_path = (
+        Path(profile.root)
+        / "reports/condense/doctor_v5_ultra/results"
+        / cell_id
+        / "request.json"
+    )
+    request_path.parent.mkdir(parents=True)
+    request = _seal(
+        {
+            "schema": "hawking.doctor_v5_adapter_request.v1",
+            "quality_claims_permitted": False,
+            "request_id": cell_id,
+        },
+        "request_sha256",
+    )
+    request_path.write_text(json.dumps(request))
+    queue = _seal(
+        {
+            "schema": "hawking.doctor_v5_ultra_queue_state.v1",
+            "plan_sha256": profile.expected_plan_sha256,
+            "active_cells": [cell_id],
+            "active_children": {
+                cell_id: {
+                    "cell_id": cell_id,
+                    "pid": 500,
+                    "request_sha256": request["request_sha256"],
+                }
+            },
+        },
+        "state_sha256",
+    )
+    queue_path = Path(profile.queue_state_path)
+    queue_path.parent.mkdir(parents=True, exist_ok=True)
+    queue_path.write_text(json.dumps(queue))
+    return [
+        {
+            "pid": 500,
+            "ppid": 42,
+            "uid": os.getuid(),
+            "create_time": 1500.0,
+            "exe": profile.python_executable,
+            "cwd": profile.root,
+            "cmdline": [
+                profile.python_executable,
+                "tools/condense/doctor_v5_qwen_treatment_adapter.py",
+                "run",
+                "--request",
+                str(request_path),
+            ],
+            "environment": _environment(),
+            "rss_bytes": 2_000_000_000,
+            "cpu_percent": 5.0,
+        },
+        {
+            "pid": 501,
+            "ppid": 500,
+            "uid": os.getuid(),
+            "create_time": 1501.0,
+            "exe": profile.quantize_executable,
+            "cwd": profile.root,
+            "cmdline": [
+                profile.quantize_executable,
+                "--in",
+                str(Path(profile.root) / "scratch/qwen-05b/model.safetensors"),
+                "--bits",
+                "4",
+                "--threads",
+                "20",
+                "--quality",
+                "--rht-cols",
+                "--ragged-v2",
+                "--tensor-scope",
+                "all-2d",
+                "--block-len",
+                "256",
+                "--packed-v2-out",
+                str(request_path.parent / "bundle/shards/.00000.strand.partial.500"),
+            ],
+            "environment": _environment(),
+            "rss_bytes": 8_000_000_000,
+            "cpu_percent": 1900.0,
+        },
+    ]
 
 
 def _audit(
@@ -335,3 +474,119 @@ def test_full_or_unsanitized_environment_is_never_serialized(tmp_path: Path) -> 
     assert "must-not-appear" not in serialized
     assert "SECRET_TOKEN" not in serialized
     assert any("exact sanitized set" in problem for problem in report["problems"])
+
+
+def test_valid_v5_queue_snapshot_is_bound_to_queue_and_request_seals(tmp_path: Path) -> None:
+    profile = _v5_profile(tmp_path)
+
+    report = validate_hawking_v5_ultra_snapshot(_v5_snapshot(profile), profile)
+
+    assert report["allowed"] is True
+    assert report["profile"] == "hawking_v5_ultra_cpu_v1"
+    assert report["queue_state"]["plan_sha256"] == "a" * 64
+    assert report["observed"]["process_count"] == 2
+    assert report["observed"]["root_count"] == 1
+    assert report["problems"] == []
+
+
+def test_valid_v5_block_parallel_snapshot_uses_pinned_binary_and_bounds(tmp_path: Path) -> None:
+    profile = _v5_profile(tmp_path)
+    rows = _v5_snapshot(profile)
+    rows[0]["cmdline"][1] = "tools/condense/doctor_v5_strand_ladder_block_parallel_adapter.py"
+    rows[1]["exe"] = profile.block_parallel_quantize_executable
+    rows[1]["cmdline"][0] = profile.block_parallel_quantize_executable
+    rows[1]["cmdline"].extend(
+        ["--block-threads", "20", "--block-scratch-budget-bytes", "268435456"]
+    )
+
+    report = validate_hawking_v5_ultra_snapshot(rows, profile)
+
+    assert report["allowed"] is True
+    assert report["observed"]["processes"][0]["role"] == "v5-adapter"
+    assert report["observed"]["processes"][1]["role"] == "v5-quantize"
+
+
+def test_v5_block_parallel_scratch_drift_fails_closed(tmp_path: Path) -> None:
+    profile = _v5_profile(tmp_path)
+    rows = _v5_snapshot(profile)
+    rows[0]["cmdline"][1] = "tools/condense/doctor_v5_strand_ladder_block_parallel_adapter.py"
+    rows[1]["exe"] = profile.block_parallel_quantize_executable
+    rows[1]["cmdline"][0] = profile.block_parallel_quantize_executable
+    rows[1]["cmdline"].extend(
+        ["--block-threads", "20", "--block-scratch-budget-bytes", "536870912"]
+    )
+
+    report = validate_hawking_v5_ultra_snapshot(rows, profile)
+
+    assert report["allowed"] is False
+    assert any("scratch budget" in problem for problem in report["problems"])
+
+
+@pytest.mark.parametrize("role", ["evaluator", "attestor", "decoder"])
+def test_v5_non_quant_compute_roles_are_exactly_bounded(tmp_path: Path, role: str) -> None:
+    profile = _v5_profile(tmp_path)
+    rows = _v5_snapshot(profile)
+    result_root = Path(rows[0]["cmdline"][4]).parent
+    child = rows[1]
+    if role == "evaluator":
+        child["exe"] = profile.python_executable
+        child["cmdline"] = [
+            profile.python_executable,
+            str(Path(profile.root) / "tools/condense/doctor_v5_sharded_eval.py"),
+            "run",
+            "--mode",
+            "capability",
+            "--model-dir",
+            str(Path(profile.root) / "scratch/qwen-05b"),
+            "--label",
+            "0.5B-4",
+            "--override-manifest",
+            str(result_root / "evaluation/override_manifest.json"),
+        ]
+    elif role == "attestor":
+        child["exe"] = profile.attestor_executable
+        child["cmdline"] = [
+            profile.attestor_executable,
+            str(result_root / "bundle/shards/00000.strand"),
+            "--roots",
+        ]
+    else:
+        child["exe"] = profile.decoder_executable
+        child["cmdline"] = [
+            profile.decoder_executable,
+            str(result_root / "bundle/shards/00000.strand"),
+            str(result_root / "evaluation/.00000.safetensors.partial.500"),
+            "--dtype",
+            "bf16",
+        ]
+
+    report = validate_hawking_v5_ultra_snapshot(rows, profile)
+
+    assert report["allowed"] is True
+    expected_role = {"evaluator": "v5-eval", "attestor": "v5-attestor", "decoder": "v5-decoder"}
+    assert report["observed"]["processes"][1]["role"] == expected_role[role]
+
+
+@pytest.mark.parametrize("mutation", ["request", "queue", "threads", "parent"])
+def test_v5_identity_or_resource_drift_fails_closed(tmp_path: Path, mutation: str) -> None:
+    profile = _v5_profile(tmp_path)
+    rows = _v5_snapshot(profile)
+    if mutation == "request":
+        request_path = Path(rows[0]["cmdline"][4])
+        request = json.loads(request_path.read_text())
+        request["quality_claims_permitted"] = True
+        request_path.write_text(json.dumps(request))
+    elif mutation == "queue":
+        queue_path = Path(profile.queue_state_path)
+        queue = json.loads(queue_path.read_text())
+        queue["plan_sha256"] = "b" * 64
+        queue_path.write_text(json.dumps(queue))
+    elif mutation == "threads":
+        rows[1]["cmdline"][6] = "21"
+    else:
+        rows[1]["ppid"] = 999
+
+    report = validate_hawking_v5_ultra_snapshot(rows, profile)
+
+    assert report["allowed"] is False
+    assert report["problems"]

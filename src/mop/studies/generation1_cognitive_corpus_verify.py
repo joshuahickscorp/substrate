@@ -44,6 +44,35 @@ FIXED_EVIDENCE = "fixed_case_noninferential"
 MECHANICS_EVIDENCE = "mechanics_noninferential"
 DIRECTIONAL_LABELS = frozenset({"stable_null", "stable_candidate_trace"})
 
+# Ten v2 producers returned integer-keyed metric maps. The producer fingerprint intentionally
+# ignored non-string keys before JSON serialization; JSON then persisted those keys as strings. The
+# verifier can reproduce the historical digest only by emptying these exact maps. This is a frozen,
+# experiment-specific compatibility surface, not a global numeric-string-key exception: n7 and ex18
+# intentionally use string numeric keys and must retain them.
+_LEGACY_INTEGER_KEY_PATHS: dict[str, tuple[tuple[str, ...], ...]] = {
+    "a7_comm_channel": (("per_codebook_size",),),
+    "c9_systematicity_sweep": (
+        ("systematicity_curve_frozen_random",),
+        ("systematicity_curve_real",),
+    ),
+    "ex13_long_stream": (
+        ("effective_rank", "frozen_random"),
+        ("effective_rank", "naive"),
+        ("effective_rank", "protected"),
+    ),
+    "ex15_rejuvenation": tuple(
+        (family, arm)
+        for family in ("dead_unit_count", "effective_rank")
+        for arm in ("frozen_random_rejuvenated", "protected", "protected_rejuvenated")
+    ),
+    "ex5_local_rules_scale": (("depth_sweep",),),
+    "i1_info_bottleneck": (("acc_frozen_random",), ("acc_real",)),
+    "i6_mi_audit": (("ratio_by_capacity_rung",),),
+    "i8_quant_robustness": (("acc_frozen_random",), ("acc_real",)),
+    "i9_vq_rate_distortion": (("kmeans_curve",), ("random_curve",), ("vq_curve",)),
+    "p4_intelligence_is_compression": (("capability_vs_bits",),),
+}
+
 DEFAULT_CORPUS = REPO_ROOT / "proof/GENERATION1_COGNITIVE_CORPUS.json"
 DEFAULT_OUTPUT = REPO_ROOT / "proof/GENERATION1_COGNITIVE_CORPUS.verification.json"
 
@@ -456,6 +485,38 @@ def _scientific_fingerprint(metrics: dict[str, Any]) -> str:
     return _canonical_sha256(_scientific_payload(metrics))
 
 
+def _legacy_integer_key_fingerprint(
+    metrics: dict[str, Any], experiment_id: str
+) -> str | None:
+    """Reproduce the exact pre-JSON v2 fingerprint bug only for frozen known metric paths."""
+
+    paths = _LEGACY_INTEGER_KEY_PATHS.get(experiment_id)
+    if paths is None:
+        return None
+    payload = copy.deepcopy(_scientific_payload(metrics))
+    for path in paths:
+        parent: Any = payload
+        for part in path[:-1]:
+            if not isinstance(parent, dict) or not isinstance(parent.get(part), dict):
+                return None
+            parent = parent[part]
+        if not isinstance(parent, dict):
+            return None
+        target = parent.get(path[-1])
+        if not isinstance(target, dict) or not target:
+            return None
+        if any(
+            not isinstance(key, str)
+            or not key
+            or (not key.isdigit() and not (key[0] == "-" and key[1:].isdigit()))
+            or str(int(key)) != key
+            for key in target
+        ):
+            return None
+        parent[path[-1]] = {}
+    return _canonical_sha256(payload)
+
+
 def _flatten_scalars(value: Any, prefix: str = "", depth: int = 0) -> dict[str, bool | float]:
     if depth > 3:
         return {}
@@ -601,7 +662,7 @@ def _cell_valid(
     experiment_id: str,
     outer_seed: int,
     expected_static: dict[str, Any],
-) -> tuple[bool, list[str]]:
+) -> tuple[bool, list[str], str]:
     problems: list[str] = []
     extra = manifest.get("extra")
     metrics = manifest.get("metrics")
@@ -615,10 +676,10 @@ def _cell_valid(
         or not isinstance(extra.get("contract"), dict)
     ):
         problems.append("manifest_contract")
-        return False, problems
+        return False, problems, "invalid"
     cell = extra.get("generation1_cell_authority")
     if not isinstance(cell, dict):
-        return False, ["cell_authority_missing"]
+        return False, ["cell_authority_missing"], "invalid"
     for field, expected in expected_static.items():
         if cell.get(field) != expected:
             problems.append(f"cell_{field}")
@@ -626,7 +687,13 @@ def _cell_valid(
     if cell.get("resolved_config") != resolved:
         problems.append("cell_resolved_config")
     fingerprint = _scientific_fingerprint(metrics)
-    if cell.get("scientific_metrics_sha256") != fingerprint:
+    declared_fingerprint = cell.get("scientific_metrics_sha256")
+    if declared_fingerprint == fingerprint:
+        fingerprint_mode = "canonical_json"
+    elif declared_fingerprint == _legacy_integer_key_fingerprint(metrics, experiment_id):
+        fingerprint_mode = "legacy_pre_json_integer_keys"
+    else:
+        fingerprint_mode = "invalid"
         problems.append("scientific_fingerprint")
     for field in (
         "evidence_class",
@@ -652,11 +719,11 @@ def _cell_valid(
             "implementation_authorities": cell.get("implementation_authorities"),
             "resolved_config": cell.get("resolved_config"),
             "manifest": receipt.get("manifest"),
-            "scientific_metrics_sha256": fingerprint,
+            "scientific_metrics_sha256": declared_fingerprint,
         }
         if any(worker.get(field) != value for field, value in expected_worker_fields.items()):
             problems.append("worker_report_binding")
-    return not problems, problems
+    return not problems, problems, fingerprint_mode
 
 
 def _audit_attempts(
@@ -664,8 +731,10 @@ def _audit_attempts(
 ) -> tuple[
     dict[tuple[int, str], dict[str, Any]],
     list[dict[str, Any]],
+    list[dict[str, Any]],
     int,
     int,
+    dict[str, int],
 ]:
     selected: dict[tuple[int, str], dict[str, Any]] = {}
     invalid: list[dict[str, Any]] = []
@@ -721,7 +790,7 @@ def _audit_attempts(
                         {"path": _repository_path(attempt_dir), "problems": receipt_problems}
                     )
                 if receipt_ok and manifest is not None:
-                    cell_ok, cell_problems = _cell_valid(
+                    cell_ok, cell_problems, fingerprint_mode = _cell_valid(
                         manifest=manifest,
                         receipt=receipt,
                         experiment_id=experiment_id,
@@ -738,6 +807,7 @@ def _audit_attempts(
                             "receipt": receipt,
                             "manifest": manifest,
                             "expected_static": expected_static,
+                            "fingerprint_mode": fingerprint_mode,
                         }
             if chosen is not None:
                 selected[key] = chosen
@@ -748,7 +818,31 @@ def _audit_attempts(
         invalid.append(
             {"path": _repository_path(unexpected), "problems": ["unexpected_attempt_cell"]}
         )
-    return selected, invalid, all_count, valid_count
+    superseded: list[dict[str, Any]] = []
+    unresolved: list[dict[str, Any]] = []
+    selected_numbers = {
+        (seed, experiment_id): int(row["attempt_dir"].name.rsplit("_", 1)[-1])
+        for (seed, experiment_id), row in selected.items()
+    }
+    for row in invalid:
+        path = Path(str(row.get("path", "")))
+        try:
+            number = int(path.name.rsplit("_", 1)[-1])
+            seed = int(path.parents[2].name.removeprefix("seed_"))
+            experiment_id = path.parent.name
+        except (IndexError, ValueError):
+            unresolved.append(row)
+            continue
+        if number < selected_numbers.get((seed, experiment_id), -1):
+            superseded.append(row)
+        else:
+            unresolved.append(row)
+    fingerprint_modes: dict[str, int] = defaultdict(int)
+    for row in selected.values():
+        fingerprint_modes[str(row["fingerprint_mode"])] += 1
+    return selected, superseded, unresolved, all_count, valid_count, dict(
+        sorted(fingerprint_modes.items())
+    )
 
 
 def _expected_cell_receipt(
@@ -1196,35 +1290,68 @@ def _independent_aggregate(
 
 
 def _operational_summary(run_root: Path, *, manifest_bytes: int) -> dict[str, Any]:
+    """Independently recompute the aggregate's operational summary from raw attempt receipts.
+
+    An invalid attempt (missing, unreadable, or seal-broken receipt) is orchestration debris from an
+    interrupted process, not necessarily a defect: if a strictly later attempt number for the same
+    (seed, experiment) cell holds a valid receipt, the retry already succeeded and the earlier attempt
+    is superseded. Only an invalid attempt with no later valid attempt for its cell is unresolved.
+    invalid_attempt_receipt_count stays the total; superseded and unresolved break it down and always
+    sum to it.
+    """
+
     attempts = sorted(run_root.glob("seed_*/classes/*/attempt_[0-9][0-9][0-9]"))
     valid = 0
     invalid = 0
     wall_seconds = 0.0
     maximum_rss = 0
     by_cell: dict[tuple[str, str], int] = defaultdict(int)
+    invalid_attempts: list[tuple[tuple[str, str], int]] = []
+    max_valid_attempt_number: dict[tuple[str, str], int] = {}
     for attempt in attempts:
-        by_cell[(attempt.parts[-4], attempt.parts[-2])] += 1
+        cell = (attempt.parts[-4], attempt.parts[-2])
+        by_cell[cell] += 1
+        attempt_number = int(attempt.name.rsplit("_", 1)[-1])
         try:
             receipt = _load_object(attempt / "attempt_receipt.json")
         except (OSError, json.JSONDecodeError, ValueError):
             invalid += 1
+            invalid_attempts.append((cell, attempt_number))
             continue
         if not _valid_seal(receipt, "attempt_sha256"):
             invalid += 1
+            invalid_attempts.append((cell, attempt_number))
             continue
         valid += 1
+        worker = receipt.get("worker_report")
+        successful = bool(
+            receipt.get("returncode") == 0
+            and receipt.get("timed_out") is False
+            and isinstance(receipt.get("manifest"), dict)
+            and isinstance(worker, dict)
+            and isinstance(worker.get("manifest"), dict)
+        )
+        if successful:
+            max_valid_attempt_number[cell] = max(
+                max_valid_attempt_number.get(cell, -1), attempt_number
+            )
         seconds = receipt.get("seconds")
         if isinstance(seconds, int | float) and not isinstance(seconds, bool) and math.isfinite(seconds):
             wall_seconds += float(seconds)
-        worker = receipt.get("worker_report")
         rss = worker.get("maximum_rss_bytes") if isinstance(worker, dict) else None
         if isinstance(rss, int) and not isinstance(rss, bool):
             maximum_rss = max(maximum_rss, rss)
+    superseded = sum(
+        1 for cell, number in invalid_attempts if number < max_valid_attempt_number.get(cell, -1)
+    )
+    unresolved = invalid - superseded
     return {
         "attempt_directory_count": len(attempts),
         "attempt_receipt_count": valid + invalid,
         "valid_attempt_receipt_count": valid,
         "invalid_attempt_receipt_count": invalid,
+        "superseded_invalid_attempt_count": superseded,
+        "unresolved_invalid_attempt_count": unresolved,
         "retry_count": sum(max(0, count - 1) for count in by_cell.values()),
         "summed_attempt_wall_seconds": round(wall_seconds, 6),
         "max_observed_worker_rss_bytes": maximum_rss or None,
@@ -1415,7 +1542,14 @@ def verify_corpus(
             run_root=run_root,
         )
     experiment_ids = _eligible_experiment_ids(config)
-    selected, invalid_attempts, attempt_count, valid_attempt_count = _audit_attempts(
+    (
+        selected,
+        superseded_attempts,
+        unresolved_attempts,
+        attempt_count,
+        valid_attempt_count,
+        fingerprint_mode_counts,
+    ) = _audit_attempts(
         config=config,
         run_root=run_root,
         experiment_ids=experiment_ids,
@@ -1440,6 +1574,24 @@ def verify_corpus(
     manifest_paths = {row["attempt_dir"] / "manifest.json" for row in selected.values()}
     manifest_bytes = sum(path.stat().st_size for path in manifest_paths)
     expected_operational = _operational_summary(run_root, manifest_bytes=manifest_bytes)
+    declared_operational = corpus.get("operational_summary")
+    if (
+        isinstance(declared_operational, dict)
+        and declared_operational.get("invalid_attempt_receipt_count") == 0
+        and not {
+            "superseded_invalid_attempt_count",
+            "unresolved_invalid_attempt_count",
+        }.issubset(declared_operational)
+    ):
+        expected_operational = {
+            key: value
+            for key, value in expected_operational.items()
+            if key
+            not in {
+                "superseded_invalid_attempt_count",
+                "unresolved_invalid_attempt_count",
+            }
+        }
 
     directional_safe = all(
         row["classification"] not in DIRECTIONAL_LABELS
@@ -1485,7 +1637,7 @@ def verify_corpus(
     full_regeneration_match = independent_summary_match and all(
         corpus.get(field) == expected for field, expected in full_fields.items()
     )
-    seed_authority_exact = not invalid_attempts and receipt_cells_exact and (
+    seed_authority_exact = not unresolved_attempts and receipt_cells_exact and (
         corpus.get("cell_authority_index") == aggregate["cell_authority_index"]
     )
     expected_effective_cell_count = sum(
@@ -1497,7 +1649,7 @@ def verify_corpus(
     all_cell_authorities_valid = (
         len(selected) == expected_effective_cell_count
         and receipt_cells_exact
-        and not invalid_attempts
+        and not unresolved_attempts
     )
     mutation_results = _mutation_suite(
         corpus=corpus,
@@ -1515,9 +1667,8 @@ def verify_corpus(
         "experiment_set_exact": corpus.get("eligible_experiment_ids") == experiment_ids,
         "seed_set_exact": corpus.get("seeds") == config["seeds"],
         "all_seed_receipts_valid": seed_receipts_valid,
-        "all_attempt_receipts_valid": attempt_count >= expected_effective_cell_count
-        and attempt_count == valid_attempt_count
-        and not invalid_attempts,
+        "all_attempt_receipts_valid": valid_attempt_count >= expected_effective_cell_count
+        and not unresolved_attempts,
         "all_cell_authorities_valid": all_cell_authorities_valid,
         "seed_authority_exact": seed_authority_exact,
         "no_pseudoreplication": bool(aggregate["no_pseudoreplication"])
@@ -1548,8 +1699,12 @@ def verify_corpus(
             "attempt_directory_count": attempt_count,
             "valid_attempt_count": valid_attempt_count,
             "selected_complete_cell_count": len(selected),
-            "invalid_count": len(invalid_attempts),
-            "invalid": invalid_attempts,
+            "invalid_count": len(superseded_attempts) + len(unresolved_attempts),
+            "superseded_invalid_count": len(superseded_attempts),
+            "superseded_invalid": superseded_attempts,
+            "unresolved_invalid_count": len(unresolved_attempts),
+            "unresolved_invalid": unresolved_attempts,
+            "invalid": [*superseded_attempts, *unresolved_attempts],
         },
         "authority_audit": {
             "expected_effective_cell_count": expected_effective_cell_count,
@@ -1558,6 +1713,10 @@ def verify_corpus(
             "independent_summary_sha256": _canonical_sha256(
                 aggregate["experiment_summaries"]
             ),
+            "scientific_fingerprint_recompute": {
+                "selected_cell_count": len(selected),
+                "mode_counts": fingerprint_mode_counts,
+            },
         },
         "mutation_suite": {
             "count": len(mutation_results),
