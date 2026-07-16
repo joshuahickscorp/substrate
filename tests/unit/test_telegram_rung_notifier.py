@@ -213,7 +213,7 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
     assert message == (
         "🧪 MOP C3 Router Redesign\n"
         "Progress: 10/48\n"
-        "Next 10 rungs: 25m\n"
+        "Next 30 rungs: 25m\n"
         "Full queue: 1h 55m\n"
         "Health: good\n"
         "Errors: none"
@@ -249,7 +249,7 @@ def test_event_eta_prefers_next_rung_cost() -> None:
         complete=5,
         total=100,
     )
-    assert eta == {"block_seconds": 321.0, "session_seconds": 9_876.0}
+    assert eta == {"block_seconds": 963.0, "session_seconds": 9_876.0}
 
 
 def test_short_block_eta_uses_seconds_instead_of_rounding_to_one_minute() -> None:
@@ -312,7 +312,7 @@ def test_prime_suppresses_history_and_run_sends_only_new_event(monkeypatch, tmp_
     assert sent == ["two"]
 
 
-def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
+def test_run_sends_only_each_thirtieth_rung_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
     state_path = tmp_path / "state.json"
     state = notifier._new_state()
     state["primed"] = True
@@ -322,9 +322,9 @@ def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch
             "event_id": f"rung-{index}",
             "kind": "rung",
             "program_id": "program",
-            "progress": {"complete": index, "total": 12},
+            "progress": {"complete": index, "total": 32},
         }
-        for index in range(1, 11)
+        for index in range(1, 32)
     ]
     events.append(
         {
@@ -332,7 +332,7 @@ def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch
             "kind": "terminal",
             "program_id": "program",
             "state": "complete",
-            "progress": {"complete": 12, "total": 12},
+            "progress": {"complete": 32, "total": 32},
             "problems": [],
         }
     )
@@ -345,14 +345,23 @@ def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch
     )
 
     assert result["sent"] == 2
-    assert sent == ["rung-10", "terminal"]
+    assert sent == ["rung-30", "terminal"]
     delivered = notifier.load_state(state_path)["delivered"]
-    assert delivered["rung-9"]["status"] == "suppressed-nonmilestone"
+    assert delivered["rung-29"]["status"] == "suppressed-nonmilestone"
+    assert delivered["rung-31"]["status"] == "suppressed-nonmilestone"
 
 
-def test_small_parent_chain_sends_each_stage_completion() -> None:
-    assert notifier._should_send({"kind": "rung", "progress": {"complete": 1, "total": 4}}) is True
-    assert notifier._should_send({"kind": "rung", "progress": {"complete": 3, "total": 74}}) is False
+def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
+    def rung(complete: int, total: int) -> dict:
+        return {"kind": "rung", "progress": {"complete": complete, "total": total}}
+
+    assert notifier._should_send(rung(1, 30)) is True
+    assert notifier._should_send(rung(29, 31)) is False
+    assert notifier._should_send(rung(30, 31)) is True
+    assert notifier._should_send(rung(31, 31)) is True
+    assert notifier._should_send(rung(59, 74)) is False
+    assert notifier._should_send(rung(60, 74)) is True
+    assert notifier._should_send(rung(74, 74)) is True
 
 
 def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
