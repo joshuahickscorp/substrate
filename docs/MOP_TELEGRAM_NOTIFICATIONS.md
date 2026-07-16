@@ -12,7 +12,7 @@ The MOP watcher sends event-driven updates through the existing Hawking
 
 Only self-sealed Generation 1 status documents with an exact program identity
 are eligible. Malformed or unsealed status files fail quiet. Long programs emit
-every tenth capsule milestone; compact parent chains emit every stage completion
+every thirtieth capsule milestone; compact parent chains emit every stage completion
 so prerequisite results are not hidden behind the batching threshold.
 
 The watcher reads the existing Hawking token and chat ID from macOS Keychain.
