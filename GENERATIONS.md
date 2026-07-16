@@ -70,10 +70,14 @@ routing study are also complete and independently verified. They establish bound
 and fixed-route candidates only. They do not establish learned routing, runtime activation, natural
 generality, or substrate advantage.
 
-Successor work is now split cleanly by evidence class. D1 has exploratory tuning evidence for one
-frozen router design, while V1, M1, and G1 have deterministic mechanics pilots. Their larger
-producer, challenge, robustness, and consolidation work must emit clean terminal authorities before
-it can be cited. The adopting parent `generation1-successor-evidence-chain-v4` supersedes the
+Successor work is now split cleanly by evidence class. D1 has a clean 576-rung same-code
+producer/challenge aggregate for one frozen router design; both phases failed the frozen candidate
+criteria. A separately authored structural verifier independently recomputes the frozen gates and
+byte-binds the exact aggregate, closing that design as a bounded nonconfirmatory null-safe prune
+without claiming an independent scientific generator. V1, M1, and G1 have deterministic mechanics
+pilots, while their larger robustness and consolidation work still requires clean terminal
+authorities. The adopting
+parent `generation1-successor-evidence-chain-v4` supersedes the
 immutable v3 process-classification hold and observes the three exact legacy parents using exact
 restart argv shape and parent-owned child boundaries; its bounded five-epoch
 `generation1-successor-horizon-v1` is sealed behind their consolidated terminal result. The canonical
@@ -90,7 +94,19 @@ process creation. The whole-chain acknowledgement pins observed process identity
 replays both completed parents; liveness without a matching exact parent and non-authoritative
 transient status snapshots are refused. The idempotent whole-chain entrypoint is
 `scripts/mop_generation1_successor_future_chain.py start --execute`. Its contract is in
-`docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`. Live rung counts and ETA
+`docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`.
+
+The next append-only child, `generation1-successor-categorized-batch-wave-v1`, reorganizes fresh
+cycles 12 through 18 into six readable sibling categories per wave, each with eight internal
+workers and a serial classify-and-seal barrier. Its 59 top-level capsules place exact old-D1
+verification and a preregistered D1 redesign boundary before seven executable mechanics waves,
+then evaluate the existing I1 dependency closure physically last, executing I1 only if its original
+admission and surviving W07 dependencies allow it. The maximum executable mechanics ceiling is
+approximately 196.18 serial hours or 24.52 ideal eight-worker hours. Redesign efficacy is
+deliberately excluded from that runtime until a later receipt-backed child authorizes real candidate
+execution. The single idempotent entrypoint for the entire chain is
+`scripts/mop_generation1_successor_long_chain.py start --execute`; the contract is
+`docs/mixture_of_perspectives/23_generation1_categorized_batch_wave.md`. Live rung counts and ETA
 estimates are operational telemetry, not project standing.
 
 The scaffold consolidation still supplies the fail-closed contracts, deterministic fixtures,
@@ -155,7 +171,8 @@ plasticity, and structural change under matched cost.
 - The substrate and campaigns: `docs/mixture_of_perspectives/18_event_sourced_coalition_substrate.md`,
   `19_one_shot_escs_campaign.md`, `20_generation1_empirical_campaign.md`, and
   `21_generation1_successor_evidence_chain.md`, with the append-only deep extension in
-  `22_generation1_successor_horizon_v2.md`.
+  `22_generation1_successor_horizon_v2.md` and categorized batch successor in
+  `23_generation1_categorized_batch_wave.md`.
 - The form-substrate paradigm root: `FORM_SUBSTRATE_PROGRAM.md`.
 - The audits that make the nulls trustworthy: `docs/INDEPENDENT_REVERIFICATION_2026_07_10.md`,
   `docs/COMPLETION_CLAIM_AUDIT_2026_07_10.md`, `docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md`.
