@@ -1,5 +1,9 @@
 # Generation 1 Successor Evidence Chain
 
+> **Historical authority:** The v4 design and its immutable hold remain documented here. The
+> append-only v5 recovery and current one-command launch topology are specified in
+> [24_generation1_successor_recovery_v5.md](./24_generation1_successor_recovery_v5.md).
+
 > **Canonical successor note:** This document supersedes the current-status, successor-topology,
 > and future execution guidance in
 > [20_generation1_empirical_campaign.md](./20_generation1_empirical_campaign.md). Document 20
