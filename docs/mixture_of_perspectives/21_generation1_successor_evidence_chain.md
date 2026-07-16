@@ -35,14 +35,15 @@ per-rung totals are operational telemetry and are deliberately omitted from this
 | C0 empirical report and evidence synthesis | Complete and independently verified | A dependency-only successor queue with explicit positive, null, invalid-bed, and instrumentation routes | Cross-mechanism ranking or automatic activation |
 | G1-C1 competence atlas | Complete and independently verified on generated latent tasks | Reproducible context-disjoint niche candidates and preregistration of C2 | Dispatcher training or natural-world competence |
 | G1-C2 context-labeled frozen routing | Complete and independently verified on generated latent tasks | A bounded C3 learned-dispatch hypothesis and fixed-route control | Label-free learned routing, integrated cooperation, or runtime activation |
-| G1-D1 exploratory router work | Pilot and expanded canary were nonconfirmatory; a redesign screen selected one frozen variant as tuning evidence | A fresh producer and challenge-replication program using the frozen design | Confirmatory inference until a separate verifier exists |
+| G1-D1 frozen router work | The 576-rung same-code producer/challenge aggregate is clean and a separately authored structural verifier byte-binds it; both phases fail the frozen candidate criteria | Retire the exact centroid design as a control and place any new efficacy premise behind an append-only redesign authority | Confirmatory inference, an independently generated scientific null, weaker thresholds, or more efficacy seeds for the retired design |
 | G1-V1 and G1-M1 | Deterministic mechanics pilots discriminate engineered favorable and null regimes | Larger producer/challenge robustness work | Independent scientific confirmation or causal natural-task value |
 | G1-G1 | Deterministic construction-search mechanics pilot separates an engineered favorable regime from its null | Larger charged-search robustness work | Topology authority, activation, or architecture advantage |
 | Extended successor mechanics and consolidated campaign | Nonterminal predecessor programs with sealed manifests and restart-safe status surfaces | Inputs to adopt once their terminal results exist and validate | Evidence while only partial receipts or live status exist |
 
 The project therefore remains at Stage 2. It has verified discovery evidence, a bounded generated C1
-and C2 pattern, exploratory D1 tuning, and successor mechanics. It does not yet have an independently
-confirmed active cognitive mechanism.
+and C2 pattern, a structurally verified nonconfirmatory D1 null-safe prune without an independent
+scientific generator, and successor mechanics. It does not yet have an independently confirmed
+active cognitive mechanism.
 
 ## 2. Canonical taxonomy
 

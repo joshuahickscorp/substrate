@@ -3,7 +3,8 @@
 > **Append-only extension:** This document adds a second bounded robustness horizon after
 > [21_generation1_successor_evidence_chain.md](./21_generation1_successor_evidence_chain.md).
 > It does not alter the live v4 adopter, the sealed v1 horizon, or any completed predecessor
-> receipt.
+> receipt. The categorized append-only successor is
+> [23_generation1_categorized_batch_wave.md](./23_generation1_categorized_batch_wave.md).
 
 **Status:** scaffolded as a post-v1 child; the extension parent may wait without launching compute
 **Snapshot date:** 2026-07-16

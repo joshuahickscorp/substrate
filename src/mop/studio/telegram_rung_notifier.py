@@ -66,6 +66,8 @@ PROGRAM_LABELS = {
     "generation1-successor-horizon-v1": "Successor Horizon",
     "generation1-successor-extension-chain-v1": "Successor Extension",
     "generation1-successor-horizon-v2": "Successor Horizon V2",
+    "generation1-categorized-batch-extension-chain-v1": "Categorized Batch Extension",
+    "generation1-successor-categorized-batch-wave-v1": "Categorized Batch Wave",
     "generation1-consolidated-final-campaign-v1": "Final Campaign",
 }
 
