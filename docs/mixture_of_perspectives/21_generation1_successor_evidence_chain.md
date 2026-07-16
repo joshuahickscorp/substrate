@@ -4,16 +4,17 @@
 > and future execution guidance in
 > [20_generation1_empirical_campaign.md](./20_generation1_empirical_campaign.md). Document 20
 > remains authoritative for the frozen C0 campaign design, evidence vocabulary, controls, and
-> historical launch contract.
+> historical launch contract. The append-only post-v1 extension is specified separately in
+> [22_generation1_successor_horizon_v2.md](./22_generation1_successor_horizon_v2.md).
 
-**Status:** validated; the v3 parent supersedes the immutable v2 runtime hold
+**Status:** validated; the v4 parent supersedes the immutable v3 process-classification hold
 **Snapshot date:** 2026-07-16
-**Adopting parent:** `generation1-successor-evidence-chain-v3`
+**Adopting parent:** `generation1-successor-evidence-chain-v4`
 **Bounded future program:** `generation1-successor-horizon-v1`
 **Idempotent entry command:**
-`.venv/bin/python scripts/mop_generation1_successor_chain.py start --execute`
-**Command status:** launched 2026-07-16; repeating it resumes or reports the same chain and does not
-create another epoch or duplicate a legacy queue
+`.venv/bin/python scripts/mop_generation1_successor_chain_v4.py start --execute`
+**Command status:** append-only replacement validated; starting or repeating it resumes or reports
+the same v4 chain and does not create another epoch or duplicate a legacy queue
 **Claim scope:** generated, same-code robustness and independent artifact verification only; no
 runtime activation, scientific promotion, natural-world generality, or Stage 3 claim
 
@@ -83,12 +84,12 @@ extended successor-mechanics terminal authorities, regenerating their source evi
 declared fresh stress, and emitting one consolidated result. Its same-code regeneration and fresh
 cycles are robustness evidence, not independent scientific confirmation.
 
-The v3 parent must wait until that result exists and validates. Partial predecessor receipts and a
+The v4 parent must wait until that result exists and validates. Partial predecessor receipts and a
 `running` or `waiting` status are not adoptable scientific evidence.
 
 ### 3.2 Adopting parent
 
-`generation1-successor-evidence-chain-v3` is the active one-command owner. Its bounded contract is:
+`generation1-successor-evidence-chain-v4` is the active one-command owner. Its bounded contract is:
 
 1. Bind its own implementation and the exact sealed horizon manifest authority.
 2. Adopt the exact live D1, successor-mechanics, and consolidated-v1 parents by PID, create time,
@@ -115,8 +116,8 @@ has the same high-level order:
 3. Classify the epoch with frozen routing rules.
 4. Seal the epoch authority before admitting the next epoch.
 
-The horizon is deliberately finite. H05 is the end of this scaffold, not an invitation to continue
-indefinitely merely because compute remains available.
+The horizon is deliberately finite. H05 is the end of this sealed program. Any later work requires
+a separate append-only authority; horizon v2 supplies that separate authority without rewriting v1.
 
 The sealed horizon contains 74 capsules: one admission boundary, 65 compute shards, five epoch
 classifiers, one aggregate, one separately authored verifier, and one report receipt. Its maximum
@@ -148,7 +149,7 @@ verified C0 corpus + synthesis
                          terminal sealed result only
                                       |
                                       v
-                    generation1-successor-evidence-chain-v3
+                    generation1-successor-evidence-chain-v4
                               [adopt and bind]
                                       |
                                       v
@@ -231,18 +232,23 @@ ESCS activation, topology mutation, an architecture-level claim, or Stage 3.
 The adopting chain is validated and starts with:
 
 ```bash
-.venv/bin/python scripts/mop_generation1_successor_chain.py start --execute
+.venv/bin/python scripts/mop_generation1_successor_chain_v4.py start --execute
 ```
 
-The initial v2 launch adopted exactly one D1 parent, one successor-mechanics parent, and one waiting
-consolidated parent. It wrote three immutable receipts with `observe_only: true` and
+The initial adopter-v2 launch adopted exactly one D1 parent, one successor-mechanics parent, and one
+waiting consolidated parent. It wrote three immutable receipts with `observe_only: true` and
 `signals_allowed: false`. That parent later entered an immutable integrity hold after observing the
-short pre-label interval of an otherwise exact multiprocessing child. The v3 parent recognizes only
-the exact CPython spawn command, direct parent PID, process group, interpreter, and repository cwd
-during that interval; arbitrary same-group children still fail closed.
+short pre-label interval of an otherwise exact multiprocessing child. V3 repaired that race but
+later entered a separate immutable integrity hold: its residual scan treated a benign review
+command that merely mentioned a legacy script path as a restart process, and its broad mechanics
+prefix could absorb a foreign-worktree `mop-g1-*` child. V4 recognizes a restart only at the exact
+interpreter and script argv positions emitted by the adopter. A labelled legacy child is owned only
+when repository cwd, parent process group, and direct parent PID all match; foreign horizon and
+review processes are ignored. Arbitrary members inside an adopted parent's process group still fail
+closed.
 
-The v3 parent status is under
-`runs/generation1/generation1-successor-evidence-chain-v3/current_status.json`. The bound horizon
+The v4 parent status is under
+`runs/generation1/generation1-successor-evidence-chain-v4/current_status.json`. The bound horizon
 program SHA-256 is
 `450c922025d87c76b5f27e65d7d0d2a057e65b1f5477e5c50259e4e761e942ea`.
 
