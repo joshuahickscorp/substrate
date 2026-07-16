@@ -46,10 +46,10 @@ from mop.studio.generation1_supervisor import (
     start_detached as start_generation1_detached,
 )
 
-CHAIN_ID = "generation1-successor-evidence-chain-v2"
+CHAIN_ID = "generation1-successor-evidence-chain-v3"
 PARENT_LABEL = "mop-successor-evidence-chain"
-STATE_SCHEMA = "mop-generation1-successor-evidence-chain-state/v2"
-STATUS_SCHEMA = "mop-generation1-successor-evidence-chain-status/v2"
+STATE_SCHEMA = "mop-generation1-successor-evidence-chain-state/v3"
+STATUS_SCHEMA = "mop-generation1-successor-evidence-chain-status/v3"
 ADOPTION_SCHEMA = "mop-generation1-legacy-adoption-receipt/v1"
 CONTROL_SCHEMA = "mop-generation1-successor-evidence-chain-control/v1"
 
@@ -530,6 +530,30 @@ class SuccessorEvidenceChain:
             is not None
         )
 
+    def _spawn_worker(self, process: ProcessSnapshot) -> bool:
+        if (
+            len(process.command) != 4
+            or process.command[1] != "-c"
+            or process.command[3] != "--multiprocessing-fork"
+        ):
+            return False
+        expected_python = (self.repo_root / ".venv/bin/python").resolve()
+        try:
+            interpreter_matches = Path(process.command[0]).resolve() == expected_python
+        except OSError:
+            return False
+        return (
+            interpreter_matches
+            and re.fullmatch(
+                (
+                    r"from multiprocessing\.spawn import spawn_main; ?"
+                    r"spawn_main\(tracker_fd=[0-9]+, pipe_handle=[0-9]+\)"
+                ),
+                process.command[2],
+            )
+            is not None
+        )
+
     def _matching_processes(
         self,
         spec: LegacySpec,
@@ -562,16 +586,41 @@ class SuccessorEvidenceChain:
             and self._command_residual(spec, process)
         ]
         trackers = [process for process in processes if self._resource_tracker(process)]
+        spawn_workers = [
+            process
+            for process in processes
+            if process not in labelled
+            and process not in worker_residuals
+            and process not in command_residuals
+            and self._spawn_worker(process)
+        ]
         residuals = [*worker_residuals, *command_residuals]
         if any(process.cwd != str(self.repo_root) for process in residuals):
             raise SuccessorChainRefused(f"{spec.stage_id} residual worker or restart command has invalid cwd")
         if labelled:
             parent = labelled[0]
+            misgrouped_spawn_workers = [
+                process
+                for process in spawn_workers
+                if process.ppid == parent.pid and process.pgid != parent.pid
+            ]
+            if misgrouped_spawn_workers:
+                raise SuccessorChainRefused(
+                    f"{spec.stage_id} direct spawn child escaped the exact parent process group: "
+                    + ", ".join(str(process.pid) for process in misgrouped_spawn_workers)
+                )
+            owned_spawn_workers = [
+                process for process in spawn_workers if process.pgid == parent.pid
+            ]
             group_members = [
                 process for process in processes if process.pid != parent.pid and process.pgid == parent.pid
             ]
             allowed_group_members = [
-                process for process in group_members if process in worker_residuals or process in trackers
+                process
+                for process in group_members
+                if process in worker_residuals
+                or process in trackers
+                or (process in owned_spawn_workers and process.ppid == parent.pid)
             ]
             unexpected = [process for process in group_members if process not in allowed_group_members]
             if unexpected:
@@ -598,9 +647,18 @@ class SuccessorEvidenceChain:
             }
             residuals.extend(
                 process
+                for process in spawn_workers
+                if process.pgid not in exact_owner_pgids
+            )
+            residuals.extend(
+                process
                 for process in trackers
                 if process.cwd == str(self.repo_root) and process.pgid not in exact_owner_pgids
             )
+            if any(process.cwd != str(self.repo_root) for process in residuals):
+                raise SuccessorChainRefused(
+                    f"{spec.stage_id} residual worker or restart command has invalid cwd"
+                )
         return labelled, residuals
 
     def _write_adoption_receipt(

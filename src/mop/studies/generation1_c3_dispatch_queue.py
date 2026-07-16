@@ -27,7 +27,9 @@ STATUS_SCHEMA = "mop-generation1-c3-dispatch-queue-status/v1"
 RESULT_SCHEMA = "mop-generation1-c3-dispatch-expanded-canary/v1"
 DEFAULT_ROOT = REPO_ROOT / "runs/generation1" / PROGRAM_ID
 DEFAULT_RESULT = REPO_ROOT / "proof/GENERATION1_C3_D1_EXPANDED_CANARY.json"
-HAWKING_QUEUE = Path("/Users/scammermike/Downloads/hawking/reports/condense/doctor_v5_ultra/queue_state.json")
+HAWKING_QUEUE = (
+    Path.home() / "Downloads/hawking/reports/condense/doctor_v5_ultra/queue_state.json"
+)
 HAWKING_SCHEMA = "hawking.doctor_v5_ultra_queue_state.v1"
 
 

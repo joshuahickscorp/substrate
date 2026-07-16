@@ -222,6 +222,7 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
 
 def test_planned_successor_programs_have_compact_labels() -> None:
     assert notifier._program_label("generation1-successor-evidence-chain-v2") == "Successor Evidence Chain"
+    assert notifier._program_label("generation1-successor-evidence-chain-v3") == "Successor Evidence Chain"
     assert notifier._program_label("generation1-successor-horizon-v1") == "Successor Horizon"
 
 

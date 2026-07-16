@@ -6,9 +6,9 @@
 > remains authoritative for the frozen C0 campaign design, evidence vocabulary, controls, and
 > historical launch contract.
 
-**Status:** validated and launched; parent is observing the three live legacy queues
+**Status:** validated; the v3 parent supersedes the immutable v2 runtime hold
 **Snapshot date:** 2026-07-16
-**Adopting parent:** `generation1-successor-evidence-chain-v2`
+**Adopting parent:** `generation1-successor-evidence-chain-v3`
 **Bounded future program:** `generation1-successor-horizon-v1`
 **Idempotent entry command:**
 `.venv/bin/python scripts/mop_generation1_successor_chain.py start --execute`
@@ -83,12 +83,12 @@ extended successor-mechanics terminal authorities, regenerating their source evi
 declared fresh stress, and emitting one consolidated result. Its same-code regeneration and fresh
 cycles are robustness evidence, not independent scientific confirmation.
 
-The v2 parent must wait until that result exists and validates. Partial predecessor receipts and a
+The v3 parent must wait until that result exists and validates. Partial predecessor receipts and a
 `running` or `waiting` status are not adoptable scientific evidence.
 
 ### 3.2 Adopting parent
 
-`generation1-successor-evidence-chain-v2` is the active one-command owner. Its bounded contract is:
+`generation1-successor-evidence-chain-v3` is the active one-command owner. Its bounded contract is:
 
 1. Bind its own implementation and the exact sealed horizon manifest authority.
 2. Adopt the exact live D1, successor-mechanics, and consolidated-v1 parents by PID, create time,
@@ -148,7 +148,7 @@ verified C0 corpus + synthesis
                          terminal sealed result only
                                       |
                                       v
-                    generation1-successor-evidence-chain-v2
+                    generation1-successor-evidence-chain-v3
                               [adopt and bind]
                                       |
                                       v
@@ -228,18 +228,23 @@ ESCS activation, topology mutation, an architecture-level claim, or Stage 3.
 
 ## 7. Active one-command lifecycle
 
-The adopting chain was validated and started with:
+The adopting chain is validated and starts with:
 
 ```bash
 .venv/bin/python scripts/mop_generation1_successor_chain.py start --execute
 ```
 
-The launch adopted exactly one D1 parent, one successor-mechanics parent, and one waiting consolidated
-parent. It wrote three immutable receipts with `observe_only: true` and `signals_allowed: false`.
-The parent status is under
-`runs/generation1/generation1-successor-evidence-chain-v2/current_status.json`; its initial live state
-is `waiting_legacy`. The bound horizon program SHA-256 is
-`8d39c6d91b1ccbbbf5df4ac330f80bdd4d0c6c42874cbf5e2efc97c7685c7f03`.
+The initial v2 launch adopted exactly one D1 parent, one successor-mechanics parent, and one waiting
+consolidated parent. It wrote three immutable receipts with `observe_only: true` and
+`signals_allowed: false`. That parent later entered an immutable integrity hold after observing the
+short pre-label interval of an otherwise exact multiprocessing child. The v3 parent recognizes only
+the exact CPython spawn command, direct parent PID, process group, interpreter, and repository cwd
+during that interval; arbitrary same-group children still fail closed.
+
+The v3 parent status is under
+`runs/generation1/generation1-successor-evidence-chain-v3/current_status.json`. The bound horizon
+program SHA-256 is
+`450c922025d87c76b5f27e65d7d0d2a057e65b1f5477e5c50259e4e761e942ea`.
 
 Once launched under a validated manifest, repeating the same command should resume the same program,
 not create a new scientific epoch. Notifications are advisory operator signals only. They do not
@@ -267,6 +272,6 @@ result, H01 through H05 have each sealed all eligible work or frozen pruning dec
 cross-epoch aggregate validates, the separate artifact verifier is clean, and the generated report
 preserves the claim boundary.
 
-Until then, the exact description is: **the one-command successor evidence chain is launched and
-waiting on its adopted legacy authorities**. The future horizon is sealed and queued, but it is not
-scientific evidence until its eligible capsules and independent artifact verification complete.
+Until then, the exact description is: **the one-command successor evidence chain is waiting on its
+adopted legacy authorities**. The future horizon is sealed and queued, but it is not scientific
+evidence until its eligible capsules and independent artifact verification complete.
