@@ -2,7 +2,7 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
-## 2026-07-16 Generation 1 successor evidence chain v4
+## 2026-07-16 Generation 1 successor evidence recovery v5
 
 - [x] The C0 corpus and synthesis, C1 generated competence atlas, and C2 context-labeled frozen
   routing authorities are complete and independently verified at their declared bounded scopes.
@@ -24,6 +24,10 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   `generation1-successor-evidence-chain-v4` supersedes that hold with exact executable/argv-position
   matching plus original-cwd, parent-PGID, and parent-PPID ownership. No legacy process is relaunched
   or signaled, and repeating the v4 start command is idempotent.
+- [~] Recovery v5 supersedes the historical v4 hold and owns the current append-only continuation:
+  horizon v1, extension v2, horizon v2, and the categorized waiter/wave. The canonical idempotent
+  entry point is
+  `.venv/bin/python scripts/mop_generation1_successor_long_chain_v2.py start --execute`.
 - [~] Its sealed child `generation1-successor-horizon-v1` adds five bounded, disjoint robustness
   epochs followed by cross-epoch aggregation, separate streaming artifact verification, and a
   generated report. The 74-capsule maximum is 234.43 serial compute-hours, or 29.30 ideal hours at
@@ -41,7 +45,7 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   capsule progression and downstream rows remain pristine before their predecessor barrier. The
   future-chain acknowledgement pins observed PID/create-time identity, requires one exact visible
   parent, and durably replays both completed parents. The complete future chain starts idempotently with
-  `.venv/bin/python scripts/mop_generation1_successor_future_chain.py start --execute`. Canonical
+  `.venv/bin/python scripts/mop_generation1_successor_future_chain_v2.py start --execute`. Canonical
   contract: `docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`.
 - [~] The append-only `generation1-categorized-batch-extension-chain-v1` queues the 59-capsule
   `generation1-successor-categorized-batch-wave-v1` behind clean v2 completion. Seven fresh waves
@@ -56,7 +60,9 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   hours, subject to honest result-based pruning. It is idle-only and starts no compute while
   incumbent heavy work or either prior horizon remains incomplete. The complete one-command chain
   starts idempotently with
-  `.venv/bin/python scripts/mop_generation1_successor_long_chain.py start --execute`. Canonical
+  `.venv/bin/python scripts/mop_generation1_successor_long_chain_v2.py start --execute`. After the
+  completed D1 prune, the two surviving horizons plus categorized wave retain approximately 481.04
+  serial compute-hours, or 60.13 ideal eight-worker hours. Canonical
   contract: `docs/mixture_of_perspectives/23_generation1_categorized_batch_wave.md`.
 
 ## 2026-07-11 landing wave closed; P4 closed; P5 leg 3 admission held
