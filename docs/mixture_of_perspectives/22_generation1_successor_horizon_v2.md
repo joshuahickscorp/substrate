@@ -29,14 +29,34 @@ the first horizon launches. V2 therefore uses new files, a new program identity,
 a separate waiting parent.
 
 The extension parent is observation-only with respect to v4. It does not signal, suspend, restart,
-or relabel v4 or any legacy queue. It waits for v4 to report a clean terminal state, then asks the
-generic Generation 1 supervisor to start or resume the exact sealed v2 manifest.
+or relabel v4 or any legacy queue. A claimed v4 completion is accepted only when the sibling sealed
+state and status form one stable exact projection, current v4 and inherited implementation
+authorities match, the three canonical legacy results pass their domain validators, and the complete
+zero-injection v1 supervisor inventory and current artifacts replay without reconciliation. The
+sealed state name, capsule rows, and completion counts must also describe one possible progression;
+an all-complete inventory cannot be relabeled as waiting, and a downstream horizon row remains
+pristine until its predecessor boundary is complete. The reader then confirms the same state/status
+projection still exists, replays the artifacts a second time, confirms the projection once more,
+and performs one final independent artifact-hash check. Immediately before any v2 process creation,
+the extension takes the cooperative v4 lifetime lock, replays v4, independently rebuilds and
+validates the v2 admission boundary, and replays v4 once more to prove it did not change across the
+v1 check. The v2 status must bind the exact current generic-supervisor implementation and a positive,
+finite PID/create-time identity. After persisting the sealed v2 launch intent, the complete gate is
+repeated while the same lock remains held through the idempotent supervisor start.
 
 The one-command launcher starts or resumes v4 first, then starts or resumes this lightweight
 extension waiter. Both underlying starts are independently locked and idempotent, so repeating the
-command cannot duplicate a legacy queue, adopter, waiter, or horizon supervisor. The launcher
-refuses to report success when either the v4 adopter or extension waiter is in a failure,
-integrity-hold, or drained terminal state.
+command cannot duplicate a legacy queue, adopter, waiter, or horizon supervisor. An exact visible
+parent whose sealed status acknowledgement is still pending is retried through the same idempotent
+start path, but the originally observed PID and creation time remain pinned across acknowledgement
+attempts. A sealed live PID without one matching exact parent process is refused, and internally
+sealed transient launch-intent snapshots are not accepted as startup acknowledgements. The launcher
+reports success only after both components return self-sealed,
+execution-enabled, empty-problem acknowledgements that pass each component's exact field, authority,
+capsule, count, timestamp, progression, and completion validator. A reported v4 or extension
+completion must also match its current durable state/status and terminal-artifact replay
+byte-for-byte. The launcher fails closed on missing, stale, fabricated, replaced, unknown,
+safety-drifted, failure, integrity-hold, or drained acknowledgements.
 
 ## 2. Admission boundary
 
@@ -86,9 +106,9 @@ below the 285-minute capsule boundary even when it downshifts to one worker.
 
 ## 4. Concurrency and host safety
 
-The current host window does not authorize another physical compute lane. D1, successor mechanics,
-the waiting final campaign, and two Hawking quantizers already occupy the reviewed envelope.
-Consequently, launching the extension command starts only a lightweight waiter.
+The current reviewed host window does not authorize another physical compute lane while incumbent
+successor workloads occupy the envelope. Consequently, launching the extension command starts only
+a lightweight waiter.
 
 When v2 is eventually admitted, the generic supervisor still runs one exclusive capsule at a time.
 Inside a compute capsule, the frozen runner may use:
