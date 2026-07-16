@@ -10,7 +10,7 @@
 - **Waiting parent:** `generation1-categorized-batch-extension-chain-v1`
 - **Bounded child program:** `generation1-successor-categorized-batch-wave-v1`
 - **Idempotent whole-chain command:**
-  `.venv/bin/python scripts/mop_generation1_successor_long_chain.py start --execute`
+  `.venv/bin/python scripts/mop_generation1_successor_long_chain_v2.py start --execute`
 **Claim scope:** append-only same-code mechanics robustness, redesign preregistration,
 dependency-gated classification, and independent structural artifact verification; no activation,
 scientific promotion, natural-world generality, or independent scientific generator claim
@@ -127,8 +127,8 @@ horizon remain incomplete, the long-chain command starts only lightweight observ
 
 The long-chain launcher starts or resumes, in order:
 
-1. the hardened v4 adopter;
-2. the v2 extension waiter;
+1. the append-only v5 adopter;
+2. the successor extension waiter v2;
 3. the categorized-batch extension waiter.
 
 Every component is independently locked and idempotent. Repeating the command cannot duplicate a
