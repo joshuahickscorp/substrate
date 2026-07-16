@@ -2,16 +2,16 @@
 
 > **Append-only extension:** This document adds a second bounded robustness horizon after
 > [21_generation1_successor_evidence_chain.md](./21_generation1_successor_evidence_chain.md).
-> It does not alter the live v4 adopter, the sealed v1 horizon, or any completed predecessor
+> It does not alter the live v5 adopter, the sealed v1 horizon, or any completed predecessor
 > receipt. The categorized append-only successor is
 > [23_generation1_categorized_batch_wave.md](./23_generation1_categorized_batch_wave.md).
 
 **Status:** scaffolded as a post-v1 child; the extension parent may wait without launching compute
 **Snapshot date:** 2026-07-16
-**Waiting parent:** `generation1-successor-extension-chain-v1`
+**Waiting parent:** `generation1-successor-extension-chain-v2`
 **Bounded child program:** `generation1-successor-horizon-v2`
 **Idempotent entry command:**
-`.venv/bin/python scripts/mop_generation1_successor_future_chain.py start --execute`
+`.venv/bin/python scripts/mop_generation1_successor_future_chain_v2.py start --execute`
 **Claim scope:** append-only same-code robustness and independent artifact verification; no runtime
 activation, scientific promotion, independent scientific confirmation, natural-world generality, or
 Stage 3 claim
@@ -24,14 +24,14 @@ to consume a time budget.
 
 ## 1. Why this is a separate child
 
-The live v4 parent binds the exact v1 horizon manifest, and the v1 manifest binds its runtime source
+The live v5 parent binds the exact v1 horizon manifest, and the v1 manifest binds its runtime source
 and throttle authorities. Rewriting those files in place would invalidate a live authority before
 the first horizon launches. V2 therefore uses new files, a new program identity, a new run root, and
 a separate waiting parent.
 
-The extension parent is observation-only with respect to v4. It does not signal, suspend, restart,
-or relabel v4 or any legacy queue. A claimed v4 completion is accepted only when the sibling sealed
-state and status form one stable exact projection, current v4 and inherited implementation
+The extension parent is observation-only with respect to v5. It does not signal, suspend, restart,
+or relabel v5 or any legacy queue. A claimed v5 completion is accepted only when the sibling sealed
+state and status form one stable exact projection, current v5 and inherited implementation
 authorities match, the three canonical legacy results pass their domain validators, and the complete
 zero-injection v1 supervisor inventory and current artifacts replay without reconciliation. The
 sealed state name, capsule rows, and completion counts must also describe one possible progression;
@@ -39,13 +39,13 @@ an all-complete inventory cannot be relabeled as waiting, and a downstream horiz
 pristine until its predecessor boundary is complete. The reader then confirms the same state/status
 projection still exists, replays the artifacts a second time, confirms the projection once more,
 and performs one final independent artifact-hash check. Immediately before any v2 process creation,
-the extension takes the cooperative v4 lifetime lock, replays v4, independently rebuilds and
-validates the v2 admission boundary, and replays v4 once more to prove it did not change across the
+the extension takes the cooperative v5 lifetime lock, replays v5, independently rebuilds and
+validates the v2 admission boundary, and replays v5 once more to prove it did not change across the
 v1 check. The v2 status must bind the exact current generic-supervisor implementation and a positive,
 finite PID/create-time identity. After persisting the sealed v2 launch intent, the complete gate is
 repeated while the same lock remains held through the idempotent supervisor start.
 
-The one-command launcher starts or resumes v4 first, then starts or resumes this lightweight
+The one-command launcher starts or resumes v5 first, then starts or resumes this lightweight
 extension waiter. Both underlying starts are independently locked and idempotent, so repeating the
 command cannot duplicate a legacy queue, adopter, waiter, or horizon supervisor. An exact visible
 parent whose sealed status acknowledgement is still pending is retried through the same idempotent
@@ -54,7 +54,7 @@ attempts. A sealed live PID without one matching exact parent process is refused
 sealed transient launch-intent snapshots are not accepted as startup acknowledgements. The launcher
 reports success only after both components return self-sealed,
 execution-enabled, empty-problem acknowledgements that pass each component's exact field, authority,
-capsule, count, timestamp, progression, and completion validator. A reported v4 or extension
+capsule, count, timestamp, progression, and completion validator. A reported v5 or extension
 completion must also match its current durable state/status and terminal-artifact replay
 byte-for-byte. The launcher fails closed on missing, stale, fabricated, replaced, unknown,
 safety-drifted, failure, integrity-hold, or drained acknowledgements.
@@ -157,7 +157,7 @@ so `independent_scientific_confirmation` remains false.
 
 The extension is complete only when:
 
-- v4 and horizon v1 are terminal and clean;
+- v5 and horizon v1 are terminal and clean;
 - H06 through H10 each seal every eligible shard or frozen prune;
 - the v2 aggregate is complete;
 - the v2 independent artifact verifier is clean;

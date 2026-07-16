@@ -101,6 +101,7 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md",
     "docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md",
     "docs/mixture_of_perspectives/23_generation1_categorized_batch_wave.md",
+    "docs/mixture_of_perspectives/24_generation1_successor_recovery_v5.md",
     # the Form Substrate Program root docs (the active paradigm; see PARADIGM_MIGRATION.md)
     "FORM_SUBSTRATE_PROGRAM.md",
     "FORM_SUBSTRATE_DOCTRINE.md",
