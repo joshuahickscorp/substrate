@@ -1,0 +1,106 @@
+{
+  "active_inventory_sha256": "9950610cec31982b18fe420197c7744b4a40663dd1094f2ba8bcd71dbf9be30b",
+  "baseline_sha256": "df7b9856d08996eedf3f74141e512cdcd5bb649fb622771245708615f58b9294",
+  "contract_file_sha256": "1c2975af0f58853a403a4617e0bb26076ee6ce93b330f7bcb4e2f409b28cadf8",
+  "initial_elimination_ledger_sha256": "c3a95bf267919f4dba65e720bafafd7fc526677cb14658a5c0fbb8154d03fcc9",
+  "initial_pack_lock_sha256": "cb3bb908636fddff9f683bf442a36e32103da34247353d0e3bc7ae05e704eac1",
+  "live_bindings_snapshot_sha256": "932924322ec5a76e0b3b1f01d3340c34f26a8ab4d4f2c8321b8d66ea5484a779",
+  "logical_validation_inventory": {
+    "count": 3343,
+    "sha256": "496b614ec05a3a6bcce82e0b5fb60ec03e91970d344734ff3c04063d6dbe0bb2"
+  },
+  "recorded_at": "2026-07-16T17:10:00-04:00",
+  "schema": "mop-extreme-condensation-baseline/v1",
+  "shape": {
+    "active_files": 1128,
+    "active_repo_LOC": 353525,
+    "active_tree_sha256": "001b8451f20a799918e5e6ceb2b73ffb983f9a9bc57ae2b714701ea01503fe96",
+    "binary_files": 0,
+    "git_head": "5f0b4565d077d6d95ebd8e2fabb8574ebbdedd7d",
+    "no_gaming_violations": [],
+    "schema": "mop-repository-shape/v1",
+    "surface_LOC": {
+      "build_operations": {
+        "active": true,
+        "binary_files": 0,
+        "bytes": 418603,
+        "loc": 2748,
+        "text_files": 6
+      },
+      "campaign_control": {
+        "active": true,
+        "binary_files": 0,
+        "bytes": 1804339,
+        "loc": 44005,
+        "text_files": 67
+      },
+      "condensation_receipts": {
+        "active": false,
+        "binary_files": 0,
+        "bytes": 17285,
+        "loc": 414,
+        "text_files": 2
+      },
+      "documentation": {
+        "active": false,
+        "binary_files": 0,
+        "bytes": 2999029,
+        "loc": 39490,
+        "text_files": 117
+      },
+      "evidence": {
+        "active": false,
+        "binary_files": 0,
+        "bytes": 58829148,
+        "loc": 443462,
+        "text_files": 254
+      },
+      "generated_program_manifests": {
+        "active": false,
+        "binary_files": 0,
+        "bytes": 2044404,
+        "loc": 8,
+        "text_files": 8
+      },
+      "laboratory": {
+        "active": true,
+        "binary_files": 0,
+        "bytes": 7119808,
+        "loc": 164109,
+        "text_files": 578
+      },
+      "runtime": {
+        "active": true,
+        "binary_files": 0,
+        "bytes": 2922144,
+        "loc": 69396,
+        "text_files": 191
+      },
+      "unclassified_active": {
+        "active": true,
+        "binary_files": 0,
+        "bytes": 2429,
+        "loc": 97,
+        "text_files": 2
+      },
+      "validation": {
+        "active": true,
+        "binary_files": 0,
+        "bytes": 2742325,
+        "loc": 73170,
+        "text_files": 284
+      }
+    },
+    "tracked_directories": 72,
+    "tracked_files": 1509,
+    "tracked_text_LOC": 836899,
+    "tree_sha256": "36ff6de2e8a8e54fdc2d8a459518f512cfa1393ecbe0b001a2276be74f4b7458"
+  },
+  "source_commit": "5f0b4565d077d6d95ebd8e2fabb8574ebbdedd7d",
+  "source_tree": "0d067e9b54ae9daad674f74d34eb93ccea3326eb",
+  "validation_inventory": {
+    "LOC": 73170,
+    "file_count": 284,
+    "sha256": "e92e17ca3713858e283675aee8d89ada463b80a58bf3a26c34f8e7603135c62b"
+  }
+}
