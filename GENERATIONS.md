@@ -73,9 +73,9 @@ generality, or substrate advantage.
 Successor work is now split cleanly by evidence class. D1 has exploratory tuning evidence for one
 frozen router design, while V1, M1, and G1 have deterministic mechanics pilots. Their larger
 producer, challenge, robustness, and consolidation work must emit clean terminal authorities before
-it can be cited. The adopting parent `generation1-successor-evidence-chain-v2` is now live and
-observing the three exact legacy parents; its bounded five-epoch `generation1-successor-horizon-v1`
-is sealed behind their consolidated terminal result. The canonical
+it can be cited. The adopting parent `generation1-successor-evidence-chain-v3` supersedes the
+immutable v2 pre-label race hold and observes the three exact legacy parents; its bounded five-epoch
+`generation1-successor-horizon-v1` is sealed behind their consolidated terminal result. The canonical
 taxonomy, dependency graph, null-safe routes, and active one-command contract are in
 `docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md`. Live rung counts and ETA
 estimates are operational telemetry, not project standing.

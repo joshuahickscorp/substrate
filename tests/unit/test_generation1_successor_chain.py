@@ -77,6 +77,7 @@ def _process(
     pgid: int | None = None,
     cwd: Path | None = None,
     command: tuple[str, ...] | None = None,
+    ppid: int = 1,
 ) -> chain.ProcessSnapshot:
     actual_label = label or spec.process_label
     return chain.ProcessSnapshot(
@@ -86,7 +87,7 @@ def _process(
         cwd=str((cwd or tmp_path).resolve()),
         label=actual_label,
         command=command or (actual_label, ""),
-        ppid=1,
+        ppid=ppid,
     )
 
 
@@ -318,6 +319,121 @@ def test_exact_resource_tracker_is_allowed_inside_adopted_parent_group(tmp_path:
 
     assert status["state"] == "waiting_legacy"
     assert status["capsules"][spec.stage_id]["status"] == "adopted"
+
+
+def test_exact_prelabel_spawn_worker_is_allowed_inside_adopted_parent_group(
+    tmp_path: Path,
+) -> None:
+    spec = _spec(tmp_path, "legacy_successor_mechanics", "mop-successor-mechanics-queue")
+    process = _process(tmp_path, spec, 800)
+    python = str(tmp_path / ".venv/bin/python")
+    spawn_worker = _process(
+        tmp_path,
+        spec,
+        801,
+        label=python,
+        pgid=process.pid,
+        ppid=process.pid,
+        command=(
+            python,
+            "-c",
+            (
+                "from multiprocessing.spawn import spawn_main; "
+                "spawn_main(tracker_fd=9, pipe_handle=16)"
+            ),
+            "--multiprocessing-fork",
+        ),
+    )
+    parent = _parent(
+        tmp_path,
+        (spec,),
+        execute=True,
+        process_table_fn=lambda: (process, spawn_worker),
+    )
+
+    status = parent.tick()
+
+    assert status["state"] == "waiting_legacy"
+    assert status["capsules"][spec.stage_id]["status"] == "adopted"
+
+
+def test_exact_spawn_worker_owned_by_other_parent_does_not_cross_contaminate(
+    tmp_path: Path,
+) -> None:
+    d1 = _spec(tmp_path, "legacy_d1", "mop-d1-frozen-queue")
+    mechanics = _spec(
+        tmp_path,
+        "legacy_successor_mechanics",
+        "mop-successor-mechanics-queue",
+    )
+    d1_parent = _process(tmp_path, d1, 802)
+    mechanics_parent = _process(tmp_path, mechanics, 803)
+    python = str(tmp_path / ".venv/bin/python")
+    mechanics_spawn = _process(
+        tmp_path,
+        mechanics,
+        804,
+        label=python,
+        pgid=mechanics_parent.pid,
+        ppid=mechanics_parent.pid,
+        command=(
+            python,
+            "-c",
+            (
+                "from multiprocessing.spawn import spawn_main; "
+                "spawn_main(tracker_fd=9, pipe_handle=16)"
+            ),
+            "--multiprocessing-fork",
+        ),
+    )
+    parent = _parent(
+        tmp_path,
+        (d1, mechanics),
+        execute=True,
+        process_table_fn=lambda: (d1_parent, mechanics_parent, mechanics_spawn),
+    )
+
+    status = parent.tick()
+
+    assert status["state"] == "waiting_legacy"
+    assert status["capsules"][d1.stage_id]["status"] == "adopted"
+    assert status["capsules"][mechanics.stage_id]["status"] == "adopted"
+
+
+def test_direct_spawn_worker_outside_parent_group_enters_integrity_hold(
+    tmp_path: Path,
+) -> None:
+    spec = _spec(tmp_path, "legacy_successor_mechanics", "mop-successor-mechanics-queue")
+    process = _process(tmp_path, spec, 805)
+    python = str(tmp_path / ".venv/bin/python")
+    misgrouped_spawn = _process(
+        tmp_path,
+        spec,
+        806,
+        label=python,
+        pgid=999,
+        ppid=process.pid,
+        command=(
+            python,
+            "-c",
+            (
+                "from multiprocessing.spawn import spawn_main; "
+                "spawn_main(tracker_fd=9, pipe_handle=16)"
+            ),
+            "--multiprocessing-fork",
+        ),
+    )
+    parent = _parent(
+        tmp_path,
+        (spec,),
+        execute=True,
+        process_table_fn=lambda: (process, misgrouped_spawn),
+    )
+
+    status = parent.tick()
+
+    assert status["state"] == "integrity_hold"
+    assert "escaped the exact parent process group" in status["problems"][-1]
 
 
 def test_resource_tracker_owned_by_other_exact_parent_does_not_block_restart(

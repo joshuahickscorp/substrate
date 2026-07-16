@@ -75,6 +75,8 @@ V6_COMPATIBLE_LOADED_THROTTLE_SHA256 = frozenset(
         "09f29e76dc6211e5a0ca918a16bda3e5f81c035853ae68f2e58e45d9ac926c91",
         # Backward-compatible v5-ultra identity support and Generation 1 replay scheduling.
         "b6111a018c7da7a2809cfec144333e3731a06894a78d75465dccea21bb9e99ba",
+        # Adaptive Generation 1 successor scheduling and exact process-group observation.
+        "3bbafdbfe02ecd10812f60be73ff9dbc035e2adf530a3bf5d5296fa54d0cb735",
     }
 )
 V5_OBSERVER_PROBLEM = (

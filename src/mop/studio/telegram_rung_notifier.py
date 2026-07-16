@@ -61,6 +61,7 @@ PROGRAM_LABELS = {
     "generation1-c3-d1-frozen-producer-challenge-v1": "D1 Frozen Replication",
     "generation1-successor-mechanics-extended-v1": "Successor Mechanics",
     "generation1-successor-evidence-chain-v2": "Successor Evidence Chain",
+    "generation1-successor-evidence-chain-v3": "Successor Evidence Chain",
     "generation1-successor-horizon-v1": "Successor Horizon",
     "generation1-consolidated-final-campaign-v1": "Final Campaign",
 }

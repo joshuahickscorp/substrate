@@ -2,15 +2,16 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
-## 2026-07-16 Generation 1 successor evidence chain launched
+## 2026-07-16 Generation 1 successor evidence chain v3
 
 - [x] The C0 corpus and synthesis, C1 generated competence atlas, and C2 context-labeled frozen
   routing authorities are complete and independently verified at their declared bounded scopes.
   None authorizes runtime activation, natural-world generality, or scientific promotion.
-- [x] `generation1-successor-evidence-chain-v2` is the live one-command adopter. It has exactly one
-  immutable observation-only receipt for each of the D1, successor-mechanics, and consolidated-v1
-  parents; no legacy process was relaunched or signaled. Its status is `waiting_legacy` with no
-  problems. Repeating the start command is idempotent.
+- [x] The v2 adopter preserved exactly one immutable observation-only receipt for each of the D1,
+  successor-mechanics, and consolidated-v1 parents, then failed closed on a transient pre-label
+  multiprocessing child. `generation1-successor-evidence-chain-v3` supersedes that immutable hold
+  with an exact interpreter, command, PGID, PPID, and cwd check. No legacy process is relaunched or
+  signaled, and repeating the start command is idempotent.
 - [~] Its sealed child `generation1-successor-horizon-v1` adds five bounded, disjoint robustness
   epochs followed by cross-epoch aggregation, separate streaming artifact verification, and a
   generated report. The 74-capsule maximum is 234.43 serial compute-hours, or 29.30 ideal hours at
