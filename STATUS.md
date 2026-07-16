@@ -23,10 +23,16 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   `generation1-successor-horizon-v2` behind the clean v1 result. V2 adds H06 through H10 on fresh
   cycles 7 through 11, applies dependency closure to surviving mechanics lanes, and contributes
   another maximum 234.43 serial hours or 29.30 ideal eight-worker hours. It starts no additional
-  compute while the current host envelope is occupied. The complete future chain starts
-  idempotently with
-  `.venv/bin/python scripts/mop_generation1_successor_future_chain.py start --execute`. Canonical contract:
-  `docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`.
+  compute while the current host envelope is occupied. V2 process creation is fail-closed behind an
+  exact stable v4 state/status projection, current legacy and zero-injection v1 artifact replay, and
+  a v4-v1-v4 prelaunch sequence that reconstructs the six-authority v1 admission boundary and then
+  proves the v4 evidence remained unchanged. That gate is repeated after the sealed launch intent,
+  with the cooperative v4 lock held through v2 process creation. State names must agree with exact
+  capsule progression and downstream rows remain pristine before their predecessor barrier. The
+  future-chain acknowledgement pins observed PID/create-time identity, requires one exact visible
+  parent, and durably replays both completed parents. The complete future chain starts idempotently with
+  `.venv/bin/python scripts/mop_generation1_successor_future_chain.py start --execute`. Canonical
+  contract: `docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`.
 
 ## 2026-07-11 landing wave closed; P4 closed; P5 leg 3 admission held
 

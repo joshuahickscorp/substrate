@@ -119,6 +119,7 @@ def _fake_horizon_program(
         path=parent.horizon_program_path,
         file_sha256=chain.sha256_file(parent.horizon_program_path),
         program_sha256=parent.state["horizon_program"]["program_sha256"],
+        repo_root=tmp_path.resolve(),
         status_path=tmp_path / "runs/generation1/horizon-v1/current_status.json",
         capsules=(),
     )
@@ -132,6 +133,15 @@ def _horizon_status(
     supervisor: Mapping[str, Any] | None = None,
     program_binding: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    generic_implementation = chain._generic_supervisor_authority(program.repo_root)
+    supervisor_identity = {
+        "pid": 999,
+        "create_time": 99.0,
+        "implementation_path": generic_implementation["path"],
+        "implementation_sha256": generic_implementation["sha256"],
+    }
+    if supervisor is not None:
+        supervisor_identity.update(supervisor)
     core = {
         "schema": "mop-generation1-status/v1",
         "program_id": program.program_id,
@@ -145,10 +155,15 @@ def _horizon_status(
                 "program_sha256": program.program_sha256,
             }
         ),
-        "supervisor": dict(supervisor or {"pid": 999, "create_time": 99.0}),
+        "supervisor": supervisor_identity,
         "execution_enabled": True,
         "state": state,
-        "queue_head_sha256": "a" * 64,
+        "queue_head_sha256": chain.canonical_sha256(
+            {
+                "program_sha256": program.program_sha256,
+                "base_capsules": [capsule.capsule_sha256 for capsule in program.capsules],
+            }
+        ),
         "next_injection_sequence": 1,
         "accepted_injection_count": 0,
         "current_capsule": None,
@@ -158,6 +173,88 @@ def _horizon_status(
         "problems": list(problems or []),
     }
     return {**core, "status_sha256": chain.canonical_sha256(core)}
+
+
+def _complete_parent_snapshot(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> tuple[
+    chain.SuccessorEvidenceChain,
+    chain.LegacySpec,
+    SimpleNamespace,
+    dict[str, Any],
+]:
+    spec = _spec(tmp_path)
+    result = {
+        "schema": spec.result_schema,
+        "program_id": spec.program_id,
+        "complete": True,
+        "problems": [],
+        "activation_allowed": False,
+        "scientific_promotion": False,
+    }
+    _write(spec.result_path, result)
+    parent = _parent(tmp_path, spec, processes=(), launches=[])
+    program = _fake_horizon_program(parent, tmp_path)
+    _write(program.status_path, _horizon_status(program, state="complete"))
+    monkeypatch.setattr(chain, "load_program", lambda *_args, **_kwargs: program)
+    parent.state["capsules"][spec.stage_id].update(
+        {
+            "status": "complete",
+            "returncode": 0,
+            "finished_at": NOW.isoformat(),
+            "artifacts": [parent._artifact(spec.result_path, result)],
+        }
+    )
+    parent._reconcile_horizon(parent.state["capsules"]["successor_horizon"], ())
+    parent.state["status"] = "complete"
+    parent.state["finished_at"] = NOW.isoformat()
+    return parent, spec, program, parent._publish()
+
+
+def _adoption_receipt(
+    parent: chain.SuccessorEvidenceChain,
+    spec: chain.LegacySpec,
+    process: Mapping[str, Any],
+    *,
+    observed_status: Mapping[str, Any] | None = None,
+) -> Path:
+    identity_sha = chain.canonical_sha256(process)[:16]
+    path = parent.root / "adoptions" / spec.stage_id / f"{process.get('pid')}-{identity_sha}.json"
+    core = {
+        "schema": chain.ADOPTION_SCHEMA,
+        "chain_id": chain.CHAIN_ID,
+        "stage_id": spec.stage_id,
+        "program_id": spec.program_id,
+        "adopted_at": NOW.isoformat(),
+        "process": dict(process),
+        "observed_status": dict(observed_status) if observed_status is not None else None,
+        "policy": {
+            "observe_only": True,
+            "signals_allowed": False,
+            "restart_only_after_exact_absence": True,
+            "restart_command_match": "exact-executable-and-two-argv-shape",
+        },
+    }
+    _write(
+        path,
+        {**core, "receipt_sha256": chain.canonical_sha256(core)},
+    )
+    return path
+
+
+def _replace_parent_state(
+    parent: chain.SuccessorEvidenceChain,
+    state: Mapping[str, Any],
+) -> None:
+    state_core = dict(state)
+    state_core.pop("state_sha256", None)
+    sealed = {
+        **state_core,
+        "state_sha256": chain.canonical_sha256(state_core),
+    }
+    _write(parent.state_path, sealed)
+    _write(parent.status_path, chain._status_payload(sealed))
 
 
 @pytest.mark.parametrize(
@@ -245,6 +342,30 @@ def test_extra_restart_argv_is_not_the_authorized_restart_shape(tmp_path: Path) 
 
     assert len(launches) == 1
     assert row["status"] == "launching"
+
+
+def test_legacy_launch_intent_publish_has_coherent_parent_state(
+    tmp_path: Path,
+) -> None:
+    spec = _spec(tmp_path)
+    launches: list[tuple[list[str], dict[str, Any]]] = []
+    parent = _parent(tmp_path, spec, processes=(), launches=launches)
+    row = parent.state["capsules"][spec.stage_id]
+
+    parent._reconcile_legacy(spec, row, ())
+
+    published = json.loads(parent.status_path.read_text(encoding="utf-8"))
+    assert (
+        chain.validate_chain_status(
+            published,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+        == "waiting_legacy"
+    )
+    assert published["capsules"][spec.stage_id]["status"] == "launching"
+    assert len(launches) == 1
 
 
 def test_v4_adopts_exact_live_parent_under_fresh_identity_and_receipt_schema(
@@ -571,6 +692,11 @@ def test_detached_start_emits_one_exact_run_subcommand(
     root = tmp_path / "generation1-successor-evidence-chain-v4"
     launches: list[tuple[list[str], dict[str, Any]]] = []
     monkeypatch.setattr(chain, "_visible_parent_process", lambda _entrypoint: None)
+    monkeypatch.setattr(
+        chain,
+        "validate_chain_status",
+        lambda *_args, **_kwargs: "waiting_legacy",
+    )
 
     def popen(command: list[str], **kwargs: Any) -> SimpleNamespace:
         launches.append((command, kwargs))
@@ -606,6 +732,702 @@ def test_detached_start_emits_one_exact_run_subcommand(
     assert launches[0][0].count("run") == 1
     assert launches[0][1]["start_new_session"] is True
     assert result["launched_pid"] == 720
+
+
+def test_detached_start_waits_past_transient_non_authoritative_status(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "generation1-successor-evidence-chain-v4"
+    status_path = root / chain.STATUS_FILE
+    seen: list[str] = []
+
+    def write_status(state: str) -> None:
+        core = {
+            "schema": chain.STATUS_SCHEMA,
+            "program_id": chain.CHAIN_ID,
+            "state": state,
+            "supervisor": {"pid": 721, "create_time": 721.5},
+        }
+        _write(
+            status_path,
+            {**core, "status_sha256": chain.canonical_sha256(core)},
+        )
+
+    def validate(status: Mapping[str, Any], **_kwargs: Any) -> str:
+        state = str(status["state"])
+        seen.append(state)
+        if state != "waiting_legacy":
+            raise chain.SuccessorChainRefused("transient launch intent")
+        return state
+
+    monkeypatch.setattr(chain, "_visible_parent_process", lambda _entrypoint: None)
+    monkeypatch.setattr(chain, "validate_chain_status", validate)
+    monkeypatch.setattr(
+        chain.subprocess,
+        "Popen",
+        lambda *_args, **_kwargs: write_status("starting") or SimpleNamespace(pid=721, poll=lambda: None),
+    )
+    monkeypatch.setattr(
+        chain.time,
+        "sleep",
+        lambda _seconds: write_status("waiting_legacy"),
+    )
+
+    result = chain.start_chain_detached(
+        root=root,
+        execute=True,
+        use_caffeinate=False,
+    )
+
+    assert seen == ["starting", "waiting_legacy"]
+    assert result["status"]["state"] == "waiting_legacy"
+
+
+def test_detached_start_rejects_live_sealed_identity_without_exact_parent(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "generation1-successor-evidence-chain-v4"
+    core = {
+        "schema": chain.STATUS_SCHEMA,
+        "program_id": chain.CHAIN_ID,
+        "state": "waiting_legacy",
+        "supervisor": {"pid": 722, "create_time": 722.5},
+    }
+    _write(
+        root / chain.STATUS_FILE,
+        {**core, "status_sha256": chain.canonical_sha256(core)},
+    )
+    monkeypatch.setattr(chain, "_process_identity_alive", lambda _identity: True)
+    monkeypatch.setattr(chain, "_visible_parent_process", lambda _entrypoint: None)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="no exact visible parent",
+    ):
+        chain.start_chain_detached(
+            root=root,
+            execute=True,
+            use_caffeinate=False,
+        )
+
+
+def test_complete_snapshot_replays_exact_state_status_and_current_evidence(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, program, status = _complete_parent_snapshot(tmp_path, monkeypatch)
+
+    validated = chain.read_validated_complete_chain_status(
+        root=parent.root,
+        repo_root=tmp_path,
+        horizon_program_path=parent.horizon_program_path,
+        specs=(spec,),
+    )
+
+    assert validated == status
+    assert validated["state"] == "complete"
+    assert validated["capsules"]["legacy_d1"]["attempts"] == 0
+    assert validated["capsules"]["legacy_d1"]["adoption_receipts"] == []
+    assert program.status_path.is_file()
+
+
+def test_complete_snapshot_retries_one_torn_state_status_publish(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    stale_core = dict(status)
+    stale_core.pop("status_sha256")
+    stale_core["updated_at"] = (NOW - dt.timedelta(seconds=1)).isoformat()
+    stale_status = {
+        **stale_core,
+        "status_sha256": chain.canonical_sha256(stale_core),
+    }
+    actual_read = chain._read_json
+    injected: list[tuple[Path, dict[str, Any]]] = [
+        (parent.state_path, state),
+        (parent.status_path, stale_status),
+        (parent.state_path, state),
+        (parent.status_path, stale_status),
+    ]
+
+    def read_with_one_torn_pair(path: Path, label: str) -> dict[str, Any]:
+        if injected and path.resolve() == injected[0][0].resolve():
+            _expected_path, payload = injected.pop(0)
+            return json.loads(json.dumps(payload))
+        return actual_read(path, label)
+
+    monkeypatch.setattr(chain, "_read_json", read_with_one_torn_pair)
+    monkeypatch.setattr(chain, "SNAPSHOT_INTERVAL_SECONDS", 0.0)
+
+    validated = chain.read_validated_complete_chain_status(
+        root=parent.root,
+        repo_root=tmp_path,
+        horizon_program_path=parent.horizon_program_path,
+        specs=(spec,),
+    )
+
+    assert injected == []
+    assert validated == status
+
+
+def test_complete_snapshot_retries_transient_lifetime_lock_contention(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    actual_lock = chain.FileLock
+    attempts = 0
+
+    class RetryOnceLock:
+        def __init__(self, path: Path):
+            self.path = path
+            self.delegate: Any = None
+
+        def __enter__(self) -> Any:
+            nonlocal attempts
+            attempts += 1
+            if attempts == 1:
+                try:
+                    raise BlockingIOError("busy")
+                except BlockingIOError as exc:
+                    raise chain.Generation1Refused("lock held") from exc
+            self.delegate = actual_lock(self.path)
+            return self.delegate.__enter__()
+
+        def __exit__(self, *arguments: object) -> None:
+            if self.delegate is not None:
+                self.delegate.__exit__(*arguments)
+
+    monkeypatch.setattr(chain, "FileLock", RetryOnceLock)
+    monkeypatch.setattr(chain, "LOCK_INTERVAL_SECONDS", 0.0)
+
+    validated = chain.read_validated_complete_chain_status(
+        root=parent.root,
+        repo_root=tmp_path,
+        horizon_program_path=parent.horizon_program_path,
+        specs=(spec,),
+    )
+
+    assert attempts == 2
+    assert validated == status
+
+
+def test_complete_snapshot_rejects_state_change_during_artifact_replay(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    original = chain.SuccessorEvidenceChain._validate_completed_chain_artifacts
+
+    def mutate_after_replay(
+        owner: chain.SuccessorEvidenceChain,
+        processes: tuple[chain.ProcessSnapshot, ...],
+    ) -> None:
+        original(owner, processes)
+        state = json.loads(owner.state_path.read_text(encoding="utf-8"))
+        state_core = dict(state)
+        state_core.pop("state_sha256")
+        state_core["status"] = "integrity_hold"
+        state_core["problems"] = ["predecessor regressed during replay"]
+        changed = {
+            **state_core,
+            "state_sha256": chain.canonical_sha256(state_core),
+        }
+        _write(owner.state_path, changed)
+        _write(owner.status_path, chain._status_payload(changed))
+
+    monkeypatch.setattr(
+        chain.SuccessorEvidenceChain,
+        "_validate_completed_chain_artifacts",
+        mutate_after_replay,
+    )
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="changed during terminal replay",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_rejects_missing_adoption_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    missing = (parent.root / "adoptions" / spec.stage_id / "missing.json").relative_to(tmp_path)
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(missing)]
+    state_core = dict(state)
+    state_core.pop("state_sha256")
+    changed = {
+        **state_core,
+        "state_sha256": chain.canonical_sha256(state_core),
+    }
+    _write(parent.state_path, changed)
+    _write(parent.status_path, chain._status_payload(changed))
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="adoption receipt is missing",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_accepts_exact_adoption_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    process = {
+        "pid": 810,
+        "create_time": 810.5,
+        "pgid": 810,
+        "cwd": str(tmp_path.resolve()),
+        "label": spec.process_label,
+    }
+    observed_status = {
+        "path": str(spec.status_path.relative_to(tmp_path)),
+        "file_sha256": "a" * 64,
+        "status_sha256": "b" * 64,
+        "state": "running",
+    }
+    receipt_path = _adoption_receipt(
+        parent,
+        spec,
+        process,
+        observed_status=observed_status,
+    )
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(receipt_path.relative_to(tmp_path))]
+    state["capsules"][spec.stage_id]["process"] = process
+    _replace_parent_state(parent, state)
+
+    validated = chain.read_validated_complete_chain_status(
+        root=parent.root,
+        repo_root=tmp_path,
+        horizon_program_path=parent.horizon_program_path,
+        specs=(spec,),
+    )
+
+    assert validated["status_sha256"] != status["status_sha256"]
+    assert validated["capsules"][spec.stage_id]["process"] == process
+
+
+def test_complete_snapshot_rejects_invalid_adopted_process_identity(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    process = {
+        "pid": "not-an-int",
+        "create_time": "not-a-time",
+        "pgid": -7,
+        "cwd": "/outside/repository",
+        "label": "unrelated-parent",
+    }
+    receipt_path = _adoption_receipt(parent, spec, process)
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(receipt_path.relative_to(tmp_path))]
+    state["capsules"][spec.stage_id]["process"] = process
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="adopted process identity drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_applies_public_status_process_validation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, _specification, _program, _status = _complete_parent_snapshot(
+        tmp_path,
+        monkeypatch,
+    )
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"]["successor_horizon"]["process"] = {}
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="successor_horizon process identity drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=parent.specs,
+        )
+
+
+def test_complete_snapshot_binds_horizon_process_to_terminal_supervisor(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, _specification, _program, _status = _complete_parent_snapshot(
+        tmp_path,
+        monkeypatch,
+    )
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"]["successor_horizon"]["process"] = {
+        "pid": 909,
+        "create_time": 909.5,
+    }
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="required reconciliation",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=parent.specs,
+        )
+
+
+def test_complete_snapshot_rejects_process_without_adoption_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["process"] = {
+        "fabricated": True,
+    }
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="process identity without an adoption receipt",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_requires_adopted_parent_process_group_leader(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    process = {
+        "pid": 823,
+        "create_time": 823.5,
+        "pgid": 999,
+        "cwd": str(tmp_path.resolve()),
+        "label": spec.process_label,
+    }
+    receipt_path = _adoption_receipt(parent, spec, process)
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(receipt_path.relative_to(tmp_path))]
+    state["capsules"][spec.stage_id]["process"] = process
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="adopted process identity drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_rejects_arbitrary_observed_status_binding(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    process = {
+        "pid": 811,
+        "create_time": 811.5,
+        "pgid": 811,
+        "cwd": str(tmp_path.resolve()),
+        "label": spec.process_label,
+    }
+    receipt_path = _adoption_receipt(
+        parent,
+        spec,
+        process,
+        observed_status={"fabricated": True},
+    )
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(receipt_path.relative_to(tmp_path))]
+    state["capsules"][spec.stage_id]["process"] = process
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="observed status authority drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_rejects_unknown_observed_status_state(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    process = {
+        "pid": 824,
+        "create_time": 824.5,
+        "pgid": 824,
+        "cwd": str(tmp_path.resolve()),
+        "label": spec.process_label,
+    }
+    receipt_path = _adoption_receipt(
+        parent,
+        spec,
+        process,
+        observed_status={
+            "path": str(spec.status_path.relative_to(tmp_path)),
+            "file_sha256": "a" * 64,
+            "status_sha256": "b" * 64,
+            "state": "garbage-state",
+        },
+    )
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(receipt_path.relative_to(tmp_path))]
+    state["capsules"][spec.stage_id]["process"] = process
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="observed status authority drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_rejects_symlinked_adoption_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    process = {
+        "pid": 812,
+        "create_time": 812.5,
+        "pgid": 812,
+        "cwd": str(tmp_path.resolve()),
+        "label": spec.process_label,
+    }
+    receipt_path = _adoption_receipt(parent, spec, process)
+    alias = receipt_path.with_name("alias.json")
+    alias.symlink_to(receipt_path.name)
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(alias.relative_to(tmp_path))]
+    state["capsules"][spec.stage_id]["process"] = process
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="regular non-symlink file",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_rejects_receipt_through_symlinked_parent_directory(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    process = {
+        "pid": 825,
+        "create_time": 825.5,
+        "pgid": 825,
+        "cwd": str(tmp_path.resolve()),
+        "label": spec.process_label,
+    }
+    receipt_path = _adoption_receipt(parent, spec, process)
+    alias_directory = receipt_path.parent.with_name(f"{spec.stage_id}_alias")
+    alias_directory.symlink_to(receipt_path.parent.name)
+    alias = alias_directory / receipt_path.name
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["adoption_receipts"] = [str(alias.relative_to(tmp_path))]
+    state["capsules"][spec.stage_id]["process"] = process
+    _replace_parent_state(parent, state)
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="canonical regular non-symlink file",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_rechecks_artifacts_after_state_status_reread(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    original = chain.SuccessorEvidenceChain._validate_completed_chain_artifacts
+    calls = 0
+
+    def mutate_after_first_replay(
+        owner: chain.SuccessorEvidenceChain,
+        processes: tuple[chain.ProcessSnapshot, ...],
+    ) -> None:
+        nonlocal calls
+        calls += 1
+        original(owner, processes)
+        if calls == 1:
+            payload = json.loads(spec.result_path.read_text(encoding="utf-8"))
+            payload["mutated_after_replay"] = True
+            _write(spec.result_path, payload)
+
+    monkeypatch.setattr(
+        chain.SuccessorEvidenceChain,
+        "_validate_completed_chain_artifacts",
+        mutate_after_first_replay,
+    )
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="artifact inventory disappeared or drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+    assert calls == 2
+
+
+def test_complete_snapshot_performs_independent_final_artifact_hash_check(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    original = chain.SuccessorEvidenceChain._validate_completed_chain_artifacts
+    calls = 0
+
+    def mutate_after_second_replay(
+        owner: chain.SuccessorEvidenceChain,
+        processes: tuple[chain.ProcessSnapshot, ...],
+    ) -> None:
+        nonlocal calls
+        calls += 1
+        original(owner, processes)
+        if calls == 2:
+            payload = json.loads(spec.result_path.read_text(encoding="utf-8"))
+            payload["mutated_after_second_replay"] = True
+            _write(spec.result_path, payload)
+
+    monkeypatch.setattr(
+        chain.SuccessorEvidenceChain,
+        "_validate_completed_chain_artifacts",
+        mutate_after_second_replay,
+    )
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="final artifact hash drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+    assert calls == 2
+
+
+def test_complete_snapshot_rejects_resealed_reused_legacy_artifact(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    parent, spec, _program, _status = _complete_parent_snapshot(tmp_path, monkeypatch)
+    state = json.loads(parent.state_path.read_text(encoding="utf-8"))
+    state["capsules"][spec.stage_id]["artifacts"] = list(state["capsules"]["successor_horizon"]["artifacts"])
+    state_core = dict(state)
+    state_core.pop("state_sha256")
+    state = {
+        **state_core,
+        "state_sha256": chain.canonical_sha256(state_core),
+    }
+    _write(parent.state_path, state)
+    _write(parent.status_path, chain._status_payload(state))
+
+    with pytest.raises(
+        chain.SuccessorChainRefused,
+        match="result or artifact inventory disappeared or drifted",
+    ):
+        chain.read_validated_complete_chain_status(
+            root=parent.root,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+
+
+def test_complete_snapshot_requires_sibling_sealed_state(tmp_path: Path) -> None:
+    root = tmp_path / "runs/generation1" / chain.CHAIN_ID
+    status_core = {
+        "schema": chain.STATUS_SCHEMA,
+        "program_id": chain.CHAIN_ID,
+        "state": "complete",
+    }
+    _write(
+        root / chain.STATUS_FILE,
+        {**status_core, "status_sha256": chain.canonical_sha256(status_core)},
+    )
+
+    with pytest.raises(chain.SuccessorChainRefused, match="state is missing"):
+        chain.read_validated_complete_chain_status(
+            root=root,
+            repo_root=tmp_path,
+            horizon_program_path=(tmp_path / "configs/campaign/generation1_successor_horizon_v1.json"),
+            specs=(_spec(tmp_path),),
+        )
 
 
 def test_detached_terminal_shortcut_revalidates_complete_evidence_idempotently(
@@ -725,6 +1547,47 @@ def test_horizon_status_rejects_stale_manifest_binding(
     assert launches == []
 
 
+def test_horizon_launch_intent_publish_has_coherent_parent_state(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    spec = _spec(tmp_path)
+    result = {
+        "schema": spec.result_schema,
+        "program_id": spec.program_id,
+        "complete": True,
+        "problems": [],
+        "activation_allowed": False,
+        "scientific_promotion": False,
+    }
+    _write(spec.result_path, result)
+    parent = _parent(tmp_path, spec, processes=(), launches=[])
+    program = _fake_horizon_program(parent, tmp_path)
+    observed: list[dict[str, Any]] = []
+
+    def start(*_args: Any, **_kwargs: Any) -> Mapping[str, Any]:
+        published = json.loads(parent.status_path.read_text(encoding="utf-8"))
+        observed.append(published)
+        assert (
+            chain.validate_chain_status(
+                published,
+                repo_root=tmp_path,
+                horizon_program_path=parent.horizon_program_path,
+                specs=(spec,),
+            )
+            == "waiting_horizon"
+        )
+        return {}
+
+    monkeypatch.setattr(chain, "load_program", lambda *_args, **_kwargs: program)
+    parent.supervisor_start_fn = start
+
+    status = parent.tick()
+
+    assert status["state"] == "waiting_horizon"
+    assert observed[0]["capsules"]["successor_horizon"]["status"] == "launching"
+
+
 def test_horizon_complete_status_requires_empty_problems(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -812,6 +1675,7 @@ def test_complete_chain_tick_revalidates_and_holds_on_missing_horizon_status(
         {
             "status": "complete",
             "returncode": 0,
+            "finished_at": NOW.isoformat(),
             "artifacts": [parent._artifact(spec.result_path, result)],
         }
     )
@@ -826,6 +1690,15 @@ def test_complete_chain_tick_revalidates_and_holds_on_missing_horizon_status(
 
     assert clean["state"] == "complete"
     assert held["state"] == "integrity_hold"
+    assert (
+        chain.validate_chain_status(
+            held,
+            repo_root=tmp_path,
+            horizon_program_path=parent.horizon_program_path,
+            specs=(spec,),
+        )
+        == "integrity_hold"
+    )
     assert "completed successor horizon status disappeared" in held["problems"][-1]
     assert launches == []
 
@@ -867,5 +1740,9 @@ def test_live_horizon_status_requires_exact_visible_supervisor_identity(
 
     parent._reconcile_horizon(row, (exact,))
     assert row["status"] == "running"
-    assert row["process"] == supervisor
+    assert row["process"] == {
+        **supervisor,
+        "implementation_path": chain._generic_supervisor_authority(tmp_path)["path"],
+        "implementation_sha256": chain._generic_supervisor_authority(tmp_path)["sha256"],
+    }
     assert launches == []

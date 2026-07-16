@@ -82,7 +82,13 @@ taxonomy, dependency graph, null-safe routes, and active one-command contract ar
 `generation1-successor-horizon-v2` is queued behind the clean v1 result through
 `generation1-successor-extension-chain-v1`. It adds cycles 7 through 11, applies mechanics
 dependency closure, and raises the two-horizon ceiling to 468.85 serial hours or 58.61 ideal
-eight-worker hours without changing the evidence class. The idempotent whole-chain entrypoint is
+eight-worker hours without changing the evidence class. Its launch boundary requires an exact
+sealed v4 state/status projection with coherent state-to-capsule progression, current legacy and v1
+artifact replay, an independent v1 admission replay, and a final unchanged v4 replay. The same gate
+is repeated after the sealed launch intent while the cooperative v4 lock remains held through v2
+process creation. The whole-chain acknowledgement pins observed process identity and durably
+replays both completed parents; liveness without a matching exact parent and non-authoritative
+transient status snapshots are refused. The idempotent whole-chain entrypoint is
 `scripts/mop_generation1_successor_future_chain.py start --execute`. Its contract is in
 `docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`. Live rung counts and ETA
 estimates are operational telemetry, not project standing.
