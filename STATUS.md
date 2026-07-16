@@ -7,6 +7,16 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 - [x] The C0 corpus and synthesis, C1 generated competence atlas, and C2 context-labeled frozen
   routing authorities are complete and independently verified at their declared bounded scopes.
   None authorizes runtime activation, natural-world generality, or scientific promotion.
+- [x] The frozen D1 producer/challenge program completed 576/576 rungs and 1,658,880 cells without
+  execution problems. Both disjoint phases passed favorable-seed and work-saving gates but failed
+  the registered static-margin and fixed-C2 context-route-gap gates. This retires the exact
+  `centroid-h64-e60-lr03` design from fresh efficacy expansion as a nonconfirmatory null-safe prune.
+- [x] A separately authored D1 structural verifier independently recomputes the exact field, rung,
+  arithmetic, and frozen-gate inventory and byte-binds the landed aggregate. The immutable source
+  aggregate correctly retains its original `independent_verification_complete: false`, while the
+  separate receipt records structural/artifact verification complete and independent scientific
+  generation false. A future efficacy attempt requires the append-only D1 redesign-v2 authority
+  rather than more seeds or weaker thresholds for the retired centroid.
 - [x] The v2 adopter preserved exactly one immutable observation-only receipt for each of the D1,
   successor-mechanics, and consolidated-v1 parents, then failed closed on a transient pre-label
   multiprocessing child. V3 repaired that boundary but later entered its own immutable hold because
@@ -33,6 +43,21 @@ Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
   parent, and durably replays both completed parents. The complete future chain starts idempotently with
   `.venv/bin/python scripts/mop_generation1_successor_future_chain.py start --execute`. Canonical
   contract: `docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`.
+- [~] The append-only `generation1-categorized-batch-extension-chain-v1` queues the 59-capsule
+  `generation1-successor-categorized-batch-wave-v1` behind clean v2 completion. Seven fresh waves
+  on cycles 12 through 18 each contain six scientific categories using a dynamic pool capped at
+  eight workers plus eight non-pinned balanced planning-shard descriptors, followed by one serial
+  classification barrier. Old D1 evidence is independently replayed;
+  the exact centroid design can only be preserved as a control and pruned, while any new efficacy
+  work requires a later receipt-backed D1 redesign-v2 child; this wave cannot synthesize a winner.
+  I1 is evaluated physically last and executes only if both its original v2 admission and its W07
+  dependency closure survive; otherwise it seals a null-safe prune without compute. The bounded
+  executable mechanics ceiling is approximately 196.18 serial hours, or 24.52 ideal eight-worker
+  hours, subject to honest result-based pruning. It is idle-only and starts no compute while
+  incumbent heavy work or either prior horizon remains incomplete. The complete one-command chain
+  starts idempotently with
+  `.venv/bin/python scripts/mop_generation1_successor_long_chain.py start --execute`. Canonical
+  contract: `docs/mixture_of_perspectives/23_generation1_categorized_batch_wave.md`.
 
 ## 2026-07-11 landing wave closed; P4 closed; P5 leg 3 admission held
 
