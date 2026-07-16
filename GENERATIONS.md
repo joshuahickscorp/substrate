@@ -73,11 +73,18 @@ generality, or substrate advantage.
 Successor work is now split cleanly by evidence class. D1 has exploratory tuning evidence for one
 frozen router design, while V1, M1, and G1 have deterministic mechanics pilots. Their larger
 producer, challenge, robustness, and consolidation work must emit clean terminal authorities before
-it can be cited. The adopting parent `generation1-successor-evidence-chain-v3` supersedes the
-immutable v2 pre-label race hold and observes the three exact legacy parents; its bounded five-epoch
+it can be cited. The adopting parent `generation1-successor-evidence-chain-v4` supersedes the
+immutable v3 process-classification hold and observes the three exact legacy parents using exact
+restart argv shape and parent-owned child boundaries; its bounded five-epoch
 `generation1-successor-horizon-v1` is sealed behind their consolidated terminal result. The canonical
 taxonomy, dependency graph, null-safe routes, and active one-command contract are in
-`docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md`. Live rung counts and ETA
+`docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md`. A separate append-only
+`generation1-successor-horizon-v2` is queued behind the clean v1 result through
+`generation1-successor-extension-chain-v1`. It adds cycles 7 through 11, applies mechanics
+dependency closure, and raises the two-horizon ceiling to 468.85 serial hours or 58.61 ideal
+eight-worker hours without changing the evidence class. The idempotent whole-chain entrypoint is
+`scripts/mop_generation1_successor_future_chain.py start --execute`. Its contract is in
+`docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md`. Live rung counts and ETA
 estimates are operational telemetry, not project standing.
 
 The scaffold consolidation still supplies the fail-closed contracts, deterministic fixtures,
@@ -141,7 +148,8 @@ plasticity, and structural change under matched cost.
 - The 37-facet scored readiness atlas: `MOP_POTENTIAL_ATLAS_2026_07.md` and `proof/MOP_POTENTIAL_ATLAS.json`.
 - The substrate and campaigns: `docs/mixture_of_perspectives/18_event_sourced_coalition_substrate.md`,
   `19_one_shot_escs_campaign.md`, `20_generation1_empirical_campaign.md`, and
-  `21_generation1_successor_evidence_chain.md`.
+  `21_generation1_successor_evidence_chain.md`, with the append-only deep extension in
+  `22_generation1_successor_horizon_v2.md`.
 - The form-substrate paradigm root: `FORM_SUBSTRATE_PROGRAM.md`.
 - The audits that make the nulls trustworthy: `docs/INDEPENDENT_REVERIFICATION_2026_07_10.md`,
   `docs/COMPLETION_CLAIM_AUDIT_2026_07_10.md`, `docs/SCAFFOLD_CONSOLIDATION_2026_07_10.md`.
