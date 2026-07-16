@@ -22,6 +22,7 @@ from typing import Any
 PROFILE_SCHEMA = "mop-external-coexistence-profile/v1"
 REPORT_SCHEMA = "mop-external-coexistence-profile-report/v1"
 PROFILE_NAME = "hawking_serial_cpu_v1"
+V5_PROFILE_NAME = "hawking_v5_ultra_cpu_v1"
 DECIMAL_GB = 1_000_000_000
 MAXIMUM_ROOTS = 3
 MAXIMUM_PROCESSES = 8
@@ -43,6 +44,10 @@ _AUDIT_SCRIPT = "tools/condense/audit_ladder.py"
 _DOCTOR_SCRIPT = "tools/condense/doctor.py"
 _QUANT_ARGV0 = "vendor/strand-quant/target/release/quantize-model"
 _QUANT_RELATIVE_PATH = Path(_QUANT_ARGV0)
+_BLOCK_PARALLEL_QUANT_ARGV0 = "build/strand-block-parallel/release/quantize-model-block-parallel"
+_BLOCK_PARALLEL_QUANT_RELATIVE_PATH = Path(_BLOCK_PARALLEL_QUANT_ARGV0)
+_ATTEST_ARGV0 = "vendor/strand-decode-kernel/target/release/attest-strand"
+_DECODE_ARGV0 = "vendor/strand-decode-kernel/target/release/archive-to-safetensors"
 _REQUIRED_FILE_PATHS = frozenset({_STUDIO_RUN_SCRIPT, _AUDIT_SCRIPT, _DOCTOR_SCRIPT, _QUANT_ARGV0})
 LIVE_HAWKING_FILE_SHA256 = (
     (
@@ -62,6 +67,77 @@ LIVE_HAWKING_FILE_SHA256 = (
         "54e9689064244e3e337152e0dc77807f24dba73bd12f68a9ad88ccf3d5548416",
     ),
 )
+V5_PLAN_SHA256 = "3d254b5f7fcc5f02b55f2a71f306f7f6852839b699fd14ab4ddf5a05dbaa0106"
+V5_HAWKING_FILE_SHA256 = (
+    (
+        "tools/condense/doctor_v5_qwen_treatment_adapter.py",
+        "731aaaaad56bc9e0659db1ba573a42b4fe3812d28dbb27d8164cf5f8abc3dc7d",
+    ),
+    (
+        "tools/condense/doctor_v5_sharded_eval.py",
+        "9099a45ee2f43fbb148e06b756a91a21c9c596a200aaa9c739bc89c78554ca39",
+    ),
+    (
+        "tools/condense/doctor_v5_strand_ladder_adapter.py",
+        "cf3c236a90eeae89a576e1da60951206a19fce29e842528df92621d57934d332",
+    ),
+    (
+        "tools/condense/doctor_v5_ultra_queue.py",
+        "45ef2de60d690985d37560f77988c76df298300e47d034e0cf67029227ca74ed",
+    ),
+    (
+        "tools/condense/doctor_v5_ultra_accelerated_queue.py",
+        "4ceeb89d147989c04ccb7bd8ee0fb1744d5777f8d124d2b345e4a07f6235e57c",
+    ),
+    (
+        "tools/condense/doctor_v5_qwen_treatment_block_parallel_adapter.py",
+        "2de271db1f54f772202eecf16a810c0b7d4f8f8ed82af48593a9eb571dc7945e",
+    ),
+    (
+        "tools/condense/doctor_v5_strand_ladder_block_parallel_adapter.py",
+        "7225540ee4aa3229f640373d42c39b46b8ef7f9acf9bd3a1c35789f6482b3bcf",
+    ),
+    (
+        "tools/condense/doctor_v5_strand_ladder_block_parallel_worker.py",
+        "348e445d50d22a7c030a3201227bb12cc5abd15ccc7b3c61f325a4ca7d05c66c",
+    ),
+    (
+        _BLOCK_PARALLEL_QUANT_ARGV0,
+        "69ce7e09741e84a785604863f0fff369355c94185544646059baeeb08cabf4a9",
+    ),
+    (
+        _QUANT_ARGV0,
+        "fc3da80de511e951dec23b8d4176d4836af3da95feb7450a7cabe7696cb3c0c1",
+    ),
+    (
+        _ATTEST_ARGV0,
+        "d431a04f37ee45cb899f691bc5bae913e2ad8a9271d6db94b027bbe24c85787b",
+    ),
+    (
+        _DECODE_ARGV0,
+        "e1cec500c39fef02a02e63ed00c7a0971484da125454e793f06e9ba37054f676",
+    ),
+)
+V5_QUEUE_STATE_RELATIVE = "reports/condense/doctor_v5_ultra/queue_state.json"
+V5_QUEUE_STATE_SCHEMA = "hawking.doctor_v5_ultra_queue_state.v1"
+V5_REQUEST_SCHEMA = "hawking.doctor_v5_adapter_request.v1"
+V5_MAXIMUM_ROOTS = 4
+V5_MAXIMUM_PROCESSES = 8
+V5_MAXIMUM_QUANT_THREADS = 20
+V5_MAXIMUM_AGGREGATE_RSS_GB = 64.0
+V5_MAXIMUM_AGGREGATE_CPU_PERCENT = 2700.0
+_V5_ADAPTER_SCRIPTS = frozenset(
+    {
+        "tools/condense/doctor_v5_qwen_treatment_adapter.py",
+        "tools/condense/doctor_v5_strand_ladder_adapter.py",
+        "tools/condense/doctor_v5_qwen_treatment_block_parallel_adapter.py",
+        "tools/condense/doctor_v5_strand_ladder_block_parallel_adapter.py",
+    }
+)
+_V5_EVAL_SCRIPT = "tools/condense/doctor_v5_sharded_eval.py"
+_V5_CELL_ID = re.compile(r"^[A-Za-z0-9_.-]+$")
+_V5_LABEL = re.compile(r"^[A-Za-z0-9_.-]{1,128}$")
+_V5_REQUIRED_FILE_PATHS = frozenset(path for path, _ in V5_HAWKING_FILE_SHA256)
 SANITIZED_ENVIRONMENT_FIELDS = (
     "CUDA_VISIBLE_DEVICES",
     "DOCTOR_DEVICE",
@@ -123,6 +199,20 @@ def _normalized_file_hashes(
         mapping[path] = _sha256_digest(digest, f"expected hash for {path}")
     if set(mapping) != _REQUIRED_FILE_PATHS:
         raise ValueError("expected file hash paths do not match the reviewed Hawking files")
+    return tuple(sorted(mapping.items()))
+
+
+def _normalized_v5_file_hashes(
+    values: Mapping[str, str] | Sequence[tuple[str, str]],
+) -> tuple[tuple[str, str], ...]:
+    rows = list(values.items()) if isinstance(values, Mapping) else list(values)
+    mapping: dict[str, str] = {}
+    for path, digest in rows:
+        if not isinstance(path, str) or path in mapping:
+            raise ValueError("v5 expected file hash paths must be unique strings")
+        mapping[path] = _sha256_digest(digest, f"v5 expected hash for {path}")
+    if set(mapping) != _V5_REQUIRED_FILE_PATHS:
+        raise ValueError("v5 expected file hashes do not match the reviewed worker files")
     return tuple(sorted(mapping.items()))
 
 
@@ -202,6 +292,37 @@ def _bound_file_snapshots(profile: HawkingSerialCPUProfile) -> list[dict[str, An
         _snapshot_bound_file(profile.root, relative, digest)
         for relative, digest in profile.expected_file_sha256
     ]
+
+
+def _stable_json_object(path: Path, label: str) -> tuple[dict[str, Any] | None, list[str]]:
+    problems: list[str] = []
+    payload: dict[str, Any] | None = None
+    try:
+        before = path.lstat()
+        if stat.S_ISLNK(before.st_mode) or os.path.realpath(path) != str(path):
+            problems.append(f"{label} path is or traverses a symbolic link")
+        if not stat.S_ISREG(before.st_mode):
+            problems.append(f"{label} is not a regular file")
+        if problems:
+            return None, problems
+        raw = path.read_bytes()
+        after = path.lstat()
+        if _file_identity(before) != _file_identity(after):
+            problems.append(f"{label} changed while being read")
+        value = json.loads(raw)
+        if not isinstance(value, dict):
+            problems.append(f"{label} is not a JSON object")
+        else:
+            payload = value
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        problems.append(f"{label} could not be read: {type(exc).__name__}")
+    return payload, problems
+
+
+def _valid_payload_seal(payload: Mapping[str, Any], field: str) -> bool:
+    core = dict(payload)
+    declared = core.pop(field, None)
+    return isinstance(declared, str) and declared == _canonical_sha256(core)
 
 
 def _sanitized_environment(value: object) -> tuple[dict[str, str | None], list[str]]:
@@ -638,12 +759,490 @@ def validate_hawking_serial_cpu_snapshot(
     return {**core, "report_sha256": _canonical_sha256(core)}
 
 
+@dataclass(frozen=True)
+class HawkingV5UltraCPUProfile:
+    """Exact live identity and resource envelope for the v5 ultra queue workers."""
+
+    root: str
+    python_executable: str
+    python_argv0: str
+    quantize_executable: str
+    block_parallel_quantize_executable: str
+    attestor_executable: str
+    decoder_executable: str
+    queue_state_path: str
+    expected_uid: int
+    expected_plan_sha256: str = V5_PLAN_SHA256
+    expected_file_sha256: tuple[tuple[str, str], ...] = V5_HAWKING_FILE_SHA256
+    maximum_roots: int = V5_MAXIMUM_ROOTS
+    maximum_processes: int = V5_MAXIMUM_PROCESSES
+    maximum_quant_threads: int = V5_MAXIMUM_QUANT_THREADS
+    maximum_aggregate_rss_gb: float = V5_MAXIMUM_AGGREGATE_RSS_GB
+    maximum_aggregate_cpu_percent: float = V5_MAXIMUM_AGGREGATE_CPU_PERCENT
+
+    @classmethod
+    def create(
+        cls,
+        *,
+        root: str | Path,
+        python_executable: str | Path,
+        python_argv0: str | Path | None = None,
+        expected_uid: int | None = None,
+        expected_plan_sha256: str = V5_PLAN_SHA256,
+        expected_file_sha256: Mapping[str, str] | Sequence[tuple[str, str]] = (
+            V5_HAWKING_FILE_SHA256
+        ),
+    ) -> HawkingV5UltraCPUProfile:
+        exact_root = _exact_path(root, "Hawking root")
+        exact_python = _exact_path(python_executable, "Hawking Python executable")
+        exact_python_argv0 = _exact_path(
+            python_executable if python_argv0 is None else python_argv0,
+            "Hawking Python argv[0]",
+        )
+        exact_quantize = _exact_path(
+            Path(exact_root) / _QUANT_RELATIVE_PATH,
+            "Hawking quantize executable",
+        )
+        exact_block_parallel_quantize = _exact_path(
+            Path(exact_root) / _BLOCK_PARALLEL_QUANT_RELATIVE_PATH,
+            "Hawking block-parallel quantize executable",
+        )
+        exact_attestor = _exact_path(
+            Path(exact_root) / _ATTEST_ARGV0,
+            "Hawking attestor executable",
+        )
+        exact_decoder = _exact_path(
+            Path(exact_root) / _DECODE_ARGV0,
+            "Hawking decoder executable",
+        )
+        uid = os.getuid() if expected_uid is None else expected_uid
+        if isinstance(uid, bool) or not isinstance(uid, int) or uid < 0:
+            raise ValueError("expected UID must be a nonnegative integer")
+        return cls(
+            root=exact_root,
+            python_executable=exact_python,
+            python_argv0=exact_python_argv0,
+            quantize_executable=exact_quantize,
+            block_parallel_quantize_executable=exact_block_parallel_quantize,
+            attestor_executable=exact_attestor,
+            decoder_executable=exact_decoder,
+            queue_state_path=str(Path(exact_root) / V5_QUEUE_STATE_RELATIVE),
+            expected_uid=uid,
+            expected_plan_sha256=_sha256_digest(
+                expected_plan_sha256,
+                "Hawking v5 plan SHA-256",
+            ),
+            expected_file_sha256=_normalized_v5_file_hashes(expected_file_sha256),
+        )
+
+    def authority(self) -> dict[str, Any]:
+        core = {
+            "schema": PROFILE_SCHEMA,
+            "profile": V5_PROFILE_NAME,
+            "root": self.root,
+            "python_executable": self.python_executable,
+            "python_argv0": self.python_argv0,
+            "quantize_executable": self.quantize_executable,
+            "block_parallel_quantize_executable": self.block_parallel_quantize_executable,
+            "attestor_executable": self.attestor_executable,
+            "decoder_executable": self.decoder_executable,
+            "queue_state_path": self.queue_state_path,
+            "expected_uid": self.expected_uid,
+            "expected_plan_sha256": self.expected_plan_sha256,
+            "expected_files": [
+                {"path": path, "sha256": digest} for path, digest in self.expected_file_sha256
+            ],
+            "limits": {
+                "maximum_roots": self.maximum_roots,
+                "maximum_processes": self.maximum_processes,
+                "maximum_quant_threads": self.maximum_quant_threads,
+                "maximum_aggregate_rss_gb": self.maximum_aggregate_rss_gb,
+                "maximum_aggregate_cpu_percent": self.maximum_aggregate_cpu_percent,
+            },
+            "scientific_promotion": False,
+        }
+        return {**core, "profile_sha256": _canonical_sha256(core)}
+
+
+def _v5_relative_script(value: str, profile: HawkingV5UltraCPUProfile) -> str | None:
+    path = Path(value)
+    if path.is_absolute():
+        try:
+            return str(path.resolve().relative_to(Path(profile.root).resolve()))
+        except ValueError:
+            return None
+    if ".." in path.parts:
+        return None
+    return str(path)
+
+
+def _v5_under_root(value: str, root: Path) -> bool:
+    path = Path(value)
+    return path.is_absolute() and path.resolve().is_relative_to(root.resolve())
+
+
+def _v5_environment(
+    value: object,
+    *,
+    require_cpu: bool,
+) -> tuple[dict[str, str | None], list[str]]:
+    normalized: dict[str, str | None] = {field: None for field in SANITIZED_ENVIRONMENT_FIELDS}
+    problems: list[str] = []
+    if not isinstance(value, Mapping):
+        return normalized, ["sanitized environment is missing or invalid"]
+    if set(value) != set(SANITIZED_ENVIRONMENT_FIELDS):
+        problems.append("environment fields are not the exact sanitized set")
+    for field in SANITIZED_ENVIRONMENT_FIELDS:
+        observed = value.get(field)
+        if observed is not None and not isinstance(observed, str):
+            problems.append(f"sanitized environment field {field} is not a string or null")
+        else:
+            normalized[field] = observed
+    if require_cpu and normalized["DOCTOR_DEVICE"] != "cpu":
+        problems.append("DOCTOR_DEVICE must be exactly cpu for a compute child")
+    if not require_cpu and normalized["DOCTOR_DEVICE"] not in {None, "", "cpu"}:
+        problems.append("adapter DOCTOR_DEVICE is outside the CPU-only set")
+    if normalized["CUDA_VISIBLE_DEVICES"] not in {None, "", "-1"}:
+        problems.append("CUDA device visibility is not disabled")
+    if normalized["PYTORCH_ENABLE_MPS_FALLBACK"] not in {None, "", "0"}:
+        problems.append("MPS fallback must not be enabled")
+    return normalized, problems
+
+
+def _v5_request_report(
+    request_path: Path,
+    *,
+    expected_sha256: object,
+) -> tuple[dict[str, Any] | None, list[str]]:
+    payload, problems = _stable_json_object(request_path, "v5 adapter request")
+    if payload is None:
+        return None, problems
+    if payload.get("schema") != V5_REQUEST_SCHEMA:
+        problems.append("v5 adapter request schema is invalid")
+    if not _valid_payload_seal(payload, "request_sha256"):
+        problems.append("v5 adapter request self-seal is invalid")
+    if payload.get("request_sha256") != expected_sha256:
+        problems.append("v5 adapter request differs from the sealed queue state")
+    if payload.get("quality_claims_permitted") is not False:
+        problems.append("v5 adapter request unexpectedly permits quality claims")
+    return payload, problems
+
+
+def _v5_observe_process(
+    raw: Mapping[str, object],
+    profile: HawkingV5UltraCPUProfile,
+    active_children: Mapping[str, Any],
+) -> dict[str, Any]:
+    problems: list[str] = []
+    pid = raw.get("pid")
+    ppid = raw.get("ppid")
+    uid = raw.get("uid")
+    create_time = _numeric(raw.get("create_time"))
+    rss_bytes = raw.get("rss_bytes")
+    cpu_percent = _numeric(raw.get("cpu_percent"))
+    exe = raw.get("exe")
+    cwd = raw.get("cwd")
+    argv = _argv(raw.get("cmdline"))
+    if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+        problems.append("pid is missing or invalid")
+    if isinstance(ppid, bool) or not isinstance(ppid, int) or ppid < 0:
+        problems.append("ppid is missing or invalid")
+    if isinstance(uid, bool) or not isinstance(uid, int) or uid != profile.expected_uid:
+        problems.append("uid is not the current reviewed uid")
+    if create_time is None or create_time <= 0:
+        problems.append("create_time is missing or invalid")
+    if isinstance(rss_bytes, bool) or not isinstance(rss_bytes, int) or rss_bytes < 0:
+        problems.append("rss_bytes is missing or invalid")
+    if cpu_percent is None or cpu_percent < 0:
+        problems.append("cpu_percent is missing or invalid")
+    exact_exe = os.path.realpath(exe) if isinstance(exe, str) and Path(exe).is_absolute() else None
+    exact_cwd = os.path.realpath(cwd) if isinstance(cwd, str) and Path(cwd).is_absolute() else None
+    if exact_cwd != profile.root:
+        problems.append("cwd is not the exact reviewed Hawking root")
+    if argv is None:
+        problems.append("cmdline is missing or invalid")
+
+    role: str | None = None
+    cell_id: str | None = None
+    quant_threads: int | None = None
+    environment: dict[str, str | None] = {
+        field: None for field in SANITIZED_ENVIRONMENT_FIELDS
+    }
+    if argv is not None:
+        script = _v5_relative_script(argv[1], profile) if len(argv) > 1 else None
+        if script in _V5_ADAPTER_SCRIPTS:
+            role = "v5-adapter"
+            environment, env_problems = _v5_environment(raw.get("environment"), require_cpu=False)
+            problems.extend(env_problems)
+            if (
+                exact_exe != profile.python_executable
+                or os.path.realpath(argv[0]) != profile.python_executable
+            ):
+                problems.append("adapter Python executable is not exact")
+            if len(argv) != 5 or argv[2:4] != ["run", "--request"]:
+                problems.append("v5 adapter argv shape is not exact")
+            else:
+                request_path = Path(argv[4]).resolve()
+                results_root = Path(profile.root) / "reports/condense/doctor_v5_ultra/results"
+                if (
+                    not request_path.is_relative_to(results_root.resolve())
+                    or request_path.name != "request.json"
+                ):
+                    problems.append("v5 adapter request path is outside the reviewed results root")
+                else:
+                    cell_id = request_path.parent.name
+                    queue_row = active_children.get(cell_id)
+                    if _V5_CELL_ID.fullmatch(cell_id) is None or not isinstance(queue_row, Mapping):
+                        problems.append("v5 adapter cell is not active in the sealed queue state")
+                    else:
+                        if queue_row.get("pid") != pid:
+                            problems.append("v5 adapter PID differs from the sealed queue state")
+                        _, request_problems = _v5_request_report(
+                            request_path,
+                            expected_sha256=queue_row.get("request_sha256"),
+                        )
+                        problems.extend(request_problems)
+        elif script == _V5_EVAL_SCRIPT:
+            role = "v5-eval"
+            environment, env_problems = _v5_environment(raw.get("environment"), require_cpu=True)
+            problems.extend(env_problems)
+            if (
+                exact_exe != profile.python_executable
+                or os.path.realpath(argv[0])
+                not in {profile.python_executable, profile.python_argv0}
+            ):
+                problems.append("v5 evaluator Python executable is not exact")
+            base_shape = (
+                len(argv) in {9, 11}
+                and argv[2:4] == ["run", "--mode"]
+                and argv[4] in {"ppl", "capability"}
+                and argv[5] == "--model-dir"
+                and argv[7] == "--label"
+                and _V5_LABEL.fullmatch(argv[8]) is not None
+            )
+            override_shape = len(argv) == 9 or (
+                len(argv) == 11 and argv[9] == "--override-manifest"
+            )
+            if not base_shape or not override_shape:
+                problems.append("v5 evaluator argv shape is not exact")
+            else:
+                scratch_root = Path(profile.root) / "scratch"
+                results_root = Path(profile.root) / "reports/condense/doctor_v5_ultra/results"
+                if not _v5_under_root(argv[6], scratch_root):
+                    problems.append("v5 evaluator model path is outside Hawking scratch")
+                if len(argv) == 11 and not _v5_under_root(argv[10], results_root):
+                    problems.append("v5 evaluator manifest is outside the reviewed results root")
+        elif argv[0] in {
+            profile.quantize_executable,
+            profile.block_parallel_quantize_executable,
+        }:
+            role = "v5-quantize"
+            environment, env_problems = _v5_environment(raw.get("environment"), require_cpu=True)
+            problems.extend(env_problems)
+            if exact_exe != argv[0]:
+                problems.append("v5 quantize executable is not exact")
+            scratch_root = Path(profile.root) / "scratch"
+            results_root = Path(profile.root) / "reports/condense/doctor_v5_ultra/results"
+
+            def option(name: str) -> str | None:
+                indexes = [index for index, value in enumerate(argv) if value == name]
+                if len(indexes) != 1 or indexes[0] + 1 >= len(argv):
+                    return None
+                return argv[indexes[0] + 1]
+
+            input_path = option("--in")
+            output_path = option("--packed-v2-out")
+            threads_value = option("--threads")
+            block_len = option("--block-len")
+            if input_path is None or not _v5_under_root(input_path, scratch_root):
+                problems.append("v5 quantize input is outside Hawking scratch")
+            if output_path is None or not _v5_under_root(output_path, results_root):
+                problems.append("v5 quantize output is outside the reviewed results root")
+            try:
+                quant_threads = int(threads_value) if threads_value is not None else None
+            except ValueError:
+                quant_threads = None
+            if quant_threads is None or not 1 <= quant_threads <= profile.maximum_quant_threads:
+                problems.append(
+                    f"v5 quantize threads must be in [1, {profile.maximum_quant_threads}]"
+                )
+            if block_len != "256" or "--quality" not in argv or option("--tensor-scope") != "all-2d":
+                problems.append("v5 quantize fixed quality controls drifted")
+            if argv[0] == profile.block_parallel_quantize_executable:
+                block_threads = option("--block-threads")
+                block_scratch = option("--block-scratch-budget-bytes")
+                if block_threads != threads_value:
+                    problems.append("v5 block-parallel threads must equal the reviewed thread count")
+                if block_scratch != "268435456":
+                    problems.append("v5 block-parallel scratch budget must remain exactly 256 MiB")
+        elif argv[0] == profile.attestor_executable:
+            role = "v5-attestor"
+            environment, env_problems = _v5_environment(raw.get("environment"), require_cpu=True)
+            problems.extend(env_problems)
+            results_root = Path(profile.root) / "reports/condense/doctor_v5_ultra/results"
+            if exact_exe != profile.attestor_executable:
+                problems.append("v5 attestor executable is not exact")
+            if len(argv) != 3 or argv[2] != "--roots":
+                problems.append("v5 attestor argv shape is not exact")
+            elif not _v5_under_root(argv[1], results_root):
+                problems.append("v5 attestor input is outside the reviewed results root")
+        elif argv[0] == profile.decoder_executable:
+            role = "v5-decoder"
+            environment, env_problems = _v5_environment(raw.get("environment"), require_cpu=True)
+            problems.extend(env_problems)
+            results_root = Path(profile.root) / "reports/condense/doctor_v5_ultra/results"
+            if exact_exe != profile.decoder_executable:
+                problems.append("v5 decoder executable is not exact")
+            if len(argv) != 5 or argv[3:] != ["--dtype", "bf16"]:
+                problems.append("v5 decoder argv shape is not exact")
+            elif not all(_v5_under_root(value, results_root) for value in argv[1:3]):
+                problems.append("v5 decoder paths are outside the reviewed results root")
+        else:
+            problems.append("cmdline does not match an exact reviewed Hawking v5 role")
+
+    return {
+        "pid": pid if isinstance(pid, int) and not isinstance(pid, bool) else None,
+        "ppid": ppid if isinstance(ppid, int) and not isinstance(ppid, bool) else None,
+        "uid": uid if isinstance(uid, int) and not isinstance(uid, bool) else None,
+        "create_time": create_time,
+        "exe": exact_exe,
+        "cwd": exact_cwd,
+        "cmdline": argv,
+        "environment": environment,
+        "role": role,
+        "cell_id": cell_id,
+        "quant_threads": quant_threads,
+        "rss_bytes": rss_bytes if isinstance(rss_bytes, int) and not isinstance(rss_bytes, bool) else None,
+        "cpu_percent": cpu_percent,
+        "problems": problems,
+        "all_ok": not problems,
+    }
+
+
+def validate_hawking_v5_ultra_snapshot(
+    processes: Sequence[Mapping[str, object]],
+    profile: HawkingV5UltraCPUProfile,
+) -> dict[str, Any]:
+    """Validate a complete adapter/compute snapshot against the sealed live v5 queue state."""
+
+    bound_files = [
+        _snapshot_bound_file(profile.root, relative, digest)
+        for relative, digest in profile.expected_file_sha256
+    ]
+    queue_state, queue_problems = _stable_json_object(
+        Path(profile.queue_state_path),
+        "Hawking v5 queue state",
+    )
+    problems = [
+        f"file {row['path']}: {problem}" for row in bound_files for problem in row["problems"]
+    ]
+    problems.extend(queue_problems)
+    active_children: Mapping[str, Any] = {}
+    queue_receipt: dict[str, Any] = {
+        "path": profile.queue_state_path,
+        "schema": None,
+        "plan_sha256": None,
+        "state_sha256": None,
+    }
+    if queue_state is not None:
+        queue_receipt.update(
+            {
+                "schema": queue_state.get("schema"),
+                "plan_sha256": queue_state.get("plan_sha256"),
+                "state_sha256": queue_state.get("state_sha256"),
+            }
+        )
+        if queue_state.get("schema") != V5_QUEUE_STATE_SCHEMA:
+            problems.append("Hawking v5 queue state schema is invalid")
+        if not _valid_payload_seal(queue_state, "state_sha256"):
+            problems.append("Hawking v5 queue state self-seal is invalid")
+        if queue_state.get("plan_sha256") != profile.expected_plan_sha256:
+            problems.append("Hawking v5 queue plan authority drifted")
+        raw_children = queue_state.get("active_children")
+        if not isinstance(raw_children, Mapping):
+            problems.append("Hawking v5 active-child registry is invalid")
+        else:
+            active_children = raw_children
+        active_cells = queue_state.get("active_cells")
+        if not isinstance(active_cells, list) or set(active_cells) != set(active_children):
+            problems.append("Hawking v5 active-cell registry differs from active children")
+        if len(active_children) > profile.maximum_roots:
+            problems.append("Hawking v5 active-child count exceeds the coexistence cap")
+
+    observations = [
+        _v5_observe_process(row, profile, active_children) for row in list(processes)
+    ]
+    observations.sort(key=lambda row: (row["pid"] is None, row["pid"] or 0))
+    if not observations:
+        problems.append("snapshot contains no Hawking v5 processes")
+    if len(observations) > profile.maximum_processes:
+        problems.append("Hawking v5 process count exceeds the coexistence cap")
+    for index, row in enumerate(observations):
+        label = f"pid {row['pid']}" if row["pid"] is not None else f"row {index}"
+        problems.extend(f"{label}: {problem}" for problem in row["problems"])
+
+    pids = {row["pid"] for row in observations if row["pid"] is not None}
+    adapters = [row for row in observations if row["role"] == "v5-adapter"]
+    adapter_pids = {row["pid"] for row in adapters if row["pid"] is not None}
+    queue_pids = {
+        row.get("pid") for row in active_children.values() if isinstance(row, Mapping)
+    }
+    if adapter_pids != queue_pids:
+        problems.append("observed v5 adapter PIDs differ from the sealed active-child registry")
+    if len(adapters) > profile.maximum_roots:
+        problems.append("observed v5 adapter root count exceeds the coexistence cap")
+    child_counts: dict[int, int] = {}
+    for row in observations:
+        if row["role"] == "v5-adapter":
+            if row["ppid"] in pids:
+                problems.append(f"pid {row['pid']}: v5 adapter is not a snapshot root")
+            continue
+        parent = row["ppid"]
+        if parent not in adapter_pids:
+            problems.append(f"pid {row['pid']}: v5 compute parent is not an observed adapter")
+            continue
+        child_counts[int(parent)] = child_counts.get(int(parent), 0) + 1
+    for parent, count in sorted(child_counts.items()):
+        if count > 1:
+            problems.append(f"pid {parent}: v5 adapter has more than one compute child")
+
+    rss_total = sum(int(row["rss_bytes"] or 0) for row in observations)
+    cpu_total = sum(float(row["cpu_percent"] or 0.0) for row in observations)
+    if rss_total > int(profile.maximum_aggregate_rss_gb * DECIMAL_GB):
+        problems.append("Hawking v5 aggregate RSS exceeds the coexistence cap")
+    if cpu_total > profile.maximum_aggregate_cpu_percent:
+        problems.append("Hawking v5 aggregate CPU exceeds the coexistence cap")
+    core = {
+        "schema": REPORT_SCHEMA,
+        "profile": V5_PROFILE_NAME,
+        "profile_authority": profile.authority(),
+        "queue_state": queue_receipt,
+        "observed": {
+            "process_count": len(observations),
+            "root_count": len(adapters),
+            "aggregate_rss_bytes": rss_total,
+            "aggregate_rss_gb": rss_total / DECIMAL_GB,
+            "aggregate_cpu_percent": cpu_total,
+            "bound_files": bound_files,
+            "processes": observations,
+        },
+        "problems": problems,
+        "all_ok": not problems,
+        "allowed": not problems,
+        "ownership": "observation-only; external processes must never receive signals",
+        "scientific_promotion": False,
+    }
+    return {**core, "report_sha256": _canonical_sha256(core)}
+
+
 __all__ = [
     "HawkingSerialCPUProfile",
+    "HawkingV5UltraCPUProfile",
     "LIVE_HAWKING_FILE_SHA256",
     "PROFILE_NAME",
     "PROFILE_SCHEMA",
     "REPORT_SCHEMA",
     "SANITIZED_ENVIRONMENT_FIELDS",
     "validate_hawking_serial_cpu_snapshot",
+    "validate_hawking_v5_ultra_snapshot",
 ]

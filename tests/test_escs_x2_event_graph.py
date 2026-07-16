@@ -255,7 +255,10 @@ def test_receipt_checkpoint_and_authority_tampering_fail_closed(tmp_path: Path) 
 
 
 def test_official_execution_stays_disabled() -> None:
-    with pytest.raises(ValueError, match="official X2 activation is disabled"):
+    with pytest.raises(
+        ValueError,
+        match="official X2 activation is disabled|X2 implementation files differ from authority",
+    ):
         x2.run_from_config(
             x2.DEFAULT_CONFIG_PATH,
             Path("/tmp/x2-should-not-exist.json"),

@@ -10,6 +10,7 @@ from omegaconf import DictConfig, OmegaConf
 
 import mop.studies.generation1_cognitive_corpus as corpus_module
 import mop.studies.generation1_cognitive_corpus_verify as verify_module
+import mop.studies.generation1_corpus_recovery as recovery_module
 
 
 class _AlphaExperiment:
@@ -280,6 +281,37 @@ def test_strict_v2_verifier_independently_accepts_complete_authority_corpus(
     assert verify_module._valid_seal(result, "verification_sha256") is True
 
 
+def test_recovery_accepts_superseded_orphan_but_requires_the_breakdown(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    corpus_path, config_path, run_root, _ = _fixture(tmp_path, monkeypatch)
+    (run_root / "seed_101/classes/alpha/attempt_000").mkdir(parents=True)
+    recovered = recovery_module.build_recovered_corpus(config_path, run_root)
+    _write_json(corpus_path, recovered)
+
+    accepted = verify_module.verify_corpus(
+        corpus_path=corpus_path,
+        config_path=config_path,
+        run_root=run_root,
+    )
+    assert accepted["verification_complete"] is True
+    assert accepted["attempt_audit"]["superseded_invalid_count"] == 1
+    assert accepted["attempt_audit"]["unresolved_invalid_count"] == 0
+
+    stripped = copy.deepcopy(recovered)
+    stripped["operational_summary"].pop("superseded_invalid_attempt_count")
+    stripped["operational_summary"].pop("unresolved_invalid_attempt_count")
+    stripped = corpus_module._sealed(stripped, "corpus_sha256")
+    _write_json(corpus_path, stripped)
+    rejected = verify_module.verify_corpus(
+        corpus_path=corpus_path,
+        config_path=config_path,
+        run_root=run_root,
+    )
+    assert rejected["verification_complete"] is False
+    assert rejected["checks"]["full_regeneration_match"] is False
+
+
 @pytest.mark.parametrize(
     ("case", "failed_check"),
     [
@@ -385,3 +417,68 @@ def test_missing_boolean_null_observation_cannot_receive_directional_label(
 
     assert result["verification_complete"] is True
     assert result["checks"]["directional_inference_fail_closed"] is True
+
+
+def _write_sealed_attempt(path: Path, **fields: Any) -> None:
+    receipt = corpus_module._sealed(
+        {
+            "schema": corpus_module.ATTEMPT_SCHEMA,
+            "returncode": 0,
+            "timed_out": False,
+            "manifest": {"path": "manifest.json", "sha256": "a" * 64},
+            "worker_report": {
+                "manifest": {"path": "manifest.json", "sha256": "a" * 64}
+            },
+            **fields,
+        },
+        "attempt_sha256",
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(corpus_module.canonical_bytes(receipt) + b"\n")
+
+
+def test_verify_operational_summary_classifies_superseded_vs_unresolved(tmp_path: Path) -> None:
+    run_root = tmp_path / "runs" / "generation1"
+
+    # Orphaned attempt_001 (no receipt) superseded by a valid attempt_002 for the same cell.
+    (run_root / "seed_9" / "classes" / "cell_a" / "attempt_001").mkdir(parents=True)
+    _write_sealed_attempt(
+        run_root / "seed_9" / "classes" / "cell_a" / "attempt_002" / "attempt_receipt.json",
+        experiment_id="cell_a",
+        seed=9,
+    )
+
+    # attempt_001 with a broken seal and no later attempt: unresolved.
+    broken = run_root / "seed_9" / "classes" / "cell_b" / "attempt_001" / "attempt_receipt.json"
+    broken.parent.mkdir(parents=True)
+    broken.write_text(json.dumps({"schema": corpus_module.ATTEMPT_SCHEMA, "attempt_sha256": "f" * 64}))
+
+    summary = verify_module._operational_summary(run_root, manifest_bytes=0)
+    assert summary["invalid_attempt_receipt_count"] == 2
+    assert summary["superseded_invalid_attempt_count"] == 1
+    assert summary["unresolved_invalid_attempt_count"] == 1
+    assert summary["valid_attempt_receipt_count"] == 1
+
+
+def test_legacy_integer_key_fingerprint_is_exactly_scoped() -> None:
+    metrics = {
+        "score": 1.0,
+        "per_codebook_size": {"4": {"accuracy": 0.75}, "8": {"accuracy": 1.0}},
+    }
+    payload = verify_module._scientific_payload(metrics)
+    legacy_payload = copy.deepcopy(payload)
+    legacy_payload["per_codebook_size"] = {}
+    expected = verify_module._canonical_sha256(legacy_payload)
+
+    assert (
+        verify_module._legacy_integer_key_fingerprint(metrics, "a7_comm_channel")
+        == expected
+    )
+    assert verify_module._legacy_integer_key_fingerprint(metrics, "n7_wm_delayed_match") is None
+    assert (
+        verify_module._legacy_integer_key_fingerprint(
+            {"per_codebook_size": {"small": {"accuracy": 0.75}}},
+            "a7_comm_channel",
+        )
+        is None
+    )

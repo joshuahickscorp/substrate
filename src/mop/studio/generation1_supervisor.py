@@ -33,6 +33,7 @@ from typing import Any
 import psutil
 
 from ..config import REPO_ROOT
+from ..process_labels import set_process_label
 from . import local_throttle as local_throttle_runtime
 from .local_throttle import (
     TaskDeclaration,
@@ -42,6 +43,7 @@ from .local_throttle import (
     aggregate_admission,
     collect_host_telemetry,
     evaluate_task,
+    is_taskpolicy_coexistence_command,
     load_policy,
 )
 
@@ -259,6 +261,7 @@ class Capsule:
     capsule_sha256: str
 
     def task_declaration(self) -> TaskDeclaration:
+        coexistence = is_taskpolicy_coexistence_command(self.command)
         return TaskDeclaration(
             task_id=self.capsule_id,
             lane=self.resources.lane,
@@ -270,9 +273,9 @@ class Capsule:
             forecast_write_gb=self.resources.forecast_write_gb,
             atomic_write_gb=self.resources.atomic_write_gb,
             wall_minutes=self.resources.wall_minutes,
-            pause_safe=False,
-            atomic_checkpoints=False,
-            checkpoint_globs=(),
+            pause_safe=coexistence,
+            atomic_checkpoints=coexistence,
+            checkpoint_globs=(tuple(artifact.path for artifact in self.artifacts) if coexistence else ()),
             restart_exit_codes=(),
             command=self.command,
             requires_empty_lanes=True,
@@ -458,8 +461,11 @@ def _parse_capsule(raw: object, root: Path, label: str, *, injectable: bool) -> 
     resources = _parse_resources(value["resources"], f"{label}.resources")
     if resources.process_marker not in " ".join(command):
         raise Generation1Refused(f"{label} command does not contain its process marker")
-    if Path(command[0]).name not in {"python", "python3"}:
-        raise Generation1Refused(f"{label} command must use an explicit Python interpreter")
+    taskpolicy_command = is_taskpolicy_coexistence_command(command)
+    if Path(command[0]).name not in {"python", "python3"} and not taskpolicy_command:
+        raise Generation1Refused(
+            f"{label} command must use an explicit Python interpreter or the pinned taskpolicy wrapper"
+        )
     artifacts = tuple(
         _parse_artifact(item, root, f"{label}.artifacts[{index}]") for index, item in enumerate(artifacts_raw)
     )
@@ -614,6 +620,7 @@ def _empty_runtime_summary() -> dict[str, Any]:
         "last_reservation": None,
         "resource_stop_count": 0,
         "retry_count": 0,
+        "failure_attempt_count": 0,
         "safety_state": "not-started",
         "last_sample": None,
         "event_count": 0,
@@ -668,6 +675,7 @@ class CommandResult:
     stdout_path: str
     stderr_path: str
     runtime_problem: str | None = None
+    resource_deferred: bool = False
 
 
 AdmissionProbe = Callable[[Capsule], Admission]
@@ -1502,6 +1510,7 @@ class Generation1Supervisor:
         pause_bad_samples = max(1, int(policy.monitor["pause_bad_samples"]))
         deadline = time.monotonic() + capsule.resources.wall_minutes * 60.0
         runtime_problem: str | None = None
+        resource_deferred = False
         bad_samples = 0
         with stdout_path.open("ab") as stdout, stderr_path.open("ab") as stderr:
             process = subprocess.Popen(
@@ -1523,6 +1532,7 @@ class Generation1Supervisor:
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
                     runtime_problem = "capsule exceeded its declared wall boundary"
+                    resource_deferred = capsule.task_declaration().pause_safe
                     self._record_resource_stop(
                         capsule,
                         reason=runtime_problem,
@@ -1586,6 +1596,7 @@ class Generation1Supervisor:
                         reason=runtime_problem,
                         wall_boundary=False,
                     )
+                    resource_deferred = capsule.task_declaration().pause_safe
                     returncode = self._stop_exact_owned_process(
                         process,
                         create_time,
@@ -1602,6 +1613,7 @@ class Generation1Supervisor:
             stdout_path=str(stdout_path),
             stderr_path=str(stderr_path),
             runtime_problem=runtime_problem,
+            resource_deferred=resource_deferred,
         )
 
     def _artifact_reports(self, capsule: Capsule) -> tuple[list[dict[str, Any]], list[str]]:
@@ -1671,6 +1683,7 @@ class Generation1Supervisor:
         row: dict[str, Any],
         problem: str,
         hold_problem: str,
+        resource_deferred: bool = False,
     ) -> dict[str, Any]:
         """Retry resumable command/artifact failures before failing closed.
 
@@ -1683,7 +1696,21 @@ class Generation1Supervisor:
         row["last_problem"] = problem
         self.state["current_capsule"] = None
         runtime = dict(row.get("runtime") or _empty_runtime_summary())
-        if int(row["attempts"]) < MAX_CAPSULE_ATTEMPTS:
+        if resource_deferred:
+            runtime["retry_count"] = int(runtime.get("retry_count") or 0) + 1
+            row["runtime"] = runtime
+            row["status"] = "pending"
+            self.state["status"] = "resource_wait"
+            self._append_runtime_event(
+                capsule,
+                "capsule-resource-deferral-scheduled",
+                attempt=int(row["attempts"]),
+                problem=problem,
+            )
+            return self._publish()
+        failure_attempts = int(runtime.get("failure_attempt_count") or 0) + 1
+        runtime["failure_attempt_count"] = failure_attempts
+        if failure_attempts < MAX_CAPSULE_ATTEMPTS:
             runtime["retry_count"] = int(runtime.get("retry_count") or 0) + 1
             row["runtime"] = runtime
             row["status"] = "pending"
@@ -1904,6 +1931,7 @@ class Generation1Supervisor:
         environment["PYTHONPATH"] = os.pathsep.join(python_paths)
         environment["PYTHONUNBUFFERED"] = "1"
         environment.update(dict(capsule.environment))
+        environment["MOP_PROCESS_LABEL"] = f"mop-capsule:{capsule.capsule_id}"
         child_started = False
 
         def on_start(pid: int, create_time: float | None) -> None:
@@ -1997,6 +2025,7 @@ class Generation1Supervisor:
                 hold_problem=(
                     f"capsule {capsule.capsule_id} command failed after {MAX_CAPSULE_ATTEMPTS} attempts"
                 ),
+                resource_deferred=result.resource_deferred,
             )
         reports, problems = self._artifact_reports(capsule)
         row["artifacts"] = reports
@@ -2143,6 +2172,7 @@ def start_detached(
         environment = dict(os.environ)
         environment["PYTHONPATH"] = os.pathsep.join([str(program.repo_root / "src"), str(program.repo_root)])
         environment["PYTHONUNBUFFERED"] = "1"
+        environment["MOP_PROCESS_LABEL"] = f"mop-supervisor:{program.program_id}"
         with stdout_path.open("ab") as stdout, stderr_path.open("ab") as stderr:
             process = subprocess.Popen(
                 launched,
@@ -2203,6 +2233,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     arguments = build_parser().parse_args(argv)
     try:
         program = load_program(arguments.program)
+        if arguments.command == "run":
+            set_process_label(f"mop-supervisor:{program.program_id}")
         if arguments.command == "validate":
             payload = {
                 "valid": True,

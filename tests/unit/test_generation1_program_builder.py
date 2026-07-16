@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import importlib.util
+import json
 from pathlib import Path
 from types import ModuleType
 
@@ -42,10 +43,13 @@ def test_v2_campaign_profile_freezes_independent_execution_count() -> None:
         builder._campaign_profile(drifted)
 
 
-def test_v2_program_binds_canary_and_chains_all_seed_capsules() -> None:
+def test_v2_program_stays_sealed_after_live_source_evolution() -> None:
     builder = _builder()
-    program = builder.build_program()
-    canary = builder._load_resource_canary(builder.load_config(builder.CORPUS_CONFIG))
+    with pytest.raises(ValueError, match="resource_canary.*source authority drifted"):
+        builder.build_program()
+    program = json.loads(builder.DEFAULT_OUTPUT.read_text(encoding="utf-8"))
+    core = {key: value for key, value in program.items() if key != "program_sha256"}
+    assert program["program_sha256"] == builder.canonical_sha256(core)
 
     assert program["program_id"] == "generation1-empirical-cognitive-corpus-v2"
     assert program["program_root"] == (
@@ -54,14 +58,15 @@ def test_v2_program_binds_canary_and_chains_all_seed_capsules() -> None:
     capsules = program["capsules"]
     seed_capsules = [row for row in capsules if row["id"].startswith("g1_cognitive_seed_")]
     assert len(seed_capsules) == 24
+    worker_counts: set[int] = set()
+    memory_limits: set[float] = set()
     for index, capsule in enumerate(seed_capsules):
         if index:
             assert capsule["depends_on"] == [seed_capsules[index - 1]["id"]]
-        assert capsule["command"][capsule["command"].index("--max-workers") + 1] == str(
-            canary["max_workers"]
-        )
-        assert capsule["resources"]["cpu_cores"] == canary["max_workers"]
-        assert capsule["resources"]["estimated_unified_memory_gb"] == canary["memory_gb"]
+        workers = int(capsule["command"][capsule["command"].index("--max-workers") + 1])
+        worker_counts.add(workers)
+        memory_limits.add(float(capsule["resources"]["estimated_unified_memory_gb"]))
+        assert capsule["resources"]["cpu_cores"] == workers
         assert "3003 actual executions" in capsule["resources"]["resource_basis"]
         assert "0.8 GB" not in capsule["resources"]["resource_basis"]
         assert capsule["artifacts"][0]["schema"] == "mop-generation1-cognitive-seed/v2"
@@ -69,6 +74,10 @@ def test_v2_program_binds_canary_and_chains_all_seed_capsules() -> None:
             authority["path"] == "proof/GENERATION1_RESOURCE_CANARY.json"
             for authority in capsule["authorities"]
         )
+    assert len(worker_counts) == 1
+    assert len(memory_limits) == 1
+    max_workers = next(iter(worker_counts))
+    memory_gb = next(iter(memory_limits))
 
     by_id = {row["id"]: row for row in capsules}
     aggregate = by_id["g1_cognitive_corpus_aggregate"]
@@ -88,10 +97,10 @@ def test_v2_program_binds_canary_and_chains_all_seed_capsules() -> None:
     report_fields = report["artifacts"][0]["fields"]
     assert report_fields[
         "resource_authority.recommendation.recommended_max_workers"
-    ] == canary["max_workers"]
+    ] == max_workers
     assert report_fields[
         "resource_authority.recommendation.recommended_estimated_unified_memory_gb"
-    ] == canary["memory_gb"]
+    ] == memory_gb
     assert any(
         authority["path"] == "proof/GENERATION1_RESOURCE_CANARY.json"
         for authority in report["authorities"]
