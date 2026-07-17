@@ -56,29 +56,34 @@ TERMINAL_STATES = {"complete", "failure_hold", "integrity_hold", "failed", "drai
 FAILURE_STATES = {"failure_hold", "integrity_hold", "failed", "stopped"}
 
 # The successor-chain family is presented to the operator under one unified
-# "General Chain" name, with the stage kept as a short suffix so the individual
-# rungs remain distinguishable. The C0/C1/C2/C3/D1 one-off experiments keep their
-# own labels. See _collect_subtask_events for the per-mechanism sub-task stream.
+# "General Run" name, with the stage kept as a short suffix so the individual
+# rungs remain distinguishable. The single-process "general-run" orchestrator is
+# shown under the same "General Run" umbrella, with its current STAGE surfaced by
+# the per-stage compute program below (Horizon 1/2, Categorized Wave, Full
+# Generations). The C0/C1/C2/C3/D1 one-off experiments keep their own labels. See
+# _collect_subtask_events for the per-mechanism sub-task stream.
 PROGRAM_LABELS = {
     "generation1-c3-d1-router-redesign-screen-v1": "C3 Router Redesign",
     "generation1-c3-d1-expanded-canary-v1": "C3 Dispatch Canary",
     "generation1-c3-d1-frozen-producer-challenge-v1": "D1 Frozen Replication",
-    "generation1-successor-mechanics-extended-v1": "General Chain: Mechanics",
-    "generation1-successor-evidence-chain-v2": "General Chain: Adopter",
-    "generation1-successor-evidence-chain-v3": "General Chain: Adopter",
-    "generation1-successor-evidence-chain-v4": "General Chain: Adopter",
-    "generation1-successor-evidence-chain-v5": "General Chain: Adopter",
-    "generation1-successor-evidence-chain-v6": "General Chain: Adopter",
-    "generation1-successor-horizon-v1": "General Chain: Horizon 1",
-    "generation1-successor-horizon-v2": "General Chain: Horizon 2",
-    "generation1-successor-extension-chain-v1": "General Chain: Horizon Waiter",
-    "generation1-successor-extension-chain-v2": "General Chain: Horizon Waiter",
-    "generation1-successor-extension-chain-v3": "General Chain: Horizon Waiter",
-    "generation1-categorized-batch-extension-chain-v1": "General Chain: Categorized Waiter",
-    "generation1-successor-categorized-batch-wave-v1": "General Chain: Categorized Wave",
-    "generation1-consolidated-final-campaign-v1": "General Chain: Final",
-    "generation1-full-generations-wave-v1": "General Chain: Full Generations",
-    "generation1-full-generations-extension-chain-v1": "General Chain: Full Gen Waiter",
+    "general-run": "General Run",
+    "generation1-successor-mechanics-extended-v1": "General Run: Mechanics",
+    "generation1-successor-evidence-chain-v2": "General Run: Adopter",
+    "generation1-successor-evidence-chain-v3": "General Run: Adopter",
+    "generation1-successor-evidence-chain-v4": "General Run: Adopter",
+    "generation1-successor-evidence-chain-v5": "General Run: Adopter",
+    "generation1-successor-evidence-chain-v6": "General Run: Adopter",
+    "generation1-successor-evidence-chain-v7": "General Run: Adopter",
+    "generation1-successor-horizon-v1": "General Run: Horizon 1",
+    "generation1-successor-horizon-v2": "General Run: Horizon 2",
+    "generation1-successor-extension-chain-v1": "General Run: Horizon Waiter",
+    "generation1-successor-extension-chain-v2": "General Run: Horizon Waiter",
+    "generation1-successor-extension-chain-v3": "General Run: Horizon Waiter",
+    "generation1-categorized-batch-extension-chain-v1": "General Run: Categorized Waiter",
+    "generation1-successor-categorized-batch-wave-v1": "General Run: Categorized Wave",
+    "generation1-consolidated-final-campaign-v1": "General Run: Final",
+    "generation1-full-generations-wave-v1": "General Run: Full Generations",
+    "generation1-full-generations-extension-chain-v1": "General Run: Full Gen Waiter",
 }
 
 # Wave capsule ids encode epoch + mechanism category, e.g. "w08_formation_trace".
@@ -493,7 +498,7 @@ def _collect_subtask_events(
       ``{"complete", "total"}``. A blip fires once when a lane first reaches
       ``complete == total``.
     * wave capsule ids encode ``wNN_<category>`` (``w08_construction``). A blip
-      fires once when such a capsule row first completes inside a General Chain
+      fires once when such a capsule row first completes inside a General Run
       wave status.
 
     Like the throttle collector, the very first observation of any lane or
@@ -551,7 +556,7 @@ def _collect_subtask_events(
                         "progress": {"complete": complete, "total": total},
                     }
                 )
-        if _program_label(program_id).startswith("General Chain"):
+        if _program_label(program_id).startswith("General Run"):
             raw_capsules = status.get("capsules")
             capsules: dict[str, Any] = raw_capsules if isinstance(raw_capsules, dict) else {}
             for capsule_id, row in capsules.items():
@@ -875,7 +880,7 @@ def _subtask_message(event: Mapping[str, Any]) -> str:
     """Render the one-line per-mechanism sub-task-completed blip.
 
     Both a mechanics lane and a wave capsule are presented under the unified
-    "General Chain" name, naming the experiment or capsule category so the
+    "General Run" name, naming the experiment or capsule category so the
     operator recovers the old "E1 done / D1 done" style.
     """
 
@@ -892,12 +897,12 @@ def _subtask_message(event: Mapping[str, Any]) -> str:
             and not isinstance(total, bool)
             else ""
         )
-        return f"General Chain: {lane_short} sub-task complete{counts}"
+        return f"General Run: {lane_short} sub-task complete{counts}"
     epoch = event.get("wave_epoch")
     category = event.get("category")
     mechanisms = CATEGORY_MECHANISMS.get(category) if isinstance(category, str) else None
     mech_suffix = f" ({', '.join(mechanisms)})" if mechanisms else ""
-    return f"General Chain: W{epoch} {category} sub-task complete{mech_suffix}"
+    return f"General Run: W{epoch} {category} sub-task complete{mech_suffix}"
 
 
 def format_event(event: Mapping[str, Any]) -> str:
