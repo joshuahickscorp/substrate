@@ -28,10 +28,11 @@ from __future__ import annotations
 
 import hashlib
 import re
+import wave
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 import numpy as np
 
@@ -40,6 +41,7 @@ from mop.escs.accounting import WorkVector
 from .schema import (
     N_CHANNELS,
     N_CLASSES,
+    SAMPLE_RATE_HZ,
     SAMPLES_PER_FRAME,
     Clip,
     ClipSplit,
@@ -513,18 +515,163 @@ class SyntheticStarssAdapter:
         return cls(audio_by_clip, metadata_by_clip, rights_clean=rights_clean)
 
 
-class RealStarssAdapter:
-    """Blocked stub for a real, MIT-licensed STARSS23 tree.
+# STARSS23 FOA media is delivered as 24 kHz, 4-channel, 16-bit PCM WAV. These are corpus constants that
+# the real decode asserts, not knobs: a file that violates them is not the STARSS23 FOA contract.
+_REAL_SAMPLE_RATE_HZ = SAMPLE_RATE_HZ
+_REAL_SAMPLE_WIDTH_BYTES = 2  # 16-bit PCM
+_INT16_FULL_SCALE = 32768.0
 
-    It carries the identical filename, metadata, and onset-derivation wiring so real files slot into the
-    same code path unchanged, but it refuses to load in this no-download workflow. Constructing it is
-    inert; any read raises ``RealDataBlocked``. Only the WAV decode is deferred, and it is documented as
-    the single remaining real-data seam.
+
+@dataclass(frozen=True, slots=True)
+class ClipTruncation:
+    """Provenance of the whole-frame truncation applied to one real clip on decode."""
+
+    clip_id: str
+    raw_samples: int
+    kept_frames: int
+    dropped_tail_samples: int
+    dropped_onsets_past_end: int
+    capped_by_max_frames: bool
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "clip_id": self.clip_id,
+            "raw_samples": self.raw_samples,
+            "kept_frames": self.kept_frames,
+            "dropped_tail_samples": self.dropped_tail_samples,
+            "dropped_onsets_past_end": self.dropped_onsets_past_end,
+            "capped_by_max_frames": self.capped_by_max_frames,
+        }
+
+
+def decode_foa_wav(path: str | Path) -> np.ndarray:
+    """Decode a STARSS23 FOA WAV into a ``(N_CHANNELS, n_samples)`` float array in [-1, 1).
+
+    The file must be 24 kHz, four channel, 16-bit PCM (the frozen STARSS23 FOA acquisition grid). Samples
+    are read with the stdlib ``wave`` module, de-interleaved to channel-major order, and scaled from
+    int16 to float by the int16 full-scale so the featurizer sees a consistent amplitude across clips.
+    No resampling and no channel remap is performed: the corpus is already on the bed's native grid.
     """
 
-    def __init__(self, root: str | Path, *, rights_clean: bool = False) -> None:
-        self._root = Path(root)
+    path = Path(path)
+    with wave.open(str(path), "rb") as handle:
+        n_channels = handle.getnchannels()
+        sample_width = handle.getsampwidth()
+        frame_rate = handle.getframerate()
+        n_audio_frames = handle.getnframes()
+        raw = handle.readframes(n_audio_frames)
+    if n_channels != N_CHANNELS:
+        raise AdapterRefusal(f"{path} has {n_channels} channels, STARSS23 FOA needs {N_CHANNELS}")
+    if sample_width != _REAL_SAMPLE_WIDTH_BYTES:
+        raise AdapterRefusal(f"{path} is not 16-bit PCM (sample width {sample_width} bytes)")
+    if frame_rate != _REAL_SAMPLE_RATE_HZ:
+        raise AdapterRefusal(f"{path} is {frame_rate} Hz, STARSS23 FOA needs {_REAL_SAMPLE_RATE_HZ} Hz")
+    interleaved = np.frombuffer(raw, dtype="<i2")
+    if interleaved.size % N_CHANNELS != 0:
+        raise AdapterRefusal(f"{path} sample count is not a whole number of {N_CHANNELS}-channel frames")
+    channel_major = interleaved.reshape(-1, N_CHANNELS).T
+    return channel_major.astype(np.float64) / _INT16_FULL_SCALE
+
+
+def _truncate_to_frames(audio: np.ndarray, max_frames: int | None) -> tuple[np.ndarray, int, bool]:
+    """Truncate a decoded clip to a whole number of 100 ms frames (and an optional frame cap)."""
+
+    n_samples = audio.shape[1]
+    n_frames = n_samples // SAMPLES_PER_FRAME
+    capped = False
+    if max_frames is not None and n_frames > max_frames:
+        n_frames = max_frames
+        capped = True
+    if n_frames <= 0:
+        raise AdapterRefusal("a real clip must carry at least one whole 100 ms frame")
+    kept_samples = n_frames * SAMPLES_PER_FRAME
+    return np.ascontiguousarray(audio[:, :kept_samples], dtype="<f4"), n_frames, capped
+
+
+class RealStarssAdapter:
+    """Serve the frozen ``Clip`` contract from a real, MIT-licensed STARSS23 FOA tree.
+
+    This is the real-data twin of ``SyntheticStarssAdapter``. It decodes the native 24 kHz, 4-channel,
+    16-bit FOA WAV media and parses the native STARSS23 metadata CSVs through the exact same parse and
+    onset-derivation path the synthetic adapter uses, so the harness and referee consume it unchanged.
+    ``source_kind`` is ``"real"`` and ``rights_clean`` defaults to True for the rights-clean MIT corpus.
+
+    Construction points at two directory roots (the FOA audio tree and the metadata tree). Every ``*.wav``
+    reachable under ``foa_root`` is matched to its ``<clip>.csv`` under ``metadata_root`` by clip stem, so
+    the STARSS23 subset layout ``foa_dev/dev-train-*/`` and ``metadata_dev/dev-train-*/`` slots in with no
+    reshaping. Each clip is truncated to a whole number of 100 ms label frames (and an optional
+    ``max_frames`` cap for the FLOP budget); metadata onsets past the kept length are dropped and the
+    truncation is recorded per clip so nothing is silently lost.
+    """
+
+    def __init__(
+        self,
+        foa_root: str | Path,
+        metadata_root: str | Path,
+        *,
+        rights_clean: bool = True,
+        max_frames: int | None = None,
+    ) -> None:
+        self._foa_root = Path(foa_root)
+        self._metadata_root = Path(metadata_root)
         self._rights_clean = bool(rights_clean)
+        if max_frames is not None and (isinstance(max_frames, bool) or not isinstance(max_frames, int)):
+            raise AdapterRefusal("max_frames must be an integer or None")
+        if max_frames is not None and max_frames <= 0:
+            raise AdapterRefusal("max_frames must be a positive integer when given")
+        if not self._foa_root.is_dir():
+            raise AdapterRefusal(f"FOA audio root {self._foa_root} is not a directory")
+        if not self._metadata_root.is_dir():
+            raise AdapterRefusal(f"metadata root {self._metadata_root} is not a directory")
+
+        meta_by_stem: dict[str, Path] = {}
+        for meta_path in sorted(self._metadata_root.rglob("*.csv")):
+            meta_by_stem.setdefault(meta_path.stem, meta_path)
+
+        wav_paths = sorted(self._foa_root.rglob("*.wav"))
+        if not wav_paths:
+            raise AdapterRefusal(f"no FOA WAV clips found under {self._foa_root}")
+
+        self._audio: dict[str, np.ndarray] = {}
+        self._truncations: list[ClipTruncation] = []
+        clips: list[Clip] = []
+        for wav_path in wav_paths:
+            clip_id = wav_path.stem
+            name = parse_clip_name(clip_id)  # refuses any non STARSS23 filename before any decode
+            meta_path = meta_by_stem.get(clip_id)
+            if meta_path is None:
+                raise AdapterRefusal(
+                    f"FOA clip {clip_id} has no matching metadata under {self._metadata_root}"
+                )
+            decoded = decode_foa_wav(wav_path)
+            raw_samples = decoded.shape[1]
+            audio, n_frames, capped = _truncate_to_frames(decoded, max_frames)
+            self._audio[clip_id] = audio
+
+            metadata_text = meta_path.read_text(encoding="utf-8")
+            all_onsets = onset_events_from_rows(parse_starss23_metadata(metadata_text))
+            kept_onsets = tuple(onset for onset in all_onsets if onset.frame < n_frames)
+            self._truncations.append(
+                ClipTruncation(
+                    clip_id=clip_id,
+                    raw_samples=raw_samples,
+                    kept_frames=n_frames,
+                    dropped_tail_samples=raw_samples - n_frames * SAMPLES_PER_FRAME,
+                    dropped_onsets_past_end=len(all_onsets) - len(kept_onsets),
+                    capped_by_max_frames=capped,
+                )
+            )
+            clips.append(
+                Clip(
+                    clip_id=clip_id,
+                    room_id=name.room_id,
+                    n_frames=n_frames,
+                    audio_sha256=audio_sha256(audio),
+                    onsets=kept_onsets,
+                )
+            )
+        self._clips: tuple[Clip, ...] = tuple(clips)
+        self._by_id: dict[str, Clip] = {clip.clip_id: clip for clip in self._clips}
 
     def source_kind(self) -> str:
         return SOURCE_KIND_REAL
@@ -532,19 +679,52 @@ class RealStarssAdapter:
     def rights_clean(self) -> bool:
         return self._rights_clean
 
-    def _blocked(self) -> RealDataBlocked:
-        return RealDataBlocked(
-            "real STARSS23 loading is blocked in this workflow: no data download is permitted here. "
-            "The metadata, filename, and onset paths are shared with the synthetic adapter and are "
-            "exercised there; only the WAV decode from "
-            f"{self._root} remains deferred for the real lane."
-        )
-
     def clips(self) -> tuple[Clip, ...]:
-        raise self._blocked()
+        return self._clips
+
+    def clip(self, clip_id: str) -> Clip:
+        if clip_id not in self._by_id:
+            raise AdapterRefusal(f"unknown clip id {clip_id!r}")
+        return self._by_id[clip_id]
+
+    def onsets(self, clip_id: str) -> tuple[OnsetEvent, ...]:
+        return self.clip(clip_id).onsets
 
     def audio(self, clip_id: str) -> np.ndarray:
-        raise self._blocked()
+        if clip_id not in self._audio:
+            raise AdapterRefusal(f"unknown clip id {clip_id!r}")
+        return self._audio[clip_id]
+
+    def truncations(self) -> tuple[ClipTruncation, ...]:
+        """Per-clip whole-frame truncation provenance, so no clip is silently shortened or dropped."""
+
+        return tuple(self._truncations)
 
     def dev_split(self) -> NativeDevSplit:
-        raise self._blocked()
+        dev_train: list[str] = []
+        dev_test: list[str] = []
+        train_rooms: set[str] = set()
+        test_rooms: set[str] = set()
+        for clip in self._clips:
+            name = parse_clip_name(clip.clip_id)
+            if name.fold == FOLD_DEV_TRAIN:
+                dev_train.append(clip.clip_id)
+                train_rooms.add(clip.room_id)
+            elif name.fold == FOLD_DEV_TEST:
+                dev_test.append(clip.clip_id)
+                test_rooms.add(clip.room_id)
+            else:
+                raise AdapterRefusal(
+                    f"clip {clip.clip_id} is not in a STARSS23 dev fold ({FOLD_DEV_TRAIN} or "
+                    f"{FOLD_DEV_TEST})"
+                )
+        shared_rooms = train_rooms & test_rooms
+        if shared_rooms:
+            raise AdapterRefusal(f"dev split is not room-disjoint, shared rooms: {sorted(shared_rooms)}")
+        return NativeDevSplit(dev_train=tuple(sorted(dev_train)), dev_test=tuple(sorted(dev_test)))
+
+    def transport_charge(self) -> WorkVector:
+        """Raw transport work for recomputing every clip's ``audio_sha256``, off the arm budget."""
+
+        total_bytes = sum(array.nbytes for array in self._audio.values())
+        return WorkVector(raw_transport_and_adapters=int(total_bytes))
