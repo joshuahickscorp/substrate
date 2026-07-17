@@ -11,7 +11,7 @@ Fourteen fresh mechanics cycles (19-32) then run through seven legible
 categories.  Old lanes flow through the sealed consolidated fresh-cycle
 mechanics semantics; the three new lanes flow through an equivalent local
 fresh-item mapping over the new-mechanisms queue with the same cycle-offset
-seed math.  Each category capsule uses a dynamic process pool capped at eight
+seed math.  Each category capsule uses a dynamic process pool capped at sixteen
 workers described by eight balanced planning shards, then seals one serial
 classifier.  G1-I1 is evaluated once after W21 with its dependency set
 substituted (G1-P1 replaced by G1-P1R), and a separate integration classifier
@@ -101,7 +101,7 @@ EPOCH_IDS = (
 )
 EPOCH_CYCLES = (19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)
 INTERNAL_SHARD_COUNT = 8
-IDLE_WORKERS = 8
+IDLE_WORKERS = 16
 CAPSULE_COUNT = 123
 RETRY_LIMIT = 3
 I1_LANE_ID = "G1-I1"
@@ -626,7 +626,8 @@ def planned_serial_hours() -> float:
     return planned_program_compute_seconds() / 3_600
 
 
-def planned_ideal_eight_worker_hours() -> float:
+def planned_ideal_worker_hours() -> float:
+    """Ideal wall-hours at the sealed idle-host pool width (planned serial seconds / IDLE_WORKERS)."""
     return planned_program_compute_seconds() / IDLE_WORKERS / 3_600
 
 
@@ -2354,7 +2355,7 @@ def build_result(*, root: Path = DEFAULT_ROOT) -> dict[str, Any]:
         "execution": {
             "maximum_planned_serial_seconds": planned_program_compute_seconds(),
             "maximum_planned_serial_hours": planned_serial_hours(),
-            "maximum_ideal_eight_worker_hours": planned_ideal_eight_worker_hours(),
+            "maximum_ideal_worker_hours": planned_ideal_worker_hours(),
             "executed_item_count": executed,
             "skipped_item_count": skipped,
             "observed_seconds": observed,
@@ -2520,7 +2521,7 @@ def validate_result(
     if value.get("execution") != {
         "maximum_planned_serial_seconds": planned_program_compute_seconds(),
         "maximum_planned_serial_hours": planned_serial_hours(),
-        "maximum_ideal_eight_worker_hours": planned_ideal_eight_worker_hours(),
+        "maximum_ideal_worker_hours": planned_ideal_worker_hours(),
         "executed_item_count": executed,
         "skipped_item_count": skipped,
         "observed_seconds": observed,
@@ -2627,7 +2628,7 @@ def render_report(
             "Five admission gates carry the categorized batch-wave v1 authority, its retired frozen "
             "D1 and no-candidate redesign freeze, rescreen the D1-v2 catalog, admit three redesigned "
             "mechanism lanes (G1-U1, G1-N1, G1-P1R), and freeze routing. Fourteen fresh mechanics "
-            "waves then run seven categories through a dynamic process pool capped at eight workers "
+            "waves then run seven categories through a dynamic process pool capped at sixteen workers "
             "and described by eight balanced planning shards, then seal one serial classifier. I1 "
             "runs once after W21 with its dependency set substituted (G1-P1 replaced by G1-P1R)."
         ),
@@ -2643,7 +2644,7 @@ def render_report(
     lines += [
         "",
         f"Maximum envelope: {planned_serial_hours():.3f} serial hours; "
-        f"{planned_ideal_eight_worker_hours():.3f} ideal eight-worker hours.",
+        f"{planned_ideal_worker_hours():.3f} ideal worker hours.",
         f"Maximum raw receipts: {MAXIMUM_RAW_RECEIPT_COUNT}.",
         "",
         "Old D1 was not rerun and the pruned G1-P1 lane never reappears. G1-D1 mechanics is retained "
@@ -2821,7 +2822,7 @@ __all__ = [
     "integration_work_items",
     "materialize_gate",
     "planned_epoch_compute_seconds",
-    "planned_ideal_eight_worker_hours",
+    "planned_ideal_worker_hours",
     "planned_program_compute_seconds",
     "planned_serial_hours",
     "render_report",
