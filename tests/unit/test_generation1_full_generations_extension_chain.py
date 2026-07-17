@@ -236,6 +236,10 @@ def _fixture(
     return owner, predecessor, target
 
 
+def test_parent_label_uses_uniform_scheme() -> None:
+    assert chain.PARENT_LABEL == "mop:fullgen:extension"
+
+
 def test_incomplete_predecessor_never_reaches_host_or_target(tmp_path: Path) -> None:
     admissions: list[str] = []
     starts: list[str] = []
