@@ -8,7 +8,7 @@
 > design, or widen any predecessor evidence claim.
 
 - **Status:** scaffolded behind a clean terminal categorized-batch-wave v1 result
-- **Snapshot date:** 2026-07-16
+- **Snapshot date:** 2026-07-17
 - **Waiting and adopting parent:** `generation1-full-generations-extension-chain-v1`
 - **Bounded child program:** `generation1-full-generations-wave-v1`
 - **Idempotent whole-chain command:**
@@ -98,6 +98,28 @@ the old bed never exposed, which is exactly why the old lane pruned. It enters u
 and must pass its own W08 canary partition. The old `stability_plasticity` files are untouched; the
 redesign lives in the separate `stability_plasticity_r2` mechanism modules.
 
+### 3.2 Vectorized construction execution
+
+The `G1-G1` construction lane is by a wide margin the most expensive lane in the wave: its charged
+`construction_search` bed accounts for roughly three quarters of the whole serial compute envelope.
+This wave executes that one lane through a proven numpy-vectorized runner
+(`src/mop/mechanisms/construction_search_vec_runner.py`, over
+`src/mop/mechanisms/construction_search_vec_impl.py`) instead of the scalar bed. The vectorized runner
+is an independent reimplementation that mints a receipt byte-identical to the sealed scalar runner for
+every seed. The equivalence is proven at the receipt level over more than sixteen hundred real G1-G1
+seeds (the canary, producer, and challenge bands carried through every fresh cycle) and again at the
+rung level, where the wave's vectorized rung folds to the same `result_sha256` the scalar rung folds
+to. Only the construction lane is routed this way; every other lane keeps its existing path unchanged.
+The receipt, its folded digest, the verdict tally, and the seal are all identical, so no evidence
+class, seed, threshold, or control moves.
+
+Because the receipts are identical, the speedup is purely a pacing and ETA effect and never a receipt
+value: the mechanics rung JSON carries no timing at all. On the review host the vectorized runner is
+measured at 6.82x the scalar runner across the real 256-seed canary band; the wave applies a
+conservative 6.7x planning factor to the construction pacing seconds only. Both vectorized modules are
+pinned as runtime authorities in the sealed manifest, so the program authority chain freezes the exact
+construction code that mints the receipts.
+
 ## 4. The five serial admission gates
 
 The wave opens with five gates in fixed order before any epoch compute.
@@ -148,7 +170,7 @@ integration classification, one aggregate, one independently authored verifier, 
 and one advisory release-audit capsule.
 
 The sealed manifest is `configs/campaign/generation1_full_generations_wave_v1.json` with
-`program_sha256 = 1c82f2614a168e50ff371c59b3be422ab4aeee08b48df23f0f452eb69fb8dbe7`. It binds the
+`program_sha256 = 5efc3bd48d6b490b79cbb04ab9e1e50c3f63550db16976796618abc7ab8537a3`. It binds the
 throttle policy `configs/local_execution_throttle_v6_full_generations.yaml`, and every category and
 integration compute capsule declares a sixteen-core idle-host pool while the serial gate, classifier,
 aggregate, verifier, report, and release-audit capsules stay single-core.
@@ -159,7 +181,14 @@ integration items.
 
 | Route | Maximum serial compute | Ideal wall time at sixteen workers |
 | --- | ---: | ---: |
-| Executable full-generations mechanics | approximately 401.5 hours | approximately 25.1 hours |
+| Executable full-generations mechanics | approximately 136.2 hours | approximately 8.5 hours |
+
+The construction lane's vectorized execution (section 3.2) drives this envelope down from the earlier
+scalar ceiling of approximately 401.5 serial hours (25.1 ideal-worker hours). Construction was about
+77.7 percent of that scalar envelope; at the conservative 6.7x construction planning factor its share
+falls from roughly 311.9 to 46.6 serial hours, so the whole-program envelope drops to approximately
+136.2 serial hours (8.5 ideal-worker hours), an overall 2.95x pacing reduction. The item counts, seeds,
+receipts, and every seal are unchanged; only the planned pacing and ETA figures move.
 
 These are ceilings, not forced runtime promises. Classifiers may honestly prune a failed mechanism,
 a failed new-lane canary, or a no-candidate D1 route. Work is never revived merely to consume an hour
