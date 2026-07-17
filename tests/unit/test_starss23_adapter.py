@@ -10,6 +10,8 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
+import wave
+
 import numpy as np
 import pytest
 
@@ -278,23 +280,90 @@ def test_native_dev_split_refuses_overlapping_clips() -> None:
 
 
 # ---------------------------------------------------------------------------
-# The blocked real adapter.
+# The real adapter: decodes a real STARSS23-shaped FOA WAV tree through the shared parse path.
 # ---------------------------------------------------------------------------
 
 
-def test_real_adapter_is_a_blocked_stub_but_declares_its_provenance() -> None:
-    real = A.RealStarssAdapter("/does/not/exist", rights_clean=True)
+def _write_real_tree(root, clips: dict[str, tuple[int, tuple[OnsetEvent, ...]]]):
+    """Write a STARSS23-shaped tree: foa/<fold-dir>/<clip>.wav and meta/<fold-dir>/<clip>.csv."""
+
+    foa_root = root / "foa_dev"
+    meta_root = root / "metadata_dev"
+    for clip_id, (n_frames, onsets) in clips.items():
+        fold_dir = "dev-train-sony" if clip_id.startswith("fold3") else "dev-test-sony"
+        (foa_root / fold_dir).mkdir(parents=True, exist_ok=True)
+        (meta_root / fold_dir).mkdir(parents=True, exist_ok=True)
+        n_samples = n_frames * SAMPLES_PER_FRAME
+        # A quiet, valid 24 kHz 4-channel 16-bit PCM clip. Content is irrelevant to the parse path.
+        pcm = np.zeros((n_samples, 4), dtype="<i2")
+        with wave.open(str(foa_root / fold_dir / f"{clip_id}.wav"), "wb") as handle:
+            handle.setnchannels(4)
+            handle.setsampwidth(2)
+            handle.setframerate(24_000)
+            handle.writeframes(pcm.tobytes())
+        (meta_root / fold_dir / f"{clip_id}.csv").write_text(
+            A.metadata_text_from_onsets(onsets, active_frames=2), encoding="utf-8"
+        )
+    return foa_root, meta_root
+
+
+def test_real_adapter_decodes_a_real_foa_tree_through_the_shared_parse_path(tmp_path) -> None:
+    onsets = (
+        OnsetEvent(frame=3, class_id=0, azimuth=10.0, elevation=-5.0, distance=200.0),
+        OnsetEvent(frame=9, class_id=2, azimuth=-40.0, elevation=12.0, distance=150.0),
+    )
+    foa_root, meta_root = _write_real_tree(tmp_path, {"fold3_room4_mix001": (20, onsets)})
+    real = A.RealStarssAdapter(foa_root, meta_root, rights_clean=True)
+    assert isinstance(real, A.StarssAdapter)
     assert real.source_kind() == A.SOURCE_KIND_REAL
     assert real.rights_clean() is True
-    for call in (real.clips, real.dev_split):
-        with pytest.raises(A.RealDataBlocked):
-            call()
-    with pytest.raises(A.RealDataBlocked):
-        real.audio("fold3_room0_mix000")
+    clip = real.clip("fold3_room4_mix001")
+    assert clip.room_id == "room04"
+    assert clip.n_frames == 20
+    assert clip.onsets == onsets
+    assert real.audio("fold3_room4_mix001").shape == (4, 20 * SAMPLES_PER_FRAME)
 
 
-def test_real_adapter_defaults_to_rights_not_clean() -> None:
-    assert A.RealStarssAdapter("/does/not/exist").rights_clean() is False
+def test_real_adapter_dev_split_is_room_disjoint_across_folds(tmp_path) -> None:
+    one = (OnsetEvent(frame=2, class_id=0, azimuth=0.0, elevation=0.0, distance=100.0),)
+    foa_root, meta_root = _write_real_tree(
+        tmp_path,
+        {
+            "fold3_room4_mix001": (12, one),
+            "fold3_room6_mix002": (12, one),
+            "fold4_room8_mix003": (12, one),
+        },
+    )
+    dev = A.RealStarssAdapter(foa_root, meta_root).dev_split()
+    assert dev.sizes == {"dev_train": 2, "dev_test": 1}
+    train_rooms = {A.parse_clip_name(c).room_id for c in dev.dev_train}
+    test_rooms = {A.parse_clip_name(c).room_id for c in dev.dev_test}
+    assert train_rooms.isdisjoint(test_rooms)
+
+
+def test_real_adapter_defaults_to_rights_clean_for_the_mit_corpus(tmp_path) -> None:
+    one = (OnsetEvent(frame=2, class_id=0, azimuth=0.0, elevation=0.0, distance=100.0),)
+    foa_root, meta_root = _write_real_tree(tmp_path, {"fold3_room4_mix001": (12, one)})
+    assert A.RealStarssAdapter(foa_root, meta_root).rights_clean() is True
+
+
+def test_real_adapter_refuses_a_missing_tree() -> None:
+    with pytest.raises(A.AdapterRefusal):
+        A.RealStarssAdapter("/does/not/exist", "/also/missing")
+
+
+def test_real_adapter_truncates_onsets_past_the_kept_length(tmp_path) -> None:
+    # An onset at frame 18 in metadata but only 10 whole frames of audio is dropped, not a crash.
+    onsets = (
+        OnsetEvent(frame=3, class_id=0, azimuth=0.0, elevation=0.0, distance=100.0),
+        OnsetEvent(frame=18, class_id=1, azimuth=0.0, elevation=0.0, distance=100.0),
+    )
+    foa_root, meta_root = _write_real_tree(tmp_path, {"fold3_room4_mix001": (10, onsets)})
+    real = A.RealStarssAdapter(foa_root, meta_root)
+    clip = real.clip("fold3_room4_mix001")
+    assert clip.onset_frames == (3,)
+    trunc = {t.clip_id: t for t in real.truncations()}["fold3_room4_mix001"]
+    assert trunc.dropped_onsets_past_end == 1
 
 
 # ---------------------------------------------------------------------------
