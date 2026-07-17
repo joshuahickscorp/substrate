@@ -220,23 +220,26 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
     )
 
 
-def test_successor_chain_family_renders_as_unified_general_chain() -> None:
+def test_successor_chain_family_renders_as_unified_general_run() -> None:
+    # the single-process orchestrator itself is the "General Run" umbrella
+    assert notifier._program_label("general-run") == "General Run"
     # every successor-chain-family stage is presented under the unified name
-    assert notifier._program_label("generation1-successor-mechanics-extended-v1") == "General Chain: Mechanics"
-    assert notifier._program_label("generation1-successor-evidence-chain-v2") == "General Chain: Adopter"
-    assert notifier._program_label("generation1-successor-evidence-chain-v4") == "General Chain: Adopter"
-    # the newly added v5/v6 and ext-v2/ext-v3 ids join the same families
-    assert notifier._program_label("generation1-successor-evidence-chain-v5") == "General Chain: Adopter"
-    assert notifier._program_label("generation1-successor-evidence-chain-v6") == "General Chain: Adopter"
-    assert notifier._program_label("generation1-successor-horizon-v1") == "General Chain: Horizon 1"
-    assert notifier._program_label("generation1-successor-horizon-v2") == "General Chain: Horizon 2"
-    assert notifier._program_label("generation1-successor-extension-chain-v1") == "General Chain: Horizon Waiter"
-    assert notifier._program_label("generation1-successor-extension-chain-v3") == "General Chain: Horizon Waiter"
+    assert notifier._program_label("generation1-successor-mechanics-extended-v1") == "General Run: Mechanics"
+    assert notifier._program_label("generation1-successor-evidence-chain-v2") == "General Run: Adopter"
+    assert notifier._program_label("generation1-successor-evidence-chain-v4") == "General Run: Adopter"
+    # the newly added v5/v6/v7 and ext-v2/ext-v3 ids join the same families
+    assert notifier._program_label("generation1-successor-evidence-chain-v5") == "General Run: Adopter"
+    assert notifier._program_label("generation1-successor-evidence-chain-v6") == "General Run: Adopter"
+    assert notifier._program_label("generation1-successor-evidence-chain-v7") == "General Run: Adopter"
+    assert notifier._program_label("generation1-successor-horizon-v1") == "General Run: Horizon 1"
+    assert notifier._program_label("generation1-successor-horizon-v2") == "General Run: Horizon 2"
+    assert notifier._program_label("generation1-successor-extension-chain-v1") == "General Run: Horizon Waiter"
+    assert notifier._program_label("generation1-successor-extension-chain-v3") == "General Run: Horizon Waiter"
     assert (
         notifier._program_label("generation1-successor-categorized-batch-wave-v1")
-        == "General Chain: Categorized Wave"
+        == "General Run: Categorized Wave"
     )
-    assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Chain: Final"
+    assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Run: Final"
     # the C0/C1/C2/C3/D1 one-off experiments keep their own labels, unchanged
     assert notifier._program_label("generation1-c3-d1-router-redesign-screen-v1") == "C3 Router Redesign"
     assert notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
@@ -390,11 +393,11 @@ def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
 
 def test_full_generations_programs_render_under_general_chain() -> None:
     assert (
-        notifier._program_label("generation1-full-generations-wave-v1") == "General Chain: Full Generations"
+        notifier._program_label("generation1-full-generations-wave-v1") == "General Run: Full Generations"
     )
     assert (
         notifier._program_label("generation1-full-generations-extension-chain-v1")
-        == "General Chain: Full Gen Waiter"
+        == "General Run: Full Gen Waiter"
     )
 
 
@@ -450,7 +453,7 @@ def test_terminal_chain_stage_annotation_and_worker_line(monkeypatch) -> None:
         }
     )
     assert known == (
-        "✅ MOP General Chain: Mechanics: complete\n"
+        "✅ MOP General Run: Mechanics: complete\n"
         "Progress: 12/12\n"
         "Chain stage complete\n"
         "Workers: 16 (idle burst)\n"
@@ -590,7 +593,7 @@ def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(tmp_path:
     assert events[0]["kind"] == "subtask"
     assert events[0]["lane_short"] == "E1"
     assert events[0]["event_id"] == "subtask/lane/generation1-successor-mechanics-extended-v1/G1-E1"
-    assert notifier.format_event(events[0]) == "General Chain: E1 sub-task complete (129/129)"
+    assert notifier.format_event(events[0]) == "General Run: E1 sub-task complete (129/129)"
 
     # a steady complete poll does not re-announce the same lane
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
@@ -668,7 +671,7 @@ def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path:
     assert events[0]["wave_epoch"] == "08"
     assert events[0]["category"] == "construction"
     assert events[0]["event_id"] == "subtask/capsule/generation1-full-generations-wave-v1/w08_construction"
-    assert notifier.format_event(events[0]) == "General Chain: W08 construction sub-task complete (G1)"
+    assert notifier.format_event(events[0]) == "General Run: W08 construction sub-task complete (G1)"
 
     # steady completed poll does not re-fire
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
@@ -697,7 +700,7 @@ def test_wave_capsule_formation_trace_names_all_covered_mechanisms(tmp_path: Pat
     assert len(events) == 1
     assert (
         notifier.format_event(events[0])
-        == "General Chain: W15 formation_trace sub-task complete (C0, E1)"
+        == "General Run: W15 formation_trace sub-task complete (C0, E1)"
     )
 
 
@@ -749,7 +752,7 @@ def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
     assert result["sent"] == 1
-    assert sent == ["General Chain: E1 sub-task complete (129/129)"]
+    assert sent == ["General Run: E1 sub-task complete (129/129)"]
 
     # the same complete lane on the next poll must not re-announce the sub-task
     result = notifier.run_once(
@@ -758,7 +761,7 @@ def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
     assert result["sent"] == 0
-    assert sent == ["General Chain: E1 sub-task complete (129/129)"]
+    assert sent == ["General Run: E1 sub-task complete (129/129)"]
     assert notifier.load_state(state_path)["last_seen_complete_lanes"] == {
         "generation1-successor-mechanics-extended-v1/G1-E1": "complete"
     }
