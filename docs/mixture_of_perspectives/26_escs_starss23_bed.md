@@ -91,3 +91,66 @@ than clustering on energy) is the natural next step, and each attempt is a fresh
 Stage-3 confirmation still requires a candidate that exceeds the SESOI, clears the one-sided sign-flip,
 and is triangulated by at least three bias-independent reproductions on real rights-clean,
 session-disjoint data. Until then the substrate stays at Stage 2, honestly.
+
+## 5. E1 gate-variant iteration wave: four spread-fire designs, four nulls
+
+The diagnosis in section 3 was specific: the base gate wastes budget by clustering roughly 42% of its
+fires adjacently, so it recovers fewer distinct onsets than uniform random placement. The E1 wave built
+four net-new gate variants (additive modules under `src/mop/beds/starss23/`, no sealed scoring logic
+touched, gate parameters within the 4,096 ceiling, matched lifecycle FLOPs under the 6e10 ceiling),
+each aimed squarely at that clustering, and scored every one against the same sealed referee and the
+same rate-matched-random control over five paired seeds. The SESOI (0.05 onset F1) was preregistered in
+code before any variant read a test score, and the four-variant family carries a Bonferroni multiplicity
+wall that is unreachable at n = 5 by construction, so no single wave can promote.
+
+**All four variants nulled. None beat rate-matched-random; none exceeded the SESOI; none cleared the
+one-sided sign-flip. A tie is a null, so the wave is a null.**
+
+| Variant | Mechanism (spread strategy) | mean onset-F1 delta (cand - random) | one-sided sign-flip p | SESOI 0.05 exceeded | adjacency fraction (cand) | distinct-onset TP cand vs matched random | verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `refractory_nms` | post-decision collar-width non-maximum suppression on `p_fire`; one fire per supra-threshold cluster | **+0.00264** | 0.344 | No | **0.00** (from 0.51 base) | 210.4 vs 206.4 | null |
+| `recurrence_spread` | recurrent density plus refractory penalty subtracted from the signal logit (2 extra params) | **-0.00369** | 0.750 | No | 0.097 (from ~0.42 base) | 192.8 vs 199.0 | null |
+| `learning_progress` | RND reducible-surprise firing (fire on surprise being reduced, not on energy); 512 params | **-0.00343** | 0.875 | No | 0.152 (from 0.363 base, same definition) | pooled 872 vs 892 | null |
+| `diversity_reg` | scale-invariant determinantal spacing regularizer added to the training loss | **-0.01189** | 0.781 | No | **0.400** (matched random 0.347) | 235.4 vs 266.6 | null |
+
+No adversarial verification pass was run this wave, because a verification pass only gates a claimed
+positive and there was no positive to gate: no variant produced a SESOI-exceeding, sign-flip-clearing
+win. `independent_scientific_confirmation` therefore stays `false`, unchanged.
+
+### The mechanistic wall this wave establishes
+
+De-clustering the fires is necessary but not sufficient, and the four variants map out why cleanly:
+
+- **`refractory_nms` proves the adjacency diagnosis was correct and still insufficient.** It drove the
+  adjacency fraction to exactly 0 (no two fires inside one collar) and, for the first time, pushed the
+  candidate's distinct-onset true positives slightly ABOVE matched random (210.4 vs 206.4). But the
+  resulting onset-F1 gain (mean +0.00264) is an order of magnitude below the 0.05 SESOI, is not
+  sign-flip significant (p = 0.344), and does not hold at the tightest firing budget (per-budget delta
+  goes negative at rate 0.06). Perfectly spacing the fires recovers only the handful of distinct onsets
+  the clustered budget was double-covering, and those onsets are no more onset-predictive than the ones
+  random placement already finds.
+- **`recurrence_spread` and `learning_progress` over-suppress.** Both cut adjacency sharply (to 0.097
+  and 0.152) but at the cost of withholding fires on real onsets: their distinct-onset TP fell to or
+  below matched random (192.8 vs 199.0; pooled 872 vs 892). `learning_progress` is instructive: firing
+  on reducible surprise shrank the matched-control TP deficit from ~210 to ~20 pooled, the largest
+  structural improvement in the wave, yet it fires far fewer times in absolute terms (~1,748 vs the base
+  gate's ~2,957 at the intended 8% budget) so its absolute recall is lower and it still loses. Reducing
+  the deficit is not the same as reversing it.
+- **`diversity_reg` fails at the mechanism level.** Its spacing penalty lives in the training loss, but
+  the ranking that the harness thresholds did not actually de-cluster at inference: the candidate's
+  adjacency fraction stayed at 0.400, HIGHER than matched random's 0.347, and its distinct-onset TP
+  (235.4) fell below matched random (266.6). It also showed the highest seed variance (seed 0 spiked to
+  0.207 then collapsed to ~0.085), and its hyperparameter-search cost has unsealed provenance
+  (~7.7e10 FLOPs, above the 6e10 per-arm ceiling), so even a spike could not be promoted. A
+  training-time spacing prior did not survive into an inference-time firing pattern here.
+
+The wave's honest lesson: the base gate's value-of-computation signal carries no onset-localizing
+information beyond energy that survives de-clustering. Once you stop double-covering loud regions, the
+redistributed budget lands on frames no more onset-bearing than uniform random placement chooses, so
+distinct-onset recall barely moves and onset F1 does not clear the SESOI. Spreading the fires is a real
+and now-measured constraint, not the missing capability. As X0 and section 3 both indicated, the gap is
+relational and temporal event interpretation (knowing WHICH frame is an onset), not firing sparsity or
+firing spacing. That is a proven wall with a mechanistic reason, which is a legitimate wave outcome.
+
+The substrate stays at Stage 2. The bed and its sealed referee did their job again: they distinguished
+four honest attempts from free random placement and refused to manufacture a positive from any of them.
