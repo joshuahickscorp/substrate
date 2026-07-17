@@ -109,7 +109,13 @@ def test_taxonomy_cycles_and_real_mechanics_envelope_are_exact() -> None:
     assert wave.planned_ideal_worker_hours() == pytest.approx(
         wave.planned_serial_hours() / wave.IDLE_WORKERS
     )
-    assert 380.0 < wave.planned_serial_hours() < 440.0
+    # The construction lane runs on the proven vectorized runner, applying a conservative 6.7x planning
+    # factor to construction pacing seconds only (a pacing/ETA figure, never a receipt value). Because
+    # construction is roughly three quarters of the scalar envelope, that drops the whole-program
+    # ceiling from the earlier ~401.5 scalar serial hours to ~136 hours.
+    assert wave.CONSTRUCTION_VEC_SPEEDUP == 6.7
+    assert 130.0 < wave.planned_serial_hours() < 145.0
+    assert 8.0 < wave.planned_ideal_worker_hours() < 9.5
 
 
 def test_dual_work_item_tables_use_fresh_cycles_and_disjoint_seed_space() -> None:
