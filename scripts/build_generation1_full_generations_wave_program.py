@@ -38,7 +38,7 @@ from mop.studio.local_throttle import (
 PROGRAM_ID = wave.PROGRAM_ID
 PROGRAM_ROOT = f"runs/generation1/{PROGRAM_ID}"
 DEFAULT_OUTPUT = wave.PROGRAM_MANIFEST
-POLICY_PATH = "configs/local_execution_throttle_v5_opportunistic.yaml"
+POLICY_PATH = "configs/local_execution_throttle_v6_full_generations.yaml"
 CLI_PATH = "scripts/generation1_full_generations_wave/mop_generation1_full_generations_wave.py"
 BUILDER_PATH = "scripts/build_generation1_full_generations_wave_program.py"
 RUNTIME_PATH = "src/mop/studies/generation1_full_generations_wave.py"
@@ -296,7 +296,7 @@ def _category_capsule(
         resource_basis=(
             f"fresh-cycle deterministic mechanics execution for "
             f"{wave.CATEGORY_NAMES[category_id]} in {epoch_id}; a dynamic process pool capped "
-            "at eight workers executes retained lanes only, while eight balanced planning "
+            "at sixteen workers executes retained lanes only, while eight balanced planning "
             f"shards describe {planned / 3_600:.2f} maximum serial hours and restart-safe "
             "raw receipts"
         ),
@@ -373,7 +373,7 @@ def _integration_capsules(last_wave: str) -> list[dict[str, Any]]:
         wall_minutes=180,
         resource_basis=(
             "conditional post-W21 G1-I1 evaluation with its dependency set substituted (G1-P1 replaced "
-            "by G1-P1R); executes fresh mechanics through a dynamic process pool capped at eight workers "
+            "by G1-P1R); executes fresh mechanics through a dynamic process pool capped at sixteen workers "
             "only when initial v1 admission and every substituted dependency lane remain clean through "
             "W21, otherwise seals a pruned receipt"
         ),
@@ -661,7 +661,7 @@ def main() -> int:
                 "capsule_count": len(program["capsules"]),
                 "authority_count": len(program["authorities"]),
                 "maximum_planned_serial_hours": wave.planned_serial_hours(),
-                "maximum_ideal_eight_worker_hours": (wave.planned_ideal_eight_worker_hours()),
+                "maximum_ideal_worker_hours": (wave.planned_ideal_worker_hours()),
                 "maximum_raw_receipt_count": wave.MAXIMUM_RAW_RECEIPT_COUNT,
             },
             indent=2,
