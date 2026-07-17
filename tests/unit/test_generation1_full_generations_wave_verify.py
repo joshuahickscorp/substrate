@@ -79,7 +79,7 @@ def test_full_all_pruned_graph_aggregates_and_independently_verifies(
     assert verification["checks"]["result_seal_valid"] is True
     assert verification["checks"]["fresh_mechanics_receipts_valid"] is True
     assert verification["checks"]["null_safe_pruning_valid"] is True
-    assert verification["checks"]["dynamic_eight_worker_pool_valid"] is True
+    assert verification["checks"]["dynamic_worker_pool_valid"] is True
     assert verification["checks"]["balanced_planning_shards_valid"] is True
     assert verification["checks"]["new_mechanism_lanes_admitted"] is True
     assert verification["checks"]["substituted_i1_dependency_valid"] is True
