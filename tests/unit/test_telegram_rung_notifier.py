@@ -220,20 +220,26 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
     )
 
 
-def test_planned_successor_programs_have_compact_labels() -> None:
-    assert notifier._program_label("generation1-successor-evidence-chain-v2") == "Successor Evidence Chain"
-    assert notifier._program_label("generation1-successor-evidence-chain-v3") == "Successor Evidence Chain"
-    assert notifier._program_label("generation1-successor-evidence-chain-v4") == "Successor Evidence Chain"
-    assert notifier._program_label("generation1-successor-horizon-v1") == "Successor Horizon"
-    assert notifier._program_label("generation1-successor-extension-chain-v1") == "Successor Extension"
-    assert notifier._program_label("generation1-successor-horizon-v2") == "Successor Horizon V2"
+def test_successor_chain_family_renders_as_unified_general_chain() -> None:
+    # every successor-chain-family stage is presented under the unified name
+    assert notifier._program_label("generation1-successor-mechanics-extended-v1") == "General Chain: Mechanics"
+    assert notifier._program_label("generation1-successor-evidence-chain-v2") == "General Chain: Adopter"
+    assert notifier._program_label("generation1-successor-evidence-chain-v4") == "General Chain: Adopter"
+    # the newly added v5/v6 and ext-v2/ext-v3 ids join the same families
+    assert notifier._program_label("generation1-successor-evidence-chain-v5") == "General Chain: Adopter"
+    assert notifier._program_label("generation1-successor-evidence-chain-v6") == "General Chain: Adopter"
+    assert notifier._program_label("generation1-successor-horizon-v1") == "General Chain: Horizon 1"
+    assert notifier._program_label("generation1-successor-horizon-v2") == "General Chain: Horizon 2"
+    assert notifier._program_label("generation1-successor-extension-chain-v1") == "General Chain: Horizon Waiter"
+    assert notifier._program_label("generation1-successor-extension-chain-v3") == "General Chain: Horizon Waiter"
     assert (
-        notifier._program_label("generation1-categorized-batch-extension-chain-v1")
-        == "Categorized Batch Extension"
+        notifier._program_label("generation1-successor-categorized-batch-wave-v1")
+        == "General Chain: Categorized Wave"
     )
-    assert (
-        notifier._program_label("generation1-successor-categorized-batch-wave-v1") == "Categorized Batch Wave"
-    )
+    assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Chain: Final"
+    # the C0/C1/C2/C3/D1 one-off experiments keep their own labels, unchanged
+    assert notifier._program_label("generation1-c3-d1-router-redesign-screen-v1") == "C3 Router Redesign"
+    assert notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
 
 
 def test_event_eta_prefers_next_rung_cost() -> None:
@@ -382,11 +388,13 @@ def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
         raise AssertionError("mutated notifier state was accepted")
 
 
-def test_full_generations_programs_have_compact_labels() -> None:
-    assert notifier._program_label("generation1-full-generations-wave-v1") == "Full Generations Wave"
+def test_full_generations_programs_render_under_general_chain() -> None:
+    assert (
+        notifier._program_label("generation1-full-generations-wave-v1") == "General Chain: Full Generations"
+    )
     assert (
         notifier._program_label("generation1-full-generations-extension-chain-v1")
-        == "Full Generations Extension"
+        == "General Chain: Full Gen Waiter"
     )
 
 
@@ -442,7 +450,7 @@ def test_terminal_chain_stage_annotation_and_worker_line(monkeypatch) -> None:
         }
     )
     assert known == (
-        "✅ MOP Successor Mechanics: complete\n"
+        "✅ MOP General Chain: Mechanics: complete\n"
         "Progress: 12/12\n"
         "Chain stage complete\n"
         "Workers: 16 (idle burst)\n"
@@ -553,3 +561,204 @@ def test_throttle_shift_delivers_once_through_run_once(monkeypatch, tmp_path: Pa
     assert result["sent"] == 0
     assert sent == ["⚙️ MOP Flip: Hawking cleared, ramping to 16 workers"]
     assert notifier.load_state(state_path)["last_seen_mode"] == {"generation1-flip": "idle"}
+
+
+def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+
+    def write_lane(complete: int, total: int) -> None:
+        _write(
+            runs / "mechanics" / "current_status.json",
+            {
+                "program_id": "successor-mechanics-extended-v1",
+                "state": "running",
+                "problems": [],
+                "capsules": {},
+                "lane_progress": {"G1-E1": {"complete": complete, "total": total}},
+            },
+        )
+
+    # first observation of an in-progress lane only records state; it never fires
+    write_lane(128, 129)
+    events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    assert events == []
+
+    # the completing transition fires exactly one named sub-task blip
+    write_lane(129, 129)
+    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    assert len(events) == 1
+    assert events[0]["kind"] == "subtask"
+    assert events[0]["lane_short"] == "E1"
+    assert events[0]["event_id"] == "subtask/lane/generation1-successor-mechanics-extended-v1/G1-E1"
+    assert notifier.format_event(events[0]) == "General Chain: E1 sub-task complete (129/129)"
+
+    # a steady complete poll does not re-announce the same lane
+    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    assert events == []
+
+
+def test_partial_lane_progress_fires_nothing(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "mechanics" / "current_status.json",
+        {
+            "program_id": "successor-mechanics-extended-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {},
+            "lane_progress": {"G1-D1": {"complete": 5, "total": 10}},
+        },
+    )
+    events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    assert events == []
+    # still incomplete on a later poll: still nothing
+    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    assert events == []
+
+
+def test_lane_already_complete_on_first_sight_is_treated_as_history(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "mechanics" / "current_status.json",
+        {
+            "program_id": "successor-mechanics-extended-v1",
+            "state": "complete",
+            "problems": [],
+            "capsules": {},
+            "lane_progress": {"G1-A1": {"complete": 129, "total": 129}},
+        },
+    )
+    events, lanes, _ = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    assert events == []
+    assert lanes["generation1-successor-mechanics-extended-v1/G1-A1"] == "complete"
+
+
+def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+
+    def write_capsule(done: bool) -> None:
+        row: dict = (
+            {
+                "returncode": 0,
+                "finished_at": "2026-07-16T00:00:00+00:00",
+                "artifacts": [{"path": "proof/x.json", "sha256": "b" * 64, "all_ok": True}],
+            }
+            if done
+            else {"returncode": None, "artifacts": []}
+        )
+        _write(
+            runs / "wave" / "current_status.json",
+            {
+                "program_id": "full-generations-wave-v1",
+                "state": "running",
+                "problems": [],
+                "capsules": {"w08_construction": row},
+            },
+        )
+
+    # in-progress capsule: first observation records, never fires
+    write_capsule(done=False)
+    events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    assert events == []
+
+    # completed capsule fires one blip naming its epoch, category and mechanisms
+    write_capsule(done=True)
+    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    assert len(events) == 1
+    assert events[0]["wave_epoch"] == "08"
+    assert events[0]["category"] == "construction"
+    assert events[0]["event_id"] == "subtask/capsule/generation1-full-generations-wave-v1/w08_construction"
+    assert notifier.format_event(events[0]) == "General Chain: W08 construction sub-task complete (G1)"
+
+    # steady completed poll does not re-fire
+    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    assert events == []
+
+
+def test_wave_capsule_formation_trace_names_all_covered_mechanisms(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "wave" / "current_status.json",
+        {
+            "program_id": "successor-categorized-batch-wave-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {
+                "w15_formation_trace": {
+                    "returncode": 0,
+                    "finished_at": "2026-07-16T00:00:00+00:00",
+                    "artifacts": [{"path": "proof/x.json", "sha256": "c" * 64, "all_ok": True}],
+                }
+            },
+        },
+    )
+    seed = {"generation1-successor-categorized-batch-wave-v1/w15_formation_trace": "incomplete"}
+    events, _, _ = notifier._collect_subtask_events({}, seed, runs_root=runs)
+    assert len(events) == 1
+    assert (
+        notifier.format_event(events[0])
+        == "General Chain: W15 formation_trace sub-task complete (C0, E1)"
+    )
+
+
+def test_wave_capsule_only_fires_for_general_chain_programs(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "other" / "current_status.json",
+        {
+            "program_id": "some-unlisted-experiment-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {
+                "w01_construction": {
+                    "returncode": 0,
+                    "finished_at": "2026-07-16T00:00:00+00:00",
+                    "artifacts": [{"path": "proof/x.json", "sha256": "d" * 64, "all_ok": True}],
+                }
+            },
+        },
+    )
+    seed = {"generation1-some-unlisted-experiment-v1/w01_construction": "incomplete"}
+    events, _, _ = notifier._collect_subtask_events({}, seed, runs_root=runs)
+    assert events == []
+
+
+def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "mechanics" / "current_status.json",
+        {
+            "program_id": "successor-mechanics-extended-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {},
+            "lane_progress": {"G1-E1": {"complete": 129, "total": 129}},
+        },
+    )
+    state_path = tmp_path / "state.json"
+    state = notifier._new_state()
+    state["primed"] = True
+    state["last_seen_complete_lanes"] = {"generation1-successor-mechanics-extended-v1/G1-E1": "incomplete"}
+    notifier.save_state(state, state_path)
+    monkeypatch.setattr(notifier, "collect_events", lambda: [])
+    sent: list[str] = []
+
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 1
+    assert sent == ["General Chain: E1 sub-task complete (129/129)"]
+
+    # the same complete lane on the next poll must not re-announce the sub-task
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 0
+    assert sent == ["General Chain: E1 sub-task complete (129/129)"]
+    assert notifier.load_state(state_path)["last_seen_complete_lanes"] == {
+        "generation1-successor-mechanics-extended-v1/G1-E1": "complete"
+    }

@@ -55,23 +55,46 @@ PROCESS_IDENTITY_TOLERANCE_SECONDS = 0.01
 TERMINAL_STATES = {"complete", "failure_hold", "integrity_hold", "failed", "drained", "stopped"}
 FAILURE_STATES = {"failure_hold", "integrity_hold", "failed", "stopped"}
 
+# The successor-chain family is presented to the operator under one unified
+# "General Chain" name, with the stage kept as a short suffix so the individual
+# rungs remain distinguishable. The C0/C1/C2/C3/D1 one-off experiments keep their
+# own labels. See _collect_subtask_events for the per-mechanism sub-task stream.
 PROGRAM_LABELS = {
     "generation1-c3-d1-router-redesign-screen-v1": "C3 Router Redesign",
     "generation1-c3-d1-expanded-canary-v1": "C3 Dispatch Canary",
     "generation1-c3-d1-frozen-producer-challenge-v1": "D1 Frozen Replication",
-    "generation1-successor-mechanics-extended-v1": "Successor Mechanics",
-    "generation1-successor-evidence-chain-v2": "Successor Evidence Chain",
-    "generation1-successor-evidence-chain-v3": "Successor Evidence Chain",
-    "generation1-successor-evidence-chain-v4": "Successor Evidence Chain",
-    "generation1-successor-horizon-v1": "Successor Horizon",
-    "generation1-successor-extension-chain-v1": "Successor Extension",
-    "generation1-successor-horizon-v2": "Successor Horizon V2",
-    "generation1-categorized-batch-extension-chain-v1": "Categorized Batch Extension",
-    "generation1-successor-categorized-batch-wave-v1": "Categorized Batch Wave",
-    "generation1-consolidated-final-campaign-v1": "Final Campaign",
-    "generation1-full-generations-wave-v1": "Full Generations Wave",
-    "generation1-full-generations-extension-chain-v1": "Full Generations Extension",
+    "generation1-successor-mechanics-extended-v1": "General Chain: Mechanics",
+    "generation1-successor-evidence-chain-v2": "General Chain: Adopter",
+    "generation1-successor-evidence-chain-v3": "General Chain: Adopter",
+    "generation1-successor-evidence-chain-v4": "General Chain: Adopter",
+    "generation1-successor-evidence-chain-v5": "General Chain: Adopter",
+    "generation1-successor-evidence-chain-v6": "General Chain: Adopter",
+    "generation1-successor-horizon-v1": "General Chain: Horizon 1",
+    "generation1-successor-horizon-v2": "General Chain: Horizon 2",
+    "generation1-successor-extension-chain-v1": "General Chain: Horizon Waiter",
+    "generation1-successor-extension-chain-v2": "General Chain: Horizon Waiter",
+    "generation1-successor-extension-chain-v3": "General Chain: Horizon Waiter",
+    "generation1-categorized-batch-extension-chain-v1": "General Chain: Categorized Waiter",
+    "generation1-successor-categorized-batch-wave-v1": "General Chain: Categorized Wave",
+    "generation1-consolidated-final-campaign-v1": "General Chain: Final",
+    "generation1-full-generations-wave-v1": "General Chain: Full Generations",
+    "generation1-full-generations-extension-chain-v1": "General Chain: Full Gen Waiter",
 }
+
+# Wave capsule ids encode epoch + mechanism category, e.g. "w08_formation_trace".
+# Each category is mapped to the mechanisms it exercises so the sub-task blip can
+# name them for the operator when the mapping is known.
+CATEGORY_MECHANISMS = {
+    "formation_trace": ("C0", "E1"),
+    "communication_repair": ("V1", "M1", "K1"),
+    "memory_plasticity": ("R1", "P1R"),
+    "action_simulation": ("A1", "S1"),
+    "construction": ("G1",),
+    "dispatch_redesign": ("D1",),
+    "uncertainty_curiosity": ("U1", "N1"),
+}
+
+_WAVE_CAPSULE_RE = re.compile(r"^w(\d+)_(.+)$")
 
 NEXT_LABELS = {
     "freeze_best_variant_for_untouched_confirmation_design": "D1 confirmation",
@@ -450,6 +473,112 @@ def _collect_throttle_events(
     return events, updated
 
 
+def _lane_short_name(lane_id: str) -> str:
+    """Map a lane id such as "G1-E1" to its short experiment name "E1"."""
+
+    return lane_id[3:] if lane_id.startswith("G1-") else lane_id
+
+
+def _collect_subtask_events(
+    last_seen_lanes: Mapping[str, Any],
+    last_seen_capsules: Mapping[str, Any],
+    *,
+    runs_root: Path = RUNS_ROOT,
+) -> tuple[list[dict[str, Any]], dict[str, str], dict[str, str]]:
+    """Emit one sub-task-completed blip per mechanism lane or wave capsule.
+
+    Two data sources are folded into a single per-mechanism stream:
+
+    * ``lane_progress`` maps a mechanics lane id (``G1-E1``) to
+      ``{"complete", "total"}``. A blip fires once when a lane first reaches
+      ``complete == total``.
+    * wave capsule ids encode ``wNN_<category>`` (``w08_construction``). A blip
+      fires once when such a capsule row first completes inside a General Chain
+      wave status.
+
+    Like the throttle collector, the very first observation of any lane or
+    capsule only records its state and never fires, so a lane or capsule that was
+    already complete before this collector started is treated as history and
+    never announced. The refreshed per-key maps are returned so run_once can seal
+    them back into the notifier state.
+    """
+
+    events: list[dict[str, Any]] = []
+    lanes_updated: dict[str, str] = {
+        str(key): str(value) for key, value in last_seen_lanes.items() if isinstance(value, str)
+    }
+    capsules_updated: dict[str, str] = {
+        str(key): str(value) for key, value in last_seen_capsules.items() if isinstance(value, str)
+    }
+    if not runs_root.exists():
+        return events, lanes_updated, capsules_updated
+    for path in sorted(runs_root.glob("*/current_status.json")):
+        try:
+            status = read_json(path)
+        except (MOPNotifierError, OSError):
+            continue
+        if not _valid_status(status):
+            continue
+        program_id = str(status.get("program_id") or path.parent.name)
+        lane_progress = status.get("lane_progress")
+        if isinstance(lane_progress, Mapping):
+            for lane_id, row in lane_progress.items():
+                if not isinstance(lane_id, str) or not isinstance(row, Mapping):
+                    continue
+                complete = row.get("complete")
+                total = row.get("total")
+                if (
+                    not isinstance(complete, int)
+                    or isinstance(complete, bool)
+                    or not isinstance(total, int)
+                    or isinstance(total, bool)
+                    or total <= 0
+                ):
+                    continue
+                current = "complete" if complete >= total else "incomplete"
+                key = f"{program_id}/{lane_id}"
+                previous = lanes_updated.get(key)
+                lanes_updated[key] = current
+                if previous is None or previous == current or current != "complete":
+                    continue
+                events.append(
+                    {
+                        "event_id": f"subtask/lane/{program_id}/{lane_id}",
+                        "kind": "subtask",
+                        "program_id": program_id,
+                        "lane_id": lane_id,
+                        "lane_short": _lane_short_name(lane_id),
+                        "progress": {"complete": complete, "total": total},
+                    }
+                )
+        if _program_label(program_id).startswith("General Chain"):
+            raw_capsules = status.get("capsules")
+            capsules: dict[str, Any] = raw_capsules if isinstance(raw_capsules, dict) else {}
+            for capsule_id, row in capsules.items():
+                if not isinstance(capsule_id, str) or not isinstance(row, Mapping):
+                    continue
+                match = _WAVE_CAPSULE_RE.match(capsule_id)
+                if match is None:
+                    continue
+                current = "complete" if _capsule_complete(row) else "incomplete"
+                key = f"{program_id}/{capsule_id}"
+                previous = capsules_updated.get(key)
+                capsules_updated[key] = current
+                if previous is None or previous == current or current != "complete":
+                    continue
+                events.append(
+                    {
+                        "event_id": f"subtask/capsule/{program_id}/{capsule_id}",
+                        "kind": "subtask",
+                        "program_id": program_id,
+                        "capsule_id": capsule_id,
+                        "wave_epoch": match.group(1),
+                        "category": match.group(2),
+                    }
+                )
+    return events, lanes_updated, capsules_updated
+
+
 def collect_events(
     *,
     runs_root: Path = RUNS_ROOT,
@@ -742,10 +871,41 @@ def _throttle_message(event: Mapping[str, Any]) -> str:
     return f"⚙️ MOP {label}: throttle mode {mode}"
 
 
+def _subtask_message(event: Mapping[str, Any]) -> str:
+    """Render the one-line per-mechanism sub-task-completed blip.
+
+    Both a mechanics lane and a wave capsule are presented under the unified
+    "General Chain" name, naming the experiment or capsule category so the
+    operator recovers the old "E1 done / D1 done" style.
+    """
+
+    lane_short = event.get("lane_short")
+    if isinstance(lane_short, str):
+        progress = event.get("progress") or {}
+        complete = progress.get("complete")
+        total = progress.get("total")
+        counts = (
+            f" ({complete}/{total})"
+            if isinstance(complete, int)
+            and not isinstance(complete, bool)
+            and isinstance(total, int)
+            and not isinstance(total, bool)
+            else ""
+        )
+        return f"General Chain: {lane_short} sub-task complete{counts}"
+    epoch = event.get("wave_epoch")
+    category = event.get("category")
+    mechanisms = CATEGORY_MECHANISMS.get(category) if isinstance(category, str) else None
+    mech_suffix = f" ({', '.join(mechanisms)})" if mechanisms else ""
+    return f"General Chain: W{epoch} {category} sub-task complete{mech_suffix}"
+
+
 def format_event(event: Mapping[str, Any]) -> str:
     kind = event["kind"]
     if kind == "throttle":
         return _throttle_message(event)[:MAX_MESSAGE_CHARS]
+    if kind == "subtask":
+        return _subtask_message(event)[:MAX_MESSAGE_CHARS]
     if kind == "rung":
         progress = event["progress"]
         lines = [
@@ -839,9 +999,22 @@ def run_once(
             state["last_seen_mode"] = current_modes
         except (MOPNotifierError, OSError, ValueError):
             throttle_events = []
+        subtask_events: list[dict[str, Any]] = []
+        try:
+            previous_lanes = state.get("last_seen_complete_lanes")
+            previous_lanes = previous_lanes if isinstance(previous_lanes, Mapping) else {}
+            previous_capsules = state.get("last_seen_complete_capsules")
+            previous_capsules = previous_capsules if isinstance(previous_capsules, Mapping) else {}
+            subtask_events, lanes_now, capsules_now = _collect_subtask_events(
+                previous_lanes, previous_capsules, runs_root=runs_root
+            )
+            state["last_seen_complete_lanes"] = lanes_now
+            state["last_seen_complete_capsules"] = capsules_now
+        except (MOPNotifierError, OSError, ValueError):
+            subtask_events = []
         save_state(state, state_path)
         sent = 0
-        for event in [*throttle_events, *collect_events()]:
+        for event in [*throttle_events, *subtask_events, *collect_events()]:
             if event["event_id"] in delivered:
                 continue
             if not _should_send(event):

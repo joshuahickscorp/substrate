@@ -47,6 +47,14 @@ _MAX_PASSES = 4
 _INCLUSION_PROB = 0.5
 _MAX_ORACLE_MEMBERS = 20
 
+# Cache-fit budget for the oracle's per-chunk scoring temporary. The exhaustive oracle enumeration is
+# scored in chunks over the subset axis so the dominant transient (the (rows, num_members, num_tasks)
+# float64 masked array in _score_subsets) stays near this size instead of one monolithic array whose
+# footprint grows as 2**num_members. Two mebibytes keeps a chunk inside cache, holds peak transient RSS
+# to a few MB even at the 20-member ceiling, and leaves the default bed (a ~1.2 MB full enumeration) as
+# a single chunk, so the change is bit-identical and adds no dispatch on the lane the wave runs.
+_ORACLE_CHUNK_TARGET_BYTES = 2 << 20
+
 # Arm names mirror construction_search_bed.SEARCH_ARM and ORACLE_REFERENCE by value.
 _NO_SEARCH_ARM = "no-search"
 _GREEDY_ARM = "greedy-only"
@@ -314,25 +322,66 @@ def vec_run_construction_search(spec: RegimeSpec, seed: int) -> VecArmResult:
     )
 
 
+def _oracle_chunk_rows(num_members: int, num_tasks: int, n_subsets: int) -> int:
+    """Subset rows per oracle chunk so the dominant scoring temporary stays cache sized.
+
+    The dominant transient inside ``_score_subsets`` is the ``(rows, num_members, num_tasks)`` float64
+    masked array. Sizing each chunk so that array stays near ``_ORACLE_CHUNK_TARGET_BYTES`` keeps every
+    chunk's working set inside cache and bounds the peak transient RSS to a couple of megabytes at any
+    allowed member count, instead of one monolithic array that grows as ``2**num_members``. When the
+    whole enumeration already fits under the target (the default bed's 4096 subsets of 12 members and 3
+    tasks are a single ~1.2 MB array) this returns ``n_subsets``, so that lane runs as one chunk with no
+    added numpy dispatch and output bit-identical to the monolithic path.
+    """
+
+    bytes_per_row = max(1, num_members * num_tasks * 8)
+    rows = _ORACLE_CHUNK_TARGET_BYTES // bytes_per_row
+    return max(1, min(int(rows), n_subsets))
+
+
 def vec_run_oracle(spec: RegimeSpec) -> VecArmResult:
-    """Vectorized equivalent of run_oracle: the exhaustive best over all subsets."""
+    """Vectorized equivalent of run_oracle: the exhaustive best over all subsets, scored in chunks.
+
+    The full ``2**num_members`` subset enumeration is scored in cache-fitting chunks over the subset
+    axis, so the peak transient array is a couple of megabytes regardless of member count and never one
+    monolithic array whose size grows as ``2**num_members`` (about 1 GB at the 20-member oracle ceiling).
+    Because ``_score_subsets`` scores each subset row independently of the others, a chunk's scores are
+    bit-identical to the matching slice of the full-batch scores. The running winner preserves the exact
+    first-occurrence global argmax the monolithic ``np.argmax`` produces: within a chunk numpy's argmax
+    already returns the earliest maximal index, and a later chunk replaces the running winner only on a
+    strict improvement, so an equal score never displaces an earlier subset at a chunk boundary. Subset
+    index equals mask value (the enumeration is ``0 .. 2**num_members - 1`` in order), so the winning
+    members are the set bits of the winning index in ascending order. The raw_score, member tuple, and
+    evaluation count therefore match the monolithic vec path and the scalar ``run_oracle`` bit for bit.
+    """
 
     num_members = spec.num_members
     if num_members > _MAX_ORACLE_MEMBERS:
         raise ConstructionSearchVecRefusal("oracle headroom is only defined for small member counts")
-    masks = np.arange(1 << num_members, dtype=np.uint64)
-    bit_index = np.arange(num_members, dtype=np.uint64)
-    incl = ((masks[:, None] >> bit_index[None, :]) & np.uint64(1)).astype(bool)
     affinity = _affinity_array(spec)
-    scores = _score_subsets(
-        affinity, incl, spec.size_penalty, spec.synergy_pair, spec.synergy_bonus, spec.num_tasks
-    )
-    best = int(np.argmax(scores))
-    best_members = tuple(int(m) for m in range(num_members) if bool(incl[best, m]))
+    n_subsets = 1 << num_members
+    bit_index = np.arange(num_members, dtype=np.uint64)
+    chunk_rows = _oracle_chunk_rows(num_members, spec.num_tasks, n_subsets)
+
+    best_index = 0
+    best_score: np.float64 | None = None
+    for start in range(0, n_subsets, chunk_rows):
+        stop = min(start + chunk_rows, n_subsets)
+        masks = np.arange(start, stop, dtype=np.uint64)
+        incl = ((masks[:, None] >> bit_index[None, :]) & np.uint64(1)).astype(bool)
+        scores = _score_subsets(
+            affinity, incl, spec.size_penalty, spec.synergy_pair, spec.synergy_bonus, spec.num_tasks
+        )
+        local = int(np.argmax(scores))
+        local_score = scores[local]
+        if best_score is None or local_score > best_score:
+            best_score = local_score
+            best_index = start + local
+    best_members = tuple(m for m in range(num_members) if (best_index >> m) & 1)
     return VecArmResult(
         arm=_ORACLE_ARM,
-        raw_score=float(scores[best]),
-        evaluations=1 << num_members,
+        raw_score=float(best_score),
+        evaluations=n_subsets,
         members=best_members,
     )
 
