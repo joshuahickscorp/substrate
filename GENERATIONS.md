@@ -134,6 +134,19 @@ identical.
 | G1-G1 | can finite construction search form better shadow coalitions | G0 mechanics without efficacy |
 | G1-I1 | does integrated ESCS beat simpler organizations | no current integrated advantage |
 
+**G1-E1 event-formation lane (Stage 2, still unpromoted).** The first real matched-budget Stage-3 bed,
+the STARSS23 ESCS event-formation bed (`docs/mixture_of_perspectives/26_escs_starss23_bed.md`), ran and
+nulled: the trained value-of-computation gate lost to rate-matched-random because it clusters ~42% of
+its fires adjacently and recovers fewer distinct onsets at matched budget. A four-variant iteration
+wave then attacked exactly that clustering with de-clustering gate designs (`refractory_nms`,
+`recurrence_spread`, `learning_progress`, `diversity_reg`). All four nulled: none beat rate-matched-
+random, none exceeded the preregistered 0.05 SESOI, none cleared the one-sided sign-flip. The wave
+proved a mechanistic wall, that spacing the fires is necessary but not sufficient because the gate's
+signal carries no onset-localizing information beyond energy that survives de-clustering, which
+reconfirms the X0 finding that the missing capability is relational and temporal event interpretation,
+not firing sparsity or spacing. The lane stays at Stage 2; a wave of nulls cannot promote, and no
+positive was produced to verify.
+
 The three admission gates that keep this honest:
 
 - **Gate R (registry): low.** A perspective enters if it is bounded, typed, reversible, measurable,
