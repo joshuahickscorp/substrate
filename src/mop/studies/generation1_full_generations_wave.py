@@ -34,6 +34,8 @@ from pathlib import Path
 from typing import Any
 
 from mop.config import REPO_ROOT
+from mop.ladder.stage3_registry import build_pair
+from mop.mechanisms.construction_search_vec_runner import ConstructionSearchVecRunner
 from mop.process_labels import set_process_label
 from mop.studies import generation1_consolidated_final_campaign as consolidated
 from mop.studies import generation1_d1_redesign_v2 as redesign_v2
@@ -120,6 +122,20 @@ _NEW_ARTIFACT_KIND = "new_mechanics_fresh"
 # authority hashing is immune to any REPO_ROOT rebinding during tests.
 _REPO_SOURCE_ROOT = Path(__file__).resolve().parents[3]
 _MECHANISM_DIRNAME = "src/mop/mechanisms"
+
+# Construction lane routing. The G1-G1 construction_search lane is executed by the proven
+# numpy-vectorized runner (construction_search_vec_runner), which mints receipts byte-identical to the
+# sealed scalar runner over the full G1-G1 seed bands (proven at the receipt level in
+# tests/unit/test_construction_search_vec_runner_equivalence.py). Only this lane is routed through the
+# vec path; every other lane keeps its existing scalar path. The vectorized rung is byte-identical to
+# the scalar rung, so no receipt, digest, seal, or verdict tally changes.
+_CONSTRUCTION_MECHANISM = "construction_search"
+
+# Measured vectorized speedup over the scalar bed on the review host is 6.82x across the real 256-seed
+# canary band. A conservative 6.7x planning factor is applied to the construction pacing seconds only.
+# This is an ETA figure and never enters any receipt: the mechanics rung JSON carries no timing, and
+# the vec rung folds to the same result_sha256 the scalar rung folds to.
+CONSTRUCTION_VEC_SPEEDUP = 6.7
 
 
 @dataclass(frozen=True, slots=True)
@@ -317,6 +333,10 @@ def _work_lane_id(work: WaveWorkItem) -> str:
     return str(_source_item(work).lane_id)
 
 
+def _work_mechanism(work: WaveWorkItem) -> str:
+    return str(_source_item(work).mechanism)
+
+
 def _consolidated_work(work: WaveWorkItem) -> consolidated.WorkItem:
     return consolidated.WorkItem(
         key=work.key,
@@ -355,7 +375,11 @@ def _work_seconds(work: WaveWorkItem) -> float:
         rates = newq.NEW_PLANNED_SECONDS_PER_SEED
     else:
         rates = mechanics.PLANNED_SECONDS_PER_SEED
-    return float(item.seed_count * rates[item.mechanism])
+    seconds = float(item.seed_count * rates[item.mechanism])
+    if item.mechanism == _CONSTRUCTION_MECHANISM:
+        # Pacing only: construction executes on the vectorized runner. Never a receipt value.
+        seconds /= CONSTRUCTION_VEC_SPEEDUP
+    return seconds
 
 
 def _new_artifact_path(raw_root: Path, work: WaveWorkItem) -> Path:
@@ -399,6 +423,81 @@ def _execute_work(work: WaveWorkItem, raw_root: str) -> tuple[str, float]:
     return str(key), float(duration)
 
 
+def _construction_rung_payload(item: mechanics.WorkItem) -> dict[str, Any]:
+    """Mint the construction rung via the vectorized runner, byte-identical to the scalar path.
+
+    This reproduces ``mechanics._run_item_payload`` exactly (the same rung schema, program id, claim
+    scope, item block, verdict and control-clear tallies, confirmation count, ascending-seed digest
+    fold, and canonical seal) but drives the proven ``ConstructionSearchVecRunner`` over the same bed
+    ``build_pair`` hands the scalar path, instead of the scalar runner. The two rungs are byte-identical
+    because the vec runner mints a receipt byte-identical to the scalar runner for every seed (proven at
+    the receipt level in ``tests/unit/test_construction_search_vec_runner_equivalence.py``): every
+    folded ``receipt.digest()``, every verdict and control tally, and therefore the final
+    ``result_sha256`` fold to the same bytes the scalar rung folds to. Construction lane only.
+    """
+
+    if item.mechanism != _CONSTRUCTION_MECHANISM:
+        raise ValueError("construction rung payload requires the construction_search mechanism")
+    bed, _scalar_runner = build_pair(item.mechanism)
+    runner = ConstructionSearchVecRunner()
+    verdict_counts: dict[str, int] = {}
+    control_clear_counts: dict[str, int] = {}
+    digest = hashlib.sha256()
+    confirmations = 0
+    for seed in range(item.seed_start, item.seed_start + item.seed_count):
+        results = runner.run(bed, seed)
+        receipt = runner.mint(results)
+        if receipt.mechanism_id != item.mechanism:
+            raise ValueError("construction vec runner receipt identity drifted")
+        confirmations += int(receipt.is_confirmation)
+        verdict_counts[receipt.verdict] = verdict_counts.get(receipt.verdict, 0) + 1
+        for control in receipt.controls_cleared:
+            control_clear_counts[control] = control_clear_counts.get(control, 0) + 1
+        digest.update(receipt.digest().encode("ascii"))
+    core = {
+        "schema": mechanics.RUNG_SCHEMA,
+        "program_id": mechanics.PROGRAM_ID,
+        "claim_scope": mechanics.CLAIM_SCOPE,
+        "item": {
+            "index": item.index,
+            "lane_id": item.lane_id,
+            "mechanism": item.mechanism,
+            "phase": item.phase,
+            "rung_index": item.rung_index,
+            "seed_start": item.seed_start,
+            "seed_count": item.seed_count,
+        },
+        "receipt_count": item.seed_count,
+        "verdict_counts": verdict_counts,
+        "control_clear_counts": control_clear_counts,
+        "confirmation_count": confirmations,
+        "receipt_digest_fold": digest.hexdigest(),
+        "complete": True,
+        "problems": [],
+        "activation_allowed": False,
+        "scientific_promotion": False,
+    }
+    return {**core, "result_sha256": canonical_sha256(core)}
+
+
+def _execute_construction_work(work: WaveWorkItem, raw_root: str) -> tuple[str, float]:
+    """Execute one construction (G1-G1) fresh-cycle rung through the vectorized runner.
+
+    Writes to the exact same raw artifact path the scalar old-lane path writes to, with a rung payload
+    byte-identical to the scalar path, then validates it with the sealed ``mechanics.validate_rung``.
+    """
+
+    set_process_label(f"mop-fullgen-vec-{work.key[:20]}")
+    with suppress(OSError):
+        os.nice(10)
+    started = time.perf_counter()
+    item = _fresh_item(work)
+    payload = _construction_rung_payload(item)
+    mechanics.validate_rung(payload, item)
+    atomic_write_json(_artifact_path(Path(raw_root), work), payload)
+    return work.key, time.perf_counter() - started
+
+
 def _execute_new_work(work: WaveWorkItem, raw_root: str) -> tuple[str, float]:
     set_process_label(f"mop-fullgen-{work.key[:24]}")
     with suppress(OSError):
@@ -409,6 +508,20 @@ def _execute_new_work(work: WaveWorkItem, raw_root: str) -> tuple[str, float]:
     newq.validate_rung(payload, item)
     atomic_write_json(_new_artifact_path(Path(raw_root), work), payload)
     return work.key, time.perf_counter() - started
+
+
+def _runner_for(work: WaveWorkItem):
+    """Select the per-work executor. Construction routes through the proven vectorized runner.
+
+    New lanes keep the new-mechanisms path; the construction_search old lane (G1-G1) routes through the
+    net-new vectorized executor; every other old lane keeps the sealed scalar path unchanged.
+    """
+
+    if work.origin == _NEW_ORIGIN:
+        return _execute_new_work
+    if _work_mechanism(work) == _CONSTRUCTION_MECHANISM:
+        return _execute_construction_work
+    return _execute_work
 
 
 def _require_complete_receipts(
@@ -433,7 +546,7 @@ def _execute_pending(
         with ProcessPoolExecutor(max_workers=min(IDLE_WORKERS, len(pending))) as pool:
             futures = {}
             for work in pending:
-                runner = _execute_new_work if work.origin == _NEW_ORIGIN else _execute_work
+                runner = _runner_for(work)
                 futures[pool.submit(runner, work, str(raw_root))] = work
             for future in as_completed(futures):
                 work = futures[future]
@@ -2781,6 +2894,7 @@ __all__ = [
     "CATEGORY_SCHEMA",
     "CLASSIFICATION_SCHEMA",
     "CLAIM_SCOPE",
+    "CONSTRUCTION_VEC_SPEEDUP",
     "DEFAULT_PARENT_REPORT_RECEIPT",
     "DEFAULT_PARENT_RESULT",
     "DEFAULT_PARENT_VERIFICATION",

@@ -143,6 +143,12 @@ def test_commands_bind_taxonomy_new_lane_authority_and_advisory_release_audit() 
     assert len(builder.NEW_MECHANISM_AUTHORITIES) == 12
     for path in builder.NEW_MECHANISM_AUTHORITIES:
         assert path in authority_paths
+    # The construction lane runs on the proven vectorized runner; both vectorized modules are pinned.
+    assert len(builder.CONSTRUCTION_VEC_AUTHORITIES) == 2
+    for path in builder.CONSTRUCTION_VEC_AUTHORITIES:
+        assert path in authority_paths
+    assert "src/mop/mechanisms/construction_search_vec_impl.py" in authority_paths
+    assert "src/mop/mechanisms/construction_search_vec_runner.py" in authority_paths
     assert "src/mop/studies/generation1_new_mechanisms_queue.py" in authority_paths
     assert "src/mop/studies/generation1_successor_mechanics_queue.py" in authority_paths
     assert "src/mop/ladder/stage3_successor_registry.py" in authority_paths
