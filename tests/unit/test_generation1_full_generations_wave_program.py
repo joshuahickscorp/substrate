@@ -11,12 +11,13 @@ import pytest
 
 from mop.config import REPO_ROOT
 from mop.studies import generation1_full_generations_wave as wave
-from mop.studio.generation1_supervisor import load_program
+from mop.studio.generation1_supervisor import load_program, sha256_file
 from mop.studio.local_throttle import (
     TASKPOLICY_ADAPTIVE_CAP_GB,
     TASKPOLICY_ADAPTIVE_PREFIX,
     TASKPOLICY_COEXISTENCE_CAP_GB,
     TASKPOLICY_COEXISTENCE_PREFIX,
+    load_policy,
 )
 
 BUILDER_PATH = "scripts/build_generation1_full_generations_wave_program.py"
@@ -64,7 +65,7 @@ def test_program_has_exact_123_capsule_serial_gate_and_wave_topology() -> None:
     assert by_id["full_generations_release_audit"]["depends_on"] == ["full_generations_report"]
 
 
-def test_compute_capsules_use_dynamic_eight_worker_pool_and_unique_artifacts() -> None:
+def test_compute_capsules_use_dynamic_worker_pool_and_unique_artifacts() -> None:
     builder = _builder()
     capsules = builder.build_program()["capsules"]
     artifact_paths: list[str] = []
@@ -90,7 +91,7 @@ def test_compute_capsules_use_dynamic_eight_worker_pool_and_unique_artifacts() -
 
         if capsule_id in compute_ids:
             assert command[: len(TASKPOLICY_ADAPTIVE_PREFIX)] == (TASKPOLICY_ADAPTIVE_PREFIX)
-            assert resources["cpu_cores"] == wave.IDLE_WORKERS
+            assert resources["cpu_cores"] == wave.IDLE_WORKERS == 16
             assert resources["estimated_unified_memory_gb"] == TASKPOLICY_ADAPTIVE_CAP_GB
             if capsule_id == "i1_integrate":
                 assert resources["wall_minutes"] == 180
@@ -174,7 +175,7 @@ def test_program_envelope_and_generated_manifest_are_exact_and_deterministic() -
     # Envelope scalars are recomputed from the wave module functions, never hard-coded literals.
     expected_seconds = wave.planned_program_compute_seconds()
     assert wave.planned_serial_hours() == pytest.approx(expected_seconds / 3_600)
-    assert wave.planned_ideal_eight_worker_hours() == pytest.approx(
+    assert wave.planned_ideal_worker_hours() == pytest.approx(
         expected_seconds / wave.IDLE_WORKERS / 3_600
     )
     by_id = {row["id"]: row for row in expected["capsules"]}
@@ -217,3 +218,34 @@ def test_program_envelope_and_generated_manifest_are_exact_and_deterministic() -
         text=True,
     )
     assert completed.returncode == 0, completed.stderr or completed.stdout
+
+
+def test_manifest_binds_v6_full_generations_policy_with_retained_markers() -> None:
+    builder = _builder()
+    program = builder.build_program()
+
+    policy_path = "configs/local_execution_throttle_v6_full_generations.yaml"
+    assert policy_path == builder.POLICY_PATH
+    assert program["policy"] == {
+        "path": policy_path,
+        "sha256": sha256_file(REPO_ROOT / policy_path),
+    }
+
+    policy = load_policy(REPO_ROOT / policy_path)
+    known_markers = set(policy.monitor["known_heavy_markers"])
+    # The wave's process marker arms the wall/marker admission gate.
+    assert builder.PROCESS_MARKER in known_markers
+    # The Hawking markers are retained verbatim so backoff-to-zero re-arms when Hawking reappears.
+    assert "build/strand-block-parallel/release/quantize-model-block-parallel" in known_markers
+    assert any("doctor_v5" in marker for marker in known_markers)
+    # Idle-host-only invariants: the loader forces two active lanes and one heavy lane.
+    assert int(policy.limits["maximum_active_lanes"]) == 2
+    assert int(policy.limits["maximum_heavy_lanes"]) == 1
+
+    wave_tasks = {tid: task for tid, task in policy.tasks.items() if tid.startswith("full_generations_")}
+    assert len(wave_tasks) == len(wave.CATEGORY_IDS) + 1  # seven categories plus the I1 integration
+    for task in wave_tasks.values():
+        assert task.lane == "cpu"
+        assert task.cpu_cores == wave.IDLE_WORKERS == 16
+        assert task.estimated_unified_memory_gb is not None
+        assert task.estimated_unified_memory_gb <= 16.0
