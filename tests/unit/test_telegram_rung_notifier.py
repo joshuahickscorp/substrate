@@ -213,7 +213,7 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
     assert message == (
         "🧪 MOP C3 Router Redesign\n"
         "Progress: 10/48\n"
-        "Next 10 rungs: 25m\n"
+        "Next 30 rungs: 25m\n"
         "Full queue: 1h 55m\n"
         "Health: good\n"
         "Errors: none"
@@ -249,7 +249,7 @@ def test_event_eta_prefers_next_rung_cost() -> None:
         complete=5,
         total=100,
     )
-    assert eta == {"block_seconds": 321.0, "session_seconds": 9_876.0}
+    assert eta == {"block_seconds": 963.0, "session_seconds": 9_876.0}
 
 
 def test_short_block_eta_uses_seconds_instead_of_rounding_to_one_minute() -> None:
@@ -300,19 +300,21 @@ def test_prime_suppresses_history_and_run_sends_only_new_event(monkeypatch, tmp_
     monkeypatch.setattr(notifier, "format_event", lambda event: str(event["event_id"]))
     result = notifier.run_once(
         state_path=state_path,
+        runs_root=tmp_path / "runs",
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
     assert result["sent"] == 0
     first.append({"event_id": "two", "kind": "proof", "path": "b", "summary": []})
     result = notifier.run_once(
         state_path=state_path,
+        runs_root=tmp_path / "runs",
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
     assert result["sent"] == 1
     assert sent == ["two"]
 
 
-def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
+def test_run_sends_only_each_thirtieth_rung_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
     state_path = tmp_path / "state.json"
     state = notifier._new_state()
     state["primed"] = True
@@ -322,9 +324,9 @@ def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch
             "event_id": f"rung-{index}",
             "kind": "rung",
             "program_id": "program",
-            "progress": {"complete": index, "total": 12},
+            "progress": {"complete": index, "total": 32},
         }
-        for index in range(1, 11)
+        for index in range(1, 32)
     ]
     events.append(
         {
@@ -332,7 +334,7 @@ def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch
             "kind": "terminal",
             "program_id": "program",
             "state": "complete",
-            "progress": {"complete": 12, "total": 12},
+            "progress": {"complete": 32, "total": 32},
             "problems": [],
         }
     )
@@ -341,18 +343,28 @@ def test_run_sends_only_each_tenth_rung_but_keeps_terminal_immediate(monkeypatch
     sent: list[str] = []
     result = notifier.run_once(
         state_path=state_path,
+        runs_root=tmp_path / "runs",
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
 
     assert result["sent"] == 2
-    assert sent == ["rung-10", "terminal"]
+    assert sent == ["rung-30", "terminal"]
     delivered = notifier.load_state(state_path)["delivered"]
-    assert delivered["rung-9"]["status"] == "suppressed-nonmilestone"
+    assert delivered["rung-29"]["status"] == "suppressed-nonmilestone"
+    assert delivered["rung-31"]["status"] == "suppressed-nonmilestone"
 
 
-def test_small_parent_chain_sends_each_stage_completion() -> None:
-    assert notifier._should_send({"kind": "rung", "progress": {"complete": 1, "total": 4}}) is True
-    assert notifier._should_send({"kind": "rung", "progress": {"complete": 3, "total": 74}}) is False
+def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
+    def rung(complete: int, total: int) -> dict:
+        return {"kind": "rung", "progress": {"complete": complete, "total": total}}
+
+    assert notifier._should_send(rung(1, 30)) is True
+    assert notifier._should_send(rung(29, 31)) is False
+    assert notifier._should_send(rung(30, 31)) is True
+    assert notifier._should_send(rung(31, 31)) is True
+    assert notifier._should_send(rung(59, 74)) is False
+    assert notifier._should_send(rung(60, 74)) is True
+    assert notifier._should_send(rung(74, 74)) is True
 
 
 def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
@@ -368,3 +380,176 @@ def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
         assert "identity" in str(exc)
     else:  # pragma: no cover
         raise AssertionError("mutated notifier state was accepted")
+
+
+def test_full_generations_programs_have_compact_labels() -> None:
+    assert notifier._program_label("generation1-full-generations-wave-v1") == "Full Generations Wave"
+    assert (
+        notifier._program_label("generation1-full-generations-extension-chain-v1")
+        == "Full Generations Extension"
+    )
+
+
+def test_worker_line_reflects_mode_and_is_omitted_when_absent(monkeypatch) -> None:
+    monkeypatch.setattr(
+        notifier,
+        "host_health",
+        lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0},
+    )
+
+    def rung(adaptive: dict | None) -> str:
+        event = {
+            "kind": "rung",
+            "program_id": "generation1-c3-d1-router-redesign-screen-v1",
+            "progress": {"complete": 10, "total": 48},
+            "eta": {"block_seconds": 1500.0, "session_seconds": 6848.0},
+            "problems": [],
+        }
+        if adaptive is not None:
+            event["adaptive"] = adaptive
+        return notifier.format_event(event)
+
+    idle = rung({"workers": 16, "mode": "idle_opportunistic"})
+    assert idle == (
+        "🧪 MOP C3 Router Redesign\n"
+        "Progress: 10/48\n"
+        "Next 30 rungs: 25m\n"
+        "Full queue: 1h 55m\n"
+        "Workers: 16 (idle burst)\n"
+        "Health: good\n"
+        "Errors: none"
+    )
+    assert "Workers: 1 (Hawking active)" in rung({"workers": 1, "mode": "hawking_active"})
+    assert "Workers: 8 (steady)" in rung({"workers": 8, "mode": "steady"})
+    # adaptive block absent: no worker line, original shape preserved
+    assert "Workers:" not in rung(None)
+
+
+def test_terminal_chain_stage_annotation_and_worker_line(monkeypatch) -> None:
+    monkeypatch.setattr(
+        notifier,
+        "host_health",
+        lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0},
+    )
+    known = notifier.format_event(
+        {
+            "kind": "terminal",
+            "program_id": "generation1-successor-mechanics-extended-v1",
+            "state": "complete",
+            "progress": {"complete": 12, "total": 12},
+            "problems": [],
+            "adaptive": {"workers": 16, "mode": "idle_opportunistic"},
+        }
+    )
+    assert known == (
+        "✅ MOP Successor Mechanics: complete\n"
+        "Progress: 12/12\n"
+        "Chain stage complete\n"
+        "Workers: 16 (idle burst)\n"
+        "Health: good\n"
+        "Errors: none"
+    )
+    # unknown program: no chain-stage annotation
+    unknown = notifier.format_event(
+        {
+            "kind": "terminal",
+            "program_id": "generation1-unlisted-program-v9",
+            "state": "complete",
+            "progress": {"complete": 3, "total": 3},
+            "problems": [],
+        }
+    )
+    assert "Chain stage complete" not in unknown
+    # a failure of a known chain stage is never labeled a completed stage
+    failed_known = notifier.format_event(
+        {
+            "kind": "failure",
+            "program_id": "generation1-successor-mechanics-extended-v1",
+            "state": "failure_hold",
+            "progress": {"complete": 4, "total": 12},
+            "problems": ["bad receipt"],
+        }
+    )
+    assert "Chain stage complete" not in failed_known
+
+
+def test_throttle_shift_fires_once_per_transition(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+
+    def write_mode(mode: str, workers: int) -> None:
+        _write(
+            runs / "flip" / "current_status.json",
+            {
+                "program_id": "flip",
+                "state": "running",
+                "problems": [],
+                "capsules": {},
+                "adaptive_execution": {"workers": workers, "mode": mode},
+            },
+        )
+
+    # first observation only records the mode; it never announces a transition
+    write_mode("hawking_active", 1)
+    events, seen = notifier._collect_throttle_events({}, runs_root=runs)
+    assert events == []
+    assert seen == {"generation1-flip": "hawking"}
+
+    # hawking -> idle fires exactly one throttle event
+    write_mode("idle_opportunistic", 16)
+    events, seen = notifier._collect_throttle_events(seen, runs_root=runs)
+    assert len(events) == 1
+    assert events[0]["kind"] == "throttle"
+    assert events[0]["mode"] == "idle"
+    assert events[0]["event_id"] == "throttle-shift/generation1-flip/idle"
+    assert seen == {"generation1-flip": "idle"}
+    assert notifier.format_event(events[0]) == "⚙️ MOP Flip: Hawking cleared, ramping to 16 workers"
+
+    # a steady idle poll does not re-fire
+    events, seen = notifier._collect_throttle_events(seen, runs_root=runs)
+    assert events == []
+
+    # idle -> hawking fires the opposite direction
+    write_mode("hawking_active", 1)
+    events, seen = notifier._collect_throttle_events(seen, runs_root=runs)
+    assert len(events) == 1
+    assert events[0]["mode"] == "hawking"
+    assert notifier.format_event(events[0]) == "⚙️ MOP Flip: Hawking active, ceding to 1 workers"
+
+
+def test_throttle_shift_delivers_once_through_run_once(monkeypatch, tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "flip" / "current_status.json",
+        {
+            "program_id": "flip",
+            "state": "running",
+            "problems": [],
+            "capsules": {},
+            "adaptive_execution": {"workers": 16, "mode": "idle_opportunistic"},
+        },
+    )
+    state_path = tmp_path / "state.json"
+    state = notifier._new_state()
+    state["primed"] = True
+    state["last_seen_mode"] = {"generation1-flip": "hawking"}
+    notifier.save_state(state, state_path)
+    monkeypatch.setattr(notifier, "collect_events", lambda: [])
+    sent: list[str] = []
+
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 1
+    assert sent == ["⚙️ MOP Flip: Hawking cleared, ramping to 16 workers"]
+
+    # the same idle status on the next poll must not re-announce the transition
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 0
+    assert sent == ["⚙️ MOP Flip: Hawking cleared, ramping to 16 workers"]
+    assert notifier.load_state(state_path)["last_seen_mode"] == {"generation1-flip": "idle"}
