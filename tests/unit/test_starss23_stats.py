@@ -1,0 +1,148 @@
+"""Tests for the STARSS23 ESCS bed statistics module (spec component 7).
+
+These pin the honest small-n paired statistics: an exact sign-flip permutation whose p values match a
+hand enumeration, the discrete two-sided 0.05 floor being unreachable at five seeds, the registered
+SESOI gating promotability, and the pseudoreplication claim ceiling. House style: no em dashes and no
+en dashes.
+"""
+
+from __future__ import annotations
+
+import math
+
+import pytest
+
+from mop.beds.starss23 import stats
+
+
+def test_all_positive_deltas_hit_the_one_sided_floor() -> None:
+    result = stats.exact_sign_flip([0.1, 0.2, 0.3, 0.4, 0.5])
+    assert result.n == 5
+    assert result.permutations == 32
+    # Only the all-plus sign assignment reaches the observed statistic, so the count is one.
+    assert result.count_ge_one_sided == 1
+    assert result.one_sided_p == pytest.approx(1 / 32)
+    assert result.min_one_sided_p == pytest.approx(1 / 32)
+    # The two-sided count is the all-plus and all-minus assignments: the discrete floor 2/32.
+    assert result.count_ge_two_sided == 2
+    assert result.two_sided_p == pytest.approx(2 / 32)
+    assert result.two_sided_floor == pytest.approx(2 / 32)
+
+
+def test_known_delta_vector_matches_hand_enumeration() -> None:
+    # deltas = [-0.1, 0.2, 0.3, 0.4, 0.5], observed T = 1.3. Enumerating all 32 sign assignments,
+    # T(s) = 1.5 - 2 * (sum of magnitudes assigned negative). T >= 1.3 needs that negative sum <= 0.1,
+    # satisfied only by the empty set (T = 1.5) and {0.1} (T = 1.3): two assignments. The two-sided
+    # count adds their two mirror images (T = -1.5 and T = -1.3): four assignments.
+    result = stats.exact_sign_flip([-0.1, 0.2, 0.3, 0.4, 0.5])
+    assert result.t_observed == pytest.approx(1.3)
+    assert result.count_ge_one_sided == 2
+    assert result.one_sided_p == pytest.approx(2 / 32)
+    assert result.count_ge_two_sided == 4
+    assert result.two_sided_p == pytest.approx(4 / 32)
+
+
+def test_two_sided_005_is_unreachable_at_five_seeds() -> None:
+    result = stats.exact_sign_flip([0.1, 0.2, 0.3, 0.4, 0.5])
+    assert result.two_sided_floor == pytest.approx(0.0625)
+    assert result.two_sided_alpha_reachable is False
+    assert stats.two_sided_alpha_reachable(5) is False
+
+
+def test_two_sided_005_becomes_reachable_at_six_seeds() -> None:
+    result = stats.exact_sign_flip([0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
+    assert result.permutations == 64
+    assert result.two_sided_floor == pytest.approx(2 / 64)
+    assert result.two_sided_alpha_reachable is True
+    assert stats.two_sided_alpha_reachable(6) is True
+
+
+def test_one_sided_p_is_never_zero() -> None:
+    # The observed configuration always satisfies T(s) >= T_obs, so exact p is bounded below by 1/2**n.
+    result = stats.exact_sign_flip([0.9, 0.8, 0.7, 0.6, 0.5])
+    assert result.one_sided_p >= result.min_one_sided_p
+    assert result.one_sided_p == pytest.approx(1 / 32)
+
+
+def test_phipson_smyth_correction_is_not_applied_to_full_enumeration() -> None:
+    result = stats.exact_sign_flip([0.1, 0.2, 0.3, 0.4, 0.5])
+    assert result.phipson_smyth_applied is False
+
+
+def test_below_sesoi_win_is_not_promotable() -> None:
+    # An all-positive but tiny effect: the sign-flip test clears alpha (p = 1/32) yet the mean delta is
+    # below the registered SESOI, so the result is not promotable.
+    analysis = stats.analyze_paired_seeds([0.02, 0.02, 0.02, 0.02, 0.02], n_experimental_units=2)
+    assert analysis.sign_flip.one_sided_significant is True
+    assert analysis.sesoi.exceeds_sesoi is False
+    assert analysis.meets_statistical_bar is False
+    assert analysis.promotable is False
+
+
+def test_above_sesoi_win_meets_the_statistical_bar_but_never_scientifically_promotes() -> None:
+    analysis = stats.analyze_paired_seeds([0.08, 0.08, 0.08, 0.08, 0.08], n_experimental_units=2)
+    assert analysis.sign_flip.one_sided_significant is True
+    assert analysis.sesoi.exceeds_sesoi is True
+    assert analysis.meets_statistical_bar is True
+    assert analysis.promotable is True
+    # Meeting the statistical bar is necessary but not sufficient: promotion stays off on this bed.
+    assert analysis.scientific_promotion is False
+    assert analysis.independent_scientific_confirmation is False
+
+
+def test_sesoi_default_is_the_provisional_registered_value() -> None:
+    check = stats.sesoi_check(0.05)
+    assert check.sesoi_f1 == pytest.approx(stats.PROVISIONAL_SESOI_F1)
+    assert check.provisional is True
+    # An effect exactly at the SESOI meets it (the SESOI is the smallest effect of interest).
+    assert check.exceeds_sesoi is True
+
+
+def test_claim_ceiling_is_bounded_to_consistent_with() -> None:
+    ceiling = stats.claim_ceiling(n_experimental_units=2, n_seeds=5)
+    assert ceiling.experimental_unit == "clip"
+    assert ceiling.claim_verb == "consistent with"
+    assert "demonstrates" in ceiling.forbidden_verbs
+    assert "significant" in ceiling.forbidden_verbs
+    assert ceiling.frame_or_clip_bootstrap_allowed is False
+
+
+def test_paired_deltas_are_candidate_minus_control() -> None:
+    deltas = stats.paired_deltas([0.7, 0.6, 0.8], [0.5, 0.5, 0.5])
+    assert deltas == pytest.approx((0.2, 0.1, 0.3))
+
+
+def test_analyze_payload_round_trips_and_digest_is_deterministic() -> None:
+    analysis = stats.analyze_paired_seeds([0.06, 0.07, 0.05, 0.08, 0.06], n_experimental_units=2)
+    payload = analysis.payload()
+    assert payload["schema"] == stats.STATS_SCHEMA
+    assert payload["claim_scope"] == stats.CLAIM_SCOPE
+    assert payload["scientific_promotion"] is False
+    assert payload["sign_flip"]["permutations"] == 32
+    # The digest is a stable lowercase sha256 over the canonical payload.
+    digest = analysis.digest()
+    assert len(digest) == 64 and all(character in "0123456789abcdef" for character in digest)
+    assert stats.analyze_paired_seeds(
+        [0.06, 0.07, 0.05, 0.08, 0.06], n_experimental_units=2
+    ).digest() == digest
+
+
+def test_exact_sign_flip_rejects_empty_and_nonfinite_inputs() -> None:
+    with pytest.raises(stats.StatsRefusal):
+        stats.exact_sign_flip([])
+    with pytest.raises(stats.StatsRefusal):
+        stats.exact_sign_flip([0.1, math.nan, 0.2])
+    with pytest.raises(stats.StatsRefusal):
+        stats.exact_sign_flip([0.1, True, 0.2])
+
+
+def test_paired_deltas_reject_mismatched_lengths() -> None:
+    with pytest.raises(stats.StatsRefusal):
+        stats.paired_deltas([0.1, 0.2], [0.1])
+
+
+def test_claim_ceiling_rejects_nonpositive_counts() -> None:
+    with pytest.raises(stats.StatsRefusal):
+        stats.claim_ceiling(n_experimental_units=0, n_seeds=5)
+    with pytest.raises(stats.StatsRefusal):
+        stats.claim_ceiling(n_experimental_units=2, n_seeds=0)
