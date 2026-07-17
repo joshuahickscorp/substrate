@@ -44,7 +44,7 @@ _EXPECTED_CHECKS = {
     "five_admission_gates_valid": True,
     "all_fourteen_wave_classifiers_valid": True,
     "seven_categories_per_wave_valid": True,
-    "dynamic_eight_worker_pool_valid": True,
+    "dynamic_worker_pool_valid": True,
     "balanced_planning_shards_valid": True,
     "null_safe_pruning_valid": True,
     "single_post_w21_i1_integration_valid": True,
@@ -225,7 +225,7 @@ def _recomputation_from_result(
         "manifest_capsule_count": wave.CAPSULE_COUNT,
         "maximum_planned_serial_seconds": wave.planned_program_compute_seconds(),
         "maximum_planned_serial_hours": wave.planned_serial_hours(),
-        "maximum_ideal_eight_worker_hours": wave.planned_ideal_eight_worker_hours(),
+        "maximum_ideal_worker_hours": wave.planned_ideal_worker_hours(),
     }
 
 

@@ -100,11 +100,15 @@ def test_taxonomy_cycles_and_real_mechanics_envelope_are_exact() -> None:
     all_category_lanes = {lane for cat in wave.CATEGORIES for lane in cat.lane_ids}
     assert "G1-P1" not in all_category_lanes
     assert wave.CAPSULE_COUNT == 123
-    assert wave.INTERNAL_SHARD_COUNT == wave.IDLE_WORKERS == 8
+    # The balanced planning shard count stays eight; the idle-host worker pool is tuned to sixteen.
+    assert wave.INTERNAL_SHARD_COUNT == 8
+    assert wave.IDLE_WORKERS == 16
     assert wave.MAXIMUM_RAW_RECEIPT_COUNT == 35_255
     assert wave.MAXIMUM_RAW_RECEIPT_COUNT == 14 * 2_509 + 129
     assert wave.planned_serial_hours() == pytest.approx(wave.planned_program_compute_seconds() / 3_600)
-    assert wave.planned_ideal_eight_worker_hours() == pytest.approx(wave.planned_serial_hours() / 8)
+    assert wave.planned_ideal_worker_hours() == pytest.approx(
+        wave.planned_serial_hours() / wave.IDLE_WORKERS
+    )
     assert 380.0 < wave.planned_serial_hours() < 440.0
 
 

@@ -36,7 +36,7 @@ identical while doing three new things that the categorized wave could not:
   canary gate.
 
 The generic supervisor still runs one top-level category capsule at a time. Each category capsule
-uses one dynamic process pool capped at eight workers and publishes eight deterministic,
+uses one dynamic process pool capped at sixteen workers and publishes eight deterministic,
 time-balanced planning-shard descriptors. Those descriptors are planning partitions, not
 worker-pinned execution partitions. The honest parallelism is inside one category, followed by a
 serial classify-and-seal barrier. No later epoch can start from partial sibling receipts.
@@ -147,13 +147,19 @@ capsules plus one serial classification barrier each, one integration compute ca
 integration classification, one aggregate, one independently authored verifier, one report receipt,
 and one advisory release-audit capsule.
 
+The sealed manifest is `configs/campaign/generation1_full_generations_wave_v1.json` with
+`program_sha256 = 1c82f2614a168e50ff371c59b3be422ab4aeee08b48df23f0f452eb69fb8dbe7`. It binds the
+throttle policy `configs/local_execution_throttle_v6_full_generations.yaml`, and every category and
+integration compute capsule declares a sixteen-core idle-host pool while the serial gate, classifier,
+aggregate, verifier, report, and release-audit capsules stay single-core.
+
 Across the executable mechanics capsules the program can schedule up to 35,255 checkpointed fresh
 work items: 2,509 category items per epoch across fourteen epochs, plus 129 substituted-dependency
 integration items.
 
-| Route | Maximum serial compute | Ideal wall time at eight workers |
+| Route | Maximum serial compute | Ideal wall time at sixteen workers |
 | --- | ---: | ---: |
-| Executable full-generations mechanics | approximately 401.5 hours | approximately 50.2 hours |
+| Executable full-generations mechanics | approximately 401.5 hours | approximately 25.1 hours |
 
 These are ceilings, not forced runtime promises. Classifiers may honestly prune a failed mechanism,
 a failed new-lane canary, or a no-candidate D1 route. Work is never revived merely to consume an hour
@@ -169,8 +175,8 @@ memory cap; the same inputs always yield the same six-worker advisory.
 
 This is advisory operational telemetry only. It is read-only over completed programs, every artifact
 it seals carries `advisory: true`, and it can never change an evidence class, a seed, a threshold, a
-control, or any sealed receipt. The eight-worker planning envelope in section 6 is the manifest
-ceiling; the six-worker advisory only informs how an operator might schedule an admitted run.
+control, or any sealed receipt. The sixteen-worker planning envelope in section 6 is the manifest
+ceiling; the six-worker default advisory only informs how an operator might schedule an admitted run.
 
 ## 8. Frozen routing rules
 
@@ -189,7 +195,7 @@ changes only future eligible work, and every prune stays visible in the aggregat
 
 ## 9. Host and launch safety
 
-The full-generations compute class is idle-host-only and uses at most eight internal workers. It is
+The full-generations compute class is idle-host-only and uses at most sixteen internal workers. It is
 not added to the Hawking coexistence whitelist. While incumbent heavy workloads or any earlier
 program remain incomplete, the long-chain v3 command starts only lightweight observation parents.
 
