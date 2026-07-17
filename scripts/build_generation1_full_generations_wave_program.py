@@ -71,6 +71,16 @@ NEW_MECHANISM_AUTHORITIES = tuple(
     for role in ("scaffold", "bed", "impl", "runner")
 )
 
+# The construction lane (G1-G1) is executed by the proven numpy-vectorized runner instead of the scalar
+# bed. Both vectorized modules are now direct imports of the wave runtime, so they are pinned as runtime
+# authorities and the manifest freezes the exact bytes that mint construction receipts. The vectorized
+# rung is byte-identical to the scalar rung (proven at the receipt and rung level), so pinning them
+# changes no receipt, only which construction code the program authority chain binds.
+CONSTRUCTION_VEC_AUTHORITIES = (
+    "src/mop/mechanisms/construction_search_vec_impl.py",
+    "src/mop/mechanisms/construction_search_vec_runner.py",
+)
+
 CORE_RUNTIME_AUTHORITIES = (
     CLI_PATH,
     RUNTIME_PATH,
@@ -90,6 +100,7 @@ CORE_RUNTIME_AUTHORITIES = (
     "src/mop/ladder/stage3_successor_registry.py",
     "src/mop/ladder/stage3_registry.py",
     "src/mop/ladder/ladder_contracts.py",
+    *CONSTRUCTION_VEC_AUTHORITIES,
     *NEW_MECHANISM_AUTHORITIES,
     "scripts/generation1_successor_horizon_v2/mop_generation1_successor_horizon.py",
     "src/mop/studio/generation1_supervisor.py",
