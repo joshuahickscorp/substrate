@@ -313,7 +313,7 @@ def test_artifact_round_trip_validates() -> None:
     assert artifact["activation_allowed"] is False
     assert artifact["scientific_promotion"] is False
     assert artifact["provisional_mechanisms"] == ["stability_plasticity"]
-    assert artifact["recommendation"]["recommended_workers"] == 6
+    assert artifact["recommendation"]["recommended_workers"] == 16
 
 
 def test_forgery_seal_flip_is_rejected() -> None:
@@ -395,7 +395,7 @@ def test_real_result_extracts_eleven_continuing_lanes_and_pruned_p1() -> None:
     planned = reprof._default_planned_rates()
     artifact = reprof.build_reprofile_artifact(profile, planned)
     reprof.validate_reprofile(artifact)
-    assert artifact["recommendation"]["recommended_workers"] == 6
+    assert artifact["recommendation"]["recommended_workers"] == 16
     assert "stability_plasticity" in artifact["provisional_mechanisms"]
     assert artifact["recommendation"]["de_idealized_rates"]["construction_search"]["source"] == "observed"
 

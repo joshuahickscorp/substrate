@@ -54,11 +54,16 @@ WORKER_RESERVE = 4
 WORKER_HARD_CEILING = 16
 
 # Host capacity defaults for this build target: Apple M3 Ultra, 28 logical cores
-# (20 performance + 8 efficiency), 96 GiB unified memory, taskpolicy -m 16384 MiB
-# adaptive per-capsule memory cap.
+# (20 performance + 8 efficiency), 96 GiB unified memory.
+# The per-capsule cap is the MEASURED worker footprint, not the taskpolicy -m 16384 MiB
+# kill ceiling. Microbench of the real seeded-sha256 workload measured 0.21 to 0.56 GB
+# resident per single-threaded capsule and an aggregate throughput peak at 16 workers
+# (regression past 20), so 0.75 GB is a conservative footprint that leaves the hard
+# ceiling of 16 the binding term. The old 16 GiB divisor was the kill ceiling, not a
+# reservation, and made memory_bound = floor(96 / 16) = 6 an artificial throttle.
 DEFAULT_HOST_CORES = 28
 DEFAULT_MEMORY_GB = 96.0
-DEFAULT_PER_CAPSULE_MEM_CAP_GB = 16.0
+DEFAULT_PER_CAPSULE_MEM_CAP_GB = 0.75
 
 SECONDS_PER_HOUR = 3600.0
 

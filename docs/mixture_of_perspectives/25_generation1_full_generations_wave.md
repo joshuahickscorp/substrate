@@ -120,6 +120,15 @@ conservative 6.7x planning factor to the construction pacing seconds only. Both 
 pinned as runtime authorities in the sealed manifest, so the program authority chain freezes the exact
 construction code that mints the receipts.
 
+The vectorized oracle-headroom arm scores its exhaustive subset enumeration in cache-fitting chunks
+over the subset axis rather than in one monolithic array whose footprint grows as `2**num_members`
+(about 1 GB at the 20-member oracle ceiling, near 0.5 GB in a single float64 temporary). A running
+first-occurrence argmax keeps the winning subset, raw score, and evaluation count bit-identical to the
+prior full-batch path and to the scalar authority, proven over more than one thousand seeds including
+the fresh cycles 19..32. The chunking bounds the peak transient RSS to a few megabytes at any allowed
+member count (measured at the ceiling: about 988 MB before, about 226 MB after), so a numpy allocation
+spike can never cross the `-P kill` line mid-rung. No receipt byte moves.
+
 ## 4. The five serial admission gates
 
 The wave opens with five gates in fixed order before any epoch compute.
@@ -170,7 +179,7 @@ integration classification, one aggregate, one independently authored verifier, 
 and one advisory release-audit capsule.
 
 The sealed manifest is `configs/campaign/generation1_full_generations_wave_v1.json` with
-`program_sha256 = 5efc3bd48d6b490b79cbb04ab9e1e50c3f63550db16976796618abc7ab8537a3`. It binds the
+`program_sha256 = 405c7bc3fac58da3da750afd5c4b14a58a023556cdaedb4c37607a129d287612`. It binds the
 throttle policy `configs/local_execution_throttle_v6_full_generations.yaml`, and every category and
 integration compute capsule declares a sixteen-core idle-host pool while the serial gate, classifier,
 aggregate, verifier, report, and release-audit capsules stay single-core.
