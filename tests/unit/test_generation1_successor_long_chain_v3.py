@@ -6,7 +6,15 @@ from typing import Any
 
 import pytest
 
+from mop.studio import generation1_full_generations_extension_chain as extension_chain
 from mop.studio import generation1_successor_long_chain_v3 as long_chain
+
+
+def test_launcher_targets_extension_parent_by_uniform_label() -> None:
+    # The v3 launcher starts the full-generations extension parent through
+    # start_full_generations_extension_detached, which labels that parent with
+    # the uniform scheme. Lock the contract the launcher relies on.
+    assert extension_chain.PARENT_LABEL == "mop:fullgen:extension"
 
 
 def _v2_receipt() -> dict[str, Any]:

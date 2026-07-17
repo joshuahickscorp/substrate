@@ -43,9 +43,10 @@ from mop.studio.generation1_supervisor import (
     sha256_file,
     start_detached,
 )
+from mop.studio.mop_label_scheme import ROLE_EXTENSION, mop_label
 
 PROGRAM_ID = "generation1-full-generations-extension-chain-v1"
-PARENT_LABEL = "mop-full-generations-extension-chain"
+PARENT_LABEL = mop_label("fullgen", ROLE_EXTENSION)
 STATE_SCHEMA = "mop-generation1-full-generations-extension-chain-state/v1"
 STATUS_SCHEMA = "mop-generation1-full-generations-extension-chain-status/v1"
 

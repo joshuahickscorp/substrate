@@ -49,7 +49,7 @@ STATE_SCHEMA = "mop-generation1-telegram-notifier-state/v1"
 MAX_JSON_BYTES = 32 * 1024 * 1024
 MAX_MESSAGE_CHARS = 4000
 POLL_SECONDS = 120
-RUNG_NOTIFICATION_EVERY = 10
+RUNG_NOTIFICATION_EVERY = 30
 STALL_GRACE_SECONDS = 10 * 60
 PROCESS_IDENTITY_TOLERANCE_SECONDS = 0.01
 TERMINAL_STATES = {"complete", "failure_hold", "integrity_hold", "failed", "drained", "stopped"}
@@ -69,6 +69,8 @@ PROGRAM_LABELS = {
     "generation1-categorized-batch-extension-chain-v1": "Categorized Batch Extension",
     "generation1-successor-categorized-batch-wave-v1": "Categorized Batch Wave",
     "generation1-consolidated-final-campaign-v1": "Final Campaign",
+    "generation1-full-generations-wave-v1": "Full Generations Wave",
+    "generation1-full-generations-extension-chain-v1": "Full Generations Extension",
 }
 
 NEXT_LABELS = {
@@ -374,6 +376,80 @@ def _stall_event(
     }
 
 
+def _adaptive_summary(status: Mapping[str, Any]) -> dict[str, Any] | None:
+    """Return a compact {workers, mode} view of the adaptive block, or None."""
+
+    adaptive = status.get("adaptive_execution")
+    if not isinstance(adaptive, Mapping):
+        return None
+    return {"workers": adaptive.get("workers"), "mode": adaptive.get("mode")}
+
+
+def _classify_mode(mode: Any) -> str | None:
+    """Map a raw adaptive mode string to a tracked throttle class, or None."""
+
+    if not isinstance(mode, str):
+        return None
+    lowered = mode.lower()
+    if "hawking" in lowered:
+        return "hawking"
+    if "idle" in lowered or "opportunistic" in lowered:
+        return "idle"
+    return None
+
+
+def _collect_throttle_events(
+    last_seen_mode: Mapping[str, Any],
+    *,
+    runs_root: Path = RUNS_ROOT,
+) -> tuple[list[dict[str, Any]], dict[str, str]]:
+    """Detect hawking<->idle mode transitions per program across polls.
+
+    Returns the transition events plus the refreshed per-program mode map. The
+    first observation of any program only records its mode and never fires, so a
+    freshly primed notifier never announces a transition it did not witness.
+    """
+
+    events: list[dict[str, Any]] = []
+    updated: dict[str, str] = {
+        str(key): str(value)
+        for key, value in last_seen_mode.items()
+        if isinstance(value, str)
+    }
+    if not runs_root.exists():
+        return events, updated
+    for path in sorted(runs_root.glob("*/current_status.json")):
+        try:
+            status = read_json(path)
+        except (MOPNotifierError, OSError):
+            continue
+        if not _valid_status(status):
+            continue
+        adaptive = status.get("adaptive_execution")
+        if not isinstance(adaptive, Mapping):
+            continue
+        current = _classify_mode(adaptive.get("mode"))
+        if current is None:
+            continue
+        program_id = str(status.get("program_id") or path.parent.name)
+        previous = updated.get(program_id)
+        updated[program_id] = current
+        if previous is None or previous == current:
+            continue
+        workers = adaptive.get("workers")
+        events.append(
+            {
+                "event_id": f"throttle-shift/{program_id}/{current}",
+                "kind": "throttle",
+                "program_id": program_id,
+                "mode": current,
+                "previous_mode": previous,
+                "workers": workers if isinstance(workers, int) and not isinstance(workers, bool) else None,
+            }
+        )
+    return events, updated
+
+
 def collect_events(
     *,
     runs_root: Path = RUNS_ROOT,
@@ -413,27 +489,29 @@ def collect_events(
             and declared_total == len(capsules)
             else len(capsules)
         )
+        adaptive_summary = _adaptive_summary(status)
         for ordinal, capsule_id in enumerate(completed, start=1):
             row = capsules[capsule_id]
             artifact_roots = [
                 artifact.get("sha256") for artifact in row.get("artifacts", []) if isinstance(artifact, dict)
             ]
             root = canonical_sha256(artifact_roots)
-            events.append(
-                {
-                    "event_id": f"capsule/{program_id}/{capsule_id}/{root}",
-                    "kind": "rung",
-                    "program_id": program_id,
-                    "capsule_id": capsule_id,
-                    "state": "complete",
-                    "attempts": row.get("attempts"),
-                    "finished_at": row.get("finished_at"),
-                    "progress": {"complete": ordinal, "total": total},
-                    "eta": _event_eta(status, ordinal, total),
-                    "artifacts": row.get("artifacts", []),
-                    "problems": status.get("problems", []),
-                }
-            )
+            rung_event = {
+                "event_id": f"capsule/{program_id}/{capsule_id}/{root}",
+                "kind": "rung",
+                "program_id": program_id,
+                "capsule_id": capsule_id,
+                "state": "complete",
+                "attempts": row.get("attempts"),
+                "finished_at": row.get("finished_at"),
+                "progress": {"complete": ordinal, "total": total},
+                "eta": _event_eta(status, ordinal, total),
+                "artifacts": row.get("artifacts", []),
+                "problems": status.get("problems", []),
+            }
+            if adaptive_summary is not None:
+                rung_event["adaptive"] = adaptive_summary
+            events.append(rung_event)
         state = str(status.get("state", "unknown"))
         if state in TERMINAL_STATES:
             terminal_root = canonical_sha256(
@@ -443,17 +521,18 @@ def collect_events(
                     "problems": status.get("problems", []),
                 }
             )
-            events.append(
-                {
-                    "event_id": f"program/{program_id}/{state}/{terminal_root}",
-                    "kind": "failure" if state in FAILURE_STATES else "terminal",
-                    "program_id": program_id,
-                    "state": state,
-                    "progress": {"complete": complete, "total": total},
-                    "eta": _event_eta(status, complete, total),
-                    "problems": status.get("problems", []),
-                }
-            )
+            terminal_event = {
+                "event_id": f"program/{program_id}/{state}/{terminal_root}",
+                "kind": "failure" if state in FAILURE_STATES else "terminal",
+                "program_id": program_id,
+                "state": state,
+                "progress": {"complete": complete, "total": total},
+                "eta": _event_eta(status, complete, total),
+                "problems": status.get("problems", []),
+            }
+            if adaptive_summary is not None:
+                terminal_event["adaptive"] = adaptive_summary
+            events.append(terminal_event)
         else:
             stalled = _stall_event(
                 status,
@@ -624,8 +703,49 @@ def _format_duration(value: Any) -> str:
     return f"{hours}h {remainder}m" if hours else f"{remainder}m"
 
 
+def _worker_line(event: Mapping[str, Any]) -> str | None:
+    """Render a compact worker/throttle line from an event's adaptive block."""
+
+    adaptive = event.get("adaptive")
+    if not isinstance(adaptive, Mapping):
+        return None
+    workers = adaptive.get("workers")
+    has_workers = isinstance(workers, int) and not isinstance(workers, bool)
+    mode = adaptive.get("mode")
+    has_mode = isinstance(mode, str) and bool(mode.strip())
+    if not has_workers and not has_mode:
+        return None
+    workers_text = str(workers) if has_workers else "?"
+    if has_mode:
+        lowered = mode.lower()
+        if "hawking" in lowered:
+            label = "Hawking active"
+        elif "idle" in lowered or "opportunistic" in lowered:
+            label = "idle burst"
+        else:
+            label = mode
+        return f"Workers: {workers_text} ({label})"
+    return f"Workers: {workers_text}"
+
+
+def _throttle_message(event: Mapping[str, Any]) -> str:
+    """Render the one-line throttle-shift blip for a mode transition."""
+
+    label = _program_label(event.get("program_id"))
+    workers = event.get("workers")
+    workers_text = str(workers) if isinstance(workers, int) and not isinstance(workers, bool) else "?"
+    mode = event.get("mode")
+    if mode == "idle":
+        return f"⚙️ MOP {label}: Hawking cleared, ramping to {workers_text} workers"
+    if mode == "hawking":
+        return f"⚙️ MOP {label}: Hawking active, ceding to {workers_text} workers"
+    return f"⚙️ MOP {label}: throttle mode {mode}"
+
+
 def format_event(event: Mapping[str, Any]) -> str:
     kind = event["kind"]
+    if kind == "throttle":
+        return _throttle_message(event)[:MAX_MESSAGE_CHARS]
     if kind == "rung":
         progress = event["progress"]
         lines = [
@@ -637,6 +757,9 @@ def format_event(event: Mapping[str, Any]) -> str:
             f"Next {RUNG_NOTIFICATION_EVERY} rungs: {_format_duration(eta.get('block_seconds'))}",
             f"Full queue: {_format_duration(eta.get('session_seconds'))}",
         ]
+        worker_line = _worker_line(event)
+        if worker_line is not None:
+            lines.append(worker_line)
     elif kind in {"terminal", "failure"}:
         symbol = "⚠️" if kind == "failure" else "✅"
         progress = event["progress"]
@@ -644,6 +767,11 @@ def format_event(event: Mapping[str, Any]) -> str:
             f"{symbol} MOP {_program_label(event['program_id'])}: {event['state']}",
             f"Progress: {progress['complete']}/{progress['total']}",
         ]
+        if kind == "terminal" and str(event.get("program_id")) in PROGRAM_LABELS:
+            lines.append("Chain stage complete")
+        worker_line = _worker_line(event)
+        if worker_line is not None:
+            lines.append(worker_line)
     else:
         lines = [
             "📊 MOP result ready",
@@ -691,6 +819,7 @@ def run_once(
     *,
     sender: Callable[[str], dict[str, Any]] = send_message,
     state_path: Path = STATE,
+    runs_root: Path = RUNS_ROOT,
 ) -> dict[str, Any]:
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
     with LOCK.open("a+") as lock:
@@ -702,8 +831,17 @@ def run_once(
         if state.get("primed") is not True:
             raise MOPNotifierError("MOP notifier must be primed before delivery")
         delivered = dict(state.get("delivered", {}))
+        throttle_events: list[dict[str, Any]] = []
+        try:
+            previous_modes = state.get("last_seen_mode")
+            previous_modes = previous_modes if isinstance(previous_modes, Mapping) else {}
+            throttle_events, current_modes = _collect_throttle_events(previous_modes, runs_root=runs_root)
+            state["last_seen_mode"] = current_modes
+        except (MOPNotifierError, OSError, ValueError):
+            throttle_events = []
+        save_state(state, state_path)
         sent = 0
-        for event in collect_events():
+        for event in [*throttle_events, *collect_events()]:
             if event["event_id"] in delivered:
                 continue
             if not _should_send(event):
