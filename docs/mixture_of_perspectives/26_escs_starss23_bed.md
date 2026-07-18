@@ -154,3 +154,75 @@ firing spacing. That is a proven wall with a mechanistic reason, which is a legi
 
 The substrate stays at Stage 2. The bed and its sealed referee did their job again: they distinguished
 four honest attempts from free random placement and refused to manufacture a positive from any of them.
+
+## 6. E1 featurizer wave: three frozen front-ends, three nulls
+
+Sections 3 and 5 bracketed the trained gate: the base gate wastes budget by clustering its fires, and
+redesigning the gate's spread strategy (four variants) still did not clear the SESOI. This wave holds
+the trained gate fixed and attacks the other half of the pipeline. It asks whether a richer frozen
+zero-trained-parameter front-end carries onset-localizing information the unchanged gate can exploit.
+Three net-new featurizers were built (additive modules under `src/mop/beds/starss23/`, no sealed scoring
+logic touched), each emitting exactly 256 features natively so it feeds the unchanged 3,193-parameter
+gate with no projection and no truncation, each `n_params() == 0` and byte-reproducible, and each
+charged its own honest per-frame FLOP cost identically per arm. All three ran on the REAL room-disjoint
+STARSS23 FOA dev subset (45 clips, 21 test clips, 538 onsets, 22,569 test frames, 25,172 train frames),
+five paired seeds. The SESOI (0.05 onset F1) was preregistered in code before any featurizer read a test
+score, and the three-featurizer family carries a Bonferroni multiplicity wall (per-featurizer alpha
+0.0167, minimum achievable one-sided p 0.03125) that is unreachable at n = 5 by construction, so no
+single wave can promote.
+
+**All three featurizers nulled. None beat rate-matched-random; none exceeded the SESOI; none cleared the
+one-sided sign-flip. A tie is a null, so the wave is a null.**
+
+| Featurizer | Mechanism (frozen front-end) | mean onset-F1 delta (cand - random) | one-sided sign-flip p | SESOI 0.05 exceeded | noisy-TV at chance | matched FLOPs | verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `spatial_doa` | per-band active-intensity direction of arrival from the FOA B-format, `I = Re{conj(W)[X,Y,Z]}` reduced per band to direction cosines plus DirAC diffuseness (64 bands x 4 = 256) | **-0.0031** | 0.6875 | No | True (4.5% on noise vs 10.8% content) | 2.96e10 | null |
+| `superflux_spectral` | frozen SuperFlux onset detector (Boeck and Widmer, DAFx 2013): mu-law log-mel with maximum-filter vibrato suppression and positive spectral flux (256) | **-0.0182** | 1.0 | No | **False** (53.4% on noise vs 37.5% content) | 3.04e10 | null |
+| `interchannel_coherence` | magnitude-squared coherence between the FOA omni W and each gradient channel X, Y, Z per band, plus DirAC directness (64 bands x 4 = 256) | **-0.0290** | 1.0 | No | True (2.2% on noise vs 10.1% content) | 3.02e10 | null |
+
+Each proof is sealed net-new (`proof/STARSS23_ESCS_BED_spatial_doa.json`,
+`proof/STARSS23_ESCS_BED_superflux_spectral.json`, `proof/STARSS23_ESCS_BED_interchannel_coherence.json`)
+with its SESOI preregistered first in the matching `.prereg.json`. No adversarial verification pass gated
+this wave, because a verification pass only gates a claimed positive and there was no positive to gate.
+`independent_scientific_confirmation` therefore stays `false`, unchanged.
+
+### The mechanistic wall this wave establishes
+
+The three front-ends fail in an ordered, mechanistically legible way, and together with section 5 they
+close the wall from both sides:
+
+- **`spatial_doa` is the closest to break-even and still loses.** Encoding where each band's source sits
+  (direction cosines plus DirAC diffuseness) is the richest spatial information the FOA format exposes,
+  and two of its five seeds actually went positive (+0.018, +0.003), but the mean nets slightly negative
+  (-0.0031, p = 0.6875), an order of magnitude short of the 0.05 SESOI. Direction of arrival tells the
+  gate WHERE a source sits, not WHEN it onsets, so at matched budget it places fires no better than
+  uniform random. It keeps the noisy-TV control at chance (4.5% on noise vs a 10.8% content base rate),
+  so this is an honest no-signal null, not a noise-chaser.
+- **`superflux_spectral` fails twice over.** SuperFlux is the one front-end designed as a sharper onset
+  detector than the base half-wave-rectified flux, and its preregistered hypothesis was that sharper
+  onset structure would raise onset F1. Instead it lost (mean -0.0182, p = 1.0) AND broke the
+  noisy-TV-at-chance control (it fires 53.4% on pure noise versus a 37.5% content base rate). That is the
+  tell: max-filtered positive spectral flux responds to any broadband energy transient, including noise,
+  so its extra "onset structure" is partly a noise response rather than an onset response. A stronger
+  generic transient detector is not a stronger onset localizer here.
+- **`interchannel_coherence` loses cleanly.** All five paired seeds are negative (mean -0.0290, p = 1.0),
+  the worst of the wave. Magnitude-squared coherence measures how phase-locked the omni and gradient FOA
+  channels are, a spatial-directness cue close to orthogonal to onset timing; it keeps noisy-TV at chance
+  (2.2% on noise vs a 10.1% content base rate) but simply carries no onset-localizing information, so it
+  strictly loses to free random placement.
+
+The wave's honest lesson: a richer frozen front-end does not carry onset-localizing information the
+unchanged gate can exploit. Adding spatial direction, a stronger hand-crafted onset detector, or
+interchannel coherence to the front-end does not move onset F1 past the SESOI and does not beat
+rate-matched-random, and the one front-end built to sharpen onsets did so only by also chasing noise.
+Section 5 showed that redesigning the gate's firing pattern does not clear the wall; this wave shows that
+enriching the frozen representation the gate reads does not clear it either. The wall is therefore
+neither in the front-end's feature richness nor in the gate's firing sparsity or spacing. As X0 and
+section 3 both indicated, the missing capability is relational and temporal event interpretation (knowing
+WHICH frame is an onset), which neither a frozen zero-parameter front-end nor a sub-4,096-parameter gate
+supplies at matched compute. That is a proven wall with a mechanistic reason, which is a legitimate wave
+outcome.
+
+The substrate stays at Stage 2. The bed and its sealed referee did their job a third time: they
+distinguished three honest frozen front-ends from free random placement and refused to manufacture a
+positive from any of them.
