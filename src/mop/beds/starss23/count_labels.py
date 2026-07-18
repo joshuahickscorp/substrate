@@ -1,0 +1,199 @@
+"""Concurrent-source-counting bed, component 1: per-frame ground-truth concurrent-source count.
+
+This is a net-new, additive component for the STARSS23 concurrent-source-COUNTING value-of-computation
+bed. It sits entirely beside the sealed onset-localization path (referee.py, stats.py, controls.py,
+harness.py, gate.py, prereg.py, schema.py, adapter.py are never edited). It reuses the adapter's
+metadata parse path by import and only adds a per-frame count track on top of the frozen ``Clip``
+identity, room, audio digest, and room-disjoint fold split.
+
+Derivation
+----------
+The frame grid is the STARSS23 native 100 ms grid (``SAMPLES_PER_FRAME`` at 24 kHz). Native metadata is
+the six-column DCASE onset form ``frame,class,source,azimuth,elevation,distance``, one row per active
+100 ms frame per source track. Because there are zero duplicate ``(frame,class,source)`` rows, each row
+is one distinct active ``(class, source)`` track at that frame, so the concurrent-source count at frame t
+is exactly the number of distinct active ``(class_id, source_id)`` tracks at t:
+
+    C_gt(t) = | { (class_id, source_id) : a metadata row exists at frame index t } |    0 <= t < n_frames
+    C_gt(t) = 0                                                                          otherwise (silence)
+
+Rows with ``frame >= n_frames`` are dropped, which is the exact whole-frame truncation provenance the
+``RealStarssAdapter`` already records. No arm compute is charged: this is a pure label derivation.
+
+House style: no em dashes and no en dashes.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+
+from mop.substrate.events import canonical_sha256
+
+from .adapter import MetadataRow, RealStarssAdapter, parse_starss23_metadata
+
+COUNT_LABELS_SCHEMA = "mop-starss23-count-labels/v1"
+
+# Validation sanity bound only. A real STARSS23 frame never carries more than a few concurrent sources;
+# a derived count above this bound means the metadata is corrupt, so the derivation refuses. Labels are
+# not clamped below it: the true count passes through unchanged.
+COUNT_CEILING = 16
+
+
+class CountLabelRefusal(ValueError):
+    """Raised when a count track cannot be derived or would violate the count-label contract."""
+
+
+def _require_n_frames(n_frames: int) -> int:
+    if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames <= 0:
+        raise CountLabelRefusal("n_frames must be a positive integer")
+    return n_frames
+
+
+def count_track_from_rows(rows: Sequence[MetadataRow], n_frames: int) -> np.ndarray:
+    """Return the (n_frames,) int64 concurrent-count track from native metadata rows.
+
+    The count at frame t is the number of distinct ``(class_id, source_id)`` tracks active at t, which
+    equals the number of metadata rows at frame index t because rows are unique per ``(frame, class,
+    source)``. Frames with no rows (silence and the unlabeled tail past the last active frame) are 0.
+    Rows with ``frame >= n_frames`` are dropped. Refuses if any resulting count exceeds ``COUNT_CEILING``.
+    """
+
+    n_frames = _require_n_frames(n_frames)
+    per_frame_tracks: list[set[tuple[int, int]]] = [set() for _ in range(n_frames)]
+    for row in rows:
+        if not isinstance(row, MetadataRow):
+            raise CountLabelRefusal("rows must be MetadataRow values")
+        if 0 <= row.frame < n_frames:
+            per_frame_tracks[row.frame].add((row.class_id, row.source_id))
+    track = np.array([len(tracks) for tracks in per_frame_tracks], dtype=np.int64)
+    if track.size and int(track.max()) > COUNT_CEILING:
+        raise CountLabelRefusal(
+            f"derived concurrent count {int(track.max())} exceeds COUNT_CEILING {COUNT_CEILING}"
+        )
+    return track
+
+
+def count_track_from_metadata_text(text: str, n_frames: int) -> np.ndarray:
+    """Parse native STARSS23 metadata text (reused ``parse_starss23_metadata``) into a count track."""
+
+    return count_track_from_rows(parse_starss23_metadata(text), n_frames)
+
+
+@dataclass(frozen=True, slots=True)
+class CountClip:
+    """One clip's concurrent-source count track, keyed to the frozen ``Clip`` identity and audio digest."""
+
+    clip_id: str
+    room_id: str
+    n_frames: int
+    audio_sha256: str
+    count_track: tuple[int, ...]
+    schema: str = COUNT_LABELS_SCHEMA
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.clip_id, str) or not self.clip_id.strip():
+            raise CountLabelRefusal("CountClip.clip_id must be a nonempty string")
+        if not isinstance(self.room_id, str) or not self.room_id.strip():
+            raise CountLabelRefusal("CountClip.room_id must be a nonempty string")
+        _require_n_frames(self.n_frames)
+        if len(self.count_track) != self.n_frames:
+            raise CountLabelRefusal("CountClip.count_track length must equal n_frames")
+        for value in self.count_track:
+            if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+                raise CountLabelRefusal("CountClip.count_track must hold nonnegative integers")
+            if value > COUNT_CEILING:
+                raise CountLabelRefusal("CountClip.count_track value exceeds COUNT_CEILING")
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "schema": self.schema,
+            "clip_id": self.clip_id,
+            "room_id": self.room_id,
+            "n_frames": self.n_frames,
+            "audio_sha256": self.audio_sha256,
+            "count_track": list(self.count_track),
+        }
+
+    def digest(self) -> str:
+        return canonical_sha256(self.payload())
+
+    @property
+    def n_changes(self) -> int:
+        """Number of frames t (1 <= t) where the count changes from t-1. A label-only staircase count."""
+
+        track = self.count_track
+        return sum(1 for t in range(1, len(track)) if track[t] != track[t - 1])
+
+    @property
+    def change_frames(self) -> tuple[int, ...]:
+        """The frames t where the count changes from t-1 (the source-enter / source-leave transitions)."""
+
+        track = self.count_track
+        return tuple(t for t in range(1, len(track)) if track[t] != track[t - 1])
+
+
+def _metadata_index(metadata_root: str | Path) -> dict[str, Path]:
+    """Index metadata CSVs by clip stem with the exact ``rglob`` the adapter uses. Label-only."""
+
+    root = Path(metadata_root)
+    if not root.is_dir():
+        raise CountLabelRefusal(f"metadata root {root} is not a directory")
+    index: dict[str, Path] = {}
+    for meta_path in sorted(root.rglob("*.csv")):
+        index.setdefault(meta_path.stem, meta_path)
+    return index
+
+
+def build_count_clips(adapter: RealStarssAdapter, metadata_root: str | Path) -> dict[str, CountClip]:
+    """Derive a ``CountClip`` for every clip the adapter serves.
+
+    For each ``Clip`` the adapter returns, the metadata CSV is re-globbed from ``metadata_root`` by clip
+    stem (the same ``rglob`` the adapter used), the count track is derived at the clip's whole-frame
+    ``n_frames``, and the clip's room id and audio digest are reused unchanged. Pure derivation; charges
+    no arm compute and touches no sealed module.
+    """
+
+    index = _metadata_index(metadata_root)
+    out: dict[str, CountClip] = {}
+    for clip in adapter.clips():
+        meta_path = index.get(clip.clip_id)
+        if meta_path is None:
+            raise CountLabelRefusal(
+                f"clip {clip.clip_id} has no matching metadata under {metadata_root}"
+            )
+        track = count_track_from_metadata_text(meta_path.read_text(encoding="utf-8"), clip.n_frames)
+        out[clip.clip_id] = CountClip(
+            clip_id=clip.clip_id,
+            room_id=clip.room_id,
+            n_frames=clip.n_frames,
+            audio_sha256=clip.audio_sha256,
+            count_track=tuple(int(v) for v in track.tolist()),
+        )
+    return out
+
+
+def change_density(clips: Iterable[CountClip]) -> float:
+    """Pooled fraction of frames where the count changes: sum(n_changes) / sum(n_frames). Label-only."""
+
+    total_changes = 0
+    total_frames = 0
+    for clip in clips:
+        total_changes += clip.n_changes
+        total_frames += clip.n_frames
+    return total_changes / total_frames if total_frames > 0 else 0.0
+
+
+def coast_from_zero_mae(clips: Iterable[CountClip]) -> float:
+    """Pooled mean(|C_gt|), the never-update MAE reference and the label-only drift scale for the SESOI."""
+
+    abs_sum = 0
+    total_frames = 0
+    for clip in clips:
+        abs_sum += sum(abs(int(v)) for v in clip.count_track)
+        total_frames += clip.n_frames
+    return abs_sum / total_frames if total_frames > 0 else 0.0
