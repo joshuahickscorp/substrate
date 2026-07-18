@@ -504,11 +504,12 @@ def build_admission(
     parent_verification_path: Path = DEFAULT_PARENT_VERIFICATION,
     parent_report_receipt_path: Path = DEFAULT_PARENT_REPORT_RECEIPT,
 ) -> dict[str, Any]:
-    parent = _validated_parent_state(
-        result_path=parent_result_path,
-        verification_path=parent_verification_path,
-        report_receipt_path=parent_report_receipt_path,
-    )
+    with _predecessor_identity_scope():
+        parent = _validated_parent_state(
+            result_path=parent_result_path,
+            verification_path=parent_verification_path,
+            report_receipt_path=parent_report_receipt_path,
+        )
     core = {
         "schema": ADMISSION_SCHEMA,
         "program_id": PROGRAM_ID,
@@ -568,11 +569,12 @@ def validate_admission(value: Mapping[str, Any]) -> None:
             raise ValueError(f"successor horizon v2 {label} file binding drifted")
         paths[label] = path
 
-    parent = _validated_parent_state(
-        result_path=paths["result"],
-        verification_path=paths["verification"],
-        report_receipt_path=paths["report_receipt"],
-    )
+    with _predecessor_identity_scope():
+        parent = _validated_parent_state(
+            result_path=paths["result"],
+            verification_path=paths["verification"],
+            report_receipt_path=paths["report_receipt"],
+        )
     expected_parent = parent["bindings"]
     if dict(parent_bindings) != expected_parent:
         raise ValueError("successor horizon v2 parent authority binding drifted")
@@ -662,6 +664,32 @@ def _v1_runtime_scope() -> Iterator[None]:
             yield
         finally:
             for name, prior in original.items():
+                setattr(predecessor, name, prior)
+
+
+# The pristine v1 engine identity, snapshotted at import before any _v1_runtime_scope runs.
+_V1_IDENTITY_ORIGINAL = {name: getattr(predecessor, name) for name in _V1_PATCH}
+
+
+@contextmanager
+def _predecessor_identity_scope() -> Iterator[None]:
+    """Restore the pristine v1 engine identity while validating the v1 parent.
+
+    The parent-authority validation runs inside _v1_runtime_scope (the v1 module globals
+    are repointed to the v2 plan), but the parent it checks is a genuine v1 result and
+    must be validated against v1's own identity contract (RESULT_SCHEMA, PROGRAM_ID,
+    CLAIM_SCOPE, ...), not v2's. This reentrant scope (_RUNTIME_LOCK is an RLock) restores
+    the original v1 identity for the parent check, then restores whatever was active on
+    exit. When no v2 scope is active it is a no-op (restores original to original)."""
+
+    with _RUNTIME_LOCK:
+        active = {name: getattr(predecessor, name) for name in _V1_IDENTITY_ORIGINAL}
+        try:
+            for name, original in _V1_IDENTITY_ORIGINAL.items():
+                setattr(predecessor, name, original)
+            yield
+        finally:
+            for name, prior in active.items():
                 setattr(predecessor, name, prior)
 
 
