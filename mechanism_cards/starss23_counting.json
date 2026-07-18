@@ -1,0 +1,14 @@
+{
+ "card_id": "starss23_counting",
+ "disposition": "redesign",
+ "evidence_level": "M0",
+ "failure_domain": "signal did not survive scoring-unit and gate-architecture reproduction",
+ "forbidden_claim": "no activation, promotion, or confirmation from these sealed runs",
+ "form_family": "native_audio",
+ "hypothesis": "a trained value_of_computation beats matched controls on source_counting",
+ "independent_units": "clips within a small number of rooms (not independent environments)",
+ "mechanism_family": "value_of_computation",
+ "phenomenon": "source_counting",
+ "source_artifact": "STARSS23_COUNTING_BED.json",
+ "strongest_control": "rate_matched_random at matched budget"
+}
