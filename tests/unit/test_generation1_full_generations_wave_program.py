@@ -91,7 +91,7 @@ def test_compute_capsules_use_dynamic_worker_pool_and_unique_artifacts() -> None
 
         if capsule_id in compute_ids:
             assert command[: len(TASKPOLICY_ADAPTIVE_PREFIX)] == (TASKPOLICY_ADAPTIVE_PREFIX)
-            assert resources["cpu_cores"] == wave.IDLE_WORKERS == 16
+            assert resources["cpu_cores"] == wave.IDLE_WORKERS == 20
             assert resources["estimated_unified_memory_gb"] == TASKPOLICY_ADAPTIVE_CAP_GB
             if capsule_id == "i1_integrate":
                 assert resources["wall_minutes"] == 180
@@ -252,6 +252,6 @@ def test_manifest_binds_v6_full_generations_policy_with_retained_markers() -> No
     assert len(wave_tasks) == len(wave.CATEGORY_IDS) + 1  # seven categories plus the I1 integration
     for task in wave_tasks.values():
         assert task.lane == "cpu"
-        assert task.cpu_cores == wave.IDLE_WORKERS == 16
+        assert task.cpu_cores == wave.IDLE_WORKERS == 20
         assert task.estimated_unified_memory_gb is not None
         assert task.estimated_unified_memory_gb <= 16.0
