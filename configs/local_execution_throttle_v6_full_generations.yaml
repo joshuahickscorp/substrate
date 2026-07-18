@@ -8,7 +8,7 @@
 # therefore retained unchanged; only additive full-generations compute task declarations are
 # appended at the end of the tasks map below.
 #
-# The wave runs at the sealed sixteen-worker idle-host pool width (IDLE_WORKERS = 16). The
+# The wave floats a dynamic idle-host pool from one to twenty workers (ceiling IDLE_WORKERS = 20). The
 # Hawking known_heavy_markers are retained verbatim, so deterministic backoff-to-zero still
 # arms when a Hawking doctor_v5 / quantize-model-block-parallel process reappears. The wave
 # compute tasks deliberately omit external_coexistence, so they are never added to the
@@ -1360,10 +1360,10 @@ tasks:
   full_generations_formation_trace:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations formation and trace category compute; a dynamic process pool of sixteen workers under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
+    resource_basis: idle-host-only full-generations formation and trace category compute; a dynamic process pool that floats from one to twenty workers with live host load under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 285
@@ -1400,10 +1400,10 @@ tasks:
   full_generations_communication_repair:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations communication and repair category compute; a dynamic process pool of sixteen workers under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
+    resource_basis: idle-host-only full-generations communication and repair category compute; a dynamic process pool that floats from one to twenty workers with live host load under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 285
@@ -1440,10 +1440,10 @@ tasks:
   full_generations_memory_plasticity:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations memory and plasticity category compute; a dynamic process pool of sixteen workers under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
+    resource_basis: idle-host-only full-generations memory and plasticity category compute; a dynamic process pool that floats from one to twenty workers with live host load under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 285
@@ -1480,10 +1480,10 @@ tasks:
   full_generations_action_simulation:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations action and simulation category compute; a dynamic process pool of sixteen workers under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
+    resource_basis: idle-host-only full-generations action and simulation category compute; a dynamic process pool that floats from one to twenty workers with live host load under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 285
@@ -1520,10 +1520,10 @@ tasks:
   full_generations_construction:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations construction category compute; a dynamic process pool of sixteen workers under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
+    resource_basis: idle-host-only full-generations construction category compute; a dynamic process pool that floats from one to twenty workers with live host load under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 285
@@ -1560,10 +1560,10 @@ tasks:
   full_generations_dispatch_redesign:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations dispatch mechanics and gated D1-v2 efficacy category compute; a dynamic process pool of sixteen workers under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
+    resource_basis: idle-host-only full-generations dispatch mechanics and gated D1-v2 efficacy category compute; a dynamic process pool that floats from one to twenty workers with live host load under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 285
@@ -1600,10 +1600,10 @@ tasks:
   full_generations_uncertainty_curiosity:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations uncertainty and curiosity category compute; a dynamic process pool of sixteen workers under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
+    resource_basis: idle-host-only full-generations uncertainty and curiosity category compute; a dynamic process pool that floats from one to twenty workers with live host load under the 16 GiB taskpolicy kill cap, measured near 9 GB peak, never joined to the Hawking coexistence whitelist
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 285
@@ -1640,10 +1640,10 @@ tasks:
   full_generations_i1_integrate:
     lane: cpu
     accelerator: none
-    cpu_cores: 16
+    cpu_cores: 20
     estimated_unified_memory_gb: 14.0
     estimated_mps_gb: 0.0
-    resource_basis: idle-host-only full-generations substituted-dependency I1 integration compute; the same sixteen-worker dynamic pool under the 16 GiB taskpolicy kill cap, strictly idle-host-only
+    resource_basis: idle-host-only full-generations substituted-dependency I1 integration compute; the same dynamic pool that floats from one to twenty workers under the 16 GiB taskpolicy kill cap, strictly idle-host-only
     forecast_write_gb: 4.0
     atomic_write_gb: 0.5
     wall_minutes: 180
