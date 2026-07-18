@@ -36,10 +36,13 @@ identical while doing three new things that the categorized wave could not:
   canary gate.
 
 The generic supervisor still runs one top-level category capsule at a time. Each category capsule
-uses one dynamic process pool capped at sixteen workers and publishes eight deterministic,
-time-balanced planning-shard descriptors. Those descriptors are planning partitions, not
-worker-pinned execution partitions. The honest parallelism is inside one category, followed by a
-serial classify-and-seal barrier. No later epoch can start from partial sibling receipts.
+uses one dynamic process pool that floats from one to twenty workers with live host load (sized by
+the dynamic worker controller, section 7) and publishes eight deterministic, time-balanced
+planning-shard descriptors. Those descriptors are planning partitions, not worker-pinned execution
+partitions. The pool width is a wall-time lever only and never enters any receipt: every capsule
+result is a seeded sha256, byte-identical at one worker or twenty. The honest parallelism is inside
+one category, followed by a serial classify-and-seal barrier. No later epoch can start from partial
+sibling receipts.
 
 ## 2. Admission boundary
 
@@ -179,31 +182,48 @@ integration classification, one aggregate, one independently authored verifier, 
 and one advisory release-audit capsule.
 
 The sealed manifest is `configs/campaign/generation1_full_generations_wave_v1.json` with
-`program_sha256 = 405c7bc3fac58da3da750afd5c4b14a58a023556cdaedb4c37607a129d287612`. It binds the
+`program_sha256 = 1cf4cdd146c49fdd3d29fbb636b957cb593f53896790422d008cd7b025fb48ff`. It binds the
 throttle policy `configs/local_execution_throttle_v6_full_generations.yaml`, and every category and
-integration compute capsule declares a sixteen-core idle-host pool while the serial gate, classifier,
-aggregate, verifier, report, and release-audit capsules stay single-core.
+integration compute capsule declares a twenty-core idle-host pool ceiling while the serial gate,
+classifier, aggregate, verifier, report, and release-audit capsules stay single-core. The declared
+twenty is the ceiling recorded in each receipt (`worker_pool_max_workers`); the actual pool width
+floats from one to twenty with live host load and never enters any hashed field.
 
 Across the executable mechanics capsules the program can schedule up to 35,255 checkpointed fresh
 work items: 2,509 category items per epoch across fourteen epochs, plus 129 substituted-dependency
 integration items.
 
-| Route | Maximum serial compute | Ideal wall time at sixteen workers |
+| Route | Maximum serial compute | Ideal wall time at the twenty-worker ceiling |
 | --- | ---: | ---: |
-| Executable full-generations mechanics | approximately 136.2 hours | approximately 8.5 hours |
+| Executable full-generations mechanics | approximately 136.2 hours | approximately 6.81 hours |
 
 The construction lane's vectorized execution (section 3.2) drives this envelope down from the earlier
-scalar ceiling of approximately 401.5 serial hours (25.1 ideal-worker hours). Construction was about
-77.7 percent of that scalar envelope; at the conservative 6.7x construction planning factor its share
-falls from roughly 311.9 to 46.6 serial hours, so the whole-program envelope drops to approximately
-136.2 serial hours (8.5 ideal-worker hours), an overall 2.95x pacing reduction. The item counts, seeds,
-receipts, and every seal are unchanged; only the planned pacing and ETA figures move.
+scalar ceiling of approximately 401.5 serial hours (20.1 ideal-worker hours at twenty workers).
+Construction was about 77.7 percent of that scalar envelope; at the conservative 6.7x construction
+planning factor its share falls from roughly 311.9 to 46.6 serial hours, so the whole-program envelope
+drops to approximately 136.2 serial hours (6.81 ideal-worker hours), an overall 2.95x pacing reduction.
+The ideal wall time is the serial ceiling divided by the declared twenty-worker pool ceiling; the
+actual pool floats from one to twenty with live host load, so a run held below the ceiling by host
+pressure only takes longer, never a different receipt. The item counts, seeds, receipts, and every
+seal are unchanged; only the planned pacing and ETA figures move.
 
 These are ceilings, not forced runtime promises. Classifiers may honestly prune a failed mechanism,
 a failed new-lane canary, or a no-candidate D1 route. Work is never revived merely to consume an hour
 budget.
 
-## 7. Advisory result-aware reprofiler
+## 7. Dynamic worker sizing and advisory reprofiler
+
+The actual process-pool width is sized at runtime by the dynamic worker controller
+(`mop.studio.dynamic_worker_controller`). At each category capsule it reads one live host snapshot
+and floats the pool from one to the declared twenty-worker ceiling: it holds the ceiling when the
+host is idle, backs the worker count off fast to a tiny reserve when the external Hawking workload is
+burning cores, and lowers worker priority (nice level) so the surviving pool yields cores to Hawking
+by priority rather than by dropping still more workers. Twenty is the measured Hawking-idle
+throughput peak on this host; twenty-four regresses. If the controller cannot read a live host
+(psutil absent or a refusal) the width falls back to the static `min(twenty, pending)` so the wave
+always runs. The width is receipt-invariant: it is a wall-time lever passed to the pool only, so
+every seeded-sha256 capsule result is byte-identical at any width, and the receipt records the fixed
+declared ceiling, never the fluctuating instantaneous count.
 
 A separate result-aware reprofiler reads completed sealed aggregates and deterministically
 re-derives observed per-mechanism throughput, then recommends an idle-host worker count. On the
@@ -213,7 +233,7 @@ memory cap; the same inputs always yield the same six-worker advisory.
 
 This is advisory operational telemetry only. It is read-only over completed programs, every artifact
 it seals carries `advisory: true`, and it can never change an evidence class, a seed, a threshold, a
-control, or any sealed receipt. The sixteen-worker planning envelope in section 6 is the manifest
+control, or any sealed receipt. The twenty-worker planning envelope in section 6 is the manifest
 ceiling; the six-worker default advisory only informs how an operator might schedule an admitted run.
 
 ## 8. Frozen routing rules
@@ -233,7 +253,7 @@ changes only future eligible work, and every prune stays visible in the aggregat
 
 ## 9. Host and launch safety
 
-The full-generations compute class is idle-host-only and uses at most sixteen internal workers. It is
+The full-generations compute class is idle-host-only and uses at most twenty internal workers. It is
 not added to the Hawking coexistence whitelist. While incumbent heavy workloads or any earlier
 program remain incomplete, the long-chain v3 command starts only lightweight observation parents.
 
