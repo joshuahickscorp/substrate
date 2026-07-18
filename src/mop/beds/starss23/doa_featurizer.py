@@ -61,7 +61,7 @@ DOA_FEATURIZER_SCHEMA = "mop-starss23-doa-featurizer/v1"
 
 COLS_PER_FRAME = SAMPLES_PER_FRAME // HOP  # 2400 // 480 = 5 columns per 100 ms frame, shared with SpatialDoa
 
-D_FEAT_DOA = N_BANDS * FEATURES_PER_BAND  # 256 = 64 bands x 4 (rate-of-change of 3 direction cosines + 1 diffuseness)
+D_FEAT_DOA = N_BANDS * FEATURES_PER_BAND  # 256 = 64 bands x 4 (direction-cosine rate-of-change + diffuseness)
 
 # Reduction FLOPs: reused BY IMPORT from featurizer_spatial_doa.py's own per-frame reduction budget, which
 # already charges the direction/diffuseness math per band per frame; charging it identically here whether

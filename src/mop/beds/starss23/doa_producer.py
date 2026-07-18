@@ -47,7 +47,8 @@ from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
 from .doa_controls import always_on_fires, at_chance, never_update_reestimates, rate_matched_random_fires
 from .doa_estimator import FLOPS_PER_REESTIMATE, FrozenDoaEstimator
-from .doa_featurizer import D_FEAT_DOA, FLOPS_PER_FRAME as FEATURIZER_FLOPS_PER_FRAME, DoaFeaturizer
+from .doa_featurizer import D_FEAT_DOA, DoaFeaturizer
+from .doa_featurizer import FLOPS_PER_FRAME as FEATURIZER_FLOPS_PER_FRAME
 from .doa_gate import (
     ARCH_A_ID,
     ARCH_B_ID,
@@ -74,7 +75,13 @@ from .doa_harness import (
     FlopModel,
     run_matched_budget_dual_architecture,
 )
-from .doa_labels import DoaClip, build_doa_clips, change_density, doa_voc_targets_from_track, mean_change_jump_deg, to_arrays
+from .doa_labels import (
+    build_doa_clips,
+    change_density,
+    doa_voc_targets_from_track,
+    mean_change_jump_deg,
+    to_arrays,
+)
 from .doa_prereg import (
     DEFAULT_DOA_PREREG_PATH,
     ROOM_MAJORITY_ALPHA,
@@ -90,7 +97,7 @@ from .doa_referee import (
     room_majority_collapse,
 )
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA
-from .schema import Clip, N_CHANNELS, SAMPLES_PER_FRAME
+from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
 from .stats import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 
 DOA_PRODUCER_SCHEMA = "mop-starss23-doa-producer/v1"
@@ -233,7 +240,9 @@ def _train_gate(
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
     gate = build_gate(architecture, seed=seed)
-    gate.fit(x, y, epochs=config.epochs, learning_rate=config.learning_rate, ponder_lambda=config.ponder_lambda)
+    gate.fit(
+        x, y, epochs=config.epochs, learning_rate=config.learning_rate, ponder_lambda=config.ponder_lambda
+    )
     return gate, int(x.shape[0])
 
 
@@ -279,7 +288,11 @@ def _deterministic_arm_tuples(
     tuples = []
     for clip in test_clips:
         active_mask, gt_directions = arrays_by_clip[clip.clip_id]
-        r = always_on_fires(clip.n_frames) if kind == ARM_ALWAYS_ON else never_update_reestimates(clip.n_frames)
+        r = (
+            always_on_fires(clip.n_frames)
+            if kind == ARM_ALWAYS_ON
+            else never_update_reestimates(clip.n_frames)
+        )
         tuples.append((clip.clip_id, gt_directions, estimator_by_clip[clip.clip_id], r, active_mask))
     return tuples
 
@@ -318,9 +331,11 @@ def _run_seed_real(
     always_on_payloads: dict[str, dict[str, Any]],
     never_update_payloads: dict[str, dict[str, Any]],
 ) -> _SeedRun:
-    """Train the gate for one (architecture, seed), sweep the budget, score every arm on the fixed test set."""
+    """Train the gate for one (architecture, seed); sweep the budget, score every arm on the test set."""
 
-    gate, train_frames = _train_gate(architecture, seed, train_clips, features_by_clip, doa_track_by_clip, config)
+    gate, train_frames = _train_gate(
+        architecture, seed, train_clips, features_by_clip, doa_track_by_clip, config
+    )
     total_frames = int(sum(clip.n_frames for clip in test_clips))
 
     val_probs = np.concatenate(
@@ -342,7 +357,9 @@ def _run_seed_real(
             estimator_track = estimator_by_clip[clip.clip_id]
             candidate_r, _ = _causal_reestimates(gate, features, theta)
             rmr_r = rate_matched_random_fires(candidate_r, clip.n_frames, seed=seed, clip_id=clip.clip_id)
-            candidate_tuples.append((clip.clip_id, gt_directions, estimator_track, list(candidate_r), active_mask))
+            candidate_tuples.append(
+                (clip.clip_id, gt_directions, estimator_track, list(candidate_r), active_mask)
+            )
             rmr_tuples.append((clip.clip_id, gt_directions, estimator_track, list(rmr_r), active_mask))
             reestimation_counts[ARM_CANDIDATE] += len(candidate_r)
             reestimation_counts[ARM_RATE_MATCHED_RANDOM] += len(rmr_r)
@@ -406,7 +423,9 @@ def _run_seed_real(
 # ---------------------------------------------------------------------------
 
 
-def _flop_model(kind: str, architecture: str, total_frames: int, train_frames: int, config: RealDoaBedConfig) -> FlopModel:
+def _flop_model(
+    kind: str, architecture: str, total_frames: int, train_frames: int, config: RealDoaBedConfig
+) -> FlopModel:
     featurize = FEATURIZER_FLOPS_PER_FRAME * total_frames
     runs_gate = kind in _GATE_TRAINED_KINDS
     infer_per_frame = FLOPS_PER_INFERENCE_ARCH_A if architecture == ARCH_A_ID else FLOPS_PER_INFERENCE_ARCH_B
@@ -619,10 +638,14 @@ def build_real_doa_bed_artifact(
     sesoi_deg = float(prereg["sesoi"]["sesoi_deg"])
 
     # 2. Architecture-independent arms (always_on, never_update): computed ONCE, reused everywhere.
-    always_on_macro = macro_score_arm(_deterministic_arm_tuples(ARM_ALWAYS_ON, test_clips, arrays_by_clip, estimator_by_clip))
-    always_on_pooled = pooled_score_arm(_deterministic_arm_tuples(ARM_ALWAYS_ON, test_clips, arrays_by_clip, estimator_by_clip))
-    never_update_macro = macro_score_arm(_deterministic_arm_tuples(ARM_NEVER_UPDATE, test_clips, arrays_by_clip, estimator_by_clip))
-    never_update_pooled = pooled_score_arm(_deterministic_arm_tuples(ARM_NEVER_UPDATE, test_clips, arrays_by_clip, estimator_by_clip))
+    always_on_tuples = _deterministic_arm_tuples(ARM_ALWAYS_ON, test_clips, arrays_by_clip, estimator_by_clip)
+    never_update_tuples = _deterministic_arm_tuples(
+        ARM_NEVER_UPDATE, test_clips, arrays_by_clip, estimator_by_clip
+    )
+    always_on_macro = macro_score_arm(always_on_tuples)
+    always_on_pooled = pooled_score_arm(always_on_tuples)
+    never_update_macro = macro_score_arm(never_update_tuples)
+    never_update_pooled = pooled_score_arm(never_update_tuples)
     always_on_payloads = {
         "macro": always_on_macro.payload(),
         "pooled": always_on_pooled.payload(),
@@ -738,7 +761,9 @@ def build_real_doa_bed_artifact(
         ARCH_A_ID: _noisy_tv_block(seed_runs_by_arch[ARCH_A_ID]),
         ARCH_B_ID: _noisy_tv_block(seed_runs_by_arch[ARCH_B_ID]),
     }
-    noisy_tv_at_chance_both = bool(controls_block[ARCH_A_ID]["at_chance"] and controls_block[ARCH_B_ID]["at_chance"])
+    noisy_tv_at_chance_both = bool(
+        controls_block[ARCH_A_ID]["at_chance"] and controls_block[ARCH_B_ID]["at_chance"]
+    )
 
     flags_block = {
         "activation_allowed": False,
@@ -752,7 +777,9 @@ def build_real_doa_bed_artifact(
         clip.clip_id: {
             "n_frames": clip.n_frames,
             "room_id": clip.room_id,
-            "gt_track": [None if e is None else [float(e[0]), float(e[1])] for e in doa_clips[clip.clip_id].doa_track],
+            "gt_track": [
+                None if e is None else [float(e[0]), float(e[1])] for e in doa_clips[clip.clip_id].doa_track
+            ],
             "estimator_track": [[float(a), float(b)] for a, b in estimator_by_clip[clip.clip_id].tolist()],
         }
         for clip in test_clips
@@ -776,8 +803,12 @@ def build_real_doa_bed_artifact(
                         bid: {
                             "rate": block["rate"],
                             "theta": block["theta"],
-                            "candidate_macro_mae_deg": block["arm_scores_macro"][ARM_CANDIDATE]["macro_mae_deg"],
-                            "rate_matched_random_macro_mae_deg": block["arm_scores_macro"][ARM_RATE_MATCHED_RANDOM]["macro_mae_deg"],
+                            "candidate_macro_mae_deg": (
+                                block["arm_scores_macro"][ARM_CANDIDATE]["macro_mae_deg"]
+                            ),
+                            "rate_matched_random_macro_mae_deg": (
+                                block["arm_scores_macro"][ARM_RATE_MATCHED_RANDOM]["macro_mae_deg"]
+                            ),
                         }
                         for bid, block in run.per_budget.items()
                     },
@@ -930,8 +961,12 @@ def build_real_doa_bed_artifact(
             "sesoi_deg": sesoi_deg,
             "noisy_tv_at_chance_both_architectures": noisy_tv_at_chance_both,
             "measured_wall_ns": measured_wall_ns,
-            "max_lifecycle_flops_arch_a": max(point.candidate.max_lifecycle_flops() for point in budget_points_a),
-            "max_lifecycle_flops_arch_b": max(point.candidate.max_lifecycle_flops() for point in budget_points_b),
+            "max_lifecycle_flops_arch_a": max(
+                point.candidate.max_lifecycle_flops() for point in budget_points_a
+            ),
+            "max_lifecycle_flops_arch_b": max(
+                point.candidate.max_lifecycle_flops() for point in budget_points_b
+            ),
         },
     )
 
