@@ -102,6 +102,13 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md",
     "docs/mixture_of_perspectives/23_generation1_categorized_batch_wave.md",
     "docs/mixture_of_perspectives/24_generation1_successor_recovery_v5.md",
+    # the STARSS23 ESCS value-of-computation bed lineage (append-only Stage-3 beds + headroom instrument)
+    "docs/mixture_of_perspectives/25_generation1_full_generations_wave.md",
+    "docs/mixture_of_perspectives/26_escs_starss23_bed.md",
+    "docs/mixture_of_perspectives/27_escs_starss23_counting_bed.md",
+    "docs/mixture_of_perspectives/28_escs_starss23_counting_reproductions.md",
+    "docs/mixture_of_perspectives/29_escs_starss23_doa_bed.md",
+    "docs/mixture_of_perspectives/30_escs_starss23_voc_headroom.md",
     # the Form Substrate Program root docs (the active paradigm; see PARADIGM_MIGRATION.md)
     "FORM_SUBSTRATE_PROGRAM.md",
     "FORM_SUBSTRATE_DOCTRINE.md",
