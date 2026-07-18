@@ -49,7 +49,13 @@ STATE_SCHEMA = "mop-generation1-telegram-notifier-state/v1"
 MAX_JSON_BYTES = 32 * 1024 * 1024
 MAX_MESSAGE_CHARS = 4000
 POLL_SECONDS = 120
-RUNG_NOTIFICATION_EVERY = 100
+# Rung milestones fire on progress PERCENTAGE, not a fixed rung count. A fixed count (the
+# former RUNG_NOTIFICATION_EVERY) is meaningless across programs of wildly different sizes:
+# a 100-rung step is silent-then-spammy on a 74-capsule stage (it never divides evenly, so
+# the "total is smaller than the step" escape hatch fires on every single rung instead of a
+# handful of meaningful checkpoints) and coarse on a 7,332-rung census. A percentage scales
+# correctly to any total: exactly one notification near each quartile, on any program size.
+MILESTONE_PERCENT_STEP = 25
 STALL_GRACE_SECONDS = 10 * 60
 PROCESS_IDENTITY_TOLERANCE_SECONDS = 0.01
 TERMINAL_STATES = {"complete", "failure_hold", "integrity_hold", "failed", "drained", "stopped"}
@@ -300,6 +306,42 @@ def _capsule_complete(row: Mapping[str, Any]) -> bool:
     return row.get("returncode") == 0 and artifacts_ok and isinstance(row.get("finished_at"), str)
 
 
+def _progress_percent(complete: int, total: int) -> int | None:
+    """The whole-number completion percentage, or None if total is not positive."""
+
+    if total <= 0:
+        return None
+    return round(100 * min(1.0, max(0.0, complete / total)))
+
+
+def _milestone_bucket(complete: int, total: int, *, percent: int = MILESTONE_PERCENT_STEP) -> int:
+    """Which percent-of-percent bucket (0..100//percent) `complete` falls into.
+
+    Pure and total-size-independent: bucket 0 covers [0, percent)%, bucket 1 covers
+    [percent, 2*percent)%, ..., and the final bucket is reached only at complete >= total
+    (100%). This is what makes a percentage step work identically on a 5-item program and
+    a 7,332-item program, unlike a fixed rung count.
+    """
+
+    if total <= 0:
+        return 0
+    fraction = min(1.0, max(0.0, complete / total))
+    return min(100 // percent, int(fraction * 100 // percent))
+
+
+def _next_milestone_complete(complete: int, total: int, *, percent: int = MILESTONE_PERCENT_STEP) -> int:
+    """The smallest rung count at which the NEXT percent milestone is first reached."""
+
+    if total <= 0:
+        return complete
+    bucket = _milestone_bucket(complete, total, percent=percent)
+    next_bucket = min(100 // percent, bucket + 1)
+    if next_bucket <= bucket:
+        return total
+    threshold_fraction = next_bucket * percent / 100.0
+    return min(total, max(complete, math.ceil(threshold_fraction * total)))
+
+
 def _event_eta(status: Mapping[str, Any], complete: int, total: int) -> dict[str, float | None]:
     adaptive = status.get("adaptive_execution")
     if not isinstance(adaptive, dict):
@@ -309,9 +351,9 @@ def _event_eta(status: Mapping[str, Any], complete: int, total: int) -> dict[str
     session = _finite(adaptive.get("eta_seconds"))
     workers_value = adaptive.get("workers")
     workers = workers_value if isinstance(workers_value, int) and not isinstance(workers_value, bool) else 1
-    remaining_in_block = min(RUNG_NOTIFICATION_EVERY, max(0, total - complete))
+    remaining_to_milestone = max(0, _next_milestone_complete(complete, total) - complete)
     per_rung = next_rung if next_rung is not None else average
-    block = None if per_rung is None else per_rung * remaining_in_block / max(1, workers)
+    block = None if per_rung is None else per_rung * remaining_to_milestone / max(1, workers)
     return {"block_seconds": block, "session_seconds": session}
 
 
@@ -411,6 +453,90 @@ def _adaptive_summary(status: Mapping[str, Any]) -> dict[str, Any] | None:
     if not isinstance(adaptive, Mapping):
         return None
     return {"workers": adaptive.get("workers"), "mode": adaptive.get("mode")}
+
+
+def _capsule_finish_times(capsules: Mapping[str, Any]) -> list[dt.datetime]:
+    """Sorted UTC finish timestamps of every capsule that reports one."""
+
+    times: list[dt.datetime] = []
+    for row in capsules.values():
+        value = row.get("finished_at") if isinstance(row, Mapping) else None
+        if not isinstance(value, str):
+            continue
+        try:
+            parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if parsed.tzinfo is not None:
+            times.append(parsed.astimezone(dt.UTC))
+    times.sort()
+    return times
+
+
+def _synthetic_adaptive(capsules: Mapping[str, Any], *, total: int, complete: int) -> dict[str, Any] | None:
+    """Best-effort operational telemetry for stages that never populate adaptive_execution.
+
+    The dynamic-worker-pool stages (horizon, categorized, full-generations) size their pool
+    per capsule batch but do not write a census-style adaptive_execution block, so the
+    Workers/ETA lines were silently blank for them. This synthesizes an equivalent view:
+    average rung duration from real capsule finish timestamps, and a LIVE sample of the
+    dynamic worker controller's current recommendation. This is display-only operational
+    telemetry (never a receipt field, never a claim about what any specific past rung
+    actually ran under) so a live sample is an honest and sufficient substitute.
+    """
+
+    times = _capsule_finish_times(capsules)
+    average_rung_seconds = None
+    if len(times) >= 2:
+        elapsed = (times[-1] - times[0]).total_seconds()
+        average_rung_seconds = elapsed / max(1, len(times) - 1)
+
+    workers: int | None = None
+    mode: str | None = None
+    try:
+        import dataclasses
+
+        from mop.studio import dynamic_worker_controller as controller
+
+        sample = controller.sample_host_state()
+        mode = "hawking_active" if sample.state.hawking_active else "hawking_idle"
+        # sample.recommended_workers is ramp-limited from an assumed current_workers=0 (a
+        # fresh, stateless sample has no memory of an actual running pool), so it is capped
+        # at the +1-per-tick ramp step and reads as a permanent "Workers: 1" artifact rather
+        # than the host's true capacity. Re-derive the recommendation as if the pool had
+        # already settled at its comfortable target, which is the honest steady-state number
+        # to show as operational telemetry.
+        settled_state = dataclasses.replace(
+            sample.state, current_workers=sample.bounds["comfortable_target"]
+        )
+        workers = controller.recommended_workers(settled_state)
+    except Exception:  # pragma: no cover - best-effort telemetry, never fatal
+        pass
+
+    if average_rung_seconds is None and workers is None:
+        return None
+    eta_seconds = None
+    if average_rung_seconds is not None:
+        eta_seconds = average_rung_seconds * max(0, total - complete) / max(1, workers or 1)
+    return {
+        "average_rung_seconds": average_rung_seconds,
+        "eta_seconds": eta_seconds,
+        "workers": workers,
+        "mode": mode,
+    }
+
+
+def _with_effective_adaptive(
+    status: Mapping[str, Any], capsules: Mapping[str, Any], *, total: int, complete: int
+) -> Mapping[str, Any]:
+    """`status`, with a synthesized adaptive_execution injected only if it was missing."""
+
+    if isinstance(status.get("adaptive_execution"), Mapping):
+        return status
+    synthetic = _synthetic_adaptive(capsules, total=total, complete=complete)
+    if synthetic is None:
+        return status
+    return {**status, "adaptive_execution": synthetic}
 
 
 def _classify_mode(mode: Any) -> str | None:
@@ -623,7 +749,8 @@ def collect_events(
             and declared_total == len(capsules)
             else len(capsules)
         )
-        adaptive_summary = _adaptive_summary(status)
+        effective_status = _with_effective_adaptive(status, capsules, total=total, complete=complete)
+        adaptive_summary = _adaptive_summary(effective_status)
         for ordinal, capsule_id in enumerate(completed, start=1):
             row = capsules[capsule_id]
             artifact_roots = [
@@ -639,7 +766,7 @@ def collect_events(
                 "attempts": row.get("attempts"),
                 "finished_at": row.get("finished_at"),
                 "progress": {"complete": ordinal, "total": total},
-                "eta": _event_eta(status, ordinal, total),
+                "eta": _event_eta(effective_status, ordinal, total),
                 "artifacts": row.get("artifacts", []),
                 "problems": status.get("problems", []),
             }
@@ -661,7 +788,7 @@ def collect_events(
                 "program_id": program_id,
                 "state": state,
                 "progress": {"complete": complete, "total": total},
-                "eta": _event_eta(status, complete, total),
+                "eta": _event_eta(effective_status, complete, total),
                 "problems": status.get("problems", []),
             }
             if adaptive_summary is not None:
@@ -669,7 +796,7 @@ def collect_events(
             events.append(terminal_event)
         else:
             stalled = _stall_event(
-                status,
+                effective_status,
                 program_id=program_id,
                 complete=complete,
                 total=total,
@@ -852,10 +979,14 @@ def _worker_line(event: Mapping[str, Any]) -> str | None:
     workers_text = str(workers) if has_workers else "?"
     if has_mode:
         lowered = mode.lower()
-        if "hawking" in lowered:
-            label = "Hawking active"
-        elif "idle" in lowered or "opportunistic" in lowered:
+        # "idle" must win over a bare "hawking" substring match: the real mode string used
+        # by the census (hawking_mode()) is "hawking_idle" when Hawking is NOT active and
+        # the pool is running at full speed, so checking "hawking" first would mislabel the
+        # fast, idle-host case as "Hawking active" (backwards).
+        if "idle" in lowered or "opportunistic" in lowered:
             label = "idle burst"
+        elif "hawking" in lowered:
+            label = "Hawking active"
         else:
             label = mode
         return f"Workers: {workers_text} ({label})"
@@ -905,6 +1036,20 @@ def _subtask_message(event: Mapping[str, Any]) -> str:
     return f"General Run: W{epoch} {category} sub-task complete{mech_suffix}"
 
 
+def _progress_line(progress: Mapping[str, Any]) -> str:
+    complete, total = progress.get("complete"), progress.get("total")
+    percent = (
+        _progress_percent(complete, total)
+        if isinstance(complete, int)
+        and not isinstance(complete, bool)
+        and isinstance(total, int)
+        and not isinstance(total, bool)
+        else None
+    )
+    suffix = f" ({percent}%)" if percent is not None else ""
+    return f"Progress: {complete}/{total}{suffix}"
+
+
 def format_event(event: Mapping[str, Any]) -> str:
     kind = event["kind"]
     if kind == "throttle":
@@ -915,11 +1060,11 @@ def format_event(event: Mapping[str, Any]) -> str:
         progress = event["progress"]
         lines = [
             f"🧪 MOP {_program_label(event['program_id'])}",
-            f"Progress: {progress['complete']}/{progress['total']}",
+            _progress_line(progress),
         ]
         eta = event.get("eta") or {}
         lines += [
-            f"Next {RUNG_NOTIFICATION_EVERY} rungs: {_format_duration(eta.get('block_seconds'))}",
+            f"Next {MILESTONE_PERCENT_STEP}%: {_format_duration(eta.get('block_seconds'))}",
             f"Full queue: {_format_duration(eta.get('session_seconds'))}",
         ]
         worker_line = _worker_line(event)
@@ -930,7 +1075,7 @@ def format_event(event: Mapping[str, Any]) -> str:
         progress = event["progress"]
         lines = [
             f"{symbol} MOP {_program_label(event['program_id'])}: {event['state']}",
-            f"Progress: {progress['complete']}/{progress['total']}",
+            _progress_line(progress),
         ]
         if kind == "terminal" and str(event.get("program_id")) in PROGRAM_LABELS:
             lines.append("Chain stage complete")
@@ -956,13 +1101,19 @@ def _should_send(event: Mapping[str, Any]) -> bool:
     progress = event.get("progress") or {}
     complete = progress.get("complete")
     total = progress.get("total")
-    return (
-        isinstance(complete, int)
-        and not isinstance(complete, bool)
-        and isinstance(total, int)
-        and not isinstance(total, bool)
-        and (total <= RUNG_NOTIFICATION_EVERY or complete == total or complete % RUNG_NOTIFICATION_EVERY == 0)
-    )
+    if (
+        not isinstance(complete, int)
+        or isinstance(complete, bool)
+        or not isinstance(total, int)
+        or isinstance(total, bool)
+        or total <= 0
+    ):
+        return False
+    complete = min(max(complete, 0), total)
+    # Send only the FIRST rung whose completion crosses into a new percent bucket. This is
+    # size-independent by construction: a 5-rung program and a 7,332-rung program both get
+    # one notification near each 25% mark, never a flood and never silence.
+    return _milestone_bucket(complete, total) > _milestone_bucket(complete - 1, total)
 
 
 def prime(*, state_path: Path = STATE) -> dict[str, Any]:
