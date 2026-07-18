@@ -283,7 +283,7 @@ def _shard_capsule(*, epoch_index: int, lane: str, shard_index: int, dependency:
         compute=True,
         resource_basis=(
             f"checkpointed {lane} robustness shard planned at {planned_minutes:.1f} serial minutes; "
-            "eight workers are permitted only on an idle host and one alongside Hawking, under "
+            "a dynamic process pool floats from one to twenty workers with live host load, under "
             "the adaptive 16384-MiB taskpolicy process-tree cap"
         ),
         forecast_write_gb=6.0 if lane == "d1" else 2.0,

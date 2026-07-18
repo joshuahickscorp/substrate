@@ -84,9 +84,9 @@ def test_capsules_use_nested_cli_exact_worker_envelope_and_unique_artifacts() ->
         if "_shard_" in capsule["id"]:
             assert command[: len(TASKPOLICY_ADAPTIVE_PREFIX)] == (TASKPOLICY_ADAPTIVE_PREFIX)
             assert resources["wall_minutes"] == 285
-            assert resources["cpu_cores"] == 8
+            assert resources["cpu_cores"] == 20
             assert resources["estimated_unified_memory_gb"] == TASKPOLICY_ADAPTIVE_CAP_GB
-            assert command[command.index("--idle-workers") + 1] == "8"
+            assert command[command.index("--idle-workers") + 1] == "20"
             assert command[command.index("--hawking-workers") + 1] == "1"
         else:
             assert command[: len(TASKPOLICY_COEXISTENCE_PREFIX)] == (TASKPOLICY_COEXISTENCE_PREFIX)
