@@ -109,6 +109,7 @@ CANONICAL_MD = (
     "docs/mixture_of_perspectives/28_escs_starss23_counting_reproductions.md",
     "docs/mixture_of_perspectives/29_escs_starss23_doa_bed.md",
     "docs/mixture_of_perspectives/30_escs_starss23_voc_headroom.md",
+    "docs/mixture_of_perspectives/31_pre_substrate_expansion_program.md",
     # the Form Substrate Program root docs (the active paradigm; see PARADIGM_MIGRATION.md)
     "FORM_SUBSTRATE_PROGRAM.md",
     "FORM_SUBSTRATE_DOCTRINE.md",

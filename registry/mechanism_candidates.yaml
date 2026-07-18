@@ -1,0 +1,28 @@
+schema: mop-mechanism-candidates/v1
+note: hypotheses to shrink, merge, or kill; not presumed useful
+candidates:
+- immutable_referent_binder
+- typed_event_graph
+- dense_spatial_temporal_state
+- object_entity_persistence
+- relation_role_state
+- predictive_transition_state
+- counterfactual_branch_state
+- uncertainty_calibration_state
+- working_state
+- episodic_memory
+- semantic_compressed_memory
+- cross_form_retrieval
+- provenance_revision_state
+- replay_consolidation
+- plasticity_controller
+- structural_growth_pruning
+- value_of_computation_estimator
+- verification_contradiction_repair
+- action_affordance_interface
+- operational_state_monitor
+- resource_allocator
+- cross_form_translator
+- perspective_arbitration
+- communication_protocol
+- developmental_curriculum_controller
