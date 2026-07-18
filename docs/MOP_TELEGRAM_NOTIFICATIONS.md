@@ -11,9 +11,24 @@ The MOP watcher sends event-driven updates through the existing Hawking
 - compact coverage, decision, comparison, attempt, and host-health statistics.
 
 Only self-sealed Generation 1 status documents with an exact program identity
-are eligible. Malformed or unsealed status files fail quiet. Long programs emit
-every tenth capsule milestone; compact parent chains emit every stage completion
-so prerequisite results are not hidden behind the batching threshold.
+are eligible. Malformed or unsealed status files fail quiet. Rung milestones fire
+on progress PERCENTAGE, not a fixed rung count: one notification near each 25%
+crossing (25/50/75/100%), on any program size. A fixed count is meaningless
+across programs of wildly different totals: on a small stage it either never
+divides evenly (silence) or, if it exceeds the total, an escape hatch fires on
+every single rung (a flood); a percentage scales correctly to any total by
+construction. Compact parent chains and terminal states still emit every stage
+completion so prerequisite results are not hidden behind the milestone cadence.
+
+The Progress line always includes the percentage (e.g. "Progress: 19/74 (26%)").
+Programs that run a dynamic worker pool (horizon, categorized, full-generations)
+do not publish a census-style `adaptive_execution` block, so their Workers/ETA
+lines are synthesized: the average rung duration comes from real capsule finish
+timestamps, and the worker count is a live sample of the dynamic worker
+controller's settled recommendation (never the transient +1-per-tick ramp value
+a stateless sample would otherwise report). This is operational telemetry only,
+shown for the operator's benefit; it is never a receipt field and never a claim
+about what any specific past rung actually ran under.
 
 The watcher reads the existing Hawking token and chat ID from macOS Keychain.
 Secrets are never copied into MOP, launchd, logs, state, or command arguments.
