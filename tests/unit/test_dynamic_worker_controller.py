@@ -10,8 +10,11 @@ The decision core is pure, so every property is checked with synthetic host stat
 
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 import pytest
 
+from mop.studio import dynamic_worker_controller as controller
 from mop.studio.dynamic_worker_controller import (
     DEFAULT_POLICY,
     HAWKING_RESERVE_WORKERS,
@@ -24,6 +27,7 @@ from mop.studio.dynamic_worker_controller import (
     WorkerPolicy,
     recommended_priority,
     recommended_workers,
+    sample_host_state,
     worker_bounds,
 )
 
@@ -135,6 +139,63 @@ def test_floor_is_honored_when_resources_are_starved() -> None:
     # Memory near zero would compute a zero bound; the floor of 1 still holds (throttle owns OOM).
     state = idle_state(free_p_cores=28, mem_available_gb=0.1, current_workers=20)
     assert recommended_workers(state) == WORKER_FLOOR == 1
+
+
+# ----------------------------------------------------------------------------------
+# Live sampler: free_p_cores must not be self-polluted by the pool's own recent workers
+# ----------------------------------------------------------------------------------
+
+
+def test_sample_host_state_uses_instantaneous_cpu_not_laggy_load_average(monkeypatch) -> None:
+    """Regression: sample_host_state() used to derive free_p_cores from os.getloadavg(), a
+    1-minute-decay load average. Re-sampled once per wave, a fresh sample taken shortly after
+    the controller's OWN previous wave of workers exits still partly measures the load THEY
+    caused (the average has not decayed yet), so the pool ratchets down to a stable-but-wrong
+    equilibrium well below the ceiling even on a genuinely idle host. It must instead read a
+    near-instantaneous CPU sample, which reflects only load present right now."""
+
+    monkeypatch.setattr(controller.psutil, "cpu_count", lambda logical=True: 28)
+    monkeypatch.setattr(controller.psutil, "cpu_percent", lambda interval=None, percpu=False: 10.0)
+    monkeypatch.setattr(
+        controller.psutil, "virtual_memory", lambda: SimpleNamespace(available=90e9, total=96e9)
+    )
+    # A stale, still-elevated 1-minute load average (echoing workers that already exited) must
+    # NOT suppress free_p_cores: only the instantaneous cpu_percent reading (10%, ~3 busy cores)
+    # should drive it.
+    monkeypatch.setattr(controller.os, "getloadavg", lambda: (20.0, 15.0, 12.0))
+    monkeypatch.setattr(controller, "detect_hawking", lambda exclude_pids=None: (False, []))
+    monkeypatch.setattr(controller, "_thermal_ok", lambda: True)
+    monkeypatch.setattr(controller, "_on_ac", lambda: True)
+
+    sample = sample_host_state()
+    # 10% of 28 logical cores busy = ~3 busy, ~25 free -- NOT the load-average-implied ~8 free.
+    assert sample.state.free_p_cores == 25
+    assert sample.bounds["comfortable_target"] == WORKER_CEILING
+    # The raw (laggy) load average is still preserved on current_load, for the SEPARATE
+    # sustained-oversubscription safety tier, which legitimately wants a slower signal.
+    assert sample.state.current_load == 20.0
+    assert sample.telemetry["load_1m"] == 20.0
+
+
+def test_sample_host_state_cpu_percent_uses_the_tuned_sample_window(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_cpu_percent(interval=None, percpu=False):
+        captured["interval"] = interval
+        return 0.0
+
+    monkeypatch.setattr(controller.psutil, "cpu_count", lambda logical=True: 28)
+    monkeypatch.setattr(controller.psutil, "cpu_percent", fake_cpu_percent)
+    monkeypatch.setattr(
+        controller.psutil, "virtual_memory", lambda: SimpleNamespace(available=90e9, total=96e9)
+    )
+    monkeypatch.setattr(controller.os, "getloadavg", lambda: (0.0, 0.0, 0.0))
+    monkeypatch.setattr(controller, "detect_hawking", lambda exclude_pids=None: (False, []))
+    monkeypatch.setattr(controller, "_thermal_ok", lambda: True)
+    monkeypatch.setattr(controller, "_on_ac", lambda: True)
+
+    sample_host_state()
+    assert captured["interval"] == controller.CPU_SAMPLE_INTERVAL_SECONDS
 
 
 # ----------------------------------------------------------------------------------
