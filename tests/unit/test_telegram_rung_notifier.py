@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 from mop.studio import telegram_rung_notifier as notifier
 
@@ -212,8 +213,8 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
     )
     assert message == (
         "🧪 MOP C3 Router Redesign\n"
-        "Progress: 10/48\n"
-        "Next 100 rungs: 25m\n"
+        "Progress: 10/48 (21%)\n"
+        "Next 25%: 25m\n"
         "Full queue: 1h 55m\n"
         "Health: good\n"
         "Errors: none"
@@ -246,6 +247,8 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
 
 
 def test_event_eta_prefers_next_rung_cost() -> None:
+    # complete=5/total=200 is in the 0-24% bucket; the next milestone (25%) is reached at
+    # rung 50, so 45 rungs remain to it: 32.1 * 45 / 1 worker = 1444.5.
     eta = notifier._event_eta(
         {
             "adaptive_execution": {
@@ -258,11 +261,126 @@ def test_event_eta_prefers_next_rung_cost() -> None:
         complete=5,
         total=200,
     )
-    assert eta == {"block_seconds": 3210.0, "session_seconds": 9_876.0}
+    assert eta == {"block_seconds": 1_444.5, "session_seconds": 9_876.0}
 
 
 def test_short_block_eta_uses_seconds_instead_of_rounding_to_one_minute() -> None:
     assert notifier._format_duration(31.7) == "32s"
+
+
+def _fake_host_sample(*, free_p_cores: int, hawking_active: bool):
+    """A minimal but genuine controller sample: a real HostState (dataclasses.replace-able)
+    plus a bounds dict, exactly the two fields _synthetic_adaptive reads."""
+
+    from mop.studio import dynamic_worker_controller as controller
+
+    state = controller.HostState(
+        free_p_cores=free_p_cores,
+        hawking_active=hawking_active,
+        mem_available_gb=90.0,
+        thermal_ok=True,
+        on_ac=True,
+        current_load=2.0,
+    )
+    bounds = controller.worker_bounds(state)
+    return SimpleNamespace(state=state, bounds=bounds), bounds["comfortable_target"]
+
+
+def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_execution(monkeypatch) -> None:
+    """The dynamic-worker-pool stages (horizon, categorized, full-generations) never write a
+    census-style adaptive_execution block, so Workers/ETA were silently blank for them. This
+    fills the gap from real capsule finish timestamps plus a live controller sample."""
+
+    idle_sample, idle_target = _fake_host_sample(free_p_cores=14, hawking_active=False)
+    monkeypatch.setattr(
+        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample
+    )
+    capsules = {
+        "a": {"finished_at": "2026-07-18T00:00:00+00:00"},
+        "b": {"finished_at": "2026-07-18T00:01:00+00:00"},
+        "c": {"finished_at": "2026-07-18T00:02:00+00:00"},
+    }
+    synthetic = notifier._synthetic_adaptive(capsules, total=74, complete=3)
+    assert synthetic is not None
+    assert synthetic["average_rung_seconds"] == 60.0
+    # Not the cold-start ramp artifact (which would read 1 from a stateless current_workers=0
+    # sample): the settled, capacity-based recommendation, matching the comfortable target.
+    assert synthetic["workers"] == idle_target
+    assert synthetic["workers"] > 1
+    assert synthetic["mode"] == "hawking_idle"
+    assert synthetic["eta_seconds"] == 60.0 * (74 - 3) / synthetic["workers"]
+
+    # Hawking active is reflected too, and correctly overrides the settled comfortable target
+    # with the small fixed reserve (the control law's own tiered logic, not re-derived here).
+    from mop.studio import dynamic_worker_controller as controller
+
+    hawking_sample, _ = _fake_host_sample(free_p_cores=14, hawking_active=True)
+    monkeypatch.setattr(
+        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: hawking_sample
+    )
+    hawking = notifier._synthetic_adaptive(capsules, total=74, complete=3)
+    assert hawking is not None
+    assert hawking["workers"] == controller.HAWKING_RESERVE_WORKERS
+    assert hawking["mode"] == "hawking_active"
+
+    # A real adaptive_execution block is never overridden by the synthetic fallback.
+    real = {"average_rung_seconds": 5.0, "workers": 8, "mode": "hawking_idle", "eta_seconds": 100.0}
+    assert notifier._with_effective_adaptive(
+        {"adaptive_execution": real}, capsules, total=74, complete=3
+    )["adaptive_execution"] == real
+
+    # Never fatal: if the controller sample fails and there are not enough timestamps to
+    # derive an average either, the fallback is a clean None rather than a raised exception.
+    monkeypatch.setattr(
+        "mop.studio.dynamic_worker_controller.sample_host_state",
+        lambda **_: (_ for _ in ()).throw(RuntimeError("no host state available")),
+    )
+    assert notifier._synthetic_adaptive({}, total=74, complete=0) is None
+
+
+def test_collect_events_shows_workers_and_eta_for_a_dynamic_pool_stage_with_no_counts(
+    monkeypatch, tmp_path: Path
+) -> None:
+    """End-to-end reproduction of the horizon_v1/v2 shape: a status with `capsules` but no
+    `counts` and no `adaptive_execution` (exactly runs/generation1/generation1-successor-
+    horizon-v1/current_status.json). Workers and ETA must show up in the resulting event."""
+
+    fake_sample, expected_workers = _fake_host_sample(free_p_cores=13, hawking_active=False)
+    monkeypatch.setattr(
+        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: fake_sample
+    )
+    runs = tmp_path / "runs"
+    _write(
+        runs / "horizon" / "current_status.json",
+        {
+            "program_id": "successor-horizon-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {
+                "g1_h01_classify": {
+                    "returncode": 0,
+                    "finished_at": "2026-07-18T00:00:00+00:00",
+                    "attempts": 1,
+                    "artifacts": [{"all_ok": True, "sha256": "a" * 64}],
+                },
+                "g1_h01_d1_shard_00": {
+                    "returncode": 0,
+                    "finished_at": "2026-07-18T00:01:00+00:00",
+                    "attempts": 1,
+                    "artifacts": [{"all_ok": True, "sha256": "b" * 64}],
+                },
+                "g1_h01_d1_shard_01": {},
+            },
+        },
+    )
+    events = notifier.collect_events(runs_root=runs, proof_root=tmp_path / "proof")
+    rungs = [event for event in events if event["kind"] == "rung"]
+    assert len(rungs) == 2
+    for event in rungs:
+        assert event["adaptive"]["workers"] == expected_workers
+        assert event["adaptive"]["mode"] == "hawking_idle"
+        assert event["eta"]["block_seconds"] is not None
+    assert notifier._worker_line(rungs[-1]) == f"Workers: {expected_workers} (idle burst)"
 
 
 def test_proof_summary_extracts_c2_metrics_and_decision() -> None:
@@ -323,7 +441,7 @@ def test_prime_suppresses_history_and_run_sends_only_new_event(monkeypatch, tmp_
     assert sent == ["two"]
 
 
-def test_run_sends_only_each_hundredth_rung_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
+def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
     state_path = tmp_path / "state.json"
     state = notifier._new_state()
     state["primed"] = True
@@ -333,9 +451,9 @@ def test_run_sends_only_each_hundredth_rung_but_keeps_terminal_immediate(monkeyp
             "event_id": f"rung-{index}",
             "kind": "rung",
             "program_id": "program",
-            "progress": {"complete": index, "total": 101},
+            "progress": {"complete": index, "total": 100},
         }
-        for index in range(1, 101)
+        for index in range(1, 100)
     ]
     events.append(
         {
@@ -343,7 +461,7 @@ def test_run_sends_only_each_hundredth_rung_but_keeps_terminal_immediate(monkeyp
             "kind": "terminal",
             "program_id": "program",
             "state": "complete",
-            "progress": {"complete": 101, "total": 101},
+            "progress": {"complete": 100, "total": 100},
             "problems": [],
         }
     )
@@ -356,24 +474,69 @@ def test_run_sends_only_each_hundredth_rung_but_keeps_terminal_immediate(monkeyp
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
 
-    assert result["sent"] == 2
-    assert sent == ["rung-100", "terminal"]
+    # One notification at each 25% crossing (25, 50, 75), plus the terminal event.
+    assert result["sent"] == 4
+    assert sent == ["rung-25", "rung-50", "rung-75", "terminal"]
     delivered = notifier.load_state(state_path)["delivered"]
+    assert delivered["rung-10"]["status"] == "suppressed-nonmilestone"
     assert delivered["rung-99"]["status"] == "suppressed-nonmilestone"
-    assert delivered["rung-50"]["status"] == "suppressed-nonmilestone"
+
+
+def test_run_does_not_spam_every_rung_when_total_is_smaller_than_the_old_fixed_step(
+    monkeypatch, tmp_path: Path
+) -> None:
+    """Regression: the horizon_v1 bug. A 74-capsule stage with the former fixed 100-rung step
+    fired on every single rung (an escape hatch made `total <= step` always true). The
+    percentage milestone must instead fire only near each quartile, on any total."""
+
+    state_path = tmp_path / "state.json"
+    state = notifier._new_state()
+    state["primed"] = True
+    notifier.save_state(state, state_path)
+    events = [
+        {
+            "event_id": f"rung-{index}",
+            "kind": "rung",
+            "program_id": "program",
+            "progress": {"complete": index, "total": 74},
+        }
+        for index in range(1, 75)
+    ]
+    monkeypatch.setattr(notifier, "collect_events", lambda: events)
+    monkeypatch.setattr(notifier, "format_event", lambda event: str(event["event_id"]))
+    sent: list[str] = []
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=tmp_path / "runs",
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    # Not 74 (one per rung, the old bug). One near each of 25/50/75/100%.
+    assert result["sent"] == 4
+    assert sent == ["rung-19", "rung-37", "rung-56", "rung-74"]
 
 
 def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
     def rung(complete: int, total: int) -> dict:
         return {"kind": "rung", "progress": {"complete": complete, "total": total}}
 
-    assert notifier._should_send(rung(1, 100)) is True
-    assert notifier._should_send(rung(99, 101)) is False
-    assert notifier._should_send(rung(100, 101)) is True
-    assert notifier._should_send(rung(101, 101)) is True
-    assert notifier._should_send(rung(199, 240)) is False
-    assert notifier._should_send(rung(200, 240)) is True
+    # A single-item program always gets exactly one notification, at 100%.
+    assert notifier._should_send(rung(1, 1)) is True
+    # Round totals: milestones land exactly on the quartile.
+    assert notifier._should_send(rung(24, 100)) is False
+    assert notifier._should_send(rung(25, 100)) is True
+    assert notifier._should_send(rung(49, 100)) is False
+    assert notifier._should_send(rung(50, 100)) is True
+    assert notifier._should_send(rung(74, 100)) is False
+    assert notifier._should_send(rung(75, 100)) is True
+    assert notifier._should_send(rung(99, 100)) is False
+    assert notifier._should_send(rung(100, 100)) is True
+    # Completion (100%) always fires, regardless of total size.
     assert notifier._should_send(rung(240, 240)) is True
+    assert notifier._should_send(rung(101, 101)) is True
+    # Malformed or non-positive progress never sends.
+    assert notifier._should_send(rung(5, 0)) is False
+    assert notifier._should_send({"kind": "rung", "progress": {}}) is False
+    assert notifier._should_send({"kind": "rung", "progress": {"complete": 1, "total": None}}) is False
 
 
 def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
@@ -423,8 +586,8 @@ def test_worker_line_reflects_mode_and_is_omitted_when_absent(monkeypatch) -> No
     idle = rung({"workers": 16, "mode": "idle_opportunistic"})
     assert idle == (
         "🧪 MOP C3 Router Redesign\n"
-        "Progress: 10/48\n"
-        "Next 100 rungs: 25m\n"
+        "Progress: 10/48 (21%)\n"
+        "Next 25%: 25m\n"
         "Full queue: 1h 55m\n"
         "Workers: 16 (idle burst)\n"
         "Health: good\n"
@@ -432,6 +595,10 @@ def test_worker_line_reflects_mode_and_is_omitted_when_absent(monkeypatch) -> No
     )
     assert "Workers: 1 (Hawking active)" in rung({"workers": 1, "mode": "hawking_active"})
     assert "Workers: 8 (steady)" in rung({"workers": 8, "mode": "steady"})
+    # Regression: "hawking_idle" (the real census mode string when Hawking is NOT active and
+    # the pool runs at full speed) must read as idle burst, not be mislabeled "Hawking active"
+    # by a bare "hawking" substring match landing before the "idle" check.
+    assert "Workers: 8 (idle burst)" in rung({"workers": 8, "mode": "hawking_idle"})
     # adaptive block absent: no worker line, original shape preserved
     assert "Workers:" not in rung(None)
 
@@ -454,7 +621,7 @@ def test_terminal_chain_stage_annotation_and_worker_line(monkeypatch) -> None:
     )
     assert known == (
         "✅ MOP General Run: Mechanics: complete\n"
-        "Progress: 12/12\n"
+        "Progress: 12/12 (100%)\n"
         "Chain stage complete\n"
         "Workers: 16 (idle burst)\n"
         "Health: good\n"
