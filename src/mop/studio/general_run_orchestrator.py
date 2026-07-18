@@ -15,14 +15,17 @@ already-running process, never signals anything, and never double-launches a
 program that another parent (or a prior incarnation of this orchestrator) has
 already started cleanly.
 
-observe_legacy REUSES the v7 legacy adoption path exactly.  It drives the v7
-``SuccessorEvidenceChain`` machinery (``_stable_process_table`` with the v7
-``_tolerable_transient_worker`` robust hardening, ``_matching_processes``, and
-``_reconcile_legacy``) bound to this orchestrator's own root, with
-``execute=False`` so it can only observe and adopt, never restart or signal.
-The v7 hardening tolerates a detached transient worker mid-exit (the exact
-v6-killer) while a genuinely foreign or stuck worker still fails closed to
-integrity_hold; this module does NOT regress to the v6 attached-only gate.
+observe_legacy is churn-immune.  Every non-census prerequisite is complete iff
+its sealed validated terminal result exists (a pure file read, never a process
+walk).  The consolidated-final census is the one prerequisite that can still be
+running here, and its ``mop-final-*`` worker pool churns faster than any bounded
+resnapshot, so the orchestrator polls ONLY the census parent's pinned identity
+(pid, create_time, label): while that exact identity is alive the stage waits,
+and the moment its pid is free the census is done and the stage advances.  The
+create_time match guards pid reuse, so a recycled pid carrying a different
+create_time is never mistaken for the census and can neither spuriously advance
+nor spuriously fail the stage.  No child worker is ever sampled and no process
+title is ever stabilized, so the census worker churn can never hold the stage.
 
 Each compute stage OBSERVES before it launches: it adopts an already-running
 ``mop-supervisor:<id>`` (by label or exact generic supervisor command) or a
@@ -43,7 +46,6 @@ future cutovers have the clean lever the three ext waiters never had.
 from __future__ import annotations
 
 import argparse
-import copy
 import datetime as dt
 import json
 import math
@@ -120,6 +122,19 @@ POLL_SECONDS = 30.0
 STARTUP_ACK_SECONDS = 300.0
 PROCESS_TIME_TOLERANCE_SECONDS = 0.02
 MAX_JSON_BYTES = 64 * 1024 * 1024
+
+# The consolidated-final census is the one legacy prerequisite that can still be
+# running when the orchestrator observes the legacy tier.  It is pinned by its
+# exact process identity (preregistered here per house rule) so its churning
+# mop-final-* worker pool never has to be enumerated or stabilized, and so a
+# reused pid can never be mistaken for it.  A process is the census iff its pid,
+# label, and create_time (within a small tolerance of the pinned start time) all
+# match; the create_time tolerance is generous enough for the truncated pinned
+# literal yet far tighter than the many seconds a pid-reuse imposter starts later.
+FINAL_CENSUS_PID = 67790
+FINAL_CENSUS_CREATE_TIME = 1784160329.97262
+FINAL_CENSUS_LABEL = "mop-final-campaign"
+FINAL_CENSUS_CREATE_TIME_TOLERANCE_SECONDS = 2.0
 
 STAGE_OBSERVE_LEGACY = "observe_legacy"
 STAGE_HORIZON_V1 = "run_horizon_v1"
@@ -408,13 +423,14 @@ class GeneralRunOrchestrator:
         self._manifest_by_program_id = {
             stage.program_id: (self.repo_root / stage.manifest_rel).resolve() for stage in COMPUTE_STAGES
         }
-        # The observe-only legacy owner reuses the v7 adoption path EXACTLY (the
-        # bounded resnapshot with _tolerable_transient_worker, _matching_processes,
-        # and _reconcile_legacy), bound to this orchestrator's own root so its
-        # immutable adoption receipts land under <root>/adoptions/. execute=False
-        # makes it strictly observe-only: it can adopt a live legacy parent and
-        # mark a legacy stage complete when its validated result exists, but it
-        # can never restart or signal a legacy process.
+        # The observe-only legacy owner is retained purely as a churn-immune
+        # result reader: observe_legacy calls only its _validated_result helper (a
+        # pure sealed-file read) to complete the non-census prerequisites, bound to
+        # this orchestrator's own root. execute=False keeps it strictly
+        # observe-only. The fragile v7 stabilization adopter (_stable_process_table
+        # / _reconcile_legacy) is no longer driven at all, because the
+        # consolidated-final census is pinned by exact process identity instead of
+        # resnapshotting its churning mop-final-* worker pool.
         self._legacy_owner = legacy_chain.SuccessorEvidenceChain(
             root=self.root,
             repo_root=self.repo_root,
@@ -559,31 +575,74 @@ class GeneralRunOrchestrator:
         return status
 
     # ------------------------------------------------------------------
-    # Stage: observe_legacy (reuse the v7 legacy adoption path exactly)
+    # Stage: observe_legacy (churn-immune pinned-identity census poll)
     # ------------------------------------------------------------------
 
+    def _is_final_census(self, process: ProcessSnapshot) -> bool:
+        # Pin the census by its exact identity: the pinned pid, the pinned label,
+        # and a create_time within a small tolerance of the pinned start time. The
+        # create_time gate is what stops a reused pid from being mistaken for the
+        # census: any process that inherits the pid after the census exits starts
+        # many seconds later and fails this match.
+        return (
+            process.pid == FINAL_CENSUS_PID
+            and process.label == FINAL_CENSUS_LABEL
+            and math.isfinite(process.create_time)
+            and math.isclose(
+                process.create_time,
+                FINAL_CENSUS_CREATE_TIME,
+                rel_tol=0.0,
+                abs_tol=FINAL_CENSUS_CREATE_TIME_TOLERANCE_SECONDS,
+            )
+        )
+
+    def _observe_final_census(self, row: dict[str, Any], processes: Sequence[ProcessSnapshot]) -> None:
+        # Poll ONLY the pinned census pid; never enumerate or stabilize its
+        # mop-final-* worker pool. Present with the exact pinned identity: the
+        # census is still running, so hold the stage (adopted). Pid entirely free:
+        # the census has exited, so the prerequisite is complete. Pid occupied by a
+        # NON-census process (a reused pid, wrong create_time or label): never
+        # mistake it for the census, and hold conservatively rather than advance on
+        # an ambiguous recycled pid.
+        on_pid = [process for process in processes if process.pid == FINAL_CENSUS_PID]
+        census = next((process for process in on_pid if self._is_final_census(process)), None)
+        if census is not None:
+            row["status"] = "adopted"
+            row["process"] = census.identity()
+            row["last_problem"] = "pinned consolidated-final census parent alive; awaiting its exit"
+            return
+        if on_pid:
+            row["status"] = "adoption_wait"
+            row["process"] = None
+            row["last_problem"] = (
+                f"census pid {FINAL_CENSUS_PID} is held by a non-census process; "
+                "holding without mistaking a reused pid for the census"
+            )
+            return
+        row["status"] = "complete"
+        row["returncode"] = 0
+        row["finished_at"] = self._iso_now()
+        row["process"] = None
+        row["artifacts"] = []
+        row["last_problem"] = None
+
     def _tick_observe_legacy(self) -> dict[str, Any]:
+        # Churn-immune legacy observation. A non-census prerequisite is COMPLETE
+        # iff its sealed validated terminal result exists (a pure file read via the
+        # observe-only owner, never a process-table walk). The consolidated-final
+        # census is the only prerequisite that can still be mid-flight here; it is
+        # pinned by exact process identity so its churning mop-final-* worker pool
+        # never has to be sampled or stabilized.
+        processes = tuple(self.process_table_fn())
         for spec in self._legacy_specs:
-            self._legacy_owner.state["capsules"][spec.stage_id] = copy.deepcopy(
-                self.state["legacy_capsules"][spec.stage_id]
-            )
-        # The v7 bounded resnapshot tolerates a detached transient worker mid-exit
-        # (the exact v6-killer) and fails closed on a genuinely foreign or stuck
-        # worker; this is the robust hardening, not the v6 attached-only gate.
-        processes = self._legacy_owner._stable_process_table()
-        for spec in self._legacy_specs:
-            row = self._legacy_owner.state["capsules"][spec.stage_id]
-            self._legacy_owner._reconcile_legacy(spec, row, processes)
-        for spec in self._legacy_specs:
-            self.state["legacy_capsules"][spec.stage_id] = copy.deepcopy(
-                self._legacy_owner.state["capsules"][spec.stage_id]
-            )
+            row = self.state["legacy_capsules"][spec.stage_id]
+            if spec.process_label == FINAL_CENSUS_LABEL:
+                self._observe_final_census(row, processes)
+                continue
+            result = self._legacy_owner._validated_result(spec)
+            if result is not None:
+                self._legacy_owner._mark_complete(row, spec.result_path, result)
         rows = [self.state["legacy_capsules"][spec.stage_id] for spec in self._legacy_specs]
-        if any(row.get("status") == "failure_hold" for row in rows):
-            self.state["status"] = "failure_hold"
-            self.state["finished_at"] = self._iso_now()
-            self._append_problem("a legacy prerequisite entered a terminal failure state")
-            return self._publish()
         if all(row.get("status") == "complete" for row in rows):
             self.state["stage"] = STAGE_HORIZON_V1
             self.state["status"] = STAGE_HORIZON_V1

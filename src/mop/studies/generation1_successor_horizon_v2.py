@@ -696,7 +696,7 @@ def run_shard(
     retry_limit: int = RETRY_LIMIT,
 ) -> dict[str, Any]:
     if idle_workers != IDLE_WORKERS or hawking_workers != HAWKING_WORKERS:
-        raise ValueError("successor horizon v2 requires exact --idle-workers 8 --hawking-workers 1")
+        raise ValueError("successor horizon v2 requires exact --idle-workers 20 --hawking-workers 1")
     with _v1_runtime_scope():
         return _V1_RUN_SHARD(
             root=root,
