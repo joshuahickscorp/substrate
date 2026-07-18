@@ -62,6 +62,15 @@ MEASURED_AGGREGATE_MHS = {8: 20.5, 16: 33.0, 20: 35.6, 24: 35.2}
 WORKER_CEILING = 20
 WORKER_FLOOR = 1
 
+# Blocking sample window for the CPU read that drives free_p_cores. Empirically tuned: 0.2s
+# is too short and catches a single worker's I/O/coordination gap as "cores are free" (a
+# measured trace against a live 10-worker run oscillated wildly between 12 and 24 free cores
+# every second); 1.0s averages over enough of a real compute cycle to read consistently
+# (repeated live samples held steady at the same value) while still adding only negligible
+# latency once per wave and staying far below os.getloadavg()'s roughly one-minute decay
+# tail. See sample_host_state for why this replaces os.getloadavg() for sizing.
+CPU_SAMPLE_INTERVAL_SECONDS = 1.0
+
 # Host geometry (documentation constants; the pure core only reads the fields on HostState).
 PERFORMANCE_CORES = 20
 EFFICIENCY_CORES = 8
@@ -458,7 +467,17 @@ def sample_host_state(
         load1 = 0.0
     virtual = psutil.virtual_memory()
     mem_available_gb = float(virtual.available) / 1e9
-    busy = min(float(logical), load1)
+    # free_p_cores is deliberately measured from a short, near-instantaneous CPU sample, NOT
+    # the 1-minute load average. This controller is re-sampled once per wave, and a wave's own
+    # workers fully exit (ProcessPoolExecutor.shutdown(wait=True) on context-manager exit)
+    # before the next wave samples; but os.getloadavg() has roughly a one-minute exponential
+    # decay tail, so a fresh sample taken shortly after our own workers finish still partly
+    # measures the load THEY caused, not genuine external contention. That self-interference
+    # makes the pool ratchet down to a stable-but-wrong equilibrium well below the
+    # empirically-measured throughput-optimal ceiling even when the host is truly idle. A
+    # short blocking cpu_percent sample reflects only the load present RIGHT NOW.
+    cpu_percent = float(psutil.cpu_percent(interval=CPU_SAMPLE_INTERVAL_SECONDS))
+    busy = min(float(logical), cpu_percent / 100.0 * logical)
     free_p_cores = max(0, int(math.floor(logical - busy)))
     hawking_active, hawking_processes = detect_hawking(exclude_pids=exclude_pids)
     thermal_ok = _thermal_ok()
@@ -531,6 +550,7 @@ def main(argv: list[str] | None = None) -> int:
 __all__ = [
     "CLAIM_SCOPE",
     "CORE_RESERVE",
+    "CPU_SAMPLE_INTERVAL_SECONDS",
     "HAWKING_COMMAND_MARKERS",
     "HAWKING_RESERVE_WORKERS",
     "MEASURED_AGGREGATE_MHS",
