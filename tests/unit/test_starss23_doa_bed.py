@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import ast
 import copy
-import math
 from pathlib import Path
 
 import numpy as np
@@ -28,9 +27,9 @@ import pytest
 
 from mop.beds.starss23 import doa_harness as H
 from mop.beds.starss23 import doa_verifier as V
-from mop.beds.starss23.doa_controls import never_update_reestimates
 from mop.beds.starss23.doa_estimator import FLOPS_PER_REESTIMATE, FrozenDoaEstimator
-from mop.beds.starss23.doa_featurizer import D_FEAT_DOA, FLOPS_PER_FRAME as FEATURIZER_FLOPS_PER_FRAME, DoaFeaturizer
+from mop.beds.starss23.doa_featurizer import D_FEAT_DOA, DoaFeaturizer
+from mop.beds.starss23.doa_featurizer import FLOPS_PER_FRAME as FEATURIZER_FLOPS_PER_FRAME
 from mop.beds.starss23.doa_gate import (
     ARCH_A_ID,
     ARCH_B_ID,
@@ -65,6 +64,7 @@ from mop.beds.starss23.doa_producer import (
 )
 from mop.beds.starss23.doa_referee import (
     DOA_COLD_START,
+    DoaRefereeRefusal,
     coast_emitted_direction,
     exact_sign_flip_over_clips,
     macro_score_arm,
@@ -332,7 +332,7 @@ def test_room_majority_collapse_matches_calibration_note_worked_example():
 
 def test_referee_refuses_clip_with_no_active_frame():
     est = np.array([[0.0, 0.0]])
-    with pytest.raises(Exception):
+    with pytest.raises(DoaRefereeRefusal):
         mae_deg_clip(np.array([[0.0, 0.0]]), est, [], np.array([False]))
 
 

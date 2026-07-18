@@ -149,7 +149,9 @@ def _as_direction_track(track: object, label: str) -> list[list[float] | None]:
         if not isinstance(item, list) or len(item) != 2:
             raise DoaVerificationRefusal(f"{label} entries must be null or an [azimuth, elevation] pair")
         az, el = item
-        if isinstance(az, bool) or isinstance(el, bool) or not isinstance(az, (int, float)) or not isinstance(el, (int, float)):
+        az_ok = not isinstance(az, bool) and isinstance(az, (int, float))
+        el_ok = not isinstance(el, bool) and isinstance(el, (int, float))
+        if not az_ok or not el_ok:
             raise DoaVerificationRefusal(f"{label} entries must hold real numbers")
         cleaned.append([float(az), float(el)])
     return cleaned
@@ -170,7 +172,9 @@ def _as_reestimates(frames: object, n_frames: int, label: str) -> list[int]:
     return cleaned
 
 
-def _coast(estimator_track: list[list[float]], reestimates: list[int], cold_start: list[float]) -> list[list[float]]:
+def _coast(
+    estimator_track: list[list[float]], reestimates: list[int], cold_start: list[float]
+) -> list[list[float]]:
     fire = set(reestimates)
     emitted: list[list[float]] = []
     held = list(cold_start)
@@ -182,7 +186,10 @@ def _coast(estimator_track: list[list[float]], reestimates: list[int], cold_star
 
 
 def _clip_mae(
-    gt_track: list[list[float] | None], estimator_track: list[list[float]], reestimates: list[int], cold_start: list[float]
+    gt_track: list[list[float] | None],
+    estimator_track: list[list[float]],
+    reestimates: list[int],
+    cold_start: list[float],
 ) -> tuple[float, int]:
     emitted = _coast(estimator_track, reestimates, cold_start)
     errors: list[float] = []
@@ -196,7 +203,10 @@ def _clip_mae(
 
 
 def _clip_pooled(
-    gt_track: list[list[float] | None], estimator_track: list[list[float]], reestimates: list[int], cold_start: list[float]
+    gt_track: list[list[float] | None],
+    estimator_track: list[list[float]],
+    reestimates: list[int],
+    cold_start: list[float],
 ) -> tuple[float, int]:
     emitted = _coast(estimator_track, reestimates, cold_start)
     total = 0.0
@@ -245,7 +255,9 @@ def _clip_sign_flip_meet_in_middle(deltas: list[float]) -> tuple[float, float, i
     if n == 0:
         raise DoaVerificationRefusal("the clip sign-flip needs at least one paired delta")
     if n > _MAX_CLIP_ENUMERATION:
-        raise DoaVerificationRefusal(f"exact clip enumeration is capped at n={_MAX_CLIP_ENUMERATION}; got n={n}")
+        raise DoaVerificationRefusal(
+            f"exact clip enumeration is capped at n={_MAX_CLIP_ENUMERATION}; got n={n}"
+        )
     t_observed = math.fsum(deltas)
     half = n // 2
     left, right = deltas[:half], deltas[half:]
@@ -283,7 +295,9 @@ def _room_majority(clip_deltas_by_room: dict[str, list[float]]) -> tuple[int, fl
         favorable = n_pos * 2 > len(deltas)
         if favorable:
             n_favorable += 1
-        per_room.append({"room_id": room_id, "n_clips": len(deltas), "n_favorable_clips": n_pos, "favorable": favorable})
+        per_room.append(
+            {"room_id": room_id, "n_clips": len(deltas), "n_favorable_clips": n_pos, "favorable": favorable}
+        )
     n_rooms = len(per_room)
     permutations = 2**n_rooms
     one_sided_p = sum(math.comb(n_rooms, k) for k in range(n_favorable, n_rooms + 1)) / permutations
@@ -323,7 +337,10 @@ class DoaVerificationResult:
 def _rescore_seed_block(
     seed_block: dict, corpus: dict, cold_start: list[float], mismatches: list[str], architecture: str
 ) -> dict[str, tuple[float, float]]:
-    """Return {arm: (recomputed_macro_mae, recomputed_pooled_mae)} for one seed block, checking stored values."""
+    """Return {arm: (recomputed_macro_mae, recomputed_pooled_mae)} for one seed block.
+
+    Checks stored values along the way.
+    """
 
     seed = seed_block.get("seed")
     reestimates_by_clip = seed_block.get("reestimate_frames", {})
@@ -373,7 +390,9 @@ def _rescore_seed_block(
         for clip_id, mae, n_active in clip_maes:
             entry = claimed_per_clip.get(clip_id, {})
             if not _agree(entry.get("mae_deg"), mae) or entry.get("n_active_frames") != n_active:
-                mismatches.append(f"{architecture} seed {seed} arm {arm} clip {clip_id} per-clip score disagrees")
+                mismatches.append(
+                    f"{architecture} seed {seed} arm {arm} clip {clip_id} per-clip score disagrees"
+                )
 
         claimed_pooled = arm_scores_pooled.get(arm, {})
         if not _agree(claimed_pooled.get("pooled_mae_deg"), recomputed_pooled):
@@ -406,7 +425,9 @@ def _rescore_architecture(
         claimed_per_clip_cand = seed_block["arm_scores_macro"][ARM_CANDIDATE]["per_clip"]
         claimed_per_clip_rmr = seed_block["arm_scores_macro"][ARM_RATE_MATCHED_RANDOM]["per_clip"]
         for clip_id in sorted(corpus):
-            delta = float(claimed_per_clip_rmr[clip_id]["mae_deg"]) - float(claimed_per_clip_cand[clip_id]["mae_deg"])
+            delta = float(claimed_per_clip_rmr[clip_id]["mae_deg"]) - float(
+                claimed_per_clip_cand[clip_id]["mae_deg"]
+            )
             per_clip_recomputed.setdefault(clip_id, []).append(delta)
 
     per_clip_deltas: list[tuple[str, float]] = [
@@ -457,7 +478,10 @@ def _rescore_architecture(
 
 
 def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:
-    """Re-derive every graded number in a sealed DoA bed artifact from raw tracks, and rule on both verdicts."""
+    """Re-derive every graded number in a sealed DoA bed artifact from raw tracks.
+
+    Rules on both verdicts.
+    """
 
     if not isinstance(artifact, dict):
         raise DoaVerificationRefusal("artifact must be a JSON object")
@@ -536,7 +560,9 @@ def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:
             expected_exceeds = rescored["mean_clip_delta"] >= float(sesoi_deg)
             if bool(sesoi_block.get("exceeds_sesoi")) != expected_exceeds:
                 stats_reproduced = False
-                mismatches.append(f"{architecture} sesoi.exceeds_sesoi disagrees with the recomputed mean delta")
+                mismatches.append(
+                    f"{architecture} sesoi.exceeds_sesoi disagrees with the recomputed mean delta"
+                )
         else:
             stats_reproduced = False
             mismatches.append(f"{architecture} stats.sesoi.sesoi_f1 is missing or not numeric")
@@ -561,10 +587,14 @@ def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:
     exactly_one = bool(per_architecture[ARCH_A_ID]["survives"] != per_architecture[ARCH_B_ID]["survives"])
     if artifact.get("stats", {}).get("both_architectures_survive") != both_survive:
         stats_reproduced = False
-        mismatches.append("stats.both_architectures_survive disagrees with the recomputed per-architecture survival")
+        mismatches.append(
+            "stats.both_architectures_survive disagrees with the recomputed per-architecture survival"
+        )
     if artifact.get("stats", {}).get("architecture_fragile") != exactly_one:
         stats_reproduced = False
-        mismatches.append("stats.architecture_fragile disagrees with the recomputed per-architecture survival")
+        mismatches.append(
+            "stats.architecture_fragile disagrees with the recomputed per-architecture survival"
+        )
 
     expected_verdict = "mechanics-ok" if both_survive else ("architecture-fragile" if exactly_one else "null")
     if artifact.get("verdict") != expected_verdict:
@@ -588,9 +618,13 @@ def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:
         claim_verb = artifact.get("stats", {}).get(architecture, {}).get("claim_verb")
         if claim_verb in FORBIDDEN_CLAIM_VERBS or claim_verb not in ALLOWED_CLAIM_VERBS:
             honesty_ok = False
-            mismatches.append(f"{architecture} claim_verb {claim_verb!r} exceeds the clip-limited claim ceiling")
+            mismatches.append(
+                f"{architecture} claim_verb {claim_verb!r} exceeds the clip-limited claim ceiling"
+            )
 
-    independent_referee_reproduction = seal_intact and schema_ok and scores_reproduced and stats_reproduced and honesty_ok
+    independent_referee_reproduction = (
+        seal_intact and schema_ok and scores_reproduced and stats_reproduced and honesty_ok
+    )
 
     source_kind = str(artifact.get("source_kind", ""))
     rights_clean = artifact.get("rights_clean") is True
