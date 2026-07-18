@@ -135,7 +135,7 @@ def test_program_envelope_and_generated_manifest_are_exact_and_deterministic() -
 
     assert wave.planned_program_compute_seconds() == pytest.approx(706_256.9000881652)
     assert wave.planned_serial_hours() == pytest.approx(196.18247224671256)
-    assert wave.planned_ideal_eight_worker_hours() == pytest.approx(24.52280903083907)
+    assert wave.planned_ideal_eight_worker_hours() == pytest.approx(9.809123612335627)
     assert wave.MAXIMUM_RAW_RECEIPT_COUNT == 15_886
     assert generated == expected
     assert wave.PROGRAM_MANIFEST.stat().st_mode & 0o777 == 0o644

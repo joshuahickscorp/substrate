@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from concurrent.futures import Future
 from pathlib import Path
 from typing import Any
 
@@ -10,11 +11,80 @@ from mop.studies import generation1_consolidated_final_campaign as consolidated
 from mop.studies import generation1_d1_frozen_verify as frozen
 from mop.studies import generation1_successor_categorized_batch_wave as wave
 from mop.studies import generation1_successor_mechanics_queue as mechanics
+from mop.studio import dynamic_worker_controller as dwc
 from mop.studio.generation1_supervisor import atomic_write_json
 from tests.unit.test_generation1_d1_frozen_verify import (
     _fake_rung_replay,
     aggregate_fixture,
 )
+
+
+class _InlineExecutor:
+    """In-process ProcessPoolExecutor double for exercising the real _execute_pending path.
+
+    Runs each submitted runner synchronously in the test process so a unit test can drive the real
+    pool-sizing and result-collection logic without spawning subprocesses. Records every
+    ``max_workers`` it is constructed with. The initializer is deliberately NOT run: its only effect
+    is a best-effort ``os.nice`` on a worker, which is irrelevant to receipts and must never renice
+    the test process.
+    """
+
+    created_with: list[int] = []
+
+    def __init__(self, max_workers: int, initializer: Any = None, initargs: Any = ()) -> None:
+        _InlineExecutor.created_with.append(int(max_workers))
+
+    def __enter__(self) -> _InlineExecutor:
+        return self
+
+    def __exit__(self, *_exc: Any) -> bool:
+        return False
+
+    def submit(self, fn: Any, *args: Any, **kwargs: Any) -> Future:
+        future: Future = Future()
+        try:
+            future.set_result(fn(*args, **kwargs))
+        except BaseException as exc:  # pragma: no cover - surfaced through future.result()
+            future.set_exception(exc)
+        return future
+
+
+def _host_sample(state: dwc.HostState) -> dwc.HostSample:
+    """Wrap a HostState in a HostSample using the real pure derivations (no live host reads)."""
+
+    return dwc.HostSample(
+        state=state,
+        priority=dwc.recommended_priority(state),
+        recommended_workers=dwc.recommended_workers(state),
+        bounds=dwc.worker_bounds(state),
+        hawking_processes=[],
+        telemetry={},
+        created_at=0.0,
+    )
+
+
+def _idle_state(current_workers: int) -> dwc.HostState:
+    return dwc.HostState(
+        free_p_cores=28,
+        hawking_active=False,
+        mem_available_gb=90.0,
+        thermal_ok=True,
+        on_ac=True,
+        current_load=1.0,
+        current_workers=current_workers,
+    )
+
+
+def _hawking_state(current_workers: int) -> dwc.HostState:
+    return dwc.HostState(
+        free_p_cores=28,
+        hawking_active=True,
+        mem_available_gb=90.0,
+        thermal_ok=True,
+        on_ac=True,
+        current_load=8.0,
+        current_workers=current_workers,
+    )
 
 
 def _write(path: Path, value: dict[str, Any]) -> None:
@@ -96,11 +166,12 @@ def test_taxonomy_cycles_and_real_mechanics_envelope_are_exact() -> None:
         "dispatch_redesign": ("G1-D1",),
     }
     assert wave.CAPSULE_COUNT == 59
-    assert wave.INTERNAL_SHARD_COUNT == wave.IDLE_WORKERS == 8
+    assert wave.INTERNAL_SHARD_COUNT == 8
+    assert wave.IDLE_WORKERS == 20
     assert wave.MAXIMUM_RAW_RECEIPT_COUNT == 15_886
     assert wave.planned_serial_hours() == pytest.approx(196.1824722467)
-    assert wave.planned_ideal_eight_worker_hours() == pytest.approx(24.5228090308)
-    assert wave.planned_ideal_eight_worker_hours() > 24
+    assert wave.planned_ideal_eight_worker_hours() == pytest.approx(9.8091236123)
+    assert wave.planned_ideal_eight_worker_hours() > 9
 
 
 def test_work_items_use_fresh_cycles_exact_taxonomy_and_disjoint_seed_space() -> None:
@@ -219,7 +290,7 @@ def test_run_category_uses_existing_executor_and_balanced_planning_shards(
     assert value["execution"]["compute_started"] is True
     assert value["execution"]["observed_seconds"] == 0.25
     assert value["execution"]["worker_pool"] == "dynamic_process_pool"
-    assert value["execution"]["worker_pool_max_workers"] == 8
+    assert value["execution"]["worker_pool_max_workers"] == 20
     assert len(value["balanced_planning_shards"]) == 8
     assert sum(row["work_item_count"] for row in value["balanced_planning_shards"]) == 1
     assert all(row["partition_pinned"] is False for row in value["balanced_planning_shards"])
@@ -409,3 +480,106 @@ def test_i1_cannot_resurrect_when_clean_v2_pruned_it(
     assert value["execution"]["eligible"] is False
     assert value["execution"]["executed_item_count"] == 0
     assert value["execution"]["skipped_item_count"] == len(wave.integration_work_items())
+
+
+def test_worker_count_is_receipt_invariant_across_pool_widths(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The seeded-sha256 raw receipt is byte-identical whether the pool floats to 1 or 20 workers.
+
+    Drives the real _execute_pending through an in-process executor double under two forced widths
+    (1 vs 20) and asserts every raw capsule receipt is byte-for-byte identical, proving the dynamic
+    worker count never leaks into any hashed or sealed field. worker_pool_max_workers stays the fixed
+    IDLE_WORKERS ceiling regardless of the instantaneous width.
+    """
+
+    sources = {
+        lane_id: next(item for item in mechanics.WORK_ITEMS if item.lane_id == lane_id)
+        for lane_id in ("G1-C0", "G1-E1")
+    }
+    works = tuple(
+        consolidated.WorkItem(
+            key=f"w01_inv_{lane_id.lower()}",
+            kind="mechanics_fresh",
+            source_index=sources[lane_id].index,
+            cycle=12,
+            preflight=False,
+        )
+        for lane_id in ("G1-C0", "G1-E1")
+    )
+    original_fresh = consolidated.fresh_mechanics_item
+
+    def reduced_fresh(work: consolidated.WorkItem) -> mechanics.WorkItem:
+        fresh = original_fresh(work)
+        return mechanics.WorkItem(
+            index=fresh.index,
+            lane_id=fresh.lane_id,
+            mechanism=fresh.mechanism,
+            phase=fresh.phase,
+            rung_index=fresh.rung_index,
+            seed_start=fresh.seed_start,
+            seed_count=2,
+        )
+
+    # Run the real seeded runners in-process (no subprocess) with the process-label and nice side
+    # effects neutralized, so the test never renames itself into the live mop-final-* worker family.
+    monkeypatch.setattr(consolidated, "fresh_mechanics_item", reduced_fresh)
+    monkeypatch.setattr(consolidated, "set_process_label", lambda *_a, **_k: None)
+    monkeypatch.setattr(consolidated.os, "nice", lambda *_a: 0)
+    monkeypatch.setattr(wave, "ProcessPoolExecutor", _InlineExecutor)
+    _InlineExecutor.created_with = []
+
+    def run_at_width(width: int, raw_root: Path) -> dict[str, dict[str, Any]]:
+        monkeypatch.setattr(wave, "_dynamic_pool_width", lambda _pending: (width, None))
+        receipts, _durations, newly = wave._execute_pending(raw_root, works)
+        assert newly == len(works)
+        return receipts
+
+    receipts_one = run_at_width(1, tmp_path / "width_one")
+    receipts_twenty = run_at_width(20, tmp_path / "width_twenty")
+
+    assert set(receipts_one) == set(receipts_twenty) == {work.key for work in works}
+    # The pool genuinely floated to two different widths (1 then 20) across the two builds.
+    assert _InlineExecutor.created_with == [1, 20]
+    for work in works:
+        assert receipts_one[work.key]["result_sha256"] == receipts_twenty[work.key]["result_sha256"]
+        bytes_one = consolidated._artifact_path(tmp_path / "width_one", work).read_bytes()
+        bytes_twenty = consolidated._artifact_path(tmp_path / "width_twenty", work).read_bytes()
+        assert bytes_one == bytes_twenty
+
+
+def test_dynamic_pool_width_backs_off_under_hawking_and_ramps_when_idle(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """The pool floats with live host load: it holds the twenty-worker ceiling when the host is idle,
+    sheds to the tiny reserve under a faked Hawking workload, and falls back to the static
+    min(IDLE_WORKERS, pending) width when no live host sample is available."""
+
+    assert wave.IDLE_WORKERS == dwc.WORKER_CEILING == 20
+
+    # Idle host: hold the declared twenty-worker ceiling at the mild utility nice level.
+    monkeypatch.setattr(dwc, "sample_host_state", lambda *_a, **_k: _host_sample(_idle_state(20)))
+    width, nice_level = wave._dynamic_pool_width(30)
+    assert width == 20
+    assert nice_level == dwc.IDLE_NICE
+
+    # Hawking active: back the worker count off to the tiny reserve and yield cores by maximum nice.
+    monkeypatch.setattr(dwc, "sample_host_state", lambda *_a, **_k: _host_sample(_hawking_state(20)))
+    width, nice_level = wave._dynamic_pool_width(30)
+    assert width == dwc.HAWKING_RESERVE_WORKERS == 2
+    assert width < 20
+    assert nice_level == dwc.HAWKING_NICE
+
+    # Controller cannot sample (psutil absent or a refusal): fall back to the static width exactly as
+    # before, with no priority initializer (nice_level is None so _execute_pending passes no
+    # initializer to the pool).
+    def _refuse(*_a: Any, **_k: Any) -> dwc.HostSample:
+        raise dwc.WorkerControllerRefused("psutil is required to read a live host state")
+
+    monkeypatch.setattr(dwc, "sample_host_state", _refuse)
+    assert wave._dynamic_pool_width(5) == (5, None)
+    assert wave._dynamic_pool_width(30) == (20, None)
+
+    # A single pending item never even samples the host: it takes exactly one worker.
+    assert wave._dynamic_pool_width(1) == (1, None)

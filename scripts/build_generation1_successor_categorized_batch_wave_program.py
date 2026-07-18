@@ -285,10 +285,10 @@ def _category_capsule(
         wall_minutes=285,
         resource_basis=(
             f"fresh-cycle deterministic mechanics execution for "
-            f"{wave.CATEGORY_NAMES[category_id]} in {epoch_id}; a dynamic process pool capped "
-            "at eight workers executes retained lanes only, while eight balanced planning "
-            f"shards describe {planned / 3_600:.2f} maximum serial hours and restart-safe "
-            "raw receipts"
+            f"{wave.CATEGORY_NAMES[category_id]} in {epoch_id}; a dynamic process pool that "
+            "floats from one to twenty workers with live host load executes retained lanes "
+            f"only, while eight balanced planning shards describe {planned / 3_600:.2f} maximum "
+            "serial hours and restart-safe raw receipts"
         ),
         compute=True,
         forecast_write_gb=4.0,
@@ -363,8 +363,9 @@ def _integration_capsules(last_wave: str) -> list[dict[str, Any]]:
         wall_minutes=180,
         resource_basis=(
             "conditional post-W07 G1-I1 evaluation; executes fresh mechanics through a dynamic "
-            "process pool capped at eight workers only when initial v2 admission and every "
-            "declared dependency lane remain clean through W07, otherwise seals a pruned receipt"
+            "process pool that floats from one to twenty workers with live host load only when "
+            "initial v2 admission and every declared dependency lane remain clean through W07, "
+            "otherwise seals a pruned receipt"
         ),
         compute=True,
         forecast_write_gb=2.0,
