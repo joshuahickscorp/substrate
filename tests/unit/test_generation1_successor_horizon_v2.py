@@ -184,8 +184,10 @@ def test_v2_is_five_fresh_disjoint_cycles_and_more_than_one_parallel_day() -> No
     assert horizon.EPOCH_IDS == ("H06", "H07", "H08", "H09", "H10")
     assert horizon.EPOCH_CYCLES == (7, 8, 9, 10, 11)
     assert horizon.planned_horizon_compute_seconds() == predecessor.planned_horizon_compute_seconds()
+    assert horizon.IDLE_WORKERS == 20
     assert horizon.planned_horizon_compute_seconds() >= 230 * 60 * 60
-    assert horizon.planned_horizon_compute_seconds() / horizon.IDLE_WORKERS >= 24 * 60 * 60
+    # IDLE_WORKERS is the declared 20-worker ceiling, so the ideal parallel time is serial / 20.
+    assert horizon.planned_horizon_compute_seconds() / horizon.IDLE_WORKERS >= 11 * 60 * 60
 
     predecessor_d1 = []
     predecessor_mechanics = []
@@ -570,21 +572,21 @@ def test_admission_requires_exact_fields_and_a_utc_timestamp(monkeypatch) -> Non
         horizon.validate_admission(_sealed(offset_core, "admission_sha256"))
 
 
-def test_run_shard_refuses_any_worker_envelope_other_than_exact_eight_to_one() -> None:
-    with pytest.raises(ValueError, match="exact --idle-workers 8 --hawking-workers 1"):
+def test_run_shard_refuses_any_worker_envelope_other_than_exact_twenty_to_one() -> None:
+    with pytest.raises(ValueError, match="exact --idle-workers 20 --hawking-workers 1"):
         horizon.run_shard(
             epoch_index=0,
             lane="d1",
             shard_index=0,
-            idle_workers=7,
+            idle_workers=19,
             hawking_workers=1,
         )
-    with pytest.raises(ValueError, match="exact --idle-workers 8 --hawking-workers 1"):
+    with pytest.raises(ValueError, match="exact --idle-workers 20 --hawking-workers 1"):
         horizon.run_shard(
             epoch_index=0,
             lane="d1",
             shard_index=0,
-            idle_workers=8,
+            idle_workers=20,
             hawking_workers=2,
         )
 

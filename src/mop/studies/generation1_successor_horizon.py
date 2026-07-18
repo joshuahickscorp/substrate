@@ -20,6 +20,7 @@ import statistics
 import tempfile
 from collections.abc import Mapping, Sequence
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from contextlib import suppress
 from pathlib import Path
 from typing import Any
 
@@ -29,7 +30,6 @@ from mop.studies import generation1_c3_d1_frozen_queue as d1
 from mop.studies import generation1_consolidated_final_campaign as consolidated
 from mop.studies import generation1_successor_mechanics_queue as mechanics
 from mop.studies.generation1_c3_dispatch import atomic_write_json, canonical_sha256, sha256_file
-from mop.studies.generation1_c3_dispatch_queue import hawking_mode
 
 PROGRAM_ID = "generation1-successor-horizon-v1"
 ADMISSION_SCHEMA = "mop-generation1-successor-horizon-admission/v1"
@@ -56,7 +56,12 @@ EPOCH_CYCLES = tuple(FIRST_FRESH_CYCLE + index for index in range(len(EPOCH_IDS)
 D1_SHARD_COUNT = 5
 MECHANICS_SHARD_COUNT = 8
 RETRY_LIMIT = 3
-IDLE_WORKERS = 8
+# Declared idle-host pool ceiling: the measured Hawking-idle aggregate throughput peak on this host
+# (dynamic_worker_controller.WORKER_CEILING = 20; 24 workers regress). The ACTUAL pool width floats
+# dynamically from 1 to this ceiling with live host load (see _dynamic_pool_width); this constant is
+# only the declared ceiling recorded in each shard execution block and the planning divisor, never the
+# fluctuating instantaneous count, so every sealed planning field stays deterministic.
+IDLE_WORKERS = 20
 HAWKING_WORKERS = 1
 
 
@@ -531,6 +536,47 @@ def validate_shard(
         raise ValueError("successor horizon shard counts drifted")
 
 
+def _dynamic_pool_width(pending_count: int) -> tuple[int, int | None]:
+    """Size the process pool from live host load, floating in ``[1, min(IDLE_WORKERS, pending)]``.
+
+    The pool width is a WALL-TIME lever only: it is passed to ``ProcessPoolExecutor(max_workers=...)``
+    and is never written to any receipt, so every seeded-sha256 capsule result is byte-identical at
+    any width. ``IDLE_WORKERS`` (20) is the declared ceiling; the dynamic worker controller floats the
+    instantaneous width beneath it with the live host state, backing off fast under the external
+    Hawking workload and ramping back toward the ceiling when the host is idle. The controller is
+    imported lazily so the wave pays no import cost at module load. If it cannot sample a live host
+    (psutil absent or a refusal) the width falls back to the static ``min(IDLE_WORKERS, pending)``
+    exactly as before, so the wave never fails to run. Returns ``(width, nice_level)`` where
+    ``nice_level`` is the controller's advisory worker priority, or ``None`` when no live sample was
+    available (the fallback path applies no initializer).
+    """
+
+    static_cap = min(IDLE_WORKERS, pending_count)
+    if static_cap <= 1:
+        return max(1, static_cap), None
+    try:
+        from mop.studio import dynamic_worker_controller as controller
+
+        sample = controller.sample_host_state(current_workers=static_cap)
+        width = controller.recommended_workers(sample.state)
+        nice_level = controller.recommended_priority(sample.state).nice_level
+    except Exception:
+        return static_cap, None
+    return max(1, min(int(width), static_cap)), int(nice_level)
+
+
+def _pool_worker_priority_init(nice_level: int) -> None:
+    """Best-effort worker priority: nudge each pool worker toward the advised nice level.
+
+    Never fatal and never touches a receipt: OS scheduling priority does not enter the seeded sha256
+    capsule result, so this only changes how the surviving pool yields cores to the external Hawking
+    workload by priority. Any failure is swallowed.
+    """
+
+    with suppress(Exception):
+        os.nice(int(nice_level))
+
+
 def run_shard(
     *,
     root: Path = DEFAULT_ROOT,
@@ -575,15 +621,16 @@ def run_shard(
     durations: dict[str, float] = {}
     first_wave = not receipts
     while len(receipts) < len(effective):
-        mode, _, problem = hawking_mode()
-        if problem is not None:
-            workers = hawking_workers
-        else:
-            workers = hawking_workers if mode == "hawking_active" else idle_workers
         pending = [work for work in effective if work.key not in receipts]
-        wave = pending[: 1 if first_wave else workers]
+        # Size the pool dynamically from live host load. The width and priority are wall-time levers
+        # only and never enter any shard receipt, so every seeded-sha256 capsule result is
+        # byte-identical at any width; the sealed idle_workers/hawking_workers fields stay fixed.
+        width, nice_level = _dynamic_pool_width(len(pending))
+        wave = pending[: 1 if first_wave else width]
         first_wave = False
-        with ProcessPoolExecutor(max_workers=len(wave)) as pool:
+        initializer = _pool_worker_priority_init if nice_level is not None else None
+        initargs = (int(nice_level),) if nice_level is not None else ()
+        with ProcessPoolExecutor(max_workers=len(wave), initializer=initializer, initargs=initargs) as pool:
             futures = {}
             for work in wave:
                 attempts[work.key] = attempts.get(work.key, 0) + 1

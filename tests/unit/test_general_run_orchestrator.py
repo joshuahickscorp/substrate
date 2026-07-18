@@ -3,11 +3,13 @@
 The suite drives the ordered stage machine with injected collaborators (process
 table, program loader, status reader, target starter, host admission, and the
 advisory reprofiler) exactly like the v7 and categorized-chain tests.  It proves
-that observe_legacy reuses the v7 robust hardening (a detached transient worker
-that exits is tolerated; a persistent foreign worker still holds), that a stage
-advances only on a stable clean-complete, that a running or already-launched
-supervisor is never double-launched, that the machine is idempotent and
-restartable mid-stage, and that a held or failed stage stops advancement.
+that observe_legacy is a churn-immune pinned-identity census poll (the census is
+adopted while its exact pinned identity is alive, the stage advances the moment
+its pid is free, a churning mop-final-* child pool is never sampled, and a
+reused-pid imposter is never mistaken for the census), that a stage advances only
+on a stable clean-complete, that a running or already-launched supervisor is
+never double-launched, that the machine is idempotent and restartable mid-stage,
+and that a held stage stops advancement.
 """
 
 from __future__ import annotations
@@ -237,17 +239,6 @@ def _legacy_spec(
     )
 
 
-def _legacy_status(spec: legacy_chain.LegacySpec, *, state: str = "running") -> None:
-    core = {
-        "schema": spec.status_schema,
-        "program_id": spec.program_id,
-        "state": state,
-        "activation_allowed": False,
-        "scientific_promotion": False,
-    }
-    _write_json(spec.status_path, {**core, "status_sha256": g1.canonical_sha256(core)})
-
-
 def _legacy_result(spec: legacy_chain.LegacySpec) -> None:
     _write_json(
         spec.result_path,
@@ -338,20 +329,38 @@ def _seed_stage(orchestrator: gr.GeneralRunOrchestrator, stage_id: str, *, compl
 
 
 # ----------------------------------------------------------------------------
-# observe_legacy: reuse the v7 legacy adoption path and robust hardening exactly
+# observe_legacy: churn-immune pinned-identity consolidated-final census poll
 # ----------------------------------------------------------------------------
 
 
-def test_observe_legacy_adopts_live_final_and_stays_observing(tmp_path: Path) -> None:
+def _census_parent(
+    tmp_path: Path,
+    *,
+    create_time: float = gr.FINAL_CENSUS_CREATE_TIME,
+    label: str = gr.FINAL_CENSUS_LABEL,
+) -> gr.ProcessSnapshot:
+    """The pinned consolidated-final census parent (pid 67790) as it is seen live."""
+
+    return _process(
+        tmp_path,
+        pid=gr.FINAL_CENSUS_PID,
+        label=label,
+        command=(label, ""),
+        create_time=create_time,
+    )
+
+
+def test_observe_legacy_waits_while_pinned_census_parent_alive(tmp_path: Path) -> None:
+    # The census parent's exact pinned identity (pid, label, create_time) is alive:
+    # observe_legacy adopts it and keeps waiting, never launching a compute stage
+    # and never advancing off observe_legacy.
     spec = _legacy_spec(tmp_path)
-    _legacy_status(spec, state="running")
-    live = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
+    census = _census_parent(tmp_path)
     calls: list[str] = []
     orchestrator = _orchestrator(
         tmp_path,
         legacy_specs=(spec,),
-        process_table_fn=lambda: (live,),
-        identity_probe_fn=lambda _identity: "alive",
+        process_table_fn=lambda: (census,),
         target_starter_fn=lambda program, **_k: calls.append(program.program_id) or {},
     )
 
@@ -359,14 +368,18 @@ def test_observe_legacy_adopts_live_final_and_stays_observing(tmp_path: Path) ->
 
     assert status["state"] == "observe_legacy"
     assert status["stage"] == "observe_legacy"
-    assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "adopted"
-    assert orchestrator.state["legacy_capsules"][spec.stage_id]["adoption_receipts"]
+    row = orchestrator.state["legacy_capsules"][spec.stage_id]
+    assert row["status"] == "adopted"
+    assert row["process"]["pid"] == gr.FINAL_CENSUS_PID
+    assert status["problems"] == []
     assert calls == []
 
 
-def test_observe_legacy_completes_and_advances_to_horizon_v1(tmp_path: Path) -> None:
+def test_observe_legacy_advances_when_census_pid_is_free(tmp_path: Path) -> None:
+    # The census pid is entirely free: the census has exited, so observe_legacy
+    # marks the prerequisite complete and advances to run_horizon_v1. Advancing the
+    # pointer never launches anything on the same tick.
     spec = _legacy_spec(tmp_path)
-    _legacy_result(spec)
     calls: list[str] = []
     orchestrator = _orchestrator(
         tmp_path,
@@ -380,89 +393,93 @@ def test_observe_legacy_completes_and_advances_to_horizon_v1(tmp_path: Path) -> 
     assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "complete"
     assert status["stage"] == "run_horizon_v1"
     assert status["state"] == "run_horizon_v1"
-    # advancing the pointer does not launch anything on the same tick
     assert calls == []
 
 
-def test_observe_legacy_tolerates_detached_transient_worker_regression(tmp_path: Path) -> None:
-    # THE v6 regression, preserved as fixed in v7: a legacy worker mid-exit,
-    # already reparented to launchd (ppid 1, its own pgid), still carrying the
-    # child label and the repo cwd, is tolerated because it is GONE on the next
-    # sample. The orchestrator must adopt cleanly, never fail to integrity_hold.
+def test_observe_legacy_waits_then_advances_as_census_parent_exits(tmp_path: Path) -> None:
+    # End to end: the pinned census parent is alive on the first tick (wait), then
+    # its pid frees on the next tick (advance). One orchestrator, two ticks.
     spec = _legacy_spec(tmp_path)
-    _legacy_status(spec, state="running")
-    owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
-    worker_label = f"{spec.child_label_prefixes[0]}0490"
-    detached = _process(
-        tmp_path, pid=33846, label=worker_label, command=(worker_label, ""), pgid=33846, ppid=1
-    )
-    assert detached.ppid != owner.pid and detached.pgid != owner.pid  # genuinely detached
-    tables = [(owner, detached), (owner,), (owner,)]
-    calls = 0
-    sleeps: list[float] = []
-
-    def process_table() -> tuple[gr.ProcessSnapshot, ...]:
-        nonlocal calls
-        table = tables[min(calls, len(tables) - 1)]
-        calls += 1
-        return table
-
+    table: dict[str, tuple[gr.ProcessSnapshot, ...]] = {"processes": (_census_parent(tmp_path),)}
+    calls: list[str] = []
     orchestrator = _orchestrator(
         tmp_path,
         legacy_specs=(spec,),
-        process_table_fn=process_table,
-        sleep_fn=sleeps.append,
-        identity_probe_fn=lambda identity: "gone" if identity.get("pid") == detached.pid else "alive",
+        process_table_fn=lambda: table["processes"],
+        target_starter_fn=lambda program, **_k: calls.append(program.program_id) or {},
+    )
+
+    first = orchestrator.tick()
+    assert first["state"] == "observe_legacy"
+    assert first["stage"] == "observe_legacy"
+    assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "adopted"
+
+    table["processes"] = ()
+    second = orchestrator.tick()
+    assert second["stage"] == "run_horizon_v1"
+    assert second["state"] == "run_horizon_v1"
+    assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "complete"
+    assert calls == []
+
+
+def test_observe_legacy_holds_on_reused_pid_imposter(tmp_path: Path) -> None:
+    # A different process inherits the census pid after it exits: same pid, same
+    # label, but a create_time many seconds later. The create_time guard rejects it
+    # so it is NEVER mistaken for the census; the stage holds conservatively,
+    # neither advancing on an ambiguous recycled pid nor integrity_holding.
+    spec = _legacy_spec(tmp_path)
+    imposter = _census_parent(tmp_path, create_time=gr.FINAL_CENSUS_CREATE_TIME + 5000.0)
+    calls: list[str] = []
+    orchestrator = _orchestrator(
+        tmp_path,
+        legacy_specs=(spec,),
+        process_table_fn=lambda: (imposter,),
+        target_starter_fn=lambda program, **_k: calls.append(program.program_id) or {},
     )
 
     status = orchestrator.tick()
 
     assert status["state"] == "observe_legacy"
+    assert status["stage"] == "observe_legacy"
     assert status["state"] != "integrity_hold"
-    assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "adopted"
     assert status["problems"] == []
-    assert calls == 3
-    assert sleeps == [
-        legacy_chain.PROCESS_TRANSITION_INTERVAL_SECONDS,
-        legacy_chain.PROCESS_TRANSITION_INTERVAL_SECONDS,
-    ]
+    assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "adoption_wait"
+    assert calls == []
 
 
-def test_observe_legacy_persistent_foreign_worker_holds(tmp_path: Path) -> None:
-    # A detached inexact worker that never exits and never resolves is a genuine
-    # stuck/foreign process: it stays inexact across the whole bounded window and
-    # fails closed to integrity_hold, exactly as the v7 hardening requires.
+def test_observe_legacy_ignores_churning_child_pool_and_waits(tmp_path: Path) -> None:
+    # The old v7 adopter integrity_held when the census mop-final-* worker pool
+    # churned during its bounded resnapshot. The pinned-identity poll never
+    # enumerates the pool: with the census parent alive and a churning child pool
+    # present, the stage simply waits, with no stabilization sleeps and no hold.
     spec = _legacy_spec(tmp_path)
-    _legacy_status(spec, state="running")
-    owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
-    worker_label = f"{spec.child_label_prefixes[0]}0490"
-    detached = _process(
-        tmp_path, pid=33846, label=worker_label, command=(worker_label, ""), pgid=33846, ppid=1
+    census = _census_parent(tmp_path)
+    prefix = spec.child_label_prefixes[0]
+    children = tuple(
+        _process(
+            tmp_path,
+            pid=90000 + index,
+            label=f"{prefix}{index:04d}",
+            command=(f"{prefix}{index:04d}", ""),
+            pgid=90000 + index,
+            ppid=gr.FINAL_CENSUS_PID,
+        )
+        for index in range(9)
     )
-
+    sleeps: list[float] = []
     orchestrator = _orchestrator(
         tmp_path,
         legacy_specs=(spec,),
-        process_table_fn=lambda: (owner, detached),
+        process_table_fn=lambda: (census, *children),
+        sleep_fn=sleeps.append,
     )
 
     status = orchestrator.tick()
 
-    assert status["state"] == "integrity_hold"
-    assert "did not stabilize within the bounded window" in status["problems"][-1]
-    assert str(detached.pid) in status["problems"][-1]
-
-
-def test_observe_legacy_failure_holds_on_legacy_failure(tmp_path: Path) -> None:
-    spec = _legacy_spec(tmp_path)
-    _legacy_status(spec, state="failure_hold")
-    orchestrator = _orchestrator(tmp_path, legacy_specs=(spec,), process_table_fn=lambda: ())
-
-    status = orchestrator.tick()
-
-    assert status["state"] == "failure_hold"
-    assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "failure_hold"
-    assert status["finished_at"] is not None
+    assert status["state"] == "observe_legacy"
+    assert status["problems"] == []
+    assert sleeps == []
+    assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "adopted"
 
 
 # ----------------------------------------------------------------------------
@@ -731,13 +748,11 @@ def test_drain_control_sets_drained(tmp_path: Path) -> None:
 
 def test_status_validator_accepts_published_and_rejects_tamper(tmp_path: Path) -> None:
     spec = _legacy_spec(tmp_path)
-    _legacy_status(spec, state="running")
-    live = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
+    live = _census_parent(tmp_path)
     orchestrator = _orchestrator(
         tmp_path,
         legacy_specs=(spec,),
         process_table_fn=lambda: (live,),
-        identity_probe_fn=lambda _identity: "alive",
     )
 
     status = orchestrator.tick()
