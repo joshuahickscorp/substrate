@@ -12,6 +12,7 @@ phenomena:
   primary_form: vision_synthetic
   estimand: identity through split, merge, and reappearance
   atlas_rows:
+  - wave_c_split_merge
   - ext_mot_tracking
 - phenomenon: source_object_tracking
   primary_form: native_audio
@@ -27,16 +28,19 @@ phenomena:
   primary_form: symbolic
   estimand: held-out compositional combinations and role/filler binding
   atlas_rows:
+  - wave_g_compositional
   - ext_graph_reasoning
 - phenomenon: predictive_state
   primary_form: action
   estimand: usable action-conditioned transition state
   atlas_rows:
+  - wave_g_program_exec
   - ext_code_execution
 - phenomenon: causal_intervention
   primary_form: action
   estimand: ranking and consequence of interventions
   atlas_rows:
+  - wave_d_intervention_rank
   - ext_robot_trajectories
 - phenomenon: continual_learning
   primary_form: memory_episode
@@ -52,11 +56,13 @@ phenomena:
 - phenomenon: episodic_memory
   primary_form: memory_episode
   estimand: specific-episode retrieval vs semantic compression
-  atlas_rows: []
+  atlas_rows:
+  - wave_e_episodic
 - phenomenon: memory_revision_deletion
   primary_form: memory_episode
   estimand: revision, deletion completeness, stale-memory harm
-  atlas_rows: []
+  atlas_rows:
+  - wave_e_deletion
 - phenomenon: routing_value_of_computation
   primary_form: perspective
   estimand: competence-conditioned dispatch and marginal value
@@ -66,12 +72,15 @@ phenomena:
 - phenomenon: marginal_value_of_computation
   primary_form: host_telemetry
   estimand: when more compute or verification helps
-  atlas_rows: []
+  atlas_rows:
+  - wave_i_value_of_compute
 - phenomenon: uncertainty_abstention
   primary_form: events
   estimand: calibrated abstention on ambiguity
-  atlas_rows: []
+  atlas_rows:
+  - wave_a_abstention
 - phenomenon: alternate_compute_dynamics
   primary_form: material_sim
   estimand: reservoir/fading-memory vs conventional control
-  atlas_rows: []
+  atlas_rows:
+  - wave_j_reservoir
