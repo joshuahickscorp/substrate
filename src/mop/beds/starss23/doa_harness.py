@@ -392,7 +392,10 @@ class DoaBudgetPoint:
 
 @dataclass(frozen=True, slots=True)
 class DoaArchitectureReport:
-    """The matched-budget analysis for ONE architecture. A coarse dominance signal, not the full survive rule."""
+    """The matched-budget analysis for ONE architecture.
+
+    A coarse dominance signal, not the full survive rule.
+    """
 
     schema: str
     architecture: str
@@ -431,7 +434,9 @@ class DoaArchitectureReport:
         return canonical_sha256(self.payload())
 
 
-def _matched_budget_from_points(budget_points: Sequence[DoaBudgetPoint], wall_ns: int, ceiling: int) -> MatchedBudget:
+def _matched_budget_from_points(
+    budget_points: Sequence[DoaBudgetPoint], wall_ns: int, ceiling: int
+) -> MatchedBudget:
     wall_ns = _require_positive_int(wall_ns, "wall_ns")
     candidate = budget_points[0].candidate
     binding_flops = max(point.candidate.max_lifecycle_flops() for point in budget_points)
@@ -461,7 +466,9 @@ def run_matched_budget_one_architecture(
     _require_architecture(architecture)
     for point in points:
         if point.architecture != architecture:
-            raise DoaHarnessRefusal(f"budget point {point.budget_id!r} does not match architecture {architecture!r}")
+            raise DoaHarnessRefusal(
+                f"budget point {point.budget_id!r} does not match architecture {architecture!r}"
+            )
 
     seeds = points[0].candidate.seeds
     for point in points:

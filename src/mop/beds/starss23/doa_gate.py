@@ -267,7 +267,9 @@ class DoaGateArchA:
         assert n_params <= PARAM_CEILING, "doa gate arch_a parameter ceiling breached"
         state_bytes = DoaOnlineState.state_bytes()
         if state_bytes > STATE_CEILING_BYTES:
-            raise DoaGateRefusal(f"gate online state {state_bytes} bytes exceed the {STATE_CEILING_BYTES} byte ceiling")
+            raise DoaGateRefusal(
+                f"gate online state {state_bytes} bytes exceed the {STATE_CEILING_BYTES} byte ceiling"
+            )
         assert state_bytes <= STATE_CEILING_BYTES, "doa gate state ceiling breached"
         if not 0.0 <= theta <= 1.0:
             raise DoaGateRefusal("theta must lie in [0, 1]")
@@ -458,7 +460,9 @@ class DoaGateArchB:
         assert n_params <= PARAM_CEILING, "doa gate arch_b parameter ceiling breached"
         state_bytes = DoaOnlineState.state_bytes()
         if state_bytes > STATE_CEILING_BYTES:
-            raise DoaGateRefusal(f"gate online state {state_bytes} bytes exceed the {STATE_CEILING_BYTES} byte ceiling")
+            raise DoaGateRefusal(
+                f"gate online state {state_bytes} bytes exceed the {STATE_CEILING_BYTES} byte ceiling"
+            )
         assert state_bytes <= STATE_CEILING_BYTES, "doa gate state ceiling breached"
         if not 0.0 <= theta <= 1.0:
             raise DoaGateRefusal("theta must lie in [0, 1]")
@@ -485,7 +489,9 @@ class DoaGateArchB:
         return inference_flops_arch_b(self.d_in, self.hidden1, self.hidden2, self.n_out)
 
     def training_flops(self, n_train_frames: int, epochs: int) -> int:
-        return training_flops_arch_b(n_train_frames, epochs, self.d_in, self.hidden1, self.hidden2, self.n_out)
+        return training_flops_arch_b(
+            n_train_frames, epochs, self.d_in, self.hidden1, self.hidden2, self.n_out
+        )
 
     def parameter_digest(self) -> str:
         payload = {
@@ -608,7 +614,9 @@ C_TRAIN_ANCHOR_ARCH_A = training_flops_arch_a(54_000)
 C_TRAIN_ANCHOR_ARCH_B = training_flops_arch_b(54_000)
 
 
-def build_gate(architecture: str, *, seed: int = 0, theta: float = DEFAULT_THETA) -> DoaGateArchA | DoaGateArchB:
+def build_gate(
+    architecture: str, *, seed: int = 0, theta: float = DEFAULT_THETA
+) -> DoaGateArchA | DoaGateArchB:
     """Construct a fresh gate of the named architecture. The one place that switches on the axis."""
 
     if architecture not in GATE_CLASSES:

@@ -142,7 +142,10 @@ def direction_to_unit_vector(azimuth_deg: float, elevation_deg: float) -> tuple[
 
 
 def great_circle_degrees(az1_deg: float, el1_deg: float, az2_deg: float, el2_deg: float) -> float:
-    """Great-circle angular distance in degrees between two directions. Symmetric; 0 identical, 180 antipodal."""
+    """Great-circle angular distance in degrees between two directions.
+
+    Symmetric; 0 identical, 180 antipodal.
+    """
 
     v1 = direction_to_unit_vector(az1_deg, el1_deg)
     v2 = direction_to_unit_vector(az2_deg, el2_deg)
@@ -224,7 +227,9 @@ class DoaClip:
             if entry is None:
                 continue
             if not isinstance(entry, tuple) or len(entry) != 2:
-                raise DoaLabelRefusal("DoaClip.doa_track entries must be None or an (azimuth, elevation) pair")
+                raise DoaLabelRefusal(
+                    "DoaClip.doa_track entries must be None or an (azimuth, elevation) pair"
+                )
             az, el = entry
             if isinstance(az, bool) or isinstance(el, bool):
                 raise DoaLabelRefusal("DoaClip.doa_track entries must hold real numbers")
@@ -310,7 +315,10 @@ def to_arrays(clip: DoaClip) -> tuple[np.ndarray, np.ndarray]:
 
 
 def change_density(clips: Iterable[DoaClip]) -> float:
-    """Pooled ``n_changes / n_active_frames`` across clips. Label-only, mirrors count_labels.change_density."""
+    """Pooled ``n_changes / n_active_frames`` across clips.
+
+    Label-only, mirrors count_labels.change_density.
+    """
 
     total_changes = 0
     total_active = 0
