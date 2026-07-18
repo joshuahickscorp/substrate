@@ -1,0 +1,324 @@
+{
+ "schema": "mop-campaign-status/v1",
+ "campaign_id": "mop_pre_substrate_expansion_v1",
+ "node_counts": {
+  "sealed": 20,
+  "null_sealed": 4,
+  "skipped": 1,
+  "blocked": 16
+ },
+ "n_nodes": 41,
+ "active_nodes": [],
+ "runnable_frontier": [],
+ "completed": 24,
+ "survivors": [
+  "wave_a_identity",
+  "wave_b_audio_onset",
+  "wave_c_object_state",
+  "wave_d_world_model",
+  "wave_h_routing",
+  "wave_a_abstention",
+  "wave_b_audio_count",
+  "wave_c_split_merge",
+  "wave_d_intervention_rank",
+  "wave_e_episodic",
+  "wave_e_deletion",
+  "wave_g_compositional",
+  "wave_g_variable_binding",
+  "wave_g_program_exec",
+  "wave_h_routing_repro"
+ ],
+ "nulls": [
+  "wave_e_memory",
+  "wave_f_plasticity",
+  "wave_i_value_of_compute",
+  "wave_j_reservoir"
+ ],
+ "blocked_external": [
+  {
+   "node_id": "ext_ava_audiovisual",
+   "blocker": "needs AVA-AudioSet clips with original clocks and rights"
+  },
+  {
+   "node_id": "ext_ego4d",
+   "blocker": "needs Ego4D license and referent/track annotations"
+  },
+  {
+   "node_id": "ext_something_something",
+   "blocker": "needs Something-Something-v2 access"
+  },
+  {
+   "node_id": "ext_epic_kitchens",
+   "blocker": "needs EPIC-KITCHENS with interaction labels"
+  },
+  {
+   "node_id": "ext_musdb_sources",
+   "blocker": "needs MUSDB18 or equivalent rights-clean stems"
+  },
+  {
+   "node_id": "ext_code_execution",
+   "blocker": "needs a code-trace corpus with exact execution oracle"
+  },
+  {
+   "node_id": "ext_equation_transform",
+   "blocker": "needs a symbolic equation corpus and verifier"
+  },
+  {
+   "node_id": "ext_graph_reasoning",
+   "blocker": "needs a controlled graph-reasoning generator with held-out splits"
+  },
+  {
+   "node_id": "ext_partner_interaction",
+   "blocker": "needs partner-interaction episodes or a partner simulator"
+  },
+  {
+   "node_id": "ext_multi_agent_comm",
+   "blocker": "needs a multi-agent environment and partner population"
+  },
+  {
+   "node_id": "ext_robot_trajectories",
+   "blocker": "needs robot or embodied trajectories with repeated initial states"
+  },
+  {
+   "node_id": "ext_mot_tracking",
+   "blocker": "needs a MOT dataset with identity tracks"
+  },
+  {
+   "node_id": "ext_telemetry_failure",
+   "blocker": "needs bounded telemetry and failure episodes"
+  },
+  {
+   "node_id": "ext_counterfactual_env",
+   "blocker": "needs a controlled environment with exact interventions"
+  },
+  {
+   "node_id": "ext_proprioceptive",
+   "blocker": "needs an embodied simulator with proprioceptive channels"
+  },
+  {
+   "node_id": "ext_teaching_culture",
+   "blocker": "needs a multi-generation partner-teaching environment"
+  }
+ ],
+ "coverage_declared": {
+  "form_families": {
+   "action": 2,
+   "cross": 4,
+   "events": 2,
+   "host_telemetry": 1,
+   "material_sim": 1,
+   "memory_episode": 5,
+   "native_audio": 2,
+   "none": 1,
+   "perspective": 2,
+   "symbolic": 3,
+   "vision_synthetic": 2
+  },
+  "phenomena": {
+   "alternate_compute_dynamics": 1,
+   "causal_intervention": 1,
+   "compositional_binding": 1,
+   "continual_learning": 2,
+   "episodic_memory": 1,
+   "event_formation_identity": 1,
+   "failure_synthesis": 2,
+   "marginal_value_of_computation": 1,
+   "mechanism_cataloguing": 1,
+   "memory_revision_deletion": 1,
+   "operational_self_monitoring": 1,
+   "persistence_structured_state": 1,
+   "plasticity": 1,
+   "prediction_planning": 1,
+   "predictive_state": 1,
+   "role_filler_binding": 1,
+   "routing_value_of_computation": 2,
+   "source_counting": 1,
+   "split_merge_identity": 1,
+   "substrate_readiness": 1,
+   "temporal_boundary": 1,
+   "uncertainty_abstention": 1
+  },
+  "mechanism_families": {
+   "cards": 1,
+   "count_estimator": 1,
+   "episodic_retrieval": 1,
+   "factorized_state": 1,
+   "fading_memory_reservoir": 1,
+   "negative_space": 1,
+   "onset_detector": 1,
+   "plasticity_controller": 1,
+   "provenance_state": 1,
+   "readiness": 1,
+   "referent_binder": 1,
+   "relation_state": 1,
+   "replay": 2,
+   "resource_allocator": 1,
+   "routing": 2,
+   "structured_state": 2,
+   "transition_state": 1,
+   "uncertainty_state": 1,
+   "value_of_computation": 2,
+   "world_model": 2
+  },
+  "unit_classes": {
+   "sealed_card": 1,
+   "sealed_null": 1,
+   "sealed_result": 2,
+   "synthetic_dag": 1,
+   "synthetic_gridworld": 1,
+   "synthetic_program": 1,
+   "synthetic_scene": 2,
+   "synthetic_session": 1,
+   "synthetic_stream": 7,
+   "synthetic_task": 5,
+   "synthetic_waveform": 2,
+   "worker_width": 1
+  },
+  "evidence_levels": {
+   "M0": 5,
+   "M1": 18,
+   "M3": 2
+  },
+  "n_form_families": 9,
+  "n_phenomena": 22,
+  "n_mechanism_families": 20
+ },
+ "coverage_achieved": {
+  "form_families": {
+   "action": 2,
+   "cross": 4,
+   "events": 2,
+   "host_telemetry": 1,
+   "material_sim": 1,
+   "memory_episode": 4,
+   "native_audio": 2,
+   "none": 1,
+   "perspective": 2,
+   "symbolic": 3,
+   "vision_synthetic": 2
+  },
+  "phenomena": {
+   "alternate_compute_dynamics": 1,
+   "causal_intervention": 1,
+   "compositional_binding": 1,
+   "continual_learning": 1,
+   "episodic_memory": 1,
+   "event_formation_identity": 1,
+   "failure_synthesis": 2,
+   "marginal_value_of_computation": 1,
+   "mechanism_cataloguing": 1,
+   "memory_revision_deletion": 1,
+   "operational_self_monitoring": 1,
+   "persistence_structured_state": 1,
+   "plasticity": 1,
+   "prediction_planning": 1,
+   "predictive_state": 1,
+   "role_filler_binding": 1,
+   "routing_value_of_computation": 2,
+   "source_counting": 1,
+   "split_merge_identity": 1,
+   "substrate_readiness": 1,
+   "temporal_boundary": 1,
+   "uncertainty_abstention": 1
+  },
+  "mechanism_families": {
+   "cards": 1,
+   "count_estimator": 1,
+   "episodic_retrieval": 1,
+   "factorized_state": 1,
+   "fading_memory_reservoir": 1,
+   "negative_space": 1,
+   "onset_detector": 1,
+   "plasticity_controller": 1,
+   "provenance_state": 1,
+   "readiness": 1,
+   "referent_binder": 1,
+   "relation_state": 1,
+   "replay": 1,
+   "resource_allocator": 1,
+   "routing": 2,
+   "structured_state": 2,
+   "transition_state": 1,
+   "uncertainty_state": 1,
+   "value_of_computation": 2,
+   "world_model": 2
+  },
+  "unit_classes": {
+   "sealed_card": 1,
+   "sealed_null": 1,
+   "sealed_result": 2,
+   "synthetic_dag": 1,
+   "synthetic_gridworld": 1,
+   "synthetic_program": 1,
+   "synthetic_scene": 2,
+   "synthetic_session": 1,
+   "synthetic_stream": 6,
+   "synthetic_task": 5,
+   "synthetic_waveform": 2,
+   "worker_width": 1
+  },
+  "evidence_levels": {
+   "M0": 5,
+   "M1": 18,
+   "M3": 1
+  },
+  "n_form_families": 9,
+  "n_phenomena": 22,
+  "n_mechanism_families": 20
+ },
+ "coverage_targets": {
+  "targets": {
+   "form_families": 6,
+   "phenomena": 10,
+   "local_question_families": 24,
+   "external_families": 16
+  },
+  "form_families": {
+   "have": 9,
+   "target": 6,
+   "met": true
+  },
+  "phenomena": {
+   "have": 22,
+   "target": 10,
+   "met": true
+  }
+ },
+ "evidence_level_distribution": {
+  "M0": 5,
+  "M1": 18,
+  "M3": 2
+ },
+ "resource": {
+  "cpu_budget": 1,
+  "cpu_in_use": 0,
+  "cpu_free": 1,
+  "mem_available_gb": 80.374,
+  "mem_in_use_gb": 0.0,
+  "hawking_active": false,
+  "nice_level": 5,
+  "external_consumers": 24,
+  "recommended_workers": 1,
+  "binding_constraint": "core_bound",
+  "mode": "greedy"
+ },
+ "external_dependencies": [
+  {
+   "name": "general-run-adopter",
+   "kind": "live_process",
+   "match_label": "general-run:adopter",
+   "authority_path": "",
+   "est_cpu_workers": 1,
+   "note": "live General Run; adopted as an external resource consumer"
+  },
+  {
+   "name": "horizon-v2-supervisor",
+   "kind": "live_process",
+   "match_label": "mop-supervisor:generation1-successor-horizon-v2",
+   "authority_path": "",
+   "est_cpu_workers": 8,
+   "note": "live successor horizon chain; observed, never signaled"
+  }
+ ],
+ "next_high_information_work": null
+}

@@ -1,0 +1,394 @@
+{
+ "bundle": "00_master + 01_unified_campaign + 02_pre_substrate_expansion + 04_corrective",
+ "commit": "e439345",
+ "compliant": true,
+ "n_blocked_external": 0,
+ "n_failures": 0,
+ "n_implemented_or_running": 13,
+ "n_requirements": 13,
+ "requirements": [
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "src/mop/campaign/{specs,dag,state,decisions,executor}.py"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/{specs,dag,state,decisions,executor}.py"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-DAG-1",
+   "section": "Replace serial scheduling with a DAG",
+   "source": "01",
+   "status": "implemented",
+   "text": "Unified research DAG with CampaignSpec/ResearchQuestionSpec/BedSpec/ArmSpec/ReproductionSpec/VerificationSpec/ResourceRequest/Dependency/DecisionRule, runnable frontier, concurrent nodes, dependency+authority gates, adoption, stale-lease recovery, durable state, conditional branches, null-safe stopping, verifier nodes, resource classes"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "src/mop/campaign/broker.py",
+     "src/mop/campaign/invariance.py"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/broker.py",
+    "src/mop/campaign/invariance.py"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-BROKER-1",
+   "section": "One global executor",
+   "source": "01",
+   "status": "implemented",
+   "text": "One global resource broker accounting for CPU, native threads, memory, disk, thermal, power, Hawking, and current MOP work; measured workload-specific concurrency; prove receipt invariance across worker widths"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "src/mop/campaign/nodes/framework.py",
+     "src/mop/campaign/runners.py"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/nodes/framework.py",
+    "src/mop/campaign/runners.py"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-FRAMEWORK-1",
+   "section": "Factor out repeated bed infrastructure",
+   "source": "01",
+   "status": "implemented",
+   "text": "Reusable neutral scientific framework (identity, splits, rights, lifecycle accounting, controls, seeds, SESOI, exact-test, producer/verifier schemas, sealing) with verifier logic independent from producer"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "proof/PRE_SUBSTRATE_PHENOMENA_ATLAS.json",
+     "registry/phenomena.yaml"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "proof/PRE_SUBSTRATE_PHENOMENA_ATLAS.json",
+    "registry/phenomena.yaml"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-ATLAS-1",
+   "section": "Build the Phenomena and Mechanisms Atlas",
+   "source": "02",
+   "status": "implemented",
+   "text": "Machine-readable phenomena/mechanism atlas with the full required row fields"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "detail": {
+     "n_forms": 9,
+     "n_phenomena": 22
+    },
+    "evidence": [
+     "src/mop/campaign/manifest.py"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/manifest.py"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [
+    "form_families=['action', 'events', 'host_telemetry', 'material_sim', 'memory_episode', 'native_audio', 'perspective', 'symbolic', 'vision_synthetic']",
+    "phenomena=22"
+   ],
+   "req_id": "R-WAVES-1",
+   "section": "Expansion waves A-J + breadth dimensions",
+   "source": "02",
+   "status": "implemented",
+   "text": "At least six observation-form families and ten cognitive phenomena represented as runnable or contracted nodes in the executable DAG"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "count": 25,
+    "evidence": [
+     "op_invariance",
+     "wave_a_identity",
+     "wave_b_audio_onset",
+     "wave_c_object_state",
+     "wave_d_world_model",
+     "wave_e_memory",
+     "wave_f_plasticity",
+     "wave_h_routing",
+     "wave_a_abstention",
+     "wave_b_audio_count",
+     "wave_c_split_merge",
+     "wave_d_intervention_rank",
+     "wave_e_episodic",
+     "wave_e_deletion",
+     "wave_g_compositional",
+     "wave_g_variable_binding",
+     "wave_g_program_exec",
+     "wave_i_value_of_compute",
+     "wave_j_reservoir",
+     "wave_h_routing_repro",
+     "wave_e_memory_repro",
+     "analysis_diagnosis",
+     "analysis_negative_space",
+     "analysis_mechanism_cards",
+     "analysis_readiness"
+    ],
+    "next": "",
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "op_invariance",
+    "wave_a_identity",
+    "wave_b_audio_onset",
+    "wave_c_object_state",
+    "wave_d_world_model",
+    "wave_e_memory",
+    "wave_f_plasticity",
+    "wave_h_routing",
+    "wave_a_abstention",
+    "wave_b_audio_count",
+    "wave_c_split_merge",
+    "wave_d_intervention_rank",
+    "wave_e_episodic",
+    "wave_e_deletion",
+    "wave_g_compositional",
+    "wave_g_variable_binding",
+    "wave_g_program_exec",
+    "wave_i_value_of_compute",
+    "wave_j_reservoir",
+    "wave_h_routing_repro",
+    "wave_e_memory_repro",
+    "analysis_diagnosis",
+    "analysis_negative_space",
+    "analysis_mechanism_cards",
+    "analysis_readiness"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-LOCAL-24",
+   "section": "Immediate local horizon",
+   "source": "02",
+   "status": "implemented",
+   "text": "At least 24 immediate local question families implemented, running, completed, or durably queued with real execution paths"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "count": 16,
+    "evidence": [
+     "ext_ava_audiovisual",
+     "ext_ego4d",
+     "ext_something_something",
+     "ext_epic_kitchens",
+     "ext_musdb_sources",
+     "ext_code_execution",
+     "ext_equation_transform",
+     "ext_graph_reasoning",
+     "ext_partner_interaction",
+     "ext_multi_agent_comm",
+     "ext_robot_trajectories",
+     "ext_mot_tracking",
+     "ext_telemetry_failure",
+     "ext_counterfactual_env",
+     "ext_proprioceptive",
+     "ext_teaching_culture"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "ext_ava_audiovisual",
+    "ext_ego4d",
+    "ext_something_something",
+    "ext_epic_kitchens",
+    "ext_musdb_sources",
+    "ext_code_execution",
+    "ext_equation_transform",
+    "ext_graph_reasoning",
+    "ext_partner_interaction",
+    "ext_multi_agent_comm",
+    "ext_robot_trajectories",
+    "ext_mot_tracking",
+    "ext_telemetry_failure",
+    "ext_counterfactual_env",
+    "ext_proprioceptive",
+    "ext_teaching_culture"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [
+    "ext_ava_audiovisual: needs AVA-AudioSet clips with original clocks and rights",
+    "ext_ego4d: needs Ego4D license and referent/track annotations",
+    "ext_something_something: needs Something-Something-v2 access"
+   ],
+   "req_id": "R-EXTERNAL-16",
+   "section": "Near-term data/environment horizon",
+   "source": "02",
+   "status": "implemented",
+   "text": "At least 16 external-input families fully contracted with exact named blockers"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "src/mop/campaign/coverage.py"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/coverage.py"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-COVERAGE-1",
+   "section": "Coverage pressure",
+   "source": "02",
+   "status": "implemented",
+   "text": "Coverage-aware scheduling over modalities, phenomena, mechanism families, unit classes, and evidence levels"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "count": 4,
+    "evidence": [
+     "mechanism_cards/ (4 cards)"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "mechanism_cards/ (4 cards)"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-CARDS-1",
+   "section": "Mechanism cards + replication levels",
+   "source": "02",
+   "status": "implemented",
+   "text": "Mechanism cards generated only from sealed results with M0-M7 evidence levels"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "src/mop/campaign/nodes/analysis.py:negative_space_runner"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/nodes/analysis.py:negative_space_runner"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-NEGSPACE-1",
+   "section": "Negative-space synthesis",
+   "source": "02",
+   "status": "implemented",
+   "text": "Structured synthesis clustering nulls into recurring causal failure families"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "src/mop/campaign/nodes/analysis.py:readiness_gate_runner",
+     "executed"
+    ],
+    "ok": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/nodes/analysis.py:readiness_gate_runner",
+    "executed"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-READINESS-1",
+   "section": "Substrate readiness gates",
+   "source": "02",
+   "status": "implemented",
+   "text": "Executable Stage-3 readiness gate over the twelve pre-substrate evidence gates"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "src/mop/campaign/status.py",
+     "src/mop/campaign/telegram.py",
+     "telegram delivery verified"
+    ],
+    "ok": true,
+    "telegram_verified": true
+   },
+   "commit": "e439345",
+   "evidence": [
+    "src/mop/campaign/status.py",
+    "src/mop/campaign/telegram.py",
+    "telegram delivery verified"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [],
+   "req_id": "R-STATUS-1",
+   "section": "Notifications and operator view",
+   "source": "01/02",
+   "status": "implemented",
+   "text": "Operator status view reporting resource and scientific breadth, with verified Telegram delivery"
+  },
+  {
+   "blocker_classification": "none",
+   "check_detail": {
+    "evidence": [
+     "runs/campaign/pre_substrate_v1/state.json"
+    ],
+    "ok": true,
+    "sealed_nodes": 24
+   },
+   "commit": "e439345",
+   "evidence": [
+    "runs/campaign/pre_substrate_v1/state.json"
+   ],
+   "is_failure": false,
+   "next_executable_action": "",
+   "notes": [
+    "sealed nodes: 24"
+   ],
+   "req_id": "R-LAUNCH-1",
+   "section": "Broad campaign launch",
+   "source": "01/02",
+   "status": "running",
+   "text": "Broad campaign manifest exists, live run adopted as external dependency, first safe broad frontier running, remaining work durably queued and auto-activated"
+  }
+ ],
+ "schema": "mop-campaign-compliance/v1"
+}

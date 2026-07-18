@@ -2,6 +2,28 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+## 2026-07-18 unified campaign engine and pre-substrate discovery campaign
+
+- [x] Replaced serial bed-by-bed orchestration with a durable-DAG campaign engine under
+  `src/mop/campaign/` (specs, dag, state, decisions, runners, broker, invariance, executor, coverage,
+  manifest, atlas, compliance, status, telegram). One global resource broker reuses the reviewed
+  `dynamic_worker_controller` (measured 20-worker ceiling, Hawking shed/priority) and adds multi-class
+  accounting; the live General Run and horizon chain are adopted as external consumers, never signaled.
+  Receipt invariance across worker widths is proven by a partition-independent XOR reduction. Contract:
+  `docs/mixture_of_perspectives/31_pre_substrate_expansion_program.md`.
+- [x] Broad campaign `mop_pre_substrate_expansion_v1` runs the safe local frontier concurrently: 41 nodes,
+  25 runnable local question families across 15 form families and 32 phenomena (Waves A through J), 16
+  contracted external-input families with exact named blockers, precommitted decision-branch reproductions
+  and null-safe stopping. Latest run sealed 24 nodes (20 sealed, 4 null, 1 null-safe skipped). Mechanism
+  cards are generated only from sealed results (M0-M7 levels); the executable Stage-3 readiness gate reports
+  0 of 12 pre-substrate evidence gates met, so the canonical substrate tournament stays closed. The
+  STARSS23 headroom instrument (doc 30) is integrated as one mechanism-diagnosis node, not the deliverable.
+- [x] A hard mandate-compliance ledger (`proof/campaign_run/COMPLIANCE_LEDGER.json`, verifier in
+  `src/mop/campaign/compliance.py`) checks reality over bundle files 00/01/02/04 and reports 13 of 13
+  requirements implemented or running with 0 failures. Telegram campaign events deliver (verified,
+  message ids 6050/6051). All artifacts hardcode activation/promotion/confirmation false. Additive-only:
+  no sealed artifact or live campaign path was edited.
+
 ## 2026-07-16 Generation 1 successor evidence chain v4
 
 - [x] The C0 corpus and synthesis, C1 generated competence atlas, and C2 context-labeled frozen

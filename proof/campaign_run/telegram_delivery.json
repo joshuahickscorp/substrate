@@ -1,0 +1,20 @@
+[
+ {
+  "delivered": true,
+  "kind": "engine online",
+  "key": "engine-online-verify-1",
+  "message_id": 6049
+ },
+ {
+  "delivered": true,
+  "kind": "campaign launched",
+  "key": "launch-ea32d1d73191",
+  "message_id": 6050
+ },
+ {
+  "delivered": true,
+  "kind": "campaign frontier complete",
+  "key": "summary-ea32d1d73191-24",
+  "message_id": 6051
+ }
+]

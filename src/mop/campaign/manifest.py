@@ -115,6 +115,45 @@ _SCIENCE: list[tuple[str, str, str, str, str, str, str, str]] = [
     ),
 ]
 
+# Second batch of distinct-estimand local families across new form families (symbolic, operational,
+# material) and new phenomena, taking the immediate local horizon past the 24-family minimum.
+_SCIENCE += [
+    ("wave_a_abstention", "mop.campaign.nodes.wave_a_abstention:wave_a_abstention_runner",
+     "Wave A: ambiguity abstention vs forced assignment",
+     "events", "uncertainty_abstention", "uncertainty_state", "synthetic_stream", "M1"),
+    ("wave_b_audio_count", "mop.campaign.nodes.wave_b_audio_count:wave_b_audio_count_runner",
+     "Wave B: concurrent-source counting vs fixed-guess",
+     "native_audio", "source_counting", "count_estimator", "synthetic_waveform", "M1"),
+    ("wave_c_split_merge", "mop.campaign.nodes.wave_c_split_merge:wave_c_split_merge_runner",
+     "Wave C: identity through split-then-merge vs memoryless nearest-centroid",
+     "vision_synthetic", "split_merge_identity", "structured_state", "synthetic_scene", "M1"),
+    ("wave_d_intervention_rank",
+     "mop.campaign.nodes.wave_d_intervention_rank:wave_d_intervention_rank_runner",
+     "Wave D: interventional ranking vs correlational ranker",
+     "action", "causal_intervention", "world_model", "synthetic_dag", "M1"),
+    ("wave_e_episodic", "mop.campaign.nodes.wave_e_episodic:wave_e_episodic_runner",
+     "Wave E: episodic retrieval vs semantic summary on rare episodes",
+     "memory_episode", "episodic_memory", "episodic_retrieval", "synthetic_stream", "M1"),
+    ("wave_e_deletion", "mop.campaign.nodes.wave_e_deletion:wave_e_deletion_runner",
+     "Wave E: deletion completeness vs append-only stale memory",
+     "memory_episode", "memory_revision_deletion", "provenance_state", "synthetic_stream", "M1"),
+    ("wave_g_compositional", "mop.campaign.nodes.wave_g_compositional:wave_g_compositional_runner",
+     "Wave G: factorized compositional generalization vs conjunctive lookup",
+     "symbolic", "compositional_binding", "factorized_state", "synthetic_task", "M1"),
+    ("wave_g_variable_binding", "mop.campaign.nodes.wave_g_variable_binding:wave_g_variable_binding_runner",
+     "Wave G: role-indexed variable binding vs bag-of-symbols",
+     "symbolic", "role_filler_binding", "relation_state", "synthetic_task", "M1"),
+    ("wave_g_program_exec", "mop.campaign.nodes.wave_g_program_exec:wave_g_program_exec_runner",
+     "Wave G: program-execution state vs bag-of-instructions (exact verifier)",
+     "symbolic", "predictive_state", "transition_state", "synthetic_program", "M1"),
+    ("wave_i_value_of_compute", "mop.campaign.nodes.wave_i_value_of_compute:wave_i_value_of_compute_runner",
+     "Wave I: expected-value-of-compute monitor vs random/noisy-TV",
+     "host_telemetry", "marginal_value_of_computation", "value_of_computation", "synthetic_stream", "M1"),
+    ("wave_j_reservoir", "mop.campaign.nodes.wave_j_reservoir:wave_j_reservoir_runner",
+     "Wave J: fading-memory reservoir vs memoryless and delay-line controls",
+     "material_sim", "alternate_compute_dynamics", "fading_memory_reservoir", "synthetic_task", "M1"),
+]
+
 _ANALYSIS: list[tuple[str, str, str, str, str]] = [
     (
         "analysis_diagnosis",
