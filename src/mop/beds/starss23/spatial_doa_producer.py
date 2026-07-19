@@ -52,6 +52,7 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
     FlopModel,
+    arm_flop_model,
     build_budget_points,
     noise_control_summary,
     run_matched_budget,
@@ -108,23 +109,13 @@ def _featurizer_hypothesis() -> str:
 
 
 def _flop_model(kind: str, total_frames: int, train_frames: int, epochs: int) -> FlopModel:
-    """Full-lifecycle FLOP model for one arm, charging the spatial-DOA featurize cost on every arm.
-
-    Every arm charges the same featurize FLOPs (the front-end runs regardless of the firing policy), so
-    matched budget still holds: candidate and rate-matched-random have byte-equal inference FLOPs. Only
-    the candidate charges the amortized training cost C_train; only candidate and rate-matched-random run
-    the gate at inference.
-    """
-
-    featurize = FLOPS_PER_FRAME * total_frames
-    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
-    gate_infer = FLOPS_PER_INFERENCE * total_frames if runs_gate else 0
-    train = training_flops(train_frames, epochs) if kind == ARM_CANDIDATE else 0
-    return FlopModel(
-        featurize_flops=featurize,
-        gate_infer_flops=gate_infer,
+    return arm_flop_model(
+        kind,
+        total_frames,
+        featurize_per_frame=FLOPS_PER_FRAME,
+        gate_infer_per_frame=FLOPS_PER_INFERENCE,
         downstream_flops_per_firing=DOWNSTREAM_FLOPS_PER_FIRING,
-        train_flops=train,
+        candidate_train_flops=lambda: training_flops(train_frames, epochs),
     )
 # ---------------------------------------------------------------------------
 # Fire-spread diagnostics: adjacency and distinct-onset true positives at the operating point.

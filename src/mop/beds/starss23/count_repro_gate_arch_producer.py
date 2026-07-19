@@ -53,6 +53,7 @@ from mop.science.budget import (
     ARM_RATE_MATCHED_RANDOM,
     BudgetSeedRun,
     FlopModel,
+    arm_flop_model,
     build_budget_points,
     noise_control_summary,
     run_matched_budget,
@@ -77,9 +78,8 @@ from .count_producer import (
     DEFAULT_METADATA_ROOT,
     CountProducerRefusal,
     RealCountBedConfig,
-    _micro_count_score,
     _real_noisy_tv_features,
-    run_count_seed,
+    _run_seed_real,
 )
 from .count_referee import COLD_START
 from .count_repro_gate_arch_gate import (
@@ -147,57 +147,16 @@ def _train_count_gate(
     return gate, int(x.shape[0])
 
 
-def _run_seed_real(
-    seed: int,
-    train_clips: tuple[Clip, ...],
-    val_clips: tuple[Clip, ...],
-    test_clips: tuple[Clip, ...],
-    features_by_clip: dict[str, np.ndarray],
-    estimator_by_clip: dict[str, np.ndarray],
-    gt_by_clip: dict[str, tuple[int, ...]],
-    noise_features: np.ndarray,
-    config: RealCountBedConfig,
-    operating_density: float,
-) -> BudgetSeedRun:
-    """Bind the alternate gate to the held-fixed counting seed lifecycle."""
-
-    return run_count_seed(
-        seed=seed,
-        val_clips=val_clips,
-        test_clips=test_clips,
-        features_by_clip=features_by_clip,
-        estimator_by_clip=estimator_by_clip,
-        gt_by_clip=gt_by_clip,
-        noise_features=noise_features,
-        target_rates=config.target_rates,
-        operating_density=operating_density,
-        train_gate=lambda: _train_count_gate(
-            seed, train_clips, features_by_clip, gt_by_clip, config
-        ),
-        state_factory=CountOnlineState.initial,
-        score_rows=_micro_count_score,
-    )
-
-
 def _flop_model(
     kind: str, total_frames: int, train_frames: int, config: RealCountBedConfig
 ) -> FlopModel:
-    """Full-lifecycle FLOP model for one arm, charging the re-authored gate's per-frame and training costs.
-
-    Both the candidate and the rate-matched-random control are charged the SAME new per-frame gate-inference
-    cost, so their inference FLOPs stay byte-equal and the matched-budget invariant holds; the candidate
-    alone charges the new architecture's amortized C_train.
-    """
-
-    featurize = FLOPS_PER_FRAME_COUNT * total_frames
-    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
-    gate_infer = FLOPS_PER_INFERENCE_GATE_ARCH * total_frames if runs_gate else 0
-    train = training_flops_two_layer(train_frames, config.epochs) if kind == ARM_CANDIDATE else 0
-    return FlopModel(
-        featurize_flops=featurize,
-        gate_infer_flops=gate_infer,
+    return arm_flop_model(
+        kind,
+        total_frames,
+        featurize_per_frame=FLOPS_PER_FRAME_COUNT,
+        gate_infer_per_frame=FLOPS_PER_INFERENCE_GATE_ARCH,
         downstream_flops_per_firing=config.downstream_flops_per_reestimate,
-        train_flops=train,
+        candidate_train_flops=lambda: training_flops_two_layer(train_frames, config.epochs),
     )
 
 
@@ -282,6 +241,7 @@ def build_real_count_repro_gate_arch_artifact(
                 noise_features,
                 config,
                 train_density,
+                train_gate_provider=_train_count_gate,
             )
         )
     measured_wall_ns = max(1, time.perf_counter_ns() - started)

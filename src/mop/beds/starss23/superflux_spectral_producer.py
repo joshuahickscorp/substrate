@@ -55,6 +55,7 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
     FlopModel,
+    arm_flop_model,
     build_budget_points,
     noise_control_summary,
     run_matched_budget,
@@ -116,23 +117,13 @@ def _variant_hypothesis() -> str:
 
 
 def _superflux_flop_model(kind: str, total_frames: int, train_frames: int, config: Any) -> FlopModel:
-    """Full-lifecycle FLOP model charging the SuperFlux featurize cost, not the base front-end's.
-
-    Every arm charges the SuperFlux featurize (candidate, rate_matched_random, always_on, best_single all
-    pay ``SUPERFLUX_FLOPS_PER_FRAME * total_frames``), so matched budget still holds: candidate and
-    rate_matched_random fire the same count at byte-equal inference FLOPs. Only the candidate charges the
-    amortized training cost C_train; the controls learn nothing.
-    """
-
-    featurize = SUPERFLUX_FLOPS_PER_FRAME * total_frames
-    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
-    gate_infer = FLOPS_PER_INFERENCE * total_frames if runs_gate else 0
-    train = training_flops(train_frames, config.epochs) if kind == ARM_CANDIDATE else 0
-    return FlopModel(
-        featurize_flops=featurize,
-        gate_infer_flops=gate_infer,
+    return arm_flop_model(
+        kind,
+        total_frames,
+        featurize_per_frame=SUPERFLUX_FLOPS_PER_FRAME,
+        gate_infer_per_frame=FLOPS_PER_INFERENCE,
         downstream_flops_per_firing=config.downstream_flops_per_firing,
-        train_flops=train,
+        candidate_train_flops=lambda: training_flops(train_frames, config.epochs),
     )
 # ---------------------------------------------------------------------------
 # Fire-spread diagnostics: adjacency fraction and distinct-onset true positives (same rule as the E1 wave).

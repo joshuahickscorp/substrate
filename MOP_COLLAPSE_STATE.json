@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "22e677282961b0728ee91de992edfc32e3423260",
+    "base_commit": "d5d6ec47d8815ed1a050992c7efcbb7f7b584354",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -119,21 +119,21 @@
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
-    "deduplicated_LOC": 8853,
+    "deduplicated_LOC": 9016,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 4712,
-    "net_global_reduction_LOC": 4141
+    "added_LOC": 4841,
+    "net_global_reduction_LOC": 4175
   },
   "checklist_summary": {
-    "total": 232,
+    "total": 233,
     "by_status": {
       "complete": 14,
       "active": 49,
       "pending": 145,
       "partial": 8,
-      "verified": 16
+      "verified": 17
     }
   },
   "checklist": [
@@ -1427,11 +1427,11 @@
         "src/mop/beds/starss23/feature_cache.py",
         "tests/unit/test_science_engine.py"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count seed execution loops centralized with exact provider-specific records, net 191 LOC; native dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg analysis plans centralized with local family declarations retained, net 138 LOC; family label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated control and producer seed derivation centralized with exact streams, net 21 LOC",
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count seed execution loops centralized with exact provider-specific records, net 191 LOC; native dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg analysis plans centralized with local family declarations retained, net 138 LOC; family label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP projection, count provider binding, and onset density centralized, net 34 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; heavy real-audio validation remains deferred to host headroom",
-      "next_action": "measure remaining repeated producer FLOP models and onset-density wrappers; preserve independent verifier mathematics"
+      "next_action": "collapse repeated frozen-provider introspection methods while preserving parameter digests, exact FLOP constants, and verifier independence"
     },
     {
       "id": "SEC-12",
@@ -3240,6 +3240,24 @@
       "rollback_tag": "mop-collapse-starss23-lifecycle-14",
       "dependency": "",
       "next_action": "measure remaining repeated producer FLOP models and onset-density wrappers"
+    },
+    {
+      "id": "RED-starss23-flop-provider-projection",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Centralize STARSS23 arm FLOP projection and count provider binding",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "src/mop/science/budget.py",
+        "src/mop/beds/starss23/count_producer.py",
+        "tests/unit/test_starss23_harness.py"
+      ],
+      "validation": "163 replaced Python LOC, 129 added, net -34; production source net -54; ten complete arm-charge tables exact, alternate count gate shares one binding by identity, real producer/verifier path green, and independent verifier formulas remain local",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-lifecycle-15",
+      "dependency": "",
+      "next_action": "collapse repeated frozen-provider introspection methods"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

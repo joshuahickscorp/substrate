@@ -326,6 +326,24 @@
       "proof": "checkpoint 22e6772 exact uint32 seeds for onset, count, swapped-featurizer count, and DoA across seeds 0, 7, and 2**32+3; rate-matched-random positions, RndTarget matrix bytes, and pure-aleatoric bytes exact; four noisy-TV streams pinned at the shared boundary; full STARSS-focused suite 492/492 in 143.67s under nice -n 10",
       "accounting_note": "82 replaced Python LOC are production source; 61 added Python LOC = 45 production source + 16 exact-seed tests; production source net -37, tests net +16, total owned Python net -21",
       "tag": "mop-collapse-starss23-lifecycle-14"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "producer_flop_projection_and_provider_binding",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "nine producer-local arm FLOP projections, one duplicate count-gate provider binding, and two onset-density reducers collapsed onto three provider-neutral authorities",
+      "deduplicated_LOC": 163,
+      "added_LOC": 129,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 34,
+      "files_changed": 13,
+      "destination_api": "mop.science.budget.arm_flop_model + mop.beds.starss23.adapter.onset_density + mop.beds.starss23.count_producer._run_seed_real provider binding",
+      "proof": "ten complete pre/post FlopModel payload tables exact across onset, count, swapped-featurizer count, alternate-gate count, both DoA architectures, coherence, spatial DoA, SuperFlux, and learning progress; alternate-gate producer resolves the one shared count binding by identity and its real producer/verifier path is green; candidate-only training thunk pinned directly; full STARSS-focused suite 493/493 in 154.28s under nice -n 10",
+      "accounting_note": "163 replaced Python LOC are production source; 129 added Python LOC = 109 production source + 20 direct arm-projection tests; production source net -54, tests net +20, total owned Python net -34",
+      "tag": "mop-collapse-starss23-lifecycle-15"
     }
   ],
   "deferred_heavy_validation": {

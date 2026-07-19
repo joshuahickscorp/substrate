@@ -296,11 +296,12 @@ def main() -> int:
                 "analysis plans centralized with local family declarations retained, net 138 LOC; family "
                 "label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, "
                 "mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated "
-                "control and producer seed derivation centralized with exact streams, net 21 LOC")
+                "control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP "
+                "projection, count provider binding, and onset density centralized, net 34 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("measure remaining repeated producer FLOP models and onset-density "
-                                 "wrappers; preserve independent verifier mathematics")
+            it["next_action"] = ("collapse repeated frozen-provider introspection methods while preserving "
+                                 "parameter digests, exact FLOP constants, and verifier independence")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -472,6 +473,16 @@ def main() -> int:
                     "focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-14",
         next_action="measure remaining repeated producer FLOP models and onset-density wrappers"))
+    checklist.append(item(
+        "RED-starss23-flop-provider-projection", 11, "verified_reduction",
+        "Centralize STARSS23 arm FLOP projection and count provider binding", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/science/budget.py",
+                  "src/mop/beds/starss23/count_producer.py", "tests/unit/test_starss23_harness.py"],
+        validation=("163 replaced Python LOC, 129 added, net -34; production source net -54; ten complete "
+                    "arm-charge tables exact, alternate count gate shares one binding by identity, real "
+                    "producer/verifier path green, and independent verifier formulas remain local"),
+        rollback_tag="mop-collapse-starss23-lifecycle-15",
+        next_action="collapse repeated frozen-provider introspection methods"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -869,6 +880,22 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 4,141 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-14.")
     lines.append("- next_exact_edit: measure repeated producer FLOP models and onset-density wrappers.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 15 (current checkpoint)")
+    lines.append("")
+    lines.append("- FLOP authority: nine producers retain local front-end, gate, downstream, and training-cost "
+                 "providers but project the conventional four arm fields through one budget primitive.")
+    lines.append("- provider binding: sealed and alternate count gates share one frame-micro seed binding; onset "
+                 "and learning-progress lanes share one label-only density reducer.")
+    lines.append("- parity: ten complete charge tables are exact across all affected frontends and both DoA "
+                 "architectures; the real alternate-gate producer/verifier path is green.")
+    lines.append("- validation: candidate-only training evaluation is pinned directly; full STARSS-focused suite "
+                 "493/493 in 154.28s under nice -n 10.")
+    lines.append("- production source reduction: 54 LOC; tests added: 20 LOC; owned Python net reduction: "
+                 "34 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 4,175 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-15.")
+    lines.append("- next_exact_edit: collapse repeated frozen-provider introspection methods.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

@@ -133,6 +133,26 @@ class FlopModel:
                 "train_flops": self.train_flops}
 
 
+def arm_flop_model(
+    kind: str,
+    total_frames: int,
+    *,
+    featurize_per_frame: int,
+    gate_infer_per_frame: int,
+    downstream_flops_per_firing: int,
+    candidate_train_flops: Callable[[], int],
+) -> FlopModel:
+    """Project provider-specific costs onto the conventional candidate and control arms."""
+
+    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
+    return FlopModel(
+        featurize_flops=featurize_per_frame * total_frames,
+        gate_infer_flops=gate_infer_per_frame * total_frames if runs_gate else 0,
+        downstream_flops_per_firing=downstream_flops_per_firing,
+        train_flops=candidate_train_flops() if kind == ARM_CANDIDATE else 0,
+    )
+
+
 @dataclass(frozen=True, slots=True)
 class SeedResult:
     seed: int

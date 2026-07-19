@@ -51,6 +51,7 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
     FlopModel,
+    arm_flop_model,
     build_budget_points,
     noise_control_summary,
     run_matched_budget,
@@ -113,24 +114,13 @@ def _variant_hypothesis() -> str:
 
 
 def _flop_model(kind: str, total_frames: int, train_frames: int, config: Any) -> FlopModel:
-    """Full-lifecycle FLOP model charging the interchannel-coherence featurizer per-frame cost.
-
-    This is the ONE place that differs in accounting from the committed producer: ``featurize`` charges
-    ``FLOPS_PER_FRAME`` of the NEW featurizer (not the frozen log-mel front-end), so the matched-budget
-    ledger prices the front-end actually run. The charge is applied identically to all four arms, so the
-    candidate and the rate-matched-random control stay byte-equal in inference FLOPs and any accuracy gap
-    remains attributable to WHERE compute is spent, not how much.
-    """
-
-    featurize = FLOPS_PER_FRAME * total_frames
-    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
-    gate_infer = FLOPS_PER_INFERENCE * total_frames if runs_gate else 0
-    train = training_flops(train_frames, config.epochs) if kind == ARM_CANDIDATE else 0
-    return FlopModel(
-        featurize_flops=featurize,
-        gate_infer_flops=gate_infer,
+    return arm_flop_model(
+        kind,
+        total_frames,
+        featurize_per_frame=FLOPS_PER_FRAME,
+        gate_infer_per_frame=FLOPS_PER_INFERENCE,
         downstream_flops_per_firing=config.downstream_flops_per_firing,
-        train_flops=train,
+        candidate_train_flops=lambda: training_flops(train_frames, config.epochs),
     )
 # ---------------------------------------------------------------------------
 # Fire-spread diagnostics: adjacency and distinct-onset true positives at the operating point.

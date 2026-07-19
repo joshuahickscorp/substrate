@@ -62,7 +62,16 @@ from mop.science.statistics import exact_sign_flip, sign_flip_payload
 from mop.substrate.events import write_canonical_json
 
 from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter, domain_seed, map_clip_audio, marginal_matched_noise, native_fold_split
+from .adapter import (
+    RealStarssAdapter,
+    domain_seed,
+    map_clip_audio,
+    marginal_matched_noise,
+    native_fold_split,
+)
+from .adapter import (
+    onset_density as _onset_density,
+)
 from .artifact import (
     ARTIFACT_SCHEMA,
     DOWNSTREAM_FLOPS_PER_FIRING,
@@ -86,7 +95,7 @@ from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState
 from .prereg import DEFAULT_PREREG_PATH, build_prereg
 from .referee import score_arm
-from .schema import COLLAR_FRAMES, Clip, ClipSplit
+from .schema import COLLAR_FRAMES, ClipSplit
 
 REAL_PRODUCER_SCHEMA = "mop-starss23-escs-real-producer/v1"
 
@@ -124,14 +133,6 @@ class RealBedConfig:
             noisy_tv_frames=self.noisy_tv_frames,
             downstream_flops_per_firing=DOWNSTREAM_FLOPS_PER_FIRING,
         )
-
-
-def _onset_density(clips: tuple[Clip, ...]) -> float:
-    """Onset density (onsets per frame) over a set of clips. Label-only; reads no score."""
-
-    onsets = sum(len(clip.onsets) for clip in clips)
-    frames = sum(clip.n_frames for clip in clips)
-    return onsets / frames if frames > 0 else 0.0
 
 
 # ---------------------------------------------------------------------------
