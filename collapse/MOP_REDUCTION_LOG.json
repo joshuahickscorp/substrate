@@ -146,6 +146,24 @@
       "proof": "shared finalization preserves canonical body sealing without mutating the source and refuses an already sealed body; shared receipt binds the exact evidence digest; preregistrations use the crash-safe canonical writer; independent artifact verification green; full STARSS-focused suite 479/479 in 145.60s under nice -n 10",
       "accounting_note": "586 replaced Python LOC = 583 production-source deletions + 3 test deletions; 270 added Python LOC = 227 production source + 43 tests; production source net -356, tests net +40, total owned Python net -316",
       "tag": "mop-collapse-starss23-lifecycle-4"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "producer_statistics_controls_and_safety_projections",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "thirteen safety-flag blocks, twelve noisy-TV control projections, and twelve paired-statistics payload projections collapsed onto three shared fail-closed helpers",
+      "deduplicated_LOC": 393,
+      "added_LOC": 352,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 41,
+      "files_changed": 19,
+      "destination_api": "mop.science.safety_flags + mop.science.budget.noise_control_summary + mop.science.statistics.{sign_flip_payload,count_sign_flip_payload}",
+      "proof": "fresh safety boundaries cannot be widened by mutation; control-arm order and sealed rates match policy; onset and lower-is-better count statistic shapes exact; overlap and unknown-key inputs refuse; full STARSS-focused suite 483/483 in 155.47s under nice -n 10",
+      "accounting_note": "393 replaced Python LOC are production source; 352 added Python LOC = 283 production source + 69 direct shape/refusal tests; production source net -110, tests net +69, total owned Python net -41",
+      "tag": "mop-collapse-starss23-lifecycle-5"
     }
   ],
   "deferred_heavy_validation": {

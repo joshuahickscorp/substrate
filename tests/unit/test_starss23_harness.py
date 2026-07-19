@@ -307,6 +307,27 @@ def test_conventional_seed_projection_matches_the_direct_budget_point() -> None:
     assert projected == [expected]
 
 
+def test_noise_control_projection_preserves_policy_order_and_sealed_rates() -> None:
+    runs = [SimpleNamespace(noisy_tv={"seed": seed}) for seed in (0, 1)]
+    block = harness.noise_control_summary(
+        ONSET_BUDGET_POLICY, runs, at_chance=True, mean_noise_rate=0.1234567890124,
+        mean_base_rate=0.2, rate_key="mean_firing_rate_on_noise",
+    )
+    assert block == {
+        "noisy_tv_at_chance": True,
+        "mean_firing_rate_on_noise": 0.123456789012,
+        "mean_base_rate": 0.2,
+        "per_seed_noisy_tv": [{"seed": 0}, {"seed": 1}],
+        "primary_control": harness.ARM_RATE_MATCHED_RANDOM,
+        "control_arms": [*ONSET_BUDGET_POLICY.controls, "noisy_tv"],
+    }
+    with pytest.raises(harness.BudgetRefusal, match="rate_key"):
+        harness.noise_control_summary(
+            ONSET_BUDGET_POLICY, runs, at_chance=True, mean_noise_rate=0.1,
+            mean_base_rate=0.1, rate_key="unknown",
+        )
+
+
 def test_candidate_strictly_dominates_rate_matched_random_when_it_wins_everywhere() -> None:
     report = harness.run_matched_budget([_budget_point()], wall_ns=1_000_000)
     assert report.candidate_strictly_dominates_rate_matched_random is True

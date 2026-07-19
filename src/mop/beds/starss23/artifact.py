@@ -31,7 +31,7 @@ from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
 )
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -39,9 +39,15 @@ from mop.science.budget import (
     ARM_RATE_MATCHED_RANDOM,
     FlopModel,
     build_budget_points,
+    noise_control_summary,
     run_matched_budget,
 )
-from mop.science.statistics import BOUNDED_CLAIM_VERB, PROVISIONAL_SESOI_F1, exact_sign_flip
+from mop.science.statistics import (
+    BOUNDED_CLAIM_VERB,
+    PROVISIONAL_SESOI_F1,
+    exact_sign_flip,
+    sign_flip_payload,
+)
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import SyntheticStarssAdapter, metadata_text_from_onsets
@@ -452,18 +458,11 @@ def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
         for block in per_seed
     ]
     sign_flip = exact_sign_flip(deltas)
-    stats_block = {
-        "deltas": [float(value) for value in deltas],
-        "t_obs": float(sign_flip.mean_delta),
-        "one_sided_p": float(sign_flip.one_sided_p),
-        "n_permutations": int(sign_flip.permutations),
-        "two_sided_005_reachable": bool(sign_flip.two_sided_alpha_reachable),
-        "sesoi_f1": PROVISIONAL_SESOI_F1,
-        "mean_delta_exceeds_sesoi": bool(sign_flip.mean_delta >= PROVISIONAL_SESOI_F1),
-        "claim_verb": BOUNDED_CLAIM_VERB,
-        "experimental_unit": "clip",
-        "frame_or_clip_bootstrap_allowed": False,
-    }
+    stats_block = sign_flip_payload(
+        sign_flip, deltas, sesoi_key="sesoi_f1", sesoi=PROVISIONAL_SESOI_F1,
+        exceeds_sesoi=sign_flip.mean_delta >= PROVISIONAL_SESOI_F1,
+        claim_verb=BOUNDED_CLAIM_VERB,
+    )
 
     # The aggregate at-chance check pools across the five paired seeds: the mean firing rate on the
     # pure-aleatoric channel must not exceed the mean base rate by more than the tolerance. Pooling is
@@ -473,19 +472,11 @@ def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
     mean_noise_rate = math.fsum(run.noisy_tv["firing_rate_on_noise"] for run in seed_runs) / n_runs
     mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
     noisy_tv_at_chance = at_chance(min(1.0, mean_noise_rate), min(1.0, mean_base_rate))
-    controls_block = {
-        "noisy_tv_at_chance": noisy_tv_at_chance,
-        "mean_firing_rate_on_noise": round(float(mean_noise_rate), 12),
-        "mean_base_rate": round(float(mean_base_rate), 12),
-        "per_seed_noisy_tv": [run.noisy_tv for run in seed_runs],
-        "primary_control": PRIMARY_CONTROL,
-        "control_arms": [ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"],
-    }
-    flags_block = {
-        "activation_allowed": False,
-        "scientific_promotion": False,
-        "independent_scientific_confirmation": False,
-    }
+    controls_block = noise_control_summary(
+        ONSET_BUDGET_POLICY, seed_runs, at_chance=noisy_tv_at_chance, mean_noise_rate=mean_noise_rate,
+        mean_base_rate=mean_base_rate, rate_key="mean_firing_rate_on_noise",
+    )
+    flags_block = safety_flags()
 
     dominates = report.candidate_strictly_dominates_rate_matched_random
     meets_bar = dominates and sign_flip.one_sided_significant and stats_block["mean_delta_exceeds_sesoi"]

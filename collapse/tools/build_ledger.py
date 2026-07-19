@@ -286,7 +286,8 @@ def main() -> int:
                 "cluster physically deleted with net owned Python reduction of 1174 LOC; three "
                 "matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; "
                 "producer budget projection and canonical writes centralized, net 378 LOC; producer "
-                "result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC")
+                "result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; "
+                "statistics, noisy-TV controls, and safety projections centralized, net 41 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
             it["next_action"] = ("collapse repeated artifact envelopes and statistics/control projections "
@@ -359,7 +360,17 @@ def main() -> int:
         validation=("586 replaced Python LOC, 270 added, net -316; canonical nonmutating finalization, "
                     "exact evidence-digest receipts, crash-safe prereg writes, and focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-4",
-        next_action="collapse repeated artifact envelopes and statistics/control projections"))
+        next_action="centralize producer statistics, noisy-TV controls, and safety projections"))
+    checklist.append(item(
+        "RED-starss23-producer-projections", 11, "verified_reduction",
+        "Centralize STARSS23 producer statistics, controls, and safety projections", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/science/__init__.py",
+                  "src/mop/science/budget.py", "src/mop/science/statistics.py",
+                  "tests/unit/test_starss23_stats.py", "tests/unit/test_starss23_harness.py"],
+        validation=("393 replaced Python LOC, 352 added, net -41; production source net -110; exact "
+                    "statistics/control shapes, fresh closed safety flags, and focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-5",
+        next_action="collapse the common artifact envelope across all thirteen producers"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -471,10 +482,12 @@ def main() -> int:
                                  "shared engine. The 50k global target is not disproven."),
             "starss23_collapsible_loc": (starss.get("collapsible_loc") if starss else None),
             "starss23_preserved_loc": (starss.get("preserved_loc") if starss else None),
-            "shared_engine": ("src/mop/science architecture B (262 LOC), including shared producer "
-                              "receipt and finalization paths; Architecture A deleted"),
-            "shared_budget_engine": ("src/mop/science/budget.py (681 LOC), three old harnesses, eight "
+            "shared_engine": ("src/mop/science architecture B (269 LOC), including shared producer "
+                              "receipt, finalization, and safety paths; Architecture A deleted"),
+            "shared_budget_engine": ("src/mop/science/budget.py (704 LOC), three old harnesses, eight "
                                      "producer budget-point assemblers, and five seed-record copies deleted"),
+            "shared_statistics_engine": ("src/mop/science/statistics.py (298 LOC), including shared "
+                                          "onset and count artifact projections"),
             "selected_experiment_architecture": (architecture.get("selection") or {}).get("selected"),
             "starss23_source_decomposition": {
                 "files": len(decomposition.get("files") or []),
@@ -613,7 +626,19 @@ def main() -> int:
     lines.append("- source reduction: 356 LOC; tests added net: 40 LOC; owned Python net reduction: 316 LOC.")
     lines.append("- cumulative verified owned Python reduction: 3,345 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-4.")
-    lines.append("- next_exact_edit: collapse repeated artifact envelopes and statistics/control projections.")
+    lines.append("- next_exact_edit: centralize producer statistics, noisy-TV controls, and safety projections.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 5 (current checkpoint)")
+    lines.append("")
+    lines.append("- safety: thirteen repeated three-flag blocks replaced by one fresh fail-closed projection.")
+    lines.append("- controls: twelve repeated noisy-TV/control-arm blocks replaced by one policy-ordered projection.")
+    lines.append("- statistics: twelve onset/count sign-flip artifact payloads now project from the one shared "
+                 "decisive statistic without changing the independent verifiers.")
+    lines.append("- validation: full STARSS-focused suite 483/483 in 155.47s under nice -n 10.")
+    lines.append("- production source reduction: 110 LOC; tests added: 69 LOC; owned Python net reduction: 41 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 3,386 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-5.")
+    lines.append("- next_exact_edit: collapse the common artifact envelope across all thirteen producers.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `a8a22e3` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `7122fd0` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 222. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 6}`.
+Total items: 223. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 7}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -257,7 +257,8 @@ Total items: 222. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | RED-starss23-cache-controls-statistics | 11 | verified_reduction | verified | Collapse STARSS23 cache, control, and producer-statistics lifecycle | collapse the three STARSS23 budget harnesses onto one shared implementation |
 | RED-starss23-matched-budget-harnesses | 11 | verified_reduction | verified | Replace three STARSS23 matched-budget harnesses with one policy engine | centralize producer budget projection and crash-safe canonical artifact writes |
 | RED-starss23-producer-projection-writes | 11 | verified_reduction | verified | Centralize STARSS23 producer budget projection and canonical artifact writes | centralize producer results, receipts, seed records, and preregistration writes |
-| RED-starss23-producer-results-receipts | 11 | verified_reduction | verified | Centralize STARSS23 producer results, receipts, seed records, and preregistration writes | collapse repeated artifact envelopes and statistics/control projections |
+| RED-starss23-producer-results-receipts | 11 | verified_reduction | verified | Centralize STARSS23 producer results, receipts, seed records, and preregistration writes | centralize producer statistics, noisy-TV controls, and safety projections |
+| RED-starss23-producer-projections | 11 | verified_reduction | verified | Centralize STARSS23 producer statistics, controls, and safety projections | collapse the common artifact envelope across all thirteen producers |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -266,7 +267,7 @@ Total items: 222. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base a8a22e3
+- commit: pending; base 7122fd0
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -330,5 +331,16 @@ Total items: 222. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 - source reduction: 356 LOC; tests added net: 40 LOC; owned Python net reduction: 316 LOC.
 - cumulative verified owned Python reduction: 3,345 LOC.
 - rollback_tag: mop-collapse-starss23-lifecycle-4.
-- next_exact_edit: collapse repeated artifact envelopes and statistics/control projections.
+- next_exact_edit: centralize producer statistics, noisy-TV controls, and safety projections.
+
+### STARSS23 lifecycle cluster 5 (current checkpoint)
+
+- safety: thirteen repeated three-flag blocks replaced by one fresh fail-closed projection.
+- controls: twelve repeated noisy-TV/control-arm blocks replaced by one policy-ordered projection.
+- statistics: twelve onset/count sign-flip artifact payloads now project from the one shared decisive statistic without changing the independent verifiers.
+- validation: full STARSS-focused suite 483/483 in 155.47s under nice -n 10.
+- production source reduction: 110 LOC; tests added: 69 LOC; owned Python net reduction: 41 LOC.
+- cumulative verified owned Python reduction: 3,386 LOC.
+- rollback_tag: mop-collapse-starss23-lifecycle-5.
+- next_exact_edit: collapse the common artifact envelope across all thirteen producers.
 

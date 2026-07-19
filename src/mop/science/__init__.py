@@ -35,6 +35,13 @@ class RecordRefused(ValueError):
     """The record, provider output, artifact, or independent recomputation is unsafe."""
 
 
+def safety_flags() -> dict[str, bool]:
+    """Return a fresh copy of the non-promotion boundary carried by every experiment artifact."""
+
+    return {"activation_allowed": False, "scientific_promotion": False,
+            "independent_scientific_confirmation": False}
+
+
 @dataclass(frozen=True, slots=True)
 class ArtifactResult:
     """One sealed producer artifact with optional preregistration and receipt projections."""
@@ -257,6 +264,6 @@ def render_report(artifact: Mapping[str, object]) -> str:
 
 __all__ = [
     "PROGRAM", "ArtifactResult", "Provider", "RecordRefused", "Result", "Verifier",
-    "demonstration_receipt", "finalize_artifact", "render_report", "run_experiment", "seal_record",
-    "validate_record", "verify_artifact",
+    "demonstration_receipt", "finalize_artifact", "render_report", "run_experiment", "safety_flags",
+    "seal_record", "validate_record", "verify_artifact",
 ]
