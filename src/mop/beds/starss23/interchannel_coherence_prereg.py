@@ -264,12 +264,12 @@ def structural_facts_from_adapter(
     rule the producer preregisters, using train labels only.
     """
 
-    from .adapter import RealStarssAdapter
+    from .adapter import RealStarssAdapter, native_fold_split
     from .real_artifact import (
         DEFAULT_FOA_ROOT,
         DEFAULT_METADATA_ROOT,
         DEFAULT_N_VAL_ROOMS,
-        _fold_respecting_split,
+        RealArtifactRefusal,
         _onset_density,
     )
 
@@ -281,7 +281,12 @@ def structural_facts_from_adapter(
         rights_clean=True,
         max_frames=None,
     )
-    split = _fold_respecting_split(adapter, n_val_rooms if n_val_rooms is not None else DEFAULT_N_VAL_ROOMS)
+    split = native_fold_split(
+        adapter,
+        n_val_rooms if n_val_rooms is not None else DEFAULT_N_VAL_ROOMS,
+        refusal=RealArtifactRefusal,
+        refuse_empty=False,
+    )
     train_density = _onset_density(split.train)
     operating_rate = min(rates, key=lambda r: abs(r - train_density))
     return StructuralFacts(

@@ -20,12 +20,12 @@ import numpy as np
 from mop.substrate.events import atomic_write_bytes, canonical_bytes, canonical_sha256
 
 from . import BED_ID
-from .adapter import RealStarssAdapter
+from .adapter import RealStarssAdapter, native_fold_split
 from .real_artifact import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
     DEFAULT_N_VAL_ROOMS,
-    _fold_respecting_split,
+    RealArtifactRefusal,
 )
 from .schema import Clip, ClipSplit
 
@@ -206,7 +206,9 @@ def build_feature_cache(
     policy = cache_policy(front_end)
     featurizer = policy.factory()
     adapter = RealStarssAdapter(foa_root, metadata_root, rights_clean=True, max_frames=max_frames)
-    split = _fold_respecting_split(adapter, n_val_rooms)
+    split = native_fold_split(
+        adapter, n_val_rooms, refusal=RealArtifactRefusal, refuse_empty=False
+    )
     clips = adapter.clips()
     key = cache_key(
         front_end=front_end, featurizer=featurizer, foa_root=foa_root, metadata_root=metadata_root,

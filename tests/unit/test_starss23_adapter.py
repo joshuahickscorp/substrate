@@ -267,6 +267,21 @@ def test_harness_split_nests_inside_the_dev_split() -> None:
     assert test_ids == set(dev.dev_test)
 
 
+def test_native_fold_split_and_corpus_mapping_have_one_shared_authority() -> None:
+    adapter = SC.generate_corpus(SC.SyntheticCorpusConfig.tiny(), seed=3).adapter()
+    split = A.native_fold_split(adapter, n_val_rooms=1)
+    assert {clip.clip_id for clip in split.test} == set(adapter.dev_split().dev_test)
+    assert split.detail["split_rule"] == (
+        "test = native fold-4 dev-test; val = last N fold-3 rooms; train = rest of fold-3"
+    )
+    mapped = A.map_clip_audio(adapter, lambda audio: np.asarray([audio.shape[1]]))
+    assert mapped == {
+        clip.clip_id: np.asarray([clip.n_frames * SAMPLES_PER_FRAME]) for clip in adapter.clips()
+    }
+    with pytest.raises(A.AdapterRefusal, match="leave at least one train room"):
+        A.native_fold_split(adapter, n_val_rooms=0)
+
+
 def test_dev_split_refuses_a_non_dev_fold() -> None:
     clip_id = "fold9_room0_mix000"
     adapter = A.SyntheticStarssAdapter({clip_id: _zeros_audio(4)}, {clip_id: "0,0,0,0,0,100\n"})

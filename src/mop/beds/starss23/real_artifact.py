@@ -63,7 +63,7 @@ from mop.science.statistics import exact_sign_flip, sign_flip_payload
 from mop.substrate.events import write_canonical_json
 
 from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter
+from .adapter import RealStarssAdapter, map_clip_audio, native_fold_split
 from .artifact import (
     ARTIFACT_SCHEMA,
     DOWNSTREAM_FLOPS_PER_FIRING,
@@ -126,46 +126,6 @@ class RealBedConfig:
             noisy_tv_frames=self.noisy_tv_frames,
             downstream_flops_per_firing=DOWNSTREAM_FLOPS_PER_FIRING,
         )
-
-
-# ---------------------------------------------------------------------------
-# The native fold-respecting split and one-time featurization.
-# ---------------------------------------------------------------------------
-
-
-def _fold_respecting_split(adapter: RealStarssAdapter, n_val_rooms: int) -> ClipSplit:
-    """Build train / val / test respecting the native fold boundary: test is exactly fold-4 dev-test."""
-
-    dev = adapter.dev_split()
-    by_id = {clip.clip_id: clip for clip in adapter.clips()}
-    fold3 = [by_id[cid] for cid in dev.dev_train]
-    fold4 = [by_id[cid] for cid in dev.dev_test]
-    fold3_rooms = sorted({clip.room_id for clip in fold3})
-    if n_val_rooms <= 0 or n_val_rooms >= len(fold3_rooms):
-        raise RealArtifactRefusal(
-            f"n_val_rooms must leave at least one train room; saw {n_val_rooms} of {len(fold3_rooms)}"
-        )
-    val_rooms = set(fold3_rooms[-n_val_rooms:])
-    train = tuple(sorted((c for c in fold3 if c.room_id not in val_rooms), key=lambda c: c.clip_id))
-    val = tuple(sorted((c for c in fold3 if c.room_id in val_rooms), key=lambda c: c.clip_id))
-    test = tuple(sorted(fold4, key=lambda c: c.clip_id))
-    return ClipSplit(
-        train=train,
-        val=val,
-        test=test,
-        detail={
-            "train_rooms": sorted({c.room_id for c in train}),
-            "val_rooms": sorted(val_rooms),
-            "test_rooms": sorted({c.room_id for c in test}),
-            "split_rule": "test = native fold-4 dev-test; val = last N fold-3 rooms; train = rest of fold-3",
-        },
-    )
-
-
-def _featurize_all(adapter: RealStarssAdapter, featurizer: FrozenFeaturizer) -> dict[str, np.ndarray]:
-    """Featurize every real clip once with the frozen front-end. Reused across all paired seeds."""
-
-    return {clip.clip_id: featurizer.featurize(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
 
 
 def _onset_density(clips: tuple[Clip, ...]) -> float:
@@ -351,8 +311,10 @@ def build_real_bed_artifact(
     featurizer = FrozenFeaturizer()
 
     adapter = RealStarssAdapter(foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames)
-    features_by_clip = _featurize_all(adapter, featurizer)
-    split = _fold_respecting_split(adapter, config.n_val_rooms)
+    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
+    split = native_fold_split(
+        adapter, config.n_val_rooms, refusal=RealArtifactRefusal, refuse_empty=False
+    )
 
     # Structural facts used by the SESOI cost-benefit and the operating-point rule. All label-only or
     # constant; no test score is read to build the prereg.

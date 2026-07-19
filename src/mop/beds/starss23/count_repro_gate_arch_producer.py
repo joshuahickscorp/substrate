@@ -61,7 +61,7 @@ from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, ses
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter
+from .adapter import RealStarssAdapter, map_clip_audio, native_fold_split
 from .controls import (
     at_chance,
 )
@@ -74,11 +74,9 @@ from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
+    CountProducerRefusal,
     RealCountBedConfig,
     _assemble_inputs,
-    _estimate_all,
-    _featurize_all,
-    _fold_respecting_split,
     _micro_count_score,
     _real_noisy_tv_features,
     run_count_seed,
@@ -258,9 +256,11 @@ def build_real_count_repro_gate_arch_artifact(
     count_clips = build_count_clips(adapter, metadata_root)
     gt_by_clip = {cid: cc.count_track for cid, cc in count_clips.items()}
 
-    features_by_clip = _featurize_all(adapter, featurizer)
-    estimator_by_clip = _estimate_all(adapter, estimator)
-    train_clips, val_clips, test_clips, split_detail = _fold_respecting_split(adapter, config.n_val_rooms)
+    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
+    estimator_by_clip = map_clip_audio(adapter, estimator.estimate_track)
+    split = native_fold_split(adapter, config.n_val_rooms, refusal=CountProducerRefusal)
+    train_clips, val_clips, test_clips = split.train, split.val, split.test
+    split_detail = dict(split.detail)
 
     # Label-only structural facts for the SESOI and the operating-point rule. No test score is read here.
     train_count_clips = [count_clips[c.clip_id] for c in train_clips]

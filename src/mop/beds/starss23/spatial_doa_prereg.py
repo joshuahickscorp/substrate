@@ -256,13 +256,13 @@ def structural_facts_from_adapter(
     is a function of the clip and onset LABELS only. No audio is featurized, so this cannot leak a score.
     """
 
-    from .adapter import RealStarssAdapter
+    from .adapter import RealStarssAdapter, native_fold_split
     from .real_artifact import (
         DEFAULT_FOA_ROOT,
         DEFAULT_METADATA_ROOT,
         DEFAULT_N_VAL_ROOMS,
+        RealArtifactRefusal,
         RealBedConfig,
-        _fold_respecting_split,
     )
 
     foa = Path(foa_root) if foa_root is not None else DEFAULT_FOA_ROOT
@@ -271,7 +271,9 @@ def structural_facts_from_adapter(
     rates = target_rates or RealBedConfig().target_rates
 
     adapter = RealStarssAdapter(foa, meta, rights_clean=True, max_frames=max_frames)
-    split = _fold_respecting_split(adapter, n_val)
+    split = native_fold_split(
+        adapter, n_val, refusal=RealArtifactRefusal, refuse_empty=False
+    )
 
     train_onsets = sum(len(clip.onsets) for clip in split.train)
     train_frames = sum(clip.n_frames for clip in split.train)
