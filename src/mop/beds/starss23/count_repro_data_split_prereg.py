@@ -21,9 +21,6 @@ REPRO_PREREG_SCHEMA = "mop-starss23-count-repro-data-split-prereg/v1"
 REPRO_AXIS = "data_split"
 STAGE = 3
 
-# The reproduction registers its own self-derived SESOI, not a hardcoded round number, so the check that
-# it be at least this multiple of the per-frame granularity is what keeps it above the pseudoreplication
-# floor. The original clears the same floor at 451x.
 MIN_GRANULARITY_MULTIPLE = 100.0
 
 PREREG_METRIC = (
@@ -89,8 +86,6 @@ def build_data_split_prereg(
         coast_from_zero_mae=coast_from_zero_mae,
     )
 
-    # The reproduction's own SESOI: the one-test-clip catchable-change mass, self-derived from the fold-3
-    # test labels. This is 0.5 / n_test_clips on the pooled-frame scale and is set BEFORE any test MAE.
     sesoi_mae = float(cb.one_clip_change_mass_mae)
     if not (sesoi_mae > 0.0):
         raise ReproPreregRefusal("derived SESOI must be positive")

@@ -41,7 +41,6 @@ def _separable_voc_problem(n: int = 400, seed: int = 123) -> tuple[np.ndarray, n
     return x, y
 
 
-# -- geometry and the hard parameter ceiling --------------------------------
 
 
 def test_input_geometry() -> None:
@@ -60,11 +59,9 @@ def test_param_count_matches_documented_formula() -> None:
 
 
 def test_param_ceiling_assert_fails_when_budget_exceeded() -> None:
-    # hidden 16 costs 16*266 + 1 = 4257 trainable parameters, over the 4096 ceiling: must refuse.
     assert param_count(D_IN, 16) == 4257
     with pytest.raises(GateRefusal):
         CandidateGate(hidden=16)
-    # hidden 15 costs 3991 parameters and stays within budget.
     assert param_count(D_IN, 15) == 3991
     within = CandidateGate(hidden=15)
     assert within.n_params() == 3991
@@ -79,7 +76,6 @@ def test_state_stays_within_few_kilobytes() -> None:
     assert vector.dtype == np.float64
 
 
-# -- FLOP-cost functions return the documented formulas ---------------------
 
 
 def test_inference_flops_matches_documented_formula() -> None:
@@ -98,7 +94,6 @@ def test_inference_flops_matches_documented_formula() -> None:
 
 
 def test_training_flops_and_c_train_anchor() -> None:
-    # C_train = epochs * train_frames * step_factor * infer_flops = 8 * 54000 * 3 * 6385.
     assert training_flops() == 8_274_960_000
     assert training_flops(DEFAULT_TRAIN_FRAMES, DEFAULT_EPOCHS) == 8_274_960_000
     assert C_TRAIN_ANCHOR == 8_274_960_000
@@ -106,7 +101,6 @@ def test_training_flops_and_c_train_anchor() -> None:
 
 
 def test_break_even_anchor() -> None:
-    # With a 4e4 per-query saving the gate pays back after about 2.07e5 frames.
     assert break_even_frames(4e4) == pytest.approx(206_874.0)
     with pytest.raises(GateRefusal):
         break_even_frames(0.0)
@@ -124,7 +118,6 @@ def test_work_vectors_charge_the_right_buckets() -> None:
     assert train_work.total_work == 8_274_960_000  # amortized training charged to learning only
 
 
-# -- online interface never sees a label ------------------------------------
 
 
 def test_infer_interface_carries_no_label() -> None:
@@ -140,7 +133,6 @@ def test_online_state_has_no_ground_truth_fields() -> None:
         assert all(forbidden not in name for name in names), forbidden
 
 
-# -- deterministic paired seeds ---------------------------------------------
 
 
 def test_paired_seed_weights_are_reproducible() -> None:
@@ -163,7 +155,6 @@ def test_fit_is_deterministic() -> None:
     assert first.parameter_digest() == second.parameter_digest()
 
 
-# -- online state update -----------------------------------------------------
 
 
 def test_online_state_update_is_causal_and_bounded() -> None:
@@ -175,14 +166,12 @@ def test_online_state_update_is_causal_and_bounded() -> None:
     assert fired.n_frames == 21.0
     assert fired.n_fires == 1.0
     assert fired.last_fire_frame == 20.0
-    # Firing resets the recency scalar toward zero relative to a long idle gap.
     assert fired.to_vector()[0] < idle.to_vector()[0]
     vector = fired.to_vector()
     assert np.all(vector >= -1.0 - 1e-9)
     assert np.all(vector <= 1.0 + 1e-9)
 
 
-# -- forward path and firing threshold --------------------------------------
 
 
 def test_predict_proba_matches_infer() -> None:
@@ -212,7 +201,6 @@ def test_predict_proba_rejects_bad_shape() -> None:
         gate.infer(np.zeros(D_FEAT + 1), OnlineState.initial())
 
 
-# -- training learns value-of-computation targets ---------------------------
 
 
 def test_fit_learns_voc_targets() -> None:
@@ -221,7 +209,6 @@ def test_fit_learns_voc_targets() -> None:
     report = gate.fit(x, y, epochs=400, learning_rate=0.3, ponder_lambda=0.0)
     probs = gate.predict_proba(x)
     accuracy = float(((probs >= 0.5).astype(np.float64) == y).mean())
-    # The loss falls sharply and the gate separates value-positive from value-negative frames.
     assert report.loss_history[-1] < 0.5 * report.loss_history[0]
     assert report.loss_history[-1] < 0.2
     assert accuracy > 0.9
@@ -235,7 +222,6 @@ def test_ponder_penalty_reduces_firing_rate() -> None:
     strict = CandidateGate(seed=2)
     lenient_report = lenient.fit(x, y, epochs=200, learning_rate=0.3, ponder_lambda=0.0)
     strict_report = strict.fit(x, y, epochs=200, learning_rate=0.3, ponder_lambda=1.0)
-    # Pricing ponder pushes the mean firing probability down on the same data and seed.
     assert strict_report.final_firing_rate < lenient_report.final_firing_rate
 
 
@@ -250,7 +236,6 @@ def test_fit_rejects_malformed_targets() -> None:
         gate.fit(np.zeros((10, D_IN + 3)), np.zeros(10))  # wrong input width
 
 
-# -- end to end with the frozen featurizer ----------------------------------
 
 
 def test_gate_consumes_featurizer_output_online() -> None:

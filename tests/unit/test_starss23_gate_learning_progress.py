@@ -30,7 +30,6 @@ def _fake_clip_features(n: int = 240, seed: int = 7) -> np.ndarray:
     return np.abs(rng.standard_normal((n, D_FEAT)))
 
 
-# -- geometry and the hard parameter ceiling --------------------------------
 
 
 def test_param_count_under_ceiling() -> None:
@@ -43,7 +42,6 @@ def test_param_count_under_ceiling() -> None:
 
 
 def test_param_ceiling_is_enforced() -> None:
-    # A predictor wide enough to breach the shared 4096 ceiling must refuse construction.
     with pytest.raises(LPGateRefusal):
         LearningProgressGate(seed=0, proj_dim=256, target_dim=32)
 
@@ -59,7 +57,6 @@ def test_theta_must_be_a_probability() -> None:
         LearningProgressGate(seed=0, theta=1.5)
 
 
-# -- the online interface never receives a label ----------------------------
 
 
 def test_infer_and_update_signatures_are_label_free() -> None:
@@ -71,14 +68,12 @@ def test_infer_and_update_signatures_are_label_free() -> None:
 
 
 def test_fit_signature_is_self_supervised() -> None:
-    # The RND fit is self-supervised: it takes features only, never a ground-truth target.
     params = list(inspect.signature(LearningProgressGate.fit).parameters)
     assert "features" in params
     for name in params:
         assert not any(token in name.lower() for token in _FORBIDDEN_ONLINE)
 
 
-# -- determinism -------------------------------------------------------------
 
 
 def test_gate_is_deterministic_in_seed() -> None:
@@ -94,7 +89,6 @@ def test_distinct_seeds_give_distinct_tensors() -> None:
 
 
 def test_batched_causal_matches_per_frame_loop() -> None:
-    # The vectorized causal pass must equal the per-frame infer-then-update loop exactly.
     features = _fake_clip_features(n=180, seed=11)
     gate = LearningProgressGate(seed=5)
     batched = gate.causal_scores(features)
@@ -113,7 +107,6 @@ def test_scores_are_probabilities_and_theta_independent() -> None:
     probs = gate.causal_scores(features)
     assert probs.shape == (200,)
     assert np.all(probs >= 0.0) and np.all(probs <= 1.0)
-    # The online update does not depend on the firing decision, so a threshold only selects, never shifts.
     fires_a, probs_a = gate.causal_fires(features, theta=0.5)
     fires_b, probs_b = gate.causal_fires(features, theta=0.9)
     np.testing.assert_array_equal(probs_a, probs_b)
@@ -128,7 +121,6 @@ def test_fire_matches_threshold() -> None:
     assert fired is True and 0.0 <= p <= 1.0
 
 
-# -- offline self-supervised RND fit reduces its own error -------------------
 
 
 def test_fit_reduces_training_error_and_charges_c_train() -> None:
@@ -147,7 +139,6 @@ def test_fit_rejects_wrong_shape() -> None:
         gate.fit(np.zeros((10, D_FEAT + 1)), epochs=2)
 
 
-# -- analytic FLOP exposure --------------------------------------------------
 
 
 def test_flop_functions_are_exposed_and_positive() -> None:
@@ -156,7 +147,6 @@ def test_flop_functions_are_exposed_and_positive() -> None:
     assert gate.flops_per_inference() > 0
     assert gate.training_flops(1000, 8) == training_flops(1000, 8)
     assert training_flops() == C_TRAIN_ANCHOR
-    # Charging must scale linearly in frames and epochs.
     assert training_flops(2000, 8) == 2 * training_flops(1000, 8)
     assert training_flops(1000, 16) == 2 * training_flops(1000, 8)
 

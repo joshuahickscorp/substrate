@@ -12,8 +12,6 @@ from .schema import COLLAR_FRAMES, FRAME_MS, Clip
 
 REFEREE_SCHEMA = "mop-starss23-referee/v1"
 
-# The collar as physical time and as frames on the frozen 100 ms grid. Kept as module constants so the
-# sealed output records exactly which rule graded it.
 COLLAR_MS = COLLAR_FRAMES * FRAME_MS  # 200 ms on each side
 COLLAR_RULE = "dcase-fixed-collar-plus-minus-200ms"
 MATCH_RULE = "greedy-one-to-one-nearest-first"

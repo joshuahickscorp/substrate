@@ -12,11 +12,9 @@ from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_REPRO_FE_ESTIMATOR_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-estimator/v1"
 
-# Fixed, preregistered DSP priors. Hand-set, corpus-independent, never label-tuned.
 BETA = 0.90  # proportion-of-variance the leading eigenvalues must reach to be counted as a source direction
 NOISE_FLOOR = 1e-6  # covariance-power silence floor; below it the estimate is 0, matching the sealed floor
 
-# The FOA first-order rank ceiling: four channels resolve at most four distinct directions.
 MAX_ESTIMABLE_SOURCES = 4
 
 ESTIMATOR_RULE = (
@@ -24,8 +22,6 @@ ESTIMATOR_RULE = (
     "clamp(smallest k with sum(top-k eigenvalues)/trace >= BETA, 1, 4)"
 )
 
-# Analytic FLOPs per re-estimation, reproducible across hosts, matching the sealed estimator's covariance and
-# eigen-solve anchors plus the small cumulative-sum-and-compare of the proportion-of-variance rule.
 FLOPS_COVARIANCE = 2 * SAMPLES_PER_FRAME * N_CHANNELS * N_CHANNELS  # 76,800 for a 4x2400 block
 FLOPS_EIGEN_4X4 = 3_200  # fixed 4x4 symmetric eigenvalue solve budget
 FLOPS_CUMULATIVE = 3 * MAX_ESTIMABLE_SOURCES  # 12 running-sum, normalize, and compare across up to 4 eigs
@@ -80,7 +76,6 @@ class ReproCountEstimator(ZeroParameterProvider):
                 track[t] = 0
                 continue
             cumulative = np.cumsum(descending) / total
-            # smallest k (1-indexed) whose leading-eigenvalue energy reaches BETA of the total
             k = int(np.searchsorted(cumulative, beta - 1e-12) + 1)
             track[t] = min(MAX_ESTIMABLE_SOURCES, max(1, k))
         return track

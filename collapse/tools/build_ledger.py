@@ -304,7 +304,9 @@ def main() -> int:
                 "declarations, net 260 LOC; five concurrent-count producer artifact lifecycles centralized "
                 "behind provider, split, preregistration, scoring, and readout declarations, net 407 LOC; "
                 "base onset, refractory-NMS, and learning-progress producer lifecycles centralized behind "
-                "the onset executor, and embedded STARSS narrative documentation removed, net 3320 LOC")
+                "the onset executor, and embedded STARSS narrative documentation removed, net 3320 LOC; "
+                "four family prereg assemblers centralized, eight local command wrappers deleted, and "
+                "remaining comment-only STARSS documentation removed, net 1717 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
             it["next_action"] = ("finish the remaining dual-architecture DoA producer shell and measure "
@@ -546,6 +548,18 @@ def main() -> int:
                     "refractory-NMS, and learning-progress sealed artifact dictionaries exactly match "
                     "checkpoint 3b309f6 under fixed clocks; full STARSS suite 493/493 green"),
         rollback_tag="mop-collapse-starss23-lifecycle-20",
+        next_action="finish the dual-architecture DoA producer shell and measure STARSS residual"))
+    checklist.append(item(
+        "RED-starss23-family-prereg-cli-comments", 11, "verified_reduction",
+        "Centralize family preregistrations and delete local commands and comments", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json",
+                  "src/mop/beds/starss23/prereg.py",
+                  "src/mop/beds/starss23/gate_variants_prereg.py",
+                  "tests/unit/test_starss23_featurizer_spatial_doa.py"],
+        validation=("528 duplicate preregistration/CLI LOC replaced by 219 shared/declaration LOC; "
+                    "1408 comment-only source/test LOC eliminated; eight executable wrappers removed; "
+                    "four prereg seals exact; focused 52/52 and full STARSS suite 493/493 green; net -1717"),
+        rollback_tag="mop-collapse-starss23-lifecycle-21",
         next_action="finish the dual-architecture DoA producer shell and measure STARSS residual"))
 
     # accumulate verified reductions from the append-only log
@@ -1041,6 +1055,25 @@ def main() -> int:
                  "total owned Python net reduction: 3,320 LOC.")
     lines.append("- cumulative verified owned Python reduction: 8,295 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-20.")
+    lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 21 (current checkpoint)")
+    lines.append("")
+    lines.append("- preregistration authority: gate, coherence, spatial-DoA, and SuperFlux families now "
+                 "declare their schemas, members, multiplicity vocabulary, and evidence fields against "
+                 "one family preregistration assembler.")
+    lines.append("- interface deletion: eight unreferenced module-local argparse/JSON command wrappers removed; "
+                 "all producer, verifier, cache, and preregistration callable APIs remain.")
+    lines.append("- documentation deletion: 1,408 comment-only source/test LOC removed; no executable statement, "
+                 "scientific case, test case, verifier calculation, or source line was packed.")
+    lines.append("- parity: the four complete family preregistration seals remain exactly "
+                 "5c74b42a/7a41d355/afefd5d6/dd2cce3e for the pinned structural fixture.")
+    lines.append("- validation: preregistration/verifier battery 52/52 in 2.93s; full STARSS-focused suite "
+                 "493/493 in 155.78s under nice -n 10; complete package compiles and critical ruff checks pass.")
+    lines.append("- source change: 219 added, 1,349 deleted, net -1,130; tests: 0 added, 587 deleted; "
+                 "total owned Python net reduction: 1,717 LOC; executable entrypoints: -8.")
+    lines.append("- cumulative verified owned Python reduction: 10,012 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-21.")
     lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")

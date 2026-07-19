@@ -11,9 +11,6 @@ from mop.ladder.ladder_contracts import Bed
 from mop.ladder.stage_ladder import MatchedBudget
 from mop.substrate.events import write_canonical_json
 
-# ---------------------------------------------------------------------------
-# The ladder Bed adapter.
-# ---------------------------------------------------------------------------
 
 
 def test_bed_satisfies_the_ladder_bed_protocol() -> None:
@@ -40,20 +37,14 @@ def test_bed_regimes_are_deterministic_and_distinct() -> None:
     bed = build_bed()
     favorable = bed.favorable_regime(0)
     null = bed.null_regime(0)
-    # Deterministic in the seed.
     assert bed.favorable_regime(0).digest() == favorable.digest()
     assert bed.null_regime(0).digest() == null.digest()
-    # The favorable regime plants onsets; the null regime is nuisance-only, so they differ.
     assert favorable.digest() != null.digest()
     assert favorable.regime == "favorable"
     assert null.regime == "null"
-    # A different seed gives a different favorable materialization.
     assert bed.favorable_regime(1).digest() != favorable.digest()
 
 
-# ---------------------------------------------------------------------------
-# Producer to verifier round trip through the sealed file.
-# ---------------------------------------------------------------------------
 
 
 def test_producer_seals_a_file_the_independent_verifier_reproduces(
@@ -63,7 +54,6 @@ def test_producer_seals_a_file_the_independent_verifier_reproduces(
     written = write_canonical_json(starss23_bed_artifact.artifact, out_path)
     assert written.exists()
 
-    # The on-disk file is canonical JSON and its stored seal matches a re-hash of the body.
     on_disk = json.loads(written.read_text(encoding="utf-8"))
     assert on_disk["seal"] == starss23_bed_artifact.artifact["seal"]
 
@@ -75,8 +65,6 @@ def test_producer_seals_a_file_the_independent_verifier_reproduces(
 
 
 def test_verifier_rejects_a_tampered_score(starss23_bed_artifact, tmp_path) -> None:
-    # Flip one stored fire list so the sealed score no longer matches the raw fires; the verifier,
-    # which re-scores from the raw fires and re-hashes the seal, must catch it.
     tampered = json.loads(json.dumps(starss23_bed_artifact.artifact))
     tampered["per_seed"][0]["clips"][0]["fires"]["candidate"] = []
     out_path = tmp_path / "tampered.json"
@@ -87,18 +75,12 @@ def test_verifier_rejects_a_tampered_score(starss23_bed_artifact, tmp_path) -> N
 
 
 def test_synthetic_run_can_never_be_scientifically_confirmed(starss23_bed_artifact) -> None:
-    # Even if a synthetic artifact were hand-edited to claim real, clean rights, and reproductions, the
-    # verifier still refuses confirmation because the honesty flags and re-scoring are the gate; and the
-    # producer itself hardcodes source_kind synthetic.
     assert starss23_bed_artifact.artifact["source_kind"] == "synthetic"
     assert starss23_bed_artifact.artifact["reproductions"] == 0
     assert starss23_bed_artifact.verdict in ("mechanics-ok", "null")
     assert starss23_bed_artifact.verdict != "cleared"
 
 
-# ---------------------------------------------------------------------------
-# Entrypoint scripts.
-# ---------------------------------------------------------------------------
 
 
 def test_producer_and_verifier_scripts_expose_a_main() -> None:

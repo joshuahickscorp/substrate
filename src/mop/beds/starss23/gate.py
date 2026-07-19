@@ -14,9 +14,6 @@ from mop.substrate.events import canonical_sha256
 
 from .featurizer import D_FEAT
 
-# ---------------------------------------------------------------------------
-# Frozen gate geometry. The candidate is a tiny MLP; every number here is fixed by the spec.
-# ---------------------------------------------------------------------------
 
 N_ONLINE = 8  # self-derived online scalars appended to the 256 frozen features
 D_IN = D_FEAT + N_ONLINE  # 264 gate inputs
@@ -28,20 +25,16 @@ STATE_CEILING_BYTES = 8192  # hard cap on per-stream online state; few-KB constr
 
 DEFAULT_THETA = 0.5  # default firing threshold; the harness tunes theta on val rooms
 
-# Full-lifecycle training-cost anchors. C_train = epochs * train_frames * step_factor * infer_flops.
 DEFAULT_EPOCHS = 8
 DEFAULT_TRAIN_FRAMES = 54_000  # 90 train-room clips of 60 s at 10 frames per second
 TRAIN_STEP_FACTOR = 3  # one forward plus a backward pass costed at about twice the forward
 
-# Online-state update constants (deterministic, no learned quantity).
 EMA_DECAY = 0.1  # exponential-moving-average step for the running online statistics
 PHASE_HORIZON = 10.0  # frames per positional-clock cycle (1 second at 100 ms frames)
 
-# Training defaults for the real run. Tests pass explicit values; these anchor C_train only.
 DEFAULT_LEARNING_RATE = 0.1
 DEFAULT_PONDER_LAMBDA = 0.02
 
-# Analytic per-frame inference FLOP budget (docs/ESCS_DEEP_RESEARCH.md immediate design implications).
 FLOPS_MATMUL1 = 2 * D_IN * HIDDEN  # 6336 multiply-add for the first layer
 FLOPS_BIAS1 = HIDDEN  # 12 first-layer bias adds
 FLOPS_ACT1 = HIDDEN  # 12 ReLU activations
@@ -56,9 +49,6 @@ class GateRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Analytic cost model. Pure functions so the harness can cost an arm without building a gate.
-# ---------------------------------------------------------------------------
 
 
 def param_count(d_in: int = D_IN, hidden: int = HIDDEN, n_out: int = N_OUT) -> int:
@@ -86,7 +76,6 @@ def training_flops(
     return epochs * n_train_frames * TRAIN_STEP_FACTOR * inference_flops(d_in, hidden, n_out)
 
 
-# The C_train anchor for the real run: 8 * 54000 * 3 * 6385 = 8_274_960_000 (about 8.27e9 FLOPs).
 C_TRAIN_ANCHOR = training_flops()
 
 
@@ -105,9 +94,6 @@ def break_even_frames(
     return training_flops(n_train_frames, epochs, d_in, hidden, n_out) / float(per_query_saving_flops)
 
 
-# ---------------------------------------------------------------------------
-# Online state. Eight self-derived running scalars, no ground truth, no direction of arrival.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -179,9 +165,6 @@ def _sigmoid(x: np.ndarray) -> np.ndarray:
     return out
 
 
-# ---------------------------------------------------------------------------
-# The candidate gate.
-# ---------------------------------------------------------------------------
 
 
 @dataclass
@@ -227,7 +210,6 @@ class CandidateGate:
             raise GateRefusal(
                 f"gate trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling"
             )
-        # Hard invariant, kept as a bare assert as well so a mis-edit trips even without the guard.
         assert n_params <= PARAM_CEILING, "gate parameter ceiling breached"
         state_bytes = OnlineState.state_bytes()
         if state_bytes > STATE_CEILING_BYTES:
@@ -245,13 +227,11 @@ class CandidateGate:
         self.seed = int(seed)
 
         rng = np.random.default_rng(derive_seed32(self.seed, self._SEED_NAMESPACE))
-        # He-style init for the ReLU layer, small output layer. All float64 for reproducibility.
         self.W1 = rng.standard_normal((hidden, d_in)) * math.sqrt(2.0 / d_in)
         self.b1 = np.zeros(hidden, dtype=np.float64)
         self.W2 = rng.standard_normal((n_out, hidden)) * math.sqrt(2.0 / hidden)
         self.b2 = np.zeros(n_out, dtype=np.float64)
 
-    # -- geometry and cost ---------------------------------------------------
 
     def n_params(self) -> int:
 
@@ -287,7 +267,6 @@ class CandidateGate:
         }
         return canonical_sha256(payload)
 
-    # -- forward path (no label ever enters here) ----------------------------
 
     def _forward(self, x: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
 
@@ -326,7 +305,6 @@ class CandidateGate:
         p_fire = self.infer(features, state)
         return (p_fire >= threshold, p_fire)
 
-    # -- training (offline, value-of-computation targets, ponder penalty) ----
 
     def fit(
         self,
@@ -364,7 +342,6 @@ class CandidateGate:
             bce = -(y * np.log(clipped) + (1.0 - y) * np.log(1.0 - clipped)).mean()
             ponder = ponder_lambda * p_fire.mean()
             loss_history.append(float(bce + ponder))
-            # Gradient of BCE plus ponder with respect to the output logit.
             d_logit = ((p_fire - y) + ponder_lambda * p_fire * (1.0 - p_fire)) / n
             d_logit = d_logit[:, None]
             grad_w2 = d_logit.T @ hidden

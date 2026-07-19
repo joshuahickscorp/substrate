@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 
 VERIFIER_SCHEMA = "mop-starss23-count-repro-scoring-unit-verification/v1"
 
-# Re-declared, never imported, so the verifier shares no symbol with the producer it audits.
 EXPECTED_ARTIFACT_SCHEMA = "mop-starss23-escs-count-repro-scoring-unit-bed/v1"
 EXPECTED_STAGE = 3
 EXPECTED_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
@@ -42,9 +41,6 @@ class CountReproScoringUnitVerificationRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Canonical seal, re-implemented from the written recipe.
-# ---------------------------------------------------------------------------
 
 
 def _canonical_bytes(value: object) -> bytes:
@@ -61,9 +57,6 @@ def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
 
 
-# ---------------------------------------------------------------------------
-# Track and re-estimation validation, then coasting and clip-macro scoring, all from specification.
-# ---------------------------------------------------------------------------
 
 
 def _as_count_track(track: object, label: str) -> list[int]:
@@ -121,9 +114,6 @@ def _reestimates_for_arm(arm: str, clip_id: str, n_frames: int, reestimates_by_c
     return _as_reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-# ---------------------------------------------------------------------------
-# Exact sign-flip permutations, re-implemented from the recipe (stdlib only).
-# ---------------------------------------------------------------------------
 
 
 def _sign_flip_one_sided_small(deltas: list[float]) -> tuple[float, float, int]:
@@ -181,9 +171,6 @@ def _sign_flip_one_sided_clips(deltas: list[float]) -> tuple[float, float, int]:
     return t_observed, count / permutations, permutations
 
 
-# ---------------------------------------------------------------------------
-# Result container and float agreement.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -216,9 +203,6 @@ def _agree(a: object, b: object) -> bool:
     return abs(float(a) - float(b)) <= _TOL
 
 
-# ---------------------------------------------------------------------------
-# Clip-macro arm re-scoring from raw tracks.
-# ---------------------------------------------------------------------------
 
 
 def _macro_score_arm(
@@ -269,14 +253,12 @@ def verify_count_repro_scoring_unit_artifact(
         raise CountReproScoringUnitVerificationRefusal("artifact must be a JSON object")
     mismatches: list[str] = []
 
-    # 1. Seal.
     stored_seal = artifact.get("seal")
     body = {k: v for k, v in artifact.items() if k != "seal"}
     seal_intact = isinstance(stored_seal, str) and stored_seal == _canonical_sha256(body)
     if not seal_intact:
         mismatches.append("stored seal does not match a re-hash of the artifact body")
 
-    # 2. Contract.
     schema_ok = True
     if artifact.get("schema") != EXPECTED_ARTIFACT_SCHEMA:
         schema_ok = False
@@ -303,7 +285,6 @@ def verify_count_repro_scoring_unit_artifact(
     if not isinstance(per_seed, list) or not per_seed:
         raise CountReproScoringUnitVerificationRefusal("artifact.per_seed must be a nonempty list")
 
-    # 3. Re-score all four arms per seed with the clip as the unit; capture per-clip MAE for the cluster test.
     scores_reproduced = True
     budget_matched = True
     recomputed_deltas: list[float] = []
@@ -412,7 +393,6 @@ def verify_count_repro_scoring_unit_artifact(
     if not budget_matched:
         scores_reproduced = False
 
-    # 4. Primary five-seed exact sign-flip on the re-derived clip-macro deltas.
     stats = artifact.get("stats")
     if not isinstance(stats, dict):
         raise CountReproScoringUnitVerificationRefusal("artifact.stats must be present")
@@ -455,7 +435,6 @@ def verify_count_repro_scoring_unit_artifact(
             stats_reproduced = False
             mismatches.append("stats.mean_delta_exceeds_sesoi disagrees with the recomputed mean delta")
 
-    # 5. Corroborating clip-clustered permutation at the operating point, re-derived from raw per-clip MAE.
     clip_cluster_reproduced = True
     clip_ids_ref = reference_clip_ids or []
     n_seeds = len(candidate_clip_mae_by_seed)
@@ -499,7 +478,6 @@ def verify_count_repro_scoring_unit_artifact(
     if bool(stats.get("clip_cluster_direction_agrees")) != cluster_direction_agrees:
         clip_cluster_reproduced = False
         mismatches.append("stats.clip_cluster_direction_agrees disagrees with the recomputed direction")
-    # Cross-check each stored per-clip delta against the re-derived one.
     stored_per_clip_delta = clip_cluster.get("per_clip_delta")
     if isinstance(stored_per_clip_delta, dict):
         for cid in clip_ids_ref:
@@ -510,7 +488,6 @@ def verify_count_repro_scoring_unit_artifact(
         clip_cluster_reproduced = False
         mismatches.append("clip_cluster.per_clip_delta is missing")
 
-    # 6. Honesty.
     honesty_ok = True
     flags = artifact.get("flags")
     if not isinstance(flags, dict):
@@ -538,7 +515,6 @@ def verify_count_repro_scoring_unit_artifact(
         and honesty_ok
     )
 
-    # 7. Scientific confirmation: a strictly higher bar, unreachable on a single reproduction.
     source_kind = str(artifact.get("source_kind", ""))
     rights_clean = artifact.get("rights_clean") is True
     reproductions = artifact.get("reproductions")

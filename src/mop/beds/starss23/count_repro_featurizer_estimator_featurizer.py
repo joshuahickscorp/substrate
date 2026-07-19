@@ -14,7 +14,6 @@ from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_REPRO_FE_FEATURIZER_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-featurizer/v1"
 
-# The DSP grid, identical to the sealed front-end so the frozen gate width and block layout carry over.
 WINDOW = 1024
 N_FFT = 1024
 N_BINS = N_FFT // 2 + 1  # 513 one-sided rFFT bins
@@ -25,17 +24,12 @@ N_POLARITY = 2  # positive (source-enter) and negative (source-leave) flux
 D_CFEAT = N_BANDS * N_CHANNELS * N_POLARITY  # 256 per-frame count features, matching the sealed width
 PAD_RIGHT = WINDOW - HOP  # 544; makes exactly COLS_PER_FRAME * n_frames full-window columns
 
-# Fixed, preregistered DSP priors for the re-authored front-end. Hand-set, corpus-independent, not tuned on
-# labels, exactly like the sealed featurizer's mel constants.
 F_MIN = 50.0  # low edge of the gammatone bank in Hz; gammatone centers are placed above it on the ERB scale
 GAMMATONE_ORDER = 4  # fourth-order gammatone; magnitude rolloff exponent is -ORDER/2 = -2
 ERB_BANDWIDTH_FACTOR = 1.019  # b = 1.019 * ERB(fc), the standard gammatone equivalent bandwidth
 REL_FLUX_DECAY = 0.2  # causal per-band running-average EMA step for the relative-flux normalizer
 REL_FLUX_EPS = 1e-6  # floor on the running-average normalizer so silent bands do not divide by zero
 
-# Analytic per-column-per-channel FLOP budget. Every constant is a fixed integer so the ledger is
-# host-independent. The gammatone filterbank is DENSE (each band weights every rFFT bin), so its multiply is
-# charged as the full 2 * N_BANDS * N_BINS multiply-add, unlike the sealed sparse triangular mel multiply.
 FLOPS_WINDOW = WINDOW  # 1024 Hann taper multiplies
 FLOPS_RFFT = 5 * N_FFT * 10  # 5 * 1024 * log2(1024) = 51200
 FLOPS_POWER = 3 * N_BINS  # 1539 real/imag square-and-add
@@ -142,7 +136,6 @@ class ReproCountFeaturizer(FrozenFeatureProvider):
         power = (spectra.real * spectra.real) + (spectra.imag * spectra.imag)  # (n_cols, N_BINS)
         band_energy = power @ self.filterbank.T  # (n_cols, N_BANDS) linear gammatone band energy
 
-        # Strictly causal per-band running average: R[c] uses only band energies at columns before c.
         running = np.empty_like(band_energy)
         avg = np.zeros(N_BANDS, dtype=np.float64)
         for c in range(n_cols):

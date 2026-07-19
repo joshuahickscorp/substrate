@@ -35,7 +35,6 @@ def _fixture_audio(n_frames: int, seed: int = 7) -> np.ndarray:
     return rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
 
 
-# -- zero trained parameters --------------------------------------------------
 
 
 def test_zero_trained_parameters() -> None:
@@ -44,14 +43,10 @@ def test_zero_trained_parameters() -> None:
 
 def test_parameter_digest_is_stable_and_distinct_from_the_base_front_end() -> None:
     f = SuperfluxSpectralFeaturizer()
-    # Fixed DSP: two instances have byte-identical parameters (no learned weight).
     assert f.parameter_digest() == SuperfluxSpectralFeaturizer().parameter_digest()
-    # The SuperFlux DSP (mu-law + frequency max filter) differs from the base flux, so its digest and any
-    # cache keyed on it differ; the frozen cache can never be served this front-end and vice versa.
     assert f.parameter_digest() != FrozenFeaturizer().parameter_digest()
 
 
-# -- deterministic, byte-reproducible feature bytes ---------------------------
 
 
 def test_deterministic_feature_bytes_across_runs_and_instances() -> None:
@@ -75,14 +70,12 @@ def test_flux_responds_to_a_planted_onset() -> None:
     signal[onset:] = np.sin(2.0 * np.pi * 1000.0 * times[onset:])
     audio = np.repeat(signal[None, :], N_CHANNELS, axis=0) * np.array([1.0, 0.7, 0.5, 0.3])[:, None]
     per_frame_l1 = np.abs(SuperfluxSpectralFeaturizer().featurize(audio)).sum(axis=1)
-    # Leading silence carries no flux; the transition frame carries a strong positive flux.
     assert per_frame_l1[0] == pytest.approx(0.0, abs=1e-9)
     assert per_frame_l1[1] == pytest.approx(0.0, abs=1e-9)
     assert per_frame_l1[2] > 1.0
     assert per_frame_l1[2] > per_frame_l1[3]
 
 
-# -- exactly 256-dim output feeds the unchanged gate with no adaptation -------
 
 
 def test_output_is_256_dim_and_feeds_the_unchanged_gate() -> None:
@@ -90,7 +83,6 @@ def test_output_is_256_dim_and_feeds_the_unchanged_gate() -> None:
     assert features.shape == (6, D_FEAT)
     assert D_FEAT == 256 == N_MEL * N_CHANNELS
     assert features.dtype == np.float64
-    # The unchanged 264-input gate consumes a 256-length feature row directly (no projection/truncation).
     p_fire = CandidateGate(seed=0).infer(features[0], OnlineState.initial())
     assert isinstance(p_fire, float)
     assert 0.0 <= p_fire <= 1.0
@@ -106,7 +98,6 @@ def test_rejects_bad_audio_shape() -> None:
         f.featurize(np.zeros((N_CHANNELS, SAMPLES_PER_FRAME + 1)))
 
 
-# -- FLOPs charged: the analytic per-frame cost and the matched-budget ceiling ------------------------
 
 
 def test_flops_per_frame_matches_the_documented_analytic_ledger() -> None:
@@ -129,9 +120,7 @@ def test_flops_for_frames_are_charged_and_stay_under_the_ceiling() -> None:
     f = SuperfluxSpectralFeaturizer()
     assert f.flops_for_frames(0) == 0
     assert f.flops_for_frames(1) == FLOPS_PER_FRAME
-    # The SuperFlux front-end is strictly costlier per frame than the base, and that cost is charged.
     assert FLOPS_PER_FRAME > 1_121_340
-    # Featurize over the real test set (22569 frames) stays well under the 6e10 lifecycle ceiling.
     assert f.flops_for_frames(22_569) == 25_480_852_380
     assert f.flops_for_frames(22_569) < FLOP_CEILING == 60_000_000_000
 
@@ -144,7 +133,6 @@ def test_flops_for_frames_rejects_bad_counts() -> None:
         f.flops_for_frames(True)
 
 
-# -- seal present: the preregistration and (if built) the sealed artifact carry a reproducible seal ---
 
 
 def test_sealed_prereg_carries_a_reproducible_seal() -> None:
@@ -162,7 +150,6 @@ def test_sealed_prereg_carries_a_reproducible_seal() -> None:
     assert isinstance(seal, str) and len(seal) == 64
     without = {k: v for k, v in body.items() if k != "canonical_sha256"}
     assert canonical_sha256(without) == seal
-    # The 3-featurizer Bonferroni wall is preregistered: n=5 cannot clear family-wise significance.
     assert body["multiplicity"]["n_variants"] == 3
     assert body["multiplicity"]["family_significance_reachable_at_n5"] is False
 

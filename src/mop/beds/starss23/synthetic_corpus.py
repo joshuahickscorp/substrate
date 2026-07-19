@@ -26,19 +26,14 @@ from .schema import (
     room_disjoint_split,
 )
 
-# FOA encoding constants. W carries the FuMa 1/sqrt(2) weight; the radial law anchors the spec's
-# inverse-distance falloff at a 1 m reference so centimeter distances give sane amplitudes.
 _INV_SQRT2 = 1.0 / math.sqrt(2.0)
 _REF_DISTANCE_CM = 100.0
 
-# Grain and burst shaping. The sharp attack at sample zero is what makes an onset a flux spike.
 _DECAY_TAU_S = 0.02
 _TONE_NOISE_MIX = 0.3
 _ROOM_KERNEL_LEN = 12
-# One class-characteristic tone per STARSS23 class, log-spaced across the speech-to-transient band.
 _CLASS_BASE_HZ = tuple(float(hz) for hz in np.geomspace(200.0, 6000.0, N_CLASSES))
 
-# Provenance floors from Q3(d): at least 12 test and 24 validation positives for a stable rate estimate.
 MIN_TEST_ONSETS = 12
 MIN_VAL_ONSETS = 24
 
@@ -271,20 +266,17 @@ def _build_clip_audio(
     grain_length = config.active_frames * SAMPLES_PER_FRAME
     audio = np.zeros((N_CHANNELS, n_samples), dtype=np.float64)
 
-    # 1. Room-correlated background: one fixed room kernel colors independent per-channel noise.
     kernel = _room_kernel(room_rng)
     for channel in range(N_CHANNELS):
         white = clip_rng.standard_normal(n_samples)
         audio[channel] += config.background_gain * np.convolve(white, kernel, mode="same")
 
-    # 2. Non-overlapping event start frames, then split into onset and nuisance frames.
     total_events = config.onsets_per_clip + config.nuisances_per_clip
     starts = _spaced_event_frames(clip_rng, total_events, config.clip_frames, config.active_frames)
     order = clip_rng.permutation(total_events)
     onset_frames = sorted(int(starts[i]) for i in order[: config.onsets_per_clip])
     nuisance_frames = sorted(int(starts[i]) for i in order[config.onsets_per_clip :])
 
-    # 3. Plant coherent FOA onset point sources at the onset frames (integer degrees and centimeters).
     planted: list[OnsetEvent] = []
     for frame in onset_frames:
         class_id = int(clip_rng.integers(0, N_CLASSES))
@@ -305,19 +297,16 @@ def _build_clip_audio(
             )
         )
 
-    # 4. Inject spatially incoherent nuisance flux at the non-onset frames.
     for frame in nuisance_frames:
         burst = _nuisance_burst(clip_rng, grain_length)
         start = frame * SAMPLES_PER_FRAME
         audio[:, start : start + grain_length] += config.nuisance_gain * burst
 
-    # 5. Deterministic peak normalization keeps the array in range without changing relative structure.
     peak = float(np.max(np.abs(audio)))
     if peak > 0.0:
         audio = audio * (0.9 / peak)
     audio32 = np.ascontiguousarray(audio, dtype=np.float32)
 
-    # 6. Native STARSS23 dense metadata: one row per active frame per source, distance in centimeters.
     rows: list[MetadataRow] = []
     for source_id, event in enumerate(sorted(planted, key=lambda ev: ev.frame)):
         for offset in range(config.active_frames):
@@ -344,7 +333,6 @@ def generate_corpus(
     if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
         raise CorpusRefusal("seed must be a nonnegative integer")
 
-    # Fold-3 rooms take the low room numbers so they sort before the fold-4 dev-test rooms.
     fold3_rooms = list(range(config.n_fold3_rooms))
     fold4_rooms = list(range(config.n_fold3_rooms, config.n_fold3_rooms + config.n_fold4_rooms))
     room_folds = [(3, room) for room in fold3_rooms] + [(4, room) for room in fold4_rooms]

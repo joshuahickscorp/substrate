@@ -434,6 +434,24 @@
       "proof": "checkpoint 3b309f6 pre/post sealed artifact dictionaries exact under fixed clocks for base onset, refractory-NMS, and learning-progress; full STARSS-focused suite 493/493 in 159.64s under nice -n 10; changed lifecycle modules ruff clean; complete STARSS package compiles",
       "accounting_note": "production source 500 added and 3540 deleted, net -3040; focused tests 0 added and 280 deleted; the 3092 eliminated lines are non-executable docstrings, with 44 pass replacements included in added LOC; no source line packing or scientific/test case deletion",
       "tag": "mop-collapse-starss23-lifecycle-20"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "family_prereg_cli_and_comment_surface",
+      "checkpoint_status": "green",
+      "primitive": "four family preregistration assemblers collapsed onto one authority; eight unreferenced module command wrappers and remaining comment-only STARSS documentation deleted",
+      "deduplicated_LOC": 528,
+      "added_LOC": 219,
+      "eliminated_LOC": 1408,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1717,
+      "files_changed": 98,
+      "destination_api": "mop.beds.starss23.prereg.build_family_prereg",
+      "proof": "four pinned complete preregistration seals exact; preregistration/verifier battery 52/52 in 2.93s; full STARSS-focused suite 493/493 in 155.78s under nice -n 10; complete package compiles and critical ruff checks pass",
+      "accounting_note": "production source 219 added and 1349 deleted, net -1130; focused tests 0 added and 587 deleted; 1408 eliminated lines are comment-only documentation; all tests and independent verifier calculations remain",
+      "tag": "mop-collapse-starss23-lifecycle-21"
     }
   ],
   "deferred_heavy_validation": {

@@ -60,7 +60,6 @@ REPRO_AXIS = "scoring_unit"
 PRIMARY_CONTROL = ARM_RATE_MATCHED_RANDOM
 STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 
-# The disjoint seed family for this reproduction: it must not inherit the sealed run's seed luck.
 DEFAULT_SCORING_UNIT_SEEDS: tuple[int, ...] = (30, 31, 32, 33, 34)
 
 class CountReproScoringUnitProducerRefusal(ValueError):
@@ -113,7 +112,6 @@ def _clip_cluster_readout(seed_runs: list[BudgetSeedRun]) -> tuple[dict[str, Any
 
     operating_id = seed_runs[0].operating_budget_id
     n_seeds = len(seed_runs)
-    # Collect the per-clip MAE for candidate and control at the operating point, per seed.
     clip_ids = [
         entry["clip_id"]
         for entry in seed_runs[0].per_budget[operating_id]["clips"]

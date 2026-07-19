@@ -36,9 +36,7 @@ def test_five_paired_seeds_exact_sign_flip_floor(starss23_bed_artifact) -> None:
     stats = starss23_bed_artifact.artifact["stats"]
     assert len(stats["deltas"]) == 5
     assert stats["n_permutations"] == 32
-    # All five paired deltas are positive, so the exact sign-flip hits its one-sided floor of 1/32.
     assert stats["one_sided_p"] == 1.0 / 32.0
-    # Two-sided 0.05 is unreachable at n = 5 (discrete floor 2/32 = 0.0625).
     assert stats["two_sided_005_reachable"] is False
     assert stats["t_obs"] == sum(stats["deltas"]) / 5
 
@@ -53,14 +51,12 @@ def test_claim_verb_respects_the_clip_limited_ceiling(starss23_bed_artifact) -> 
 def test_candidate_strictly_dominates_rate_matched_random(starss23_bed_artifact) -> None:
     a = starss23_bed_artifact.artifact
     assert a["harness"]["candidate_strictly_dominates_rate_matched_random"] is True
-    # Every paired-seed delta (candidate minus rate-matched-random pooled F1) is positive.
     assert all(delta > 0 for delta in a["stats"]["deltas"])
 
 
 def test_noisy_tv_control_is_at_chance(starss23_bed_artifact) -> None:
     controls = starss23_bed_artifact.artifact["controls"]
     assert controls["noisy_tv_at_chance"] is True
-    # The pooled firing rate on the pure-aleatoric channel does not exceed the base rate preferentially.
     assert controls["mean_firing_rate_on_noise"] <= controls["mean_base_rate"] + 0.05 + 1e-9
     assert len(controls["per_seed_noisy_tv"]) == 5
 
@@ -78,7 +74,6 @@ def test_matched_budget_within_ceiling_and_break_even_present(starss23_bed_artif
     assert a["matched_budget"]["params"] == 3193
     assert a["matched_budget"]["flops"] <= 60_000_000_000
     assert a["matched_budget"]["seeds"] == 5
-    # The candidate charges its amortized training cost, so a positive break-even exists.
     assert a["break_even"]["train_flops"] > 0
     assert a["break_even"]["amortizable"] is True
     assert a["full_scale_anchors"]["c_train_flops"] == 8_274_960_000
@@ -92,9 +87,7 @@ def test_per_seed_blocks_carry_raw_fires_for_every_arm(starss23_bed_artifact) ->
         for clip in block["clips"]:
             assert set(clip["fires"]) == arms
             assert isinstance(clip["gt_onsets"], list)
-            # rate-matched-random fires the same count as the candidate on every clip.
             assert len(clip["fires"]["rate_matched_random"]) == len(clip["fires"]["candidate"])
-            # always-on fires on every frame.
             assert len(clip["fires"]["always_on"]) >= len(clip["fires"]["candidate"])
 
 
@@ -105,10 +98,8 @@ def test_artifact_is_byte_reproducible(starss23_fast_config, starss23_bed_artifa
 
 def test_independent_verifier_reproduces_but_does_not_confirm(starss23_bed_artifact) -> None:
     result = verify_artifact(starss23_bed_artifact.artifact)
-    # Mechanics reproduce: the seal, every score, and the stats are re-derived from specification.
     assert result.independent_referee_reproduction is True
     assert result.mismatches == ()
-    # Science does not promote: synthetic data can never be independently confirmed.
     assert result.independent_scientific_confirmation is False
     assert result.source_kind == "synthetic"
 
@@ -117,7 +108,6 @@ def test_demonstration_receipt_is_mechanics_only_and_never_cleared(starss23_bed_
     payload = starss23_bed_artifact.artifact["demonstration_receipt"]
     assert payload["kind"] == KIND_DEMONSTRATION
     assert payload["verdict"] != VERDICT_CLEARED
-    # The payload is a valid RunReceipt and, being a demonstration, can never be a confirmation.
     receipt = RunReceipt(
         kind=payload["kind"],
         mechanism_id=payload["mechanism_id"],

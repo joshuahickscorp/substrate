@@ -23,7 +23,6 @@ from .gate import (
 
 COUNT_GATE_SCHEMA = "mop-starss23-count-gate/v1"
 
-# Gate geometry. Byte-identical width to the sealed onset gate so its cost anchors reuse exactly.
 N_CFEAT = D_CFEAT  # 256 frozen count features
 N_CONLINE = 8  # self-derived online scalars
 D_IN = N_CFEAT + N_CONLINE  # 264 gate inputs
@@ -41,11 +40,8 @@ DEFAULT_LEARNING_RATE = 0.1
 DEFAULT_PONDER_LAMBDA = 0.02
 COUNT_VOC_WINDOW = 1  # a re-estimation is valuable within +/- 1 frame of a count change
 
-# The first N_MEL * N_CHANNELS = 128 features are the positive (source-enter) flux; the last 128 are the
-# negative (source-leave) flux, matching count_featurizer.featurize's concatenation order.
 _POS_BLOCK = N_MEL * N_CHANNELS  # 128
 
-# Anchors reused unchanged from gate.py so the counting bed and the onset bed charge identical costs.
 C_TRAIN_ANCHOR_COUNT = C_TRAIN_ANCHOR
 FLOPS_PER_INFERENCE = inference_flops(D_IN, HIDDEN, N_OUT)  # 6385
 

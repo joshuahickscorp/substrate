@@ -16,8 +16,6 @@ from .schema import (
     OnsetEvent,
 )
 
-# Two disjoint spectral bands with matched energy. Onsets live in the signal band, nuisance in the
-# nuisance band. Total flux is comparable at both, so magnitude alone cannot separate them.
 SIGNAL_BAND_HZ = (700.0, 1500.0)
 NUISANCE_BAND_HZ = (4800.0, 6800.0)
 GRAIN_SAMPLES = 1920  # ~80 ms burst, roughly one label frame
@@ -97,7 +95,6 @@ def _ambisonics_gains(azimuth_deg: float, elevation_deg: float, distance: float)
 def _room_background(rng: np.random.Generator, room_id: str, n_samples: int, amplitude: float) -> np.ndarray:
 
     room_rng = _rng_for(0, f"room-color:{room_id}")
-    # A fixed per-room AR(1) coloring coefficient makes each room's spectrum distinct and correlated.
     color = float(room_rng.uniform(0.55, 0.95))
     white = rng.standard_normal((N_CHANNELS, n_samples))
     colored = np.empty_like(white)
@@ -155,7 +152,6 @@ def generate_clip(
     if regime == REGIME_FAVORABLE:
         onset_frames = _draw_frames(grain_rng, n_frames, config.onsets_per_clip, forbidden=set())
         for frame in onset_frames:
-            # STARSS23 direction-of-arrival labels are integer degrees; distance is an integer count.
             az = float(doa_rng.integers(-180, 181))
             el = float(doa_rng.integers(-90, 91))
             dist = float(doa_rng.integers(1, 4))
@@ -174,7 +170,6 @@ def generate_clip(
             grain_rng, n_frames, config.nuisance_per_clip, forbidden=set(onset_frames)
         )
     else:
-        # Null: no onset grains. Nuisance fills the audio; labels are independent of the audio.
         nuisance_frames = _draw_frames(grain_rng, n_frames, config.nuisance_per_clip, forbidden=set())
         label_frames = _draw_frames(
             doa_rng, n_frames, config.onsets_per_clip, forbidden=set(nuisance_frames)

@@ -13,9 +13,6 @@ def _tiny() -> SC.SyntheticStarssCorpus:
     return SC.generate_corpus(SC.SyntheticCorpusConfig.tiny(), seed=0)
 
 
-# ---------------------------------------------------------------------------
-# Byte reproducibility.
-# ---------------------------------------------------------------------------
 
 
 def test_same_seed_gives_byte_identical_audio_and_metadata() -> None:
@@ -43,13 +40,9 @@ def test_audio_is_contiguous_float32_and_a_whole_number_of_frames() -> None:
         audio = corpus.audio(clip_id)
         assert audio.dtype == np.float32
         assert audio.shape == (N_CHANNELS, n_frames * SAMPLES_PER_FRAME)
-        # Featurizer-consumable: a whole number of 100 ms frames.
         assert audio.shape[1] % SAMPLES_PER_FRAME == 0
 
 
-# ---------------------------------------------------------------------------
-# The split has no leakage on either axis.
-# ---------------------------------------------------------------------------
 
 
 def test_default_split_is_clip_and_room_disjoint_with_no_leakage() -> None:
@@ -65,7 +58,6 @@ def test_default_split_is_clip_and_room_disjoint_with_no_leakage() -> None:
             assert clip_sets[left].isdisjoint(clip_sets[right]), f"clip leak {left} vs {right}"
             assert room_sets[left].isdisjoint(room_sets[right]), f"room leak {left} vs {right}"
 
-    # Every generated clip lands in exactly one partition.
     all_split_clips = [clip.clip_id for clips in partitions.values() for clip in clips]
     assert sorted(all_split_clips) == sorted(corpus.clip_ids)
     assert len(all_split_clips) == len(set(all_split_clips))
@@ -86,9 +78,6 @@ def test_onset_frames_within_a_clip_are_distinct_and_in_range() -> None:
         assert all(0 <= frame < clip.n_frames for frame in frames)
 
 
-# ---------------------------------------------------------------------------
-# Labels round-trip through the metadata schema and the adapter.
-# ---------------------------------------------------------------------------
 
 
 def test_planted_labels_round_trip_through_metadata_and_adapter() -> None:
@@ -105,7 +94,6 @@ def test_planted_labels_round_trip_through_metadata_and_adapter() -> None:
 
 def test_metadata_text_is_native_six_column_starss23() -> None:
     corpus = _tiny()
-    # Pick a clip and confirm the on-disk metadata is the DCASE six-column integer form.
     clip_id = corpus.clip_ids[0]
     lines = [line for line in corpus.metadata_text(clip_id).splitlines() if line]
     assert lines, "expected at least one onset row"
@@ -115,9 +103,6 @@ def test_metadata_text_is_native_six_column_starss23() -> None:
         assert all(field.lstrip("-").isdigit() for field in fields)
 
 
-# ---------------------------------------------------------------------------
-# The Q3(d) positive floors.
-# ---------------------------------------------------------------------------
 
 
 def test_default_corpus_clears_the_validation_and_test_positive_floors() -> None:
@@ -127,9 +112,6 @@ def test_default_corpus_clears_the_validation_and_test_positive_floors() -> None
     assert counts["test"] >= SC.MIN_TEST_ONSETS
 
 
-# ---------------------------------------------------------------------------
-# Faithfulness: signal is present, and a bare energy threshold cannot solve it.
-# ---------------------------------------------------------------------------
 
 
 def test_planted_onsets_carry_real_energy_a_spatial_oracle_can_score() -> None:
@@ -145,7 +127,6 @@ def test_planted_onsets_carry_real_energy_a_spatial_oracle_can_score() -> None:
                 onset_energy.append(float(energy[frame]))
             elif frame not in nuisance_frames:
                 background_energy.append(float(energy[frame]))
-    # The planted grains raise the energy at onset frames well above the quiet background.
     assert np.median(onset_energy) > np.median(background_energy)
 
 
@@ -156,18 +137,13 @@ def test_bare_energy_threshold_cannot_isolate_onsets_because_nuisance_intrudes()
         energy = SC.frame_energy(corpus.audio(clip_id), channel=0)
         onset_frames = {onset.frame for onset in corpus.planted_by_clip[clip_id]}
         nuisance_frames = set(corpus.nuisance_frames_by_clip[clip_id])
-        # The lowest onset-frame energy is the threshold that just achieves recall 1.0 on this clip.
         recall_one_threshold = min(energy[frame] for frame in onset_frames)
         admitted_nuisance += sum(
             1 for frame in nuisance_frames if energy[frame] >= recall_one_threshold
         )
-    # A threshold that catches every onset also fires on nuisance: precision is below 1.0.
     assert admitted_nuisance > 0
 
 
-# ---------------------------------------------------------------------------
-# On-disk round-trip preserves the audio content identity.
-# ---------------------------------------------------------------------------
 
 
 def test_write_to_and_from_dir_preserve_audio_sha256(tmp_path) -> None:
@@ -180,9 +156,6 @@ def test_write_to_and_from_dir_preserve_audio_sha256(tmp_path) -> None:
         assert clip.onsets == memory[clip.clip_id].onsets
 
 
-# ---------------------------------------------------------------------------
-# Configuration validation.
-# ---------------------------------------------------------------------------
 
 
 @pytest.mark.parametrize(

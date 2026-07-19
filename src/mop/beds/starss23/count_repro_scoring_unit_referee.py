@@ -17,8 +17,6 @@ MACRO_METRIC_RULE = (
     "arm score = clip-macro mean (each clip weighted equally), replacing the pooled frame micro-average"
 )
 
-# The tie tolerance for counting a sign assignment as reaching the observed statistic. It matches the
-# sealed stats.exact_sign_flip convention so the two enumerations agree on genuine ties.
 _TIE_EPS = 1e-9
 
 
@@ -97,9 +95,6 @@ def macro_score_arm(
     return MacroCountScore(n_clips=len(per_clip), macro_mae=macro_mae, per_clip=tuple(per_clip))
 
 
-# ---------------------------------------------------------------------------
-# Exact sign-flip permutation over the clips (the clip-clustered corroborating readout).
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -156,7 +151,6 @@ def _exact_sign_flip_one_sided_meet_in_middle(deltas: Sequence[float]) -> tuple[
     threshold_base = t_observed - _TIE_EPS
     count = 0
     for left_sum in partial_sums(left):
-        # Count right-half assignments with left_sum + right_sum >= T_obs - eps.
         cutoff = threshold_base - left_sum
         count += len(right_sums) - bisect_left(right_sums, cutoff)
     permutations = 2**n

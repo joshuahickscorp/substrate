@@ -56,8 +56,6 @@ def _candidate(f1_by_seed=(0.62, 0.60, 0.63, 0.61, 0.64), firings=CANDIDATE_FIRI
 
 
 def _rate_matched_random(f1_by_seed=(0.30, 0.28, 0.31, 0.29, 0.32), firings=CANDIDATE_FIRINGS) -> Arm:
-    # The rate-matched-random control runs an equal-cost inference stub (same FLOP model) and fires the
-    # same count per seed as the candidate, but charges no training cost.
     return Arm(
         policy=ONSET_BUDGET_POLICY,
         name="rate_matched_random",
@@ -108,9 +106,6 @@ def _budget_point(
     )
 
 
-# ---------------------------------------------------------------------------
-# Full-lifecycle FLOP accounting.
-# ---------------------------------------------------------------------------
 
 
 def test_arm_flop_model_projects_candidate_only_training_and_shared_frontend() -> None:
@@ -136,14 +131,12 @@ def test_lifecycle_flops_include_c_train() -> None:
     model = FlopModel(FEATURIZE, GATE_INFER, C_DOWN, C_TRAIN)
     firings = 1300
     assert model.run_flops(firings) == FEATURIZE + GATE_INFER + firings * C_DOWN
-    # The full-lifecycle total is the inference run plus the amortized training cost.
     assert model.lifecycle_flops(firings) - model.run_flops(firings) == C_TRAIN
 
 
 def test_candidate_stays_within_params_and_flop_ceiling() -> None:
     candidate = _candidate()
     assert candidate.params <= MAX_GATE_PARAMS
-    # Every paired-seed run stays under the matched-budget ceiling.
     harness.assert_within_ceiling(candidate)
     assert candidate.max_lifecycle_flops() < FLOP_CEILING
 
@@ -151,13 +144,11 @@ def test_candidate_stays_within_params_and_flop_ceiling() -> None:
 def test_matched_ex_training_passes_for_identical_inference_flops() -> None:
     candidate = _candidate()
     rmr = _rate_matched_random()
-    # No exception: same seeds, same firing counts, byte-equal inference FLOPs, candidate charges C_train.
     harness.assert_matched_ex_training(candidate, rmr)
 
 
 def test_refuses_compare_when_inference_budgets_do_not_match() -> None:
     candidate = _candidate()
-    # The control fires a different count on seed 0, so the inference budgets no longer match.
     rmr = _rate_matched_random(firings=(999, 1300, 1250, 1280, 1220))
     with pytest.raises(harness.BudgetMismatch):
         harness.assert_matched_ex_training(candidate, rmr)
@@ -165,7 +156,6 @@ def test_refuses_compare_when_inference_budgets_do_not_match() -> None:
 
 def test_refuses_compare_when_downstream_cost_differs() -> None:
     candidate = _candidate()
-    # Same firing counts, but a different per-firing downstream cost breaks the byte-equal inference FLOPs.
     rmr = Arm(
         policy=ONSET_BUDGET_POLICY,
         name="rate_matched_random",
@@ -180,7 +170,6 @@ def test_refuses_compare_when_downstream_cost_differs() -> None:
 
 
 def test_refuses_compare_when_ctrain_is_not_charged() -> None:
-    # A candidate that fails to charge its amortized training cost is refused as dishonest accounting.
     candidate = Arm(
         policy=ONSET_BUDGET_POLICY,
         name="candidate_gate",
@@ -195,7 +184,6 @@ def test_refuses_compare_when_ctrain_is_not_charged() -> None:
 
 
 def test_ceiling_is_enforced() -> None:
-    # A downstream cost large enough to blow the ceiling at the always-on firing count is refused.
     over = Arm(
         policy=ONSET_BUDGET_POLICY,
         name="candidate_gate",
@@ -231,24 +219,18 @@ def test_certify_refuses_a_control_that_charges_training() -> None:
         point.certify()
 
 
-# ---------------------------------------------------------------------------
-# Break-even accounting.
-# ---------------------------------------------------------------------------
 
 
 def test_gate_train_flops_matches_the_spec_anchor() -> None:
-    # C_train = E * F_train_frames * 3 * infer = 8 * 54000 * 3 * 6385.
     assert harness.gate_train_flops(8, 54_000, GATE_INFER_FLOPS_PER_FRAME) == 8_274_960_000
 
 
 def test_per_query_saving_formula() -> None:
-    # (F - K) / F * C_down with F = 24000, K = 4800 (20 percent firing), C_down = 50000 gives 40000.
     saving = harness.per_query_saving_vs_always_on(24_000, 4_800, 50_000)
     assert saving == pytest.approx(40_000.0)
 
 
 def test_break_even_matches_the_recipe_anchor() -> None:
-    # N* = C_train / per_query_saving = 8.27e9 / 4e4, which is about 2.07e5 frames.
     saving = harness.per_query_saving_vs_always_on(24_000, 4_800, 50_000)
     break_even = harness.break_even_queries(
         harness.gate_train_flops(8, 54_000, GATE_INFER_FLOPS_PER_FRAME), saving
@@ -259,15 +241,11 @@ def test_break_even_matches_the_recipe_anchor() -> None:
 
 
 def test_break_even_is_unamortizable_without_a_saving() -> None:
-    # If the gate never saves downstream compute there is no break-even.
     break_even = harness.break_even_queries(C_TRAIN, 0.0)
     assert break_even.amortizable is False
     assert break_even.n_star_frames is None
 
 
-# ---------------------------------------------------------------------------
-# Pareto and strict dominance.
-# ---------------------------------------------------------------------------
 
 
 def test_pareto_frontier_drops_dominated_points() -> None:
@@ -278,7 +256,6 @@ def test_pareto_frontier_drops_dominated_points() -> None:
     ]
     frontier = harness.pareto_frontier(points)
     kinds = {point.budget_id for point in frontier}
-    # Point c is dominated by b (same FLOPs, higher F1); a and b are non-dominated.
     assert kinds == {"a", "b"}
     assert [point.budget_id for point in frontier] == ["a", "b"]
 
@@ -347,7 +324,6 @@ def test_candidate_strictly_dominates_rate_matched_random_when_it_wins_everywher
 
 
 def test_candidate_does_not_dominate_when_it_loses_at_a_budget() -> None:
-    # Swap the F1: here the random control matches or beats the candidate, so dominance fails.
     losing = _budget_point(
         candidate_f1=(0.30, 0.28, 0.31, 0.29, 0.32),
         rmr_f1=(0.62, 0.60, 0.63, 0.61, 0.64),
@@ -357,9 +333,6 @@ def test_candidate_does_not_dominate_when_it_loses_at_a_budget() -> None:
     assert report.verdict == "null"
 
 
-# ---------------------------------------------------------------------------
-# Report assembly, matched budget bridge, and hardcoded boundary flags.
-# ---------------------------------------------------------------------------
 
 
 def test_report_bridges_to_a_positive_matched_budget() -> None:
@@ -386,7 +359,6 @@ def test_report_hardcodes_the_boundary_flags() -> None:
     assert payload["independent_scientific_confirmation"] is False
     assert payload["source_kind"] == "synthetic"
     assert payload["claim_scope"] == ONSET_BUDGET_POLICY.claim_scope
-    # A synthetic run can never be cleared: the verdict is capped at mechanics-ok.
     assert payload["verdict"] in ("mechanics-ok", "null")
 
 
@@ -411,11 +383,6 @@ def test_run_refuses_an_empty_sweep() -> None:
         harness.run_matched_budget([], wall_ns=1_000_000)
 
 
-# ---------------------------------------------------------------------------
-# Cross-module anchor consistency. The harness carries FLOP-count anchors only for defaults and tests;
-# the authoritative counts belong to the featurizer and gate modules. When those siblings are present,
-# assert the anchors have not drifted. Guarded so this suite stays green if a sibling is mid-build.
-# ---------------------------------------------------------------------------
 
 
 def test_flop_anchors_match_the_featurizer_and_gate_modules() -> None:
@@ -429,7 +396,6 @@ def test_flop_anchors_match_the_featurizer_and_gate_modules() -> None:
     assert gate.param_count() == GATE_PARAMS
     assert MAX_GATE_PARAMS == gate.PARAM_CEILING
     assert TRAIN_BACKWARD_MULTIPLIER == gate.TRAIN_STEP_FACTOR
-    # C_train anchor: 8 * 54000 * 3 * 6385 = 8_274_960_000, identical to the gate module.
     assert harness.gate_train_flops(
         8, 54_000, GATE_INFER_FLOPS_PER_FRAME
     ) == gate.C_TRAIN_ANCHOR

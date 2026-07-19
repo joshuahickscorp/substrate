@@ -57,7 +57,6 @@ STAGE = 3
 PRIMARY_CONTROL = ARM_RATE_MATCHED_RANDOM
 STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 
-# The real STARSS23 FOA subset and metadata roots on this host (identical to the onset real producer).
 DEFAULT_FOA_ROOT = Path("/Users/scammermike/Downloads/mop-data/starss23/foa_subset/foa_dev")
 DEFAULT_METADATA_ROOT = Path(
     "/Users/scammermike/Downloads/mop-data/starss23/metadata_dev_extracted/metadata_dev"
@@ -65,7 +64,6 @@ DEFAULT_METADATA_ROOT = Path(
 
 DEFAULT_N_VAL_ROOMS = 2
 
-# Full-scale anchors from the recipe, recorded for provenance even when the fixed real subset is smaller.
 FULL_SCALE_TRAIN_FRAMES = 54_000
 FULL_SCALE_TEST_FRAMES = 24_000
 FULL_SCALE_C_TRAIN = training_flops(FULL_SCALE_TRAIN_FRAMES, DEFAULT_EPOCHS)  # ~8.27e9
@@ -123,9 +121,6 @@ def _train_count_gate(
     return gate, int(x.shape[0])
 
 
-# ---------------------------------------------------------------------------
-# The real noisy-TV channel: white-noise audio featurized and marginal-matched to the real test content.
-# ---------------------------------------------------------------------------
 
 
 def _real_noisy_tv_features(
@@ -142,9 +137,6 @@ def _real_noisy_tv_features(
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
-# ---------------------------------------------------------------------------
-# Per-seed run on the fixed real split.
-# ---------------------------------------------------------------------------
 
 
 def run_count_seed(
@@ -168,7 +160,6 @@ def run_count_seed(
     gate, train_frames = train_gate()
     total_frames = int(sum(clip.n_frames for clip in test_clips))
 
-    # A neutral-threshold causal pass over val gives the p distribution the budget grid is cut from.
     val_probs = np.concatenate(
         [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, state_factory)[1]
          for clip in val_clips]
@@ -221,8 +212,6 @@ def run_count_seed(
             "reestimations": reestimations,
         }
 
-    # Preregistered operating point: the swept budget whose re-estimation rate is closest to the train-set
-    # count-change density. A fixed rule set before scoring, using only train labels, never a val/test argmax.
     operating_budget_id = min(
         per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - operating_density)
     )
@@ -296,9 +285,6 @@ def _run_seed_real(
     )
 
 
-# ---------------------------------------------------------------------------
-# Harness arms across seeds.
-# ---------------------------------------------------------------------------
 
 
 def _flop_model(
@@ -314,9 +300,6 @@ def _flop_model(
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the real count artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_real_count_bed_artifact(

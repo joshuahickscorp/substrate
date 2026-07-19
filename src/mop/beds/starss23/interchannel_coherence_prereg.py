@@ -4,18 +4,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from mop.substrate.events import canonical_sha256, write_canonical_json
-
-from . import BED_ID, CLAIM_SCOPE
 from .prereg import (
     DEFAULT_C_DOWN_FLOPS,
     DEFAULT_C_TRAIN_FLOPS,
     PREREGISTERED_SESOI_F1,
     StructuralFacts,
-    base_prereg_digest,
-    bonferroni_family,
-    family_analysis_plan,
-    family_cli_summary,
+    build_family_prereg,
 )
 from .real_artifact import RealBedConfig
 
@@ -25,11 +19,6 @@ N_PAIRED_SEEDS = 5
 
 DEFAULT_FEATURIZERS_PREREG_PATH = Path("proof/STARSS23_ESCS_BED_interchannel_coherence.prereg.json")
 
-# The three F1 featurizer families. Each is a distinct, falsifiable frozen zero-trained-parameter
-# front-end aimed at the same diagnosed gap: a per-channel ENERGY front-end cannot tell a direct-sound
-# onset from loud steady ambience. Each front-end emits exactly 256 features so the unchanged sealed gate
-# consumes it, and each is scored against the same sealed referee and rate-matched-random control. Only
-# ``interchannel_coherence`` is built and run in this wave; all three define the multiplicity family.
 FEATURIZER_VARIANTS: tuple[dict[str, str], ...] = (
     {
         "variant_id": "interchannel_coherence",
@@ -68,13 +57,36 @@ class FeaturizersPreregRefusal(ValueError):
     pass
 
 
-def _multiplicity_block(n_variants: int, min_one_sided_p: float, alpha: float) -> dict[str, Any]:
-
-    return bonferroni_family(
-        n_variants, min_one_sided_p, alpha,
-        family_phrase="three featurizers", member_label="featurizer",
-        n_field="n_variants", per_alpha_field="per_variant_alpha", alpha_digits=4,
-    )
+_FAMILY_PREREG = {
+    "schema": FEATURIZERS_PREREG_SCHEMA,
+    "wave": "F1 featurizer-swap iteration",
+    "members_field": "variants",
+    "member_id_field": "variant_id",
+    "member_label": "featurizer",
+    "family_phrase": "three featurizers",
+    "n_field": "n_variants",
+    "per_alpha_field": "per_variant_alpha",
+    "alpha_digits": 4,
+    "statistic": "mean of paired per-seed F1 deltas (candidate minus rate_matched_random)",
+    "promotion_bar": (
+        "promote only when the registered SESOI is exceeded AND the one-sided sign-flip p clears the "
+        "Bonferroni-adjusted alpha AND at least three bias-independent reproductions triangulate the "
+        "same direction; a single run, and any run at n equals 5 across this three-featurizer family, "
+        "can never promote"
+    ),
+    "refusal": FeaturizersPreregRefusal,
+    "empty_message": "at least one featurizer must be preregistered",
+    "duplicate_message": "featurizer ids must be unique",
+    "malformed_message": "each featurizer needs a variant_id and a one-line hypothesis",
+    "extra": {
+        "featurizer_contract": (
+            "each preregistered featurizer is a frozen zero-trained-parameter front-end emitting exactly "
+            "256 features per 100 ms frame, scored through the unchanged sealed gate (264 inputs, 3193 "
+            "trainable parameters); the featurizer's per-frame FLOPs are charged identically to every arm "
+            "and every arm total stays under the 6e10 lifecycle ceiling"
+        )
+    },
+}
 
 
 def build_featurizers_prereg(
@@ -92,64 +104,9 @@ def build_featurizers_prereg(
     variants: tuple[dict[str, str], ...] = FEATURIZER_VARIANTS,
     base_prereg_canonical_sha256: str | None = None,
 ) -> dict[str, Any]:
-
-    if not isinstance(timestamp, str) or not timestamp.strip():
-        raise FeaturizersPreregRefusal("timestamp must be a non-empty string passed by the caller")
-    if n_seeds <= 0:
-        raise FeaturizersPreregRefusal("n_seeds must be positive")
-    if not variants:
-        raise FeaturizersPreregRefusal("at least one featurizer must be preregistered")
-    ids = [entry["variant_id"] for entry in variants]
-    if len(set(ids)) != len(ids):
-        raise FeaturizersPreregRefusal("featurizer ids must be unique")
-    for entry in variants:
-        if not entry.get("variant_id") or not entry.get("hypothesis"):
-            raise FeaturizersPreregRefusal("each featurizer needs a variant_id and a one-line hypothesis")
-
-    body: dict[str, Any] = {
-        "schema": FEATURIZERS_PREREG_SCHEMA,
-        "stage": STAGE,
-        "bed_id": BED_ID,
-        "claim_scope": CLAIM_SCOPE,
-        "timestamp": timestamp,
-        "preregistered_before_reading_test_scores": True,
-        "wave": "F1 featurizer-swap iteration",
-        "base_prereg_canonical_sha256": base_prereg_canonical_sha256,
-        "featurizer_contract": (
-            "each preregistered featurizer is a frozen zero-trained-parameter front-end emitting exactly "
-            "256 features per 100 ms frame, scored through the unchanged sealed gate (264 inputs, 3193 "
-            "trainable parameters); the featurizer's per-frame FLOPs are charged identically to every arm "
-            "and every arm total stays under the 6e10 lifecycle ceiling"
-        ),
-        **family_analysis_plan(
-            operating_firing_fraction=operating_firing_fraction,
-            n_test_clips=n_test_clips,
-            n_test_onsets=n_test_onsets,
-            train_onset_density=train_onset_density,
-            n_test_frames=n_test_frames,
-            sesoi_f1=sesoi_f1,
-            c_train_flops=c_train_flops,
-            c_down_flops=c_down_flops,
-            n_seeds=n_seeds,
-            n_members=len(variants),
-            statistic="mean of paired per-seed F1 deltas (candidate minus rate_matched_random)",
-            multiplicity=_multiplicity_block,
-        ),
-        "variants": [
-            {"variant_id": entry["variant_id"], "hypothesis": entry["hypothesis"]}
-            for entry in variants
-        ],
-        "promotion_bar": (
-            "promote only when the registered SESOI is exceeded AND the one-sided sign-flip p clears the "
-            "Bonferroni-adjusted alpha AND at least three bias-independent reproductions triangulate the "
-            "same direction; a single run, and any run at n equals 5 across this three-featurizer family, "
-            "can never promote"
-        ),
-        "activation_allowed": False,
-        "scientific_promotion": False,
-    }
-    body["canonical_sha256"] = canonical_sha256(body)
-    return body
+    options = locals()
+    options["members"] = options.pop("variants")
+    return build_family_prereg(**options, **_FAMILY_PREREG)
 
 
 def structural_facts_from_adapter(
@@ -183,42 +140,3 @@ def structural_facts_from_adapter(
         refuse_empty=False,
     )
     return StructuralFacts.from_split(split, rates)
-
-
-def _main(argv: list[str] | None = None) -> int:
-
-    import argparse
-    import json
-
-    parser = argparse.ArgumentParser(
-        description="Seal the STARSS23 ESCS interchannel-coherence featurizer-family preregistration."
-    )
-    parser.add_argument("--timestamp", default="2026-07-17T00:00:00Z")
-    parser.add_argument("--foa-root", default=None)
-    parser.add_argument("--metadata-root", default=None)
-    parser.add_argument("--out", default=str(DEFAULT_FEATURIZERS_PREREG_PATH))
-    args = parser.parse_args(argv)
-
-    facts = structural_facts_from_adapter(foa_root=args.foa_root, metadata_root=args.metadata_root)
-    body = build_featurizers_prereg(
-        timestamp=args.timestamp,
-        **facts.payload(),
-        base_prereg_canonical_sha256=base_prereg_digest(),
-    )
-    path = write_canonical_json(body, args.out)
-    print(f"wrote {path}")
-    print(
-        json.dumps(
-            family_cli_summary(
-                body, "n_variants", "variants", "variant_id", "variant_ids",
-                ("per_variant_alpha", "min_achievable_one_sided_p"),
-            ),
-            indent=2,
-            sort_keys=True,
-        )
-    )
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(_main())

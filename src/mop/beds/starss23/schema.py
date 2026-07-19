@@ -10,14 +10,11 @@ from mop.substrate.events import canonical_sha256
 
 SCHEMA = "mop-starss23-clip-contract/v1"
 
-# The frozen STARSS23 acquisition grid. These are physical constants of the corpus, not knobs.
 SAMPLE_RATE_HZ = 24_000
 FRAME_MS = 100
 N_CHANNELS = 4
 SAMPLES_PER_FRAME = SAMPLE_RATE_HZ * FRAME_MS // 1000  # 2400 samples per 100 ms label frame
-# DCASE onset collar: plus or minus 200 ms equals two 100 ms frames on each side.
 COLLAR_FRAMES = 2
-# STARSS23 sound-event ontology size. Class ids are validated against this bound.
 N_CLASSES = 13
 
 _SHA256_HEX = frozenset("0123456789abcdef")

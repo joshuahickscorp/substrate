@@ -29,12 +29,8 @@ PREREG_DIRECTION = (
 DEFAULT_C_REEST_FLOPS = FLOPS_PER_REESTIMATE
 N_PAIRED_SEEDS = 5
 
-# The SESOI granularity discipline: a deliberate 10x floor multiple (see module docstring), not the
-# counting bed's 100x.
 GRANULARITY_FLOOR_MULTIPLE_DOA = 10.0
 
-# The primary clip-level sign-flip alpha (per architecture), and the room-majority "does not contradict"
-# threshold from the calibration note (looser, since n_rooms is much smaller than n_clips).
 PRIMARY_ALPHA = 0.05
 ROOM_MAJORITY_ALPHA = 0.10
 
@@ -53,9 +49,6 @@ def _require_positive(value: float, label: str) -> float:
     return float(value)
 
 
-# ---------------------------------------------------------------------------
-# 1. Cost-benefit narrative, per architecture (C_train differs).
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -114,9 +107,6 @@ def compute_doa_cost_benefit(
     )
 
 
-# ---------------------------------------------------------------------------
-# 2. The registered, architecture-independent structural SESOI.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -203,9 +193,6 @@ def _sesoi_rationale(
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the prereg.
-# ---------------------------------------------------------------------------
 
 
 def build_doa_prereg(

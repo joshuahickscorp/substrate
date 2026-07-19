@@ -28,11 +28,8 @@ from .experiments import COUNT_BED_ID
 COUNT_REPRO_GATE_ARCH_PREREG_SCHEMA = "mop-starss23-count-repro-gate-arch-prereg/v1"
 STAGE = 3
 
-# Reuse the sealed-bed anchors unchanged: the SESOI derivation is identical across reproductions.
 DEFAULT_C_REEST_FLOPS = FLOPS_PER_REESTIMATE
 
-# The prereg refuses a SESOI below this multiple of the pooled per-frame granularity, keeping the registered
-# effect far above the measurement floor. The original clears the same guard comfortably.
 MIN_GRANULARITY_MULTIPLE = 100.0
 
 N_PAIRED_SEEDS = 5
@@ -97,7 +94,6 @@ def build_count_repro_gate_arch_prereg(
         coast_from_zero_mae=coast_from_zero_mae,
     )
 
-    # The registered SESOI IS the reproduction's own one-test-clip catchable-change-mass on count-MAE.
     sesoi = float(cb.one_clip_change_mass_mae)
     floor = MIN_GRANULARITY_MULTIPLE * cb.per_frame_granularity
     if not sesoi > 0.0:
@@ -108,7 +104,6 @@ def build_count_repro_gate_arch_prereg(
             f"floor {floor:.3e}; refusing a sub-floor effect size"
         )
 
-    # Cross-check the varied-axis parameter budget stays under the hard ceiling, sealed before any score.
     gate_arch_params = param_count_two_layer(D_IN_GATE_ARCH, HIDDEN1, HIDDEN2, N_OUT)
     if gate_arch_params > PARAM_CEILING:
         raise CountReproGateArchPreregRefusal(

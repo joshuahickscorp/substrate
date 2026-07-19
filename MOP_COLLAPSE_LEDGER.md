@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `3b309f6` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `7ffb741` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 238. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 22}`.
+Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 23}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -274,6 +274,7 @@ Total items: 238. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | RED-starss23-frozen-featurizer-variant-lifecycle | 11 | verified_reduction | verified | Centralize frozen-featurizer producer execution and spread projections | remeasure adjacent count and DoA producer shells against the declaration target |
 | RED-starss23-count-variant-artifact-lifecycle | 11 | verified_reduction | verified | Centralize concurrent-count producer artifact lifecycles | measure remaining DoA, refractory, and learning-progress producer shells |
 | RED-starss23-onset-variant-and-embedded-docs | 11 | verified_reduction | verified | Centralize remaining onset variants and remove embedded STARSS narratives | finish the dual-architecture DoA producer shell and measure STARSS residual |
+| RED-starss23-family-prereg-cli-comments | 11 | verified_reduction | verified | Centralize family preregistrations and delete local commands and comments | finish the dual-architecture DoA producer shell and measure STARSS residual |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -282,7 +283,7 @@ Total items: 238. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 3b309f6
+- commit: pending; base 7ffb741
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -523,5 +524,17 @@ Total items: 238. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 - source change: 500 added, 3,540 deleted, net -3,040; tests: 0 added, 280 deleted; total owned Python net reduction: 3,320 LOC.
 - cumulative verified owned Python reduction: 8,295 LOC.
 - rollback_tag: mop-collapse-starss23-lifecycle-20.
+- next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.
+
+### STARSS23 lifecycle cluster 21 (current checkpoint)
+
+- preregistration authority: gate, coherence, spatial-DoA, and SuperFlux families now declare their schemas, members, multiplicity vocabulary, and evidence fields against one family preregistration assembler.
+- interface deletion: eight unreferenced module-local argparse/JSON command wrappers removed; all producer, verifier, cache, and preregistration callable APIs remain.
+- documentation deletion: 1,408 comment-only source/test LOC removed; no executable statement, scientific case, test case, verifier calculation, or source line was packed.
+- parity: the four complete family preregistration seals remain exactly 5c74b42a/7a41d355/afefd5d6/dd2cce3e for the pinned structural fixture.
+- validation: preregistration/verifier battery 52/52 in 2.93s; full STARSS-focused suite 493/493 in 155.78s under nice -n 10; complete package compiles and critical ruff checks pass.
+- source change: 219 added, 1,349 deleted, net -1,130; tests: 0 added, 587 deleted; total owned Python net reduction: 1,717 LOC; executable entrypoints: -8.
+- cumulative verified owned Python reduction: 10,012 LOC.
+- rollback_tag: mop-collapse-starss23-lifecycle-21.
 - next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.
 

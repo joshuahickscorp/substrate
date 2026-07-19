@@ -28,16 +28,11 @@ from mop.beds.starss23.count_repro_data_split_producer import (
 _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
-# A cap large enough that the fold-3 test set clears the 100x granularity floor, five paired seeds so the
-# discrete sign-flip floor (1/32) matches the survive criterion.
 _SMALL_CONFIG = RealCountBedConfig(
     seeds=DATA_SPLIT_SEEDS, target_rates=(0.10, 0.05), noisy_tv_frames=400, max_frames=300
 )
 
 
-# ---------------------------------------------------------------------------
-# Preregistration: self-derived SESOI (0.5 / n_test_clips), granularity floor enforced.
-# ---------------------------------------------------------------------------
 
 
 def test_prereg_self_derived_sesoi_and_floor():
@@ -50,7 +45,6 @@ def test_prereg_self_derived_sesoi_and_floor():
         train_change_density=0.038,
         coast_from_zero_mae=1.2,
     )
-    # The registered SESOI is the reproduction's own one-clip change mass = 0.5 / n_test_clips, not 0.02.
     assert body["sesoi"]["sesoi_mae"] == pytest.approx(0.5 / 24, abs=1e-9)
     assert body["schema"] == "mop-starss23-count-repro-data-split-prereg/v1"
     assert body["reproduction_axis"] == "data_split"
@@ -63,7 +57,6 @@ def test_prereg_self_derived_sesoi_and_floor():
 
 
 def test_prereg_refuses_below_granularity_floor():
-    # A tiny test set (few frames per clip) falls below the 100x pseudoreplication floor and is refused.
     with pytest.raises(ReproPreregRefusal):
         build_data_split_prereg(
             timestamp=_TIMESTAMP,
@@ -76,9 +69,6 @@ def test_prereg_refuses_below_granularity_floor():
         )
 
 
-# ---------------------------------------------------------------------------
-# Additive no-edit boundary: the reproduction writes only net-new repro proof paths.
-# ---------------------------------------------------------------------------
 
 
 def test_additive_only_repro_paths_are_net_new():
@@ -86,7 +76,6 @@ def test_additive_only_repro_paths_are_net_new():
     artifact = Path(DEFAULT_REPRO_ARTIFACT_PATH)
     assert prereg.name == "STARSS23_COUNTING_REPRO_data_split.prereg.json"
     assert artifact.name == "STARSS23_COUNTING_REPRO_data_split.json"
-    # It must never target the sealed originals.
     sealed = {
         "STARSS23_COUNTING_BED.json",
         "STARSS23_COUNTING_BED.prereg.json",
@@ -95,9 +84,6 @@ def test_additive_only_repro_paths_are_net_new():
     assert prereg.name not in sealed and artifact.name not in sealed
 
 
-# ---------------------------------------------------------------------------
-# Verifier import boundary: no producer, referee, stats, harness, or mop imports.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_imports_no_producer_or_mop_code():
@@ -132,9 +118,6 @@ def test_verifier_imports_no_producer_or_mop_code():
     }
 
 
-# ---------------------------------------------------------------------------
-# End-to-end producer + verifier on the REAL subset (swapped fold, small fast config).
-# ---------------------------------------------------------------------------
 
 
 @pytest.fixture(scope="module")
@@ -151,12 +134,10 @@ def repro_artifact(tmp_path_factory):
 def test_swapped_split_trains_on_fold4_scores_on_fold3(repro_artifact):
     rc = repro_artifact.artifact["real_corpus"]
     rooms = rc["split_rooms"]
-    # Train and val are drawn from the original TEST rooms (fold-4); test is the original TRAIN rooms (fold-3).
     fold4 = {"room02", "room08", "room10", "room15", "room16", "room23", "room24"}
     fold3 = {"room04", "room06", "room07", "room12", "room13", "room14", "room21", "room22"}
     assert set(rooms["train_rooms"]) | set(rooms["val_rooms"]) == fold4
     assert set(rooms["test_rooms"]) == fold3
-    # Room-disjoint across all three partitions.
     train, val, test = set(rooms["train_rooms"]), set(rooms["val_rooms"]), set(rooms["test_rooms"])
     assert not (train & val) and not (train & test) and not (val & test)
     assert rooms["swapped_from_sealed"] is True
@@ -192,7 +173,6 @@ def test_verifier_reproduces_referee_and_never_self_confirms(repro_artifact):
     assert result.honesty_ok is True
     assert result.independent_referee_reproduction is True
     assert result.mismatches == ()
-    # A single reproduction can reproduce the referee but never self-confirms (needs >= 3 reproductions).
     assert result.independent_scientific_confirmation is False
 
 

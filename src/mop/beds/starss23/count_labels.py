@@ -14,9 +14,6 @@ from .adapter import MetadataRow, RealStarssAdapter, parse_starss23_metadata
 
 COUNT_LABELS_SCHEMA = "mop-starss23-count-labels/v1"
 
-# Validation sanity bound only. A real STARSS23 frame never carries more than a few concurrent sources;
-# a derived count above this bound means the metadata is corrupt, so the derivation refuses. Labels are
-# not clamped below it: the true count passes through unchanged.
 COUNT_CEILING = 16
 
 

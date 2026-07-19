@@ -41,7 +41,6 @@ FEATURIZER_ID = "spatial_doa"
 
 DEFAULT_VARIANT_ARTIFACT_PATH = Path("proof/STARSS23_ESCS_BED_spatial_doa.json")
 
-# Full-scale featurize anchor recomputed for the spatial-DOA front-end (recorded for provenance).
 FULL_SCALE_TEST_FRAMES = 24_000
 FULL_SCALE_FEATURIZE = FLOPS_PER_FRAME * FULL_SCALE_TEST_FRAMES
 
@@ -57,9 +56,6 @@ def _featurizer_hypothesis() -> str:
     raise SpatialDoaRefusal(f"featurizer {FEATURIZER_ID!r} is not in the sealed featurizer family")
 
 
-# ---------------------------------------------------------------------------
-# The spatial-DOA FLOP model: featurize is charged at the DOA per-frame cost for EVERY arm (gotcha F1).
-# ---------------------------------------------------------------------------
 
 
 def _flop_model(kind: str, total_frames: int, train_frames: int, epochs: int) -> FlopModel:

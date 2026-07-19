@@ -13,7 +13,6 @@ from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window, mel_filterbank
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
-# The DSP grid. Identical to the base front-end so the label-frame tiling and the 256-dim output match.
 WINDOW = 1024
 N_FFT = 1024
 N_BINS = N_FFT // 2 + 1  # 513 one-sided rFFT bins
@@ -23,15 +22,10 @@ N_MEL = 64
 D_FEAT = N_MEL * N_CHANNELS  # 256 per-frame features (matches the gate's hard-wired D_FEAT)
 PAD_RIGHT = WINDOW - HOP  # 544; makes exactly COLS_PER_FRAME * n_frames full-window columns
 
-# SuperFlux front-end constants. Both are fixed DSP, not learned: a mu-law-style companding constant and
-# the maximum-filter radius in mel bins that suppresses vibrato / partial wobble across frequency.
 MU = 1000.0  # mu-law-style logarithmic magnitude companding constant
 LOG1P_MU = math.log1p(MU)  # normalizer so a unit mel maps into a bounded compressed magnitude
 MAX_FILTER_RADIUS = 1  # frequency max-filter half-width in mel bins (a 2R+1 = 3-tap band)
 
-# Analytic per-column-per-channel FLOP budget. Mirrors the base ledger, with the mu-law companding
-# replacing the plain log (FLOPS_LOG -> FLOPS_COMPRESS) and the frequency max filter added
-# (FLOPS_MAXFILT). The values are host-independent so the FLOP ledger is byte-reproducible.
 FLOPS_WINDOW = WINDOW  # 1024 multiplies for the Hann taper
 FLOPS_RFFT = 5 * N_FFT * 10  # 5 * 1024 * log2(1024) = 51200
 FLOPS_POWER = 3 * N_BINS  # 1539 real/imag square-and-add
@@ -105,15 +99,11 @@ class SuperfluxSpectralFeaturizer(FrozenFeatureProvider):
             spectrum = np.fft.rfft(frame, n=N_FFT)
             power = (spectrum.real * spectrum.real) + (spectrum.imag * spectrum.imag)
             mel = filterbank @ power
-            # Mu-law-style logarithmic magnitude companding (fixed DSP, zero trained parameters).
             comp[c] = np.log1p(MU * mel) / LOG1P_MU
-        # SuperFlux: half-wave-rectified positive difference against the frequency-max-filtered previous
-        # column. The novelty at the very first column is zero (no previous column to difference).
         flux = np.zeros_like(comp)
         if n_cols > 1:
             prev_freqmax = _frequency_max_filter(comp[:-1], MAX_FILTER_RADIUS)
             flux[1:] = np.maximum(0.0, comp[1:] - prev_freqmax)
-        # Aggregate the COLS_PER_FRAME columns of each label frame by summation.
         return flux.reshape(n_frames, COLS_PER_FRAME, N_MEL).sum(axis=1)
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:

@@ -52,7 +52,6 @@ def test_frozen_dsp_grid_constants() -> None:
 
 
 def test_flop_component_constants_match_documented_formula() -> None:
-    # docs/ESCS_DEEP_RESEARCH.md immediate design implications, per column per channel.
     assert FLOPS_WINDOW == 1024
     assert FLOPS_RFFT == 51200  # 5 * 1024 * log2(1024) = 5 * 1024 * 10
     assert FLOPS_POWER == 1539  # 3 * 513
@@ -75,7 +74,6 @@ def test_flops_for_frames_and_matched_ceiling() -> None:
     featurizer = FrozenFeaturizer()
     assert featurizer.flops_for_frames(0) == 0
     assert featurizer.flops_for_frames(1) == FLOPS_PER_FRAME
-    # The reference 40 clip by 60 s evaluation set is 24000 frames and stays under the 6e10 ceiling.
     full_set_frames = 40 * 60 * 10
     assert full_set_frames == 24_000
     assert featurizer.flops_for_frames(full_set_frames) == 26_912_160_000
@@ -114,7 +112,6 @@ def test_byte_reproducible_across_instances() -> None:
 
 
 def test_frozen_parameter_digest_is_stable() -> None:
-    # The window and filterbank are fixed DSP, so two instances have byte-identical parameters.
     assert FrozenFeaturizer().parameter_digest() == FrozenFeaturizer().parameter_digest()
 
 
@@ -133,7 +130,6 @@ def test_mel_filterbank_is_sparse_and_deterministic() -> None:
     filterbank = FrozenFeaturizer().filterbank
     assert filterbank.shape == (N_MEL, N_BINS)
     nnz = int(np.count_nonzero(filterbank))
-    # Overlapping triangular filters give about two nonzeros per rFFT bin, near the nominal 1024.
     assert 800 <= nnz <= 1200
     other = FrozenFeaturizer().filterbank
     assert filterbank.tobytes() == other.tobytes()
@@ -142,15 +138,12 @@ def test_mel_filterbank_is_sparse_and_deterministic() -> None:
 def test_hann_window_shape_and_edges() -> None:
     window = FrozenFeaturizer().window
     assert window.shape == (WINDOW,)
-    # Periodic Hann: first sample is exactly zero, values stay within [0, 1].
     assert window[0] == pytest.approx(0.0, abs=1e-12)
     assert float(window.min()) >= 0.0
     assert float(window.max()) <= 1.0
 
 
 def test_flux_responds_to_planted_onset() -> None:
-    # Three silent frames then a steady 1 kHz tone. Flux is a change detector: silence gives exactly
-    # zero, the silence-to-tone transition gives a strong positive flux, steady tone gives far less.
     n_frames = 6
     sample_rate = 24_000
     times = np.arange(n_frames * SAMPLES_PER_FRAME) / sample_rate
@@ -161,12 +154,9 @@ def test_flux_responds_to_planted_onset() -> None:
     audio = np.repeat(signal[None, :], N_CHANNELS, axis=0) * gains
     features = FrozenFeaturizer().featurize(audio)
     per_frame_l1 = np.abs(features).sum(axis=1)
-    # Frames wholly inside the leading silence carry no flux at all.
     assert per_frame_l1[0] == pytest.approx(0.0, abs=1e-9)
     assert per_frame_l1[1] == pytest.approx(0.0, abs=1e-9)
-    # The transition frame (its overlapping windows first reach the onset) carries strong flux.
     assert per_frame_l1[2] > 100.0
-    # The steady-tone frame that follows carries much less flux than the transition frame.
     assert per_frame_l1[2] > per_frame_l1[3]
 
 

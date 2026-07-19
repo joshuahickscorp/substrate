@@ -20,7 +20,6 @@ from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
 from .count_gate import CountOnlineState
 
-# Gate-agnostic pipeline stages reused by reference from the sealed producer so they cannot drift.
 from .count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
@@ -59,7 +58,6 @@ STAGE = 3
 PRIMARY_CONTROL = ARM_RATE_MATCHED_RANDOM
 STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 
-# The disjoint gate-architecture seed family: no overlap with the original (0..4), so no shared seed luck.
 GATE_ARCH_SEEDS: tuple[int, ...] = (40, 41, 42, 43, 44)
 
 
@@ -107,9 +105,6 @@ def _flop_model(
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the gate-architecture reproduction artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_real_count_repro_gate_arch_artifact(

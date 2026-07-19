@@ -62,9 +62,6 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-# ---------------------------------------------------------------------------
-# Geometry and labels.
-# ---------------------------------------------------------------------------
 
 
 def test_great_circle_degrees_symmetric_identity_and_antipodal():
@@ -84,7 +81,6 @@ def test_great_circle_degrees_batch_matches_scalar():
 
 
 def test_doa_clip_change_frames_and_voc_targets():
-    # silence, then active with a small (<5deg) drift, then a big jump, then a silence gap, then resume.
     track = (
         None,
         (0.0, 0.0),  # t=1: first active -> change
@@ -100,13 +96,9 @@ def test_doa_clip_change_frames_and_voc_targets():
     assert clip.n_changes == 3
 
     targets = doa_voc_targets_from_track(track, window=1)
-    # window=1 around {1,3,5}: frames {0,1,2} u {2,3,4} u {4,5} = {0,1,2,3,4,5}
     assert targets.tolist() == [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 
 
-# ---------------------------------------------------------------------------
-# Featurizer: zero trained parameters and byte-deterministic (explicitly required).
-# ---------------------------------------------------------------------------
 
 
 def test_featurizer_zero_param_and_deterministic():
@@ -126,9 +118,6 @@ def test_featurizer_zero_param_and_deterministic():
 
 
 def test_featurizer_silence_has_zero_flux_everywhere():
-    # Pure silence is a constant (all-zero) field at every STFT column, so the column-to-column flux (and
-    # hence every summed frame vector) is exactly zero; this confirms the "flux at the very first column
-    # of the whole clip is zero" convention does not inject spurious energy on a genuinely unchanging field.
     fz = DoaFeaturizer()
     silence = np.zeros((4, 2400 * 4))
     features = fz.featurize(silence)
@@ -136,9 +125,6 @@ def test_featurizer_silence_has_zero_flux_everywhere():
     assert np.allclose(features, 0.0, atol=1e-8)
 
 
-# ---------------------------------------------------------------------------
-# Estimator: zero trained parameters, deterministic, silence -> cold start.
-# ---------------------------------------------------------------------------
 
 
 def test_estimator_zero_param_deterministic_and_silence_is_cold_start():
@@ -157,9 +143,6 @@ def test_estimator_zero_param_deterministic_and_silence_is_cold_start():
     assert est.flops_for_reestimations(7) == 7 * FLOPS_PER_REESTIMATE
 
 
-# ---------------------------------------------------------------------------
-# Gate: both architectures under the parameter ceiling, correct exact counts, no label online.
-# ---------------------------------------------------------------------------
 
 
 def test_both_architectures_under_param_ceiling_with_exact_counts():
@@ -196,23 +179,18 @@ def test_training_flops_anchors_match_design():
     assert training_flops_arch_b(54_000) == 4_246_992_000
 
 
-# ---------------------------------------------------------------------------
-# Referee: clip-macro correctness on a hand-built toy with a known answer (explicitly required).
-# ---------------------------------------------------------------------------
 
 
 def test_referee_toy_known_mae_and_coasting():
     gt = np.array([[10.0, 0.0], [10.0, 0.0], [20.0, 0.0], [20.0, 0.0]])
     estimator = np.array([[10.0, 0.0], [10.0, 0.0], [20.0, 0.0], [20.0, 0.0]])
     active_mask = np.array([True, True, True, True])
-    # re-estimate only at t=0 and t=2: coasts (10,0) over t={0,1}, then (20,0) over t={2,3}.
     emitted = coast_emitted_direction(estimator, [0, 2])
     assert np.allclose(emitted, gt, atol=1e-6)
     mae, n_active = mae_deg_clip(gt, estimator, [0, 2], active_mask)
     assert n_active == 4
     assert mae == pytest.approx(0.0, abs=1e-4)
 
-    # Now re-estimate ONLY at t=0: coasts (10,0) forever, so t=2,3 are wrong by 10 degrees each.
     mae_stale, _ = mae_deg_clip(gt, estimator, [0], active_mask)
     assert mae_stale == pytest.approx((0.0 + 0.0 + 10.0 + 10.0) / 4.0, abs=1e-3)
 
@@ -220,11 +198,9 @@ def test_referee_toy_known_mae_and_coasting():
 def test_referee_never_update_uses_cold_start_and_active_frames_only_are_scored():
     gt = np.array([[10.0, 0.0], [10.0, 0.0]])
     estimator = np.array([[10.0, 0.0], [10.0, 0.0]])
-    # frame 0 is inactive (no ground truth): must be excluded from scoring entirely.
     active_mask = np.array([False, True])
     mae, n_active = mae_deg_clip(gt, estimator, [], active_mask)
     assert n_active == 1
-    # never-update: emitted = cold start (0,0) forever; at t=1 gt=(10,0), so error = 10 degrees.
     assert mae == pytest.approx(10.0, abs=1e-3)
 
 
@@ -238,8 +214,6 @@ def test_macro_score_invariant_to_ordering_and_sensitive_by_exactly_one_over_n_c
     score_ba = macro_score_arm([clip_b, clip_a])
     assert score_ab.macro_mae_deg == pytest.approx(score_ba.macro_mae_deg, abs=1e-9)
 
-    # Perturb one clip's estimator so its own MAE becomes exactly `bump` degrees; the macro mean must move
-    # by exactly bump / n_clips (equal per-clip weighting is the whole point of clip-macro).
     bump = 12.0
     est_bad = np.array([[10.0 + bump, 0.0], [10.0 + bump, 0.0]])
     clip_c = ("clip_c", gt, est_bad, [0, 1], mask)
@@ -248,8 +222,6 @@ def test_macro_score_invariant_to_ordering_and_sensitive_by_exactly_one_over_n_c
 
 
 def test_macro_and_pooled_diverge_under_unequal_clip_length_pseudoreplication():
-    # A short clip that is perfectly wrong and a long clip that is perfectly right: macro (equal-weight per
-    # clip) sees a large error; pooled (frame micro-average) is dominated by the long clip and looks small.
     short_gt = np.array([[0.0, 0.0]])
     short_est = np.array([[90.0, 0.0]])
     short_mask = np.array([True])
@@ -287,8 +259,6 @@ def test_clip_level_sign_flip_meet_in_middle_matches_brute_force():
 
 
 def test_clip_level_sign_flip_at_real_n_test_clips_floor():
-    # n_test_clips = 21 is the real corpus anchor; confirm the floor matches 1/2**21 exactly (calibration
-    # note cross-check against proof/STARSS23_COUNTING_REPRO_scoring_unit.json's own min_one_sided_p).
     deltas = [0.1] * 21
     result = exact_sign_flip_over_clips(deltas)
     assert result.permutations == 2**21 == 2_097_152
@@ -297,7 +267,6 @@ def test_clip_level_sign_flip_at_real_n_test_clips_floor():
 
 
 def test_room_majority_collapse_matches_calibration_note_worked_example():
-    # The exact numbers from the calibration note's part 3 worked example on the real scoring_unit repro.
     rooms = {
         "room10": [1, 1, -1],
         "room15": [1, 1, 1],
@@ -320,9 +289,6 @@ def test_referee_refuses_clip_with_no_active_frame():
         mae_deg_clip(np.array([[0.0, 0.0]]), est, [], np.array([False]))
 
 
-# ---------------------------------------------------------------------------
-# Harness: matched budget holds for BOTH architectures (explicitly required), ceiling, dominance fold.
-# ---------------------------------------------------------------------------
 
 
 def _flop_model_doa(kind, architecture, total_frames, train_frames):
@@ -435,9 +401,6 @@ def test_harness_refuses_uncharged_training_and_k_mismatch_and_ceiling():
         H.assert_within_ceiling(huge)
 
 
-# ---------------------------------------------------------------------------
-# Preregistration: SESOI structural derivation and the granularity floor.
-# ---------------------------------------------------------------------------
 
 
 def test_sesoi_deg_structural_derivation():
@@ -446,16 +409,11 @@ def test_sesoi_deg_structural_derivation():
         DoaClipLabelFact(clip_id="c2", n_active_frames=500, n_changes=10),
     ]
     sesoi, brackets = compute_doa_sesoi_deg(facts, mean_change_jump_deg=30.0)
-    # c1: mean_run=50, mass=30*25=750deg, per_clip=750/1000=0.75; c2: mean_run=50, mass=750, per_clip=1.5
-    # mean_over_clips = (0.75+1.5)/2 = 1.125; SESOI = 1.125 / 2 = 0.5625
     assert sesoi == pytest.approx(0.5625, abs=1e-9)
     assert len(brackets) == 2
 
 
 def test_sesoi_zero_changes_gives_zero_sesoi_and_prereg_refuses_non_positive():
-    # With zero changes across every clip, the structural SESOI is exactly zero (no catchable change mass
-    # anywhere), which compute_doa_sesoi_deg itself allows (it is a pure derivation), but build_doa_prereg
-    # refuses to seal a non-positive SESOI: a zero or negative smallest-effect-of-interest cannot gate promotion.
     facts = [DoaClipLabelFact(clip_id="c1", n_active_frames=1000, n_changes=0)]
     sesoi, _brackets = compute_doa_sesoi_deg(facts, mean_change_jump_deg=10.0)
     assert sesoi == pytest.approx(0.0, abs=1e-12)
@@ -490,9 +448,6 @@ def test_prereg_seals_before_test_scores_and_carries_promotion_rule():
     assert body["claim_ceiling"]["claim_verb"] == "consistent with"
 
 
-# ---------------------------------------------------------------------------
-# Verifier import boundary: stdlib only (math is required here for great-circle geometry).
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_imports_stdlib_only():
@@ -511,9 +466,6 @@ def test_verifier_imports_stdlib_only():
     assert {n.split(".")[0] for n in imported} <= allowed_stdlib
 
 
-# ---------------------------------------------------------------------------
-# End-to-end producer + verifier on the REAL subset (small, fast config).
-# ---------------------------------------------------------------------------
 
 
 _SMALL_CONFIG = RealDoaBedConfig(seeds=(0, 1, 2), target_rates=(0.10, 0.05), noisy_tv_frames=200, max_frames=600)
@@ -540,7 +492,6 @@ def test_producer_seals_wellformed_artifact_within_ceiling_both_architectures(re
         "independent_scientific_confirmation": False,
     }
     assert set(art["architectures"]) == {ARCH_A_ID, ARCH_B_ID}
-    # Every arm total, under BOTH architectures, stays under the 6e10 ceiling.
     for architecture in (ARCH_A_ID, ARCH_B_ID):
         for arm in art["harness"]["per_architecture"][architecture]["arm_summaries"]:
             assert arm["max_lifecycle_flops"] <= FLOP_CEILING
@@ -566,7 +517,6 @@ def test_verifier_reproduces_referee_and_stats_both_architectures(real_doa_artif
     assert result.stats_reproduced is True
     assert result.honesty_ok is True
     assert result.independent_referee_reproduction is True
-    # One real run can reproduce the referee but never self-confirms (needs >= 3 reproductions).
     assert result.independent_scientific_confirmation is False
 
 
@@ -585,9 +535,6 @@ def test_verifier_detects_tampered_score(real_doa_artifact):
 def test_verifier_detects_tampered_estimator_track(real_doa_artifact):
     art = copy.deepcopy(real_doa_artifact.artifact)
     some_clip = next(iter(art["corpus_tracks"]))
-    # Shift every frame's azimuth by a constant: the always_on arm re-estimates every frame (R = all
-    # frames), so this is guaranteed to change its emitted track on every active frame of this clip,
-    # regardless of which specific frames any other arm happened to re-estimate on this seed.
     for entry in art["corpus_tracks"][some_clip]["estimator_track"]:
         entry[0] = (entry[0] + 45.0) % 360.0
     art["seal"] = V._canonical_sha256({k: v for k, v in art.items() if k != "seal"})
@@ -605,9 +552,6 @@ def test_verifier_detects_broken_seal(real_doa_artifact):
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_never_self_certifies_scientific_confirmation_even_with_reproductions_claim(real_doa_artifact):
-    # Even if a tampered artifact claims enough reproductions, the arithmetic re-derivation must still be
-    # honest before independent_scientific_confirmation could ever be considered, and a single run's
-    # reproductions field is 0 by construction.
     art = real_doa_artifact.artifact
     assert art["reproductions"] == 0
     result = V.verify_doa_artifact(art)

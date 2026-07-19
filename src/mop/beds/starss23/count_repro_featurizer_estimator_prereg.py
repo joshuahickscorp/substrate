@@ -26,19 +26,12 @@ COUNT_REPRO_FE_PREREG_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-pr
 REPRO_AXIS = "featurizer_estimator"
 STAGE = 3
 
-# This reproduction's disjoint seed family, so it shares none of the sealed bed's seed luck (the sealed run's
-# seed 3 carried most of its effect; distinct in-range integers give independent gate inits and independent
-# rate-matched-random draws).
 REPRO_SEEDS: tuple[int, ...] = (20, 21, 22, 23, 24)
 
-# The cost-benefit anchors: the gate is held fixed so its amortized C_train anchor is unchanged; the estimator
-# is the re-authored cumulative-energy rule so its per-re-estimation cost is this reproduction's own anchor.
 DEFAULT_C_REEST_FLOPS = REPRO_C_REEST_FLOPS
 
 N_PAIRED_SEEDS = 5
 _FRAMES_PER_SECOND = 1000.0 / FRAME_MS  # 10 frames per second on the 100 ms grid
-# The SESOI must clear at least this multiple of the per-frame measurement granularity (pseudoreplication
-# floor guard), exactly as the sealed prereg requires.
 MIN_GRANULARITY_MULTIPLE = 100.0
 
 

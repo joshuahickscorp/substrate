@@ -77,9 +77,6 @@ class LPProducerRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Preregistration sidecar. Reuses the sealed SESOI and sign-flip plan unchanged.
-# ---------------------------------------------------------------------------
 
 
 def _read_variants_prereg_digest(path: Path = DEFAULT_VARIANTS_PREREG_PATH) -> str | None:
@@ -178,9 +175,6 @@ def build_lp_prereg(
     return body
 
 
-# ---------------------------------------------------------------------------
-# Training and per-seed run on the cached real corpus.
-# ---------------------------------------------------------------------------
 
 
 def _train_lp_gate(
@@ -347,9 +341,6 @@ def _run_seed_lp(
         diagnostics=diagnostics,
     )
 
-# ---------------------------------------------------------------------------
-# FLOP ledger charged with the learning_progress gate's own honest cost.
-# ---------------------------------------------------------------------------
 
 
 def _flop_model_lp(
@@ -369,9 +360,6 @@ def _flop_model_lp(
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the learning_progress artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_lp_bed_artifact(

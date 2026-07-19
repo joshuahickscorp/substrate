@@ -31,14 +31,9 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-# ---------------------------------------------------------------------------
-# Clip-macro referee: per-clip MAE, equal-weight macro mean, coasting reused from the sealed referee.
-# ---------------------------------------------------------------------------
 
 
 def test_macro_referee_weights_each_clip_equally():
-    # clip A: emitted 0,1,1,2,2 vs gt 0,1,1,2,0 -> abs err 2 over 5 frames -> 0.4
-    # clip B: emitted 0,0 vs gt 0,0 -> 0.0. Macro mean weights both equally: (0.4 + 0.0) / 2 = 0.2.
     score = macro_score_arm(
         [("A", [0, 1, 1, 2, 0], [0, 1, 2, 2, 0], [1, 3]), ("B", [0, 0], [1, 1], [])]
     )
@@ -50,7 +45,6 @@ def test_macro_referee_weights_each_clip_equally():
 
 
 def test_macro_referee_reuses_sealed_coasting_per_clip():
-    # The per-clip absolute error and frame count must be byte-identical to the sealed pooled mae_clip.
     gt, est, reest = [0, 1, 1, 2, 0], [0, 1, 2, 2, 0], [1, 3]
     abs_err, n = sealed_mae_clip(gt, est, reest)
     score = macro_score_arm([("A", gt, est, reest)])
@@ -59,8 +53,6 @@ def test_macro_referee_reuses_sealed_coasting_per_clip():
 
 
 def test_macro_referee_differs_from_pooled_when_clip_lengths_differ():
-    # A long clip with low per-frame error and a short clip with high per-frame error: the pooled micro
-    # average is dominated by the long clip, but the clip-macro mean weights the short clip equally.
     long_gt = [0] * 100
     long_est = [0] * 100
     long_reest = list(range(100))  # perfect on the long clip -> per-clip mae 0
@@ -70,7 +62,6 @@ def test_macro_referee_differs_from_pooled_when_clip_lengths_differ():
     macro = macro_score_arm(
         [("long", long_gt, long_est, long_reest), ("short", short_gt, short_est, short_reest)]
     ).macro_mae
-    # pooled micro average would be 3 / 102 ~ 0.029; macro is (0 + 1.5) / 2 = 0.75.
     assert macro == pytest.approx(0.75)
     assert macro != pytest.approx(3 / 102)
 
@@ -104,13 +95,9 @@ def test_clip_permutation_all_positive_hits_the_floor():
     assert cluster.fraction_candidate_lower == pytest.approx(1.0)
 
 
-# ---------------------------------------------------------------------------
-# Prereg: SESOI on the clip-macro scale via the reused cost-benefit rule, sealed before scores.
-# ---------------------------------------------------------------------------
 
 
 def test_prereg_macro_sesoi_uses_the_reused_rule_and_clears_the_floor():
-    # Twenty one uniform test clips of 1000 frames with 40 changes each: label-only facts.
     facts = [ClipLabelFact(clip_id=f"c{i:02d}", n_frames=1000, n_changes=40) for i in range(21)]
     body = build_count_repro_scoring_unit_prereg(
         timestamp=_TIMESTAMP,
@@ -128,10 +115,8 @@ def test_prereg_macro_sesoi_uses_the_reused_rule_and_clears_the_floor():
         n_test_changes=840,
         coast_from_zero_mae=1.2,
     )
-    # The registered SESOI is exactly the reused rule's one-clip change mass, 0.5 / n_clips.
     assert body["sesoi"]["sesoi_mae"] == pytest.approx(cb.one_clip_change_mass_mae)
     assert body["sesoi"]["sesoi_mae"] == pytest.approx(0.5 / 21)
-    # The macro restatement coincides with the reused rule exactly.
     assert body["sesoi"]["restatement_matches_reused_rule"] is True
     assert body["sesoi"]["clears_granularity_floor"] is True
     assert body["preregistered_before_reading_test_scores"] is True
@@ -140,7 +125,6 @@ def test_prereg_macro_sesoi_uses_the_reused_rule_and_clears_the_floor():
 
 
 def test_prereg_refuses_when_sesoi_below_the_macro_granularity_floor():
-    # A single enormous clip drives the granularity so fine that 0.5 / n_clips cannot clear the 100x floor.
     facts = [ClipLabelFact(clip_id="only", n_frames=3, n_changes=1)]
     with pytest.raises(Exception):
         build_count_repro_scoring_unit_prereg(
@@ -152,9 +136,6 @@ def test_prereg_refuses_when_sesoi_below_the_macro_granularity_floor():
         )
 
 
-# ---------------------------------------------------------------------------
-# Independent verifier import boundary: only the five standard-library roots.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_imports_only_stdlib_and_no_producer_or_mop_code():
@@ -179,22 +160,14 @@ def test_verifier_imports_only_stdlib_and_no_producer_or_mop_code():
 
 
 def test_reproduction_reuses_sealed_coasting_by_import_not_reimplementation():
-    # The macro referee must reuse the sealed pooled referee's mae_clip by import (the same function object),
-    # so the additive boundary holds and the per-clip coasting is byte-identical to the sealed path.
     import mop.beds.starss23.count_referee as sealed
     import mop.beds.starss23.count_repro_scoring_unit_referee as macro
 
     assert macro.mae_clip is sealed.mae_clip
 
 
-# ---------------------------------------------------------------------------
-# End-to-end producer + independent verifier on the REAL subset (small, fast config).
-# ---------------------------------------------------------------------------
 
 
-# The frame cap must keep the shortest test clip long enough that the clip-macro SESOI (0.5 / n_clips)
-# stays above the 100x clip-macro granularity floor 100 / (n_clips * min_clip_frames); at 21 test clips
-# that needs min_clip_frames >= about 210, so 300 clears it while staying fast.
 _SMALL_CONFIG = RealCountBedConfig(
     seeds=(30, 31, 32), target_rates=(0.10, 0.05), noisy_tv_frames=400, max_frames=300
 )
@@ -238,7 +211,6 @@ def test_verifier_reproduces_macro_scores_and_both_permutations(real_macro_artif
     assert result.clip_cluster_reproduced is True
     assert result.honesty_ok is True
     assert result.independent_referee_reproduction is True
-    # One real reproduction reproduces the referee but never self-confirms (needs >= 3 reproductions).
     assert result.independent_scientific_confirmation is False
     assert result.mismatches == ()
 
@@ -269,7 +241,6 @@ def test_verifier_detects_tampered_macro_score(real_macro_artifact):
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_detects_tampered_clip_cluster(real_macro_artifact):
     art = copy.deepcopy(real_macro_artifact.artifact)
-    # Flip the recorded clip-cluster direction without changing the underlying per-clip deltas.
     art["clip_cluster"]["permutation"]["direction_agrees"] = not art["clip_cluster"]["permutation"][
         "direction_agrees"
     ]

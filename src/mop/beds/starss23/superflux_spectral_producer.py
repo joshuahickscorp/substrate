@@ -40,7 +40,6 @@ VARIANT_ID = "superflux_spectral"
 
 DEFAULT_VARIANT_ARTIFACT_PATH = Path("proof/STARSS23_ESCS_BED_superflux_spectral.json")
 
-# Full-scale featurize anchor recomputed with the SuperFlux front-end's own per-frame cost.
 SUPERFLUX_FULL_SCALE_FEATURIZE = SUPERFLUX_FLOPS_PER_FRAME * FULL_SCALE_TEST_FRAMES
 
 

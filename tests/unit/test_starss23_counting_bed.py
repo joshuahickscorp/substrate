@@ -54,13 +54,9 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-# ---------------------------------------------------------------------------
-# Labels.
-# ---------------------------------------------------------------------------
 
 
 def test_count_track_distinct_tracks_and_tail_silence():
-    # Two distinct (class, source) tracks active at frame 1; silence elsewhere including the tail.
     text = "0,1,1,10,0,100\n1,1,1,10,0,100\n1,2,3,20,0,100\n"
     track = count_track_from_metadata_text(text, n_frames=5)
     assert track.tolist() == [1, 2, 0, 0, 0]
@@ -88,11 +84,9 @@ def test_change_density_and_coast_from_zero():
         audio_sha256="a" * 64,
         count_track=(0, 1, 1, 2, 0, 0),
     )
-    # changes at t=1 (0->1), t=3 (1->2), t=4 (2->0): 3 changes over 6 frames.
     assert clip.n_changes == 3
     assert clip.change_frames == (1, 3, 4)
     assert change_density([clip]) == pytest.approx(3 / 6)
-    # mean|C_gt| = (0+1+1+2+0+0)/6
     assert coast_from_zero_mae([clip]) == pytest.approx(4 / 6)
 
 
@@ -144,9 +138,6 @@ def test_shared_marginal_noise_matches_the_legacy_count_bytes():
     assert float(noise.std()) == pytest.approx(1.5)
 
 
-# ---------------------------------------------------------------------------
-# Featurizer: zero trained parameters and byte-deterministic.
-# ---------------------------------------------------------------------------
 
 
 def test_featurizer_zero_param_and_deterministic():
@@ -163,9 +154,6 @@ def test_featurizer_zero_param_and_deterministic():
     assert FLOPS_PER_FRAME_COUNT == 1_120_700
 
 
-# ---------------------------------------------------------------------------
-# Estimator: zero trained parameters, byte-reproducible, [0, 4] range, silence -> 0.
-# ---------------------------------------------------------------------------
 
 
 def test_estimator_zero_param_deterministic_range_and_silence():
@@ -183,9 +171,6 @@ def test_estimator_zero_param_deterministic_range_and_silence():
     assert FLOPS_PER_REESTIMATE == 80_000
 
 
-# ---------------------------------------------------------------------------
-# Gate: 3193 params, few-KB state, no label online, paired-seed reproducibility, ponder lowers rate.
-# ---------------------------------------------------------------------------
 
 
 def test_gate_param_and_state_ceilings():
@@ -202,7 +187,6 @@ def test_gate_infer_takes_no_label_and_is_seed_reproducible():
     assert g1.parameter_digest() == g2.parameter_digest()
     features = np.random.default_rng(1).standard_normal(D_CFEAT)
     state = CountOnlineState.initial()
-    # infer signature carries only features and self-state; no label argument exists.
     p1 = g1.infer(features, state)
     p2 = g2.infer(features, state)
     assert 0.0 <= p1 <= 1.0
@@ -223,20 +207,15 @@ def test_ponder_lowers_reestimation_rate():
 def test_voc_targets_fire_near_changes_only():
     track = (0, 0, 1, 1, 1, 0)  # changes at t=2 and t=5
     targets = voc_targets_from_count_track(track, window=1)
-    # window 1 around {2,5}: frames {1,2,3} and {4,5}
     assert targets.tolist() == [0, 1, 1, 1, 1, 1]
 
 
-# ---------------------------------------------------------------------------
-# Referee: coasted-count-MAE on a hand-built toy with a known answer.
-# ---------------------------------------------------------------------------
 
 
 def test_referee_toy_known_mae():
     gt = [0, 1, 1, 2, 0]
     estimator = [0, 1, 2, 2, 0]
     reestimates = [1, 3]
-    # emitted holds the last re-estimate from cold-start 0: 0,1,1,2,2
     assert coast_emitted(estimator, reestimates) == (0, 1, 1, 2, 2)
     abs_sum, n = mae_clip(gt, estimator, reestimates)
     assert (abs_sum, n) == (2, 5)  # only frame 4 is wrong (emitted 2 vs gt 0)
@@ -245,10 +224,8 @@ def test_referee_toy_known_mae():
 def test_referee_always_on_equals_mean_abs_e_minus_gt_and_never_update_equals_mean_gt():
     gt = [0, 1, 1, 2, 0]
     estimator = [0, 1, 2, 2, 0]
-    # always-on re-estimates every frame: emitted == estimator, MAE == mean|E - gt|
     ao_abs, ao_n = mae_clip(gt, estimator, list(range(len(gt))))
     assert ao_abs == sum(abs(estimator[t] - gt[t]) for t in range(len(gt)))
-    # never-update re-estimates nothing: emitted == 0 everywhere, MAE == mean|gt|
     nu_abs, nu_n = mae_clip(gt, estimator, [])
     assert nu_abs == sum(gt)
 
@@ -262,9 +239,6 @@ def test_referee_pooling_micro_averages_across_clips():
     assert score.mae == pytest.approx(0.4)
 
 
-# ---------------------------------------------------------------------------
-# Harness: matched budget holds, ceiling holds, dominance minimizes MAE.
-# ---------------------------------------------------------------------------
 
 
 def _flop_model(kind, total_frames, train_frames):
@@ -301,7 +275,6 @@ def test_harness_matched_budget_and_ceiling_and_dominance():
     rmr = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.34] * 5, k, total_frames, train_frames, seeds)
     ao = _arm(H.ARM_ALWAYS_ON, [0.25] * 5, [total_frames] * 5, total_frames, train_frames, seeds)
     nu = _arm(H.ARM_NEVER_UPDATE, [1.25] * 5, [0] * 5, total_frames, train_frames, seeds)
-    # Matched ex-training must pass with equal K and byte-equal inference FLOPs.
     H.assert_matched_ex_training(cand, rmr)
     point = H.BudgetPoint(COUNT_BUDGET_POLICY, "rate_0.05", cand, rmr, ao, nu)
     point.certify()
@@ -320,7 +293,6 @@ def test_harness_matched_budget_refuses_uncharged_training_and_k_mismatch():
     seeds = (0, 1)
     total_frames = 1000
     cand = _arm(H.ARM_CANDIDATE, [0.3, 0.3], [50, 50], total_frames, 1000, seeds)
-    # A candidate whose flop model charges no training is refused.
     cand_no_train = H.Arm(
         policy=COUNT_BUDGET_POLICY,
         name="candidate",
@@ -333,7 +305,6 @@ def test_harness_matched_budget_refuses_uncharged_training_and_k_mismatch():
     rmr = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.3, 0.3], [50, 50], total_frames, 1000, seeds)
     with pytest.raises(H.UnchargedTraining):
         H.assert_matched_ex_training(cand_no_train, rmr)
-    # A control whose K differs from the candidate is refused.
     rmr_bad = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.3, 0.3], [40, 50], total_frames, 1000, seeds)
     with pytest.raises(H.BudgetMismatch):
         H.assert_matched_ex_training(cand, rmr_bad)
@@ -366,9 +337,6 @@ def test_pareto_minimizes_both_flops_and_mae():
     assert frontier == {"a", "c"}
 
 
-# ---------------------------------------------------------------------------
-# Preregistration: SESOI is 0.02, sealed, with quantified rationale numbers.
-# ---------------------------------------------------------------------------
 
 
 def test_prereg_sesoi_and_rationale_numbers():
@@ -386,17 +354,12 @@ def test_prereg_sesoi_and_rationale_numbers():
     assert body["activation_allowed"] is False and body["scientific_promotion"] is False
     assert "canonical_sha256" in body
     cb = body["sesoi"]["cost_benefit"]
-    # 0.02 is ~451x the per-frame granularity floor (1 / 22569).
     assert round(0.02 / cb["per_frame_granularity"]) == 451
-    # one test clip's change mass is about 0.0238 pooled MAE, so 0.02 sits at about one clip.
     assert cb["one_clip_change_mass_mae"] == pytest.approx(0.0238, abs=5e-4)
     assert body["sign_flip_test_plan"]["min_one_sided_p"] == pytest.approx(1 / 32)
     assert body["sign_flip_test_plan"]["two_sided_alpha_reachable"] is False
 
 
-# ---------------------------------------------------------------------------
-# Verifier import boundary: no producer, referee, stats, harness, or mop imports.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_imports_no_producer_or_mop_code():
@@ -411,13 +374,9 @@ def test_verifier_imports_no_producer_or_mop_code():
             imported.append(node.module or "")
     for name in imported:
         assert not any(name == bad or name.startswith(bad + ".") for bad in forbidden), name
-    # It uses only the standard library.
     assert set(n.split(".")[0] for n in imported) <= {"json", "hashlib", "itertools", "dataclasses", "__future__"}
 
 
-# ---------------------------------------------------------------------------
-# End-to-end producer + verifier on the REAL subset (small, fast config).
-# ---------------------------------------------------------------------------
 
 
 _SMALL_CONFIG = RealCountBedConfig(seeds=(0, 1, 2), target_rates=(0.10, 0.05), noisy_tv_frames=400, max_frames=100)
@@ -446,7 +405,6 @@ def test_producer_seals_wellformed_artifact_within_ceiling(real_count_artifact):
         "scientific_promotion": False,
         "independent_scientific_confirmation": False,
     }
-    # Every arm total stays under the 6e10 ceiling.
     for arm in art["harness"]["arm_summaries"]:
         assert arm["max_lifecycle_flops"] <= FLOP_CEILING
     assert art["matched_budget"]["flops"] <= FLOP_CEILING
@@ -454,8 +412,6 @@ def test_producer_seals_wellformed_artifact_within_ceiling(real_count_artifact):
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_producer_receipt_and_seal_byte_reproducible(tmp_path):
-    # The prereg path is recorded in the sealed body (as in the onset bed), so both runs must write the
-    # same path for the seal to be byte-reproducible; the computation itself is fully deterministic.
     prereg_path = tmp_path / "prereg.json"
     a = build_real_count_bed_artifact(timestamp=_TIMESTAMP, config=_SMALL_CONFIG, prereg_path=prereg_path)
     b = build_real_count_bed_artifact(timestamp=_TIMESTAMP, config=_SMALL_CONFIG, prereg_path=prereg_path)
@@ -472,14 +428,12 @@ def test_verifier_reproduces_referee_and_stats(real_count_artifact):
     assert result.stats_reproduced is True
     assert result.honesty_ok is True
     assert result.independent_referee_reproduction is True
-    # One real run can reproduce the referee but never self-confirms (needs >= 3 reproductions).
     assert result.independent_scientific_confirmation is False
 
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_detects_tampered_score(real_count_artifact):
     art = copy.deepcopy(real_count_artifact.artifact)
-    # Corrupt a stored candidate MAE and re-seal so the seal passes but the re-derivation catches it.
     art["per_seed"][0]["arm_scores"]["candidate"]["mae"] += 0.5
     body = {k: v for k, v in art.items() if k != "seal"}
     art["seal"] = V._canonical_sha256(body)
@@ -491,7 +445,6 @@ def test_verifier_detects_tampered_score(real_count_artifact):
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_detects_tampered_reestimates_and_estimator_track(real_count_artifact):
-    # Tampering with the candidate re-estimation frames breaks the budget match and the MAE.
     art = copy.deepcopy(real_count_artifact.artifact)
     clip0 = art["per_seed"][0]["clips"][0]
     if clip0["reestimate_frames"]["candidate"]:
@@ -499,7 +452,6 @@ def test_verifier_detects_tampered_reestimates_and_estimator_track(real_count_ar
     art["seal"] = V._canonical_sha256({k: v for k, v in art.items() if k != "seal"})
     assert V.verify_count_artifact(art).scores_reproduced is False
 
-    # Tampering with the shared estimator track changes always-on and candidate MAE.
     art2 = copy.deepcopy(real_count_artifact.artifact)
     some_clip = next(iter(art2["corpus_tracks"]))
     track = art2["corpus_tracks"][some_clip]["estimator_track"]

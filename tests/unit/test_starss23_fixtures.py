@@ -51,7 +51,6 @@ def test_generate_clip_is_byte_reproducible() -> None:
     assert np.array_equal(audio_a, audio_b)
     assert clip_a.audio_sha256 == clip_b.audio_sha256
     assert clip_a.digest() == clip_b.digest()
-    # A different seed yields different audio.
     _clip_c, audio_c = generate_clip(
         clip_id="fold3_room0_mix000", room_id="room00", regime=REGIME_FAVORABLE, config=_config(1)
     )
@@ -86,7 +85,6 @@ def test_planted_onsets_are_recovered_by_a_signal_band_oracle() -> None:
         )
         features = featurizer.featurize(audio)
         onsets = list(clip.onset_frames)
-        # A detector that reads the signal-band flux recovers every planted onset: oracle F1 = 1.0.
         assert _oracle_f1(_band_flux(features, sig_bins), onsets) == 1.0
 
 
@@ -94,7 +92,6 @@ def test_bare_total_flux_threshold_cannot_solve_it_off_ceiling() -> None:
     featurizer = FrozenFeaturizer()
     sig_bins = _band_bins(featurizer, SIGNAL_BAND_HZ)
     nui_bins = _band_bins(featurizer, NUISANCE_BAND_HZ)
-    # The two bands are disjoint in mel space by construction.
     assert set(sig_bins).isdisjoint(nui_bins)
     clip, audio = generate_clip(
         clip_id="fold3_room0_mix000", room_id="room00", regime=REGIME_FAVORABLE, config=_config(0)
@@ -103,13 +100,11 @@ def test_bare_total_flux_threshold_cannot_solve_it_off_ceiling() -> None:
     onsets = list(clip.onset_frames)
     signal_oracle = _oracle_f1(_band_flux(features, sig_bins), onsets)
     total_flux = _oracle_f1(features.sum(axis=1), onsets)
-    # The nuisance band trips a bare total-flux threshold, so it lands well below the signal-band oracle.
     assert total_flux < signal_oracle
     assert total_flux < 0.75
 
 
 def test_rooms_carry_distinct_correlated_backgrounds() -> None:
-    # Same seed, same clip id, different room: the room-correlated background makes the audio differ.
     _a_clip, a = generate_clip(
         clip_id="fold3_room0_mix000", room_id="room00", regime=REGIME_FAVORABLE, config=_config(0)
     )
@@ -120,8 +115,6 @@ def test_rooms_carry_distinct_correlated_backgrounds() -> None:
 
 
 def test_null_regime_onsets_are_not_recoverable_strong_null() -> None:
-    # In the null regime the onset labels are independent of the audio, so a signal-band oracle cannot
-    # recover them: it scores far below the favorable regime's F1 = 1.0.
     featurizer = FrozenFeaturizer()
     sig_bins = _band_bins(featurizer, SIGNAL_BAND_HZ)
     f1s = []
@@ -131,7 +124,6 @@ def test_null_regime_onsets_are_not_recoverable_strong_null() -> None:
         )
         features = featurizer.featurize(audio)
         f1s.append(_oracle_f1(_band_flux(features, sig_bins), list(clip.onset_frames)))
-    # No seed is perfectly recoverable and the mean sits far below the favorable regime's F1 = 1.0.
     assert max(f1s) < 1.0
     assert sum(f1s) / len(f1s) < 0.6
 

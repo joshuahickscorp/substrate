@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -18,16 +18,12 @@ from .schema import COLLAR_FRAMES, FRAME_MS
 PREREG_SCHEMA = "mop-starss23-escs-bed-prereg/v1"
 STAGE = 3
 
-# The metric and direction are fixed by the bed and restated here so the prereg is self-contained.
 PREREG_METRIC = "onset F1 at DCASE plus or minus 200 ms collar, greedy one-to-one, strict point-wise PR"
 PREREG_DIRECTION = "candidate > rate_matched_random (candidate places the same firing budget better)"
 
-# The amortized training cost anchor from the recipe: C_train = 8 * 54000 * 3 * 6385 = 8.27e9 FLOPs.
 DEFAULT_C_TRAIN_FLOPS = C_TRAIN_ANCHOR
-# The downstream cost of one fired frame (the expensive matched decision the gate decides to spend).
 DEFAULT_C_DOWN_FLOPS = 40_000
 
-# The preregistered SESOI on onset F1, fixed below by the cost-benefit derivation.
 PREREGISTERED_SESOI_F1 = 0.05
 
 N_PAIRED_SEEDS = 5
@@ -140,16 +136,10 @@ def compute_cost_benefit(
     if n_test_clips <= 0 or n_test_onsets <= 0:
         raise PreregRefusal("n_test_clips and n_test_onsets must be positive")
 
-    # Per-frame downstream FLOPs saved against the always-on reference at the operating firing fraction.
     per_frame_saving = (1.0 - rho) * c_down_flops
-    # Break-even query count N* = C_train / per-query saving (docs Q2e, Q5a option 3).
     break_even = c_train_flops / per_frame_saving
-    # 10 label frames per second, 3600 s per hour.
     break_even_hours = break_even / 10.0 / 3600.0
     firing_equivalents = c_train_flops / c_down_flops
-    # One recovered onset moves pooled recall (and so F1) by about 1 / n_test_onsets: the measurement
-    # granularity of the bed. One test clip is about n_test_onsets / n_test_clips onsets, the smallest
-    # unit of the experimental design (the clip is the experimental unit).
     per_onset_granularity = 1.0 / n_test_onsets
     one_clip_scale = (n_test_onsets / n_test_clips) / n_test_onsets
 
@@ -296,6 +286,97 @@ def bonferroni_family(
             "more seeds and bias-independent reproductions, never a larger claim squeezed from n equals 5"
         ),
     }
+
+
+def build_family_prereg(
+    *,
+    timestamp: str,
+    operating_firing_fraction: float,
+    n_test_clips: int,
+    n_test_onsets: int,
+    train_onset_density: float,
+    n_test_frames: int,
+    members: Sequence[Mapping[str, str]],
+    schema: str,
+    wave: str,
+    members_field: str,
+    member_id_field: str,
+    member_label: str,
+    family_phrase: str,
+    n_field: str,
+    per_alpha_field: str,
+    alpha_digits: int,
+    statistic: str,
+    promotion_bar: str,
+    refusal: type[ValueError],
+    empty_message: str,
+    duplicate_message: str,
+    malformed_message: str,
+    sesoi_f1: float = PREREGISTERED_SESOI_F1,
+    c_train_flops: int = DEFAULT_C_TRAIN_FLOPS,
+    c_down_flops: int = DEFAULT_C_DOWN_FLOPS,
+    n_seeds: int = N_PAIRED_SEEDS,
+    base_prereg_canonical_sha256: str | None = None,
+    extra: Mapping[str, object] | None = None,
+) -> dict[str, Any]:
+    if not isinstance(timestamp, str) or not timestamp.strip():
+        raise refusal("timestamp must be a non-empty string passed by the caller")
+    if n_seeds <= 0:
+        raise refusal("n_seeds must be positive")
+    if not members:
+        raise refusal(empty_message)
+    ids = [entry[member_id_field] for entry in members]
+    if len(set(ids)) != len(ids):
+        raise refusal(duplicate_message)
+    if any(not entry.get(member_id_field) or not entry.get("hypothesis") for entry in members):
+        raise refusal(malformed_message)
+
+    def multiplicity(n_members: int, min_one_sided_p: float, alpha: float) -> dict[str, Any]:
+        return bonferroni_family(
+            n_members,
+            min_one_sided_p,
+            alpha,
+            family_phrase=family_phrase,
+            member_label=member_label,
+            n_field=n_field,
+            per_alpha_field=per_alpha_field,
+            alpha_digits=alpha_digits,
+        )
+
+    body: dict[str, Any] = {
+        "schema": schema,
+        "stage": STAGE,
+        "bed_id": BED_ID,
+        "claim_scope": CLAIM_SCOPE,
+        "timestamp": timestamp,
+        "preregistered_before_reading_test_scores": True,
+        "wave": wave,
+        "base_prereg_canonical_sha256": base_prereg_canonical_sha256,
+        **dict(extra or {}),
+        **family_analysis_plan(
+            operating_firing_fraction=operating_firing_fraction,
+            n_test_clips=n_test_clips,
+            n_test_onsets=n_test_onsets,
+            train_onset_density=train_onset_density,
+            n_test_frames=n_test_frames,
+            sesoi_f1=sesoi_f1,
+            c_train_flops=c_train_flops,
+            c_down_flops=c_down_flops,
+            n_seeds=n_seeds,
+            n_members=len(members),
+            statistic=statistic,
+            multiplicity=multiplicity,
+        ),
+        members_field: [
+            {member_id_field: entry[member_id_field], "hypothesis": entry["hypothesis"]}
+            for entry in members
+        ],
+        "promotion_bar": promotion_bar,
+        "activation_allowed": False,
+        "scientific_promotion": False,
+    }
+    body["canonical_sha256"] = canonical_sha256(body)
+    return body
 
 
 def build_prereg(

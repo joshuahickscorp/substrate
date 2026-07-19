@@ -33,9 +33,6 @@ _REAL_PRESENT = _FOA.is_dir() and _META.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-# ---------------------------------------------------------------------------
-# 1. Verifier import surface: standard library only.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_imports_only_stdlib():
@@ -73,13 +70,9 @@ def test_verifier_imports_only_stdlib():
     }
 
 
-# ---------------------------------------------------------------------------
-# 2. Additive boundary: net-new files, disjoint schema, sealed modules untouched.
-# ---------------------------------------------------------------------------
 
 
 def test_reproduction_is_additive_and_disjoint():
-    # Net-new proof paths, disjoint from the sealed bed's proof paths.
     assert DEFAULT_COUNT_REPRO_GATE_ARCH_ARTIFACT_PATH == Path(
         "proof/STARSS23_COUNTING_REPRO_gate_arch.json"
     )
@@ -87,27 +80,19 @@ def test_reproduction_is_additive_and_disjoint():
         "proof/STARSS23_COUNTING_REPRO_gate_arch.prereg.json"
     )
     assert DEFAULT_COUNT_REPRO_GATE_ARCH_ARTIFACT_PATH != Path("proof/STARSS23_COUNTING_BED.json")
-    # The artifact schema id is disjoint from the sealed bed's, so the sealed verifier will not accept it
-    # and this verifier will not accept the sealed bed's artifact.
     assert ARTIFACT_SCHEMA == "mop-starss23-escs-count-bed-repro-gate-arch/v1"
     assert V.EXPECTED_ARTIFACT_SCHEMA == ARTIFACT_SCHEMA
     assert V.EXPECTED_ARTIFACT_SCHEMA != "mop-starss23-escs-count-bed/v1"
-    # The disjoint seed family carries none of the original's (0..4) seed luck.
     assert set(GATE_ARCH_SEEDS).isdisjoint({0, 1, 2, 3, 4})
 
-    # The sealed gate and producer modules do not import anything from this reproduction.
     for sealed in ("count_gate.py", "count_producer.py", "count_verifier.py", "count_prereg.py"):
         text = (Path("src/mop/beds/starss23") / sealed).read_text(encoding="utf-8")
         assert "count_repro_gate_arch" not in text, sealed
 
 
-# ---------------------------------------------------------------------------
-# 3. Re-authored gate contract: topology, ceiling, cost anchors, determinism.
-# ---------------------------------------------------------------------------
 
 
 def test_gate_topology_and_cost_anchors():
-    # 264 -> 8 -> 4 -> 1 two-hidden-layer MLP: a genuine depth change, still under the ceiling.
     assert param_count_two_layer() == 2161
     assert param_count_two_layer() <= PARAM_CEILING
     assert inference_flops_two_layer() == 4321
@@ -115,7 +100,6 @@ def test_gate_topology_and_cost_anchors():
     gate = CountReproGateArchGate(seed=40)
     assert gate.n_params() == 2161
     assert gate.flops_per_inference() == 4321
-    # C_train uses the new architecture's per-frame inference FLOPs and the reused step factor.
     assert gate.training_flops(25172, 8) == 8 * 25172 * 3 * 4321
 
 
@@ -139,20 +123,14 @@ def test_prereg_sesoi_is_label_only_and_above_floor():
         train_change_density=0.0502,
         coast_from_zero_mae=0.8,
     )
-    # SESOI = 0.5 / n_test_clips, a label-only property independent of the gate architecture.
     assert prereg["sesoi"]["sesoi_mae"] == pytest.approx(0.5 / 21, abs=1e-9)
     assert prereg["sesoi"]["granularity_multiple"] >= 100.0
     assert prereg["preregistered_before_reading_test_scores"] is True
     assert prereg["activation_allowed"] is False and prereg["scientific_promotion"] is False
 
 
-# ---------------------------------------------------------------------------
-# 4. End-to-end producer + verifier on the real subset (fast config).
-# ---------------------------------------------------------------------------
 
 
-# max_frames=300 keeps the run fast while leaving every test clip above the 100x per-frame granularity
-# floor the reproduction prereg enforces (the full run averages ~1074 frames per clip).
 _SMALL_CONFIG = RealCountBedConfig(
     seeds=(40, 41, 42), target_rates=(0.10, 0.05), noisy_tv_frames=400, max_frames=300
 )
@@ -176,12 +154,10 @@ def test_producer_seals_wellformed_artifact_within_ceiling(repro_artifact):
     assert art["reproduction_axis"] == "gate_arch"
     assert art["gate"]["params"] == 2161 and art["gate"]["params"] <= 4096
     assert art["gate"]["flops_per_inference"] == 4321
-    # Every arm's full-lifecycle FLOPs stay under the 6e10 ceiling.
     ceiling = art["matched_budget"]["flops"]
     assert ceiling <= 60_000_000_000
     for arm in art["harness"]["arm_summaries"]:
         assert arm["max_lifecycle_flops"] <= 60_000_000_000
-    # Boundary flags hardcoded false.
     assert art["flags"] == {
         "activation_allowed": False,
         "scientific_promotion": False,
@@ -199,14 +175,12 @@ def test_independent_verifier_reproduces_with_zero_mismatches(repro_artifact):
     assert result.gate_anchors_ok
     assert result.honesty_ok
     assert result.independent_referee_reproduction
-    # A lone reproduction can never self-certify scientific confirmation (reproductions counter is 0).
     assert result.independent_scientific_confirmation is False
     assert result.reproductions == 0
 
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_catches_tampering(repro_artifact):
-    # Mutating a stored score without re-sealing must break the seal and the score re-derivation.
     tampered = copy.deepcopy(repro_artifact.artifact)
     seed0 = tampered["per_seed"][0]
     seed0["arm_scores"]["candidate"]["mae"] = float(seed0["arm_scores"]["candidate"]["mae"]) - 0.5
@@ -217,7 +191,6 @@ def test_verifier_catches_tampering(repro_artifact):
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_catches_gate_anchor_tampering(repro_artifact):
-    # Claiming a smaller parameter count than the sealed topology implies must be caught.
     tampered = copy.deepcopy(repro_artifact.artifact)
     tampered["gate"]["params"] = 1
     result = V.verify_count_repro_gate_arch_artifact(tampered)
