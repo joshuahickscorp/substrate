@@ -294,11 +294,12 @@ def main() -> int:
                 "gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread "
                 "diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg "
                 "analysis plans centralized with local family declarations retained, net 138 LOC; family "
-                "label-fact, Bonferroni, and CLI projections centralized, net 28 LOC")
+                "label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, "
+                "mel-warp, and triangular-filterbank DSP centralized, net 74 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("collapse exact-clone frozen spectral primitives; preserve every "
-                                 "front-end's distinct DSP, parameter digest, and FLOP ledger")
+            it["next_action"] = ("collapse repeated noisy-TV namespace and frontend wrappers; preserve "
+                                 "every experiment's independent seed identity and exact noise bytes")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -449,6 +450,16 @@ def main() -> int:
                     "family vocabulary preserved; full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-12",
         next_action="collapse exact-clone frozen spectral primitives"))
+    checklist.append(item(
+        "RED-starss23-frozen-spectral-primitives", 11, "verified_reduction",
+        "Centralize STARSS23 frozen spectral primitives", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/featurizer.py",
+                  "tests/unit/test_starss23_featurizer.py"],
+        validation=("121 replaced Python LOC, 47 added, net -74; production source net -89; periodic-Hann, "
+                    "64-mel and 32-mel bytes exact; seven complete frontend parameter digests exact; full "
+                    "focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-13",
+        next_action="collapse repeated noisy-TV namespace and frontend wrappers"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -818,6 +829,20 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 4,046 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-12.")
     lines.append("- next_exact_edit: collapse exact-clone frozen spectral primitives.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 13 (current checkpoint)")
+    lines.append("")
+    lines.append("- frozen DSP: onset, count, reproduction, coherence, spatial, SuperFlux, and DoA frontends "
+                 "share one periodic Hann window; mel-based lanes share one parameterized triangular bank.")
+    lines.append("- preservation: every frontend keeps its unique band geometry, temporal statistic, parameter "
+                 "schema, feature layout, and independently charged FLOP ledger.")
+    lines.append("- parity: window bytes, both mel-bank resolutions, and seven checkpoint d873a13 parameter "
+                 "digests are exact and the byte hashes are pinned in tests.")
+    lines.append("- validation: full STARSS-focused suite 491/491 in 160.35s under nice -n 10.")
+    lines.append("- production source reduction: 89 LOC; tests added: 15 LOC; owned Python net reduction: 74 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 4,120 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-13.")
+    lines.append("- next_exact_edit: collapse repeated noisy-TV namespace and frontend wrappers.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

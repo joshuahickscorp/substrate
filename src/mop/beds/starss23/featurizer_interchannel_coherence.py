@@ -34,6 +34,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .featurizer import hann_window, hz_to_mel
 from .schema import N_CHANNELS, SAMPLE_RATE_HZ, SAMPLES_PER_FRAME
 
 # The DSP grid. The front-end owns these; the schema owns only the label grid. The STFT grid is the same
@@ -90,17 +91,6 @@ FLOPS_PER_FRAME = (
 )  # 1_151_560
 
 
-def _hann_window() -> np.ndarray:
-    """Return the fixed periodic Hann window of length WINDOW as float64. Zero trained parameters."""
-
-    n = np.arange(WINDOW, dtype=np.float64)
-    return 0.5 - 0.5 * np.cos(2.0 * np.pi * n / WINDOW)
-
-
-def _hz_to_mel(hz: np.ndarray) -> np.ndarray:
-    return 2595.0 * np.log10(1.0 + hz / 700.0)
-
-
 def _band_partition(sample_rate: int) -> np.ndarray:
     """Return the (N_BANDS, N_BINS) 0/1 band-partition matrix. Fixed DSP, zero trained parameters.
 
@@ -110,8 +100,8 @@ def _band_partition(sample_rate: int) -> np.ndarray:
     """
 
     bin_freqs = np.linspace(0.0, sample_rate / 2.0, N_BINS)
-    mel = _hz_to_mel(bin_freqs)
-    mel_max = _hz_to_mel(np.array([sample_rate / 2.0]))[0]
+    mel = hz_to_mel(bin_freqs)
+    mel_max = hz_to_mel(np.array([sample_rate / 2.0]))[0]
     band_idx = np.floor(mel / mel_max * N_BANDS).astype(np.int64)
     band_idx = np.clip(band_idx, 0, N_BANDS - 1)
     matrix = np.zeros((N_BANDS, N_BINS), dtype=np.float64)
@@ -127,7 +117,7 @@ class InterchannelCoherenceFeaturizer:
 
     @property
     def window(self) -> np.ndarray:
-        return _hann_window()
+        return hann_window()
 
     @property
     def band_partition(self) -> np.ndarray:
@@ -162,7 +152,7 @@ class InterchannelCoherenceFeaturizer:
         return FLOPS_PER_FRAME * n_frames
 
     def _channel_spectra(self, audio: np.ndarray, n_frames: int, n_cols: int) -> np.ndarray:
-        """Return the windowed short-time complex spectra of all channels, shape (N_CHANNELS, n_cols, N_BINS)."""
+        """Return windowed spectra of all channels, shaped ``(N_CHANNELS, n_cols, N_BINS)``."""
 
         window = self.window
         spectra = np.empty((N_CHANNELS, n_cols, N_BINS), dtype=np.complex128)

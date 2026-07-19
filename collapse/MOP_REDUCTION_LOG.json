@@ -290,6 +290,24 @@
       "proof": "four checkpoint 237e4b4 complete prereg body/seal pairs and four CLI summary hashes exact; native split fact reduction checked on a hand-computable fixture; source loading, family vocabulary, alpha precision, and public spatial dict shape preserved; full STARSS-focused suite 490/490 in 154.66s under nice -n 10",
       "accounting_note": "170 replaced Python LOC and 142 added Python LOC are production source; production and total owned Python net -28; existing four-family seal test pins the complete registered outputs",
       "tag": "mop-collapse-starss23-lifecycle-12"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "frozen_spectral_primitives",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "six Hann-window copies, four mel transforms, and three triangular mel-filterbank implementations collapsed onto one parameterized frozen spectral authority",
+      "deduplicated_LOC": 121,
+      "added_LOC": 47,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 74,
+      "files_changed": 8,
+      "destination_api": "mop.beds.starss23.featurizer.{hann_window,hz_to_mel,mel_to_hz,mel_filterbank}",
+      "proof": "checkpoint d873a13 periodic-Hann bytes, 64-mel and 32-mel filterbank bytes, and seven complete frontend parameter digests exact across onset, SuperFlux, count, coherence, spatial DoA, reproduced count, and DoA; exact byte hashes pinned in default tests; full STARSS-focused suite 491/491 in 160.35s under nice -n 10",
+      "accounting_note": "121 replaced Python LOC are production source; 47 added Python LOC = 32 production source + 15 exact-byte tests; production source net -89, tests net +15, total owned Python net -74",
+      "tag": "mop-collapse-starss23-lifecycle-13"
     }
   ],
   "deferred_heavy_validation": {

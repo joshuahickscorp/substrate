@@ -4,9 +4,8 @@ This is the WHEN signal: "is the spatial field changing right now," not "what di
 net-new, additive front-end that reuses the DSP grid and per-band active-intensity math already built for
 the onset bed's spatial-DOA front-end swap (``featurizer_spatial_doa.py``, itself additive and not
 sealed), by import: ``WINDOW``, ``N_FFT``, ``HOP``, ``COLS_PER_FRAME``, ``PAD_RIGHT``, ``N_BANDS``,
-``FEATURES_PER_BAND``, ``ACN_W/Y/Z/X``, and the private helpers ``_hann_window``, ``_band_edges``,
-``_band_membership`` (this codebase already treats leading-underscore names as intra-package reusable,
-e.g. ``count_gate.py`` imports ``gate._sigmoid``).
+``FEATURES_PER_BAND``, ``ACN_W/Y/Z/X``, the shared Hann window, and the spatial helpers
+``_band_edges`` and ``_band_membership``.
 
 At each of the ``COLS_PER_FRAME = 5`` STFT columns this computes the SAME per-band direction and
 diffuseness reduction ``SpatialDoaFeaturizer`` computes (64 bands times [dir_x, dir_y, dir_z,
@@ -38,6 +37,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .featurizer import hann_window
 from .featurizer_spatial_doa import (
     ACN_W,
     ACN_X,
@@ -53,7 +53,6 @@ from .featurizer_spatial_doa import (
     PAD_RIGHT,
     WINDOW,
     _band_membership,
-    _hann_window,
 )
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
@@ -158,7 +157,7 @@ class DoaFeaturizer:
 
     @property
     def window(self) -> np.ndarray:
-        return _hann_window()
+        return hann_window()
 
     @property
     def band_membership(self) -> np.ndarray:

@@ -49,6 +49,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .featurizer import hann_window
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_REPRO_FE_FEATURIZER_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-featurizer/v1"
@@ -88,11 +89,6 @@ FLOPS_PER_FRAME_COUNT = FLOPS_PER_COL_PER_CH * N_CHANNELS * COLS_PER_FRAME  # 1_
 
 class CountReproFeaturizerRefusal(ValueError):
     """Raised when the re-authored count featurizer input violates the frozen FOA acquisition contract."""
-
-
-def _hann_window() -> np.ndarray:
-    n = np.arange(WINDOW, dtype=np.float64)
-    return 0.5 - 0.5 * np.cos(2.0 * np.pi * n / WINDOW)
 
 
 def _hz_to_erb_rate(hz: np.ndarray) -> np.ndarray:
@@ -146,7 +142,7 @@ class ReproCountFeaturizer:
 
     @property
     def window(self) -> np.ndarray:
-        return _hann_window()
+        return hann_window()
 
     @property
     def filterbank(self) -> np.ndarray:
