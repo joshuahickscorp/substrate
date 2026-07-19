@@ -30,12 +30,21 @@ def _write_historical_impl(impl_root, body: bytes) -> str:
     return gro.sha256_file(path)
 
 
-def _seal(core: dict) -> dict:
+def _seal_state(core: dict) -> dict:
+    return {**core, "state_sha256": gro.canonical_sha256(core)}
+
+
+def _seal_status(core: dict) -> dict:
     return {**core, "status_sha256": gro.canonical_sha256(core)}
 
 
-def _complete_status(sha_a: str) -> dict:
-    """A valid ``complete`` general-run status whose authority is SHA A (not the current checkout)."""
+def _complete_state(sha_a: str) -> dict:
+    """A fully sealed, schema-valid durable ``program_state.json`` whose terminal value is ``status``.
+
+    Mirrors the orchestrator's durable state schema exactly (``gro.STATE_FIELDS``): the terminal value is
+    stored under the field name ``status`` (the projection republishes it as ``state``), and the capsule
+    inventory is split into legacy and compute maps that project to a single ``capsules`` map.
+    """
 
     supervisor = {
         "pid": 4242,
@@ -43,40 +52,86 @@ def _complete_status(sha_a: str) -> dict:
         "implementation_path": _REL_IMPL,
         "implementation_sha256": sha_a,
     }
+    legacy_capsules = {
+        "legacy_pretraining": {"status": "complete"},
+        "legacy_probes": {"status": "complete"},
+        "legacy_readout": {"status": "complete"},
+    }
+    compute_capsules = {stage.stage_id: {"status": "complete"} for stage in gro.COMPUTE_STAGES}
     core = {
-        "schema": gro.STATUS_SCHEMA,
+        "schema": gro.STATE_SCHEMA,
         "program_id": gro.PROGRAM_ID,
         "created_at": "2026-07-18T10:00:00+00:00",
         "updated_at": "2026-07-18T12:00:00+00:00",
         "finished_at": "2026-07-18T12:00:00+00:00",
         "execution_enabled": True,
-        "state": "complete",
+        "status": "complete",
         "stage": gro.STAGES[-1],
         "supervisor": supervisor,
         "parent_implementation": {"path": _REL_IMPL, "sha256": sha_a},
-        "capsules": {"run_full_generations_wave": {"status": "complete"}},
-        "counts": {
-            "compute_complete": 4,
-            "compute_total": 4,
-            "legacy_complete": 3,
-            "legacy_total": 3,
-            "stage_index": len(gro.STAGES) - 1,
-            "stage_total": len(gro.STAGES),
-        },
+        "legacy_capsules": legacy_capsules,
+        "compute_capsules": compute_capsules,
         "reprofile": None,
         "last_admission": None,
         "problems": [],
+    }
+    return _seal_state(core)
+
+
+def _project_status(state: dict) -> dict:
+    """Project a durable state doc to its public status exactly as the orchestrator's ``_publish`` does."""
+
+    legacy = state["legacy_capsules"]
+    compute = state["compute_capsules"]
+    stage = state["stage"]
+    counts = {
+        "legacy_complete": sum(row.get("status") == "complete" for row in legacy.values()),
+        "legacy_total": len(legacy),
+        "compute_complete": sum(row.get("status") == "complete" for row in compute.values()),
+        "compute_total": len(compute),
+        "stage_index": gro.STAGES.index(stage),
+        "stage_total": len(gro.STAGES),
+    }
+    core = {
+        "schema": gro.STATUS_SCHEMA,
+        "program_id": gro.PROGRAM_ID,
+        "created_at": state["created_at"],
+        "updated_at": state["updated_at"],
+        "finished_at": state["finished_at"],
+        "execution_enabled": state["execution_enabled"],
+        "state": state["status"],
+        "stage": state["stage"],
+        "supervisor": state["supervisor"],
+        "parent_implementation": state["parent_implementation"],
+        "capsules": {**legacy, **compute},
+        "counts": counts,
+        "reprofile": state["reprofile"],
+        "last_admission": state["last_admission"],
+        "problems": state["problems"],
         "signals_allowed": False,
         "activation_allowed": False,
         "scientific_promotion": False,
     }
-    return _seal(core)
+    return _seal_status(core)
 
 
-def _write_run(gr_root, status: dict) -> None:
+def _complete_run(sha_a: str) -> tuple[dict, dict]:
+    """A mutually consistent (status, state) pair where the status is a true projection of the state."""
+
+    state = _complete_state(sha_a)
+    return _project_status(state), state
+
+
+def _complete_status(sha_a: str) -> dict:
+    """Back-compat helper: the sealed ``complete`` status for a run whose authority is SHA A."""
+
+    return _project_status(_complete_state(sha_a))
+
+
+def _write_run(gr_root, status: dict, state: dict) -> None:
     gr_root.mkdir(parents=True, exist_ok=True)
     (gr_root / "current_status.json").write_text(json.dumps(status), encoding="utf-8")
-    (gr_root / "program_state.json").write_text(json.dumps({"state": "complete"}), encoding="utf-8")
+    (gr_root / "program_state.json").write_text(json.dumps(state), encoding="utf-8")
 
 
 def test_admits_clean_terminal_via_historical_authority_from_a_different_checkout(tmp_path, monkeypatch):
@@ -87,7 +142,8 @@ def test_admits_clean_terminal_via_historical_authority_from_a_different_checkou
     sha_a = _write_historical_impl(impl_root, b"# historical orchestrator SHA A bytes, not the checkout\n")
     # the current checkout's orchestrator is a different SHA (SHA B); confirm the two genuinely differ
     assert sha_a != gro.sha256_file(gro.IMPLEMENTATION_PATH)
-    _write_run(gr_root, _complete_status(sha_a))
+    status, state = _complete_run(sha_a)
+    _write_run(gr_root, status, state)
     # isolate the admission logic from the real live campaign's processes
     monkeypatch.setattr(adm, "_count_live_general_run_writers", lambda exclude_pids=None: 0)
 
@@ -108,7 +164,8 @@ def test_refuses_when_historical_bytes_are_missing(tmp_path, monkeypatch):
     impl_root = tmp_path / "campaign_tree"
     gr_root = impl_root / "runs" / "generation1" / "general-run"
     sha_a = _write_historical_impl(impl_root, b"# SHA A bytes\n")
-    _write_run(gr_root, _complete_status(sha_a))
+    status, state = _complete_run(sha_a)
+    _write_run(gr_root, status, state)
     monkeypatch.setattr(adm, "_count_live_general_run_writers", lambda exclude_pids=None: 0)
     # remove the historical implementation bytes so they no longer resolve
     (impl_root / _REL_IMPL).unlink()
@@ -128,7 +185,8 @@ def test_refuses_when_historical_bytes_are_altered(tmp_path, monkeypatch):
     impl_root = tmp_path / "campaign_tree"
     gr_root = impl_root / "runs" / "generation1" / "general-run"
     sha_a = _write_historical_impl(impl_root, b"# SHA A bytes\n")
-    _write_run(gr_root, _complete_status(sha_a))
+    status, state = _complete_run(sha_a)
+    _write_run(gr_root, status, state)
     monkeypatch.setattr(adm, "_count_live_general_run_writers", lambda exclude_pids=None: 0)
     # alter the bytes so the on-disk SHA no longer matches the sealed authority
     (impl_root / _REL_IMPL).write_bytes(b"# tampered bytes with a different hash\n")
@@ -148,10 +206,10 @@ def test_refuses_when_supervisor_authority_disagrees(tmp_path, monkeypatch):
     impl_root = tmp_path / "campaign_tree"
     gr_root = impl_root / "runs" / "generation1" / "general-run"
     sha_a = _write_historical_impl(impl_root, b"# SHA A bytes\n")
-    status = _complete_status(sha_a)
+    status, state = _complete_run(sha_a)
     status["supervisor"]["implementation_sha256"] = "f" * 64  # supervisor disagrees with parent authority
-    status = _seal({k: v for k, v in status.items() if k != "status_sha256"})
-    _write_run(gr_root, status)
+    status = _seal_status({k: v for k, v in status.items() if k != "status_sha256"})
+    _write_run(gr_root, status, state)
     monkeypatch.setattr(adm, "_count_live_general_run_writers", lambda exclude_pids=None: 0)
 
     decision = adm.evaluate_admission(
@@ -160,6 +218,68 @@ def test_refuses_when_supervisor_authority_disagrees(tmp_path, monkeypatch):
 
     assert decision.admitted is False
     assert any("supervisor authority" in r for r in decision.refusals)
+
+
+def test_refuses_when_state_projection_disagrees_with_status(tmp_path, monkeypatch):
+    """State file is validly sealed, but its capsule/count projection disagrees with the sealed status.
+
+    The status remains a clean, valid ``complete`` terminal (it passes the orchestrator validator), and the
+    historical authority resolves exactly, so admission reaches the state-authority replay. The replay must
+    refuse because the durable state no longer projects to the published status.
+    """
+
+    impl_root = tmp_path / "campaign_tree"
+    gr_root = impl_root / "runs" / "generation1" / "general-run"
+    sha_a = _write_historical_impl(impl_root, b"# SHA A bytes\n")
+    status, state = _complete_run(sha_a)
+    # flip one compute capsule row in the DURABLE state to pending and re-seal the state so it is itself a
+    # valid self-sealed state. The status still says every capsule is complete, so the projection diverges
+    # in both the combined capsule map and the independently derived counts.
+    core = {k: v for k, v in state.items() if k != "state_sha256"}
+    a_stage = gro.COMPUTE_STAGES[0].stage_id
+    core["compute_capsules"] = {**core["compute_capsules"], a_stage: {"status": "pending"}}
+    state = _seal_state(core)
+    _write_run(gr_root, status, state)
+    monkeypatch.setattr(adm, "_count_live_general_run_writers", lambda exclude_pids=None: 0)
+
+    decision = adm.evaluate_admission(
+        root=gr_root, implementation_root=impl_root, stability_wait_seconds=0.0, now_iso="t"
+    )
+
+    assert decision.admitted is False
+    assert decision.historical_bytes_available is True  # the historical authority resolved cleanly
+    assert decision.general_run_state == "complete"  # the status itself is a valid clean terminal
+    assert any("do not project to the status capsules" in r for r in decision.refusals)
+    assert any("derived status counts disagree" in r for r in decision.refusals)
+
+
+def test_refuses_when_state_terminal_value_disagrees_with_status(tmp_path, monkeypatch):
+    """State file is validly sealed but its ``status`` field disagrees with the status ``state`` projection.
+
+    This locks the exact field-name bug: the durable state stores the terminal value under ``status`` (not
+    ``state``), so the replay must compare ``state_doc['status']`` with ``status['state']`` and refuse when
+    they differ, even though the state file carries a perfectly valid self-seal.
+    """
+
+    impl_root = tmp_path / "campaign_tree"
+    gr_root = impl_root / "runs" / "generation1" / "general-run"
+    sha_a = _write_historical_impl(impl_root, b"# SHA A bytes\n")
+    status, state = _complete_run(sha_a)
+    # the durable state claims it is still running while the published status claims complete; re-seal the
+    # state so the disagreement is a projection mismatch, not a broken seal.
+    core = {k: v for k, v in state.items() if k != "state_sha256"}
+    core["status"] = "run_horizon_v2"
+    state = _seal_state(core)
+    _write_run(gr_root, status, state)
+    monkeypatch.setattr(adm, "_count_live_general_run_writers", lambda exclude_pids=None: 0)
+
+    decision = adm.evaluate_admission(
+        root=gr_root, implementation_root=impl_root, stability_wait_seconds=0.0, now_iso="t"
+    )
+
+    assert decision.admitted is False
+    assert decision.general_run_state == "complete"
+    assert any("disagrees with the terminal status state" in r for r in decision.refusals)
 
 
 @pytest.mark.skipif(

@@ -29,7 +29,12 @@ A clean terminal admission requires ALL of:
 - the state is exactly ``complete`` (the ONLY safe terminal; ``failure_hold`` / ``integrity_hold`` /
   ``drained`` are unsafe terminals and are refused);
 - the status is stable across two independent reads separated in time (identical status seal);
-- the state file agrees with the status file;
+- the durable state file replays exactly to the terminal status: its self-seal is valid, its field set,
+  schema, and program identity are exact, its ``status`` projects to the status ``state`` (the field is
+  named ``status`` in the state file and ``state`` in the status file), every straight-through field
+  (stage, supervisor, historical implementation authority, timestamps, execution mode, problems,
+  reprofile, admission) agrees, the combined legacy and compute capsules equal the status capsules, and
+  the independently derived counts equal the status counts;
 - no live General Run worker or supervisor process is still writing into the run root.
 
 Nothing here signals, restarts, relabels, or modifies any process, source, or sealed artifact.
@@ -184,6 +189,98 @@ def _orchestrator_authority_pinned_to(implementation_path: Path) -> Iterator[Non
         gro.IMPLEMENTATION_PATH = previous
 
 
+def _validate_state_authority(state_doc: dict[str, Any], status: dict[str, Any]) -> list[str]:
+    """Replay the run's durable state file and require it to project to the exact terminal status.
+
+    The orchestrator's durable ``program_state.json`` is the source of truth; the public
+    ``current_status.json`` is a pure projection of it (see the orchestrator's ``_publish`` /
+    ``_status_payload`` / ``_counts``). Critically the durable state stores the terminal value under the
+    field name ``status`` and the projection republishes it as ``state``, so a naive ``state_doc["state"]``
+    check reads ``None`` on a real terminal state file. This reproduces the whole projection independently
+    and refuses on any disagreement, so a terminal admission can never be granted on a status whose backing
+    state does not exactly produce it. Returns a list of refusals; empty means the state replays exactly.
+    """
+
+    refusals: list[str] = []
+
+    # a. the durable state file must carry its own valid self-seal (canonical_sha256 over its core)
+    try:
+        gro._validate_seal(state_doc, "state_sha256", "general-run state")
+    except gro.GeneralRunRefused as exc:
+        refusals.append(f"state file self-seal is invalid: {exc}")
+        return refusals
+    except Exception as exc:  # noqa: BLE001
+        refusals.append(f"state file seal unverifiable: {type(exc).__name__}: {exc}")
+        return refusals
+
+    # b. the exact durable state schema: precise field set, schema tag, and program identity
+    if set(state_doc) != gro.STATE_FIELDS:
+        refusals.append("state file fields drifted from the durable state schema")
+        return refusals
+    if state_doc.get("schema") != gro.STATE_SCHEMA:
+        refusals.append("state file schema tag drifted")
+    if state_doc.get("program_id") != gro.PROGRAM_ID:
+        refusals.append("state file program identity drifted")
+    if state_doc.get("program_id") != status.get("program_id"):
+        refusals.append("state file program identity disagrees with the status program identity")
+
+    # c. the terminal value: the state file field ``status`` projects to the status file field ``state``
+    if state_doc.get("status") != status.get("state"):
+        refusals.append(
+            f"state file status {state_doc.get('status')!r} disagrees with the terminal status state "
+            f"{status.get('state')!r}"
+        )
+
+    # d. every field the status projects straight through from the state must agree exactly. This covers
+    # stage, supervisor, the historical implementation authority, the timestamps, the execution mode,
+    # problems, reprofile, and the recorded admission field.
+    for key in (
+        "created_at",
+        "updated_at",
+        "finished_at",
+        "execution_enabled",
+        "stage",
+        "supervisor",
+        "parent_implementation",
+        "reprofile",
+        "last_admission",
+        "problems",
+    ):
+        if state_doc.get(key) != status.get(key):
+            refusals.append(f"state file {key} does not project to the status {key}")
+
+    # e. capsule projection: the combined legacy and compute capsule maps must equal the status capsules
+    legacy = state_doc.get("legacy_capsules")
+    compute = state_doc.get("compute_capsules")
+    if not isinstance(legacy, dict) or not isinstance(compute, dict):
+        refusals.append("state file capsule inventories are not well-formed")
+        return refusals
+    if set(legacy) & set(compute):
+        refusals.append("state file legacy and compute capsule ids overlap")
+    if {**legacy, **compute} != status.get("capsules"):
+        refusals.append("combined state capsules do not project to the status capsules")
+
+    # f. counts derived independently from the state capsule maps and stage pointer (mirrors _counts)
+    stage = state_doc.get("stage")
+    stage_index = gro.STAGES.index(stage) if stage in gro.STAGES else 0
+    derived_counts = {
+        "legacy_complete": sum(
+            1 for row in legacy.values() if isinstance(row, dict) and row.get("status") == "complete"
+        ),
+        "legacy_total": len(legacy),
+        "compute_complete": sum(
+            1 for row in compute.values() if isinstance(row, dict) and row.get("status") == "complete"
+        ),
+        "compute_total": len(compute),
+        "stage_index": stage_index,
+        "stage_total": len(gro.STAGES),
+    }
+    if derived_counts != status.get("counts"):
+        refusals.append("independently derived status counts disagree with the status counts")
+
+    return refusals
+
+
 def evaluate_admission(
     *,
     root: Path = DEFAULT_ROOT,
@@ -258,17 +355,18 @@ def evaluate_admission(
         decision.refusals.append(f"General Run is not terminal (state={state!r}); closure is deferred")
         return decision
 
-    # 5. state file must agree with the status file
+    # 5. the durable state file must replay exactly to the terminal status projection
     state_path = Path(root) / STATE_FILE
     try:
         import json
 
         state_doc = json.loads(state_path.read_text(encoding="utf-8"))
-        if state_doc.get("state") not in (CLEAN_TERMINAL_STATE, state):
-            decision.refusals.append("state file disagrees with the terminal status file")
-            return decision
     except Exception as exc:  # noqa: BLE001
         decision.refusals.append(f"state file unreadable: {exc}")
+        return decision
+    state_refusals = _validate_state_authority(state_doc, status)
+    if state_refusals:
+        decision.refusals.extend(state_refusals)
         return decision
 
     # 6. stability across two independent reads, re-bound to the same historical authority
