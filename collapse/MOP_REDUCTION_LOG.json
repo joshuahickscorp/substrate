@@ -362,6 +362,24 @@
       "proof": "checkpoint ec5257e pre/post table exact for ten dataclass field layouts, ten no-__dict__ slot layouts, ten n_params values, ten parameter digests, seven feature-byte digests, seven frame-cost values, and all ordinary/custom refusal types and messages; full STARSS-focused suite 493/493 in 153.14s under nice -n 10",
       "accounting_note": "130 replaced and 55 added Python LOC are production source; production and total owned Python net -75; existing frontend, counting, reproduction, and DoA tests exercise every inherited method",
       "tag": "mop-collapse-starss23-lifecycle-16"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "topology_neutral_gate_interfaces",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "two held-fixed count gate input/probability/decision surfaces, one duplicate count training report, and two DoA probability/decision surfaces collapsed onto topology-neutral interfaces",
+      "deduplicated_LOC": 126,
+      "added_LOC": 68,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 58,
+      "files_changed": 3,
+      "destination_api": "mop.beds.starss23.count_gate.CountGateInterface + mop.beds.starss23.doa_gate._DoaGateInterface + CountTrainingReport inheritance",
+      "proof": "checkpoint b8e98dd pre/post exact for four parameter digests, four batch probability vectors, four online probabilities, eight threshold decisions, all invalid-input refusal types/messages, and both count training-report payload/repr/dict surfaces; optimizer loops and one-/two-hidden-layer forward topology remain local; full STARSS-focused suite 493/493 in 153.21s under nice -n 10",
+      "accounting_note": "126 replaced and 68 added Python LOC are production source; production and total owned Python net -58; no verifier or test code changed",
+      "tag": "mop-collapse-starss23-lifecycle-17"
     }
   ],
   "deferred_heavy_validation": {
