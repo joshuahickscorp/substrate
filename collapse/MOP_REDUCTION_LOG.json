@@ -236,6 +236,24 @@
       "proof": "checkpoint 3b2367e byte hashes exact for onset/count/DoA input matrices, probability traces and event frames, plus all three independently seeded noise channels; count noise hash pinned in default tests; full STARSS-focused suite 487/487 in 153.43s under nice -n 10",
       "accounting_note": "226 replaced Python LOC = 219 production source + 7 migrated tests; 153 added Python LOC = 135 production source + 18 tests; production source net -84, tests net +11, total owned Python net -73",
       "tag": "mop-collapse-starss23-lifecycle-9"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "producer_fire_spread_and_prereg_reads",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "four producer-local fire-spread implementations and four sealed family preregistration readers collapsed onto the onset referee and science lifecycle authorities",
+      "deduplicated_LOC": 305,
+      "added_LOC": 197,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 108,
+      "files_changed": 8,
+      "destination_api": "mop.beds.starss23.referee.{fire_spread,summarize_fire_spread,summarize_fire_spread_blocks} + mop.science.read_sealed_prereg_member",
+      "proof": "four checkpoint 33a7bd8 spread-artifact byte hashes exact across interchannel, spatial-DOA, SuperFlux, and refractory-NMS variants; four checked-in prereg body hashes exact; local refusal classes and missing-file messages preserved; full STARSS-focused suite 489/489 in 146.66s under nice -n 10",
+      "accounting_note": "305 replaced Python LOC are production source; 197 added Python LOC = 146 production source + 51 direct referee/prereg contract tests; production source net -159, tests net +51, total owned Python net -108",
+      "tag": "mop-collapse-starss23-lifecycle-10"
     }
   ],
   "deferred_heavy_validation": {

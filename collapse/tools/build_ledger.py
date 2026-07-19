@@ -291,11 +291,12 @@ def main() -> int:
                 "artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count "
                 "seed execution loops centralized with exact provider-specific records, net 191 LOC; native "
                 "dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, "
-                "gate-trace, and marginal-noise lifecycle centralized, net 73 LOC")
+                "gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread "
+                "diagnostics and sealed family prereg reads centralized, net 108 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("collapse repeated fire-spread diagnostics and sealed prereg readers; "
-                                 "preserve variant-specific scoring and historical digests")
+            it["next_action"] = ("measure and collapse the next repeated STARSS producer/prereg lifecycle; "
+                                 "preserve variant-specific hypotheses and decisive scoring")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -416,6 +417,17 @@ def main() -> int:
                     "and seeded noise; full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-9",
         next_action="collapse repeated fire-spread diagnostics and sealed prereg readers"))
+    checklist.append(item(
+        "RED-starss23-fire-spread-prereg-read", 11, "verified_reduction",
+        "Centralize STARSS23 producer fire-spread and sealed prereg reads", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/referee.py",
+                  "src/mop/science/__init__.py", "tests/unit/test_starss23_referee.py",
+                  "tests/unit/test_science_engine.py"],
+        validation=("305 replaced Python LOC, 197 added, net -108; production source net -159; four "
+                    "spread-artifact and four checked-in prereg body hashes exact; local refusal surfaces "
+                    "preserved; full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-10",
+        next_action="measure and collapse the next repeated STARSS producer/prereg lifecycle"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -739,6 +751,24 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 3,772 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-9.")
     lines.append("- next_exact_edit: collapse repeated fire-spread diagnostics and sealed prereg readers.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 10 (current checkpoint)")
+    lines.append("")
+    lines.append("- fire-spread authority: four variant producers now derive adjacency, distinct-onset counts, "
+                 "and ordered per-seed summaries through the onset referee while retaining their distinct "
+                 "wording and anchors.")
+    lines.append("- prereg authority: three featurizer lanes and refractory NMS share one schema-and-membership "
+                 "reader; their local refusal types, paths, schemas, family identities, and messages remain "
+                 "explicit inputs.")
+    lines.append("- parity: four checkpoint 33a7bd8 spread-artifact hashes and four checked-in prereg body "
+                 "hashes are exact.")
+    lines.append("- validation: full STARSS-focused suite 489/489 in 146.66s under nice -n 10.")
+    lines.append("- production source reduction: 159 LOC; tests added: 51 LOC; owned Python net reduction: "
+                 "108 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 3,880 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-10.")
+    lines.append("- next_exact_edit: measure and collapse the next repeated STARSS producer/prereg "
+                 "lifecycle.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

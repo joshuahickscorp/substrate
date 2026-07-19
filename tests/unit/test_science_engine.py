@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import json
 from types import SimpleNamespace
 
 import pytest
@@ -14,6 +15,7 @@ from mop.science import (
     artifact_envelope,
     demonstration_receipt,
     finalize_artifact,
+    read_sealed_prereg_member,
     render_report,
     run_experiment,
     safety_flags,
@@ -23,11 +25,36 @@ from mop.science import (
 from mop.substrate.events import canonical_sha256
 
 
+class PreregRefusal(ValueError):
+    pass
+
+
 def _value(arm: str, seed: int, direction: str) -> float:
     offset = seed / 1000
     values = {"candidate": 0.40, "rate_matched_random": 0.50, "always_on": 0.60,
               "never_update": 0.70}
     return values[arm] + offset if direction == "lower" else 1 - values[arm] + offset
+
+
+def test_sealed_prereg_reader_requires_schema_and_family_member(tmp_path) -> None:
+    path = tmp_path / "family.prereg.json"
+    path.write_text(json.dumps({"schema": "family/v1", "members": [{"id": "chosen"}]}))
+    kwargs = {
+        "expected_schema": "family/v1",
+        "family_field": "members",
+        "member_field": "id",
+        "member_id": "chosen",
+        "family_label": "mechanism",
+        "refusal": PreregRefusal,
+    }
+    assert read_sealed_prereg_member(path, **kwargs)["members"] == [{"id": "chosen"}]
+
+    with pytest.raises(PreregRefusal, match="unexpected mechanism prereg schema"):
+        read_sealed_prereg_member(path, **{**kwargs, "expected_schema": "wrong/v1"})
+    with pytest.raises(PreregRefusal, match="'absent' is not preregistered"):
+        read_sealed_prereg_member(path, **{**kwargs, "member_id": "absent"})
+    with pytest.raises(PreregRefusal, match="is missing; seal it before the run"):
+        read_sealed_prereg_member(tmp_path / "missing.json", **kwargs)
 
 
 def _runner(record):

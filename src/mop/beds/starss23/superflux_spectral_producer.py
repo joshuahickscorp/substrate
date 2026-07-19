@@ -30,7 +30,6 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import json
 import math
 import time
 from pathlib import Path
@@ -47,6 +46,7 @@ from mop.science import (
     artifact_envelope,
     demonstration_receipt,
     finalize_artifact,
+    read_sealed_prereg_member,
     safety_flags,
 )
 from mop.science.budget import (
@@ -82,7 +82,7 @@ from .real_artifact import (
     _real_noisy_tv_features,
     _run_seed_real,
 )
-from .referee import score_arm
+from .referee import summarize_fire_spread_blocks
 from .schema import COLLAR_FRAMES
 from .superflux_spectral_prereg import (
     DEFAULT_FEATURIZERS_PREREG_PATH,
@@ -108,25 +108,6 @@ def _variant_hypothesis() -> str:
         if entry["variant_id"] == VARIANT_ID:
             return entry["hypothesis"]
     raise SuperfluxSpectralRefusal(f"featurizer {VARIANT_ID!r} is not in the sealed featurizer family")
-
-
-def _read_sealed_featurizers_prereg(
-    path: str | Path = DEFAULT_FEATURIZERS_PREREG_PATH,
-) -> dict[str, Any]:
-    """Read the already-sealed featurizer preregistration. Never rebuilds or reweakens it."""
-
-    prereg_path = Path(path)
-    if not prereg_path.is_file():
-        raise SuperfluxSpectralRefusal(
-            f"the sealed featurizer preregistration {prereg_path} is missing; seal it before the run"
-        )
-    body = json.loads(prereg_path.read_bytes().decode("utf-8"))
-    if body.get("schema") != FEATURIZERS_PREREG_SCHEMA:
-        raise SuperfluxSpectralRefusal(f"unexpected featurizer prereg schema {body.get('schema')!r}")
-    ids = [entry["variant_id"] for entry in body.get("variants", [])]
-    if VARIANT_ID not in ids:
-        raise SuperfluxSpectralRefusal(f"{VARIANT_ID!r} is not preregistered in {prereg_path}")
-    return body
 
 
 # ---------------------------------------------------------------------------
@@ -158,64 +139,6 @@ def _superflux_flop_model(kind: str, total_frames: int, train_frames: int, confi
 # ---------------------------------------------------------------------------
 
 
-def _adjacency_fraction(clip_fire_lists: list[list[int]], collar: int = COLLAR_FRAMES) -> float:
-    """Pooled fraction of fires that have another fire within ``collar`` frames in the same clip.
-
-    The committed null (base front-end) clustered roughly 42 percent of its fires adjacently on
-    high-energy regions and recovered about 204 distinct onsets. A stronger front-end that spreads its
-    novelty across separated onsets would lower this fraction and raise distinct-onset recovery.
-    """
-
-    total = 0
-    adjacent = 0
-    for fires in clip_fire_lists:
-        ordered = sorted(fires)
-        total += len(ordered)
-        for index, frame in enumerate(ordered):
-            near_prev = index > 0 and frame - ordered[index - 1] <= collar
-            near_next = index < len(ordered) - 1 and ordered[index + 1] - frame <= collar
-            if near_prev or near_next:
-                adjacent += 1
-    return adjacent / total if total > 0 else 0.0
-
-
-def _arm_spread(
-    clip_gt_and_fires: list[tuple[list[int], list[int]]], collar: int = COLLAR_FRAMES
-) -> dict[str, Any]:
-    """Pooled fire count, adjacency fraction, and distinct-onset true positives for one arm and seed."""
-
-    fire_lists = [fires for _gt, fires in clip_gt_and_fires]
-    score = score_arm(clip_gt_and_fires, collar)
-    return {
-        "fires": sum(len(fires) for fires in fire_lists),
-        "adjacency_fraction": round(_adjacency_fraction(fire_lists, collar), 12),
-        "distinct_onset_tp": score.tp,
-        "fp": score.fp,
-        "fn": score.fn,
-    }
-
-
-def _mean(values: list[float]) -> float:
-    return math.fsum(values) / len(values) if values else 0.0
-
-
-def _spread_from_per_seed(per_seed: list[dict[str, Any]], arm: str) -> dict[str, Any]:
-    """Summarize an arm's fire-spread across seeds at the operating point, from the per-seed clip blocks."""
-
-    per_seed_rows: list[dict[str, Any]] = []
-    for block in per_seed:
-        pairs = [(clip["gt_onsets"], clip["fires"][arm]) for clip in block["clips"]]
-        per_seed_rows.append(_arm_spread(pairs))
-    return {
-        "per_seed_fires": [row["fires"] for row in per_seed_rows],
-        "per_seed_adjacency_fraction": [row["adjacency_fraction"] for row in per_seed_rows],
-        "per_seed_distinct_onset_tp": [row["distinct_onset_tp"] for row in per_seed_rows],
-        "mean_fires": round(_mean([row["fires"] for row in per_seed_rows]), 6),
-        "mean_adjacency_fraction": round(_mean([row["adjacency_fraction"] for row in per_seed_rows]), 12),
-        "mean_distinct_onset_tp": round(_mean([row["distinct_onset_tp"] for row in per_seed_rows]), 6),
-    }
-
-
 def _assemble_spread_diagnostic(per_seed: list[dict[str, Any]]) -> dict[str, Any]:
     """Fire-spread diagnostic at the operating point for the SuperFlux candidate and its matched control."""
 
@@ -227,8 +150,8 @@ def _assemble_spread_diagnostic(per_seed: list[dict[str, Any]]) -> dict[str, Any
             "point fires."
         ),
         "collar_frames": COLLAR_FRAMES,
-        "candidate": _spread_from_per_seed(per_seed, ARM_CANDIDATE),
-        "rate_matched_random": _spread_from_per_seed(per_seed, ARM_RATE_MATCHED_RANDOM),
+        "candidate": summarize_fire_spread_blocks(per_seed, ARM_CANDIDATE),
+        "rate_matched_random": summarize_fire_spread_blocks(per_seed, ARM_RATE_MATCHED_RANDOM),
         "committed_null_base_frontend_seed0_anchor": {
             "candidate_distinct_onset_tp": 204,
             "rate_matched_random_distinct_onset_tp": 237,
@@ -268,7 +191,15 @@ def build_superflux_spectral_artifact(
     split = corpus.split
     features_by_clip = corpus.features_by_clip
 
-    prereg = _read_sealed_featurizers_prereg(featurizers_prereg_path)
+    prereg = read_sealed_prereg_member(
+        featurizers_prereg_path,
+        expected_schema=FEATURIZERS_PREREG_SCHEMA,
+        family_field="variants",
+        member_field="variant_id",
+        member_id=VARIANT_ID,
+        family_label="featurizer",
+        refusal=SuperfluxSpectralRefusal,
+    )
     sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
     prereg_digest = str(prereg["canonical_sha256"])
 

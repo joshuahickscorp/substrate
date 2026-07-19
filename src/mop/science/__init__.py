@@ -9,10 +9,12 @@ recomputation remains in the experiment family's independent verifier.
 
 from __future__ import annotations
 
+import json
 from collections import defaultdict
 from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
 from dataclasses import field as dataclass_field
+from pathlib import Path
 from typing import Any
 
 from mop.ladder.ladder_contracts import mint_demonstration
@@ -45,6 +47,32 @@ def safety_flags() -> dict[str, bool]:
 
     return {"activation_allowed": False, "scientific_promotion": False,
             "independent_scientific_confirmation": False}
+
+
+def read_sealed_prereg_member(
+    path: str | Path,
+    *,
+    expected_schema: str,
+    family_field: str,
+    member_field: str,
+    member_id: str,
+    family_label: str,
+    refusal: type[ValueError],
+) -> dict[str, Any]:
+    """Read an already-sealed preregistration and require one declared family member."""
+
+    prereg_path = Path(path)
+    if not prereg_path.is_file():
+        raise refusal(
+            f"the sealed {family_label} preregistration {prereg_path} is missing; seal it before the run"
+        )
+    body = json.loads(prereg_path.read_bytes().decode("utf-8"))
+    if body.get("schema") != expected_schema:
+        raise refusal(f"unexpected {family_label} prereg schema {body.get('schema')!r}")
+    ids = [entry[member_field] for entry in body.get(family_field, [])]
+    if member_id not in ids:
+        raise refusal(f"{member_id!r} is not preregistered in {prereg_path}")
+    return body
 
 
 @dataclass(frozen=True, slots=True)
