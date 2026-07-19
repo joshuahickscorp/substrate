@@ -16,7 +16,6 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import glob
 import hashlib
 import json
 from pathlib import Path
