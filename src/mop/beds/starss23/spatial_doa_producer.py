@@ -56,8 +56,6 @@ def _featurizer_hypothesis() -> str:
     raise SpatialDoaRefusal(f"featurizer {FEATURIZER_ID!r} is not in the sealed featurizer family")
 
 
-
-
 def _flop_model(kind: str, total_frames: int, train_frames: int, epochs: int) -> FlopModel:
     return arm_flop_model(
         kind,

@@ -1,21 +1,3 @@
-"""Series B: biology/evolution analogies, each operationalized as a falsifiable toy on cached pooled
-latents with an explicit null and a standing control. Nine cpu-now experiments:
-
-  B1  clonal-selection eviction vs PER vs random eviction at matched buffer slots (retention).
-  B2  Baldwin-effect: does a Reptile meta-init internalize the online protection (replay/EWC).
-  B3  stigmergic pheromone-field curriculum vs explicit learning-progress, with a noisy-TV guard.
-  B4  homeostatic synaptic scaling vs EWC for retention, separately and combined.
-  B5  degeneracy (structurally-distinct sub-predictors) vs matched-param single vs identical copies.
-  B6  sleep-style offline interleaved consolidation vs online replay at matched replay budget.
-  B7  developmental ordered curriculum vs shuffled vs hard-first at matched data.
-  B9  cerebellar forward-model error head as a correction feature, at matched compute.
-  B10 energy-budget (L1-activation) regularizer: capability-per-FLOP frontier vs dense and width sweep.
-
-Every run() does an explicit null check and returns "null_supported". Honest nulls only: the toy
-outcomes are reported as they fall, never tuned toward a positive.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -36,12 +18,7 @@ from ..substrate.datasets import make_task_stream
 from .base import Experiment, _mean, _spread
 
 
-# ----------------------------------------------------------------------------------------------
-# shared helpers
-# ----------------------------------------------------------------------------------------------
 def _domain_stream(dim: int, n_tasks: int, classes: int, samples: int, sep: float, seed: int):
-    """The reliable catastrophic-forgetting regime: a domain-incremental stream (shared labels,
-    independent geometry per task) is the standard retention testbed E1/E2 use."""
     return make_task_stream(
         n_tasks=n_tasks,
         dim=dim,
@@ -58,9 +35,6 @@ def _eval_acc(head: nn.Module, x: torch.Tensor, y: torch.Tensor) -> float:
         return float((head(x).argmax(-1) == y).float().mean())
 
 
-# ==============================================================================================
-# B1: clonal-selection eviction vs PER vs random at matched slots
-# ==============================================================================================
 class B1(Experiment):
     id = "b1_clonal_selection"
     metric = ("backward_transfer", "retention_at_matched_slots", "mutation_effect")
@@ -76,9 +50,6 @@ class B1(Experiment):
     def _train_with_buffer(
         stream, dim, nc, cap, policy, mutate, epochs, lr, replay_b, seed
     ) -> tuple[float, list[float]]:
-        """A small classifier over a domain stream with a fixed-capacity exemplar buffer.
-        policy in {clonal, per, random} decides which exemplars survive eviction. clonal keeps
-        high-affinity (recent loss-reduction) exemplars and optionally somatically mutates them."""
         seed_everything(seed)
         head = mlp(dim, nc, 64, depth=1)
         opt = torch.optim.Adam(head.parameters(), lr=lr)
@@ -96,14 +67,12 @@ class B1(Experiment):
                     loss = loss + F.cross_entropy(head(bx), by)
                 loss.backward()
                 opt.step()
-            # affinity for new candidates = loss reduction they would drive (use per-sample loss)
             with torch.no_grad():
                 per_loss = F.cross_entropy(head(x), y, reduction="none")
             cand_aff = per_loss  # higher loss => higher learning affinity (immune analogy)
             bx = torch.cat([bx, x])
             by = torch.cat([by, y])
             baff = torch.cat([baff, cand_aff])
-            # eviction down to cap slots
             if len(bx) > cap:
                 if policy == "clonal":
                     keep = baff.topk(cap).indices
@@ -113,12 +82,10 @@ class B1(Experiment):
                     keep = torch.randperm(len(bx), generator=g)[:cap]
                 bx, by, baff = bx[keep], by[keep], baff[keep]
                 if policy == "clonal" and mutate:
-                    # somatic hypermutation: small additive noise on a fraction of survivors
                     m = int(0.25 * len(bx))
                     idx = torch.randperm(len(bx), generator=g)[:m]
                     bx[idx] = bx[idx] + 0.05 * torch.randn(m, dim, generator=g)
             acc_after_each.append(_eval_acc(head, stream[0].x, stream[0].y))
-        # backward transfer = final accuracy on the FIRST task (retention)
         bwt = _eval_acc(head, stream[0].x, stream[0].y)
         return bwt, acc_after_each
 
@@ -171,14 +138,10 @@ class B1(Experiment):
             "seeds": list(seeds),
             "clonal_beats_baselines": bool(beats),
             "mutation_helps": bool(mutation_helps),
-            # null: clonal ties PER and random within spread, and mutation does not help
             "null_supported": bool((not beats) and (not mutation_helps)),
         }
 
 
-# ==============================================================================================
-# B2: Baldwin-effect, does a Reptile meta-init internalize the online protection
-# ==============================================================================================
 class B2(Experiment):
     id = "b2_baldwin_meta_init"
     metric = ("bwt_naive_from_meta", "bwt_naive_from_generic", "assimilation_gain")
@@ -192,7 +155,6 @@ class B2(Experiment):
 
     @staticmethod
     def _naive_bwt(stream, init_state, dim, nc, epochs, lr, seed) -> float:
-        """A NAIVE inner learner: no replay, no EWC, just sequential SGD from init_state."""
         seed_everything(seed)
         head = mlp(dim, nc, 48, depth=1)
         if init_state is not None:
@@ -212,7 +174,6 @@ class B2(Experiment):
         from_meta, from_generic = [], []
         for s in seeds:
             seed_everything(s)
-            # outer Reptile loop over many task-stream draws WITH protection (replay) in the inner loop
             meta = mlp(dim, nc, 48, depth=1)
             meta_lr = float(e.meta_lr)
             for it in range(int(e.outer_iters)):
@@ -234,12 +195,10 @@ class B2(Experiment):
                         opt.step()
                     buf_x = torch.cat([buf_x, task.x])
                     buf_y = torch.cat([buf_y, task.y])
-                # Reptile meta-update: pull meta toward the adapted inner weights
                 with torch.no_grad():
                     for pm_, pi in zip(meta.parameters(), inner.parameters(), strict=True):
                         pm_.add_(meta_lr * (pi.detach() - pm_))
             meta_state = {k: v.clone() for k, v in meta.state_dict().items()}
-            # held-out eval stream; naive learner from meta-init vs from a fresh generic init
             eval_stream = _domain_stream(
                 dim, int(e.n_tasks), nc, int(e.samples), float(e.separation), s + 9999
             )
@@ -261,14 +220,10 @@ class B2(Experiment):
             "seed_spread": round(spread, 4),
             "seeds": list(seeds),
             "protection_assimilated": bool(assimilated),
-            # null: the meta-init confers no retention advantage over a generic init
             "null_supported": bool(not assimilated),
         }
 
 
-# ==============================================================================================
-# B3: stigmergic curriculum vs explicit learning-progress, with a noisy-TV guard
-# ==============================================================================================
 class B3(Experiment):
     id = "b3_stigmergic_curriculum"
     metric = ("learnable_coverage", "noisy_tv_time_share", "stigmergic_vs_lp")
@@ -282,9 +237,6 @@ class B3(Experiment):
 
     @staticmethod
     def _samplers(dim, noise_scale, batch, seed):
-        """Fresh-sample region samplers (the noisy-TV doctrine: never memorize a finite noise set).
-        Two learnable regions have FIXED latent dynamics (rotation targets), the third is an
-        irreducible noise region whose target is fresh random each draw, so its LP collapses to zero."""
         g = torch.Generator().manual_seed(seed + 100)
         centers = torch.randn(2, dim, generator=g)
         rot = torch.linalg.qr(torch.randn(dim, dim, generator=g))[0]
@@ -308,11 +260,6 @@ class B3(Experiment):
 
     @staticmethod
     def _select_run(deposit_signal, samplers, dim, steps, decay, seed, temp=8.0) -> dict:
-        """Stigmergic selection over region samplers: a pheromone scalar per region that is a leaky
-        integrator (deposit + evaporation) of the deposit signal. deposit_signal in {lp, raw_error}.
-        Returns per-region visit shares. A small predictor per region learns from FRESH samples; the
-        held-out loss-reduction across visits is the learning progress. LP collapses on the irreducible
-        noise region (fresh targets), so an LP deposit rejects it while a raw-error deposit chases it."""
         seed_everything(seed)
         nreg = len(samplers)
         phero = torch.zeros(nreg)  # leaky integral of the deposit signal
@@ -322,7 +269,6 @@ class B3(Experiment):
         visits = torch.zeros(nreg)
         g = torch.Generator().manual_seed(seed + 3)
         for _ in range(steps):
-            # softmax over the field with temperature: sharp contrast between high-LP and ~0-LP regions
             probs = torch.softmax(temp * phero, dim=0)
             r = int(torch.multinomial(probs, 1, generator=g))
             visits[r] += 1
@@ -332,8 +278,6 @@ class B3(Experiment):
             loss.backward()
             opts[r].step()
             with torch.no_grad():
-                # smoothed held-out loss over several fresh batches so the noise region's high-variance
-                # MSE does not masquerade as learning progress (the estimator-variance guard)
                 losses = []
                 for _ in range(4):
                     xe, te = samplers[r]()
@@ -342,7 +286,6 @@ class B3(Experiment):
             pl = prev_loss[r]
             lp = 0.0 if pl is None else max(0.0, pl - new_loss)
             prev_loss[r] = new_loss
-            # normalize raw-error to a comparable scale so the only difference is LP vs raw magnitude
             dep = lp if deposit_signal == "lp" else new_loss / dim
             phero = phero * decay  # evaporation everywhere
             phero[r] = phero[r] + (1 - decay) * dep  # deposit at the visited region
@@ -351,7 +294,6 @@ class B3(Experiment):
 
     @staticmethod
     def _explicit_lp(samplers, dim, steps, seed) -> list[float]:
-        """Explicit LP bandit: argmax learning-progress greedy selection (the thing stigmergy must tie)."""
         seed_everything(seed)
         nreg = len(samplers)
         preds = [mlp(dim, dim, 48, depth=1) for _ in samplers]
@@ -388,7 +330,6 @@ class B3(Experiment):
         batch = int(e.batch)
         stig_cov, lp_cov, stig_noise, rawerr_noise = [], [], [], []
         for s in seeds:
-            # two learnable regions + one noisy-TV region (irreducible, fresh-sampled target)
             samplers = self._samplers(dim, float(e.noise_scale), batch, s)
             noise_idx = 2
             stig = self._select_run("lp", samplers, dim, steps, decay, s)
@@ -418,14 +359,10 @@ class B3(Experiment):
             "stigmergy_ties_lp": bool(ties_lp),
             "stigmergy_rejects_noisy_tv": bool(stig_rejects_noise),
             "rawerror_chases_noisy_tv": bool(rawerr_chases),
-            # null: stigmergy ties LP AND raw-error deposit chases the noisy-TV more than LP-deposit
             "null_supported": bool(ties_lp and rawerr_chases),
         }
 
 
-# ==============================================================================================
-# B4: homeostatic synaptic scaling vs EWC for retention
-# ==============================================================================================
 class B4(Experiment):
     id = "b4_homeostatic_scaling"
     metric = ("backward_transfer", "homeostasis_effect", "homeostasis_on_top_of_ewc")
@@ -439,8 +376,6 @@ class B4(Experiment):
 
     @staticmethod
     def _scale_to_target(layer: nn.Linear, x: torch.Tensor, target: float) -> None:
-        """Synaptic scaling: multiplicatively rescale a layer's incoming weights to restore a target
-        mean activation magnitude. Unsupervised, label-free, parameter-light."""
         with torch.no_grad():
             act = layer(x).abs().mean().clamp_min(1e-6)
             layer.weight.mul_(target / act)
@@ -482,7 +417,6 @@ class B4(Experiment):
             homeo.append(self._run_arm(stream, dim, nc, False, True, epochs, lr, target, s))
             ewc.append(self._run_arm(stream, dim, nc, True, False, epochs, lr, target, s))
             ewc_homeo.append(self._run_arm(stream, dim, nc, True, True, epochs, lr, target, s))
-            # frozen-random substrate control: same homeostasis arm on a random projection of the latents
             fr_stream = [
                 type(t)(t.name, frozen_random_projection(t.x, s), t.y, None, t.n_classes, t.task_id)
                 for t in stream
@@ -509,14 +443,10 @@ class B4(Experiment):
             "homeostasis_helps_alone": bool(homeo_helps),
             "homeostasis_adds_on_top_of_ewc": bool(adds_on_top),
             "effect_needs_real_substrate": bool(needs_real),
-            # null: homeostasis alone does not help AND adds nothing on top of EWC
             "null_supported": bool((not homeo_helps) and (not adds_on_top)),
         }
 
 
-# ==============================================================================================
-# B5: degeneracy vs matched-param single vs identical copies
-# ==============================================================================================
 class B5(Experiment):
     id = "b5_degeneracy_robustness"
     metric = ("degradation_auc", "backward_transfer", "degeneracy_vs_baselines")
@@ -530,7 +460,6 @@ class B5(Experiment):
 
     @staticmethod
     def _build_degenerate(dim, nc, widths):
-        """K structurally-distinct sub-predictors (different widths, GELU vs ReLU vs Tanh) that vote."""
         acts = [nn.GELU(), nn.ReLU(), nn.Tanh()]
         mods = []
         for i, w in enumerate(widths):
@@ -554,7 +483,6 @@ class B5(Experiment):
 
     @staticmethod
     def _degradation_auc(members, x, y, strengths, seed) -> float:
-        """Mean accuracy across a sweep of additive-noise perturbation strengths (graceful degradation)."""
         g = torch.Generator().manual_seed(seed + 11)
         accs = []
         for st in strengths:
@@ -589,12 +517,10 @@ class B5(Experiment):
 
             deg = self._build_degenerate(dim, nc, widths)
             self._train_vote(deg, xtr, ytr, int(e.epochs), float(e.lr))
-            # matched-param single predictor: one MLP with width tuned to total degenerate params
             total = sum(param_count(m) for m in deg)
             sw = max(8, int(total / (dim + nc)))
             single = nn.ModuleList([nn.Sequential(nn.Linear(dim, sw), nn.GELU(), nn.Linear(sw, nc))])
             self._train_vote(single, xtr, ytr, int(e.epochs), float(e.lr))
-            # K identical copies (pure redundancy): same width, same activation, different init via members
             copies = nn.ModuleList(
                 [
                     nn.Sequential(nn.Linear(dim, widths[0]), nn.GELU(), nn.Linear(widths[0], nc))
@@ -607,7 +533,6 @@ class B5(Experiment):
             sin_auc.append(self._degradation_auc(single, xte, yte, strengths, s))
             cop_auc.append(self._degradation_auc(copies, xte, yte, strengths, s))
 
-            # retention: fit on full stream then read task0
             for m, store in (
                 (self._build_degenerate(dim, nc, widths), deg_bwt),
                 (nn.ModuleList([nn.Sequential(nn.Linear(dim, sw), nn.GELU(), nn.Linear(sw, nc))]), sin_bwt),
@@ -630,13 +555,11 @@ class B5(Experiment):
         spread = max(_spread(deg_auc), _spread(sin_auc), _spread(cop_auc))
         flatter = (da - sa > spread) and (da - ca > spread)
         retains = (db - sb > spread) and (db - cb > spread)
-        # real matched-compute control (D5): degenerate ensemble FLOPs vs the param-matched single MLP
         flops_deg = sum(mlp_flops([dim, w, nc]) for w in widths)
         total_params = sum(param_count(m) for m in self._build_degenerate(dim, nc, widths))
         sw = max(8, int(total_params / (dim + nc)))
         flops_single = mlp_flops([dim, sw, nc])
         compute = matched_within(flops_deg, flops_single)
-        # a win counts as representational (taxonomy 9) only when it survives matched compute
         flatter = flatter and compute["matched"]
         retains = retains and compute["matched"]
         return {
@@ -653,14 +576,10 @@ class B5(Experiment):
             "seeds": list(seeds),
             "degenerate_more_robust": bool(flatter),
             "degenerate_retains_better": bool(retains),
-            # null: degeneracy ties both baselines on robustness and retention at matched compute
             "null_supported": bool((not flatter) and (not retains)),
         }
 
 
-# ==============================================================================================
-# B6: sleep-style offline interleaved consolidation vs online replay
-# ==============================================================================================
 class B6(Experiment):
     id = "b6_offline_consolidation"
     metric = ("bwt_online", "bwt_offline", "bwt_dreaming")
@@ -674,7 +593,6 @@ class B6(Experiment):
 
     @staticmethod
     def _run(stream, dim, nc, mode, budget, epochs, lr, seed) -> float:
-        """mode in {online, offline, dreaming}. budget = total replayed samples across the stream."""
         seed_everything(seed)
         head = mlp(dim, nc, 48, depth=1)
         opt = torch.optim.Adam(head.parameters(), lr=lr)
@@ -694,7 +612,6 @@ class B6(Experiment):
                 opt.step()
             bx = torch.cat([bx, task.x])
             by = torch.cat([by, task.y])
-            # OFFLINE phase: a separate, lower-lr interleaved replay sweep decoupled from online learning
             if mode in ("offline", "dreaming") and ti > 0:
                 off_opt = torch.optim.Adam(head.parameters(), lr=lr * 0.5)
                 k = min(per_task_budget, len(bx))
@@ -702,7 +619,6 @@ class B6(Experiment):
                     idx = torch.randperm(len(bx), generator=g)[:k]
                     rx, ry = bx[idx], by[idx]
                     if mode == "dreaming":
-                        # generated pseudo-latents: class-conditional Gaussian around stored means
                         rx = rx + 0.1 * torch.randn(rx.shape, generator=g)
                     off_opt.zero_grad()
                     F.cross_entropy(head(rx), ry).backward()
@@ -735,14 +651,10 @@ class B6(Experiment):
             "seeds": list(seeds),
             "offline_beats_online": bool(offline_beats),
             "dreaming_matches_stored": bool(dream_matches_stored),
-            # null: offline ties online (scheduling does not matter) at matched budget
             "null_supported": bool(not offline_beats),
         }
 
 
-# ==============================================================================================
-# B7: developmental ordered curriculum vs shuffled vs hard-first
-# ==============================================================================================
 class B7(Experiment):
     id = "b7_developmental_curriculum"
     metric = ("final_competence", "ordered_vs_shuffled", "ordered_vs_hardfirst")
@@ -756,7 +668,6 @@ class B7(Experiment):
 
     @staticmethod
     def _make_blocks(dim, nc, samples, seps, seed):
-        """Difficulty-graded blocks via the separation knob: low separation = hard, high = easy."""
         blocks = []
         for i, sep in enumerate(seps):
             t = make_task_stream(
@@ -781,7 +692,6 @@ class B7(Experiment):
                 opt.zero_grad()
                 F.cross_entropy(head(x), y).backward()
                 opt.step()
-        # final competence on the HARDEST block (lowest separation)
         hardest = min(range(len(blocks)), key=lambda i: blocks[i][2])
         hx, hy, _ = blocks[hardest]
         return _eval_acc(head, hx, hy)
@@ -792,11 +702,9 @@ class B7(Experiment):
         dim, nc = int(e.dim), int(e.n_classes)
         seps = [float(x) for x in e.separations]  # ascending difficulty knob, listed easy-to-hard
         ordered, shuffled, hardfirst = [], [], []
-        # D3 resolvability: do the easiest and hardest blocks differ in solo competence at all
         resolvable_flags = []
         for s in seeds:
             blocks = self._make_blocks(dim, nc, int(e.samples), sorted(seps, reverse=True), s)
-            # blocks sorted easy(high sep)-to-hard(low sep)
             easy_order = list(range(len(blocks)))  # ascending index == easy-to-hard
             g = torch.Generator().manual_seed(s + 17)
             shuf_order = torch.randperm(len(blocks), generator=g).tolist()
@@ -804,7 +712,6 @@ class B7(Experiment):
             ordered.append(self._train_order(blocks, easy_order, dim, nc, int(e.epochs), float(e.lr), s))
             shuffled.append(self._train_order(blocks, shuf_order, dim, nc, int(e.epochs), float(e.lr), s))
             hardfirst.append(self._train_order(blocks, hard_order, dim, nc, int(e.epochs), float(e.lr), s))
-            # D3: solo competence on easiest vs hardest
             solo_easy = self._train_order([blocks[0]], [0], dim, nc, int(e.epochs), float(e.lr), s)
             solo_hard = self._train_order([blocks[-1]], [0], dim, nc, int(e.epochs), float(e.lr), s)
             resolvable_flags.append(abs(solo_easy - solo_hard) > 0.05)
@@ -823,14 +730,10 @@ class B7(Experiment):
             "regime_resolvable_d3": bool(resolvable),
             "seeds": list(seeds),
             "ordered_beats_both": bool(ordered_beats and resolvable),
-            # null: ordered ties shuffled at matched data (order does not matter here)
             "null_supported": bool(not (ordered_beats and resolvable)),
         }
 
 
-# ==============================================================================================
-# B9: cerebellar forward-model error head as a correction feature
-# ==============================================================================================
 class B9(Experiment):
     id = "b9_cerebellar_forward_model"
     metric = ("accuracy_flat", "accuracy_forward_model", "rollout_r2")
@@ -876,7 +779,6 @@ class B9(Experiment):
             xtr, ytr, xntr = x[:cut], y[:cut], xn[:cut]
             xte, yte = x[cut:], y[cut:]
 
-            # flat predictor: two-block MLP (matched depth to the forward-model branch)
             seed_everything(s)
             flat = nn.Sequential(
                 nn.Linear(dim, hidden), nn.GELU(), nn.Linear(hidden, hidden), nn.GELU(), nn.Linear(hidden, nc)
@@ -888,7 +790,6 @@ class B9(Experiment):
                 fo.step()
             flat_acc.append(_eval_acc(flat, xte, yte))
 
-            # forward-model head: predicts xnext from x; its error feeds the classifier as a feature
             for stop_grad, store in ((False, fm_acc), (True, sg_acc)):
                 seed_everything(s)
                 fwd = nn.Sequential(nn.Linear(dim, hidden), nn.GELU(), nn.Linear(hidden, dim))
@@ -904,8 +805,6 @@ class B9(Experiment):
                     loss = F.cross_entropy(clf(feat), ytr) + F.mse_loss(pred_next, xntr)
                     loss.backward()
                     opt.step()
-                # test features: the forward-model next-target is unavailable at test time, so feed the
-                # model's own predicted-next deviation from its batch mean as the correction feature
                 with torch.no_grad():
                     pn = fwd(xte)
                     err_te = pn - pn.mean(0, keepdim=True)
@@ -917,7 +816,6 @@ class B9(Experiment):
         fa, ma, sa = _mean(flat_acc), _mean(fm_acc), _mean(sg_acc)
         r2 = _mean(r2s)
         spread = max(_spread(flat_acc), _spread(fm_acc), _spread(sg_acc))
-        # matched compute: flat has two hidden blocks; fm has a fwd MLP + a wider-input clf. Report ratio.
         flops_flat = mlp_flops([dim, hidden, hidden, nc])
         flops_fm = mlp_flops([dim, hidden, dim]) + mlp_flops([dim * 2, hidden, nc])
         compute = matched_within(flops_flat, flops_fm)
@@ -936,14 +834,10 @@ class B9(Experiment):
             "compute_matched": compute,
             "seeds": list(seeds),
             "forward_model_helps": bool(fm_helps and rollout_ok),
-            # null: forward-model ties flat at matched compute, OR rollout below the D6 floor
             "null_supported": bool((not fm_helps) or (not rollout_ok)),
         }
 
 
-# ==============================================================================================
-# B10: energy-budget regularizer, capability-per-FLOP frontier
-# ==============================================================================================
 class B10(Experiment):
     id = "b10_energy_budget"
     metric = ("capability_per_flop", "activation_sparsity", "frontier_beats_width_sweep")
@@ -957,7 +851,6 @@ class B10(Experiment):
 
     @staticmethod
     def _train_energy(x, y, xte, yte, dim, nc, hidden, lam, epochs, lr, seed) -> tuple[float, float]:
-        """Train an MLP with an L1-activation penalty (spike-count proxy). Returns (accuracy, sparsity)."""
         seed_everything(seed)
         lin1 = nn.Linear(dim, hidden)
         lin2 = nn.Linear(hidden, nc)
@@ -983,7 +876,6 @@ class B10(Experiment):
         widths = [int(w) for w in e.sweep_widths]
         epochs, lr = int(e.epochs), float(e.lr)
 
-        # capability per FLOP measures accuracy at the EFFECTIVE (active) FLOPs; sparsity cuts active FLOPs
         energy_cpf, width_cpf, dense_cpf = [], [], []
         best_sparsity = []
         for s in seeds:
@@ -1001,7 +893,6 @@ class B10(Experiment):
             xtr, ytr, xte, yte = x[:cut], y[:cut], x[cut:], y[cut:]
             dense_flops = mlp_flops([dim, hidden, nc])
 
-            # energy arm: sweep lambda, effective FLOPs = dense_flops * (1 - sparsity) for the hidden layer
             e_pts = []
             for lam in lams:
                 acc, sp = self._train_energy(xtr, ytr, xte, yte, dim, nc, hidden, lam, epochs, lr, s)
@@ -1012,14 +903,12 @@ class B10(Experiment):
             )
             energy_cpf.append(max(a / f for a, f in e_pts))
 
-            # width sweep: smaller dense MLPs, accuracy at their FLOPs
             w_pts = []
             for w in widths:
                 acc, _ = self._train_energy(xtr, ytr, xte, yte, dim, nc, w, 0.0, epochs, lr, s)
                 w_pts.append((acc, max(1.0, mlp_flops([dim, w, nc]))))
             width_cpf.append(max(a / f for a, f in w_pts))
 
-            # dense reference at full width, no penalty
             acc_dense, _ = self._train_energy(xtr, ytr, xte, yte, dim, nc, hidden, 0.0, epochs, lr, s)
             dense_cpf.append(acc_dense / max(1.0, dense_flops))
 
@@ -1039,6 +928,5 @@ class B10(Experiment):
             "usable_operating_point": bool(usable),
             "seeds": list(seeds),
             "energy_beats_width_sweep": bool(beats_width and beats_dense and usable),
-            # null: the energy frontier does not beat the width sweep (same line), or collapse
             "null_supported": bool((not (beats_width and beats_dense)) or (not usable)),
         }

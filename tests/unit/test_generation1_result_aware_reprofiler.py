@@ -1,13 +1,3 @@
-"""Tests for the result-aware reprofiler (advisory auto-tuner).
-
-Covers per-mechanism observed-rate collection over a tiny synthetic receipt tree
-(complete vs partial vs bad-seal receipts, only complete counted), the idle-host
-worker-count math at boundary memory and core values, the sealed artifact round trip
-plus forgery rejection, a byte-identical determinism double build, and a real read of
-the sealed successor-mechanics result proving the 11 continuing lanes and the pruned
-G1-P1 are extracted. Everything the module produces is advisory; nothing activates or
-promotes.
-"""
 
 from __future__ import annotations
 
@@ -26,9 +16,6 @@ _PROOF = REPO_ROOT / "proof/GENERATION1_SUCCESSOR_MECHANICS_EXTENDED.json"
 _MECHANICS_RUNS = REPO_ROOT / "runs/generation1/generation1-successor-mechanics-extended-v1"
 
 
-# ----------------------------------------------------------------------------------
-# Synthetic receipt-tree helpers
-# ----------------------------------------------------------------------------------
 
 
 def _receipt_core(
@@ -88,7 +75,6 @@ def _write_receipt(
 
 def _build_tree(root: Path) -> None:
     second = 1_000_000_000
-    # mech_x: three producer rungs 10 s apart -> two 0.1 s/seed observations (100 seeds).
     for rung, offset in ((0, 0), (1, 10), (2, 20)):
         _write_receipt(
             root,
@@ -103,7 +89,6 @@ def _build_tree(root: Path) -> None:
             ),
             mtime_ns=1_000 * second + offset * second,
         )
-    # mech_y: a single canary rung (no adjacent gap) -> no observation, provisional.
     _write_receipt(
         root,
         _receipt_core(
@@ -117,7 +102,6 @@ def _build_tree(root: Path) -> None:
         ),
         mtime_ns=2_000 * second,
     )
-    # mech_z: one partial (complete False) and one bad-seal receipt -> both skipped.
     _write_receipt(
         root,
         _receipt_core(
@@ -148,9 +132,6 @@ def _build_tree(root: Path) -> None:
     )
 
 
-# ----------------------------------------------------------------------------------
-# collect_observed_rates over a synthetic tree
-# ----------------------------------------------------------------------------------
 
 
 def test_collect_counts_only_complete_receipts(tmp_path: Path) -> None:
@@ -162,20 +143,15 @@ def test_collect_counts_only_complete_receipts(tmp_path: Path) -> None:
     profile = reprof.collect_observed_rates(runs_root, proof_root)
     observed = profile["observed_rates"]
 
-    # Only the complete mech_x block yields an observed rate.
     assert set(observed) == {"mech_x"}
     assert observed["mech_x"]["observed_seconds_per_seed"] == pytest.approx(0.1)
     assert observed["mech_x"]["sample_rungs"] == 2
     assert observed["mech_x"]["complete_receipts"] == 3
     assert observed["mech_x"]["total_seeds"] == 300
 
-    # mech_y is complete but has no adjacent-rung gap, so it stays provisional.
     assert "mech_y" not in observed
-    # mech_z receipts (partial + bad seal) never become an observed rate.
     assert "mech_z" not in observed
 
-    # 6 mechanics-schema receipts seen (3 mech_x, 1 mech_y canary, 2 mech_z); the
-    # partial and the bad-seal mech_z receipts are the only skips.
     assert profile["receipts_seen"] == 6
     assert profile["receipts_skipped"] == 2
 
@@ -185,8 +161,6 @@ def test_collect_ignores_foreign_schema_receipts(tmp_path: Path) -> None:
     proof_root = tmp_path / "proof"
     proof_root.mkdir()
     _build_tree(runs_root)
-    # A rung file from some other program with a different schema must be ignored,
-    # not counted as seen and not skipped.
     foreign = runs_root / "other" / "phase" / "rung_000.json"
     foreign.parent.mkdir(parents=True, exist_ok=True)
     foreign.write_text(json.dumps({"schema": "some-other-program/v1", "value": 1}), encoding="utf-8")
@@ -196,9 +170,6 @@ def test_collect_ignores_foreign_schema_receipts(tmp_path: Path) -> None:
     assert profile["receipts_skipped"] == 2
 
 
-# ----------------------------------------------------------------------------------
-# Worker-count math at boundaries
-# ----------------------------------------------------------------------------------
 
 
 def test_worker_count_memory_bound() -> None:
@@ -212,21 +183,18 @@ def test_worker_count_memory_bound() -> None:
 
 
 def test_worker_count_core_bound() -> None:
-    # Plentiful memory, few cores: cores - reserve binds.
     math_block = reprof.recommended_worker_count(8, 1_000.0, 1.0)
     assert math_block["recommended_workers"] == 4
     assert math_block["binding_constraint"] == "cores_after_reserve"
 
 
 def test_worker_count_ceiling_bound() -> None:
-    # Big host: the hard ceiling binds.
     math_block = reprof.recommended_worker_count(64, 1_024.0, 16.0)
     assert math_block["recommended_workers"] == reprof.WORKER_HARD_CEILING == 16
     assert math_block["binding_constraint"] == "hard_ceiling"
 
 
 def test_worker_count_clamped_to_floor() -> None:
-    # Tiny memory drives the memory term to zero; the result clamps up to one worker.
     math_block = reprof.recommended_worker_count(5, 1.0, 16.0)
     assert math_block["memory_bound_workers"] == 0
     assert math_block["recommended_workers"] == 1
@@ -234,7 +202,6 @@ def test_worker_count_clamped_to_floor() -> None:
 
 
 def test_worker_count_tie_breaks_toward_cores() -> None:
-    # cores_after_reserve == memory_bound == hard_ceiling == 16; cores wins the tie.
     math_block = reprof.recommended_worker_count(20, 256.0, 16.0)
     assert math_block["recommended_workers"] == 16
     assert math_block["binding_constraint"] == "cores_after_reserve"
@@ -270,9 +237,6 @@ def test_reprofile_uses_observed_else_planned() -> None:
     assert result["projection"]["ideal_worker_hours"] == pytest.approx(2.0 / 6.0)
 
 
-# ----------------------------------------------------------------------------------
-# Seal round trip and forgery rejection
-# ----------------------------------------------------------------------------------
 
 
 def _synthetic_profile() -> dict[str, object]:
@@ -348,9 +312,6 @@ def test_forgery_field_drift_is_rejected() -> None:
         reprof.validate_reprofile(extra)
 
 
-# ----------------------------------------------------------------------------------
-# Determinism
-# ----------------------------------------------------------------------------------
 
 
 def test_determinism_double_build_is_byte_identical(tmp_path: Path) -> None:
@@ -368,9 +329,6 @@ def test_determinism_double_build_is_byte_identical(tmp_path: Path) -> None:
     assert json.dumps(artifact_one, sort_keys=True) == json.dumps(artifact_two, sort_keys=True)
 
 
-# ----------------------------------------------------------------------------------
-# Real read of the sealed successor-mechanics result
-# ----------------------------------------------------------------------------------
 
 
 @pytest.mark.skipif(not _PROOF.is_file(), reason="sealed mechanics result not present on disk")
@@ -384,9 +342,7 @@ def test_real_result_extracts_eleven_continuing_lanes_and_pruned_p1() -> None:
     assert profile["pruned_lanes"] == ["G1-P1"]
     assert profile["lane_mechanisms"]["G1-P1"] == "stability_plasticity"
 
-    # The pruned lane's mechanism has no continuing-phase timing, so it is provisional.
     assert "stability_plasticity" not in profile["observed_rates"]
-    # Construction search is the dominant lane and gets a real observed rate.
     assert "construction_search" in profile["observed_rates"]
     assert profile["observed_rates"]["construction_search"]["observed_seconds_per_seed"] == pytest.approx(
         0.0407, abs=5e-3

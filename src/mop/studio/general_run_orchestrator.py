@@ -123,14 +123,6 @@ STARTUP_ACK_SECONDS = 300.0
 PROCESS_TIME_TOLERANCE_SECONDS = 0.02
 MAX_JSON_BYTES = 64 * 1024 * 1024
 
-# The consolidated-final census is the one legacy prerequisite that can still be
-# running when the orchestrator observes the legacy tier.  It is pinned by its
-# exact process identity (preregistered here per house rule) so its churning
-# mop-final-* worker pool never has to be enumerated or stabilized, and so a
-# reused pid can never be mistaken for it.  A process is the census iff its pid,
-# label, and create_time (within a small tolerance of the pinned start time) all
-# match; the create_time tolerance is generous enough for the truncated pinned
-# literal yet far tighter than the many seconds a pid-reuse imposter starts later.
 FINAL_CENSUS_PID = 67790
 FINAL_CENSUS_CREATE_TIME = 1784160329.97262
 FINAL_CENSUS_LABEL = "mop-final-campaign"
@@ -204,7 +196,7 @@ STATUS_FIELDS = frozenset(
 
 
 class GeneralRunRefused(RuntimeError):
-    """The general-run orchestrator could not establish an exact safe boundary."""
+    pass
 
 
 IdentityProbe = Callable[[Mapping[str, Any]], str]
@@ -219,7 +211,6 @@ NowFn = Callable[[], dt.datetime]
 
 @dataclass(frozen=True, slots=True)
 class ComputeStage:
-    """One sealed compute program the orchestrator launches then observes."""
 
     stage_id: str
     program_id: str
@@ -345,7 +336,6 @@ def _default_executable_probe(process: ProcessSnapshot) -> str | None:
 
 
 def _default_reprofiler() -> dict[str, Any]:
-    """Advisory idle-host worker recommendation; never changes a sealed program."""
 
     worker_math = recommended_worker_count(
         DEFAULT_HOST_CORES,
@@ -376,7 +366,6 @@ def _empty_compute_row() -> dict[str, Any]:
 
 
 class GeneralRunOrchestrator:
-    """Sequence the whole Generation 1 chain in a single observe-only control loop."""
 
     def __init__(
         self,
@@ -423,14 +412,6 @@ class GeneralRunOrchestrator:
         self._manifest_by_program_id = {
             stage.program_id: (self.repo_root / stage.manifest_rel).resolve() for stage in COMPUTE_STAGES
         }
-        # The observe-only legacy owner is retained purely as a churn-immune
-        # result reader: observe_legacy calls only its _validated_result helper (a
-        # pure sealed-file read) to complete the non-census prerequisites, bound to
-        # this orchestrator's own root. execute=False keeps it strictly
-        # observe-only. The fragile v7 stabilization adopter (_stable_process_table
-        # / _reconcile_legacy) is no longer driven at all, because the
-        # consolidated-final census is pinned by exact process identity instead of
-        # resnapshotting its churning mop-final-* worker pool.
         self._legacy_owner = legacy_chain.SuccessorEvidenceChain(
             root=self.root,
             repo_root=self.repo_root,
@@ -446,9 +427,6 @@ class GeneralRunOrchestrator:
         self._legacy_specs = self._legacy_owner.specs
         self.state = self._load_state()
 
-    # ------------------------------------------------------------------
-    # Durable state
-    # ------------------------------------------------------------------
 
     @property
     def state_path(self) -> Path:
@@ -574,16 +552,8 @@ class GeneralRunOrchestrator:
         atomic_write_json(self.status_path, status)
         return status
 
-    # ------------------------------------------------------------------
-    # Stage: observe_legacy (churn-immune pinned-identity census poll)
-    # ------------------------------------------------------------------
 
     def _is_final_census(self, process: ProcessSnapshot) -> bool:
-        # Pin the census by its exact identity: the pinned pid, the pinned label,
-        # and a create_time within a small tolerance of the pinned start time. The
-        # create_time gate is what stops a reused pid from being mistaken for the
-        # census: any process that inherits the pid after the census exits starts
-        # many seconds later and fails this match.
         return (
             process.pid == FINAL_CENSUS_PID
             and process.label == FINAL_CENSUS_LABEL
@@ -597,13 +567,6 @@ class GeneralRunOrchestrator:
         )
 
     def _observe_final_census(self, row: dict[str, Any], processes: Sequence[ProcessSnapshot]) -> None:
-        # Poll ONLY the pinned census pid; never enumerate or stabilize its
-        # mop-final-* worker pool. Present with the exact pinned identity: the
-        # census is still running, so hold the stage (adopted). Pid entirely free:
-        # the census has exited, so the prerequisite is complete. Pid occupied by a
-        # NON-census process (a reused pid, wrong create_time or label): never
-        # mistake it for the census, and hold conservatively rather than advance on
-        # an ambiguous recycled pid.
         on_pid = [process for process in processes if process.pid == FINAL_CENSUS_PID]
         census = next((process for process in on_pid if self._is_final_census(process)), None)
         if census is not None:
@@ -627,12 +590,6 @@ class GeneralRunOrchestrator:
         row["last_problem"] = None
 
     def _tick_observe_legacy(self) -> dict[str, Any]:
-        # Churn-immune legacy observation. A non-census prerequisite is COMPLETE
-        # iff its sealed validated terminal result exists (a pure file read via the
-        # observe-only owner, never a process-table walk). The consolidated-final
-        # census is the only prerequisite that can still be mid-flight here; it is
-        # pinned by exact process identity so its churning mop-final-* worker pool
-        # never has to be sampled or stabilized.
         processes = tuple(self.process_table_fn())
         for spec in self._legacy_specs:
             row = self.state["legacy_capsules"][spec.stage_id]
@@ -650,9 +607,6 @@ class GeneralRunOrchestrator:
         self.state["status"] = STAGE_OBSERVE_LEGACY
         return self._publish()
 
-    # ------------------------------------------------------------------
-    # Stages: the four sealed compute programs (launch then observe)
-    # ------------------------------------------------------------------
 
     def _load_compute_program(self, path: Path, expected_id: str) -> Program:
         try:
@@ -812,9 +766,6 @@ class GeneralRunOrchestrator:
         if predecessor is None:
             row = self._persist_launch_intent(stage, row)
             return self._invoke_starter(stage, row, program)
-        # Hold the predecessor's generic supervisor lock across the launch intent
-        # and re-confirm the predecessor is still stable-complete before and after
-        # persisting it, so a launch can never race a predecessor that regressed.
         with FileLock(predecessor.program_root / GENERIC_LOCK_FILE):
             before = stable_complete_generic_status(predecessor, acquire_lock=False)
             row = self._persist_launch_intent(stage, row)
@@ -896,8 +847,6 @@ class GeneralRunOrchestrator:
                     row["last_problem"] = f"{stage.program_id} generic supervisor is in state {state}"
                     return row
         if visible:
-            # Another parent (a parked waiter) or a prior incarnation already
-            # started this exact supervisor; adopt and observe it, never relaunch.
             row["status"] = "adoption_wait"
             row["process"] = visible[0].identity()
             row["last_problem"] = (
@@ -908,7 +857,6 @@ class GeneralRunOrchestrator:
             row["status"] = "pending"
             row["last_problem"] = f"{stage.program_id} start requires explicit --execute"
             return row
-        # Advisory reprofiler consult at stage entry (recorded, never gates).
         self._record_reprofile(stage)
         if stage.enforce_admission and not self._record_admission(program, status):
             row["status"] = "pending"
@@ -955,9 +903,6 @@ class GeneralRunOrchestrator:
             raise GeneralRunRefused("general-run marked complete without a complete final wave")
         self._mark_compute_complete(program, row, ())
 
-    # ------------------------------------------------------------------
-    # Control loop
-    # ------------------------------------------------------------------
 
     def _control_requested(self) -> bool:
         path = self.root / CONTROL_FILE
@@ -1023,13 +968,9 @@ class GeneralRunOrchestrator:
                 self.sleep_fn(self.poll_seconds)
 
 
-# ----------------------------------------------------------------------------
-# Status validation and durable readers
-# ----------------------------------------------------------------------------
 
 
 def validate_general_run_status(status: Mapping[str, Any], *, repo_root: Path = REPO_ROOT) -> str:
-    """Validate one exact self-sealed general-run status acknowledgement."""
 
     repo_root = repo_root.resolve()
     if not isinstance(status, Mapping) or set(status) != STATUS_FIELDS:
@@ -1112,7 +1053,6 @@ def read_validated_complete_general_run_status(
     root: Path = DEFAULT_ROOT,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Read and validate one durable, complete general-run status."""
 
     status = read_general_run_status(root)
     state = validate_general_run_status(status, repo_root=repo_root)
@@ -1140,9 +1080,6 @@ def request_stop(root: Path = DEFAULT_ROOT, reason: str = "operator requested dr
     return payload
 
 
-# ----------------------------------------------------------------------------
-# Idempotent detached start (CLI)
-# ----------------------------------------------------------------------------
 
 
 def _process_identity_alive(identity: object) -> bool:

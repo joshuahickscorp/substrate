@@ -1,22 +1,3 @@
-"""Sensing and evidence scaffold contracts over the Wave E0 event graph.
-
-This module raises the scaffolding axis for four potential-atlas facets: native computer audio
-(SR3), semantic coverage and perspective plurality (SR5), current substrate controls (SR6), and
-data rights and privacy authority (EV4). It supplies machine-checkable contracts, deterministic
-synthetic fixtures, declared controls and nulls, and refusal rules that fail closed. It performs
-no audio decode, loads no model weights, and touches no network or natural data.
-
-Claim scope: deterministic programmatic mechanics only; no capability claim. A green contract
-here means the declarations are complete and self-consistent, never that native audio, extra
-perspectives, or rights-clean cohorts carry any demonstrated value.
-
-Composition policy (FORM_SUBSTRATE_CODEMAP.md section 2): this module composes the existing
-Wave E0 primitives (events.EventGraph, scenario_factory.make_scenario, the JOIN_CONTROLS probe
-pattern) and adds only the sensing-specific contract layer. It duplicates no referent, store,
-alignment, or transfer logic.
-
-House style: no em dashes or en dashes.
-"""
 
 from __future__ import annotations
 
@@ -41,8 +22,6 @@ from ..substrate.events import (
 )
 
 SENSING_SCAFFOLD_SCHEMA = "mop-sensing-scaffold/v1"
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so the substrate layer never imports the experiments layer; a unit test pins equality.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -83,7 +62,7 @@ CAUSAL_BASELINE_ARM = "temporal-correlation"
 
 
 class ScaffoldRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, or outside its declared scope."""
+    pass
 
 
 def _require_sha256(value: str, label: str) -> None:
@@ -96,13 +75,9 @@ def _require_id(value: str, label: str) -> None:
         raise ScaffoldRefusal(f"{label} must use stable lowercase characters")
 
 
-# ---------------------------------------------------------------------------------------------
-# (a) Native audio form contract: SR3. Contracts and synthetic fixtures only; no decode.
-# ---------------------------------------------------------------------------------------------
 
 
 def _seeded_bytes(seed: int, label: str, count: int) -> bytes:
-    """Deterministic byte stream from repeated hashing; no OS entropy, no time dependence."""
 
     if seed < 0 or count < 0:
         raise ScaffoldRefusal("seeded byte stream requires nonnegative seed and count")
@@ -118,10 +93,6 @@ def _seeded_bytes(seed: int, label: str, count: int) -> bytes:
 
 @dataclass(frozen=True, slots=True)
 class WaveformSpec:
-    """Declaration of raw waveform bytes: shape, clock rate, and content digest.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     waveform_sha256: str
     sample_rate_hz: int
@@ -161,10 +132,6 @@ def make_synthetic_waveform(
     sample_rate_hz: int = 16_000,
     num_samples: int = 32,
 ) -> tuple[bytes, WaveformSpec]:
-    """Deterministic synthetic PCM fixture. Not audio evidence; a byte-exact test vector.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if kind not in WAVEFORM_KINDS:
         raise ScaffoldRefusal(f"unsupported waveform kind {kind!r}")
@@ -216,10 +183,6 @@ def make_synthetic_waveform(
 
 @dataclass(frozen=True, slots=True)
 class SampleClockBinding:
-    """Binds a waveform to one Wave E0 sensor clock with exact integer duration agreement.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     waveform_sha256: str
     clock_ref: SensorClockRef
@@ -237,7 +200,6 @@ class SampleClockBinding:
         span_ticks = clock.capture_end_tick - clock.capture_start_tick
         if span_ticks <= 0:
             raise ScaffoldRefusal("waveform capture interval must span at least one tick")
-        # Exact integer cross-multiplication: num_samples / rate == span_ticks * period_ns / 1e9.
         if self.num_samples * 1_000_000_000 != self.sample_rate_hz * span_ticks * clock.tick_period_ns:
             raise ScaffoldRefusal("waveform duration does not equal the declared capture interval")
 
@@ -252,10 +214,6 @@ class SampleClockBinding:
 
 @dataclass(frozen=True, slots=True)
 class AudioEventAlignment:
-    """Declares which event-graph observation a waveform is evidence about.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     graph_sha256: str
     event_ref: EventRef
@@ -286,7 +244,6 @@ def validate_audio_alignment(
     spec: WaveformSpec,
     binding: SampleClockBinding,
 ) -> None:
-    """Fail closed unless waveform, clock, and event graph all agree byte-exactly."""
 
     if graph.sha256 != alignment.graph_sha256:
         raise ScaffoldRefusal("alignment names a different event graph")
@@ -309,10 +266,6 @@ def validate_audio_alignment(
 
 @dataclass(frozen=True, slots=True)
 class SpectralControlDeclaration:
-    """One declared audio control arm on identical shape and clock: the SR6 matched-input pattern.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     arm: str
     seed: int
@@ -347,10 +300,6 @@ class SpectralControlDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class AudioProbeContract:
-    """One refusal-ruled probe declaration; every probe is a preregistered negative control.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     control: str
     probe_waveform_sha256: str
@@ -389,12 +338,6 @@ class AudioProbeContract:
 
 @dataclass(frozen=True, slots=True)
 class NativeAudioFormContract:
-    """Complete native audio declaration: waveform, clock, alignment, controls, refusal probes.
-
-    A valid instance means the declaration set is complete and self-consistent. It carries no
-    decode result and no probe outcome. Claim scope: deterministic programmatic mechanics only;
-    no capability claim.
-    """
 
     spec: WaveformSpec
     binding: SampleClockBinding
@@ -445,17 +388,10 @@ class NativeAudioFormContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------------------------
-# (b) Perspective plurality contract: SR5. Source, computation, metric, and slot-removal rules.
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class UniqueInformationMetricContract:
-    """Preregisters how a perspective's unique information will be measured, before any run.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     metric_name: str
     evaluation_split: str
@@ -482,10 +418,6 @@ class UniqueInformationMetricContract:
 
 @dataclass(frozen=True, slots=True)
 class PerspectiveDeclaration:
-    """A perspective must name a distinct information source or a distinct computation.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     perspective_id: str
     information_source: str
@@ -510,10 +442,6 @@ class PerspectiveDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class PerspectivePluralityContract:
-    """A plurality is admissible only when no two slots share source and computation.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     declarations: tuple[PerspectiveDeclaration, ...]
     claim_scope: str = CLAIM_SCOPE
@@ -552,11 +480,6 @@ def apply_slot_removal(
     min_conditional_value: float,
     evaluation_split: str = HELD_OUT_SPLIT,
 ) -> dict[str, Any]:
-    """The slot-removal rule as code: remove every slot that adds no held-out conditional value.
-
-    Fails closed on a missing, non-finite, or wrongly split measurement. Claim scope:
-    deterministic programmatic mechanics only; no capability claim.
-    """
 
     if evaluation_split != HELD_OUT_SPLIT:
         raise ScaffoldRefusal("slot removal is licensed only by held-out conditional values")
@@ -581,17 +504,10 @@ def apply_slot_removal(
     }
 
 
-# ---------------------------------------------------------------------------------------------
-# (c) Rights and authority source card: EV4. Refusal of unknown authority and split reuse as code.
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class RightsFieldDeclaration:
-    """One rights field with its named authority; never inferred from a dataset-level license.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     status: str
     authority: str
@@ -613,10 +529,6 @@ class RightsFieldDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class SourceCard:
-    """Per-source rights card covering all seven fields with a closed reuse scope list.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     source_id: str
     steward: str
@@ -663,10 +575,6 @@ _USE_REQUIRED_FIELDS: dict[str, tuple[str, ...]] = {
 
 
 def assert_natural_experiment_admissible(card: SourceCard, requested_use: str) -> None:
-    """Refuse unknown authority, inferred fields, and split reuse. The rule is code, not prose.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if requested_use not in REUSE_SCOPES:
         raise ScaffoldRefusal(f"unsupported requested use {requested_use!r}")
@@ -690,17 +598,10 @@ def assert_natural_experiment_admissible(card: SourceCard, requested_use: str) -
             )
 
 
-# ---------------------------------------------------------------------------------------------
-# (d) Experiment contracts over the Wave E0 event graph: f21, f26, f27.
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class TemporalBindingContract:
-    """f21 asynchronous temporal binding declaration over one delayed-sensor event.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     event_ref: EventRef
     early_observation_ref: ObservationRef
@@ -757,7 +658,6 @@ class TemporalBindingContract:
 def build_temporal_binding_contract(
     bundle: ScenarioBundle, *, binding_window_ticks: int | None = None
 ) -> TemporalBindingContract:
-    """Build the f21 contract from the shared Wave E0 fixture; refuse an unusable fixture."""
 
     delay_event_refs = {event.ref for event in bundle.graph.events if event.kind == "delay"}
     delay_rows = [
@@ -797,10 +697,6 @@ def build_temporal_binding_contract(
 
 @dataclass(frozen=True, slots=True)
 class SourceReport:
-    """One source's claim about a shared event, carried with its content digest.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     source_id: str
     event_ref: EventRef
@@ -821,10 +717,6 @@ class SourceReport:
 
 @dataclass(frozen=True, slots=True)
 class ContradictionTriangulationContract:
-    """f26 cross-form contradiction declaration: exactly one dissenting source by construction.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     event_ref: EventRef
     reports: tuple[SourceReport, ...]
@@ -875,7 +767,6 @@ class ContradictionTriangulationContract:
 
 
 def build_contradiction_contract(bundle: ScenarioBundle) -> ContradictionTriangulationContract:
-    """Build the f26 contract from the shared Wave E0 fixture; refuse an unusable fixture."""
 
     delay_event = next((row for row in bundle.graph.events if row.kind == "delay"), None)
     if delay_event is None:
@@ -909,10 +800,6 @@ def build_contradiction_contract(bundle: ScenarioBundle) -> ContradictionTriangu
 
 @dataclass(frozen=True, slots=True)
 class CausalCrossmodalBindingContract:
-    """f27 causal crossmodal binding declaration over same-parent intervention branches.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     fork_event_ref: EventRef
     parent_state_sha256: str
@@ -961,7 +848,6 @@ class CausalCrossmodalBindingContract:
 
 
 def build_causal_binding_contract(bundle: ScenarioBundle) -> CausalCrossmodalBindingContract:
-    """Build the f27 contract from the shared Wave E0 fixture; refuse an unusable fixture."""
 
     fork_event = next((row for row in bundle.graph.events if row.kind == "intervention"), None)
     if fork_event is None:
@@ -993,17 +879,10 @@ def build_causal_binding_contract(bundle: ScenarioBundle) -> CausalCrossmodalBin
     )
 
 
-# ---------------------------------------------------------------------------------------------
-# Fixture bundle: everything above from one seed, digest-bound for exact replay.
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class SensingScaffoldFixture:
-    """One seed's complete deterministic sensing scaffold with a stable digest.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     seed: int
     scenario: ScenarioBundle
@@ -1154,10 +1033,6 @@ def _fixture_source_card(seed: int) -> SourceCard:
 
 
 def make_sensing_fixture(*, seed: int, make_scenario_fn: Any = None) -> SensingScaffoldFixture:
-    """Build the complete deterministic sensing scaffold fixture for one seed.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if make_scenario_fn is None:
         from ..environments.scenario_factory import make_scenario as make_scenario_fn

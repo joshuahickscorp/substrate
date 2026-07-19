@@ -1,45 +1,3 @@
-"""
-LANE router: trained-router-vs-tuned-baseline on the REAL cache.
-
-Converts PR1's heterogeneous-oracle EXISTENCE result into a trained-router test on the
-real V-JEPA / DINOv2 caches (identical 200 clips, checksum-verified elsewhere).
-
-Task: predict SHAPE under nuisance (5-way, chance 0.20). Shape is emergent-from-pretraining
-and has genuine headroom (per-reader linear decode 0.78 vjepa, 0.87 dino, 0.83 singleframe).
-Color decodes near-ceiling everywhere, so joint-25 would be a shape-difficulty task with a
-color ceiling bolted on; shape-5 is the cleaner, non-floor non-ceiling target.
-
-Three DECORRELATED perspective-readers on the SAME clips, each a linear shape head over a
-different real substrate:
-  reader_vjepa   : vjepa2_vitl_nuisance   (frozen V-JEPA video, 1024d)
-  reader_dino    : dinov2s_nuisance_real  (frozen DINOv2 image, 384d)
-  reader_single  : vjepa2_vitl_singleframe(frozen V-JEPA single-frame, 1024d) -- the at3 temporal
-                   contrast partner of reader_vjepa (motion/time axis lives in vjepa-vs-single).
-
-A trained ROUTER (a learned gate over a shared clip descriptor) selects which reader to trust
-per clip. Compared, at MATCHED FLOPs and MATCHED params, against:
-  (a) the best SINGLE reader (tuned: per-seed argmax on router-train split);
-  (b) a param-matched HOMOGENEOUS k-copy bank of the best reader, routed by the SAME learned
-      router head (the PR1 mean-copy guard: the homogeneous arm gets an identical routing
-      opportunity over near-copies of the best reader, so any router gain that is pure
-      "having a gate" cancels out; a real heterogeneity gain must survive).
-
-======================= PREREGISTERED NULL (fixed before running) =======================
-H0 (density null): the trained router TIES or LOSES to the best single reader at matched FLOPs.
-  A TIE IS A NULL.
-Rejecting H0 (declaring the program's first trained-mechanism WIN) requires ALL of:
-  R1: router beats best-single: per-seed delta mean > 0, seed_ci lo > 0, no sign flip.
-  R2: router beats homogeneous k-copy bank: per-seed delta mean > 0, seed_ci lo > 0, no sign flip.
-  R3: compute matched on every seed (router vs each baseline within FLOP tol and param tol).
-KILL-SWITCH: if the router ties at matched FLOPs (ci lo <= 0 on EITHER comparison, or any sign
-  flip), the density-mechanism lane CONFIRMS the reasoning/FLOP null on the real cache. That is an
-  asset. Do NOT tune toward a win. No threshold is adjusted after seeing any number.
-
-Metric: accuracy at matched total FLOPs (the density question). We report accuracy deltas at
-matched FLOPs, not acc-per-FLOP ratios, because at matched FLOPs the denominators cancel and the
-accuracy delta is the honest, low-variance figure of merit (the mt123 density-ratio metric had
-sd 0.4 and was dominated by FLOP-ratio noise).
-"""
 
 import json
 import sys
@@ -64,7 +22,6 @@ PARAM_TOL = 0.10  # matched-param tolerance
 DEVICE = "cpu"
 
 
-# ---- load real caches (identical clips) ----
 def zscore_fit(X):
     mu = X.mean(0, keepdims=True)
     sd = X.std(0, keepdims=True) + 1e-6
@@ -82,7 +39,6 @@ READER_DIMS = [x.shape[1] for x in (X_vj, X_dn, X_sf)]  # [1024, 384, 1024]
 
 
 def stratified_split(y, rng, frac_train=0.5, frac_router=0.25):
-    """Per-class split into reader-train / router-train / eval. 8 per class => 4/2/2."""
     idx_tr, idx_ro, idx_ev = [], [], []
     for c in np.unique(y):
         ci = np.where(y == c)[0].copy()
@@ -131,7 +87,6 @@ def head_logits(head, X, mu, sd):
 
 
 class Router(nn.Module):
-    """Gate over a shared clip descriptor -> softmax over K experts."""
 
     def __init__(self, d_desc, k, hidden):
         super().__init__()
@@ -142,8 +97,6 @@ class Router(nn.Module):
 
 
 def build_descriptor(idx_tr):
-    """Shared router-input descriptor: z-scored concat of all three readers' raw features.
-    z-score stats fit on reader-train only. This is the router's view of a clip."""
     parts = []
     for _, X in READERS:
         mu = X[idx_tr].mean(0, keepdims=True)
@@ -153,8 +106,6 @@ def build_descriptor(idx_tr):
 
 
 def train_router(desc, expert_logits, y, idx_ro, k, seed, hidden, epochs=400, lr=0.03, wd=1e-3):
-    """expert_logits: (K, N, C) detached logits from each expert. Router learns to soft-mix them.
-    Trained on router-train split only. Loss = CE of gated mixture vs label."""
     torch.manual_seed(seed + 1000)
     d_desc = desc.shape[1]
     router = Router(d_desc, k, hidden)
@@ -186,7 +137,6 @@ def routed_acc(router, desc, expert_logits, y, idx_ev):
     return (pred.numpy() == y[idx_ev]).mean()
 
 
-# ---------------- FLOP / param accounting ----------------
 def head_flops(d_in, d_out):
     return C.linear_flops(d_in, d_out, batch=1)
 
@@ -207,14 +157,8 @@ def run():
     ROUTER_HIDDEN = 32
     desc_dim = sum(READER_DIMS)  # 2432
 
-    # ---- inference FLOPs per clip ----
-    # Router arm: run ALL 3 readers + router gate + mixture.
     reader_flops = [head_flops(d, N_CLASS) for d in READER_DIMS]
     f_router_arm = sum(reader_flops) + router_flops(desc_dim, ROUTER_HIDDEN, 3)
-    # Best-single arm: one reader head only.
-    # (best reader is chosen per seed; use its own flops)
-    # Homogeneous k-copy arm: k copies of best reader + SAME router gate.
-    #   To match the router-arm FLOPs, pick k so k*best_reader_flops + router ~= f_router_arm.
 
     per_seed = []
     d_router_vs_best = []
@@ -226,7 +170,6 @@ def run():
         rng = np.random.RandomState(seed)
         idx_tr, idx_ro, idx_ev = stratified_split(Y, rng)
 
-        # --- train the three heterogeneous readers ---
         heads = []
         expert_logits = []
         reader_eval_acc = {}
@@ -236,27 +179,20 @@ def run():
             heads.append((head, mu, sd, X, d, name))
             expert_logits.append(lg)
             acc = (lg[idx_ev].argmax(1) == Y[idx_ev]).mean()
-            # tuned selection uses router-train split accuracy, not eval
             acc_ro = (lg[idx_ro].argmax(1) == Y[idx_ro]).mean()
             reader_eval_acc[name] = dict(eval=float(acc), router_train=float(acc_ro))
 
         desc = build_descriptor(idx_tr)
 
-        # --- trained heterogeneous router ---
         router = train_router(desc, expert_logits, Y, idx_ro, k=3, seed=seed, hidden=ROUTER_HIDDEN)
         acc_router = routed_acc(router, desc, expert_logits, Y, idx_ev)
 
-        # --- best single reader (tuned: argmax on router-train split) ---
         best_name = max(reader_eval_acc, key=lambda n: reader_eval_acc[n]["router_train"])
         best_i = [r[0] for r in READERS].index(best_name)
         acc_best = reader_eval_acc[best_name]["eval"]
         best_dim = READER_DIMS[best_i]
 
-        # --- homogeneous k-copy bank of best reader, routed by SAME-arch router ---
-        # k chosen to match router-arm FLOPs. Copies are near-copies: mild subsample of reader-train
-        # (PR1 mean-copy guard) so they are genuine retraining-noise copies, not identical.
         best_reader_flop = head_flops(best_dim, N_CLASS)
-        # solve k: k*best_reader_flop + router_flops ~= f_router_arm
         k = max(
             2,
             round(
@@ -264,7 +200,6 @@ def run():
                 / best_reader_flop
             ),
         )
-        # recompute router flops for actual k below; iterate once
         for _ in range(3):
             rf = router_flops(best_dim, ROUTER_HIDDEN, k)
             k = max(2, round((f_router_arm - rf) / best_reader_flop))
@@ -272,13 +207,11 @@ def run():
         copy_logits = []
         for ci in range(k):
             crng = np.random.RandomState(seed * 100 + ci)
-            # mild subsample-without-replacement of reader-train (drop ~5%)
             sub = idx_tr.copy()
             crng.shuffle(sub)
             keep = sub[: int(round(len(sub) * 0.95))]
             ch, cmu, csd = train_head(Xbest, Y, keep, N_CLASS, seed * 100 + ci)
             copy_logits.append(head_logits(ch, Xbest, cmu, csd).numpy())
-        # homogeneous descriptor: z-scored best-reader features only (router sees best reader)
         mu = Xbest[idx_tr].mean(0, keepdims=True)
         sd = Xbest[idx_tr].std(0, keepdims=True) + 1e-6
         homo_desc = ((Xbest - mu) / sd).astype(np.float32)
@@ -287,12 +220,10 @@ def run():
         )
         acc_homo = routed_acc(homo_router, homo_desc, copy_logits, Y, idx_ev)
 
-        # ---- FLOP / param match records ----
         homo_arm_flops = k * best_reader_flop + router_flops(best_dim, ROUTER_HIDDEN, k)
         m_rb = C.matched_within(f_router_arm, best_reader_flop, tol=FLOP_TOL)  # router vs best-single FLOPs
         m_rh = C.matched_within(f_router_arm, homo_arm_flops, tol=FLOP_TOL)  # router vs homo bank FLOPs
 
-        # params
         p_router_arm = sum(head_params(d, N_CLASS) for d in READER_DIMS) + router_params(
             desc_dim, ROUTER_HIDDEN, 3
         )
@@ -304,14 +235,6 @@ def run():
         d_rh = float(acc_router - acc_homo)
         d_router_vs_best.append(d_rb)
         d_router_vs_homo.append(d_rh)
-        # NOTE on match semantics:
-        #  - router-vs-best is a DENSITY comparison: the router deliberately spends MORE FLOPs
-        #    (3 readers) than best-single (1 reader). They are NOT FLOP-matched by construction.
-        #    The honest density question is whether the router's extra FLOPs buy accuracy the
-        #    best single reader could not get. We report the FLOP RATIO and treat the router as
-        #    having to justify its higher cost; a tie in accuracy at HIGHER cost is a density LOSS.
-        #  - router-vs-homo IS matched (same FLOPs, same params, same gate): this is the clean
-        #    heterogeneity test.
         match_ok_best.append(bool(m_rb["matched"]))
         match_ok_homo.append(bool(m_rh["matched"] and mp_rh["matched"]))
 
@@ -342,24 +265,15 @@ def run():
             )
         )
 
-    # ---- aggregate ----
     ci_rb = seed_ci(d_router_vs_best)
     ci_rh = seed_ci(d_router_vs_homo)
     sf_rb = sign_flip_report(d_router_vs_best)
     sf_rh = sign_flip_report(d_router_vs_homo)
 
-    # R1: router beats best-single (accuracy). Note: router spends 3x FLOPs, so a WIN here is the
-    #     WEAKER "does extra compute buy anything" bar; the density verdict downweights it.
     R1 = (ci_rb["lo"] > 0) and (not sf_rb["any_flip"]) and (ci_rb["mean"] > 0)
-    # R2: router beats homogeneous bank at matched FLOPs+params (the clean heterogeneity test).
     R2 = (ci_rh["lo"] > 0) and (not sf_rh["any_flip"]) and (ci_rh["mean"] > 0) and all(match_ok_homo)
-    # R3: homo comparison compute-matched on every seed.
     R3 = all(match_ok_homo)
 
-    # Density verdict: the router-vs-best comparison is NOT FLOP-matched (router costs ~3x). So
-    # "beating best-single" alone does not reject the density null. Rejecting the density null
-    # requires beating the MATCHED homogeneous bank (R2) AND, at the router's higher cost, still
-    # beating best-single (R1). A tie on EITHER is the null.
     if R1 and R2 and R3:
         verdict = (
             "WIN: trained router beats BOTH the tuned best-single reader and the matched homogeneous "
@@ -436,7 +350,6 @@ if __name__ == "__main__":
     print("router_vs_best ci:", res["router_vs_best_single"]["seed_ci"])
     print("router_vs_homo ci:", res["router_vs_homogeneous_bank"]["seed_ci"])
     print("gates:", res["gates"])
-    # quick reader acc summary
     accs = {
         n: np.mean([ps["reader_eval_acc"][n]["eval"] for ps in res["per_seed"]])
         for n in ["vjepa", "dino", "single"]

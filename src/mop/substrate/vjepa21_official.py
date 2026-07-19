@@ -1,15 +1,3 @@
-"""Pinned, fail-closed integration seam for Meta's official V-JEPA 2.1 release.
-
-This module deliberately does not route V-JEPA 2.1 through Hugging Face.  At the pinned Meta
-repository commit the 2.1 checkpoints are distributed as PyTorch archives, and the hub helper's
-active base URL points at a localhost test server.  We therefore stage the exact official source,
-construct only the ViT-B encoder from that source, and load only the checkpoint's ``ema_encoder``
-state with strict key matching.
-
-The cheap operations in this module are safe to run while another model owns local compute:
-repository/source validation, HTTP HEAD/range authority checks, dependency inspection, and disk
-projection.  Checkpoint acquisition and model construction are explicit later commands.
-"""
 
 from __future__ import annotations
 
@@ -44,15 +32,11 @@ PAPER: dict[str, Any] = {
     "published": "2026-03-15T17:02:40Z",
     "updated": "2026-06-11T10:07:56Z",
     "pdf_content_length": 37_389_706,
-    # arXiv publishes this checksum directly as the immutable v3 PDF ETag.
     "pdf_sha256": "6a7be4dbfd2131ef05640be457abef4cf57e1031dc97b894eab62c58782a3cac",
     "paper_license": "CC BY-NC-ND 4.0",
 }
 
-# Immutable bytes at OFFICIAL_REPOSITORY_COMMIT.  These cover the public release declaration,
-# loader entrypoint, direct encoder implementation, transitive model helpers, train configs, and
 # both repository license files.  Checkpoint licensing is not separately stated in the README, so
-# the preflight records that ambiguity instead of silently treating source-code terms as a model
 # weight license grant.
 REPOSITORY_ARTIFACTS: tuple[dict[str, Any], ...] = (
     {
@@ -171,7 +155,7 @@ DOCTOR_MAX_AGE_SECONDS = 15 * 60
 
 
 class VJEPA21IntegrationError(RuntimeError):
-    """Pinned source, remote authority, disk, dependency, or checkpoint validation failed."""
+    pass
 
 
 def _utc_now() -> str:
@@ -223,7 +207,6 @@ def _git(repo: Path, *args: str) -> str:
 
 
 def validate_repository(repo: Path | str = DEFAULT_REPOSITORY_DIR) -> dict[str, Any]:
-    """Verify exact checkout identity and every load-bearing official source byte."""
     root = Path(repo).resolve()
     problems: list[str] = []
     commit = remote = None
@@ -289,7 +272,6 @@ def validate_repository(repo: Path | str = DEFAULT_REPOSITORY_DIR) -> dict[str, 
 
 
 def stage_repository(destination: Path | str = DEFAULT_REPOSITORY_DIR) -> dict[str, Any]:
-    """Clone and detach the official repository at the pinned commit, without model weights."""
     dest = Path(destination).resolve()
     if dest.exists():
         receipt = validate_repository(dest)
@@ -374,7 +356,6 @@ def _range_bytes(url: str, start: int, end: int, *, timeout: float = 30.0) -> tu
 
 
 def validate_checkpoint_remote(*, timeout: float = 30.0, verify_ranges: bool = True) -> dict[str, Any]:
-    """Bind the live official object to pinned S3/CloudFront metadata and tiny byte ranges."""
     head = _head(str(VITB["checkpoint_url"]), timeout=timeout)
     headers = head["headers"]
     observed = {
@@ -511,7 +492,6 @@ def disk_report(root: Path | str = ".") -> dict[str, Any]:
 
 
 def active_heavy_lane_report() -> dict[str, Any]:
-    """Detect known model/training lanes that must remain serial on the current host."""
     import psutil
 
     patterns = (
@@ -543,7 +523,6 @@ def doctor_receipt_report(
     *,
     max_age_seconds: float = DOCTOR_MAX_AGE_SECONDS,
 ) -> dict[str, Any]:
-    """Require a fresh green local-profile doctor receipt before a weight transfer."""
     receipt_path = Path(path).resolve()
     problems: list[str] = []
     receipt: dict[str, Any] = {}
@@ -591,7 +570,6 @@ def doctor_receipt_report(
 
 
 def validate_vitb_config(path: Path | str = DEFAULT_CONFIG) -> dict[str, Any]:
-    """Check the local routing config without importing OmegaConf or constructing a model."""
     import yaml
 
     config_path = Path(path).resolve()
@@ -692,7 +670,6 @@ def download_vitb_checkpoint(
     disk_floor_bytes: int = MIN_FREE_DISK_BYTES,
     doctor_receipt: Path | str = DEFAULT_DOCTOR_RECEIPT,
 ) -> dict[str, Any]:
-    """Resumably download only ViT-B, then bind a full SHA256 to the pinned remote authority."""
     if disk_floor_bytes < MIN_FREE_DISK_BYTES:
         raise VJEPA21IntegrationError("the 40 GB local disk floor cannot be weakened")
     heavy_lanes = active_heavy_lane_report()
@@ -805,12 +782,6 @@ def build_vitb_encoder(
     *,
     random_seed: int | None = None,
 ):
-    """Construct the pinned official ViT-B architecture without loading pretrained weights.
-
-    ``random_seed`` is required by the matched-control path. The realized state must still be
-    hashed by the caller before it can become a citable random-control cache. This function is
-    intentionally lazy and must run only in a supervised heavy child.
-    """
     repo_validation = validate_repository(repository)
     if not repo_validation["all_ok"]:
         raise VJEPA21IntegrationError("official repository validation failed before model construction")
@@ -826,8 +797,6 @@ def build_vitb_encoder(
         sys.path.insert(0, repo)
     from app.vjepa_2_1.models import vision_transformer as official_vit
 
-    # Exact encoder kwargs from Meta's pinned _make_vjepa2_1_model. We construct only the
-    # official dense ViT-B encoder and ignore every training-only archive component.
     with torch.random.fork_rng(devices=[]):
         if random_seed is not None:
             torch.manual_seed(int(random_seed))
@@ -854,12 +823,6 @@ def load_vitb_encoder(
     repository: Path | str = DEFAULT_REPOSITORY_DIR,
     checkpoint: Path | str = DEFAULT_CHECKPOINT,
 ):
-    """Construct only the pinned official ViT-B encoder and strict-load ``ema_encoder``.
-
-    This is intentionally lazy and is expected to run in a supervised child process.  The loader
-    refuses a repository or checkpoint without exact authority receipts and never calls the pinned
-    torch.hub download path.
-    """
     checkpoint_validation = validate_checkpoint_receipt(checkpoint, rehash=True)
     if not checkpoint_validation["all_ok"]:
         raise VJEPA21IntegrationError(
@@ -994,8 +957,6 @@ def build_preflight(
                 "paired task caches, and task-level scientific controls remain separate fail-closed gates"
             ),
         },
-        # all_ok means the cheap source/object/config/disk preflight is green. The stricter
-        # ready_to_download gate separately requires a fresh doctor and an empty heavy lane.
         "all_ok": source_and_disk_preflight_ok,
     }
 

@@ -92,8 +92,6 @@ class ReproCountBedConfig:
             raise CountReproProducerRefusal("at least one re-estimation budget target rate is required")
 
 
-
-
 def _real_noisy_tv_features(
     seed: int,
     n_frames: int,
@@ -108,8 +106,6 @@ def _real_noisy_tv_features(
         b"mop-starss23-count-repro-featurizer-estimator-noisy-tv-v1",
     )
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
-
-
 
 
 def _run_seed_real(
@@ -143,8 +139,6 @@ def _run_seed_real(
     )
 
 
-
-
 def _flop_model(kind: str, total_frames: int, train_frames: int, config: ReproCountBedConfig) -> FlopModel:
     return arm_flop_model(
         kind,
@@ -154,8 +148,6 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: ReproCo
         downstream_flops_per_firing=config.downstream_flops_per_reestimate,
         candidate_train_flops=lambda: training_flops(train_frames, config.epochs),
     )
-
-
 
 
 def build_repro_count_bed_artifact(

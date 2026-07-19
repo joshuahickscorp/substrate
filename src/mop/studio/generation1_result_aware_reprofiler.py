@@ -1,25 +1,3 @@
-"""Result-aware auto-tuner for not-yet-launched Generation 1 programs.
-
-This module is the "if we get a result, the optimization automatically happens"
-component.  It reads COMPLETED sealed successor-mechanics receipts and the sealed
-aggregate result, then deterministically re-derives observed per-mechanism
-throughput.  A not-yet-launched program can consume the recommendation so that its
-planning rates and worker allocation tune themselves from real host data instead of
-the conservative pre-measured baselines.
-
-The reprofiler is strictly advisory operational telemetry.  It is read-only over
-every receipt, status, and proof file; it imports no sealed program manifest; it
-proposes only worker counts and de-idealized planning rates for programs that have
-not started.  It can never change an evidence class, a seed, a threshold, a control,
-or any sealed receipt.  Every artifact it seals carries advisory=true,
-activation_allowed=false, and scientific_promotion=false.
-
-Determinism: there is no wall clock and no randomness.  Per-rung wall time is
-recovered from the receipt files' stored modification timestamps (st_mtime_ns), the
-same metronome-regular signal a manual probe would read, and every downstream number
-is pure integer or float arithmetic over that fixed input.  Building the artifact
-twice from the same on-disk receipts yields a byte-identical canonical seal.
-"""
 
 from __future__ import annotations
 
@@ -37,30 +15,15 @@ from mop.studio.generation1_supervisor import atomic_write_json, canonical_sha25
 
 SCHEMA = "mop-generation1-reprofile/v1"
 
-# Receipt and result schemas this reprofiler understands.  A "returncode 0" capsule
-# is exactly one that produced a complete, self-sealed rung receipt; this module
-# treats a valid complete sealed receipt as the returncode-0 signal and reads no
-# process exit code, so it stays a pure function over the receipt tree.
 MECHANICS_RUNG_SCHEMA = "mop-generation1-successor-mechanics-rung/v1"
 MECHANICS_RESULT_SCHEMAS = ("mop-generation1-successor-mechanics-extended/v1",)
 
 CONTINUE_DECISION = "continue_long_stress"
 PRUNE_DECISION = "prune_after_canary"
 
-# Named worker-count policy constants (advisory only).  reserve holds back cores for
-# the efficiency-core cluster, the OS, and Hawking coexistence headroom; hard_ceiling
-# is an absolute upper bound so a very large host never proposes an unbounded pool.
 WORKER_RESERVE = 4
 WORKER_HARD_CEILING = 16
 
-# Host capacity defaults for this build target: Apple M3 Ultra, 28 logical cores
-# (20 performance + 8 efficiency), 96 GiB unified memory.
-# The per-capsule cap is the MEASURED worker footprint, not the taskpolicy -m 16384 MiB
-# kill ceiling. Microbench of the real seeded-sha256 workload measured 0.21 to 0.56 GB
-# resident per single-threaded capsule and an aggregate throughput peak at 16 workers
-# (regression past 20), so 0.75 GB is a conservative footprint that leaves the hard
-# ceiling of 16 the binding term. The old 16 GiB divisor was the kill ceiling, not a
-# reservation, and made memory_bound = floor(96 / 16) = 6 an artificial throttle.
 DEFAULT_HOST_CORES = 28
 DEFAULT_MEMORY_GB = 96.0
 DEFAULT_PER_CAPSULE_MEM_CAP_GB = 0.75
@@ -103,12 +66,9 @@ _ARTIFACT_FIELDS = frozenset(
 
 
 class ReprofileRefused(RuntimeError):
-    """Fail-closed refusal for malformed receipts, results, inputs, or seals."""
+    pass
 
 
-# ----------------------------------------------------------------------------------
-# Seal helpers (canonical_sha256 is imported so the seal matches the house convention)
-# ----------------------------------------------------------------------------------
 
 
 def _seal_matches(payload: Mapping[str, Any], field: str) -> bool:
@@ -135,9 +95,6 @@ def _read_json_file(path: Path) -> object | None:
         return None
 
 
-# ----------------------------------------------------------------------------------
-# Receipt scanning and per-mechanism observed-rate derivation
-# ----------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -151,13 +108,6 @@ class _RungFact:
 
 
 def _valid_complete_receipt(payload: object) -> dict[str, Any] | None:
-    """Return the receipt dict when it is a complete, self-sealed mechanics rung.
-
-    Partial receipts (complete is not True, drifted fields) and forged receipts
-    (result_sha256 does not replay) return None so the caller can skip and count
-    them.  Only a receipt that a returncode-0 capsule would have atomically written
-    survives this gate.
-    """
 
     if not isinstance(payload, Mapping):
         return None
@@ -192,12 +142,6 @@ def _valid_complete_receipt(payload: object) -> dict[str, Any] | None:
 
 
 def _scan_receipts(runs_root: Path) -> tuple[list[_RungFact], int, int]:
-    """Walk runs_root for mechanics rung receipts.
-
-    Returns the complete-receipt facts, the count of mechanics receipts encountered,
-    and the count skipped (partial or bad seal).  Paths are sorted so the walk order
-    is deterministic; the per-block grouping later sorts by rung index anyway.
-    """
 
     facts: list[_RungFact] = []
     seen = 0
@@ -231,17 +175,6 @@ def _scan_receipts(runs_root: Path) -> tuple[list[_RungFact], int, int]:
 
 
 def _observed_from_facts(facts: Sequence[_RungFact]) -> dict[str, dict[str, Any]]:
-    """Derive per-mechanism observed seconds/seed from adjacent-rung wall time.
-
-    Within one (lane, phase) block the single worker produces rungs strictly in
-    order, so the gap between two adjacent rungs' finish timestamps is the wall time
-    to compute one rung of seed_count seeds.  Each such gap divided by seed_count is
-    one seconds/seed observation.  The per-mechanism estimate is the median of those
-    observations, which is robust to the occasional throttle pause and is fully
-    deterministic.  A mechanism with no adjacent-rung gap (for example a lane pruned
-    at its single canary rung) yields no observation and is omitted, leaving the
-    caller to keep the planned rate and flag it provisional.
-    """
 
     blocks: dict[tuple[str, str], list[_RungFact]] = {}
     receipts_by_mechanism: dict[str, int] = {}
@@ -277,9 +210,6 @@ def _observed_from_facts(facts: Sequence[_RungFact]) -> dict[str, dict[str, Any]
     return observed
 
 
-# ----------------------------------------------------------------------------------
-# Sealed result scanning (lane continuation and prune extraction)
-# ----------------------------------------------------------------------------------
 
 
 def _scan_results(proof_root: Path) -> list[dict[str, Any]]:
@@ -337,13 +267,6 @@ def _merge_result_lanes(
 
 
 def collect_observed_rates(runs_root: Path | str, proof_root: Path | str) -> dict[str, Any]:
-    """Collect per-mechanism observed seconds/seed plus sealed lane continuation.
-
-    Observed rates are derived ONLY from complete, self-sealed mechanics receipts
-    under runs_root (running or partial receipts are skipped and counted).  The
-    sealed aggregate results under proof_root supply the authoritative continuing and
-    pruned lane sets and the lane to mechanism map.  Nothing here is mutated.
-    """
 
     runs_root = Path(runs_root)
     proof_root = Path(proof_root)
@@ -371,9 +294,6 @@ def collect_observed_rates(runs_root: Path | str, proof_root: Path | str) -> dic
     }
 
 
-# ----------------------------------------------------------------------------------
-# Deterministic recommendation
-# ----------------------------------------------------------------------------------
 
 
 def _positive(value: object, label: str) -> float:
@@ -397,12 +317,6 @@ def _observed_rate(value: object) -> float | None:
 def recommended_worker_count(
     host_cores: int, memory_gb: float, per_capsule_mem_cap_gb: float
 ) -> dict[str, Any]:
-    """Compute the idle-host worker recommendation and record which term binds.
-
-    workers = min(host_cores - reserve, floor(memory_gb / per_capsule_mem_cap_gb),
-    hard_ceiling), clamped to at least 1.  Ties in the minimum break toward cores,
-    then memory, then the hard ceiling, so the choice is deterministic.
-    """
 
     cores = _positive(host_cores, "host_cores")
     memory = _positive(memory_gb, "memory_gb")
@@ -438,14 +352,6 @@ def reprofile(
     per_capsule_mem_cap_gb: float,
     planned_seconds_total: float = 0.0,
 ) -> dict[str, Any]:
-    """Return the deterministic recommendation dict.
-
-    de_idealized_rates: per-mechanism seconds/seed using the observed rate where a
-    complete receipt exists, otherwise the planned rate flagged provisional, with the
-    observed/planned ratio recorded when both exist.  worker_math: the idle-host
-    worker recommendation.  projection: serial hours and ideal parallel worker hours
-    for the supplied planned-seconds total.
-    """
 
     if not isinstance(planned_rates, Mapping):
         raise ReprofileRefused("planned_rates must be a mapping")
@@ -527,14 +433,6 @@ def _normalize_observed(observed: Mapping[str, Any]) -> dict[str, Any]:
 def _executed_workload(
     observed: Mapping[str, Any], planned_rates: Mapping[str, Any], workers: int
 ) -> tuple[dict[str, Any], float]:
-    """Reproject the workload that actually executed under planned vs observed rates.
-
-    For every mechanism with a complete receipt, its executed seed total is priced at
-    the conservative planned rate and at the de-idealized observed rate.  This is the
-    concrete auto-optimization payoff: the observed total is what a matching future
-    program would really cost.  Returns the workload block and the planned total so a
-    projection can default to it.
-    """
 
     planned_seconds = 0.0
     de_idealized_seconds = 0.0
@@ -574,12 +472,6 @@ def build_reprofile_artifact(
     per_capsule_mem_cap_gb: float = DEFAULT_PER_CAPSULE_MEM_CAP_GB,
     planned_seconds_total: float = 0.0,
 ) -> dict[str, Any]:
-    """Seal an advisory reprofile artifact under schema mop-generation1-reprofile/v1.
-
-    When planned_seconds_total is 0 the projection defaults to the planned cost of the
-    workload that actually executed, so the report shows a meaningful serial-hour and
-    ideal-worker-hour figure.  The artifact is advisory and never activatable.
-    """
 
     if not isinstance(observed_profile, Mapping):
         raise ReprofileRefused("observed_profile must be a mapping")
@@ -643,7 +535,6 @@ def build_reprofile_artifact(
 
 
 def validate_reprofile(value: Mapping[str, Any]) -> None:
-    """Fail-closed replay of the seal, field set, and safety flags."""
 
     if not isinstance(value, Mapping):
         raise ReprofileRefused("reprofile artifact must be an object")
@@ -667,15 +558,9 @@ def validate_reprofile(value: Mapping[str, Any]) -> None:
         raise ReprofileRefused("reprofile artifact must keep scientific_promotion false")
 
 
-# ----------------------------------------------------------------------------------
-# CLI
-# ----------------------------------------------------------------------------------
 
 
 def _default_planned_rates() -> dict[str, float]:
-    # Lazy import: the sealed mechanics queue pulls the mechanism registry and torch;
-    # the pure functions above never need it, so it is only imported for the CLI
-    # default.  This is a read-only import of a sealed module, not a manifest.
     from mop.studies.generation1_successor_mechanics_queue import PLANNED_SECONDS_PER_SEED
 
     return dict(PLANNED_SECONDS_PER_SEED)

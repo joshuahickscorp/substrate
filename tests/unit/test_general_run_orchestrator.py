@@ -1,16 +1,3 @@
-"""Unit tests for the single-process general-run orchestrator.
-
-The suite drives the ordered stage machine with injected collaborators (process
-table, program loader, status reader, target starter, host admission, and the
-advisory reprofiler) exactly like the v7 and categorized-chain tests.  It proves
-that observe_legacy is a churn-immune pinned-identity census poll (the census is
-adopted while its exact pinned identity is alive, the stage advances the moment
-its pid is free, a churning mop-final-* child pool is never sampled, and a
-reused-pid imposter is never mistaken for the census), that a stage advances only
-on a stable clean-complete, that a running or already-launched supervisor is
-never double-launched, that the machine is idempotent and restartable mid-stage,
-and that a held stage stops advancement.
-"""
 
 from __future__ import annotations
 
@@ -31,11 +18,6 @@ NOW = dt.datetime(2026, 7, 17, 12, 0, tzinfo=dt.UTC)
 NOW_ISO = NOW.isoformat()
 
 
-# ----------------------------------------------------------------------------
-# Shared builders: sealed compute manifests and generic statuses (real files so
-# load_program, validate_generic_status, and _stable_complete_generic_status all
-# run against genuine artifacts, mirroring the categorized-chain test harness).
-# ----------------------------------------------------------------------------
 
 
 def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
@@ -208,9 +190,6 @@ def _build_programs(tmp_path: Path) -> dict[str, g1.Program]:
     return programs
 
 
-# ----------------------------------------------------------------------------
-# Shared builders: lightweight legacy specs and their status/result files.
-# ----------------------------------------------------------------------------
 
 
 def _legacy_validator(payload: Mapping[str, Any]) -> None:
@@ -287,8 +266,6 @@ def _orchestrator(
     reprofiler_fn: Any = None,
     sleep_fn: Any = None,
 ) -> gr.GeneralRunOrchestrator:
-    # The horizon-v1 manifest doubles as the observe-only legacy owner's bound
-    # horizon authority, so it must always exist before construction.
     horizon = tmp_path / "configs/campaign/generation1_successor_horizon_v1.json"
     if not horizon.exists():
         _program_manifest(
@@ -313,7 +290,6 @@ def _orchestrator(
 
 
 def _seed_stage(orchestrator: gr.GeneralRunOrchestrator, stage_id: str, *, complete_before: bool = True) -> None:
-    """Move the orchestrator to a compute stage with prior stages marked complete."""
 
     orchestrator.state["stage"] = stage_id
     orchestrator.state["status"] = stage_id
@@ -328,9 +304,6 @@ def _seed_stage(orchestrator: gr.GeneralRunOrchestrator, stage_id: str, *, compl
             row.update({"status": "complete", "returncode": 0, "finished_at": NOW_ISO})
 
 
-# ----------------------------------------------------------------------------
-# observe_legacy: churn-immune pinned-identity consolidated-final census poll
-# ----------------------------------------------------------------------------
 
 
 def _census_parent(
@@ -339,7 +312,6 @@ def _census_parent(
     create_time: float = gr.FINAL_CENSUS_CREATE_TIME,
     label: str = gr.FINAL_CENSUS_LABEL,
 ) -> gr.ProcessSnapshot:
-    """The pinned consolidated-final census parent (pid 67790) as it is seen live."""
 
     return _process(
         tmp_path,
@@ -351,9 +323,6 @@ def _census_parent(
 
 
 def test_observe_legacy_waits_while_pinned_census_parent_alive(tmp_path: Path) -> None:
-    # The census parent's exact pinned identity (pid, label, create_time) is alive:
-    # observe_legacy adopts it and keeps waiting, never launching a compute stage
-    # and never advancing off observe_legacy.
     spec = _legacy_spec(tmp_path)
     census = _census_parent(tmp_path)
     calls: list[str] = []
@@ -376,9 +345,6 @@ def test_observe_legacy_waits_while_pinned_census_parent_alive(tmp_path: Path) -
 
 
 def test_observe_legacy_advances_when_census_pid_is_free(tmp_path: Path) -> None:
-    # The census pid is entirely free: the census has exited, so observe_legacy
-    # marks the prerequisite complete and advances to run_horizon_v1. Advancing the
-    # pointer never launches anything on the same tick.
     spec = _legacy_spec(tmp_path)
     calls: list[str] = []
     orchestrator = _orchestrator(
@@ -397,8 +363,6 @@ def test_observe_legacy_advances_when_census_pid_is_free(tmp_path: Path) -> None
 
 
 def test_observe_legacy_waits_then_advances_as_census_parent_exits(tmp_path: Path) -> None:
-    # End to end: the pinned census parent is alive on the first tick (wait), then
-    # its pid frees on the next tick (advance). One orchestrator, two ticks.
     spec = _legacy_spec(tmp_path)
     table: dict[str, tuple[gr.ProcessSnapshot, ...]] = {"processes": (_census_parent(tmp_path),)}
     calls: list[str] = []
@@ -423,10 +387,6 @@ def test_observe_legacy_waits_then_advances_as_census_parent_exits(tmp_path: Pat
 
 
 def test_observe_legacy_holds_on_reused_pid_imposter(tmp_path: Path) -> None:
-    # A different process inherits the census pid after it exits: same pid, same
-    # label, but a create_time many seconds later. The create_time guard rejects it
-    # so it is NEVER mistaken for the census; the stage holds conservatively,
-    # neither advancing on an ambiguous recycled pid nor integrity_holding.
     spec = _legacy_spec(tmp_path)
     imposter = _census_parent(tmp_path, create_time=gr.FINAL_CENSUS_CREATE_TIME + 5000.0)
     calls: list[str] = []
@@ -448,10 +408,6 @@ def test_observe_legacy_holds_on_reused_pid_imposter(tmp_path: Path) -> None:
 
 
 def test_observe_legacy_ignores_churning_child_pool_and_waits(tmp_path: Path) -> None:
-    # The old v7 adopter integrity_held when the census mop-final-* worker pool
-    # churned during its bounded resnapshot. The pinned-identity poll never
-    # enumerates the pool: with the census parent alive and a churning child pool
-    # present, the stage simply waits, with no stabilization sleeps and no hold.
     spec = _legacy_spec(tmp_path)
     census = _census_parent(tmp_path)
     prefix = spec.child_label_prefixes[0]
@@ -482,9 +438,6 @@ def test_observe_legacy_ignores_churning_child_pool_and_waits(tmp_path: Path) ->
     assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "adopted"
 
 
-# ----------------------------------------------------------------------------
-# Compute stages: launch, observe, and no double-launch
-# ----------------------------------------------------------------------------
 
 
 def test_horizon_v1_launches_once_when_absent_and_records_reprofile(tmp_path: Path) -> None:
@@ -517,8 +470,6 @@ def test_horizon_v1_launches_once_when_absent_and_records_reprofile(tmp_path: Pa
 
 
 def test_compute_never_double_launches_a_visible_supervisor(tmp_path: Path) -> None:
-    # A parked waiter (or a prior incarnation) already started the exact
-    # supervisor; observe-before-launch must adopt it and never relaunch.
     programs = _build_programs(tmp_path)
     program = programs["generation1-successor-horizon-v1"]
     spec = _legacy_spec(tmp_path)
@@ -676,9 +627,6 @@ def test_compute_failure_hold_stops_advancement(tmp_path: Path) -> None:
     assert calls == []
 
 
-# ----------------------------------------------------------------------------
-# Whole-machine sequencing, restart, and drain
-# ----------------------------------------------------------------------------
 
 
 def test_full_run_sequences_every_stage_and_never_double_launches(tmp_path: Path) -> None:
@@ -702,7 +650,6 @@ def test_full_run_sequences_every_stage_and_never_double_launches(tmp_path: Path
     for stage in gr.COMPUTE_STAGES:
         assert orchestrator.state["compute_capsules"][stage.stage_id]["status"] == "complete"
     assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "complete"
-    # a terminal tick revalidates the final wave without acting further
     assert orchestrator.tick()["state"] == "complete"
 
 

@@ -1,33 +1,3 @@
-"""Deterministic learners for the redesigned stability vs plasticity bed: mechanism and controls.
-
-This module is runnable machinery. It implements a tiny, fully deterministic, seed-free learning
-dynamics (closed-form gradient descent toward each task target) and five arms measured on a task
-stream:
-
-- ``mechanism`` (stable core + orthogonal adapters + selective consolidation): learn one core on
-  the first task and FREEZE it (the stable core), then fit a small per-task adapter and remember it
-  (the plastic, per-task memory). Where the honest recurrence signal flags a task as recurring, the
-  arm spends a second consolidation pass on that adapter (selective consolidation), and when the
-  stream declares the future task a recurrence it reactivates the consolidated adapter as a warm
-  start (recurrence-aware reactivation). This is the redesign: the old G1-P1 mechanism had no
-  recurrence signal to read, so it had nothing to consolidate selectively.
-- ``fresh_init``: reset all weights and refit every task from scratch. Adapts, but forgets.
-- ``frozen_core``: learn everything on the first task and freeze it. Retains task zero, cannot adapt.
-- ``full_retrain``: retrain a single weight vector on all tasks at once. One vector cannot hold many
-  conflicting per-task adapters, so it is middling on both axes.
-- ``no_replay``: continually refit the current task with no reset and no replay. Adapts, but forgets.
-
-Every control ignores the recurrence flags; none of them has a per-task memory to consolidate, so
-the flag is information they cannot spend. Retention is mean performance on the history tasks
-reconstructed from the arm's end state; future learnability is performance on the held-out future
-task after the arm's adaptation. Both are mapped to the unit interval by a bounded similarity, so
-they feed the scaffold's DualMetricReading directly.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim. These
-readings are arithmetic over a seeded fixture, never a measurement of a real system.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -40,15 +10,9 @@ from .stability_plasticity_r2_scaffold import REQUIRED_CONTROLS, DualMetricReadi
 Vector = tuple[float, ...]
 PolicyFn = Callable[[TaskStream], DualMetricReading]
 
-# Closed-form gradient descent leaves a residual fraction of the start-to-target gap. With a fixed
-# budget spread across the active coordinates, concentrating the budget on fewer coordinates leaves
-# a smaller residual, so the mechanism's adapter-only fit is sharper than a full-dimension refit,
-# and a consolidation pass on a flagged adapter squares its residual. That asymmetry is the
-# mechanical reason a stable core plus a consolidated adapter can outfit the controls.
 FIT_BASE = 0.5
 FIT_BUDGET = 13.0
 
-# Sharpness of the bounded similarity that maps mean squared error to a unit-interval score.
 SIMILARITY_BETA = 2.4
 
 CORE_DIMS: tuple[int, ...] = tuple(range(CORE_DIM))
@@ -62,11 +26,10 @@ ZEROS: Vector = tuple(0.0 for _ in range(DIM))
 
 
 class ImplRefusal(ValueError):
-    """Raised when a learner is asked to act on a malformed stream or an unknown arm."""
+    pass
 
 
 def _residual(active_count: int) -> float:
-    """The residual gap fraction after a matched-budget fit over ``active_count`` coordinates."""
 
     if active_count <= 0:
         return 1.0
@@ -74,7 +37,6 @@ def _residual(active_count: int) -> float:
 
 
 def _gd(start: Vector, target: Vector, active: Sequence[int], residual: float) -> Vector:
-    """One closed-form gradient-descent fit: move active coordinates toward target, leave the rest."""
 
     values = list(start)
     for dim in active:
@@ -83,13 +45,11 @@ def _gd(start: Vector, target: Vector, active: Sequence[int], residual: float) -
 
 
 def _combine(core_source: Vector, adapter_source: Vector) -> Vector:
-    """Take the core coordinates from one vector and the adapter coordinates from another."""
 
     return tuple(core_source[dim] if dim < CORE_DIM else adapter_source[dim] for dim in range(DIM))
 
 
 def _mean_vectors(vectors: Iterable[Vector]) -> Vector:
-    """Coordinatewise mean of a nonempty set of vectors."""
 
     collected = list(vectors)
     if not collected:
@@ -103,7 +63,6 @@ def _mse(left: Vector, right: Vector) -> float:
 
 
 def _score(reconstruction: Vector, target: Vector) -> float:
-    """Bounded similarity in (0, 1]; 1.0 iff the reconstruction equals the target."""
 
     return math.exp(-SIMILARITY_BETA * _mse(reconstruction, target))
 
@@ -120,14 +79,9 @@ def _reading(retention: float, future_learnability: float) -> DualMetricReading:
     )
 
 
-# ---------------------------------------------------------------------------
-# The mechanism: stable core, orthogonal per-task adapters, selective consolidation on recurrence.
-# ---------------------------------------------------------------------------
 
 
 def run_mechanism(stream: TaskStream) -> DualMetricReading:
-    """Freeze a core; fit and remember a small adapter per task; consolidate flagged adapters;
-    reactivate the consolidated adapter as a warm start when the future task is a recurrence."""
 
     core_state = _gd(ZEROS, stream.history[0], CORE_DIMS, _residual(len(CORE_DIMS)))
     adapter_residual = _residual(len(ADAPTER_DIMS))
@@ -135,7 +89,6 @@ def run_mechanism(stream: TaskStream) -> DualMetricReading:
     for index, task in enumerate(stream.history):
         fitted = _gd(ZEROS, task, ADAPTER_DIMS, adapter_residual)
         if stream.recurrence_flags[index]:
-            # Selective consolidation: one extra pass on the flagged adapter squares its residual.
             fitted = _gd(fitted, task, ADAPTER_DIMS, adapter_residual)
         adapter_memory.append(fitted)
     reconstructions = [
@@ -143,7 +96,6 @@ def run_mechanism(stream: TaskStream) -> DualMetricReading:
     ]
     retention = _retention(reconstructions, stream)
     if stream.future_recurrence_index >= 0:
-        # Recurrence-aware reactivation: warm start from the consolidated adapter, then fit.
         warm_start = adapter_memory[stream.future_recurrence_index]
         future_adapter = _gd(warm_start, stream.future, ADAPTER_DIMS, adapter_residual)
     else:
@@ -153,13 +105,9 @@ def run_mechanism(stream: TaskStream) -> DualMetricReading:
     return _reading(retention, future)
 
 
-# ---------------------------------------------------------------------------
-# The control policies. Each fails one axis of the P6 split; none can read the recurrence flag.
-# ---------------------------------------------------------------------------
 
 
 def run_fresh_init(stream: TaskStream) -> DualMetricReading:
-    """Reset all weights and refit each task from scratch. Adapts, but forgets prior tasks."""
 
     end = ZEROS
     for task in stream.history:
@@ -172,7 +120,6 @@ def run_fresh_init(stream: TaskStream) -> DualMetricReading:
 
 
 def run_frozen_core(stream: TaskStream) -> DualMetricReading:
-    """Learn everything on task zero and freeze it. Retains task zero, cannot adapt to anything new."""
 
     state = _gd(ZEROS, stream.history[0], ALL_DIMS, _residual(len(ALL_DIMS)))
     reconstructions = [state for _ in stream.history]
@@ -182,7 +129,6 @@ def run_frozen_core(stream: TaskStream) -> DualMetricReading:
 
 
 def run_full_retrain(stream: TaskStream) -> DualMetricReading:
-    """Retrain one vector on all tasks at once. One vector cannot hold conflicting per-task adapters."""
 
     history_mean = _mean_vectors(stream.history)
     state = _gd(ZEROS, history_mean, ALL_DIMS, _residual(len(ALL_DIMS)))
@@ -195,7 +141,6 @@ def run_full_retrain(stream: TaskStream) -> DualMetricReading:
 
 
 def run_no_replay(stream: TaskStream) -> DualMetricReading:
-    """Continually refit the current task with no reset and no replay. Adapts, but forgets."""
 
     state = ZEROS
     for task in stream.history:
@@ -216,7 +161,6 @@ _CONTROL_POLICIES: dict[str, PolicyFn] = {
 
 
 def run_control(control: str, stream: TaskStream) -> DualMetricReading:
-    """Run one named control policy against a stream. Fails closed on an unknown control."""
 
     policy = _CONTROL_POLICIES.get(control)
     if policy is None:
@@ -225,7 +169,6 @@ def run_control(control: str, stream: TaskStream) -> DualMetricReading:
 
 
 def run_all(stream: TaskStream) -> dict[str, DualMetricReading]:
-    """Run the mechanism and every declared control against a stream; return readings by arm name."""
 
     readings: dict[str, DualMetricReading] = {MECHANISM_ARM: run_mechanism(stream)}
     for control in REQUIRED_CONTROLS:

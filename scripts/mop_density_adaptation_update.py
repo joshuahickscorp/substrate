@@ -1,56 +1,3 @@
-"""Adaptation-per-update curve (DENSITY axis: capability GAIN per gradient UPDATE).
-
-Standard few-shot episodic protocol so that adaptation-per-update is measurable with real
-headroom (the difficulty-calibration lesson from 12_metrics.md: a pretrained head that is
-already near ceiling on the held-out split leaves nothing to adapt, so the gain-per-update
-is ~0 for everyone and the metric cannot bite).
-
-Task. Held-out (shape,color) split: all clips whose color is in HELDOUT_COLORS are held
-out from meta-training entirely. At adaptation time we draw an EPISODE from the held-out
-clips: N-way (N=5 shapes), with a RANDOM LABEL PERMUTATION applied to the shape classes,
-fresh per episode. The head must classify the (permuted) shape label from a few support
-examples. The random permutation is the difficulty knob: a static pretrained head is worth
-CHANCE at update 0 by construction (it cannot know this episode's permutation), so ALL
-query accuracy above chance is genuine per-update adaptation, not a memorized static head.
-This is exactly how MAML/Reptile adaptation is measured and it structurally removes the
-"good static init already wins" confound (control C3 becomes automatic: acc@0 ~ chance for
-every arm).
-
-Two arms at MATCHED updates / LR / batch / architecture (linear head, identical shape):
-  FAST  : Reptile-style meta-learned init (first-order, meta-trained on random-permutation
-          episodes drawn from META-TRAIN colors only), then fine-tuned on the episode support.
-  PLAIN : a generic init (small random head, the honest matched-arch baseline), fine-tuned on
-          the SAME support with the SAME updates/LR/arch. Also a TUNED variant is reported
-          (Adam-pretrained on meta-train identity mapping) as a second baseline; the load-
-          bearing comparison is FAST vs PLAIN-random, both adapting the permutation.
-The ONLY difference is the initialization. FLOPs matched exactly (asserted).
-
-Metric. accuracy GAIN per update = acc_u - acc_0 on held-out query, averaged over updates
-1..U (auc_gain). adaptation-per-update RATIO = auc_gain(FAST) / auc_gain(PLAIN). A TIE
-(ratio CI spans 1, sign-flip across seeds, or CI overlap) is a NULL.
-
-Controls (preregistered, IN CODE):
-  C1 SHUFFLE : FAST on shuffled support labels must NOT adapt (auc_gain collapses). Load-bearing.
-  C2 RANDINIT: plain random init IS the baseline arm here (matched arch), lower bound.
-  C3 ZERO-UPD: acc@0 reported for all arms; permutation forces it to ~chance, so no static
-               init can inflate per-update slope. Verified, not assumed.
-  C4 SIGN-FLIP + CI: 5 seeds x multiple episodes, seed_ci + sign_flip_report.
-
-Gaming vectors (12_metrics.md) addressed:
-  more-compute: BLOCKED (matched updates/LR/batch/arch, FLOPs asserted equal).
-  ceiling/too-easy: permutation + held-out colors give real headroom; base separability reported.
-  one-seed: 5 seeds x N_EPISODES episodes each.
-  memorized static init: permutation forces acc@0 ~ chance; gain is on acc_u - acc_0.
-  adapt-to-noise: shuffle control must collapse.
-
-Preregistered VERDICT thresholds (frozen before running):
-  WIN  iff ratio_mean > 1.15 AND ratio CI lower > 1.0 AND per-seed(ratio-1) consistent(+)
-       AND auc_gain CIs of FAST and PLAIN non-overlapping (fast.lo > plain.hi)
-       AND shuffle collapses (shuffle auc_gain < 0.5 * fast auc_gain).
-  NULL iff |ratio_mean-1| <= 0.15 OR ratio CI spans 1.0 OR any per-seed sign-flip OR CI overlap.
-  LOSS iff ratio_mean < 0.85 AND ratio CI upper < 1.0.
-A tie is a null; honest nulls are assets.
-"""
 
 from __future__ import annotations
 
@@ -71,7 +18,6 @@ CACHE = REPO / "data" / "cache"
 OUT = REPO / "runs" / "mot"
 OUT.mkdir(parents=True, exist_ok=True)
 
-# ---------------- preregistered config (frozen before running) ----------------
 SEEDS = [0, 1, 2, 3, 4]
 N_SHAPE = 5
 HELDOUT_COLORS = [3, 4]  # held out entirely from meta-training (80 clips)
@@ -79,7 +25,6 @@ SUPPORT_PER_CLASS = 3  # few-shot support per shape class in an episode
 N_EPISODES = 20  # adaptation episodes per seed (each a fresh label permutation)
 ADAPT_UPDATES = 30  # matched updates for ALL arms
 ADAPT_LR = 0.1  # matched LR
-# Reptile meta-training (over meta-train colors only, random-permutation episodes)
 META_ITERS = 400
 META_INNER_STEPS = 8
 META_LR_INNER = 0.1
@@ -87,7 +32,6 @@ META_LR_OUTER = 0.3
 META_SUPPORT = 3
 CHANCE = 1.0 / N_SHAPE
 
-# verdict thresholds (preregistered)
 WIN_RATIO_MIN = 1.15
 NULL_BAND = 0.15
 LOSS_RATIO_MAX = 0.85
@@ -136,8 +80,6 @@ def adapt_curve(init_state, d_in, n_out, Xs, ys, Xq, yq, updates, lr) -> list[fl
 
 
 def sample_episode(Xpool, ypool_shape, n_out, sup_per_class, gen):
-    """Draw a support/query episode from a pool with a fresh random label permutation.
-    Returns Xs, ys(permuted), Xq, yq(permuted)."""
     perm_labels = torch.randperm(n_out, generator=gen)  # shape-class -> episode label
     sup_idx, qry_idx = [], []
     for c in range(n_out):
@@ -156,7 +98,6 @@ def sample_episode(Xpool, ypool_shape, n_out, sup_per_class, gen):
 
 
 def reptile_init(Xtr, shp_tr, col_tr, d_in, n_out, seed) -> dict:
-    """First-order Reptile over random-permutation episodes drawn from META-TRAIN colors."""
     seed_everything(seed)
     g = torch.Generator().manual_seed(seed + 777)
     head = torch.nn.Linear(d_in, n_out)
@@ -200,8 +141,6 @@ def run_encoder(name: str) -> dict:
     Xho = torch.from_numpy(Xstd[heldout_mask])
     shp_ho = torch.from_numpy(shape[heldout_mask])
 
-    # difficulty: base shape separability on held-out (fixed identity labels, full fit).
-    # This tells us capability exists; the PERMUTATION is what forces per-update adaptation.
     base = linear_probe(Xho, shp_ho, classification=True, epochs=200, lr=0.05, seed=0)
 
     per_seed = {
@@ -218,7 +157,6 @@ def run_encoder(name: str) -> dict:
 
     for s in SEEDS:
         fast_state = reptile_init(Xtr, shp_tr, col_tr, d_in, n_out, s)
-        # PLAIN baseline: a fresh small random head (matched architecture). Seeded per s.
         seed_everything(s + 500)
         plain_state = {k: v.clone() for k, v in torch.nn.Linear(d_in, n_out).state_dict().items()}
 
@@ -233,7 +171,6 @@ def run_encoder(name: str) -> dict:
             ep_fast.append(fc)
             ep_plain.append(pc)
             ep_shuf.append(sc)
-        # average curves over episodes for this seed
         fc_m = np.asarray(ep_fast).mean(0).tolist()
         pc_m = np.asarray(ep_plain).mean(0).tolist()
         sc_m = np.asarray(ep_shuf).mean(0).tolist()

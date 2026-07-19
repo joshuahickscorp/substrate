@@ -1,43 +1,4 @@
 #!/usr/bin/env python
-"""META-CONTROL AUDIT (falsification-engine axis, laptop lane, READ-ONLY on repo, zero new encode).
-
-Turns the program's own rigor onto the program's OWN controls. Preregistered PASS/FAIL rules are fixed
-in code BEFORE any number is read. A TIE IS A NULL. No score is faked. House style: no em/en dashes.
-
-Five checks, each with a preregistered rule:
-
-  (a) MATCHED-ARCH + MATCHED-RESOLUTION random-init control (not a weaker strawman). For each real vs
-      random-init pair (V-JEPA ViT-L, DINOv2-S) verify from meta.json / cache dims that embed_dim,
-      resolution, frames, count, feature-shape are IDENTICAL and only `pretrained` differs. FAIL if the
-      control has a smaller net, lower resolution, or fewer clips than the real arm.
-      RULE(a): PASS iff embed_dim == and input_resolution == and count == and feature D == across arms,
-      with the control's pretrained flag False and the real arm's True (or a family tag proving trained).
-
-  (b) PERMUTATION / TOPOLOGY null correctly constructed. Re-derive the A6/al2 row-shuffle-target null on a
-      real cache pair and confirm it (i) DESTROYS cross-rep correspondence (learned recall drops toward the
-      permuted floor) while (ii) PRESERVING marginal geometry (the permuted target's own kNN self-graph is
-      unchanged, since a permutation of rows only relabels points, it does not move them).
-      RULE(b): PASS iff learned_recall > permuted_recall (correspondence exists and the null removes it) AND
-      the permuted target's marginal kNN self-recall equals the unpermuted target's (a pure relabeling
-      preserves geometry). A tie of learned and permuted (no correspondence to destroy) is a NULL, reported
-      as such, not spun as a pass.
-
-  (c) VACUOUS frozen-random-projection control (square full-rank linear map, delta forced to 0) is BANNED
-      wherever it would apply. Two parts: (c1) demonstrate empirically that a square full-rank random
-      projection is probe-vacuous (real and projected latents give the SAME probe accuracy, delta ~ 0), so
-      it could never be a control; (c2) scan the live positive-claim scripts and confirm none of them uses
-      frozen_random / a square latent projection as the comparison arm.
-      RULE(c): PASS iff (c1) |acc(real) - acc(square-random-proj of real)| < 0.02 (confirming vacuity) AND
-      (c2) every audited positive-claim script compares against a genuinely different arm (random-init net,
-      random-pixel, or a permutation null), never frozen_random.
-
-  (d) SEED DETERMINISM. Re-run one keyed computation (the survivor-reaudit T4 200-clip probe delta, and a
-      linear_probe on a fixed cache) TWICE with the same seed and confirm bit/near-identical outputs.
-      RULE(d): PASS iff the two runs' probe accuracies are bit-identical (max abs diff == 0.0). A nonzero
-      but tiny diff is reported honestly as NEAR-identical, not rounded to PASS.
-
-Writes meta_control_audit.json to the lane folder. Prints each control PASS/FAIL with evidence.
-"""
 
 from __future__ import annotations
 
@@ -58,7 +19,6 @@ LANE.mkdir(parents=True, exist_ok=True)
 
 from mop.diagnostics.linear_probe import linear_probe  # noqa: E402
 
-# ---- preregistered thresholds (fixed BEFORE any result is read; a tie is a null) ----
 PREREG = {
     "a_matched_arch": "PASS iff embed_dim, input_resolution, count, feature-D all EQUAL across real and "
     "random-init arms, control pretrained=False, real arm trained. Any smaller net / lower res / fewer "
@@ -101,8 +61,6 @@ def _count(name: str) -> int:
 
 
 def _sidecar(name: str) -> dict:
-    """factors.json sidecar (small caches) records the byte-level clip checksums, resolution, frames and
-    model_id, which is the hard evidence that both arms saw the SAME clips at the SAME resolution."""
     p = CACHE / name / "factors.json"
     if not p.exists():
         return {}
@@ -113,9 +71,7 @@ def _sidecar(name: str) -> dict:
     }
 
 
-# ============================ (a) matched-arch + matched-resolution ============================
 def check_a() -> dict:
-    """Verify each real vs random-init pair is architecture- AND resolution-matched, control untrained."""
     pairs = [
         {
             "name": "vjepa2_vitl (substrate-special headline)",
@@ -141,7 +97,6 @@ def check_a() -> dict:
         rm, cm = _load_meta(pr["real"]), _load_meta(pr["rand"])
         rD, cD = _feat_D(pr["real"]), _feat_D(pr["rand"])
         rN, cN = _count(pr["real"]), _count(pr["rand"])
-        # embed_dim: from meta if present else from feature D
         r_embed = rm.get("embed_dim", rm.get("key_dim", rD))
         c_embed = cm.get("embed_dim", cm.get("key_dim", cD))
         res_match = None
@@ -150,10 +105,8 @@ def check_a() -> dict:
             r_res = rm.get(pr["res_key"])
             c_res = cm.get(pr["res_key"])
             res_match = (r_res is not None) and (r_res == c_res)
-        # pretrained flags: vjepa metas carry them; small-cache metas do not, so use family tag / name.
         r_pretrained = rm.get("pretrained", None)
         c_pretrained = cm.get("pretrained", None)
-        # control must be untrained: either pretrained==False in meta, or the tag/name says randominit.
         control_untrained = (
             (c_pretrained is False)
             or ("randominit" in pr["rand"])
@@ -162,34 +115,19 @@ def check_a() -> dict:
         real_trained = (r_pretrained is True) or ("real" in pr["real"]) or (rm.get("pretrained") is True)
         dim_match = (r_embed == c_embed) and (rD == cD) and rD > 0
         count_match = (rN == cN) and rN > 0
-        # PASS rule (a): dims equal, counts equal, resolution equal (when the field exists), control
-        # untrained, real trained. A missing resolution field is NOT auto-pass: we require the doc-level
-        # matched-res claim to be corroborated by identical feature dimensionality (same net => same res
-        # for these image/text encoders whose D is fixed by arch, not resolution) and flag it.
         core = dim_match and count_match and control_untrained and real_trained
-        # BYTE-LEVEL clip identity from the factors.json sidecar (small caches). Identical checksum_first,
-        # checksum_last AND identical resolution/model_id across arms is the hardest possible proof that the
-        # control saw the SAME clips at the SAME resolution through the SAME net-config, only the weights
-        # differing. When present, this supersedes the meta.json resolution field.
         rs, cs = _sidecar(pr["real"]), _sidecar(pr["rand"])
         checksum_match = bool(
             rs.get("checksum_first")
             and rs.get("checksum_first") == cs.get("checksum_first")
             and rs.get("checksum_last") == cs.get("checksum_last")
         )
-        # resolution equality: for a PIXEL encoder both arms carry an int resolution that must match; for a
-        # TEXT encoder (Qwen caption) resolution is legitimately null on BOTH arms (no pixel grid), which is
-        # matched-by-absence, NOT a mismatch. A mismatch is one arm null and the other not, or two differing
-        # ints. Clip identity for the text arm is then carried by the checksum + clipset, not by resolution.
         r_res_sc, c_res_sc = rs.get("resolution"), cs.get("resolution")
         sidecar_res_match = r_res_sc == c_res_sc  # both-None (text) or equal ints (pixel) both pass
         sidecar_res_applicable = r_res_sc is not None
         sidecar_model_match = (rs.get("model_id") is not None) and (rs.get("model_id") == cs.get("model_id"))
         clipset_match = (rs.get("clipset") is not None) and (rs.get("clipset") == cs.get("clipset"))
         if pr["res_key"]:
-            # V-JEPA / ViT-L nuisance caches use the meta.json layout (no factors.json sidecar). Clip
-            # identity across the real and random-init arms is proven instead by the per-clip nuisance
-            # draws: both arms replay the SAME seeded generator, so nuisance.npy must be bit-identical.
             nuis_match = None
             rp, cp = CACHE / pr["real"] / "nuisance.npy", CACHE / pr["rand"] / "nuisance.npy"
             if rp.exists() and cp.exists():
@@ -203,9 +141,6 @@ def check_a() -> dict:
             )
             checksum_match = bool(nuis_match)  # nuisance-identity is the checksum-equivalent for this layout
         elif rs:
-            # sidecar present: require clip checksum + model_id + clipset + resolution-equality across arms.
-            # resolution-equality passes for both-None (text) and equal-int (pixel); a text encoder is NOT
-            # penalized for lacking a pixel resolution, its clip identity is proven by the checksum.
             passed = bool(
                 core and checksum_match and sidecar_res_match and sidecar_model_match and clipset_match
             )
@@ -249,22 +184,13 @@ def check_a() -> dict:
     return {"rule": PREREG["a_matched_arch"], "pairs": results, "verdict": overall}
 
 
-# ============================ (b) permutation / topology null correctness ============================
 def _knn_self_recall(x: torch.Tensor, k: int = 5) -> float:
-    """Marginal self-graph: for each point, does its own kNN (in x) recover the same neighbor set after we
-    RELABEL rows by a permutation? A row permutation is a pure relabeling, so the self kNN structure (which
-    points are neighbors of which) is identical up to the relabeling. We measure the fraction of nearest
-    neighbors preserved, computed on x itself vs a permuted copy, to prove the null does not move geometry.
-    Here we simply report the mean pairwise-distance spectrum invariant: sorted pairwise distances are
-    permutation-invariant, so we compare the sorted distance vectors of x and its row-permuted copy."""
     d = torch.cdist(x, x)
     iu = torch.triu_indices(d.shape[0], d.shape[0], offset=1)
     return d[iu[0], iu[1]]
 
 
 def check_b() -> dict:
-    """Re-derive the A6/al2 row-shuffle-target null and confirm it destroys correspondence but preserves
-    the target's own marginal geometry."""
     from scripts.mop_al2_alignment_pilot import (
         KNN_K,
         knn_neighbor_recall,
@@ -272,7 +198,6 @@ def check_b() -> dict:
         ridge_fit,
     )
 
-    # a genuinely-corresponded real pair with shared clip identity: two vision encoders on same clips.
     a_name, b_name = "vjepa2_vitl_nuisance", "dinov2s_nuisance_real"
     xa = torch.tensor(np.load(CACHE / a_name / "features.npy")).float()
     xb = torch.tensor(np.load(CACHE / b_name / "latents.npy")).float()
@@ -292,11 +217,9 @@ def check_b() -> dict:
     atr, ate = std(xa[tr], xa[te])
     btr, bte = std(xb[tr], xb[te])
 
-    # learned: correct pairing
     w = rank_truncate(ridge_fit(atr, btr), rank)
     learned_recall = knn_neighbor_recall(ate @ w, bte, k=KNN_K)
 
-    # permuted-target null: shuffle the TARGET rows on train (row-shuffle-target, exactly A6/al2)
     perm_recalls = []
     for _ in range(20):
         shuf = torch.randperm(cut, generator=g)
@@ -304,19 +227,14 @@ def check_b() -> dict:
         perm_recalls.append(knn_neighbor_recall(ate @ w_s, bte, k=KNN_K))
     permuted_recall = float(np.mean(perm_recalls))
 
-    # (i) does the null DESTROY correspondence? learned should exceed permuted floor.
     correspondence_destroyed = learned_recall > permuted_recall
 
-    # (ii) does the null PRESERVE marginal geometry of the target? A row permutation of btr only relabels
-    # points; the multiset of pairwise distances is invariant. Verify the sorted pairwise-distance vector
-    # of btr equals that of a row-permuted btr to machine precision.
     dist_orig = torch.sort(_knn_self_recall(btr)).values
     shuf2 = torch.randperm(cut, generator=g)
     dist_perm = torch.sort(_knn_self_recall(btr[shuf2])).values
     geom_max_diff = float((dist_orig - dist_perm).abs().max())
     geometry_preserved = geom_max_diff < 1e-4
 
-    # verdict: PASS requires BOTH. If learned ~ permuted (no correspondence), that is a NULL, not a PASS.
     correspondence_gap = round(learned_recall - permuted_recall, 4)
     if not correspondence_destroyed:
         verdict = "NULL"  # nothing to destroy; the null is well-formed but this pair has no correspondence
@@ -325,9 +243,6 @@ def check_b() -> dict:
     else:
         verdict = "FAIL"
 
-    # NEGATIVE CONTROL (proves this check is non-vacuous, i.e. it CAN report absence-of-correspondence).
-    # Two independent gaussian matrices share no cross-rep structure, so learned should NOT exceed the
-    # permuted floor. If this "detected" correspondence, the metric would be spuriously optimistic.
     gn = torch.Generator().manual_seed(123)
     ra = torch.randn(n, xa.shape[1], generator=gn)
     rb = torch.randn(n, 64, generator=gn)
@@ -341,8 +256,6 @@ def check_b() -> dict:
         w0s = rank_truncate(ridge_fit(ratr, rbtr[shuf]), rank)
         neg_perm.append(knn_neighbor_recall(rate @ w0s, rbte, k=KNN_K))
     neg_permuted = float(np.mean(neg_perm))
-    # the metric is HONEST iff on random-vs-random the learned map does not beat its own permuted floor
-    # by more than noise (we allow a small slack; a large positive gap here would mean the metric inflates).
     neg_gap = round(neg_learned - neg_permuted, 4)
     metric_not_inflating = neg_gap < 0.05
 
@@ -367,16 +280,11 @@ def check_b() -> dict:
     }
 
 
-# ============================ (c) vacuous frozen-random-projection ============================
 def check_c() -> dict:
-    """(c1) empirically prove a square full-rank random projection is probe-vacuous; (c2) scan positive
-    claim scripts for any use of frozen_random / square projection as the comparison arm."""
-    # (c1) take a real cache, project it by a square full-rank random matrix, probe both.
     x = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "features.npy")).float()
     y = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "labels_shape.npy")).long()
     D = x.shape[1]
     g = torch.Generator().manual_seed(0)
-    # square full-rank gaussian map (full-rank w.p. 1); this is the vacuous "frozen_random_projection"
     M = torch.randn(D, D, generator=g)
     xp = x @ M
     accs_real, accs_proj = [], []
@@ -390,7 +298,6 @@ def check_c() -> dict:
     vac_gap = abs(real_mean - proj_mean)
     c1_pass = vac_gap < 0.02  # a genuine control would move the number; a vacuous one cannot
 
-    # (c2) scan the live positive-claim scripts for the comparison arm they actually use.
     claim_scripts = {
         "substrate_vs_random_init_vit.py": "scripts/substrate_vs_random_init_vit.py",
         "substrate_vs_random_features.py": "scripts/substrate_vs_random_features.py",
@@ -402,14 +309,10 @@ def check_c() -> dict:
     scan = {}
     for label, rel in claim_scripts.items():
         src = (REPO / rel).read_text()
-        # a control is VACUOUS only if frozen_random is used as the ACTIVE comparison arm. We flag a script
-        # as clean when it either never mentions frozen_random, or only mentions it to DISCLAIM it (the word
-        # appears near "vacuous", "corrected", "INVALID", "rerun", or in a docstring rejecting it).
         mentions_fr = "frozen_random" in src or "frozen-random" in src
         uses_random_init = ("random_init" in src) or ("randominit" in src) or ("_random_init_vit" in src)
         uses_random_pixel = "random_pixel" in src or "random-pixel" in src
         uses_permutation = "randperm" in src or "permut" in src or "shuffle" in src
-        # is frozen_random used as a live control, or only disclaimed?
         disclaimed = any(
             w in src for w in ("vacuous", "CORRECTED", "corrected", "INVALID", "rerun with real")
         )
@@ -424,16 +327,6 @@ def check_c() -> dict:
         }
     c2_pass = all(not v["vacuous_control_active"] for v in scan.values())
 
-    # (c3) CORPUS-WIDE scan, PRECISE vacuous-vs-valid classification. The root vacuity (proven in c1 and
-    # empirically on the corpus function below) is: a SQUARE full-rank frozen_random projection compared
-    # under a LINEAR probe delta is absorbed by the probe (delta ~ noise, never a control). But the corpus
-    # ALSO has two LEGITIMATE uses of the same projection that break the invariance and are NOT vacuous:
-    #   VALID-A nonlinear difference-in-differences (readout_contribution): (nl-lin)_real - (nl-lin)_fr.
-    #           The MLP is not projection-invariant, so the index is real evidence. The linear halves cancel.
-    #   VALID-B rank-reducing bottleneck (capability_per_bit): probing at width < d after a random rotation
-    #           scrambles which info lands in the kept dims, so real can genuinely separate. Not square-invert.
-    # A file is VACUOUS iff it consumes a LINEAR-probe delta/gate against frozen_random (needs_real,
-    # delta_frozen_random, ra-fa) as a positive-claim verdict, with no nonlinear-DiD / bottleneck rescue.
 
     VALID_MARKERS = ("readout_contribution", "capability_per_bit", "nonlinear_gain", "linear_vs_mlp")
     corpus = {}
@@ -444,14 +337,11 @@ def check_c() -> dict:
             if "frozen_random" not in txt and "frozen-random" not in txt:
                 continue
             rel = str(path.relative_to(REPO))
-            # a vacuous GATE line: a boolean/verdict computed from a linear real-minus-frozen_random delta
             vac_gate_lines = []
             for ln in txt.splitlines():
                 low = ln.lower()
                 if "frozen" not in low and "fr)" not in low and "- fa" not in low and "-fa" not in low:
-                    # allow the well-known variable spellings (fr, fa) only when frozen_random is defined nearby
                     pass
-                # explicit gate: needs_real / delta_frozen_random / (ra - fa) as a comparison forming a bool
                 is_gate = (
                     ("needs_real" in low and ("bool(" in low or ">" in low or "=" in low and "real" in low))
                     or ("- fa >" in low)
@@ -464,18 +354,12 @@ def check_c() -> dict:
                 if is_gate and not disclaimed_line:
                     vac_gate_lines.append(ln.strip())
             has_valid = any(m in txt for m in VALID_MARKERS)
-            # defines/uses the raw substrate_ablation frozen_random delta as a live verdict?
             uses_vac_gate = len(vac_gate_lines) > 0
-            # the substrate_ablation module itself DEFINES the vacuous delta_frozen_random/needs_real fields
             defines_vacuous_field = "def substrate_ablation" in txt and "needs_real" in txt
             file_disclaims_vacuity = any(
                 d in txt
                 for d in ("projection-invariant", "ties a frozen-random", "linear probe is projection")
             )
-            # a CLEAR vacuous use ingests substrate_ablation's linear needs_real/delta_frozen_random on a
-            # square full-rank projection of the SAME latent. A BORDERLINE use runs a frozen-random SUBSTRATE
-            # arm through a full downstream learner (e.g. continual-learning bwt), where the projection is
-            # not merely absorbed by a linear probe, so the delta is weaker but not provably zero.
             ingests_ablation_gate = (
                 ("substrate_ablation(" in txt and ("needs_real" in txt or "delta_frozen_random" in txt))
                 or ("ra - fa >" in txt)
@@ -505,9 +389,6 @@ def check_c() -> dict:
     borderline_flags = sorted(corpus_borderline)
     c3_pass = len(corpus_flags) == 0
 
-    # (c4) EMPIRICAL proof on the corpus's OWN substrate_ablation function: run it on the real V-JEPA cache
-    # for a genuinely-decodable factor (shape). delta_frozen_random must collapse toward 0 (or go negative)
-    # while delta_shuffled stays large, proving needs_real is a broken gate that yields false negatives.
     from mop.diagnostics.substrate_ablation import substrate_ablation
 
     xa = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "features.npy")).float()
@@ -558,19 +439,15 @@ def check_c() -> dict:
     }
 
 
-# ============================ (d) seed determinism ============================
 def check_d() -> dict:
-    """Re-run one keyed computation twice with the same seed; confirm bit-identical outputs."""
     x = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "features.npy")).float()
     y = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "labels_shape.npy")).long()
     xz = _zscore(x)
 
-    # run 1 and run 2 of the same seeded probe
     run1 = [linear_probe(xz, y, classification=True, epochs=400, seed=s)["score"] for s in range(5)]
     run2 = [linear_probe(xz, y, classification=True, epochs=400, seed=s)["score"] for s in range(5)]
     max_diff_probe = float(max(abs(a - b) for a, b in zip(run1, run2, strict=True)))
 
-    # also re-derive the T4 200-clip delta twice (a keyed multi-seed derived stat) and compare
     ri = torch.tensor(np.load(CACHE / "randominit_vitl_nuisance" / "features.npy")).float()
     riz = _zscore(ri)
 

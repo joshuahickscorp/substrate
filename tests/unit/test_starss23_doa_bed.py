@@ -62,8 +62,6 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-
-
 def test_great_circle_degrees_symmetric_identity_and_antipodal():
     assert great_circle_degrees(30.0, 10.0, 30.0, 10.0) == pytest.approx(0.0, abs=1e-6)
     assert great_circle_degrees(0.0, 0.0, 180.0, 0.0) == pytest.approx(180.0, abs=1e-6)
@@ -99,8 +97,6 @@ def test_doa_clip_change_frames_and_voc_targets():
     assert targets.tolist() == [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 
 
-
-
 def test_featurizer_zero_param_and_deterministic():
     fz = DoaFeaturizer()
     assert fz.n_params() == 0
@@ -125,8 +121,6 @@ def test_featurizer_silence_has_zero_flux_everywhere():
     assert np.allclose(features, 0.0, atol=1e-8)
 
 
-
-
 def test_estimator_zero_param_deterministic_and_silence_is_cold_start():
     est = FrozenDoaEstimator()
     assert est.n_params() == 0
@@ -141,8 +135,6 @@ def test_estimator_zero_param_deterministic_and_silence_is_cold_start():
     assert np.allclose(silent_track, np.array(DOA_COLD_START))
     assert FLOPS_PER_REESTIMATE == 33_687
     assert est.flops_for_reestimations(7) == 7 * FLOPS_PER_REESTIMATE
-
-
 
 
 def test_both_architectures_under_param_ceiling_with_exact_counts():
@@ -177,8 +169,6 @@ def test_gate_seed_reproducible_and_no_label_signature():
 def test_training_flops_anchors_match_design():
     assert training_flops_arch_a(54_000) == 8_274_960_000
     assert training_flops_arch_b(54_000) == 4_246_992_000
-
-
 
 
 def test_referee_toy_known_mae_and_coasting():
@@ -287,8 +277,6 @@ def test_referee_refuses_clip_with_no_active_frame():
     est = np.array([[0.0, 0.0]])
     with pytest.raises(DoaRefereeRefusal):
         mae_deg_clip(np.array([[0.0, 0.0]]), est, [], np.array([False]))
-
-
 
 
 def _flop_model_doa(kind, architecture, total_frames, train_frames):
@@ -401,8 +389,6 @@ def test_harness_refuses_uncharged_training_and_k_mismatch_and_ceiling():
         H.assert_within_ceiling(huge)
 
 
-
-
 def test_sesoi_deg_structural_derivation():
     facts = [
         DoaClipLabelFact(clip_id="c1", n_active_frames=1000, n_changes=20),
@@ -448,8 +434,6 @@ def test_prereg_seals_before_test_scores_and_carries_promotion_rule():
     assert body["claim_ceiling"]["claim_verb"] == "consistent with"
 
 
-
-
 def test_verifier_imports_stdlib_only():
     source = Path(V.__file__).read_text(encoding="utf-8")
     tree = ast.parse(source)
@@ -464,8 +448,6 @@ def test_verifier_imports_stdlib_only():
         assert not any(name == bad or name.startswith(bad + ".") for bad in forbidden), name
     allowed_stdlib = {"json", "hashlib", "itertools", "math", "bisect", "dataclasses", "__future__"}
     assert {n.split(".")[0] for n in imported} <= allowed_stdlib
-
-
 
 
 _SMALL_CONFIG = RealDoaBedConfig(seeds=(0, 1, 2), target_rates=(0.10, 0.05), noisy_tv_frames=200, max_frames=600)

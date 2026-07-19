@@ -1,22 +1,3 @@
-"""Locally trainable custom video-substrate workbench.
-
-This module is deliberately independent of any inherited encoder implementation.  It trains a
-small token-preserving video encoder under multiple matched objectives, while an inherited frozen
-encoder may be supplied only as a citable same-referent teacher cache.  The workbench is an
-engineering and falsification surface.  Programmatic-video results never become natural-video or
-general-capability evidence.
-
-The central contracts are:
-
-* immutable train, validation, and held-out-combination referents;
-* a machine-readable requirements audit tied to the Form campaign and project-exhaustion ledger;
-* identical architecture, initialization, batch order, update count, and estimated core FLOPs for
-  predictive, invariance, reconstruction, and random-target arms;
-* an exact frozen copy of the same random initialization, plus an optional immutable teacher cache;
-* content-addressed configs, data, requirements, initial states, checkpoints, and receipts;
-* resumable training that refuses hash drift;
-* fail-closed promotion rules that distinguish a local objective probe from CM8-scale evidence.
-"""
 
 from __future__ import annotations
 
@@ -59,7 +40,7 @@ OPTIONAL_OBJECTIVE = "teacher_distill"
 
 
 class WorkbenchRefused(RuntimeError):
-    """Raised before training when a scientific or integrity contract is not satisfied."""
+    pass
 
 
 def _canonical_json(value: Any) -> bytes:
@@ -133,12 +114,6 @@ def audit_requirements(
     *,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Hash and validate every source in the custom-substrate design ledger.
-
-    The ledger intentionally stores paths rather than frozen source hashes because the F campaign is
-    still generating verifier receipts.  Each run resolves and freezes the then-current content hashes
-    into its own receipt.  Resume later requires the resulting aggregate hash to remain identical.
-    """
 
     path = _resolve_repo_path(ledger_path, repo_root)
     problems: list[str] = []
@@ -242,7 +217,6 @@ def snapshot_requirement_sources(
     destination: Path,
     repo_root: Path = REPO_ROOT,
 ) -> None:
-    """Copy the exact audited evidence bytes into a run before any training starts."""
 
     destination.mkdir(parents=True, exist_ok=True)
     for requirement in audit.get("requirements", []):
@@ -267,7 +241,6 @@ def snapshot_implementation_sources(
     expected_generator_sha256: str,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Freeze the exact executable source bytes used to create data and train every arm."""
 
     candidates = (
         Path(__file__).resolve(),
@@ -323,14 +296,6 @@ def attest_current_requirements(
     *,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Bind a completed result to both its frozen sources and the current live evidence ledger.
-
-    Proof generators may legitimately refresh their receipts after a long training run starts. The
-    training design remains valid only when the machine-readable requirements ledger itself is
-    byte-identical and the refreshed sources retain compatible schemas. Source-byte drift is reported,
-    not hidden. Missing snapshots, ledger drift, invalid current evidence, or schema drift force every
-    scientific promotion flag false.
-    """
 
     receipt_path = run_dir / "workbench_receipt.json"
     start_path = run_dir / "requirements_audit.json"
@@ -486,12 +451,6 @@ class ReferentRecord:
 
 
 def build_referent_records(spec: CorpusSpec) -> list[ReferentRecord]:
-    """Build disjoint combination splits while exposing every factor level in train.
-
-    Test combinations satisfy ``(a + b) mod 4 == 0`` and validation combinations satisfy one.
-    Remaining combinations are training data.  Split membership is therefore a property of the
-    factor combination, never the replicate, preventing near-duplicate combination leakage.
-    """
 
     spec.validate()
     rows: list[ReferentRecord] = []
@@ -561,7 +520,6 @@ def _stable_seed(*parts: Any) -> int:
 
 
 class ProgrammaticVideoCorpus:
-    """Generate deterministic factorized video clips directly from immutable referent records."""
 
     def __init__(self, spec: CorpusSpec, records: Sequence[ReferentRecord]):
         self.spec = spec
@@ -597,8 +555,6 @@ class ProgrammaticVideoCorpus:
         tint = self._hue(record.factor_a, spec.factor_a_levels)
         foreground = carrier[:, None] * tint[None, :, None, None]
 
-        # Replicate controls nuisance without changing the factor labels.  Two views change only
-        # nuisance phase, gain, and noise, making exact positive pairs available to invariance loss.
         checker = torch.sin(
             2 * math.pi * ((1.0 + record.replicate % 4) * self.xx + (0.5 + view * 0.03) * self.yy)
         )
@@ -636,7 +592,6 @@ class ModelSpec:
 
 
 class TinyVideoSubstrate(nn.Module):
-    """A 1 to 5M parameter video-token encoder with no inherited-model dependency."""
 
     def __init__(self, spec: ModelSpec):
         super().__init__()
@@ -661,7 +616,6 @@ class TinyVideoSubstrate(nn.Module):
         )
         self.blocks = nn.TransformerEncoder(layer, num_layers=spec.depth, enable_nested_tensor=False)
         self.norm = nn.LayerNorm(spec.dim)
-        # Every objective uses this exact predictor, so the trainable parameter count is identical.
         self.predictor = nn.Sequential(
             nn.LayerNorm(spec.dim),
             nn.Linear(spec.dim, spec.dim),
@@ -707,11 +661,8 @@ def estimated_train_step_flops(
     objective: str,
     teacher_dim: int = 0,
 ) -> int:
-    """Analytical end-to-end estimate used only to match arms, never as measured energy."""
 
     n, d, ff = token_count(data, model), model.dim, model.dim * model.mlp_ratio
-    # Multiply-add is counted as two FLOPs.  One gradient-bearing encoder pass is priced at three
-    # forward passes (forward plus approximate two-forward backward), plus one EMA-target forward.
     conv = 2 * batch_size * n * d * 3 * model.tubelet * model.patch_size**2
     attention = 2 * 4 * batch_size * n * d * d + 4 * batch_size * n * n * d
     mlp = 4 * batch_size * n * d * ff
@@ -722,7 +673,6 @@ def estimated_train_step_flops(
         total += 2 * batch_size * n * 6 * d
     elif objective == OPTIONAL_OBJECTIVE:
         total += 2 * batch_size * max(1, teacher_dim) * d
-    # EMA update and loss arithmetic are included so the receipt is not pretending they are free.
     total += 2 * batch_size * n * d + 2 * model.depth * d * d
     return int(total)
 
@@ -1146,8 +1096,6 @@ def train_arm(
         optimizer.zero_grad(set_to_none=True)
         online_tokens = model.encode(view_a, mask)
         with torch.no_grad():
-            # Predictive uses the exact same view as its target; invariance and all controls pay for
-            # the second deterministic nuisance view so core compute stays identical.
             target_view = view_a if objective == "predictive" else view_b
             target_tokens = target.encode(target_view)
         prediction = model.predictor(online_tokens)
@@ -1172,8 +1120,6 @@ def train_arm(
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
         optimizer.step()
         _update_ema(target, model, ema_decay)
-        # Surface Metal command-buffer recovery at the exact required arm/step. Without this barrier,
-        # an asynchronous MPS failure can appear in a later arm and destroy causal attribution.
         if device.kind == "mps":
             torch.mps.synchronize()
         losses.append(float(loss.detach().cpu()))
@@ -1511,8 +1457,6 @@ def _promotion_decision(
         best_mean = aggregate[best_arm]["heldout_combo_score"]["mean"]
         random_mean = aggregate["random_target"]["heldout_combo_score"]["mean"]
         frozen_mean = aggregate["frozen_random"]["heldout_combo_score"]["mean"]
-        # Aggregate CIs are recorded separately; a full run stores paired seed rows, so this scalar
-        # gate remains conservative by subtracting both 95 percent half widths.
         random_delta = best_mean - random_mean
         frozen_delta = best_mean - frozen_mean
         best_vs_random = {
@@ -1619,7 +1563,6 @@ def run_workbench(
     device: DeviceInfo,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Run or resume the objective tournament and write a durable workbench receipt."""
 
     run_dir.mkdir(parents=True, exist_ok=True)
     config_plain = json.loads(json.dumps(config))
@@ -1917,7 +1860,6 @@ def cm8_preflight(
     *,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Fail-closed local preflight for CM8 without loading any inherited model weights."""
 
     config_plain = json.loads(json.dumps(config))
     requirements = audit_requirements(config_plain["requirements_ledger"], repo_root=repo_root)

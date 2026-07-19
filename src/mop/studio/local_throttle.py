@@ -1,12 +1,3 @@
-"""Host-aware local execution throttle for long, resumable experiment legs.
-
-The throttle owns only processes that it launches. It observes user applications, including
-Blender, but never signals them. One heavy lane is the invariant. A second lane may only be a
-declared CPU, network, or light task, and only after stricter telemetry gates pass.
-
-P4 and P5 keep their hashed three-hour scientific configs. Their exit code 2 is a durable resume
-boundary, so this supervisor may repeat the exact command inside one five-hour operational leg.
-"""
 
 from __future__ import annotations
 
@@ -179,9 +170,6 @@ HAWKING_PYTHON = Path(
 )
 HAWKING_PYTHON_ARGV0 = Path("/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12")
 OUTPUT_AUTHORITY_FLAGS = ("--out", "--output", "--verification-out")
-# Completed receipts remain valid across explicitly reviewed, backward-compatible governor fixes.
-# These are identifiers only. Historic completion authority is granted exclusively by an exact,
-# self-sealed legacy baseline below; membership in this set alone is never sufficient.
 COMPATIBLE_GOVERNOR_IMPLEMENTATION_SHA256 = frozenset(
     {
         "73ffca97b312bdb7971bcfffb441fb4b204a2a26f8c9964a50e4e7debe00f3f7",
@@ -325,7 +313,7 @@ GOVERNED_PROVENANCE_SCHEMAS = frozenset(
 
 
 class ThrottleRefused(RuntimeError):
-    """Fail-closed configuration or admission refusal."""
+    pass
 
 
 @dataclass(frozen=True)
@@ -617,7 +605,6 @@ def _canonical_sha256(value: Any) -> str:
 
 
 def _json_value(value: Any) -> Any:
-    """Return the exact JSON representation persisted by the throttle."""
 
     return json.loads(json.dumps(value, sort_keys=True, allow_nan=False))
 
@@ -729,7 +716,6 @@ def _load_legacy_policy_baselines() -> tuple[dict[str, Any], ...]:
 
 
 def _task_output_path(task: TaskDeclaration) -> str | None:
-    """Return the task's single repository-relative output-authority target."""
 
     indexes = [index for index, value in enumerate(task.command) if value in OUTPUT_AUTHORITY_FLAGS]
     if not indexes:
@@ -754,14 +740,12 @@ def _command_sha256(command: tuple[str, ...] | list[str]) -> str:
 
 
 def _rusage_children_peak_rss_bytes() -> int:
-    """Return the kernel child high-water RSS using platform-specific units."""
 
     raw = int(resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)
     return raw if sys.platform == "darwin" else raw * 1024
 
 
 def _process_tree_rss_bytes(pid: int) -> int:
-    """Sample RSS for one owned process and its current descendants."""
 
     try:
         process = psutil.Process(pid)
@@ -778,7 +762,6 @@ def _process_tree_rss_bytes(pid: int) -> int:
 
 
 def _p6_source_live_binding_authority(receipt: dict[str, Any]) -> dict[str, Any]:
-    """Recompute the preflight authority digest used by every progressive P6 resume."""
 
     def live_path(value: object) -> tuple[str, Path]:
         if not isinstance(value, str) or not value.strip():
@@ -846,7 +829,6 @@ def _p6_source_live_binding_authority(receipt: dict[str, Any]) -> dict[str, Any]
 
 
 def _p6_resource_evidence() -> dict[str, Any]:
-    """Read the immutable 384-event receipt used to derive P6 disk declarations."""
 
     config = yaml.safe_load(P6_RUN_CONFIG.read_text())
     if not isinstance(config, dict) or config.get("schema") != "mop-continual-progressive-rungs-config/v1":
@@ -944,7 +926,6 @@ def _p6_write_projection(
 def _p6_verifier_atomic_write_projection(
     evidence: dict[str, Any], *, seeds: int, schedules: int, arms: int
 ) -> float:
-    """Conservatively bound the one-shot independent verifier JSON publication."""
 
     cell_count = seeds * schedules * arms
     verifier_bytes = math.ceil(
@@ -1135,7 +1116,6 @@ def _p5_seed_selection_problems(
     cells: dict[int, dict[str, Any]],
     config: dict[str, Any],
 ) -> list[str]:
-    """Reconstruct the exact seed set licensed by staging and futility rules."""
 
     problems: list[str] = []
     seeds = [int(value) for value in payload.get("seeds", [])]
@@ -1396,7 +1376,6 @@ def _p5_paired_ci(values: list[float]) -> dict[str, Any]:
 def _p5_canonical_challenge_patterns(
     primary: dict[str, Any], challenge: dict[str, Any], evidence_root: Path
 ) -> list[dict[str, Any]]:
-    """Rebuild final fresh-pattern decisions from the bound raw challenge cells."""
 
     runs = challenge.get("training_runs")
     if not isinstance(runs, list):
@@ -1518,7 +1497,6 @@ def _p5_seed_artifact_problems(
     source_sha: str,
     checkpoint_sha: str,
 ) -> list[str]:
-    """Join an embedded seed result to its durable seed, arm, and checkpoint artifacts."""
 
     problems: list[str] = []
     try:
@@ -1580,7 +1558,6 @@ def _p5_seed_artifact_problems(
 
 
 def _p5_tensor_state_sha256(state: object, label: str) -> str:
-    """Hash a checkpoint tensor state independently of verifier-declared digests."""
 
     import torch
 
@@ -1614,7 +1591,6 @@ def _p5_artifact_evidence_problems(
     evidence_root: Path,
     label: str,
 ) -> list[str]:
-    """Validate verifier-emitted durable seed, arm, checkpoint, and state bindings."""
 
     problems: list[str] = []
     if not isinstance(evidence, dict) or set(evidence) != expected_seeds:
@@ -1715,7 +1691,6 @@ def _p5_artifact_evidence_problems(
 def _p5_screen_authority_problems(
     payload: dict[str, Any], evidence_root: Path, *, validate_ancestors: bool = True
 ) -> list[str]:
-    """Validate a P5 screen against its live config, sources, raw receipt, and seed identities."""
 
     problems: list[str] = []
     try:
@@ -1917,7 +1892,6 @@ def _p5_screen_authority_problems(
 
 
 def _p5_grid_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
-    """Validate the final memory trace against its live sources and atomic progress authority."""
 
     problems: list[str] = []
     try:
@@ -2052,7 +2026,6 @@ def _p5_challenge_seed_config(seed: int) -> dict[str, Any]:
 
 
 def _p5_challenge_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
-    """Validate a fresh challenge and every bound disjoint-seed raw subrun."""
 
     problems: list[str] = []
     try:
@@ -2252,7 +2225,6 @@ def _p5_challenge_authority_problems(payload: dict[str, Any], evidence_root: Pat
 
 
 def _p5_verifier_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
-    """Cross-check the final independent verdict against its exact current primary and challenge."""
 
     problems: list[str] = []
     try:
@@ -2633,7 +2605,6 @@ def _p6_expected_plan(config: dict[str, Any], *, rung: int, mode: str) -> dict[s
 
 
 def _p6_rung_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
-    """Validate a P6 receipt as a complete live-bound runner authority."""
 
     problems: list[str] = []
     try:
@@ -2884,7 +2855,6 @@ def _p6_verifier_required_fields(source_rung: int, next_rung: int) -> dict[str, 
 
 
 def _p6_verifier_authority_problems(payload: dict[str, Any], evidence_root: Path) -> list[str]:
-    """Cross-check an independent verifier against its exact live source rung."""
 
     problems: list[str] = []
     try:
@@ -4034,14 +4004,6 @@ def _processes(
     excluded_pids: set[int],
     excluded_process_groups: set[int] | None = None,
 ) -> dict[str, Any]:
-    """Classify foreground and heavy work while excluding scheduler-owned groups.
-
-    A declared task may create short-lived measurement or worker descendants. The supervisor owns
-    the complete process group created by ``start_new_session=True``, not only its direct child.
-    Excluding just the direct PID makes a legitimate grandchild look like unmanaged heavy work and
-    can deadlock pause-safe tasks: the governor stops the group, then waits for the stopped worker
-    to disappear before resuming it.
-    """
 
     foreground_markers = [str(value).lower() for value in policy.monitor.get("foreground_markers", [])]
     heavy_markers = [str(value).lower() for value in policy.monitor.get("known_heavy_markers", [])]
@@ -4062,13 +4024,10 @@ def _processes(
                 except ProcessLookupError:
                     continue
                 except PermissionError:
-                    # Failure to prove ownership must not hide another user's process.
                     pass
             argv = [str(value) for value in (info.get("cmdline") or [])]
             command = " ".join(argv)
             searchable = f"{info.get('name') or ''} {command}".lower()
-            # Foreground applications are identified from the executable, never arbitrary
-            # arguments. A curl URL or output filename containing "blender" is not Blender.
             foreground_searchable = f"{info.get('name') or ''} {argv[0] if argv else ''}".lower()
             row = {
                 "pid": pid,
@@ -4173,7 +4132,6 @@ def collect_host_telemetry(
     excluded_pids: set[int] | None = None,
     excluded_process_groups: set[int] | None = None,
 ) -> dict[str, Any]:
-    """Collect one complete host snapshot. Missing required probes remain explicit."""
 
     missing: list[str] = []
     cpu: dict[str, Any]
@@ -4592,7 +4550,6 @@ def _native_schema_authority_problems(
     payload: dict[str, Any],
     evidence_root: Path,
 ) -> list[str]:
-    """Validate native substrate seals and cheap exact producer joins."""
 
     problems: list[str] = []
     seal_field = NATIVE_SEAL_FIELDS.get(schema)
@@ -4898,7 +4855,6 @@ def evaluate_task(
     task_already_active: bool = False,
     evidence_root: Path | str = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Evaluate one candidate against one host snapshot and declared active lanes."""
 
     active = list(active or [])
     evidence_path = Path(evidence_root).resolve()
@@ -5374,7 +5330,6 @@ def hysteresis_transition(
     now_monotonic: float,
     policy: ThrottlePolicy,
 ) -> dict[str, Any]:
-    """Pure pause/resume state transition used by the live supervisor and unit tests."""
 
     allowed = bool(decision.get("allowed"))
     good = good_count + 1 if allowed else 0
@@ -5402,7 +5357,6 @@ def hysteresis_transition(
 
 
 def checkpoint_snapshot(task: TaskDeclaration, repo_root: Path | str = REPO_ROOT) -> dict[str, Any]:
-    """Hash atomically published checkpoint files. Temporary files are never resume authorities."""
 
     root = Path(repo_root).resolve()
     paths: set[Path] = set()
@@ -5497,7 +5451,6 @@ def _reserve_registry(
     telemetry: dict[str, Any],
     policy: ThrottlePolicy,
 ) -> dict[str, Any]:
-    """Atomically recheck lane admission and reserve a slot, closing concurrent-launch races."""
 
     state_root.mkdir(parents=True, exist_ok=True)
     lock_path, registry_path = _registry_paths(state_root)
@@ -5601,7 +5554,6 @@ def _registry_row(task: TaskDeclaration, run_id: str, child_pid: int | None, sta
 
 
 def _signal_owned_group(process: subprocess.Popen[Any], sig: signal.Signals) -> None:
-    """Signal only the new session created for this supervisor-owned child."""
 
     if process.poll() is None:
         os.killpg(process.pid, sig)
@@ -5651,7 +5603,6 @@ def _stop_non_pause_safe_child(
     receipt_path: Path,
     grace_seconds: float,
 ) -> int | None:
-    """Fail closed when runtime safety requires pausing a task that cannot pause."""
 
     _signal_owned_group(process, signal.SIGTERM)
     _event(
@@ -5683,7 +5634,6 @@ def run_task(
     state_root: Path | str = DEFAULT_STATE_ROOT,
     disk_root: Path | str = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Run a declared task with dynamic pause/resume and identical-command restart boundaries."""
 
     if not run_id or not re.fullmatch(r"[A-Za-z0-9_.-]+", run_id):
         raise ThrottleRefused("run_id must contain only letters, digits, dot, underscore, or hyphen")

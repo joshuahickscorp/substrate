@@ -1,21 +1,3 @@
-"""Executable categorized successor mechanics waves after clean horizon v2.
-
-Five serial gates bind the clean v2 authority, independently close and retire
-the completed frozen D1 design, and expose an append-only D1-v2 redesign slot.
-The redesign slot remains unauthorized unless real candidate-evidence receipts
-are supplied; no synthetic screen result is created.
-
-Seven fresh mechanics cycles (12-18) then run through six legible categories.
-Each category capsule uses the existing deterministic mechanics work-item
-semantics and a dynamic process pool that floats from one to twenty workers with
-live host load.  Eight balanced planning shards describe the workload without
-claiming partition-pinned execution.  A serial classifier carries only clean,
-non-resurrecting lane routes to the next wave. G1-I1 is evaluated once after W07
-and executes only when its initial admission and dependency closure survive,
-followed by a separate integration classifier. At the current registered
-planning rates the maximum executable mechanics envelope is about 196.182 serial
-hours, or 9.809 ideal twenty-worker hours.
-"""
 
 from __future__ import annotations
 
@@ -81,12 +63,6 @@ GATE_IDS = (
 EPOCH_IDS = ("W01", "W02", "W03", "W04", "W05", "W06", "W07")
 EPOCH_CYCLES = (12, 13, 14, 15, 16, 17, 18)
 INTERNAL_SHARD_COUNT = 8
-# Declared idle-host pool ceiling: the measured Hawking-idle aggregate throughput peak on this host
-# (dynamic_worker_controller.WORKER_CEILING = 20; 24 workers regress). The ACTUAL pool width floats
-# dynamically from 1 to this ceiling with live host load (see _dynamic_pool_width); this constant is
-# only the declared ceiling recorded in receipts (worker_pool_max_workers) and the planning divisor,
-# never the fluctuating instantaneous count, so every sealed field stays deterministic. The internal
-# seed/work partitioning is driven by INTERNAL_SHARD_COUNT (8) and is independent of the pool width.
 IDLE_WORKERS = 20
 CAPSULE_COUNT = 59
 RETRY_LIMIT = 3
@@ -1026,19 +1002,6 @@ def _require_complete_receipts(
 
 
 def _dynamic_pool_width(pending_count: int) -> tuple[int, int | None]:
-    """Size the process pool from live host load, floating in ``[1, min(IDLE_WORKERS, pending)]``.
-
-    The pool width is a WALL-TIME lever only: it is passed to ``ProcessPoolExecutor(max_workers=...)``
-    and is never written to any receipt, so every seeded-sha256 capsule result is byte-identical at
-    any width. ``IDLE_WORKERS`` (20) is the declared ceiling; the dynamic worker controller floats the
-    instantaneous width beneath it with the live host state, backing off fast under the external
-    Hawking workload and ramping back toward the ceiling when the host is idle. The controller is
-    imported lazily so the wave pays no import cost at module load. If it cannot sample a live host
-    (psutil absent or a refusal) the width falls back to the static ``min(IDLE_WORKERS, pending)``
-    exactly as before, so the wave never fails to run. Returns ``(width, nice_level)`` where
-    ``nice_level`` is the controller's advisory worker priority, or ``None`` when no live sample was
-    available (the fallback path applies no initializer).
-    """
 
     static_cap = min(IDLE_WORKERS, pending_count)
     if static_cap <= 1:
@@ -1055,12 +1018,6 @@ def _dynamic_pool_width(pending_count: int) -> tuple[int, int | None]:
 
 
 def _pool_worker_priority_init(nice_level: int) -> None:
-    """Best-effort worker priority: nudge each pool worker toward the advised nice level.
-
-    Never fatal and never touches a receipt: OS scheduling priority does not enter the seeded sha256
-    capsule result, so this only changes how the surviving pool yields cores to the external Hawking
-    workload by priority. Any failure is swallowed.
-    """
 
     with suppress(Exception):
         os.nice(int(nice_level))
@@ -1074,9 +1031,6 @@ def _execute_pending(
     pending = [work for work in works if work.key not in receipts]
     durations: dict[str, float] = {}
     if pending:
-        # Size the pool dynamically from live host load. The width and priority are wall-time levers
-        # only and never enter any receipt, so every seeded-sha256 capsule result is byte-identical at
-        # any width; worker_pool_max_workers stays the fixed IDLE_WORKERS ceiling in every receipt.
         width, nice_level = _dynamic_pool_width(len(pending))
         initializer = _pool_worker_priority_init if nice_level is not None else None
         initargs = (int(nice_level),) if nice_level is not None else ()

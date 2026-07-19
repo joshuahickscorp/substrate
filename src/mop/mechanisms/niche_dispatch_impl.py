@@ -1,18 +1,3 @@
-"""Deterministic, seeded niche-dispatch mechanics: the dispatcher plus its matched-control policies.
-
-This module supplies the runnable machinery behind the niche_dispatch bed. It builds two kinds of
-seeded regime data, computes a value-of-compute dispatcher and the four declared matched controls,
-and scores each policy by held-out accuracy on the regime. Nothing here asserts capability: the
-regimes are toy, seeded partitions and every score is a deterministic count over synthetic labels.
-
-The favorable regime has clean disjoint niches: each context cell is owned by exactly one perspective
-that is correct there while every rival is wrong there, so a dispatcher that routes each context to
-its owning perspective wins outright and no matched control can. The null regime has overlapping,
-partly harmful niches: several generalist perspectives are correct everywhere and one is net-harmful,
-so a single-best control ties the dispatcher and the value-of-compute claim fails closed.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -22,13 +7,10 @@ from dataclasses import dataclass
 
 from .niche_dispatch_scaffold import DISPATCH_CONTROLS
 
-# Toy label alphabet. The true label is fixed; a wrong perspective emits a shared distractor; the
-# all-perspectives consensus policy emits an abstain label that can never match any true label.
 LABEL_TRUE = 0
 LABEL_WRONG = 1
 LABEL_ABSTAIN = -1
 
-# The canonical matched-control identifiers, reused byte-for-byte from the fail-closed scaffold.
 CONTROL_ALL_PERSPECTIVES = "all-perspectives"
 CONTROL_RANDOM_DISPATCH = "random-dispatch"
 CONTROL_SINGLE_BEST = "single-best"
@@ -36,7 +18,7 @@ CONTROL_MAJORITY_VOTE = "majority-vote"
 
 
 class NicheDispatchImplError(ValueError):
-    """Raised when a regime is built with a degenerate shape that cannot exercise the controls."""
+    pass
 
 
 def _perspective_id(index: int) -> str:
@@ -48,19 +30,12 @@ def _cell_id(index: int) -> str:
 
 
 def _round(value: float) -> float:
-    """Round a score to a stable precision so digests never drift on float representation noise."""
 
     return round(value, 6)
 
 
 @dataclass(frozen=True, slots=True)
 class RegimeData:
-    """One seeded regime: contexts, their true labels, niche ownership, and per-perspective outputs.
-
-    ``predictions[j][i]`` is perspective j's emitted label on context i. ``owner_index_per_context[i]``
-    is the perspective index the reproducible niche assigns to context i, which the dispatcher routes
-    to. Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     regime: str
     perspective_ids: tuple[str, ...]
@@ -105,7 +80,6 @@ def _make_regime(
     contexts_per_cell: int,
     disjoint: bool,
 ) -> RegimeData:
-    """Build a seeded regime. Disjoint niches are winnable; overlapping harmful niches are not."""
 
     if n_perspectives < 3:
         raise NicheDispatchImplError("a niche-dispatch regime needs at least three perspectives")
@@ -119,20 +93,15 @@ def _make_regime(
         for _ in range(contexts_per_cell):
             context_cells.append(_cell_id(cell))
             true_labels.append(LABEL_TRUE)
-            # In the disjoint regime each cell is owned by its matching perspective. In the
-            # overlapping regime every context is routed to generalist perspective 0.
             owner_index_per_context.append(cell if disjoint else 0)
     predictions: list[tuple[int, ...]] = []
     for j in range(n_perspectives):
         row: list[int] = []
         for context_index in range(len(context_cells)):
             if disjoint:
-                # Perspective j is correct only on the contexts of its own cell, wrong elsewhere.
                 owner = owner_index_per_context[context_index]
                 row.append(LABEL_TRUE if j == owner else LABEL_WRONG)
             else:
-                # Overlapping harmful bed: perspectives 0..P-2 are correct everywhere; the last
-                # perspective is net-harmful and wrong everywhere. No niche is uniquely positive.
                 row.append(LABEL_WRONG if j == n_perspectives - 1 else LABEL_TRUE)
         predictions.append(tuple(row))
     return RegimeData(
@@ -146,7 +115,6 @@ def _make_regime(
 
 
 def build_disjoint_regime(regime: str, *, n_perspectives: int, contexts_per_cell: int) -> RegimeData:
-    """Build a clean disjoint-niche regime a dispatcher can win outright (mechanics only)."""
 
     return _make_regime(
         regime=regime,
@@ -157,7 +125,6 @@ def build_disjoint_regime(regime: str, *, n_perspectives: int, contexts_per_cell
 
 
 def build_overlapping_regime(regime: str, *, n_perspectives: int, contexts_per_cell: int) -> RegimeData:
-    """Build an overlapping, partly harmful regime where dispatch cannot beat every control."""
 
     return _make_regime(
         regime=regime,
@@ -173,7 +140,6 @@ def _accuracy(labels: Sequence[int], true_labels: Sequence[int]) -> float:
 
 
 def _argmax_index(scores: Sequence[float]) -> int:
-    """Return the index of the largest score, breaking ties toward the lowest index."""
 
     best_index = 0
     best_score = scores[0]
@@ -185,7 +151,6 @@ def _argmax_index(scores: Sequence[float]) -> int:
 
 
 def dispatch_labels(data: RegimeData) -> tuple[int, ...]:
-    """Value-of-compute dispatch: route each context to its niche-owning perspective, run only it."""
 
     return tuple(
         data.predictions[data.owner_index_per_context[i]][i] for i in range(data.n_contexts)
@@ -193,7 +158,6 @@ def dispatch_labels(data: RegimeData) -> tuple[int, ...]:
 
 
 def _all_perspectives_labels(data: RegimeData) -> tuple[int, ...]:
-    """Run every perspective and require unanimity; a split emits the abstain label (fail closed)."""
 
     labels: list[int] = []
     for i in range(data.n_contexts):
@@ -203,7 +167,6 @@ def _all_perspectives_labels(data: RegimeData) -> tuple[int, ...]:
 
 
 def _random_dispatch_labels(data: RegimeData, seed: int) -> tuple[int, ...]:
-    """Dispatch to a seeded pseudo-random perspective per context; deterministic and reproducible."""
 
     labels: list[int] = []
     for i in range(data.n_contexts):
@@ -215,7 +178,6 @@ def _random_dispatch_labels(data: RegimeData, seed: int) -> tuple[int, ...]:
 
 
 def _single_best_labels(data: RegimeData) -> tuple[int, ...]:
-    """Always run the single globally best perspective, chosen by overall accuracy over the regime."""
 
     per_perspective = [_accuracy(row, data.true_labels) for row in data.predictions]
     best = _argmax_index(per_perspective)
@@ -223,7 +185,6 @@ def _single_best_labels(data: RegimeData) -> tuple[int, ...]:
 
 
 def _majority_vote_labels(data: RegimeData) -> tuple[int, ...]:
-    """Run every perspective and take the modal label per context, breaking ties to the lowest label."""
 
     labels: list[int] = []
     for i in range(data.n_contexts):
@@ -240,7 +201,6 @@ def dispatch_accuracy(data: RegimeData) -> float:
 
 
 def control_accuracies(data: RegimeData, seed: int) -> dict[str, float]:
-    """Score every declared matched control on the regime, keyed by the canonical control family."""
 
     scores = {
         CONTROL_ALL_PERSPECTIVES: _accuracy(_all_perspectives_labels(data), data.true_labels),

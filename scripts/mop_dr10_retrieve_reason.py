@@ -1,38 +1,4 @@
 #!/usr/bin/env python
-"""DR10: memory-first, retrieve-then-reason (WP-06, H-MEMORY; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, DR full schema part 2).
-
-Thesis: kNN-retrieving similar cached latents from the episodic buffer (shell/buffer.py) and
-CONDITIONING the refiner on them beats from-scratch reasoning and random retrieval at matched
-compute. The frozen-encoder twist: stored latents never go stale, so the only live question is
-whether the FROZEN neighbor metric (raw latent L2) is task-aligned.
-
-Task (synthetic latents, no encoder): a fixed universe of classes with fine-grained local
-sub-cluster structure in a signal subspace, plus high-variance nuisance dimensions that the raw L2
-metric cannot tell apart from signal (this is what makes the null live: retrieval only helps if
-raw-latent neighbors are task-aligned DESPITE the nuisance dims). A held-out set of NEW classes
-never appears as a training query; they exist only as k-shot entries in the episodic buffer, so
-new-class accuracy is reachable only through memory (the new-class few-shot regime of the registry
-row).
-
-Arms (identical architecture, identical meta-training compute and params; only the retrieval
-channel differs, which is the matched-compute discipline):
-  retrieval    : neighbors = buffer.retrieve (kNN over frozen keys)
-  from_scratch : the retrieval channel is fed zeros at train AND eval (reasoning without memory)
-  random       : neighbors retrieved through PERMUTED keys (label-honest values, random w.r.t. the
-                 query; the registry's random-retrieval control)
-
-Preregistered null (in code before any run): retrieval accuracy on new classes ties
-max(from_scratch, random) within the verdict rule below (the frozen neighbor metric is not
-task-aligned). Verdict rule, uniform across the MoT memory scripts: WIN iff the per-seed delta
-mean exceeds max(per-seed SD, MIN_MARGIN) with no sign flip; else null_supported=True.
-
-kNN FLOPs are counted locally (2 * n_mem * dim per query, the cdist mult+add count); the WP-02
-attention/kNN counters are a pass-2 deliverable and are not imported here.
-
-Usage: python scripts/mop_dr10_retrieve_reason.py --seeds 0-4
-Writes runs/mot/dr10_retrieve_reason.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -59,7 +25,6 @@ ARMS = ("retrieval", "from_scratch", "random")
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -67,10 +32,6 @@ def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
 
 
 def make_universe(seed: int, e: DictConfig) -> dict:
-    """Fixed class universe: n_base + n_new classes, m_sub local sub-clusters per class living in
-    the first d_signal dims, plus d_nuisance high-variance nuisance dims appended to every sample
-    (the same nuisance process for all classes, so it carries zero label information but dominates
-    raw L2 distance when nuisance_scale is large)."""
     g = torch.Generator().manual_seed(seed)
     n_classes = int(e.n_base) + int(e.n_new)
     centers = torch.randn(n_classes, int(e.m_sub), int(e.d_signal), generator=g) * float(e.separation)
@@ -78,8 +39,6 @@ def make_universe(seed: int, e: DictConfig) -> dict:
 
 
 def sample_classes(uni: dict, e: DictConfig, classes: list[int], per_class: int) -> tuple:
-    """per_class samples from each listed class: sub-cluster center + 0.5 noise in the signal dims,
-    nuisance_scale * noise in the nuisance dims."""
     g, centers = uni["g"], uni["centers"]
     xs, ys = [], []
     for c in classes:
@@ -92,10 +51,6 @@ def sample_classes(uni: dict, e: DictConfig, classes: list[int], per_class: int)
 
 
 class RetrieveReasonNet(nn.Module):
-    """The retrieval-conditioned reasoner: the query latent is shifted by a learned projection of
-    the (distance-weighted) retrieved-neighbor mean and label histogram, then refined by the
-    existing IterativeRefiner and read by a linear head. The from_scratch arm feeds zeros into the
-    SAME conditioning path, so params and per-forward FLOPs are identical across arms."""
 
     def __init__(self, dim: int, n_classes: int, hidden: int = 64, steps: int = 2):
         super().__init__()
@@ -105,7 +60,6 @@ class RetrieveReasonNet(nn.Module):
         self.head = nn.Linear(dim, n_classes)
 
     def forward(self, z: torch.Tensor, neigh_x: torch.Tensor, neigh_y: torch.Tensor) -> torch.Tensor:
-        """z [B,D]; neigh_x [B,k,D]; neigh_y [B,k] (long). Zero-neighbor arms pass zeros tensors."""
         dist = (z.unsqueeze(1) - neigh_x).norm(dim=-1)  # true content distance, all arms alike
         w = torch.softmax(-dist, dim=-1).unsqueeze(-1)  # [B,k,1]
         r = (w * neigh_x).sum(1)
@@ -116,9 +70,6 @@ class RetrieveReasonNet(nn.Module):
 
 
 def build_buffer(x: torch.Tensor, y: torch.Tensor, seed: int, permute_keys: bool = False) -> ReplayBuffer:
-    """The episodic store. permute_keys=True builds the random-retrieval control: values (x, y) are
-    honest but the retrieval keys belong to OTHER items, so neighbors are random w.r.t. the query
-    while every downstream computation stays identical."""
     buf = ReplayBuffer(capacity=x.shape[0], dim=x.shape[1], prioritized=False, eviction="fifo", seed=seed)
     if permute_keys:
         perm = torch.randperm(x.shape[0], generator=torch.Generator().manual_seed(seed + 13))
@@ -198,14 +149,12 @@ class MotDR10RetrieveReason(Experiment):
             seed_everything(s)
             uni = make_universe(s, e)
             n_classes = uni["n_classes"]
-            # memory content: mem_per_class per base class, k_shot per new class (the few-shot part)
             mem_x, mem_y = sample_classes(uni, e, base_classes, int(e.mem_per_class))
             shot_x, shot_y = sample_classes(uni, e, new_classes, int(e.k_shot))
             buf_x = torch.cat([mem_x, shot_x])
             buf_y = torch.cat([mem_y, shot_y])
             buf = build_buffer(buf_x, buf_y, seed=s)
             rand_buf = build_buffer(buf_x, buf_y, seed=s, permute_keys=True)
-            # meta-training queries: base classes only (new classes exist ONLY in memory)
             xtr, ytr = sample_classes(uni, e, base_classes, int(e.train_per_class))
             xte_b, yte_b = sample_classes(uni, e, base_classes, int(e.test_per_class))
             xte_n, yte_n = sample_classes(uni, e, new_classes, int(e.test_per_class))
@@ -221,8 +170,6 @@ class MotDR10RetrieveReason(Experiment):
                 per[arm]["base"].append(acc_b)
                 per[arm]["new"].append(acc_n)
                 per[arm]["overall"].append((acc_b * xte_b.shape[0] + acc_n * xte_n.shape[0]) / n_all)
-            # adaptation-vs-shots curve for the retrieval arm: new-class accuracy as the buffer
-            # grows from 1..k_shot shots per new class (the registry's adaptation-speed metric)
             curve = []
             for shots in range(1, int(e.k_shot) + 1):
                 keep = torch.cat(

@@ -105,8 +105,6 @@ def _flop_model(
     )
 
 
-
-
 def build_real_count_repro_gate_arch_artifact(
     *,
     timestamp: str,

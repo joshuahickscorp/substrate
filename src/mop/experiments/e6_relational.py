@@ -1,23 +1,3 @@
-"""E6: relational map over JEPA latents, run as the 2-vs-2.1 (pooled-vs-dense) contrast.
-
-The corpus claim (Experiment 6): explicit relational structure improves generalization to
-novel recombinations, and the help is much larger on V-JEPA 2.1's dense per-token features
-than on pooled V-JEPA 2. The recurring null is that a structured head only "adds capacity,
-not structure", which a parameter-matched flat baseline catches, and that the pooled latent
-does not factor into objects/relations at all (the 2-only failure).
-
-We make the comparison STRUCTURE the deliverable, not the absolute number. Two encoders are
-loaded (pooled vjepa2, dense vjepa21). Synthetic clips carry a composite class (attr_a,
-attr_b); a relational/recombination task trains on a subset of (a,b) pairs and tests on
-HELD-OUT pairs (a flat model is expected to fail recombination). On each encoder's latents we
-fit a STRUCTURED head (MLP over pairwise/relational features of the two latents) and a
-parameter-matched FLAT head (MLP over the plain concatenation), and report structured-minus-
-flat on pooled vs dense plus the headline 2-vs-2.1 delta of those deltas.
-
-The registered path is now cache-first and token-aware. The old direct synthetic comparison remains
-only behind an explicit ``allow_legacy_fixture=true`` override for regression tests. It can never
-be entered as a fallback when the official learned/random cache pair is absent.
-"""
 
 from __future__ import annotations
 
@@ -42,7 +22,6 @@ DENSE_CFG = "configs/encoder/vjepa21_vitl.yaml"
 
 
 class _Flat(nn.Module):
-    """Parameter-matched flat baseline: MLP over the plain concatenation [a||b]."""
 
     def __init__(self, dim: int, n_classes: int, hidden: int):
         super().__init__()
@@ -53,9 +32,6 @@ class _Flat(nn.Module):
 
 
 class _Structured(nn.Module):
-    """Relational head: MLP over pairwise/relational features (a, b, a*b, a-b). The product
-    and difference expose the relation between the two latents, which is what recombination
-    generalization needs and what a flat concatenation does not surface."""
 
     def __init__(self, dim: int, n_classes: int, hidden: int):
         super().__init__()
@@ -67,9 +43,6 @@ class _Structured(nn.Module):
 
 
 def _matched_hidden(dim: int, flat_hidden: int) -> int:
-    """Pick the structured head's hidden width so its parameter count matches the flat head.
-    Flat first layer: 2*dim*H_flat; structured: 4*dim*H_struct. Halving the width matches the
-    first layer; the output layer differs only by the small head bias/weights, kept comparable."""
     return max(4, flat_hidden // 2)
 
 
@@ -118,7 +91,6 @@ class E6(Experiment):
             "dense_delta": dense_delta,
             "headline_2_vs_21_delta": headline,
             "tie_eps": tie_eps,
-            # the explicit null check: both must hold to REJECT the null
             "structured_beats_flat": structured_beats_flat,
             "dense_gain_larger": dense_gain_larger,
             "null_rejected": bool(structured_beats_flat and dense_gain_larger),
@@ -208,10 +180,6 @@ class E6(Experiment):
         }
 
     def _encode_latents(self, tag, enc, e, device: DeviceInfo, seed):
-        """Synthetic clips with a composite class. Each example is a PAIR of clips: clip_a
-        carries attribute a (a per-class mean shift), clip_b carries attribute b. The pair's
-        composite label is a*n_attr+b. We encode both clips and keep the two latents; the head
-        must combine them to read off the composite class, which is the relational structure."""
         seed_everything(seed + (0 if tag == "pooled" else 1))
         B = int(e.samples)
         n_attr = int(e.n_attr)
@@ -222,8 +190,6 @@ class E6(Experiment):
         attr_b = torch.randint(0, n_attr, (B,), generator=g)
         comp_y = (attr_a * n_attr + attr_b).long()
 
-        # attribute -> a fixed spatial bias pattern injected into the clip so the (random)
-        # encoder still carries attribute information into the latent.
         shift = float(e.attr_shift)
         bias = torch.randn(n_attr, C, T, H, W, generator=g) * shift
         clips_a = torch.randn(B, C, T, H, W, generator=g) + bias[attr_a]
@@ -235,9 +201,6 @@ class E6(Experiment):
         return latents, comp_y, attr_a, attr_b
 
     def _recombination_split(self, attr_a, attr_b, n_attr, seed):
-        """Hold out a set of (a,b) attribute COMBINATIONS entirely from training. The test set
-        is only those held-out combinations: a flat model that memorizes seen pairs is expected
-        to fail; a relational model that generalizes over the factored attributes can transfer."""
         g = torch.Generator().manual_seed(seed + 7)
         all_pairs = [(a, b) for a in range(n_attr) for b in range(n_attr)]
         perm = torch.randperm(len(all_pairs), generator=g).tolist()
@@ -292,8 +255,6 @@ class E6(Experiment):
 
 
 def _flatten_latent(feats: torch.Tensor) -> torch.Tensor:
-    """Pooled encoders return [B, D]; dense return [B, N, D]. Flatten dense tokens to [B, N*D]
-    so a single head consumes either. This is the latent the relational head binds over."""
     return feats if feats.dim() == 2 else feats.reshape(feats.shape[0], -1)
 
 

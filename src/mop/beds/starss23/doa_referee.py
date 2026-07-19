@@ -52,8 +52,6 @@ def _require_reestimate_frames(frames: Sequence[int], n_frames: int) -> tuple[in
     return tuple(prepared)
 
 
-
-
 def coast_emitted_direction(
     estimator_track: np.ndarray,
     reestimate_frames: Sequence[int],
@@ -86,8 +84,6 @@ def angular_error_track(
         raise DoaRefereeRefusal("gt_directions, emitted_directions, and active_mask must share n_frames")
     errors = great_circle_degrees_batch(gt, emitted)
     return errors[mask]
-
-
 
 
 def mae_deg_clip(
@@ -166,8 +162,6 @@ def macro_score_arm(
     return MacroDoaScore(n_clips=len(per_clip), macro_mae_deg=macro_mae, per_clip=tuple(per_clip))
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class PooledDoaScore:
 
@@ -198,8 +192,6 @@ def pooled_score_arm(
     if total_frames == 0:
         raise DoaRefereeRefusal("pooled_score_arm needs at least one active frame across all clips")
     return PooledDoaScore(n_frames=total_frames, pooled_mae_deg=total_error / total_frames)
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -290,8 +282,6 @@ def exact_sign_flip_over_clips(deltas: Sequence[float], alpha: float = 0.05) -> 
         alpha=float(alpha),
         one_sided_significant=one_sided_p <= float(alpha),
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)

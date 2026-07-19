@@ -136,8 +136,6 @@ def test_sealed_report_is_deterministic_and_records_the_rule() -> None:
     assert canonical_sha256(honest) != tampered["digest"]
 
 
-
-
 def _segments(starts: list[int], length: int) -> list[range]:
     return [range(start, start + length) for start in starts]
 

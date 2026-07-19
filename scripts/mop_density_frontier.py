@@ -1,21 +1,3 @@
-"""Lane: capability density. Produce the program's first density frontiers from EXISTING results.
-
-PREREGISTRATION (fixed IN CODE before running, no post-hoc tuning):
-  This lane makes NO positive/negative bet. It is an INSTRUMENTATION deliverable.
-  HONESTY TEST (the null / success threshold, fixed here):
-    SUCCESS iff at least ONE non-trivial density frontier is produced from existing data with:
-      (a) >= 3 points,
-      (b) a real Pareto shape (at least one dominated point AND at least one frontier point;
-          i.e. not all points on the frontier and not a single point),
-      (c) the matching "how it can be gamed" guard from docs 12_metrics.md APPLIED and its
-          verdict (honest / gamed / guarded) recorded per axis.
-    A TIE / degenerate frontier (all points co-Pareto, or < 3 points) on an axis = NULL for that axis.
-  We do NOT fabricate axes with no laptop test surface. retention/byte and adaptation/update are
-  marked Studio-only if the runs do not expose (updates, store bytes) as first-class inputs.
-
-No new encode. Pure arithmetic + one cheap linear_probe pass over the 200-clip caches.
-House style: no em dashes / en dashes.
-"""
 
 from __future__ import annotations
 
@@ -38,9 +20,6 @@ def load_json(p):
         return json.load(f)
 
 
-# ---------------------------------------------------------------------------
-# Pareto helper that reports BOTH frontier membership and domination structure.
-# ---------------------------------------------------------------------------
 def pareto_annotate(points):
     front = pareto_front(points)
     front_names = {p.name for p in front}
@@ -67,20 +46,10 @@ def pareto_annotate(points):
     }
 
 
-# ===========================================================================
-# AXIS 1: capability-per-FLOP  (test-time-compute lane)
-# The mt123 router pilot is the ONLY run that carries per-arm FLOPs-per-sample
-# AND accuracy AND already frames density = acc / MFLOP. Use it directly.
-# Each mode (reactive, planner, sparse) + routed + matched blend is a point:
-#   x = FLOPs per sample (lower is denser), y = accuracy.
-# Pareto here is MIN-flops / MAX-accuracy, so we negate flops for the "adaptation>="
-# convention (bigger negated-flops = fewer flops = better).
-# ===========================================================================
 def axis_flops():
     d = load_json("runs/mot/mt123_router_pilots.json")
     cfg = d["config"]
     mode_flops = cfg["mode_flops_per_sample"]  # reactive/planner/sparse, per sample
-    # Aggregate per-mode accuracy and routed/blend across the 5 seeds.
     modes = ["reactive", "planner", "sparse"]
     mode_acc = {m: [] for m in modes}
     routed_acc, routed_flops = [], []
@@ -95,7 +64,6 @@ def axis_flops():
         blend_full_acc.append(s["blend_full"]["acc"])
         blend_full_flops.append(s["blend_full"]["flops_per_sample"])
 
-    # Build points. FLOPs axis in kFLOP/sample for readability.
     pts = []
     detail = {}
     for m in modes:
@@ -126,7 +94,6 @@ def axis_flops():
         "acc_sd": round(st.pstdev(blend_full_acc), 4),
         "density_acc_per_mflop": round(ba / (bf / 1e6), 4),
     }
-    # oracle router as an unreachable upper-bound reference (NOT a real arm)
     orf = rf
     ora = st.mean(oracle_acc)
     oracle_ref = {
@@ -137,21 +104,10 @@ def axis_flops():
     }
 
     rows, summ = pareto_annotate(pts)
-    # re-express x back to positive FLOPs for output clarity
     for r in rows:
         r["flops_per_sample"] = round(-r.pop("x") * 1e3, 1)
         r["accuracy"] = r.pop("y")
 
-    # ---- GAMING GUARD (docs 12 C3 + mt123 contract) ----
-    # C3 gaming: (i) count active FLOPs for sparse but total for monolith, or vice versa.
-    #            The mt123 accounting uses per-sample forward FLOPs for EVERY mode by the
-    #            SAME convention (mode_flops_per_sample), and matched_within gates the blend.
-    #            So the FLOP convention is stated and identical -> guard SATISFIED.
-    # (ii) under-tune the monolith: cfg.tuned == False for ALL modes including the baselines,
-    #      so the baseline is NOT strawman-tuned-down relative to the mixture (symmetric).
-    # (iii) win on a ceilinged/too-easy regime: separation 0.12 is deliberately HARD
-    #       (best mode acc ~0.56, chance 0.10), so no ceiling. d3 not needed here; the
-    #       density metric is not near 1.0.
     mt1 = d["mt1_router_vs_best_mode"]
     guard = {
         "metric_doc": "12_metrics.md C3 (mixture gain over matched-compute monolith)",
@@ -181,17 +137,6 @@ def axis_flops():
     }
 
 
-# ===========================================================================
-# AXIS 2: capability-per-param  (substrate columns)
-# shape-decode accuracy vs readout parameter count. Two param conventions:
-#   (a) readout params = d_latent * n_classes (the LINEAR probe head, chance-0.20)
-#       -- this is the honest "decodable capability per readout parameter".
-#   (b) encoder params are NOT stored per column and differ by orders of magnitude
-#       (V-JEPA ViT-L ~ 300M, DINOv2-S ~ 22M, handcrafted ~ 0). Encoder-param
-#       frontier is reported as a SEPARATE annotated view, flagged as a confound.
-# We recompute shape-decode with the shared linear_probe diagnostic (cheap, 200 clips)
-# so the accuracy and the param count come from the SAME head we count.
-# ===========================================================================
 SHAPE_N_CLASSES = 5  # chance 0.20, fixed by clipset (n_shape=5)
 
 
@@ -217,7 +162,6 @@ def axis_params():
         "handcrafted_descriptors": 604,
         "qwen05b_textified_real": 896,
     }
-    # Approximate encoder param counts (public architecture facts, for the confound view only).
     enc_params = {
         "vjepa2_vitl_nuisance": 300_000_000,  # V-JEPA2 ViT-L video encoder ~300M
         "vjepa2_vitl_singleframe": 300_000_000,
@@ -229,7 +173,6 @@ def axis_params():
     detail = {}
     for col, d_lat in cols.items():
         X, y = load_column(col)
-        # 3 seeds, mean, to be honest about probe variance (chance 0.20).
         accs = []
         for s in range(3):
             r = linear_probe(X, y, classification=True, epochs=200, lr=0.05, test_frac=0.3, seed=s)
@@ -255,16 +198,6 @@ def axis_params():
         r["readout_params"] = round(-r.pop("x") * 1e3)
         r["shape_decode_acc"] = r.pop("y")
 
-    # ---- GAMING GUARD (docs 12 group A probe-metric guards + 13.1 substrate control) ----
-    # Probe-metric gaming: (i) ceiling -> synthetic factors trivially separable. Here shape
-    #   does NOT ceiling on the weak columns (handcrafted 0.22, qwen-text 0.27 ~ chance 0.20),
-    #   so the frontier has real spread and is not a ceilinged tie. Vision columns are high
-    #   (0.78-0.87) but well below 1.0, so the readout-per-param ranking is meaningful.
-    # (ii) frozen-random projection is VACUOUS for probe accuracy (invertible), so we do NOT
-    #   use it as the substrate control. The honest substrate control is real-encoder vs
-    #   random-ENCODER; that lives in substrate_vs_random* runs, cited but not re-run.
-    # (iii) readout-param convention: we count the SAME linear head we score. Encoder-param
-    #   view is flagged as a confound (architectures differ 0 to 300M).
     guard = {
         "metric_doc": "12_metrics.md group-A probe guards + 13.1 corrected substrate control",
         "gaming_vectors_checked": [
@@ -294,21 +227,14 @@ def axis_params():
     }
 
 
-# ===========================================================================
-# AXIS 3+4: adaptation-per-update and retention-per-byte
-# Check whether pr-series / continual runs expose (updates, store bytes) as inputs.
-# If not, mark Studio-only. Do NOT fabricate.
-# ===========================================================================
 def axis_adapt_retention():
     findings = {}
-    # mt123 config explicitly defers retention/byte:
     d = load_json("runs/mot/mt123_router_pilots.json")
     scope = d["config"].get("pilot_scope", "")
     contract_metric = d["contract"]["metric"]
     findings["mt123_scope_statement"] = scope
     findings["mt123_contract_metrics"] = contract_metric
 
-    # Scan pr-series and continual runs for first-class (updates / bytes-per-exemplar) fields.
     candidates = [
         "pr6_sleep_consolidation",
         "pr7_delta_rule",
@@ -357,7 +283,6 @@ def main():
         "axis_capability_per_param": axis_params(),
         "axis_adaptation_and_retention": axis_adapt_retention(),
     }
-    # Overall honesty test
     a1 = result["axis_capability_per_flop"]["summary"]["real_pareto_shape"]
     a2 = result["axis_capability_per_param"]["summary"]["real_pareto_shape"]
     result["honesty_test_passed"] = bool(a1 or a2)

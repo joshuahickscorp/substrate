@@ -30,8 +30,6 @@ def _fake_clip_features(n: int = 240, seed: int = 7) -> np.ndarray:
     return np.abs(rng.standard_normal((n, D_FEAT)))
 
 
-
-
 def test_param_count_under_ceiling() -> None:
     assert LP_N_PARAMS == LP_PROJ_DIM * LP_TARGET_DIM
     assert param_count() == LP_N_PARAMS
@@ -57,8 +55,6 @@ def test_theta_must_be_a_probability() -> None:
         LearningProgressGate(seed=0, theta=1.5)
 
 
-
-
 def test_infer_and_update_signatures_are_label_free() -> None:
     for method in (LearningProgressGate.infer, LearningProgressGate.update):
         params = list(inspect.signature(method).parameters)
@@ -72,8 +68,6 @@ def test_fit_signature_is_self_supervised() -> None:
     assert "features" in params
     for name in params:
         assert not any(token in name.lower() for token in _FORBIDDEN_ONLINE)
-
-
 
 
 def test_gate_is_deterministic_in_seed() -> None:
@@ -121,8 +115,6 @@ def test_fire_matches_threshold() -> None:
     assert fired is True and 0.0 <= p <= 1.0
 
 
-
-
 def test_fit_reduces_training_error_and_charges_c_train() -> None:
     features = _fake_clip_features(n=300, seed=9)
     gate = LearningProgressGate(seed=6)
@@ -137,8 +129,6 @@ def test_fit_rejects_wrong_shape() -> None:
     gate = LearningProgressGate(seed=0)
     with pytest.raises(LPGateRefusal):
         gate.fit(np.zeros((10, D_FEAT + 1)), epochs=2)
-
-
 
 
 def test_flop_functions_are_exposed_and_positive() -> None:

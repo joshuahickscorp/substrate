@@ -1,22 +1,3 @@
-"""Scaffold spine for Stage 5 session-disjoint general validity (the external-validity harness).
-
-This module raises the SCAFFOLDING axis only. It supplies machine-checkable contracts that encode
-the bar a general-validity claim must clear: apparent skill has to survive a fresh session, new
-seeds, new task families, lesions, and an independent reconstruction, while three negative controls
-(same-session leak, seed reuse, single task family) stay clean, and any efficiency claim is backed
-by a real measured cost rather than a declared number. It builds the harness, not the result.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. A green contract here means the declaration set is complete and self-consistent.
-Nothing here establishes general validity, transfer, or efficiency. The activation gate that would
-certify a generality claim is off by default and refuses until a countersigned license is supplied.
-
-Named prior null: session-bound leakage. Until every disjointness axis passes and every negative
-control stays clean, apparent general validity is attributed to same-session leakage, seed
-memorization, or single task-family overfit. The gate encodes that null as a fail-closed condition.
-
-House style: no em or en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -28,8 +9,6 @@ from ..substrate.events import canonical_sha256
 
 STAGE5_VALIDITY_SCHEMA = "mop-stage5-session-disjoint-validity/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 # The prior null this stage must defeat before any general-validity claim is licensed.
@@ -40,7 +19,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class SessionDisjointValidityRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, or outside its declared scope."""
+    pass
 
 
 def _require_sha256(value: str, label: str) -> None:
@@ -58,9 +37,7 @@ def _require_nonempty(value: str, label: str) -> None:
         raise SessionDisjointValidityRefusal(f"{label} must not be empty")
 
 
-# Section A. Declared axes and controls. Order is load-bearing for the digests.
 
-# Every disjointness axis a general-validity claim must clear.
 VALIDITY_AXES: tuple[str, ...] = (
     "fresh-session",  # a session distinct from every calibration session
     "new-seeds",  # seeds never used during calibration
@@ -69,14 +46,12 @@ VALIDITY_AXES: tuple[str, ...] = (
     "independent-reconstruction",  # rebuilt by a disjoint team from the spec alone
 )
 
-# Negative controls that must stay clean; if any leaks, the prior null explains the result.
 NEGATIVE_CONTROLS: tuple[str, ...] = (
     "same-session-leak",  # reuse the calibration session; must not confer validity
     "seed-reuse",  # reuse calibration seeds; must not confer validity
     "single-task-family",  # a single family only; must not confer general validity
 )
 
-# Real resource kinds; at least one compute kind must carry a measured cost.
 RESOURCE_KINDS: tuple[str, ...] = (
     "wall_time_s",
     "flops",
@@ -85,21 +60,18 @@ RESOURCE_KINDS: tuple[str, ...] = (
 )
 COMPUTE_KINDS: frozenset[str] = frozenset({"wall_time_s", "flops"})
 
-# Words that mark a cost as declared rather than measured; a real measurement source is required.
 _DECLARED_MARKERS: frozenset[str] = frozenset(
     {"declared", "declared-only", "estimate", "estimated", "guess", "assumed", "planned"}
 )
 
 
 def assert_axis_completeness(axes: tuple[AxisOutcome, ...]) -> None:
-    """Fail closed unless the axis set matches VALIDITY_AXES in membership and order."""
 
     if tuple(a.axis for a in axes) != VALIDITY_AXES:
         raise SessionDisjointValidityRefusal("validity axis coverage is incomplete or out of canonical order")
 
 
 def assert_control_completeness(controls: tuple[ControlOutcome, ...]) -> None:
-    """Fail closed unless the control set matches NEGATIVE_CONTROLS in membership and order."""
 
     if tuple(c.control for c in controls) != NEGATIVE_CONTROLS:
         raise SessionDisjointValidityRefusal(
@@ -107,12 +79,10 @@ def assert_control_completeness(controls: tuple[ControlOutcome, ...]) -> None:
         )
 
 
-# Section B. Per-axis and per-control outcome declarations.
 
 
 @dataclass(frozen=True, slots=True)
 class AxisOutcome:
-    """One disjointness axis outcome; a passing axis must be disjoint from calibration."""
 
     axis: str
     passed: bool
@@ -154,7 +124,6 @@ class AxisOutcome:
 
 @dataclass(frozen=True, slots=True)
 class ControlOutcome:
-    """One negative-control outcome; a clean control did not confer spurious validity."""
 
     control: str
     leaked: bool
@@ -184,12 +153,10 @@ class ControlOutcome:
         return canonical_sha256(self.payload())
 
 
-# Section C. Matched-cost discipline and measured efficiency.
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedCostBudget:
-    """The matched full-system budget a comparison must be tuned to. Must be non-vacuous."""
 
     params: int
     flops: int
@@ -219,7 +186,6 @@ class MatchedCostBudget:
 
 @dataclass(frozen=True, slots=True)
 class MeasuredResource:
-    """One resource whose declared cost must be backed by a real measurement."""
 
     kind: str
     declared: float
@@ -240,7 +206,6 @@ class MeasuredResource:
             )
 
     def backed(self, rtol: float) -> bool:
-        """True when the declared cost matches the measured cost within a relative tolerance."""
 
         return abs(self.declared - self.measured) <= rtol * self.measured
 
@@ -256,12 +221,6 @@ class MeasuredResource:
 
 @dataclass(frozen=True, slots=True)
 class MeasuredEfficiencyContract:
-    """An efficiency claim that is refused unless every declared cost is backed by measurement.
-
-    Fails closed on a declared-only cost, on a missing measured baseline, or on a comparison that
-    does not require matched cost. Claim scope: deterministic programmatic mechanics only; no
-    capability claim.
-    """
 
     efficiency_metric: str
     resources: tuple[MeasuredResource, ...]
@@ -318,17 +277,10 @@ class MeasuredEfficiencyContract:
         return canonical_sha256(self.payload())
 
 
-# Section D. The composite session-disjoint validity contract.
 
 
 @dataclass(frozen=True, slots=True)
 class SessionDisjointValidityContract:
-    """The external-validity harness: every axis, every control, and the efficiency backing.
-
-    A valid instance means the declaration set is complete and self-consistent. It does not assert
-    that generality was demonstrated; the activation gate holds that claim. Claim scope:
-    deterministic programmatic mechanics only; no capability claim.
-    """
 
     axes: tuple[AxisOutcome, ...]
     controls: tuple[ControlOutcome, ...]
@@ -373,20 +325,11 @@ class SessionDisjointValidityContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section E. Activation gate. Off by default; refuses any generality claim until
 # every axis passes, every control is clean, and a countersigned license is supplied.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ExternalValidityGate:
-    """A fail-closed gate. Without a license it refuses every general-validity claim by default.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that a passing harness can never quietly promote itself into a generality claim; activation is
-    not earned until a disjoint reviewer countersigns the exact contract digest.
-    """
 
     license_token: str | None = None
     default_state: str = "off"
@@ -414,13 +357,11 @@ class ExternalValidityGate:
         return self.license_token
 
     def expected_receipt(self, contract: SessionDisjointValidityContract) -> str:
-        """The receipt a disjoint reviewer must countersign for this exact contract and license."""
 
         token = self._require_licensed()
         return canonical_sha256({"contract": contract.digest(), "license": token})
 
     def certify_generality(self, contract: SessionDisjointValidityContract, receipt: str) -> dict[str, Any]:
-        """Fail closed unless licensed, the receipt matches, every axis passes, no control leaked."""
 
         self._require_licensed()
         _require_sha256(receipt, "ExternalValidityGate.receipt")
@@ -458,11 +399,9 @@ class ExternalValidityGate:
         }
 
 
-# Section F. Deterministic, seeded builders (used by tests and later wiring).
 
 
 def _seeded_int(seed: int, label: str, modulo: int) -> int:
-    """Deterministic small integer from a digest; no wall clock, no OS entropy."""
 
     if modulo <= 0:
         raise SessionDisjointValidityRefusal("modulo must be positive")
@@ -471,7 +410,6 @@ def _seeded_int(seed: int, label: str, modulo: int) -> int:
 
 
 def synthesize_axis_evidence(seed: int, axis: str) -> str:
-    """Deterministic evidence digest for one axis. Not evidence of value; a byte-exact test vector."""
 
     if axis not in VALIDITY_AXES:
         raise SessionDisjointValidityRefusal(f"unsupported validity axis {axis!r}")
@@ -481,7 +419,6 @@ def synthesize_axis_evidence(seed: int, axis: str) -> str:
 
 
 def synthesize_control_evidence(seed: int, control: str) -> str:
-    """Deterministic evidence digest for one negative control."""
 
     if control not in NEGATIVE_CONTROLS:
         raise SessionDisjointValidityRefusal(f"unsupported negative control {control!r}")
@@ -491,7 +428,6 @@ def synthesize_control_evidence(seed: int, control: str) -> str:
 
 
 def build_measured_efficiency(seed: int) -> MeasuredEfficiencyContract:
-    """Return a non-vacuous efficiency contract whose declared costs equal their measured costs."""
 
     if seed < 0:
         raise SessionDisjointValidityRefusal("efficiency seed must be nonnegative")
@@ -532,7 +468,6 @@ def build_measured_efficiency(seed: int) -> MeasuredEfficiencyContract:
 def build_session_disjoint_contract(
     seed: int, *, all_axes_pass: bool = True, controls_clean: bool = True
 ) -> SessionDisjointValidityContract:
-    """Build a complete, deterministic session-disjoint validity contract for one seed."""
 
     if seed < 0:
         raise SessionDisjointValidityRefusal("contract seed must be nonnegative")
@@ -562,7 +497,6 @@ def build_session_disjoint_contract(
 
 
 def build_activation_gate(license_token: str | None = None) -> ExternalValidityGate:
-    """Return the activation gate; off by default unless a non-empty license token is supplied."""
 
     return ExternalValidityGate(license_token=license_token)
 
@@ -581,7 +515,6 @@ SUB_QUESTIONS: tuple[str, ...] = (
 
 
 def coverage() -> dict[str, list[str]]:
-    """Map this epoch's sub-questions to the mechanics that encode each bar (readiness only)."""
 
     return {
         SUB_QUESTIONS[0]: [

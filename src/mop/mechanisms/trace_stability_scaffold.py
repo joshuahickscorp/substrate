@@ -1,18 +1,3 @@
-"""Scaffold spine for epoch G1-C0: cross-seed, cross-session cognitive-trace stability.
-
-This module raises the SCAFFOLDING axis only. It supplies machine-checkable contracts and
-deterministic mechanics that ENCODE the bar a claimed cognitive trace must clear BEFORE any
-mechanism is licensed to build on it. It contains no measurement of a real system, loads no
-model weights, and touches no network or natural data. A green contract here means the stability
-declaration is complete and self-consistent, never that any trace is real.
-
-Named prior null (G1-C0): earlier few-seed studies over-claimed. A trace is not real until it
-survives seed variation across at least min_seeds seeds with every declared control dead. This
-module fails closed on fewer than min_seeds seeds, on any control that reproduces the trace, and
-on an undeclared stability metric. The verdict "stable" is unreachable unless the null is beaten.
-
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -25,8 +10,6 @@ from ..substrate.events import canonical_sha256
 
 TRACE_STABILITY_SCHEMA = "mop-trace-stability/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
@@ -35,15 +18,10 @@ scientific_capability_claim = False
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-# The minimum number of distinct seeds a trace must survive. Set to reject the few-seed regime
-# the G1-C0 null indicts. Any contract that declares fewer fails closed.
 MIN_SEEDS = 8
 
-# The only stability metrics this epoch admits. An undeclared or off-vocabulary metric is refused.
 STABILITY_METRICS: tuple[str, ...] = ("rank-correlation", "sign-agreement", "effect-direction")
 
-# The mandatory control set. Membership and order are load-bearing so the completeness check can
-# detect drift. Every control must fail to reproduce the trace for a "stable" verdict.
 REQUIRED_CONTROLS: tuple[str, ...] = (
     "single-seed",  # collapse to one seed: the exact few-seed regime the null indicts
     "shuffled-seed",  # break the seed-to-measurement binding
@@ -56,7 +34,7 @@ VERDICT_NULL = "null"
 
 
 class TraceStabilityRefusal(ValueError):
-    """Raised whenever a stability declaration is missing, malformed, or outside its scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -75,24 +53,15 @@ def _require_nonempty(value: str, label: str) -> None:
 
 
 def assert_controls_complete(controls: Sequence[str]) -> None:
-    """Fail closed if the declared control set drifts in membership or order."""
 
     if tuple(controls) != REQUIRED_CONTROLS:
         raise TraceStabilityRefusal("stability control set membership or order drift")
 
 
-# ---------------------------------------------------------------------------
-# Section A. Identity-bound per-seed measurement record.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class TraceRecord:
-    """One per-seed, identity-bound measurement of a candidate cognitive trace.
-
-    A record declares that a trace with this content digest yielded this effect under this seed and
-    session. Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     trace_id: str
     seed: int
@@ -143,7 +112,6 @@ def _sign(value: float) -> int:
 
 
 def _spearman(rank_a: tuple[int, ...], rank_b: tuple[int, ...]) -> float:
-    """Exact Spearman rank correlation between two rankings of equal length."""
 
     n = len(rank_a)
     if n < 2 or len(rank_b) != n:
@@ -153,11 +121,6 @@ def _spearman(rank_a: tuple[int, ...], rank_b: tuple[int, ...]) -> float:
 
 
 def cross_seed_agreement(records: Sequence[TraceRecord], metric: str) -> float:
-    """Deterministic cross-seed agreement in [0, 1] under the declared metric.
-
-    Fails closed on an undeclared metric, on fewer than two records, or on records that do not
-    all bind to one trace identity. Claim scope: deterministic programmatic mechanics only.
-    """
 
     if metric not in STABILITY_METRICS:
         raise TraceStabilityRefusal(f"undeclared stability metric {metric!r}")
@@ -172,10 +135,8 @@ def cross_seed_agreement(records: Sequence[TraceRecord], metric: str) -> float:
         negatives = signs.count(-1)
         zeros = signs.count(0)
         if metric == "effect-direction":
-            # Zeros carry no direction and count as disagreement against the dominant direction.
             dominant = max(positives, negatives)
         else:
-            # Sign agreement admits a zero majority as its own consistent class.
             dominant = max(positives, negatives, zeros)
         return dominant / len(records)
 
@@ -189,18 +150,13 @@ def cross_seed_agreement(records: Sequence[TraceRecord], metric: str) -> float:
         for j in range(i + 1, len(rankings)):
             rhos.append(_spearman(rankings[i], rankings[j]))
     mean_rho = sum(rhos) / len(rhos)
-    # Map correlation in [-1, 1] onto an agreement fraction in [0, 1].
     return (mean_rho + 1.0) / 2.0
 
 
-# ---------------------------------------------------------------------------
-# Section B. Matched measurement budget: the control comparison must be non-vacuous.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedMeasurementBudget:
-    """The matched measurement budget every control arm must be run under before comparison."""
 
     seeds: int
     sessions: int
@@ -226,19 +182,10 @@ class MatchedMeasurementBudget:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section C. Stability contract: the preregistered bar.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class TraceStabilityContract:
-    """Preregisters the bar a candidate trace must clear before a mechanism is licensed.
-
-    A valid contract fixes min_seeds, the metric, the agreement threshold, the mandatory control
-    set, and the matched budget; it fixes the target, not any result. Claim scope: deterministic
-    programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     trace_id: str
@@ -286,17 +233,10 @@ class TraceStabilityContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section D. Control outcomes and the fail-closed verdict.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ControlOutcome:
-    """One control arm's declared reproduction result under the matched budget.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     control: str
     agreement: float
@@ -318,14 +258,6 @@ class ControlOutcome:
 
 @dataclass(frozen=True, slots=True)
 class StabilityVerdict:
-    """Binds a contract, its per-seed records, and every control outcome into one fail-closed verdict.
-
-    The verdict is "stable" ONLY IF cross-seed agreement meets the declared threshold AND every
-    declared control fails to reproduce the trace; otherwise it is "null". Construction fails closed
-    on fewer than min_seeds distinct seeds, on foreign record identity, on control coverage drift, or
-    on a reproduced flag that disagrees with the threshold. Claim scope: deterministic programmatic
-    mechanics only; no capability claim.
-    """
 
     schema: str
     contract: TraceStabilityContract
@@ -358,17 +290,14 @@ class StabilityVerdict:
                 )
 
     def primary_agreement(self) -> float:
-        """Cross-seed agreement of the primary records under the declared metric."""
 
         return cross_seed_agreement(self.records, self.contract.stability_metric)
 
     def controls_dead(self) -> bool:
-        """True only if no declared control reproduces the trace."""
 
         return not any(outcome.reproduced for outcome in self.control_outcomes)
 
     def decide(self) -> str:
-        """Return the fail-closed verdict label. "stable" is unreachable unless the null is beaten."""
 
         agreement_met = self.primary_agreement() >= self.contract.agreement_threshold
         if agreement_met and self.controls_dead():
@@ -376,7 +305,6 @@ class StabilityVerdict:
         return VERDICT_NULL
 
     def assert_stable(self) -> None:
-        """Fail closed unless the verdict is genuinely stable; used before any license is issued."""
 
         if self.decide() != VERDICT_STABLE:
             raise TraceStabilityRefusal(
@@ -399,14 +327,10 @@ class StabilityVerdict:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section E. Activation gate: mechanism licensing is not earned until stability is proven.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class LicenseReceipt:
-    """A confirmation receipt that a stable verdict was reached and independently replicated."""
 
     verdict_sha256: str
     verdict_label: str
@@ -443,12 +367,6 @@ class LicenseReceipt:
 
 @dataclass(frozen=True, slots=True)
 class MechanismLicenseGate:
-    """A fail-closed gate. Off by default; licensing a mechanism on a trace requires a valid receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that no mechanism can quietly be built on a trace that has not survived seed variation with its
-    controls dead. Calling authorize with no receipt always raises.
-    """
 
     stability_required: bool = True
     license_granted: bool = False
@@ -463,7 +381,6 @@ class MechanismLicenseGate:
             raise TraceStabilityRefusal("license gate claim scope cannot be widened")
 
     def authorize(self, receipt: LicenseReceipt | None = None) -> None:
-        """Fail closed unless a valid stable, replicated receipt is supplied."""
 
         if receipt is None:
             raise TraceStabilityRefusal(
@@ -479,15 +396,11 @@ class MechanismLicenseGate:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section F. Deterministic synthesis and convenience builders.
-# ---------------------------------------------------------------------------
 
 
 def _deterministic_effect(
     trace_id: str, seed: int, session_id: str, base_effect: float, jitter: float
 ) -> float:
-    """A seeded, reproducible effect near base_effect; no wall-clock, no OS entropy."""
 
     digest = canonical_sha256({"trace_id": trace_id, "seed": seed, "session_id": session_id})
     fraction = int(digest[:8], 16) / 0xFFFFFFFF  # in [0, 1]
@@ -502,11 +415,6 @@ def synthesize_trace_records(
     base_effect: float = 0.6,
     jitter: float = 0.05,
 ) -> tuple[TraceRecord, ...]:
-    """Build a deterministic, reproducible set of per-seed records for one trace identity.
-
-    This is a test vector, not evidence. The same arguments always yield byte-identical records.
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     _require_id(trace_id, "synthesize_trace_records.trace_id")
     if len(seeds) < 2:
@@ -532,7 +440,6 @@ def synthesize_trace_records(
 
 
 def build_default_contract(trace_id: str = "trace.candidate") -> TraceStabilityContract:
-    """Return a non-vacuous default stability contract at the epoch minimum."""
 
     return TraceStabilityContract(
         schema=TRACE_STABILITY_SCHEMA,
@@ -549,7 +456,6 @@ def build_default_contract(trace_id: str = "trace.candidate") -> TraceStabilityC
 
 
 def dead_control_outcomes(agreement: float = 0.5) -> tuple[ControlOutcome, ...]:
-    """Return the mandatory control set with every arm failing to reproduce the trace."""
 
     if agreement >= 0.9:
         raise TraceStabilityRefusal("dead controls must fall below a plausible stability threshold")
@@ -560,7 +466,6 @@ def dead_control_outcomes(agreement: float = 0.5) -> tuple[ControlOutcome, ...]:
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static record of which G1-C0 sub-questions this scaffold supports (readiness only)."""
 
     return {
         "seed-stability": (

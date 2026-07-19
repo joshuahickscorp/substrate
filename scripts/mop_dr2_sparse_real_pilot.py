@@ -1,38 +1,4 @@
 #!/usr/bin/env python
-"""DR2 (=PR3): sparse-head forgetting PILOT on real cached latents (WP-10; registry row
-mop_dr2_sparse_real in registry/experiments.yaml, preregistration mirror configs/experiment/mop_dr2.yaml).
-
-Thesis under test: the e7 sparse-head forgetting advantage (kWTA, gated MoE) persists on REAL frozen
-V-JEPA 2 pooled latents (data/cache/vjepa2_vitl_fpc64_256_real, 64 clips, 8 classes) instead of the
-synthetic Gaussian-cluster proxy where it was found. PILOT status: 5 seeds on a 64-clip cache is
-laptop-scale evidence only; the registered claim needs the DR1-scale stream and the 30-run paired
-protocol (Studio). frozen_random controls are VALID here (trained-shell dynamics metrics, per the
-manifest appendix), but none are needed: the arms differ only in head architecture.
-
-Stream: real_task_stream class-incremental over the cache (the label space grows task by task while
-the single shared head is trained sequentially, the genuine interference regime). Per-task per-class
-train/test split by seed.
-
-Arms (identical latents, identical epochs and lr, identical init where shapes coincide):
-  dense        : dim -> hidden (GELU) -> classes MLP, the param-matched reference
-  kwta         : KWTAHead, IDENTICAL shape to dense (activation sparsity is the only change)
-  moe          : MoEHead with expert width solved by moe_expert_hidden_for_dense (the e7 match rule)
-  dense_sparse : dense + L1 activation penalty, coefficient picked per seed from a small grid so its
-                 active fraction lands nearest the kWTA target k/hidden (the matched-activation-
-                 sparsity control the registry null names; the tuned-baseline doctrine)
-
-Active fraction definition (fixed before running): mean fraction of hidden units per sample with
-|h| > 0.05 * max|h| of that sample, measured on the final task's train latents after training.
-
-Preregistered null (in code before any run): each sparse arm ties BOTH dense controls on backward
-transfer. Verdict rule, uniform across the MoT scripts: a sparse arm WINS iff its per-seed BWT delta
-over the BETTER (max) of the two dense controls has mean > max(seed SD, MIN_MARGIN) with no sign
-flip. null_supported is True unless at least one sparse arm wins (two comparisons, preregistered,
-both reported).
-
-Usage: python scripts/mop_dr2_sparse_real_pilot.py --seeds 0-4
-Writes runs/mot/dr2_sparse_real_pilot.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -61,7 +27,6 @@ CONTROL_ARMS = ("dense", "dense_sparse")
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -69,7 +34,6 @@ def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
 
 
 def split_task(x: torch.Tensor, y: torch.Tensor, train_frac: float, g: torch.Generator):
-    """Per-class split so every class appears in both halves (at least one test sample per class)."""
     tr, te = [], []
     for c in sorted(set(y.tolist())):
         idx = (y == c).nonzero(as_tuple=True)[0]
@@ -81,7 +45,6 @@ def split_task(x: torch.Tensor, y: torch.Tensor, train_frac: float, g: torch.Gen
 
 
 def load_split_stream(e: DictConfig, seed: int) -> list[dict]:
-    """Real class-incremental stream sliced into per-task train/test splits (seeded)."""
     tasks = real_task_stream(
         str(e.cache),
         n_tasks=int(e.n_tasks),
@@ -110,10 +73,6 @@ def make_dense(dim: int, hidden: int, n_classes: int) -> nn.Module:
 
 
 def active_fraction(model: nn.Module, x: torch.Tensor) -> float:
-    """Preregistered activation-sparsity statistic: mean fraction of units per sample with value
-    above 5 percent of that sample's max. The unit population per arm: post-kWTA hidden layer
-    (kwta), post-GELU hidden layer (dense arms, the quantity the tuned L1 control is matched on),
-    router gates (moe, informational: its sparsity lives in the routing, not a hidden layer)."""
     with torch.no_grad():
         if isinstance(model, KWTAHead):
             h = F.gelu(model.fc1(x))
@@ -129,8 +88,6 @@ def active_fraction(model: nn.Module, x: torch.Tensor) -> float:
 
 
 def train_stream(model: nn.Module, stream: list[dict], e: DictConfig, l1: float = 0.0) -> dict:
-    """Sequential training over the class-incremental stream; returns the acc matrix and curves.
-    acc_matrix[i][j] = accuracy on task j's test split after finishing training on task i."""
     opt = torch.optim.Adam(model.parameters(), lr=float(e.lr))
     n_tasks = len(stream)
     acc = [[0.0] * n_tasks for _ in range(n_tasks)]
@@ -196,8 +153,6 @@ class MotDR2SparseRealPilot(Experiment):
                     return MoEHead(dim, n_classes, int(e.n_experts), eh)
                 return make_dense(dim, hidden, n_classes)
 
-            # tuned matched-activation-sparsity control: pick the grid L1 whose active fraction on
-            # the final task's train latents lands nearest the kWTA target k/hidden
             candidates = []
             for l1 in l1_grid:
                 m = build("dense_sparse", l1)
@@ -216,7 +171,6 @@ class MotDR2SparseRealPilot(Experiment):
                 for k in ("bwt", "final_mean_acc", "task0_forgetting_area"):
                     per[arm][k].append(rep[k])
                 per[arm]["active_fraction"].append(frac)
-        # paired per-seed deltas: each sparse arm vs the BETTER of the two dense controls, on BWT
         verdicts = {}
         for arm in SPARSE_ARMS:
             deltas = [

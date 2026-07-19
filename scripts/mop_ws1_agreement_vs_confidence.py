@@ -1,37 +1,4 @@
 #!/usr/bin/env python
-"""WS1 (WP-12, the central workspace gate): does cross-substrate AGREEMENT between two genuinely
-different frozen encoders (zA = V-JEPA pooled, zB = DINOv2-S pooled, same clips) predict per-input
-correctness better than the best single substrate's calibrated CONFIDENCE? A positive argues two frozen
-encoders carry complementary correctness information (the workspace is not decoration) and gates WS3.
-
-Signals, scored as predictors of the best single source's per-sample correctness on held-out data:
-  confidence = max softmax probability of the best single source's head,
-  agreement  = sum_k pA_k * pB_k (probability two independently sampled predictions coincide).
-Headline delta = AUROC(agreement) - AUROC(confidence); AURC (risk-coverage) reported alongside, plus
-the corr(errA, errB) complementarity headline.
-
-ALL FIVE PREREGISTERED CONTROLS SHIP IN THIS FILE (thresholds fixed before any result exists):
-  1. invertible-remap vacuity guard: rerun the pipeline with source B replaced by a ridge linear remap
-     of A; guard passes iff the real delta beats the remap arm's delta on every seed.
-  2. shuffled-cross-source: agreement with B's rows permuted; guard passes iff the real agreement AUROC
-     beats the shuffled one on every seed.
-  3. noisy-TV: the three-boolean contract from diagnostics/noisy_tv.py must pass jointly on every seed.
-  4. corr(errA, errB) reported as the complementarity headline (not a gate).
-  5. 5-seed CI with sign flips on the headline delta.
-
-PREREGISTERED NULL (verbatim, registry WS1): agreement AUROC minus single-substrate-confidence AUROC
-<= 0 within seed CI, OR the win fails the invertible-remap vacuity guard, the shuffled-cross-source
-control, or noisy-TV.
-PREREGISTERED VERDICT RULE: WS1 is positive iff the delta CI excludes zero from below with no sign
-flip, guards 1-3 all pass, and the task is non-ceiling (best single-source accuracy <= 0.97, the D3
-requirement). Anything else supports the null. WS3 reads `ws1_positive` from this run's json.
-
-Depends at run time on the WP-11 V-JEPA cache and the WP-01 DINOv2-S cache; never loads an encoder.
-
-Usage: python scripts/mop_ws1_agreement_vs_confidence.py --seeds 0-4
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -79,8 +46,6 @@ def _get(cfg, key, default):
 
 
 def load_dual_source(cache_a: str, cache_b: str) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """Load the two pooled-feature caches over the SAME clips; returns (za, zb, labels). Raises if the
-    clip populations disagree (the triplet-store identity requirement)."""
     a, b = load_feature_cache(cache_a), load_feature_cache(cache_b)
     if a["features"].shape[0] != b["features"].shape[0]:
         raise ValueError("dual-source caches have different clip counts: not the same population")
@@ -116,8 +81,6 @@ def train_softmax_head(
     model: nn.Module | None = None,
     weight_decay: float = 0.0,
 ) -> nn.Module:
-    """Full-batch Adam training of a classification head (linear by default). Seeded init so arms with
-    the same seed start identically."""
     torch.manual_seed(seed)
     head = model if model is not None else nn.Linear(xtr.shape[1], n_classes)
     opt = torch.optim.Adam(head.parameters(), lr=lr, weight_decay=weight_decay)
@@ -136,8 +99,6 @@ def predict_probs(head: nn.Module, x: torch.Tensor) -> torch.Tensor:
 
 
 def _ridge_map(xa: torch.Tensor, xb: torch.Tensor, lam_scale: float) -> torch.Tensor:
-    """Closed-form ridge regression map A -> B on z-scored train features (the invertible-remap guard's
-    'B is just a linear function of A' hypothesis, fit as well as a linear map can)."""
     d = xa.shape[1]
     lam = lam_scale * d
     return torch.linalg.solve(xa.T @ xa + lam * torch.eye(d), xa.T @ xb)
@@ -151,7 +112,6 @@ def _pearson(a: torch.Tensor, b: torch.Tensor) -> float:
 
 
 def _signals(pa: torch.Tensor, pb: torch.Tensor, y: torch.Tensor) -> dict:
-    """Best-single-source correctness target plus the two competing predictors of it."""
     acc_a = float((pa.argmax(-1) == y).float().mean())
     acc_b = float((pb.argmax(-1) == y).float().mean())
     best, p_best = ("a", pa) if acc_a >= acc_b else ("b", pb)
@@ -181,12 +141,10 @@ def run_seed(za: torch.Tensor, zb: torch.Tensor, y: torch.Tensor, seed: int, cfg
     delta = auroc_agree - auroc_conf
     err_a, err_b = (pa.argmax(-1) != y[te]).float(), (pb.argmax(-1) != y[te]).float()
 
-    # control 2: shuffled-cross-source (break the pairing, agreement should lose its information)
     g = torch.Generator().manual_seed(seed + 7)
     perm = torch.randperm(len(te), generator=g)
     auroc_shuf = auroc((pa * pb[perm]).sum(-1), sig["correct"])
 
-    # control 1: invertible-remap vacuity guard (replace B with a ridge linear remap of A end to end)
     w = _ridge_map(xa[tr], xb[tr], float(_get(cfg, "ridge_lam_scale", DEFAULTS["ridge_lam_scale"])))
     xb_hat = xa @ w
     head_r = train_softmax_head(xb_hat[tr], y[tr], n_classes, epochs=epochs, lr=lr, seed=seed + 2)
@@ -194,7 +152,6 @@ def run_seed(za: torch.Tensor, zb: torch.Tensor, y: torch.Tensor, seed: int, cfg
     sig_r = _signals(pa, pr, y[te])
     delta_remap = auroc(sig_r["agreement"], sig_r["correct"]) - auroc(sig_r["confidence"], sig_r["correct"])
 
-    # control 3: noisy-TV three-boolean contract (agreement/disagreement must be epistemic)
     ntv = noisy_tv_diagnostic(
         dim=int(_get(cfg, "noisy_tv_dim", DEFAULTS["noisy_tv_dim"])),
         ensemble_size=3,

@@ -1,15 +1,3 @@
-"""Series F: form-substrate experiments, one level above V-JEPA-shaped video latents.
-
-These are cpu-now toy scaffolds for the user's "perfect substrate / any data" direction. They do not
-train an encoder and do not claim a brain. They test whether arbitrary observation forms can be put behind
-one referent-aligned interface, whether cross-form transfer needs real alignment, and whether the shared
-form bottleneck itself is load-bearing.
-
-F1 form alignment gate: can paired referents align one form to another better than raw or shuffled anchors.
-F2 held-out form transfer: can a concept learned through several forms transfer to an unseen form.
-F3 bottleneck capacity: does a too-small canonical form collapse capability relative to a wider form.
-F5 cross-form memory binding: can memory retrieve the same referent through a different form.
-"""
 
 from __future__ import annotations
 
@@ -122,7 +110,6 @@ def _three_way_split(
     label_frac: float,
     seed: int,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """Disjoint alignment, supervised-training, and untouched evaluation rows."""
     g = torch.Generator().manual_seed(seed + 811)
     perm = torch.randperm(n, generator=g)
     n_anchor, n_label = int(n * anchor_frac), int(n * label_frac)
@@ -779,7 +766,6 @@ def _hetero_token_payloads(
     noise: float,
     seed: int,
 ) -> dict[str, torch.Tensor]:
-    """Render ordered world chunks into genuine heterogeneous [N,T,C] payloads."""
     if z.shape[1] % token_count:
         raise ValueError("F4 world_dim must be divisible by token_count")
     chunk_dim = z.shape[1] // token_count
@@ -801,7 +787,6 @@ def _hetero_token_payloads(
 
 
 def _tokens_to_dim(x: torch.Tensor, dim: int) -> torch.Tensor:
-    """Resize only the channel axis; the token axis is never flattened or resampled."""
     n, tokens, d = x.shape
     if d == dim:
         return x
@@ -811,7 +796,6 @@ def _tokens_to_dim(x: torch.Tensor, dim: int) -> torch.Tensor:
 
 
 def _token_handcrafted(x: torch.Tensor, dim: int) -> torch.Tensor:
-    """Per-token statistics, preserving [N,T,D] geometry."""
     stats = torch.stack(
         [x.mean(2), x.std(2), x.amin(2), x.amax(2)],
         dim=2,
@@ -862,7 +846,6 @@ def _f4_align_tokens(
     shuffled: bool,
     seed: int,
 ) -> torch.Tensor:
-    """Fit one affine bridge per ordered token position."""
     mapped = []
     g = torch.Generator().manual_seed(seed)
     target_order = torch.arange(target.shape[1])
@@ -991,7 +974,6 @@ class F4(Experiment):
                     lr=_float(e, "lr", 0.03),
                     seed=s + 4101,
                 )
-            # The same frozen reference head evaluates every target transform.
             canonical_targets = {
                 kind: _f4_align_tokens(
                     resized[kind],
@@ -1196,8 +1178,6 @@ class F17(Experiment):
                 cal_conf.extend(c.tolist())
                 with torch.no_grad():
                     cal_correct.extend((head(recov_test).argmax(-1) == y[te]).float().tolist())
-                # OA1 is intake-grounded: the available-form mask says which typed arm is absent.
-                # This is a mechanical identity check, separate from corruption/anomaly detection.
                 det_scores.extend([1.0 if j == missing_idx else 0.0 for j in range(len(kinds))])
                 det_absent.extend([1.0 if j == missing_idx else 0.0 for j in range(len(kinds))])
                 extra_flops += int(te.shape[0]) * max(1, len(remaining) - 1) * feat_dim
@@ -1207,9 +1187,6 @@ class F17(Experiment):
         head_flops = max(1, mlp_flops([feat_dim, classes]))
         oa1 = missing_form_detection(det_scores, det_absent)
         oa2 = confidence_calibration(cal_conf, cal_correct)
-        # OA2: confidence is informative iff it PREDICTS correctness under absence (AUROC over chance).
-        # Raw confidence magnitude is a poor proxy here (a head trained on 4-form fusion sees a
-        # different scale under 3 forms), so the null clause tests calibration, not a magnitude drop.
         confidence_informative = oa2["auroc"] > 0.5 + _float(e, "cal_margin", 0.03)
         strongest_control = max(_mean(best_rem), _mean(impute), _mean(zero_concat))
         recovery_gain = recovery_acc - strongest_control
@@ -1256,13 +1233,6 @@ def _two_factor_forms(
     cross_leak: float,
     seed: int,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
-    """Two independent factors a and b, exposed asymmetrically across two forms.
-
-    Form A encodes a strongly and b weakly (attenuated by `cross_leak`); form B encodes b strongly and
-    a weakly. Compositional binding across forms means reading a from form A and b from form B over the
-    same referent, so a held-out (a, b) combination is decodable even though the pair was never trained.
-    Returns (form_a, form_b, a_labels, b_labels).
-    """
     g = torch.Generator().manual_seed(seed)
     a = torch.randint(0, n_a, (samples,), generator=g)
     b = torch.randint(0, n_b, (samples,), generator=g)
@@ -1315,13 +1285,11 @@ class F9(Experiment):
                 cross_leak=_float(e, "cross_leak", 0.15),
                 seed=s,
             )
-            # hold out the "diagonal" combos a==b (each a-value and each b-value still appears elsewhere)
             held_pairs = {(i, i % n_b) for i in range(min(n_a, n_b))}
             is_held = torch.tensor([(int(a[i]), int(b[i])) in held_pairs for i in range(a.shape[0])])
             fused = torch.cat([fa, fb], 1)  # only the conjunction control receives both forms
             tr = (~is_held).nonzero(as_tuple=True)[0]
             te_held = is_held.nonzero(as_tuple=True)[0]
-            # seen-combo test split: hold out a fraction of the trained (off-diagonal) rows
             g = torch.Generator().manual_seed(s + 77)
             perm = tr[torch.randperm(tr.shape[0], generator=g)]
             cut = int(perm.shape[0] * 0.85)
@@ -1356,8 +1324,6 @@ class F9(Experiment):
             heldout_acc.append(held)
             seen_acc.append(_compose_acc(head_a, head_b, seen_te))
 
-            # Each single-form control must decode both factors from one arm. This tests whether the
-            # cross-form result merely exploits leakage of both factors into either representation.
             single_scores = []
             for offset, xone in enumerate((fa, fb)):
                 ha_one = _fit_head(
@@ -1380,7 +1346,6 @@ class F9(Experiment):
             single_seed = max(single_scores)
             single_form.append(single_seed)
 
-            # Break the shared referent at evaluation while preserving both marginal form streams.
             gr = torch.Generator().manual_seed(s + 271)
             shuffled_idx = te_held[torch.randperm(te_held.shape[0], generator=gr)]
             with torch.no_grad():
@@ -1389,7 +1354,6 @@ class F9(Experiment):
                 shuf_ref_seed = float(((pa == a[te_held]) & (pb == b[te_held])).float().mean())
             shuffled_ref.append(shuf_ref_seed)
 
-            # control 1: composite-conjunction head (n_a*n_b classes) cannot reach unseen combos
             comp_y = a * n_b + b
             comp_head = _fit_head(
                 fused[fit_idx],
@@ -1401,7 +1365,6 @@ class F9(Experiment):
             )
             composite_held.append(_acc(comp_head, fused[te_held], comp_y[te_held]))
 
-            # control 2: shuffled-label floor for the factored arm
             gg = torch.Generator().manual_seed(s + 313)
             a_sh = a[fit_idx][torch.randperm(fit_idx.shape[0], generator=gg)]
             b_sh = b[fit_idx][torch.randperm(fit_idx.shape[0], generator=gg)]
@@ -1473,12 +1436,6 @@ def _run_form_scheduler(
     lr: float,
     seed: int,
 ) -> tuple[dict[str, float], dict[str, int], nn.Module]:
-    """Train one shared head under a form-selection policy.
-
-    Each form supplies train, validation, and untouched test splits. Lesson selection sees validation
-    only; final coverage comes from test. Noisy-TV training batches refresh on every visit. Policies:
-    uniform, error, novelty, and learning progress.
-    """
     seed_everything(seed)
     tags = sorted(forms)
     head = nn.Linear(forms[tags[0]][0].shape[1], classes)
@@ -1572,9 +1529,6 @@ class F10(Experiment):
                     y[te],
                 )
             heldout = aligned["timeseries"]
-            # several noisy-TV forms: pure-noise features with random labels, all unlearnable (chance).
-            # With many uninformative candidate forms, a form-blind uniform policy wastes most of its
-            # budget, and only a learning-progress scheduler concentrates on the few learnable forms.
             fd = _int(e, "feature_dim", 28)
             noisy_tags = []
             for j in range(_int(e, "n_noisy", 3)):
@@ -1674,12 +1628,6 @@ def _kmeans_codes(
     iters: int = 25,
     fit_idx: torch.Tensor | None = None,
 ) -> torch.Tensor:
-    """A tiny Lloyd k-means (no new dependency). Returns hard code assignments [N] in 0..k-1.
-
-    The codebook init is seeded, so two seeds that recover the SAME partition means the code is a
-    stable language over the data, not a per-run idiolect (the Wittgenstein private-language question
-    at the form layer). Well-separated form clusters give init-stable codes; overlapping ones do not.
-    """
     g = torch.Generator().manual_seed(seed)
     fit = x if fit_idx is None else x[fit_idx]
     if fit.shape[0] < k:
@@ -1715,8 +1663,6 @@ class F12(Experiment):
         seeds = list(e.seeds)
         classes = _int(e, "classes", 5)
         k = _int(e, "codebook_k", 5)
-        # one shared set of referents (fixed), re-observed per seed with independent form noise, so
-        # code assignments are comparable point-by-point across seeds.
         z, y = _balanced_world(
             samples=_int(e, "samples", 300),
             classes=classes,
@@ -1739,8 +1685,6 @@ class F12(Experiment):
         agreement = code_stability([codes[te] for codes in code_lists], k)
         rand_floor = code_stability([codes[te] for codes in rand_lists], k)
 
-        # cross-seed probe transfer: fit a probe on seed-0 codes -> class, test on seed-1 codes
-        # after Hungarian relabeling into seed-0's code space
         def _onehot(c: torch.Tensor) -> torch.Tensor:
             return F.one_hot(c, k).float()
 
@@ -1754,8 +1698,6 @@ class F12(Experiment):
         )
         transfer, shuffled_transfer = [], []
         for j in range(1, len(code_lists)):
-            # Learn a one-to-one code permutation on TRAIN referents only, then evaluate on held-out
-            # referents. The exact dependency-free Hungarian solver is shared across all machines.
             conf = torch.zeros(k, k, dtype=torch.float64)
             for a in range(k):
                 for b in range(k):
@@ -1849,8 +1791,6 @@ class F19(Experiment):
                 "increase the hierarchy or lower the budget"
             )
 
-        # Scale order is causal containment order. Every record carries a complete lineage tuple;
-        # -1 means that a finer descendant does not exist for this node.
         task_scale, episode_scale, scene_scale, object_scale = range(4)
         relations = (
             (task_scale, episode_scale),
@@ -1945,12 +1885,10 @@ class F19(Experiment):
             got = store["memory"].retrieve(typed_query, k=k)["y"]
             candidates = store["lineages"][got]
             if target_scale < source_scale:
-                # Upward lookup has one correct ancestor. Recover it from the source lineage.
                 source_lineage = node_lineages[source_scale][source_ids]
                 expected = source_lineage[:, target_scale][:, None]
                 correct = candidates[:, :, target_scale] == expected
             else:
-                # Downward lookup may return any descendant of the source node.
                 correct = candidates[:, :, source_scale] == source_ids[:, None]
             return float(correct.any(dim=1).float().mean())
 
@@ -2002,8 +1940,6 @@ class F19(Experiment):
             node_keys = (task_keys, episode_keys, scene_keys, object_keys)
             node_lineages = (task_lineage, episode_lineage, scene_lineage, object_lineage)
 
-            # Stratify object slots so the hierarchy cannot win because a scene was accidentally
-            # omitted. The flat arm receives the same courtesy and the larger object allocation.
             first_per_scene = torch.arange(n_scene) * obj_per_scene
             remaining_obj = object_ids[~torch.isin(object_ids, first_per_scene)]
             remaining_obj = remaining_obj[torch.randperm(remaining_obj.shape[0], generator=g)]
@@ -2037,8 +1973,6 @@ class F19(Experiment):
             flat_scales = torch.full((budget,), object_scale).long()
             flat_lineages = object_lineage[flat_obj]
 
-            # The single-scale arm uses the entire allocation for noisy scene exemplars. It is a
-            # strong specialist for scene queries, but has no explicit episode/task/object nodes.
             single_idx = torch.arange(budget) % n_scene
             single_keys = scene_keys[single_idx] + _float(e, "duplicate_noise", 0.05) * torch.randn(
                 budget, dim, generator=g
@@ -2050,8 +1984,6 @@ class F19(Experiment):
             flat = _make_store(flat_keys, flat_scales, flat_lineages, seed=s + 1)
             single = _make_store(single_keys, single_scales, single_lineages, seed=s + 2)
 
-            # Random hierarchy keeps every key and scale allocation intact but permutes referent
-            # lineages within each scale. This isolates hierarchical identity from extra centroids.
             random_lineages = hier_lineages.clone()
             for scale in range(4):
                 idx = torch.where(hier_scales == scale)[0]
@@ -2175,7 +2107,6 @@ class F19(Experiment):
 
 
 def _f13_project(x: torch.Tensor, width: int, *, seed: int) -> torch.Tensor:
-    """Fixed label-free projection of vectors or token tensors, matched across arms."""
     g = torch.Generator().manual_seed(seed)
     p = torch.randn(x.shape[-1], width, generator=g) / math.sqrt(x.shape[-1])
     return x @ p
@@ -2216,7 +2147,6 @@ def _f13_budget_subset(
     classes: int,
     seed: int,
 ) -> torch.Tensor:
-    """A deterministic class-covering subset so low replay budgets remain meaningful."""
     rows = min(int(rows), int(train_idx.shape[0]))
     if rows < classes:
         raise ValueError(f"F13 replay budget holds {rows} rows, fewer than {classes} classes")
@@ -2303,8 +2233,6 @@ class F13(Experiment):
             n = int(y.shape[0])
             world_dim = int(z.shape[1])
             base_form_flops = 2 * n * world_dim * feature_dim
-            # Least-squares fit and application for the three non-reference forms. It is an
-            # analytical upper-order estimate, recorded separately from measured wall time.
             alignment_fit_flops = (len(FORM_KINDS) - 1) * (
                 2 * int(tr.shape[0]) * feature_dim * feature_dim + feature_dim**3
             )
@@ -2399,8 +2327,6 @@ class F13(Experiment):
                                     + eval_shell_flops
                                 )
                                 total_retained_bytes = int(retained_bytes + params * 4 + structural_bytes)
-                                # Training rereads the pooled replay rows once per update. The energy
-                                # model is explicitly analytical, not a wall-power measurement.
                                 bytes_moved = int(
                                     produced_bytes
                                     + n * token_count * width * 4
@@ -2582,9 +2508,6 @@ def _f18_state_form(
     form_noise: float,
     seed: int,
 ) -> torch.Tensor:
-    """Render a world state (factor a, confounder c, nuisance extra) through one random form
-    projection. Factor a lands on axis 0 and the confounder on axis 1 before mixing, so both are
-    linearly present in the state but entangled by the projection into the observed form."""
     state = extra.clone()
     state[:, 0] = state[:, 0] + a_scale * a.float()
     state[:, 1] = state[:, 1] + c_scale * c.float()
@@ -2603,7 +2526,6 @@ def _f18_fit_map(
     lr: float,
     seed: int,
 ) -> nn.Linear:
-    """Fit the cross-form state transport itself, not a scalar label surrogate."""
     seed_everything(seed)
     head = nn.Linear(x.shape[1], y.shape[1])
     opt = torch.optim.Adam(head.parameters(), lr=lr)
@@ -2698,8 +2620,6 @@ class F18(Experiment):
                 seed=s + 11,
             )
 
-            # Each training referent receives exactly one randomized do-value. This removes the old
-            # 2x-row advantage while retaining randomized intervention assignment.
             intervention_index = torch.arange(samples) % len(train_deltas)
             intervention_index = intervention_index[
                 torch.randperm(intervention_index.shape[0], generator=gen)
@@ -2716,8 +2636,6 @@ class F18(Experiment):
                 seed=s + 977,
             )
 
-            # Observational change is caused by the recorded context. It uses only the same train
-            # delta support, but assignment is confounded rather than randomized.
             delta_table = torch.tensor(train_deltas)
             natural_delta = delta_table[c % len(train_deltas)]
             b_observational = _f18_state_form(
@@ -2761,14 +2679,10 @@ class F18(Experiment):
                 seed=s + 5,
             )
 
-            # shuffled-counterfactual-pairs: decouple before from after in interventional training
             g2 = torch.Generator().manual_seed(s + 707)
             y_shuf = b_interventional[tr[torch.randperm(tr.shape[0], generator=g2)]]
             sh = _f18_fit_map(x_int, y_shuf, epochs=epochs, lr=lr, seed=s + 7)
 
-            # Nearest Form-B prototypes are a shared, parameter-free measuring instrument, built on
-            # an independent calibration bank covering every factor value. They never see transport
-            # outputs and preserve the claim's target: location in Form-B geometry.
             probe_n = _int(e, "probe_samples", 560)
             probe_a = torch.arange(probe_n) % a_values
             probe_a = probe_a[torch.randperm(probe_n, generator=gen)]
@@ -2790,7 +2704,6 @@ class F18(Experiment):
             )
             decoder_bytes = prototypes.nelement() * prototypes.element_size()
 
-            # unseen delta test
             x_te_test = torch.cat([x_before[te], torch.full((te.shape[0], 1), float(test_delta))], dim=1)
             y_after = a_before[te] + test_delta
             x_te_corr = torch.cat([x_before[te], torch.zeros(te.shape[0], 1)], dim=1)
@@ -2803,7 +2716,6 @@ class F18(Experiment):
             cf_cosine.append(_f18_cosine(iv, x_te_test, b_test[te]))
             corr_cosine.append(_f18_cosine(cr, x_te_corr, b_test[te]))
 
-            # random-intervention-direction: feed a random delta instead of the true do-value
             g3 = torch.Generator().manual_seed(s + 909)
             random_choice = torch.randint(0, len(train_deltas), (te.shape[0],), generator=g3)
             rd = torch.tensor(train_deltas)[random_choice]
@@ -2815,7 +2727,6 @@ class F18(Experiment):
             )
             rand_dir.append(rand_seed)
 
-            # seen-delta accuracy for the leakage gap (predict trained deltas on held-out samples)
             seen = []
             for d in train_deltas:
                 xd = torch.cat([x_before[te], torch.full((te.shape[0], 1), float(d))], dim=1)
@@ -2830,8 +2741,6 @@ class F18(Experiment):
                     seed=s + 977,
                 )
                 seen.append(_f18_decoded_acc(iv, prototypes, xd, a_before[te] + d))
-                # Make the target construction load-bearing: the prediction is compared to a Form-B
-                # state for every seen intervention as well, not just its decoded label.
                 _ = _f18_cosine(iv, xd, b_seen[te])
             seen_gap.append(_mean(seen) - cf_seed)
 
@@ -2844,8 +2753,6 @@ class F18(Experiment):
         din = _int(e, "feature_dim", 24) + 1
         dout = _int(e, "feature_dim", 24)
         per_update = mlp_flops([din, dout], train_rows)
-        # Forward plus backward is explicitly estimated as 3x the linear forward cost. Both arms use
-        # the same rows and update count; this is the quantity the old implementation failed to match.
         train_flops = 3 * per_update * _int(e, "epochs", 260)
         match = matched_within(train_flops, train_flops)
         cf_acc, corr_acc, gap = _mean(cf), _mean(corr), _mean(seen_gap)
@@ -2905,12 +2812,6 @@ def _f20_arm(
     noise: float,
     seed: int,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
-    """One fixture arm: in-distribution features x, target y, recorded nuisance factor g, and a
-    decorrelated shell copy xdec whose nuisance is redrawn independent of y. signal weights the true
-    target subspace, nuisance weights a factor subspace that tracks y in distribution with rate rho.
-    A crisis arm sets signal to zero (all apparent competence is nuisance-carried, the A6 pattern),
-    a predictor-wall arm keeps signal below the pass threshold on its own, a healthy arm keeps it
-    above, and a noisy arm sets both to zero (pure aleatoric stream)."""
     g = torch.Generator().manual_seed(seed)
     y = torch.randint(0, classes, (n,), generator=g)
     track = torch.rand(n, generator=g) < rho
@@ -2925,7 +2826,6 @@ def _f20_arm(
 
 
 def _f20_probe_seed(seed: int, probe_index: int) -> int:
-    """Preserve F20's legacy sequence while bounding high-seed Generation 1 child streams."""
     return derive_seed32(seed * 1000 + probe_index, "f20_substrate_crisis_test.probe")
 
 
@@ -2941,16 +2841,6 @@ def _f20_score(
     train_frac: float,
     seed: int,
 ) -> dict:
-    """Monitor read-outs for one arm, using only in-distribution data plus the recorded factor.
-
-    The crisis score is the held-out accuracy drop between the standard split and the off-diagonal
-    slice, the samples where the recorded nuisance factor disagrees with the target. A probe that is
-    riding the nuisance scores near chance on that slice while its standard accuracy stays high (the
-    A6 pattern); a probe with genuine target signal keeps the slice, so its drop is small; a pure
-    noise stream sits at chance on both, so its drop is near zero (no false trigger). raw_error is
-    the plain in-distribution held-out error; confidence is the mean max-softmax; decorr_acc is the
-    realized accuracy of the in-distribution probe on the decorrelated shell (the ground-truth verdict
-    for whether the substrate actually reaches the target)."""
     tr, te = _split(y.shape[0], train_frac, seed)
     head = _fit_head(x[tr], y[tr], classes=classes, epochs=epochs, lr=lr, seed=seed)
     acc_in = _acc(head, x[te], y[te])
@@ -3130,8 +3020,6 @@ class F20(Experiment):
         n_caught = sum(triggered_on_real)
         avoided = n_caught * shell_flops
         hypothetical_avoided_per_monitor_flop = avoided / monitor_flops if monitor_flops > 0 else 0.0
-        # No real shell run was skipped by this synthetic fixture. The canonical avoided-compute
-        # metric therefore stays zero until a preregistered prospective forecast prevents a real run.
         avoided_per_monitor_flop = 0.0
         margin = _float(e, "margin", 0.1)
         noise_margin = _float(e, "noise_margin", 0.12)
@@ -3286,9 +3174,6 @@ class F14(Experiment):
             feature_dim = _int(e, "feature_dim", 30)
             rows_per_step = 2 * int(labels.shape[0])
 
-            # Phase one learns the old forms and writes an episodic memory whose referent ids are
-            # the global synthetic-world row ids. The new form receives its own map later; neither
-            # the old map nor any memory tensor is eligible for rewrite.
             reference = forms["vision"]
             old_weight = fit_affine_alignment(forms["audio"][anchors], reference[anchors])
             old_weight_snapshot = old_weight.clone()
@@ -3319,8 +3204,6 @@ class F14(Experiment):
                 index=index_backend,
                 seed=s,
             )
-            # `y` deliberately stores referent ids, not class labels. Replay resolves classes through
-            # the immutable id, while retrieval can verify identity without relying on slot order.
             memory.add(reference[labels], labels, key=reference[labels])
             memory_slots = len(memory)
             memory_bytes = int(
@@ -3361,8 +3244,6 @@ class F14(Experiment):
             old_recall_before_seed = _recall(old_query)
             old_memory_before.append(old_recall_before_seed)
 
-            # Phase two fits only the new form's map. The shuffled map is fit once and reused for
-            # both classifier and memory controls, so those controls share the same false pairing.
             new_weight = fit_affine_alignment(forms[new_kind][anchors], reference[anchors])
             new_aligned = apply_affine_alignment(forms[new_kind], new_weight)
             shuffle_generator = torch.Generator().manual_seed(s + 1801)
@@ -3389,8 +3270,6 @@ class F14(Experiment):
             no_replay_head = copy.deepcopy(phase_one_head)
             no_replay_opt = torch.optim.Adam(no_replay_head.parameters(), lr=adapt_lr)
             for _ in range(adapt_epochs):
-                # Duplicate the new-form rows to charge exactly the same rows and optimizer steps as
-                # the replay arm. This is wasted duplicate exposure by design, not hidden extra data.
                 x_phase_two = torch.cat([new_aligned[labels], new_aligned[labels]], dim=0)
                 y_phase_two = torch.cat([y[labels], y[labels]], dim=0)
                 no_replay_opt.zero_grad()
@@ -3421,8 +3300,6 @@ class F14(Experiment):
             alignment_floor_deltas.append(new_seed - max(noalign_seed, shuf_seed))
             new_deltas.append(new_seed - max(frozen_seed, no_replay_seed, noalign_seed, shuf_seed))
 
-            # The scratch upper bound consumes the exact cumulative row and optimizer-step budget of
-            # phase one plus phase two, but samples all three forms throughout instead of expanding.
             seed_everything(s + 7)
             scratch_head = nn.Linear(feature_dim, classes)
             scratch_opt = torch.optim.Adam(scratch_head.parameters(), lr=_float(e, "scratch_lr", lr))
@@ -3449,9 +3326,6 @@ class F14(Experiment):
                 _mean([_acc(scratch_head, old_aligned[kind][test], y[test]) for kind in old_kinds])
             )
 
-            # All retrieval controls use the same independent noise tensor. Old recall is re-run on
-            # the exact same query tensor, after every phase-two operation, to make a zero delta an
-            # exact invariant rather than an expectation over query noise.
             new_query_generator = torch.Generator().manual_seed(s + 2003)
             shared_query_noise = _float(e, "query_noise", 0.3) * torch.randn(
                 new_aligned[labels].shape, generator=new_query_generator

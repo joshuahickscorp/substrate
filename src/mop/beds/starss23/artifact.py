@@ -114,8 +114,6 @@ class BedConfig:
         return self.n_train_rooms + self.n_val_rooms + self.n_test_rooms
 
 
-
-
 def _build_adapter(seed: int, config: BedConfig) -> SyntheticStarssAdapter:
 
     fixture_config = SyntheticStarssConfig(
@@ -139,8 +137,6 @@ def _build_adapter(seed: int, config: BedConfig) -> SyntheticStarssAdapter:
             audio_by_clip[clip_id] = audio
             metadata_by_clip[clip_id] = metadata_text_from_onsets(clip.onsets)
     return SyntheticStarssAdapter(audio_by_clip, metadata_by_clip)
-
-
 
 
 def _featurize(adapter: SyntheticStarssAdapter, featurizer: FrozenFeaturizer) -> dict[str, np.ndarray]:
@@ -197,8 +193,6 @@ def _train_gate(
         ponder_lambda=config.ponder_lambda,
     )
     return gate, int(x.shape[0])
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -323,8 +317,6 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
     )
 
 
-
-
 def _flop_model(kind: str, total_frames: int, train_frames: int, config: BedConfig) -> FlopModel:
     return arm_flop_model(
         kind,
@@ -334,8 +326,6 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: BedConf
         downstream_flops_per_firing=config.downstream_flops_per_firing,
         candidate_train_flops=lambda: training_flops(train_frames, config.epochs),
     )
-
-
 
 
 def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:

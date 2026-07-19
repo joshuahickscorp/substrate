@@ -1,61 +1,3 @@
-"""AXIS 4 / ABSTRACTION, SUB-FORM 3: CROSS-SUBSTRATE analogy transfer.
-
-Established WIN (not rehashed here): within V-JEPA, the SHAPE-offset parallelogram is systematic and
-analogical (offset transfers across color, novel conjunctions generalize, an untrained ViT collapses).
-
-THIS TEST (the stronger, new claim): is that analogical structure SUBSTRATE-INVARIANT? Does a shape
-offset expressed in encoder A's latent space, carried through a SHARED linear map A -> B, predict the
-correct shape analogy in a DIFFERENT real encoder B (different architecture, different pretraining)?
-If yes beyond what two random-init encoders share through the identical pipeline, the abstraction is
-encoder-independent, a stronger positive than the within-encoder win.
-
-SUBSTRATES (all four share the IDENTICAL clip order, verified by checksum_first, so row i is the same
-clip in every cache; this is what makes a shared row-paired alignment map legitimate):
-  A_real = vjepa2_vitl_nuisance          (REAL V-JEPA ViT-L, 1024d)
-  B_real = dinov2s_nuisance_real         (REAL DINOv2 ViT-S, 384d)  -- different arch AND pretraining
-  A_rand = randominit_vitl_nuisance      (UNTRAINED ViT-L, 1024d, matched to A_real)
-  B_rand = dinov2s_nuisance_randominit   (UNTRAINED DINOv2 ViT-S, 384d, matched to B_real)
-
-The control is the RANDOM<->RANDOM pair through the same pipeline. Beating a within-space shuffle is NOT
-enough (the count-confound lesson). The bounding null is the matched random-init substrate pair: if two
-UNTRAINED encoders already share the cross-substrate shape analogy through the shared map, the apparent
-transfer is geometry/architecture the alignment map buys for free, not learned abstraction.
-
-CONFOUND GUARD (the systematicity lesson): color is a trivial low-level pixel statistic an untrained net
-recovers for free, so we transfer the SHAPE offset ACROSS COLOR (shape is the abstract factor an untrained
-net collapses on). Testing the color relation would let a random pair win for free.
-
-CONSTRUCTION (preregistered in code before any result exists):
-  1. Split the 200 rows into an ALIGN-TRAIN set and an EVAL set (row-paired across A and B; same rows
-     used in both encoders since the clip order is shared). Standardize each encoder on its own
-     align-train stats.
-  2. Fit a SHARED linear map W: A -> B by ridge on the ALIGN-TRAIN rows (the al2 ridge_fit primitive),
-     rank-truncated to a preregistered rank. This map is fit WITHOUT any shape/color labels; it only sees
-     row-paired latents. It is the shared coordinate system.
-  3. CROSS-ENCODER ANALOGY on the EVAL rows. Build per-cell centroids in A's space (centA[s,c]) and in
-     B's space (centB[s,c]) from EVAL rows only, bootstrap-resampled. For a shape pair (X -> Y):
-        offsetA_c   = centA[Y,c] - centA[X,c]                      (shape offset in A, per color)
-        transferA   = mean over donor colors c != t of offsetA_c   (color-independent shape offset in A)
-        predA       = centA[X,t] + transferA                       (predicted shape-Y centroid in A)
-        predB       = standardize_and_map(predA) through W         (carried into B's space)
-        retrieve    = argmin over the 5 shape centroids centB[:,t] of || centB[s,t] - predB ||
-     Score = top-1 retrieval accuracy: does the A-space shape offset, mapped into B, land nearest to the
-     TRUE shape-Y centroid in B at the held-out color t. Averaged over all shape pairs (X != Y), all
-     target colors t, and seeds. This is the analogy expressed in one encoder and READ OUT in another.
-  4. FLOORS on the SAME construction:
-       chance          = 1/5 = 0.20 (random pick among 5 shape centroids in B at color t)
-       shuffled-offset = transfer a MISMATCHED shape pair's A-offset through W (breaks the relation)
-       random<->random = the identical pipeline with A_rand -> B_rand (the bounding null)
-  We also record the SAME-ENCODER direction B -> A (dinov2 offset read out in v-jepa) as a symmetry check.
-
-WIN RULE (preregistered, a TIE IS A NULL):
-  real cross-encoder analogy top1 CI_lo (over seeds) > max(shuffled-offset mean, chance)
-  AND (real mean - random<->random mean) CI_lo > 0 with no per-seed sign flip.
-  Real must beat BOTH its own shuffle floor and the random-init<->random-init pair. A tie on either is a
-  NULL. No score is faked. Everything is seeded; the align split and the centroid bootstrap both reseed.
-
-No em dashes or en dashes (house rule).
-"""
 
 import json
 import sys
@@ -84,9 +26,6 @@ A_REAL, B_REAL = "vjepa2_vitl_nuisance", "dinov2s_nuisance_real"
 A_RAND, B_RAND = "randominit_vitl_nuisance", "dinov2s_nuisance_randominit"
 
 
-# ----------------------------------------------------------------------------------------------------
-# loading (the two cache layouts: vjepa uses features/labels_*.npy, dino uses latents.npy + factors.json)
-# ----------------------------------------------------------------------------------------------------
 def load(tag):
     b = CACHE / tag
     if (b / "features.npy").exists():
@@ -107,7 +46,6 @@ def load(tag):
 
 
 def ridge_fit(xa, xb, lam=RIDGE_LAMBDA):
-    """W = argmin ||xa W - xb||^2 + lam ||W||^2 (al2 primitive). [Da, Db]."""
     da = xa.shape[1]
     return torch.linalg.solve(xa.T @ xa + lam * torch.eye(da), xa.T @ xb)
 
@@ -120,7 +58,6 @@ def rank_truncate(w, k):
 
 
 def cell_index(sh, co, rows):
-    """dict (shape,color) -> tensor of row indices, restricted to `rows`."""
     d = {}
     for i in rows.tolist():
         d.setdefault((int(sh[i]), int(co[i])), []).append(i)
@@ -128,7 +65,6 @@ def cell_index(sh, co, rows):
 
 
 def centroids(x, cells, seed, subsample=True):
-    """cent[s,c] = (bootstrap) centroid of latents at (shape=s, color=c) over the given rows."""
     g = torch.Generator().manual_seed(seed)
     cent = torch.zeros(N_SHAPE, N_COLOR, x.shape[1])
     for s in range(N_SHAPE):
@@ -146,31 +82,21 @@ def standardize_fit(x_train):
     return x_train.mean(0), x_train.std(0) + 1e-6
 
 
-# ----------------------------------------------------------------------------------------------------
-# one seed: fit shared map A->B on align-train rows, run cross-encoder analogy on eval rows
-# ----------------------------------------------------------------------------------------------------
 def cross_encoder_analogy(xa, xb, sh, co, seed, shuffled=False):
-    """Fit W: A -> B on align-train rows, then express the SHAPE offset in A, map it into B, and
-    retrieve among B's shape centroids. Returns mean top-1 over all shape pairs (X!=Y) and target
-    colors t. `shuffled` transfers a MISMATCHED shape pair's A-offset (breaks the relation)."""
     g = torch.Generator().manual_seed(seed)
     n = xa.shape[0]
     perm = torch.randperm(n, generator=g)
     cut = int(n * ALIGN_TRAIN_FRAC)
     align_rows, eval_rows = perm[:cut], perm[cut:]
 
-    # standardize each encoder on its OWN align-train rows (map is fit in standardized space)
     mua, sda = standardize_fit(xa[align_rows])
     mub, sdb = standardize_fit(xb[align_rows])
     za = (xa - mua) / sda
     zb = (xb - mub) / sdb
 
-    # shared linear map fit on row-paired align rows, label-free
     w = rank_truncate(ridge_fit(za[align_rows], zb[align_rows]), RANK)
 
-    # centroids from EVAL rows only (bootstrap-resampled), in each encoder's standardized space
     cellsE = cell_index(sh, co, eval_rows)
-    # guard: every (shape,color) cell must have >=1 eval sample; if not, this seed is skipped upstream
     centA = centroids(za, cellsE, seed)
     centB = centroids(zb, cellsE, seed)
 
@@ -197,9 +123,6 @@ def cross_encoder_analogy(xa, xb, sh, co, seed, shuffled=False):
 
 
 def eval_cells_complete(sh, co, seed):
-    """Return True iff, for this seed's align/eval split, every (shape,color) cell has >=1 eval row in
-    BOTH the A and B grids. The grids share row order so one check suffices. Prevents an empty-centroid
-    seed from silently biasing the score."""
     g = torch.Generator().manual_seed(seed)
     n = sh.shape[0]
     perm = torch.randperm(n, generator=g)
@@ -237,11 +160,9 @@ def main():
     print("cross-substrate analogy: real V-JEPA <-> real DINOv2 vs random <-> random")
     real_fwd = run_pair(A_REAL, B_REAL, "real: vjepa->dino")
     rand_fwd = run_pair(A_RAND, B_RAND, "rand: vjepa->dino")
-    # symmetry / reverse direction as a secondary read (dino offset read out in v-jepa)
     real_rev = run_pair(B_REAL, A_REAL, "real: dino->vjepa")
     rand_rev = run_pair(B_RAND, A_RAND, "rand: dino->vjepa")
 
-    # forward direction is the headline. delta vs random<->random, per matched seed.
     matched = sorted(set(real_fwd["seeds_used"]) & set(rand_fwd["seeds_used"]))
     rmap = dict(zip(real_fwd["seeds_used"], real_fwd["real_per_seed"], strict=False))
     cmap = dict(zip(rand_fwd["seeds_used"], rand_fwd["real_per_seed"], strict=False))

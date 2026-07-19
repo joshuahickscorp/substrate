@@ -1,55 +1,3 @@
-"""Plasticity-loss certificate INSTRUMENT and its validation, for Studio PR9 (continual-backprop).
-
-WHAT THE CERTIFICATE MEASURES (Dohare/continual-backprop regime)
-----------------------------------------------------------------
-Over a long task stream trained with a FIXED plain-SGD baseline (the baseline PR9's
-continual-backprop is meant to repair), plasticity loss is a POSITIVE gap between EARLY-task
-learning accuracy and LATE-task learning accuracy. Per task we record the BEST accuracy the network
-reaches ON THAT TASK while learning it (the diagonal of the continual accuracy matrix: how well the
-net can STILL learn a fresh task at that point in the stream). If that diagonal declines as the
-stream proceeds, the net has lost plasticity. gap = mean(early diagonal) - mean(late diagonal),
-with a 95pct CI over seeds. We also track the fraction of DEAD ReLU units (zero activation over the
-whole task) as the mechanistic corroborator: dead-unit accumulation is the known cause of plain-SGD
-plasticity loss and is exactly what continual-backprop's selective re-initialization targets.
-
-WHY THIS STREAM PAIR (the instrument's own positive and negative controls)
---------------------------------------------------------------------------
-The laptop cannot INDUCE Studio-scale plasticity loss, but it CAN prove the instrument is correct on
-two matched controlled streams that differ ONLY in the presence of distribution drift:
-
-  stream 1 (loss-inducing, POSITIVE control): CONCEPT DRIFT. A fresh random teacher (a 2-layer
-    target-generating net) is drawn for EACH task, so the input->label rule the network must fit
-    keeps changing. Plain SGD progressively loses the ability to fit new tasks (dead units pile up).
-    The certificate MUST fire: gap CI strictly above 0.
-
-  stream 2 (stationary/iid, NEGATIVE control): the SAME teacher for every task (the same concept
-    repeated) over the SAME input distribution. No drift, so a healthy net keeps learning each
-    repeat just as well. The certificate MUST NOT fire: gap CI must contain 0.
-
-The two streams share input distribution, net, optimizer, and schedule. The ONLY difference is
-whether the teacher is re-drawn per task. That makes them a clean matched control pair: any gap on
-stream 1 that is absent on stream 2 is attributable to drift-driven plasticity loss, not to warmup
-or task difficulty (both streams have identical per-task difficulty and identical warmup).
-
-PREREGISTERED VERDICT RULE (fixed in code BEFORE running, never tuned after seeing a number)
--------------------------------------------------------------------------------------------
-  stream 1 VALIDATED-FIRE  iff  gap_ci_lo  > 0.0           (CI strictly excludes 0, gap positive)
-  stream 2 VALIDATED-QUIET iff  gap_ci_lo <= 0.0 <= gap_ci_hi   (CI contains 0)
-  INSTRUMENT VALIDATED     iff  fire on stream 1 AND quiet on stream 2.
-A TIE on stream 1 (CI includes 0) is a NULL: the instrument is NOT validated, report it honestly.
-A FALSE-FIRE on stream 2 (CI excludes 0) also fails validation, report it honestly.
-
-HONESTY NOTE ON INSTRUMENT DESIGN
----------------------------------
-The REGIME parameters below (which stream construction exhibits the phenomenon, net size, lr, epochs)
-were chosen on separate DIAGNOSTIC sweeps (diag_sweep*.py) because an initial input-permutation design
-saturated BOTH streams to 100pct and never exercised plasticity loss at all. That is a design fix, not
-a threshold tune: the VERDICT THRESHOLD (CI excludes/contains 0) was fixed from the start and is
-untouched. The score itself only moves at the Studio; this is the laptop down-payment that proves the
-instrument does not false-fire.
-
-House form: no em/en dashes.
-"""
 
 from __future__ import annotations
 
@@ -68,21 +16,12 @@ from mop.diagnostics.riskcov import seed_ci  # noqa: E402
 
 OUT = Path(__file__).resolve().parents[1] / "runs" / "mot"
 
-# ---------------------------------------------------------------------------
-# PREREGISTERED constants (fixed BEFORE the validation run).
 N_TASKS = 150  # long stream so the late window can diverge from the early window
 EARLY_WINDOW = 20  # first 20 tasks define "early" learning accuracy
 LATE_WINDOW = 20  # last 20 tasks define "late" learning accuracy
 SEEDS = [0, 1, 2, 3, 4, 5, 6, 7]  # 8 seeds for the gap CI
 Z = 1.96  # 95pct normal-approx CI
-# VERDICT RULE (preregistered, fixed here, never tuned after a number is seen):
-#   stream1 fires  iff gap_ci_lo > 0.0
-#   stream2 quiet  iff gap_ci_lo <= 0.0 <= gap_ci_hi
-#   VALIDATED iff (fires on stream1) AND (quiet on stream2). Tie on stream1 => NULL.
-# ---------------------------------------------------------------------------
 
-# Instrument REGIME (design parameters, chosen on diagnostic sweeps to EXHIBIT the phenomenon;
-# these are not the verdict threshold). A robust separator: perm gap ~ +0.50 (tight), iid gap ~ 0.
 DIM = 20
 N_CLASSES = 8
 SAMPLES_PER_TASK = 200
@@ -94,9 +33,6 @@ BATCH = 8
 
 
 class MLP(torch.nn.Module):
-    """Plain 2-layer ReLU MLP, no norm/residual: the substrate where plain-SGD plasticity loss
-    (dead-unit accumulation) is known to appear. `h` holds the last hidden activation so we can
-    measure the dead-unit fraction (the mechanistic corroborator)."""
 
     def __init__(self, dim: int, hidden: int, n_classes: int):
         super().__init__()
@@ -110,7 +46,6 @@ class MLP(torch.nn.Module):
 
 
 def _teacher(g: torch.Generator):
-    """A random 2-layer target-generating net (genuinely nonlinear labels)."""
     W1 = torch.randn(DIM, TEACHER_HIDDEN, generator=g)
     W2 = torch.randn(TEACHER_HIDDEN, N_CLASSES, generator=g)
     return W1, W2
@@ -121,9 +56,6 @@ def _teach(X: torch.Tensor, W1: torch.Tensor, W2: torch.Tensor) -> torch.Tensor:
 
 
 def _task_stream(seed: int, mode: str):
-    """mode='drift': fresh teacher each task (loss-inducing). mode='fixed': one teacher for the
-    whole stream (stationary). Input distribution, net, optimizer, schedule are identical across
-    modes; the ONLY difference is whether the teacher is re-drawn, so this is a matched pair."""
     g = torch.Generator().manual_seed(seed * 100 + 7)
     fixed_teacher = _teacher(g)  # used by the stationary stream
     tasks = []
@@ -140,11 +72,6 @@ def _task_stream(seed: int, mode: str):
 
 
 def _learn_on_task(model, opt, X, y) -> tuple[float, float]:
-    """Train with the FIXED SGD baseline for EPOCHS_PER_TASK passes. Return (best train accuracy
-    reached on this task, dead-unit fraction at the end). Best-reached is the faithful learnability
-    signal (the quantity that decays under plasticity loss). Dead-unit fraction corroborates the
-    mechanism. The SAME model/optimizer persist across the whole stream (no re-init): that
-    persistence is what lets plasticity loss accumulate."""
     g = torch.Generator().manual_seed(0)
     n = X.shape[0]
     best = 0.0

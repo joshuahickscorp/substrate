@@ -1,17 +1,3 @@
-"""Scaffold spine for the bio-morphogenic material digital-twin cluster (facets BM1 to BM4).
-
-This module raises the SCAFFOLDING axis only. It supplies machine-checkable contracts, three tiny
-seeded material priors, declared conventional-control families, damage and repair twin contracts,
-and a bench handoff protocol whose physical work is quarantined behind a gate that local code
-refuses to pass. It builds the harness, not the result.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability claim.
-Nothing here establishes native-dynamics value, biological equivalence, or device behavior. The
-material priors are toy numpy maps. The control families are declarations, not implementations. The
-bench protocol is a form to be executed by an external specimen lab, never by this process.
-
-House style: no em or en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -35,13 +21,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 Vector = NDArray[np.float64]
 
 
-# ---------------------------------------------------------------------------
-# Section A. Common digital-twin protocol contract.
-# excitation / time / readout / adaptation / drift / damage / repair / energy / lineage.
-# ---------------------------------------------------------------------------
 
-# The exact method surface any simulated material or bio-motif substrate must expose. Ordering is
-# load-bearing for the interface digest, so the validator can detect surface drift.
 REQUIRED_TWIN_METHODS: tuple[str, ...] = (
     "reset",  # deterministic reseed to a known state
     "excite",  # excitation: inject an input drive
@@ -58,11 +38,6 @@ REQUIRED_TWIN_METHODS: tuple[str, ...] = (
 
 @runtime_checkable
 class MaterialTwin(Protocol):
-    """Structural protocol for a material or bio-motif digital twin.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. Implementing this
-    protocol asserts nothing about physical realizability or advantage over digital controls.
-    """
 
     def reset(self, seed: int) -> None: ...
     def excite(self, drive: Vector) -> None: ...
@@ -78,7 +53,6 @@ class MaterialTwin(Protocol):
 
 @dataclass(frozen=True, slots=True)
 class Lineage:
-    """Ordered, hash-linked provenance of the operations applied to one twin instance."""
 
     schema: str
     ops: tuple[str, ...]
@@ -99,7 +73,6 @@ class Lineage:
 
 @dataclass(frozen=True, slots=True)
 class TwinInterfaceContract:
-    """Declares the required twin method surface and validates candidate implementations."""
 
     schema: str = MATERIAL_TWIN_SCHEMA
     required_methods: tuple[str, ...] = REQUIRED_TWIN_METHODS
@@ -117,7 +90,6 @@ class TwinInterfaceContract:
         return canonical_sha256({"schema": self.schema, "methods": list(self.required_methods)})
 
     def validate(self, candidate: object) -> None:
-        """Fail closed if the candidate omits or shadows any required twin method."""
 
         for name in self.required_methods:
             member = getattr(candidate, name, None)
@@ -134,19 +106,14 @@ class TwinInterfaceContract:
 
 
 def validate_twin_interface(candidate: object) -> None:
-    """Module-level fail-closed check that a candidate satisfies the twin interface contract."""
 
     TwinInterfaceContract().validate(candidate)
 
 
-# ---------------------------------------------------------------------------
-# Section A helpers: lesion spec is shared by the protocol and the damage/repair contract.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class LesionSpec:
-    """A deterministic, selective lesion over the internal units of a twin."""
 
     unit_indices: tuple[int, ...]
     fraction: float
@@ -174,20 +141,11 @@ class LesionSpec:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section B. Three tiny, seeded material priors implementing the protocol.
-# Pure numpy math; no network, no model weights, no heavy compute.
-# ---------------------------------------------------------------------------
 
 REPAIR_POLICIES: tuple[str, ...] = ("fixed-final", "restart", "spare", "random", "full-retraining")
 
 
 class _ToyMaterialPrior:
-    """Shared bookkeeping for the toy priors: energy, lineage, damage, and repair state.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. Subclasses supply
-    only the excitation, evolution, and readout math. All priors are tiny and CPU-only.
-    """
 
     kind: str = "abstract"
 
@@ -204,7 +162,6 @@ class _ToyMaterialPrior:
         self._drift_epochs = 0
         self.reset(seed)
 
-    # -- protocol surface -------------------------------------------------
     def reset(self, seed: int) -> None:
         self._seed = seed
         self._rng = np.random.default_rng(seed)
@@ -240,7 +197,6 @@ class _ToyMaterialPrior:
         return feats
 
     def adapt(self, targets: Vector) -> None:
-        # Linear ridge readout fit only. No deep training; the substrate parameters are untouched.
         targets = np.asarray(targets, dtype=np.float64)
         if targets.ndim != 1:
             raise ValueError("adapt targets must be a 1D vector")
@@ -293,7 +249,6 @@ class _ToyMaterialPrior:
             head_digest=canonical_sha256(list(ops)),
         )
 
-    # -- subclass hooks ---------------------------------------------------
     def _build_parameters(self) -> None:
         raise NotImplementedError
 
@@ -305,7 +260,6 @@ class _ToyMaterialPrior:
 
 
 class LeakyEchoStateReservoir(_ToyMaterialPrior):
-    """A tiny leaky echo-state reservoir. Physical-reservoir prior (facet BM3 and BM4)."""
 
     kind = "leaky-echo-state-reservoir"
 
@@ -333,7 +287,6 @@ class LeakyEchoStateReservoir(_ToyMaterialPrior):
 
 
 class DecayingConductanceMap(_ToyMaterialPrior):
-    """A decaying-conductance memristive-like map. Memristive prior (facet BM3 and BM4)."""
 
     kind = "decaying-conductance-map"
 
@@ -358,7 +311,6 @@ class DecayingConductanceMap(_ToyMaterialPrior):
 
 
 class OscillatorBank(_ToyMaterialPrior):
-    """A bank of weakly coupled phase oscillators. Oscillatory prior (facet BM3 and BM4)."""
 
     kind = "oscillator-bank"
 
@@ -391,9 +343,6 @@ TOY_PRIORS: tuple[type[_ToyMaterialPrior], ...] = (
 )
 
 
-# ---------------------------------------------------------------------------
-# Section C. Matched conventional-control declarations (declared, not implemented).
-# ---------------------------------------------------------------------------
 
 CONTROL_FAMILIES: frozenset[str] = frozenset(
     {
@@ -408,7 +357,6 @@ CONTROL_FAMILIES: frozenset[str] = frozenset(
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-    """The matched full-system budget a control family must be tuned to before comparison."""
 
     params: int
     flops: int
@@ -436,7 +384,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class ControlFamilyDeclaration:
-    """A declared conventional-control family. Not an implementation; a comparison commitment."""
 
     id: str
     family: str
@@ -471,7 +418,6 @@ class ControlFamilyDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class ControlDeclarationSet:
-    """A set of control-family declarations that must cover every declared conventional family."""
 
     schema: str
     declarations: tuple[ControlFamilyDeclaration, ...]
@@ -498,16 +444,12 @@ class ControlDeclarationSet:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section C helper. Native-dynamics value contract (facet BM1 and BM2 closure test).
-# ---------------------------------------------------------------------------
 
 RETAIN_ONLY_WINS: frozenset[str] = frozenset({"cross-task-future-learnability", "capability-density"})
 
 
 @dataclass(frozen=True, slots=True)
 class NativeDynamicsValueContract:
-    """Declares the retain-only rule: keep a material prior only for a replicated matched-cost win."""
 
     schema: str
     controls: tuple[str, ...]
@@ -543,9 +485,6 @@ class NativeDynamicsValueContract:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section D. Damage / repair twin contracts (facet BM2 and BM4).
-# ---------------------------------------------------------------------------
 
 REPAIR_CONTROLS: tuple[str, ...] = ("fixed-final", "restart", "spare", "random", "full-retraining")
 DAMAGE_REPAIR_METRICS: tuple[str, ...] = (
@@ -559,7 +498,6 @@ DAMAGE_REPAIR_METRICS: tuple[str, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class DamageRepairContract:
-    """Damage and repair twin contract with fail-closed control and metric coverage."""
 
     schema: str
     controls: tuple[str, ...]
@@ -594,11 +532,6 @@ class DamageRepairContract:
 
 
 def selective_lesion_delta(twin: _ToyMaterialPrior, lesion: LesionSpec) -> dict[str, float]:
-    """Deterministic mechanics probe: readout-norm change under a selective lesion.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. This measures a
-    programmatic delta on a toy prior. It is not evidence of biological repair or advantage.
-    """
 
     if not lesion.selective:
         raise ValueError("selective_lesion_delta requires a selective lesion")
@@ -609,9 +542,6 @@ def selective_lesion_delta(twin: _ToyMaterialPrior, lesion: LesionSpec) -> dict[
     return {"readout_norm_before": before, "readout_norm_after": after, "delta": after - before}
 
 
-# ---------------------------------------------------------------------------
-# Section D helper. Drift and aging adaptation contract (facet BM3, proposed row f63).
-# ---------------------------------------------------------------------------
 
 DRIFT_CONTROLS: tuple[str, ...] = ("no-adapt", "oracle-reset", "full-retraining")
 DRIFT_METRICS: tuple[str, ...] = (
@@ -624,7 +554,6 @@ DRIFT_METRICS: tuple[str, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class DriftAdaptationContract:
-    """Declares how a twin's aging drift is tracked and what adaptation must beat."""
 
     schema: str
     drift_model: str
@@ -656,17 +585,12 @@ class DriftAdaptationContract:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section D helper. Cross-substrate form portability contract (facet BM3, proposed row f66).
-# This one is simulation-portable and can run locally; no physical gate.
-# ---------------------------------------------------------------------------
 
 PORTABILITY_CONTROLS: tuple[str, ...] = ("identity", "random-remap", "full-retrain")
 
 
 @dataclass(frozen=True, slots=True)
 class CrossSubstratePortabilityContract:
-    """Declares how a fitted readout is carried from one simulated form to another."""
 
     schema: str
     source_kind: str
@@ -698,23 +622,14 @@ class CrossSubstratePortabilityContract:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section E. Bench handoff protocol contract. Physical work is quarantined behind a gate that
-# local code refuses to pass. Specimen-to-specimen transfer (proposed row f65) rides the same gate.
-# ---------------------------------------------------------------------------
 
 
 class ExternalSpecimenRefusal(RuntimeError):
-    """Raised when local code attempts to perform work reserved for an external specimen lab."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class ExternalSpecimenGate:
-    """A fail-closed gate. Any local attempt to authorize physical specimen work raises.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that simulation code can never quietly stand in for a fabricated device or a living specimen.
-    """
 
     physical_work_required: bool = True
     local_execution_permitted: bool = False
@@ -750,11 +665,6 @@ _REQUIRED_HANDOFF_FIELDS: tuple[str, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class BenchHandoffContract:
-    """A bench-ready handoff form whose physical execution is refused locally.
-
-    Every required field must be a non-empty declaration. Calling ``pass_locally`` always raises;
-    the only honest local operation is to emit the form for an external specimen lab.
-    """
 
     schema: str
     fields: Mapping[str, str]
@@ -774,12 +684,10 @@ class BenchHandoffContract:
             raise ValueError("bench handoff claim scope cannot be widened")
 
     def pass_locally(self) -> None:
-        """Fail closed: local code may never execute the physical specimen protocol."""
 
         self.gate.authorize_local()
 
     def emit_form(self) -> dict[str, Any]:
-        """The only sanctioned local operation: return the declared handoff form."""
 
         return {
             "schema": self.schema,
@@ -791,7 +699,6 @@ class BenchHandoffContract:
 
 @dataclass(frozen=True, slots=True)
 class SpecimenTransferContract:
-    """Specimen-to-specimen transfer contract; physical transfer rides the external gate."""
 
     schema: str
     source_specimen: str
@@ -825,7 +732,6 @@ class SpecimenTransferContract:
             raise ValueError("specimen transfer claim scope cannot be widened")
 
     def pass_locally(self) -> None:
-        """Fail closed: physical specimen-to-specimen transfer cannot run in this process."""
 
         self.gate.authorize_local()
 
@@ -842,13 +748,9 @@ class SpecimenTransferContract:
         }
 
 
-# ---------------------------------------------------------------------------
-# Convenience builders (deterministic, used by tests and later wiring).
-# ---------------------------------------------------------------------------
 
 
 def build_default_control_set() -> ControlDeclarationSet:
-    """Return a fully covering, non-vacuous set of declared conventional-control families."""
 
     unit_budget = MatchedBudget(params=144, flops=4096, memory_bytes=8192, update_steps=200)
     declarations = tuple(
@@ -889,7 +791,6 @@ def default_bench_handoff() -> BenchHandoffContract:
 
 
 def facet_coverage_map() -> dict[str, Sequence[str]]:
-    """Static record of which BM facet local-to-10 bullets this scaffold supports (readiness only)."""
 
     return {
         "BM1": (

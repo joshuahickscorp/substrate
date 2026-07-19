@@ -1,31 +1,3 @@
-"""Series A: perception / ecological + animal cognition on the FROZEN pooled-latent substrate.
-
-Eight cpu-now precursor experiments. Each one runs on cached pooled latents NOW (synthetic latent
-streams stand in for the real cached families), declares an explicit NULL, and wires a standing control
-(frozen-random via substrate_ablation/frozen_random_projection, matched-compute via diagnostics.compute,
-or a tuned baseline). Pooled latents discard within-frame object/spatial structure, so several of these
-are EXPECTED to land in taxonomy slot 3 (the frozen latent lacks the factor) and the published bound IS
-the result. Honest nulls only: null_supported reflects the real toy outcome, never tuned toward positive.
-
-A1 affordance decodability  (tax 3): is action-relevance linearly decodable, and does it need the real
-   substrate or would a frozen-random projection do.
-A2 viewpoint/motion invariance (tax 3): does event identity transfer across a viewpoint transform beyond
-   a pixel-difference baseline and beyond frozen-random.
-A3 what-where-when episodic memory (tax 4): does conjunctive KV retrieval beat independent-feature
-   retrieve-then-intersect (Clayton-Dickinson binding test).
-A4 cognitive-map / latent navigation (tax 10): does a successor representation over latents predict
-   held-out shortcut reachability beyond a transition-frequency baseline.
-A5 perception-action loop necessity (tax 9): does an action-conditioned next-latent predictor beat an
-   action-blind one at matched compute, and collapse under action-shuffle.
-A6 object permanence under occlusion (tax 3): does the mid-occlusion latent carry a decodable trace of
-   the hidden object beyond a frame-only baseline and beyond frozen-random.
-A7 symbolic-communication channel (tax 3): can a tiny VQ code carry decodable navigation content beyond
-   a random code at a bottleneck (waggle-dance analog).
-A8 affordance-driven vs stimulus-driven curiosity (tax 8): does affordance-weighted selection beat
-   learning-progress-only without re-chasing the noisy-TV, and beyond a static affordance-prior-only arm.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -48,9 +20,6 @@ from ..shell.predictor import mlp
 from .base import Experiment, _mean
 
 
-# ---------------------------------------------------------------------------------------------------
-# A1: affordance decodability probe (action-relevance from a pooled latent)
-# ---------------------------------------------------------------------------------------------------
 class A1(Experiment):
     id = "a1_affordance_decode"
     metric = ("probe_acc_above_shuffle_floor", "delta_vs_frozen_random", "linear_vs_mlp_gap")
@@ -72,14 +41,12 @@ class A1(Experiment):
         e = cfg.experiment
         seeds = list(e.seeds)
         dim = int(e.dim)
-        # three action-relevance contrasts standing in for containment / occlusion_reveal / navigation
         contrasts = ["into_container_vs_contact", "reachable_vs_occluded", "passage_vs_blocked"]
         rows: dict[str, dict] = {}
         for ci, cname in enumerate(contrasts):
             real_acc, fr_acc, shuf_acc, mlp_acc = [], [], [], []
             for s in seeds:
                 seed_everything(s)
-                # each contrast is a 2-class action-relevance relabel of a control family
                 task = make_task_stream(
                     n_tasks=1,
                     dim=dim,
@@ -93,7 +60,6 @@ class A1(Experiment):
                 real_acc.append(abl["real"])
                 fr_acc.append(abl["frozen_random"])
                 shuf_acc.append(abl["shuffled"])
-                # small-MLP probe to read the linear-vs-nonlinear capacity gap
                 mlp_acc.append(_mlp_probe(x, y, hidden=int(e.mlp_hidden), epochs=int(e.epochs), seed=s))
             ra, fa = _mean(real_acc), _mean(fr_acc)
             sa, ma = _mean(shuf_acc), _mean(mlp_acc)
@@ -103,7 +69,6 @@ class A1(Experiment):
                 "shuffle_floor_acc": round(sa, 4),
                 "mlp_acc": round(ma, 4),
                 "above_shuffle_floor": bool(ra - sa > 0.05),
-                # descriptive only: ~0 for a linear probe (a full-rank map is invertible), never gated
                 "delta_vs_frozen_random": round(ra - fa, 4),
                 "linear_vs_mlp_gap": round(ma - ra, 4),
             }
@@ -112,17 +77,11 @@ class A1(Experiment):
             "contrasts": rows,
             "seeds": list(seeds),
             "any_contrast_above_floor": bool(any_above),
-            # honest latent-level verdict: clearing the shuffle floor establishes decodability, not
-            # encoder-specificity (frozen-random is vacuous for a linear probe, see null_hypothesis).
             "decodable_above_floor": bool(any_above),
-            # null: NOTHING clears the shuffle floor (the affordance contrast is absent from the latent)
             "null_supported": bool(not any_above),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# A2: viewpoint and motion invariance battery (world stability under transformation)
-# ---------------------------------------------------------------------------------------------------
 class A2(Experiment):
     id = "a2_viewpoint_invariance"
     metric = ("cross_viewpoint_transfer", "cka_across_viewpoints", "transfer_gap_vs_frozen_random")
@@ -143,25 +102,17 @@ class A2(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # k event identities with a shared latent direction; a viewpoint transform is a fixed
-            # rotation plus a small viewpoint-specific shift (the camera move). The encoder is modeled
-            # as a near-invariant view: identity survives the transform up to noise.
             centers = torch.randn(k, dim, generator=g)
             rot = torch.linalg.qr(torch.randn(dim, dim, generator=g))[0]
             shift = torch.randn(dim, generator=g) * float(e.view_shift)
             n = int(e.samples)
             y = torch.randint(0, k, (n,), generator=g)
             xa = centers[y] * float(e.separation) + 0.5 * torch.randn(n, dim, generator=g)
-            # viewpoint B: rotate the SAME event content and add a viewpoint shift + fresh sensor noise
             xb = xa @ rot + shift + 0.5 * torch.randn(n, dim, generator=g)
-            # real arm: train identity probe on A, test transfer to B
             real_t.append(_transfer_probe(xa, y, xb, y, epochs=int(e.epochs), seed=s))
-            # frozen-random arm: same probe-transfer through a fixed random projection of both views
             far = frozen_random_projection(xa, seed=s)
             fbr = frozen_random_projection(xb, seed=s)
             fr_t.append(_transfer_probe(far, y, fbr, y, epochs=int(e.epochs), seed=s))
-            # pixel-difference baseline: nearest-event by raw L2 in the (pre-encoder) input proxy, which
-            # is the un-rotated content; transfer collapses because B is rotated away from A prototypes.
             proto = torch.stack([xa[y == c].mean(0) for c in range(k)])
             pix_pred = torch.cdist(xb, proto).argmin(1)
             pix_t.append(float((pix_pred == y).float().mean()))
@@ -179,14 +130,10 @@ class A2(Experiment):
             "seeds": list(seeds),
             "invariance_beats_pixel": bool(beats_pixel),
             "invariance_beats_frozen_random": bool(beats_fr),
-            # null: no transfer over pixel baseline OR ties frozen-random (trivial smearing)
             "null_supported": bool(not (beats_pixel and beats_fr)),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# A3: episodic-like what-where-when memory (Clayton-Dickinson test)
-# ---------------------------------------------------------------------------------------------------
 class A3(Experiment):
     id = "a3_what_where_when"
     metric = ("integration_gap", "recall_at_k", "where_when_decodable")
@@ -210,9 +157,6 @@ class A3(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # a stored latent is the concatenation-in-superposition of what/where/when subspaces; the
-            # binding question is whether one record carries all three jointly (it does here by
-            # construction, so the honest test is whether conjunctive retrieval USES the binding).
             what_c = torch.randn(n_what, dim, generator=g)
             where_c = torch.randn(n_where, dim, generator=g)
             wy = torch.randint(0, n_what, (n,), generator=g)
@@ -227,10 +171,8 @@ class A3(Experiment):
             )
             buf = ReplayBuffer(capacity=n, dim=dim, prioritized=False, seed=s)
             buf.add(x, wy)
-            # decodability gate (taxonomy-3 check): are where and when readable from the stored latent
             where_dec.append(linear_probe(x, ly, seed=s)["score"])
             when_dec.append(linear_probe(x, (ty * n_where // n).long(), seed=s)["score"])
-            # build conjunctive queries: pick a (where=L, when in window T) and ask which what was there
             kq = int(e.n_queries)
             qg = torch.Generator().manual_seed(s + 99)
             c_hits, i_hits, r_hits = 0, 0, 0
@@ -238,18 +180,15 @@ class A3(Experiment):
                 li = int(torch.randint(0, n_where, (1,), generator=qg))
                 ti = int(torch.randint(0, n, (1,), generator=qg))
                 tw = int(e.when_window)
-                # ground truth: the stored record at index ti IF it has where==li, else nearest in window
                 cand = [j for j in range(max(0, ti - tw), min(n, ti + tw + 1)) if int(ly[j]) == li]
                 if not cand:
                     continue
                 gt_j = min(cand, key=lambda j: abs(j - ti))
                 gt_what = int(wy[gt_j])
-                # conjunctive retrieval: a query latent built from BOTH where and when cues, one lookup
                 qvec = where_c[li] * float(e.separation) + when_vec[ti]
                 r = buf.retrieve(qvec.unsqueeze(0), k=1)
                 if int(r["y"][0, 0]) == gt_what:
                     c_hits += 1
-                # independent retrieve-then-intersect: top-m by where, top-m by when, intersect
                 m = int(e.intersect_m)
                 rw = buf.retrieve((where_c[li] * float(e.separation)).unsqueeze(0), k=m)["idx"][0]
                 rt = buf.retrieve(when_vec[ti].unsqueeze(0), k=m)["idx"][0]
@@ -257,7 +196,6 @@ class A3(Experiment):
                 pred_i = int(wy[inter[0]]) if inter else int(wy[int(rw[0])])
                 if pred_i == gt_what:
                     i_hits += 1
-                # recency-only: just return the most recent record in the when-window
                 pred_r = int(wy[gt_j])  # recency baseline ignores where, takes nearest-in-time overall
                 near_t = min(range(max(0, ti - tw), min(n, ti + tw + 1)), key=lambda j: abs(j - ti))
                 pred_r = int(wy[near_t])
@@ -281,14 +219,10 @@ class A3(Experiment):
             "where_when_decodable": bool(decodable),
             "seeds": list(seeds),
             "binding_beats_independent": bool(gap > 0.05 and decodable),
-            # null: conjunctive ties independent/recency OR tags not decodable
             "null_supported": bool(not (gap > 0.05 and decodable)),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# A4: cognitive-map / latent navigation structure (place-and-grid analog, no environment)
-# ---------------------------------------------------------------------------------------------------
 class A4(Experiment):
     id = "a4_cognitive_map"
     metric = ("position_decode_r2", "neighborhood_arena_corr", "shortcut_acc_vs_transition_freq")
@@ -310,25 +244,18 @@ class A4(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # each arena cell maps to a latent via a smooth random embedding of its (row,col), so latent
-            # neighborhood SHOULD track arena distance if the embedding is metric-preserving.
             coords = torch.stack([torch.tensor([r, c]) for r in range(grid) for c in range(grid)]).float()
             n_cells = coords.shape[0]
             basis = torch.randn(2, dim, generator=g)
             cell_latent = coords @ basis + 0.2 * torch.randn(n_cells, dim, generator=g)
-            # position decodability (place-analog): regress (row,col) from the latent
             r2 = linear_probe(cell_latent, coords, classification=False, seed=s)["score"]
             r2s.append(r2)
-            # neighborhood-vs-arena-distance correlation via neighborhood_overlap with the true coords
             corrs.append(neighborhood_overlap(cell_latent, coords, k=int(e.knn)))
-            # successor representation over observed transitions on a grid random walk
             adj = _grid_adjacency(grid)
             T = _walk_transition_counts(adj, steps=int(e.walk_steps), seed=s)
             P = T / T.sum(1, keepdim=True).clamp(min=1e-8)
             gamma = float(e.gamma)
             SR = torch.linalg.inv(torch.eye(n_cells) - gamma * P)
-            # held-out shortcut pairs: start-goal not adjacent in training; reachable = SR mass over a
-            # tuned threshold. transition-frequency baseline uses raw one-step counts only.
             pairs, labels = _shortcut_pairs(adj, n_cells, n_pairs=int(e.n_pairs), seed=s)
             sr_pred = torch.tensor([SR[i, j] for (i, j) in pairs])
             tf_pred = torch.tensor([T[i, j] for (i, j) in pairs])
@@ -347,14 +274,10 @@ class A4(Experiment):
             "position_decodable": bool(pos_decodable),
             "seeds": list(seeds),
             "map_supports_shortcut": bool(pos_decodable and sr_beats_tf),
-            # null: shortcut ties transition-freq OR position not decodable
             "null_supported": bool(not (pos_decodable and sr_beats_tf)),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# A5: perception-action loop necessity test (matched-compute action conditioning)
-# ---------------------------------------------------------------------------------------------------
 class A5(Experiment):
     id = "a5_action_loop"
     metric = ("action_information_gap", "shuffle_collapse", "compute_matched")
@@ -379,15 +302,10 @@ class A5(Experiment):
             n = int(e.samples)
             x = torch.randn(n, dim, generator=g)
             a = torch.randn(n, adim, generator=g)
-            # forward dynamics where the next latent genuinely depends on the action: distinct rotation
-            # selected by a discrete action channel, so action carries real predictive information.
             rots = [torch.linalg.qr(torch.randn(dim, dim, generator=g))[0] for _ in range(adim)]
             sel = a.argmax(1)
             xnext = torch.stack([x[i] @ rots[int(sel[i])] for i in range(n)]) + 0.1
             cut = int(n * 0.7)
-            # action-conditioned: input dim+adim. blind: input dim (must marginalize over actions).
-            # shuffled: action token permuted across samples (same FLOPs, action made uninformative).
-            # blind gets a wider hidden so FLOPs are matched to the conditioned arm.
             h_blind = _hidden_for_matched(dim, adim, hidden)
             cm = matched_within(mlp_flops([dim + adim, hidden, dim]), mlp_flops([dim, h_blind, dim]))
             cond_err.append(
@@ -400,7 +318,6 @@ class A5(Experiment):
             )
         ce, be, se = _mean(cond_err), _mean(blind_err), _mean(shuf_err)
         info_gap = be - ce  # positive if conditioning helps
-        # honest action test: the conditioned gain must COLLAPSE under shuffle (shuf ~ blind, not cond)
         shuffle_collapse = (se - ce) > 0.5 * info_gap if info_gap > 0 else False
         conditioning_helps = info_gap > float(e.margin)
         return {
@@ -414,14 +331,10 @@ class A5(Experiment):
             "compute_ratio": cm["ratio"],
             "seeds": list(seeds),
             "action_carries_information": bool(conditioning_helps and shuffle_collapse and cm["matched"]),
-            # null: no gain at matched compute OR gain survives shuffle (it was capacity)
             "null_supported": bool(not (conditioning_helps and shuffle_collapse and cm["matched"])),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# A6: object permanence as latent persistence under occlusion
-# ---------------------------------------------------------------------------------------------------
 class A6(Experiment):
     id = "a6_object_permanence"
     metric = ("mid_occlusion_separation", "persistence_vs_frame_only", "real_vs_frozen_random")
@@ -443,20 +356,14 @@ class A6(Experiment):
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
             n = int(e.samples)
-            # two classes: permanence-holds (object reappears) vs vanishes (never returns). Pre-occlusion
-            # frames carry the object identity; the occluded (current) frame is near-empty for both, so
-            # only a temporal shell carrying pre-occlusion state can separate the classes mid-occlusion.
             y = torch.randint(0, 2, (n,), generator=g)
             obj_dir = torch.randn(dim, generator=g)
             pre = y.float().unsqueeze(1) * 0.0 + obj_dir  # object present pre-occlusion for both
             pre = obj_dir.unsqueeze(0) + 0.3 * torch.randn(n, dim, generator=g)
-            # mid-occlusion CURRENT frame: empty scene plus tiny class-correlated residual leak. With a
-            # weak leak the frame-only probe is near chance; the temporal shell adds the pre frame state.
             leak = float(e.permanence_leak)
             mid_frame = leak * (2 * y.float() - 1).unsqueeze(1) * obj_dir + 0.3 * torch.randn(
                 n, dim, generator=g
             )
-            # temporal shell: a window pooling pre + mid (carries persistence). frame-only: mid only.
             window = torch.cat([pre, mid_frame], dim=1)
             temporal_acc.append(linear_probe(window, y, seed=s)["score"])
             frame_acc.append(linear_probe(mid_frame, y, seed=s)["score"])
@@ -472,14 +379,10 @@ class A6(Experiment):
             "real_vs_frozen_random": round(ta - fra, 4),
             "seeds": list(seeds),
             "permanence_separable": bool(sep_above_frame and sep_above_fr),
-            # null: no separation over frame-only OR over frozen-random (no maintained occluded state)
             "null_supported": bool(not (sep_above_frame and sep_above_fr)),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# A7: symbolic-communication channel test (waggle-dance analog)
-# ---------------------------------------------------------------------------------------------------
 class A7(Experiment):
     id = "a7_comm_channel"
     metric = ("receiver_acc_vs_random_code", "bits_at_knee", "shuffle_collapse")
@@ -509,13 +412,11 @@ class A7(Experiment):
                 tcenters = torch.randn(n_target, dim, generator=g)
                 ty = torch.randint(0, n_target, (n,), generator=g)
                 x = tcenters[ty] * float(e.separation) + 0.5 * torch.randn(n, dim, generator=g)
-                # sender emits a k-symbol code by VQ (k-means) over the latent; receiver decodes target
                 codes = _kmeans_codes(x, k, int(e.kmeans_iters), s)
                 learned.append(_code_receiver_acc(codes, ty, k, seed=s))
                 rg = torch.Generator().manual_seed(s + 1234)
                 rand_codes = torch.randint(0, k, (n,), generator=rg)
                 random_.append(_code_receiver_acc(rand_codes, ty, k, seed=s))
-                # sender-receiver shuffle: code from a DIFFERENT clip (codes permuted across samples)
                 pg = torch.Generator().manual_seed(s + 77)
                 perm = torch.randperm(n, generator=pg)
                 shuf.append(_code_receiver_acc(codes[perm], ty, k, seed=s))
@@ -539,14 +440,10 @@ class A7(Experiment):
             "bits_at_knee": bits_at_knee,
             "seeds": list(seeds),
             "channel_is_referential": bool(len(referential_ks) > 0),
-            # null: no code beats a random code (with shuffle collapse) at any bottleneck
             "null_supported": bool(len(referential_ks) == 0),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# A8: affordance-driven vs stimulus-driven curiosity
-# ---------------------------------------------------------------------------------------------------
 class A8(Experiment):
     id = "a8_affordance_curiosity"
     metric = ("affordance_coverage_gain", "noisy_tv_time_share", "vs_prior_only")
@@ -566,8 +463,6 @@ class A8(Experiment):
         aff_cov, lp_cov, prior_cov, unif_cov = [], [], [], []
         aff_tv, lp_tv = [], []
         for s in seeds:
-            # noisy-TV diagnostic gives the per-region learning-progress and raw error (the curiosity
-            # signals). The affordance relevance is a probe score on an action-relevance contrast.
             nt = noisy_tv_diagnostic(
                 dim=dim,
                 ensemble_size=int(e.ensemble_size),
@@ -578,10 +473,7 @@ class A8(Experiment):
             )
             lp_l = nt["learning_progress"]["learnable"]
             lp_n = nt["learning_progress"]["noise"]
-            # affordance relevance: how action-decodable each region is. The learnable region carries a
-            # decodable action-relevance contrast; pure noise does not (probe near chance).
             aff_l, aff_n = _affordance_relevance(dim, float(e.separation), s)
-            # selection scores per arm on the two regions
             arms = {
                 "affordance_lp": (aff_l * lp_l, aff_n * lp_n),
                 "lp_only": (lp_l, lp_n),
@@ -598,7 +490,6 @@ class A8(Experiment):
             lp_cov.append(share(arms["lp_only"]))
             prior_cov.append(share(arms["prior_only"]))
             unif_cov.append(share(arms["uniform"]))
-            # noisy-TV time-share = selection share spent on the NOISE region (must stay near zero)
             aff_tv.append(1.0 - share(arms["affordance_lp"]))
             lp_tv.append(1.0 - share(arms["lp_only"]))
         am, lm, pm, um = _mean(aff_cov), _mean(lp_cov), _mean(prior_cov), _mean(unif_cov)
@@ -617,16 +508,11 @@ class A8(Experiment):
             "lp_noisy_tv_time_share": round(ltv, 4),
             "seeds": list(seeds),
             "affordance_helps": bool(beats_lp and beats_prior and tv_low),
-            # null: ties LP OR matches prior-only OR re-chases noisy-TV
             "null_supported": bool(not (beats_lp and beats_prior and tv_low)),
         }
 
 
-# ---------------------------------------------------------------------------------------------------
-# inline helpers (the established pattern: mechanisms live in the experiment module)
-# ---------------------------------------------------------------------------------------------------
 def _mlp_probe(x: torch.Tensor, y: torch.Tensor, hidden: int, epochs: int, seed: int) -> float:
-    """A small-MLP probe: reads the nonlinear capacity gap over the linear probe."""
     seed_everything(seed)
     n = x.shape[0]
     perm = torch.randperm(n)
@@ -647,7 +533,6 @@ def _mlp_probe(x: torch.Tensor, y: torch.Tensor, hidden: int, epochs: int, seed:
 def _transfer_probe(
     xtr: torch.Tensor, ytr: torch.Tensor, xte: torch.Tensor, yte: torch.Tensor, epochs: int, seed: int
 ) -> float:
-    """Train a linear identity probe on one viewpoint, test transfer to a held-out viewpoint."""
     seed_everything(seed)
     nc = int(max(int(ytr.max()), int(yte.max()))) + 1
     head = nn.Linear(xtr.shape[1], nc)
@@ -689,7 +574,6 @@ def _walk_transition_counts(adj: torch.Tensor, steps: int, seed: int) -> torch.T
 def _shortcut_pairs(
     adj: torch.Tensor, n: int, n_pairs: int, seed: int
 ) -> tuple[list[tuple[int, int]], torch.Tensor]:
-    """Held-out start-goal pairs NOT one-step adjacent. label=1 if reachable within a few hops."""
     g = torch.Generator().manual_seed(seed + 7)
     reach2 = (adj @ adj + adj > 0).float()  # within 2 hops
     pairs, labels = [], []
@@ -704,7 +588,6 @@ def _shortcut_pairs(
 
 
 def _threshold_acc(scores: torch.Tensor, labels: torch.Tensor) -> float:
-    """Best-threshold binary accuracy of a score against labels (a tuned baseline gets its best cut)."""
     if labels.numel() == 0 or labels.float().std() == 0:
         return 0.0
     best = 0.0
@@ -715,8 +598,6 @@ def _threshold_acc(scores: torch.Tensor, labels: torch.Tensor) -> float:
 
 
 def _hidden_for_matched(dim: int, adim: int, hidden: int) -> int:
-    """Widen the blind predictor hidden so its FLOPs match the action-conditioned arm (input dim+adim
-    vs dim). Solve 2*(dim*h + h*dim) == 2*((dim+adim)*hidden + hidden*dim) for h."""
     target = (dim + adim) * hidden + hidden * dim
     h = round(target / (dim + dim))
     return max(1, int(h))
@@ -725,7 +606,6 @@ def _hidden_for_matched(dim: int, adim: int, hidden: int) -> int:
 def _fit_dynamics(
     x: torch.Tensor, xnext: torch.Tensor, cut: int, din: int, hidden: int, dout: int, epochs: int, seed: int
 ) -> float:
-    """Fit a next-latent predictor and return held-out MSE."""
     seed_everything(seed)
     xtr, xte = x[:cut], x[cut:]
     ytr, yte = xnext[:cut], xnext[cut:]
@@ -740,7 +620,6 @@ def _fit_dynamics(
 
 
 def _kmeans_codes(x: torch.Tensor, k: int, iters: int, seed: int) -> torch.Tensor:
-    """VQ assignment by Lloyd k-means (the codebook in the no-pixel-decoder setting)."""
     g = torch.Generator().manual_seed(seed)
     idx = torch.randperm(x.shape[0], generator=g)[:k]
     cent = x[idx].clone()
@@ -755,16 +634,12 @@ def _kmeans_codes(x: torch.Tensor, k: int, iters: int, seed: int) -> torch.Tenso
 
 
 def _code_receiver_acc(codes: torch.Tensor, target: torch.Tensor, k: int, seed: int) -> float:
-    """Receiver sees ONLY the one-hot code and decodes the target bin (linear readout)."""
     onehot = torch.zeros(codes.shape[0], k)
     onehot[torch.arange(codes.shape[0]), codes] = 1.0
     return float(linear_probe(onehot, target, seed=seed)["score"])
 
 
 def _affordance_relevance(dim: int, separation: float, seed: int) -> tuple[float, float]:
-    """Action-relevance decodability for the learnable region vs the noise region. The learnable region
-    carries a 2-class action-relevance contrast (decodable); the noise region is isotropic (near chance),
-    so the affordance probe does NOT fire on noise (the honest noisy-TV guard for the affordance signal)."""
     g = torch.Generator().manual_seed(seed)
     n = 200
     centers = torch.randn(2, dim, generator=g)

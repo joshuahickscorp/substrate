@@ -1,36 +1,4 @@
 #!/usr/bin/env python
-"""WS2 regrade (ZERO compute): re-score the fusion tournament under the PREREGISTERED DUAL contract that
-the original run silently weakened into an OR.
-
-The registry contract for WS2 (mop_ws2_fusion_tournament.py docstring) states the metric is the PAIR
-(heldout_acc_delta_vs_concat, nll_delta_vs_concat) and the null is "at matched capacity every structured
-fusion TIES the concat-MLP on held-out accuracy AND NLL". The original scorer, however, rejected the null
-when acc_win OR nll_win cleared (line: any_win = any_win or acc_win or nll_win). Under that OR rule
-gwt_broadcast rejected the null on accuracy alone while LOSING on NLL, exactly the over-claim the audit
-flagged for al2 and ws2.
-
-This regrade loads the existing runs/mot/ws2_fusion_tournament_seeds10.json (no model is built or trained)
-and enforces the honest DUAL AND rule:
-
-  An arm rejects the null ONLY IF it beats concat-MLP on BOTH accuracy AND NLL, where "beats" for each
-  metric means the MEAN per-seed paired delta has a 95 percent CI (seed_ci, normal approx over the MEAN
-  of the per-seed deltas, NOT a best-of-K max over arms or seeds) that excludes zero from below, with no
-  per-seed sign flip on that metric.
-
-The MEAN-baseline guard: the win statistic is the CI on the MEAN of the paired deltas. We never take a
-max over arms or a best seed. If a null is rejected here it is because a single named arm cleared both
-metrics on the seed-averaged paired contrast, which is what the contract asked for.
-
-Output: runs/mot/ws2_fusion_regrade.json with a per-arm dual-metric table (acc delta CI, nll improvement
-CI, per-metric sign-flip, per-metric pass, and dual_pass = acc_pass AND nll_pass) and the corrected
-verdict. clears_own_control is true only if some arm's dual_pass is genuinely true.
-
-No em dashes or en dashes (BLACKHOLE.md).
-
-Usage: python scripts/mop_ws2_regrade.py
-       python scripts/mop_ws2_regrade.py --in runs/mot/ws2_fusion_tournament_seeds10.json \
-           --out runs/mot/ws2_fusion_regrade.json
-"""
 
 from __future__ import annotations
 
@@ -51,11 +19,6 @@ BASELINE = "concat_mlp"
 
 
 def _paired_deltas(per_seed: list[dict], arm: str) -> tuple[list[float], list[float]]:
-    """Per-seed paired contrasts of `arm` against the concat baseline, in the same orientation the
-    contract scores as a WIN (larger is better):
-      acc_delta = arm.acc - concat.acc           (arm more accurate -> positive)
-      nll_improvement = concat.nll - arm.nll      (arm lower NLL -> positive)
-    Both are paired within seed so seed variance cancels before the CI is taken."""
     acc_d, nll_d = [], []
     for row in per_seed:
         sc = row["scores"]
@@ -65,9 +28,6 @@ def _paired_deltas(per_seed: list[dict], arm: str) -> tuple[list[float], list[fl
 
 
 def _metric_block(deltas: list[float]) -> dict:
-    """CI on the MEAN of the per-seed paired deltas plus the sign-flip report. A metric passes only if
-    the CI excludes zero from below (lo > 0) AND the per-seed signs are consistently positive (no flip).
-    This is the mean-baseline guard: the pass hinges on the seed-averaged contrast, never a best seed."""
     ci = seed_ci(deltas)
     flip = sign_flip_report(deltas)
     ci_excludes_zero = ci["lo"] > 0

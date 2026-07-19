@@ -1,39 +1,4 @@
 #!/usr/bin/env python
-"""AT5: probe-class sweep (WP-09 atlas guard; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, AT full schema).
-
-Thesis: running every existing atlas cell (column x factor) under multiple probe classes surfaces
-probe-specific verdicts (decodable under one class, absent under another) BEFORE any cell is trusted,
-the failure mode the frozen-random census already caught once. This is the methodological guard on
-every atlas verdict.
-
-Cells: every LatentStore on disk among the reference, perceptual, and random-init columns of the
-nuisance clip set, crossed with the factors in its factors.json sidecar (shape, color). Missing
-stores are skipped with a log line, never silently substituted.
-
-Probe classes (capacity-ordered, all sharing the linear_probe split contract, 70/30, seeded):
-  linear         : diagnostics/linear_probe (a single linear layer)
-  nonlinear_gain : per-feature learned affine gain -> GELU -> linear head (defined here; the extra
-                   capacity is 2*D elementwise parameters, so it reads gain-modulated structure
-                   without cross-feature mixing)
-  mlp            : diagnostics/nonlinear_probe (capacity-capped one-hidden-layer MLP)
-
-Preregistered decodability rule (fixed in code before any run, matching the module convention used
-across the diagnostics): a cell is decodable under a probe class iff its mean accuracy over seeds
-exceeds chance + DECODABLE_MARGIN. Per-cell verdict:
-  probe-invariant-decodable   : decodable under every class
-  probe-invariant-undecodable : decodable under none
-  probe-specific              : decodable under a strict subset of classes (the guard firing)
-Registry null (AT5): every cell verdict is invariant to probe class, so probe choice never changes
-decodability and probe-specific is an empty verdict. null_supported is True iff at least one cell was
-scored and no cell is probe-specific; with no cells on disk the run is not evaluable and reports
-null_supported=None (never a rejected null).
-
-Usage: python scripts/mop_at5_probe_class_sweep.py --seeds 0-4
-Output: runs/mot/at5_probe_class_sweep.json
-
-No em dashes or en dashes (BLACKHOLE.md). No encoder loads: pure aggregation over cached latents.
-"""
 
 from __future__ import annotations
 
@@ -95,10 +60,6 @@ def nonlinear_gain_probe(
     test_frac: float = 0.3,
     seed: int = 0,
 ) -> dict:
-    """The middle probe class: per-feature learned affine gain, GELU, then a linear head, trained
-    jointly. Same split contract and return shape as linear_probe/nonlinear_probe. The only capacity
-    beyond linear is 2*D elementwise parameters, so a gain-vs-linear gap reads gain-modulated
-    (elementwise nonlinear) structure, never cross-feature mixing (that is the MLP's job)."""
     seed_everything(seed)
     n = x.shape[0]
     perm = torch.randperm(n)
@@ -126,8 +87,6 @@ def nonlinear_gain_probe(
 
 
 def probe_cell(x: torch.Tensor, y: torch.Tensor, seeds: list[int], epochs: dict[str, int]) -> dict:
-    """All three probe classes on one cell, identical seeds (and therefore identical splits per seed,
-    every probe shuffles with the same seeded permutation)."""
     accs: dict[str, list[float]] = {c: [] for c in PROBE_CLASSES}
     for s in seeds:
         accs["linear"].append(
@@ -141,7 +100,6 @@ def probe_cell(x: torch.Tensor, y: torch.Tensor, seeds: list[int], epochs: dict[
 
 
 def cell_verdict(accs: dict[str, list[float]], chance: float) -> dict:
-    """The preregistered verdict rule (module docstring)."""
     decodable = {c: seed_ci(accs[c])["mean"] > chance + DECODABLE_MARGIN for c in PROBE_CLASSES}
     n_dec = sum(decodable.values())
     if n_dec == len(PROBE_CLASSES):

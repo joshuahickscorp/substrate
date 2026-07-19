@@ -105,8 +105,6 @@ def build_featurizers_prereg(
     return build_family_prereg(**options, **_FAMILY_PREREG)
 
 
-
-
 def structural_facts_from_adapter(
     *,
     foa_root: str | Path | None = None,

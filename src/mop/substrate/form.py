@@ -1,14 +1,3 @@
-"""Form substrate interface: arbitrary observations behind one referent-aligned contract.
-
-This is intentionally one level more abstract than `SubstrateAdapter`. A substrate adapter knows how to
-turn clips into features. A form adapter knows how to present ANY observation family, vision, audio,
-text-derived metadata, symbolic state, telemetry, code, action traces, or a future learned substrate, as
-features over the same referents with honesty metadata and matched controls.
-
-The module is pure data-plane scaffolding. It never loads a model, never assumes video shape, and never
-claims that alignment is intelligence. It gives experiments a shared place to ask: did this representation
-preserve a factor, align across forms, and survive its controls?
-"""
 
 from __future__ import annotations
 
@@ -72,14 +61,6 @@ def _factor_dict(factors: Mapping[str, Any] | None, n: int) -> dict[str, torch.T
 
 
 def referent_order(referents: Sequence[object], canonical: Sequence[object]) -> list[int] | None:
-    """The single referent-alignment implementation for the whole project.
-
-    Return the index list that reorders `referents` into `canonical` order, or None when they are
-    already identical. Raise with missing/extra detail on a set mismatch. Both the form matrix and the
-    perspective matrix build on this one function, so there is exactly one place referent alignment can
-    be right or wrong (FORM_SUBSTRATE_CODEMAP.md section 0). The dict lookup is O(n) rather than the old
-    per-arm `list.index` scan.
-    """
     ref = tuple(str(r) for r in referents)
     can = tuple(str(r) for r in canonical)
     if ref == can:
@@ -95,12 +76,6 @@ def referent_order(referents: Sequence[object], canonical: Sequence[object]) -> 
 
 @dataclass(frozen=True)
 class FormMeta:
-    """Honesty metadata for one form arm.
-
-    `kind` is the observation family. `objective` states how the features came into being. `control_for`
-    links a control arm to the substantive arm it tests, for example `audio_random_control` controls
-    `audio_ssl`. This keeps a result from quietly comparing a real arm to no floor.
-    """
 
     tag: str
     kind: str
@@ -136,7 +111,6 @@ class FormMeta:
 
 @dataclass(frozen=True)
 class FormBatch:
-    """One extracted form, with referent ids and optional factor labels."""
 
     meta: FormMeta
     features: torch.Tensor
@@ -160,12 +134,10 @@ class FormBatch:
                 raise ValueError(f"factor {name!r} length {values.shape[0]} != referent count")
 
     def flattened(self) -> torch.Tensor:
-        """Return [N, D] float features for probes, alignment, and shell heads."""
         return self.features.flatten(1).float()
 
 
 class FormAdapter(ABC):
-    """ABC: one observation family over one referent set."""
 
     meta: FormMeta
 
@@ -175,11 +147,10 @@ class FormAdapter(ABC):
 
     @abstractmethod
     def extract(self) -> FormBatch:
-        """Return a referent-aligned feature batch."""
+        pass
 
 
 class TensorFormAdapter(FormAdapter):
-    """A cached tensor form. Useful for tests, toy experiments, and feature stores already on disk."""
 
     def __init__(
         self,
@@ -200,19 +171,6 @@ class TensorFormAdapter(FormAdapter):
 
 
 class LatentStoreFormAdapter(FormAdapter):
-    """Present a cached `LatentStore` as one form arm, without changing the store format.
-
-    This is the encode-once bridge: real V-JEPA (or any encoder) features are cached to a
-    `LatentStore` once by the cache scripts, then read forever as a form. The adapter never loads a
-    model and never encodes. A form arm that needs live clips-to-features extraction can use
-    `SubstrateFormAdapter`, whose first result is cached in memory, then persist that result to a
-    `LatentStore` before it becomes citable evidence.
-
-    Dense stores `[N, T, ...]` stay dense in the returned `FormBatch`; `build_form_matrix` performs
-    the explicit flattening used by current probes. When the store carries a `factors.json` sidecar
-    and no explicit `factors` are given, only its per-referent columns are read as factor labels.
-    Scalar metadata is not mistaken for a factor column.
-    """
 
     def __init__(
         self,
@@ -297,13 +255,6 @@ class LatentStoreFormAdapter(FormAdapter):
 
 
 class SubstrateFormAdapter(FormAdapter):
-    """Bridge an existing clip encoder into the Form contract and encode at most once.
-
-    This compatibility bridge is useful for bounded probes and cache construction. The first
-    `extract()` call runs the supplied `SubstrateAdapter`; later calls return the detached in-memory
-    result. Durable scientific evidence should still persist the features and reopen them through
-    `LatentStoreFormAdapter`, which can enforce referent and manifest provenance.
-    """
 
     def __init__(
         self,
@@ -361,12 +312,6 @@ class SubstrateFormAdapter(FormAdapter):
 
 
 def _read_store_factors(store: LatentStore, n: int) -> dict[str, Any] | None:
-    """Read only per-referent columns from a factor sidecar.
-
-    The legacy sidecar mixes scalar metadata and factor columns in one mapping. The v2 shape keeps
-    them separate as `{metadata: {...}, columns: {...}}`. Both are accepted, but a list-valued legacy
-    column with the wrong row count is rejected instead of silently becoming metadata.
-    """
     import json
 
     path = store.root / "factors.json"
@@ -392,7 +337,6 @@ def _read_store_factors(store: LatentStore, n: int) -> dict[str, Any] | None:
 
 
 def _read_store_referents(store: LatentStore) -> tuple[Sequence[object], str] | None:
-    """Return explicit referents and their sidecar scheme when a store carries them."""
     import json
 
     for filename, scheme in (("referents.json", "referent-id"), ("clip_stems.json", "clip-stem")):
@@ -409,7 +353,6 @@ def _read_store_referents(store: LatentStore) -> tuple[Sequence[object], str] | 
 
 
 def _read_store_manifest(store: LatentStore, *, required: bool) -> tuple[dict[str, Any], bool]:
-    """Read and validate the cache manifest without weakening the adapter on legacy stores."""
     import json
 
     from .cache_manifest import DEFAULT_MANIFEST, validate_cache_manifest
@@ -430,7 +373,6 @@ def _read_store_manifest(store: LatentStore, *, required: bool) -> tuple[dict[st
 
 @dataclass(frozen=True)
 class FormMatrix:
-    """A referent-aligned set of arbitrary forms."""
 
     referents: tuple[str, ...]
     features: dict[str, torch.Tensor]
@@ -457,12 +399,6 @@ class FormMatrix:
 
 @dataclass
 class FormRegistry:
-    """A deterministic collection of form adapters.
-
-    Sequence inputs to `build_form_matrix` preserve caller order. Registry inputs deliberately sort
-    by tag, giving configuration-driven production lanes a stable canonical arm without introducing
-    a second matrix builder.
-    """
 
     adapters: dict[str, FormAdapter] = field(default_factory=dict)
 
@@ -479,14 +415,6 @@ class FormRegistry:
 
 
 def build_form_matrix(adapters: Sequence[FormAdapter] | FormRegistry) -> FormMatrix:
-    """Extract and align forms by referent id.
-
-    For a sequence, the first adapter's referent order becomes canonical. A `FormRegistry` extracts
-    in sorted-tag order for deterministic configuration-driven runs. Every later form must contain
-    exactly the same referents, but may arrive in a different order. Features are flattened because
-    diagnostics and shell heads operate on `[N, D]`; `FormMeta.token_shape` preserves the original
-    token geometry when needed.
-    """
     batches = (
         list(adapters.extract_all().values())
         if isinstance(adapters, FormRegistry)
@@ -519,11 +447,6 @@ def build_form_matrix(adapters: Sequence[FormAdapter] | FormRegistry) -> FormMat
 
 
 def form_audit(matrix: FormMatrix, *, require_controls: bool = True, require_citable: bool = False) -> dict:
-    """Summarize whether the form matrix is scientifically usable.
-
-    A matrix can be mechanically valid but weak as evidence. The audit names missing controls, single-kind
-    matrices, and trainable arms so downstream claims cannot pretend the substrate was a neutral input.
-    """
     controls = matrix.controls()
     substantive = [
         tag
@@ -580,11 +503,6 @@ def fit_affine_alignment(
     *,
     ridge: float = 1.0e-3,
 ) -> torch.Tensor:
-    """Fit an affine map `source -> target` from paired referents.
-
-    This is the small, explicit alignment primitive used by toy form experiments. It is not a claim that
-    cognition is linear alignment; it is the matched baseline a stronger form substrate must beat.
-    """
     x = torch.as_tensor(source).detach().float().flatten(1)
     y = torch.as_tensor(target).detach().float().flatten(1)
     if x.shape[0] != y.shape[0]:
@@ -597,7 +515,6 @@ def fit_affine_alignment(
 
 
 def apply_affine_alignment(source: torch.Tensor, weight: torch.Tensor) -> torch.Tensor:
-    """Apply a fitted affine alignment returned by `fit_affine_alignment`."""
     x = torch.as_tensor(source).detach().float().flatten(1)
     ones = torch.ones(x.shape[0], 1, dtype=x.dtype, device=x.device)
     return torch.cat([x, ones], dim=1) @ weight

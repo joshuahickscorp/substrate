@@ -1,26 +1,3 @@
-"""Bed for epoch construction_search: two seeded shadow-coalition regimes with a matched budget.
-
-This module is the deterministic task environment the ladder runner drives. It builds a toy
-multi-task coalition objective over candidate members and exposes two regimes for one mechanism:
-
-- NULL regime: a flat coverage objective with no synergy. Greedy construction already reaches the
-  coverage optimum, so a finite search finds nothing greedy did not, and after its charged search
-  cost the search cannot beat greedy net of cost. The named prior null holds by construction.
-- FAVORABLE regime: the same coverage landscape plus a synergy bonus that pays off only when a low
-  affinity member pair sits in the coalition together. Greedy adds members one at a time, so it
-  never places both synergy members at once and never triggers the bonus; a seeded construction
-  search with random restarts does, and the synergy gain survives charging the search cost.
-
-Both regimes share one matched budget, expressed as evaluation ceilings and a per-evaluation cost.
-The distinction between the regimes is exactly the synergy bonus; the coverage affinities are the
-same. This keeps the null and the favorable regime a single controlled variable apart.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. The affinities are toy floats, the coalitions are index sets, and a green run
-means the plumbing minted an honest mechanics demonstration, never that search carries any value.
-
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -33,26 +10,20 @@ from ..substrate.events import canonical_sha256
 
 CONSTRUCTION_SEARCH_BED_SCHEMA = "mop-construction-search-bed/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this bed module carries no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 MECHANISM_ID = "construction_search"
 REQUIREMENT_ID = "s3.construction_search"
 STAGE = 3
 
-# The three cheap controls the search must beat, in canonical order. The oracle-headroom arm is a
-# reference ceiling, never a cheap control the mechanism must clear.
 CHEAP_CONTROLS: tuple[str, ...] = ("no-search", "random-construction", "greedy-only")
 SEARCH_ARM = "construction-search"
 ORACLE_REFERENCE = "oracle-headroom"
 ALL_ARMS: tuple[str, ...] = (*CHEAP_CONTROLS, SEARCH_ARM, ORACLE_REFERENCE)
 
-# The G0 formation default coalition a no-search baseline reuses, as member indices.
 FORMATION_DEFAULT: tuple[int, ...] = (0, 1)
 # Members whose affinity is high on their own task and low elsewhere; they carry coverage.
 SPECIALISTS: tuple[int, ...] = (0, 1, 2)
-# The low-affinity pair that only pays off through the synergy bonus when both are present.
 SYNERGY_PAIR: tuple[int, ...] = (6, 7)
 
 DEFAULT_NUM_MEMBERS = 12
@@ -77,7 +48,7 @@ _TASK_SALT = 0xD1B54A32D192ED03
 
 
 class ConstructionSearchBedRefusal(ValueError):
-    """Raised when a bed or regime declaration is malformed or outside its declared scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -86,7 +57,6 @@ def _require_id(value: str, label: str) -> None:
 
 
 def _mix(seed: int, member: int, task: int) -> float:
-    """A deterministic float in [0, 1) from a seed, member, and task. No OS entropy."""
 
     state = (seed & _MASK64) * _LCG_MULT + _LCG_ADD
     state = (state + member * _MEMBER_SALT + task * _TASK_SALT) & _MASK64
@@ -95,7 +65,6 @@ def _mix(seed: int, member: int, task: int) -> float:
 
 
 def _base_affinity(member: int, task: int) -> float:
-    """Structured base affinity: specialists cover their own task, everything else is flat."""
 
     if member in SPECIALISTS:
         return HIGH_AFFINITY if task == member else LOW_AFFINITY
@@ -105,7 +74,6 @@ def _base_affinity(member: int, task: int) -> float:
 
 
 def _build_affinity(seed: int, num_members: int, num_tasks: int) -> tuple[tuple[float, ...], ...]:
-    """Deterministic per-member per-task affinity: structured base plus tiny seeded noise."""
 
     return tuple(
         tuple(
@@ -118,10 +86,6 @@ def _build_affinity(seed: int, num_members: int, num_tasks: int) -> tuple[tuple[
 
 @dataclass(frozen=True, slots=True)
 class RegimeSpec:
-    """One seeded regime: the toy objective plus the matched search budget every arm shares.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     name: str
     seed: int
@@ -194,13 +158,6 @@ class RegimeSpec:
 
 @dataclass(frozen=True, slots=True)
 class ConstructionSearchBed:
-    """The construction_search bed: a null and a favorable regime with a matched search budget.
-
-    Setting ``synergy_bonus`` to zero collapses the favorable regime onto the flat null objective, a
-    handle the tests use to prove a bed with no favorable structure mints a null verdict. Setting a
-    large ``per_eval_cost`` charges the search so heavily that even the favorable regime fails to net
-    a gain, which is the fail-closed handle. Claim scope: deterministic programmatic mechanics only.
-    """
 
     mechanism_id: str = MECHANISM_ID
     synergy_bonus: float = DEFAULT_SYNERGY_BONUS

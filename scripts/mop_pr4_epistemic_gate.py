@@ -1,39 +1,4 @@
 #!/usr/bin/env python
-"""PR4: epistemic gate vs noisy-TV (WP-07, plasticity program; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, PR full schema part 1). Retries the strongest
-corpus negative: e4 point-error gating chased irreducible noise 30/30.
-
-Thesis: ensemble-disagreement (epistemic) uncertainty steers PLASTICITY toward reducible structure
-and ignores aleatoric noise. The exact mechanism chain from the manifest:
-Ensemble.mean_and_disagreement -> Neuromodulation.gate -> PlasticityController.lr_scale, scored on
-the reducible-vs-noise LR-integral allocation through the WP-02 LRIntegralAccumulator.
-
-Stream: fresh batches each step (no memorizable noise set) alternating between two partitions,
-REDUCIBLE (a fixed rotation target, learnable) and NOISE (irreducible random targets, the noisy
-TV). Every arm trains an identical ensemble with SGD; only the per-step learning-rate multiplier
-differs. Each step logs lr into its partition, so the score is the fraction of total LR-integral
-spent on the reducible partition.
-
-Arms:
-  gated    : disagreement -> neuromod uncertainty gate (gain in [floor, ceil]) -> controller
-             lr_scale (gains above reopen_threshold reopen plasticity over the soft schedule)
-  ungated  : the SAME soft schedule with signal 0 (allocates by the clock only, so its reducible
-             fraction equals the partition mix by construction; the e4 conflation baseline)
-  shuffled : the gated arm re-run with its own recorded signal sequence PERMUTED across steps (the
-             registry's shuffled-disagreement random control)
-  gated_perm : the gated arm under a permuted partition ORDER (the curriculum-permutation control;
-             the allocation skew must replicate, else it is a schedule artifact)
-
-Preregistered verdict (fixed before running): WIN iff the per-seed delta means of BOTH
-(frac_gated - frac_ungated) and (frac_gated - frac_shuffled) exceed max(per-seed SD, MIN_MARGIN)
-with no sign flip, AND the curriculum-permutation arm preserves the gated-over-ungated sign, AND
-the diagnostics/noisy_tv three-boolean contract passes jointly (a guard failure overrides any
-primary win, per the manifest appendix). Otherwise null_supported=True: the gate allocates no more
-LR-integral to the reducible partition than ungated (the e4 conflation replicates).
-
-Usage: python scripts/mop_pr4_epistemic_gate.py --seeds 0-4
-Writes runs/mot/pr4_epistemic_gate.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -62,7 +27,6 @@ ARMS = ("gated", "ungated", "shuffled", "gated_perm")
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -70,10 +34,6 @@ def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
 
 
 def make_regions(seed: int, dim: int, noise_scale: float):
-    """Fresh-sample generators for the two partitions (mirrors diagnostics/noisy_tv): REDUCIBLE has
-    clustered inputs and a fixed learnable rotation target, NOISE has plain gaussian inputs and an
-    irreducibly random target every call. The input distributions DIFFER, so an input-conditioned
-    disagreement signal is able to tell the partitions apart (as in the noisy_tv diagnostic)."""
     g = torch.Generator().manual_seed(seed)
     rot = torch.linalg.qr(torch.randn(dim, dim, generator=g))[0]
     centers = torch.randn(2, dim, generator=g)
@@ -91,8 +51,6 @@ def make_regions(seed: int, dim: int, noise_scale: float):
 
 
 def make_schedule(seed: int, n_steps: int, permute: bool) -> list[str]:
-    """The partition order: strict alternation by default; the curriculum-permutation control
-    shuffles the same multiset of labels."""
     order = ["reducible" if t % 2 == 0 else "noise" for t in range(n_steps)]
     if permute:
         perm = torch.randperm(n_steps, generator=torch.Generator().manual_seed(seed + 71))
@@ -131,9 +89,6 @@ def run_arm(
     signal_override: list[float] | None = None,
     permute_order: bool = False,
 ) -> dict:
-    """Train one arm and return its per-partition LR-integral, reducible fraction, and the per-step
-    signal sequence (recorded so the shuffled control can replay it permuted). mode is 'gated' or
-    'ungated'; signal_override replaces the live disagreement signal (shuffled control)."""
     dim, batch, n_steps = int(e.dim), int(e.batch), int(e.n_steps)
     regions = make_regions(seed, dim, float(e.noise_scale))
     order = make_schedule(seed, n_steps, permute=permute_order)
@@ -212,7 +167,6 @@ class MotPR4EpistemicGate(Experiment):
         perm_sign_ok = bool(
             seed_ci([frac["gated_perm"][i] - frac["ungated"][i] for i in range(len(seeds))])["mean"] > 0
         )
-        # the noisy-TV three-boolean contract (manifest appendix: a guard failure overrides any win)
         guard = noisy_tv_diagnostic(
             dim=int(e.guard_dim),
             ensemble_size=int(e.ensemble_size),

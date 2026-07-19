@@ -1,26 +1,3 @@
-"""Scaffold spine for the calibrated uncertainty mechanism cluster (lane G1-U1).
-
-This module raises the SCAFFOLDING axis only. It encodes, as machine-checkable contracts, the exact
-bar a calibrated uncertainty mechanism must clear before any claim: confidence-weighted selective
-answering must improve BOTH selective risk reduction AND decision utility, jointly, at matched cost,
-against a declared control family (always-answer, random-abstain, overconfident-score,
-frozen-uniform). It builds the harness, not the result. Nothing here demonstrates that any mechanism
-clears the bar.
-
-Named prior null (forces the bar): the decoupled confidence null. A confidence signal that carries no
-information about correctness cannot buy anything; abstention driven by it either throws away correct
-answers (losing decision utility) or keeps wrong ones (losing selective risk reduction). The null is
-the default hypothesis. A single-axis win is exactly what the null predicts, so a single-axis win is
-refused. The scaffold fails closed unless both axes strictly improve together at matched cost, and
-even then a claim stays quarantined behind an activation gate that local code cannot open without an
-external confirmation receipt.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. The toy simulator is a byte-exact seeded fixture, not evidence. The controls are
-declarations. The verdict is arithmetic over declared readings, never a measurement of a real system.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -34,21 +11,15 @@ from ..substrate.events import canonical_sha256
 
 CALIBRATED_UNCERTAINTY_SCHEMA = "mop-calibrated-uncertainty/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-# The named prior null this lane must clear. Held here as a fail-closed constant so a test can pin
-# it and so the verdict language stays anchored to the decoupled confidence hypothesis.
 PRIOR_NULL = "u1-decoupled-confidence-null"
 
-# The two axes that must improve jointly. Ordering is load-bearing for digests and completeness.
 DUAL_AXES: tuple[str, ...] = ("selective_risk_reduction", "decision_utility")
 
-# The declared control family. Ordering is load-bearing; a completeness check refuses drift.
 REQUIRED_CONTROLS: tuple[str, ...] = (
     "always_answer",
     "random_abstain",
@@ -58,7 +29,7 @@ REQUIRED_CONTROLS: tuple[str, ...] = (
 
 
 class CalibratedUncertaintyRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, widened, or below the joint bar."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -80,17 +51,10 @@ def _require_sha256(value: str, label: str) -> None:
         raise CalibratedUncertaintyRefusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-# ---------------------------------------------------------------------------
-# Section A. Dual metric reading. Selective risk reduction and decision utility, in [0, 1].
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class DualMetricReading:
-    """One condition's normalized score on both axes. Neither axis stands alone.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     selective_risk_reduction: float
     decision_utility: float
@@ -124,14 +88,10 @@ class DualMetricReading:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section B. Matched cost budget. A comparison is honest only at equal cost.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedCostBudget:
-    """The full-system budget every arm, candidate and control, must be held to before comparison."""
 
     params: int
     flops: int
@@ -162,17 +122,10 @@ class MatchedCostBudget:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section C. Control arm and control family declaration.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ControlArm:
-    """One declared control condition with its reading and its held budget.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     control: str
     reading: DualMetricReading
@@ -199,7 +152,6 @@ class ControlArm:
 
 @dataclass(frozen=True, slots=True)
 class ControlFamily:
-    """The complete declared control family; membership and order must match REQUIRED_CONTROLS."""
 
     schema: str
     arms: tuple[ControlArm, ...]
@@ -246,24 +198,15 @@ class ControlFamily:
 
 
 def assert_control_completeness(controls: Sequence[str]) -> None:
-    """Module-level fail-closed check that a declared control set matches membership and order."""
 
     if tuple(controls) != REQUIRED_CONTROLS:
         raise CalibratedUncertaintyRefusal("declared control set drifted in membership or order")
 
 
-# ---------------------------------------------------------------------------
-# Section D. The contract that declares the joint bar.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class CalibratedUncertaintyContract:
-    """Declares the joint-improvement rule: keep a mechanism only for a replicated, matched-cost,
-    both-axes win against the full declared control family.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     axes: tuple[str, ...]
@@ -318,7 +261,6 @@ class CalibratedUncertaintyContract:
 
 
 def default_contract() -> CalibratedUncertaintyContract:
-    """The canonical lane G1-U1 contract: both axes, matched cost, two replications, decoupled null."""
 
     return CalibratedUncertaintyContract(
         schema=CALIBRATED_UNCERTAINTY_SCHEMA,
@@ -331,14 +273,10 @@ def default_contract() -> CalibratedUncertaintyContract:
     )
 
 
-# ---------------------------------------------------------------------------
-# Section E. Axis comparison and joint verdict. The verdict certifies nothing on a single axis.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class AxisComparison:
-    """A candidate value vs the best control value on one axis, with a strict-improvement flag."""
 
     axis: str
     candidate_value: float
@@ -370,15 +308,6 @@ class AxisComparison:
 
 @dataclass(frozen=True, slots=True)
 class JointImprovementVerdict:
-    """Arithmetic verdict over two axis comparisons. A single-axis win never certifies a claim.
-
-    The verdict object itself is a neutral record; it does not raise on a single-axis result because
-    a single-axis result is a valid, and expected, null outcome. The claim path, ``certify``, fails
-    closed unless BOTH axes strictly improve at matched cost. That is the decoupled confidence null
-    encoded as code.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     selective_risk_reduction: AxisComparison
@@ -412,7 +341,6 @@ class JointImprovementVerdict:
         return self.selective_risk_reduction.improved != self.decision_utility.improved
 
     def certify(self) -> JointImprovementVerdict:
-        """Fail closed unless both axes strictly improve. A single-axis win is the null, refused."""
 
         if self.only_one_axis_improved:
             winner = (
@@ -457,14 +385,6 @@ def evaluate_joint_improvement(
     candidate_budget: MatchedCostBudget,
     controls: ControlFamily,
 ) -> JointImprovementVerdict:
-    """Compare a candidate reading against the best control per axis, at matched cost.
-
-    Fails closed if the candidate is not held to the same budget as the control family. The verdict
-    compares the candidate to the strongest control on EACH axis independently; the decoupled null
-    makes that pair of maxima come from different controls, which is exactly why a joint win is hard.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if candidate_budget.digest() != controls.matched.digest():
         raise CalibratedUncertaintyRefusal(
@@ -489,14 +409,7 @@ def evaluate_joint_improvement(
     )
 
 
-# ---------------------------------------------------------------------------
-# Section F. Deterministic seeded toy that exhibits the null. Not evidence; a test vector.
-# ---------------------------------------------------------------------------
 
-# Base scores per arm as (selective_risk_reduction, decision_utility). The null shape is deliberate:
-# always_answer holds the decision utility maximum because abstention on a decoupled signal only
-# throws answers away; the toy candidate abstains on a decoupled signal, so it buys some selective
-# risk reduction but pays for it in decision utility. Under this toy it beats one axis maximum only.
 _BASE_SCORES: dict[str, tuple[float, float]] = {
     "always_answer": (0.75, 0.75),
     "random_abstain": (0.74, 0.62),
@@ -508,7 +421,6 @@ _DEFAULT_BUDGET = MatchedCostBudget(params=1024, flops=262_144, scored_items=32,
 
 
 def _seeded_jitter(seed: int, label: str) -> float:
-    """A tiny deterministic offset in [-0.005, 0.005) from a seeded digest; no wall clock, no rng."""
 
     if seed < 0:
         raise CalibratedUncertaintyRefusal("toy seed must be nonnegative")
@@ -522,7 +434,6 @@ def _clamp_unit(value: float) -> float:
 
 
 def simulate_reading(*, seed: int, mechanism: str) -> DualMetricReading:
-    """Deterministic toy reading for one arm. Reproducible under a seed; carries no claim."""
 
     if mechanism == "candidate":
         base = _CANDIDATE_BASE
@@ -536,7 +447,6 @@ def simulate_reading(*, seed: int, mechanism: str) -> DualMetricReading:
 
 
 def build_null_control_family(*, seed: int) -> ControlFamily:
-    """Build the full control family from the seeded toy, all held to one matched budget."""
 
     arms = tuple(
         ControlArm(
@@ -550,7 +460,6 @@ def build_null_control_family(*, seed: int) -> ControlFamily:
 
 
 def build_null_verdict(*, seed: int) -> JointImprovementVerdict:
-    """Build the candidate-vs-family verdict from the seeded toy. Under the toy the null holds."""
 
     controls = build_null_control_family(seed=seed)
     candidate = simulate_reading(seed=seed, mechanism="candidate")
@@ -559,19 +468,10 @@ def build_null_verdict(*, seed: int) -> JointImprovementVerdict:
     )
 
 
-# ---------------------------------------------------------------------------
-# Section G. Activation gate. A joint claim stays quarantined until an external receipt opens it.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
-    """An external confirmation receipt; the only thing that can open the joint-claim gate.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. This receipt is a
-    declaration that an independent party replicated the joint, matched-cost win. Local code cannot
-    mint a valid one for itself; a test asserts the gate stays closed without it.
-    """
 
     preregistration_sha256: str
     verdict_digest: str
@@ -606,12 +506,6 @@ class ConfirmationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class JointClaimGate:
-    """A fail-closed activation gate. OFF by default; opening it needs a matching external receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that a merely arithmetic both-axes win in this process can never be promoted to a standing claim
-    without independent, matched-cost, replicated confirmation supplied from outside.
-    """
 
     activation_permitted: bool = False
     claim_scope: str = CLAIM_SCOPE
@@ -625,7 +519,6 @@ class JointClaimGate:
         verdict: JointImprovementVerdict,
         receipt: ConfirmationReceipt | None = None,
     ) -> JointImprovementVerdict:
-        """Fail closed. Raise unless activation is permitted AND a valid receipt matches this verdict."""
 
         if not self.activation_permitted:
             raise CalibratedUncertaintyRefusal(
@@ -645,13 +538,10 @@ class JointClaimGate:
         return {"activation_permitted": self.activation_permitted, "claim_scope": self.claim_scope}
 
 
-# ---------------------------------------------------------------------------
 # Section H. Coverage record for this lane's sub-questions (readiness only).
-# ---------------------------------------------------------------------------
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static record of which G1-U1 sub-questions this scaffold arms. Readiness, not results."""
 
     return {
         "abstention-must-buy-selective-risk-reduction": (

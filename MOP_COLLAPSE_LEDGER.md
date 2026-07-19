@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `2ebd473` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `7c70cda` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 240. By status: `{"complete": 17, "active": 49, "pending": 141, "partial": 9, "verified": 24}`.
+Total items: 241. By status: `{"complete": 17, "active": 49, "pending": 141, "partial": 9, "verified": 25}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -276,6 +276,7 @@ Total items: 240. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 | RED-starss23-onset-variant-and-embedded-docs | 11 | verified_reduction | verified | Centralize remaining onset variants and remove embedded STARSS narratives | finish the dual-architecture DoA producer shell and measure STARSS residual |
 | RED-starss23-family-prereg-cli-comments | 11 | verified_reduction | verified | Centralize family preregistrations and delete local commands and comments | finish the dual-architecture DoA producer shell and measure STARSS residual |
 | RED-current-documentation-authority | 18 | verified_reduction | verified | Collapse current documentation to eight recoverable authorities | finish the dual-architecture DoA producer shell |
+| RED-embedded-python-documentation | 18 | verified_reduction | verified | Remove runtime-unused embedded Python documentation | finish the dual-architecture DoA producer shell |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -284,7 +285,7 @@ Total items: 240. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 2ebd473
+- commit: pending; base 7c70cda
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -550,5 +551,17 @@ Total items: 240. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 - owned Python change: 31 added, 218 deleted, net -187 LOC; cumulative verified owned Python reduction: 10,199 LOC.
 - total tracked physical change including state, ledger, tooling, and the 187-line history index: net -43,311 LOC.
 - rollback_tag: mop-collapse-docs.
+- next_exact_edit: finish the dual-architecture DoA producer shell.
+
+### Embedded Python documentation collapse (current checkpoint)
+
+- scope: the 150 heaviest source, script, and test files plus post-STARSS deletion whitespace; runtime-unused docstrings and comment-only prose were removed.
+- preservation: module documentation consumed through __doc__, shebangs, legal headers, type/lint/format/security/coverage directives, and every executable statement remain.
+- no packing: statement layout was not condensed; only 54 one-line pass bodies were added where Python requires a nonempty class or function body.
+- source change: 53 added, 7,360 deleted, net -7,307; scripts: 1 added, 3,106 deleted, net -3,105; tests: 0 added, 828 deleted.
+- total owned Python net reduction: 11,240 LOC; cumulative verified owned Python reduction: 21,439 LOC.
+- validation: all src/mop, tests, and scripts compile in 0.82s; changed files pass critical ruff; boundary battery collected 776 cases and completed 774 passed/2 expected skipped in 575.80s; documentation battery 32/32 green.
+- live-run non-interference: fixture and unit paths only under nice -n 10; live checkout remained read-only and clean.
+- rollback_tag: mop-collapse-embedded-docs.
 - next_exact_edit: finish the dual-architecture DoA producer shell.
 

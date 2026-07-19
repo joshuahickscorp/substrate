@@ -33,8 +33,6 @@ class VerificationRefusal(ValueError):
     pass
 
 
-
-
 def _canonical_bytes(value: object) -> bytes:
     return json.dumps(
         value,
@@ -47,8 +45,6 @@ def _canonical_bytes(value: object) -> bytes:
 
 def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
-
-
 
 
 def _clean_frames(frames: object, label: str) -> list[int]:
@@ -113,8 +109,6 @@ def _pool_arm(clips: list, arm: str, collar: int) -> dict:
     return {"tp": tp, "fp": fp, "fn": fn, "precision": precision, "recall": recall, "f1": f1}
 
 
-
-
 def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
 
     n = len(deltas)
@@ -129,8 +123,6 @@ def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
         if t >= t_obs - _FLOAT_TOL:
             at_least += 1
     return t_obs, at_least / total, total
-
-
 
 
 @dataclass(frozen=True, slots=True)

@@ -1,61 +1,3 @@
-"""AXIS 5 / ABSTRACTION, FORM 3: THREE-WAY cross-substrate consistency of the shape-analogy code.
-
-ESTABLISHED WINS (not rehashed):
-  W1 within V-JEPA the SHAPE-offset parallelogram is systematic/analogical on real latents.
-  W2 that analogy is SUBSTRATE-INVARIANT pairwise: a shape offset in encoder A carried through a
-     shared label-free ridge map A->B predicts the shape analogy in a DIFFERENT real encoder B,
-     beyond two matched random-init encoders. The win was vjepa2_vitl_nuisance -> dinov2s_nuisance_real.
-
-THIS TEST (the stronger, new claim): is the abstract shape code consistent across THREE independent
-real encoders, not just one pair? If a THIRD real encoder also carries the same offset-parallelogram
-readable from and into the other two (each real pair beating its matched random<->random control), the
-abstract code is not a two-encoder coincidence, it is a shared property of the real substrates.
-
-SUBSTRATES (all row-aligned on the identical 5x5 (shape,color) grid, 200 rows, 8 per cell, verified):
-  S1 = vjepa2_vitl_nuisance       REAL V-JEPA ViT-L, 1024d
-  S2 = dinov2s_nuisance_real      REAL DINOv2 ViT-S, 384d   (different arch AND pretraining)
-  S3 = vjepa2_vitl_singleframe    REAL V-JEPA ViT-L, 1024d  (single-frame variant)
-Matched random-init substrates (the bounding nulls, same pipeline, untrained):
-  R_vitl = randominit_vitl_nuisance      UNTRAINED ViT-L, 1024d  (matches S1 and S3, both ViT-L)
-  R_dino = dinov2s_nuisance_randominit   UNTRAINED DINOv2 ViT-S, 384d (matches S2)
-
-HONESTY ABOUT INDEPENDENCE (measured before the test, printed below): S1 and S3 are the SAME
-architecture and pretraining and are highly similar (per-row cosine ~0.88, RSA ~0.87), whereas each
-vjepa vs dino is genuinely independent (RSA ~0.30). Consequences, preregistered:
-  (a) The S1<->S3 pair (vjepa-nuisance vs vjepa-singleframe) is NOT an independent leg. Worse, both are
-      ViT-L so their ONLY matched random-init substrate is the same R_vitl cache: the S1<->S3 random
-      control would be R_vitl<->R_vitl, an IDENTICAL cache whose transfer is a trivial 1.0. That is not
-      a legitimate null. Therefore S1<->S3 is reported as a within-family CONSISTENCY read ONLY and is
-      EXCLUDED from the win verdict, and its degenerate control is not computed as a null.
-  (b) The genuine 3-way claim is carried by the TWO cross-architecture undirected pairs, each of which
-      has TWO distinct matched random-init substrates and so a legitimate random<->random control:
-        P_A: S1 <-> S2  (vjepa-nuisance vs dino)     control R_vitl <-> R_dino   [this is W2's pair]
-        P_B: S3 <-> S2  (vjepa-singleframe vs dino)  control R_vitl <-> R_dino
-      Both directions of each pair are run. P_B introduces a THIRD real encoder (singleframe) that was
-      NOT part of the pairwise win, so a P_B win is genuinely new evidence, not a re-run of W2.
-
-CONFOUND GUARD (the systematicity lesson, unchanged): transfer the SHAPE offset ACROSS COLOR. Color is
-a trivial pixel statistic an untrained net recovers for free; shape is the abstract factor it collapses
-on. Testing the color relation would let a random pair win for free.
-
-CONSTRUCTION (identical to the winning pairwise template, per directed pair A->B):
-  split 200 rows into align-train (fit shared ridge map W: A->B, rank-truncated, LABEL-FREE) and eval;
-  build per-cell centroids from eval rows only (bootstrap); for each shape pair X->Y and target color t,
-  take the color-averaged shape offset in A (donor colors c!=t), add to centA[X,t], map through W into B,
-  retrieve the nearest of B's 5 shape centroids at color t; score = top-1 accuracy over all X!=Y and t.
-  Floors: chance 1/5=0.20; shuffled = a mismatched shape pair's A-offset through W; random<->random pair.
-
-WIN RULE (preregistered, a TIE IS A NULL, no faked score):
-  For EACH of the two cross-architecture undirected pairs P_A and P_B, in the FORWARD (vjepa->dino)
-  headline direction:
-     real top1 CI_lo (over seeds) > max(shuffled mean, chance=0.20)
-     AND (real - matched random<->random) delta CI_lo > 0 with NO per-seed sign flip.
-  The 3-WAY verdict is a WIN iff BOTH P_A AND P_B win. If EITHER is a tie/null, the 3-way claim is a
-  NULL (the shape code is not shown consistent across three independent real encoders). Reverse
-  directions and the S1<->S3 within-family read are reported as secondary and do NOT gate the verdict.
-
-No em dashes or en dashes (house rule).
-"""
 
 import json
 import sys
@@ -88,7 +30,6 @@ R_VITL = "randominit_vitl_nuisance"
 R_DINO = "dinov2s_nuisance_randominit"
 
 
-# ---------------------------------------------------------------------------------------------------
 def load(tag):
     b = CACHE / tag
     if (b / "features.npy").exists():
@@ -195,7 +136,6 @@ def eval_cells_complete(sh, co, seed):
 
 
 def run_dir(a_tag, b_tag, label):
-    """One directed transfer A->B across all seeds: real top1, shuffled floor."""
     xa, sh, co = load(a_tag)
     xb, sh_b, co_b = load(b_tag)
     assert torch.equal(sh, sh_b) and torch.equal(co, co_b), "grids not row-aligned"
@@ -219,7 +159,6 @@ def run_dir(a_tag, b_tag, label):
 
 
 def evaluate_pair(real_fwd, rand_fwd):
-    """Preregistered win test for one cross-architecture pair in its forward headline direction."""
     matched = sorted(set(real_fwd["seeds_used"]) & set(rand_fwd["seeds_used"]))
     rmap = dict(zip(real_fwd["seeds_used"], real_fwd["real_per_seed"], strict=False))
     cmap = dict(zip(rand_fwd["seeds_used"], rand_fwd["real_per_seed"], strict=False))
@@ -247,7 +186,6 @@ def evaluate_pair(real_fwd, rand_fwd):
 
 
 def independence_report():
-    """Measured similarity of the three real encoders (printed for honesty about the 3-way claim)."""
 
     def rowcos(x, y):
         xn = x / (np.linalg.norm(x, axis=1, keepdims=True) + 1e-9)
@@ -291,19 +229,16 @@ def main():
             print(f"  {k}: {v}")
     print()
 
-    # ---- P_A: S1 <-> S2 (vjepa-nuisance vs dino), the pairwise-win pair, both directions ----
     pa_real_fwd = run_dir(S1, S2, "real P_A fwd: vjepa-nuisance->dino")
     pa_rand_fwd = run_dir(R_VITL, R_DINO, "rand P_A fwd: R_vitl->R_dino")
     pa_real_rev = run_dir(S2, S1, "real P_A rev: dino->vjepa-nuisance")
     pa_rand_rev = run_dir(R_DINO, R_VITL, "rand P_A rev: R_dino->R_vitl")
 
-    # ---- P_B: S3 <-> S2 (vjepa-singleframe vs dino), the NEW third-encoder pair, both directions ----
     pb_real_fwd = run_dir(S3, S2, "real P_B fwd: vjepa-singleframe->dino")
     pb_rand_fwd = run_dir(R_VITL, R_DINO, "rand P_B fwd: R_vitl->R_dino")
     pb_real_rev = run_dir(S2, S3, "real P_B rev: dino->vjepa-singleframe")
     pb_rand_rev = run_dir(R_DINO, R_VITL, "rand P_B rev: R_dino->R_vitl")
 
-    # ---- S1 <-> S3 within-family consistency read (NOT gating; degenerate random control) ----
     s1s3_fwd = run_dir(S1, S3, "within-family fwd: vjepa-nuisance->vjepa-singleframe")
     s1s3_rev = run_dir(S3, S1, "within-family rev: vjepa-singleframe->vjepa-nuisance")
 

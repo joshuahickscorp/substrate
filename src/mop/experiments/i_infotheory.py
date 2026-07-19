@@ -1,21 +1,3 @@
-"""Series I: information theory on the frozen pooled latent. Nine cpu-now toy experiments, each with an
-explicit NULL and a wired standing control (frozen-random arm, matched compute, or a tuned baseline).
-All run on cached pooled latents now; no dense latents, no environment.
-
-I1  information-bottleneck capability-per-bit (width sweep, real vs frozen-random).
-I2  two-part MDL model selection vs held-out next-latent loss across a capacity sweep.
-I3  compression damages iterative latent reasoning more than shallow classification.
-I4i redundancy-reduction (whitening) recode improves continual retention per byte.
-I5  rate-distortion frontier of the replay buffer, importance-weighted vs uniform bit allocation.
-I6  mutual-information predictivity audit (information available vs information exploited).
-I7  predictive-information past-future bottleneck on forward-dynamics streams.
-I8  quantization-robustness as a representation-quality signal (real vs frozen-random).
-I9  VQ codebook rate-distortion-usability (learned VQ vs k-means vs random codebook).
-
-Doctrine: every experiment declares an explicit NULL; the linear-probe gate precedes any mechanism claim;
-pooled latents discard within-frame structure (the published bound IS the result); honest nulls only, no
-tuning toward a positive. No em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -40,11 +22,7 @@ from .base import Experiment, _mean
 from .base import _split_xy as _split
 
 
-# ----------------------------------------------------------------------------------------------------
-# shared toy helpers
-# ----------------------------------------------------------------------------------------------------
 def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> tuple[torch.Tensor, torch.Tensor]:
-    """Lloyd k-means; returns (hard codes, centroids). The VQ assignment in the no-decoder setting."""
     g = torch.Generator().manual_seed(seed)
     idx = torch.randperm(x.shape[0], generator=g)[:k]
     cent = x[idx].clone()
@@ -67,14 +45,7 @@ def _purity(codes: torch.Tensor, y: torch.Tensor, k: int) -> float:
     return correct / int(y.shape[0])
 
 
-# ----------------------------------------------------------------------------------------------------
-# I1: information-bottleneck capability-per-bit
-# ----------------------------------------------------------------------------------------------------
 class I1(Experiment):
-    """Squeeze the frozen latent through a width-W linear bottleneck before a probe; sweep W. Does the
-    REAL encoder pack the label into fewer bits than a frozen-random projection (a sharp knee where real
-    stays high while frozen-random has collapsed), or do the curves overlap (graceful degradation is a
-    generic high-dimensional property, taxonomy 3)."""
 
     id = "i1_info_bottleneck"
     metric = ("probe_accuracy_vs_retained_bits", "knee_width_95pct", "max_small_width_separation")
@@ -127,20 +98,12 @@ class I1(Experiment):
             "curve_is_flat_to_tiny_width": flat,
             "real_packs_tighter": bool(sep > float(e.sep_margin)),
             "seeds": list(seeds),
-            # null: flat down to tiny width OR real curve ties frozen-random at small widths
             "null_supported": bool(flat or sep <= float(e.sep_margin)),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# I2: two-part MDL model selection
-# ----------------------------------------------------------------------------------------------------
 class I2(Experiment):
-    """For shells of varying capacity, compute a two-part MDL score = bits to encode quantized weights
-    under a simple prior plus residual code length (the Gaussian negative log-likelihood of next-latent
-    residuals on the cache). Does MDL rank capacities the same as held-out next-latent loss, giving an
-    overfitting-proof criterion that needs no validation split."""
 
     id = "i2_mdl_selection"
     metric = ("mdl_vs_heldout_corr", "capacity_by_mdl", "capacity_by_val")
@@ -191,7 +154,6 @@ class I2(Experiment):
                 net = self._fit(h, d, xtr, ttr, int(e.epochs), float(e.lr), s)
                 with torch.no_grad():
                     res = net(xte) - tte
-                    # residual code length in nats under a Gaussian head (per residual variance)
                     var = res.var().clamp_min(1e-6)
                     nll = 0.5 * (math.log(2 * math.pi * float(var)) + 1.0) * res.numel()
                     val = float((res**2).mean())
@@ -204,7 +166,6 @@ class I2(Experiment):
             mdl_curves.append(mdls)
             val_curves.append(vals)
             pcounts.append(ps)
-            # rank correlation (Spearman) between MDL and held-out loss across rungs
             corrs.append(_spearman(mdls, vals))
 
         mdl_mean = [round(_mean([c[i] for c in mdl_curves]), 2) for i in range(len(rungs))]
@@ -213,7 +174,6 @@ class I2(Experiment):
         corr = _mean(corrs)
         cap_mdl = int(min(range(len(rungs)), key=lambda i: mdl_mean[i]))
         cap_val = int(min(range(len(rungs)), key=lambda i: val_mean[i]))
-        # MDL is "just param count" if argmin MDL equals argmin params AND MDL ranks monotone in weights
         cap_pcount = int(min(range(len(rungs)), key=lambda i: p_mean[i]))
         corr_param = _spearman(mdl_mean, [float(p) for p in p_mean])
         mdl_is_param_count = bool(cap_mdl == cap_pcount and corr_param > 0.99)
@@ -228,7 +188,6 @@ class I2(Experiment):
             "mdl_param_count_spearman": round(corr_param, 4),
             "mdl_matches_val": bool(cap_mdl == cap_val),
             "seeds": list(seeds),
-            # null: MDL disagrees with held-out loss (low corr) OR MDL is just param count
             "null_supported": bool(corr < float(e.corr_threshold) or mdl_is_param_count),
         }
         return out
@@ -244,11 +203,7 @@ def _spearman(a: list[float], b: list[float]) -> float:
     return float((ra * rb).sum() / denom)
 
 
-# ----------------------------------------------------------------------------------------------------
-# I3: compression damages reasoning more than shallow classification
-# ----------------------------------------------------------------------------------------------------
 class _UntiedDepth(nn.Module):
-    """Compute-matched control for the refiner: `steps` untied residual blocks applied once each."""
 
     def __init__(self, dim: int, hidden: int, steps: int):
         super().__init__()
@@ -262,10 +217,6 @@ class _UntiedDepth(nn.Module):
 
 
 class I3(Experiment):
-    """Run two readouts off the same compressed latent at matched bit budgets, a shallow linear
-    classification head and an IterativeRefiner (EX17) followed by a head. Sweep uniform k-bit
-    quantization. Does compression degrade iterative latent reasoning more steeply than shallow
-    classification (the sharp EX17 hypothesis), holding the bit budget identical."""
 
     id = "i3_compression_reasoning"
     metric = ("reasoning_minus_classification_slope", "bits_to_lose_refiner_advantage", "refiner_gain")
@@ -337,13 +288,11 @@ class I3(Experiment):
         cls_m = [round(_mean([c[i] for c in cls_curves]), 4) for i in range(len(bits))]
         ref_m = [round(_mean([c[i] for c in ref_curves]), 4) for i in range(len(bits))]
         gap_m = [round(_mean([c[i] for c in gap_curves]), 4) for i in range(len(bits))]
-        # slope = accuracy gained per added bit (bits ascending)
         order = sorted(range(len(bits)), key=lambda i: bits[i])
         bs = [float(bits[i]) for i in order]
         cls_slope = _slope(bs, [cls_m[i] for i in order])
         ref_slope = _slope(bs, [ref_m[i] for i in order])
         diff = ref_slope - cls_slope  # positive == reasoning recovers faster with bits == more fragile
-        # bit budget at which the refiner advantage drops below margin (scanning low to high bits)
         margin = float(e.margin)
         lose = next((bits[i] for i in order if gap_m[i] <= margin), max(bits))
         full_gap = gap_m[order[-1]]  # advantage at the highest bit budget (least compressed)
@@ -360,7 +309,6 @@ class I3(Experiment):
             "refiner_gain_uncompressed": round(full_gap, 4),
             "compute_matched": matched_within(1, 1),
             "seeds": list(seeds),
-            # null: equal slopes (reasoning not specially fragile) OR no refiner advantage to lose
             "null_supported": bool(abs(diff) <= float(e.slope_margin) or no_advantage),
         }
         return out
@@ -374,11 +322,7 @@ def _slope(xs: list[float], ys: list[float]) -> float:
     return num / den
 
 
-# ----------------------------------------------------------------------------------------------------
-# I4i: redundancy-reduction recode improves continual retention per byte
-# ----------------------------------------------------------------------------------------------------
 def _zca_whiten(x: torch.Tensor, eps: float = 1e-3) -> torch.Tensor:
-    """ZCA whitening: decorrelate and unit-scale the latent (Barlow-style redundancy reduction)."""
     mu = x.mean(0, keepdim=True)
     xc = x - mu
     cov = (xc.T @ xc) / max(1, x.shape[0] - 1)
@@ -388,10 +332,6 @@ def _zca_whiten(x: torch.Tensor, eps: float = 1e-3) -> torch.Tensor:
 
 
 class I4i(Experiment):
-    """Learn a redundancy-reduction recode of cached latents (ZCA whitening) before the E2 replay shell;
-    optionally truncate to a byte budget. Does decorrelating or whitening the frozen latent improve
-    backward transfer per stored byte, or is the redundancy in the pooled latent already benign. A
-    frozen-random arm tests whether any gain is a generic whitening effect, not a V-JEPA property."""
 
     id = "i4i_redundancy_reduction"
     metric = ("backward_transfer", "retention_per_byte", "offdiag_correlation_reduction")
@@ -427,7 +367,6 @@ class I4i(Experiment):
             if ti == 0:
                 with torch.no_grad():
                     acc_after_first = float((head(xt).argmax(-1) == yt).float().mean())
-        # backward transfer: task0 accuracy at the end minus right after task0
         x0 = recode(tasks[0].x)
         with torch.no_grad():
             acc_end = float((head(x0).argmax(-1) == tasks[0].y).float().mean())
@@ -455,7 +394,6 @@ class I4i(Experiment):
             nc = tasks[0].n_classes
             allx = torch.cat([t.x for t in tasks])
 
-            # recodes applied per task (frozen, a one-time bought transform; ZCA centers internally)
             def white(z):
                 return _zca_whiten(z)
 
@@ -487,14 +425,12 @@ class I4i(Experiment):
             "offdiag_corr_whitened": round(_mean(offdiag_wht), 4),
             "offdiag_correlation_reduction": round(_mean(offdiag_raw) - _mean(offdiag_wht), 4),
             "seeds": list(seeds),
-            # null: whitening ties raw (gain small) OR the gain is generic (frozen-random shows it too)
             "null_supported": bool(gain <= margin or abs(gain - fr_gain) <= margin),
         }
         return out
 
 
 def _offdiag_corr(x: torch.Tensor) -> float:
-    """Mean absolute off-diagonal feature correlation (the redundancy a whitening recode removes)."""
     xc = x - x.mean(0, keepdim=True)
     std = xc.std(0, keepdim=True).clamp_min(1e-6)
     c = (xc / std).T @ (xc / std) / max(1, x.shape[0] - 1)
@@ -503,14 +439,7 @@ def _offdiag_corr(x: torch.Tensor) -> float:
     return float(off.abs().sum() / max(1, d * d - d))
 
 
-# ----------------------------------------------------------------------------------------------------
-# I5: rate-distortion frontier of the replay buffer
-# ----------------------------------------------------------------------------------------------------
 class I5(Experiment):
-    """Vary bits-per-stored-latent via uniform quantization, and add an importance-weighted allocation
-    arm that gives more bits to higher-Fisher exemplars. Plot forgetting (distortion) against total
-    stored bits (rate). Does non-uniform bit allocation beat uniform on the rate-distortion frontier,
-    or do they lie on the same curve (the importance signal does not predict which exemplars need bits)."""
 
     id = "i5_rate_distortion_replay"
     metric = ("rate_distortion_curve", "bits_saved_at_fixed_bwt", "area_under_rd_curve")
@@ -523,7 +452,6 @@ class I5(Experiment):
     tier = "cpu-now"
 
     def _fisher_per_exemplar(self, head, x, y) -> torch.Tensor:
-        """Per-exemplar Fisher proxy: squared gradient norm of the loss on each stored latent."""
         fish = torch.zeros(x.shape[0])
         for i in range(x.shape[0]):
             head.zero_grad(set_to_none=True)
@@ -534,7 +462,6 @@ class I5(Experiment):
         return fish
 
     def _bwt_at_alloc(self, tasks, bits_per_exemplar, dim, nc, epochs, lr, seed):
-        """Train continually, storing each exemplar quantized to its allocated bit depth."""
         from ..shell.buffer import ReplayBuffer
 
         seed_everything(seed)
@@ -553,7 +480,6 @@ class I5(Experiment):
                     yb = torch.cat([yt, s["y"]])
                 F.cross_entropy(head(xb), yb).backward()
                 opt.step()
-            # quantize each exemplar to its allocated bit depth before storing
             if callable(bits_per_exemplar):
                 bpe = bits_per_exemplar(head, xt, yt)
             else:
@@ -595,7 +521,6 @@ class I5(Experiment):
                 rate = b * dim  # total bits per stored exemplar
                 uni.append((rate, bwt))
             uni_curves.append(uni)
-            # importance-weighted allocation: high-Fisher exemplars get hi bits, rest get lo bits
             mean_bits = (lo + hi) / 2.0
 
             def alloc(head, x, y, lo=lo, hi=hi):
@@ -606,7 +531,6 @@ class I5(Experiment):
             imp_bwt = self._bwt_at_alloc(tasks, alloc, dim, nc, int(e.epochs), float(e.lr), s)
             imp_rate = mean_bits * dim
             imp_points.append((imp_rate, imp_bwt))
-            # bits saved at fixed BWT: at the importance BWT, what uniform rate matches it
             uni_match = _rate_at_bwt(uni, imp_bwt)
             saved.append(uni_match - imp_rate)
 
@@ -629,14 +553,12 @@ class I5(Experiment):
             "area_under_rd_curve": round(_auc(uni_mean), 4),
             "rd_curve_is_flat_cliff": is_cliff,
             "seeds": list(seeds),
-            # null: importance ties uniform (small bits saved) OR the RD curve is a flat cliff
             "null_supported": bool(bits_saved <= margin or is_cliff),
         }
         return out
 
 
 def _rate_at_bwt(curve, target_bwt: float) -> float:
-    """The uniform rate whose BWT is closest to target (a crude inverse of the RD curve)."""
     return min(curve, key=lambda rb: abs(rb[1] - target_bwt))[0]
 
 
@@ -650,14 +572,7 @@ def _auc(curve) -> float:
     return area / span
 
 
-# ----------------------------------------------------------------------------------------------------
-# I6: mutual-information predictivity audit
-# ----------------------------------------------------------------------------------------------------
 class I6(Experiment):
-    """Estimate the MI the probe says is decodable (the EX12 ceiling) and the MI the trained shell
-    actually uses (from its own outputs), via a plug-in estimator on discretized factors and a
-    variational InfoNCE lower bound as a cross-check. Report the exploitation ratio = MI used / MI
-    decodable per factor across capacity rungs, separating substrate-bound from shell-bound."""
 
     id = "i6_mi_audit"
     metric = ("exploitation_ratio", "mi_decodable", "mi_used")
@@ -670,7 +585,6 @@ class I6(Experiment):
     tier = "cpu-now"
 
     def _plugin_mi(self, codes: torch.Tensor, y: torch.Tensor, k: int) -> float:
-        """Plug-in MI between a discrete code and the label, in nats (empirical joint vs marginals)."""
         nc = int(y.max()) + 1
         joint = torch.zeros(k, nc)
         for c, yy in zip(codes.tolist(), y.tolist(), strict=True):
@@ -705,9 +619,7 @@ class I6(Experiment):
             x, y = task.x, task.y
             xtr, ytr, xte, yte = _split(x, y, 0.7)
             nc = int(y.max()) + 1
-            # MI decodable ceiling: discretize the probe-predicted label, plug-in MI with truth
             probe_acc = linear_probe(x, y, seed=s)["score"]
-            # cap label entropy by the empirical class distribution
             h_y = _entropy(y, nc)
             mi_dec = max(0.0, h_y * (probe_acc - 1.0 / nc) / (1.0 - 1.0 / nc + 1e-9))  # acc-scaled ceiling
             for h in hiddens:
@@ -721,7 +633,6 @@ class I6(Experiment):
                 with torch.no_grad():
                     pred = net(xte).argmax(-1)
                 mi_used = self._plugin_mi(pred, yte, nc)
-                # InfoNCE cross-check on the shell logits (a variational MI lower bound proxy)
                 with torch.no_grad():
                     logits = net(xte)
                 mi_nce = _infonce_mi(logits, yte)
@@ -737,7 +648,6 @@ class I6(Experiment):
         mi_dec = _mean(dec_list)
         mi_used = _mean(used_list)
         full_ratio = mi_used / (mi_dec + 1e-9)
-        # estimator agreement: plug-in vs InfoNCE rank/level agreement at the top rung
         est_corr = _spearman(plug_list, nce_list) if len(plug_list) > 1 else 1.0
         estimators_disagree = bool(abs(_mean(plug_list) - _mean(nce_list)) > float(e.estimator_tol))
         near_one = bool(full_ratio >= float(e.ratio_threshold))
@@ -750,7 +660,6 @@ class I6(Experiment):
             "mi_infonce_mean": round(_mean(nce_list), 4),
             "estimator_spearman": round(est_corr, 4),
             "seeds": list(seeds),
-            # null: ratio near 1 (no headroom) OR the estimators disagree (ratio uninterpretable)
             "null_supported": bool(near_one or estimators_disagree),
         }
         return out
@@ -764,21 +673,13 @@ def _entropy(y: torch.Tensor, nc: int) -> float:
 
 
 def _infonce_mi(logits: torch.Tensor, y: torch.Tensor) -> float:
-    """A variational MI lower bound proxy from a trained classifier: H(Y) minus the cross-entropy gap."""
     nc = logits.shape[1]
     h_y = _entropy(y, nc)
     ce = float(F.cross_entropy(logits, y))
     return max(0.0, h_y - ce)
 
 
-# ----------------------------------------------------------------------------------------------------
-# I7: predictive information past-future bottleneck
-# ----------------------------------------------------------------------------------------------------
 class I7(Experiment):
-    """On forward-dynamics streams with next-latent targets, train a recode that keeps the predictive
-    component (a past-future bottleneck) by regressing the next latent through a width-W code. Compare
-    the predictive-only code against the raw latent and a frozen-random projection on next-latent
-    prediction (rollout R2). How much of the pooled latent is predictive vs instantaneous."""
 
     id = "i7_predictive_information"
     metric = ("predictive_information_fraction", "rollout_r2_code_vs_raw", "next_latent_prediction_error")
@@ -827,7 +728,6 @@ class I7(Experiment):
             x, xn = task.x, task.xnext
             assert xn is not None  # forward_dynamics=True guarantees the next-latent target
             xtr, ntr, xte, nte = _split(x, xn, 0.7)
-            # predictive-only code: width-W bottleneck trained to predict the FUTURE latent
             seed_everything(s)
             enc = nn.Linear(dim, w)
             dec = nn.Linear(w, dim)
@@ -839,14 +739,12 @@ class I7(Experiment):
             with torch.no_grad():
                 code_pred = dec(enc(xte))
             code_r2.append(self._r2(code_pred, nte))
-            # raw latent at full dim, and frozen-random projection, predicting the future
             raw_pred = self._fit_predict(xtr, ntr, xte, nte, int(e.epochs), float(e.lr), s)
             raw_r2.append(self._r2(raw_pred, nte))
             xfr = frozen_random_projection(x, s)
             fxtr, fxte = xfr[: xtr.shape[0]], xfr[xtr.shape[0] :]
             fr_pred = self._fit_predict(fxtr, ntr, fxte, nte, int(e.epochs), float(e.lr), s)
             fr_r2.append(self._r2(fr_pred, nte))
-            # predictive information fraction: I(code; future) / I(latent; future), proxied by R2 ratio
             pfrac.append(max(0.0, self._r2(code_pred, nte)) / (max(1e-6, self._r2(raw_pred, nte))))
 
         rr, cr, fr = _mean(raw_r2), _mean(code_r2), _mean(fr_r2)
@@ -863,20 +761,12 @@ class I7(Experiment):
             "next_latent_prediction_error": round(1.0 - cr, 4),
             "code_width": w,
             "seeds": list(seeds),
-            # null: code ties raw at matched dim (gain small) OR predictive information near zero
             "null_supported": bool(gain <= margin or rr <= float(e.zero_r2)),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# I8: quantization-robustness as a representation-quality signal
-# ----------------------------------------------------------------------------------------------------
 class I8(Experiment):
-    """A degradation battery: per-feature uniform quantization at decreasing bit depths, applied to real
-    and frozen-random latents, with probe-accuracy curves per substrate. Is graceful degradation a
-    V-JEPA property specifically, or does any projection degrade identically (the D2 honest fact that
-    linear decodability is projection-invariant, taxonomy 3)."""
 
     id = "i8_quant_robustness"
     metric = ("bits_to_half_accuracy", "degradation_curve_area", "real_minus_frozen_random")
@@ -919,7 +809,6 @@ class I8(Experiment):
         acc_real = {b: round(_mean(real_agg[b]), 4) for b in bits}
         acc_fr = {b: round(_mean(fr_agg[b]), 4) for b in bits}
         gap = _mean(gaps)
-        # bits to half accuracy on the real substrate (lowest bit depth keeping >= 0.5)
         order = sorted(bits)
         half = next((b for b in order if acc_real[b] >= 0.5), max(bits))
         margin = float(e.gap_margin)
@@ -933,20 +822,12 @@ class I8(Experiment):
             "degradation_curve_area_frozen_random": round(_mean(fr_areas), 4),
             "real_more_robust": bool(gap > margin),
             "seeds": list(seeds),
-            # null: real and frozen-random degradation curves overlap (gap small)
             "null_supported": bool(gap <= margin),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# I9: VQ codebook rate-distortion-usability
-# ----------------------------------------------------------------------------------------------------
 class I9(Experiment):
-    """Sweep codebook size (rate in bits per latent = log2 codes) for a learned VQ codebook, k-means,
-    and a random codebook. For each rate measure distortion (reconstruction error) and usability
-    (cluster purity). Does discrete abstraction trade bits for reusable structure better than k-means
-    and a random codebook, or do they tie on usability-per-bit (the EX16 null in RD terms)."""
 
     id = "i9_vq_rate_distortion"
     metric = ("rate_distortion_curve", "usability_per_bit", "vq_minus_kmeans_margin")
@@ -959,7 +840,6 @@ class I9(Experiment):
     tier = "cpu-now"
 
     def _vq_fit(self, x, k, iters, lr, seed):
-        """A learned VQ codebook: gradient-trained centroids with a straight-through commitment loss."""
         seed_everything(seed)
         g = torch.Generator().manual_seed(seed)
         idx = torch.randperm(x.shape[0], generator=g)[:k]
@@ -970,7 +850,6 @@ class I9(Experiment):
             d = torch.cdist(x, cb)
             codes = d.argmin(1)
             q = cb[codes]
-            # commitment + codebook loss (the VQ-VAE objective without a pixel decoder)
             loss = F.mse_loss(q, x.detach()) + 0.25 * F.mse_loss(q.detach(), x)
             loss.backward()
             opt.step()
@@ -1023,7 +902,6 @@ class I9(Experiment):
             }
 
         vq, km, rnd = summarize(vq_curve), summarize(km_curve), summarize(rnd_curve)
-        # VQ usability-per-bit advantage over k-means, averaged across rates
         vq_upb = [vq[k]["usability_per_bit"] for k in sizes]
         km_upb = [km[k]["usability_per_bit"] for k in sizes]
         rnd_upb = [rnd[k]["usability_per_bit"] for k in sizes]
@@ -1041,7 +919,6 @@ class I9(Experiment):
             "vq_minus_kmeans_margin": round(vq_minus_km, 4),
             "usability_flat_in_rate": flat_in_rate,
             "seeds": list(seeds),
-            # null: VQ ties k-means on usability-per-bit (small margin) OR usability flat in rate
             "null_supported": bool(vq_minus_km <= margin or flat_in_rate),
         }
         return out

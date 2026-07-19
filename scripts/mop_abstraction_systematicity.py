@@ -1,64 +1,3 @@
-"""LEVER 2: compositional / analogical abstraction on REAL V-JEPA latents.
-
-Substrate: data/cache/vjepa2_vitl_nuisance -- REAL pooled V-JEPA ViT-L latents (1024d) on a clean
-5x5 factorial grid (shape in 0..4, color in 0..4), 8 clips per cell, 200 total. LABEL-FREE clips.
-Control (the bounding null): data/cache/randominit_vitl_nuisance -- SAME architecture ViT-L, UNTRAINED,
-same 256px clips, IDENTICAL shape/color labels. This is the matched frozen-random substrate: if an
-untrained ViT reproduces the compositional structure, it is geometry/architecture-inherited, not learned
-abstraction. Beating a synthetic shuffle is NOT enough (the count-confound lesson); the win must beat the
-random-init substrate.
-
-GATE (measured, not assumed): on real latents shape acc ~0.79, color acc ~0.65 (both decodable). On
-random-init shape ~0.26 (near chance 0.20) but color ~0.99 (color is a trivial low-level pixel statistic
-that an untrained net recovers for free). So color is a CONFOUNDED factor for the random baseline and shape
-is the ABSTRACT factor. The tests are designed so a trivial pixel-statistic substrate cannot pass.
-
-TWO PREREGISTERED TESTS
-=======================
-
-TEST A -- ANALOGY (structure-mapping of the SHAPE relation across color).
-  CONFOUND-AWARE AXIS: an earlier diagnostic showed color is a trivial linear pixel-statistic axis on the
-  UNTRAINED substrate (color-offset cross-shape parallelism cosine 0.89, color-analogy 0.99), so testing
-  the color relation would let a random encoder "win" for free -- the exact count-confound trap. Color is
-  therefore the CONFOUNDED axis and must NOT be the analogy target. Shape is the abstract factor (untrained
-  shape-analogy is 0.0). So TEST A transfers the SHAPE offset across COLOR contexts, the axis a pixel
-  statistic cannot fake.
-  For a fixed shape pair (X -> Y), the offset o_c = centroid(z | color=c, shape=Y) - centroid(z | color=c,
-  shape=X) is estimated on a set of DONOR colors and TRANSFERRED to a held-out target color t:
-  pred = centroid(z | color=t, shape=X) + mean_{c != t} o_c. Score = retrieval top-1: does pred land
-  nearest (over all 5 shape centroids at color=t) to the true centroid(z | color=t, shape=Y). This asks
-  whether the shape relation is a COLOR-INDEPENDENT parallel offset (the parallelogram).
-  Averaged over all shape pairs (X,Y), all target colors t, and seeds (seed = bootstrap resample of the 8
-  per-cell samples for centroid estimation).
-  Baselines on the SAME construction:
-    - chance = 1/5 = 0.20 (random pick among 5 shape centroids at the target color)
-    - shuffled-offset control: transfer an offset for a MISMATCHED shape pair (breaks the relation)
-    - random-init substrate: identical pipeline on random-init latents (the bounding null)
-  ANALOGY WIN RULE (prereg): real top1 CI_lo (over seeds) > max(shuffled-offset mean, chance) AND
-    real mean - random_init mean has CI_lo > 0 (no flip). Real must beat BOTH its own shuffle floor and
-    the random-init substrate. A tie on either is a NULL.
-
-TEST B -- SYSTEMATIC GENERALIZATION (held-out cells).
-  Train a linear SHAPE probe on a subset of the 25 (shape,color) cells; test on held-out cells whose
-  (shape,color) combination was never seen in training. Held-out design: a "staircase" so that every
-  shape appears in training with SOME colors but the specific (shape,color) test cells are novel
-  conjunctions. This is systematicity: recombining a known shape with a color context it was not trained
-  on. Compositional generalization delta = held-out-cell shape accuracy MINUS a non-compositional
-  baseline. The non-compositional baseline is the SAME probe evaluated when the held-out mask is a random
-  subset of ROWS (a nearest-in-count control that removes whole samples but not whole conjunctions), i.e.
-  the systematic (novel-conjunction) split vs a random (i.i.d.) split of equal test size. If the substrate
-  is purely conjunction-memorizing, novel-conjunction accuracy collapses relative to the i.i.d. split.
-  Baselines:
-    - random-init substrate swept identically (bounding null)
-    - shuffle-label floor (chance ~0.20)
-  SYSTEMATICITY WIN RULE (prereg): real novel-conjunction shape accuracy CI_lo > chance + 0.15 (does not
-    cliff to chance), AND (real novel-conj acc - random_init novel-conj acc) CI_lo > 0 (substrate buys
-    generalization beyond the untrained net). A tie is a NULL. We ALSO report the systematic-generalization
-    DELTA = novel-conjunction acc - i.i.d.-split acc (0 means fully systematic, negative means a
-    conjunction-memorization penalty); this is the headline "systematic-generalization delta".
-
-A TIE IS A NULL. No score is faked. Everything is seeded.
-"""
 
 import json
 from pathlib import Path
@@ -90,21 +29,13 @@ def standardize(x):
 
 
 def cell_index(sh, co):
-    """dict (shape,color) -> list of row indices."""
     d = {}
     for i in range(sh.shape[0]):
         d.setdefault((int(sh[i]), int(co[i])), []).append(i)
     return d
 
 
-# ----------------------------------------------------------------------------------------------------
-# TEST A: analogy (parallel color-offset transfer across shape)
-# ----------------------------------------------------------------------------------------------------
 def analogy_top1(x, sh, co, seed, shuffled=False, subsample=True):
-    """Bootstrap per-cell samples (seed), build centroids, transfer SHAPE offset across COLOR.
-    cent[s,c] = centroid of latents at (shape=s, color=c). We transfer a shape pair X->Y offset,
-    estimated on DONOR colors, to a held-out target color t, then retrieve among the 5 shape centroids
-    at that color. Returns mean retrieval top1 over all shape pairs (X!=Y) and all target colors t."""
     g = torch.Generator().manual_seed(seed)
     cells = cell_index(sh, co)
     cent = torch.zeros(N_SHAPE, N_COLOR, x.shape[1])
@@ -120,12 +51,10 @@ def analogy_top1(x, sh, co, seed, shuffled=False, subsample=True):
     hits, total = 0, 0
     shape_pairs = [(sx, sy) for sx in range(N_SHAPE) for sy in range(N_SHAPE) if sx != sy]
     for sx, sy in shape_pairs:
-        # offset per color for this shape pair: cent[sy, c] - cent[sx, c]
         offs = cent[sy, :] - cent[sx, :]  # [N_COLOR, dim]
         for t in range(N_COLOR):
             donors = [c for c in range(N_COLOR) if c != t]
             if shuffled:
-                # mismatched shape pair: build the transferred offset from a DIFFERENT (sx2,sy2)
                 gi = torch.Generator().manual_seed(seed + t + 100 * sx + sy)
                 alt = shape_pairs[int(torch.randint(0, len(shape_pairs), (1,), generator=gi))]
                 offs_alt = cent[alt[1], :] - cent[alt[0], :]
@@ -133,7 +62,6 @@ def analogy_top1(x, sh, co, seed, shuffled=False, subsample=True):
             else:
                 transfer = offs[torch.tensor(donors)].mean(0)
             pred = cent[sx, t] + transfer
-            # retrieval over the 5 shape centroids at the target color t
             d = (cent[:, t] - pred).norm(dim=-1)  # [N_SHAPE]
             if int(d.argmin()) == sy:
                 hits += 1
@@ -154,9 +82,6 @@ def run_analogy():
         rand.append(analogy_top1(xf, sh, co, s, shuffled=False))
     diff = [r - f for r, f in zip(real, rand, strict=False)]  # real minus random-init, per seed
 
-    # permutation null: shuffle shape labels WITHIN each color column, rebuild centroids (full sample,
-    # no bootstrap), recompute analogy. If real sits far above this, the shape relation (not centroid
-    # geometry) drives the parallelogram. 200 permutations.
     def _full_cent(xf_, sh_lab):
         cl = cell_index(sh_lab, co)
         cent = torch.zeros(N_SHAPE, N_COLOR, xf_.shape[1])
@@ -225,9 +150,6 @@ def run_analogy():
     }
 
 
-# ----------------------------------------------------------------------------------------------------
-# TEST B: systematic generalization (novel-conjunction held-out cells)
-# ----------------------------------------------------------------------------------------------------
 def _train_shape_probe(xtr, ytr, dim, epochs=200, lr=0.05, seed=0):
     seed_everything(seed)
     head = torch.nn.Linear(dim, N_SHAPE)
@@ -240,17 +162,6 @@ def _train_shape_probe(xtr, ytr, dim, epochs=200, lr=0.05, seed=0):
 
 
 def systematicity_split(x, sh, co, seed):
-    """Novel-conjunction (systematic) split vs i.i.d. split of equal test size.
-
-    Systematic split: hold out a fixed set of (shape,color) CELLS as test; every shape and every color
-    still appears in training (in other cells), so the model has seen the shape and the color separately
-    but never THIS conjunction. Held-out cells = the anti-diagonal band: (s, (s+k) % N_COLOR) for
-    k in {0,1} -> 2 cells per shape, 10 of 25 cells held out.
-
-    i.i.d. split: hold out the SAME NUMBER of individual samples chosen at random across all cells
-    (conjunctions all seen in training). Equal test-set size -> fair accuracy comparison. If the substrate
-    only memorizes conjunctions, systematic acc << iid acc.
-    """
     cells = cell_index(sh, co)
     held_cells = set()
     for s in range(N_SHAPE):
@@ -265,7 +176,6 @@ def systematicity_split(x, sh, co, seed):
             sys_train_idx += idxs
     n_test = len(sys_test_idx)
 
-    # i.i.d. split of equal size
     g = torch.Generator().manual_seed(seed + 777)
     all_idx = torch.arange(x.shape[0])
     perm = all_idx[torch.randperm(x.shape[0], generator=g)]
@@ -340,7 +250,6 @@ def main():
     analogy = run_analogy()
     systematicity = run_systematicity()
 
-    # overall verdict: at least one test must WIN under its prereg rule for abstraction to push past null
     any_win = bool(analogy["analogy_win"] or systematicity["systematicity_win"])
     result = {
         "lever": "2_systematicity_analogy_real_vjepa_latents",

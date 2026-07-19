@@ -43,8 +43,6 @@ def _synthetic_clips(
     return clips
 
 
-
-
 def test_variant_id_and_spread_param_count() -> None:
     assert VARIANT_ID == "recurrence_spread"
     assert N_SPREAD_PARAMS == 2
@@ -81,8 +79,6 @@ def test_state_is_the_committed_few_kb_online_state() -> None:
     assert REFRACTORY_FRAMES == 3
 
 
-
-
 def test_flops_surface_matches_documented_constants() -> None:
     assert FLOPS_PER_INFERENCE_SPREAD == FLOPS_PER_INFERENCE + FLOPS_SPREAD_HEAD
     assert FLOPS_PER_INFERENCE_SPREAD == 6407
@@ -92,13 +88,9 @@ def test_flops_surface_matches_documented_constants() -> None:
     assert gate.total_training_flops(1000, 8) == gate.signal_training_flops(1000, 8) + gate.search_flops
 
 
-
-
 def test_infer_interface_carries_no_label() -> None:
     params = list(inspect.signature(RecurrenceSpreadGate.infer).parameters)
     assert params == ["self", "features", "state"]
-
-
 
 
 def test_no_spread_is_byte_identical_to_the_committed_gate() -> None:
@@ -111,8 +103,6 @@ def test_no_spread_is_byte_identical_to_the_committed_gate() -> None:
         assert gate.infer(row, state) == signal.infer(row, state)
         p = gate.infer(row, state)
         state = state.update(row, p, p >= 0.5)
-
-
 
 
 def test_penalty_only_suppresses_after_a_recent_fire() -> None:
@@ -138,8 +128,6 @@ def test_effective_probability_stays_in_unit_interval() -> None:
     assert fires == sorted(set(fires))
 
 
-
-
 def test_causal_pass_is_deterministic() -> None:
     a = _gate(seed=4, density_weight=1.0, refractory_weight=2.0)
     b = _gate(seed=4, density_weight=1.0, refractory_weight=2.0)
@@ -157,8 +145,6 @@ def test_parameter_digest_tracks_weights_and_seed() -> None:
     assert base.parameter_digest() != _gate(seed=1).parameter_digest()
     assert base.parameter_digest() != _gate(seed=0, density_weight=1.0).parameter_digest()
     assert base.parameter_digest() != _gate(seed=0, refractory_weight=1.0).parameter_digest()
-
-
 
 
 def test_fit_spread_is_deterministic_and_records_honest_search_cost() -> None:

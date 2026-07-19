@@ -1,23 +1,3 @@
-"""Fail-closed state machine for the MoP substrate Stage 0 to 5 ladder (the ladder spine).
-
-This module raises the SCAFFOLDING axis only. It encodes the Stage 0 to 5 substrate ladder from
-GENERATIONS.md as a deterministic, fail-closed state machine: six ordered stage definitions, a
-ladder whose current position is Stage 2, and an ``advance`` transition that REFUSES unless every
-declared entry requirement of the immediate next stage is met by a supplied confirmation receipt.
-It performs no experiment, loads no weights, and touches no network or natural data. It builds the
-harness that says what a stage transition must clear, never a transition that has been earned.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability claim.
-A green contract here means the transition rules are complete and self-consistent, never that any
-Stage 3 mechanism, integrated architecture advantage, or session-disjoint validity has been shown.
-The known statuses are copied byte-faithfully from GENERATIONS.md: Stage 0, 1, and 2 complete;
-Stage 3 not achieved; Stage 4 and Stage 5 not entered. The forcing prior null for Stage 3 is the
-Generation 0 first-mechanism null cluster (the X0 event-formation strong null and the CM7
-familywise-corrected custom-substrate null); no receipt for that stage validates unless it declares
-it overturns that named null under matched cost and the declared controls.
-
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -30,8 +10,6 @@ from ..substrate.events import canonical_sha256
 
 STAGE_LADDER_SCHEMA = "mop-stage-ladder/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
@@ -41,7 +19,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class LadderRefusal(ValueError):
-    """Raised whenever a stage transition, receipt, or declaration is malformed or unearned."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -54,9 +32,6 @@ def _require_sha256(value: str, label: str) -> None:
         raise LadderRefusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-# ---------------------------------------------------------------------------
-# Byte-faithful ladder record (GENERATIONS.md, "The substrate ladder (Stage 0 to 5)").
-# ---------------------------------------------------------------------------
 
 STAGE_NAMES: tuple[str, ...] = (
     "Governance, measurement, falsification, recovery",
@@ -82,25 +57,17 @@ STAGE_STATUSES: tuple[str, ...] = (
 
 ALLOWED_STATUSES: frozenset[str] = frozenset({STATUS_COMPLETE, STATUS_NOT_ACHIEVED, STATUS_NOT_ENTERED})
 
-# The current earned floor. Stages 0, 1, and 2 are complete; the ladder sits at Stage 2.
 CURRENT_STAGE_INDEX = 2
-# The first stage whose entry is not yet earned and whose activation is gated off by default.
 FIRST_ACTIVATION_STAGE = 3
 MAX_STAGE_INDEX = 5
 
-# The named prior nulls that force each unearned stage's bar (GENERATIONS.md Generation 0 and the
-# Stage 3+ bar section). No receipt for a stage validates unless it declares it overturns its null.
 STAGE3_FORCING_NULL = (
     "gen0 first-mechanism nulls (X0 event-formation strong null; CM7 familywise-corrected null)"
 )
 STAGE4_FORCING_NULL = "no current integrated architecture advantage over simpler organizations"
 STAGE5_FORCING_NULL = "no session-disjoint general validity demonstrated under matched cost"
 
-# ---------------------------------------------------------------------------
-# Control tuples. Membership AND order are load-bearing; a manifest fails closed on any drift.
-# ---------------------------------------------------------------------------
 
-# The matched baselines a Stage 3 or Stage 4 mechanism receipt must have cleared.
 REQUIRED_MECHANISM_CONTROLS: tuple[str, ...] = (
     "untrained-control",
     "matched-sparse",
@@ -109,7 +76,6 @@ REQUIRED_MECHANISM_CONTROLS: tuple[str, ...] = (
     "random-target",
 )
 
-# The session-disjoint validity axes a Stage 5 validity receipt must have cleared.
 SESSION_DISJOINT_AXES: tuple[str, ...] = (
     "fresh-session",
     "fresh-seed",
@@ -118,14 +84,12 @@ SESSION_DISJOINT_AXES: tuple[str, ...] = (
     "independent-reconstruction",
 )
 
-# The resource axes a Stage 5 efficiency receipt must have measured under matched cost.
 EFFICIENCY_CONTROLS: tuple[str, ...] = (
     "matched-params",
     "matched-flops",
     "measured-wall-clock",
 )
 
-# Entry requirement ids per stage, and the controls each requirement must have cleared.
 STAGE_ENTRY_REQUIREMENTS: tuple[tuple[str, ...], ...] = (
     (),
     ("stage1.programmable_heterogeneous_mechanics",),
@@ -151,16 +115,11 @@ STAGE_FORCING_NULLS: tuple[str, ...] = (
     STAGE5_FORCING_NULL,
 )
 
-# How many distinct confirmed mechanism receipts a stage entry demands.
 STAGE_MIN_MECHANISM_RECEIPTS: tuple[int, ...] = (0, 0, 0, 1, 2, 0)
 
 
 @dataclass(frozen=True, slots=True)
 class ControlManifest:
-    """Pins the mechanism, session-disjoint, and efficiency control tuples against silent drift.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str = STAGE_LADDER_SCHEMA
     mechanism_controls: tuple[str, ...] = REQUIRED_MECHANISM_CONTROLS
@@ -194,22 +153,14 @@ class ControlManifest:
 
 
 def assert_control_manifest() -> ControlManifest:
-    """Module-level fail-closed check that the declared control tuples have not drifted."""
 
     return ControlManifest()
 
 
-# ---------------------------------------------------------------------------
-# Matched-cost discipline. Any Stage 3+ comparison is implied; a vacuous budget refuses.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-    """The matched full-system budget a Stage 3+ confirmation must have been measured under.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     params: int
     flops: int
@@ -235,20 +186,10 @@ class MatchedBudget:
         }
 
 
-# ---------------------------------------------------------------------------
-# Confirmation receipt. The only thing that can satisfy an unearned stage's entry requirement.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
-    """A confirmation that one entry requirement of one stage is met: schema, digest, requirement.
-
-    A receipt is a declaration that some external, independently verified evidence exists. It carries
-    no evidence itself; it names the requirement it clears, the digest of the confirmed evidence, the
-    controls that were cleared, the prior null that was overturned, and the matched budget it was
-    measured under. Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     requirement_id: str
     digest: str
@@ -286,20 +227,10 @@ class ConfirmationReceipt:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Activation gate. OFF by default; a bare authorize call always refuses.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class StageActivationGate:
-    """Fail-closed gate over entry into an unearned stage. Local code cannot flip it open.
-
-    Advancing into Stage 3 or beyond means activating machinery that no receipt has yet earned. The
-    gate encodes "activation not earned yet": a bare authorize call always raises, and a licensed
-    advance is admitted only when confirmation receipts are actually supplied. Claim scope:
-    deterministic programmatic mechanics only; no capability claim.
-    """
 
     activation_required: bool = True
     local_activation_permitted: bool = False
@@ -311,7 +242,6 @@ class StageActivationGate:
             raise LadderRefusal("local activation of an unearned stage is never permitted")
 
     def authorize_local(self) -> None:
-        """Fail closed: local code may never self-authorize entry into an unearned stage."""
 
         raise LadderRefusal(
             "stage activation is not earned; local code cannot open this gate. "
@@ -319,7 +249,6 @@ class StageActivationGate:
         )
 
     def assert_licensed(self, target_stage: int, receipts: Sequence[ConfirmationReceipt]) -> None:
-        """Fail closed unless entering an already-earned stage or genuine receipts are supplied."""
 
         if target_stage >= FIRST_ACTIVATION_STAGE and not receipts:
             raise LadderRefusal(
@@ -334,17 +263,10 @@ class StageActivationGate:
         }
 
 
-# ---------------------------------------------------------------------------
-# Stage definition. One rung of the ladder with its entry requirements and forcing null.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class StageDefinition:
-    """One stage of the substrate ladder: index, name, documented status, and entry requirements.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     stage_index: int
     name: str
@@ -404,7 +326,6 @@ class StageDefinition:
 
 
 def build_stage_definitions() -> tuple[StageDefinition, ...]:
-    """Return the six byte-faithful stage definitions in canonical index order."""
 
     return tuple(
         StageDefinition(
@@ -420,17 +341,10 @@ def build_stage_definitions() -> tuple[StageDefinition, ...]:
     )
 
 
-# ---------------------------------------------------------------------------
-# The ladder. Holds all six stages, sits at Stage 2, and advances only under receipts.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class StageLadder:
-    """The substrate ladder as a fail-closed state machine positioned at Stage 2.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     stages: tuple[StageDefinition, ...]
     current_stage_index: int = CURRENT_STAGE_INDEX
@@ -475,7 +389,6 @@ class StageLadder:
         return set(required) <= set(receipt.controls_cleared)
 
     def unmet_requirements(self, target_stage: int, receipts: Sequence[ConfirmationReceipt]) -> list[str]:
-        """Return the human-readable reasons the target stage cannot yet be entered."""
 
         stage = self.stage(target_stage)
         reasons: list[str] = []
@@ -500,7 +413,6 @@ class StageLadder:
         return reasons
 
     def advance(self, target_stage: int, receipts: Sequence[ConfirmationReceipt]) -> StageLadder:
-        """Advance one rung. Refuse skipping, backward moves, and any unmet entry requirement."""
 
         if not 0 <= target_stage <= MAX_STAGE_INDEX:
             raise LadderRefusal("there is no stage beyond Stage 5")
@@ -515,7 +427,6 @@ class StageLadder:
         return replace(self, current_stage_index=target_stage)
 
     def ladder_state(self) -> dict[str, Any]:
-        """Report each stage's status and, for stages not yet reached, its unmet requirements."""
 
         stage_rows: list[dict[str, Any]] = []
         for stage in self.stages:
@@ -560,18 +471,14 @@ class StageLadder:
 
 
 def build_default_ladder() -> StageLadder:
-    """Return the canonical ladder: six byte-faithful stages positioned at Stage 2."""
 
     return StageLadder(stages=build_stage_definitions())
 
 
-# ---------------------------------------------------------------------------
 # Coverage record: which sub-question of this epoch each stage rung answers (readiness only).
-# ---------------------------------------------------------------------------
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static readiness record mapping each ladder stage to at least two coverage bullets."""
 
     return {
         "stage_0": (

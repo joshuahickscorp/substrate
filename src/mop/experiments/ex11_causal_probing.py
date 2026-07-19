@@ -1,23 +1,3 @@
-"""EX11: causal / interventional probing (do-operations on a control family). Does the shell learn
-a genuine interventional map do(v) -> post-intervention latent, or does it merely memorize the
-observational co-occurrence of v with its natural effect. A controllable synthetic factor v drives a
-cluster center; do(v=value) SETS v directly (an intervention), as opposed to sampling v from its
-natural distribution (observation). The intervention predictor sees (pre-intervention latent, v) pairs
-drawn from a bounded TRAINING range of v and must predict the post-intervention latent; it is tested
-both on held-out v inside that range (interpolation) and on v strictly outside it (extrapolation, never
-seen at any value nearby). An observational-predictor control never sees do() at all, it only sees
-latents paired with the v that naturally co-occurred with them (a narrower slice of the v range, so
-seen-v and effect are confounded exactly as in pure observation), then is evaluated the same way.
-
-NULL: the shell cannot learn an interventional map beyond the observational one. It fits seen
-intervention values (small post_intervention_error) but the error on unseen, out-of-range values is
-much larger than on held-out in-range values (large extrapolation_gap): what looks learned is curve-
-fitting over the observed v support, not a mechanism that generalizes to a genuinely new intervention.
-Negative-result taxonomy slot 3 (no causal structure beyond correlation in the pooled latent) or 4
-(predictor too weak to extrapolate). cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -34,7 +14,6 @@ from .base import Experiment
 
 
 def _direction(g: torch.Generator, dim: int) -> torch.Tensor:
-    """A fixed unit direction in latent space: the axis the scalar factor v moves the cluster along."""
     d = torch.randn(dim, generator=g)
     return d / d.norm().clamp_min(1e-8)
 
@@ -49,10 +28,6 @@ def _make_intervention_data(
     v_hi: float,
     noise: float,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """Sample n rows: a pre-intervention latent (a noisy draw near `base`), a do(v) value drawn
-    uniformly from [v_lo, v_hi], and the resulting post-intervention latent y = base + v*axis + noise.
-    This is do(v=value): v is SET, independent of the pre-intervention latent, which is the defining
-    feature of an intervention versus an observation."""
     x = base + torch.randn(n, base.shape[0], generator=g) * noise
     v = torch.rand(n, generator=g) * (v_hi - v_lo) + v_lo
     y = base + v.unsqueeze(1) * axis.unsqueeze(0) + torch.randn(n, base.shape[0], generator=g) * noise
@@ -69,11 +44,6 @@ def _make_observational_data(
     v_hi: float,
     noise: float,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """Sample n rows the OBSERVATIONAL way: v is drawn from the natural distribution (here the same
-    marginal support as training, narrower than the full do() range) and the pre-intervention latent is
-    correlated with v itself (v leaks into the "before" view), the confound an observational-only
-    learner cannot break. Used only to fit the observational-predictor control, never the intervention
-    predictor."""
     v = torch.rand(n, generator=g) * (v_hi - v_lo) + v_lo
     x = base + 0.5 * v.unsqueeze(1) * axis.unsqueeze(0) + torch.randn(n, base.shape[0], generator=g) * noise
     y = base + v.unsqueeze(1) * axis.unsqueeze(0) + torch.randn(n, base.shape[0], generator=g) * noise
@@ -81,8 +51,6 @@ def _make_observational_data(
 
 
 class _InterventionPredictor(nn.Module):
-    """(pre-intervention latent, do(v)) -> post-intervention latent. v is concatenated as a scalar
-    channel, the minimal interventional interface: the model is handed the SET value directly."""
 
     def __init__(self, dim: int, hidden: int, depth: int):
         super().__init__()
@@ -138,25 +106,20 @@ class EX11(Experiment):
             base = torch.randn(dim, generator=g)
             axis = _direction(g, dim)
 
-            # interventional predictor: trained ONLY on do(v) in [v_lo, v_hi]
             xtr, vtr, ytr = _make_intervention_data(g, n_train, dim, base, axis, v_lo, v_hi, noise)
             model = _InterventionPredictor(dim, hidden, depth)
             _fit(model, xtr, vtr, ytr, epochs, lr)
 
-            # held-out SEEN-range interventions (interpolation: same support as training)
             xte_seen, vte_seen, yte_seen = _make_intervention_data(
                 g, n_test, dim, base, axis, v_lo, v_hi, noise
             )
             seen_err = _mse(model, xte_seen, vte_seen, yte_seen)
 
-            # UNSEEN-range interventions (extrapolation: v strictly outside [v_lo, v_hi])
             xte_un, vte_un, yte_un = _make_intervention_data(
                 g, n_test, dim, base, axis, extrap_lo, extrap_hi, noise
             )
             unseen_err = _mse(model, xte_un, vte_un, yte_un)
 
-            # observational-predictor control: never sees do(), fit on confounded natural co-occurrence
-            # over the same v support as training, then evaluated under true intervention (seen range)
             xobs, vobs, yobs = _make_observational_data(g, n_train, dim, base, axis, v_lo, v_hi, noise)
             obs_model = _InterventionPredictor(dim, hidden, depth)
             _fit(obs_model, xobs, vobs, yobs, epochs, lr)
@@ -171,11 +134,7 @@ class EX11(Experiment):
         observational_control_error = sum(obs_errs) / len(obs_errs)
         extrapolation_gap = extrapolation_error - post_intervention_error
 
-        # honest null: the interventional map fits seen v well but the gap to unseen v is large,
-        # i.e. what was learned does not extrapolate past the observed intervention support.
         null_supported = bool(extrapolation_gap > margin * max(post_intervention_error, 1e-8))
-        # sanity check: an intervention-aware learner should beat the observational-only control
-        # when both are evaluated under a TRUE intervention (do() breaks the observational confound).
         beats_observational_control = bool(post_intervention_error < observational_control_error)
 
         out = {

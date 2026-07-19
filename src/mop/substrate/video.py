@@ -1,20 +1,3 @@
-"""Real-video ingestion. The missing piece between cached synthetic latents and real natural
-video: decode video files -> clips shaped for V-JEPA (pixel_values_videos = [B,T,3,H,W]) ->
-the existing cache_latents pipeline -> the memmap store the whole shell already consumes.
-
-The PREPROCESSING core (sample frames, resize, normalize) is torch-only and fully tested. The
-video DECODE is a lazy backend (torchvision.io, then decord) so the package adds no hard dep;
-install one via `uv pip install -e ".[video]"`. On the Studio: drop class-foldered clips and run
-scripts/cache_video.py. Today (no codec / no clips) the preprocessing path is exercised on
-synthetic frames, so it is verified before any real video exists.
-
-HARDENING: validate_source checks the class-folder layout before a single byte is decoded;
-caching persists a sorted-folder->index label_map.json so labels are reproducible; every clip
-gets a sha256 content hash so duplicates are detectable (warned + counted); short clips pad to
-frames_per_clip; corrupt/undecodable files are skipped (logged + counted), never crashing the
-whole cache; a pre-existing partial store/label_map is detected and reported. None of this adds
-a dependency: the decode backend stays lazy and everything else is torch+stdlib.
-"""
 
 from __future__ import annotations
 
@@ -45,10 +28,6 @@ def preprocess_clip(
     mean: tuple = IMAGENET_MEAN,
     std: tuple = IMAGENET_STD,
 ) -> torch.Tensor:
-    """frames [T,H,W,3] (uint8 or float) or [T,3,H,W] -> normalized clip [frames_per_clip,3,res,res].
-    Uniform temporal subsample/pad to frames_per_clip, bilinear resize, ImageNet normalization.
-    SHORT clips (T < frames_per_clip) are handled here: linspace over [0,T-1] repeats frames to
-    fill the budget, so a 2-frame clip still yields frames_per_clip frames (verified by test)."""
     f = torch.as_tensor(frames)
     if f.dim() != 4:
         raise ValueError(f"frames must be 4D [T,H,W,3] or [T,3,H,W], got {tuple(f.shape)}")
@@ -69,9 +48,6 @@ def preprocess_clip(
 
 
 def read_video(path: str | Path) -> torch.Tensor:
-    """Decode a clip to frames [T,H,W,3] uint8. A .npy fixture is a codec-free MOCKED decode (the
-    rehearsal corpus); real video uses a lazy backend (torchvision.io, then decord) and raises a
-    clear unblock if none is installed."""
     p = str(path)
     if p.endswith(".npy"):  # mocked decode: the rehearsal corpus, no codec needed
         import numpy as np
@@ -97,16 +73,11 @@ def read_video(path: str | Path) -> torch.Tensor:
 
 
 def clip_hash(clip: torch.Tensor) -> str:
-    """sha256 over a clip's decoded+preprocessed bytes. Identifies content so duplicate clips
-    (same pixels under different filenames) are detectable. Cast to a fixed dtype first so the
-    digest is stable across the uint8/float input paths preprocess_clip accepts."""
     c = torch.as_tensor(clip).detach().to(torch.float32).contiguous().cpu()
     return hashlib.sha256(c.numpy().tobytes()).hexdigest()
 
 
 def list_class_files(source: str | Path) -> tuple[list[str], list[tuple[Path, int]]]:
-    """(sorted class names, [(file, label)]) for a class-foldered source. Label is the sorted
-    class-folder index, the single source of truth shared by validate_source and iter_video_clips."""
     root = Path(source)
     classes = sorted(d.name for d in root.iterdir() if d.is_dir())
     cidx = {c: i for i, c in enumerate(classes)}
@@ -120,10 +91,6 @@ def list_class_files(source: str | Path) -> tuple[list[str], list[tuple[Path, in
 
 
 def validate_source(source: str | Path) -> dict:
-    """Check the class-folder layout BEFORE decoding anything, and return a manifest:
-    {classes, n_clips, per_class:{name:count}, label_map:{name:index}}.
-    Raises ValueError with a clear, actionable message on: missing dir, a path that is not a
-    directory, no class subfolders, classes that contain no video files (lists the empties)."""
     root = Path(source)
     if not root.exists():
         raise ValueError(f"source {root} does not exist (expected a dir of <class>/<clip>.mp4)")
@@ -153,8 +120,6 @@ def validate_source(source: str | Path) -> dict:
 
 
 def write_label_map(cache_dir: str | Path, label_map: dict[str, int]) -> Path:
-    """Persist the sorted-folder->index label_map beside the store so labels are reproducible
-    across cache runs. Returns the path written."""
     d = Path(cache_dir)
     d.mkdir(parents=True, exist_ok=True)
     p = d / LABEL_MAP_NAME
@@ -163,7 +128,6 @@ def write_label_map(cache_dir: str | Path, label_map: dict[str, int]) -> Path:
 
 
 def read_label_map(cache_dir: str | Path) -> dict[str, int] | None:
-    """Read a persisted label_map if present, else None."""
     p = Path(cache_dir) / LABEL_MAP_NAME
     if not p.exists():
         return None
@@ -171,10 +135,6 @@ def read_label_map(cache_dir: str | Path) -> dict[str, int] | None:
 
 
 def detect_partial_cache(cache_dir: str | Path, name: str) -> dict:
-    """Look for an existing (possibly partial) store/label_map at <cache_dir>/<name> so a re-run
-    is not silently destructive. Returns {exists, store_dir, has_meta, count, has_label_map}.
-    Caching is not auto-resumed (cache_latents rewrites the memmap); this gives the caller a clean
-    report + a clear message to act on rather than a half-overwritten store."""
     store_dir = Path(cache_dir) / name
     meta_p = store_dir / "meta.json"
     out = {
@@ -202,10 +162,6 @@ def detect_partial_cache(cache_dir: str | Path, name: str) -> dict:
 
 
 def _stratify(files: list[tuple[Path, int]]) -> list[tuple[Path, int]]:
-    """Round-robin interleave (file, label) by label so that a PREFIX of the result still covers
-    every class. list_class_files groups all of class0, then class1, ...; a raw limit[:k] prefix
-    would drop whole trailing classes. Interleaving by label fixes that: limit[:k] now draws from
-    every class as evenly as k allows (the representative-subset property the clip cap needs)."""
     from collections import defaultdict, deque
 
     buckets: dict[int, deque] = defaultdict(deque)
@@ -227,14 +183,6 @@ def iter_clip_records(
     limit: int | None = None,
     stratified: bool = False,
 ) -> Iterator[tuple[torch.Tensor, int, str]]:
-    """Per-clip generator under the batching layer: yields (clip [T,3,res,res], label, sha256).
-    CORRUPT/undecodable files are skipped with a logged warning (never crash the whole cache);
-    SHORT clips are padded by preprocess_clip. Tracks duplicate content hashes and logs a summary.
-    iter_video_clips wraps this for the (clip_batch, label_batch) contract cache_latents consumes.
-
-    limit caps the number of files DECODED (limit=0 means zero clips, enforced precisely, not
-    treated as no-limit). stratified=True interleaves files across classes BEFORE the cap so a small
-    limit yields a representative subset (every class contributes) instead of a class-prefix slice."""
     _classes, files = list_class_files(source)
     if stratified:
         files = _stratify(files)
@@ -277,12 +225,6 @@ def iter_video_clips(
     hashes_out: list[str] | None = None,
     stratified: bool = False,
 ) -> Iterator[tuple[torch.Tensor, torch.Tensor]]:
-    """Walk `source` as class-foldered video files (source/<class>/<clip>.mp4) and yield
-    (clip_batch [B,T,3,res,res], label_batch [B]). Labels are the sorted class-folder index.
-    This is the iterator cache_latents consumes to build a real-video latent store. Corrupt files
-    are skipped and short clips padded (see iter_clip_records). If `hashes_out` is given, each
-    kept clip's sha256 is appended to it (so the caller can record/inspect content hashes).
-    stratified=True makes a `limit` cap draw evenly across classes (representative subset)."""
     buf_x, buf_y = [], []
     for clip, label, h in iter_clip_records(source, frames_per_clip, res, limit, stratified):
         buf_x.append(clip)

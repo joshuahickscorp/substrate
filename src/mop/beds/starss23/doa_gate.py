@@ -38,8 +38,6 @@ class DoaGateRefusal(ValueError):
     pass
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class DoaOnlineState:
 
@@ -190,7 +188,6 @@ class _DoaGateInterface:
         threshold = self.theta if theta is None else float(theta)
         probability = self.infer(features, state)
         return (probability >= threshold, probability)
-
 
 
 HIDDEN_A = 12
@@ -352,7 +349,6 @@ class DoaGateArchA(_DoaGateInterface):
             final_reestimate_rate=float(final_p.mean()),
             c_train_flops=self.training_flops(n, epochs),
         )
-
 
 
 HIDDEN_B1 = 6

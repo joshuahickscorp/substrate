@@ -1,22 +1,3 @@
-"""Downloader orchestrator (Frontier 4). Dry-run by DEFAULT. A real download happens only with
-execute=True AND a budget AND, for any source with terms, an explicit license acknowledgement. The
-orchestrator never bypasses official terms, never silently overruns a byte budget, writes a resume
-manifest continuously so an interruption is recoverable, hashes what it acquires for stable IDs and
-duplicate detection, and refuses unsafe archive members (path traversal / absolute paths).
-
-Methods, by safety:
-  generate    -> produced locally (synthetic controls); the ONLY method that truly runs on-device
-                 with no network. Executed via a caller-supplied generator callback.
-  local-path  -> already on disk (the user import lane); validated + hashed, nothing downloaded.
-  http*/mirror/cli (remote) -> gated. Executed only via a caller-supplied fetcher callback with
-                 credentials/tools; absent those it records a clean BLOCKED status and moves on. This
-                 module never streams bytes itself, so it cannot be the thing that fills a disk.
-
-The result is a manifest the validate/cache stages consume; checkpoints are flushed after every
-source so resume picks up exactly where an interruption left off.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -32,27 +13,18 @@ from .profiles import Profile
 
 log = get_logger("downloader")
 
-# methods that need no network and are safe to actually execute on the current device
 LOCAL_METHODS = frozenset({"generate", "local-path"})
-# methods that touch a network / external store; gated, executed only via a fetcher callback
 REMOTE_METHODS = frozenset(
     {"http", "http-token", "mirror-or-metadata", "epic-download-script", "ego4d-cli", "ego-exo4d-cli"}
 )
 # statuses requiring a license acknowledgement before a real fetch
 TERMS_STATUSES = frozenset({"manual"})
 
-# generator/fetcher callback contracts (the pipeline supplies these; the orchestrator stays pure):
-#   GenFn(source_entry, dest_dir) -> {"bytes": int, "files": [paths], "n_clips": int}
-#   FetchFn(source_entry, dest_dir, budget_remaining_bytes) -> {"bytes": int, "files": [paths]} or raises
 GenFn = Callable[[dict, Path], dict]
 FetchFn = Callable[[dict, Path, int], dict]
 
 
 def unsafe_archive_members(names: list[str]) -> list[str]:
-    """Archive member names that are unsafe to extract: absolute paths (POSIX OR Windows drive
-    letter / UNC) or any that escape the extraction root via .. traversal (on either separator).
-    Returned list is the offenders (empty == safe). safe_extract calls this before extracting any
-    downloaded archive so a malicious tarball cannot write outside the dest."""
     import ntpath
     import posixpath
 
@@ -69,9 +41,6 @@ def unsafe_archive_members(names: list[str]) -> list[str]:
 
 
 def safe_extract(archive_members: list[str], dest: Path) -> list[str]:
-    """The extraction guard a fetcher MUST route an archive through before unpacking: returns the
-    safe member names, or raises if any member is unsafe (path traversal / absolute). Centralizes
-    unsafe_archive_members so the path-traversal guarantee is enforced, not merely available."""
     bad = unsafe_archive_members(archive_members)
     if bad:
         raise RuntimeError(f"refusing to extract {len(bad)} unsafe archive member(s) into {dest}: {bad[:5]}")
@@ -79,7 +48,6 @@ def safe_extract(archive_members: list[str], dest: Path) -> list[str]:
 
 
 def hash_file(path: Path, _chunk: int = 1 << 20) -> str:
-    """sha256 of a file's bytes (streamed). Stable ID for resume + duplicate detection."""
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(_chunk), b""):
@@ -88,7 +56,6 @@ def hash_file(path: Path, _chunk: int = 1 << 20) -> str:
 
 
 def _hash_dir(root: Path) -> tuple[list[str], int]:
-    """(sorted sha256 of every file under root, total bytes). Read-only."""
     files = sorted(p for p in root.rglob("*") if p.is_file())
     hashes = [hash_file(p) for p in files]
     total = sum(p.stat().st_size for p in files)
@@ -111,14 +78,6 @@ def acquire(
     fetch_fn: FetchFn | None = None,
     manifest_path: Path | None = None,
 ) -> dict:
-    """Acquire the sources selected in `plan`, dry-run unless execute=True.
-
-    Enforces the effective budget (requested clamped to the profile hard cap), refuses to exceed it,
-    requires accept_license for any manual source, writes a resume manifest after every source, and
-    skips sources already complete in a prior manifest. Generated/local sources are executed via the
-    callbacks; remote sources without a fetcher record a clean BLOCKED entry (never a crash, never a
-    silent partial). Returns the manifest dict.
-    """
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     manifest_path = manifest_path or (out_dir / "acquire_manifest.json")
@@ -162,13 +121,11 @@ def acquire(
                 manifest["sources"].append(rec)
                 _write_manifest(manifest_path, manifest)
                 continue
-            # phantom: manifest says complete but the data is gone; re-acquire instead of trusting it
             log.warning(
                 "resume: %s was marked complete but data is missing at %s; re-acquiring", slug, dest_prev
             )
 
         # license gate (independent of dry-run): a manual source needs acknowledgement to even plan
-        # a real fetch; in dry-run we record the requirement so the ledger shows it.
         needs_terms = sel.get("status") in TERMS_STATUSES
         if needs_terms and not accept_license:
             rec["status"] = "needs-license" if not execute else "blocked"
@@ -184,8 +141,6 @@ def acquire(
             _write_manifest(manifest_path, manifest)
             continue
 
-        # ---- execute path ----
-        # budget check BEFORE doing any work for this source
         if spent + planned_bytes > budget_bytes:
             rec["status"] = "skipped-budget"
             rec["detail"] = f"would exceed budget ({_human(budget_bytes)}; {_human(spent)} spent)"
@@ -229,12 +184,9 @@ def acquire(
             log.warning("acquire %s failed: %s", slug, e)
             continue
 
-        # hash + duplicate detection over what actually landed
         got_bytes = int(res.get("bytes", 0))
         hashes, dups = _dedup(res.get("hashes") or _hashes_of(dest), seen_hashes)
         spent += got_bytes
-        # POST-fetch budget enforcement: a fetcher that returned MORE than planned/allotted is an
-        # overrun (the bytes are already on disk); flag it honestly and stop, never silently accept.
         over = spent > budget_bytes
         rec.update(
             status="over-budget" if over else "complete",
@@ -270,8 +222,6 @@ def acquire(
 
 
 def _ingest_local(sel: dict, dest: Path) -> dict:
-    """Local import lane: the data is already on disk at sel['local_path']; validate + hash it in
-    place (nothing is downloaded or copied). Raises cleanly if the path is missing."""
     src = sel.get("local_path")
     if not src:
         raise RuntimeError("local-path source needs sel['local_path'] (a class-foldered dir)")
@@ -290,7 +240,6 @@ def _hashes_of(dest: Path) -> list[str]:
 
 
 def _dedup(hashes: list[str], seen: set[str]) -> tuple[list[str], int]:
-    """Count how many of these hashes were already seen (duplicates), add the new ones to `seen`."""
     dups = 0
     for h in hashes:
         if h in seen:
@@ -301,9 +250,6 @@ def _dedup(hashes: list[str], seen: set[str]) -> tuple[list[str], int]:
 
 
 def _remove_partial(out_dir: Path, dest: Path) -> None:
-    """Remove a partially-written source dir after a failed/aborted fetch, so no orphaned,
-    untracked bytes are left on disk. Only ever deletes inside out_dir/data (our scratch); a
-    local-path source (dest outside that tree, e.g. the user's own dir) is left untouched."""
     import shutil
 
     try:
@@ -346,8 +292,6 @@ def _totals(sources: list[dict], budget_bytes: int, spent: int) -> dict:
 
 
 def _human(n: int) -> str:
-    """Decimal byte sizes (1 GB == 1e9 B) so a displayed budget matches the --budget-gb input and
-    the *1e9 GB->bytes conversion used throughout this module (downloads/disk are quoted decimal)."""
     x = float(n)
     for u in ("B", "KB", "MB", "GB", "TB"):
         if abs(x) < 1000 or u == "TB":

@@ -64,8 +64,6 @@ class CountReproGateArchRefusal(ValueError):
     pass
 
 
-
-
 def param_count_two_layer(
     d_in: int = D_IN_GATE_ARCH,
     hidden1: int = HIDDEN1,

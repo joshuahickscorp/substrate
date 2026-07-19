@@ -16,8 +16,6 @@ def _zeros_audio(n_frames: int) -> np.ndarray:
     return np.zeros((4, n_frames * SAMPLES_PER_FRAME), dtype=np.float32)
 
 
-
-
 def test_parse_clip_name_extracts_fold_room_mix_and_normalizes_ids() -> None:
     name = A.parse_clip_name("fold3_room4_mix007")
     assert (name.fold, name.room, name.mix) == (3, 4, 7)
@@ -40,8 +38,6 @@ def test_format_clip_id_round_trips_through_parse() -> None:
     clip_id = A.format_clip_id(3, 4, 12)
     assert clip_id == "fold3_room4_mix012"
     assert A.parse_clip_name(clip_id).clip_id == clip_id
-
-
 
 
 def test_parse_metadata_reads_six_column_starss23_rows() -> None:
@@ -106,8 +102,6 @@ def test_format_metadata_refuses_partial_distance_column() -> None:
         A.format_starss23_metadata(rows)
 
 
-
-
 def test_onset_derivation_takes_first_frame_of_each_activity_run() -> None:
     rows = tuple(A.MetadataRow(frame, 0, 0, 0, 0, 200) for frame in (5, 6, 7, 10, 11))
     onsets = A.onset_events_from_rows(rows)
@@ -161,8 +155,6 @@ def test_domain_seed_preserves_the_four_noisy_tv_streams() -> None:
     assert tuple(A.domain_seed(7, key, domain) for key, domain, _ in cases) == tuple(
         expected for _, _, expected in cases
     )
-
-
 
 
 def test_synthetic_adapter_builds_clips_through_the_parse_path() -> None:
@@ -223,8 +215,6 @@ def test_transport_charge_reports_audio_bytes_as_raw_transport() -> None:
     assert charge.event_formation == 0
 
 
-
-
 def test_dev_split_is_room_disjoint_and_matches_the_fold_shape() -> None:
     corpus = SC.generate_corpus(
         SC.SyntheticCorpusConfig(
@@ -280,8 +270,6 @@ def test_dev_split_refuses_a_non_dev_fold() -> None:
 def test_native_dev_split_refuses_overlapping_clips() -> None:
     with pytest.raises(A.AdapterRefusal):
         A.NativeDevSplit(dev_train=("fold3_room0_mix000",), dev_test=("fold3_room0_mix000",))
-
-
 
 
 def _write_real_tree(root, clips: dict[str, tuple[int, tuple[OnsetEvent, ...]]]):
@@ -361,8 +349,6 @@ def test_real_adapter_truncates_onsets_past_the_kept_length(tmp_path) -> None:
     assert clip.onset_frames == (3,)
     trunc = {t.clip_id: t for t in real.truncations()}["fold3_room4_mix001"]
     assert trunc.dropped_onsets_past_end == 1
-
-
 
 
 def test_from_dir_round_trips_a_written_corpus(tmp_path) -> None:

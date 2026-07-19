@@ -1,67 +1,4 @@
 #!/usr/bin/env python
-"""PR9 (Process B, full-stream 32 GB profile), HARDENED: continual backprop
-(utility-based selective reinitialization, Dohare et al. 2024) on a LONG real-latent stream, gated by a
-plasticity-loss certificate under a
-WELL-TUNED baseline. Does the CBP utility-reinit maintain the plastic shell's plasticity over a long
-non-stationary stream where a well-tuned plain SGD loses it, WITHOUT paying a retention cost, ON REAL
-V-JEPA features (not synthetic)?
-
-WHY THE FULL PROFILE IS LARGE: CBP only earns its verdict against a stream long enough that the well-tuned
-plain (no-reinit) baseline demonstrably loses plasticity first, otherwise there is nothing for the reinit
-to restore, and any win is noise (the EX15 caveat: no plasticity loss at this scale means nothing to fix).
-A stream that long over the real bound-video / nuisance latent store is many thousands of optimizer steps
-across dozens of task switches. This script preserves a conservative 32 GB free-RAM policy guard for its
-original full preset; the guard is not a measured hardware-boundary receipt. The explicit `--smoke` path
-is local, and progressive bounded rungs belong under the 180-minute local profile before moving upward.
-
-HARDENING CARRIED FROM THE FIVE LAPTOP ROUNDS (see pr9_report.md for the full ledger):
-
-1. CBP NO-OP BUG FIX (validated in scripts/mop_cbp_plasticity_repair.py). The original PR9 used
-   n_reset = int(replacement_rate * n_eligible). With replacement_rate=1e-4 on a 64-unit layer,
-   int(1e-4 * 64) = 0 EVERY step, so the mechanism NEVER FIRES (reinit_count stays 0) and CBP is
-   bit-identical to plain SGD: a FALSE null. The fix is Dohare's faithful FRACTIONAL-BUDGET ACCUMULATOR:
-   accumulate replacement_rate * n_eligible into a running budget, reinit floor(budget) units, carry the
-   remainder. Even a tiny rate on a small layer eventually fires. This run ASSERTS reinit_count_total > 0
-   for every swept CBP rate before it will claim any verdict; a zero-reinit arm is reported as a config
-   error, never as a null.
-
-2. MISTUNED-BASELINE TRAP FIX. The laptop killed two plasticity over-claims that compared a mechanism vs a
-   baseline MISTUNED into the dead-ReLU regime (lr too high). Here the plain baseline LR is SWEPT over a
-   grid and the WELL-TUNED LR is chosen by a tuning objective computed WITHOUT reference to CBP (best
-   early-task learnability net of dead units on a held-out tuning seed set). The certificate and the
-   CBP-vs-plain comparison then both run at that well-tuned LR (best-vs-best), so a win cannot be a
-   mistuned-baseline artifact. The CBP arm uses the SAME well-tuned LR (matched-compute, matched LR
-   integral) so the only difference between arms is the reinit rule.
-
-3. PLASTICITY-LOSS CERTIFICATE (validated in scripts/mop_plasticity_certificate.py). Preregistered, and
-   evaluated on the WELL-TUNED plain arm BEFORE any CBP comparison is reported. Admissible only if the
-   well-tuned plain baseline itself exhibits loss of plasticity on this stream, certified by BOTH: (a)
-   per-task adaptation accuracy trends DOWN over stream position (slope CI upper bound below zero across
-   seeds), and (b) dead-unit fraction trends UP (slope CI lower bound above zero). If the certificate does
-   NOT fire, we REPORT NULL as no-plasticity-loss-to-restore and do not compare arms.
-
-4. CONTROL HYGIENE. Both arms run the IDENTICAL shell (same arch, init seed, LR, steps, task order) so the
-   only difference is the reinit rule; both log through an LRIntegralAccumulator and the run asserts the
-   LR integrals match before comparing (matched-compute precondition). The honest floor is the well-tuned
-   plain-SGD arm on the SAME stream, never a fresh-init readout. No sign-flip rule on the per-seed delta.
-
-5. ENCODER-LANE GUARD + RESUMABILITY. A pgrep guard refuses to run while an encoder job holds the lane
-   (this is a CPU/RAM-heavy readout, not an encode; running it under an active encode double-books RAM).
-   Per-seed, per-arm results are checkpointed to <out>.legs/ so a killed run resumes at the next unfinished
-   (seed, arm) leg instead of recomputing the stream from scratch (per-clip-range-leg resumability).
-
-Consumes a real-latent store (default the DR1 bound-video store, else the WP-11 nuisance store); never
-loads an encoder. Heavy queue class: run only when the encoder lane is free and the selected host profile
-has measured headroom.
-
-Usage (full 32 GB preset):
-  python scripts/studio/pr9_continual_backprop.py --cache data/cache/vjepa2_vitl_bound_video --seeds 0-9
-
-Smoke (laptop, tiny N, proves reinits fire and the path runs):
-  python pr9_hardened.py --cache data/cache/vjepa2_vitl_fpc64_256_real --seeds 0-1 --smoke
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -80,7 +17,6 @@ from torch import nn
 _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
-# also expose src/ so `import mop` works when this file lives outside the repo tree (Studio harden dir)
 _SRC = _ROOT / "src"
 if _SRC.exists() and str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
@@ -93,9 +29,6 @@ from mop.substrate import LatentStore  # noqa: E402
 MIN_FREE_RAM_GB = 32.0
 DEAD_UNIT_VAR_THRESHOLD = 1e-3
 
-# STUDIO defaults (the real long-stream regime). n_passes revisits the whole task set repeatedly so the
-# late window is many task switches after the early window: that length is what lets plasticity loss
-# accumulate under a well-tuned baseline (short streams cannot induce it, the EX15 caveat).
 DEFAULTS = {
     "cache": "data/cache/vjepa2_vitl_bound_video",
     "seeds": tuple(range(10)),
@@ -104,19 +37,12 @@ DEFAULTS = {
     "n_passes": 12,  # long non-stationary stream (Studio scale); smoke shrinks this
     "test_frac": 0.25,
     "adapt_target_frac": 0.9,
-    # PREREGISTERED baseline-LR grid. The plain baseline is TUNED over this grid to avoid the dead-ReLU
-    # regime; both arms then use the winning LR (best-vs-best). Spans well below to well above the point
-    # where a plain ReLU MLP on z-scored real latents starts killing units.
     "baseline_lr_grid": (3e-3, 1e-2, 3e-2, 1e-1),
-    # PREREGISTERED CBP replacement-rate grid. Chosen by reinit-budget arithmetic (budget/step =
-    # rate * n_mature), NOT by any accuracy number, so on a 64-unit layer these span "a reinit every few
-    # tasks" up to "a few reinits per task". The fractional-budget accumulator guarantees each fires.
     "cbp_rate_grid": (2e-4, 1e-3, 5e-3),
     "cbp_maturity": 50,  # steps a unit must survive before it is reinit-eligible
     "cbp_decay": 0.99,  # running-utility decay
 }
 
-# smoke overrides (tiny N, still exercises the no-op-bug fix end to end so reinit_count_total > 0)
 SMOKE_OVERRIDES = {
     "hidden": 32,
     "steps_per_task": 30,
@@ -128,8 +54,6 @@ SMOKE_OVERRIDES = {
 
 
 def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB, *, allow_low: bool = False) -> float:
-    """Policy guard for the original full-stream preset, not measured boundary evidence.
-    `allow_low` (set only by --smoke) bypasses the floor for the tiny local path."""
     try:
         import psutil
 
@@ -151,10 +75,6 @@ def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB, *, allow_low: bool = Fals
 
 
 def assert_encoder_lane_free(*, skip: bool = False) -> None:
-    """Encoder-lane guard: refuse to run while an encoder job holds the lane. This readout is CPU/RAM
-    heavy; running it under an active encode double-books RAM and can OOM the Studio box. We pgrep for the
-    known encode entrypoints. If pgrep is unavailable we warn but proceed (guard is best-effort). `skip`
-    (set by --no-encoder-guard or --smoke) bypasses it."""
     if skip:
         return
     patterns = ["cache_latents", "encode_", "run_encode", "dr1_curate_bound_video", "FrozenEncoder"]
@@ -196,8 +116,6 @@ def _tasks_from_classes(n_classes: int) -> list[list[int]]:
 
 
 class Shell(nn.Module):
-    """Linear-ReLU-Linear plastic head. Exposes hidden activations so utility and dead-unit readings
-    are taken on the same hidden layer CBP reinitializes."""
 
     def __init__(self, dim: int, hidden: int, n_classes: int):
         super().__init__()
@@ -212,16 +130,6 @@ class Shell(nn.Module):
 
 
 class ContinualBackprop:
-    """Utility-based selective reinit (Dohare 2024). Tracks a running contribution-utility per hidden
-    unit; each step a small fraction of MATURE, LOWEST-utility units are reset (their fc1 fan-in
-    re-initialized, their fc2 fan-out zeroed, their utility+age reset). Plain SGD is this with
-    replacement_rate=0 (no unit is ever eligible).
-
-    NO-OP-BUG FIX (ported verbatim in mechanism from scripts/mop_cbp_plasticity_repair.py): a FRACTIONAL
-    reinit budget is carried across steps, so even a tiny replacement_rate on a small layer eventually
-    fires. The original int(rate * n_eligible) rounded to 0 every step on a 64-unit layer at rate=1e-4,
-    reinit_count stayed 0, and CBP was a bit-identical no-op vs plain SGD: a false null. Do not revert to
-    the int() form."""
 
     def __init__(self, shell: Shell, *, replacement_rate: float, maturity: int, decay: float, seed: int):
         self.shell = shell
@@ -237,14 +145,12 @@ class ContinualBackprop:
 
     @torch.no_grad()
     def step(self, hidden_act: torch.Tensor) -> None:
-        """Update utility from the batch's hidden activations, then reinit the eligible worst units."""
         self.age += 1
         contribution = hidden_act.abs().mean(0) * self.shell.fc2.weight.abs().mean(0)
         self.util.mul_(self.decay).add_(contribution, alpha=1.0 - self.decay)
         if self.replacement_rate <= 0:
             return
         n_eligible = int((self.age >= self.maturity).sum())
-        # accumulate a fractional budget so a tiny rate still fires on a small layer (no int() no-op)
         self._budget += self.replacement_rate * n_eligible
         n_reset = int(self._budget)
         if n_reset < 1:
@@ -288,9 +194,6 @@ def run_stream(
     cbp_maturity: int,
     cbp_decay: float,
 ) -> dict:
-    """Run one shell (CBP or plain) through the long stream. Returns per-task adaptation accuracy,
-    dead-unit fraction over stream position, early-task retained accuracy, the reinit count, and the
-    LR-integral."""
     n_classes = int(y.max()) + 1
     tasks = _tasks_from_classes(n_classes)
     g = torch.Generator().manual_seed(seed)
@@ -358,7 +261,6 @@ def run_stream(
 
 
 def _slope(xs: list[int], ys: list[float]) -> float:
-    """OLS slope of ys over xs (stream position). Used for the down/up trend certificate."""
     n = len(xs)
     if n < 2:
         return 0.0
@@ -370,9 +272,6 @@ def _slope(xs: list[int], ys: list[float]) -> float:
 
 
 def certificate(plain_runs: list[dict]) -> dict:
-    """Plasticity-loss certificate on the WELL-TUNED PLAIN arm across seeds: (a) adaptation-accuracy
-    slope over stream position is negative (CI upper bound below zero), (b) dead-unit slope is positive
-    (CI lower bound above zero). Both must hold for the CBP comparison to be admissible."""
     adapt_slopes = [_slope(r["stream_pos"], r["per_task_adapt"]) for r in plain_runs]
     dead_slopes = [_slope(r["stream_pos"], r["dead_curve"]) for r in plain_runs]
     adapt_ci = seed_ci(adapt_slopes)
@@ -388,12 +287,6 @@ def certificate(plain_runs: list[dict]) -> dict:
     }
 
 
-# ---------------------------------------------------------------------------
-# Baseline-LR tuning (mistuned-baseline-trap fix). The plain baseline LR is chosen by a tuning objective
-# that NEVER looks at CBP: on a small held-out set of tuning seeds we run the plain arm at each grid LR
-# and score it by mean early-task learnability minus a dead-unit penalty. The winning LR is the
-# "well-tuned baseline", used for BOTH arms in the graded run so a CBP win cannot be a mistuned artifact.
-# ---------------------------------------------------------------------------
 def tune_baseline_lr(x: torch.Tensor, y: torch.Tensor, cfg: dict, tuning_seeds: list[int]) -> dict:
     grid = list(cfg["baseline_lr_grid"])
     kw_base = {
@@ -419,8 +312,6 @@ def tune_baseline_lr(x: torch.Tensor, y: torch.Tensor, cfg: dict, tuning_seeds: 
             dead_fracs.append(sum(r["dead_curve"][:n_e]) / n_e)
         mean_early = sum(early_accs) / len(early_accs)
         mean_dead = sum(dead_fracs) / len(dead_fracs)
-        # objective: high early learnability, low early dead-unit fraction. A baseline mistuned into the
-        # dead-ReLU regime (lr too high) is penalized here and cannot win the tuning.
         objective = mean_early - mean_dead
         per_lr.append(
             {
@@ -434,10 +325,6 @@ def tune_baseline_lr(x: torch.Tensor, y: torch.Tensor, cfg: dict, tuning_seeds: 
     return {"grid": grid, "per_lr": per_lr, "tuning_seeds": tuning_seeds, "best_lr": best["lr"], "best": best}
 
 
-# ---------------------------------------------------------------------------
-# Resumable per-(seed, arm) legs. Each stream run is checkpointed to <out>.legs/ keyed by
-# (seed, arm, lr, rate). A killed run resumes at the next unfinished leg instead of recomputing.
-# ---------------------------------------------------------------------------
 def _leg_path(legs_dir: Path, seed: int, arm: str, lr: float, rate: float) -> Path:
     return legs_dir / f"seed{seed}_{arm}_lr{lr:g}_rate{rate:g}.json"
 
@@ -485,8 +372,6 @@ def run(
 
     t0 = time.perf_counter()
 
-    # STEP 1: tune the plain baseline LR (mistuned-baseline-trap fix). Use up to the first 2 seeds as
-    # tuning seeds (disjoint objective from the graded comparison), or all seeds if only one is given.
     tuning_seeds = seeds[:2] if len(seeds) >= 2 else seeds
     lr_tuning = tune_baseline_lr(x, y, cfg, tuning_seeds)
     lr = lr_tuning["best_lr"]
@@ -502,8 +387,6 @@ def run(
 
     late_frac = 0.5  # "late stream" = second half of the task sequence
 
-    # STEP 2: graded run. Plain arm at the well-tuned LR, and CBP at the well-tuned LR swept over the
-    # rate grid. All legs are resumable.
     plain_runs: list[dict] = []
     plain_by_seed: dict[int, dict] = {}
     for s in seeds:
@@ -538,7 +421,6 @@ def run(
         extra={"well_tuned_baseline_lr": lr, "certificate_fired": cert["fired"]},
     )
 
-    # CBP arms, one per swept replacement rate. reinit_count_total must be > 0 for each (no-op-bug guard).
     per_rate = []
     for rate in cfg["cbp_rate_grid"]:
         cbp_runs = []
@@ -591,7 +473,6 @@ def run(
         ret_ci = seed_ci(retention_deltas)
         late_flips = sign_flip_report(late_deltas)
         all_matched = all(r["lr_integral_matched"] for r in per_seed)
-        # NO-OP-BUG GUARD: reinits MUST have fired for this to be a real CBP arm.
         reinits_fired = reinit_total > 0
         plasticity_restored = late_ci["lo"] > 0 and late_flips["consistent_sign"] == 1
         retention_tax_paid = ret_ci["hi"] < 0  # CBP retention strictly worse across seeds
@@ -614,14 +495,11 @@ def run(
 
     any_zero_reinit = any(not r["reinits_fired"] for r in per_rate)
     all_matched = all(r["lr_integral_matched_all"] for r in per_rate)
-    # a rate "wins" if it restores plasticity beyond seed spread with no retention tax
     winning_rates = [
         r for r in per_rate if r["reinits_fired"] and r["plasticity_restored"] and r["no_retention_tax"]
     ]
-    # best rate by late-adapt delta mean (for reporting only)
     best_rate = max(per_rate, key=lambda r: r["late_adapt_delta_ci"]["mean"]) if per_rate else None
 
-    # ---- verdict ladder (preregistered) ----
     if any_zero_reinit:
         null_supported = None
         verdict = (
@@ -771,16 +649,12 @@ def main(argv=None) -> int:
     }
     if a.smoke:
         cfg = {**cfg, **SMOKE_OVERRIDES}
-        # keep an explicitly-passed hidden/steps/passes only if the user overrode the defaults on CLI
         if a.hidden != DEFAULTS["hidden"]:
             cfg["hidden"] = a.hidden
         if a.steps_per_task != DEFAULTS["steps_per_task"]:
             cfg["steps_per_task"] = a.steps_per_task
         if a.n_passes != DEFAULTS["n_passes"]:
             cfg["n_passes"] = a.n_passes
-        # smoke robustness: the DEFAULT cache is the Studio DR1 output (absent on the laptop), so a bare
-        # `--smoke` would crash with FileNotFoundError. Fall back to the real 64-clip cache when the user
-        # did not override --cache and the default is missing, so the laptop smoke runs out of the box.
         if a.cache == DEFAULTS["cache"] and not (_ROOT / cfg["cache"]).exists():
             fallback = "data/cache/vjepa2_vitl_fpc64_256_real"
             if (_ROOT / fallback).exists():

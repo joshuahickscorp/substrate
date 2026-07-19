@@ -27,8 +27,6 @@ def _load_artifact() -> dict:
     return json.loads(ARTIFACT_PATH.read_bytes().decode("utf-8"))
 
 
-
-
 def test_verifier_imports_no_producer_or_mop_code() -> None:
     tree = ast.parse(VERIFIER_SRC.read_text(encoding="utf-8"))
     roots: set[str] = set()
@@ -41,8 +39,6 @@ def test_verifier_imports_no_producer_or_mop_code() -> None:
                 roots.add(node.module.split(".")[0])
     assert "mop" not in roots, "the independent verifier must not import any producer or mop code"
     assert roots <= _ALLOWED_IMPORT_ROOTS, f"verifier import surface widened: {roots - _ALLOWED_IMPORT_ROOTS}"
-
-
 
 
 def test_verifier_reproduces_sealed_null() -> None:
@@ -81,8 +77,6 @@ def test_verifier_detects_a_broken_seal() -> None:
     result = verify_artifact(tampered)
     assert not result.seal_intact
     assert not result.independent_referee_reproduction
-
-
 
 
 def test_prereg_seals_a_three_featurizer_bonferroni_wall() -> None:

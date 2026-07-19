@@ -47,8 +47,6 @@ class RealDataBlocked(AdapterRefusal):
     pass
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ClipName:
 
@@ -83,8 +81,6 @@ def parse_clip_name(name: str) -> ClipName:
 
 def format_clip_id(fold: int, room: int, mix: int) -> str:
     return ClipName(fold=fold, room=room, mix=mix).clip_id
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -257,8 +253,6 @@ def metadata_text_from_onsets(onsets: Iterable[OnsetEvent], *, active_frames: in
     return format_starss23_metadata(metadata_rows_from_onsets(onsets, active_frames=active_frames))
 
 
-
-
 def audio_sha256(audio: np.ndarray) -> str:
 
     array = np.ascontiguousarray(np.asarray(audio), dtype="<f4")
@@ -272,8 +266,6 @@ def _require_audio(audio: np.ndarray, clip_id: str) -> np.ndarray:
     if array.shape[1] == 0 or array.shape[1] % SAMPLES_PER_FRAME != 0:
         raise AdapterRefusal(f"clip {clip_id} audio must be a whole number of 100 ms frames")
     return array
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -290,8 +282,6 @@ class NativeDevSplit:
     @property
     def sizes(self) -> dict[str, int]:
         return {"dev_train": len(self.dev_train), "dev_test": len(self.dev_test)}
-
-
 
 
 @runtime_checkable

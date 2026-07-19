@@ -1,20 +1,3 @@
-"""Tests for the redesigned stability vs plasticity mechanism (lane G1-P1R, stability_plasticity_r2).
-
-The r2 runner measures retention and future-learnability for the mechanism and each control on both
-regimes and mints a mechanics-demonstration receipt. The load-bearing guarantees pinned here:
-
-- Determinism: the same bed and seed give a byte-identical result and receipt digest.
-- The NULL regime always mints ``null`` and the joint win is impossible there by construction.
-- The FAVORABLE regime mints ``mechanics-ok`` on a strict both-axes win over every control, for
-  every swept seed including the campaign band representatives.
-- The honest recurrence signal is the repaired affordance: the favorable stream flags exactly one
-  interior recurring task and the future task reuses its adapter; the null stream stays silent.
-- Improving only retention, or only future-learnability, is NOT mechanics-ok: that is the split.
-- The receipt is never a scientific confirmation.
-- The bed and runner are discoverable through the stage3_registry _discover pattern.
-
-No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -77,9 +60,6 @@ def _crafted(
     )
 
 
-# ---------------------------------------------------------------------------
-# Structural conformance and discovery.
-# ---------------------------------------------------------------------------
 
 
 def test_bed_and_runner_conform_to_protocols() -> None:
@@ -115,9 +95,6 @@ def test_default_contract_pins_the_joint_bar() -> None:
     assert contract.prior_null == "p6-stability-plasticity-split"
 
 
-# ---------------------------------------------------------------------------
-# Determinism.
-# ---------------------------------------------------------------------------
 
 
 def test_run_is_deterministic() -> None:
@@ -145,9 +122,6 @@ def test_readings_are_reproducible_at_the_source() -> None:
     assert run_all(stream) == run_all(stream)
 
 
-# ---------------------------------------------------------------------------
-# The recurrence signal: honest in favorable, silent in null.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_stream_carries_an_honest_interior_recurrence() -> None:
@@ -158,9 +132,7 @@ def test_favorable_stream_carries_an_honest_interior_recurrence() -> None:
         assert 0 < recurring < HISTORY_TASKS - 1
         assert stream.recurrence_flags[recurring] is True
         assert sum(stream.recurrence_flags) == 1
-        # Honesty: the future task reuses the flagged task's adapter coordinates exactly.
         assert stream.future[stream.core_dim :] == stream.history[recurring][stream.core_dim :]
-        # The shared core really is shared across every task and the future task.
         for task in (*stream.history, stream.future):
             assert task[: stream.core_dim] == stream.history[0][: stream.core_dim]
 
@@ -171,15 +143,11 @@ def test_null_stream_keeps_the_signal_silent_and_conflicts_the_core() -> None:
         stream = bed.null_regime(seed)
         assert not any(stream.recurrence_flags)
         assert stream.future_recurrence_index == NO_RECURRENCE
-        # The future core is sign-opposed to task zero's core on every core coordinate.
         for dim in range(stream.core_dim):
             assert stream.history[0][dim] > 0.0
             assert stream.future[dim] < 0.0
 
 
-# ---------------------------------------------------------------------------
-# The null regime holds the split: always null, never a both-axes win.
-# ---------------------------------------------------------------------------
 
 
 def test_null_regime_holds_the_split_and_mints_null() -> None:
@@ -192,9 +160,6 @@ def test_null_regime_holds_the_split_and_mints_null() -> None:
         assert receipt.is_confirmation is False
 
 
-# ---------------------------------------------------------------------------
-# The favorable regime mints mechanics-ok on a strict both-axes win.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
@@ -213,9 +178,6 @@ def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
         assert receipt.is_confirmation is False
 
 
-# ---------------------------------------------------------------------------
-# Fail-closed on the split: a single-axis win is never mechanics-ok.
-# ---------------------------------------------------------------------------
 
 
 def test_only_retention_improved_is_not_mechanics_ok() -> None:
@@ -256,9 +218,6 @@ def test_a_tie_on_an_axis_is_not_a_strict_win() -> None:
     assert runner.mint(result).verdict == VERDICT_NULL
 
 
-# ---------------------------------------------------------------------------
-# Digest stability and receipt honesty.
-# ---------------------------------------------------------------------------
 
 
 def test_evidence_digest_is_stable_and_well_formed() -> None:
@@ -277,9 +236,6 @@ def test_mint_is_never_a_confirmation_on_either_regime() -> None:
         assert receipt.is_confirmation is False
 
 
-# ---------------------------------------------------------------------------
-# Refusals: unknown regimes, controls, seeds, and widened declarations fail closed.
-# ---------------------------------------------------------------------------
 
 
 def test_runner_refuses_an_unknown_regime_and_a_foreign_bed() -> None:
@@ -323,7 +279,6 @@ def test_stream_refuses_a_dishonest_recurrence_signal() -> None:
             recurrence_flags=honest.recurrence_flags,
             future_recurrence_index=honest.future_recurrence_index,
         )
-    # A boundary recurrence index (first or last task) is refused: interiority is schema.
     boundary_flags = tuple(index == 0 for index in range(len(honest.history)))
     with pytest.raises(BedRefusal):
         TaskStream(

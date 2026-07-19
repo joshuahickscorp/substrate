@@ -1,36 +1,3 @@
-"""Observe-only sub-accomplishment milestone emitter for MOP Generation 1.
-
-This module is a deterministic, read-only scanner. It detects clean, self-sealed
-milestone artifacts that the Telegram notifier does not read (foreign schemas that
-`telegram_rung_notifier._valid_status` rejects by design) and re-publishes each one
-as a single append-only ``proof/GENERATION1_SUBACCOMP_<kind>_<id>.json`` file. The
-notifier's EXISTING ``GENERATION1*.json`` proof path then delivers the milestone as a
-proof card. No notifier change is required.
-
-Crash-domain isolation is the point of a separate module: the notifier stays a pure
-"read gen1 statuses + GENERATION1 proofs, dedupe, format, send" loop, and every
-foreign-family scanner lives here, in a second process with its own launchd agent. A
-bug in a foreign scanner cannot raise inside the notifier's delivery loop.
-
-Four milestone kinds are covered, each validated by that family's OWN home validator
-before re-publication (no validator is loosened, no evidence is invented):
-
-* ``barrier``     epoch classify barrier (full-generations / categorized classification
-                  artifacts), validated by the wave module's ``validate_classification``.
-* ``reprofile``   advisory re-tune, ``mop-generation1-reprofile/v1``, validated by
-                  ``generation1_result_aware_reprofiler.validate_reprofile``.
-* ``gate``        wave transition gate, validated by the wave module's ``validate_gate``.
-* ``absorption``  live-run absorption complete, the consolidated-final terminal
-                  (validated by ``generation1_consolidated_final_campaign.validate_result``)
-                  cross-tied to a sealed absorption receipt.
-
-Determinism: the sealed milestone body is derived purely from the source artifact.
-There is no wall clock and no randomness in the seal, so re-emitting a milestone is
-byte-identical and the notifier's ``proof/{name}/{digest}`` id is stable (delivered
-once). Idempotence: an existing subaccomplishment file is never rewritten. The whole
-module never signals, suspends, restarts, or edits any adopted process, status,
-manifest, or receipt.
-"""
 
 from __future__ import annotations
 
@@ -50,9 +17,6 @@ from mop.studio.generation1_supervisor import (
     write_immutable_json,
 )
 
-# --------------------------------------------------------------------------------------------------
-# Constants
-# --------------------------------------------------------------------------------------------------
 
 RUNS_ROOT = REPO_ROOT / "runs/generation1"
 PROOF_ROOT = REPO_ROOT / "proof"
@@ -65,7 +29,6 @@ LABEL = "com.mop.generation1.subaccomp"
 MAX_JSON_BYTES = 32 * 1024 * 1024
 POLL_SECONDS = 120
 
-# The one milestone schema this module publishes.
 SUBACCOMP_SCHEMA = "mop-generation1-subaccomplishment-milestone/v1"
 MILESTONE_KINDS = ("barrier", "reprofile", "gate", "absorption")
 MILESTONE_FIELDS = frozenset(
@@ -89,10 +52,6 @@ MILESTONE_FIELDS = frozenset(
 SOURCE_FIELDS = frozenset({"path", "file_sha256", "seal_field", "seal"})
 FILENAME_PREFIX = "GENERATION1_SUBACCOMP_"
 
-# Foreign-family source schemas (mirrored, not imported, so this module loads cheaply
-# and stays independent of the heavy wave/campaign modules; the REAL home validators are
-# lazy-imported only inside the scanners).  A schema-string drift in a source module
-# makes a scanner stop matching (fail-safe skip), never mis-validate.
 REPROFILE_SCHEMA = "mop-generation1-reprofile/v1"
 FULL_GENERATIONS_CLASSIFICATION_SCHEMA = "mop-generation1-full-generations-classification/v1"
 CATEGORIZED_CLASSIFICATION_SCHEMA = "mop-generation1-successor-categorized-classification/v1"
@@ -113,16 +72,12 @@ _PROGRAM_LABELS = {
 
 
 class SubaccomplishmentRefused(RuntimeError):
-    """Fail-closed refusal for a malformed milestone, source, or seal."""
+    pass
 
 
-# --------------------------------------------------------------------------------------------------
-# Pure helpers
-# --------------------------------------------------------------------------------------------------
 
 
 def _read_json(path: Path) -> dict[str, Any] | None:
-    """Read a JSON object, quiet-fail to None on anything unsafe or malformed."""
 
     raw = Path(path)
     try:
@@ -164,7 +119,6 @@ def _program_label(program_id: Any) -> str:
 
 
 def _source_path_str(path: Path, root: Path | str) -> str:
-    """A deterministic, non-absolute string for the source path when possible."""
 
     resolved = Path(path).resolve()
     repo = REPO_ROOT.resolve()
@@ -220,9 +174,6 @@ def _milestone_filename(kind: str, seal: str) -> str:
     return f"{FILENAME_PREFIX}{kind}_{seal[:16]}.json"
 
 
-# --------------------------------------------------------------------------------------------------
-# Per-kind milestone builders (pure functions of the validated source artifact)
-# --------------------------------------------------------------------------------------------------
 
 
 def _barrier_milestone(classification: Mapping[str, Any], path: Path, root: Path | str) -> dict[str, Any]:
@@ -378,9 +329,6 @@ def _absorption_milestone(
     )
 
 
-# --------------------------------------------------------------------------------------------------
-# Home-validator loaders (lazy, isolated: an import failure yields an empty set -> skip everything)
-# --------------------------------------------------------------------------------------------------
 
 
 def _default_classification_validators() -> dict[str, Callable[..., None]]:
@@ -430,14 +378,6 @@ def _default_result_validator() -> Callable[[Mapping[str, Any]], None]:
 
 
 def _validate_absorption_receipt(value: Mapping[str, Any]) -> None:
-    """Structural integrity check for a consolidated-final absorption receipt.
-
-    This validates the receipt's own self-seal, schema, and observe-only policy. It
-    asserts no scientific claim: the actual terminal evidence is validated separately by
-    the consolidated-final campaign's own ``validate_result`` and cross-tied in the
-    scanner. It never loosens an existing validator (there is no home module for this
-    receipt yet) and never invents evidence.
-    """
 
     if not isinstance(value, Mapping):
         raise SubaccomplishmentRefused("absorption receipt must be an object")
@@ -465,9 +405,6 @@ def _validate_absorption_receipt(value: Mapping[str, Any]) -> None:
         raise SubaccomplishmentRefused("absorption receipt absorbed_result seal is invalid")
 
 
-# --------------------------------------------------------------------------------------------------
-# Scanners (each read-only, quiet-fail, yields validated milestone dicts)
-# --------------------------------------------------------------------------------------------------
 
 
 def scan_classifications(
@@ -475,7 +412,6 @@ def scan_classifications(
     *,
     validators: Mapping[str, Callable[..., None]] | None = None,
 ) -> Iterator[dict[str, Any]]:
-    """Yield a ``barrier`` milestone per clean-sealed epoch classification artifact."""
 
     resolved = validators if validators is not None else _default_classification_validators()
     base = Path(runs_root)
@@ -507,7 +443,6 @@ def scan_gates(
     *,
     validators: Mapping[str, Callable[..., None]] | None = None,
 ) -> Iterator[dict[str, Any]]:
-    """Yield a ``gate`` milestone per clean-sealed wave transition gate artifact."""
 
     resolved = validators if validators is not None else _default_gate_validators()
     base = Path(runs_root)
@@ -541,13 +476,6 @@ def scan_reprofiles(
     validate: Callable[[Mapping[str, Any]], None] | None = None,
     roots: Sequence[Path | str] | None = None,
 ) -> Iterator[dict[str, Any]]:
-    """Yield a ``reprofile`` milestone per clean-sealed advisory reprofile artifact.
-
-    Sources named ``GENERATION1*`` are skipped: those already land on the notifier's own
-    top-level proof glob, so re-publishing them would double-notify. Only files whose
-    name contains ``reprofile`` are opened (a cheap prefilter; the schema check is the
-    authority).
-    """
 
     validate_fn = validate if validate is not None else _default_reprofile_validator()
     search_roots = roots if roots is not None else (Path(runs_root), Path(proof_root))
@@ -582,12 +510,6 @@ def scan_absorptions(
     receipt_validator: Callable[[Mapping[str, Any]], None] | None = None,
     result_validator: Callable[[Mapping[str, Any]], None] | None = None,
 ) -> Iterator[dict[str, Any]]:
-    """Yield an ``absorption`` milestone per sealed receipt tied to a valid terminal.
-
-    Requires BOTH the consolidated-final terminal result (validated by the campaign's own
-    ``validate_result``) AND a self-sealed absorption receipt whose ``absorbed_result``
-    cross-ties to that exact terminal (matching ``result_sha256`` and ``file_sha256``).
-    """
 
     receipt_check = receipt_validator if receipt_validator is not None else _validate_absorption_receipt
     result_check = result_validator if result_validator is not None else _default_result_validator()
@@ -625,9 +547,6 @@ def scan_absorptions(
         yield _absorption_milestone(payload, terminal, path, runs_root)
 
 
-# --------------------------------------------------------------------------------------------------
-# Collection, validation, and append-only publication
-# --------------------------------------------------------------------------------------------------
 
 
 def collect_milestones(
@@ -641,7 +560,6 @@ def collect_milestones(
     absorption_receipt_validator: Callable[[Mapping[str, Any]], None] | None = None,
     result_validator: Callable[[Mapping[str, Any]], None] | None = None,
 ) -> list[dict[str, Any]]:
-    """Run every scanner, self-validate each built milestone, return them sorted."""
 
     milestones: list[dict[str, Any]] = []
     milestones.extend(scan_classifications(runs_root, validators=classification_validators))
@@ -674,7 +592,6 @@ def collect_milestones(
 
 
 def validate_milestone(value: Mapping[str, Any]) -> None:
-    """Fail-closed replay of a subaccomplishment milestone's fields, seal, and safety flags."""
 
     if not isinstance(value, Mapping):
         raise SubaccomplishmentRefused("milestone must be an object")
@@ -719,7 +636,6 @@ def validate_milestone(value: Mapping[str, Any]) -> None:
 
 
 def write_milestone(milestone: Mapping[str, Any], proof_root: Path | str = PROOF_ROOT) -> dict[str, Any]:
-    """Append-only publish a validated milestone. Never rewrites an existing file."""
 
     validate_milestone(milestone)
     name = _milestone_filename(milestone["milestone_kind"], milestone["source"]["seal"])
@@ -737,11 +653,6 @@ def scan(
     now: str | None = None,
     **overrides: Any,
 ) -> dict[str, Any]:
-    """Collect every clean-sealed milestone and append any not already published.
-
-    ``now`` is accepted only for API symmetry and stdout reporting; it is deliberately
-    NOT embedded in any sealed milestone, so publication stays byte-deterministic.
-    """
 
     proof_dir = Path(proof_root)
     proof_dir.mkdir(parents=True, exist_ok=True)
@@ -761,13 +672,9 @@ def scan(
     }
 
 
-# --------------------------------------------------------------------------------------------------
-# launchd agent (dry-run planner: this build never installs anything)
-# --------------------------------------------------------------------------------------------------
 
 
 def build_launch_agent_plist() -> dict[str, Any]:
-    """Return the launchd plist document this emitter would install (pure, no side effects)."""
 
     return {
         "Label": LABEL,
@@ -788,12 +695,6 @@ def build_launch_agent_plist() -> dict[str, Any]:
 
 
 def install_launch_agent(*, execute: bool = False) -> dict[str, Any]:
-    """Mirror the notifier's launchd install pattern, but never actually install.
-
-    The default is a dry run that returns the planned plist document. ``execute=True`` is
-    intentionally disabled in this build so nothing can perturb launchd on a host with live
-    sealed campaigns; an operator installs from the returned plan by hand.
-    """
 
     document = build_launch_agent_plist()
     if execute:
@@ -812,7 +713,6 @@ def install_launch_agent(*, execute: bool = False) -> dict[str, Any]:
 
 
 def status(proof_root: Path | str = PROOF_ROOT) -> dict[str, Any]:
-    """Read-only view of published milestones and the (never-installed) launchd agent."""
 
     proof_dir = Path(proof_root)
     if proof_dir.exists():
@@ -829,9 +729,6 @@ def status(proof_root: Path | str = PROOF_ROOT) -> dict[str, Any]:
     }
 
 
-# --------------------------------------------------------------------------------------------------
-# CLI
-# --------------------------------------------------------------------------------------------------
 
 
 def _cmd_scan(args: argparse.Namespace) -> int:

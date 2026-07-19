@@ -34,8 +34,6 @@ def _feature_block(seed: int, n_frames: int) -> np.ndarray:
     return FrozenFeaturizer().featurize(audio)
 
 
-
-
 def test_window_default_is_the_collar_width() -> None:
     assert DEFAULT_WINDOW_FRAMES == COLLAR_FRAMES == 2
     assert RefractoryNmsGate(seed=0).window == 2
@@ -67,8 +65,6 @@ def test_c_train_is_exposed_for_the_flop_ledger() -> None:
     assert gate.flops_per_inference() == 6385
 
 
-
-
 def test_weights_are_byte_identical_to_the_committed_gate() -> None:
     assert RefractoryNmsGate(seed=2).parameter_digest() == CandidateGate(seed=2).parameter_digest()
     assert RefractoryNmsGate(seed=2).parameter_digest() != CandidateGate(seed=3).parameter_digest()
@@ -95,8 +91,6 @@ def test_causal_probs_are_byte_identical_to_the_committed_causal_pass() -> None:
     _, committed_probs = causal_gate_trace(committed, features, theta, OnlineState.initial)
     variant_probs = variant.causal_probs(features, theta)
     assert np.array_equal(variant_probs, committed_probs)
-
-
 
 
 def test_nms_keeps_one_local_maximum_per_cluster() -> None:
@@ -148,8 +142,6 @@ def test_refractory_fires_de_clusters_relative_to_raw_threshold() -> None:
     assert len(nms_fires) <= len(raw_fires)
     if len(nms_fires) > 1:
         assert int(np.diff(nms_fires).min()) > COLLAR_FRAMES
-
-
 
 
 def test_tune_theta_hits_the_post_nms_target_rate() -> None:

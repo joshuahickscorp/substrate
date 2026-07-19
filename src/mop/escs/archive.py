@@ -1,18 +1,3 @@
-"""Bounded archival mechanics for the Event-Sourced Coalition Substrate.
-
-This module deliberately separates immutable event-envelope lineage from replayable payload bytes.
-Payloads begin in a byte- and tick-bounded hot journal and move into independently erasable,
-content-addressed segments.  Compaction snapshots commit to envelope and segment roots but contain no
-payload bytes.
-
-``erase_payload`` establishes *logical non-retrievability* inside this archive: the payload segment,
-payload index, and payload cache are removed, and exact replay authority is irreversibly disabled.  It
-does not claim secure deletion from physical media, backups, allocator slack, or storage-controller
-caches.  The deletion marker contains no payload, payload digest, segment root, or free-form reason text.
-
-These are mechanics, not a substitute for the ESCS deletion CommitmentEvent and ConsequenceEvent.
-Callers remain responsible for recording those lifecycle events in the immutable event plane.
-"""
 
 from __future__ import annotations
 
@@ -45,13 +30,6 @@ def _sha256(raw: bytes) -> str:
 
 
 def _forbidden_envelope_paths(value: Any, *, path: str = "$") -> tuple[str, ...]:
-    """Find payload-bearing field names anywhere in retained lineage metadata.
-
-    Checking only the top-level envelope would allow callers to retain an erasable payload under a
-    nested provenance or metadata object.  This is deliberately a structural guard, not a semantic
-    claim: an arbitrary string under an unrelated key can still encode content and must be controlled
-    by the experiment's declared envelope schema.
-    """
 
     found: list[str] = []
     if isinstance(value, Mapping):
@@ -73,23 +51,23 @@ def _require_sha256(value: str, label: str) -> None:
 
 
 class ArchiveError(RuntimeError):
-    """Base class for bounded-archive operation failures."""
+    pass
 
 
 class CorruptSegmentError(ArchiveError):
-    """A stored payload segment failed its content or lineage commitments."""
+    pass
 
 
 class PayloadErasedError(ArchiveError):
-    """A payload was logically erased and cannot be retrieved."""
+    pass
 
 
 class ReplayAuthorityError(ArchiveError):
-    """Exact replay authority is unavailable after a payload erasure."""
+    pass
 
 
 class PayloadErasureError(ArchiveError):
-    """The segment store did not establish logical non-retrievability."""
+    pass
 
 
 class ReplayAuthority(StrEnum):
@@ -104,11 +82,6 @@ class PayloadTier(StrEnum):
 
 @dataclass(frozen=True, slots=True)
 class ArchiveCharge:
-    """One narrow accounting observation emitted by archive mechanics.
-
-    ``retained_byte_ticks`` is nonzero only for retention intervals. ``retained_bytes`` is a
-    point-in-time total after ordinary operations and at the start of a retention interval.
-    """
 
     operation: str
     work_units: int
@@ -136,7 +109,6 @@ AccountingHook = Callable[[ArchiveCharge], None]
 
 @dataclass(frozen=True, slots=True)
 class ArchiveAccountingSnapshot:
-    """Fixed-shape cumulative accounting used for exactly-once chassis reconciliation."""
 
     charge_count: int
     by_operation: tuple[tuple[str, int, int, int], ...]
@@ -166,11 +138,6 @@ class ArchiveAccountingSnapshot:
 
 
 class SegmentStore(Protocol):
-    """Minimal logical store required by the archive.
-
-    ``delete`` means that subsequent ``contains`` and ``read`` calls cannot recover the object. It
-    intentionally says nothing about deletion from physical media.
-    """
 
     def put(self, root_sha256: str, segment: bytes) -> None: ...
 
@@ -182,7 +149,6 @@ class SegmentStore(Protocol):
 
 
 class InMemorySegmentStore:
-    """Small immutable content-addressed store used by the mechanics scaffold."""
 
     def __init__(self) -> None:
         self._segments: dict[str, bytes] = {}
@@ -212,7 +178,6 @@ class InMemorySegmentStore:
 
 @dataclass(frozen=True, slots=True)
 class EnvelopeLineage:
-    """Immutable canonical envelope retained independently of its payload."""
 
     sequence: int
     admitted_tick: int
@@ -325,7 +290,6 @@ def _snapshot_core(rows: tuple[CompactionRow, ...]) -> dict[str, Any]:
 
 @dataclass(frozen=True, slots=True)
 class CompactionSnapshot:
-    """Cumulative deterministic commitment to every compacted envelope and segment root."""
 
     rows: tuple[CompactionRow, ...]
     through_sequence: int | None
@@ -367,7 +331,6 @@ class CompactionSnapshot:
 
 @dataclass(frozen=True, slots=True)
 class DeletionMarker:
-    """Non-content-bearing lineage fact left after logical payload erasure."""
 
     event_id: str
     sequence: int
@@ -462,7 +425,6 @@ def _decode_segment(raw: bytes, lineage: EnvelopeLineage, expected_root: str) ->
 
 
 class BoundedArchive:
-    """In-process ESCS archive with bounded hot state and independently erasable cold segments."""
 
     def __init__(
         self,
@@ -542,7 +504,6 @@ class BoundedArchive:
 
     @property
     def accounting_snapshot(self) -> ArchiveAccountingSnapshot:
-        """Return fixed-shape cumulative totals; callers reconcile monotone deltas exactly once."""
 
         rows: list[tuple[str, int, int, int]] = []
         for operation in _ARCHIVE_OPERATIONS:
@@ -629,7 +590,6 @@ class BoundedArchive:
         *,
         admitted_tick: int,
     ) -> EnvelopeLineage:
-        """Append one immutable envelope and replayable payload, then enforce both hot bounds."""
 
         if not isinstance(envelope, Mapping):
             raise TypeError("archive envelope must be a mapping")
@@ -681,19 +641,16 @@ class BoundedArchive:
         return lineage
 
     def advance(self, current_tick: int) -> CompactionSnapshot | None:
-        """Advance archive time, charge retained byte-time, and compact newly expired entries."""
 
         self._advance_time(current_tick)
         return self._compact_eligible(force=False)
 
     def compact(self, current_tick: int, *, force: bool = False) -> CompactionSnapshot | None:
-        """Enforce the hot bounds, or deterministically compact the whole hot journal."""
 
         self._advance_time(current_tick)
         return self._compact_eligible(force=force)
 
     def retrieve(self, event_id: str, *, current_tick: int | None = None) -> bytes:
-        """Retrieve a payload only after checking its immutable digest and cold segment root."""
 
         if current_tick is not None:
             self.advance(current_tick)
@@ -740,7 +697,6 @@ class BoundedArchive:
         deletion_tick: int,
         reason_code: str = "retention-expired",
     ) -> DeletionMarker:
-        """Remove retrievable payload state without claiming physical-media erasure."""
 
         self._advance_time(deletion_tick)
         self._compact_eligible(force=False)
@@ -796,7 +752,6 @@ class BoundedArchive:
             )
 
     def audit(self) -> tuple[str, ...]:
-        """Return integrity and boundedness violations without caching retrieved content."""
 
         problems: list[str] = []
         computed_hot_bytes = 0
@@ -984,6 +939,4 @@ class BoundedArchive:
         try:
             self._accounting_hook(charge)
         except Exception:
-            # The cumulative snapshot remains authoritative and the archive audit fails closed.  A
-            # notification callback cannot roll back a segment-store mutation that already happened.
             self._accounting_hook_failed = True

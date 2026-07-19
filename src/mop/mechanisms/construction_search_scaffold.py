@@ -1,24 +1,3 @@
-"""Scaffold spine for epoch G1-G1: charged-cost construction search over shadow coalitions.
-
-This module raises the SCAFFOLDING axis only. It asks whether a finite construction search can
-form BETTER shadow coalitions than the G0 formation mechanics once the search cost is CHARGED
-against a matched budget. It supplies machine-checkable contracts, a sealed multi-task objective
-whose integrity is digest-bound, declared controls (random-construction, no-search, greedy-only)
-plus an oracle-headroom reference, a charged-cost verdict that fails closed, a small seeded search
-simulator, and an activation gate that local code refuses to pass. It builds the harness, not the
-result.
-
-Named prior null (forced): G0 formation mechanics existed without demonstrated efficacy. Nothing
-here has shown that search buys anything. Every verdict therefore holds the null unless the
-charged-cost net improvement is strictly positive; a claim of improvement is refused otherwise.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. The affinities are toy pseudo-random floats, the coalitions are index sets, the
-controls are declarations, and the search is a tiny CPU-only routine. A green contract means the
-declarations are complete and self-consistent, never that construction search carries any value.
-
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -31,13 +10,10 @@ from ..substrate.events import canonical_sha256
 
 CONSTRUCTION_SEARCH_SCHEMA = "mop-construction-search/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 
-# The named prior null this epoch must clear before any improvement claim is admissible.
 PRIOR_NULL = (
     "G0 formation mechanics existed without demonstrated efficacy; charged-cost net improvement "
     "over every declared control must be strictly positive before search value may be claimed"
@@ -50,14 +26,11 @@ _MASK64 = (1 << 64) - 1
 _LCG_MULT = 6364136223846793005
 _LCG_ADD = 1442695040888963407
 
-# Declared cheap-comparison controls, in canonical order. Order is load-bearing for the control-set
-# completeness check so surface drift is detectable.
 REQUIRED_CONTROLS: tuple[str, ...] = (
     "no-search",  # the G0 formation default coalition; no search is spent
     "random-construction",  # random subsets sampled under the same budget
     "greedy-only",  # single greedy pass without restarts
 )
-# The headroom reference is not a cheap control; it is the exhaustive ceiling and is never charged.
 ORACLE_HEADROOM_CONTROL: str = "oracle-headroom"
 ALL_CONTROLS: tuple[str, ...] = REQUIRED_CONTROLS + (ORACLE_HEADROOM_CONTROL,)
 
@@ -68,12 +41,11 @@ VERDICT_METRICS: tuple[str, ...] = (
     "oracle_headroom_gap",
 )
 
-# The G0-formed coalition a no-search baseline reuses, expressed as member indices.
 FORMATION_DEFAULT: tuple[int, ...] = (0, 1)
 
 
 class ConstructionSearchRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, or outside its declared scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -91,17 +63,10 @@ def _require_positive(value: int, label: str) -> None:
         raise ConstructionSearchRefusal(f"{label} must be positive (non-vacuous)")
 
 
-# ---------------------------------------------------------------------------
-# Section A. Matched search budget. The MatchedBudget-style discipline for this epoch.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class SearchBudget:
-    """The matched full-system budget any search and every cheap control must share.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     candidate_evaluations: int
     objective_queries: int
@@ -130,20 +95,10 @@ class SearchBudget:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section B. Sealed multi-task objective. Fixed and digest-bound before search begins.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class SealedObjective:
-    """A multi-task objective sealed before search; its digest binds the core specification.
-
-    The seal is the honest guard against a moving target: if a search rewrites the objective, the
-    recomputed digest no longer matches ``objective_sha256`` and construction fails closed.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     objective_id: str
     task_ids: tuple[str, ...]
@@ -205,7 +160,6 @@ class SealedObjective:
 def seal_objective(
     *, objective_id: str, task_ids: Sequence[str], num_members: int, size_penalty: float
 ) -> SealedObjective:
-    """Seal a multi-task objective by computing its core digest. Deterministic and reproducible."""
 
     core = canonical_sha256(
         {
@@ -224,17 +178,10 @@ def seal_objective(
     )
 
 
-# ---------------------------------------------------------------------------
-# Section C. Declared controls and the control-set completeness check.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ConstructionControl:
-    """One declared control arm. A comparison commitment, not an implementation.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     id: str
     family: str
@@ -266,10 +213,6 @@ class ConstructionControl:
 
 @dataclass(frozen=True, slots=True)
 class ConstructionControlSet:
-    """A control set that must cover every declared control family in canonical order.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     controls: tuple[ConstructionControl, ...]
@@ -305,7 +248,6 @@ class ConstructionControlSet:
 
 
 def build_default_control_set() -> ConstructionControlSet:
-    """Return a fully covering control set with the three cheap controls plus the headroom ceiling."""
 
     rationale = {
         "no-search": "reuse the G0 formation default coalition; spends no search",
@@ -325,20 +267,10 @@ def build_default_control_set() -> ConstructionControlSet:
     return ConstructionControlSet(schema=CONSTRUCTION_SEARCH_SCHEMA, controls=controls)
 
 
-# ---------------------------------------------------------------------------
-# Section D. The construction-search contract. Charging the search cost is mandatory.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ConstructionSearchContract:
-    """Complete construction-search declaration for epoch G1-G1.
-
-    A valid instance means the objective is sealed, the budget is matched and non-vacuous, every
-    control is declared, and the search cost is committed to be charged. It carries no result.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     objective: SealedObjective
     budget: SearchBudget
@@ -382,7 +314,6 @@ class ConstructionSearchContract:
 def build_default_contract(
     *, num_members: int = 8, num_tasks: int = 3, size_penalty: float = 0.03
 ) -> ConstructionSearchContract:
-    """Deterministic default contract used by tests and later wiring."""
 
     objective = seal_objective(
         objective_id="obj.shadow_coalition",
@@ -401,20 +332,10 @@ def build_default_contract(
     )
 
 
-# ---------------------------------------------------------------------------
-# Section E. The charged-cost verdict. Encodes the prior null as a fail-closed condition.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class SearchValueVerdict:
-    """A verdict that may claim improvement ONLY IF it survives the charged search cost.
-
-    The prior null holds by default. Setting ``claims_improvement`` to True is refused unless the
-    net improvement (gross minus charged search cost) is strictly positive.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     gross_improvement: float
     charged_search_cost: float
@@ -462,25 +383,14 @@ class SearchValueVerdict:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section F. Activation gate. Off by default; local code cannot pass it.
-# ---------------------------------------------------------------------------
 
 
 class ConstructionSearchActivationRefusal(ConstructionSearchRefusal):
-    """Raised when local code attempts to activate a search-value claim without a valid license."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class ConstructionSearchActivationGate:
-    """A fail-closed activation gate. Claiming search value is refused unless licensed.
-
-    The gate is OFF by default. Any default construction refuses to authorize. Activation requires
-    both a confirmation receipt digest and a license id; supplying neither leaves the gate closed,
-    which encodes that search value has not been earned yet.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     activated: bool = False
     confirmation_receipt_sha256: str = ""
@@ -498,7 +408,6 @@ class ConstructionSearchActivationGate:
                 raise ConstructionSearchRefusal("an inactive gate must carry neither a receipt nor a license")
 
     def authorize_claim(self) -> None:
-        """Fail closed unless the gate was constructed active with a valid receipt and license."""
 
         if not self.activated:
             raise ConstructionSearchActivationRefusal(
@@ -515,16 +424,11 @@ class ConstructionSearchActivationGate:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section G. Deterministic, seeded search simulator over toy shadow coalitions.
-# Pure python. No numpy, no wall-clock, no OS entropy.
-# ---------------------------------------------------------------------------
 
 _MAX_ORACLE_MEMBERS = 16
 
 
 class _DeterministicStream:
-    """A seeded linear congruential stream of floats in [0, 1). Reproducible, no OS entropy."""
 
     __slots__ = ("_state",)
 
@@ -539,7 +443,6 @@ class _DeterministicStream:
 
 
 def _affinity_matrix(seed: int, num_members: int, num_tasks: int) -> tuple[tuple[float, ...], ...]:
-    """Deterministic per-member per-task affinity in [0, 1). A toy objective, not evidence."""
 
     stream = _DeterministicStream(seed)
     return tuple(tuple(stream.next_float() for _ in range(num_tasks)) for _ in range(num_members))
@@ -551,7 +454,6 @@ def _score_coalition(
     size_penalty: float,
     num_tasks: int,
 ) -> float:
-    """Multi-task coalition score: mean best-per-task coverage minus a size penalty."""
 
     member_list = list(members)
     if not member_list:
@@ -564,10 +466,6 @@ def _score_coalition(
 
 @dataclass(frozen=True, slots=True)
 class SearchTrace:
-    """One seed's complete search outcome across every arm, with a stable digest.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     seed: int
     num_members: int
@@ -714,11 +612,6 @@ def run_construction_search(
     budget: int | None = None,
     per_eval_cost: float = 0.0,
 ) -> SearchTrace:
-    """Run every arm deterministically for one seed and return a digest-bound trace.
-
-    Reproducible under the seed with no wall-clock and no OS entropy. Claim scope: deterministic
-    programmatic mechanics only; no capability claim. The scores are toy numbers.
-    """
 
     if num_members < 2:
         raise ConstructionSearchRefusal("run needs at least two candidate members")
@@ -762,12 +655,6 @@ def run_construction_search(
 
 
 def verdict_from_trace(trace: SearchTrace, *, matched_cost_charged: bool = True) -> SearchValueVerdict:
-    """Charge the search cost against the trace and emit a fail-closed verdict.
-
-    The gross improvement is search best minus the best cheap control. The charged cost is the
-    per-evaluation cost times the search evaluations spent. Improvement is claimed only when the
-    charged-cost net is strictly positive, which is exactly the prior null.
-    """
 
     cheap_best = max(trace.scores[family] for family in REQUIRED_CONTROLS)
     search_score = trace.scores["construction-search"]
@@ -784,17 +671,10 @@ def verdict_from_trace(trace: SearchTrace, *, matched_cost_charged: bool = True)
     )
 
 
-# ---------------------------------------------------------------------------
 # Section H. Coverage record for the epoch sub-questions (readiness only).
-# ---------------------------------------------------------------------------
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Map epoch G1-G1 sub-questions to the scaffold mechanics that make each answerable.
-
-    This is a readiness record, not a result. Claim scope: deterministic programmatic mechanics
-    only; no capability claim.
-    """
 
     return {
         "is-the-objective-sealed-before-search": (

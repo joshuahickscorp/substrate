@@ -1,50 +1,3 @@
-"""Close the b5_degeneracy_robustness gap: is the degenerate-ensemble RETENTION advantage
-SUBSTRATE-SPECIFIC (a property of the real domain-incremental cluster geometry) or a GENERIC
-ARCHITECTURAL fact that holds under any fixed projection of the inputs?
-
-B5 asks whether a DEGENERATE ensemble (K structurally-distinct sub-predictors: different widths,
-GELU vs ReLU vs Tanh, voting) retains a first task better through a domain-incremental stream than
-a matched-parameter single predictor and K identical copies (pure redundancy). The shipped result
-shows the degenerate ensemble retaining better (bwt_degenerate above both baselines,
-degenerate_retains_better True), but it NEVER ran the standing frozen_random control that the
-registry lists and that RESULTS_PRE_STUDIO.md flags as an open gap. The B5 output dict
-(src/mop/experiments/b_biology.py B5.run) builds degenerate / single / copies on raw make_task_stream
-inputs only, with no frozen_random or rank_reduced arm.
-
-Why this control is NON-VACUOUS here (unlike the corpus's vacuous probe-metric ties): B5's retention
-number is BACKWARD TRANSFER on a TRAINED SHELL (train through the full stream, then read task0
-accuracy), not a linear/MLP probe. A square frozen_random projection is almost surely invertible, so
-the representable function class is unchanged (each head's first Linear can absorb the remix), but the
-FINITE-EPOCH training dynamics are not invariant (the input covariance changes), so whether the
-degenerate ADVANTAGE survives is OBSERVED, not forced. census_reaudit.json certifies trained-shell
-BWT as a genuine-surviving-signal metric class, the same class as e7_sparse (the corpus's one
-substrate-touching positive). This script mirrors scripts/close_e7_sparse.py exactly.
-
-The decisive comparison (per seed, matched compute / optimizer / stream), run on THREE substrates:
-  (1) REAL: the normal domain-incremental stream (_domain_stream), and
-  (2) FROZEN_RANDOM: a fixed invertible random linear projection of every task's x (the e7-comparable
-      'would any projection do' control), and
-  (3) RANK_REDUCED: a genuinely LOSSY random projection to rank d//4 and back (a strictly stronger
-      control: if the advantage survives even a lossy bottleneck it is very robustly generic).
-For each substrate we take the degenerate-minus-best-baseline retention gain, averaged over seeds,
-then compare the projected gains to the real one.
-
-PREREGISTERED (in code, before any number; a tie is a null; never tuned toward a positive):
-  margin = the seed spread (half the max-min range across arms, B5's own null convention).
-  * real gain does NOT clear the margin  => inconclusive at this scale (do not settle the question).
-  * projected gain clears the margin AND ratio (projected / real) >= RATIO_SURVIVE (0.5)
-      => GENERIC ARCHITECTURAL: the degenerate retention advantage survives the projection, so it is
-      real but NOT substrate specific (reframed as an architectural fact, like e7_sparse).
-  * projected gain does NOT clear the margin (or ratio < RATIO_SURVIVE)
-      => SUBSTRATE-SPECIFIC: the advantage needed the real geometry (b5 survives as a
-      substrate-specific positive). A tie is a null, so this branch requires a genuine collapse.
-
-Reuses B5's own builders (_build_degenerate, _train_vote, _vote_acc) and the module helpers
-(_domain_stream, _mean, _spread); does NOT edit the shipped module. Form: no em or en dashes.
-
-Usage:
-  PYTHONPATH=src OMP_NUM_THREADS=4 .venv/bin/python scripts/close_b5_degeneracy.py
-"""
 
 from __future__ import annotations
 
@@ -64,8 +17,6 @@ from mop.substrate.datasets import Task
 REPO = Path(__file__).resolve().parents[1]
 OUT = REPO / "runs" / "pre_studio" / "close_b5_degeneracy.json"
 
-# Matched to configs/experiment/b5_degeneracy_robustness.yaml (only the seed count and the two
-# projection substrates are new; the regime the shipped positive was measured in is unchanged).
 CFG = dict(
     dim=48,
     n_classes=4,
@@ -81,14 +32,10 @@ RATIO_SURVIVE = 0.5  # preregistered: projected/real gain at or above this count
 
 
 def _project_stream(tasks: list[Task], fn: Callable[[torch.Tensor], torch.Tensor]) -> list[Task]:
-    """Rebuild each task with a projected x (same projection for the whole stream, so the cross-task
-    interference structure is a fixed remix of the real one). Everything else identical."""
     return [Task(t.name, fn(t.x), t.y, t.xnext, t.n_classes, t.task_id) for t in tasks]
 
 
 def _retention_arm(build: Callable[[], nn.ModuleList], stream: list[Task]) -> float:
-    """Reproduce B5.run's retention loop: train one arm through the full domain stream, then read
-    task0 vote accuracy (backward transfer). Fresh model, B5's own train/eval, CPU, tiny MLP."""
     model = build()
     for t in stream:
         B5._train_vote(model, t.x, t.y, CFG["epochs"], CFG["lr"])
@@ -96,11 +43,8 @@ def _retention_arm(build: Callable[[], nn.ModuleList], stream: list[Task]) -> fl
 
 
 def _run_substrate(stream: list[Task]) -> dict:
-    """Run the degenerate / single / copies arms on one substrate and return per-arm retention plus
-    the degenerate-minus-best-baseline gain (B5's retention effect size)."""
     dim, nc = CFG["dim"], CFG["n_classes"]
     widths = CFG["degenerate_widths"]
-    # matched-param single width, computed exactly as B5.run does
     total = sum(sum(p.numel() for p in m.parameters()) for m in B5._build_degenerate(dim, nc, widths))
     sw = max(8, int(total / (dim + nc)))
 

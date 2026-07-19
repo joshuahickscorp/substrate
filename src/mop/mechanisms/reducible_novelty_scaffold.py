@@ -1,26 +1,3 @@
-"""Scaffold spine for the reducible novelty curiosity mechanism cluster (lane G1-N1).
-
-This module raises the SCAFFOLDING axis only. It encodes, as machine-checkable contracts, the exact
-bar a reducible-novelty curiosity mechanism must clear before any claim: allocating a fixed probe
-budget by predicted learning progress must improve BOTH learning progress AND allocation efficiency,
-jointly, at matched cost, against a declared control family (uniform_allocation, random_allocation,
-novelty_chaser, static_prior). It builds the harness, not the result. Nothing here demonstrates that
-any mechanism clears the bar.
-
-Named prior null (forces the bar): the irreducible noise trap. Raw novelty includes unlearnable
-noise; a curiosity policy that chases raw novelty parks its budget on noise sources and learns
-nothing, while a policy that ignores novelty entirely leaves learnable structure untapped. The trap
-is the default hypothesis. A single-axis win is exactly what the null predicts, so a single-axis win
-is refused. The scaffold fails closed unless both axes strictly improve together at matched cost,
-and even then a claim stays quarantined behind an activation gate that local code cannot open
-without an external confirmation receipt.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. The toy simulator is a byte-exact seeded fixture, not evidence. The controls are
-declarations. The verdict is arithmetic over declared readings, never a measurement of a real system.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -34,21 +11,15 @@ from ..substrate.events import canonical_sha256
 
 REDUCIBLE_NOVELTY_SCHEMA = "mop-reducible-novelty/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-# The named prior null this lane must clear. Held here as a fail-closed constant so a test can pin
-# it and so the verdict language stays anchored to the noise trap.
 PRIOR_NULL = "irreducible-noise-trap"
 
-# The two axes that must improve jointly. Ordering is load-bearing for digests and completeness.
 DUAL_AXES: tuple[str, ...] = ("learning_progress", "allocation_efficiency")
 
-# The declared control family. Ordering is load-bearing; a completeness check refuses drift.
 REQUIRED_CONTROLS: tuple[str, ...] = (
     "uniform_allocation",
     "random_allocation",
@@ -58,7 +29,7 @@ REQUIRED_CONTROLS: tuple[str, ...] = (
 
 
 class ReducibleNoveltyRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, widened, or below the joint bar."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -80,17 +51,10 @@ def _require_sha256(value: str, label: str) -> None:
         raise ReducibleNoveltyRefusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-# ---------------------------------------------------------------------------
-# Section A. Dual metric reading. Learning progress and allocation efficiency, normalized to [0, 1].
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class DualMetricReading:
-    """One condition's normalized score on both axes. Neither axis stands alone.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     learning_progress: float
     allocation_efficiency: float
@@ -124,14 +88,10 @@ class DualMetricReading:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section B. Matched cost budget. A comparison is honest only at equal cost.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedCostBudget:
-    """The full-system budget every arm, candidate and control, must be held to before comparison."""
 
     probes: int
     sources: int
@@ -162,17 +122,10 @@ class MatchedCostBudget:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section C. Control arm and control family declaration.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ControlArm:
-    """One declared control condition with its reading and its held budget.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     control: str
     reading: DualMetricReading
@@ -199,7 +152,6 @@ class ControlArm:
 
 @dataclass(frozen=True, slots=True)
 class ControlFamily:
-    """The complete declared control family; membership and order must match REQUIRED_CONTROLS."""
 
     schema: str
     arms: tuple[ControlArm, ...]
@@ -246,24 +198,15 @@ class ControlFamily:
 
 
 def assert_control_completeness(controls: Sequence[str]) -> None:
-    """Module-level fail-closed check that a declared control set matches membership and order."""
 
     if tuple(controls) != REQUIRED_CONTROLS:
         raise ReducibleNoveltyRefusal("declared control set drifted in membership or order")
 
 
-# ---------------------------------------------------------------------------
-# Section D. The contract that declares the joint bar.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ReducibleNoveltyContract:
-    """Declares the joint-improvement rule: keep a mechanism only for a replicated, matched-cost,
-    both-axes win against the full declared control family.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     axes: tuple[str, ...]
@@ -316,7 +259,6 @@ class ReducibleNoveltyContract:
 
 
 def default_contract() -> ReducibleNoveltyContract:
-    """The canonical lane G1-N1 contract: both axes, matched cost, two replications, noise-trap null."""
 
     return ReducibleNoveltyContract(
         schema=REDUCIBLE_NOVELTY_SCHEMA,
@@ -329,14 +271,10 @@ def default_contract() -> ReducibleNoveltyContract:
     )
 
 
-# ---------------------------------------------------------------------------
-# Section E. Axis comparison and joint verdict. The verdict certifies nothing on a single axis.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class AxisComparison:
-    """A candidate value vs the best control value on one axis, with a strict-improvement flag."""
 
     axis: str
     candidate_value: float
@@ -368,14 +306,6 @@ class AxisComparison:
 
 @dataclass(frozen=True, slots=True)
 class JointImprovementVerdict:
-    """Arithmetic verdict over two axis comparisons. A single-axis win never certifies a claim.
-
-    The verdict object itself is a neutral record; it does not raise on a single-axis result because
-    a single-axis result is a valid, and expected, null outcome. The claim path, ``certify``, fails
-    closed unless BOTH axes strictly improve at matched cost. That is the noise trap encoded as code.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     learning_progress: AxisComparison
@@ -409,7 +339,6 @@ class JointImprovementVerdict:
         return self.learning_progress.improved != self.allocation_efficiency.improved
 
     def certify(self) -> JointImprovementVerdict:
-        """Fail closed unless both axes strictly improve. A single-axis win is the trap, refused."""
 
         if self.only_one_axis_improved:
             winner = "learning_progress" if self.learning_progress.improved else "allocation_efficiency"
@@ -446,14 +375,6 @@ def evaluate_joint_improvement(
     candidate_budget: MatchedCostBudget,
     controls: ControlFamily,
 ) -> JointImprovementVerdict:
-    """Compare a candidate reading against the best control per axis, at matched cost.
-
-    Fails closed if the candidate is not held to the same budget as the control family. The verdict
-    compares the candidate to the strongest control on EACH axis independently; the noise trap makes
-    that pair of maxima come from different controls, which is exactly why a joint win is hard.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if candidate_budget.digest() != controls.matched.digest():
         raise ReducibleNoveltyRefusal(
@@ -478,15 +399,7 @@ def evaluate_joint_improvement(
     )
 
 
-# ---------------------------------------------------------------------------
-# Section F. Deterministic seeded toy that exhibits the noise trap. Not evidence; a test vector.
-# ---------------------------------------------------------------------------
 
-# Base scores per policy as (learning_progress, allocation_efficiency). The trap is deliberate: the
-# uniform allocator learns broadly but wastes half its probes on noise; the static prior is frugal on
-# its fixed favorites but taps almost no structure; the novelty chaser parks on loud noise and gets
-# neither. The candidate is a naive progress-proportional mixture that lands high on progress and
-# middling on efficiency, so under this toy it beats neither axis maximum.
 _BASE_SCORES: dict[str, tuple[float, float]] = {
     "uniform_allocation": (0.62, 0.50),
     "random_allocation": (0.55, 0.47),
@@ -498,7 +411,6 @@ _DEFAULT_BUDGET = MatchedCostBudget(probes=40, sources=8, pilot_probes=8, flops=
 
 
 def _seeded_jitter(seed: int, label: str) -> float:
-    """A tiny deterministic offset in [-0.005, 0.005) from a seeded digest; no wall clock, no rng."""
 
     if seed < 0:
         raise ReducibleNoveltyRefusal("toy seed must be nonnegative")
@@ -512,7 +424,6 @@ def _clamp_unit(value: float) -> float:
 
 
 def simulate_reading(*, seed: int, policy: str) -> DualMetricReading:
-    """Deterministic toy reading for one policy. Reproducible under a seed; carries no claim."""
 
     if policy == "candidate":
         base = _CANDIDATE_BASE
@@ -526,7 +437,6 @@ def simulate_reading(*, seed: int, policy: str) -> DualMetricReading:
 
 
 def build_trap_control_family(*, seed: int) -> ControlFamily:
-    """Build the full control family from the seeded toy, all held to one matched budget."""
 
     arms = tuple(
         ControlArm(
@@ -540,7 +450,6 @@ def build_trap_control_family(*, seed: int) -> ControlFamily:
 
 
 def build_trap_verdict(*, seed: int) -> JointImprovementVerdict:
-    """Build the candidate-vs-family verdict from the seeded toy. Under the toy the null holds."""
 
     controls = build_trap_control_family(seed=seed)
     candidate = simulate_reading(seed=seed, policy="candidate")
@@ -549,19 +458,10 @@ def build_trap_verdict(*, seed: int) -> JointImprovementVerdict:
     )
 
 
-# ---------------------------------------------------------------------------
-# Section G. Activation gate. A joint claim stays quarantined until an external receipt opens it.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
-    """An external confirmation receipt; the only thing that can open the joint-claim gate.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. This receipt is a
-    declaration that an independent party replicated the joint, matched-cost win. Local code cannot
-    mint a valid one for itself; a test asserts the gate stays closed without it.
-    """
 
     preregistration_sha256: str
     verdict_digest: str
@@ -594,12 +494,6 @@ class ConfirmationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class JointClaimGate:
-    """A fail-closed activation gate. OFF by default; opening it needs a matching external receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that a merely arithmetic both-axes win in this process can never be promoted to a standing claim
-    without independent, matched-cost, replicated confirmation supplied from outside.
-    """
 
     activation_permitted: bool = False
     claim_scope: str = CLAIM_SCOPE
@@ -613,7 +507,6 @@ class JointClaimGate:
         verdict: JointImprovementVerdict,
         receipt: ConfirmationReceipt | None = None,
     ) -> JointImprovementVerdict:
-        """Fail closed. Raise unless activation is permitted AND a valid receipt matches this verdict."""
 
         if not self.activation_permitted:
             raise ReducibleNoveltyRefusal(
@@ -631,13 +524,10 @@ class JointClaimGate:
         return {"activation_permitted": self.activation_permitted, "claim_scope": self.claim_scope}
 
 
-# ---------------------------------------------------------------------------
 # Section H. Coverage record for this lane's sub-questions (readiness only).
-# ---------------------------------------------------------------------------
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static record of which G1-N1 sub-questions this scaffold arms. Readiness, not results."""
 
     return {
         "curiosity-targets-reducible-not-raw-novelty": (

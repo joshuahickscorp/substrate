@@ -250,7 +250,6 @@ def _default_executable_probe(process: ProcessSnapshot) -> str | None:
 
 
 def legacy_specs(repo_root: Path = REPO_ROOT) -> tuple[LegacySpec, ...]:
-    """Return legacy authorities with exact mechanics worker-label families."""
 
     mechanics_prefixes = tuple(f"mop-{lane.lane_id.lower()}-" for lane in mechanics_queue.LANES)
     return tuple(
@@ -351,7 +350,6 @@ def _horizon_authority(
 
 
 class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
-    """v6 owner with a fresh durable root and exact command-shape adoption."""
 
     def __init__(
         self,
@@ -480,7 +478,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         return status
 
     def _command_residual(self, spec: LegacySpec, process: ProcessSnapshot) -> bool:
-        """Recognize only the exact two-argv restart shape emitted by this parent."""
 
         if len(process.command) != 2 or len(spec.restart_command) != 2:
             return False
@@ -503,7 +500,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         process: ProcessSnapshot,
         parent: ProcessSnapshot,
     ) -> bool:
-        """Recognize only the reproduced setproctitle rewrite of spawn argv."""
 
         if (
             process.ppid != parent.pid
@@ -537,24 +533,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         parent: ProcessSnapshot,
         spec: LegacySpec,
     ) -> bool:
-        """Recognize a child-label worker inside the tree not at clean residual.
-
-        The worker must carry an exact child-label family and run inside the
-        repository working tree, yet not have settled into the clean all-three
-        residual (repository cwd, parent PGID, and parent PPID together).
-
-        Unlike v6 this deliberately does NOT require the worker to be *attached*
-        to the exact owning parent by ppid or pgid.  A consolidated-final worker
-        mid-exit that has already been reparented to launchd (ppid 1) with its
-        own process group, while still carrying the child label and the
-        repository cwd, is a genuine boundary transient (this exact detached
-        mid-exit worker is what held v6): it is tracked here so the bounded
-        window can confirm it either exits exactly or resolves into the clean
-        residual.  A process that shares only a foreign cwd, or that carries a
-        foreign label, still fails this gate and is never treated as tolerable.
-        Persistence is judged by the caller: a tracked worker that stays inexact
-        across the entire bounded window still fails closed to integrity_hold.
-        """
 
         if not any(process.label.startswith(prefix) for prefix in spec.child_label_prefixes):
             return False
@@ -574,16 +552,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         dict[str, tuple[ProcessSnapshot, tuple[ProcessSnapshot, ...]]],
         dict[str, tuple[ProcessSnapshot, tuple[ProcessSnapshot, ...]]],
     ]:
-        """Split provisional spawn-title transitions from boundary-transient workers.
-
-        Return two maps keyed by stage id.  The first holds exact spawn-title
-        transitions (the argv title is being rewritten while the ownership
-        boundary is already exact); the second holds child-label workers running
-        inside the repository tree that have not yet settled into the clean
-        all-three residual, including a worker mid-exit already reparented to
-        launchd with its own process group.  Any other hard boundary error still
-        fails closed immediately.
-        """
 
         title: dict[str, tuple[ProcessSnapshot, tuple[ProcessSnapshot, ...]]] = {}
         boundary: dict[str, tuple[ProcessSnapshot, tuple[ProcessSnapshot, ...]]] = {}
@@ -654,19 +622,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         )
 
     def _stable_process_table(self) -> tuple[ProcessSnapshot, ...]:
-        """Resolve title transitions and boundary-transient workers before reconciling.
-
-        Two provisional classes share one bounded window.  Spawn-title
-        transitions keep a fixed ownership boundary while the argv title is
-        rewritten and are pinned by their full boundary.  Boundary-transient
-        workers keep a fixed title while a child-label worker inside the tree has
-        not yet settled into the clean all-three residual (it may be attached and
-        mid setpgid/reparent, or already detached to launchd mid-exit); they are
-        pinned only by (pid, create_time) plus the exact owning parent, and are
-        tolerated solely while they resolve into the clean all-three residual or
-        exit exactly, failing closed if the same identity stays inexact across
-        the whole window.
-        """
 
         current = tuple(self.process_table_fn())
         title_provisional, boundary_provisional = self._snapshot_provisionals(current)
@@ -877,7 +832,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         spec: LegacySpec,
         processes: Sequence[ProcessSnapshot],
     ) -> tuple[list[ProcessSnapshot], list[ProcessSnapshot]]:
-        """Bind child labels only inside the exact owning parent boundary."""
 
         labelled = [process for process in processes if process.label == spec.process_label]
         for process in labelled:
@@ -1435,7 +1389,6 @@ def validate_chain_status(
     horizon_program_path: Path | None = None,
     specs: Sequence[LegacySpec] | None = None,
 ) -> str:
-    """Validate one exact v7 status acknowledgement without mutating chain state."""
 
     repo_root = repo_root.resolve()
     if horizon_program_path is None:
@@ -1882,7 +1835,6 @@ def read_validated_complete_chain_status(
     specs: Sequence[LegacySpec] | None = None,
     acquire_lock: bool = True,
 ) -> dict[str, Any]:
-    """Read and replay one stable, exact, complete v7 state/status snapshot."""
 
     root = root.resolve()
     repo_root = repo_root.resolve()

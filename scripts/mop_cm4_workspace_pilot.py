@@ -1,47 +1,4 @@
 #!/usr/bin/env python
-"""CM4: workspace-shell routing PILOT on real cached latents (WP-10; registry row
-mop_cm4_workspace_shell in registry/experiments.yaml, preregistration mirror
-configs/experiment/mop_cm4.yaml).
-
-Thesis under test: a trained WorkspaceShell (context gating + working memory + head, the WP-02
-composition, no new science) beats BOTH a param-matched dense shell AND matched-FLOP unrolled depth
-on continual-learning dynamics over real frozen V-JEPA 2 pooled latents. A workspace win that either
-control matches is capacity or depth, not routing (the registry null).
-
-Arms (identical latents, identical epochs and lr, identical task-id information):
-  workspace : WorkspaceShell with ContextGating (context = task id, known at train AND eval in this
-              pilot, stated honestly: the task-agnostic version is the Studio protocol) plus
-              WorkingMemory slots plus a ClassHead
-  dense     : plain dense MLP head, hidden width solved by capmatch.matched_capacity against the
-              workspace shell's TOTAL trainable params (tol 2 percent, by construction)
-  unrolled  : weight-tied IterativeRefiner + linear head; (steps, hidden) solved so total forward
-              FLOPs match the workspace shell within tol (matched_within recorded); its params are
-              deliberately fewer, that is what makes it the DEPTH control, not a capacity control
-
-Information parity (control genuineness): BOTH controls receive the SAME ground-truth task id the
-workspace's context gate sees, concatenated as a one-hot to their input at train AND eval. In
-class-incremental continual learning an oracle task id is itself a large anti-forgetting mechanism
-(task-conditioned gating is effectively a per-task subnetwork), so task-blind controls would let a
-workspace BWT win be attributable to the extra oracle input rather than to routing. The capmatch and
-FLOP targets are solved over the widened control input dim (proj_dim + n_tasks).
-
-Preprocessing (not a control): one FIXED seeded random projection 1024 -> proj_dim applied
-identically to every arm and every seed, purely to keep the pilot's trainable stacks small. It is
-shared input preprocessing, never a comparison arm (the vacuous-control doctrine is untouched).
-frozen_random controls are VALID here (trained-shell dynamics metrics) but unused.
-
-planning_gain (a registry metric for this row) is NOT measurable on this cache: the pooled 528K
-store has no temporal successors (forward_dynamics targets are identity), so any planning delta
-would be vacuous. Reported as blocked-on-DR1 rather than faked; BWT and accuracy carry the pilot.
-
-Preregistered null (in code before any run): the workspace shell ties param-matched dense OR ties
-matched-compute unrolled depth on BWT, or sign-flips across seeds. Verdict rule, uniform across the
-MoT scripts: workspace WINS iff the per-seed BWT delta over max(dense, unrolled) has mean >
-max(seed SD, MIN_MARGIN) with no sign flip; else null_supported=True.
-
-Usage: python scripts/mop_cm4_workspace_pilot.py --seeds 0-2
-Writes runs/mot/cm4_workspace_pilot.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -75,7 +32,6 @@ PROJ_SEED = 1234  # the fixed preprocessing projection, shared by every arm and 
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -83,7 +39,6 @@ def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
 
 
 def split_task(x: torch.Tensor, y: torch.Tensor, train_frac: float, g: torch.Generator):
-    """Per-class split so every class appears in both halves (at least one test sample per class)."""
     tr, te = [], []
     for c in sorted(set(y.tolist())):
         idx = (y == c).nonzero(as_tuple=True)[0]
@@ -95,8 +50,6 @@ def split_task(x: torch.Tensor, y: torch.Tensor, train_frac: float, g: torch.Gen
 
 
 def load_split_stream(e: DictConfig, seed: int) -> list[dict]:
-    """Real class-incremental stream, projected to proj_dim by the FIXED preprocessing map, sliced
-    into per-task train/test splits (seeded)."""
     tasks = real_task_stream(
         str(e.cache),
         n_tasks=int(e.n_tasks),
@@ -139,17 +92,12 @@ def build_workspace(dim: int, n_classes: int, n_tasks: int, e: DictConfig) -> Wo
 
 
 def workspace_flops(dim: int, n_classes: int, e: DictConfig) -> int:
-    """Forward FLOP estimate for the workspace shell: WM write+gate linears plus the head MLP.
-    ContextGating is an embedding lookup plus an elementwise product, rounding error by the
-    compute-module convention (linear layers are the load-bearing term)."""
     wm = linear_flops(dim, dim) + linear_flops(dim, int(e.wm_slots))
     head = mlp_flops([dim, int(e.ws_head_hidden), n_classes])
     return int(wm + head)
 
 
 class UnrolledDepthNet(nn.Module):
-    """Weight-tied refiner iterated `steps` times plus a linear readout: the matched-FLOP DEPTH
-    control (params intentionally below the workspace shell; depth is what it buys)."""
 
     def __init__(self, dim: int, n_classes: int, hidden: int, steps: int):
         super().__init__()
@@ -162,8 +110,6 @@ class UnrolledDepthNet(nn.Module):
 
 
 def solve_unrolled(dim: int, n_classes: int, target_flops: int, max_steps: int = 8) -> tuple[int, int]:
-    """Pick (steps, hidden) whose total forward FLOPs (steps residual blocks of 4*dim*hidden plus the
-    readout) land nearest target_flops, steps >= 2 so the arm is genuinely iterative."""
     head = linear_flops(dim, n_classes)
     best: tuple[float, int, int] | None = None
     for steps in range(2, max_steps + 1):
@@ -177,10 +123,6 @@ def solve_unrolled(dim: int, n_classes: int, target_flops: int, max_steps: int =
 
 
 def train_arm(model: nn.Module, stream: list[dict], e: DictConfig, contextual: bool, n_tasks: int) -> dict:
-    """Sequential training; acc_matrix[i][j] = acc on task j's test split after training task i.
-    contextual=True feeds the task id to the workspace shell's context gate; contextual=False
-    concatenates the SAME ground-truth task id as a one-hot to the control's input (information
-    parity: every arm sees the task id at train and eval, the known-task-id pilot protocol)."""
 
     def logits(m: nn.Module, x: torch.Tensor, task_id: int) -> torch.Tensor:
         ctx = torch.full((x.shape[0],), task_id, dtype=torch.long)
@@ -238,8 +180,6 @@ class MotCM4WorkspacePilot(Experiment):
             ws = build_workspace(dim, n_classes, n_tasks, e)
             ws_params = param_count(ws)
             ws_flops = workspace_flops(dim, n_classes, e)
-            # information parity: both controls take the ground-truth task id as a one-hot
-            # concatenated to the latent input, so capmatch/FLOP targets solve over the widened dim
             ctrl_dim = dim + n_tasks
 
             def make_dense(w: int, dim_in=ctrl_dim, n_classes=n_classes) -> nn.Module:

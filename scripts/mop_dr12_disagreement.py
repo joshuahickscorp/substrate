@@ -1,45 +1,4 @@
 #!/usr/bin/env python
-"""DR12: disagreement-as-uncertainty (WP-08, H-ENSEMBLE consumer; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, DR full schema part 2).
-
-Thesis: inter-module disagreement (variance across seeded heads, the epistemic signal) predicts
-per-sample error better than a single head's confidence, and gating extra compute on it beats uniform
-allocation at matched expert budget, while tracking epistemic (reducible) not aleatoric (irreducible)
-uncertainty. The e4 corpus negative showed point-error gating conflates the two 30/30; DR12 asks
-whether ENSEMBLE disagreement escapes that conflation.
-
-Regime (synthetic latents, no encoder, preregistered): three equal-role partitions over one latent
-space, all sharing the label set,
-  (0) blobs: linearly separable clusters (easy, every head agrees and is right),
-  (1) antipodal: each class is a +mu/-mu pair, hard for a small head but REDUCIBLE (a bigger expert
-      fixes it); differently seeded small heads land in different solutions here, genuine epistemic
-      disagreement,
-  (2) noise: labels are uniform random, IRREDUCIBLE; every head converges to the same spurious fit,
-      so disagreement should be LOW while raw error stays high (the noisy-TV signature).
-
-Arms: error-prediction AUROC of ensemble disagreement vs single-head confidence on the SAME deployed
-predictions (the single cheap head, member 0); then a gated cascade at matched expert budget (top-B
-by disagreement vs by 1-confidence vs uniform-random B vs the oracle bound), same expert, same B.
-
-Guard: the three-boolean contract from diagnostics/noisy_tv.py must pass jointly, AND the
-disagreement gate must not over-select the irreducible partition (share of gated noise samples
-above the pool noise fraction = chasing aleatoric noise = the e4 pattern). A guard failure
-overrides any primary win (manifest appendix).
-
-Preregistered verdict logic (fixed in code before any run):
-  DEGENERATE if the single head's reducible-partition accuracy > 0.97 or < chance + 0.05 on any seed
-  GUARD-FAIL if the noisy-TV booleans do not all pass or the disagreement gate chases noise
-  WIN  if guard passes AND (delta_auroc or delta_gate has mean > seed SD, mean > 0, no sign flip)
-  NULL otherwise (disagreement ties confidence AND gating ties uniform, the registry null)
-
-PR1 context: runs/pre_studio/pr1_mode_error_disjointness.json is READ AT RUN TIME (never hardcoded,
-never rebuilt); DR12 runs either way and is reported against that context (manifest Stage 1 gate).
-
-Usage: PYTHONPATH=. python scripts/mop_dr12_disagreement.py --seeds 0-4
-Output: runs/mot/dr12_disagreement.json (--rerun switches to dr12_disagreement_seeds10.json)
-
-No em dashes or en dashes (BLACKHOLE.md). No encoder, no weights, latents are synthetic.
-"""
 
 from __future__ import annotations
 
@@ -76,9 +35,6 @@ PR1_PATH = "runs/pre_studio/pr1_mode_error_disjointness.json"
 
 
 def read_pr1_context(path: str | Path = PR1_PATH) -> dict:
-    """Read the PR1 mode-error-disjointness verdict AT RUN TIME (the manifest forbids hardcoding it
-    and forbids rebuilding PR1). gate is 'live' on GREEN, 'context-null' on NULL/DEGENERATE, and
-    'missing' when the json is absent (rows then report as unverified context)."""
     p = Path(path)
     if not p.exists():
         return {
@@ -107,9 +63,6 @@ def read_pr1_context(path: str | Path = PR1_PATH) -> dict:
 def make_mixed_regime(
     seed: int, n_train: int, n_test: int, dim: int, n_classes: int, separation: float
 ) -> tuple[torch.Tensor, ...]:
-    """The preregistered three-partition regime (module docstring). Train and test share the same
-    centers and generator stream. Returns xtr, ytr, ptr, xte, yte, pte with p in {0 blobs,
-    1 antipodal, 2 noise}."""
     g = torch.Generator().manual_seed(seed)
     blob_centers = torch.randn(n_classes, dim, generator=g)
     anti_centers = torch.randn(n_classes, dim, generator=g)
@@ -139,22 +92,10 @@ def make_mixed_regime(
 def make_mixed_regime_d3(
     seed: int, n_train: int, n_test: int, dim: int, n_classes: int, separation: float
 ) -> tuple[torch.Tensor, ...]:
-    """A5 recal regime: the reducible partitions (blobs, antipodal) are replaced by the D3 graded slot
-    task (diagnostics/hardness), whose binary DSL label sits at a CALIBRATED, non-ceiling difficulty so
-    the single head's reducible accuracy lands in-band (the base dr12 hit 0.999, an automatic
-    DEGENERATE). The noise partition stays irreducible (random inputs, uniform random labels). p keeps
-    the same {0 reducible-easy, 1 reducible-hard, 2 noise} convention: 0/1 are the D3 easy/hard bins,
-    so the guard's noise-share check and the reducible-accuracy calibration are both well defined.
-    dim/n_classes are overridden to the D3 task's own (64, 2); separation is ignored (D3 sets it)."""
     from mop.diagnostics.hardness import make_graded_slot_task
 
-    # ONE task instance for train+test so the codebook aligns (the codebook is seed-dependent, so a
-    # separate test task would be a different, unrelated label function and unlearnable by construction).
     n_red_tr = n_train - int(n_train * PART_FRACS[2])
     n_red_te = n_test - int(n_test * PART_FRACS[2])
-    # noise=2.8 (D3 default 1.6) pushes the reducible content off the ceiling so the single head's
-    # reducible accuracy lands inside the calibrated band (0.55..0.97), not above it (the base dr12 was
-    # at 0.999, an automatic DEGENERATE; the default D3 noise leaves it at ~0.98, still too easy).
     task = make_graded_slot_task(n_red_tr + n_red_te, noise=2.8, seed=seed)
     xr, yr, hr = task.x, task.y, task.hard_mask.long()  # 0 easy bin, 1 hard bin (both reducible)
 
@@ -234,7 +175,6 @@ def run(
         red_acc = float((pred_single[red] == yte[red]).float().mean())
         if red_acc > DEGENERATE_HIGH or red_acc < chance + DEGENERATE_LOW_MARGIN:
             degenerate.append({"seed": s, "reducible_acc": round(red_acc, 4)})
-        # gated cascade at matched expert budget: same expert, same B invocations per arm
         torch.manual_seed(s * 100 + 77)
         expert = mlp(dim, n_classes, hidden=expert_hidden, depth=2, ln=True)
         train_head(expert, xtr, ytr, expert_epochs, lr=1e-3, seed=s * 100 + 77)
@@ -380,7 +320,6 @@ def main(argv=None) -> int:
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
     if a.recal:
-        # D3 task is binary and 64-dim; reducible content sits at a calibrated non-ceiling difficulty
         result = run(
             parse_seeds(a.seeds),
             dim=64,

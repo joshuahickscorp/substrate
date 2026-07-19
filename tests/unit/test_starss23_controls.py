@@ -12,7 +12,6 @@ from mop.science.budget import (
 )
 
 
-
 def test_rate_matched_random_identical_count_matched_per_seed_permuted_positions() -> None:
     candidate = [3, 10, 17, 40, 55]
     n_frames = 60
@@ -44,8 +43,6 @@ def test_rate_matched_random_saturates_when_budget_reaches_frame_count() -> None
 
 def test_rate_matched_random_arm_kind_is_the_harness_control_name() -> None:
     assert c.RateMatchedRandomControl(seed=0).arm_kind == ARM_RATE_MATCHED_RANDOM
-
-
 
 
 def test_always_on_fires_every_frame() -> None:
@@ -83,8 +80,6 @@ def test_best_single_threshold_separates_flux_spikes() -> None:
     control = c.BestSingleControl.tuned(val)
     features, onsets = _toy_val_clip([6, 18], 26, rng)
     assert control.fires_for_clip(features) == onsets
-
-
 
 
 class _ScheduleGate:
@@ -162,8 +157,6 @@ def test_noisy_tv_result_seal_is_stable() -> None:
         "n_noise_frames": result.n_noise_frames,
         "at_chance": result.at_chance,
     }).digest()
-
-
 
 
 def test_controls_refuse_malformed_inputs() -> None:

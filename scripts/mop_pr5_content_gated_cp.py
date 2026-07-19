@@ -1,40 +1,4 @@
 #!/usr/bin/env python
-"""PR5: content-gated critical period (WP-07, plasticity program; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, PR full schema part 2). Doctrinal question 1,
-retried where e3/d6 lost to plain LR annealing.
-
-Thesis: a surprise-triggered plasticity-reopening schedule (PlasticityController soft schedule plus
-signal-triggered reopening at task boundaries it DETECTS from its own loss statistics) protects
-early tasks and reopens for novel ones better than clock-gated schedules, AT MATCHED LR-INTEGRAL.
-
-The matching discipline (the whole point, per the e3/d6 negative): the content arm runs first and
-its realized LR-integral defines the budget. The cosine arm's amplitude and the tuned-constant
-arm's level are then SOLVED so their integrals equal that budget exactly, and the WP-02
-LRIntegralAccumulator.matched precondition is asserted before any comparison; if it fails the run
-reports itself invalid (win forced False). Without this, any content-arm advantage is just "spent
-more learning rate", which is the e3 artifact.
-
-Stream: domain-incremental tasks (shared labels, independent cluster geometry per task, the
-reliable forgetting regime), one linear head trained through all tasks sequentially with per-step
-lr set by the arm's schedule.
-
-Arms:
-  content  : soft decay + surprise-triggered reopening (surprise = EMA z-score of the batch loss,
-             the Neuromodulation RunningStat convention)
-  cosine   : cosine decay over the whole stream, amplitude solved for the matched integral
-  constant : tuned constant lr = budget / n_steps (the matched-integral tuned-constant baseline)
-  content_shuffled : the content arm under a permuted task order (the registry's random control:
-             content-gating must track content, not clock position; reported, not gated on)
-
-Preregistered verdict (fixed before running): WIN iff at matched LR-integral EITHER the retention
-delta (content BWT minus the best baseline BWT) or the reopening delta (best baseline mean
-adaptation steps on tasks after the first minus content steps, in eval units) passes the uniform
-rule: mean > max(seed SD, MIN_MARGIN or MIN_STEPS) with no sign flip. Else null_supported=True:
-no retention or reopening advantage at matched LR-integral, pure LR annealing (the e3/d6 negative).
-
-Usage: python scripts/mop_pr5_content_gated_cp.py --seeds 0-4
-Writes runs/mot/pr5_content_gated_cp.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -70,7 +34,6 @@ BASELINES = ("cosine", "constant")
 
 
 def verdict(deltas: list[float], min_margin: float) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -84,9 +47,6 @@ def split_task(task, train_frac: float):
 
 
 class ContentSchedule:
-    """Surprise-triggered critical period: the PlasticityController soft schedule with reopening
-    driven by the EMA z-score of the arm's own batch loss (novel task geometry spikes the loss, the
-    z-score crosses reopen_threshold, plasticity reopens). Content, not clock."""
 
     def __init__(self, e: DictConfig, seed: int):
         self.ctl = PlasticityController(
@@ -104,9 +64,6 @@ class ContentSchedule:
 
 
 def run_arm(e: DictConfig, seed: int, arm: str, task_order: list[int], budget: float | None) -> dict:
-    """Train one head through the task stream under the arm's schedule. Returns the accuracy
-    matrix, per-task adaptation curves (eval every eval_every steps), and the LR-integral. cosine
-    and constant require the content arm's realized budget."""
     dim, n_classes = int(e.dim), int(e.classes_per_task)
     tasks = make_task_stream(
         n_tasks=int(e.n_tasks),

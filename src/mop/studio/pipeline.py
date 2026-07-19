@@ -1,16 +1,3 @@
-"""The one Studio pipeline surface (top-level deliverable). plan -> acquire -> validate -> cache ->
-run -> optimize -> report, plus a current-device `local-max` lane that does the most real work that
-is safe on the M3 Pro. Every stage honors the active Profile's kill switches (disk, download, clip,
-run-count, wall-time, tier caps) and stamps provenance; heavy acquisition is dry-run by default and
-real only under execute + budget + license acknowledgement.
-
-Artifacts land under runs/studio_pipeline/<run>/ with a `latest` pointer so the documented commands
-(`--plan runs/studio_pipeline/latest/plan.json`) always resolve to the most recent plan. This module
-orchestrates the studio.* building blocks (profiles, registry, planner, downloader, datacards,
-controls) and the existing substrate/harness/bench machinery; it adds no science, only wiring + gates.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -28,7 +15,6 @@ log = get_logger("studio_pipeline")
 RUNS_ROOT = REPO_ROOT / "runs" / "studio_pipeline"
 
 
-# --------------------------------------------------------------------------- run dir plumbing
 def _run_dir(label: str | None, out_root: Path | None = None) -> Path:
     root = Path(out_root or RUNS_ROOT)
     name = label or time.strftime("%Y%m%d_%H%M%S", time.localtime())
@@ -38,8 +24,6 @@ def _run_dir(label: str | None, out_root: Path | None = None) -> Path:
 
 
 def _set_latest(run_dir: Path) -> None:
-    """Point runs/studio_pipeline/latest at this run. A symlink when the OS allows, else a pointer
-    file (latest.txt) so the path is always discoverable even where symlinks are restricted."""
     latest = run_dir.parent / "latest"
     latest_txt = run_dir.parent / "latest.txt"
     try:
@@ -62,11 +46,9 @@ def _set_latest(run_dir: Path) -> None:
 
 
 def _resolve_latest(p: Path) -> Path:
-    """Resolve a path that may run through the `latest` pointer file fallback (no symlink)."""
     p = Path(p)
     if p.exists():
         return p
-    # path like .../studio_pipeline/latest/plan.json with a latest.txt pointer instead of a symlink
     parts = list(p.parts)
     if "latest" in parts:
         i = parts.index("latest")
@@ -98,7 +80,6 @@ def _prov(profile: Profile, **extra) -> dict:
     )
 
 
-# --------------------------------------------------------------------------- stage: plan
 def cmd_plan(
     profile_name: str = "studio-1tb",
     budget_gb: float | None = None,
@@ -108,8 +89,6 @@ def cmd_plan(
     label: str | None = None,
     out_root: Path | None = None,
 ) -> dict:
-    """Frontier 3: produce the acquisition plan (knapsack over the registry under the profile),
-    write plan.json/plan.md, the license ledger, and a data card per source. Sets `latest`."""
     profile = get_profile(profile_name)
     reg_problems = registry.validate_registry()
     if reg_problems:
@@ -136,10 +115,7 @@ def cmd_plan(
     return {"run_dir": str(run_dir), "plan": p, "datacards": cards}
 
 
-# --------------------------------------------------------------------------- stage: acquire
 def _control_gen_fn(seed: int, profile: Profile):
-    """A downloader generator callback for the synthetic-controls source: generate control families
-    into dest, bounded by the profile fixture budget. Returns the downloader's expected dict."""
 
     def gen(sel: dict, dest: Path) -> dict:
         clips = profile.clamp_clips(sel.get("subset_clips") or 32)
@@ -167,14 +143,9 @@ def cmd_acquire(
     profile_name: str | None = None,
     seed: int = 0,
 ) -> dict:
-    """Frontier 4: acquire selected sources, dry-run unless --execute. Generated/local sources run
-    for real (safe, on-device); remote sources are gated and stay BLOCKED without credentials. Writes
-    acquire_manifest.json and refreshes the data cards with what actually landed."""
     plan_path = _resolve_latest(Path(plan_path))
     plan = json.loads(plan_path.read_text())
     profile = get_profile(profile_name or plan.get("profile", {}).get("name", "studio-1tb"))
-    # honor the budget the plan was knapsacked under when the caller omits --budget-gb, so acquire
-    # does not silently spend against a larger envelope than the plan reserved disk headroom for.
     if budget_gb is None:
         budget_gb = plan.get("totals", {}).get("budget_gb")
     run_dir = plan_path.parent
@@ -192,11 +163,7 @@ def cmd_acquire(
     return {"run_dir": str(run_dir), "manifest": manifest}
 
 
-# --------------------------------------------------------------------------- stage: validate
 def cmd_validate(plan_path: str | Path) -> dict:
-    """Frontier 6: validate acquired sources. Local/generated sources that landed are run through
-    video.validate_source (class-folder layout, empty-class detection, label map); remote/metadata
-    sources are reported as pending/metadata-only. Writes validate.json/md."""
     from ..substrate.video import validate_source
 
     plan_path = _resolve_latest(Path(plan_path))
@@ -217,7 +184,6 @@ def cmd_validate(plan_path: str | Path) -> dict:
             "status": acq.get("status", "not-acquired"),
         }
         if sel.get("download_method") == "generate" and dest:
-            # a generated controls dir holds one subdir per family, each a class-folder source
             family_reports = []
             for fam_dir in sorted(Path(dest).iterdir()) if Path(dest).exists() else []:
                 if fam_dir.is_dir():
@@ -267,7 +233,6 @@ def _render_validate_md(out: dict) -> str:
     return "\n".join(L) + "\n"
 
 
-# --------------------------------------------------------------------------- stage: cache
 def cmd_cache(
     plan_path: str | Path,
     execute: bool = False,
@@ -275,9 +240,6 @@ def cmd_cache(
     profile_name: str | None = None,
     seed: int = 0,
 ) -> dict:
-    """Frontier 8: cache latents for acquired natural-video/synthetic sources. Dry-run estimates the
-    cache footprint (storage.estimate_for_encoder); --execute builds a TINY real cache from a landed
-    local corpus, bounded by the profile clip cap, then validates it. Writes cache.json."""
     from ..config import compose
     from ..substrate import storage
 
@@ -289,8 +251,6 @@ def cmd_cache(
     manifest = json.loads(man_path.read_text()) if man_path.exists() else {"sources": []}
     by_slug = {s["slug"]: s for s in manifest.get("sources", [])}
 
-    # free-disk kill switch: a real cache build writes a memmap store, so refuse to start one when
-    # the disk is already below the profile floor (dry-run estimates are free and always allowed).
     free_ok, free_gb = profile.free_disk_ok()
     if execute and not free_ok:
         out = {
@@ -310,7 +270,6 @@ def cmd_cache(
     results = []
     for sel in plan.get("selected", []):
         slug = sel["slug"]
-        # metadata-only by KIND or by STATUS has no decodable video, so it carries no latents
         if sel.get("kind") == "metadata-only" or sel.get("status") == "metadata-only":
             results.append({"slug": slug, "action": "skip", "reason": "metadata-only (no latents to cache)"})
             continue
@@ -338,9 +297,6 @@ def cmd_cache(
 
 
 def _first_class_folder(root: Path):
-    """Return the first dir under (or equal to) `root` that validates as a class-folder source. A
-    generated controls dir is <root>/<family>/<class>/clip.npy, so `root` itself is a dir of families
-    (not class-folders); descend one level to the first family that validates. Raises if none does."""
     from ..substrate.video import validate_source
 
     try:
@@ -358,12 +314,6 @@ def _first_class_folder(root: Path):
 
 
 def _build_tiny_cache(source: Path, cache_root: Path, encoder: str, profile: Profile, seed: int) -> dict:
-    """Build and validate one TINY real cache from a landed local corpus, bounded by the clip cap.
-    Generated corpora hold per-family subdirs; we cache the first family's class-folder source.
-
-    The clip cap samples STRATIFIED across classes (every class contributes), and the persisted
-    label_map records ONLY the classes whose latents actually landed, so a capped cache never
-    claims classes it does not contain (the honest-coverage invariant). Coverage is reported."""
     import numpy as np
 
     from ..config import compose
@@ -378,7 +328,6 @@ def _build_tiny_cache(source: Path, cache_root: Path, encoder: str, profile: Pro
     cfg = compose([f"encoder={encoder}", "device=cpu"])
     enc = load_encoder(cfg.encoder).to(dev.device)
     hashes: list[str] = []
-    # stratified so a small cap draws from every class, not a class-prefix slice
     clips = iter_video_clips(
         src, frames_per_clip=8, res=16, batch=2, limit=cap, hashes_out=hashes, stratified=True
     )
@@ -411,7 +360,6 @@ def _build_tiny_cache(source: Path, cache_root: Path, encoder: str, profile: Pro
     }
 
 
-# --------------------------------------------------------------------------- stage: run (gated conveyor)
 def cmd_run(
     gated: bool = True,
     tiers: set[str] | None = None,
@@ -422,13 +370,6 @@ def cmd_run(
     max_legs: int | None = None,
     max_runs_per_leg: int = 1,
 ) -> dict:
-    """Frontier 10 + 15: the gated conveyor. The gates (registry valid, free disk, tier allowed,
-    run-count under the profile cap) are KILL SWITCHES that ALWAYS enforce: a failed gate stops the
-    run with a reason rather than launching an unbudgeted sweep (the `gated` arg cannot disable them,
-    it is retained only for call-site clarity). Defaults to the SAFE m3pro-local-max profile so an
-    unqualified full run fails the run-count cap on this device; the Studio passes profile_name=
-    studio-1tb. max_legs/max_runs_per_leg bound a tiny smoke run (local-max passes max_legs=1).
-    Writes run.json."""
     from ..harness.queue import run_queue
 
     profile = get_profile(profile_name)
@@ -458,7 +399,6 @@ def cmd_run(
 
 
 def _conveyor_gates(profile: Profile, tiers: set[str], full: bool) -> list[dict]:
-    """The gates a run must clear. Each is {name, ok, detail}. These are kill switches, not advice."""
     from ..harness.queue import run_queue
 
     gates: list[dict] = []
@@ -481,7 +421,6 @@ def _conveyor_gates(profile: Profile, tiers: set[str], full: bool) -> list[dict]
             + (f"; blocked {bad_tiers}" if bad_tiers else ""),
         }
     )
-    # run-count kill switch: estimate the run units this scale would expand to
     try:
         dry = run_queue(
             dry_run=True, enabled_tiers={t for t in tiers if profile.tier_allowed(t)} or {"C"}, toy=not full
@@ -508,11 +447,7 @@ def _latest_or_new() -> Path:
     return _run_dir(None)
 
 
-# --------------------------------------------------------------------------- stage: optimize
 def cmd_optimize(cache: str | None = None, profile_name: str = "m3pro-local-max", reps: int = 1) -> dict:
-    """Frontier 12: opt-in throughput optimization lane (NOT science). Runs the microbenchmarks
-    (cache read, preprocessing, buffer sampling, learner step, faiss vs brute) and writes a speed
-    report with exact commands. No long tuning loops."""
     profile = get_profile(profile_name)
     run_dir = _latest_or_new()
     rows = bench.run_benches(reps=reps)
@@ -547,12 +482,7 @@ def _render_optimize_md(out: dict) -> str:
     return "\n".join(L)
 
 
-# --------------------------------------------------------------------------- stage: report
 def cmd_report(run_dir: Path | None = None) -> dict:
-    """Frontier 14/19: roll a run's artifacts into one observability report. Reads whatever stage
-    files exist (plan/acquire/validate/cache/run/optimize) and summarizes gate status, disk, blockers,
-    and next command. Defaults to the latest run; pass run_dir to target a specific one. Writes
-    report.md/summary.json into that run dir."""
     run_dir = Path(run_dir) if run_dir is not None else _latest_or_new()
     artifacts = {}
     for name in ("plan", "acquire_manifest", "validate", "cache", "run", "optimize"):
@@ -620,7 +550,6 @@ def _render_report_md(summary: dict, artifacts: dict) -> str:
     return "\n".join(L)
 
 
-# --------------------------------------------------------------------------- local-max (current device)
 def cmd_local_max(
     download_gb: float = 10.0,
     time_min: int = 90,
@@ -629,17 +558,7 @@ def cmd_local_max(
     label: str | None = None,
     out_root: Path | None = None,
 ) -> dict:
-    """Frontier 3B: the current-device maximal rehearsal. Profile m3pro-local-max. Does the most
-    real work that is SAFE on this laptop, honoring disk/time/download/clip kill switches:
-
-      doctor -> registry validate -> plan (m3pro) -> dry-run acquire -> GENERATE control corpus (real,
-      budget-bounded) -> validate source -> build TINY real cache -> validate cache -> queue/cost audit
-      -> microbench -> tiny gated Tier C run -> data cards + license ledger -> report.
-
-    Real vs mocked is tagged per stage. Nothing here downloads heavy assets or runs a long sweep.
-    """
     profile = get_profile("m3pro-local-max")
-    # clamp every requested knob to the profile kill switches (the user cannot exceed them here)
     eff_download = profile.effective_budget_gb(download_gb)
     eff_clips = profile.clamp_clips(cache_clips)
     eff_time = min(int(time_min), profile.max_wall_min)
@@ -673,7 +592,6 @@ def cmd_local_max(
 
     ctx: dict = {}
 
-    # free-disk kill switch up front (refuse to start if the disk is already too full)
     free_ok, free_gb = profile.free_disk_ok()
     stages.append(
         {

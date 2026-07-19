@@ -1,15 +1,3 @@
-"""Acquisition registry loader + validator (Frontier 1 datasets, Frontier 2 models). Reads
-registry/datasets.yaml and registry/models.yaml, validates every entry against ONE schema, and
-enforces the honesty rules that keep the catalog from lying: a source needing signed terms is
-manual, full Ego4D is deferred, a distilled/quantized model can never claim to replace canonical
-V-JEPA, and only canonical encoders may carry the real-encoder tag.
-
-Pure config + filesystem read, no network. The planner, downloader, data-card writer, and license
-ledger all consume load_datasets()/load_models(); validation runs in the doctor and in tests so a
-malformed or dishonest registry is caught before any Studio hour is spent.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -24,13 +12,11 @@ REGISTRY_DIR = REPO_ROOT / "registry"
 DATASETS_YAML = REGISTRY_DIR / "datasets.yaml"
 MODELS_YAML = REGISTRY_DIR / "models.yaml"
 
-# the closed vocabularies the schema pins
 STATUSES = ("available", "manual", "deferred", "blocked", "metadata-only")
 KINDS = ("natural-video", "structured-synthetic", "metadata-only", "auxiliary", "provisional")
 MODEL_ROLES = ("canonical", "auxiliary", "distilled", "quantized")
 RISK_FACETS = ("license", "size", "link_rot", "annotation_quality", "privacy", "decode")
 
-# every dataset entry must carry these keys (the machine-readable contract from the goal)
 DATASET_REQUIRED = (
     "slug",
     "name",
@@ -65,7 +51,6 @@ MODEL_REQUIRED = (
     "replaces_canonical",
 )
 
-# slugs that must stay deferred no matter what (far beyond a 1 TB local disk)
 ALWAYS_DEFERRED = frozenset({"ego4d_full", "ego_exo4d_subset"})
 
 
@@ -78,7 +63,6 @@ def _load_yaml(path: Path) -> dict:
 
 
 def load_datasets(path: Path | None = None) -> list[dict]:
-    """Every dataset source as a flat dict, sorted by descending priority then slug. Pure read."""
     data = _load_yaml(path or DATASETS_YAML)
     sources = data.get("sources", [])
     out = [dict(s) for s in sources]
@@ -87,7 +71,6 @@ def load_datasets(path: Path | None = None) -> list[dict]:
 
 
 def get_dataset(slug: str, path: Path | None = None) -> dict:
-    """One source by slug, or raise with the known set."""
     for d in load_datasets(path):
         if d.get("slug") == slug:
             return d
@@ -96,12 +79,6 @@ def get_dataset(slug: str, path: Path | None = None) -> dict:
 
 
 def validate_dataset(entry: dict) -> list[str]:
-    """Problems with ONE dataset entry (empty == valid). Schema + honesty in one place.
-
-    Schema: every DATASET_REQUIRED key present; status in STATUSES; kind in KINDS; sizes numeric and
-    non-negative; risk a dict over RISK_FACETS. Honesty: a source whose auth_steps describe signed
-    terms must not be status available (it must be manual/deferred/blocked); the ALWAYS_DEFERRED
-    slugs must be status deferred; a metadata-only source must not claim a video cache size."""
     p: list[str] = []
     slug = entry.get("slug", "<no-slug>")
     for k in DATASET_REQUIRED:
@@ -128,8 +105,6 @@ def validate_dataset(entry: dict) -> list[str]:
         if missing:
             p.append(f"{slug}: risk missing facets {missing}")
 
-    # honesty: gated-access language in auth_steps means it cannot be 'available'. Broad on purpose:
-    # the safe direction is to force a gated source out of 'available' (manual), not the reverse.
     auth = str(entry["auth_steps"]).lower()
     _SIGNED_MARKERS = (
         "sign",
@@ -162,7 +137,6 @@ def validate_dataset(entry: dict) -> list[str]:
 
 
 def validate_datasets(path: Path | None = None) -> list[str]:
-    """Validate the whole dataset registry, including cross-entry checks (unique slugs)."""
     sources = load_datasets(path)
     problems: list[str] = []
     seen: set[str | None] = set()
@@ -176,11 +150,6 @@ def validate_datasets(path: Path | None = None) -> list[str]:
 
 
 def load_models(path: Path | None = None) -> list[dict]:
-    """Merged model registry: canonical encoders (from configs/encoder, the science substrates)
-    PLUS the optional auxiliary/distilled/quantized rows from registry/models.yaml, each tagged with
-    role. Canonical rows are synthesized from encoder_registry so there is ONE source of truth for
-    V-JEPA; availability of a canonical row is asserted against VERIFIED_REAL_IDS (hand-verified on
-    HF), never probed at runtime."""
     verified = verified_real_ids()
     out: list[dict] = []
     for e in list_encoders():
@@ -206,12 +175,6 @@ def load_models(path: Path | None = None) -> list[dict]:
 
 
 def validate_model(entry: dict) -> list[str]:
-    """Problems with ONE model entry (empty == valid). Schema + the canonical-protection invariants.
-
-    Honesty: role in MODEL_ROLES; only role canonical may carry result_tag real-encoder; distilled
-    and quantized rows must declare replaces_canonical false (an approximation never stands in for
-    the frozen substrate); a row claiming available true must name an hf_id (cannot be real with no
-    weights to point at)."""
     p: list[str] = []
     slug = entry.get("slug", "<no-slug>")
     for k in MODEL_REQUIRED:
@@ -223,7 +186,6 @@ def validate_model(entry: dict) -> list[str]:
         p.append(f"{slug}: role {entry['role']!r} not in {MODEL_ROLES}")
     if entry["result_tag"] == "real-encoder" and entry["role"] != "canonical":
         p.append(f"{slug}: only canonical models may carry result_tag 'real-encoder'")
-    # a real-encoder canonical claim must point at a HAND-VERIFIED HF weight set, never an arbitrary id
     if (
         entry["role"] == "canonical"
         and entry["result_tag"] == "real-encoder"
@@ -233,7 +195,6 @@ def validate_model(entry: dict) -> list[str]:
             f"{slug}: canonical+real-encoder but hf_id {entry['hf_id']!r} is not in VERIFIED_REAL_IDS "
             f"(cannot claim real weights that are not hand-verified on HF)"
         )
-    # ANY non-canonical model (auxiliary/distilled/quantized) must never claim to replace canonical
     if entry["role"] != "canonical" and entry["replaces_canonical"]:
         p.append(f"{slug}: role {entry['role']!r} must NOT set replaces_canonical (it never replaces V-JEPA)")
     if entry["available"] and not str(entry["hf_id"]).strip() and entry["role"] not in ("distilled",):
@@ -244,7 +205,6 @@ def validate_model(entry: dict) -> list[str]:
 
 
 def validate_models(path: Path | None = None) -> list[str]:
-    """Validate the whole model registry, including unique slugs and at least one canonical row."""
     models = load_models(path)
     problems: list[str] = []
     seen: set[str | None] = set()
@@ -260,5 +220,4 @@ def validate_models(path: Path | None = None) -> list[str]:
 
 
 def validate_registry(datasets_path: Path | None = None, models_path: Path | None = None) -> list[str]:
-    """Validate both registries in one call (used by the doctor and the pipeline preflight)."""
     return validate_datasets(datasets_path) + validate_models(models_path)

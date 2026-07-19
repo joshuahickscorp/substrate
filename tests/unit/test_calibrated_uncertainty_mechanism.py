@@ -1,19 +1,3 @@
-"""Tests for the calibrated uncertainty mechanism: determinism and fail-closed on the decoupled null.
-
-The runner measures selective risk reduction and decision utility for the mechanism and each control
-on both regimes and mints a mechanics-demonstration receipt. The load-bearing guarantees pinned here:
-
-- Determinism: the same bed and seed give a byte-identical result and receipt digest.
-- The NULL regime always mints ``null``: the decoupled signal sits below the answer bar, so the
-  mechanism collapses onto frozen_uniform and a strict joint win is impossible by construction.
-- The FAVORABLE regime mints ``mechanics-ok`` for a strict both-axes win over every control, at
-  fixed engineered margins that hold for every nonnegative seed by construction.
-- Improving only one axis is NOT mechanics-ok: that is the decoupled confidence null.
-- The receipt is never a scientific confirmation.
-- The bed and runner are discoverable via the stage3_registry _discover pattern.
-
-No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -71,9 +55,6 @@ def _crafted(
     )
 
 
-# ---------------------------------------------------------------------------
-# Structural conformance and registry compatibility.
-# ---------------------------------------------------------------------------
 
 
 def test_bed_and_runner_conform_to_protocols() -> None:
@@ -94,9 +75,6 @@ def test_bed_and_runner_are_discoverable_via_the_registry_pattern() -> None:
     assert isinstance(_discover(runner_module, "Runner"), CalibratedUncertaintyRunner)
 
 
-# ---------------------------------------------------------------------------
-# Bed construction guarantees the win and the null are structural, not sampled.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_batch_separates_confidence_by_correctness() -> None:
@@ -127,9 +105,6 @@ def test_null_batch_confidence_is_wholly_below_the_answer_bar() -> None:
         assert all(conf < ANSWER_THRESHOLD for conf in batch.confidence)
 
 
-# ---------------------------------------------------------------------------
-# Determinism.
-# ---------------------------------------------------------------------------
 
 
 def test_run_is_deterministic() -> None:
@@ -149,9 +124,6 @@ def test_readings_are_reproducible_at_the_source() -> None:
     assert run_all(batch) == run_all(batch)
 
 
-# ---------------------------------------------------------------------------
-# The null regime holds the decoupled null: always null, never a both-axes win.
-# ---------------------------------------------------------------------------
 
 
 def test_null_regime_holds_the_null_and_mints_null() -> None:
@@ -171,9 +143,6 @@ def test_null_regime_mechanism_ties_frozen_uniform_by_construction() -> None:
         assert readings["mechanism"] == readings["frozen_uniform"]
 
 
-# ---------------------------------------------------------------------------
-# The favorable regime mints mechanics-ok on a strict both-axes win.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
@@ -205,9 +174,6 @@ def test_favorable_margins_are_the_engineered_constants() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Fail-closed on the null: a single-axis win is never mechanics-ok.
-# ---------------------------------------------------------------------------
 
 
 def test_only_risk_reduction_improved_is_not_mechanics_ok() -> None:
@@ -248,9 +214,6 @@ def test_a_tie_on_an_axis_is_not_a_strict_win() -> None:
     assert runner.mint(result).verdict == VERDICT_NULL
 
 
-# ---------------------------------------------------------------------------
-# Digest stability and receipt honesty.
-# ---------------------------------------------------------------------------
 
 
 def test_evidence_digest_is_stable_and_well_formed() -> None:
@@ -269,9 +232,6 @@ def test_mint_is_never_a_confirmation_on_either_regime() -> None:
         assert receipt.is_confirmation is False
 
 
-# ---------------------------------------------------------------------------
-# Refusals: unknown regimes, negative seeds, malformed results, unknown controls.
-# ---------------------------------------------------------------------------
 
 
 def test_bed_refuses_an_unknown_regime_and_a_negative_seed() -> None:
