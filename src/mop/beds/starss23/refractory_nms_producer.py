@@ -26,7 +26,6 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import json
 import math
 import time
 from pathlib import Path
@@ -43,6 +42,7 @@ from mop.science import (
     artifact_envelope,
     demonstration_receipt,
     finalize_artifact,
+    read_sealed_prereg_member,
     safety_flags,
 )
 from mop.science.budget import (
@@ -90,7 +90,7 @@ from .real_artifact import (
     RealBedConfig,
     _real_noisy_tv_features,
 )
-from .referee import score_arm
+from .referee import fire_spread, score_arm, summarize_fire_spread
 from .schema import COLLAR_FRAMES, ClipSplit
 
 VARIANT_ARTIFACT_SCHEMA = "mop-starss23-escs-bed-refractory-nms/v1"
@@ -108,23 +108,6 @@ def _variant_hypothesis() -> str:
         if entry["variant_id"] == VARIANT_ID:
             return entry["hypothesis"]
     raise RefractoryNmsRefusal(f"variant {VARIANT_ID!r} is not in the sealed variant family")
-
-
-def _read_sealed_variants_prereg(path: str | Path = DEFAULT_VARIANTS_PREREG_PATH) -> dict[str, Any]:
-    """Read the already-sealed variant preregistration. Never rebuilds or reweakens it."""
-
-    prereg_path = Path(path)
-    if not prereg_path.is_file():
-        raise RefractoryNmsRefusal(
-            f"the sealed variant preregistration {prereg_path} is missing; seal it before the run"
-        )
-    body = json.loads(prereg_path.read_bytes().decode("utf-8"))
-    if body.get("schema") != VARIANTS_PREREG_SCHEMA:
-        raise RefractoryNmsRefusal(f"unexpected variant prereg schema {body.get('schema')!r}")
-    ids = [entry["variant_id"] for entry in body.get("variants", [])]
-    if VARIANT_ID not in ids:
-        raise RefractoryNmsRefusal(f"{VARIANT_ID!r} is not preregistered in {prereg_path}")
-    return body
 
 
 # ---------------------------------------------------------------------------
@@ -168,43 +151,6 @@ def _train_refractory_gate(
 # ---------------------------------------------------------------------------
 
 
-def _adjacency_fraction(clip_fire_lists: list[list[int]], collar: int = COLLAR_FRAMES) -> float:
-    """Pooled fraction of fires that have another fire within ``collar`` frames in the same clip.
-
-    This is the clustering diagnostic: the committed null clustered roughly 42 percent of its fires
-    adjacently on high-energy regions. A fire is "adjacent" if a distinct fire on the same clip lands
-    within the DCASE collar of it. Refractory NMS separates committed fires by more than the collar, so
-    its adjacency fraction is zero by construction.
-    """
-
-    total = 0
-    adjacent = 0
-    for fires in clip_fire_lists:
-        ordered = sorted(fires)
-        total += len(ordered)
-        for index, frame in enumerate(ordered):
-            near_prev = index > 0 and frame - ordered[index - 1] <= collar
-            near_next = index < len(ordered) - 1 and ordered[index + 1] - frame <= collar
-            if near_prev or near_next:
-                adjacent += 1
-    return adjacent / total if total > 0 else 0.0
-
-
-def _arm_spread(
-    clip_gt_and_fires: list[tuple[list[int], list[int]]], collar: int = COLLAR_FRAMES
-) -> dict[str, Any]:
-    """Pooled fire count, adjacency fraction, and distinct-onset true positives for one arm and seed."""
-
-    fire_lists = [fires for _gt, fires in clip_gt_and_fires]
-    score = score_arm(clip_gt_and_fires, collar)
-    total_fires = sum(len(fires) for fires in fire_lists)
-    return {
-        "fires": total_fires,
-        "adjacency_fraction": round(_adjacency_fraction(fire_lists, collar), 12),
-        "distinct_onset_tp": score.tp,
-        "fp": score.fp,
-        "fn": score.fn,
-    }
 # ---------------------------------------------------------------------------
 # Per-seed run: variant candidate plus the three controls, and a committed-gate reference.
 # ---------------------------------------------------------------------------
@@ -351,8 +297,8 @@ def _run_seed_variant(
         "seed": seed,
         "operating_budget_id": operating_budget_id,
         "variant": {
-            "candidate": _arm_spread(variant_candidate),
-            "rate_matched_random": _arm_spread(variant_rmr),
+            "candidate": fire_spread(variant_candidate),
+            "rate_matched_random": fire_spread(variant_rmr),
         },
         "committed_gate_reference": base_ref,
     }
@@ -413,8 +359,8 @@ def _committed_gate_reference(
         rmr_pairs.append((gt, rmr_fires))
     return {
         "operating_rate": operating_rate,
-        "candidate": _arm_spread(candidate_pairs),
-        "rate_matched_random": _arm_spread(rmr_pairs),
+        "candidate": fire_spread(candidate_pairs),
+        "rate_matched_random": fire_spread(rmr_pairs),
     }
 
 
@@ -446,7 +392,15 @@ def build_refractory_nms_artifact(
     split = corpus.split
     features_by_clip = corpus.features_by_clip
 
-    prereg = _read_sealed_variants_prereg(variants_prereg_path)
+    prereg = read_sealed_prereg_member(
+        variants_prereg_path,
+        expected_schema=VARIANTS_PREREG_SCHEMA,
+        family_field="variants",
+        member_field="variant_id",
+        member_id=VARIANT_ID,
+        family_label="variant",
+        refusal=RefractoryNmsRefusal,
+    )
     sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
     prereg_digest = str(prereg["canonical_sha256"])
 
@@ -642,10 +596,6 @@ def build_refractory_nms_artifact(
     )
 
 
-def _mean(values: list[float]) -> float:
-    return math.fsum(values) / len(values) if values else 0.0
-
-
 def _assemble_spread_diagnostic(diagnostics: list[dict[str, Any]]) -> dict[str, Any]:
     """Summarize the per-seed fire-spread diagnostics: variant vs committed-gate reference."""
 
@@ -656,14 +606,7 @@ def _assemble_spread_diagnostic(diagnostics: list[dict[str, Any]]) -> dict[str, 
             for key in path:
                 node = node[key]
             per_seed.append(node)
-        return {
-            "per_seed_fires": [row["fires"] for row in per_seed],
-            "per_seed_adjacency_fraction": [row["adjacency_fraction"] for row in per_seed],
-            "per_seed_distinct_onset_tp": [row["distinct_onset_tp"] for row in per_seed],
-            "mean_fires": round(_mean([row["fires"] for row in per_seed]), 6),
-            "mean_adjacency_fraction": round(_mean([row["adjacency_fraction"] for row in per_seed]), 12),
-            "mean_distinct_onset_tp": round(_mean([row["distinct_onset_tp"] for row in per_seed]), 6),
-        }
+        return summarize_fire_spread(per_seed)
 
     return {
         "definition": (

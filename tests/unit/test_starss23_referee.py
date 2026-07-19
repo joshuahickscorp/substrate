@@ -19,10 +19,12 @@ from mop.beds.starss23.referee import (
     MATCH_RULE,
     OnsetScore,
     RefereeRefusal,
+    fire_spread,
     greedy_match,
     score_arm,
     score_clip,
     sealed_arm_report,
+    summarize_fire_spread_blocks,
 )
 
 
@@ -89,6 +91,28 @@ def test_empty_clip_collapses_to_zero_f1() -> None:
     score = score_arm([([], [])])
     assert (score.tp, score.fp, score.fn) == (0, 0, 0)
     assert score.f1 == 0.0
+
+
+def test_fire_spread_uses_the_referee_and_preserves_seed_order() -> None:
+    per_seed = [
+        {"clips": [{"gt_onsets": [2, 8, 14], "fires": {"candidate": [1, 2, 9]}}]},
+        {"clips": [{"gt_onsets": [4], "fires": {"candidate": []}}]},
+    ]
+    assert fire_spread([([2, 8, 14], [1, 2, 9])]) == {
+        "fires": 3,
+        "adjacency_fraction": round(2 / 3, 12),
+        "distinct_onset_tp": 2,
+        "fp": 1,
+        "fn": 1,
+    }
+    assert summarize_fire_spread_blocks(per_seed, "candidate") == {
+        "per_seed_fires": [3, 0],
+        "per_seed_adjacency_fraction": [round(2 / 3, 12), 0.0],
+        "per_seed_distinct_onset_tp": [2, 0],
+        "mean_fires": 1.5,
+        "mean_adjacency_fraction": 0.333333333334,
+        "mean_distinct_onset_tp": 1.0,
+    }
 
 
 def test_input_order_does_not_change_the_result() -> None:

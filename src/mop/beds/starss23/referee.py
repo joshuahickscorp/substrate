@@ -55,6 +55,7 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
+import math
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -227,6 +228,66 @@ def score_arm(
         fp += clip_fp
         fn += clip_fn
     return OnsetScore.from_counts(tp, fp, fn)
+
+
+def fire_spread(
+    clips: Iterable[tuple[Sequence[int], Sequence[int]]],
+    collar_frames: int = COLLAR_FRAMES,
+) -> dict[str, Any]:
+    """Return pooled fires, adjacency, and distinct-onset score counts for one arm and seed."""
+
+    pairs = [(list(gt), list(fires)) for gt, fires in clips]
+    fire_lists = [fires for _gt, fires in pairs]
+    total = adjacent = 0
+    for fires in fire_lists:
+        ordered = sorted(fires)
+        total += len(ordered)
+        for index, frame in enumerate(ordered):
+            near_prev = index > 0 and frame - ordered[index - 1] <= collar_frames
+            near_next = index < len(ordered) - 1 and ordered[index + 1] - frame <= collar_frames
+            adjacent += near_prev or near_next
+    score = score_arm(pairs, collar_frames)
+    return {
+        "fires": total,
+        "adjacency_fraction": round(adjacent / total if total > 0 else 0.0, 12),
+        "distinct_onset_tp": score.tp,
+        "fp": score.fp,
+        "fn": score.fn,
+    }
+
+
+def summarize_fire_spread(rows: Iterable[dict[str, Any]]) -> dict[str, Any]:
+    """Summarize per-seed fire-spread rows without changing their order."""
+
+    per_seed = list(rows)
+
+    def mean(field: str) -> float:
+        return math.fsum(row[field] for row in per_seed) / len(per_seed) if per_seed else 0.0
+
+    return {
+        "per_seed_fires": [row["fires"] for row in per_seed],
+        "per_seed_adjacency_fraction": [row["adjacency_fraction"] for row in per_seed],
+        "per_seed_distinct_onset_tp": [row["distinct_onset_tp"] for row in per_seed],
+        "mean_fires": round(mean("fires"), 6),
+        "mean_adjacency_fraction": round(mean("adjacency_fraction"), 12),
+        "mean_distinct_onset_tp": round(mean("distinct_onset_tp"), 6),
+    }
+
+
+def summarize_fire_spread_blocks(
+    per_seed: Iterable[dict[str, Any]],
+    arm: str,
+    collar_frames: int = COLLAR_FRAMES,
+) -> dict[str, Any]:
+    """Score and summarize one arm from producer per-seed clip blocks."""
+
+    return summarize_fire_spread(
+        fire_spread(
+            ((clip["gt_onsets"], clip["fires"][arm]) for clip in block["clips"]),
+            collar_frames,
+        )
+        for block in per_seed
+    )
 
 
 def onset_frames_of(clip: Clip) -> tuple[int, ...]:

@@ -26,7 +26,6 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import json
 import math
 import time
 from pathlib import Path
@@ -43,6 +42,7 @@ from mop.science import (
     artifact_envelope,
     demonstration_receipt,
     finalize_artifact,
+    read_sealed_prereg_member,
     safety_flags,
 )
 from mop.science.budget import (
@@ -87,7 +87,7 @@ from .real_artifact import (
     _real_noisy_tv_features,
     _run_seed_real,
 )
-from .referee import score_arm
+from .referee import summarize_fire_spread_blocks
 from .schema import COLLAR_FRAMES
 
 VARIANT_ARTIFACT_SCHEMA = "mop-starss23-escs-bed-interchannel-coherence/v1"
@@ -105,25 +105,6 @@ def _variant_hypothesis() -> str:
         if entry["variant_id"] == VARIANT_ID:
             return entry["hypothesis"]
     raise InterchannelCoherenceRefusal(f"featurizer {VARIANT_ID!r} is not in the sealed featurizer family")
-
-
-def _read_sealed_featurizers_prereg(
-    path: str | Path = DEFAULT_FEATURIZERS_PREREG_PATH,
-) -> dict[str, Any]:
-    """Read the already-sealed featurizer preregistration. Never rebuilds or reweakens it."""
-
-    prereg_path = Path(path)
-    if not prereg_path.is_file():
-        raise InterchannelCoherenceRefusal(
-            f"the sealed featurizer preregistration {prereg_path} is missing; seal it before the run"
-        )
-    body = json.loads(prereg_path.read_bytes().decode("utf-8"))
-    if body.get("schema") != FEATURIZERS_PREREG_SCHEMA:
-        raise InterchannelCoherenceRefusal(f"unexpected featurizer prereg schema {body.get('schema')!r}")
-    ids = [entry["variant_id"] for entry in body.get("variants", [])]
-    if VARIANT_ID not in ids:
-        raise InterchannelCoherenceRefusal(f"{VARIANT_ID!r} is not preregistered in {prereg_path}")
-    return body
 
 
 # ---------------------------------------------------------------------------
@@ -156,65 +137,10 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: Any) ->
 # ---------------------------------------------------------------------------
 
 
-def _adjacency_fraction(clip_fire_lists: list[list[int]], collar: int = COLLAR_FRAMES) -> float:
-    """Pooled fraction of fires within ``collar`` frames of another fire on the same clip.
-
-    This is the clustering diagnostic: the committed null clustered roughly 42 percent of its fires
-    adjacently on high-energy regions and so recovered fewer distinct onsets than uniform random.
-    """
-
-    total = 0
-    adjacent = 0
-    for fires in clip_fire_lists:
-        ordered = sorted(fires)
-        total += len(ordered)
-        for index, frame in enumerate(ordered):
-            near_prev = index > 0 and frame - ordered[index - 1] <= collar
-            near_next = index < len(ordered) - 1 and ordered[index + 1] - frame <= collar
-            if near_prev or near_next:
-                adjacent += 1
-    return adjacent / total if total > 0 else 0.0
-
-
-def _arm_spread_from_block(per_seed_block: dict[str, Any], arm: str) -> dict[str, Any]:
-    """Pooled fire count, adjacency fraction, and distinct-onset true positives for one arm and seed."""
-
-    pairs: list[tuple[list[int], list[int]]] = []
-    fire_lists: list[list[int]] = []
-    for clip in per_seed_block["clips"]:
-        gt = list(clip["gt_onsets"])
-        fires = list(clip["fires"][arm])
-        pairs.append((gt, fires))
-        fire_lists.append(fires)
-    score = score_arm(pairs, COLLAR_FRAMES)
-    return {
-        "fires": sum(len(fires) for fires in fire_lists),
-        "adjacency_fraction": round(_adjacency_fraction(fire_lists), 12),
-        "distinct_onset_tp": score.tp,
-        "fp": score.fp,
-        "fn": score.fn,
-    }
-
-
-def _mean(values: list[float]) -> float:
-    return math.fsum(values) / len(values) if values else 0.0
-
-
 def _assemble_spread_diagnostic(seed_runs: list[Any]) -> dict[str, Any]:
     """Summarize the per-seed fire-spread diagnostics for the candidate and the rate-matched-random arm."""
 
-    candidate = [_arm_spread_from_block(run.per_seed_block, ARM_CANDIDATE) for run in seed_runs]
-    rmr = [_arm_spread_from_block(run.per_seed_block, ARM_RATE_MATCHED_RANDOM) for run in seed_runs]
-
-    def _summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
-        return {
-            "per_seed_fires": [row["fires"] for row in rows],
-            "per_seed_adjacency_fraction": [row["adjacency_fraction"] for row in rows],
-            "per_seed_distinct_onset_tp": [row["distinct_onset_tp"] for row in rows],
-            "mean_fires": round(_mean([row["fires"] for row in rows]), 6),
-            "mean_adjacency_fraction": round(_mean([row["adjacency_fraction"] for row in rows]), 12),
-            "mean_distinct_onset_tp": round(_mean([row["distinct_onset_tp"] for row in rows]), 6),
-        }
+    per_seed = [run.per_seed_block for run in seed_runs]
 
     return {
         "definition": (
@@ -223,8 +149,8 @@ def _assemble_spread_diagnostic(seed_runs: list[Any]) -> dict[str, Any]:
             "positives at the operating budget."
         ),
         "collar_frames": COLLAR_FRAMES,
-        "candidate": _summary(candidate),
-        "rate_matched_random": _summary(rmr),
+        "candidate": summarize_fire_spread_blocks(per_seed, ARM_CANDIDATE),
+        "rate_matched_random": summarize_fire_spread_blocks(per_seed, ARM_RATE_MATCHED_RANDOM),
         "committed_null_seed0_anchor": {
             "candidate_distinct_onset_tp": 204,
             "rate_matched_random_distinct_onset_tp": 237,
@@ -265,7 +191,15 @@ def build_interchannel_coherence_artifact(
         adapter, config.n_val_rooms, refusal=RealArtifactRefusal, refuse_empty=False
     )
 
-    prereg = _read_sealed_featurizers_prereg(featurizers_prereg_path)
+    prereg = read_sealed_prereg_member(
+        featurizers_prereg_path,
+        expected_schema=FEATURIZERS_PREREG_SCHEMA,
+        family_field="variants",
+        member_field="variant_id",
+        member_id=VARIANT_ID,
+        family_label="featurizer",
+        refusal=InterchannelCoherenceRefusal,
+    )
     sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
     prereg_digest = str(prereg["canonical_sha256"])
 

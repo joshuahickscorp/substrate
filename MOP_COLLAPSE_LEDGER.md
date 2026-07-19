@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `3b2367e` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `33a7bd8` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 227. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 11}`.
+Total items: 228. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 12}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -134,7 +134,7 @@ Total items: 227. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
-| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | collapse repeated fire-spread diagnostics and sealed prereg readers; preserve variant-specific scoring and historical digests |
+| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | measure and collapse the next repeated STARSS producer/prereg lifecycle; preserve variant-specific hypotheses and decisive scoring |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
 | SEC-13 | 13 | region | pending | One campaign controller (AFTER live run terminal + PR30 closure) | build vs fixtures only while live; archive historical bytes; replay-equivalence then delete |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
@@ -263,6 +263,7 @@ Total items: 227. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | RED-starss23-count-seed-lifecycle | 11 | verified_reduction | verified | Centralize STARSS23 counting per-seed execution lifecycle | collapse repeated room-disjoint split and corpus-preparation lifecycle |
 | RED-starss23-native-split-corpus-map | 11 | verified_reduction | verified | Centralize STARSS23 native split and one-time corpus provider mapping | collapse repeated causal gate passes and marginal-matched noise controls |
 | RED-starss23-causal-gate-noise | 11 | verified_reduction | verified | Centralize STARSS23 causal gate and marginal-noise lifecycle | collapse repeated fire-spread diagnostics and sealed prereg readers |
+| RED-starss23-fire-spread-prereg-read | 11 | verified_reduction | verified | Centralize STARSS23 producer fire-spread and sealed prereg reads | measure and collapse the next repeated STARSS producer/prereg lifecycle |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -271,7 +272,7 @@ Total items: 227. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 3b2367e
+- commit: pending; base 33a7bd8
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -392,4 +393,15 @@ Total items: 227. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 - cumulative verified owned Python reduction: 3,772 LOC.
 - rollback_tag: mop-collapse-starss23-lifecycle-9.
 - next_exact_edit: collapse repeated fire-spread diagnostics and sealed prereg readers.
+
+### STARSS23 lifecycle cluster 10 (current checkpoint)
+
+- fire-spread authority: four variant producers now derive adjacency, distinct-onset counts, and ordered per-seed summaries through the onset referee while retaining their distinct wording and anchors.
+- prereg authority: three featurizer lanes and refractory NMS share one schema-and-membership reader; their local refusal types, paths, schemas, family identities, and messages remain explicit inputs.
+- parity: four checkpoint 33a7bd8 spread-artifact hashes and four checked-in prereg body hashes are exact.
+- validation: full STARSS-focused suite 489/489 in 146.66s under nice -n 10.
+- production source reduction: 159 LOC; tests added: 51 LOC; owned Python net reduction: 108 LOC.
+- cumulative verified owned Python reduction: 3,880 LOC.
+- rollback_tag: mop-collapse-starss23-lifecycle-10.
+- next_exact_edit: measure and collapse the next repeated STARSS producer/prereg lifecycle.
 
