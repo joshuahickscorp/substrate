@@ -7,6 +7,17 @@ House style: no em or en dashes. A tie is a null. No positive enters a doc witho
 adversarial verification pass. Frozen inherited encoders stay frozen; the owned substrate is the
 only trainable lane; no receipt earns a hardware boundary.
 
+<!-- CURRENT-STATE:START -->
+**Current state.** The machine-readable current authority is `proof/MOP_CURRENT_FRONTIER.json`, generated
+from live artifacts and bound by source hashes. The potential atlas now scores 41 facets. P4 is
+governor-closed, a bounded five-seed pilot that cannot be promoted. The live Generation 1 General Run is
+the exclusive active heavy lane. Heavy work runs under the dynamic worker controller across 1 to 20
+workers, with a measured optimum at 20 and shedding to a tiny reserve under Hawking. Current STARSS23
+standing carries two mapped nulls: the source-counting reproduction null, where the counting signal did
+not survive bias-independent reproduction, and the direction-of-arrival null, which stayed clean on both
+gate architectures.
+<!-- CURRENT-STATE:END -->
+
 ---
 
 ## The substrate ladder (Stage 0 to 5)
@@ -180,7 +191,7 @@ plasticity, and structural change under matched cost.
 ## The authoritative documents behind this page
 
 - Standing goal loop: `MOP_MAXIMUM_POTENTIAL_GOAL.md` (with `GOLD_PROMPT.md`).
-- The 37-facet scored readiness atlas: `MOP_POTENTIAL_ATLAS_2026_07.md` and `proof/MOP_POTENTIAL_ATLAS.json`.
+- The 41-facet scored readiness atlas: `MOP_POTENTIAL_ATLAS_2026_07.md` and `proof/MOP_POTENTIAL_ATLAS.json`.
 - The substrate and campaigns: `docs/mixture_of_perspectives/18_event_sourced_coalition_substrate.md`,
   `19_one_shot_escs_campaign.md`, `20_generation1_empirical_campaign.md`, and
   `21_generation1_successor_evidence_chain.md`, with the append-only deep extension in
