@@ -1,0 +1,196 @@
+{
+  "schema": "mop-runtime-benchmark/v1",
+  "A_historical_replay": {
+    "observed_wall_hours": 11.68,
+    "useful_compute_hours": 11.2,
+    "single_lane_utilization_pct": 95.9,
+    "observed_peak_concurrency": 1,
+    "machine_cores": 28,
+    "machine_utilization_pct_approx": 3.6,
+    "verify_cost": "unbounded: 3 wall-boundary retries, never completed"
+  },
+  "B_new_scheduler_replay": {
+    "recorded_inter_wave_chained_dag": [
+      {
+        "width": 1,
+        "wall_hours": 11.2,
+        "peak": 1,
+        "avg": 1.0,
+        "receipt_invariant": true
+      },
+      {
+        "width": 2,
+        "wall_hours": 9.41,
+        "peak": 2,
+        "avg": 1.19,
+        "receipt_invariant": true
+      },
+      {
+        "width": 4,
+        "wall_hours": 9.17,
+        "peak": 4,
+        "avg": 1.22,
+        "receipt_invariant": true
+      },
+      {
+        "width": 8,
+        "wall_hours": 9.17,
+        "peak": 6,
+        "avg": 1.22,
+        "receipt_invariant": true
+      },
+      {
+        "width": 12,
+        "wall_hours": 9.17,
+        "peak": 6,
+        "avg": 1.22,
+        "receipt_invariant": true
+      },
+      {
+        "width": 16,
+        "wall_hours": 9.17,
+        "peak": 6,
+        "avg": 1.22,
+        "receipt_invariant": true
+      },
+      {
+        "width": 20,
+        "wall_hours": 9.17,
+        "peak": 6,
+        "avg": 1.22,
+        "receipt_invariant": true
+      },
+      {
+        "width": 24,
+        "wall_hours": 9.17,
+        "peak": 6,
+        "avg": 1.22,
+        "receipt_invariant": true
+      }
+    ],
+    "independent_wave_replications_dag": [
+      {
+        "width": 1,
+        "wall_hours": 11.2,
+        "peak": 1,
+        "avg": 1.0
+      },
+      {
+        "width": 2,
+        "wall_hours": 6.4,
+        "peak": 2,
+        "avg": 1.75
+      },
+      {
+        "width": 4,
+        "wall_hours": 3.93,
+        "peak": 4,
+        "avg": 2.85
+      },
+      {
+        "width": 8,
+        "wall_hours": 2.63,
+        "peak": 8,
+        "avg": 4.26
+      },
+      {
+        "width": 12,
+        "wall_hours": 2.27,
+        "peak": 12,
+        "avg": 4.93
+      },
+      {
+        "width": 16,
+        "wall_hours": 2.17,
+        "peak": 16,
+        "avg": 5.15
+      },
+      {
+        "width": 20,
+        "wall_hours": 2.13,
+        "peak": 20,
+        "avg": 5.26
+      },
+      {
+        "width": 24,
+        "wall_hours": 2.1,
+        "peak": 24,
+        "avg": 5.33
+      }
+    ],
+    "receipt_invariant_across_all_widths": true,
+    "construction_overlap": {
+      "starts_seconds": [
+        0,
+        0,
+        0,
+        64,
+        123,
+        244,
+        1109
+      ],
+      "span_seconds": 1109,
+      "overlap_proven": true
+    },
+    "note": "the recorded DAG chains the waves so wide scheduling plateaus near 9.2h; treating the waves as independent replications reaches ~2.1h at width 20, a 5.3x model speedup, and the 7 construction capsules overlap"
+  },
+  "C_representative_benchmark": {
+    "single_capsule_seconds": 0.035,
+    "n_capsules": 24,
+    "per_width": [
+      {
+        "width": 1,
+        "wall_seconds": 0.844,
+        "speedup_vs_width1": 1.0,
+        "efficiency": 1.0
+      },
+      {
+        "width": 2,
+        "wall_seconds": 0.455,
+        "speedup_vs_width1": 1.86,
+        "efficiency": 0.928
+      },
+      {
+        "width": 4,
+        "wall_seconds": 0.26,
+        "speedup_vs_width1": 3.25,
+        "efficiency": 0.812
+      },
+      {
+        "width": 8,
+        "wall_seconds": 0.168,
+        "speedup_vs_width1": 5.03,
+        "efficiency": 0.629
+      },
+      {
+        "width": 12,
+        "wall_seconds": 0.143,
+        "speedup_vs_width1": 5.92,
+        "efficiency": 0.493
+      },
+      {
+        "width": 16,
+        "wall_seconds": 0.136,
+        "speedup_vs_width1": 6.19,
+        "efficiency": 0.387
+      },
+      {
+        "width": 20,
+        "wall_seconds": 0.133,
+        "speedup_vs_width1": 6.36,
+        "efficiency": 0.318
+      },
+      {
+        "width": 24,
+        "wall_seconds": 0.143,
+        "speedup_vs_width1": 5.9,
+        "efficiency": 0.246
+      }
+    ],
+    "peak_speedup": 6.36,
+    "peak_speedup_width": 20
+  },
+  "measured_optimal_width_note": "representative CPU capsule peak speedup 6.36x at width 20; efficiency falls above the physical performance-core count, so 20 is not automatically optimal",
+  "wall_time_claim": "no fixed 6-10h future runtime is claimed. The model predicts ~2.1h for the categorized wave under independent-wave scheduling at width 20 using serial-run durations; benchmark C shows real speedup saturates near 6.36x, so the true wall time depends on per-task-class contention and must be measured per campaign after the profiles are frozen.",
+  "benchmark_sha256": "3ee0d06c154db4c0ec6b277df6bc4c29f4347ca1838e21a64c989ef852dea6f3"
+}
