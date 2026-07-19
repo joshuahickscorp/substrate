@@ -1,0 +1,104 @@
+{
+  "schema": "mop-frontier-ancestry/v1",
+  "frontier_branch": "agent/mop-scientific-frontier",
+  "frontier_worktree": "/Users/scammermike/Downloads/mop-scientific-frontier",
+  "base_commit": "094bdd934de3bb170c89ee95a0bc089f32172448",
+  "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
+  "source_branch": "agent/mop-evidence-salvage",
+  "included_evidence_commits": [
+    {
+      "commit": "fae3eef7ef5110e244e1930e68dc9a7423592a7c",
+      "subject": "Salvage Phase 1 forensic closure + durable ledger",
+      "provenance": "stopped-run forensic closure"
+    },
+    {
+      "commit": "b88462b7735ef385ace4ba514b3140f6455e371c",
+      "subject": "Salvage Phase 2 incremental verifier recovers categorized wave",
+      "provenance": "categorized-wave recovery"
+    },
+    {
+      "commit": "f66d1f23415b541844a4a7d2cc95ab88accace9f",
+      "subject": "Salvage Phase 3 work-conserving scheduler + reliability",
+      "provenance": "repaired runtime"
+    },
+    {
+      "commit": "d1c1053729a24069660672dc78b76aaa57f3d0fc",
+      "subject": "Salvage Phase 4 admission batteries prune all three lanes",
+      "provenance": "Phase 4"
+    },
+    {
+      "commit": "16dc1c6b03122606b5fc87b05cb313e76650d0db",
+      "subject": "Salvage Phase 4B repaired calibrated battery admits all three",
+      "provenance": "Phase 4B"
+    },
+    {
+      "commit": "9ac24c641a7d106a5a3c116fecd29eadef293ea0",
+      "subject": "Campaign 2 launch N1 canary positive",
+      "provenance": "MNIST canaries"
+    },
+    {
+      "commit": "b1d7c97fe35ccf260f23d425fdf4152c1d765e5c",
+      "subject": "Campaign 2 canaries terminal N1+P1R positive U1 pruned",
+      "provenance": "MNIST canaries"
+    },
+    {
+      "commit": "ffb647f84043c7a094e8587c59a90977c12d5fb7",
+      "subject": "Campaign 2 confirmation authorities N1 CIFAR-10 P1R CIFAR-100",
+      "provenance": "CIFAR confirmations"
+    },
+    {
+      "commit": "d7f752bcd422a8747cf8ed30edb36cc545bab36c",
+      "subject": "Campaign 2 confirmation terminal P1R confirms N1 nulls",
+      "provenance": "CIFAR confirmations"
+    },
+    {
+      "commit": "094bdd934de3bb170c89ee95a0bc089f32172448",
+      "subject": "Cluster B R1 null KMNIST P1R third-source positive terminated",
+      "provenance": "KMNIST R1 and P1R results"
+    }
+  ],
+  "excluded_unrelated": [
+    {
+      "branch": "agent/mop-accretion-collapse",
+      "reason": "separate codebase-collapse program (PR #31); must not be modified, rebased, merged, or disrupted"
+    },
+    {
+      "branch": "agent/mop-extreme-condensation",
+      "reason": "separate condensation baseline; unrelated to scientific frontier"
+    },
+    {
+      "pattern": "telegram notifier / orchestrator / broad-frontier / general-run commits",
+      "reason": "infrastructure and the stopped General Run; historical, immutable, not scientific evidence"
+    }
+  ],
+  "run_authorities": {
+    "stopped_general_run": "immutable, stopped, not restarted",
+    "campaign2_program_id": "mop-generation2-realdata-canary",
+    "clusterB_program_id": "mop-clusterB-memory-plasticity",
+    "frontier_program_id": "mop-generation2-scientific-frontier-v1"
+  },
+  "artifact_hashes": {
+    "campaign2/reports/MOP_CAMPAIGN2_CANARY_SUMMARY.json": "f3982fdc415410ef5f0f15f3cba8f6ace575e44ded368d2fa2895b7ebb9a903c",
+    "campaign2/reports/MOP_CAMPAIGN2_CONFIRMATION_SUMMARY.json": "dd1d7b708485ef3108e9cda5e173161a54895b62bc3fba40f2b158ad5a1fa571",
+    "campaign2/reports/MOP_CAMPAIGN2_LAUNCH_RECEIPT.json": "305358c5f273067c5ccf1cc8363ae00f28eced895d446037356afb4c266c8e0f",
+    "campaign2/reports/MOP_CLUSTERB_TERMINAL.json": "c93b73878f9451867f20c96b0e5ac9ad7a62ee828d376c5f8fde909737dfc853",
+    "campaign2/reports/MOP_G1_N1_CANARY_PREREG.json": "b2532bf8666e49fa9f6665ea6671b6916b528f113184a6bde34314184842476e",
+    "campaign2/reports/MOP_G1_N1_CANARY_RESULT.json": "fb04af067eaf8e0654497a23db08ac1009349007ca5da658f6c4a65832b78726",
+    "campaign2/reports/MOP_G1_N1_CONFIRM_PREREG.json": "6249b0ae492b504803f6cb72b3db3a289479249cb204bc8f0ed01cb99ca09853",
+    "campaign2/reports/MOP_G1_N1_CONFIRM_RESULT.json": "f34131fba009ffd96bdcc1e56fd84246a450242c52061619b9aa66614a3e971b",
+    "campaign2/reports/MOP_G1_P1R_CANARY_RESULT.json": "ae8fdb7bcc94cc03d48772b376f05fa77366745008e56d3adf7908749ce66d30",
+    "campaign2/reports/MOP_G1_P1R_CONFIRM_PREREG.json": "908a686bc4b4e881a96c78274d8c32370586d0502f0c76f966f3b94cdbaf428d",
+    "campaign2/reports/MOP_G1_P1R_CONFIRM_RESULT.json": "040d39c2630be2bb4415974b9a84176884570e7334b6136c45224ab9b1e89bbe",
+    "campaign2/reports/MOP_G1_P1R_THIRDSOURCE_RESULT.json": "21f2db185be677de53e10344360c9994fec364f486d85edd2667c3d809ec0377",
+    "campaign2/reports/MOP_G1_R1_ADMISSION_PREREG.json": "99ff5788d9e52e64e6c74b2913198335d67a59ea007e6c89abb3c7d1c3f53cda",
+    "campaign2/reports/MOP_G1_R1_ADMISSION_RESULT.json": "481b4d40479936484bddb10246baf9ff939ef722357d3159e22c9a23dc5a25a5",
+    "campaign2/reports/MOP_G1_U1_CANARY_RESULT.json": "93e9b85aa75fe6a153543e4d12978e4aa03e79d5e3c9f602a8efec80ccdc8f44",
+    "salvage/MOP_EVIDENCE_CAMPAIGN_STATE.json": "a3c55ebcb4374ffc754a89e338846dd717d450d485cdc215e0cd7517fabbcf40"
+  },
+  "rollback_commands": [
+    "git -C /Users/scammermike/Downloads/mop worktree remove /Users/scammermike/Downloads/mop-scientific-frontier",
+    "git -C /Users/scammermike/Downloads/mop branch -D agent/mop-scientific-frontier",
+    "# evidence remains intact on agent/mop-evidence-salvage at 094bdd9"
+  ],
+  "ancestry_sha256": "b6a510d7ee96475e76880cf4af07b30fa4742d9caaef4d5bba9f836c9bdc5af5"
+}
