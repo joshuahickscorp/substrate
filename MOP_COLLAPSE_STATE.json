@@ -5,13 +5,13 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "8be520c7de9990f9fd02bff3a798d49f63b8af50",
+    "base_commit": "7b8c82fb44e836f34c7a55dde93370554d061b5e",
     "current_main": "a19ebe6d9574cee01026d10eef23398b9f88e4e4",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
       "state": "run_categorized_wave",
       "stage": "run_categorized_wave",
-      "updated_at": "2026-07-19T04:20:22.808337+00:00",
+      "updated_at": "2026-07-19T04:36:28.377741+00:00",
       "counts": {
         "compute_complete": 2,
         "compute_total": 4,
@@ -23,20 +23,20 @@
     }
   },
   "baseline_measured": {
-    "commit": "a19ebe6d9574cee01026d10eef23398b9f88e4e4",
-    "tracked_files": 1725,
-    "python_files": 1065,
-    "global_owned_source_LOC": 401396,
-    "global_maintained_source_LOC": 401357,
-    "active_src_mop_LOC": 259298,
+    "commit": "7b8c82fb44e836f34c7a55dde93370554d061b5e",
+    "tracked_files": 1741,
+    "python_files": 1069,
+    "global_owned_source_LOC": 401319,
+    "global_maintained_source_LOC": 401280,
+    "active_src_mop_LOC": 259221,
     "test_LOC": 89983,
     "scripts_LOC": 52076,
-    "documentation_LOC": 43664,
-    "configuration_LOC": 463607,
+    "documentation_LOC": 43932,
+    "configuration_LOC": 512703,
     "python_modules": 466,
-    "entrypoints": 313,
-    "root_md_docs": 34,
-    "all_md_docs": 169,
+    "entrypoints": 316,
+    "root_md_docs": 35,
+    "all_md_docs": 170,
     "duplication_suffix_clusters": {
       "_scaffold.py": 37,
       "_runner.py": 26,
@@ -98,13 +98,23 @@
     "evidence_primitive_defs_collapsible": 64,
     "highest_pressure_first_region": "section 9 evidence authority: 168 duplicate integrity definitions collapse to one evidence core, provable by byte-parity + mutation tests (pure functions, live-safe)"
   },
+  "reduction_accounting_verified": {
+    "eliminated_LOC": 0,
+    "deduplicated_LOC": 77,
+    "relocated_LOC": 0,
+    "archived_LOC": 0,
+    "generated_replacement_LOC": 0,
+    "added_LOC": 0,
+    "net_global_reduction_LOC": 77
+  },
   "checklist_summary": {
-    "total": 213,
+    "total": 215,
     "by_status": {
-      "complete": 11,
+      "complete": 12,
       "active": 47,
       "pending": 147,
-      "partial": 8
+      "partial": 8,
+      "verified": 1
     }
   },
   "checklist": [
@@ -2915,6 +2925,36 @@
       "rollback_tag": "",
       "dependency": "",
       "next_action": "none"
+    },
+    {
+      "id": "ART-MOP_EVIDENCE_MIGRATION.json",
+      "section": 9,
+      "kind": "artifact",
+      "title": "MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table)",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_EVIDENCE_MIGRATION.json"
+      ],
+      "validation": "123 rows; batches: batch1_studies_safe/verifier-defer/controller-defer/inspect",
+      "commit": "",
+      "rollback_tag": "",
+      "dependency": "",
+      "next_action": "execute remaining batches under their gates"
+    },
+    {
+      "id": "RED-batch1",
+      "section": 9,
+      "kind": "verified_reduction",
+      "title": "Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "77 LOC removed; byte-identical + py_compile + 9/9 import parity + known-answer",
+      "commit": "",
+      "rollback_tag": "mop-collapse-evidence-batch1",
+      "dependency": "",
+      "next_action": "next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection"
     }
   ]
 }

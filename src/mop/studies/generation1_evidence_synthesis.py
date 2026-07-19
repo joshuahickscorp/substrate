@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from ..config import REPO_ROOT
+from mop.substrate.events import canonical_bytes, canonical_sha256
 
 SCHEMA = "mop-generation1-evidence-synthesis/v1"
 CORPUS_SCHEMA = "mop-generation1-cognitive-corpus/v2"
@@ -147,18 +148,8 @@ NEGATIVE_ACTIONS = {
 _SHARED_IMPLEMENTATION_ROLES = frozenset({"experiment_harness", "generation1_driver"})
 
 
-def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _sha256_bytes(value: bytes) -> str:

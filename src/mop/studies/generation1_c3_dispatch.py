@@ -22,6 +22,7 @@ import torch
 
 from mop.config import REPO_ROOT
 from mop.studies import generation1_context_routing as c2
+from mop.substrate.events import canonical_bytes, canonical_sha256
 
 CONFIG_SCHEMA = "mop-generation1-c3-dispatch-pilot-config/v1"
 RESULT_SCHEMA = "mop-generation1-c3-dispatch-pilot/v1"
@@ -44,14 +45,8 @@ FORBIDDEN_HELDOUT_INPUTS = (
 )
 
 
-def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False
-    ).encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def sha256_file(path: Path | str) -> str:

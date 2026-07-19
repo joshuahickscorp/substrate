@@ -276,6 +276,9 @@
     "mop.studies.continual_million_event_verify": [
       "mop.config"
     ],
+    "mop.studies.edcm1_event_triggered_coalition": [
+      "mop.substrate.events"
+    ],
     "mop.studies.escs_g0_construction": [
       "mop.escs.g0_genotype",
       "mop.escs.perspective_registry",
@@ -307,9 +310,13 @@
       "mop.escs.topology_grammar",
       "mop.substrate.events"
     ],
+    "mop.studies.escs_x0_event_formation": [
+      "mop.substrate.events"
+    ],
     "mop.studies.escs_x1_dispatch": [
       "mop.escs.accounting",
-      "mop.escs.runtime"
+      "mop.escs.runtime",
+      "mop.substrate.events"
     ],
     "mop.studies.escs_x2_event_graph": [
       "mop.escs.accounting",
@@ -345,7 +352,8 @@
     ],
     "mop.studies.generation1_c3_dispatch": [
       "mop.config",
-      "mop.studies"
+      "mop.studies",
+      "mop.substrate.events"
     ],
     "mop.studies.generation1_c3_dispatch_queue": [
       "mop.config",
@@ -363,8 +371,12 @@
       "mop.studies.generation1_c3_dispatch",
       "mop.studies.generation1_c3_dispatch_queue"
     ],
+    "mop.studies.generation1_cognitive_corpus": [
+      "mop.substrate.events"
+    ],
     "mop.studies.generation1_competence_atlas": [
-      "mop.config"
+      "mop.config",
+      "mop.substrate.events"
     ],
     "mop.studies.generation1_competence_atlas_verify": [
       "mop.config"
@@ -378,7 +390,8 @@
     ],
     "mop.studies.generation1_context_routing": [
       "mop.config",
-      "mop.process_labels"
+      "mop.process_labels",
+      "mop.substrate.events"
     ],
     "mop.studies.generation1_context_routing_verify": [
       "mop.config",
@@ -396,6 +409,9 @@
     ],
     "mop.studies.generation1_d1_redesign_v2": [
       "mop.studies"
+    ],
+    "mop.studies.generation1_evidence_synthesis": [
+      "mop.substrate.events"
     ],
     "mop.studies.generation1_full_generations_wave": [
       "mop.config",
@@ -419,7 +435,8 @@
       "mop.studies.generation1_successor_mechanics_queue"
     ],
     "mop.studies.generation1_successor_batch": [
-      "mop.config"
+      "mop.config",
+      "mop.substrate.events"
     ],
     "mop.studies.generation1_successor_categorized_batch_wave": [
       "mop.config",
@@ -1025,14 +1042,23 @@
       "mop.escs.substrate_assembly",
       "mop.escs.substrate_preflight",
       "mop.escs.topology_grammar",
+      "mop.studies.edcm1_event_triggered_coalition",
       "mop.studies.escs_g0_construction",
       "mop.studies.escs_g0_formation",
       "mop.studies.escs_g0_formation_study",
       "mop.studies.escs_g0_shadow_coalition",
+      "mop.studies.escs_x0_event_formation",
+      "mop.studies.escs_x1_dispatch",
       "mop.studies.escs_x2_event_graph",
       "mop.studies.escs_x3_topology_adaptation",
       "mop.studies.generation1_c3_communication",
-      "mop.studies.generation1_c3_construction"
+      "mop.studies.generation1_c3_construction",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_cognitive_corpus",
+      "mop.studies.generation1_competence_atlas",
+      "mop.studies.generation1_context_routing",
+      "mop.studies.generation1_evidence_synthesis",
+      "mop.studies.generation1_successor_batch"
     ]
   },
   "strongly_connected_components": [

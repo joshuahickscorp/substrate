@@ -8,34 +8,34 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `8be520c` (base = current origin/main `a19ebe6`).
+- Branch `agent/mop-accretion-collapse` @ `7b8c82f` (base = current origin/main `a19ebe6`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
-- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:20:22.808337+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
+- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:36:28.377741+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
 
 ## Baseline (measured, not assumed)
 
 | metric | value |
 |---|---|
-| tracked_files | 1725 |
-| python_files | 1065 |
-| global_owned_source_LOC | 401396 |
-| global_maintained_source_LOC | 401357 |
-| active_src_mop_LOC | 259298 |
+| tracked_files | 1741 |
+| python_files | 1069 |
+| global_owned_source_LOC | 401319 |
+| global_maintained_source_LOC | 401280 |
+| active_src_mop_LOC | 259221 |
 | test_LOC | 89983 |
 | scripts_LOC | 52076 |
-| documentation_LOC | 43664 |
-| configuration_LOC | 463607 |
+| documentation_LOC | 43932 |
+| configuration_LOC | 512703 |
 | python_modules | 466 |
-| entrypoints | 313 |
-| root_md_docs | 34 |
-| all_md_docs | 169 |
+| entrypoints | 316 |
+| root_md_docs | 35 |
+| all_md_docs | 170 |
 
 Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "_bed.py": 18, "_gate.py": 15, "_impl.py": 15, "_producer.py": 11, "_verifier.py": 11, "_prereg.py": 10, "_harness.py": 5, "_referee.py": 4}`
 
 ## Checklist status
 
-Total items: 213. By status: `{"complete": 11, "active": 47, "pending": 147, "partial": 8}`.
+Total items: 215. By status: `{"complete": 12, "active": 47, "pending": 147, "partial": 8, "verified": 1}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -252,14 +252,16 @@ Total items: 213. By status: `{"complete": 11, "active": 47, "pending": 147, "pa
 | RPT-29 | 28 | report_item | pending | Final report clause 29 | populate from measured artifacts at conclusion |
 | RPT-30 | 28 | report_item | pending | Final report clause 30 | populate from measured artifacts at conclusion |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
+| ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
+| RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
 
 ## History
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 8be520c
-- global_owned_source_LOC: 401396
-- global_maintained_source_LOC: 401357
+- commit: pending; base 7b8c82f
+- global_owned_source_LOC: 401319
+- global_maintained_source_LOC: 401280
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
 - rollback_tag: mop-collapse-precheck (to be created at commit)
 - next_exact_edit: generate remaining census graphs (call/command/schema/config/authority/historical-boundary/live-no-touch), classify unknown->0, then port PR #9 protections

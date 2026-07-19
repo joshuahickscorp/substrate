@@ -31,6 +31,7 @@ from omegaconf import DictConfig, OmegaConf
 
 from ..config import REPO_ROOT, compose
 from ..experiments import REGISTRY
+from mop.substrate.events import canonical_bytes, canonical_sha256
 
 CONFIG_SCHEMA = "mop-generation1-cognitive-corpus-config/v2"
 SEED_SCHEMA = "mop-generation1-cognitive-seed/v2"
@@ -53,18 +54,8 @@ DEFAULT_OUTPUT = REPO_ROOT / "proof/GENERATION1_COGNITIVE_CORPUS.json"
 MAX_TAIL = 12_000
 
 
-def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def sha256_file(path: Path) -> str:
