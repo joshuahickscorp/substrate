@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "b8e98dd74b66754ed10a92e3f4056fb7104a4861",
+    "base_commit": "b7fcb0b717a89ab4f5af06de8ac191d536b5193e",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -119,21 +119,21 @@
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
-    "deduplicated_LOC": 9272,
+    "deduplicated_LOC": 10114,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 4964,
-    "net_global_reduction_LOC": 4308
+    "added_LOC": 5546,
+    "net_global_reduction_LOC": 4568
   },
   "checklist_summary": {
-    "total": 235,
+    "total": 236,
     "by_status": {
       "complete": 14,
       "active": 49,
       "pending": 145,
       "partial": 8,
-      "verified": 19
+      "verified": 20
     }
   },
   "checklist": [
@@ -1427,11 +1427,11 @@
         "src/mop/beds/starss23/feature_cache.py",
         "tests/unit/test_science_engine.py"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count seed execution loops centralized with exact provider-specific records, net 191 LOC; native dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg analysis plans centralized with local family declarations retained, net 138 LOC; family label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP projection, count provider binding, and onset density centralized, net 34 LOC; frozen provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC; topology-neutral count and DoA gate interfaces centralized, net 58 LOC",
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count seed execution loops centralized with exact provider-specific records, net 191 LOC; native dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg analysis plans centralized with local family declarations retained, net 138 LOC; family label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP projection, count provider binding, and onset density centralized, net 34 LOC; frozen provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC; topology-neutral count and DoA gate interfaces centralized, net 58 LOC; three frozen-featurizer producer lifecycles and spread projections centralized behind local evidence declarations, net 260 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; heavy real-audio validation remains deferred to host headroom",
-      "next_action": "remeasure remaining variant producer shells against the selected per-axis declaration target and preserve independent verifier mathematics"
+      "next_action": "remeasure adjacent count and DoA producer shells against the frozen-variant declaration target while preserving verifier mathematics"
     },
     {
       "id": "SEC-12",
@@ -3294,6 +3294,23 @@
       "rollback_tag": "mop-collapse-starss23-lifecycle-17",
       "dependency": "",
       "next_action": "remeasure remaining variant producer shells against the declaration target"
+    },
+    {
+      "id": "RED-starss23-frozen-featurizer-variant-lifecycle",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Centralize frozen-featurizer producer execution and spread projections",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "src/mop/beds/starss23/featurizer_variant_producer.py",
+        "tests/unit/test_starss23_featurizer_spatial_doa.py"
+      ],
+      "validation": "842 replaced Python LOC, 582 added, net -260; all three complete sealed artifact dictionaries exactly match checkpoint b7fcb0b under fixed clocks; independent verifier battery 44/44 and full focused suite 493/493 green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-lifecycle-18",
+      "dependency": "",
+      "next_action": "remeasure adjacent count and DoA producer shells against the declaration target"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
