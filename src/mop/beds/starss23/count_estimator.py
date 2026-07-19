@@ -12,11 +12,9 @@ from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_ESTIMATOR_SCHEMA = "mop-starss23-count-estimator/v1"
 
-# Fixed, preregistered DSP priors. Hand-set, corpus-independent, never label-tuned.
 ALPHA = 0.15
 NOISE_FLOOR = 1e-6
 
-# The FOA first-order rank ceiling: four channels resolve at most four distinct directions.
 MAX_ESTIMABLE_SOURCES = 4
 
 ESTIMATOR_RULE = (
@@ -24,9 +22,6 @@ ESTIMATOR_RULE = (
     "else clamp(#{eig >= ALPHA * max_eig}, 1, 4)"
 )
 
-# Analytic FLOPs per re-estimation, reproducible across hosts. The 4x4 spatial covariance S @ S.T over a
-# 2400-sample block is 16 inner products of length 2400 (about 2 * 2400 * 16 = 76,800 multiply-add) and a
-# 4x4 symmetric eigenvalue solve is a fixed few hundred to a thousand FLOPs. The sum is anchored at 80,000.
 FLOPS_COVARIANCE = 2 * SAMPLES_PER_FRAME * N_CHANNELS * N_CHANNELS  # 76,800 for a 4x2400 block
 FLOPS_EIGEN_4X4 = 3_200  # fixed 4x4 symmetric eigenvalue solve budget
 FLOPS_PER_REESTIMATE = FLOPS_COVARIANCE + FLOPS_EIGEN_4X4  # 80,000

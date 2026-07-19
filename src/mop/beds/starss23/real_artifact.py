@@ -53,14 +53,11 @@ from .schema import COLLAR_FRAMES, ClipSplit
 
 REAL_PRODUCER_SCHEMA = "mop-starss23-escs-real-producer/v1"
 
-# The real STARSS23 FOA subset and metadata roots on this host.
 DEFAULT_FOA_ROOT = Path("/Users/scammermike/Downloads/mop-data/starss23/foa_subset/foa_dev")
 DEFAULT_METADATA_ROOT = Path(
     "/Users/scammermike/Downloads/mop-data/starss23/metadata_dev_extracted/metadata_dev"
 )
 
-# Val rooms are carved from the fold-3 dev-train rooms so train, val, and test stay room-disjoint and the
-# test partition is exactly the held-out fold-4 dev-test.
 DEFAULT_N_VAL_ROOMS = 2
 
 
@@ -87,9 +84,6 @@ class RealBedConfig:
         )
 
 
-# ---------------------------------------------------------------------------
-# The real noisy-TV channel: white-noise audio featurized and marginal-matched to the real test content.
-# ---------------------------------------------------------------------------
 
 
 def _real_noisy_tv_features(
@@ -106,9 +100,6 @@ def _real_noisy_tv_features(
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
-# ---------------------------------------------------------------------------
-# Per-seed run on the fixed real split.
-# ---------------------------------------------------------------------------
 
 
 def _run_seed_real(
@@ -185,8 +176,6 @@ def _run_seed_real(
             "firings": firings,
         }
 
-    # Preregistered operating point: the swept firing budget whose rate is closest to the train-set onset
-    # density. A fixed rule set before scoring, using only train labels, never a val or test F1 argmax.
     operating_budget_id = min(
         per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - operating_density)
     )
@@ -223,9 +212,6 @@ def _run_seed_real(
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the real artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_real_bed_artifact(

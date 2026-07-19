@@ -11,7 +11,6 @@ from mop.substrate.events import canonical_sha256
 from .adapter import FrozenFeatureProvider
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
-# The DSP grid. The front-end owns these; the schema owns only the label grid.
 WINDOW = 1024
 N_FFT = 1024
 N_BINS = N_FFT // 2 + 1  # 513 one-sided rFFT bins
@@ -21,7 +20,6 @@ N_MEL = 64
 D_FEAT = N_MEL * N_CHANNELS  # 256 per-frame features
 PAD_RIGHT = WINDOW - HOP  # 544; makes exactly COLS_PER_FRAME * n_frames full-window columns
 
-# Analytic per-column-per-channel FLOP budget (docs/ESCS_DEEP_RESEARCH.md immediate design implications).
 FLOPS_WINDOW = WINDOW  # 1024 multiplies for the Hann taper
 FLOPS_RFFT = 5 * N_FFT * 10  # 5 * 1024 * log2(1024) = 51200
 FLOPS_POWER = 3 * N_BINS  # 1539 real/imag square-and-add
@@ -111,10 +109,8 @@ class FrozenFeaturizer(FrozenFeatureProvider):
             power = (spectrum.real * spectrum.real) + (spectrum.imag * spectrum.imag)
             mel = filterbank @ power
             logmel[c] = np.log(mel + _LOG_EPS)
-        # Half-wave-rectified spectral flux across columns; flux at the very first column is zero.
         flux = np.zeros_like(logmel)
         flux[1:] = np.maximum(0.0, logmel[1:] - logmel[:-1])
-        # Aggregate the COLS_PER_FRAME columns of each label frame by summation.
         return flux.reshape(n_frames, COLS_PER_FRAME, N_MEL).sum(axis=1)
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:

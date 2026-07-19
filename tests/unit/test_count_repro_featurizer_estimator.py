@@ -40,9 +40,6 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-# ---------------------------------------------------------------------------
-# Re-authored frozen featurizer: zero-parameter, 256-wide [128 pos | 128 neg], distinct from the sealed one.
-# ---------------------------------------------------------------------------
 
 
 def test_repro_featurizer_shape_layout_and_zero_params():
@@ -53,10 +50,8 @@ def test_repro_featurizer_shape_layout_and_zero_params():
     assert feats.shape == (12, D_CFEAT) and D_CFEAT == 256
     assert N_BANDS == 32
     assert fz.n_params() == 0
-    # Positive and negative polarity blocks are nonnegative sums of rectified flux.
     assert feats.min() >= 0.0
     assert np.isfinite(feats).all()
-    # Byte reproducible.
     assert fz.feature_digest(feats) == fz.feature_digest(fz.featurize(audio))
 
 
@@ -64,12 +59,10 @@ def test_repro_featurizer_digest_differs_from_sealed_mel_frontend():
     new = ReproCountFeaturizer()
     old = FrozenCountFeaturizer()
     assert new.parameter_digest() != old.parameter_digest()
-    # The gammatone filterbank bytes differ from the mel filterbank bytes.
     assert not np.array_equal(new.filterbank, old.filterbank)
 
 
 def test_repro_featurizer_flops_keep_candidate_under_ceiling():
-    # The full-scale test fold is 22569 frames; the held-fixed gate charges C_train and gate inference.
     from mop.beds.starss23.count_gate import FLOPS_PER_INFERENCE
     from mop.beds.starss23.gate import training_flops
 
@@ -81,9 +74,6 @@ def test_repro_featurizer_flops_keep_candidate_under_ceiling():
     assert featurize + gate_infer + c_train + k_max < FLOP_CEILING
 
 
-# ---------------------------------------------------------------------------
-# Re-authored frozen estimator: zero-parameter cumulative-energy rule, genuinely different track.
-# ---------------------------------------------------------------------------
 
 
 def test_repro_estimator_zero_params_and_caps_at_four():
@@ -102,7 +92,6 @@ def test_repro_estimator_silence_is_zero_and_rule_differs_from_sealed():
     est = ReproCountEstimator()
     silent = np.zeros((4, 2400 * 5))
     assert est.estimate_track(silent).tolist() == [0, 0, 0, 0, 0]
-    # On structured noise the cumulative-energy rule and the eigenvalue-threshold rule disagree somewhere.
     rng = np.random.default_rng(7)
     audio = rng.standard_normal((4, 2400 * 40))
     audio[0] += 3.0 * np.sin(np.linspace(0, 80.0, audio.shape[1]))  # inject a coherent direction
@@ -113,9 +102,6 @@ def test_repro_estimator_silence_is_zero_and_rule_differs_from_sealed():
     assert FLOPS_PER_REESTIMATE >= 80_000
 
 
-# ---------------------------------------------------------------------------
-# Reproduction preregistration: SESOI computed in code, granularity floor enforced.
-# ---------------------------------------------------------------------------
 
 
 def test_repro_prereg_sesoi_is_half_over_test_clips_and_sealed_before_scores():
@@ -131,13 +117,11 @@ def test_repro_prereg_sesoi_is_half_over_test_clips_and_sealed_before_scores():
     assert body["preregistered_before_reading_test_scores"] is True
     assert body["activation_allowed"] is False and body["scientific_promotion"] is False
     assert body["reproduction_axis"] == "featurizer_estimator"
-    # SESOI reduces to 0.5 / n_test_clips on the pooled-frame scale.
     assert body["sesoi"]["sesoi_mae"] == pytest.approx(0.5 / 21, rel=1e-9)
     assert "canonical_sha256" in body and len(body["canonical_sha256"]) == 64
 
 
 def test_repro_prereg_refuses_below_granularity_floor():
-    # A corpus so small that 0.5 / n_test_clips is below 100x the per-frame granularity must be refused.
     with pytest.raises(CountReproPreregRefusal):
         compute_repro_sesoi(
             operating_reestimate_fraction=0.05,
@@ -148,9 +132,6 @@ def test_repro_prereg_refuses_below_granularity_floor():
         )
 
 
-# ---------------------------------------------------------------------------
-# The independent verifier imports only the standard library and nothing from the producer.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_imports_no_producer_or_mop_code():
@@ -182,9 +163,6 @@ def test_verifier_imports_no_producer_or_mop_code():
     }
 
 
-# ---------------------------------------------------------------------------
-# End-to-end producer + verifier on the REAL subset (small, fast config that clears the granularity floor).
-# ---------------------------------------------------------------------------
 
 
 _SMALL_CONFIG = ReproCountBedConfig(
@@ -219,7 +197,6 @@ def test_producer_seals_wellformed_artifact_within_ceiling(real_repro_artifact):
     for arm in art["harness"]["arm_summaries"]:
         assert arm["max_lifecycle_flops"] <= FLOP_CEILING
     assert art["matched_budget"]["flops"] <= FLOP_CEILING
-    # The frozen modules carry no trained parameters.
     assert art["featurizer"]["n_params"] == 0 and art["estimator"]["n_params"] == 0
 
 
@@ -241,14 +218,12 @@ def test_verifier_reproduces_referee_and_stats_and_withholds_confirmation(real_r
     assert result.honesty_ok is True
     assert result.independent_referee_reproduction is True
     assert result.mismatches == ()
-    # A single reproduction can never self-certify scientific confirmation (reproductions == 0 < 3).
     assert result.independent_scientific_confirmation is False
 
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_detects_tampered_score(real_repro_artifact):
     tampered = copy.deepcopy(real_repro_artifact.artifact)
-    # Lower the candidate MAE on the first seed to fake a bigger win; the seal breaks and the re-score fails.
     tampered["per_seed"][0]["arm_scores"]["candidate"]["mae"] = 0.0
     result = V.verify_repro_count_artifact(tampered)
     assert result.independent_referee_reproduction is False

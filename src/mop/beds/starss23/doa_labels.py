@@ -15,12 +15,8 @@ from .adapter import MetadataRow, RealStarssAdapter, parse_starss23_metadata
 
 DOA_LABELS_SCHEMA = "mop-starss23-doa-labels/v1"
 
-# Preregistered DSP-prior-style constant, not label-tuned: the minimum great-circle jump between two
-# consecutive active frames that counts as a direction "change" for the label-derived change track.
 DOA_CHANGE_THRESHOLD_DEG = 5.0
 
-# Value-of-computation training-target window: a re-estimation is valuable within +/- this many frames of
-# a labeled direction change. Mirrors count_gate.COUNT_VOC_WINDOW's window-dilation discipline exactly.
 DOA_VOC_WINDOW = 1
 
 
@@ -34,9 +30,6 @@ def _require_n_frames(n_frames: int) -> int:
     return n_frames
 
 
-# ---------------------------------------------------------------------------
-# Dominant-track tie-break and per-frame direction derivation.
-# ---------------------------------------------------------------------------
 
 
 def dominant_track_at_frame(rows: Sequence[MetadataRow]) -> MetadataRow:
@@ -83,9 +76,6 @@ def doa_track_from_metadata_text(text: str, n_frames: int) -> tuple[tuple[float,
     return doa_track_from_rows(parse_starss23_metadata(text), n_frames)
 
 
-# ---------------------------------------------------------------------------
-# Geometry primitives: wraparound-free great-circle distance on the unit sphere.
-# ---------------------------------------------------------------------------
 
 
 def direction_to_unit_vector(azimuth_deg: float, elevation_deg: float) -> tuple[float, float, float]:
@@ -122,9 +112,6 @@ def great_circle_degrees_batch(directions_a: np.ndarray, directions_b: np.ndarra
     return np.degrees(np.arccos(dot))
 
 
-# ---------------------------------------------------------------------------
-# Change-frame rule, shared by DoaClip.change_frames and the VoC target derivation.
-# ---------------------------------------------------------------------------
 
 
 def _change_frames_for_track(
@@ -147,9 +134,6 @@ def _change_frames_for_track(
     return tuple(changes)
 
 
-# ---------------------------------------------------------------------------
-# The clip container.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)

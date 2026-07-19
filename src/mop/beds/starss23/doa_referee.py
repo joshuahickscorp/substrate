@@ -15,10 +15,6 @@ from .doa_labels import great_circle_degrees_batch
 
 DOA_REFEREE_SCHEMA = "mop-starss23-doa-referee/v1"
 
-# An arbitrary but declared fixed boresight direction: the direction-of-arrival analogue of the counting
-# bed's COLD_START = 0. It carries no physical meaning the way "zero sources" does for counting; it exists
-# only so the never-update floor arm is well defined (a constant boresight direction forever, expected to
-# be a genuinely bad floor). Also reused by doa_estimator.py as the silence value of the frozen estimator.
 DOA_COLD_START_AZIMUTH_DEG = 0.0
 DOA_COLD_START_ELEVATION_DEG = 0.0
 DOA_COLD_START = (DOA_COLD_START_AZIMUTH_DEG, DOA_COLD_START_ELEVATION_DEG)
@@ -28,9 +24,6 @@ METRIC_RULE = (
     "(0, 0), clip-macro (equal-weight per-clip mean) is PRIMARY; pooled frame micro-average is secondary"
 )
 
-# The exact clip-level meet-in-the-middle enumeration is tractable to at least the low tens of clips
-# (2**40 partial sums per half is still fast); above that it refuses rather than silently degrading to an
-# approximation. This does not bind for the real run: the real subset anchors at n_test_clips = 21.
 _MAX_CLIP_ENUMERATION = 40
 _TIE_EPS = 1e-9
 
@@ -59,9 +52,6 @@ def _require_reestimate_frames(frames: Sequence[int], n_frames: int) -> tuple[in
     return tuple(prepared)
 
 
-# ---------------------------------------------------------------------------
-# Coasting and angular error.
-# ---------------------------------------------------------------------------
 
 
 def coast_emitted_direction(
@@ -98,9 +88,6 @@ def angular_error_track(
     return errors[mask]
 
 
-# ---------------------------------------------------------------------------
-# PRIMARY: clip-macro (equal-weight per-clip mean).
-# ---------------------------------------------------------------------------
 
 
 def mae_deg_clip(
@@ -179,9 +166,6 @@ def macro_score_arm(
     return MacroDoaScore(n_clips=len(per_clip), macro_mae_deg=macro_mae, per_clip=tuple(per_clip))
 
 
-# ---------------------------------------------------------------------------
-# SECONDARY: pooled frame micro-average. Explicitly non-primary; never the survive criterion.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -216,9 +200,6 @@ def pooled_score_arm(
     return PooledDoaScore(n_frames=total_frames, pooled_mae_deg=total_error / total_frames)
 
 
-# ---------------------------------------------------------------------------
-# PRIMARY significance test: exact clip-level sign-flip, meet in the middle.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -311,9 +292,6 @@ def exact_sign_flip_over_clips(deltas: Sequence[float], alpha: float = 0.05) -> 
     )
 
 
-# ---------------------------------------------------------------------------
-# Room-majority collapse: additive discipline from the calibration note's room-clustering finding.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)

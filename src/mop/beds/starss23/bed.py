@@ -20,17 +20,14 @@ from .gate import DEFAULT_EPOCHS, FLOPS_PER_INFERENCE, param_count, training_flo
 
 BED_ADAPTER_SCHEMA = "mop-starss23-escs-bed-adapter/v1"
 
-# The three controls the harness scores against the candidate. noisy_tv is the irreducible-noise guard.
 BED_CONTROLS: tuple[str, ...] = (ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv")
 
-# Full-lifecycle matched-budget anchors from the recipe (docs/ESCS_DEEP_RESEARCH.md).
 NOMINAL_TEST_FRAMES = 24_000  # a 40 clip by 60 s test set at 10 frames per second
 NOMINAL_TRAIN_FRAMES = 54_000  # a 90 clip by 60 s train set
 NOMINAL_FIRING_FRACTION = 0.10  # a ~10 percent firing budget
 DOWNSTREAM_FLOPS_PER_FIRING = 40_000
 N_PAIRED_SEEDS = 5
 
-# Regime samples stay small so the Bed is cheap to materialize when the ladder probes it.
 _REGIME_CLIPS = 2
 _REGIME_ROOM = "room00"
 
@@ -44,7 +41,6 @@ def _matched_budget() -> MatchedBudget:
         + firings * DOWNSTREAM_FLOPS_PER_FIRING
         + training_flops(NOMINAL_TRAIN_FRAMES, DEFAULT_EPOCHS)
     )
-    # A deterministic nominal wall at a 1 GFLOP/s reference keeps the budget byte-reproducible.
     return MatchedBudget(params=param_count(), flops=flops, wall_ns=flops, seeds=N_PAIRED_SEEDS)
 
 

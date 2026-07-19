@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 
 VERIFIER_SCHEMA = "mop-starss23-escs-bed-interchannel-coherence-verification/v1"
 
-# Re-declared here rather than imported, so the verifier shares no symbol with the producer.
 EXPECTED_ARTIFACT_SCHEMA = "mop-starss23-escs-bed-interchannel-coherence/v1"
 EXPECTED_STAGE = 3
 EXPECTED_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
@@ -37,9 +36,6 @@ class VerificationRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Canonical seal, re-implemented from specification.
-# ---------------------------------------------------------------------------
 
 
 def _canonical_bytes(value: object) -> bytes:
@@ -56,9 +52,6 @@ def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
 
 
-# ---------------------------------------------------------------------------
-# Referee, re-implemented from specification (no shared code with referee.py).
-# ---------------------------------------------------------------------------
 
 
 def _clean_frames(frames: object, label: str) -> list[int]:
@@ -138,9 +131,6 @@ def _adjacency_fraction(clip_fire_lists: list, collar: int) -> float:
     return adjacent / total if total > 0 else 0.0
 
 
-# ---------------------------------------------------------------------------
-# Exact sign-flip permutation, re-implemented from specification.
-# ---------------------------------------------------------------------------
 
 
 def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
@@ -158,9 +148,6 @@ def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
     return t_obs, at_least / total, total
 
 
-# ---------------------------------------------------------------------------
-# Verification result and the top-level checks.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -202,7 +189,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         raise VerificationRefusal("artifact must be a JSON object")
     mismatches: list[str] = []
 
-    # 1. Seal integrity. The seal covers everything except itself; a re-hash must reproduce it.
     stored_seal = artifact.get("seal")
     body = {k: v for k, v in artifact.items() if k != "seal"}
     recomputed_seal = _canonical_sha256(body)
@@ -210,7 +196,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
     if not seal_intact:
         mismatches.append("seal does not match a re-hash of the artifact body")
 
-    # 2. Schema, stage, claim scope, and featurizer identity must be the frozen contract, never widened.
     schema_ok = True
     if artifact.get("schema") != EXPECTED_ARTIFACT_SCHEMA:
         schema_ok = False
@@ -236,7 +221,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
     if not isinstance(per_seed, list) or not per_seed:
         raise VerificationRefusal("artifact.per_seed must be a nonempty list")
 
-    # 3. Re-score every arm of every seed from the raw fires, and re-derive the paired deltas.
     scores_reproduced = True
     recomputed_deltas: list[float] = []
     spread_reproduced = True
@@ -270,7 +254,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         delta = recomputed_by_arm[EXPECTED_CANDIDATE_ARM]["f1"] - recomputed_by_arm[primary_control]["f1"]
         recomputed_deltas.append(delta)
 
-    # 4. Re-run the exact sign-flip test on the re-derived deltas.
     stats = artifact.get("stats")
     if not isinstance(stats, dict):
         raise VerificationRefusal("artifact.stats must be present")
@@ -295,7 +278,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         stats_reproduced = False
         mismatches.append(f"stats.n_permutations claimed {stats.get('n_permutations')} recomputed {n_perm}")
 
-    # 5. Re-derive the fire-spread diagnostics per arm at the operating point.
     spread = artifact.get("variant", {}).get("fire_spread_diagnostic", {})
     for arm in (EXPECTED_CANDIDATE_ARM, primary_control):
         claimed = spread.get(arm if arm != primary_control else "rate_matched_random")
@@ -326,7 +308,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
             spread_reproduced = False
             mismatches.append(f"spread {arm} adjacency_fraction disagrees")
 
-    # 6. Matched budget: every arm under the ceiling, candidate and rate-matched-random byte-equal ex-training.
     budget_ok = True
     harness = artifact.get("harness")
     if not isinstance(harness, dict):
@@ -337,7 +318,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         if not isinstance(max_life, int) or max_life > FLOP_CEILING:
             budget_ok = False
             mismatches.append(f"arm {summary.get('name')!r} max lifecycle {max_life} exceeds ceiling {FLOP_CEILING}")
-    per_budget_rows = harness.get("per_budget_candidate_vs_rate_matched_random", [])
     by_budget: dict[str, dict] = {}
     for summary in arm_summaries:
         name = summary.get("name", "")
@@ -351,7 +331,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
             continue
         fm_c = cand["flop_model"]
         fm_r = rmr["flop_model"]
-        # inference (ex-training) run FLOPs per fired frame: featurize + gate infer + K * C_down, K equal.
         c_fires = cand["seed_results"][0]["firings"]
         r_fires = rmr["seed_results"][0]["firings"]
         if c_fires != r_fires:
@@ -369,7 +348,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
             budget_ok = False
             mismatches.append(f"budget {budget}: control must charge zero training cost")
 
-    # 7. Featurizer: zero trained parameters and honest featurize charge in the ledger.
     featurizer_ok = True
     featurizer = artifact.get("featurizer", {})
     if featurizer.get("n_params") != 0:
@@ -388,7 +366,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
                 )
                 break
 
-    # 8. Honesty flags. The producer never self-certifies and never asserts activation or promotion.
     honesty_ok = True
     flags = artifact.get("flags")
     if not isinstance(flags, dict):
@@ -407,7 +384,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         honesty_ok = False
         mismatches.append(f"claim_verb {claim_verb!r} exceeds the clip-limited claim ceiling")
 
-    # The independently reproduced verdict, from the re-derived numbers alone.
     sesoi = stats.get("sesoi_f1")
     exceeds_sesoi = isinstance(sesoi, (int, float)) and t_obs >= float(sesoi)
     dominates = bool(harness.get("candidate_strictly_dominates_rate_matched_random"))
@@ -514,25 +490,3 @@ def write_verification(payload: dict, out_path: str) -> None:
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))
-
-
-def _main(argv: list[str] | None = None) -> int:
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description="Independently verify a sealed STARSS23 interchannel-coherence artifact."
-    )
-    parser.add_argument("in_path", help="sealed artifact JSON path")
-    parser.add_argument("--out", default=None, help="optional path to write the sealed verification JSON")
-    args = parser.parse_args(argv)
-
-    payload = verify_sealed_file(args.in_path)
-    if args.out:
-        write_verification(payload, args.out)
-    print(json.dumps({k: v for k, v in payload.items() if k not in ("detail", "seal")}, indent=2, sort_keys=True))
-    print("detail:", json.dumps(payload["detail"], sort_keys=True))
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(_main())

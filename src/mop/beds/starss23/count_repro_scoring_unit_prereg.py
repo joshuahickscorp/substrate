@@ -24,7 +24,6 @@ COUNT_REPRO_SCORING_UNIT_PREREG_SCHEMA = "mop-starss23-count-repro-scoring-unit-
 STAGE = 3
 REPRO_AXIS = "scoring_unit"
 
-# The macro SESOI must clear at least this multiple of the clip-macro measurement granularity.
 MIN_GRANULARITY_MULTIPLE = 100.0
 
 PREREG_METRIC = (
@@ -105,7 +104,6 @@ def build_count_repro_scoring_unit_prereg(
         raise CountReproScoringUnitPreregRefusal("the test split carries no count changes to track")
     min_clip_frames = int(min(fact.n_frames for fact in facts))
 
-    # The registered SESOI: the reused cost-benefit rule on this reproduction's own label-only facts.
     cb = compute_count_cost_benefit(
         c_train_flops=c_train_flops,
         c_reest_flops=c_reest_flops,
@@ -119,8 +117,6 @@ def build_count_repro_scoring_unit_prereg(
 
     macro_restatement, brackets = _macro_restatement(facts, n_test_clips)
 
-    # The clip-macro measurement granularity: one frame of absolute error in the shortest clip moves that
-    # clip's MAE by 1 / min_clip_frames and the equal-weight macro mean by 1 / (n_clips * min_clip_frames).
     macro_granularity = 1.0 / (n_test_clips * min_clip_frames)
     granularity_floor = MIN_GRANULARITY_MULTIPLE * macro_granularity
     if not math.isfinite(sesoi_macro) or sesoi_macro <= 0.0:

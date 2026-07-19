@@ -22,32 +22,19 @@ from .schema import COLLAR_FRAMES
 
 VARIANT_ID = "recurrence_spread"
 
-# The recurrent spreading head adds exactly two trained scalars on top of the frozen signal MLP.
 N_SPREAD_PARAMS = 2
 
-# Fixed hyperparameters (not trained), analogous to the committed gate's EMA_DECAY and PHASE_HORIZON.
-# The refractory horizon spans the referee collar plus one frame, so a second fire inside the collar of a
-# just-covered onset (which the one-to-one matcher would charge as a false positive) is the one most
-# strongly discouraged.
 REFRACTORY_FRAMES = COLLAR_FRAMES + 1  # 3 frames
 
-# The default grid the two nonnegative spreading weights are fit over on the train rooms. It includes the
-# no-spread point (0.0, 0.0), so the fit can never do worse than the committed null on train and degrades
-# to it on ties.
 DEFAULT_DENSITY_GRID: tuple[float, ...] = (0.0, 1.0, 2.0)
 DEFAULT_REFRACTORY_GRID: tuple[float, ...] = (0.0, 1.0, 2.0, 4.0)
 
-# Analytic per-frame FLOPs of the recurrent spreading head, charged on top of the signal MLP's 6385. The
-# head does an inverse-sigmoid of the signal probability, the two-term recurrent penalty, one subtract,
-# and a re-sigmoid. A small fixed constant keeps the ledger reproducible across hosts.
 FLOPS_INVERSE_SIGMOID = 6  # clip, ratio, log
 FLOPS_PENALTY = 10  # gap, divide, rectified refractory, density ratio, two multiplies, one add
 FLOPS_RESIGMOID = 6  # subtract plus a logistic
 FLOPS_SPREAD_HEAD = FLOPS_INVERSE_SIGMOID + FLOPS_PENALTY + FLOPS_RESIGMOID  # 22
 FLOPS_PER_INFERENCE_SPREAD = FLOPS_PER_INFERENCE + FLOPS_SPREAD_HEAD  # 6407
 
-# Numerical clip for the inverse-sigmoid so a saturated signal probability never maps to a non-finite
-# logit. The bound only matters at saturation, where the fire decision is unchanged by the clip.
 _PROB_EPS = 1e-12
 
 
@@ -130,10 +117,8 @@ class RecurrenceSpreadGate:
             raise GateRefusal(
                 f"recurrence_spread trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling"
             )
-        # Bare assert as well, so a mis-edit trips even if the guard above is weakened.
         assert n_params <= PARAM_CEILING, "recurrence_spread parameter ceiling breached"
 
-    # -- geometry and cost ---------------------------------------------------
 
     def n_spread_params(self) -> int:
         return N_SPREAD_PARAMS
@@ -165,7 +150,6 @@ class RecurrenceSpreadGate:
         }
         return canonical_sha256(payload)
 
-    # -- firing policy (the only thing that differs from the committed gate) --
 
     def _penalty(self, state: OnlineState) -> float:
 
@@ -211,7 +195,6 @@ class RecurrenceSpreadGate:
             state = state.update(features[frame], p_fire, fired)
         return fires, probs
 
-    # -- training the spreading weights on the train rooms (train labels only) --
 
     def fit_spread(
         self,
@@ -257,8 +240,6 @@ class RecurrenceSpreadGate:
                     best_weights = (float(w_density), float(w_refractory))
 
         self.density_weight, self.refractory_weight = best_weights
-        # Each grid point does two causal forward passes over the train rooms (theta calibration then
-        # scoring). No backward pass, so the search is charged at the forward inference cost only.
         self.search_flops = int(n_evals * 2 * frames_per_pass * FLOPS_PER_INFERENCE_SPREAD)
         report = SpreadTrainingReport(
             rate=float(rate),

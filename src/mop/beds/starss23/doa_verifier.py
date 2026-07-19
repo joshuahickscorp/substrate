@@ -10,7 +10,6 @@ from dataclasses import dataclass, field
 
 VERIFIER_SCHEMA = "mop-starss23-doa-bed-verification/v1"
 
-# Re-declared, never imported, so the verifier shares no symbol with the producer it audits.
 EXPECTED_ARTIFACT_SCHEMA = "mop-starss23-escs-doa-bed/v1"
 EXPECTED_STAGE = 3
 EXPECTED_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
@@ -41,8 +40,6 @@ FORBIDDEN_CLAIM_VERBS = (
     "confirmed",
 )
 
-# acos-based degrees comparisons carry more float wobble than count_verifier's integer arithmetic, so the
-# tolerance is looser than that module's 1e-9, still far below any meaningful angular or p-value gap.
 _TOL = 1e-6
 
 
@@ -50,9 +47,6 @@ class DoaVerificationRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Canonical seal, re-implemented from the written recipe.
-# ---------------------------------------------------------------------------
 
 
 def _canonical_bytes(value: object) -> bytes:
@@ -73,9 +67,6 @@ def _agree(a: object, b: object, tol: float = _TOL) -> bool:
     return abs(float(a) - float(b)) <= tol
 
 
-# ---------------------------------------------------------------------------
-# Great-circle geometry, reimplemented independently with plain math.
-# ---------------------------------------------------------------------------
 
 
 def _direction_to_vector(azimuth_deg: float, elevation_deg: float) -> tuple[float, float, float]:
@@ -93,9 +84,6 @@ def _great_circle_degrees(az1: float, el1: float, az2: float, el2: float) -> flo
     return math.degrees(math.acos(dot))
 
 
-# ---------------------------------------------------------------------------
-# Track validation, coasting, and per-clip scoring, all from raw corpus_tracks.
-# ---------------------------------------------------------------------------
 
 
 def _as_direction_track(track: object, label: str) -> list[list[float] | None]:
@@ -190,9 +178,6 @@ def _reestimates_for_arm(arm: str, clip_id: str, n_frames: int, reestimates_by_c
     return _as_reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-# ---------------------------------------------------------------------------
-# Statistics: 5-seed brute force, clip-level meet in the middle, room-majority binomial tail.
-# ---------------------------------------------------------------------------
 
 
 def _sign_flip_one_sided_brute_force(deltas: list[float]) -> tuple[float, float, int]:
@@ -264,9 +249,6 @@ def _room_majority(clip_deltas_by_room: dict[str, list[float]]) -> tuple[int, fl
     return n_favorable, one_sided_p, n_rooms, per_room
 
 
-# ---------------------------------------------------------------------------
-# Result container.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -289,9 +271,6 @@ class DoaVerificationResult:
         return not self.independent_referee_reproduction
 
 
-# ---------------------------------------------------------------------------
-# Per-architecture, per-seed re-score.
-# ---------------------------------------------------------------------------
 
 
 def _rescore_seed_block(
@@ -428,9 +407,6 @@ def _rescore_architecture(
     }
 
 
-# ---------------------------------------------------------------------------
-# The single top-level verification.
-# ---------------------------------------------------------------------------
 
 
 def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:

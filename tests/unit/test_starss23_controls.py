@@ -11,9 +11,6 @@ from mop.science.budget import (
     ARM_RATE_MATCHED_RANDOM,
 )
 
-# ---------------------------------------------------------------------------
-# (a) rate-matched-random
-# ---------------------------------------------------------------------------
 
 
 def test_rate_matched_random_identical_count_matched_per_seed_permuted_positions() -> None:
@@ -21,21 +18,16 @@ def test_rate_matched_random_identical_count_matched_per_seed_permuted_positions
     n_frames = 60
 
     fires = c.rate_matched_random_fires(candidate, n_frames, seed=1, clip_id="clipA")
-    # Identical firing COUNT to the candidate.
     assert len(fires) == len(candidate)
-    # Matched per seed and per clip: byte-reproducible.
     assert fires == c.rate_matched_random_fires(candidate, n_frames, seed=1, clip_id="clipA")
-    # Different seed gives a different draw; a different clip does too.
     assert fires != c.rate_matched_random_fires(candidate, n_frames, seed=2, clip_id="clipA")
     assert fires != c.rate_matched_random_fires(candidate, n_frames, seed=1, clip_id="clipB")
-    # Positions are permuted, not the candidate's own positions, and stay in range and unique.
     assert fires != sorted(candidate)
     assert all(0 <= frame < n_frames for frame in fires)
     assert len(set(fires)) == len(fires)
 
 
 def test_rate_matched_random_matches_count_across_many_clips() -> None:
-    # The per-clip firing COUNT must match exactly so the pooled compute histogram is identical.
     rng = np.random.default_rng(0)
     control = c.RateMatchedRandomControl(seed=7)
     for clip_index in range(20):
@@ -47,7 +39,6 @@ def test_rate_matched_random_matches_count_across_many_clips() -> None:
 
 
 def test_rate_matched_random_saturates_when_budget_reaches_frame_count() -> None:
-    # When the candidate fires on every frame, the only rate-matched set is every frame.
     assert c.rate_matched_random_fires(list(range(12)), 12, seed=0, clip_id="c") == list(range(12))
 
 
@@ -55,9 +46,6 @@ def test_rate_matched_random_arm_kind_is_the_harness_control_name() -> None:
     assert c.RateMatchedRandomControl(seed=0).arm_kind == ARM_RATE_MATCHED_RANDOM
 
 
-# ---------------------------------------------------------------------------
-# (b) always-on and best-single
-# ---------------------------------------------------------------------------
 
 
 def test_always_on_fires_every_frame() -> None:
@@ -94,13 +82,9 @@ def test_best_single_threshold_separates_flux_spikes() -> None:
     val = [_toy_val_clip([4, 12, 20], 26, rng)]
     control = c.BestSingleControl.tuned(val)
     features, onsets = _toy_val_clip([6, 18], 26, rng)
-    # The tuned total-flux threshold recovers the planted high-flux frames on held-out content.
     assert control.fires_for_clip(features) == onsets
 
 
-# ---------------------------------------------------------------------------
-# (c) noisy-TV
-# ---------------------------------------------------------------------------
 
 
 class _ScheduleGate:
@@ -115,7 +99,6 @@ class _ScheduleGate:
 
 
 def test_noisy_tv_honest_gate_passes_at_chance() -> None:
-    # A gate that fires uncorrelated with novelty fires on the noise at its base rate, so it is at chance.
     base_rate = 0.1
     result = c.noisy_tv_probe(_ScheduleGate(period=10), base_rate, seed=7, n_noise_frames=1000)
     assert result.at_chance is True
@@ -123,7 +106,6 @@ def test_noisy_tv_honest_gate_passes_at_chance() -> None:
 
 
 def test_noisy_tv_coherent_signal_gate_passes_at_chance() -> None:
-    # A gate keyed on a coherent signal-band condition almost never fires on incoherent pure noise.
     def honest(row: np.ndarray) -> bool:
         band = row[:64]
         return bool(band.mean() > 2.0 and band.min() > 0.5)
@@ -134,24 +116,20 @@ def test_noisy_tv_coherent_signal_gate_passes_at_chance() -> None:
 
 
 def test_noisy_tv_noise_chasing_gate_fails_at_chance() -> None:
-    # A gate rewarded by raw RND novelty fires preferentially on the high-novelty pure-noise channel.
     rng = np.random.default_rng(0)
     normal = np.abs(rng.standard_normal((500, 256))) * 0.1
     base_rate = 0.1
     chaser = c.noise_chasing_fire_fn(normal, base_rate=base_rate, seed=7)
 
-    # On normal content it fires at about the base rate.
     normal_rate = c.firing_rate_on_frames(chaser, normal)
     assert normal_rate == pytest.approx(base_rate, abs=0.02)
 
-    # On the injected pure-aleatoric channel it fires preferentially, so it fails the at-chance check.
     result = c.noisy_tv_probe(chaser, base_rate, seed=7, n_noise_frames=1000)
     assert result.at_chance is False
     assert result.firing_rate_on_noise > base_rate + result.tolerance
 
 
 def test_at_chance_band_is_one_sided_on_preferential_firing() -> None:
-    # Firing at or below the base rate plus tolerance is honest; firing preferentially above fails.
     assert c.at_chance(0.10, 0.10, tolerance=0.05) is True
     assert c.at_chance(0.00, 0.10, tolerance=0.05) is True  # firing less on noise is honest
     assert c.at_chance(0.14, 0.10, tolerance=0.05) is True
@@ -163,9 +141,7 @@ def test_rnd_target_novelty_is_deterministic_and_higher_on_noise() -> None:
     rng = np.random.default_rng(1)
     noise = rng.standard_normal((100, 256))
     normal = np.abs(rng.standard_normal((100, 256))) * 0.1
-    # Byte-reproducible in the seed.
     assert np.array_equal(target.novelty(noise), c.RndTarget(seed=5).novelty(noise))
-    # Pure aleatoric input drives raw novelty higher than small-magnitude normal content: the trap.
     assert target.novelty(noise).mean() > target.novelty(normal).mean()
 
 
@@ -188,9 +164,6 @@ def test_noisy_tv_result_seal_is_stable() -> None:
     }).digest()
 
 
-# ---------------------------------------------------------------------------
-# refusals
-# ---------------------------------------------------------------------------
 
 
 def test_controls_refuse_malformed_inputs() -> None:

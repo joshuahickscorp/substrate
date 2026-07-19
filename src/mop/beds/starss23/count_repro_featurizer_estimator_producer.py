@@ -92,9 +92,6 @@ class ReproCountBedConfig:
             raise CountReproProducerRefusal("at least one re-estimation budget target rate is required")
 
 
-# ---------------------------------------------------------------------------
-# The real noisy-TV channel, re-featurized with the re-authored front-end.
-# ---------------------------------------------------------------------------
 
 
 def _real_noisy_tv_features(
@@ -113,9 +110,6 @@ def _real_noisy_tv_features(
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
-# ---------------------------------------------------------------------------
-# Per-seed run on the fixed real split.
-# ---------------------------------------------------------------------------
 
 
 def _run_seed_real(
@@ -149,9 +143,6 @@ def _run_seed_real(
     )
 
 
-# ---------------------------------------------------------------------------
-# Harness arms across seeds.
-# ---------------------------------------------------------------------------
 
 
 def _flop_model(kind: str, total_frames: int, train_frames: int, config: ReproCountBedConfig) -> FlopModel:
@@ -165,9 +156,6 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: ReproCo
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the reproduction artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_repro_count_bed_artifact(

@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 
 VERIFIER_SCHEMA = "mop-starss23-count-bed-verification/v1"
 
-# Re-declared, never imported, so the verifier shares no symbol with the producer it audits.
 EXPECTED_ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed/v1"
 EXPECTED_STAGE = 3
 EXPECTED_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
@@ -18,10 +17,8 @@ ARM_ALWAYS_ON = "always_on"
 ARM_NEVER_UPDATE = "never_update"
 COLD_START = 0
 
-# The promotion bar written into the prereg: at least three bias-independent reproductions.
 MIN_REPRODUCTIONS = 3
 
-# Claim ceiling for a clip-unit single run: only these verbs are honest.
 ALLOWED_CLAIM_VERBS = ("consistent with", "suggestive")
 FORBIDDEN_CLAIM_VERBS = (
     "demonstrates",
@@ -41,9 +38,6 @@ class CountVerificationRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Canonical seal, re-implemented from the written recipe.
-# ---------------------------------------------------------------------------
 
 
 def _canonical_bytes(value: object) -> bytes:
@@ -60,9 +54,6 @@ def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
 
 
-# ---------------------------------------------------------------------------
-# Track and re-estimation validation, then coasting, all from specification.
-# ---------------------------------------------------------------------------
 
 
 def _as_count_track(track: object, label: str) -> list[int]:
@@ -126,9 +117,6 @@ def _reestimates_for_arm(
     return _as_reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-# ---------------------------------------------------------------------------
-# Exact sign-flip permutation on the re-derived deltas.
-# ---------------------------------------------------------------------------
 
 
 def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
@@ -146,9 +134,6 @@ def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
     return observed, at_least / total, total
 
 
-# ---------------------------------------------------------------------------
-# Result container and float agreement.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -180,9 +165,6 @@ def _agree(a: object, b: object) -> bool:
     return abs(float(a) - float(b)) <= _TOL
 
 
-# ---------------------------------------------------------------------------
-# The single top-level verification.
-# ---------------------------------------------------------------------------
 
 
 def _score_arm_pooled(
@@ -225,14 +207,12 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
         raise CountVerificationRefusal("artifact must be a JSON object")
     mismatches: list[str] = []
 
-    # 1. Seal: a re-hash of the body must reproduce the stored seal exactly.
     stored_seal = artifact.get("seal")
     body = {k: v for k, v in artifact.items() if k != "seal"}
     seal_intact = isinstance(stored_seal, str) and stored_seal == _canonical_sha256(body)
     if not seal_intact:
         mismatches.append("stored seal does not match a re-hash of the artifact body")
 
-    # 2. Contract: schema, stage, and claim scope may never be widened.
     schema_ok = True
     if artifact.get("schema") != EXPECTED_ARTIFACT_SCHEMA:
         schema_ok = False
@@ -253,7 +233,6 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
     if not isinstance(per_seed, list) or not per_seed:
         raise CountVerificationRefusal("artifact.per_seed must be a nonempty list")
 
-    # 3. Re-score all four arms for every seed from the raw tracks, and re-derive the paired deltas.
     scores_reproduced = True
     budget_matched = True
     recomputed_deltas: list[float] = []
@@ -322,7 +301,6 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
     if not budget_matched:
         scores_reproduced = False
 
-    # 4. Re-run the exact sign-flip on the re-derived deltas and re-check the whole stats block.
     stats = artifact.get("stats")
     if not isinstance(stats, dict):
         raise CountVerificationRefusal("artifact.stats must be present")
@@ -352,7 +330,6 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
         stats_reproduced = False
         mismatches.append("stats.two_sided_005_reachable disagrees with the exact discrete floor")
 
-    # SESOI must be exceeded consistently with what the artifact asserts (mean of control-minus-candidate).
     mean_delta = t_obs
     sesoi = None
     prereg = artifact.get("prereg")
@@ -366,7 +343,6 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
             stats_reproduced = False
             mismatches.append("stats.mean_delta_exceeds_sesoi disagrees with the recomputed mean delta")
 
-    # 5. Honesty: the producer never self-certifies and never widens the claim verb.
     honesty_ok = True
     flags = artifact.get("flags")
     if not isinstance(flags, dict):
@@ -389,7 +365,6 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
         seal_intact and schema_ok and scores_reproduced and stats_reproduced and honesty_ok
     )
 
-    # 6. Scientific confirmation is a strictly higher bar and cannot be reached on a single run.
     source_kind = str(artifact.get("source_kind", ""))
     rights_clean = artifact.get("rights_clean") is True
     reproductions = artifact.get("reproductions")

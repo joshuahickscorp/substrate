@@ -15,16 +15,11 @@ from mop.substrate.events import canonical_sha256
 from .featurizer import D_FEAT
 from .gate import PARAM_CEILING, STATE_CEILING_BYTES
 
-# ---------------------------------------------------------------------------
-# Frozen variant geometry. Every number here is fixed in code before the run.
-# ---------------------------------------------------------------------------
 
 LP_PROJ_DIM = 32  # dimension of the fixed random projection R: 256 -> 32
 LP_TARGET_DIM = 16  # dimension of the fixed random RND target f*: 32 -> 16
-# The only trained tensor is P: 32 -> 16 with no bias, so the trainable parameter count is 512.
 LP_N_PARAMS = LP_PROJ_DIM * LP_TARGET_DIM
 
-# Online-state update constants (deterministic, no learned quantity).
 EMA_DECAY = 0.1  # causal EMA step for the running online error baseline
 ONLINE_LR = 0.05  # per-frame online gradient step for the working predictor Pw
 EPS_NORM = 1e-9  # floor for the projected-direction normalizer
@@ -33,12 +28,10 @@ SCORE_SCALE = 1.0  # monotone squash scale; rank-invariant, so it never changes 
 
 DEFAULT_THETA = 0.5  # default firing threshold; the harness tunes theta on the val rooms
 
-# Offline training defaults for the real run. The producer passes explicit values; these anchor C_train.
 DEFAULT_EPOCHS = 8
 DEFAULT_TRAIN_FRAMES = 54_000
 TRAIN_STEP_FACTOR = 3  # one forward plus a backward pass costed at about twice the forward
 
-# Seed namespaces so the fixed random tensors are domain-separated and byte-reproducible.
 _SEED_PROJECTION = "mop.beds.starss23.gate_lp.projection"
 _SEED_TARGET = "mop.beds.starss23.gate_lp.target"
 _SEED_PREDICTOR = "mop.beds.starss23.gate_lp.predictor_init"
@@ -48,9 +41,6 @@ class LPGateRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Analytic cost model. Pure functions so the harness can cost an arm without building a gate.
-# ---------------------------------------------------------------------------
 
 
 def param_count(proj_dim: int = LP_PROJ_DIM, target_dim: int = LP_TARGET_DIM) -> int:
@@ -96,9 +86,6 @@ def training_flops(
 C_TRAIN_ANCHOR = training_flops()
 
 
-# ---------------------------------------------------------------------------
-# Numerically stable helpers.
-# ---------------------------------------------------------------------------
 
 
 def _softplus(x: float) -> float:
@@ -108,9 +95,6 @@ def _softplus(x: float) -> float:
     return math.log1p(math.exp(x))
 
 
-# ---------------------------------------------------------------------------
-# Online state. A per-stream working predictor plus a running error baseline; no ground truth.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -131,9 +115,6 @@ class LPOnlineState:
         return proj_dim * target_dim * 8 + 3 * 8
 
 
-# ---------------------------------------------------------------------------
-# The learning-progress candidate gate.
-# ---------------------------------------------------------------------------
 
 
 @dataclass
@@ -191,17 +172,14 @@ class LearningProgressGate:
         self.theta = float(theta)
         self.seed = int(seed)
 
-        # Fixed, never-trained random projection and RND target. Scaled for a well-conditioned code.
         rng_r = np.random.default_rng(derive_seed32(self.seed, _SEED_PROJECTION))
         self.R = rng_r.standard_normal((proj_dim, d_feat)) / math.sqrt(d_feat)
         rng_t = np.random.default_rng(derive_seed32(self.seed, _SEED_TARGET))
         self.target = rng_t.standard_normal((target_dim, proj_dim)) / math.sqrt(proj_dim)
 
-        # The only trained tensor: the predictor P, initialized small and refined by the offline fit.
         rng_p = np.random.default_rng(derive_seed32(self.seed, _SEED_PREDICTOR))
         self.P0 = rng_p.standard_normal((target_dim, proj_dim)) * math.sqrt(1.0 / proj_dim)
 
-    # -- geometry and cost ---------------------------------------------------
 
     def n_params(self) -> int:
 
@@ -239,7 +217,6 @@ class LearningProgressGate:
         }
         return canonical_sha256(payload)
 
-    # -- projected code and targets (no label ever enters here) --------------
 
     def _code(self, features: np.ndarray) -> np.ndarray:
 
@@ -257,7 +234,6 @@ class LearningProgressGate:
 
         return LPOnlineState.initial(self.P0)
 
-    # -- the firing policy: reducible surprise -------------------------------
 
     def _score_from_code(
         self, code: np.ndarray, target_vec: np.ndarray, e_base: float, state: LPOnlineState
@@ -280,7 +256,6 @@ class LearningProgressGate:
         pred_w = state.pw @ code
         residual = pred_w - target_vec
         e_online = float(residual @ residual)
-        # Gradient of ||Pw code - target||^2 wrt Pw is 2 * residual outer code.
         grad = 2.0 * np.outer(residual, code)
         pw_next = state.pw - ONLINE_LR * grad
         if state.initialized:
@@ -349,7 +324,6 @@ class LearningProgressGate:
         fires = [int(i) for i in np.nonzero(probs >= float(theta))[0]]
         return fires, probs
 
-    # -- training (offline, self-supervised RND regression) ------------------
 
     def fit(
         self,
@@ -378,7 +352,6 @@ class LearningProgressGate:
             loss = float((residual * residual).sum(axis=1).mean())
             loss_history.append(loss)
             final_error = loss
-            # Gradient of the mean squared error wrt P0: 2/N * residual^T @ codes.
             grad = 2.0 / n * residual.T @ codes
             self.P0 = self.P0 - learning_rate * grad
 

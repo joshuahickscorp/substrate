@@ -14,8 +14,6 @@ from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 DOA_ESTIMATOR_SCHEMA = "mop-starss23-doa-estimator/v1"
 
-# Reused constant value from count_estimator.py: same DSP-prior status, a fixed noise-power floor below
-# which a frame is treated as silent and the estimator emits the cold-start direction.
 NOISE_FLOOR = 1e-6
 
 ESTIMATOR_RULE = (
@@ -23,7 +21,6 @@ ESTIMATOR_RULE = (
     "elevation = atan2(-Iz, sqrt(Ix^2+Iy^2)); the cold-start boresight direction below NOISE_FLOOR power"
 )
 
-# Analytic FLOPs per re-estimation, reproducible across hosts.
 FLOPS_INTENSITY_TD = 3 * 2 * SAMPLES_PER_FRAME  # 3 components x 2 (multiply, accumulate) x 2400 = 14_400
 FLOPS_ENERGY_TD = 4 * 2 * SAMPLES_PER_FRAME  # 4 channels x 2 (square, accumulate) x 2400 = 19_200
 FLOPS_COMBINE = 4  # 3 adds to combine channel energies + 1 scale by 0.5

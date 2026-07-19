@@ -25,18 +25,13 @@ from .schema import (
     room_disjoint_split,
 )
 
-# The two provenance-bearing source kinds. Synthetic can never earn more than a mechanics verdict.
 SOURCE_KIND_SYNTHETIC = "synthetic"
 SOURCE_KIND_REAL = "real"
 
-# STARSS23 dev-set folds. Fold 3 is the room-disjoint dev-train (90 clips), fold 4 the dev-test (78).
 FOLD_DEV_TRAIN = 3
 FOLD_DEV_TEST = 4
 
-# A distance column may be absent in pre-2023 STARSS metadata. The bed requires it, so a row that lacks
-# it parses with this sentinel and is refused when an onset is built from it.
 DISTANCE_ABSENT = -1
-# STARSS23 azimuth and elevation are integer degrees; distance is integer centimeters.
 _AZIMUTH_MIN, _AZIMUTH_MAX = -180, 180
 _ELEVATION_MIN, _ELEVATION_MAX = -90, 90
 _DISTANCE_MAX_CM = 100_000  # 1 km ceiling; a physical sanity bound, not a knob
@@ -52,9 +47,6 @@ class RealDataBlocked(AdapterRefusal):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Clip filename identity: fold, room, mix.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -75,8 +67,6 @@ class ClipName:
 
     @property
     def room_id(self) -> str:
-        # Zero-padded so lexical room order matches numeric order for the schema's sorted room split.
-        # STARSS23 has far fewer than 100 rooms, so two digits keep fold-3 rooms sorted before fold-4.
         return f"room{self.room:02d}"
 
 
@@ -95,9 +85,6 @@ def format_clip_id(fold: int, room: int, mix: int) -> str:
     return ClipName(fold=fold, room=room, mix=mix).clip_id
 
 
-# ---------------------------------------------------------------------------
-# Native DCASE / STARSS23 onset-metadata rows.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -270,9 +257,6 @@ def metadata_text_from_onsets(onsets: Iterable[OnsetEvent], *, active_frames: in
     return format_starss23_metadata(metadata_rows_from_onsets(onsets, active_frames=active_frames))
 
 
-# ---------------------------------------------------------------------------
-# Audio identity and transport accounting.
-# ---------------------------------------------------------------------------
 
 
 def audio_sha256(audio: np.ndarray) -> str:
@@ -290,9 +274,6 @@ def _require_audio(audio: np.ndarray, clip_id: str) -> np.ndarray:
     return array
 
 
-# ---------------------------------------------------------------------------
-# The native room-disjoint dev split.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -311,9 +292,6 @@ class NativeDevSplit:
         return {"dev_train": len(self.dev_train), "dev_test": len(self.dev_test)}
 
 
-# ---------------------------------------------------------------------------
-# The adapter protocol and its two implementations.
-# ---------------------------------------------------------------------------
 
 
 @runtime_checkable
@@ -547,8 +525,6 @@ class SyntheticStarssAdapter:
         return cls(audio_by_clip, metadata_by_clip, rights_clean=rights_clean)
 
 
-# STARSS23 FOA media is delivered as 24 kHz, 4-channel, 16-bit PCM WAV. These are corpus constants that
-# the real decode asserts, not knobs: a file that violates them is not the STARSS23 FOA contract.
 _REAL_SAMPLE_RATE_HZ = SAMPLE_RATE_HZ
 _REAL_SAMPLE_WIDTH_BYTES = 2  # 16-bit PCM
 _INT16_FULL_SCALE = 32768.0

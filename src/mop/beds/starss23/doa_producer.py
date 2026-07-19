@@ -81,7 +81,6 @@ STAGE = 3
 PRIMARY_CONTROL = ARM_RATE_MATCHED_RANDOM
 STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 
-# The same fixed real STARSS23 FOA subset the counting bed used, so the two lanes are directly comparable.
 DEFAULT_FOA_ROOT = Path("/Users/scammermike/Downloads/mop-data/starss23/foa_subset/foa_dev")
 DEFAULT_METADATA_ROOT = Path(
     "/Users/scammermike/Downloads/mop-data/starss23/metadata_dev_extracted/metadata_dev"
@@ -140,9 +139,6 @@ def _train_gate(
     return gate, int(x.shape[0])
 
 
-# ---------------------------------------------------------------------------
-# The real noisy-TV channel: white-noise audio featurized and marginal-matched to the real test content.
-# ---------------------------------------------------------------------------
 
 
 def _real_noisy_tv_features(
@@ -155,9 +151,6 @@ def _real_noisy_tv_features(
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
-# ---------------------------------------------------------------------------
-# Architecture-independent arms (always_on, never_update): computed ONCE, reused everywhere.
-# ---------------------------------------------------------------------------
 
 
 def _deterministic_arm_tuples(
@@ -176,9 +169,6 @@ def _deterministic_arm_tuples(
     return tuples
 
 
-# ---------------------------------------------------------------------------
-# Per-seed, per-architecture run on the fixed real test split.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -301,9 +291,6 @@ def _run_seed_real(
     )
 
 
-# ---------------------------------------------------------------------------
-# Harness arms across seeds, per architecture.
-# ---------------------------------------------------------------------------
 
 
 def _flop_model(
@@ -321,9 +308,6 @@ def _flop_model(
     )
 
 
-# ---------------------------------------------------------------------------
-# Per-architecture statistical assembly: clip-level primary, 5-seed secondary, room-majority, SESOI.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -352,11 +336,9 @@ def _architecture_stats(
     rmr_mean = math.fsum(rmr_means) / len(rmr_means)
     point_estimate_holds = candidate_mean < rmr_mean
 
-    # 5-seed secondary sign-flip on the per-seed clip-macro deltas (rate_matched_random minus candidate).
     seed_level_deltas = [rmr - cand for cand, rmr in zip(candidate_means, rmr_means, strict=True)]
     secondary = exact_sign_flip(seed_level_deltas)
 
-    # Primary clip-level sign-flip on per-clip deltas, each clip's own value averaged over the paired seeds.
     room_of: dict[str, str] = {clip.clip_id: clip.room_id for clip in test_clips}
     per_clip_deltas: list[float] = []
     by_room: dict[str, list[float]] = {}
@@ -383,7 +365,6 @@ def _architecture_stats(
         and room_majority.one_sided_p <= ROOM_MAJORITY_ALPHA
     )
 
-    # SECONDARY, pooled-frame corroboration only: never the survive criterion, reported for comparison.
     pooled_deltas = [
         run.per_budget[run.operating_budget_id]["arm_scores_pooled"][ARM_RATE_MATCHED_RANDOM]["pooled_mae_deg"]
         - run.per_budget[run.operating_budget_id]["arm_scores_pooled"][ARM_CANDIDATE]["pooled_mae_deg"]
@@ -405,9 +386,6 @@ def _architecture_stats(
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the real DoA artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_real_doa_bed_artifact(
@@ -433,7 +411,6 @@ def build_real_doa_bed_artifact(
     train_clips, val_clips, test_clips = split.train, split.val, split.test
     split_detail = dict(split.detail)
 
-    # Structural, label-only facts. No test score is read to build the prereg.
     train_doa_clips = [doa_clips[c.clip_id] for c in train_clips]
     test_doa_clips = [doa_clips[c.clip_id] for c in test_clips]
     train_density = change_density(train_doa_clips)
@@ -450,7 +427,6 @@ def build_real_doa_bed_artifact(
     n_test_active_frames = int(sum(dc.n_active_frames for dc in test_doa_clips))
     operating_rate = min(config.target_rates, key=lambda r: abs(r - train_density))
 
-    # 1. Preregister the SESOI, the promotion rule, and the analysis plan BEFORE reading any test score.
     prereg = build_doa_prereg(
         timestamp=timestamp,
         operating_reestimate_fraction=operating_rate,
@@ -464,7 +440,6 @@ def build_real_doa_bed_artifact(
     prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_deg = float(prereg["sesoi"]["sesoi_deg"])
 
-    # 2. Architecture-independent arms (always_on, never_update): computed ONCE, reused everywhere.
     always_on_tuples = _deterministic_arm_tuples(ARM_ALWAYS_ON, test_clips, arrays_by_clip, estimator_by_clip)
     never_update_tuples = _deterministic_arm_tuples(
         ARM_NEVER_UPDATE, test_clips, arrays_by_clip, estimator_by_clip
@@ -484,7 +459,6 @@ def build_real_doa_bed_artifact(
         "n_reestimations": 0,
     }
 
-    # 3. Noisy-TV channel per seed, architecture-independent (raw audio through the frozen featurizer only).
     pooled_test_features = np.concatenate([features_by_clip[c.clip_id] for c in test_clips], axis=0)
     target_mean = float(pooled_test_features.mean())
     target_std = float(pooled_test_features.std())
@@ -493,7 +467,6 @@ def build_real_doa_bed_artifact(
         for seed in config.seeds
     }
 
-    # 4. Now run the paired seeds and score the test split, under BOTH architectures.
     started = time.perf_counter_ns()
     seed_runs_by_arch: dict[str, list[_SeedRun]] = {ARCH_A_ID: [], ARCH_B_ID: []}
     for architecture in ARCHITECTURES:
@@ -544,7 +517,6 @@ def build_real_doa_bed_artifact(
         operating_budget_id_b=seed_runs_by_arch[ARCH_B_ID][0].operating_budget_id,
     )
 
-    # 5. The full SURVIVES(X) statistical conjunction per architecture.
     stats_a = _architecture_stats(seed_runs_by_arch[ARCH_A_ID], test_clips, sesoi_deg)
     stats_b = _architecture_stats(seed_runs_by_arch[ARCH_B_ID], test_clips, sesoi_deg)
     both_survive = bool(stats_a.survives and stats_b.survives)
@@ -580,7 +552,6 @@ def build_real_doa_bed_artifact(
         "architecture_fragile": exactly_one_survives,
     }
 
-    # 6. Noisy-TV at-chance, per architecture, mean over seeds.
     def _noisy_tv_block(seed_runs: list[_SeedRun]) -> dict[str, Any]:
         n_runs = len(seed_runs)
         mean_noise_rate = math.fsum(run.noisy_tv["reestimate_rate_on_noise"] for run in seed_runs) / n_runs
@@ -604,8 +575,6 @@ def build_real_doa_bed_artifact(
 
     flags_block = safety_flags()
 
-    # Shared per-clip ground-truth and estimator tracks, sealed once (identical across seeds and archs), so
-    # the verifier can re-derive every arm, every seed, every architecture without re-running any DSP.
     corpus_tracks = {
         clip.clip_id: {
             "n_frames": clip.n_frames,

@@ -12,9 +12,6 @@ from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
-# The short-time transform grid. Deliberately identical to the frozen featurizer so the audio-length
-# contract (a whole number of 100 ms frames) and the exact five-columns-per-frame tiling are shared and
-# the per-frame transform cost is comparable. The front-end owns these; the schema owns the label grid.
 WINDOW = 1024
 N_FFT = 1024
 N_BINS = N_FFT // 2 + 1  # 513 one-sided rFFT bins
@@ -22,42 +19,23 @@ HOP = 480
 COLS_PER_FRAME = SAMPLES_PER_FRAME // HOP  # 2400 // 480 = 5 columns per 100 ms frame
 PAD_RIGHT = WINDOW - HOP  # 544; makes exactly COLS_PER_FRAME * n_frames full-window columns
 
-# Spatial-feature geometry. Four spatial scalars per band: three source-direction cosines (a wraparound
-# free encoding of the azimuth and elevation) and one DirAC diffuseness. 64 bands times 4 equals 256.
 N_BANDS = 64
 FEATURES_PER_BAND = 4
 D_FEAT = N_BANDS * FEATURES_PER_BAND  # 256 per-frame features; matches the gate's hardcoded contract
 
-# FOA B-format channel map. STARSS23 FOA is delivered in ACN channel ordering with SN3D normalization,
-# so the four channels are (W, Y, Z, X) = (omni, dipole-y, dipole-z, dipole-x). The active-intensity
-# vector components pair the omni against each dipole. This ordering is a fixed corpus constant, not a
-# knob; it is recorded in the parameter digest so a mis-map cannot masquerade as the same front-end.
 ACN_W, ACN_Y, ACN_Z, ACN_X = 0, 1, 2, 3
 
 _EPS = 1e-12
 
-# ---------------------------------------------------------------------------
-# Analytic per-frame FLOP budget. Every term is a fixed integer so the ledger is reproducible across
-# hosts. The dominant cost is the same four-channel windowed rFFT the frozen front-end runs.
-# ---------------------------------------------------------------------------
 
-# (a) The short-time transform, charged per column per channel exactly as the frozen ledger does.
 FLOPS_WINDOW = WINDOW  # 1024 multiplies for the Hann taper
 FLOPS_RFFT = 5 * N_FFT * 10  # 5 * 1024 * log2(1024) = 51200
 FLOPS_STFT_PER_COL_PER_CH = FLOPS_WINDOW + FLOPS_RFFT  # 52224
 FLOPS_STFT = FLOPS_STFT_PER_COL_PER_CH * N_CHANNELS * COLS_PER_FRAME  # 1_044_480
 
-# (b) The active-intensity and energy-density arithmetic, charged per column per rFFT bin. Three
-# intensity components Re{conj(W) [X,Y,Z]} at three FLOPs each (two multiplies, one add) is 9; four
-# squared magnitudes |W|^2..|Z|^2 at three FLOPs each is 12; forming the energy density
-# 0.5*(|W|^2+|X|^2+|Y|^2+|Z|^2) is 4 (three adds, one scale); accumulating the four band sums is 4.
 FLOPS_INTENSITY_PER_COL_PER_BIN = 9 + 12 + 4 + 4  # 29
 FLOPS_INTENSITY = FLOPS_INTENSITY_PER_COL_PER_BIN * COLS_PER_FRAME * N_BINS  # 29 * 5 * 513 = 74_385
 
-# (c) The per-band reduction to a direction and a diffuseness, charged per band per frame. Norm of the
-# intensity vector (13), diffuseness one-minus-ratio (3), azimuth atan2 (10), horizontal norm (11),
-# elevation atan2 (10), four trig evaluations for the direction cosines (32), two cosine products (2),
-# and a clip of the diffuseness (2).
 FLOPS_REDUCE_PER_BAND = 13 + 3 + 10 + 11 + 10 + 32 + 2 + 2  # 83
 FLOPS_REDUCE = FLOPS_REDUCE_PER_BAND * N_BANDS  # 83 * 64 = 5_312
 
@@ -83,7 +61,6 @@ def _band_edges(sample_rate: int) -> np.ndarray:
     edges[0] = 0
     edges[N_BANDS] = N_BINS
     for b in range(1, N_BANDS):
-        # Keep the edge strictly increasing and leave room for the remaining bands to stay non-empty.
         lo = edges[b - 1] + 1
         hi = N_BINS - (N_BANDS - b)
         edges[b] = int(min(max(int(raw[b]), lo), hi))
@@ -160,8 +137,6 @@ class SpatialDoaFeaturizer(FrozenFeatureProvider):
         y = spectra[ACN_Y]
         z = spectra[ACN_Z]
 
-        # Active-intensity vector I = Re{conj(W) [X, Y, Z]} per column per bin, and the DirAC energy
-        # density E' = 0.5 (|W|^2 + |X|^2 + |Y|^2 + |Z|^2). Both are real, deterministic per bin.
         ix = w.real * x.real + w.imag * x.imag
         iy = w.real * y.real + w.imag * y.imag
         iz = w.real * z.real + w.imag * z.imag
@@ -175,8 +150,6 @@ class SpatialDoaFeaturizer(FrozenFeatureProvider):
         membership = self.band_membership  # (N_BANDS, N_BINS)
 
         def _band_sum(field: np.ndarray) -> np.ndarray:
-            # Average over the five columns of each label frame and over the bins of each band. The 1/N
-            # normalization cancels in the diffuseness ratio and the direction, so plain sums suffice.
             per_frame = field.reshape(n_frames, COLS_PER_FRAME, N_BINS).sum(axis=1)
             return per_frame @ membership.T  # (n_frames, N_BANDS)
 
@@ -188,8 +161,6 @@ class SpatialDoaFeaturizer(FrozenFeatureProvider):
         intensity_norm = np.sqrt(sum_ix * sum_ix + sum_iy * sum_iy + sum_iz * sum_iz)
         diffuseness = np.clip(1.0 - intensity_norm / (sum_e + _EPS), 0.0, 1.0)
 
-        # Source direction is opposite the active-intensity flow (DirAC convention). Reduce it to an
-        # azimuth and an elevation, then re-encode as wraparound-free direction cosines.
         vx, vy, vz = -sum_ix, -sum_iy, -sum_iz
         azimuth = np.arctan2(vy, vx)
         horizontal = np.sqrt(vx * vx + vy * vy)

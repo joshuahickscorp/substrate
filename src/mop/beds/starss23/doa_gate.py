@@ -31,8 +31,6 @@ DEFAULT_THETA = 0.5
 PHASE_HORIZON = 10.0  # frames per positional-clock cycle (1 second at 100 ms frames)
 EMA_DECAY = 0.1
 
-# The diffuseness-flux components sit at indices 3, 7, 11, ..., 255 in DoaFeaturizer's per-band-interleaved
-# output layout, mirroring count_gate.py's _POS_BLOCK slicing convention.
 _DIFFUSENESS_FLUX_INDICES = tuple(range(3, D_FEAT_DOA, 4))
 
 
@@ -40,9 +38,6 @@ class DoaGateRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Shared online state: 8 self-derived scalars, never a label.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -197,9 +192,6 @@ class _DoaGateInterface:
         return (probability >= threshold, probability)
 
 
-# ---------------------------------------------------------------------------
-# Architecture A: single hidden layer 264 -> 12 -> 1. Byte-identical shape to the sealed onset gate.
-# ---------------------------------------------------------------------------
 
 HIDDEN_A = 12
 N_OUT = 1
@@ -362,9 +354,6 @@ class DoaGateArchA(_DoaGateInterface):
         )
 
 
-# ---------------------------------------------------------------------------
-# Architecture B: two hidden layers 264 -> 6 -> 6 -> 1. A genuinely deeper, differently-sized shape.
-# ---------------------------------------------------------------------------
 
 HIDDEN_B1 = 6
 HIDDEN_B2 = 6
@@ -556,8 +545,6 @@ class DoaGateArchB(_DoaGateInterface):
 
 GATE_CLASSES: dict[str, type] = {ARCH_A_ID: DoaGateArchA, ARCH_B_ID: DoaGateArchB}
 
-# Full-scale C_train anchors (8 epochs, DEFAULT_TRAIN_FRAMES=54_000 frames, step factor 3), recorded for
-# provenance even when the fixed real subset carries fewer train frames.
 C_TRAIN_ANCHOR_ARCH_A = training_flops_arch_a(54_000)
 C_TRAIN_ANCHOR_ARCH_B = training_flops_arch_b(54_000)
 

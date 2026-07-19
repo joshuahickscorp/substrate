@@ -37,9 +37,6 @@ def _fixture_audio(n_frames: int, seed: int = 7) -> np.ndarray:
     return rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
 
 
-# ---------------------------------------------------------------------------
-# Zero trained parameters.
-# ---------------------------------------------------------------------------
 
 
 def test_zero_trained_parameters() -> None:
@@ -47,8 +44,6 @@ def test_zero_trained_parameters() -> None:
 
 
 def test_frozen_dsp_is_not_learned() -> None:
-    # The window and the band partition are deterministic functions of the sample rate and FFT size, so
-    # two independent instances carry byte-identical DSP constants and the same parameter digest.
     a = InterchannelCoherenceFeaturizer()
     b = InterchannelCoherenceFeaturizer()
     assert a.window.tobytes() == b.window.tobytes()
@@ -56,9 +51,6 @@ def test_frozen_dsp_is_not_learned() -> None:
     assert a.parameter_digest() == b.parameter_digest()
 
 
-# ---------------------------------------------------------------------------
-# Deterministic feature bytes.
-# ---------------------------------------------------------------------------
 
 
 def test_deterministic_feature_bytes_across_runs() -> None:
@@ -81,9 +73,6 @@ def test_deterministic_feature_bytes_across_instances() -> None:
     assert digest_a == digest_b
 
 
-# ---------------------------------------------------------------------------
-# 256-dim output the sealed gate consumes, in the normalized coherence range.
-# ---------------------------------------------------------------------------
 
 
 def test_feature_block_shape_is_256() -> None:
@@ -95,7 +84,6 @@ def test_feature_block_shape_is_256() -> None:
 
 
 def test_features_are_normalized_ratios_in_unit_interval() -> None:
-    # Magnitude-squared coherence and DirAC directness are normalized ratios, so every feature is in [0, 1].
     features = InterchannelCoherenceFeaturizer().featurize(_fixture_audio(12, seed=11))
     assert float(features.min()) >= 0.0
     assert float(features.max()) <= 1.0
@@ -104,13 +92,11 @@ def test_features_are_normalized_ratios_in_unit_interval() -> None:
 def test_band_partition_has_no_empty_bands() -> None:
     partition = _band_partition(SAMPLE_RATE_HZ)
     assert partition.shape == (N_BANDS, N_BINS)
-    # A partition: each bin assigned to exactly one band, and every band carries at least one bin.
     assert np.array_equal(partition.sum(axis=0), np.ones(N_BINS))
     assert int((partition.sum(axis=1) == 0).sum()) == 0
 
 
 def test_gate_consumes_the_256_features_unchanged() -> None:
-    # The sealed 264-input gate must ingest the featurizer output with no change to its parameter count.
     features = InterchannelCoherenceFeaturizer().featurize(_fixture_audio(4))
     gate = CandidateGate(seed=0)
     assert gate.n_params() == 3193
@@ -118,9 +104,6 @@ def test_gate_consumes_the_256_features_unchanged() -> None:
     assert 0.0 <= float(p_fire) <= 1.0
 
 
-# ---------------------------------------------------------------------------
-# FLOPs charged: the analytic per-frame ledger and the matched-budget charge.
-# ---------------------------------------------------------------------------
 
 
 def test_flops_per_frame_matches_documented_formula() -> None:
@@ -135,9 +118,7 @@ def test_flops_for_frames_and_matched_ceiling() -> None:
     featurizer = InterchannelCoherenceFeaturizer()
     assert featurizer.flops_for_frames(0) == 0
     assert featurizer.flops_for_frames(1) == FLOPS_PER_FRAME
-    # The per-frame cost stays under the ceiling headroom (about 2.4M) the recipe requires.
     assert FLOPS_PER_FRAME <= 2_400_000
-    # The reference 24000-frame evaluation set stays well under the 6e10 lifecycle ceiling.
     assert featurizer.flops_for_frames(24_000) < FLOP_CEILING
 
 
@@ -150,8 +131,6 @@ def test_flops_for_frames_rejects_bad_counts() -> None:
 
 
 def test_featurize_flops_charged_into_matched_budget_ledger() -> None:
-    # Every arm in the sealed artifact charges this featurizer's per-frame FLOPs times the test frame
-    # count, and every arm's full-lifecycle FLOPs stay under the 6e10 ceiling.
     if not ARTIFACT_PATH.is_file():
         pytest.skip("sealed artifact not present; run the producer first")
     artifact = json.loads(ARTIFACT_PATH.read_bytes().decode("utf-8"))
@@ -164,14 +143,9 @@ def test_featurize_flops_charged_into_matched_budget_ledger() -> None:
     assert artifact["matched_budget"]["flops"] <= FLOP_CEILING
 
 
-# ---------------------------------------------------------------------------
-# Seal present: the prereg and the sealed artifact both carry reproducible seals.
-# ---------------------------------------------------------------------------
 
 
 def test_seal_present_and_reproducible() -> None:
-    # A self-contained seal over the featurizer identity reproduces, so the featurizer participates in the
-    # canonical seal the artifact uses.
     body = {
         "featurizer": "interchannel_coherence",
         "n_params": InterchannelCoherenceFeaturizer().n_params(),
@@ -194,13 +168,9 @@ def test_seal_present_and_reproducible() -> None:
         assert canonical_sha256(artifact) == stored_seal
 
 
-# ---------------------------------------------------------------------------
-# The physical cue: a coherent directional onset registers; silence does not.
-# ---------------------------------------------------------------------------
 
 
 def test_responds_to_planted_directional_onset() -> None:
-    # Three silent frames then a directional (coherent across W and the gradient channels) 1 kHz source.
     n_frames = 6
     times = np.arange(n_frames * SAMPLES_PER_FRAME) / SAMPLE_RATE_HZ
     signal = np.zeros(n_frames * SAMPLES_PER_FRAME, dtype=np.float64)
@@ -213,10 +183,8 @@ def test_responds_to_planted_directional_onset() -> None:
     audio[3] = 0.05 * signal
     features = InterchannelCoherenceFeaturizer().featurize(audio)
     per_frame_l1 = np.abs(features).sum(axis=1)
-    # Frames wholly inside the leading silence carry no coherence at all (zero energy, eps-floored).
     assert per_frame_l1[0] == pytest.approx(0.0, abs=1e-3)
     assert per_frame_l1[1] == pytest.approx(0.0, abs=1e-3)
-    # The directional source frames carry substantial coherence and directness.
     assert per_frame_l1[4] > 10.0
 
 

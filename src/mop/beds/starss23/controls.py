@@ -22,8 +22,6 @@ _NOISY_TV_NAMESPACE = "mop.beds.starss23.controls.noisy_tv"
 _RND_TARGET_NAMESPACE = "mop.beds.starss23.controls.rnd_target"
 
 
-# The default at-chance tolerance band for the noisy-TV firing-rate check. A gate may fire on pure noise
-# no more often than its base rate plus this slack; firing preferentially above that band is a failure.
 DEFAULT_NOISY_TV_TOLERANCE = 0.05
 
 
@@ -40,9 +38,6 @@ def _unique_sorted_frames(frames: Sequence[int], n_frames: int, label: str) -> l
     return sorted(seen)
 
 
-# ---------------------------------------------------------------------------
-# (a) rate-matched-random: same firing COUNT, positions permuted, matched per clip and per seed.
-# ---------------------------------------------------------------------------
 
 
 def rate_matched_random_fires(
@@ -76,9 +71,6 @@ class RateMatchedRandomControl:
         )
 
 
-# ---------------------------------------------------------------------------
-# (b) always-on and best-single (a non-learned, val-tuned total-flux threshold).
-# ---------------------------------------------------------------------------
 
 
 def always_on_fires(n_frames: int) -> list[int]:
@@ -117,7 +109,6 @@ def _candidate_thresholds(flux_values: np.ndarray) -> list[float]:
     if unique.size == 0:
         return [0.0]
     midpoints = ((unique[:-1] + unique[1:]) / 2.0).tolist() if unique.size > 1 else []
-    # A threshold above the maximum fires nothing; one at or below the minimum fires everything.
     return [float(unique[0] - 1.0), *[float(value) for value in midpoints], float(unique[-1] + 1.0)]
 
 
@@ -169,9 +160,6 @@ class AlwaysOnControl:
         return always_on_fires(n_frames)
 
 
-# ---------------------------------------------------------------------------
-# (c) noisy-TV: an injected pure-aleatoric channel with a fixed RND target and an at-chance check.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)

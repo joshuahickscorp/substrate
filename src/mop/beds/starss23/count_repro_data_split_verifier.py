@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 
 VERIFIER_SCHEMA = "mop-starss23-count-repro-data-split-verification/v1"
 
-# Re-declared, never imported, so the verifier shares no symbol with the producer it audits.
 EXPECTED_ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed-repro-data-split/v1"
 EXPECTED_AXIS = "data_split"
 EXPECTED_STAGE = 3
@@ -20,10 +19,8 @@ ALWAYS_ON = "always_on"
 NEVER_UPDATE = "never_update"
 COLD_START = 0
 
-# The promotion bar written into the prereg: at least three bias-independent reproductions.
 MIN_REPRODUCTIONS = 3
 
-# Only these claim verbs are honest for a clip-limited single reproduction.
 ALLOWED_CLAIM_VERBS = ("consistent with", "suggestive")
 FORBIDDEN_CLAIM_VERBS = (
     "demonstrates",
@@ -44,9 +41,6 @@ class ReproVerificationRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Canonical seal, re-implemented from the written recipe.
-# ---------------------------------------------------------------------------
 
 
 def _canonical_bytes(value: object) -> bytes:
@@ -67,9 +61,6 @@ def _close(a: object, b: object) -> bool:
     return abs(float(a) - float(b)) <= _TOL
 
 
-# ---------------------------------------------------------------------------
-# Track and re-estimation validation, then coasting, all from specification.
-# ---------------------------------------------------------------------------
 
 
 def _count_track(track: object, label: str) -> list[int]:
@@ -121,9 +112,6 @@ def _arm_reestimates(arm: str, clip_id: str, n_frames: int, stored_by_clip: dict
     return _reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-# ---------------------------------------------------------------------------
-# Exact sign-flip permutation on the re-derived deltas.
-# ---------------------------------------------------------------------------
 
 
 def _sign_flip(deltas: list[float]) -> tuple[float, float, int]:
@@ -141,9 +129,6 @@ def _sign_flip(deltas: list[float]) -> tuple[float, float, int]:
     return observed, at_least / total, total
 
 
-# ---------------------------------------------------------------------------
-# Result container.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -169,9 +154,6 @@ class ReproVerificationResult:
         return not self.independent_referee_reproduction
 
 
-# ---------------------------------------------------------------------------
-# Room-disjointness of the swapped split (the axis-specific check).
-# ---------------------------------------------------------------------------
 
 
 def _check_split_disjoint(artifact: dict, mismatches: list[str]) -> bool:
@@ -199,9 +181,6 @@ def _check_split_disjoint(artifact: dict, mismatches: list[str]) -> bool:
     return ok
 
 
-# ---------------------------------------------------------------------------
-# The single top-level verification.
-# ---------------------------------------------------------------------------
 
 
 def _score_pooled(
@@ -242,14 +221,12 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
         raise ReproVerificationRefusal("artifact must be a JSON object")
     mismatches: list[str] = []
 
-    # 1. Seal.
     stored_seal = artifact.get("seal")
     body = {k: v for k, v in artifact.items() if k != "seal"}
     seal_intact = isinstance(stored_seal, str) and stored_seal == _canonical_sha256(body)
     if not seal_intact:
         mismatches.append("stored seal does not match a re-hash of the artifact body")
 
-    # 2. Contract: schema, axis, stage, and claim scope may never be widened.
     schema_ok = True
     if artifact.get("schema") != EXPECTED_ARTIFACT_SCHEMA:
         schema_ok = False
@@ -275,7 +252,6 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
     if not isinstance(per_seed, list) or not per_seed:
         raise ReproVerificationRefusal("artifact.per_seed must be a nonempty list")
 
-    # 3. Re-score all four arms for every seed from the raw tracks, and re-derive the paired deltas.
     scores_reproduced = True
     budget_matched = True
     recomputed_deltas: list[float] = []
@@ -342,7 +318,6 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
     if not budget_matched:
         scores_reproduced = False
 
-    # 4. Re-run the exact sign-flip on the re-derived deltas and re-check the stats block.
     stats = artifact.get("stats")
     if not isinstance(stats, dict):
         raise ReproVerificationRefusal("artifact.stats must be present")
@@ -371,7 +346,6 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
         stats_reproduced = False
         mismatches.append("stats.two_sided_005_reachable disagrees with the exact discrete floor")
 
-    # SESOI: the mean control-minus-candidate delta compared against the registered value, exceedance honest.
     mean_delta = t_obs
     sesoi = None
     prereg = artifact.get("prereg")
@@ -386,7 +360,6 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
             stats_reproduced = False
             mismatches.append("stats.mean_delta_exceeds_sesoi disagrees with the recomputed mean delta")
 
-    # 5. Honesty: the producer never self-certifies and never widens the claim verb.
     honesty_ok = True
     flags = artifact.get("flags")
     if not isinstance(flags, dict):
@@ -414,7 +387,6 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
         and honesty_ok
     )
 
-    # 6. Scientific confirmation is a strictly higher bar and cannot be reached on a single reproduction.
     source_kind = str(artifact.get("source_kind", ""))
     rights_clean = artifact.get("rights_clean") is True
     reproductions = artifact.get("reproductions")
@@ -431,9 +403,6 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
         and reproductions >= MIN_REPRODUCTIONS
     )
 
-    # The reproduction SURVIVES only on the strict conjunction: candidate strictly lower MAE (positive mean
-    # delta), the registered SESOI cleared, and the one-sided sign-flip at or below the 1/32 floor. This is
-    # an evidentiary readout, not a promotion: it never sets the confirmation flag.
     candidate_strictly_lower = mean_delta > _TOL
     sign_flip_clears = one_sided_p <= (1.0 / n_perm) + _TOL
     survives = bool(

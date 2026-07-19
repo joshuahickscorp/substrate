@@ -9,9 +9,6 @@ import numpy as np
 from mop.seeding import derive_seed32
 from mop.substrate.events import canonical_sha256
 
-# Held FIXED, reused by import from the sealed gate: the online-state contract (the 8 self-derived scalars),
-# the value-of-computation target rule, the input width, and the training hyperparameter anchors. None of
-# these is the gate architecture, so changing the architecture leaves every one of them byte-identical.
 from .count_gate import (
     COUNT_VOC_WINDOW,
     D_IN,
@@ -42,7 +39,6 @@ __all__ = [
     "param_count_two_layer",
     "inference_flops_two_layer",
     "training_flops_two_layer",
-    # Re-exported held-fixed pieces so the producer imports the reproduction surface from one place.
     "CountOnlineState",
     "voc_targets_from_count_track",
     "COUNT_VOC_WINDOW",
@@ -51,8 +47,6 @@ __all__ = [
 COUNT_REPRO_GATE_ARCH_GATE_SCHEMA = "mop-starss23-count-repro-gate-arch-gate/v1"
 REPRO_AXIS = "gate_arch"
 
-# The varied axis: a two-hidden-layer 264 -> 8 -> 4 -> 1 MLP. A genuine depth change from the single-hidden
-# -layer sealed gate, still comfortably under the 4096-parameter ceiling.
 N_CFEAT_GATE_ARCH = N_CFEAT  # 256 frozen count features (held identical)
 N_CONLINE_GATE_ARCH = N_CONLINE  # 8 self-derived online scalars (held identical)
 D_IN_GATE_ARCH = D_IN  # 264 gate inputs (held identical)
@@ -70,9 +64,6 @@ class CountReproGateArchRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Analytic cost model for the two-hidden-layer gate. Pure functions, host-independent integers.
-# ---------------------------------------------------------------------------
 
 
 def param_count_two_layer(
@@ -123,7 +114,6 @@ def training_flops_two_layer(
     )
 
 
-# The per-frame inference FLOP anchor for this architecture: 4321 FLOPs for 264 -> 8 -> 4 -> 1.
 FLOPS_PER_INFERENCE_GATE_ARCH = inference_flops_two_layer()
 
 
@@ -172,7 +162,6 @@ class CountReproGateArchGate(CountGateInterface):
         self.seed = int(seed)
 
         rng = np.random.default_rng(derive_seed32(self.seed, self._SEED_NAMESPACE))
-        # He initialization per layer, matching the sealed gate's variance convention exactly.
         self.W1 = rng.standard_normal((hidden1, d_in)) * math.sqrt(2.0 / d_in)
         self.b1 = np.zeros(hidden1, dtype=np.float64)
         self.W2 = rng.standard_normal((hidden2, hidden1)) * math.sqrt(2.0 / hidden1)
@@ -263,18 +252,14 @@ class CountReproGateArchGate(CountGateInterface):
             bce = -(y * np.log(clipped) + (1.0 - y) * np.log(1.0 - clipped)).mean()
             ponder = ponder_lambda * p_reestimate.mean()
             loss_history.append(float(bce + ponder))
-            # Same output-logit gradient as the sealed gate (BCE plus ponder on the sigmoid probability).
             d_logit = ((p_reestimate - y) + ponder_lambda * p_reestimate * (1.0 - p_reestimate)) / n
             d_logit = d_logit[:, None]
-            # Output layer W3 (n_out, hidden2).
             grad_w3 = d_logit.T @ h2
             grad_b3 = d_logit.sum(axis=0)
-            # Second hidden layer W2 (hidden2, hidden1).
             d_h2 = d_logit @ self.W3
             d_z2 = d_h2 * (z2 > 0.0)
             grad_w2 = d_z2.T @ h1
             grad_b2 = d_z2.sum(axis=0)
-            # First hidden layer W1 (hidden1, d_in).
             d_h1 = d_z2 @ self.W2
             d_z1 = d_h1 * (z1 > 0.0)
             grad_w1 = d_z1.T @ x

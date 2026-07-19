@@ -32,17 +32,10 @@ from .gate import (
 )
 from .schema import COLLAR_FRAMES
 
-# The spacing window is anchored to the sealed referee collar, not a tuned knob: two fires closer than
-# COLLAR_FRAMES can match at most one distinct onset under the one-to-one matcher, so co-firing inside the
-# collar is the waste the regularizer prices. Fixed in code before the run.
 DEFAULT_SPACING_WINDOW = COLLAR_FRAMES  # 2 frames on the frozen 100 ms grid (the plus/minus 200 ms collar)
 
-# Default regularizer strength. The real run selects the strength per seed on the val rooms over a
-# preregistered grid (see scripts/run_starss23_escs_bed_diversity_reg.py); this default only anchors the
-# gate's standalone behavior and its cost accounting.
 DEFAULT_DIVERSITY_LAMBDA = 1.0
 
-# Small floor on the firing-energy normalizer so the scale-invariant ratio is finite when all p go to 0.
 _RATIO_EPS = 1e-12
 
 
@@ -122,7 +115,6 @@ class DiversityRegTrainingReport:
 
 class DiversityRegGate:
 
-    # Deliberately the SAME namespace as the committed gate so paired-seed weights match byte for byte.
     _SEED_NAMESPACE = "mop.beds.starss23.gate.init"
 
     def __init__(
@@ -143,7 +135,6 @@ class DiversityRegGate:
             raise DiversityRegRefusal(
                 f"gate trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling"
             )
-        # Hard invariant, kept as a bare assert too so a mis-edit trips even without the guard.
         assert n_params <= PARAM_CEILING, "gate parameter ceiling breached"
         state_bytes = OnlineState.state_bytes()
         if state_bytes > STATE_CEILING_BYTES:
@@ -168,14 +159,11 @@ class DiversityRegGate:
         self._kernel = spacing_kernel(self.spacing_window)
 
         rng = np.random.default_rng(derive_seed32(self.seed, self._SEED_NAMESPACE))
-        # He-style init for the ReLU layer, small output layer. All float64 for reproducibility. Identical
-        # recipe to the committed gate so paired-seed initial weights match byte for byte.
         self.W1 = rng.standard_normal((hidden, d_in)) * math.sqrt(2.0 / d_in)
         self.b1 = np.zeros(hidden, dtype=np.float64)
         self.W2 = rng.standard_normal((n_out, hidden)) * math.sqrt(2.0 / hidden)
         self.b2 = np.zeros(n_out, dtype=np.float64)
 
-    # -- geometry and cost (identical formulas to the committed gate) --------
 
     def n_params(self) -> int:
         return int(self.W1.size + self.b1.size + self.W2.size + self.b2.size)
@@ -207,7 +195,6 @@ class DiversityRegGate:
         }
         return canonical_sha256(payload)
 
-    # -- forward path (no label ever enters here; byte-identical to the committed gate) --------
 
     def _forward(self, x: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         hidden_pre = x @ self.W1.T + self.b1
@@ -243,7 +230,6 @@ class DiversityRegGate:
         p_fire = self.infer(features, state)
         return (p_fire >= threshold, p_fire)
 
-    # -- training (offline; committed loss plus a within-clip spacing regularizer) --------
 
     def fit(
         self,
@@ -285,9 +271,6 @@ class DiversityRegGate:
             bce = -(y * np.log(clipped) + (1.0 - y) * np.log(1.0 - clipped)).mean()
             ponder = ponder_lambda * p_fire.mean()
 
-            # Scale-invariant within-clip spacing regularizer. Skip entirely at lambda == 0 so the update
-            # and the loss are byte-identical to the committed gate. The BCE and ponder gradients are means
-            # (divided by n); the ratio penalty is an intensive scalar whose gradient is added directly.
             base_grad = (p_fire - y) + ponder_lambda * p_fire * (1.0 - p_fire)
             if self.diversity_lambda > 0.0:
                 neighbor = _neighbor_probability_sum(p_fire, clip_index, self._kernel)
@@ -295,7 +278,6 @@ class DiversityRegGate:
                 q_energy = float((p_fire * p_fire).sum()) + _RATIO_EPS  # total firing energy (scale)
                 rho = a_adjacency / q_energy  # fraction of firing energy that is adjacent; scale-invariant
                 spacing_penalty = self.diversity_lambda * rho
-                # d(rho)/d(p_a) = 2 * neighbor_a / Q - 2 * A * p_a / Q^2 (A = p^T K p is quadratic in p).
                 d_rho_d_p = 2.0 * neighbor / q_energy - 2.0 * a_adjacency * p_fire / (q_energy * q_energy)
                 spacing_grad_logit = self.diversity_lambda * d_rho_d_p * p_fire * (1.0 - p_fire)
                 d_logit = base_grad / n + spacing_grad_logit

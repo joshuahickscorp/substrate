@@ -25,17 +25,13 @@ PREREG_DIRECTION = (
     "reaching a lower count-MAE at matched re-estimation count)"
 )
 
-# The amortized training cost anchor, reused unchanged from gate.py: C_train = 8 * 54000 * 3 * 6385 ~ 8.27e9.
 DEFAULT_C_TRAIN_FLOPS = C_TRAIN_ANCHOR
-# The per-re-estimation estimator cost anchor, reused from count_estimator.py: 4x4 covariance plus eigen ~ 8e4.
 DEFAULT_C_REEST_FLOPS = FLOPS_PER_REESTIMATE
 
-# The preregistered SESOI on count-MAE, fixed here by the cost-benefit derivation. Counts per frame.
 PREREGISTERED_SESOI_MAE = 0.02
 
 N_PAIRED_SEEDS = 5
 
-# Frames per second on the 100 ms label grid, for the break-even-hours readout.
 _FRAMES_PER_SECOND = 1000.0 / FRAME_MS  # 10 frames per second
 
 
@@ -113,17 +109,12 @@ def compute_count_cost_benefit(
     if isinstance(coast_from_zero_mae, bool) or not isinstance(coast_from_zero_mae, (int, float)):
         raise CountPreregRefusal("coast_from_zero_mae must be a real number")
 
-    # Per-re-estimation cost saved against always-on: always-on re-estimates every frame, the gate only a
-    # fraction rho, so each re-estimation the gate declines saves (1 - rho) * C_reest downstream FLOPs.
     per_reestimate_saving = (1.0 - rho) * c_reest_flops
     break_even = c_train_flops / per_reestimate_saving
     break_even_hours = break_even / _FRAMES_PER_SECOND / 3600.0
     reestimate_equivalents = c_train_flops / c_reest_flops
 
-    # Measurement granularity: one frame of pooled absolute error moves pooled MAE by 1 / n_test_frames.
     per_frame_granularity = 1.0 / n_test_frames
-    # One test clip's worth of catchable count changes. A missed +/- 1 change coasted for about half of its
-    # mean run costs about (mean_run / 2) unit frame-errors; a clip carries about changes_per_clip changes.
     changes_per_clip = n_test_changes / n_test_clips
     mean_run_frames = n_test_frames / n_test_changes
     one_clip_change_mass_frames = changes_per_clip * (mean_run_frames / 2.0)

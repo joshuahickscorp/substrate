@@ -51,8 +51,6 @@ def test_collar_boundary_includes_two_frames_excludes_three() -> None:
 
 
 def test_one_to_one_denies_the_flood_that_point_adjustment_rewards() -> None:
-    # A four-fire flood onto a single onset. Strict one-to-one binds one and charges three false
-    # positives, so F1 is 0.4, not the 1.0 a point-adjusted score would hand out.
     gt = [10]
     pred = [9, 10, 11, 12]
     tp, fp, fn = score_clip(gt, pred)
@@ -61,8 +59,6 @@ def test_one_to_one_denies_the_flood_that_point_adjustment_rewards() -> None:
 
 
 def test_nearest_first_binds_the_closest_ground_truth() -> None:
-    # A single fire at 11 is within the collar of both 10 (distance 1) and 13 (distance 2). Nearest
-    # first must bind it to 10 and leave 13 as a false negative.
     result = greedy_match([10, 13], [11])
     assert result.matched == ((10, 11),)
     assert result.unmatched_gt == (13,)
@@ -70,7 +66,6 @@ def test_nearest_first_binds_the_closest_ground_truth() -> None:
 
 
 def test_micro_pooling_sums_counts_before_the_ratio() -> None:
-    # Clip one is perfect (1 tp). Clip two detects one of two onsets (1 tp, 1 fn). Pooled: tp 2, fn 1.
     clips = [([10], [10]), ([20, 30], [20])]
     score = score_arm(clips)
     assert (score.tp, score.fp, score.fn) == (2, 0, 1)
@@ -125,7 +120,6 @@ def test_referee_refuses_bad_frames_and_collars() -> None:
 
 
 def test_sealed_report_is_deterministic_and_records_the_rule() -> None:
-    # 35 is five frames from 30, past the two-frame collar, so this arm is genuinely imperfect.
     clips = [([10, 20, 30], [10, 20, 35])]
     first = sealed_arm_report(clips)
     second = sealed_arm_report(clips)
@@ -133,7 +127,6 @@ def test_sealed_report_is_deterministic_and_records_the_rule() -> None:
     assert first["match_rule"] == MATCH_RULE
     assert first["collar_frames"] == 2
     assert first["score"]["f1"] != 1.0
-    # The stored digest covers the true body, so raising the sealed F1 no longer matches a re-hash.
     tampered = dict(first)
     tampered["score"] = dict(tampered["score"], f1=1.0)
     assert tampered["digest"] == first["digest"]  # stale digest was carried over unchanged
@@ -143,10 +136,6 @@ def test_sealed_report_is_deterministic_and_records_the_rule() -> None:
     assert canonical_sha256(honest) != tampered["digest"]
 
 
-# ---------------------------------------------------------------------------
-# The point-adjustment demonstration: strict PR resists an inflation PA suffers.
-# These per-frame helpers live only in the test. The referee itself never point-adjusts.
-# ---------------------------------------------------------------------------
 
 
 def _segments(starts: list[int], length: int) -> list[range]:
@@ -163,8 +152,6 @@ def _strict_pointwise_f1(positives: set[int], flags: set[int]) -> float:
 
 
 def _point_adjusted_f1(segments: list[range], flags: set[int], total: int) -> float:
-    # Point-adjustment: any single flag inside a segment relabels the whole segment as detected, and
-    # the extra flags inside it are forgiven. This is the protocol the bed forbids.
     positives = {frame for segment in segments for frame in segment}
     detected = {frame for segment in segments if flags & set(segment) for frame in segment}
     tp = len(detected)
@@ -185,15 +172,12 @@ def test_point_adjustment_inflates_a_random_detector_but_strict_pr_does_not() ->
     strict = _strict_pointwise_f1(positives, flags)
     adjusted = _point_adjusted_f1(segments, flags, total)
 
-    # The same random detector: near worthless under strict PR, near perfect under point-adjustment.
     assert strict < 0.30
     assert adjusted > 0.70
     assert adjusted - strict > 0.40
 
 
 def test_referee_onset_scoring_is_not_inflatable_by_a_dense_flood() -> None:
-    # The referee's own strict onset scoring on sparse ground truth against a dense random fire stream
-    # stays low, because every extra fire is a false positive under one-to-one matching.
     gt = [100, 500, 900, 1300, 1700]
     rng = random.Random(99)
     fires = [frame for frame in range(2000) if rng.random() < 0.10]

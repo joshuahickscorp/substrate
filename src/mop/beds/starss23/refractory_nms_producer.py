@@ -71,9 +71,6 @@ def _variant_hypothesis() -> str:
     raise RefractoryNmsRefusal(f"variant {VARIANT_ID!r} is not in the sealed variant family")
 
 
-# ---------------------------------------------------------------------------
-# Training: identical to the committed producer, only the gate class differs.
-# ---------------------------------------------------------------------------
 
 
 def _train_refractory_gate(
@@ -100,14 +97,8 @@ def _train_refractory_gate(
     return gate, int(x.shape[0])
 
 
-# ---------------------------------------------------------------------------
-# Fire-spread diagnostics: adjacency and distinct-onset true positives.
-# ---------------------------------------------------------------------------
 
 
-# ---------------------------------------------------------------------------
-# Per-seed run: variant candidate plus the three controls, and a committed-gate reference.
-# ---------------------------------------------------------------------------
 
 
 def _run_seed_variant(
@@ -132,7 +123,6 @@ def _run_seed_variant(
     )
     total_frames = int(sum(clip.n_frames for clip in split.test))
 
-    # Reference val p_fire traces at a neutral threshold, the distribution the budget grid is cut from.
     val_prob_traces = [gate.causal_probs(features_by_clip[clip.clip_id], 0.5) for clip in split.val]
     best_single = BestSingleControl.tuned(
         [(features_by_clip[clip.clip_id], list(clip.onset_frames)) for clip in split.val]
@@ -193,7 +183,6 @@ def _run_seed_variant(
             kind: [fires for _gt, fires in pairs] for kind, pairs in arm_clip_scores.items()
         }
 
-    # Preregistered operating point: the swept budget whose rate is closest to the train onset density.
     operating_budget_id = min(
         per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - operating_density)
     )
@@ -205,7 +194,6 @@ def _run_seed_variant(
         "arm_scores": operating["arm_scores"],
     }
 
-    # noisy-TV at the operating threshold, under the identical refractory NMS firing policy.
     operating_theta = operating["theta"]
     base_rate = operating["firings"][ARM_CANDIDATE] / max(1, total_frames)
     noise_fires = gate.refractory_fires(noise_features, operating_theta, window)
@@ -228,7 +216,6 @@ def _run_seed_variant(
         noisy_tv=noisy_tv,
     )
 
-    # Fire-spread diagnostic at the operating point: the variant, and the committed gate reproduced.
     op_gt = [list(clip.onset_frames) for clip in split.test]
     variant_candidate = list(
         zip(op_gt, variant_test_fires[operating_budget_id][ARM_CANDIDATE], strict=True)
@@ -301,9 +288,6 @@ def _committed_gate_reference(
     }
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the variant artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_refractory_nms_artifact(

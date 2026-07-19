@@ -59,13 +59,10 @@ def test_clip_requires_sorted_unique_in_range_onsets() -> None:
     good = _clip("fold3_room0_mix000", "room0", onsets=[OnsetEvent(2, 0, 0.0, 0.0, 1.0), OnsetEvent(9, 1, 0.0, 0.0, 1.0)])
     assert good.onset_frames == (2, 9)
     assert len(good.digest()) == 64
-    # Out-of-range onset frame.
     with pytest.raises(SchemaRefusal):
         _clip("fold3_room0_mix001", "room0", onsets=[OnsetEvent(60, 0, 0.0, 0.0, 1.0)], n_frames=60)
-    # Unsorted onsets.
     with pytest.raises(SchemaRefusal):
         _clip("fold3_room0_mix002", "room0", onsets=[OnsetEvent(9, 0, 0.0, 0.0, 1.0), OnsetEvent(2, 0, 0.0, 0.0, 1.0)])
-    # A malformed audio digest.
     with pytest.raises(SchemaRefusal):
         Clip(clip_id="fold3_room0_mix003", room_id="room0", n_frames=60, audio_sha256="xyz", onsets=())
 
@@ -76,7 +73,6 @@ def test_room_disjoint_split_partitions_by_sorted_room() -> None:
     assert split.rooms["train"] == ("room0", "room1")
     assert split.rooms["val"] == ("room2",)
     assert split.rooms["test"] == ("room3", "room4")
-    # Rooms and clips are disjoint across all three partitions.
     train_rooms = set(split.rooms["train"])
     assert train_rooms.isdisjoint(split.rooms["val"])
     assert train_rooms.isdisjoint(split.rooms["test"])
@@ -95,12 +91,9 @@ def test_clip_split_refuses_room_or_clip_overlap() -> None:
     a = _clip("fold3_room0_mix000", "room0")
     b = _clip("fold3_room1_mix000", "room1")
     c = _clip("fold3_room2_mix000", "room2")
-    # A room that spans two partitions is refused.
     shared_room = _clip("fold3_room0_mix001", "room0")
     with pytest.raises(SchemaRefusal):
         ClipSplit(train=(a,), val=(shared_room,), test=(c,))
-    # A clip id that appears twice is refused.
     with pytest.raises(SchemaRefusal):
         ClipSplit(train=(a,), val=(b,), test=(a,))
-    # A well-formed disjoint split is accepted.
     ClipSplit(train=(a,), val=(b,), test=(c,))

@@ -8,16 +8,13 @@ from dataclasses import dataclass, field
 
 VERIFIER_SCHEMA = "mop-starss23-escs-bed-verification/v1"
 
-# Re-declared here rather than imported, so the verifier shares no symbol with the producer.
 EXPECTED_ARTIFACT_SCHEMA = "mop-starss23-escs-bed/v1"
 EXPECTED_STAGE = 3
 EXPECTED_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 EXPECTED_CANDIDATE_ARM = "candidate"
 
-# The promotion bar from the deep-research recipe: at least three bias-independent reproductions.
 MIN_REPRODUCTIONS = 3
 
-# Claim ceiling: with the clip as the experimental unit only these verbs are honest.
 ALLOWED_CLAIM_VERBS = ("consistent with", "suggestive")
 FORBIDDEN_CLAIM_VERBS = (
     "demonstrates",
@@ -36,9 +33,6 @@ class VerificationRefusal(ValueError):
     pass
 
 
-# ---------------------------------------------------------------------------
-# Canonical seal, re-implemented from specification.
-# ---------------------------------------------------------------------------
 
 
 def _canonical_bytes(value: object) -> bytes:
@@ -55,9 +49,6 @@ def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
 
 
-# ---------------------------------------------------------------------------
-# Referee, re-implemented from specification (no shared code with referee.py).
-# ---------------------------------------------------------------------------
 
 
 def _clean_frames(frames: object, label: str) -> list[int]:
@@ -122,9 +113,6 @@ def _pool_arm(clips: list, arm: str, collar: int) -> dict:
     return {"tp": tp, "fp": fp, "fn": fn, "precision": precision, "recall": recall, "f1": f1}
 
 
-# ---------------------------------------------------------------------------
-# Exact sign-flip permutation, re-implemented from specification.
-# ---------------------------------------------------------------------------
 
 
 def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
@@ -143,9 +131,6 @@ def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
     return t_obs, at_least / total, total
 
 
-# ---------------------------------------------------------------------------
-# Verification result and the top-level checks.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -183,7 +168,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         raise VerificationRefusal("artifact must be a JSON object")
     mismatches: list[str] = []
 
-    # 1. Seal integrity. The seal covers everything except itself; a re-hash must reproduce it.
     stored_seal = artifact.get("seal")
     body = {k: v for k, v in artifact.items() if k != "seal"}
     recomputed_seal = _canonical_sha256(body)
@@ -191,7 +175,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
     if not seal_intact:
         mismatches.append("seal does not match a re-hash of the artifact body")
 
-    # 2. Schema, stage, and claim-scope must be exactly the frozen bed contract, never widened.
     schema_ok = True
     if artifact.get("schema") != EXPECTED_ARTIFACT_SCHEMA:
         schema_ok = False
@@ -214,7 +197,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
     if not isinstance(per_seed, list) or not per_seed:
         raise VerificationRefusal("artifact.per_seed must be a nonempty list")
 
-    # 3. Re-score every arm of every seed from the raw fires, and re-derive the paired deltas.
     scores_reproduced = True
     recomputed_deltas: list[float] = []
     for seed_block in per_seed:
@@ -247,7 +229,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         delta = recomputed_by_arm[EXPECTED_CANDIDATE_ARM]["f1"] - recomputed_by_arm[primary_control]["f1"]
         recomputed_deltas.append(delta)
 
-    # 4. Re-run the exact sign-flip test on the re-derived deltas.
     stats = artifact.get("stats")
     if not isinstance(stats, dict):
         raise VerificationRefusal("artifact.stats must be present")
@@ -280,7 +261,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
         stats_reproduced = False
         mismatches.append("stats.two_sided_005_reachable disagrees with the exact discrete floor")
 
-    # 5. Honesty flags. The producer never self-certifies and never asserts activation or promotion.
     honesty_ok = True
     flags = artifact.get("flags")
     if not isinstance(flags, dict):

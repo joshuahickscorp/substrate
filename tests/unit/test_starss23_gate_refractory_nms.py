@@ -34,7 +34,6 @@ def _feature_block(seed: int, n_frames: int) -> np.ndarray:
     return FrozenFeaturizer().featurize(audio)
 
 
-# -- the parameter, state, and cost contract is the committed one, unchanged -----------------------
 
 
 def test_window_default_is_the_collar_width() -> None:
@@ -47,7 +46,6 @@ def test_param_budget_is_the_committed_gate_budget() -> None:
     gate = RefractoryNmsGate(seed=0)
     assert gate.n_params() == 3193
     assert gate.n_params() <= PARAM_CEILING == 4096
-    # The inherited constructor still refuses a geometry that breaches the parameter ceiling.
     with pytest.raises(GateRefusal):
         RefractoryNmsGate(seed=0, hidden=16)
 
@@ -57,7 +55,6 @@ def test_state_stays_within_few_kilobytes() -> None:
 
 
 def test_infer_interface_carries_no_label() -> None:
-    # The online decision interface is the committed one: features and self-state, never a label.
     assert list(inspect.signature(RefractoryNmsGate.infer).parameters) == ["self", "features", "state"]
     names = [field.name.lower() for field in fields(OnlineState)]
     for forbidden in _FORBIDDEN_ONLINE:
@@ -66,16 +63,13 @@ def test_infer_interface_carries_no_label() -> None:
 
 def test_c_train_is_exposed_for_the_flop_ledger() -> None:
     gate = RefractoryNmsGate(seed=0)
-    # C_train and the inference FLOPs are the committed anchors, so the matched-budget ledger is unchanged.
     assert gate.training_flops(54_000, 8) == 8_274_960_000
     assert gate.flops_per_inference() == 6385
 
 
-# -- only the firing policy differs: trained weights and p_fire trace are byte-identical ------------
 
 
 def test_weights_are_byte_identical_to_the_committed_gate() -> None:
-    # Same seed, same init: the variant isolates the firing policy, not the model.
     assert RefractoryNmsGate(seed=2).parameter_digest() == CandidateGate(seed=2).parameter_digest()
     assert RefractoryNmsGate(seed=2).parameter_digest() != CandidateGate(seed=3).parameter_digest()
 
@@ -103,19 +97,15 @@ def test_causal_probs_are_byte_identical_to_the_committed_causal_pass() -> None:
     assert np.array_equal(variant_probs, committed_probs)
 
 
-# -- refractory NMS selection: deterministic, causal, one peak per collar, strictly-higher override -
 
 
 def test_nms_keeps_one_local_maximum_per_cluster() -> None:
     probs = np.array([0.1, 0.6, 0.7, 0.65, 0.1, 0.1, 0.9, 0.2])
-    # Cluster [1,2,3] collapses to its peak at 2; the isolated 0.9 fires at 6.
     assert refractory_nms_select(probs, 0.5, 2) == [2, 6]
 
 
 def test_nms_strictly_higher_score_moves_the_single_held_peak() -> None:
-    # A monotone ramp is one onset: only its top fires, no adjacent duplicates.
     assert refractory_nms_select(np.array([0.5, 0.6, 0.7, 0.8, 0.9]), 0.4, 2) == [4]
-    # Equal plateau keeps the earliest (deterministic tie-break).
     assert refractory_nms_select(np.array([0.7, 0.7, 0.7]), 0.5, 2) == [0]
 
 
@@ -126,7 +116,6 @@ def test_nms_separates_committed_fires_by_more_than_the_window() -> None:
         fires = refractory_nms_select(probs, 0.5, window)
         if len(fires) > 1:
             assert int(np.diff(fires).min()) > window
-        # No committed fire lands inside an already-covered collar when the window is the collar width.
         if window == COLLAR_FRAMES:
             for i in range(1, len(fires)):
                 assert fires[i] - fires[i - 1] > COLLAR_FRAMES
@@ -147,13 +136,10 @@ def test_refractory_fires_equal_select_on_causal_probs() -> None:
     theta = 0.5
     expected = refractory_nms_select(gate.causal_probs(features, theta), theta, 2)
     assert gate.refractory_fires(features, theta) == expected
-    # Determinism end to end.
     assert gate.refractory_fires(features, theta) == gate.refractory_fires(features, theta)
 
 
 def test_refractory_fires_de_clusters_relative_to_raw_threshold() -> None:
-    # On a real featurized block the raw-threshold pass clusters; refractory NMS commits strictly fewer,
-    # separated fires. This is the whole point of the variant.
     features = _feature_block(seed=21, n_frames=400)
     gate = RefractoryNmsGate(seed=1, window=2)
     theta = 0.5
@@ -164,7 +150,6 @@ def test_refractory_fires_de_clusters_relative_to_raw_threshold() -> None:
         assert int(np.diff(nms_fires).min()) > COLLAR_FRAMES
 
 
-# -- theta tuning is label-free and hits the post-NMS target rate ----------------------------------
 
 
 def test_tune_theta_hits_the_post_nms_target_rate() -> None:
@@ -177,6 +162,5 @@ def test_tune_theta_hits_the_post_nms_target_rate() -> None:
 
 
 def test_tune_theta_signature_carries_no_label() -> None:
-    # Tuning reads only p_fire traces and a target rate: no ground truth enters the operating point.
     params = list(inspect.signature(tune_theta_for_rate).parameters)
     assert params[:3] == ["prob_traces", "target_rate", "window"]

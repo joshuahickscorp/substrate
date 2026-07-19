@@ -34,12 +34,7 @@ COLS_PER_FRAME = SAMPLES_PER_FRAME // HOP  # 2400 // 480 = 5 columns per 100 ms 
 
 D_FEAT_DOA = N_BANDS * FEATURES_PER_BAND  # 256 = 64 bands x 4 (direction-cosine rate-of-change + diffuseness)
 
-# Reduction FLOPs: reused BY IMPORT from featurizer_spatial_doa.py's own per-frame reduction budget, which
-# already charges the direction/diffuseness math per band per frame; charging it identically here whether
-# the reduction happens at frame or column resolution keeps the two front-ends' per-unit cost comparable.
 
-# New: the flux difference (5 columns x 256 dims x 2 FLOPs [subtract, abs] = 2560), plus summing the 5
-# within-frame column differences into 1 per dim (4 adds x 256 = 1024).
 FLOPS_FLUX_DIFF = (COLS_PER_FRAME * D_FEAT_DOA * 2) + ((COLS_PER_FRAME - 1) * D_FEAT_DOA)  # 3_584
 
 FLOPS_PER_FRAME = FLOPS_STFT + FLOPS_INTENSITY + FLOPS_REDUCE + FLOPS_FLUX_DIFF  # 1_127_761
@@ -100,8 +95,6 @@ def _per_column_direction_features(
     dir_y = cos_el * np.sin(azimuth)
     dir_z = np.sin(elevation)
 
-    # Per-band interleave: [dx_0, dy_0, dz_0, dif_0, dx_1, dy_1, dz_1, dif_1, ...]. Diffuseness then sits
-    # at indices 3, 7, 11, ..., 255.
     per_band = np.stack([dir_x, dir_y, dir_z, diffuseness], axis=-1)  # (n_cols, N_BANDS, 4)
     return per_band.reshape(n_cols, N_BANDS * FEATURES_PER_BAND)
 

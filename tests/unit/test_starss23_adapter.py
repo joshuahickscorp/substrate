@@ -16,16 +16,12 @@ def _zeros_audio(n_frames: int) -> np.ndarray:
     return np.zeros((4, n_frames * SAMPLES_PER_FRAME), dtype=np.float32)
 
 
-# ---------------------------------------------------------------------------
-# Clip filename identity.
-# ---------------------------------------------------------------------------
 
 
 def test_parse_clip_name_extracts_fold_room_mix_and_normalizes_ids() -> None:
     name = A.parse_clip_name("fold3_room4_mix007")
     assert (name.fold, name.room, name.mix) == (3, 4, 7)
     assert name.clip_id == "fold3_room4_mix007"
-    # Room ids are zero padded so lexical order matches numeric order for the sorted room split.
     assert name.room_id == "room04"
 
 
@@ -46,9 +42,6 @@ def test_format_clip_id_round_trips_through_parse() -> None:
     assert A.parse_clip_name(clip_id).clip_id == clip_id
 
 
-# ---------------------------------------------------------------------------
-# Native metadata rows: parse, validate, serialize.
-# ---------------------------------------------------------------------------
 
 
 def test_parse_metadata_reads_six_column_starss23_rows() -> None:
@@ -113,13 +106,9 @@ def test_format_metadata_refuses_partial_distance_column() -> None:
         A.format_starss23_metadata(rows)
 
 
-# ---------------------------------------------------------------------------
-# Onset derivation from dense activity.
-# ---------------------------------------------------------------------------
 
 
 def test_onset_derivation_takes_first_frame_of_each_activity_run() -> None:
-    # One source active over frames 5,6,7 then again 10,11 gives two onsets, at 5 and 10.
     rows = tuple(A.MetadataRow(frame, 0, 0, 0, 0, 200) for frame in (5, 6, 7, 10, 11))
     onsets = A.onset_events_from_rows(rows)
     assert tuple(onset.frame for onset in onsets) == (5, 10)
@@ -174,9 +163,6 @@ def test_domain_seed_preserves_the_four_noisy_tv_streams() -> None:
     )
 
 
-# ---------------------------------------------------------------------------
-# The synthetic adapter protocol.
-# ---------------------------------------------------------------------------
 
 
 def test_synthetic_adapter_builds_clips_through_the_parse_path() -> None:
@@ -233,14 +219,10 @@ def test_transport_charge_reports_audio_bytes_as_raw_transport() -> None:
     adapter = A.SyntheticStarssAdapter({clip_id: audio}, {clip_id: "0,0,0,0,0,100\n"})
     charge = adapter.transport_charge()
     assert isinstance(charge, WorkVector)
-    # Off the arm budget: transport work carries no operational-work dimension besides transport.
     assert charge.raw_transport_and_adapters == adapter.audio(clip_id).nbytes
     assert charge.event_formation == 0
 
 
-# ---------------------------------------------------------------------------
-# The dev split and the nested harness split.
-# ---------------------------------------------------------------------------
 
 
 def test_dev_split_is_room_disjoint_and_matches_the_fold_shape() -> None:
@@ -270,7 +252,6 @@ def test_harness_split_nests_inside_the_dev_split() -> None:
     dev = adapter.dev_split()
     split = adapter.harness_split(n_train_rooms=2, n_val_rooms=1)
     test_ids = {clip.clip_id for clip in split.test}
-    # The score partition is exactly the held-out fold-4 dev-test clips.
     assert test_ids == set(dev.dev_test)
 
 
@@ -301,9 +282,6 @@ def test_native_dev_split_refuses_overlapping_clips() -> None:
         A.NativeDevSplit(dev_train=("fold3_room0_mix000",), dev_test=("fold3_room0_mix000",))
 
 
-# ---------------------------------------------------------------------------
-# The real adapter: decodes a real STARSS23-shaped FOA WAV tree through the shared parse path.
-# ---------------------------------------------------------------------------
 
 
 def _write_real_tree(root, clips: dict[str, tuple[int, tuple[OnsetEvent, ...]]]):
@@ -315,7 +293,6 @@ def _write_real_tree(root, clips: dict[str, tuple[int, tuple[OnsetEvent, ...]]])
         (foa_root / fold_dir).mkdir(parents=True, exist_ok=True)
         (meta_root / fold_dir).mkdir(parents=True, exist_ok=True)
         n_samples = n_frames * SAMPLES_PER_FRAME
-        # A quiet, valid 24 kHz 4-channel 16-bit PCM clip. Content is irrelevant to the parse path.
         pcm = np.zeros((n_samples, 4), dtype="<i2")
         with wave.open(str(foa_root / fold_dir / f"{clip_id}.wav"), "wb") as handle:
             handle.setnchannels(4)
@@ -374,7 +351,6 @@ def test_real_adapter_refuses_a_missing_tree() -> None:
 
 
 def test_real_adapter_truncates_onsets_past_the_kept_length(tmp_path) -> None:
-    # An onset at frame 18 in metadata but only 10 whole frames of audio is dropped, not a crash.
     onsets = (
         OnsetEvent(frame=3, class_id=0, azimuth=0.0, elevation=0.0, distance=100.0),
         OnsetEvent(frame=18, class_id=1, azimuth=0.0, elevation=0.0, distance=100.0),
@@ -387,9 +363,6 @@ def test_real_adapter_truncates_onsets_past_the_kept_length(tmp_path) -> None:
     assert trunc.dropped_onsets_past_end == 1
 
 
-# ---------------------------------------------------------------------------
-# The on-disk STARSS23-shaped tree slots into the same adapter.
-# ---------------------------------------------------------------------------
 
 
 def test_from_dir_round_trips_a_written_corpus(tmp_path) -> None:

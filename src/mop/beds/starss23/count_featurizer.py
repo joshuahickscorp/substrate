@@ -14,7 +14,6 @@ from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_FEATURIZER_SCHEMA = "mop-starss23-count-featurizer/v1"
 
-# The DSP grid. The count front-end owns these; the schema owns only the label grid.
 WINDOW = 1024
 N_FFT = 1024
 N_BINS = N_FFT // 2 + 1  # 513 one-sided rFFT bins
@@ -25,9 +24,6 @@ N_POLARITY = 2  # positive (source-enter) and negative (source-leave) flux
 D_CFEAT = N_MEL * N_CHANNELS * N_POLARITY  # 256 per-frame count features
 PAD_RIGHT = WINDOW - HOP  # 544; makes exactly COLS_PER_FRAME * n_frames full-window columns
 
-# Analytic per-column-per-channel FLOP budget. The base flux DSP mirrors the onset front-end column cost;
-# the count front-end adds the second (negative) flux polarity. Every constant is a fixed integer so the
-# ledger is host-independent.
 FLOPS_WINDOW = WINDOW  # 1024 Hann taper multiplies
 FLOPS_RFFT = 5 * N_FFT * 10  # 5 * 1024 * log2(1024) = 51200
 FLOPS_POWER = 3 * N_BINS  # 1539 real/imag square-and-add

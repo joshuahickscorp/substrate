@@ -27,9 +27,6 @@ def _load_artifact() -> dict:
     return json.loads(ARTIFACT_PATH.read_bytes().decode("utf-8"))
 
 
-# ---------------------------------------------------------------------------
-# The verifier shares no code with the producer.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_imports_no_producer_or_mop_code() -> None:
@@ -46,9 +43,6 @@ def test_verifier_imports_no_producer_or_mop_code() -> None:
     assert roots <= _ALLOWED_IMPORT_ROOTS, f"verifier import surface widened: {roots - _ALLOWED_IMPORT_ROOTS}"
 
 
-# ---------------------------------------------------------------------------
-# The verifier re-derives the sealed null from raw data.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_reproduces_sealed_null() -> None:
@@ -64,7 +58,6 @@ def test_verifier_reproduces_sealed_null() -> None:
     assert result.honesty_ok
     assert result.independent_referee_reproduction
     assert result.reproduced_verdict == "null"
-    # A single real run at n = 5 across a three-featurizer family can never self-certify science.
     assert result.independent_scientific_confirmation is False
     assert result.mismatches == ()
 
@@ -72,8 +65,6 @@ def test_verifier_reproduces_sealed_null() -> None:
 def test_verifier_detects_a_flipped_fire() -> None:
     artifact = _load_artifact()
     tampered = copy.deepcopy(artifact)
-    # Inject a fabricated candidate fire on the first clip of the first seed. The stored score no longer
-    # matches a re-score from the raw fires, so the independent reproduction must fail.
     clip = tampered["per_seed"][0]["clips"][0]
     fabricated = max(clip["fires"]["candidate"], default=-1) + 1
     if fabricated >= 0:
@@ -92,9 +83,6 @@ def test_verifier_detects_a_broken_seal() -> None:
     assert not result.independent_referee_reproduction
 
 
-# ---------------------------------------------------------------------------
-# The featurizer-family Bonferroni wall.
-# ---------------------------------------------------------------------------
 
 
 def test_prereg_seals_a_three_featurizer_bonferroni_wall() -> None:
@@ -110,14 +98,11 @@ def test_prereg_seals_a_three_featurizer_bonferroni_wall() -> None:
     mult = body["multiplicity"]
     assert mult["n_variants"] == 3
     assert mult["correction"] == "Bonferroni"
-    # 0.05 / 3 = 0.016667 and the smallest achievable one-sided p at n = 5 is 1/32 = 0.03125, which
-    # exceeds it, so no single featurizer can clear family-wise significance from this family alone.
     assert mult["per_variant_alpha"] == pytest.approx(0.05 / 3)
     assert mult["min_achievable_one_sided_p"] == pytest.approx(1.0 / 32)
     assert mult["family_significance_reachable_at_n5"] is False
     assert body["activation_allowed"] is False
     assert body["scientific_promotion"] is False
-    # The self seal reproduces.
     stored = dict(body)
     seal = stored.pop("canonical_sha256")
     from mop.substrate.events import canonical_sha256

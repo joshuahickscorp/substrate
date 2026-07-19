@@ -39,7 +39,6 @@ from mop.science.budget import (
     ARM_RATE_MATCHED_RANDOM,
 )
 
-# The committed real run's structural anchors (from proof/STARSS23_ESCS_BED_refractory_nms.json).
 REAL_N_TEST_FRAMES = 22569
 REAL_N_TRAIN_FRAMES = 25172
 REAL_EPOCHS = 8
@@ -51,25 +50,20 @@ def _feature_block(seed: int, n_frames: int) -> np.ndarray:
     return SpatialDoaFeaturizer().featurize(audio)
 
 
-# -- zero trained parameters, asserted the same way the base featurizer asserts it -----------------
 
 
 def test_zero_trained_parameters() -> None:
     featurizer = SpatialDoaFeaturizer()
     assert featurizer.n_params() == 0
-    # The base featurizer asserts zero the same way; the swap keeps that invariant.
     assert FrozenFeaturizer().n_params() == 0
 
 
 def test_parameter_digest_hashes_only_frozen_dsp_constants() -> None:
-    # Deterministic across instances, and distinct from the frozen log-mel front-end (different front-end).
     assert SpatialDoaFeaturizer().parameter_digest() == SpatialDoaFeaturizer().parameter_digest()
     assert SpatialDoaFeaturizer().parameter_digest() != FrozenFeaturizer().parameter_digest()
-    # A different sample rate changes the frozen band grid, so it changes the digest.
     assert SpatialDoaFeaturizer(sample_rate=16000).parameter_digest() != SpatialDoaFeaturizer().parameter_digest()
 
 
-# -- the output dimension is exactly 256, matching the unchanged gate contract ----------------------
 
 
 def test_output_dim_matches_the_gate_contract() -> None:
@@ -105,7 +99,6 @@ def test_direction_cosines_are_unit_vectors_and_diffuseness_is_bounded() -> None
     assert float(diffuseness.max()) <= 1.0
 
 
-# -- deterministic, byte-reproducible ---------------------------------------------------------------
 
 
 def test_feature_bytes_are_deterministic() -> None:
@@ -116,7 +109,6 @@ def test_feature_bytes_are_deterministic() -> None:
     b = featurizer.featurize(audio)
     assert np.array_equal(a, b)
     assert featurizer.feature_digest(a) == featurizer.feature_digest(b)
-    # A fresh instance reproduces the same bytes (no hidden per-instance state).
     assert SpatialDoaFeaturizer().feature_digest(SpatialDoaFeaturizer().featurize(audio)) == featurizer.feature_digest(a)
 
 
@@ -129,14 +121,11 @@ def test_audio_length_and_channel_contract_is_enforced() -> None:
 
 
 def test_white_noise_reads_as_highly_diffuse() -> None:
-    # An incoherent field carries no single direction, so the DirAC diffuseness runs high. This is the
-    # physical sanity check that the diffuseness channel means what it claims.
     feat = _feature_block(seed=99, n_frames=200)
     diffuseness = feat[:, 3 * N_BANDS :]
     assert float(diffuseness.mean()) > 0.6
 
 
-# -- the featurizer feeds the unchanged gate directly, with no projection or truncation -------------
 
 
 def test_features_feed_the_unchanged_gate_without_projection() -> None:
@@ -152,7 +141,6 @@ def test_features_feed_the_unchanged_gate_without_projection() -> None:
     assert isinstance(fires, list)
 
 
-# -- FLOPs are analytic, host-independent, charged identically to every arm, and under the ceiling ---
 
 
 def test_flops_per_frame_is_analytic_and_linear() -> None:
@@ -163,7 +151,6 @@ def test_flops_per_frame_is_analytic_and_linear() -> None:
     assert featurizer.flops_for_frames(0) == 0
     with pytest.raises(ValueError):
         featurizer.flops_for_frames(-1)
-    # Kept near the frozen front-end cost and well under the ~2.4M per-frame headroom (recipe gotcha F3).
     assert FLOPS_PER_FRAME < 2_400_000
     assert abs(FLOPS_PER_FRAME - FROZEN_FLOPS_PER_FRAME) < 10_000
 
@@ -173,27 +160,23 @@ def test_featurize_flops_are_charged_identically_to_every_arm() -> None:
     for kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE):
         model = _flop_model(kind, REAL_N_TEST_FRAMES, REAL_N_TRAIN_FRAMES, REAL_EPOCHS)
         assert model.featurize_flops == expected  # every arm pays the same DOA featurize charge
-    # Only the candidate charges C_train; only candidate and rate-matched-random run the gate.
     candidate = _flop_model(ARM_CANDIDATE, REAL_N_TEST_FRAMES, REAL_N_TRAIN_FRAMES, REAL_EPOCHS)
     rmr = _flop_model(ARM_RATE_MATCHED_RANDOM, REAL_N_TEST_FRAMES, REAL_N_TRAIN_FRAMES, REAL_EPOCHS)
     always_on = _flop_model(ARM_ALWAYS_ON, REAL_N_TEST_FRAMES, REAL_N_TRAIN_FRAMES, REAL_EPOCHS)
     assert candidate.train_flops > 0
     assert rmr.train_flops == 0
     assert always_on.gate_infer_flops == 0
-    # Candidate and rate-matched-random share byte-equal inference FLOPs at the same firing count.
     assert candidate.run_flops(1800) == rmr.run_flops(1800)
 
 
 def test_candidate_lifecycle_stays_under_the_flop_ceiling() -> None:
     candidate = _flop_model(ARM_CANDIDATE, REAL_N_TEST_FRAMES, REAL_N_TRAIN_FRAMES, REAL_EPOCHS)
-    # At the operating firing fraction (about 8 percent of 22569 frames) the full lifecycle is well under.
     firings = round(0.08 * REAL_N_TEST_FRAMES)
     lifecycle = candidate.lifecycle_flops(firings)
     assert lifecycle <= FLOP_CEILING == 60_000_000_000
     assert lifecycle > 0
 
 
-# -- a sealed artifact carries a seal and the independent family verifier reproduces it -------------
 
 
 def _synthetic_clip(clip_id: str, room_id: str, seed: int, n_frames: int) -> tuple[Clip, np.ndarray]:
@@ -281,11 +264,9 @@ def test_sealed_artifact_has_a_seal_and_is_independently_reproduced(tmp_path) ->
         featurizers_prereg_path=prereg_path,
     )
 
-    # The sealed artifact carries a seal that is a re-hash of its own body.
     assert "seal" in bed.artifact and isinstance(bed.seal, str) and len(bed.seal) == 64
     assert bed.verdict in ("null", "mechanics-ok")
 
-    # The independently authored family verifier (no producer imports) reproduces the sealed scores.
     result = verify_artifact(bed.artifact)
     assert result.seal_intact
     assert result.schema_ok
@@ -293,12 +274,10 @@ def test_sealed_artifact_has_a_seal_and_is_independently_reproduced(tmp_path) ->
     assert result.stats_reproduced
     assert result.honesty_ok
     assert result.independent_referee_reproduction
-    # A single real run never self-promotes to scientific confirmation.
     assert not result.independent_scientific_confirmation
 
 
 def test_family_verifier_imports_no_producer_code() -> None:
-    # The adversarial verifier must share no code with the producer: a real triangulation, not a shared bug.
     allowed = {
         "__future__", "hashlib", "itertools", "json", "math",
         "dataclasses", "typing", "collections", "argparse",
@@ -321,7 +300,6 @@ def test_family_verifier_imports_no_producer_code() -> None:
     assert not (roots - allowed), f"verifier imported unexpected modules: {roots - allowed}"
 
 
-# -- the sealed featurizer preregistration is a 3-family Bonferroni wall -----------------------------
 
 
 def test_all_family_preregistrations_preserve_their_complete_seals() -> None:
@@ -363,9 +341,7 @@ def test_featurizer_prereg_is_a_three_family_bonferroni_wall() -> None:
     )
     assert prereg["sesoi"]["sesoi_f1"] == 0.05
     assert prereg["multiplicity"]["n_featurizers"] == 3
-    # At three families and five seeds, family-wise significance is unreachable: a preregistered wall.
     assert prereg["multiplicity"]["family_significance_reachable_at_n5"] is False
     assert "spatial_doa" in [f["featurizer_id"] for f in prereg["featurizers"]]
-    # The prereg is self-sealed and re-sealing reproduces the digest.
     body = {k: v for k, v in prereg.items() if k != "canonical_sha256"}
     assert canonical_sha256(body) == prereg["canonical_sha256"]

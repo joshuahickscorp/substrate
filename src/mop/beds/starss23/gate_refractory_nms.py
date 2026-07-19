@@ -6,9 +6,6 @@ import numpy as np
 from .gate import DEFAULT_THETA, CandidateGate, GateRefusal, OnlineState
 from .schema import COLLAR_FRAMES
 
-# The refractory / NMS window is the DCASE collar width on the frozen 100 ms grid: two frames on each
-# side. Committed fires are separated by strictly more than this, so no second fire lands inside an
-# already-covered collar. This is a firing-policy constant, not a trained quantity.
 DEFAULT_WINDOW_FRAMES = COLLAR_FRAMES  # 2 frames == plus-or-minus 200 ms
 
 
@@ -34,7 +31,6 @@ def refractory_nms_select(probs: np.ndarray, theta: float, window: int) -> list[
     n = int(trace.shape[0])
     for frame in range(n):
         score = float(trace[frame])
-        # Close and commit a held peak the moment we step strictly past its window.
         if armed and frame > deadline:
             fires.append(peak_frame)
             armed = False
@@ -45,11 +41,9 @@ def refractory_nms_select(probs: np.ndarray, theta: float, window: int) -> list[
                 peak_score = score
                 deadline = frame + window
             elif score > peak_score:
-                # A strictly higher score arrived inside the window: move the single held peak to it.
                 peak_frame = frame
                 peak_score = score
                 deadline = frame + window
-            # else: a non-maximum inside the window is suppressed.
     if armed:
         fires.append(peak_frame)
     return fires
@@ -112,12 +106,9 @@ def tune_theta_for_rate(
     if not 0.0 < rate < 1.0:
         raise GateRefusal("target_rate must be strictly between 0 and 1")
 
-    # Post-NMS fraction is at most a raw fraction, so admit more raw budget than the target: sweep raw
-    # firing fractions from a small floor up to several times the target, and read off the quantile theta.
     lo = max(rate * 0.25, 1.0 / max(1, pooled.size))
     hi = min(0.9, rate * 8.0)
     raw_fractions = np.linspace(lo, hi, int(n_candidates))
-    # A threshold strictly above the maximum commits nothing; include it so the search is well posed.
     candidate_thetas = [float(np.quantile(pooled, 1.0 - frac)) for frac in raw_fractions]
     candidate_thetas.append(float(pooled.max()) + 1.0)
 

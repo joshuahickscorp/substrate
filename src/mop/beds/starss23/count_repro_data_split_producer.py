@@ -37,13 +37,8 @@ from .experiments import COUNT_BED_ID
 from .schema import Clip
 
 REPRO_PRODUCER_SCHEMA = "mop-starss23-count-repro-data-split-producer/v1"
-# A distinct artifact schema so the ORIGINAL sealed verifier rejects this file and only the separately
-# authored data-split verifier accepts it. This is a reproduction of the same bed, not the sealed run.
 REPRO_ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed-repro-data-split/v1"
 
-# Disjoint seed family so this reproduction shares none of the original's seed luck (the doc flags that
-# original seed 3 carried most of the effect). derive_seed32 passes these in-range integers through
-# unchanged, so they give genuinely independent gate inits AND independent rate-matched-random draws.
 DATA_SPLIT_SEEDS: tuple[int, ...] = (10, 11, 12, 13, 14)
 
 
@@ -52,10 +47,6 @@ def default_data_split_config() -> RealCountBedConfig:
     return RealCountBedConfig(seeds=DATA_SPLIT_SEEDS)
 
 
-# ---------------------------------------------------------------------------
-# The one varied axis: the SWAPPED fold split. Train on the original test rooms, score on the original
-# train rooms. Reuses only the adapter's native fold room ids; everything downstream is the sealed path.
-# ---------------------------------------------------------------------------
 
 
 def _swapped_fold_split(
@@ -95,9 +86,6 @@ def _swapped_fold_split(
     return train, val, test, detail
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the swapped-fold reproduction artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_data_split_repro_artifact(

@@ -68,11 +68,8 @@ STAGE = 3
 PRIMARY_CONTROL = ARM_RATE_MATCHED_RANDOM
 STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 
-# Downstream cost of one fired frame (the expensive matched referee decision the gate decides to spend).
-# Anchored so the full-scale break-even N* = C_train / per_query_saving lands near 2.07e5 frames.
 DOWNSTREAM_FLOPS_PER_FIRING = 40_000
 
-# Full-scale anchors from the recipe, recorded for provenance even when a fast run is executed.
 FULL_SCALE_TRAIN_FRAMES = 54_000
 FULL_SCALE_TEST_FRAMES = 24_000
 FULL_SCALE_C_TRAIN = training_flops(FULL_SCALE_TRAIN_FRAMES, DEFAULT_EPOCHS)  # ~8.27e9
@@ -117,9 +114,6 @@ class BedConfig:
         return self.n_train_rooms + self.n_val_rooms + self.n_test_rooms
 
 
-# ---------------------------------------------------------------------------
-# Fixture generation and the adapter split.
-# ---------------------------------------------------------------------------
 
 
 def _build_adapter(seed: int, config: BedConfig) -> SyntheticStarssAdapter:
@@ -133,7 +127,6 @@ def _build_adapter(seed: int, config: BedConfig) -> SyntheticStarssAdapter:
     audio_by_clip: dict[str, np.ndarray] = {}
     metadata_by_clip: dict[str, str] = {}
     for room in range(config.n_rooms):
-        # Train and val rooms sit in fold 3, test rooms in fold 4, so the split nests in the dev split.
         fold = 3 if room < config.n_train_rooms + config.n_val_rooms else 4
         for mix in range(config.clips_per_room):
             clip_id = f"fold{fold}_room{room}_mix{mix:03d}"
@@ -148,9 +141,6 @@ def _build_adapter(seed: int, config: BedConfig) -> SyntheticStarssAdapter:
     return SyntheticStarssAdapter(audio_by_clip, metadata_by_clip)
 
 
-# ---------------------------------------------------------------------------
-# Featurization, training targets, and causal firing passes.
-# ---------------------------------------------------------------------------
 
 
 def _featurize(adapter: SyntheticStarssAdapter, featurizer: FrozenFeaturizer) -> dict[str, np.ndarray]:
@@ -209,9 +199,6 @@ def _train_gate(
     return gate, int(x.shape[0])
 
 
-# ---------------------------------------------------------------------------
-# Per-seed run: candidate plus the three controls across a firing-budget sweep.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -238,7 +225,6 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
     gate, train_frames = _train_gate(seed, split.train, features_by_clip, config)
     total_frames = int(sum(clip.n_frames for clip in split.test))
 
-    # A neutral-threshold causal pass over val gives the p_fire distribution the budget grid is cut from.
     val_probs = np.concatenate(
         [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, OnlineState.initial)[1]
          for clip in split.val]
@@ -251,7 +237,6 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
     for rate in config.target_rates:
         theta = float(np.quantile(val_probs, 1.0 - rate))
         budget_id = f"rate_{rate:.2f}"
-        # Record the val F1 at this theta for provenance; the operating point is preregistered below.
         val_scored = []
         for clip in split.val:
             fires, _ = causal_gate_trace(
@@ -260,7 +245,6 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
             val_scored.append((list(clip.onset_frames), fires))
         val_f1 = score_arm(val_scored, COLLAR_FRAMES).f1
 
-        # Score every arm on the test rooms at this theta.
         clips_block: list[dict[str, Any]] = []
         arm_clip_scores: dict[str, list[tuple[list[int], list[int]]]] = {
             ARM_CANDIDATE: [],
@@ -301,9 +285,6 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
             "firings": firings,
         }
 
-    # Preregistered operating point: the budget whose firing rate is closest to the onset density, where
-    # the candidate's precision advantage over uniform-random firing is largest. This is a fixed rule set
-    # before scoring, not a val-F1 argmax, so it cannot be tuned toward a favorable test result.
     onset_density = config.onsets_per_clip / max(1, round(config.clip_seconds * 1000.0 / FRAME_MS))
     operating_budget_id = min(
         per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - onset_density)
@@ -316,11 +297,6 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
         "arm_scores": operating["arm_scores"],
     }
 
-    # noisy-TV: probe the trained gate on a matched-marginal pure-aleatoric channel at the operating
-    # threshold. The channel is white-noise audio featurized by the same frozen front-end, then affine
-    # rescaled so its global feature mean and standard deviation match the real test content. That
-    # removes any raw-magnitude confound, so a gate that keys on the coherent signal-band onset
-    # signature fires at chance, and only a gate that chases irreducible novelty fires preferentially.
     operating_theta = operating["theta"]
     base_rate = operating["firings"][ARM_CANDIDATE] / max(1, total_frames)
     noise_features = _noisy_tv_channel(seed, config, featurizer)
@@ -347,9 +323,6 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
     )
 
 
-# ---------------------------------------------------------------------------
-# Harness arms across seeds.
-# ---------------------------------------------------------------------------
 
 
 def _flop_model(kind: str, total_frames: int, train_frames: int, config: BedConfig) -> FlopModel:
@@ -363,9 +336,6 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: BedConf
     )
 
 
-# ---------------------------------------------------------------------------
-# Assemble and seal the artifact.
-# ---------------------------------------------------------------------------
 
 
 def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
@@ -383,10 +353,6 @@ def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
             kind, seed_runs[0].total_frames, seed_runs[0].train_frames, config
         ),
     )
-    # Seal a deterministic nominal wall (the binding candidate lifecycle FLOPs at a 1 GFLOP/s reference)
-    # so the whole artifact is byte-reproducible. A measured wall is inherently non-reproducible, so it is
-    # kept as unsealed run provenance in ArtifactResult.detail; the authoritative sealed compute axes are the
-    # deterministic parameter count and FLOP ledger.
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
         budget_points,
@@ -408,10 +374,6 @@ def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
         claim_verb=BOUNDED_CLAIM_VERB,
     )
 
-    # The aggregate at-chance check pools across the five paired seeds: the mean firing rate on the
-    # pure-aleatoric channel must not exceed the mean base rate by more than the tolerance. Pooling is
-    # robust to per-seed rate-estimate noise while still catching a gross noise-chaser (whose large
-    # firing rate would dominate the mean). Every seed's rate is recorded for full transparency.
     n_runs = len(seed_runs)
     mean_noise_rate = math.fsum(run.noisy_tv["firing_rate_on_noise"] for run in seed_runs) / n_runs
     mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
@@ -426,8 +388,6 @@ def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
     meets_bar = dominates and sign_flip.one_sided_significant and stats_block["mean_delta_exceeds_sesoi"]
     verdict = VERDICT_MECHANICS_OK if meets_bar else VERDICT_NULL
 
-    # The evidence digest the receipt attests is a digest of the scored core, computed before the outer
-    # seal so there is no circular dependency between the receipt and the seal.
     core_evidence = {
         "per_seed": per_seed,
         "stats": stats_block,

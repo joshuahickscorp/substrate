@@ -44,7 +44,6 @@ def _separable_voc_problem(n: int = 400, seed: int = 123) -> tuple[np.ndarray, n
     return x, y
 
 
-# -- geometry and the hard parameter ceiling --------------------------------
 
 
 def test_param_count_matches_committed_gate() -> None:
@@ -54,7 +53,6 @@ def test_param_count_matches_committed_gate() -> None:
 
 
 def test_param_ceiling_assert_fails_when_budget_exceeded() -> None:
-    # hidden 16 costs 4257 trainable parameters, over the 4096 ceiling: must refuse.
     with pytest.raises(DiversityRegRefusal):
         DiversityRegGate(hidden=16)
     within = DiversityRegGate(hidden=15)
@@ -67,11 +65,9 @@ def test_state_stays_within_few_kilobytes() -> None:
 
 
 def test_refusal_is_a_gate_refusal() -> None:
-    # The variant refusal subclasses the committed GateRefusal, so callers catching either keep working.
     assert issubclass(DiversityRegRefusal, GateRefusal)
 
 
-# -- FLOP-cost functions return the committed formulas ----------------------
 
 
 def test_flop_cost_functions_match_committed_gate() -> None:
@@ -92,7 +88,6 @@ def test_work_vectors_charge_the_right_buckets() -> None:
     assert train_work.total_work == 8_274_960_000
 
 
-# -- online interface never sees a label ------------------------------------
 
 
 def test_infer_interface_carries_no_label() -> None:
@@ -108,11 +103,9 @@ def test_no_ground_truth_in_online_state() -> None:
         assert all(forbidden not in name for name in names), forbidden
 
 
-# -- clean ablation: identical init, and lambda == 0 reproduces the committed gate -----
 
 
 def test_init_weights_match_committed_gate() -> None:
-    # Same seed and namespace, so the variant's initial weights are byte-identical to the committed gate.
     for seed in (0, 1, 7):
         assert DiversityRegGate(seed=seed).parameter_digest() == CandidateGate(seed=seed).parameter_digest()
 
@@ -137,7 +130,6 @@ def test_positive_lambda_changes_the_weights() -> None:
     assert baseline.parameter_digest() != regularized.parameter_digest()
 
 
-# -- determinism -------------------------------------------------------------
 
 
 def test_paired_seed_weights_are_reproducible() -> None:
@@ -164,7 +156,6 @@ def test_fit_is_deterministic() -> None:
     assert first.parameter_digest() == second.parameter_digest()
 
 
-# -- the spacing kernel and the within-clip neighbor sum --------------------
 
 
 def test_spacing_kernel_is_normalized_and_decreasing() -> None:
@@ -190,7 +181,6 @@ def test_neighbor_sum_respects_clip_boundaries() -> None:
             if 0 < distance <= 2 and clip_index[a] == clip_index[b]:
                 brute[a] += kernel[distance - 1] * p[b]
     assert np.allclose(fast, brute)
-    # The penalty never couples the two clips: the boundary between frame 4 and frame 5 is not summed.
     assert clip_index[4] != clip_index[5]
 
 
@@ -201,7 +191,6 @@ def test_clip_index_rejects_bad_segment_lengths() -> None:
         _clip_index([0, 12], 12)  # nonpositive segment
 
 
-# -- the scale-invariant adjacency-energy ratio and its gradient ------------
 
 
 def _adjacency_energy_ratio(p: np.ndarray, clip_index: np.ndarray, kernel: np.ndarray) -> float:
@@ -212,9 +201,6 @@ def _adjacency_energy_ratio(p: np.ndarray, clip_index: np.ndarray, kernel: np.nd
 
 
 def test_ratio_penalty_is_scale_invariant_unlike_raw_pairwise() -> None:
-    # The variant prices spread AT MATCHED FIRING COUNT: the ratio penalty is invariant to scaling every
-    # firing probability, so it cannot be trivially minimized by shrinking p toward zero. A bare pairwise
-    # sum is not scale-invariant (it scales by c squared), which is why it fails on a quantile budget.
     rng = np.random.default_rng(2)
     p = rng.random(20)
     clip_index = _clip_index([10, 10], 20)
@@ -266,7 +252,6 @@ def test_spacing_penalty_is_zero_at_lambda_zero_and_positive_otherwise() -> None
     assert payload["spacing_window"] == DEFAULT_SPACING_WINDOW
 
 
-# -- input validation --------------------------------------------------------
 
 
 def test_construction_rejects_bad_diversity_lambda() -> None:
@@ -301,7 +286,6 @@ def test_fit_rejects_segment_lengths_that_do_not_cover_the_batch() -> None:
         gate.fit(x, y, epochs=2, segment_lengths=[50, 40])  # sums to 90, not 100
 
 
-# -- forward path and firing threshold --------------------------------------
 
 
 def test_predict_proba_matches_infer_and_rejects_bad_shape() -> None:
@@ -326,7 +310,6 @@ def test_fire_respects_threshold() -> None:
     assert gate.fire(features, state, theta=1.000001)[0] is False
 
 
-# -- end to end with the frozen featurizer ----------------------------------
 
 
 def test_gate_consumes_featurizer_output_online() -> None:

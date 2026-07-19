@@ -28,9 +28,6 @@ _CLIP_GT = {
 }
 
 
-# ---------------------------------------------------------------------------
-# Independence: the verifier's import surface.
-# ---------------------------------------------------------------------------
 
 _ALLOWED_IMPORT_ROOTS = {
     "__future__",
@@ -69,7 +66,6 @@ def test_verifier_imports_no_producer_code() -> None:
 
 
 def test_verifier_module_namespace_holds_no_producer_symbol() -> None:
-    # Nothing named after a producer module leaked into the verifier's namespace.
     for name in dir(verifier_module):
         value = getattr(verifier_module, name)
         module_name = getattr(value, "__module__", "") or ""
@@ -78,14 +74,9 @@ def test_verifier_module_namespace_holds_no_producer_symbol() -> None:
         assert not module_name.startswith("mop.science.statistics")
 
 
-# ---------------------------------------------------------------------------
-# A spec-conforming sealed artifact builder. This lives in the test, not in the verifier.
-# ---------------------------------------------------------------------------
 
 
 def _rmr_fires(gt: list[int], seed: int, clip: str) -> list[int]:
-    # A deterministic worse detector: keep some onsets, push the rest out of the collar, add a little
-    # spurious noise. Quality degrades with the seed so per-seed deltas vary while staying positive.
     rng = random.Random((seed << 8) ^ hash(clip) & 0xFFFF)
     fires: list[int] = []
     for index, frame in enumerate(gt):
@@ -190,9 +181,6 @@ def _reseal(artifact: dict) -> dict:
     return artifact
 
 
-# ---------------------------------------------------------------------------
-# Reproduction and cross-implementation agreement.
-# ---------------------------------------------------------------------------
 
 
 def test_verifier_reproduces_referee_f1_from_the_sealed_artifact() -> None:
@@ -204,7 +192,6 @@ def test_verifier_reproduces_referee_f1_from_the_sealed_artifact() -> None:
     assert result.stats_reproduced
     assert result.honesty_ok
     assert result.independent_referee_reproduction
-    # Five strictly positive deltas, so the exact sign-flip lands on its floor of 1/32.
     assert result.detail["recomputed_one_sided_p"] == pytest.approx(1 / 32)
 
 
@@ -221,16 +208,12 @@ def test_independent_matcher_agrees_with_the_referee_across_a_random_battery() -
 
 
 def test_sign_flip_floor_and_reachability_match_the_recipe() -> None:
-    # Five positive deltas: one-sided floor 1/32, two-sided floor 2/32 exceeds 0.05.
     t_obs, one_sided_p, n_perm = verifier_module._sign_flip_one_sided_p([0.1, 0.2, 0.3, 0.4, 0.5])
     assert n_perm == 32
     assert one_sided_p == pytest.approx(1 / 32)
     assert (2.0 / n_perm) > 0.05
 
 
-# ---------------------------------------------------------------------------
-# Forgery rejection.
-# ---------------------------------------------------------------------------
 
 
 def test_forged_score_without_resealing_is_rejected_by_the_seal() -> None:
@@ -254,7 +237,6 @@ def test_forged_score_with_resealing_is_caught_by_re_derivation() -> None:
 
 def test_tampered_fire_list_is_caught_even_after_resealing() -> None:
     artifact = _build_sealed_artifact()
-    # Inflate the control by handing it the ground truth, but leave its claimed score untouched.
     seed_block = artifact["per_seed"][0]
     seed_block["clips"][0]["fires"]["rate_matched_random"] = list(seed_block["clips"][0]["gt_onsets"])
     _reseal(artifact)
@@ -299,9 +281,6 @@ def test_overreaching_claim_verb_is_rejected() -> None:
     assert not result.honesty_ok
 
 
-# ---------------------------------------------------------------------------
-# Promotion gating: synthetic reproduces but never promotes.
-# ---------------------------------------------------------------------------
 
 
 def test_synthetic_reproduces_but_never_promotes() -> None:
@@ -312,13 +291,11 @@ def test_synthetic_reproduces_but_never_promotes() -> None:
 
 
 def test_confirmation_requires_all_conditions_together() -> None:
-    # The full positive branch of the gate: real, rights-clean, noisy-TV at chance, three reproductions.
     ready = _build_sealed_artifact(
         source_kind="real", rights_clean=True, reproductions=MIN_REPRODUCTIONS, noisy_tv_at_chance=True
     )
     assert verify_artifact(ready).independent_scientific_confirmation
 
-    # Flip any single precondition and confirmation must fall back to false.
     still_synthetic = _build_sealed_artifact(
         source_kind="synthetic", rights_clean=True, reproductions=MIN_REPRODUCTIONS
     )

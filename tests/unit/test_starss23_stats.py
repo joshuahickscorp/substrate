@@ -12,21 +12,15 @@ def test_all_positive_deltas_hit_the_one_sided_floor() -> None:
     result = stats.exact_sign_flip([0.1, 0.2, 0.3, 0.4, 0.5])
     assert result.n == 5
     assert result.permutations == 32
-    # Only the all-plus sign assignment reaches the observed statistic, so the count is one.
     assert result.count_ge_one_sided == 1
     assert result.one_sided_p == pytest.approx(1 / 32)
     assert result.min_one_sided_p == pytest.approx(1 / 32)
-    # The two-sided count is the all-plus and all-minus assignments: the discrete floor 2/32.
     assert result.count_ge_two_sided == 2
     assert result.two_sided_p == pytest.approx(2 / 32)
     assert result.two_sided_floor == pytest.approx(2 / 32)
 
 
 def test_known_delta_vector_matches_hand_enumeration() -> None:
-    # deltas = [-0.1, 0.2, 0.3, 0.4, 0.5], observed T = 1.3. Enumerating all 32 sign assignments,
-    # T(s) = 1.5 - 2 * (sum of magnitudes assigned negative). T >= 1.3 needs that negative sum <= 0.1,
-    # satisfied only by the empty set (T = 1.5) and {0.1} (T = 1.3): two assignments. The two-sided
-    # count adds their two mirror images (T = -1.5 and T = -1.3): four assignments.
     result = stats.exact_sign_flip([-0.1, 0.2, 0.3, 0.4, 0.5])
     assert result.t_observed == pytest.approx(1.3)
     assert result.count_ge_one_sided == 2
@@ -51,7 +45,6 @@ def test_two_sided_005_becomes_reachable_at_six_seeds() -> None:
 
 
 def test_one_sided_p_is_never_zero() -> None:
-    # The observed configuration always satisfies T(s) >= T_obs, so exact p is bounded below by 1/2**n.
     result = stats.exact_sign_flip([0.9, 0.8, 0.7, 0.6, 0.5])
     assert result.one_sided_p >= result.min_one_sided_p
     assert result.one_sided_p == pytest.approx(1 / 32)
@@ -63,8 +56,6 @@ def test_phipson_smyth_correction_is_not_applied_to_full_enumeration() -> None:
 
 
 def test_below_sesoi_win_is_not_promotable() -> None:
-    # An all-positive but tiny effect: the sign-flip test clears alpha (p = 1/32) yet the mean delta is
-    # below the registered SESOI, so the result is not promotable.
     analysis = stats.analyze_paired_seeds([0.02, 0.02, 0.02, 0.02, 0.02], n_experimental_units=2)
     assert analysis.sign_flip.one_sided_significant is True
     assert analysis.sesoi.exceeds_sesoi is False
@@ -78,7 +69,6 @@ def test_above_sesoi_win_meets_the_statistical_bar_but_never_scientifically_prom
     assert analysis.sesoi.exceeds_sesoi is True
     assert analysis.meets_statistical_bar is True
     assert analysis.promotable is True
-    # Meeting the statistical bar is necessary but not sufficient: promotion stays off on this bed.
     assert analysis.scientific_promotion is False
     assert analysis.independent_scientific_confirmation is False
 
@@ -87,7 +77,6 @@ def test_sesoi_default_is_the_provisional_registered_value() -> None:
     check = stats.sesoi_check(0.05)
     assert check.sesoi_f1 == pytest.approx(stats.PROVISIONAL_SESOI_F1)
     assert check.provisional is True
-    # An effect exactly at the SESOI meets it (the SESOI is the smallest effect of interest).
     assert check.exceeds_sesoi is True
 
 
@@ -112,7 +101,6 @@ def test_analyze_payload_round_trips_and_digest_is_deterministic() -> None:
     assert payload["claim_scope"] == stats.CLAIM_SCOPE
     assert payload["scientific_promotion"] is False
     assert payload["sign_flip"]["permutations"] == 32
-    # The digest is a stable lowercase sha256 over the canonical payload.
     digest = analysis.digest()
     assert len(digest) == 64 and all(character in "0123456789abcdef" for character in digest)
     assert stats.analyze_paired_seeds(

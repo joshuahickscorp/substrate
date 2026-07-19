@@ -43,7 +43,6 @@ def _synthetic_clips(
     return clips
 
 
-# -- geometry and the hard parameter ceiling --------------------------------
 
 
 def test_variant_id_and_spread_param_count() -> None:
@@ -51,7 +50,6 @@ def test_variant_id_and_spread_param_count() -> None:
     assert N_SPREAD_PARAMS == 2
     gate = _gate()
     assert gate.n_spread_params() == 2
-    # signal 3193 plus the two spreading weights, well under the ceiling.
     assert gate.n_params() == 3195
     assert gate.n_params() == CandidateGate(seed=0).n_params() + N_SPREAD_PARAMS
     assert gate.n_params() <= PARAM_CEILING
@@ -59,9 +57,6 @@ def test_variant_id_and_spread_param_count() -> None:
 
 
 def test_param_budget_holds_for_widest_valid_signal_head() -> None:
-    # The widest committed signal head that fits under the ceiling is hidden=15 (3991 params); plus the
-    # two spreading weights that is 3993, still within the 4096 ceiling. There is no valid CandidateGate
-    # whose param count leaves fewer than two slots, so the variant can never breach the ceiling.
     wide = RecurrenceSpreadGate(signal_gate=CandidateGate(seed=0, hidden=15), rho=0.08)
     assert wide.n_params() == 3993
     assert wide.n_params() <= PARAM_CEILING
@@ -82,12 +77,10 @@ def test_construction_refuses_bad_inputs() -> None:
 
 
 def test_state_is_the_committed_few_kb_online_state() -> None:
-    # The variant reuses the committed OnlineState, so the few-KB state ceiling is inherited unchanged.
     assert OnlineState.state_bytes() <= 8192
     assert REFRACTORY_FRAMES == 3
 
 
-# -- FLOP-cost surface -------------------------------------------------------
 
 
 def test_flops_surface_matches_documented_constants() -> None:
@@ -95,12 +88,10 @@ def test_flops_surface_matches_documented_constants() -> None:
     assert FLOPS_PER_INFERENCE_SPREAD == 6407
     gate = _gate()
     assert gate.flops_per_inference() == 6407
-    # C_train is the signal head training cost plus the honest search cost recorded by fit_spread.
     assert gate.signal_training_flops(1000, 8) == CandidateGate(seed=0).training_flops(1000, 8)
     assert gate.total_training_flops(1000, 8) == gate.signal_training_flops(1000, 8) + gate.search_flops
 
 
-# -- online interface never sees a label ------------------------------------
 
 
 def test_infer_interface_carries_no_label() -> None:
@@ -108,7 +99,6 @@ def test_infer_interface_carries_no_label() -> None:
     assert params == ["self", "features", "state"]
 
 
-# -- the no-spread configuration is the committed null ----------------------
 
 
 def test_no_spread_is_byte_identical_to_the_committed_gate() -> None:
@@ -118,13 +108,11 @@ def test_no_spread_is_byte_identical_to_the_committed_gate() -> None:
     features = rng.standard_normal((40, D_FEAT))
     state = OnlineState.initial()
     for row in features:
-        # With zero spreading weights the effective probability equals the committed gate exactly.
         assert gate.infer(row, state) == signal.infer(row, state)
         p = gate.infer(row, state)
         state = state.update(row, p, p >= 0.5)
 
 
-# -- the recurrent penalty only ever suppresses -----------------------------
 
 
 def test_penalty_only_suppresses_after_a_recent_fire() -> None:
@@ -133,12 +121,8 @@ def test_penalty_only_suppresses_after_a_recent_fire() -> None:
         signal_gate=signal, rho=0.08, density_weight=2.0, refractory_weight=4.0
     )
     features = np.linspace(-0.5, 0.5, D_FEAT)
-    # A state that just fired carries a small frames-since-last-fire gap and a nonzero density, so the
-    # penalty is active and the effective firing probability is strictly below the raw signal.
     fired_state = OnlineState.initial().update(features, 0.9, fired=True)
     assert gate.infer(features, fired_state) < signal.infer(features, fired_state)
-    # A long-idle state (never fired) carries no refractory suppression; with no density either the
-    # penalty is zero and the effective probability equals the raw signal.
     idle = OnlineState.initial()
     assert gate.infer(features, idle) == signal.infer(features, idle)
 
@@ -154,7 +138,6 @@ def test_effective_probability_stays_in_unit_interval() -> None:
     assert fires == sorted(set(fires))
 
 
-# -- determinism -------------------------------------------------------------
 
 
 def test_causal_pass_is_deterministic() -> None:
@@ -176,7 +159,6 @@ def test_parameter_digest_tracks_weights_and_seed() -> None:
     assert base.parameter_digest() != _gate(seed=0, refractory_weight=1.0).parameter_digest()
 
 
-# -- fit_spread trains only on train labels, deterministically ---------------
 
 
 def test_fit_spread_is_deterministic_and_records_honest_search_cost() -> None:
@@ -190,7 +172,6 @@ def test_fit_spread_is_deterministic_and_records_honest_search_cost() -> None:
         second.refractory_weight,
     )
     assert report_a.payload() == report_b.payload()
-    # The search evaluates the full grid once, charging two forward passes over the train frames each.
     n_grid = len(DEFAULT_DENSITY_GRID) * len(DEFAULT_REFRACTORY_GRID)
     assert report_a.n_search_evals == n_grid
     frames = sum(f.shape[0] for f, _ in clips)
@@ -203,8 +184,6 @@ def test_fit_spread_never_underperforms_the_no_spread_point_on_train() -> None:
     clips = _synthetic_clips(seed=11)
     gate = _gate(seed=1)
     report = gate.fit_spread(clips, rate=0.1)
-    # The grid contains (0.0, 0.0), so the selected train F1 can never be below the no-spread baseline,
-    # and ties resolve toward the smaller total weight (no spurious spreading).
     assert report.best_train_f1 >= report.base_train_f1
     if report.selected_no_spread:
         assert (gate.density_weight, gate.refractory_weight) == (0.0, 0.0)

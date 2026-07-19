@@ -372,27 +372,3 @@ def verify_cache_bytes(
             raise FeatureCacheRefusal(f"cached feature block missing for {clip_id} at {cached}")
         parity[clip_id] = cached.read_bytes() == fresh
     return VerifyReport(tuple(checked), all(parity.values()), parity)
-
-
-def _main(argv: list[str] | None = None) -> int:
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Build and verify one STARSS23 feature cache policy.")
-    parser.add_argument("--front-end", choices=("base", "superflux", "spatial_doa"), default="base")
-    parser.add_argument("--cache-root", default=str(DEFAULT_CACHE_ROOT))
-    parser.add_argument("--foa", default=str(DEFAULT_FOA_ROOT))
-    parser.add_argument("--metadata", default=str(DEFAULT_METADATA_ROOT))
-    parser.add_argument("--max-frames", type=int, default=None)
-    parser.add_argument("--n-val-rooms", type=int, default=DEFAULT_N_VAL_ROOMS)
-    args = parser.parse_args(argv)
-    kwargs = {"front_end": args.front_end, "cache_root": args.cache_root, "foa_root": args.foa,
-              "metadata_root": args.metadata, "max_frames": args.max_frames,
-              "n_val_rooms": args.n_val_rooms}
-    report = build_feature_cache(**kwargs)
-    verification = verify_cache_bytes(**kwargs)
-    print(json.dumps({"build": report.numbers(), "verify": verification.numbers()}, indent=2, sort_keys=True))
-    return 0 if verification.all_byte_identical else 1
-
-
-if __name__ == "__main__":
-    raise SystemExit(_main())
