@@ -1,0 +1,51 @@
+{
+  "schema": "mop-campaign2-confirmation-summary/v1",
+  "source_commit": "ffb647f84043c7a094e8587c59a90977c12d5fb7",
+  "both_confirmations_terminal": true,
+  "G1-N1": {
+    "classification": "confirmation_null",
+    "clauses_passed": "8/11",
+    "first_failing_clause": "D_incremental_value",
+    "D_incr": 0.126,
+    "D_lower95cb": 0.036,
+    "group_lower95cb": 0.036,
+    "capable_arch_passing": 0,
+    "oracle_headroom": 0.75,
+    "noisy_tv_excess": -0.039,
+    "independent_verification_agrees": true,
+    "dataset": "CIFAR-10 (canary was MNIST) + CIFAR-100 as OOD; public, lawful",
+    "wall_seconds": 160.4
+  },
+  "G1-P1R": {
+    "classification": "same_team_cross_architecture_positive",
+    "clauses_passed": "11/11",
+    "first_failing_clause": null,
+    "D_incr": 0.138,
+    "D_lower95cb": 0.053,
+    "group_lower95cb": 0.053,
+    "capable_arch_passing": 2,
+    "oracle_headroom": 0.429,
+    "noisy_tv_excess": -0.027,
+    "independent_verification_agrees": true,
+    "dataset": "CIFAR-100 (canary was split-MNIST); public, lawful",
+    "wall_seconds": 63.3
+  },
+  "headline": "P1R survived independent confirmation on a second real source (CIFAR-100, natural images, 100-class incremental) as same_team_cross_architecture_positive; N1 did NOT survive on CIFAR-10 (confirmation_null). Rigorous methodology yields a differentiated real result: not everything passes.",
+  "N1_interpretation": "N1 predicted reducible novelty on MNIST (canary positive) but the effect collapsed on CIFAR-10 with the ensemble-correction intervention: incremental 0.406 -> 0.126, group lower-CB 0.036 < SESOI 0.05, architecture agreement 2/3 -> 0/3. The bed was VALID (oracle headroom 0.75), so this is a genuine source-specific null, not an invalid bed. N1 real-data value is MNIST-specific; it does not generalize to natural images under a different intervention.",
+  "P1R_interpretation": "P1R predicted joint retention-plasticity replay value on split-MNIST (canary positive) AND on CIFAR-100 (confirmation positive, 11/11, group lower-CB 0.053 >= SESOI 0.05, 2/3 capable architectures). The margin is NARROW (0.053 vs 0.05); a genuine but modest pass. Classified same_team_cross_architecture_positive: same-team implementations across 3 capable architectures on a second source, NOT full independent scientific replication (no external published mechanism was used).",
+  "cluster_decision": {
+    "G1-N1": "confirmation_null -> no cluster; N1 does not enter Cluster A or a novelty/allocation cluster on a failed confirmation",
+    "G1-P1R": "same_team_cross_architecture_positive -> LICENSES Cluster B (G1-R1 + G1-P1R): test whether memory retrieval + replay selection improves retention-plasticity beyond P1R-alone, R1-alone, uniform replay, best simple replay, full replay, matched-compute learner. R1 requires its own admission authority prepared for the confirmed-P1R successor question.",
+    "Cluster_A_C": "NOT launched: their lanes (V1/K1/M1/A1/S1) have only mechanics evidence, no real-data admission authority."
+  },
+  "evidence_ladder": {
+    "mechanics_robustness": "Horizons 1-2",
+    "controlled_bed_plausibility": "Phase 4B (all 3 admitted)",
+    "real_data_canary": "Campaign2 (N1+P1R positive, U1 null)",
+    "independent_confirmation_second_source": "P1R same_team_cross_architecture_positive; N1 null; U1 not eligible"
+  },
+  "claim_ceiling": "P1R has same-team cross-architecture confirmation on a SECOND real source. NOT full independent scientific replication (would need an external team/implementation), NOT natural-world confirmation, NOT activation. N1 remains a single-source canary that did not confirm. Activation authority FALSE.",
+  "activation_allowed": false,
+  "independent_scientific_confirmation": false,
+  "summary_sha256": "1336c04d555e0a153a408186e9fddaa97a1a7b065a3bba4accb3d990a132a204"
+}
