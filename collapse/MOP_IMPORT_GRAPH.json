@@ -1,0 +1,1044 @@
+{
+  "schema": "mop-collapse-import-graph/v1",
+  "modules": 466,
+  "edges": {
+    "mop": [
+      "mop.process_labels"
+    ],
+    "mop.beds.starss23.adapter": [
+      "mop.escs.accounting"
+    ],
+    "mop.beds.starss23.artifact": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.bed": [
+      "mop.ladder.stage_ladder",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.controls": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_estimator": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_featurizer": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_gate": [
+      "mop.seeding",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_harness": [
+      "mop.ladder.stage_ladder",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_labels": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_referee": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_data_split_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_data_split_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_featurizer_estimator_estimator": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_featurizer_estimator_featurizer": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_featurizer_estimator_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_featurizer_estimator_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_gate_arch_gate": [
+      "mop.seeding",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_gate_arch_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_gate_arch_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_scoring_unit_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_scoring_unit_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.count_repro_scoring_unit_referee": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_estimator": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_featurizer": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_gate": [
+      "mop.seeding",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_harness": [
+      "mop.ladder.stage_ladder",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_labels": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.doa_referee": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.feature_cache": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.feature_cache_spatial_doa": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.feature_cache_superflux": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.featurizer": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.featurizer_interchannel_coherence": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.featurizer_spatial_doa": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.featurizer_superflux_spectral": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.gate": [
+      "mop.escs.accounting",
+      "mop.seeding",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.gate_diversity_reg": [
+      "mop.escs.accounting",
+      "mop.seeding",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.gate_learning_progress": [
+      "mop.escs.accounting",
+      "mop.seeding",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.gate_recurrence_spread": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.gate_variants_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.harness": [
+      "mop.ladder.stage_ladder",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.interchannel_coherence_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.interchannel_coherence_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.learning_progress_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.real_artifact": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.referee": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.refractory_nms_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.schema": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.spatial_doa_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.spatial_doa_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.stats": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.superflux_spectral_prereg": [
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.superflux_spectral_producer": [
+      "mop.ladder.ladder_contracts",
+      "mop.substrate.events"
+    ],
+    "mop.beds.starss23.synthetic_corpus": [
+      "mop.seeding"
+    ],
+    "mop.diagnostics.hardness": [
+      "mop.diagnostics.difficulty_calibration",
+      "mop.diagnostics.linear_probe",
+      "mop.seeding",
+      "mop.shell.verifier_exec"
+    ],
+    "mop.escs.accounting": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.actors": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.causal_resource_monitor": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.chassis": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.coalition_evidence": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.edcm_adapter": [
+      "mop.config",
+      "mop.studies",
+      "mop.substrate.events"
+    ],
+    "mop.escs.event_former": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.events": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.factor_frontier": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.g0_evaluator": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.g0_genotype": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.ledger": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.messages": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.perspective_registry": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.runtime": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.substrate_assembly": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.substrate_preflight": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.topology_grammar": [
+      "mop.substrate.events"
+    ],
+    "mop.shell.verifier_exec": [
+      "mop.diagnostics.hardness"
+    ],
+    "mop.studies.continual_million_event_verify": [
+      "mop.config"
+    ],
+    "mop.studies.escs_g0_construction": [
+      "mop.escs.g0_genotype",
+      "mop.escs.perspective_registry",
+      "mop.escs.topology_grammar",
+      "mop.substrate.events"
+    ],
+    "mop.studies.escs_g0_formation": [
+      "mop.escs.accounting",
+      "mop.escs.g0_genotype",
+      "mop.escs.perspective_registry",
+      "mop.escs.topology_grammar",
+      "mop.substrate.events"
+    ],
+    "mop.studies.escs_g0_formation_study": [
+      "mop.config",
+      "mop.escs.g0_genotype",
+      "mop.escs.perspective_registry",
+      "mop.escs.topology_grammar",
+      "mop.studies.escs_g0_construction",
+      "mop.studies.escs_g0_formation",
+      "mop.studies.escs_g0_shadow_coalition",
+      "mop.substrate.events"
+    ],
+    "mop.studies.escs_g0_shadow_coalition": [
+      "mop.escs.accounting",
+      "mop.escs.g0_evaluator",
+      "mop.escs.g0_genotype",
+      "mop.escs.perspective_registry",
+      "mop.escs.topology_grammar",
+      "mop.substrate.events"
+    ],
+    "mop.studies.escs_x1_dispatch": [
+      "mop.escs.accounting",
+      "mop.escs.runtime"
+    ],
+    "mop.studies.escs_x2_event_graph": [
+      "mop.escs.accounting",
+      "mop.escs.archive",
+      "mop.escs.events",
+      "mop.escs.ledger",
+      "mop.substrate.events"
+    ],
+    "mop.studies.escs_x3_topology_adaptation": [
+      "mop.escs.accounting",
+      "mop.escs.events",
+      "mop.escs.ledger",
+      "mop.escs.topology_grammar",
+      "mop.substrate.events"
+    ],
+    "mop.studies.generation1_c3_communication": [
+      "mop.config",
+      "mop.mechanisms.messaging_repair_bed",
+      "mop.mechanisms.messaging_repair_runner",
+      "mop.substrate.events"
+    ],
+    "mop.studies.generation1_c3_construction": [
+      "mop.mechanisms.construction_search_bed",
+      "mop.mechanisms.construction_search_runner",
+      "mop.substrate.events"
+    ],
+    "mop.studies.generation1_c3_d1_frozen_queue": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_c3_dispatch_queue"
+    ],
+    "mop.studies.generation1_c3_dispatch": [
+      "mop.config",
+      "mop.studies"
+    ],
+    "mop.studies.generation1_c3_dispatch_queue": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies.generation1_c3_dispatch"
+    ],
+    "mop.studies.generation1_c3_router_redesign": [
+      "mop.config",
+      "mop.studies"
+    ],
+    "mop.studies.generation1_c3_router_redesign_queue": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_c3_dispatch_queue"
+    ],
+    "mop.studies.generation1_competence_atlas": [
+      "mop.config"
+    ],
+    "mop.studies.generation1_competence_atlas_verify": [
+      "mop.config"
+    ],
+    "mop.studies.generation1_consolidated_final_campaign": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_c3_dispatch_queue"
+    ],
+    "mop.studies.generation1_context_routing": [
+      "mop.config",
+      "mop.process_labels"
+    ],
+    "mop.studies.generation1_context_routing_verify": [
+      "mop.config",
+      "mop.studies.generation1_context_routing"
+    ],
+    "mop.studies.generation1_context_routing_verify_parallel": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studies.generation1_context_routing"
+    ],
+    "mop.studies.generation1_d1_frozen_verify": [
+      "mop.config",
+      "mop.studies"
+    ],
+    "mop.studies.generation1_d1_redesign_v2": [
+      "mop.studies"
+    ],
+    "mop.studies.generation1_full_generations_wave": [
+      "mop.config",
+      "mop.ladder.stage3_registry",
+      "mop.mechanisms.construction_search_vec_runner",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studies.generation1_full_generations_wave_verify": [
+      "mop.config",
+      "mop.studies",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studies.generation1_new_mechanisms_queue": [
+      "mop.config",
+      "mop.ladder.stage3_successor_registry",
+      "mop.process_labels",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_successor_mechanics_queue"
+    ],
+    "mop.studies.generation1_successor_batch": [
+      "mop.config"
+    ],
+    "mop.studies.generation1_successor_categorized_batch_wave": [
+      "mop.config",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studies.generation1_successor_categorized_batch_wave_verify": [
+      "mop.config",
+      "mop.studies",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studies.generation1_successor_horizon": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studio"
+    ],
+    "mop.studies.generation1_successor_horizon_v2": [
+      "mop.config",
+      "mop.studies",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studio"
+    ],
+    "mop.studies.generation1_successor_horizon_v2_verify": [
+      "mop.config",
+      "mop.studies",
+      "mop.studio"
+    ],
+    "mop.studies.generation1_successor_horizon_verify": [
+      "mop.config",
+      "mop.studies"
+    ],
+    "mop.studies.generation1_successor_mechanics_queue": [
+      "mop.config",
+      "mop.ladder.stage3_registry",
+      "mop.process_labels",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_c3_dispatch_queue"
+    ],
+    "mop.studies.p5_terminal_evidence": [
+      "mop.studio.local_throttle"
+    ],
+    "mop.studio.dynamic_worker_controller": [
+      "mop.studio"
+    ],
+    "mop.studio.general_run_orchestrator": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studio",
+      "mop.studio.generation1_categorized_batch_extension_chain",
+      "mop.studio.generation1_result_aware_reprofiler",
+      "mop.studio.generation1_successor_chain_v7",
+      "mop.studio.generation1_supervisor",
+      "mop.studio.mop_label_scheme"
+    ],
+    "mop.studio.generation1_categorized_batch_extension_chain": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_full_generations_extension_chain": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studio",
+      "mop.studio.generation1_supervisor",
+      "mop.studio.mop_label_scheme"
+    ],
+    "mop.studio.generation1_result_aware_reprofiler": [
+      "mop.config",
+      "mop.studies.generation1_successor_mechanics_queue",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_subaccomplishment_emitter": [
+      "mop.config",
+      "mop.studies",
+      "mop.studies.generation1_consolidated_final_campaign",
+      "mop.studio.generation1_result_aware_reprofiler",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_chain": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_chain_v4": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_chain_v5": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_chain_v6": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_chain_v7": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_extension_chain": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_extension_chain_v2": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_extension_chain_v3": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_extension_chain_v4": [
+      "mop.config",
+      "mop.process_labels",
+      "mop.studies",
+      "mop.studio",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_future_chain": [
+      "mop.studio.generation1_successor_chain_v4",
+      "mop.studio.generation1_successor_extension_chain"
+    ],
+    "mop.studio.generation1_successor_future_chain_v2": [
+      "mop.studio.generation1_successor_chain_v5",
+      "mop.studio.generation1_successor_extension_chain_v2"
+    ],
+    "mop.studio.generation1_successor_long_chain": [
+      "mop.config",
+      "mop.studio.generation1_categorized_batch_extension_chain",
+      "mop.studio.generation1_successor_future_chain",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_long_chain_v2": [
+      "mop.config",
+      "mop.studio.generation1_categorized_batch_extension_chain",
+      "mop.studio.generation1_successor_future_chain_v2",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_long_chain_v3": [
+      "mop.config",
+      "mop.studio.generation1_full_generations_extension_chain",
+      "mop.studio.generation1_successor_long_chain_v2",
+      "mop.studio.generation1_supervisor"
+    ],
+    "mop.studio.generation1_successor_recovery_launcher": [
+      "mop.studio.generation1_successor_chain_v6",
+      "mop.studio.generation1_successor_extension_chain_v3"
+    ],
+    "mop.studio.generation1_successor_recovery_launcher_v2": [
+      "mop.studio.generation1_successor_chain_v7",
+      "mop.studio.generation1_successor_extension_chain_v4"
+    ],
+    "mop.studio.telegram_rung_notifier": [
+      "mop.config",
+      "mop.studio"
+    ]
+  },
+  "reverse_edges": {
+    "mop.config": [
+      "mop.escs.edcm_adapter",
+      "mop.studies.continual_million_event_verify",
+      "mop.studies.escs_g0_formation_study",
+      "mop.studies.generation1_c3_communication",
+      "mop.studies.generation1_c3_d1_frozen_queue",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_c3_dispatch_queue",
+      "mop.studies.generation1_c3_router_redesign",
+      "mop.studies.generation1_c3_router_redesign_queue",
+      "mop.studies.generation1_competence_atlas",
+      "mop.studies.generation1_competence_atlas_verify",
+      "mop.studies.generation1_consolidated_final_campaign",
+      "mop.studies.generation1_context_routing",
+      "mop.studies.generation1_context_routing_verify",
+      "mop.studies.generation1_context_routing_verify_parallel",
+      "mop.studies.generation1_d1_frozen_verify",
+      "mop.studies.generation1_full_generations_wave",
+      "mop.studies.generation1_full_generations_wave_verify",
+      "mop.studies.generation1_new_mechanisms_queue",
+      "mop.studies.generation1_successor_batch",
+      "mop.studies.generation1_successor_categorized_batch_wave",
+      "mop.studies.generation1_successor_categorized_batch_wave_verify",
+      "mop.studies.generation1_successor_horizon",
+      "mop.studies.generation1_successor_horizon_v2",
+      "mop.studies.generation1_successor_horizon_v2_verify",
+      "mop.studies.generation1_successor_horizon_verify",
+      "mop.studies.generation1_successor_mechanics_queue",
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_categorized_batch_extension_chain",
+      "mop.studio.generation1_full_generations_extension_chain",
+      "mop.studio.generation1_result_aware_reprofiler",
+      "mop.studio.generation1_subaccomplishment_emitter",
+      "mop.studio.generation1_successor_chain",
+      "mop.studio.generation1_successor_chain_v4",
+      "mop.studio.generation1_successor_chain_v5",
+      "mop.studio.generation1_successor_chain_v6",
+      "mop.studio.generation1_successor_chain_v7",
+      "mop.studio.generation1_successor_extension_chain",
+      "mop.studio.generation1_successor_extension_chain_v2",
+      "mop.studio.generation1_successor_extension_chain_v3",
+      "mop.studio.generation1_successor_extension_chain_v4",
+      "mop.studio.generation1_successor_long_chain",
+      "mop.studio.generation1_successor_long_chain_v2",
+      "mop.studio.generation1_successor_long_chain_v3",
+      "mop.studio.telegram_rung_notifier"
+    ],
+    "mop.diagnostics.difficulty_calibration": [
+      "mop.diagnostics.hardness"
+    ],
+    "mop.diagnostics.hardness": [
+      "mop.shell.verifier_exec"
+    ],
+    "mop.diagnostics.linear_probe": [
+      "mop.diagnostics.hardness"
+    ],
+    "mop.escs.accounting": [
+      "mop.beds.starss23.adapter",
+      "mop.beds.starss23.gate",
+      "mop.beds.starss23.gate_diversity_reg",
+      "mop.beds.starss23.gate_learning_progress",
+      "mop.studies.escs_g0_formation",
+      "mop.studies.escs_g0_shadow_coalition",
+      "mop.studies.escs_x1_dispatch",
+      "mop.studies.escs_x2_event_graph",
+      "mop.studies.escs_x3_topology_adaptation"
+    ],
+    "mop.escs.archive": [
+      "mop.studies.escs_x2_event_graph"
+    ],
+    "mop.escs.events": [
+      "mop.studies.escs_x2_event_graph",
+      "mop.studies.escs_x3_topology_adaptation"
+    ],
+    "mop.escs.g0_evaluator": [
+      "mop.studies.escs_g0_shadow_coalition"
+    ],
+    "mop.escs.g0_genotype": [
+      "mop.studies.escs_g0_construction",
+      "mop.studies.escs_g0_formation",
+      "mop.studies.escs_g0_formation_study",
+      "mop.studies.escs_g0_shadow_coalition"
+    ],
+    "mop.escs.ledger": [
+      "mop.studies.escs_x2_event_graph",
+      "mop.studies.escs_x3_topology_adaptation"
+    ],
+    "mop.escs.perspective_registry": [
+      "mop.studies.escs_g0_construction",
+      "mop.studies.escs_g0_formation",
+      "mop.studies.escs_g0_formation_study",
+      "mop.studies.escs_g0_shadow_coalition"
+    ],
+    "mop.escs.runtime": [
+      "mop.studies.escs_x1_dispatch"
+    ],
+    "mop.escs.topology_grammar": [
+      "mop.studies.escs_g0_construction",
+      "mop.studies.escs_g0_formation",
+      "mop.studies.escs_g0_formation_study",
+      "mop.studies.escs_g0_shadow_coalition",
+      "mop.studies.escs_x3_topology_adaptation"
+    ],
+    "mop.ladder.ladder_contracts": [
+      "mop.beds.starss23.artifact",
+      "mop.beds.starss23.count_producer",
+      "mop.beds.starss23.count_repro_data_split_producer",
+      "mop.beds.starss23.count_repro_featurizer_estimator_producer",
+      "mop.beds.starss23.count_repro_gate_arch_producer",
+      "mop.beds.starss23.count_repro_scoring_unit_producer",
+      "mop.beds.starss23.doa_producer",
+      "mop.beds.starss23.interchannel_coherence_producer",
+      "mop.beds.starss23.learning_progress_producer",
+      "mop.beds.starss23.real_artifact",
+      "mop.beds.starss23.refractory_nms_producer",
+      "mop.beds.starss23.spatial_doa_producer",
+      "mop.beds.starss23.superflux_spectral_producer"
+    ],
+    "mop.ladder.stage3_registry": [
+      "mop.studies.generation1_full_generations_wave",
+      "mop.studies.generation1_successor_mechanics_queue"
+    ],
+    "mop.ladder.stage3_successor_registry": [
+      "mop.studies.generation1_new_mechanisms_queue"
+    ],
+    "mop.ladder.stage_ladder": [
+      "mop.beds.starss23.bed",
+      "mop.beds.starss23.count_harness",
+      "mop.beds.starss23.doa_harness",
+      "mop.beds.starss23.harness"
+    ],
+    "mop.mechanisms.construction_search_bed": [
+      "mop.studies.generation1_c3_construction"
+    ],
+    "mop.mechanisms.construction_search_runner": [
+      "mop.studies.generation1_c3_construction"
+    ],
+    "mop.mechanisms.construction_search_vec_runner": [
+      "mop.studies.generation1_full_generations_wave"
+    ],
+    "mop.mechanisms.messaging_repair_bed": [
+      "mop.studies.generation1_c3_communication"
+    ],
+    "mop.mechanisms.messaging_repair_runner": [
+      "mop.studies.generation1_c3_communication"
+    ],
+    "mop.process_labels": [
+      "mop",
+      "mop.studies.generation1_c3_d1_frozen_queue",
+      "mop.studies.generation1_c3_dispatch_queue",
+      "mop.studies.generation1_c3_router_redesign_queue",
+      "mop.studies.generation1_consolidated_final_campaign",
+      "mop.studies.generation1_context_routing",
+      "mop.studies.generation1_context_routing_verify_parallel",
+      "mop.studies.generation1_full_generations_wave",
+      "mop.studies.generation1_new_mechanisms_queue",
+      "mop.studies.generation1_successor_horizon",
+      "mop.studies.generation1_successor_mechanics_queue",
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_categorized_batch_extension_chain",
+      "mop.studio.generation1_full_generations_extension_chain",
+      "mop.studio.generation1_successor_chain",
+      "mop.studio.generation1_successor_chain_v4",
+      "mop.studio.generation1_successor_chain_v5",
+      "mop.studio.generation1_successor_chain_v6",
+      "mop.studio.generation1_successor_chain_v7",
+      "mop.studio.generation1_successor_extension_chain",
+      "mop.studio.generation1_successor_extension_chain_v2",
+      "mop.studio.generation1_successor_extension_chain_v3",
+      "mop.studio.generation1_successor_extension_chain_v4"
+    ],
+    "mop.seeding": [
+      "mop.beds.starss23.count_gate",
+      "mop.beds.starss23.count_repro_gate_arch_gate",
+      "mop.beds.starss23.doa_gate",
+      "mop.beds.starss23.gate",
+      "mop.beds.starss23.gate_diversity_reg",
+      "mop.beds.starss23.gate_learning_progress",
+      "mop.beds.starss23.synthetic_corpus",
+      "mop.diagnostics.hardness"
+    ],
+    "mop.shell.verifier_exec": [
+      "mop.diagnostics.hardness"
+    ],
+    "mop.studies": [
+      "mop.escs.edcm_adapter",
+      "mop.studies.generation1_c3_d1_frozen_queue",
+      "mop.studies.generation1_c3_dispatch",
+      "mop.studies.generation1_c3_router_redesign",
+      "mop.studies.generation1_c3_router_redesign_queue",
+      "mop.studies.generation1_consolidated_final_campaign",
+      "mop.studies.generation1_context_routing_verify_parallel",
+      "mop.studies.generation1_d1_frozen_verify",
+      "mop.studies.generation1_d1_redesign_v2",
+      "mop.studies.generation1_full_generations_wave",
+      "mop.studies.generation1_full_generations_wave_verify",
+      "mop.studies.generation1_successor_categorized_batch_wave",
+      "mop.studies.generation1_successor_categorized_batch_wave_verify",
+      "mop.studies.generation1_successor_horizon",
+      "mop.studies.generation1_successor_horizon_v2",
+      "mop.studies.generation1_successor_horizon_v2_verify",
+      "mop.studies.generation1_successor_horizon_verify",
+      "mop.studio.generation1_subaccomplishment_emitter",
+      "mop.studio.generation1_successor_chain",
+      "mop.studio.generation1_successor_chain_v4",
+      "mop.studio.generation1_successor_chain_v5",
+      "mop.studio.generation1_successor_chain_v6",
+      "mop.studio.generation1_successor_chain_v7",
+      "mop.studio.generation1_successor_extension_chain",
+      "mop.studio.generation1_successor_extension_chain_v2",
+      "mop.studio.generation1_successor_extension_chain_v3",
+      "mop.studio.generation1_successor_extension_chain_v4"
+    ],
+    "mop.studies.escs_g0_construction": [
+      "mop.studies.escs_g0_formation_study"
+    ],
+    "mop.studies.escs_g0_formation": [
+      "mop.studies.escs_g0_formation_study"
+    ],
+    "mop.studies.escs_g0_shadow_coalition": [
+      "mop.studies.escs_g0_formation_study"
+    ],
+    "mop.studies.generation1_c3_dispatch": [
+      "mop.studies.generation1_c3_d1_frozen_queue",
+      "mop.studies.generation1_c3_dispatch_queue",
+      "mop.studies.generation1_c3_router_redesign_queue",
+      "mop.studies.generation1_consolidated_final_campaign",
+      "mop.studies.generation1_new_mechanisms_queue",
+      "mop.studies.generation1_successor_horizon",
+      "mop.studies.generation1_successor_horizon_v2",
+      "mop.studies.generation1_successor_mechanics_queue"
+    ],
+    "mop.studies.generation1_c3_dispatch_queue": [
+      "mop.studies.generation1_c3_d1_frozen_queue",
+      "mop.studies.generation1_c3_router_redesign_queue",
+      "mop.studies.generation1_consolidated_final_campaign",
+      "mop.studies.generation1_successor_mechanics_queue"
+    ],
+    "mop.studies.generation1_consolidated_final_campaign": [
+      "mop.studio.generation1_subaccomplishment_emitter"
+    ],
+    "mop.studies.generation1_context_routing": [
+      "mop.studies.generation1_context_routing_verify",
+      "mop.studies.generation1_context_routing_verify_parallel"
+    ],
+    "mop.studies.generation1_successor_mechanics_queue": [
+      "mop.studies.generation1_new_mechanisms_queue",
+      "mop.studio.generation1_result_aware_reprofiler"
+    ],
+    "mop.studio": [
+      "mop.studies.generation1_full_generations_wave",
+      "mop.studies.generation1_successor_categorized_batch_wave",
+      "mop.studies.generation1_successor_horizon",
+      "mop.studies.generation1_successor_horizon_v2",
+      "mop.studies.generation1_successor_horizon_v2_verify",
+      "mop.studio.dynamic_worker_controller",
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_categorized_batch_extension_chain",
+      "mop.studio.generation1_full_generations_extension_chain",
+      "mop.studio.generation1_successor_chain_v4",
+      "mop.studio.generation1_successor_chain_v5",
+      "mop.studio.generation1_successor_chain_v6",
+      "mop.studio.generation1_successor_chain_v7",
+      "mop.studio.generation1_successor_extension_chain",
+      "mop.studio.generation1_successor_extension_chain_v2",
+      "mop.studio.generation1_successor_extension_chain_v3",
+      "mop.studio.generation1_successor_extension_chain_v4",
+      "mop.studio.telegram_rung_notifier"
+    ],
+    "mop.studio.generation1_categorized_batch_extension_chain": [
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_successor_long_chain",
+      "mop.studio.generation1_successor_long_chain_v2"
+    ],
+    "mop.studio.generation1_full_generations_extension_chain": [
+      "mop.studio.generation1_successor_long_chain_v3"
+    ],
+    "mop.studio.generation1_result_aware_reprofiler": [
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_subaccomplishment_emitter"
+    ],
+    "mop.studio.generation1_successor_chain_v4": [
+      "mop.studio.generation1_successor_future_chain"
+    ],
+    "mop.studio.generation1_successor_chain_v5": [
+      "mop.studio.generation1_successor_future_chain_v2"
+    ],
+    "mop.studio.generation1_successor_chain_v6": [
+      "mop.studio.generation1_successor_recovery_launcher"
+    ],
+    "mop.studio.generation1_successor_chain_v7": [
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_successor_recovery_launcher_v2"
+    ],
+    "mop.studio.generation1_successor_extension_chain": [
+      "mop.studio.generation1_successor_future_chain"
+    ],
+    "mop.studio.generation1_successor_extension_chain_v2": [
+      "mop.studio.generation1_successor_future_chain_v2"
+    ],
+    "mop.studio.generation1_successor_extension_chain_v3": [
+      "mop.studio.generation1_successor_recovery_launcher"
+    ],
+    "mop.studio.generation1_successor_extension_chain_v4": [
+      "mop.studio.generation1_successor_recovery_launcher_v2"
+    ],
+    "mop.studio.generation1_successor_future_chain": [
+      "mop.studio.generation1_successor_long_chain"
+    ],
+    "mop.studio.generation1_successor_future_chain_v2": [
+      "mop.studio.generation1_successor_long_chain_v2"
+    ],
+    "mop.studio.generation1_successor_long_chain_v2": [
+      "mop.studio.generation1_successor_long_chain_v3"
+    ],
+    "mop.studio.generation1_supervisor": [
+      "mop.studies.generation1_full_generations_wave",
+      "mop.studies.generation1_full_generations_wave_verify",
+      "mop.studies.generation1_successor_categorized_batch_wave",
+      "mop.studies.generation1_successor_categorized_batch_wave_verify",
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_categorized_batch_extension_chain",
+      "mop.studio.generation1_full_generations_extension_chain",
+      "mop.studio.generation1_result_aware_reprofiler",
+      "mop.studio.generation1_subaccomplishment_emitter",
+      "mop.studio.generation1_successor_chain",
+      "mop.studio.generation1_successor_chain_v4",
+      "mop.studio.generation1_successor_chain_v5",
+      "mop.studio.generation1_successor_chain_v6",
+      "mop.studio.generation1_successor_chain_v7",
+      "mop.studio.generation1_successor_extension_chain",
+      "mop.studio.generation1_successor_extension_chain_v2",
+      "mop.studio.generation1_successor_extension_chain_v3",
+      "mop.studio.generation1_successor_extension_chain_v4",
+      "mop.studio.generation1_successor_long_chain",
+      "mop.studio.generation1_successor_long_chain_v2",
+      "mop.studio.generation1_successor_long_chain_v3"
+    ],
+    "mop.studio.local_throttle": [
+      "mop.studies.p5_terminal_evidence"
+    ],
+    "mop.studio.mop_label_scheme": [
+      "mop.studio.general_run_orchestrator",
+      "mop.studio.generation1_full_generations_extension_chain"
+    ],
+    "mop.substrate.events": [
+      "mop.beds.starss23.artifact",
+      "mop.beds.starss23.bed",
+      "mop.beds.starss23.controls",
+      "mop.beds.starss23.count_estimator",
+      "mop.beds.starss23.count_featurizer",
+      "mop.beds.starss23.count_gate",
+      "mop.beds.starss23.count_harness",
+      "mop.beds.starss23.count_labels",
+      "mop.beds.starss23.count_prereg",
+      "mop.beds.starss23.count_producer",
+      "mop.beds.starss23.count_referee",
+      "mop.beds.starss23.count_repro_data_split_prereg",
+      "mop.beds.starss23.count_repro_data_split_producer",
+      "mop.beds.starss23.count_repro_featurizer_estimator_estimator",
+      "mop.beds.starss23.count_repro_featurizer_estimator_featurizer",
+      "mop.beds.starss23.count_repro_featurizer_estimator_prereg",
+      "mop.beds.starss23.count_repro_featurizer_estimator_producer",
+      "mop.beds.starss23.count_repro_gate_arch_gate",
+      "mop.beds.starss23.count_repro_gate_arch_prereg",
+      "mop.beds.starss23.count_repro_gate_arch_producer",
+      "mop.beds.starss23.count_repro_scoring_unit_prereg",
+      "mop.beds.starss23.count_repro_scoring_unit_producer",
+      "mop.beds.starss23.count_repro_scoring_unit_referee",
+      "mop.beds.starss23.doa_estimator",
+      "mop.beds.starss23.doa_featurizer",
+      "mop.beds.starss23.doa_gate",
+      "mop.beds.starss23.doa_harness",
+      "mop.beds.starss23.doa_labels",
+      "mop.beds.starss23.doa_prereg",
+      "mop.beds.starss23.doa_producer",
+      "mop.beds.starss23.doa_referee",
+      "mop.beds.starss23.feature_cache",
+      "mop.beds.starss23.feature_cache_spatial_doa",
+      "mop.beds.starss23.feature_cache_superflux",
+      "mop.beds.starss23.featurizer",
+      "mop.beds.starss23.featurizer_interchannel_coherence",
+      "mop.beds.starss23.featurizer_spatial_doa",
+      "mop.beds.starss23.featurizer_superflux_spectral",
+      "mop.beds.starss23.gate",
+      "mop.beds.starss23.gate_diversity_reg",
+      "mop.beds.starss23.gate_learning_progress",
+      "mop.beds.starss23.gate_recurrence_spread",
+      "mop.beds.starss23.gate_variants_prereg",
+      "mop.beds.starss23.harness",
+      "mop.beds.starss23.interchannel_coherence_prereg",
+      "mop.beds.starss23.interchannel_coherence_producer",
+      "mop.beds.starss23.learning_progress_producer",
+      "mop.beds.starss23.prereg",
+      "mop.beds.starss23.real_artifact",
+      "mop.beds.starss23.referee",
+      "mop.beds.starss23.refractory_nms_producer",
+      "mop.beds.starss23.schema",
+      "mop.beds.starss23.spatial_doa_prereg",
+      "mop.beds.starss23.spatial_doa_producer",
+      "mop.beds.starss23.stats",
+      "mop.beds.starss23.superflux_spectral_prereg",
+      "mop.beds.starss23.superflux_spectral_producer",
+      "mop.escs.accounting",
+      "mop.escs.actors",
+      "mop.escs.causal_resource_monitor",
+      "mop.escs.chassis",
+      "mop.escs.coalition_evidence",
+      "mop.escs.edcm_adapter",
+      "mop.escs.event_former",
+      "mop.escs.events",
+      "mop.escs.factor_frontier",
+      "mop.escs.g0_evaluator",
+      "mop.escs.g0_genotype",
+      "mop.escs.ledger",
+      "mop.escs.messages",
+      "mop.escs.perspective_registry",
+      "mop.escs.runtime",
+      "mop.escs.substrate_assembly",
+      "mop.escs.substrate_preflight",
+      "mop.escs.topology_grammar",
+      "mop.studies.escs_g0_construction",
+      "mop.studies.escs_g0_formation",
+      "mop.studies.escs_g0_formation_study",
+      "mop.studies.escs_g0_shadow_coalition",
+      "mop.studies.escs_x2_event_graph",
+      "mop.studies.escs_x3_topology_adaptation",
+      "mop.studies.generation1_c3_communication",
+      "mop.studies.generation1_c3_construction"
+    ]
+  },
+  "strongly_connected_components": [
+    [
+      "mop.shell.verifier_exec",
+      "mop.diagnostics.hardness"
+    ]
+  ]
+}
