@@ -472,8 +472,8 @@
     "program_id": "mop-generation2-realdata-canary",
     "status": "launched",
     "N1": "canary_positive (real-data, sealed, independently verified)",
-    "U1": "running",
-    "P1R": "running",
+    "U1": "canary_null (raw uncertainty fires on irreducible items; pruned on noisy-TV)",
+    "P1R": "canary_positive (real-data, sealed, independently verified)",
     "evidence_ladder": "mechanics_robustness (Horizons) -> controlled-bed plausibility (Phase 4B) -> real-data canary (Campaign 2)",
     "next": "classify U1/P1R; proceed to bounded independent confirmation for each canary_positive lane",
     "confirmation": {
@@ -481,5 +481,19 @@
       "P1R": "same_team_cross_architecture_positive (CIFAR-100)",
       "licensed_next": "Cluster B (R1+P1R)"
     }
+  },
+  "clusterB": {
+    "program_id": "mop-clusterB-memory-plasticity",
+    "status": "terminated",
+    "R1_admission": "canary_null on KMNIST (valid bed; mechanism does not beat nearest_similarity; D/E/F/G fail)",
+    "gate": "R1 null -> factorial Cluster B (arms A-O) NOT licensed",
+    "P1R_third_source": "same_team_cross_architecture_positive on KMNIST (11/11; D lcb 0.061; F 3/3)",
+    "p1r_sources_positive": [
+      "MNIST canary",
+      "CIFAR-100 confirm",
+      "KMNIST third-source"
+    ],
+    "cluster_decision": "terminated per mandate else-branch; no construction over unconfirmed memory components",
+    "terminal_report": "campaign2/reports/MOP_CLUSTERB_TERMINAL.json"
   }
 }
