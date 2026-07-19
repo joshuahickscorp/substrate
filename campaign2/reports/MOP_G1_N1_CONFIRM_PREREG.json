@@ -1,0 +1,26 @@
+{
+  "schema": "mop-confirmation-preregistration/v1",
+  "lane": "G1-N1",
+  "source_commit": "b1d7c97fe35ccf260f23d425fdf4152c1d765e5c",
+  "sesoi": 0.05,
+  "group_rule": "random-effects lower-95%-CB >= SESOI (sealed Phase 4B)",
+  "architecture_rule": ">=2 capable estimators (sealed Phase 4B)",
+  "implementations": "3 capable same-team architectures (knn, kernel_ridge, rff); NO external published mechanism, so a positive is same_team_cross_architecture, NOT full independent replication",
+  "untouched_test": "group-disjoint test split never used for selection/tuning/thresholds",
+  "tie_is_null": true,
+  "stop_rule": "terminal after one confirmation; wrong-direction fails",
+  "dataset": "CIFAR-10 (canary was MNIST) + CIFAR-100 as OOD; public, lawful",
+  "leaves_mnist_family": true,
+  "breadth_added": [
+    "new dataset source (CIFAR-10)",
+    "new modality (natural color images)",
+    "new intervention (second independently-trained model / ensemble correction, NOT test-time augmentation)",
+    "new context (natural-image corruptions)"
+  ],
+  "question": "can reducible novelty be distinguished from irreducible uncertainty and useless novelty on CIFAR under a DIFFERENT bounded intervention",
+  "intervention": "additional inference via a second independently trained CIFAR model (ensemble correction)",
+  "independent_units": "6 distribution regimes (clean/noise/blur/bright/occlude/cifar100_ood), group-disjoint",
+  "required_beats": "N1 must beat U1-style raw-uncertainty and the strongest simple control",
+  "claim_ceiling": "same-team cross-architecture confirmation on a SECOND real source; not full independent scientific replication, not natural-world confirmation, not activation",
+  "prereg_sha256": "b2413c4584d5e03a4037b481649b5fba63a961345b29d66cbb90b3162af71df4"
+}
