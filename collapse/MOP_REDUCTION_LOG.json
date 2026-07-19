@@ -56,6 +56,24 @@
       "proof": "name-insensitive byte-identity to core + word-boundary call-site rename + py_compile + zero residual private name + ruff F401 clean + 9/9 import-identity parity on migrated src modules",
       "note": "STARSS23 independent verifiers with their own divergent _canonical_bytes were correctly skipped by the byte-identity gate, preserving verifier independence",
       "tag": "mop-collapse-evidence-batch3"
+    },
+    {
+      "region": "section10_experiment_engine",
+      "batch": "starss23_architecture_selection",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "Architecture A dataclass pipeline replaced by Architecture B sealed-record interpreter",
+      "deduplicated_LOC": 539,
+      "added_LOC": 402,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 137,
+      "files_changed": 8,
+      "destination_api": "mop.science.{seal_record,run_experiment,verify_artifact,render_report}",
+      "proof": "two implemented architectures across onset/counting/DoA/data-split reproduction; 4/4 fixture parity; selected engine 29/29 tests; 22/22 selected-architecture mutation attacks; canonical record-authority drift refusal; ruff clean",
+      "accounting_note": "539 replaced physical Python LOC = 358 Architecture A engine + 54 counting declaration + 127 tests; 402 selected physical Python LOC = 198 engine + 83 four-axis declarations + 121 stronger tests",
+      "tag": "mop-collapse-starss23-architecture-b"
     }
   ],
   "deferred_heavy_validation": {
