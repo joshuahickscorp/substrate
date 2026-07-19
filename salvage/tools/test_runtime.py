@@ -8,7 +8,6 @@ House style: no em dashes and no en dashes.
 from __future__ import annotations
 
 import sys
-import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "runtime"))

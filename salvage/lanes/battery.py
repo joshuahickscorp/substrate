@@ -11,7 +11,6 @@ House style: no em dashes and no en dashes.
 from __future__ import annotations
 
 import numpy as np
-
 from allocation_bed import (
     AllocationBed,
     BedConfig,
@@ -145,11 +144,7 @@ def classify(battery: dict, *, sesoi: float) -> dict:
     c = battery["clauses"]
     if not c["B_oracle_headroom"]["pass"]:
         cls = "invalid_bed"
-    elif not (c["A_what_sufficiency"]["pass"] and c["C_when_decodability"]["pass"]):
-        cls = "pruned_mechanism"
-    elif not c["D_incremental_value"]["pass"] or not c["J_rate_matched_random"]["pass"]:
-        cls = "pruned_mechanism"
-    elif not (c["G_noisy_tv"]["pass"] and c["H_shuffled_target"]["pass"] and c["I_wrong_time"]["pass"]):
+    elif not (c["A_what_sufficiency"]["pass"] and c["C_when_decodability"]["pass"]) or not c["D_incremental_value"]["pass"] or not c["J_rate_matched_random"]["pass"] or not (c["G_noisy_tv"]["pass"] and c["H_shuffled_target"]["pass"] and c["I_wrong_time"]["pass"]):
         cls = "pruned_mechanism"
     elif not c["E_group_disjoint"]["pass"]:
         cls = "insufficient_independent_units"
