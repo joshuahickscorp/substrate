@@ -449,6 +449,29 @@ def build_campaign() -> CampaignSpec:
         )
     )
 
+    # 3b. the scaled broad frontier, durably queued behind the live successor horizon chain. It stays
+    # PENDING (never blocked, never run) until the external authority "external:horizon-v2-complete" clears,
+    # at which point the observing parent auto-activates it. This is the exact-boundary queuing the mandate
+    # requires: work waiting behind a live sealed authority, not disturbing it.
+    nodes.append(
+        BedSpec(
+            node_id="broad_frontier_scaled_invariance",
+            title="Scaled receipt-invariance sweep, queued behind the live horizon-v2 chain",
+            entrypoint="mop.campaign.invariance:invariance_node_runner",
+            params={"n_items": 20000, "widths": [1, 4, 8, 12, 16, 20]},
+            resources=_EXCLUSIVE_SWEEP,
+            authorities=("external:horizon-v2-complete",),
+            coverage=Coverage(
+                form_family="none",
+                phenomenon="operational_self_monitoring",
+                mechanism_family="resource_allocator",
+                unit_class="worker_width",
+                evidence_level="M0",
+            ),
+            priority=15,
+        )
+    )
+
     # 4. contracted external-input families (blocked on named data/authority; durably represented).
     for node_id, title, form, phen, reason in _EXTERNAL:
         nodes.append(
