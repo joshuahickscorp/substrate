@@ -31,7 +31,7 @@
       "lane": "P",
       "mechanism": "G1-P1R external replication",
       "question": "P1R beats established replay under matched memory+compute on a stronger external source",
-      "status": "admission_pending",
+      "status": "repaired_rerun_in_progress",
       "dataset": "EMNIST-balanced class-incremental (downloading)",
       "independent_units": "tasks (class groups)",
       "implementation": "independent CNN + established methods reservoir/GDumb/uniform/loss/oracle",
@@ -45,7 +45,9 @@
       "commit": null,
       "rollback": "drop lane artifacts; branch intact",
       "dependencies": "EMNIST download",
-      "next_exact_action": "build EMNIST class-incremental replay bed; compare P1R selection vs established methods"
+      "next_exact_action": "await 5-seed faithful run; seal replication_null/positive per result",
+      "v1_result": "replication_harm (SUPERSEDED: unfaithful operationalization per 4-auditor adversarial audit)",
+      "repair": "one bounded bed-validity repair: faithful learned replay-value predictor + validated toxic-value gate; instrumentation hardened (torch-seeded, 5 seeds, Vitter reservoir)"
     },
     "A": {
       "lane": "A",
@@ -203,8 +205,9 @@
     "X": {
       "lane": "X",
       "purpose": "independent verification + mutation suites",
-      "status": "standby",
-      "next_exact_action": "activate on first canary_positive"
+      "status": "active",
+      "next_exact_action": "activate on first canary_positive",
+      "done": "Lane P adversarial audit (4 auditors + synthesis) -> unfaithful_operationalization; repair applied"
     },
     "R": {
       "lane": "R",
@@ -220,13 +223,13 @@
     }
   },
   "clusters": {
-    "action_simulation": "unlicensed",
-    "verification_repair_messaging": "unlicensed",
-    "event_trace": "unlicensed"
+    "action_simulation": "unlicensed (A1,S1 not admitted)",
+    "verification_repair_messaging": "unlicensed (V1 architecture_dependent, K1/M1 pruned)",
+    "event_trace": "unlicensed (E1,C0 not admitted)"
   },
-  "construction": "unlicensed",
-  "integration": "unlicensed",
+  "construction": "unlicensed pending Lane P (needs external P1R replication or >=2 confirmed components or a confirmed cluster)",
+  "integration": "unlicensed (needs three confirmation-level functional domains; not met)",
   "activation": false,
   "terminal_synthesis": "pending",
-  "state_sha256": "a2b5f313474695c576b62696774421e86581f75c88132cda3fb07eb96b3afb2b"
+  "state_sha256": "1f16d7b17f7f8b76550273f174d89ef94cc430dd6e7c3e089a4f30e365a19686"
 }
