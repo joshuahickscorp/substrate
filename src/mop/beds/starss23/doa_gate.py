@@ -211,6 +211,29 @@ def _assemble(features: np.ndarray, state: DoaOnlineState, d_in: int) -> np.ndar
     return x
 
 
+class _DoaGateInterface:
+    """Topology-neutral probability and threshold surface shared by both DoA gates."""
+
+    __slots__ = ()
+
+    def predict_proba(self, x: np.ndarray) -> np.ndarray:
+        x = np.asarray(x, dtype=np.float64)
+        if x.ndim != 2 or x.shape[1] != self.d_in:
+            raise DoaGateRefusal(f"gate input must be shape (N, {self.d_in})")
+        return self._forward(x)[0]
+
+    def infer(self, features: np.ndarray, state: DoaOnlineState) -> float:
+        x = _assemble(features, state, self.d_in)
+        return float(self.predict_proba(x[None, :])[0])
+
+    def decide(
+        self, features: np.ndarray, state: DoaOnlineState, theta: float | None = None
+    ) -> tuple[bool, float]:
+        threshold = self.theta if theta is None else float(theta)
+        probability = self.infer(features, state)
+        return (probability >= threshold, probability)
+
+
 # ---------------------------------------------------------------------------
 # Architecture A: single hidden layer 264 -> 12 -> 1. Byte-identical shape to the sealed onset gate.
 # ---------------------------------------------------------------------------
@@ -244,7 +267,7 @@ def training_flops_arch_a(
 FLOPS_PER_INFERENCE_ARCH_A = inference_flops_arch_a()
 
 
-class DoaGateArchA:
+class DoaGateArchA(_DoaGateInterface):
     """264 -> 12 -> 1 single-hidden-layer re-estimation gate. Params = 3193 (<= 4096)."""
 
     _SEED_NAMESPACE = "mop.beds.starss23.doa_gate.arch_a.init"
@@ -316,24 +339,6 @@ class DoaGateArchA:
         logit = hidden @ self.W2.T + self.b2
         p_reestimate = _sigmoid(logit[:, 0])
         return p_reestimate, hidden_pre, hidden
-
-    def predict_proba(self, x: np.ndarray) -> np.ndarray:
-        x = np.asarray(x, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise DoaGateRefusal(f"gate input must be shape (N, {self.d_in})")
-        p_reestimate, _, _ = self._forward(x)
-        return p_reestimate
-
-    def infer(self, features: np.ndarray, state: DoaOnlineState) -> float:
-        x = _assemble(features, state, self.d_in)
-        return float(self.predict_proba(x[None, :])[0])
-
-    def decide(
-        self, features: np.ndarray, state: DoaOnlineState, theta: float | None = None
-    ) -> tuple[bool, float]:
-        threshold = self.theta if theta is None else float(theta)
-        p_reestimate = self.infer(features, state)
-        return (p_reestimate >= threshold, p_reestimate)
 
     def fit(
         self,
@@ -436,7 +441,7 @@ def training_flops_arch_b(
 FLOPS_PER_INFERENCE_ARCH_B = inference_flops_arch_b()
 
 
-class DoaGateArchB:
+class DoaGateArchB(_DoaGateInterface):
     """264 -> 6 -> 6 -> 1 two-hidden-layer re-estimation gate. Params = 1639 (<= 4096)."""
 
     _SEED_NAMESPACE = "mop.beds.starss23.doa_gate.arch_b.init"
@@ -521,24 +526,6 @@ class DoaGateArchB:
         logit = h2 @ self.W3.T + self.b3
         p_reestimate = _sigmoid(logit[:, 0])
         return p_reestimate, z1, h1, z2, h2
-
-    def predict_proba(self, x: np.ndarray) -> np.ndarray:
-        x = np.asarray(x, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise DoaGateRefusal(f"gate input must be shape (N, {self.d_in})")
-        p_reestimate, _, _, _, _ = self._forward(x)
-        return p_reestimate
-
-    def infer(self, features: np.ndarray, state: DoaOnlineState) -> float:
-        x = _assemble(features, state, self.d_in)
-        return float(self.predict_proba(x[None, :])[0])
-
-    def decide(
-        self, features: np.ndarray, state: DoaOnlineState, theta: float | None = None
-    ) -> tuple[bool, float]:
-        threshold = self.theta if theta is None else float(theta)
-        p_reestimate = self.infer(features, state)
-        return (p_reestimate >= threshold, p_reestimate)
 
     def fit(
         self,

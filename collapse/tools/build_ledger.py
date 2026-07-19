@@ -298,11 +298,12 @@ def main() -> int:
                 "mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated "
                 "control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP "
                 "projection, count provider binding, and onset density centralized, net 34 LOC; frozen "
-                "provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC")
+                "provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC; "
+                "topology-neutral count and DoA gate interfaces centralized, net 58 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("measure common causal gate state, forward, and decision kernels while "
-                                 "preserving architecture topology and independent verifier mathematics")
+            it["next_action"] = ("remeasure remaining variant producer shells against the selected "
+                                 "per-axis declaration target and preserve independent verifier mathematics")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -494,6 +495,16 @@ def main() -> int:
                     "and messages exact; full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-16",
         next_action="measure common causal gate state, forward, and decision kernels"))
+    checklist.append(item(
+        "RED-starss23-topology-neutral-gate-interfaces", 11, "verified_reduction",
+        "Centralize STARSS23 topology-neutral gate interfaces", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/count_gate.py",
+                  "src/mop/beds/starss23/doa_gate.py", "tests/unit/test_starss23_doa_bed.py"],
+        validation=("126 replaced Python LOC, 68 added, net -58; four parameter digests, probability "
+                    "vectors, online decisions, refusal surfaces, and count report object shapes exact; "
+                    "forward topologies and optimizers remain local; full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-17",
+        next_action="remeasure remaining variant producer shells against the declaration target"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -922,6 +933,21 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 4,250 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-16.")
     lines.append("- next_exact_edit: measure common causal gate state, forward, and decision kernels.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 17 (current checkpoint)")
+    lines.append("")
+    lines.append("- count interface: sealed and alternate-topology count gates share held-fixed feature/state "
+                 "assembly, batch probability, online inference, threshold decision, and report shape.")
+    lines.append("- DoA interface: both gate architectures share only topology-neutral probability, online inference, "
+                 "and threshold decision; their forward and optimizer mathematics remain separate.")
+    lines.append("- parity: four parameter digests and all probability, decision, refusal, report payload, repr, and "
+                 "dict surfaces match checkpoint b8e98dd.")
+    lines.append("- validation: focused gate battery 91/91; full STARSS-focused suite 493/493 in 153.21s under "
+                 "nice -n 10.")
+    lines.append("- production and owned Python net reduction: 58 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 4,308 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-17.")
+    lines.append("- next_exact_edit: remeasure remaining variant producer shells against the declaration target.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

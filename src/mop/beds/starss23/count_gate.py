@@ -91,7 +91,7 @@ class CountOnlineState:
     last_p_reestimate: float = 0.0
 
     @classmethod
-    def initial(cls) -> "CountOnlineState":
+    def initial(cls) -> CountOnlineState:
         return cls()
 
     @classmethod
@@ -120,7 +120,7 @@ class CountOnlineState:
             dtype=np.float64,
         )
 
-    def update(self, features: np.ndarray, p_reestimate: float, reestimated: bool) -> "CountOnlineState":
+    def update(self, features: np.ndarray, p_reestimate: float, reestimated: bool) -> CountOnlineState:
         """Return the next state after observing one frame and the gate's own re-estimation decision.
 
         Deterministic. Uses only the features and the decision, never a label. The energy is the mean of
@@ -169,7 +169,40 @@ class CountTrainingReport:
         }
 
 
-class CountGate:
+class CountGateInterface:
+    """Topology-neutral input, probability, and threshold surface for count gates."""
+
+    __slots__ = ()
+    _feature_dim = N_CFEAT
+    _refusal: type[ValueError] = CountGateRefusal
+
+    def predict_proba(self, x: np.ndarray) -> np.ndarray:
+        x = np.asarray(x, dtype=np.float64)
+        if x.ndim != 2 or x.shape[1] != self.d_in:
+            raise self._refusal(f"gate input must be shape (N, {self.d_in})")
+        return self._forward(x)[0]
+
+    def _assemble(self, features: np.ndarray, state: CountOnlineState) -> np.ndarray:
+        features = np.asarray(features, dtype=np.float64)
+        if features.shape != (self._feature_dim,):
+            raise self._refusal(f"features must be a length {self._feature_dim} vector")
+        if not isinstance(state, CountOnlineState):
+            raise self._refusal("state must be a CountOnlineState")
+        return np.concatenate([features, state.to_vector()])
+
+    def infer(self, features: np.ndarray, state: CountOnlineState) -> float:
+        x = self._assemble(features, state)
+        return float(self.predict_proba(x[None, :])[0])
+
+    def decide(
+        self, features: np.ndarray, state: CountOnlineState, theta: float | None = None
+    ) -> tuple[bool, float]:
+        threshold = self.theta if theta is None else float(theta)
+        probability = self.infer(features, state)
+        return (probability >= threshold, probability)
+
+
+class CountGate(CountGateInterface):
     """The only trained module: an online value-of-computation re-estimation trigger for counting.
 
     Construction hard-asserts the parameter ceiling (<= 4096) and the online-state ceiling (few-KB).
@@ -248,36 +281,6 @@ class CountGate:
         logit = hidden @ self.W2.T + self.b2
         p_reestimate = _sigmoid(logit[:, 0])
         return p_reestimate, hidden_pre, hidden
-
-    def predict_proba(self, x: np.ndarray) -> np.ndarray:
-        x = np.asarray(x, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise CountGateRefusal(f"gate input must be shape (N, {self.d_in})")
-        p_reestimate, _, _ = self._forward(x)
-        return p_reestimate
-
-    def _assemble(self, features: np.ndarray, state: CountOnlineState) -> np.ndarray:
-        features = np.asarray(features, dtype=np.float64)
-        if features.shape != (N_CFEAT,):
-            raise CountGateRefusal(f"features must be a length {N_CFEAT} vector")
-        if not isinstance(state, CountOnlineState):
-            raise CountGateRefusal("state must be a CountOnlineState")
-        return np.concatenate([features, state.to_vector()])
-
-    def infer(self, features: np.ndarray, state: CountOnlineState) -> float:
-        """Online re-estimation probability for one frame. Takes features and self-state, never a label."""
-
-        x = self._assemble(features, state)
-        return float(self.predict_proba(x[None, :])[0])
-
-    def decide(
-        self, features: np.ndarray, state: CountOnlineState, theta: float | None = None
-    ) -> tuple[bool, float]:
-        """Return ``(reestimate, p_reestimate)`` for one frame; re-estimates iff p_reestimate >= theta."""
-
-        threshold = self.theta if theta is None else float(theta)
-        p_reestimate = self.infer(features, state)
-        return (p_reestimate >= threshold, p_reestimate)
 
     def fit(
         self,

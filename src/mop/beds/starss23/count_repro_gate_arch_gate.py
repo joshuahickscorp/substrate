@@ -24,8 +24,6 @@ from __future__ import annotations
 
 import hashlib
 import math
-from dataclasses import dataclass
-from typing import Any
 
 import numpy as np
 
@@ -40,7 +38,9 @@ from .count_gate import (
     D_IN,
     N_CFEAT,
     N_CONLINE,
+    CountGateInterface,
     CountOnlineState,
+    CountTrainingReport,
     voc_targets_from_count_track,
 )
 from .gate import (
@@ -161,31 +161,11 @@ def training_flops_two_layer(
 FLOPS_PER_INFERENCE_GATE_ARCH = inference_flops_two_layer()
 
 
-@dataclass
-class CountReproGateArchTrainingReport:
-    """Deterministic record of one fit call. Compute is the analytic C_train, not a measured count."""
-
-    epochs: int
-    n_train_frames: int
-    learning_rate: float
-    ponder_lambda: float
-    loss_history: tuple[float, ...]
-    final_reestimate_rate: float
-    c_train_flops: int
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "epochs": self.epochs,
-            "n_train_frames": self.n_train_frames,
-            "learning_rate": self.learning_rate,
-            "ponder_lambda": self.ponder_lambda,
-            "loss_history": [float(value) for value in self.loss_history],
-            "final_reestimate_rate": self.final_reestimate_rate,
-            "c_train_flops": self.c_train_flops,
-        }
+class CountReproGateArchTrainingReport(CountTrainingReport):
+    """Held-fixed count training report under the alternate gate topology."""
 
 
-class CountReproGateArchGate:
+class CountReproGateArchGate(CountGateInterface):
     """The re-authored two-hidden-layer re-estimation gate: 264 -> 8 -> 4 -> 1 with ReLU.
 
     Identical interface, objective, and decision rule to the sealed ``CountGate``; only the multilayer
@@ -196,6 +176,8 @@ class CountReproGateArchGate:
     """
 
     _SEED_NAMESPACE = "mop.beds.starss23.count_repro_gate_arch.init"
+    _feature_dim = N_CFEAT_GATE_ARCH
+    _refusal = CountReproGateArchRefusal
 
     def __init__(
         self,
@@ -287,36 +269,6 @@ class CountReproGateArchGate:
         logit = h2 @ self.W3.T + self.b3
         p_reestimate = _sigmoid(logit[:, 0])
         return p_reestimate, z1, h1, z2, h2
-
-    def predict_proba(self, x: np.ndarray) -> np.ndarray:
-        x = np.asarray(x, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise CountReproGateArchRefusal(f"gate input must be shape (N, {self.d_in})")
-        p_reestimate, _, _, _, _ = self._forward(x)
-        return p_reestimate
-
-    def _assemble(self, features: np.ndarray, state: CountOnlineState) -> np.ndarray:
-        features = np.asarray(features, dtype=np.float64)
-        if features.shape != (N_CFEAT_GATE_ARCH,):
-            raise CountReproGateArchRefusal(f"features must be a length {N_CFEAT_GATE_ARCH} vector")
-        if not isinstance(state, CountOnlineState):
-            raise CountReproGateArchRefusal("state must be a CountOnlineState")
-        return np.concatenate([features, state.to_vector()])
-
-    def infer(self, features: np.ndarray, state: CountOnlineState) -> float:
-        """Online re-estimation probability for one frame. Takes features and self-state, never a label."""
-
-        x = self._assemble(features, state)
-        return float(self.predict_proba(x[None, :])[0])
-
-    def decide(
-        self, features: np.ndarray, state: CountOnlineState, theta: float | None = None
-    ) -> tuple[bool, float]:
-        """Return ``(reestimate, p_reestimate)`` for one frame; re-estimates iff p_reestimate >= theta."""
-
-        threshold = self.theta if theta is None else float(theta)
-        p_reestimate = self.infer(features, state)
-        return (p_reestimate >= threshold, p_reestimate)
 
     def fit(
         self,
