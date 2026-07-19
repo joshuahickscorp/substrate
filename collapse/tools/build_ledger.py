@@ -287,11 +287,12 @@ def main() -> int:
                 "matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; "
                 "producer budget projection and canonical writes centralized, net 378 LOC; producer "
                 "result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; "
-                "statistics, noisy-TV controls, and safety projections centralized, net 41 LOC")
+                "statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common "
+                "artifact envelopes and matched-budget provenance centralized, net 31 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("collapse repeated artifact envelopes and statistics/control projections "
-                                 "onto the selected record engine; preserve independent verifiers and seals")
+            it["next_action"] = ("measure the remaining producer execution-loop duplication and delete the "
+                                 "next parity-proven lifecycle; preserve independent verifiers and seals")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -371,6 +372,16 @@ def main() -> int:
                     "statistics/control shapes, fresh closed safety flags, and focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-5",
         next_action="collapse the common artifact envelope across all thirteen producers"))
+    checklist.append(item(
+        "RED-starss23-artifact-envelopes", 11, "verified_reduction",
+        "Centralize STARSS23 producer artifact envelopes and matched-budget provenance", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/science/__init__.py",
+                  "tests/unit/test_science_engine.py", "tests/unit/test_starss23_end_to_end.py"],
+        validation=("649 replaced Python LOC, 618 added, net -31; production source net -70; 13/13 "
+                    "field inventories and migrated expressions exact; closed-authority mutation refused; "
+                    "full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-6",
+        next_action="measure and collapse the next repeated producer execution lifecycle"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -639,6 +650,20 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 3,386 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-5.")
     lines.append("- next_exact_edit: collapse the common artifact envelope across all thirteen producers.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 6 (current checkpoint)")
+    lines.append("")
+    lines.append("- envelopes: thirteen producer-local artifact bodies now use one closed shared envelope; "
+                 "producer-specific evidence remains explicit in each declaration.")
+    lines.append("- budget provenance: twelve identical matched-budget payload, wall-note, and break-even blocks "
+                 "are projected once; the DoA dual-budget exception remains exact.")
+    lines.append("- parity: 13/13 old/new field inventories and every migrated expression are normalized-AST exact; "
+                 "attempted shared-field shadowing refuses before sealing.")
+    lines.append("- validation: full STARSS-focused suite 484/484 under nice -n 10.")
+    lines.append("- production source reduction: 70 LOC; tests added: 39 LOC; owned Python net reduction: 31 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 3,417 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-6.")
+    lines.append("- next_exact_edit: measure and collapse the next repeated producer execution lifecycle.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

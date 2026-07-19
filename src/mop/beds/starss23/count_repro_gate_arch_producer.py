@@ -40,7 +40,13 @@ from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
 )
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
+from mop.science import (
+    ArtifactResult,
+    artifact_envelope,
+    demonstration_receipt,
+    finalize_artifact,
+    safety_flags,
+)
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -55,7 +61,7 @@ from mop.science.budget import (
 from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
 from mop.substrate.events import write_canonical_json
 
-from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
+from . import FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
 from .controls import (
     always_on_fires,
@@ -488,51 +494,15 @@ def build_real_count_repro_gate_arch_artifact(
     dropped_onsets = sum(t["dropped_onsets_past_end"] for t in truncations)
     capped_clips = sum(1 for t in truncations if t["capped_by_max_frames"])
 
-    body: dict[str, Any] = {
-        "schema": ARTIFACT_SCHEMA,
-        "stage": STAGE,
-        "bed_id": COUNT_BED_ID,
-        "reproduction_axis": REPRO_AXIS,
-        "claim_scope": CLAIM_SCOPE,
-        "cold_start": COLD_START,
-        "primary_control": PRIMARY_CONTROL,
-        "source_kind": "real",
-        "rights_clean": True,
-        "reproductions": 0,
-        "seeds": list(config.seeds),
-        "corpus_tracks": corpus_tracks,
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "flags": flags_block,
-        "verdict": verdict,
-        "survives_operating_point": survives,
-        "operating_point": {
-            "budget_id": operating_budget_id,
-            "candidate_mean_mae": candidate_op_mae,
-            "rate_matched_random_mean_mae": rmr_op_mae,
-            "candidate_strictly_beats_rate_matched_random": operating_candidate_beats_rmr,
-        },
-        "harness": report.payload(),
-        "matched_budget": report.matched_budget.payload(),
-        "matched_budget_wall_note": (
-            "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is "
-            "byte-reproducible; the measured wall is unsealed run provenance, and the authoritative "
-            "sealed compute axes are the parameter count and the FLOP ledger"
-        ),
-        "break_even": report.break_even.payload(),
-        "featurizer": {
+    body = artifact_envelope(
+        schema=ARTIFACT_SCHEMA, report=report, seeds=config.seeds, per_seed=per_seed,
+        stats=stats_block, controls=controls_block, flags=flags_block, verdict=verdict,
+        featurizer={
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME_COUNT,
             "d_cfeat": D_CFEAT,
-        },
-        "estimator": {
-            "n_params": estimator.n_params(),
-            "parameter_digest": estimator.parameter_digest(),
-            "flops_per_reestimate": FLOPS_PER_REESTIMATE,
-        },
-        "gate": {
+        }, gate={
             "architecture": "two_hidden_layer_mlp",
             "topology": "264 -> 8 -> 4 -> 1",
             "d_in": D_IN_GATE_ARCH,
@@ -546,6 +516,23 @@ def build_real_count_repro_gate_arch_artifact(
             "flops_per_inference": FLOPS_PER_INFERENCE_GATE_ARCH,
             "sealed_gate_topology": "264 -> 12 -> 1",
             "sealed_gate_flops_per_inference": 6385,
+        }, receipt_payload=receipt,
+        extra={
+        "reproduction_axis": REPRO_AXIS,
+        "cold_start": COLD_START,
+        "primary_control": PRIMARY_CONTROL,
+        "corpus_tracks": corpus_tracks,
+        "survives_operating_point": survives,
+        "operating_point": {
+            "budget_id": operating_budget_id,
+            "candidate_mean_mae": candidate_op_mae,
+            "rate_matched_random_mean_mae": rmr_op_mae,
+            "candidate_strictly_beats_rate_matched_random": operating_candidate_beats_rmr,
+        },
+        "estimator": {
+            "n_params": estimator.n_params(),
+            "parameter_digest": estimator.parameter_digest(),
+            "flops_per_reestimate": FLOPS_PER_REESTIMATE,
         },
         "real_corpus": {
             "producer_schema": COUNT_REPRO_GATE_ARCH_PRODUCER_SCHEMA,
@@ -577,8 +564,8 @@ def build_real_count_repro_gate_arch_artifact(
             "provisional": False,
             "written_before_test_scores": True,
         },
-        "demonstration_receipt": receipt,
-    }
+        },
+    )
     return finalize_artifact(
         body,
         prereg=prereg,

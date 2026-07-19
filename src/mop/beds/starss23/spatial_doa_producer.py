@@ -39,7 +39,13 @@ from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
 )
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
+from mop.science import (
+    ArtifactResult,
+    artifact_envelope,
+    demonstration_receipt,
+    finalize_artifact,
+    safety_flags,
+)
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -52,12 +58,11 @@ from mop.science.budget import (
 )
 from mop.science.statistics import exact_sign_flip, sign_flip_payload
 
-from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
+from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
 from .artifact import (
     DOWNSTREAM_FLOPS_PER_FIRING,
     FULL_SCALE_C_TRAIN,
     PRIMARY_CONTROL,
-    STAGE,
     _SeedRun,
 )
 from .experiments import ONSET_BUDGET_POLICY
@@ -349,33 +354,16 @@ def build_spatial_doa_artifact(
         },
     )
 
-    body: dict[str, Any] = {
-        "schema": VARIANT_ARTIFACT_SCHEMA,
-        "stage": STAGE,
-        "bed_id": BED_ID,
-        "featurizer_id": FEATURIZER_ID,
-        "claim_scope": CLAIM_SCOPE,
-        "collar_frames": COLLAR_FRAMES,
-        "primary_control": PRIMARY_CONTROL,
-        "source_kind": "real",
-        "rights_clean": True,
-        "reproductions": 0,
-        "seeds": list(config.seeds),
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "flags": flags_block,
-        "verdict": verdict,
-        "beats_rate_matched_random": beats_random,
-        "harness": report.payload(),
-        "matched_budget": report.matched_budget.payload(),
-        "matched_budget_wall_note": (
-            "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is "
-            "byte-reproducible; the measured wall is unsealed run provenance, and the authoritative "
-            "sealed compute axes are the parameter count and the FLOP ledger"
-        ),
-        "break_even": report.break_even.payload(),
-        "featurizer": {
+    body = artifact_envelope(
+        schema=VARIANT_ARTIFACT_SCHEMA,
+        report=report,
+        seeds=config.seeds,
+        per_seed=per_seed,
+        stats=stats_block,
+        controls=controls_block,
+        flags=flags_block,
+        verdict=verdict,
+        featurizer={
             "front_end": "spatial_doa_active_intensity",
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
@@ -388,62 +376,68 @@ def build_spatial_doa_artifact(
                 "arm from the honest per-frame count, so caching is not a budget cut"
             ),
         },
-        "gate": {
+        gate={
             "params": seed_runs[0].gate_params,
             "param_ceiling": 4096,
             "state_bytes": OnlineState.state_bytes(),
             "flops_per_inference": FLOPS_PER_INFERENCE,
         },
-        "featurizer_swap": {
+        receipt_payload=receipt,
+        extra={
             "featurizer_id": FEATURIZER_ID,
-            "hypothesis": _featurizer_hypothesis(),
-            "front_end": (
-                "per-band active-intensity direction of arrival (az/el direction cosines) + "
-                "DirAC diffuseness"
-            ),
-            "replaces": "half-wave-rectified log-mel spectral flux",
-            "only_front_end_differs": True,
-            "gate_unchanged": True,
-            "output_dim": D_FEAT,
-            "output_dim_note": (
-                "emits exactly 256 features natively, so the unchanged gate consumes it with no "
-                "projection and no truncation; the gate's hardcoded length-256 feature contract holds"
-            ),
-            "featurizers_prereg_path": str(Path(featurizers_prereg_path)),
-            "featurizers_prereg_canonical_sha256": prereg_digest,
-            "fire_spread_diagnostic": spread_block,
+            "collar_frames": COLLAR_FRAMES,
+            "primary_control": PRIMARY_CONTROL,
+            "beats_rate_matched_random": beats_random,
+            "featurizer_swap": {
+                "featurizer_id": FEATURIZER_ID,
+                "hypothesis": _featurizer_hypothesis(),
+                "front_end": (
+                    "per-band active-intensity direction of arrival (az/el direction cosines) + "
+                    "DirAC diffuseness"
+                ),
+                "replaces": "half-wave-rectified log-mel spectral flux",
+                "only_front_end_differs": True,
+                "gate_unchanged": True,
+                "output_dim": D_FEAT,
+                "output_dim_note": (
+                    "emits exactly 256 features natively, so the unchanged gate consumes it with no "
+                    "projection and no truncation; the gate's hardcoded length-256 feature contract holds"
+                ),
+                "featurizers_prereg_path": str(Path(featurizers_prereg_path)),
+                "featurizers_prereg_canonical_sha256": prereg_digest,
+                "fire_spread_diagnostic": spread_block,
+            },
+            "full_scale_anchors": {
+                "c_train_flops": FULL_SCALE_C_TRAIN,
+                "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
+                "downstream_flops_per_firing": bed_config.downstream_flops_per_firing,
+                "break_even_frames_anchor": FULL_SCALE_C_TRAIN // bed_config.downstream_flops_per_firing,
+            },
+            "real_corpus": {
+                "producer_schema": REAL_PRODUCER_SCHEMA,
+                "featurizer_producer_schema": VARIANT_ARTIFACT_SCHEMA,
+                "foa_root": str(Path(DEFAULT_FOA_ROOT)),
+                "metadata_root": str(Path(DEFAULT_METADATA_ROOT)),
+                "feature_cache_key": corpus.cache_key,
+                "n_clips": len(corpus.clips),
+                "split_rooms": dict(split.detail),
+                "n_train_frames": seed_runs[0].train_frames,
+                "n_test_clips": n_test_clips,
+                "n_test_onsets": n_test_onsets,
+                "n_test_frames": n_test_frames,
+                "train_onset_density": round(float(train_density), 12),
+                "operating_firing_fraction": round(float(operating_rate), 12),
+            },
+            "prereg": {
+                "path": str(Path(featurizers_prereg_path)),
+                "canonical_sha256": prereg_digest,
+                "sesoi_f1": sesoi_f1,
+                "provisional": False,
+                "written_before_test_scores": True,
+                "rebuilt_by_this_producer": False,
+            },
         },
-        "full_scale_anchors": {
-            "c_train_flops": FULL_SCALE_C_TRAIN,
-            "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
-            "downstream_flops_per_firing": bed_config.downstream_flops_per_firing,
-            "break_even_frames_anchor": FULL_SCALE_C_TRAIN // bed_config.downstream_flops_per_firing,
-        },
-        "real_corpus": {
-            "producer_schema": REAL_PRODUCER_SCHEMA,
-            "featurizer_producer_schema": VARIANT_ARTIFACT_SCHEMA,
-            "foa_root": str(Path(DEFAULT_FOA_ROOT)),
-            "metadata_root": str(Path(DEFAULT_METADATA_ROOT)),
-            "feature_cache_key": corpus.cache_key,
-            "n_clips": len(corpus.clips),
-            "split_rooms": dict(split.detail),
-            "n_train_frames": seed_runs[0].train_frames,
-            "n_test_clips": n_test_clips,
-            "n_test_onsets": n_test_onsets,
-            "n_test_frames": n_test_frames,
-            "train_onset_density": round(float(train_density), 12),
-            "operating_firing_fraction": round(float(operating_rate), 12),
-        },
-        "prereg": {
-            "path": str(Path(featurizers_prereg_path)),
-            "canonical_sha256": prereg_digest,
-            "sesoi_f1": sesoi_f1,
-            "provisional": False,
-            "written_before_test_scores": True,
-            "rebuilt_by_this_producer": False,
-        },
-        "demonstration_receipt": receipt,
-    }
+    )
     return finalize_artifact(
         body,
         verdict=verdict,

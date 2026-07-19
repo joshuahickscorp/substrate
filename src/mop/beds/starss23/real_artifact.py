@@ -43,7 +43,13 @@ from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
 )
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
+from mop.science import (
+    ArtifactResult,
+    artifact_envelope,
+    demonstration_receipt,
+    finalize_artifact,
+    safety_flags,
+)
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -56,7 +62,7 @@ from mop.science.budget import (
 from mop.science.statistics import exact_sign_flip, sign_flip_payload
 from mop.substrate.events import write_canonical_json
 
-from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
+from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
 from .artifact import (
     ARTIFACT_SCHEMA,
@@ -64,7 +70,6 @@ from .artifact import (
     FULL_SCALE_C_TRAIN,
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
-    STAGE,
     BedConfig,
     _causal_fires,
     _flop_model,
@@ -458,41 +463,22 @@ def build_real_bed_artifact(
     dropped_onsets = sum(t["dropped_onsets_past_end"] for t in truncations)
     capped_clips = sum(1 for t in truncations if t["capped_by_max_frames"])
 
-    body: dict[str, Any] = {
-        "schema": ARTIFACT_SCHEMA,
-        "stage": STAGE,
-        "bed_id": BED_ID,
-        "claim_scope": CLAIM_SCOPE,
-        "collar_frames": COLLAR_FRAMES,
-        "primary_control": PRIMARY_CONTROL,
-        "source_kind": "real",
-        "rights_clean": True,
-        "reproductions": 0,
-        "seeds": list(config.seeds),
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "flags": flags_block,
-        "verdict": verdict,
-        "harness": report.payload(),
-        "matched_budget": report.matched_budget.payload(),
-        "matched_budget_wall_note": (
-            "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is "
-            "byte-reproducible; the measured wall is unsealed run provenance, and the authoritative "
-            "sealed compute axes are the parameter count and the FLOP ledger"
-        ),
-        "break_even": report.break_even.payload(),
-        "featurizer": {
+    body = artifact_envelope(
+        schema=ARTIFACT_SCHEMA, report=report, seeds=config.seeds, per_seed=per_seed,
+        stats=stats_block, controls=controls_block, flags=flags_block, verdict=verdict,
+        featurizer={
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME,
-        },
-        "gate": {
+        }, gate={
             "params": seed_runs[0].gate_params,
             "param_ceiling": 4096,
             "state_bytes": OnlineState.state_bytes(),
             "flops_per_inference": FLOPS_PER_INFERENCE,
-        },
+        }, receipt_payload=receipt,
+        extra={
+        "collar_frames": COLLAR_FRAMES,
+        "primary_control": PRIMARY_CONTROL,
         "full_scale_anchors": {
             "c_train_flops": FULL_SCALE_C_TRAIN,
             "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
@@ -525,8 +511,8 @@ def build_real_bed_artifact(
             "provisional": False,
             "written_before_test_scores": True,
         },
-        "demonstration_receipt": receipt,
-    }
+        },
+    )
     return finalize_artifact(
         body,
         prereg=prereg,

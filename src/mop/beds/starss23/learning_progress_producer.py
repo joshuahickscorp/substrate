@@ -39,7 +39,13 @@ from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
 )
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
+from mop.science import (
+    ArtifactResult,
+    artifact_envelope,
+    demonstration_receipt,
+    finalize_artifact,
+    safety_flags,
+)
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -600,44 +606,21 @@ def build_lp_bed_artifact(
         },
     )
 
-    body: dict[str, Any] = {
-        "schema": ARTIFACT_SCHEMA,
-        "stage": STAGE,
-        "bed_id": BED_ID,
-        "claim_scope": CLAIM_SCOPE,
-        "collar_frames": COLLAR_FRAMES,
-        "primary_control": PRIMARY_CONTROL,
-        "source_kind": "real",
-        "rights_clean": True,
-        "reproductions": 0,
-        "variant": {
-            "variant_id": VARIANT_ID,
-            "producer_schema": LP_PRODUCER_SCHEMA,
-            "exploratory_fifth_variant": True,
-            "hypothesis": prereg["hypothesis"],
-        },
-        "seeds": list(config.seeds),
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "fire_spread_diagnostic": diagnostics_block,
-        "referee": referee_block,
-        "flags": flags_block,
-        "verdict": verdict,
-        "harness": report.payload(),
-        "matched_budget": report.matched_budget.payload(),
-        "matched_budget_wall_note": (
-            "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is "
-            "byte-reproducible; the measured wall is unsealed run provenance, and the authoritative "
-            "sealed compute axes are the parameter count and the FLOP ledger"
-        ),
-        "break_even": report.break_even.payload(),
-        "featurizer": {
+    body = artifact_envelope(
+        schema=ARTIFACT_SCHEMA,
+        report=report,
+        seeds=config.seeds,
+        per_seed=per_seed,
+        stats=stats_block,
+        controls=controls_block,
+        flags=flags_block,
+        verdict=verdict,
+        featurizer={
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME,
         },
-        "gate": {
+        gate={
             "variant_id": VARIANT_ID,
             "params": seed_runs[0].gate_params,
             "param_ceiling": 4096,
@@ -645,40 +628,52 @@ def build_lp_bed_artifact(
             "flops_per_inference": reference_gate.flops_per_inference(),
             "parameter_digest": reference_gate.parameter_digest(),
         },
-        "full_scale_anchors": {
-            "c_train_flops": FULL_SCALE_C_TRAIN,
-            "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
-            "downstream_flops_per_firing": DOWNSTREAM_FLOPS_PER_FIRING,
-            "break_even_frames_anchor": FULL_SCALE_C_TRAIN // DOWNSTREAM_FLOPS_PER_FIRING,
+        receipt_payload=receipt,
+        extra={
+            "collar_frames": COLLAR_FRAMES,
+            "primary_control": PRIMARY_CONTROL,
+            "variant": {
+                "variant_id": VARIANT_ID,
+                "producer_schema": LP_PRODUCER_SCHEMA,
+                "exploratory_fifth_variant": True,
+                "hypothesis": prereg["hypothesis"],
+            },
+            "fire_spread_diagnostic": diagnostics_block,
+            "referee": referee_block,
+            "full_scale_anchors": {
+                "c_train_flops": FULL_SCALE_C_TRAIN,
+                "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
+                "downstream_flops_per_firing": DOWNSTREAM_FLOPS_PER_FIRING,
+                "break_even_frames_anchor": FULL_SCALE_C_TRAIN // DOWNSTREAM_FLOPS_PER_FIRING,
+            },
+            "real_corpus": {
+                "producer_schema": LP_PRODUCER_SCHEMA,
+                "cache_key": corpus.cache_key,
+                "cache_dir": str(corpus.cache_dir),
+                "featurizer_digest": corpus.featurizer_digest,
+                "foa_root": str(Path(foa_root)),
+                "metadata_root": str(Path(metadata_root)),
+                "n_clips": len(corpus.clips),
+                "split_rooms": dict(split.detail),
+                "n_train_frames": seed_runs[0].train_frames,
+                "n_test_clips": n_test_clips,
+                "n_test_onsets": n_test_onsets,
+                "n_test_frames": n_test_frames,
+                "train_onset_density": round(float(train_density), 12),
+                "operating_firing_fraction": round(float(operating_rate), 12),
+            },
+            "prereg": {
+                "path": str(prereg_written),
+                "canonical_sha256": prereg["canonical_sha256"],
+                "sesoi_f1": sesoi_f1,
+                "provisional": False,
+                "written_before_test_scores": True,
+                "sealed_variants_prereg_canonical_sha256": prereg[
+                    "sealed_variants_prereg_canonical_sha256"
+                ],
+            },
         },
-        "real_corpus": {
-            "producer_schema": LP_PRODUCER_SCHEMA,
-            "cache_key": corpus.cache_key,
-            "cache_dir": str(corpus.cache_dir),
-            "featurizer_digest": corpus.featurizer_digest,
-            "foa_root": str(Path(foa_root)),
-            "metadata_root": str(Path(metadata_root)),
-            "n_clips": len(corpus.clips),
-            "split_rooms": dict(split.detail),
-            "n_train_frames": seed_runs[0].train_frames,
-            "n_test_clips": n_test_clips,
-            "n_test_onsets": n_test_onsets,
-            "n_test_frames": n_test_frames,
-            "train_onset_density": round(float(train_density), 12),
-            "operating_firing_fraction": round(float(operating_rate), 12),
-        },
-        "prereg": {
-            "path": str(prereg_written),
-            "canonical_sha256": prereg["canonical_sha256"],
-            "sesoi_f1": sesoi_f1,
-            "provisional": False,
-            "written_before_test_scores": True,
-            "sealed_variants_prereg_canonical_sha256": prereg[
-                "sealed_variants_prereg_canonical_sha256"
-            ],
-        },
-        "demonstration_receipt": receipt,
-    }
+    )
     return finalize_artifact(
         body,
         prereg=prereg,

@@ -41,7 +41,13 @@ from typing import Any
 import numpy as np
 
 from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
+from mop.science import (
+    ArtifactResult,
+    artifact_envelope,
+    demonstration_receipt,
+    finalize_artifact,
+    safety_flags,
+)
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -55,7 +61,7 @@ from mop.science.budget import (
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import write_canonical_json
 
-from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
+from . import FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
 from .controls import always_on_fires, at_chance, never_update_reestimates, rate_matched_random_fires
 from .doa_estimator import FLOPS_PER_REESTIMATE, FrozenDoaEstimator
@@ -803,36 +809,22 @@ def build_real_doa_bed_artifact(
 
     truncations = [t.payload() for t in adapter.truncations()]
 
-    body: dict[str, Any] = {
-        "schema": ARTIFACT_SCHEMA,
-        "stage": STAGE,
-        "bed_id": DOA_BED_ID,
-        "claim_scope": CLAIM_SCOPE,
-        "cold_start": list(DOA_COLD_START),
-        "source_kind": "real",
-        "rights_clean": True,
-        "reproductions": 0,
-        "seeds": list(config.seeds),
-        "architectures": list(ARCHITECTURES),
-        "corpus_tracks": corpus_tracks,
-        "per_seed": per_seed_block,
-        "stats": stats_block,
-        "controls": controls_block,
-        "flags": flags_block,
-        "verdict": bed_verdict,
-        "harness": report.payload(),
-        "featurizer": {
+    body = artifact_envelope(
+        schema=ARTIFACT_SCHEMA,
+        report=report,
+        seeds=config.seeds,
+        per_seed=per_seed_block,
+        stats=stats_block,
+        controls=controls_block,
+        flags=flags_block,
+        verdict=bed_verdict,
+        featurizer={
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FEATURIZER_FLOPS_PER_FRAME,
             "d_feat_doa": D_FEAT_DOA,
         },
-        "estimator": {
-            "n_params": estimator.n_params(),
-            "parameter_digest": estimator.parameter_digest(),
-            "flops_per_reestimate": FLOPS_PER_REESTIMATE,
-        },
-        "gate": {
+        gate={
             ARCH_A_ID: {
                 "topology": "264 -> 12 -> 1",
                 "params": seed_runs_by_arch[ARCH_A_ID][0].gate_params,
@@ -849,39 +841,53 @@ def build_real_doa_bed_artifact(
             },
             "state_bytes": DoaOnlineState.state_bytes(),
         },
-        "real_corpus": {
-            "producer_schema": DOA_PRODUCER_SCHEMA,
-            "foa_root": str(Path(foa_root)),
-            "metadata_root": str(Path(metadata_root)),
-            "n_clips": len(adapter.clips()),
-            "split_rooms": split_detail,
-            "n_train_clips": len(train_clips),
-            "n_val_clips": len(val_clips),
-            "n_train_frames": seed_runs_by_arch[ARCH_A_ID][0].train_frames,
-            "n_test_clips": len(test_clips),
-            "n_test_frames": int(sum(clip.n_frames for clip in test_clips)),
-            "n_test_active_frames": n_test_active_frames,
-            "n_test_changes": int(sum(dc.n_changes for dc in test_doa_clips)),
-            "test_rooms": test_rooms,
-            "train_change_density": round(float(train_density), 12),
-            "mean_change_jump_deg": round(float(jump_deg), 12),
-            "operating_reestimate_fraction": round(float(operating_rate), 12),
-            "truncation": {
-                "clips_capped_by_max_frames": sum(1 for t in truncations if t["capped_by_max_frames"]),
-                "onsets_dropped_past_audio_end": sum(t["dropped_onsets_past_end"] for t in truncations),
-                "max_frames": config.max_frames,
+        receipt_payload=receipt,
+        extra={
+            "cold_start": list(DOA_COLD_START),
+            "architectures": list(ARCHITECTURES),
+            "corpus_tracks": corpus_tracks,
+            "estimator": {
+                "n_params": estimator.n_params(),
+                "parameter_digest": estimator.parameter_digest(),
+                "flops_per_reestimate": FLOPS_PER_REESTIMATE,
             },
+            "real_corpus": {
+                "producer_schema": DOA_PRODUCER_SCHEMA,
+                "foa_root": str(Path(foa_root)),
+                "metadata_root": str(Path(metadata_root)),
+                "n_clips": len(adapter.clips()),
+                "split_rooms": split_detail,
+                "n_train_clips": len(train_clips),
+                "n_val_clips": len(val_clips),
+                "n_train_frames": seed_runs_by_arch[ARCH_A_ID][0].train_frames,
+                "n_test_clips": len(test_clips),
+                "n_test_frames": int(sum(clip.n_frames for clip in test_clips)),
+                "n_test_active_frames": n_test_active_frames,
+                "n_test_changes": int(sum(dc.n_changes for dc in test_doa_clips)),
+                "test_rooms": test_rooms,
+                "train_change_density": round(float(train_density), 12),
+                "mean_change_jump_deg": round(float(jump_deg), 12),
+                "operating_reestimate_fraction": round(float(operating_rate), 12),
+                "truncation": {
+                    "clips_capped_by_max_frames": sum(
+                        1 for t in truncations if t["capped_by_max_frames"]
+                    ),
+                    "onsets_dropped_past_audio_end": sum(
+                        t["dropped_onsets_past_end"] for t in truncations
+                    ),
+                    "max_frames": config.max_frames,
+                },
+            },
+            "prereg": {
+                "path": str(prereg_written),
+                "canonical_sha256": prereg["canonical_sha256"],
+                "sesoi_deg": sesoi_deg,
+                "provisional": False,
+                "written_before_test_scores": True,
+            },
+            "noisy_tv_at_chance_both_architectures": noisy_tv_at_chance_both,
         },
-        "prereg": {
-            "path": str(prereg_written),
-            "canonical_sha256": prereg["canonical_sha256"],
-            "sesoi_deg": sesoi_deg,
-            "provisional": False,
-            "written_before_test_scores": True,
-        },
-        "noisy_tv_at_chance_both_architectures": noisy_tv_at_chance_both,
-        "demonstration_receipt": receipt,
-    }
+    )
     return finalize_artifact(
         body,
         prereg=prereg,

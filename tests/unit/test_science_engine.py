@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import copy
+from types import SimpleNamespace
 
 import pytest
 
 from mop.beds.starss23.experiments import COUNTING, RECORDS
 from mop.science import (
+    MATCHED_BUDGET_WALL_NOTE,
     RecordRefused,
+    artifact_envelope,
     demonstration_receipt,
     finalize_artifact,
     render_report,
@@ -171,3 +174,39 @@ def test_safety_flags_returns_a_fresh_closed_boundary():
         "scientific_promotion": False,
         "independent_scientific_confirmation": False,
     }
+
+
+def test_artifact_envelope_has_one_closed_matched_budget_authority():
+    report = SimpleNamespace(
+        policy=SimpleNamespace(bed_id="fixture_bed", claim_scope="fixture_scope"),
+        source_kind="real",
+        payload=lambda: {"report": "payload"},
+        matched_budget=SimpleNamespace(payload=lambda: {"flops": 12}),
+        break_even=SimpleNamespace(payload=lambda: {"n_star": 34}),
+    )
+    shared = {
+        "schema": "fixture/v1",
+        "report": report,
+        "seeds": (1, 2),
+        "per_seed": [{"seed": 1}],
+        "stats": {"effect": 0.5},
+        "controls": {"random": "cleared"},
+        "flags": {"activation_allowed": False},
+        "verdict": "null",
+        "featurizer": {"n_params": 0},
+        "gate": {"params": 3},
+        "receipt_payload": {"evidence_digest": "digest"},
+    }
+    body = artifact_envelope(**shared, extra={"producer": "fixture"})
+    assert set(body) == set(
+        "schema stage bed_id claim_scope source_kind rights_clean reproductions seeds per_seed stats "
+        "controls flags verdict harness featurizer gate demonstration_receipt matched_budget "
+        "matched_budget_wall_note break_even producer".split()
+    )
+    assert body["seeds"] == [1, 2]
+    assert body["harness"] == {"report": "payload"}
+    assert body["matched_budget"] == {"flops": 12}
+    assert body["break_even"] == {"n_star": 34}
+    assert body["matched_budget_wall_note"] == MATCHED_BUDGET_WALL_NOTE
+    with pytest.raises(RecordRefused, match="overlap the shared envelope"):
+        artifact_envelope(**shared, extra={"schema": "drifted/v1"})
