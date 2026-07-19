@@ -16,7 +16,7 @@ import numpy as np
 import pytest
 
 from mop.beds.starss23 import controls as c
-from mop.beds.starss23.harness import (
+from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
     ARM_RATE_MATCHED_RANDOM,

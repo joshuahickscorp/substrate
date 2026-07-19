@@ -92,6 +92,24 @@
       "proof": "six historical cache-key fixtures exact; partial/malformed cache refusal and atomic-write tests; 128/128 focused controls/count/DoA/reproduction tests; exact sign-flip statistics restored to the selected engine; full STARSS-focused suite 476/476 in 139.99s under nice -n 10",
       "accounting_note": "1816 replaced Python LOC = 1806 production-source deletions + 9 test deletions + 1 script deletion; 642 added Python LOC = 529 production source + 112 tests + 1 script; production source net -1277, tests net +103, total owned Python net -1174; decomposition tooling is measured separately and not claimed as product reduction",
       "tag": "mop-collapse-starss23-lifecycle-1"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "matched_budget_harnesses",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "onset, count, and dual-architecture DoA matched-budget harnesses collapsed onto one policy-driven science budget engine",
+      "deduplicated_LOC": 2142,
+      "added_LOC": 1004,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1138,
+      "files_changed": 31,
+      "destination_api": "mop.science.budget + mop.beds.starss23.experiments.{ONSET_BUDGET_POLICY,COUNT_BUDGET_POLICY,DOA_BUDGET_POLICY}",
+      "proof": "representative onset/count/DoA report payloads byte-equal to deleted implementations; legacy digests pinned in tests; matched cost, charged training, ceiling, metric direction, Pareto, break-even, and dual-architecture fold exercised; full STARSS-focused suite 476/476 in 143.36s under nice -n 10",
+      "accounting_note": "2142 replaced Python LOC = 2068 production-source deletions + 67 test deletions + 7 script deletions; 1004 added Python LOC = 892 production source (including the 625-LOC shared engine) + 105 tests + 7 scripts; production source net -1176, tests net +38, total owned Python net -1138",
+      "tag": "mop-collapse-starss23-lifecycle-2"
     }
   ],
   "deferred_heavy_validation": {

@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `4dcb1e7` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `f97ee31` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 219. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 3}`.
+Total items: 220. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 4}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -134,7 +134,7 @@ Total items: 219. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
-| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | collapse onset/count/DoA budget harnesses into one shared science engine; prove payload and budget-point parity; delete superseded harnesses |
+| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | collapse repeated producer assembly onto the selected record engine; preserve independent verifiers and sealed artifact payloads |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
 | SEC-13 | 13 | region | pending | One campaign controller (AFTER live run terminal + PR30 closure) | build vs fixtures only while live; archive historical bytes; replay-equivalence then delete |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
@@ -255,6 +255,7 @@ Total items: 219. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | ART-MOP_STARSS23_SOURCE_DECOMPOSITION.json | 11 | artifact | complete | MOP_STARSS23_SOURCE_DECOMPOSITION.json (complete line-range ownership map) | use named parity and rollback fields as the deletion gate for each cluster |
 | RED-starss23-architecture-b | 10 | verified_reduction | verified | Select Architecture B and physically delete Architecture A | wire real STARSS23 providers and delete superseded family lifecycle |
 | RED-starss23-cache-controls-statistics | 11 | verified_reduction | verified | Collapse STARSS23 cache, control, and producer-statistics lifecycle | collapse the three STARSS23 budget harnesses onto one shared implementation |
+| RED-starss23-matched-budget-harnesses | 11 | verified_reduction | verified | Replace three STARSS23 matched-budget harnesses with one policy engine | collapse repeated producer assembly onto the selected experiment engine |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -263,7 +264,7 @@ Total items: 219. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 4dcb1e7
+- commit: pending; base f97ee31
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -293,5 +294,16 @@ Total items: 219. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 - source reduction: 1,277 LOC; tests added net: 103 LOC; owned Python net reduction: 1,174 LOC.
 - cumulative verified owned Python reduction: 1,513 LOC.
 - rollback_tag: mop-collapse-starss23-lifecycle-1.
-- next_exact_edit: collapse onset/count/DoA budget harnesses onto one shared implementation.
+- next_exact_edit: matched-budget harness consolidation.
+
+### STARSS23 lifecycle cluster 2 (current checkpoint)
+
+- old harnesses: onset 714 LOC + count 502 LOC + DoA 640 LOC = 1,856 LOC deleted.
+- replacement: one 625-LOC policy-driven budget engine; three declarations live with the experiment records.
+- byte parity: representative onset, count, and dual-architecture DoA report payloads exact.
+- canonical payload digests are pinned in the corresponding three unit-test families.
+- source reduction: 1,176 LOC; tests added net: 38 LOC; owned Python net reduction: 1,138 LOC.
+- cumulative verified owned Python reduction: 2,651 LOC.
+- rollback_tag: mop-collapse-starss23-lifecycle-2.
+- next_exact_edit: collapse repeated producer assembly onto the selected record engine.
 

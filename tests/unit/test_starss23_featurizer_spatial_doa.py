@@ -20,6 +20,7 @@ import pathlib
 import numpy as np
 import pytest
 
+from mop.beds.starss23 import FLOP_CEILING
 from mop.beds.starss23 import spatial_doa_verifier as verifier_module
 from mop.beds.starss23.feature_cache import CachedCorpus
 from mop.beds.starss23.featurizer import FLOPS_PER_FRAME as FROZEN_FLOPS_PER_FRAME
@@ -34,13 +35,6 @@ from mop.beds.starss23.featurizer_spatial_doa import (
 )
 from mop.beds.starss23.gate import D_FEAT as GATE_D_FEAT
 from mop.beds.starss23.gate import D_IN
-from mop.beds.starss23.harness import (
-    ARM_ALWAYS_ON,
-    ARM_BEST_SINGLE,
-    ARM_CANDIDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    FLOP_CEILING,
-)
 from mop.beds.starss23.schema import (
     N_CHANNELS,
     SAMPLES_PER_FRAME,
@@ -50,6 +44,12 @@ from mop.beds.starss23.schema import (
 )
 from mop.beds.starss23.spatial_doa_producer import _flop_model
 from mop.beds.starss23.spatial_doa_verifier import verify_artifact
+from mop.science.budget import (
+    ARM_ALWAYS_ON,
+    ARM_BEST_SINGLE,
+    ARM_CANDIDATE,
+    ARM_RATE_MATCHED_RANDOM,
+)
 
 # The committed real run's structural anchors (from proof/STARSS23_ESCS_BED_refractory_nms.json).
 REAL_N_TEST_FRAMES = 22569

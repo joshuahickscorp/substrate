@@ -45,6 +45,17 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.budget import (
+    ARM_ALWAYS_ON,
+    ARM_BEST_SINGLE,
+    ARM_CANDIDATE,
+    ARM_RATE_MATCHED_RANDOM,
+    Arm,
+    BudgetPoint,
+    FlopModel,
+    SeedResult,
+    run_matched_budget,
+)
 from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
@@ -58,21 +69,11 @@ from .artifact import (
     _SeedRun,
 )
 from .controls import at_chance
+from .experiments import ONSET_BUDGET_POLICY
 from .feature_cache import load_cached_corpus, load_or_build_cached_corpus
 from .featurizer_superflux_spectral import FLOPS_PER_FRAME as SUPERFLUX_FLOPS_PER_FRAME
 from .featurizer_superflux_spectral import SuperfluxSpectralFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState, training_flops
-from .harness import (
-    ARM_ALWAYS_ON,
-    ARM_BEST_SINGLE,
-    ARM_CANDIDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    Arm,
-    ArmSeedResult,
-    BudgetPoint,
-    FlopModel,
-    run_matched_budget,
-)
 from .real_artifact import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
@@ -165,14 +166,15 @@ def _build_superflux_budget_points(seed_runs: Sequence[_SeedRun], config: Any) -
         arms: dict[str, Arm] = {}
         for kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE):
             seed_results = tuple(
-                ArmSeedResult(
+                SeedResult(
                     seed=run.seed,
-                    f1=run.per_budget[budget_id]["arm_scores"][kind]["f1"],
-                    firings=run.per_budget[budget_id]["firings"][kind],
+                    metric_value=run.per_budget[budget_id]["arm_scores"][kind]["f1"],
+                    actions=run.per_budget[budget_id]["firings"][kind],
                 )
                 for run in seed_runs
             )
             arms[kind] = Arm(
+                policy=ONSET_BUDGET_POLICY,
                 name=f"{kind}@{budget_id}",
                 kind=kind,
                 total_frames=total_frames,
@@ -182,11 +184,12 @@ def _build_superflux_budget_points(seed_runs: Sequence[_SeedRun], config: Any) -
             )
         budget_points.append(
             BudgetPoint(
+                policy=ONSET_BUDGET_POLICY,
                 budget_id=budget_id,
                 candidate=arms[ARM_CANDIDATE],
                 rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
                 always_on=arms[ARM_ALWAYS_ON],
-                best_single=arms[ARM_BEST_SINGLE],
+                reference=arms[ARM_BEST_SINGLE],
             )
         )
     return budget_points

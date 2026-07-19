@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "4dcb1e7436c00f6687f09186551749c861a22e4b",
+    "base_commit": "f97ee31463f13e142f37704156831612bee37040",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -101,6 +101,7 @@
     "starss23_collapsible_loc": 18669,
     "starss23_preserved_loc": 8753,
     "shared_engine": "src/mop/science architecture B (197 LOC), 29/29 focused tests",
+    "shared_budget_engine": "src/mop/science/budget.py (625 LOC), three old harnesses deleted",
     "selected_experiment_architecture": "architecture_b",
     "starss23_source_decomposition": {
       "files": 75,
@@ -117,21 +118,21 @@
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
-    "deduplicated_LOC": 2606,
+    "deduplicated_LOC": 4748,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 1093,
-    "net_global_reduction_LOC": 1513
+    "added_LOC": 2097,
+    "net_global_reduction_LOC": 2651
   },
   "checklist_summary": {
-    "total": 219,
+    "total": 220,
     "by_status": {
       "complete": 14,
       "active": 49,
       "pending": 145,
       "partial": 8,
-      "verified": 3
+      "verified": 4
     }
   },
   "checklist": [
@@ -1425,11 +1426,11 @@
         "src/mop/beds/starss23/feature_cache.py",
         "tests/unit/test_science_engine.py"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC",
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; heavy real-audio validation remains deferred to host headroom",
-      "next_action": "collapse onset/count/DoA budget harnesses into one shared science engine; prove payload and budget-point parity; delete superseded harnesses"
+      "next_action": "collapse repeated producer assembly onto the selected record engine; preserve independent verifiers and sealed artifact payloads"
     },
     {
       "id": "SEC-12",
@@ -3003,6 +3004,26 @@
       "rollback_tag": "mop-collapse-starss23-lifecycle-1",
       "dependency": "",
       "next_action": "collapse the three STARSS23 budget harnesses onto one shared implementation"
+    },
+    {
+      "id": "RED-starss23-matched-budget-harnesses",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Replace three STARSS23 matched-budget harnesses with one policy engine",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "src/mop/science/budget.py",
+        "src/mop/beds/starss23/experiments.py",
+        "tests/unit/test_starss23_harness.py",
+        "tests/unit/test_starss23_counting_bed.py",
+        "tests/unit/test_starss23_doa_bed.py"
+      ],
+      "validation": "2142 replaced Python LOC, 1004 added, net -1138; onset/count/DoA payloads byte-equal and old canonical digests pinned; full focused STARSS suite green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-lifecycle-2",
+      "dependency": "",
+      "next_action": "collapse repeated producer assembly onto the selected experiment engine"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

@@ -283,11 +283,12 @@ def main() -> int:
                 f"preserved={starss.get('preserved_loc')} "
                 "per_axis_declaration~21; architecture B selected after implemented A/B comparison; "
                 "29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics "
-                "cluster physically deleted with net owned Python reduction of 1174 LOC")
+                "cluster physically deleted with net owned Python reduction of 1174 LOC; three "
+                "matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("collapse onset/count/DoA budget harnesses into one shared science engine; "
-                                 "prove payload and budget-point parity; delete superseded harnesses")
+            it["next_action"] = ("collapse repeated producer assembly onto the selected record engine; "
+                                 "preserve independent verifiers and sealed artifact payloads")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -326,6 +327,16 @@ def main() -> int:
                     "crash-safe writes, exact statistics, controls, and full focused STARSS suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-1",
         next_action="collapse the three STARSS23 budget harnesses onto one shared implementation"))
+    checklist.append(item(
+        "RED-starss23-matched-budget-harnesses", 11, "verified_reduction",
+        "Replace three STARSS23 matched-budget harnesses with one policy engine", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/science/budget.py",
+                  "src/mop/beds/starss23/experiments.py", "tests/unit/test_starss23_harness.py",
+                  "tests/unit/test_starss23_counting_bed.py", "tests/unit/test_starss23_doa_bed.py"],
+        validation=("2142 replaced Python LOC, 1004 added, net -1138; onset/count/DoA payloads "
+                    "byte-equal and old canonical digests pinned; full focused STARSS suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-2",
+        next_action="collapse repeated producer assembly onto the selected experiment engine"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -438,6 +449,7 @@ def main() -> int:
             "starss23_collapsible_loc": (starss.get("collapsible_loc") if starss else None),
             "starss23_preserved_loc": (starss.get("preserved_loc") if starss else None),
             "shared_engine": "src/mop/science architecture B (197 LOC), 29/29 focused tests",
+            "shared_budget_engine": "src/mop/science/budget.py (625 LOC), three old harnesses deleted",
             "selected_experiment_architecture": (architecture.get("selection") or {}).get("selected"),
             "starss23_source_decomposition": {
                 "files": len(decomposition.get("files") or []),
@@ -533,8 +545,20 @@ def main() -> int:
                  "reduction: 1,174 LOC.")
     lines.append("- cumulative verified owned Python reduction: 1,513 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-1.")
-    lines.append("- next_exact_edit: collapse onset/count/DoA budget harnesses onto one shared "
-                 "implementation.")
+    lines.append("- next_exact_edit: matched-budget harness consolidation.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 2 (current checkpoint)")
+    lines.append("")
+    lines.append("- old harnesses: onset 714 LOC + count 502 LOC + DoA 640 LOC = 1,856 LOC deleted.")
+    lines.append("- replacement: one 625-LOC policy-driven budget engine; three declarations live with "
+                 "the experiment records.")
+    lines.append("- byte parity: representative onset, count, and dual-architecture DoA report payloads exact.")
+    lines.append("- canonical payload digests are pinned in the corresponding three unit-test families.")
+    lines.append("- source reduction: 1,176 LOC; tests added net: 38 LOC; owned Python net reduction: "
+                 "1,138 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 2,651 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-2.")
+    lines.append("- next_exact_edit: collapse repeated producer assembly onto the selected record engine.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

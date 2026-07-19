@@ -44,6 +44,13 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.budget import (
+    ARM_ALWAYS_ON,
+    ARM_BEST_SINGLE,
+    ARM_CANDIDATE,
+    ARM_RATE_MATCHED_RANDOM,
+    run_matched_budget,
+)
 from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_sha256
 
@@ -72,13 +79,6 @@ from .controls import (
 )
 from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState
-from .harness import (
-    ARM_ALWAYS_ON,
-    ARM_BEST_SINGLE,
-    ARM_CANDIDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    run_matched_budget,
-)
 from .prereg import DEFAULT_PREREG_PATH, build_prereg, write_prereg
 from .referee import score_arm
 from .schema import COLLAR_FRAMES, N_CHANNELS, SAMPLES_PER_FRAME, Clip, ClipSplit
