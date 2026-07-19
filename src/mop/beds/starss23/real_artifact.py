@@ -42,8 +42,8 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -53,7 +53,7 @@ from mop.science.budget import (
     run_matched_budget,
 )
 from mop.science.statistics import exact_sign_flip
-from mop.substrate.events import canonical_sha256
+from mop.substrate.events import write_canonical_json
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -64,7 +64,6 @@ from .artifact import (
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
     STAGE,
-    STAGE3_REQUIREMENT_ID,
     BedConfig,
     _causal_fires,
     _flop_model,
@@ -81,7 +80,7 @@ from .controls import (
 from .experiments import ONSET_BUDGET_POLICY
 from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState
-from .prereg import DEFAULT_PREREG_PATH, build_prereg, write_prereg
+from .prereg import DEFAULT_PREREG_PATH, build_prereg
 from .referee import score_arm
 from .schema import COLLAR_FRAMES, N_CHANNELS, SAMPLES_PER_FRAME, Clip, ClipSplit
 
@@ -327,20 +326,6 @@ def _run_seed_real(
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class RealBedArtifact:
-    """The assembled sealed real-data bed artifact plus the mechanics-only demonstration receipt."""
-
-    artifact: dict[str, Any]
-    prereg: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_real_bed_artifact(
     *,
     timestamp: str,
@@ -348,7 +333,7 @@ def build_real_bed_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_PREREG_PATH,
-) -> RealBedArtifact:
+) -> ArtifactResult:
     """Run the whole bed on the real STARSS23 subset and assemble the sealed artifact.
 
     The preregistration is written to disk before any test score is computed. ``timestamp`` is passed by
@@ -382,7 +367,7 @@ def build_real_bed_artifact(
         train_onset_density=train_density,
         n_test_frames=n_test_frames,
     )
-    prereg_written = write_prereg(prereg, prereg_path)
+    prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
 
     # 2. Now run the paired seeds and score the test split.
@@ -468,13 +453,10 @@ def build_real_bed_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "real",
@@ -559,12 +541,10 @@ def build_real_bed_artifact(
             "provisional": False,
             "written_before_test_scores": True,
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return RealBedArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         prereg=prereg,
         verdict=verdict,
         detail={

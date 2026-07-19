@@ -38,8 +38,8 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -50,7 +50,7 @@ from mop.science.budget import (
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS, exact_sign_flip
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256, write_canonical_json
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .artifact import (
@@ -60,7 +60,6 @@ from .artifact import (
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
     STAGE,
-    STAGE3_REQUIREMENT_ID,
 )
 from .controls import (
     BestSingleControl,
@@ -208,15 +207,6 @@ def build_lp_prereg(
     }
     body["canonical_sha256"] = canonical_sha256(body)
     return body
-
-
-def write_lp_prereg(body: dict[str, Any], out_path: str | Path = DEFAULT_PREREG_PATH) -> Path:
-    """Write the self-sealed learning_progress prereg sidecar as canonical JSON bytes."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(body))
-    return path
 
 
 # ---------------------------------------------------------------------------
@@ -426,18 +416,6 @@ def _flop_model_lp(
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class LPBedArtifact:
-    artifact: dict[str, Any]
-    prereg: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_lp_bed_artifact(
     *,
     timestamp: str,
@@ -448,7 +426,7 @@ def build_lp_bed_artifact(
     epochs: int = DEFAULT_EPOCHS,
     learning_rate: float = ONLINE_LR,
     prereg_path: str | Path = DEFAULT_PREREG_PATH,
-) -> LPBedArtifact:
+) -> ArtifactResult:
     """Run the learning_progress variant on the cached real corpus and assemble the sealed artifact."""
 
     config = config or RealBedConfig()
@@ -480,7 +458,7 @@ def build_lp_bed_artifact(
         operating_firing_fraction=operating_rate,
         n_seeds=len(config.seeds),
     )
-    prereg_written = write_lp_prereg(prereg, prereg_path)
+    prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
 
     # 2. Now run the paired seeds and score the test split. The noisy-TV channel reuses the sealed real
@@ -614,13 +592,10 @@ def build_lp_bed_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "real",
@@ -713,12 +688,10 @@ def build_lp_bed_artifact(
                 "sealed_variants_prereg_canonical_sha256"
             ],
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return LPBedArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         prereg=prereg,
         verdict=verdict,
         detail={

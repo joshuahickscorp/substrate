@@ -270,9 +270,9 @@ def test_sealed_artifact_has_a_seal_and_is_independently_reproduced(tmp_path) ->
     from mop.beds.starss23.real_artifact import RealBedConfig
     from mop.beds.starss23.spatial_doa_prereg import (
         build_featurizers_prereg,
-        write_featurizers_prereg,
     )
     from mop.beds.starss23.spatial_doa_producer import build_spatial_doa_artifact
+    from mop.substrate.events import write_canonical_json
 
     corpus = _synthetic_corpus()
     prereg = build_featurizers_prereg(
@@ -284,7 +284,7 @@ def test_sealed_artifact_has_a_seal_and_is_independently_reproduced(tmp_path) ->
         n_test_frames=corpus.n_test_frames(),
     )
     prereg_path = tmp_path / "spatial_doa.prereg.json"
-    write_featurizers_prereg(prereg, prereg_path)
+    write_canonical_json(prereg, prereg_path)
 
     bed = build_spatial_doa_artifact(
         timestamp="2026-07-17T00:00:00Z",

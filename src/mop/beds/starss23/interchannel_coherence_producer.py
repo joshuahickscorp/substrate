@@ -29,7 +29,6 @@ from __future__ import annotations
 import json
 import math
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -38,8 +37,8 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -50,7 +49,6 @@ from mop.science.budget import (
     run_matched_budget,
 )
 from mop.science.statistics import exact_sign_flip
-from mop.substrate.events import canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -59,7 +57,6 @@ from .artifact import (
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
     STAGE,
-    STAGE3_REQUIREMENT_ID,
 )
 from .controls import at_chance
 from .experiments import ONSET_BUDGET_POLICY
@@ -237,19 +234,6 @@ def _assemble_spread_diagnostic(seed_runs: list[Any]) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class InterchannelCoherenceArtifact:
-    """The assembled sealed featurizer-swap artifact plus the mechanics-only detail."""
-
-    artifact: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_interchannel_coherence_artifact(
     *,
     timestamp: str,
@@ -257,7 +241,7 @@ def build_interchannel_coherence_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealBedConfig | None = None,
     featurizers_prereg_path: str | Path = DEFAULT_FEATURIZERS_PREREG_PATH,
-) -> InterchannelCoherenceArtifact:
+) -> ArtifactResult:
     """Run the interchannel_coherence featurizer on the real subset and assemble the sealed artifact.
 
     The SESOI and the analysis plan come from the already-sealed featurizer preregistration; this producer
@@ -376,13 +360,10 @@ def build_interchannel_coherence_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "real",
@@ -495,12 +476,10 @@ def build_interchannel_coherence_artifact(
             "written_before_test_scores": True,
             "rebuilt_by_this_producer": False,
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return InterchannelCoherenceArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         verdict=verdict,
         detail={
             "beats_random": beats_random,

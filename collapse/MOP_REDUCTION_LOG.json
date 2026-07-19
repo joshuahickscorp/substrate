@@ -128,6 +128,24 @@
       "proof": "exact conventional BudgetPoint projection against the prior arm contract; all producer and diversity entry points import the shared projection directly; canonical on-disk bytes independently verified; atomic replacement and cache-write tests green; full STARSS-focused suite 477/477 in 141.78s under nice -n 10",
       "accounting_note": "618 replaced Python LOC = 600 production-source deletions + 2 test deletions + 16 script deletions; 240 added Python LOC = 177 production source (including the 39-LOC generic projection and 8-LOC canonical writer) + 35 tests + 28 scripts; production source net -423, tests net +33, scripts net +12, total owned Python net -378",
       "tag": "mop-collapse-starss23-lifecycle-3"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "producer_results_receipts_and_prereg_writes",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "thirteen artifact result containers, five identical seed-run records, twelve preregistration writers, and thirteen receipt/finalization paths collapsed onto shared science and evidence primitives",
+      "deduplicated_LOC": 586,
+      "added_LOC": 270,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 316,
+      "files_changed": 28,
+      "destination_api": "mop.science.{ArtifactResult,demonstration_receipt,finalize_artifact} + mop.science.budget.BudgetSeedRun + mop.substrate.events.write_canonical_json",
+      "proof": "shared finalization preserves canonical body sealing without mutating the source and refuses an already sealed body; shared receipt binds the exact evidence digest; preregistrations use the crash-safe canonical writer; independent artifact verification green; full STARSS-focused suite 479/479 in 145.60s under nice -n 10",
+      "accounting_note": "586 replaced Python LOC = 583 production-source deletions + 3 test deletions; 270 added Python LOC = 227 production source + 43 tests; production source net -356, tests net +40, total owned Python net -316",
+      "tag": "mop-collapse-starss23-lifecycle-4"
     }
   ],
   "deferred_heavy_validation": {

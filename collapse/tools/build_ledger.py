@@ -285,11 +285,12 @@ def main() -> int:
                 "29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics "
                 "cluster physically deleted with net owned Python reduction of 1174 LOC; three "
                 "matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; "
-                "producer budget projection and canonical writes centralized, net 378 LOC")
+                "producer budget projection and canonical writes centralized, net 378 LOC; producer "
+                "result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("collapse repeated producer evidence and receipt assembly onto the "
-                                 "selected record engine; preserve independent verifiers and sealed payloads")
+            it["next_action"] = ("collapse repeated artifact envelopes and statistics/control projections "
+                                 "onto the selected record engine; preserve independent verifiers and seals")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -347,7 +348,18 @@ def main() -> int:
         validation=("618 replaced Python LOC, 240 added, net -378; exact BudgetPoint projection, "
                     "canonical byte sealing, crash-safe replacement, and full focused STARSS suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-3",
-        next_action="collapse repeated producer evidence and receipt assembly onto the selected engine"))
+        next_action="centralize producer results, receipts, seed records, and preregistration writes"))
+    checklist.append(item(
+        "RED-starss23-producer-results-receipts", 11, "verified_reduction",
+        "Centralize STARSS23 producer results, receipts, seed records, and preregistration writes",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/science/__init__.py",
+                  "src/mop/science/budget.py", "src/mop/substrate/events.py",
+                  "tests/unit/test_science_engine.py", "tests/unit/test_starss23_end_to_end.py"],
+        validation=("586 replaced Python LOC, 270 added, net -316; canonical nonmutating finalization, "
+                    "exact evidence-digest receipts, crash-safe prereg writes, and focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-4",
+        next_action="collapse repeated artifact envelopes and statistics/control projections"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -459,9 +471,10 @@ def main() -> int:
                                  "shared engine. The 50k global target is not disproven."),
             "starss23_collapsible_loc": (starss.get("collapsible_loc") if starss else None),
             "starss23_preserved_loc": (starss.get("preserved_loc") if starss else None),
-            "shared_engine": "src/mop/science architecture B (197 LOC), 29/29 focused tests",
-            "shared_budget_engine": ("src/mop/science/budget.py (666 LOC), three old harnesses and eight "
-                                     "producer budget-point assemblers deleted"),
+            "shared_engine": ("src/mop/science architecture B (262 LOC), including shared producer "
+                              "receipt and finalization paths; Architecture A deleted"),
+            "shared_budget_engine": ("src/mop/science/budget.py (681 LOC), three old harnesses, eight "
+                                     "producer budget-point assemblers, and five seed-record copies deleted"),
             "selected_experiment_architecture": (architecture.get("selection") or {}).get("selected"),
             "starss23_source_decomposition": {
                 "files": len(decomposition.get("files") or []),
@@ -585,7 +598,22 @@ def main() -> int:
                  "owned Python net reduction: 378 LOC.")
     lines.append("- cumulative verified owned Python reduction: 3,029 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-3.")
-    lines.append("- next_exact_edit: collapse repeated producer evidence and receipt assembly onto the selected engine.")
+    lines.append("- next_exact_edit: centralize producer results, receipts, seed records, and prereg writes.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 4 (current checkpoint)")
+    lines.append("")
+    lines.append("- result containers: thirteen producer-local artifact result dataclasses replaced by one "
+                 "ArtifactResult in the selected science engine.")
+    lines.append("- seed records: five byte-identical producer seed-run dataclasses replaced by one BudgetSeedRun.")
+    lines.append("- receipts and seals: thirteen producer mint/finalize paths use one canonical evidence receipt "
+                 "and one nonmutating, fail-closed artifact finalizer.")
+    lines.append("- preregistration writes: twelve local writers deleted; every prereg uses the shared crash-safe "
+                 "canonical JSON writer.")
+    lines.append("- validation: full STARSS-focused suite 479/479 in 145.60s under nice -n 10.")
+    lines.append("- source reduction: 356 LOC; tests added net: 40 LOC; owned Python net reduction: 316 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 3,345 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-4.")
+    lines.append("- next_exact_edit: collapse repeated artifact envelopes and statistics/control projections.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

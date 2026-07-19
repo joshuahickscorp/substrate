@@ -11,8 +11,11 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable, Mapping
+from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from typing import Any
 
+from mop.ladder.ladder_contracts import mint_demonstration
 from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_sha256
 
@@ -30,6 +33,67 @@ REQUIRED = {
 
 class RecordRefused(ValueError):
     """The record, provider output, artifact, or independent recomputation is unsafe."""
+
+
+@dataclass(frozen=True, slots=True)
+class ArtifactResult:
+    """One sealed producer artifact with optional preregistration and receipt projections."""
+
+    artifact: dict[str, Any]
+    verdict: str
+    detail: dict[str, Any] = dataclass_field(default_factory=dict)
+    prereg: dict[str, Any] | None = None
+    receipt_payload: dict[str, Any] | None = None
+
+    @property
+    def seal(self) -> str:
+        return self.artifact["seal"]
+
+
+def demonstration_receipt(
+    *,
+    mechanism_id: str,
+    controls_cleared: tuple[str, ...],
+    evidence: Mapping[str, object],
+    verdict: str,
+    detail: Mapping[str, object],
+    stage: int = 3,
+    requirement_id: str = "stage3.confirmed_useful_mechanism",
+) -> dict[str, Any]:
+    """Mint the shared mechanics-only receipt over one canonical evidence projection."""
+
+    return mint_demonstration(
+        mechanism_id=mechanism_id,
+        stage=stage,
+        requirement_id=requirement_id,
+        controls_cleared=controls_cleared,
+        evidence_digest=canonical_sha256(evidence),
+        verdict=verdict,
+        detail=dict(detail),
+    ).payload()
+
+
+def finalize_artifact(
+    body: Mapping[str, object],
+    *,
+    verdict: str,
+    detail: Mapping[str, object] | None = None,
+    prereg: dict[str, Any] | None = None,
+    receipt_payload: dict[str, Any] | None = None,
+) -> ArtifactResult:
+    """Seal one producer body and return the common immutable result container."""
+
+    if "seal" in body:
+        raise RecordRefused("an unsealed artifact body is required")
+    artifact = dict(body)
+    artifact["seal"] = canonical_sha256(artifact)
+    return ArtifactResult(
+        artifact=artifact,
+        verdict=verdict,
+        detail=dict(detail or {}),
+        prereg=prereg,
+        receipt_payload=receipt_payload,
+    )
 
 
 def seal_record(record: Mapping[str, object]) -> dict[str, object]:
@@ -192,6 +256,7 @@ def render_report(artifact: Mapping[str, object]) -> str:
 
 
 __all__ = [
-    "PROGRAM", "Provider", "RecordRefused", "Result", "Verifier", "render_report", "run_experiment",
-    "seal_record", "validate_record", "verify_artifact",
+    "PROGRAM", "ArtifactResult", "Provider", "RecordRefused", "Result", "Verifier",
+    "demonstration_receipt", "finalize_artifact", "render_report", "run_experiment", "seal_record",
+    "validate_record", "verify_artifact",
 ]

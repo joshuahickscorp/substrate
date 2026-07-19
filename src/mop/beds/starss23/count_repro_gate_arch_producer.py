@@ -31,7 +31,6 @@ from __future__ import annotations
 
 import math
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -40,19 +39,20 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
+    BudgetSeedRun,
     FlopModel,
     build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
-from mop.substrate.events import canonical_sha256
+from mop.substrate.events import write_canonical_json
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -94,7 +94,6 @@ from .count_repro_gate_arch_prereg import (
     COUNT_REPRO_GATE_ARCH_PREREG_SCHEMA,
     DEFAULT_COUNT_REPRO_GATE_ARCH_PREREG_PATH,
     build_count_repro_gate_arch_prereg,
-    write_count_repro_gate_arch_prereg,
 )
 from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
 from .schema import Clip
@@ -173,18 +172,6 @@ def _train_count_gate(
     return gate, int(x.shape[0])
 
 
-@dataclass(frozen=True, slots=True)
-class _ReproSeedRun:
-    seed: int
-    total_frames: int
-    train_frames: int
-    gate_params: int
-    per_budget: dict[str, dict[str, Any]]
-    operating_budget_id: str
-    per_seed_block: dict[str, Any]
-    noisy_tv: dict[str, Any]
-
-
 def _run_seed_real(
     seed: int,
     train_clips: tuple[Clip, ...],
@@ -196,7 +183,7 @@ def _run_seed_real(
     noise_features: np.ndarray,
     config: RealCountBedConfig,
     operating_density: float,
-) -> _ReproSeedRun:
+) -> BudgetSeedRun:
     """Train the gate for one seed, sweep the budget, score every arm on the fixed real test set."""
 
     gate, train_frames = _train_count_gate(seed, train_clips, features_by_clip, gt_by_clip, config)
@@ -277,7 +264,7 @@ def _run_seed_real(
         "n_noise_frames": int(noise_features.shape[0]),
     }
 
-    return _ReproSeedRun(
+    return BudgetSeedRun(
         seed=seed,
         total_frames=total_frames,
         train_frames=train_frames,
@@ -316,20 +303,6 @@ def _flop_model(
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class RealCountReproGateArchArtifact:
-    """The assembled sealed gate-architecture reproduction artifact plus the mechanics-only receipt."""
-
-    artifact: dict[str, Any]
-    prereg: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_real_count_repro_gate_arch_artifact(
     *,
     timestamp: str,
@@ -337,7 +310,7 @@ def build_real_count_repro_gate_arch_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_COUNT_REPRO_GATE_ARCH_PREREG_PATH,
-) -> RealCountReproGateArchArtifact:
+) -> ArtifactResult:
     """Run the whole counting bed with the re-authored gate on the real STARSS23 subset and seal it.
 
     The preregistration is written to disk before any test score is computed. ``timestamp`` is passed by
@@ -378,7 +351,7 @@ def build_real_count_repro_gate_arch_artifact(
         train_change_density=train_density,
         coast_from_zero_mae=test_coast_from_zero,
     )
-    prereg_written = write_count_repro_gate_arch_prereg(prereg, prereg_path)
+    prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_mae = float(prereg["sesoi"]["sesoi_mae"])
 
     # 2. Now run the paired seeds and score the test split.
@@ -387,7 +360,7 @@ def build_real_count_repro_gate_arch_artifact(
     target_std = float(pooled_test_features.std())
 
     started = time.perf_counter_ns()
-    seed_runs: list[_ReproSeedRun] = []
+    seed_runs: list[BudgetSeedRun] = []
     for seed in config.seeds:
         noise_features = _real_noisy_tv_features(
             seed, config.noisy_tv_frames, featurizer, target_mean, target_std
@@ -510,13 +483,10 @@ def build_real_count_repro_gate_arch_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=COUNT_BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "real",
@@ -629,12 +599,10 @@ def build_real_count_repro_gate_arch_artifact(
             "provisional": False,
             "written_before_test_scores": True,
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return RealCountReproGateArchArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         prereg=prereg,
         verdict=verdict,
         detail={

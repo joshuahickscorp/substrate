@@ -26,7 +26,6 @@ from __future__ import annotations
 
 import math
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -35,18 +34,19 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
+    BudgetSeedRun,
     build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
-from mop.substrate.events import canonical_sha256
+from mop.substrate.events import write_canonical_json
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -82,7 +82,6 @@ from .count_repro_scoring_unit_prereg import (
     DEFAULT_COUNT_REPRO_SCORING_UNIT_PREREG_PATH,
     ClipLabelFact,
     build_count_repro_scoring_unit_prereg,
-    write_count_repro_scoring_unit_prereg,
 )
 from .count_repro_scoring_unit_referee import (
     SCORING_UNIT,
@@ -115,18 +114,6 @@ def default_scoring_unit_config() -> RealCountBedConfig:
     return RealCountBedConfig(seeds=DEFAULT_SCORING_UNIT_SEEDS)
 
 
-@dataclass(frozen=True, slots=True)
-class _MacroSeedRun:
-    seed: int
-    total_frames: int
-    train_frames: int
-    gate_params: int
-    per_budget: dict[str, dict[str, Any]]
-    operating_budget_id: str
-    per_seed_block: dict[str, Any]
-    noisy_tv: dict[str, Any]
-
-
 def _run_seed_macro(
     seed: int,
     train_clips: tuple[Clip, ...],
@@ -138,7 +125,7 @@ def _run_seed_macro(
     noise_features: np.ndarray,
     config: RealCountBedConfig,
     operating_density: float,
-) -> _MacroSeedRun:
+) -> BudgetSeedRun:
     """Train the gate for one seed, sweep the budget, score every arm with the clip as the unit."""
 
     gate, train_frames = _train_count_gate(seed, train_clips, features_by_clip, gt_by_clip, config)
@@ -217,7 +204,7 @@ def _run_seed_macro(
         "n_noise_frames": int(noise_features.shape[0]),
     }
 
-    return _MacroSeedRun(
+    return BudgetSeedRun(
         seed=seed,
         total_frames=total_frames,
         train_frames=train_frames,
@@ -229,7 +216,7 @@ def _run_seed_macro(
     )
 
 
-def _clip_cluster_readout(seed_runs: list[_MacroSeedRun]) -> tuple[dict[str, Any], bool]:
+def _clip_cluster_readout(seed_runs: list[BudgetSeedRun]) -> tuple[dict[str, Any], bool]:
     """Form per-clip paired deltas at the operating point (per-clip MAE averaged over seeds) and permute.
 
     d_c = mean_seed macro MAE_clip(rate_matched_random, c) minus mean_seed macro MAE_clip(candidate, c). A
@@ -263,20 +250,6 @@ def _clip_cluster_readout(seed_runs: list[_MacroSeedRun]) -> tuple[dict[str, Any
     return readout, bool(permutation.direction_agrees)
 
 
-@dataclass(frozen=True, slots=True)
-class RealCountReproScoringUnitArtifact:
-    """The assembled sealed clip-macro reproduction artifact plus the mechanics-only demonstration receipt."""
-
-    artifact: dict[str, Any]
-    prereg: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_real_count_repro_scoring_unit_artifact(
     *,
     timestamp: str,
@@ -284,7 +257,7 @@ def build_real_count_repro_scoring_unit_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_COUNT_REPRO_SCORING_UNIT_PREREG_PATH,
-) -> RealCountReproScoringUnitArtifact:
+) -> ArtifactResult:
     """Run the clip-macro reproduction on the real STARSS23 subset and assemble the sealed artifact."""
 
     config = config or default_scoring_unit_config()
@@ -323,7 +296,7 @@ def build_real_count_repro_scoring_unit_artifact(
         train_change_density=train_density,
         coast_from_zero_mae=test_coast_from_zero,
     )
-    prereg_written = write_count_repro_scoring_unit_prereg(prereg, prereg_path)
+    prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_macro = float(prereg["sesoi"]["sesoi_mae"])
 
     # 2. Now run the paired seeds and score the test split with the clip as the unit.
@@ -332,7 +305,7 @@ def build_real_count_repro_scoring_unit_artifact(
     target_std = float(pooled_test_features.std())
 
     started = time.perf_counter_ns()
-    seed_runs: list[_MacroSeedRun] = []
+    seed_runs: list[BudgetSeedRun] = []
     for seed in config.seeds:
         noise_features = _real_noisy_tv_features(
             seed, config.noisy_tv_frames, featurizer, target_mean, target_std
@@ -452,13 +425,10 @@ def build_real_count_repro_scoring_unit_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=COUNT_BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "real",
@@ -567,12 +537,10 @@ def build_real_count_repro_scoring_unit_artifact(
             "provisional": False,
             "written_before_test_scores": True,
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return RealCountReproScoringUnitArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         prereg=prereg,
         verdict=verdict,
         detail={

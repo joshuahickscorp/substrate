@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 
 from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE
 from .gate import C_TRAIN_ANCHOR
@@ -253,14 +253,4 @@ def build_prereg(
     body["canonical_sha256"] = canonical_sha256(body)
     return body
 
-
 DEFAULT_PREREG_PATH = Path("proof/STARSS23_ESCS_BED.prereg.json")
-
-
-def write_prereg(body: dict[str, Any], out_path: str | Path = DEFAULT_PREREG_PATH) -> Path:
-    """Write the self-sealed preregistration as canonical JSON bytes so its on-disk digest is stable."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(body))
-    return path

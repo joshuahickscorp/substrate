@@ -7,7 +7,15 @@ import copy
 import pytest
 
 from mop.beds.starss23.experiments import COUNTING, RECORDS
-from mop.science import RecordRefused, render_report, run_experiment, seal_record, verify_artifact
+from mop.science import (
+    RecordRefused,
+    demonstration_receipt,
+    finalize_artifact,
+    render_report,
+    run_experiment,
+    seal_record,
+    verify_artifact,
+)
 from mop.substrate.events import canonical_sha256
 
 
@@ -120,3 +128,35 @@ def test_report_is_a_small_safe_projection():
     report = render_report(run_experiment(COUNTING, _runner(COUNTING)))
     assert "reproduced_effect" in report
     assert "activation_allowed: false" in report
+
+
+def test_shared_producer_finalization_is_canonical_and_nonmutating():
+    body = {"schema": "fixture/v1", "value": 3}
+    result = finalize_artifact(
+        body,
+        verdict="null",
+        detail={"measured": True},
+        prereg={"canonical_sha256": "registered"},
+        receipt_payload={"evidence_digest": "receipt"},
+    )
+    assert body == {"schema": "fixture/v1", "value": 3}
+    assert result.artifact == {**body, "seal": canonical_sha256(body)}
+    assert result.seal == result.artifact["seal"]
+    assert result.prereg == {"canonical_sha256": "registered"}
+    assert result.receipt_payload == {"evidence_digest": "receipt"}
+    with pytest.raises(RecordRefused, match="unsealed artifact body"):
+        finalize_artifact(result.artifact, verdict="null")
+
+
+def test_shared_demonstration_receipt_binds_the_exact_evidence_projection():
+    evidence = {"per_seed": [{"seed": 0}], "flags": {"activation_allowed": False}}
+    receipt = demonstration_receipt(
+        mechanism_id="fixture",
+        controls_cleared=("rate_matched_random", "always_on"),
+        evidence=evidence,
+        verdict="null",
+        detail={"source_kind": "synthetic"},
+    )
+    assert receipt["evidence_digest"] == canonical_sha256(evidence)
+    assert receipt["requirement_id"] == "stage3.confirmed_useful_mechanism"
+    assert receipt["detail"] == {"source_kind": "synthetic"}
