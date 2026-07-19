@@ -467,5 +467,14 @@
       "evidence": [],
       "next_action": "enforce on every branch; do not continue merely because compute remains"
     }
-  ]
+  ],
+  "campaign2": {
+    "program_id": "mop-generation2-realdata-canary",
+    "status": "launched",
+    "N1": "canary_positive (real-data, sealed, independently verified)",
+    "U1": "running",
+    "P1R": "running",
+    "evidence_ladder": "mechanics_robustness (Horizons) -> controlled-bed plausibility (Phase 4B) -> real-data canary (Campaign 2)",
+    "next": "classify U1/P1R; proceed to bounded independent confirmation for each canary_positive lane"
+  }
 }

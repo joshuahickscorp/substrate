@@ -1,0 +1,85 @@
+{
+  "schema": "mop-canary-result-realdata/v1",
+  "lane": "G1-U1",
+  "source_commit": "16dc1c6b03122606b5fc87b05cb313e76650d0db",
+  "classification": "pruned_mechanism",
+  "battery_classification": "pruned_mechanism",
+  "first_failing_clause": "G_noisy_tv",
+  "clauses_passed": "10/11",
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.493,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "raw_headroom_fraction": 0.776,
+      "pass": true
+    },
+    "residual_learnable_headroom": {
+      "value": 0.758,
+      "best_simple_control_norm": 0.242,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.493,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "best_arch": "kernel_ridge",
+      "mean_incr_over_simple": 0.505,
+      "lower_95_cb": 0.335,
+      "pass": true
+    },
+    "E_group_generalization": {
+      "rule": "random_effects_lower_95_cb",
+      "mean_family_effect": 0.505,
+      "between_family_sd": 0.227,
+      "lower_95_cb": 0.335,
+      "min_detectable_effect": 0.17,
+      "favorable_family_fraction": 1.0,
+      "pass": true
+    },
+    "F_architecture_independence": {
+      "capable_estimators": [
+        "knn",
+        "kernel_ridge",
+        "rff_ridge"
+      ],
+      "n_passing": 3,
+      "per_arch": {
+        "knn": 0.235,
+        "kernel_ridge": 0.335,
+        "rff_ridge": 0.349
+      },
+      "linear_baseline_incr": 0.415,
+      "pass": true
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": 0.221,
+      "pass": false
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": -0.051,
+      "mechanism_norm_mean": 0.747,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": -0.291,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.775,
+      "pass": true
+    }
+  },
+  "residual_learnable_headroom": 0.758,
+  "independent_verification": {
+    "independent_mean_effect": 0.771,
+    "producer_mean_effect": 0.775,
+    "agree": true
+  },
+  "evidence_class": "real-data canary",
+  "claim_ceiling": "real-data canary evidence; a positive licenses one larger independent-confirmation experiment, not activation",
+  "activation_allowed": false,
+  "result_sha256": "dc33f3e8ccb76172d02c6ba647364e33ee51d96a9631ccb81572eecd2f3c8e7d"
+}
