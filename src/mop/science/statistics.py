@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
@@ -90,6 +90,81 @@ class SignFlipResult:
             "two_sided_alpha_reachable": self.two_sided_alpha_reachable,
             "phipson_smyth_applied": self.phipson_smyth_applied,
         }
+
+
+def sign_flip_payload(
+    result: SignFlipResult,
+    deltas: Sequence[float],
+    *,
+    sesoi_key: str,
+    sesoi: float,
+    exceeds_sesoi: bool,
+    claim_verb: str = BOUNDED_CLAIM_VERB,
+    experimental_unit: str = "clip",
+    provisional: bool | None = None,
+    prereg_digest: str | None = None,
+    extra: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Project the common paired sign-flip audit block without changing the decisive statistic."""
+
+    if not sesoi_key.startswith("sesoi_"):
+        raise StatsRefusal("sesoi_key must name the artifact SESOI field")
+    payload: dict[str, Any] = {
+        "deltas": [float(value) for value in deltas],
+        "t_obs": float(result.mean_delta),
+        "one_sided_p": float(result.one_sided_p),
+        "n_permutations": int(result.permutations),
+        "two_sided_005_reachable": bool(result.two_sided_alpha_reachable),
+        sesoi_key: float(sesoi),
+        "mean_delta_exceeds_sesoi": bool(exceeds_sesoi),
+        "claim_verb": claim_verb,
+        "experimental_unit": experimental_unit,
+        "frame_or_clip_bootstrap_allowed": False,
+    }
+    if provisional is not None:
+        payload["sesoi_provisional"] = bool(provisional)
+    if prereg_digest is not None:
+        payload["prereg_canonical_sha256"] = prereg_digest
+    additions = dict(extra or {})
+    if payload.keys() & additions.keys():
+        raise StatsRefusal("extra sign-flip fields overlap the shared projection")
+    payload.update(additions)
+    return payload
+
+
+def count_sign_flip_payload(
+    result: SignFlipResult,
+    deltas: Sequence[float],
+    *,
+    sesoi: float,
+    exceeds_sesoi: bool,
+    mean_candidate_minus_control: float,
+    prereg_digest: str,
+    metric: str = "coasted-count-MAE",
+    delta_definition: str = (
+        "delta_i = MAE_rate_matched_random(i) - MAE_candidate(i); positive = candidate lower error"
+    ),
+    extra: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Project the shared counting statistic with its lower-is-better delta convention."""
+
+    additions = {
+        "metric": metric,
+        "delta_definition": delta_definition,
+        "mean_delta_control_minus_candidate": float(result.mean_delta),
+        "mean_delta_candidate_minus_control": float(mean_candidate_minus_control),
+        **dict(extra or {}),
+    }
+    return sign_flip_payload(
+        result,
+        deltas,
+        sesoi_key="sesoi_mae",
+        sesoi=sesoi,
+        exceeds_sesoi=exceeds_sesoi,
+        provisional=False,
+        prereg_digest=prereg_digest,
+        extra=additions,
+    )
 
 
 def exact_sign_flip(deltas: Sequence[float], alpha: float = DEFAULT_ALPHA) -> SignFlipResult:
@@ -216,7 +291,8 @@ def analyze_paired_seeds(
 __all__ = [
     "STATS_SCHEMA", "PROVISIONAL_SESOI_F1", "DEFAULT_ALPHA", "FORBIDDEN_CLAIM_VERBS",
     "BOUNDED_CLAIM_VERB", "StatsRefusal", "SignFlipResult", "SesoiCheck", "ClaimCeiling",
-    "PairedSeedStats", "paired_deltas", "exact_sign_flip", "sesoi_check", "claim_ceiling",
+    "PairedSeedStats", "paired_deltas", "count_sign_flip_payload", "exact_sign_flip",
+    "sign_flip_payload", "sesoi_check", "claim_ceiling",
     "two_sided_alpha_reachable", "analyze_paired_seeds",
     "CLAIM_SCOPE",
 ]

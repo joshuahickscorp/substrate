@@ -163,6 +163,29 @@ class BudgetSeedRun:
     noisy_tv: dict[str, Any]
 
 
+def noise_control_summary(
+    policy: BudgetPolicy,
+    seed_runs: Sequence[Any],
+    *,
+    at_chance: bool,
+    mean_noise_rate: float,
+    mean_base_rate: float,
+    rate_key: str,
+) -> dict[str, Any]:
+    """Project the shared noisy-TV and control-arm audit block."""
+
+    if rate_key not in ("mean_firing_rate_on_noise", "mean_reestimate_rate_on_noise"):
+        raise BudgetRefusal("noise-control rate_key is not declared")
+    return {
+        "noisy_tv_at_chance": bool(at_chance),
+        rate_key: _sealed(mean_noise_rate),
+        "mean_base_rate": _sealed(mean_base_rate),
+        "per_seed_noisy_tv": [run.noisy_tv for run in seed_runs],
+        "primary_control": ARM_RATE_MATCHED_RANDOM,
+        "control_arms": [*policy.controls, "noisy_tv"],
+    }
+
+
 @dataclass(frozen=True, slots=True)
 class Arm:
     policy: BudgetPolicy
@@ -676,6 +699,6 @@ __all__ = [
     "CeilingExceeded", "ComputePoint", "DualBudgetReport", "FlopModel", "SeedResult",
     "UnchargedTraining", "assert_matched_ex_training", "assert_within_ceiling", "break_even_queries",
     "build_budget_points", "featurize_run_flops", "gate_infer_run_flops", "gate_train_flops", "paired_deltas",
-    "pareto_frontier", "per_query_saving_vs_always_on", "run_dual_architecture",
+    "noise_control_summary", "pareto_frontier", "per_query_saving_vs_always_on", "run_dual_architecture",
     "run_matched_budget",
 ]

@@ -41,7 +41,7 @@ from typing import Any
 import numpy as np
 
 from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -721,11 +721,7 @@ def build_real_doa_bed_artifact(
         controls_block[ARCH_A_ID]["at_chance"] and controls_block[ARCH_B_ID]["at_chance"]
     )
 
-    flags_block = {
-        "activation_allowed": False,
-        "scientific_promotion": False,
-        "independent_scientific_confirmation": False,
-    }
+    flags_block = safety_flags()
 
     # Shared per-clip ground-truth and estimator tracks, sealed once (identical across seeds and archs), so
     # the verifier can re-derive every arm, every seed, every architecture without re-running any DSP.

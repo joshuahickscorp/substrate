@@ -146,3 +146,40 @@ def test_claim_ceiling_rejects_nonpositive_counts() -> None:
         stats.claim_ceiling(n_experimental_units=0, n_seeds=5)
     with pytest.raises(stats.StatsRefusal):
         stats.claim_ceiling(n_experimental_units=2, n_seeds=0)
+
+
+def test_shared_sign_flip_projection_preserves_the_legacy_artifact_shape() -> None:
+    deltas = [0.1, 0.2, 0.3, 0.4, 0.5]
+    result = stats.exact_sign_flip(deltas)
+    payload = stats.sign_flip_payload(
+        result, deltas, sesoi_key="sesoi_f1", sesoi=0.05, exceeds_sesoi=True,
+        provisional=False, prereg_digest="registered", extra={"beats_rate_matched_random": True},
+    )
+    assert payload == {
+        "deltas": deltas,
+        "t_obs": result.mean_delta,
+        "one_sided_p": result.one_sided_p,
+        "n_permutations": result.permutations,
+        "two_sided_005_reachable": result.two_sided_alpha_reachable,
+        "sesoi_f1": 0.05,
+        "mean_delta_exceeds_sesoi": True,
+        "claim_verb": "consistent with",
+        "experimental_unit": "clip",
+        "frame_or_clip_bootstrap_allowed": False,
+        "sesoi_provisional": False,
+        "prereg_canonical_sha256": "registered",
+        "beats_rate_matched_random": True,
+    }
+
+
+def test_shared_count_projection_preserves_lower_is_better_fields() -> None:
+    deltas = [0.2] * 5
+    result = stats.exact_sign_flip(deltas)
+    payload = stats.count_sign_flip_payload(
+        result, deltas, sesoi=0.02, exceeds_sesoi=True,
+        mean_candidate_minus_control=-0.2, prereg_digest="registered",
+    )
+    assert payload["metric"] == "coasted-count-MAE"
+    assert payload["mean_delta_control_minus_candidate"] == result.mean_delta
+    assert payload["mean_delta_candidate_minus_control"] == -0.2
+    assert payload["sesoi_mae"] == 0.02

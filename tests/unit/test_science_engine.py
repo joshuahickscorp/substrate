@@ -13,6 +13,7 @@ from mop.science import (
     finalize_artifact,
     render_report,
     run_experiment,
+    safety_flags,
     seal_record,
     verify_artifact,
 )
@@ -160,3 +161,13 @@ def test_shared_demonstration_receipt_binds_the_exact_evidence_projection():
     assert receipt["evidence_digest"] == canonical_sha256(evidence)
     assert receipt["requirement_id"] == "stage3.confirmed_useful_mechanism"
     assert receipt["detail"] == {"source_kind": "synthetic"}
+
+
+def test_safety_flags_returns_a_fresh_closed_boundary():
+    first = safety_flags()
+    first["activation_allowed"] = True
+    assert safety_flags() == {
+        "activation_allowed": False,
+        "scientific_promotion": False,
+        "independent_scientific_confirmation": False,
+    }

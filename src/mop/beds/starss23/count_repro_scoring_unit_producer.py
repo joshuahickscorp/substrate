@@ -35,7 +35,7 @@ from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
 )
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -43,9 +43,10 @@ from mop.science.budget import (
     ARM_RATE_MATCHED_RANDOM,
     BudgetSeedRun,
     build_budget_points,
+    noise_control_summary,
     run_matched_budget,
 )
-from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
+from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
 from mop.substrate.events import write_canonical_json
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
@@ -356,48 +357,27 @@ def build_real_count_repro_scoring_unit_artifact(
     # Corroborating clip-clustered readout at the operating point.
     clip_cluster, clip_cluster_direction_agrees = _clip_cluster_readout(seed_runs)
 
-    stats_block = {
-        "metric": "coasted-count-MAE (clip-macro)",
-        "scoring_unit": SCORING_UNIT,
-        "delta_definition": (
+    stats_block = count_sign_flip_payload(
+        sign_flip, deltas, sesoi=sesoi_macro, exceeds_sesoi=mean_delta_exceeds_sesoi,
+        mean_candidate_minus_control=mean_delta_candidate_minus_random,
+        prereg_digest=prereg["canonical_sha256"], metric="coasted-count-MAE (clip-macro)",
+        delta_definition=(
             "delta_i = macro_MAE_rate_matched_random(i) - macro_MAE_candidate(i); positive = candidate lower "
             "clip-macro error"
         ),
-        "deltas": [float(value) for value in deltas],
-        "t_obs": float(sign_flip.mean_delta),
-        "mean_delta_control_minus_candidate": float(sign_flip.mean_delta),
-        "mean_delta_candidate_minus_control": mean_delta_candidate_minus_random,
-        "one_sided_p": float(sign_flip.one_sided_p),
-        "n_permutations": int(sign_flip.permutations),
-        "two_sided_005_reachable": bool(sign_flip.two_sided_alpha_reachable),
-        "sesoi_mae": sesoi_macro,
-        "sesoi_scale": "clip-macro count-MAE",
-        "sesoi_provisional": False,
-        "mean_delta_exceeds_sesoi": mean_delta_exceeds_sesoi,
-        "claim_verb": BOUNDED_CLAIM_VERB,
-        "experimental_unit": "clip",
-        "frame_or_clip_bootstrap_allowed": False,
-        "clip_cluster_direction_agrees": clip_cluster_direction_agrees,
-        "prereg_canonical_sha256": prereg["canonical_sha256"],
-    }
+        extra={"scoring_unit": SCORING_UNIT, "sesoi_scale": "clip-macro count-MAE",
+               "clip_cluster_direction_agrees": clip_cluster_direction_agrees},
+    )
 
     n_runs = len(seed_runs)
     mean_noise_rate = math.fsum(run.noisy_tv["reestimate_rate_on_noise"] for run in seed_runs) / n_runs
     mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
     noisy_tv_at_chance = at_chance(min(1.0, mean_noise_rate), min(1.0, mean_base_rate))
-    controls_block = {
-        "noisy_tv_at_chance": noisy_tv_at_chance,
-        "mean_reestimate_rate_on_noise": round(float(mean_noise_rate), 12),
-        "mean_base_rate": round(float(mean_base_rate), 12),
-        "per_seed_noisy_tv": [run.noisy_tv for run in seed_runs],
-        "primary_control": PRIMARY_CONTROL,
-        "control_arms": [ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"],
-    }
-    flags_block = {
-        "activation_allowed": False,
-        "scientific_promotion": False,
-        "independent_scientific_confirmation": False,
-    }
+    controls_block = noise_control_summary(
+        COUNT_BUDGET_POLICY, seed_runs, at_chance=noisy_tv_at_chance, mean_noise_rate=mean_noise_rate,
+        mean_base_rate=mean_base_rate, rate_key="mean_reestimate_rate_on_noise",
+    )
+    flags_block = safety_flags()
 
     corpus_tracks = {
         clip.clip_id: {
