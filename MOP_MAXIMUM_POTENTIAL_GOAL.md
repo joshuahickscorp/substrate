@@ -8,7 +8,7 @@ is true. Use receipts as ground truth, preserve user work, and never force a Stu
 
 ## Objective
 
-Raise all 37 facets in `proof/MOP_POTENTIAL_ATLAS.json` to an honest 10 out of 10 under its S/I/E/C
+Raise all 41 facets in `proof/MOP_POTENTIAL_ATLAS.json` to an honest 10 out of 10 under its S/I/E/C
 scoring contract. Complete every locally actionable scaffold, implementation, experiment, control,
 and independent verification. A valid null or refutation counts as scientific completion. A test,
 preflight, class smoke, memory probe, or single-seed run does not.
@@ -75,15 +75,19 @@ live sources is stale and must be regenerated through its driver.
 
 ## Current heavy-lane order
 
-Verify this against receipts at every boot.
+Verify this against receipts at every boot. `proof/MOP_CURRENT_FRONTIER.json` is the machine-readable
+current authority for this order, with the atlas facet count, the P4 and P5 state, the active heavy
+lane, and the dynamic 1 to 20 worker policy derived from live artifacts.
 
-1. Finish the resumable full P4 five-seed response surface.
-2. Run P5 smoke.
-3. Run the P5 cold-process training-grid memory pass.
-4. Run P5 pilot staging and eligible remaining seeds.
-5. Rescan P6, P7, P9, and every category-1/category-2 row.
+1. The live Generation 1 General Run is the exclusive active heavy lane. Observe it and run no competing
+   heavy compute while it is active.
+2. P4 is governor-closed: all 12 cells across five registered seeds, a bounded pilot that cannot be
+   promoted. It is no longer a heavy lane.
+3. When the General Run reaches a clean terminal state, run P5 smoke, then the P5 cold-process
+   training-grid memory pass, then P5 pilot staging and eligible remaining seeds.
+4. Rescan P6, P7, P9, and every category-1/category-2 row.
 
-The full P4 receipt, not the smoke artifact, determines P4 completion. The P5 memory trace is
+The full P4 receipt, not the smoke artifact, already determined P4 completion. The P5 memory trace is
 mechanics until joined to capability and control evidence.
 
 ## Current light-lane order

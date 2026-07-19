@@ -13,11 +13,23 @@ front-to-back plan are:
 4. `MOP_MAXIMUM_POTENTIAL_EXECUTION_PLAN.md`
 5. `docs/COMPLETION_CLAIM_AUDIT_2026_07_10.md`
 
+<!-- CURRENT-STATE:START -->
+**Current state.** The machine-readable current authority is `proof/MOP_CURRENT_FRONTIER.json`, generated
+from live artifacts and bound by source hashes. The potential atlas now scores 41 facets. P4 is
+governor-closed, a bounded five-seed pilot that cannot be promoted. The live Generation 1 General Run is
+the exclusive active heavy lane. Heavy work runs under the dynamic worker controller across 1 to 20
+workers, with a measured optimum at 20 and shedding to a tiny reserve under Hawking. Current STARSS23
+standing carries two mapped nulls: the source-counting reproduction null, where the counting signal did
+not survive bias-independent reproduction, and the direction-of-arrival null, which stayed clean on both
+gate architectures.
+<!-- CURRENT-STATE:END -->
+
 The current operating facts are:
 
 - all 199 prior checked claims have been audited at their actual evidence class;
-- all 37 potential facets are scored by scaffolding, implementation, experiment, and confirmation;
-- the full P4 response surface is the active exclusive heavy lane;
+- all 41 potential facets are scored by scaffolding, implementation, experiment, and confirmation;
+- P4 is governor-closed and is not the active heavy lane; the live Generation 1 General Run is the
+  exclusive active heavy lane, and heavy work runs under the dynamic 1 to 20 worker controller;
 - P5 smoke, cold-process grid, and pilot follow in that order;
 - operational legs may run for up to 300 minutes through the adaptive local governor;
 - existing frozen scientific shard identities are not silently changed;
