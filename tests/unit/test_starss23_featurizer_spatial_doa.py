@@ -336,6 +336,31 @@ def test_family_verifier_imports_no_producer_code() -> None:
 # -- the sealed featurizer preregistration is a 3-family Bonferroni wall -----------------------------
 
 
+def test_all_family_preregistrations_preserve_their_complete_seals() -> None:
+    from mop.beds.starss23.gate_variants_prereg import build_variants_prereg
+    from mop.beds.starss23.interchannel_coherence_prereg import build_featurizers_prereg as interchannel
+    from mop.beds.starss23.spatial_doa_prereg import build_featurizers_prereg as spatial
+    from mop.beds.starss23.superflux_spectral_prereg import build_featurizers_prereg as superflux
+
+    args = {
+        "timestamp": "2030-01-02T03:04:05Z",
+        "operating_firing_fraction": 0.08,
+        "n_test_clips": 11,
+        "n_test_onsets": 37,
+        "train_onset_density": 0.07123456789,
+        "n_test_frames": 1234,
+        "base_prereg_canonical_sha256": "a" * 64,
+    }
+    assert [builder(**args)["canonical_sha256"] for builder in (
+        build_variants_prereg, interchannel, spatial, superflux,
+    )] == [
+        "5c74b42a9ee484452e1e16e53d7f7507882eb526067f716806565b7159273a16",
+        "7a41d3551d774b98d26d101ef331681ddf111b354a36a40c5db8aa32cb4b1e2c",
+        "afefd5d6aec228202d9b42388ff0653fbc746976573700264208cbc1dd79c07c",
+        "dd2cce3e94251129b740d3565ba2c329e652d4da4865cda2044aba94aeb3dbf1",
+    ]
+
+
 def test_featurizer_prereg_is_a_three_family_bonferroni_wall() -> None:
     from mop.beds.starss23.spatial_doa_prereg import build_featurizers_prereg
     from mop.substrate.events import canonical_sha256

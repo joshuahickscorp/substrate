@@ -292,11 +292,12 @@ def main() -> int:
                 "seed execution loops centralized with exact provider-specific records, net 191 LOC; native "
                 "dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, "
                 "gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread "
-                "diagnostics and sealed family prereg reads centralized, net 108 LOC")
+                "diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg "
+                "analysis plans centralized with local family declarations retained, net 138 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("measure and collapse the next repeated STARSS producer/prereg lifecycle; "
-                                 "preserve variant-specific hypotheses and decisive scoring")
+            it["next_action"] = ("measure remaining family structural-fact and prereg CLI lifecycle; "
+                                 "preserve source-specific label authority and family reporting")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -428,6 +429,16 @@ def main() -> int:
                     "preserved; full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-10",
         next_action="measure and collapse the next repeated STARSS producer/prereg lifecycle"))
+    checklist.append(item(
+        "RED-starss23-family-prereg-plan", 11, "verified_reduction",
+        "Centralize STARSS23 family preregistration analysis plans", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/prereg.py",
+                  "tests/unit/test_starss23_featurizer_spatial_doa.py"],
+        validation=("338 replaced Python LOC, 200 added, net -138; production source net -163; complete "
+                    "outer-body and embedded seals exact across all four family preregistrations; local "
+                    "multiplicity rationales and hypotheses preserved; full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-11",
+        next_action="measure remaining family structural-fact and prereg CLI lifecycle"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -769,6 +780,21 @@ def main() -> int:
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-10.")
     lines.append("- next_exact_edit: measure and collapse the next repeated STARSS producer/prereg "
                  "lifecycle.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 11 (current checkpoint)")
+    lines.append("")
+    lines.append("- analysis plan: four gate/featurizer families share one SESOI, operating-point, exact "
+                 "sign-flip, claim-ceiling, and base-prereg traceability lifecycle.")
+    lines.append("- declarations: each family retains its own member ids, hypotheses, multiplicity rationale, "
+                 "front-end or gate contract, promotion bar, schema, and refusal surface.")
+    lines.append("- parity: complete outer-body and embedded canonical hashes from checkpoint 2f3671f are exact "
+                 "for all four family preregistrations.")
+    lines.append("- validation: full STARSS-focused suite 490/490 in 154.46s under nice -n 10.")
+    lines.append("- production source reduction: 163 LOC; tests added: 25 LOC; owned Python net reduction: "
+                 "138 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 4,018 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-11.")
+    lines.append("- next_exact_edit: measure remaining family structural-fact and prereg CLI lifecycle.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
