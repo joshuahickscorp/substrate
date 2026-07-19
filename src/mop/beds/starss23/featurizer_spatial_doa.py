@@ -45,6 +45,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .featurizer import hann_window
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 # The short-time transform grid. Deliberately identical to the frozen featurizer so the audio-length
@@ -97,13 +98,6 @@ FLOPS_REDUCE_PER_BAND = 13 + 3 + 10 + 11 + 10 + 32 + 2 + 2  # 83
 FLOPS_REDUCE = FLOPS_REDUCE_PER_BAND * N_BANDS  # 83 * 64 = 5_312
 
 FLOPS_PER_FRAME = FLOPS_STFT + FLOPS_INTENSITY + FLOPS_REDUCE  # 1_044_480 + 74_385 + 5_312 = 1_124_177
-
-
-def _hann_window() -> np.ndarray:
-    """Return the fixed periodic Hann window of length WINDOW as float64. Zero trained parameters."""
-
-    n = np.arange(WINDOW, dtype=np.float64)
-    return 0.5 - 0.5 * np.cos(2.0 * np.pi * n / WINDOW)
 
 
 def _hz_to_mel(hz: float) -> float:
@@ -162,7 +156,7 @@ class SpatialDoaFeaturizer:
 
     @property
     def window(self) -> np.ndarray:
-        return _hann_window()
+        return hann_window()
 
     @property
     def band_membership(self) -> np.ndarray:

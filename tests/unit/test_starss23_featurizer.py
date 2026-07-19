@@ -7,6 +7,8 @@ formulas. Claim scope: deterministic programmatic mechanics only.
 
 from __future__ import annotations
 
+import hashlib
+
 import numpy as np
 import pytest
 
@@ -28,6 +30,8 @@ from mop.beds.starss23.featurizer import (
     N_MEL,
     WINDOW,
     FrozenFeaturizer,
+    hann_window,
+    mel_filterbank,
 )
 from mop.beds.starss23.schema import N_CHANNELS, SAMPLES_PER_FRAME
 
@@ -118,6 +122,17 @@ def test_byte_reproducible_across_instances() -> None:
 def test_frozen_parameter_digest_is_stable() -> None:
     # The window and filterbank are fixed DSP, so two instances have byte-identical parameters.
     assert FrozenFeaturizer().parameter_digest() == FrozenFeaturizer().parameter_digest()
+
+
+def test_shared_spectral_primitives_pin_both_mel_resolutions() -> None:
+    def digest(array: np.ndarray) -> str:
+        return hashlib.sha256(array.astype("<f8").tobytes()).hexdigest()
+
+    assert digest(hann_window()) == "92c4b7d76381d84a6eefd52fcd7ffba885abeedc69b512944ec270888f9c0f28"
+    assert digest(mel_filterbank(24_000)) == "7ddf24c34f6ad2dfeaf0448761853063e252c4044d15e8b4d66d0c5760f13766"
+    assert digest(mel_filterbank(24_000, 32, 513)) == (
+        "13130b3b6646a543ff9b17d8a110256f3fe02e5b1a1e55ee9d0d67407f717db9"
+    )
 
 
 def test_mel_filterbank_is_sparse_and_deterministic() -> None:

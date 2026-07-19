@@ -30,6 +30,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .featurizer import hann_window, mel_filterbank
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_FEATURIZER_SCHEMA = "mop-starss23-count-featurizer/v1"
@@ -67,41 +68,6 @@ class CountFeaturizerRefusal(ValueError):
     """Raised when the count featurizer input violates the frozen FOA acquisition contract."""
 
 
-def _hann_window() -> np.ndarray:
-    n = np.arange(WINDOW, dtype=np.float64)
-    return 0.5 - 0.5 * np.cos(2.0 * np.pi * n / WINDOW)
-
-
-def _hz_to_mel(hz: np.ndarray) -> np.ndarray:
-    return 2595.0 * np.log10(1.0 + hz / 700.0)
-
-
-def _mel_to_hz(mel: np.ndarray) -> np.ndarray:
-    return 700.0 * (np.power(10.0, mel / 2595.0) - 1.0)
-
-
-def _mel_filterbank(sample_rate: int) -> np.ndarray:
-    """Return a fixed triangular 32-mel filterbank, shape (N_MEL, N_BINS), float64, zero-trained."""
-
-    f_min = 0.0
-    f_max = sample_rate / 2.0
-    mel_points = np.linspace(
-        _hz_to_mel(np.array([f_min]))[0], _hz_to_mel(np.array([f_max]))[0], N_MEL + 2
-    )
-    hz_points = _mel_to_hz(mel_points)
-    bin_freqs = np.linspace(0.0, f_max, N_BINS)
-    filters = np.zeros((N_MEL, N_BINS), dtype=np.float64)
-    for m in range(1, N_MEL + 1):
-        left, center, right = hz_points[m - 1], hz_points[m], hz_points[m + 1]
-        for b in range(N_BINS):
-            freq = bin_freqs[b]
-            if left <= freq <= center and center > left:
-                filters[m - 1, b] = (freq - left) / (center - left)
-            elif center <= freq <= right and right > center:
-                filters[m - 1, b] = (right - freq) / (right - center)
-    return filters
-
-
 @dataclass(frozen=True, slots=True)
 class FrozenCountFeaturizer:
     """The frozen deterministic count front-end. Window and 32-mel filterbank are fixed DSP, not weights."""
@@ -110,11 +76,11 @@ class FrozenCountFeaturizer:
 
     @property
     def window(self) -> np.ndarray:
-        return _hann_window()
+        return hann_window()
 
     @property
     def filterbank(self) -> np.ndarray:
-        return _mel_filterbank(self.sample_rate)
+        return mel_filterbank(self.sample_rate, N_MEL, N_BINS)
 
     def n_params(self) -> int:
         """Zero trained parameters. The front-end is a deterministic DSP, never a learned encoder."""
