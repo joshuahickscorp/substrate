@@ -8,9 +8,9 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `321cdbb` (base = current origin/main `a19ebe6`).
+- Branch `agent/mop-accretion-collapse` @ `fec8fa3` (base = current origin/main `a19ebe6`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
-- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T05:07:39.390790+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
+- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T05:28:47.572673+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
 
 ## Baseline (measured, not assumed)
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 215. By status: `{"complete": 12, "active": 47, "pending": 147, "partial": 8, "verified": 1}`.
+Total items: 215. By status: `{"complete": 12, "active": 49, "pending": 145, "partial": 8, "verified": 1}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -133,8 +133,8 @@ Total items: 215. By status: `{"complete": 12, "active": 47, "pending": 147, "pa
 | ESCAPE-RULE | 5 | gate | pending | Two-architecture escape rule before rejecting a lower target | only after 2 architectures implemented+failed for measured reasons + green restore + sealed receipt |
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
-| SEC-10 | 10 | region | pending | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
-| SEC-11 | 11 | region | pending | STARSS23 first high-pressure region collapse (12-step process) | prove method: parity byte-for-byte, replay, delete superseded, recovery map |
+| SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
+| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | implement architecture B and measure vs A; wire axis math providers; full-lifecycle fixture parity; delete superseded orchestration |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
 | SEC-13 | 13 | region | pending | One campaign controller (AFTER live run terminal + PR30 closure) | build vs fixtures only while live; archive historical bytes; replay-equivalence then delete |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
@@ -259,7 +259,7 @@ Total items: 215. By status: `{"complete": 12, "active": 47, "pending": 147, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 321cdbb
+- commit: pending; base fec8fa3
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)

@@ -5,13 +5,13 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "321cdbb8f00bfe1a0751afef7ff821c6b71dee67",
+    "base_commit": "fec8fa325e30b1b03dd5e5c3969aa118ed8250ef",
     "current_main": "a19ebe6d9574cee01026d10eef23398b9f88e4e4",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
       "state": "run_categorized_wave",
       "stage": "run_categorized_wave",
-      "updated_at": "2026-07-19T05:07:39.390790+00:00",
+      "updated_at": "2026-07-19T05:28:47.572673+00:00",
       "counts": {
         "compute_complete": 2,
         "compute_total": 4,
@@ -96,7 +96,11 @@
     "lifecycle_boilerplate_LOC": 57729,
     "evidence_primitive_defs_analyzed": 99,
     "evidence_primitive_defs_collapsible": 38,
-    "highest_pressure_first_region": "section 9 evidence authority: 168 duplicate integrity definitions collapse to one evidence core, provable by byte-parity + mutation tests (pure functions, live-safe)"
+    "highest_pressure_first_region": "section 9 evidence authority: 168 duplicate integrity definitions collapse to one evidence core, provable by byte-parity + mutation tests (pure functions, live-safe)",
+    "floor_correction": "duplicate-function analysis (14.3k byte-identical, 27k structural) measures similarity WITHIN the current shape, NOT the architectural-collapse ceiling. Measured STARSS23 anatomy: 18669 collapsible LOC (68 percent) fold into the shared engine. The 50k global target is not disproven.",
+    "starss23_collapsible_loc": 18669,
+    "starss23_preserved_loc": 8753,
+    "shared_engine": "src/mop/science architecture A (357 LOC), 9/9 fixture parity+mutation"
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
@@ -111,8 +115,8 @@
     "total": 215,
     "by_status": {
       "complete": 12,
-      "active": 47,
-      "pending": 147,
+      "active": 49,
+      "pending": 145,
       "partial": 8,
       "verified": 1
     }
@@ -1382,9 +1386,11 @@
       "section": 10,
       "kind": "region",
       "title": "One experiment engine (ExperimentSpec..IndependentVerifier)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "active",
+      "evidence_paths": [
+        "src/mop/science/"
+      ],
+      "validation": "one shared experiment engine implemented (architecture A), fixture-proven",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1395,13 +1401,18 @@
       "section": 11,
       "kind": "region",
       "title": "STARSS23 first high-pressure region collapse (12-step process)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "active",
+      "evidence_paths": [
+        "collapse/MOP_STARSS23_ANATOMY.json",
+        "src/mop/science/",
+        "src/mop/beds/starss23/count_spec.py",
+        "tests/unit/test_science_engine.py"
+      ],
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~70; engine A built + 9/9 fixture parity+mutation",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "",
-      "next_action": "prove method: parity byte-for-byte, replay, delete superseded, recovery map"
+      "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity (heavy real audio science) deferred to host headroom",
+      "next_action": "implement architecture B and measure vs A; wire axis math providers; full-lifecycle fixture parity; delete superseded orchestration"
     },
     {
       "id": "SEC-12",
