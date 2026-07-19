@@ -475,6 +475,11 @@
     "U1": "running",
     "P1R": "running",
     "evidence_ladder": "mechanics_robustness (Horizons) -> controlled-bed plausibility (Phase 4B) -> real-data canary (Campaign 2)",
-    "next": "classify U1/P1R; proceed to bounded independent confirmation for each canary_positive lane"
+    "next": "classify U1/P1R; proceed to bounded independent confirmation for each canary_positive lane",
+    "confirmation": {
+      "N1": "confirmation_null (CIFAR-10)",
+      "P1R": "same_team_cross_architecture_positive (CIFAR-100)",
+      "licensed_next": "Cluster B (R1+P1R)"
+    }
   }
 }
