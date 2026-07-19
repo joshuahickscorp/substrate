@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "7122fd0be48181f448e2132eaa302182e64bae4c",
+    "base_commit": "1bbb4c279bff4b8e1835a0204c687b53970e5602",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -119,21 +119,21 @@
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
-    "deduplicated_LOC": 6345,
+    "deduplicated_LOC": 6994,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 2959,
-    "net_global_reduction_LOC": 3386
+    "added_LOC": 3577,
+    "net_global_reduction_LOC": 3417
   },
   "checklist_summary": {
-    "total": 223,
+    "total": 224,
     "by_status": {
       "complete": 14,
       "active": 49,
       "pending": 145,
       "partial": 8,
-      "verified": 7
+      "verified": 8
     }
   },
   "checklist": [
@@ -1427,11 +1427,11 @@
         "src/mop/beds/starss23/feature_cache.py",
         "tests/unit/test_science_engine.py"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC",
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; heavy real-audio validation remains deferred to host headroom",
-      "next_action": "collapse repeated artifact envelopes and statistics/control projections onto the selected record engine; preserve independent verifiers and seals"
+      "next_action": "measure the remaining producer execution-loop duplication and delete the next parity-proven lifecycle; preserve independent verifiers and seals"
     },
     {
       "id": "SEC-12",
@@ -3084,6 +3084,24 @@
       "rollback_tag": "mop-collapse-starss23-lifecycle-5",
       "dependency": "",
       "next_action": "collapse the common artifact envelope across all thirteen producers"
+    },
+    {
+      "id": "RED-starss23-artifact-envelopes",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Centralize STARSS23 producer artifact envelopes and matched-budget provenance",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "src/mop/science/__init__.py",
+        "tests/unit/test_science_engine.py",
+        "tests/unit/test_starss23_end_to_end.py"
+      ],
+      "validation": "649 replaced Python LOC, 618 added, net -31; production source net -70; 13/13 field inventories and migrated expressions exact; closed-authority mutation refused; full focused suite green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-lifecycle-6",
+      "dependency": "",
+      "next_action": "measure and collapse the next repeated producer execution lifecycle"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

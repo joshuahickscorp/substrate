@@ -164,6 +164,24 @@
       "proof": "fresh safety boundaries cannot be widened by mutation; control-arm order and sealed rates match policy; onset and lower-is-better count statistic shapes exact; overlap and unknown-key inputs refuse; full STARSS-focused suite 483/483 in 155.47s under nice -n 10",
       "accounting_note": "393 replaced Python LOC are production source; 352 added Python LOC = 283 production source + 69 direct shape/refusal tests; production source net -110, tests net +69, total owned Python net -41",
       "tag": "mop-collapse-starss23-lifecycle-5"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "producer_artifact_envelopes",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "thirteen producer-local artifact bodies and twelve identical matched-budget provenance blocks collapsed onto one closed shared envelope",
+      "deduplicated_LOC": 649,
+      "added_LOC": 618,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 31,
+      "files_changed": 15,
+      "destination_api": "mop.science.artifact_envelope + mop.science.MATCHED_BUDGET_WALL_NOTE",
+      "proof": "13/13 old and new artifact field inventories exact; every migrated common and producer-specific expression normalized-AST exact; DoA dual-budget exception preserved; extra fields cannot shadow shared authority; full STARSS-focused suite 484/484 under nice -n 10",
+      "accounting_note": "649 replaced Python LOC are production source; 618 added Python LOC = 579 production source + 39 direct envelope authority tests; production source net -70, tests net +39, total owned Python net -31",
+      "tag": "mop-collapse-starss23-lifecycle-6"
     }
   ],
   "deferred_heavy_validation": {

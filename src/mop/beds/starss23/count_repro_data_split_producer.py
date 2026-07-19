@@ -36,7 +36,13 @@ from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
 )
-from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact, safety_flags
+from mop.science import (
+    ArtifactResult,
+    artifact_envelope,
+    demonstration_receipt,
+    finalize_artifact,
+    safety_flags,
+)
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -49,7 +55,7 @@ from mop.science.budget import (
 from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
 from mop.substrate.events import write_canonical_json
 
-from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
+from . import FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
 from .controls import at_chance
 from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
@@ -62,7 +68,6 @@ from .count_producer import (
     FULL_SCALE_C_TRAIN,
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
-    STAGE,
     CountProducerRefusal,
     RealCountBedConfig,
     _estimate_all,
@@ -325,49 +330,30 @@ def build_data_split_repro_artifact(
     dropped_onsets = sum(t["dropped_onsets_past_end"] for t in truncations)
     capped_clips = sum(1 for t in truncations if t["capped_by_max_frames"])
 
-    body: dict[str, Any] = {
-        "schema": REPRO_ARTIFACT_SCHEMA,
-        "reproduction_axis": REPRO_AXIS,
-        "of_bed": COUNT_BED_ID,
-        "stage": STAGE,
-        "bed_id": COUNT_BED_ID,
-        "claim_scope": CLAIM_SCOPE,
-        "cold_start": COLD_START,
-        "primary_control": PRIMARY_CONTROL,
-        "source_kind": "real",
-        "rights_clean": True,
-        "reproductions": 0,
-        "seeds": list(config.seeds),
-        "corpus_tracks": corpus_tracks,
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "flags": flags_block,
-        "verdict": verdict,
-        "harness": report.payload(),
-        "matched_budget": report.matched_budget.payload(),
-        "matched_budget_wall_note": (
-            "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is "
-            "byte-reproducible; the measured wall is unsealed run provenance, and the authoritative "
-            "sealed compute axes are the parameter count and the FLOP ledger"
-        ),
-        "break_even": report.break_even.payload(),
-        "featurizer": {
+    body = artifact_envelope(
+        schema=REPRO_ARTIFACT_SCHEMA, report=report, seeds=config.seeds, per_seed=per_seed,
+        stats=stats_block, controls=controls_block, flags=flags_block, verdict=verdict,
+        featurizer={
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME_COUNT,
             "d_cfeat": D_CFEAT,
-        },
-        "estimator": {
-            "n_params": estimator.n_params(),
-            "parameter_digest": estimator.parameter_digest(),
-            "flops_per_reestimate": FLOPS_PER_REESTIMATE,
-        },
-        "gate": {
+        }, gate={
             "params": seed_runs[0].gate_params,
             "param_ceiling": 4096,
             "state_bytes": CountOnlineState.state_bytes(),
             "flops_per_inference": FLOPS_PER_INFERENCE,
+        }, receipt_payload=receipt,
+        extra={
+        "reproduction_axis": REPRO_AXIS,
+        "of_bed": COUNT_BED_ID,
+        "cold_start": COLD_START,
+        "primary_control": PRIMARY_CONTROL,
+        "corpus_tracks": corpus_tracks,
+        "estimator": {
+            "n_params": estimator.n_params(),
+            "parameter_digest": estimator.parameter_digest(),
+            "flops_per_reestimate": FLOPS_PER_REESTIMATE,
         },
         "full_scale_anchors": {
             "c_train_flops": FULL_SCALE_C_TRAIN,
@@ -404,8 +390,8 @@ def build_data_split_repro_artifact(
             "provisional": False,
             "written_before_test_scores": True,
         },
-        "demonstration_receipt": receipt,
-    }
+        },
+    )
     return finalize_artifact(
         body,
         prereg=prereg,

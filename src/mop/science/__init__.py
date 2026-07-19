@@ -10,7 +10,7 @@ recomputation remains in the experiment family's independent verifier.
 from __future__ import annotations
 
 from collections import defaultdict
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
 from dataclasses import field as dataclass_field
 from typing import Any
@@ -22,6 +22,11 @@ from mop.substrate.events import canonical_sha256
 Result = dict[str, object]
 Provider = Callable[[str, int, object], Result]
 Verifier = Callable[[dict[str, list[Result]], Mapping[str, object]], Mapping[str, object]]
+MATCHED_BUDGET_WALL_NOTE = (
+    "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is byte-reproducible; "
+    "the measured wall is unsealed run provenance, and the authoritative sealed compute axes are the "
+    "parameter count and the FLOP ledger"
+)
 
 PROGRAM = ("run_arms", "pair_primary", "decide", "project", "seal")
 REQUIRED = {
@@ -78,6 +83,56 @@ def demonstration_receipt(
         verdict=verdict,
         detail=dict(detail),
     ).payload()
+
+
+def artifact_envelope(
+    *,
+    schema: str,
+    report: Any,
+    seeds: Iterable[object],
+    per_seed: object,
+    stats: Mapping[str, object],
+    controls: Mapping[str, object],
+    flags: Mapping[str, object],
+    verdict: str,
+    featurizer: Mapping[str, object],
+    gate: Mapping[str, object],
+    receipt_payload: Mapping[str, object],
+    extra: Mapping[str, object] | None = None,
+) -> dict[str, Any]:
+    """Build the common sealed-artifact body shared by every producer family."""
+
+    policy = report.policy
+    body: dict[str, Any] = {
+        "schema": schema,
+        "stage": 3,
+        "bed_id": policy.bed_id,
+        "claim_scope": policy.claim_scope,
+        "source_kind": report.source_kind,
+        "rights_clean": True,
+        "reproductions": 0,
+        "seeds": list(seeds),
+        "per_seed": per_seed,
+        "stats": dict(stats),
+        "controls": dict(controls),
+        "flags": dict(flags),
+        "verdict": verdict,
+        "harness": report.payload(),
+        "featurizer": dict(featurizer),
+        "gate": dict(gate),
+        "demonstration_receipt": dict(receipt_payload),
+    }
+    if hasattr(report, "matched_budget"):
+        body.update({
+            "matched_budget": report.matched_budget.payload(),
+            "matched_budget_wall_note": MATCHED_BUDGET_WALL_NOTE,
+            "break_even": report.break_even.payload(),
+        })
+    additions = dict(extra or {})
+    if body.keys() & additions.keys():
+        raise RecordRefused("extra artifact fields overlap the shared envelope")
+    body.update(additions)
+    return body
 
 
 def finalize_artifact(
@@ -263,7 +318,7 @@ def render_report(artifact: Mapping[str, object]) -> str:
 
 
 __all__ = [
-    "PROGRAM", "ArtifactResult", "Provider", "RecordRefused", "Result", "Verifier",
-    "demonstration_receipt", "finalize_artifact", "render_report", "run_experiment", "safety_flags",
-    "seal_record", "validate_record", "verify_artifact",
+    "MATCHED_BUDGET_WALL_NOTE", "PROGRAM", "ArtifactResult", "Provider", "RecordRefused", "Result",
+    "Verifier", "artifact_envelope", "demonstration_receipt", "finalize_artifact", "render_report",
+    "run_experiment", "safety_flags", "seal_record", "validate_record", "verify_artifact",
 ]
