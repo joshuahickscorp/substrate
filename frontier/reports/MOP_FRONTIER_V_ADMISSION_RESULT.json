@@ -1,0 +1,99 @@
+{
+  "schema": "mop-frontier-admission-result/v1",
+  "lane": "V",
+  "mechanism": "G1-V1 selective verification",
+  "question": "selective verification improves decisions beyond always/never/random/uncertainty/risk after cost",
+  "source_commit": "dedd5358dde795995ed1aa6775dcca5c42d78532",
+  "dataset": "CIFAR-10 corrupted + independent strong verifier",
+  "independent_units": "distribution regimes",
+  "classification": "architecture_dependent",
+  "battery_classification": "architecture_dependent",
+  "clauses_passed": "10/11",
+  "first_failing_clause": "F_architecture_independence",
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.242,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "raw_headroom_fraction": 0.764,
+      "pass": true
+    },
+    "residual_learnable_headroom": {
+      "value": 0.922,
+      "best_simple_control_norm": 0.078,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.242,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "best_arch": "kernel_ridge",
+      "mean_incr_over_simple": 0.166,
+      "lower_95_cb": 0.062,
+      "pass": true
+    },
+    "E_group_generalization": {
+      "rule": "random_effects_lower_95_cb",
+      "mean_family_effect": 0.166,
+      "between_family_sd": 0.14,
+      "lower_95_cb": 0.062,
+      "min_detectable_effect": 0.104,
+      "favorable_family_fraction": 1.0,
+      "pass": true
+    },
+    "F_architecture_independence": {
+      "capable_estimators": [
+        "knn",
+        "kernel_ridge",
+        "rff_ridge"
+      ],
+      "n_passing": 1,
+      "per_arch": {
+        "knn": -0.013,
+        "kernel_ridge": 0.062,
+        "rff_ridge": 0.034
+      },
+      "linear_baseline_incr": 0.096,
+      "pass": false
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": 0.019,
+      "pass": true
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": -0.003,
+      "mechanism_norm_mean": 0.244,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": -0.322,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.264,
+      "pass": true
+    }
+  },
+  "residual_learnable_headroom": 0.922,
+  "controls": "controls: always/never/random verify, raw uncertainty (U1 frozen negative), entropy, margin, loss, oracle",
+  "independent_verification": {
+    "independent_mean_effect": 0.253,
+    "producer_mean_effect": 0.264,
+    "per_unit_independent": [
+      0.188,
+      0.418,
+      0.124,
+      0.116,
+      0.25,
+      0.421
+    ],
+    "sign_agrees": true
+  },
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "licenses_canary": false,
+  "wall_seconds": 292.9,
+  "result_sha256": "dc4d653eb05efb65c24cbd172a1396799b4adb85dec4d48b193ae3f008e2af76"
+}
