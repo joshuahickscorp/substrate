@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `6041a3f` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `2ebd473` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -284,7 +284,7 @@ Total items: 240. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 6041a3f
+- commit: pending; base 2ebd473
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -548,7 +548,7 @@ Total items: 240. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 - gate authority: the old 170-path Python taxonomy was replaced by the exact eight-path set; anti-regrowth, stale-number, script, make-target, CLI, and hardware-drift checks remain.
 - validation: docs gate reports 4,135 collected tests, 133 experiments, and 10 acceptance checks with no drift; documentation regression battery 32/32 green in 20.18s.
 - owned Python change: 31 added, 218 deleted, net -187 LOC; cumulative verified owned Python reduction: 10,199 LOC.
-- total tracked physical change including state, ledger, tooling, and the 186-line history index: net -43,312 LOC.
+- total tracked physical change including state, ledger, tooling, and the 187-line history index: net -43,311 LOC.
 - rollback_tag: mop-collapse-docs.
 - next_exact_edit: finish the dual-architecture DoA producer shell.
 

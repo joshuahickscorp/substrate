@@ -8,6 +8,7 @@
   "removed_total_lines": 41327,
   "removed_total_bytes": 3062798,
   "recovery": "git show mop-collapse-starss23-lifecycle-21:<path>",
+  "search": "git grep -n <pattern> mop-collapse-starss23-lifecycle-21 -- '*.md'",
   "removed_documents": [
     {"bytes":1316,"git_blob":"9aa98e66a8a5352170fd610ab30a8b30e6c890e6","lines":22,"path":".claude/commands/goal.md","sha256":"471f76462e8f5a8d2f704ec869242ec9d61540e4f5e29741f974b45bb85e5674"},
     {"bytes":780,"git_blob":"2904d0947bb8cb960ecba71028f7441d96ee4e96","lines":15,"path":".claude/commands/gold.md","sha256":"4c885ccc41661c242e4f03495f459da1527370a9fa96318da86a84cb5ff44cfe"},
@@ -182,5 +183,5 @@
     {"bytes":43435,"git_blob":"e0a5448521314aee35fafe596c388c71e5239352","lines":138,"path":"docs/ESCS_DEEP_RESEARCH.md","sha256":"2cb377808fef2a336cfd733ad358ece65b3f01d76f830ee6f02ca9273562130e"},
     {"bytes":57661,"git_blob":"0b6db690897738b9bfc7f68978d7f6e7e0246a51","lines":540,"path":"MOP_COLLAPSE_LEDGER.md","sha256":"b80401f2927b6a068f184637646194b5f1536e1dacd6347d0b602634c0c4aacd"}
   ],
-  "canonical_sha256": "99634af7b1eee2f594e986cc1f1457f386ae68c8d05c6367d114ca2866bee65b"
+  "canonical_sha256": "5b535c5cc5f9a743cb909e5a76cc0f07d9da49c94a760f977002f3e2e857301e"
 }
