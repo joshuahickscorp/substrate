@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import ast
 import copy
+from dataclasses import asdict
 from pathlib import Path
 
 import numpy as np
@@ -47,12 +48,15 @@ from mop.beds.starss23.count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
     RealCountBedConfig,
+    _run_seed_real,
     build_real_count_bed_artifact,
 )
 from mop.beds.starss23.count_referee import coast_emitted, mae_clip, score_arm
 from mop.beds.starss23.experiments import COUNT_BUDGET_POLICY
 from mop.beds.starss23.gate import training_flops
+from mop.beds.starss23.schema import Clip
 from mop.science import budget as H
+from mop.substrate.events import canonical_sha256
 
 FLOP_CEILING = 60_000_000_000
 _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
@@ -99,6 +103,45 @@ def test_change_density_and_coast_from_zero():
     assert change_density([clip]) == pytest.approx(3 / 6)
     # mean|C_gt| = (0+1+1+2+0+0)/6
     assert coast_from_zero_mae([clip]) == pytest.approx(4 / 6)
+
+
+def test_shared_count_seed_lifecycle_matches_the_legacy_projection():
+    def clip(clip_id: str, room_id: str, n_frames: int) -> Clip:
+        return Clip(clip_id, room_id, n_frames, "0" * 64, ())
+
+    train = (clip("train_a", "r1", 12), clip("train_b", "r2", 11))
+    val = (clip("val_a", "r3", 10),)
+    test = (clip("test_a", "r4", 13), clip("test_b", "r5", 9))
+    all_clips = train + val + test
+    rng = np.random.default_rng(123)
+    features = {
+        item.clip_id: rng.normal(size=(item.n_frames, 256)) for item in all_clips
+    }
+    counts = {
+        item.clip_id: tuple((frame // 3) % 3 for frame in range(item.n_frames))
+        for item in all_clips
+    }
+    estimator = {
+        item.clip_id: np.asarray(counts[item.clip_id], dtype=np.int64) for item in all_clips
+    }
+    config = RealCountBedConfig(
+        seeds=(7, 8), target_rates=(0.5, 0.25), noisy_tv_frames=17, epochs=1
+    )
+    run = _run_seed_real(
+        seed=7,
+        train_clips=train,
+        val_clips=val,
+        test_clips=test,
+        features_by_clip=features,
+        estimator_by_clip=estimator,
+        gt_by_clip=counts,
+        noise_features=rng.normal(size=(17, 256)),
+        config=config,
+        operating_density=0.3,
+    )
+    assert canonical_sha256(asdict(run)) == (
+        "f964d4568daa33f299843018f7aa89b3984f9bf9e327016be5c27af26f9e447d"
+    )
 
 
 # ---------------------------------------------------------------------------

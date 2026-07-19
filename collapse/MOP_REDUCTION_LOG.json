@@ -182,6 +182,24 @@
       "proof": "13/13 old and new artifact field inventories exact; every migrated common and producer-specific expression normalized-AST exact; DoA dual-budget exception preserved; extra fields cannot shadow shared authority; full STARSS-focused suite 484/484 under nice -n 10",
       "accounting_note": "649 replaced Python LOC are production source; 618 added Python LOC = 579 production source + 39 direct envelope authority tests; production source net -70, tests net +39, total owned Python net -31",
       "tag": "mop-collapse-starss23-lifecycle-6"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "count_seed_execution_lifecycle",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "four counting per-seed train, sweep, control, score, operating-point, and noisy-TV loops collapsed onto one provider-driven lifecycle",
+      "deduplicated_LOC": 372,
+      "added_LOC": 181,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 191,
+      "files_changed": 5,
+      "destination_api": "mop.beds.starss23.count_producer.run_count_seed",
+      "proof": "complete BudgetSeedRun digests from checkpoint 48a587d exact for sealed frame-micro, swapped featurizer-estimator, alternate gate architecture, and clip-macro scoring; held-fixed gate assembly/training imported by reference; direct legacy digest pinned; full STARSS-focused suite 485/485 in 161.37s under nice -n 10",
+      "accounting_note": "372 replaced Python LOC are production source; 181 added Python LOC = 138 production source + 43 direct legacy projection tests; production source net -234, tests net +43, total owned Python net -191",
+      "tag": "mop-collapse-starss23-lifecycle-7"
     }
   ],
   "deferred_heavy_validation": {

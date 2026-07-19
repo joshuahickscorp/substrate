@@ -288,11 +288,12 @@ def main() -> int:
                 "producer budget projection and canonical writes centralized, net 378 LOC; producer "
                 "result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; "
                 "statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common "
-                "artifact envelopes and matched-budget provenance centralized, net 31 LOC")
+                "artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count "
+                "seed execution loops centralized with exact provider-specific records, net 191 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("measure the remaining producer execution-loop duplication and delete the "
-                                 "next parity-proven lifecycle; preserve independent verifiers and seals")
+            it["next_action"] = ("collapse repeated room-disjoint split and corpus-preparation lifecycle; "
+                                 "preserve independent verifiers and sealed source identities")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -382,6 +383,17 @@ def main() -> int:
                     "full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-6",
         next_action="measure and collapse the next repeated producer execution lifecycle"))
+    checklist.append(item(
+        "RED-starss23-count-seed-lifecycle", 11, "verified_reduction",
+        "Centralize STARSS23 counting per-seed execution lifecycle", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json",
+                  "src/mop/beds/starss23/count_producer.py",
+                  "tests/unit/test_starss23_counting_bed.py"],
+        validation=("372 replaced Python LOC, 181 added, net -191; production source net -234; complete "
+                    "legacy BudgetSeedRun digests exact across micro, clip-macro, swapped-provider, and "
+                    "alternate-gate axes; full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-7",
+        next_action="collapse repeated room-disjoint split and corpus-preparation lifecycle"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -664,6 +676,20 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 3,417 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-6.")
     lines.append("- next_exact_edit: measure and collapse the next repeated producer execution lifecycle.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 7 (current checkpoint)")
+    lines.append("")
+    lines.append("- count execution: four producer-local per-seed training, validation-threshold, budget-sweep, "
+                 "control, scoring, operating-point, and noisy-TV loops now execute once.")
+    lines.append("- providers: sealed frame-micro, clip-macro, swapped featurizer-estimator, and alternate-gate "
+                 "mathematics remain explicit callbacks; the held-fixed gate path is imported by reference.")
+    lines.append("- parity: complete BudgetSeedRun digests from checkpoint 48a587d are exact for all four axes; "
+                 "the sealed frame-micro digest is pinned in the default test suite.")
+    lines.append("- validation: full STARSS-focused suite 485/485 in 161.37s under nice -n 10.")
+    lines.append("- production source reduction: 234 LOC; tests added: 43 LOC; owned Python net reduction: 191 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 3,608 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-7.")
+    lines.append("- next_exact_edit: collapse repeated room-disjoint split and corpus-preparation lifecycle.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

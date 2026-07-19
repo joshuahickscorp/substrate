@@ -27,7 +27,6 @@ import math
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
@@ -55,25 +54,25 @@ from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
 from .controls import (
-    always_on_fires,
     at_chance,
-    never_update_reestimates,
-    rate_matched_random_fires,
 )
 from .count_gate import (
     COUNT_VOC_WINDOW,
     FLOPS_PER_INFERENCE,
-    CountGate,
     CountOnlineState,
-    voc_targets_from_count_track,
 )
 from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
+    _causal_reestimates,
     _fold_respecting_split,  # held-fixed native fold split, imported by reference and never edited
+    _matched_noise_features,
+    _micro_count_score,
+    _train_count_gate,
+    run_count_seed,
 )
-from .count_referee import COLD_START, score_arm
+from .count_referee import COLD_START
 from .count_repro_featurizer_estimator_estimator import (
     COUNT_REPRO_FE_ESTIMATOR_SCHEMA,
     FLOPS_PER_REESTIMATE,
@@ -93,7 +92,7 @@ from .count_repro_featurizer_estimator_prereg import (
 )
 from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA, training_flops
-from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
+from .schema import Clip
 
 COUNT_REPRO_FE_PRODUCER_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed-repro-featurizer-estimator/v1"
@@ -150,62 +149,6 @@ def _estimate_all(adapter, estimator: ReproCountEstimator) -> dict[str, np.ndarr
 
 
 # ---------------------------------------------------------------------------
-# Label-free online-state assembly and causal re-estimation passes (held-fixed gate contract).
-# ---------------------------------------------------------------------------
-
-
-def _assemble_inputs(features: np.ndarray) -> np.ndarray:
-    """Assemble (n_frames, D_IN) gate inputs with a label-free causal online-state pass. No label enters."""
-
-    state = CountOnlineState.initial()
-    rows: list[np.ndarray] = []
-    for frame in range(features.shape[0]):
-        rows.append(np.concatenate([features[frame], state.to_vector()]))
-        state = state.update(features[frame], 0.0, False)
-    return np.asarray(rows, dtype=np.float64)
-
-
-def _causal_reestimates(gate: CountGate, features: np.ndarray, theta: float) -> tuple[list[int], np.ndarray]:
-    """Run the gate causally over a clip: return (reestimate_frames, p_trace) at threshold theta."""
-
-    state = CountOnlineState.initial()
-    reestimates: list[int] = []
-    probs = np.empty(features.shape[0], dtype=np.float64)
-    for frame in range(features.shape[0]):
-        p = gate.infer(features[frame], state)
-        probs[frame] = p
-        did = p >= theta
-        if did:
-            reestimates.append(frame)
-        state = state.update(features[frame], p, did)
-    return reestimates, probs
-
-
-def _train_count_gate(
-    seed: int,
-    train_clips: tuple[Clip, ...],
-    features_by_clip: dict[str, np.ndarray],
-    gt_by_clip: dict[str, tuple[int, ...]],
-    config: ReproCountBedConfig,
-) -> tuple[CountGate, int]:
-    """Train the one candidate gate on train-room value-of-computation targets. Returns gate, train frames."""
-
-    inputs: list[np.ndarray] = []
-    targets: list[np.ndarray] = []
-    for clip in train_clips:
-        features = features_by_clip[clip.clip_id]
-        inputs.append(_assemble_inputs(features))
-        targets.append(voc_targets_from_count_track(gt_by_clip[clip.clip_id], window=config.voc_window))
-    x = np.concatenate(inputs, axis=0)
-    y = np.concatenate(targets, axis=0)
-    gate = CountGate(seed=seed)
-    gate.fit(
-        x, y, epochs=config.epochs, learning_rate=config.learning_rate, ponder_lambda=config.ponder_lambda
-    )
-    return gate, int(x.shape[0])
-
-
-# ---------------------------------------------------------------------------
 # The real noisy-TV channel, re-featurized with the re-authored front-end.
 # ---------------------------------------------------------------------------
 
@@ -230,21 +173,9 @@ def _real_noisy_tv_features(
     target_mean: float,
     target_std: float,
 ) -> np.ndarray:
-    """Pure-aleatoric channel: white-noise audio re-featurized with the new front-end and marginal-matched.
+    """Build the swapped front-end's independently seeded aleatoric control channel."""
 
-    White noise carries no reducible count-change structure, so a gate keying on the coherent change signature
-    re-estimates at chance on it. Matching the channel's global feature mean and standard deviation to the
-    new front-end's test marginals removes any raw-magnitude confound. Deterministic in the seed.
-    """
-
-    rng = np.random.default_rng(_noise_seed(seed))
-    audio = rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
-    features = featurizer.featurize(audio)
-    mean = float(features.mean())
-    std = float(features.std())
-    if std > 0.0:
-        features = (features - mean) / std * float(target_std) + float(target_mean)
-    return features
+    return _matched_noise_features(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------
@@ -264,95 +195,23 @@ def _run_seed_real(
     config: ReproCountBedConfig,
     operating_density: float,
 ) -> BudgetSeedRun:
-    """Train the gate for one seed, sweep the budget, score every arm on the fixed real test set."""
+    """Bind the swapped providers to the held-fixed counting seed lifecycle."""
 
-    gate, train_frames = _train_count_gate(seed, train_clips, features_by_clip, gt_by_clip, config)
-    total_frames = int(sum(clip.n_frames for clip in test_clips))
-
-    val_probs = np.concatenate(
-        [_causal_reestimates(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in val_clips]
-    )
-
-    per_budget: dict[str, dict[str, Any]] = {}
-    for rate in config.target_rates:
-        theta = float(np.quantile(val_probs, 1.0 - rate))
-        budget_id = f"rate_{rate:.2f}"
-
-        arm_clip_scores: dict[str, list[tuple[list[int], list[int], list[int]]]] = {
-            ARM_CANDIDATE: [],
-            ARM_RATE_MATCHED_RANDOM: [],
-            ARM_ALWAYS_ON: [],
-            ARM_NEVER_UPDATE: [],
-        }
-        reestimations = {kind: 0 for kind in arm_clip_scores}
-        clips_block: list[dict[str, Any]] = []
-        for clip in test_clips:
-            features = features_by_clip[clip.clip_id]
-            gt = list(gt_by_clip[clip.clip_id])
-            estimator = [int(v) for v in estimator_by_clip[clip.clip_id].tolist()]
-            candidate_r, _ = _causal_reestimates(gate, features, theta)
-            arm_r = {
-                ARM_CANDIDATE: candidate_r,
-                ARM_RATE_MATCHED_RANDOM: rate_matched_random_fires(
-                    candidate_r, clip.n_frames, seed=seed, clip_id=clip.clip_id
-                ),
-                ARM_ALWAYS_ON: always_on_fires(clip.n_frames),
-                ARM_NEVER_UPDATE: never_update_reestimates(clip.n_frames),
-            }
-            for kind, r in arm_r.items():
-                arm_clip_scores[kind].append((gt, estimator, list(r)))
-                reestimations[kind] += len(r)
-            clips_block.append(
-                {
-                    "clip_id": clip.clip_id,
-                    "reestimate_frames": {
-                        ARM_CANDIDATE: list(arm_r[ARM_CANDIDATE]),
-                        ARM_RATE_MATCHED_RANDOM: list(arm_r[ARM_RATE_MATCHED_RANDOM]),
-                    },
-                }
-            )
-        arm_scores = {
-            kind: score_arm(pairs, COLD_START).payload() for kind, pairs in arm_clip_scores.items()
-        }
-        per_budget[budget_id] = {
-            "theta": theta,
-            "rate": rate,
-            "clips": clips_block,
-            "arm_scores": arm_scores,
-            "reestimations": reestimations,
-        }
-
-    operating_budget_id = min(
-        per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - operating_density)
-    )
-    operating = per_budget[operating_budget_id]
-    per_seed_block = {
-        "seed": seed,
-        "operating_budget_id": operating_budget_id,
-        "clips": operating["clips"],
-        "arm_scores": operating["arm_scores"],
-    }
-
-    operating_theta = operating["theta"]
-    base_rate = operating["reestimations"][ARM_CANDIDATE] / max(1, total_frames)
-    noise_reestimates, _ = _causal_reestimates(gate, noise_features, operating_theta)
-    noise_rate = len(noise_reestimates) / noise_features.shape[0]
-    noisy_tv = {
-        "reestimate_rate_on_noise": round(float(noise_rate), 12),
-        "base_rate": round(float(base_rate), 12),
-        "at_chance": at_chance(min(1.0, noise_rate), min(1.0, base_rate)),
-        "n_noise_frames": int(noise_features.shape[0]),
-    }
-
-    return BudgetSeedRun(
+    return run_count_seed(
         seed=seed,
-        total_frames=total_frames,
-        train_frames=train_frames,
-        gate_params=gate.n_params(),
-        per_budget=per_budget,
-        operating_budget_id=operating_budget_id,
-        per_seed_block=per_seed_block,
-        noisy_tv=noisy_tv,
+        val_clips=val_clips,
+        test_clips=test_clips,
+        features_by_clip=features_by_clip,
+        estimator_by_clip=estimator_by_clip,
+        gt_by_clip=gt_by_clip,
+        noise_features=noise_features,
+        target_rates=config.target_rates,
+        operating_density=operating_density,
+        train_gate=lambda: _train_count_gate(
+            seed, train_clips, features_by_clip, gt_by_clip, config
+        ),
+        causal_reestimates=_causal_reestimates,
+        score_rows=_micro_count_score,
     )
 
 
