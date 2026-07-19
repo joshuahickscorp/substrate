@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "d052b3f1bee9d93f2572e36d45f432a6d88972fc",
+    "base_commit": "4dcb1e7436c00f6687f09186551749c861a22e4b",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -100,26 +100,38 @@
     "floor_correction": "duplicate-function analysis (14.3k byte-identical, 27k structural) measures similarity WITHIN the current shape, NOT the architectural-collapse ceiling. Measured STARSS23 anatomy: 18669 collapsible LOC (68 percent) fold into the shared engine. The 50k global target is not disproven.",
     "starss23_collapsible_loc": 18669,
     "starss23_preserved_loc": 8753,
-    "shared_engine": "src/mop/science architecture B (198 LOC), 29/29 focused tests",
-    "selected_experiment_architecture": "architecture_b"
+    "shared_engine": "src/mop/science architecture B (197 LOC), 29/29 focused tests",
+    "selected_experiment_architecture": "architecture_b",
+    "starss23_source_decomposition": {
+      "files": 75,
+      "ranges": 2364,
+      "category_loc": {
+        "adapter_or_dataset_logic": 1406,
+        "independent_verifier_mathematics": 2163,
+        "scientific_declaration": 6057,
+        "shared_integrity": 1003,
+        "shared_lifecycle": 13229,
+        "unique_scientific_mathematics": 7110
+      }
+    }
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
-    "deduplicated_LOC": 790,
+    "deduplicated_LOC": 2606,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 451,
-    "net_global_reduction_LOC": 339
+    "added_LOC": 1093,
+    "net_global_reduction_LOC": 1513
   },
   "checklist_summary": {
-    "total": 217,
+    "total": 219,
     "by_status": {
-      "complete": 13,
+      "complete": 14,
       "active": 49,
       "pending": 145,
       "partial": 8,
-      "verified": 2
+      "verified": 3
     }
   },
   "checklist": [
@@ -1408,14 +1420,16 @@
         "collapse/MOP_STARSS23_ANATOMY.json",
         "src/mop/science/",
         "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
+        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
         "src/mop/beds/starss23/experiments.py",
+        "src/mop/beds/starss23/feature_cache.py",
         "tests/unit/test_science_engine.py"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks",
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity (heavy real audio science) deferred to host headroom",
-      "next_action": "finish line-range source decomposition; wire real providers; prove full-lifecycle fixture parity; delete superseded orchestration"
+      "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; heavy real-audio validation remains deferred to host headroom",
+      "next_action": "collapse onset/count/DoA budget harnesses into one shared science engine; prove payload and budget-point parity; delete superseded harnesses"
     },
     {
       "id": "SEC-12",
@@ -2941,6 +2955,22 @@
       "next_action": "none"
     },
     {
+      "id": "ART-MOP_STARSS23_SOURCE_DECOMPOSITION.json",
+      "section": 11,
+      "kind": "artifact",
+      "title": "MOP_STARSS23_SOURCE_DECOMPOSITION.json (complete line-range ownership map)",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
+        "collapse/tools/starss23_decompose.py"
+      ],
+      "validation": "75 files and 2364 top-level ranges partition every physical line exactly once",
+      "commit": "",
+      "rollback_tag": "",
+      "dependency": "",
+      "next_action": "use named parity and rollback fields as the deletion gate for each cluster"
+    },
+    {
       "id": "RED-starss23-architecture-b",
       "section": 10,
       "kind": "verified_reduction",
@@ -2955,6 +2985,24 @@
       "rollback_tag": "mop-collapse-starss23-architecture-b",
       "dependency": "",
       "next_action": "wire real STARSS23 providers and delete superseded family lifecycle"
+    },
+    {
+      "id": "RED-starss23-cache-controls-statistics",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Collapse STARSS23 cache, control, and producer-statistics lifecycle",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "src/mop/beds/starss23/feature_cache.py",
+        "src/mop/science/statistics.py",
+        "tests/unit/test_starss23_feature_cache.py"
+      ],
+      "validation": "1816 replaced Python LOC, 642 added, net -1174; historical cache identities, crash-safe writes, exact statistics, controls, and full focused STARSS suite green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-lifecycle-1",
+      "dependency": "",
+      "next_action": "collapse the three STARSS23 budget harnesses onto one shared implementation"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

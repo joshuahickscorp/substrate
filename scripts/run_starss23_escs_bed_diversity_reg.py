@@ -84,12 +84,12 @@ from mop.beds.starss23.harness import (  # noqa: E402
 from mop.beds.starss23.prereg import PREREGISTERED_SESOI_F1  # noqa: E402
 from mop.beds.starss23.real_artifact import RealBedConfig, _real_noisy_tv_features  # noqa: E402
 from mop.beds.starss23.schema import COLLAR_FRAMES, Clip, ClipSplit  # noqa: E402
-from mop.beds.starss23.stats import exact_sign_flip  # noqa: E402
 from mop.ladder.ladder_contracts import (  # noqa: E402
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import exact_sign_flip  # noqa: E402
 from mop.substrate.events import canonical_bytes, canonical_sha256  # noqa: E402
 
 VARIANT_ID = "diversity_reg"

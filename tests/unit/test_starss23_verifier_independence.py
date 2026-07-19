@@ -85,6 +85,7 @@ def test_verifier_module_namespace_holds_no_producer_symbol() -> None:
         module_name = getattr(value, "__module__", "") or ""
         assert not module_name.startswith("mop.beds.starss23.referee")
         assert not module_name.startswith("mop.beds.starss23.stats")
+        assert not module_name.startswith("mop.science.statistics")
 
 
 # ---------------------------------------------------------------------------

@@ -36,6 +36,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE
@@ -50,7 +51,6 @@ from .prereg import (
 )
 from .real_artifact import RealBedConfig
 from .schema import COLLAR_FRAMES, FRAME_MS
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 VARIANTS_PREREG_SCHEMA = "mop-starss23-escs-bed-variants-prereg/v1"
 STAGE = 3

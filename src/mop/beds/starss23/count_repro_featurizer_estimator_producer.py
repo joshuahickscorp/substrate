@@ -32,10 +32,11 @@ from typing import Any
 import numpy as np
 
 from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL, mint_demonstration
+from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
-from .count_controls import (
+from .controls import (
     always_on_fires,
     at_chance,
     never_update_reestimates,
@@ -87,7 +88,6 @@ from .count_repro_featurizer_estimator_prereg import (
 )
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA, training_flops
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
-from .stats import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 
 COUNT_REPRO_FE_PRODUCER_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed-repro-featurizer-estimator/v1"
@@ -380,7 +380,9 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: ReproCo
     )
 
 
-def _build_budget_points(seed_runs: list[_ReproSeedRun], config: ReproCountBedConfig) -> list[CountBudgetPoint]:
+def _build_budget_points(
+    seed_runs: list[_ReproSeedRun], config: ReproCountBedConfig
+) -> list[CountBudgetPoint]:
     total_frames = seed_runs[0].total_frames
     train_frames = seed_runs[0].train_frames
     gate_params = seed_runs[0].gate_params
@@ -730,7 +732,7 @@ DEFAULT_REPRO_ARTIFACT_PATH = Path("proof/STARSS23_COUNTING_REPRO_featurizer_est
 def write_repro_count_artifact(
     artifact: dict[str, Any], out_path: str | Path = DEFAULT_REPRO_ARTIFACT_PATH
 ) -> Path:
-    """Write the sealed reproduction artifact as canonical JSON bytes so its on-disk digest is reproducible."""
+    """Write the sealed reproduction artifact as reproducible canonical JSON bytes."""
 
     path = Path(out_path)
     path.parent.mkdir(parents=True, exist_ok=True)

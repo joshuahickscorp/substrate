@@ -41,6 +41,7 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
@@ -52,7 +53,7 @@ from .artifact import (
     STAGE3_REQUIREMENT_ID,
     _SeedRun,
 )
-from .feature_cache_spatial_doa import CachedCorpus, load_or_build_corpus
+from .feature_cache import CachedCorpus, load_or_build_cached_corpus
 from .featurizer_spatial_doa import D_FEAT, FLOPS_PER_FRAME, SpatialDoaFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState, training_flops
 from .harness import (
@@ -77,7 +78,6 @@ from .real_artifact import (
 from .referee import score_arm
 from .schema import COLLAR_FRAMES
 from .spatial_doa_prereg import DEFAULT_FEATURIZERS_PREREG_PATH, FEATURIZERS, FEATURIZERS_PREREG_SCHEMA
-from .stats import exact_sign_flip
 
 VARIANT_ARTIFACT_SCHEMA = "mop-starss23-escs-bed-spatial-doa/v1"
 FEATURIZER_ID = "spatial_doa"
@@ -294,7 +294,7 @@ def build_spatial_doa_artifact(
     bed_config = config.bed_config()
     if corpus is None:
         kwargs: dict[str, Any] = {} if cache_root is None else {"cache_root": cache_root}
-        corpus = load_or_build_corpus(**kwargs)
+        corpus = load_or_build_cached_corpus(front_end="spatial_doa", **kwargs)
     split = corpus.split
     features_by_clip = corpus.features_by_clip
 
@@ -468,7 +468,10 @@ def build_spatial_doa_artifact(
         "featurizer_swap": {
             "featurizer_id": FEATURIZER_ID,
             "hypothesis": _featurizer_hypothesis(),
-            "front_end": "per-band active-intensity direction of arrival (az/el direction cosines) + DirAC diffuseness",
+            "front_end": (
+                "per-band active-intensity direction of arrival (az/el direction cosines) + "
+                "DirAC diffuseness"
+            ),
             "replaces": "half-wave-rectified log-mel spectral flux",
             "only_front_end_differs": True,
             "gate_unchanged": True,

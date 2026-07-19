@@ -28,6 +28,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
@@ -37,11 +38,12 @@ from .count_referee import COLD_START, METRIC_RULE
 from .count_repro_featurizer_estimator_estimator import (
     COUNT_REPRO_FE_ESTIMATOR_SCHEMA,
     ESTIMATOR_RULE,
+)
+from .count_repro_featurizer_estimator_estimator import (
     FLOPS_PER_REESTIMATE as REPRO_C_REEST_FLOPS,
 )
 from .count_repro_featurizer_estimator_featurizer import COUNT_REPRO_FE_FEATURIZER_SCHEMA
 from .schema import FRAME_MS
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 COUNT_REPRO_FE_PREREG_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-prereg/v1"
 REPRO_AXIS = "featurizer_estimator"

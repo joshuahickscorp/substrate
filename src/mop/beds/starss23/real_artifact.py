@@ -44,6 +44,7 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
@@ -81,7 +82,6 @@ from .harness import (
 from .prereg import DEFAULT_PREREG_PATH, build_prereg, write_prereg
 from .referee import score_arm
 from .schema import COLLAR_FRAMES, N_CHANNELS, SAMPLES_PER_FRAME, Clip, ClipSplit
-from .stats import exact_sign_flip
 
 REAL_PRODUCER_SCHEMA = "mop-starss23-escs-real-producer/v1"
 

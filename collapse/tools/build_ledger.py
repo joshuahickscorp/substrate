@@ -265,6 +265,7 @@ def main() -> int:
     redlog = load("MOP_REDUCTION_LOG.json")
     starss = load("MOP_STARSS23_ANATOMY.json")
     architecture = load("MOP_STARSS23_ARCHITECTURE_COMPARISON.json")
+    decomposition = load("MOP_STARSS23_SOURCE_DECOMPOSITION.json")
     checklist = build_checklist()
 
     # reconcile: STARSS23 vertical slice, engine built, floor corrected
@@ -273,16 +274,20 @@ def main() -> int:
             it["status"] = "active"
             it["evidence_paths"] = ["collapse/MOP_STARSS23_ANATOMY.json", "src/mop/science/",
                                     "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
+                                    "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
                                     "src/mop/beds/starss23/experiments.py",
+                                    "src/mop/beds/starss23/feature_cache.py",
                                     "tests/unit/test_science_engine.py"]
             it["validation"] = (
-                f"measured collapsible={starss.get('collapsible_loc')} preserved={starss.get('preserved_loc')} "
+                f"measured collapsible={starss.get('collapsible_loc')} "
+                f"preserved={starss.get('preserved_loc')} "
                 "per_axis_declaration~21; architecture B selected after implemented A/B comparison; "
-                "29/29 selected-engine tests and 22/22 B mutation attacks")
-            it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity "
-                                "(heavy real audio science) deferred to host headroom")
-            it["next_action"] = ("finish line-range source decomposition; wire real providers; prove "
-                                 "full-lifecycle fixture parity; delete superseded orchestration")
+                "29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics "
+                "cluster physically deleted with net owned Python reduction of 1174 LOC")
+            it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
+                                "heavy real-audio validation remains deferred to host headroom")
+            it["next_action"] = ("collapse onset/count/DoA budget harnesses into one shared science engine; "
+                                 "prove payload and budget-point parity; delete superseded harnesses")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -296,6 +301,15 @@ def main() -> int:
         validation="four axes in both designs; LOC/API/dependency/import/runtime/audit/mutation measured",
         next_action="none"))
     checklist.append(item(
+        "ART-MOP_STARSS23_SOURCE_DECOMPOSITION.json", 11, "artifact",
+        "MOP_STARSS23_SOURCE_DECOMPOSITION.json (complete line-range ownership map)", status="complete",
+        evidence=["collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
+                  "collapse/tools/starss23_decompose.py"],
+        validation=(f"{len(decomposition.get('files') or [])} files and "
+                    f"{sum(len(f.get('ranges') or []) for f in (decomposition.get('files') or []))} "
+                    "top-level ranges partition every physical line exactly once"),
+        next_action="use named parity and rollback fields as the deletion gate for each cluster"))
+    checklist.append(item(
         "RED-starss23-architecture-b", 10, "verified_reduction",
         "Select Architecture B and physically delete Architecture A", status="verified",
         evidence=["collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
@@ -303,6 +317,15 @@ def main() -> int:
         validation="539 replaced Python LOC, 402 added, net -137; 29/29 focused green",
         rollback_tag="mop-collapse-starss23-architecture-b",
         next_action="wire real STARSS23 providers and delete superseded family lifecycle"))
+    checklist.append(item(
+        "RED-starss23-cache-controls-statistics", 11, "verified_reduction",
+        "Collapse STARSS23 cache, control, and producer-statistics lifecycle", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/feature_cache.py",
+                  "src/mop/science/statistics.py", "tests/unit/test_starss23_feature_cache.py"],
+        validation=("1816 replaced Python LOC, 642 added, net -1174; historical cache identities, "
+                    "crash-safe writes, exact statistics, controls, and full focused STARSS suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-1",
+        next_action="collapse the three STARSS23 budget harnesses onto one shared implementation"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -414,8 +437,13 @@ def main() -> int:
                                  "shared engine. The 50k global target is not disproven."),
             "starss23_collapsible_loc": (starss.get("collapsible_loc") if starss else None),
             "starss23_preserved_loc": (starss.get("preserved_loc") if starss else None),
-            "shared_engine": "src/mop/science architecture B (198 LOC), 29/29 focused tests",
+            "shared_engine": "src/mop/science architecture B (197 LOC), 29/29 focused tests",
             "selected_experiment_architecture": (architecture.get("selection") or {}).get("selected"),
+            "starss23_source_decomposition": {
+                "files": len(decomposition.get("files") or []),
+                "ranges": sum(len(f.get("ranges") or []) for f in (decomposition.get("files") or [])),
+                "category_loc": decomposition.get("category_loc") or {},
+            },
         },
         "reduction_accounting_verified": red,
         "checklist_summary": {"total": len(checklist), "by_status": by_status},
@@ -489,7 +517,24 @@ def main() -> int:
     lines.append("- net global owned Python LOC reduction: 137 (cumulative verified reduction: 339).")
     lines.append("- performance: cold import -1.1%; trivial fixture +9.793 us from fail-closed authority hashing.")
     lines.append("- rollback_tag: mop-collapse-starss23-architecture-b.")
-    lines.append("- next_exact_edit: line-range decomposition, real provider wiring, lifecycle parity, physical deletion.")
+    lines.append("- next_exact_edit: lifecycle parity and physical deletion.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 1 (current checkpoint)")
+    lines.append("")
+    lines.append("- source decomposition: 75 files, 30,968 physical lines, 2,364 exact top-level ranges.")
+    lines.append("- shared lifecycle classification: 13,229 LOC; shared integrity classification: 1,003 LOC.")
+    lines.append("- feature caches: three implementations (1,447 LOC) replaced by one 412-LOC "
+                 "typed policy engine.")
+    lines.append("- controls: count and DoA wrapper modules deleted; one shared never-update "
+                 "authority remains.")
+    lines.append("- statistics: 385-LOC family module replaced by 222-LOC producer-side shared module; "
+                 "selected engine now uses the preregistered exact sign-flip test.")
+    lines.append("- source reduction: 1,277 LOC; tests added net: 103 LOC; owned Python net "
+                 "reduction: 1,174 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 1,513 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-1.")
+    lines.append("- next_exact_edit: collapse onset/count/DoA budget harnesses onto one shared "
+                 "implementation.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

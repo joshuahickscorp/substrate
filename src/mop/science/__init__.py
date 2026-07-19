@@ -11,9 +11,9 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Callable, Mapping
-from math import comb
 from typing import Any
 
+from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_sha256
 
 Result = dict[str, object]
@@ -99,15 +99,14 @@ def _decide(state: dict[str, Any], _provider: Provider, _inputs: object) -> None
     favorable = sum(delta > 0 for delta in deltas)
     against = sum(delta < 0 for delta in deltas)
     decisive = favorable + against
-    tail = sum(comb(decisive, k) for k in range(favorable, decisive + 1))
-    p_value = 1.0 if not decisive else tail / 2**decisive
-    stop = state["record"]["stop"]
-    reproduced = favorable >= stop["min_reproductions"] and against == 0
-    state["decision"] = {
-        "rule": "paired_sign_flip_one_sided", "favorable": favorable, "against": against,
-        "decisive_pairs": decisive, "ties": len(deltas) - decisive,
-        "proportion": favorable / decisive if decisive else 0.0, "p_value": p_value,
-    }
+    record = state["record"]
+    exact = exact_sign_flip(deltas, alpha=record["stop"]["alpha"])
+    reproduced = exact.one_sided_significant and exact.mean_delta >= record["sesoi"]["value"]
+    state["decision"] = {**exact.payload(), "rule": "paired_sign_flip_one_sided",
+                         "favorable": favorable, "against": against, "decisive_pairs": decisive,
+                         "ties": len(deltas) - decisive,
+                         "proportion": favorable / decisive if decisive else 0.0,
+                         "p_value": exact.one_sided_p}
     state["verdict"] = "reproduced_effect" if reproduced else "null_or_inconclusive"
 
 

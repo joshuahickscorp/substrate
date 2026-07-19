@@ -35,6 +35,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
@@ -46,15 +47,14 @@ from .count_prereg import (
 )
 from .count_referee import COLD_START, METRIC_RULE
 from .count_repro_gate_arch_gate import (
+    D_IN_GATE_ARCH,
     HIDDEN1,
     HIDDEN2,
     N_OUT,
     PARAM_CEILING,
     REPRO_AXIS,
-    D_IN_GATE_ARCH,
     param_count_two_layer,
 )
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 COUNT_REPRO_GATE_ARCH_PREREG_SCHEMA = "mop-starss23-count-repro-gate-arch-prereg/v1"
 STAGE = 3

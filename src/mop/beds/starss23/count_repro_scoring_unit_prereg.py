@@ -36,6 +36,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
@@ -47,7 +48,6 @@ from .count_prereg import (
 )
 from .count_referee import COLD_START, METRIC_RULE
 from .count_repro_scoring_unit_referee import MACRO_METRIC_RULE, SCORING_UNIT
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 COUNT_REPRO_SCORING_UNIT_PREREG_SCHEMA = "mop-starss23-count-repro-scoring-unit-prereg/v1"
 STAGE = 3

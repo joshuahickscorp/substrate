@@ -25,6 +25,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
@@ -33,7 +34,6 @@ from .count_harness import COUNT_BED_ID
 from .count_referee import COLD_START, METRIC_RULE
 from .gate import C_TRAIN_ANCHOR
 from .schema import FRAME_MS
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 COUNT_PREREG_SCHEMA = "mop-starss23-count-bed-prereg/v1"
 STAGE = 3

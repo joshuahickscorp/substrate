@@ -39,6 +39,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE
@@ -53,7 +54,6 @@ from .prereg import (
 )
 from .real_artifact import RealBedConfig
 from .schema import COLLAR_FRAMES, FRAME_MS
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 FEATURIZERS_PREREG_SCHEMA = "mop-starss23-escs-bed-featurizers-prereg/v1"
 STAGE = 3
@@ -138,7 +138,10 @@ def build_featurizers_prereg(
     variants: tuple[dict[str, str], ...] = FEATURIZER_VARIANTS,
     base_prereg_canonical_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed featurizer preregistration body. The timestamp is passed, never a clock read."""
+    """Assemble the self-sealed featurizer preregistration body.
+
+    The timestamp is passed by the caller and never read from a clock.
+    """
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise FeaturizersPreregRefusal("timestamp must be a non-empty string passed by the caller")
@@ -272,11 +275,11 @@ def structural_facts_from_superflux_cache(
     onset density, the exact rule the producer preregisters, using train labels only.
     """
 
-    from .feature_cache import DEFAULT_CACHE_ROOT
+    from .feature_cache import DEFAULT_CACHE_ROOT, load_or_build_cached_corpus
 
-    from .feature_cache_superflux import load_or_build_superflux_cached_corpus
-
-    corpus = load_or_build_superflux_cached_corpus(cache_root=cache_root or DEFAULT_CACHE_ROOT)
+    corpus = load_or_build_cached_corpus(
+        front_end="superflux", cache_root=cache_root or DEFAULT_CACHE_ROOT
+    )
     rates = target_rates or RealBedConfig().target_rates
     train_density = corpus.train_onset_density()
     operating_rate = min(rates, key=lambda r: abs(r - train_density))

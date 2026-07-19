@@ -38,11 +38,12 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
-from .count_controls import at_chance
+from .controls import at_chance
 from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
 from .count_gate import FLOPS_PER_INFERENCE, CountOnlineState
@@ -79,7 +80,6 @@ from .count_repro_data_split_prereg import (
     write_data_split_prereg,
 )
 from .schema import Clip
-from .stats import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 
 REPRO_PRODUCER_SCHEMA = "mop-starss23-count-repro-data-split-producer/v1"
 # A distinct artifact schema so the ORIGINAL sealed verifier rejects this file and only the separately
@@ -93,7 +93,7 @@ DATA_SPLIT_SEEDS: tuple[int, ...] = (10, 11, 12, 13, 14)
 
 
 def default_data_split_config() -> RealCountBedConfig:
-    """The full-scale swapped-fold configuration: the disjoint (10..14) seed family, everything else as sealed."""
+    """Return the full-scale swapped-fold configuration with disjoint seeds 10 through 14."""
 
     return RealCountBedConfig(seeds=DATA_SPLIT_SEEDS)
 
@@ -274,7 +274,9 @@ def build_data_split_repro_artifact(
 
     stats_block = {
         "metric": "coasted-count-MAE",
-        "delta_definition": "delta_i = MAE_rate_matched_random(i) - MAE_candidate(i); positive = candidate lower error",
+        "delta_definition": (
+            "delta_i = MAE_rate_matched_random(i) - MAE_candidate(i); positive = candidate lower error"
+        ),
         "deltas": [float(value) for value in deltas],
         "t_obs": float(sign_flip.mean_delta),
         "mean_delta_control_minus_candidate": float(sign_flip.mean_delta),
