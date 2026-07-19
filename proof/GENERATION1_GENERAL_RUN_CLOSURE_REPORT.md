@@ -54,7 +54,7 @@ carried=9, surviving=10, pruned=3, warned=0, failed=0, blocked=3, untested=3
 - Generated same-code robustness does not activate any mechanism, does not promote any result, does not generalize to the natural world, and is not an independent scientific confirmation. The natural-data STARSS23 beds are all null.
 
 Admission refusals (why the closure is deferred):
-- status did not validate: general-run status implementation authority drifted
+- General Run is not terminal (state='run_horizon_v2'); closure is deferred
 
 ## Next bounded scientific question
 
