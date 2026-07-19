@@ -1,0 +1,99 @@
+{
+  "schema": "mop-frontier-admission-result/v1",
+  "lane": "M",
+  "mechanism": "G1-M1 messaging",
+  "question": "bounded messaging adds info beyond shared state/concatenation/centralized after cost",
+  "source_commit": "dedd5358dde795995ed1aa6775dcca5c42d78532",
+  "dataset": "split-view MNIST (top/bottom halves)",
+  "independent_units": "distribution regimes / view splits",
+  "classification": "pruned_mechanism",
+  "battery_classification": "pruned_mechanism",
+  "clauses_passed": "10/11",
+  "first_failing_clause": "G_noisy_tv",
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.568,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "raw_headroom_fraction": 0.784,
+      "pass": true
+    },
+    "residual_learnable_headroom": {
+      "value": 0.668,
+      "best_simple_control_norm": 0.332,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.568,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "best_arch": "rff_ridge",
+      "mean_incr_over_simple": 0.44,
+      "lower_95_cb": 0.326,
+      "pass": true
+    },
+    "E_group_generalization": {
+      "rule": "random_effects_lower_95_cb",
+      "mean_family_effect": 0.44,
+      "between_family_sd": 0.153,
+      "lower_95_cb": 0.326,
+      "min_detectable_effect": 0.115,
+      "favorable_family_fraction": 1.0,
+      "pass": true
+    },
+    "F_architecture_independence": {
+      "capable_estimators": [
+        "knn",
+        "kernel_ridge",
+        "rff_ridge"
+      ],
+      "n_passing": 3,
+      "per_arch": {
+        "knn": 0.273,
+        "kernel_ridge": 0.312,
+        "rff_ridge": 0.326
+      },
+      "linear_baseline_incr": 0.358,
+      "pass": true
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": 0.301,
+      "pass": false
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": 0.045,
+      "mechanism_norm_mean": 0.773,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": -0.278,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.734,
+      "pass": true
+    }
+  },
+  "residual_learnable_headroom": 0.668,
+  "controls": "controls: no-message, A-uncertainty; centralized matched-capacity deferred to canary",
+  "independent_verification": {
+    "independent_mean_effect": 0.791,
+    "producer_mean_effect": 0.734,
+    "per_unit_independent": [
+      0.87,
+      0.595,
+      0.669,
+      0.81,
+      0.868,
+      0.933
+    ],
+    "sign_agrees": true
+  },
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "licenses_canary": false,
+  "wall_seconds": 74.5,
+  "result_sha256": "86b85fe070cace116dedbca14f540558a84b2f80db9d1e814cf34c0110d55d15"
+}

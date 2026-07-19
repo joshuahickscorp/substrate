@@ -1,0 +1,28 @@
+{
+  "schema": "mop-frontier-admission-result/v1",
+  "lane": "S",
+  "mechanism": "G1-S1 simulate consequence vs react",
+  "question": "simulating consequences beats acting reactively and one-step planning under a fixed sim budget",
+  "source_commit": "dedd5358dde795995ed1aa6775dcca5c42d78532",
+  "dataset": "gymnasium classic-control (parameter-perturbed variants)",
+  "independent_units": "10 distinct dynamical systems (5 informative after excluding degenerate)",
+  "harness": "real-rollout offline-fit",
+  "classification": "pruned_mechanism",
+  "incremental_over_best_simple": {
+    "mean": -0.0561,
+    "between_unit_sd": 0.6128,
+    "lower_95_cb": -0.5584,
+    "min_detectable_effect": 0.5023,
+    "favorable_fraction": 0.2,
+    "n": 5,
+    "pass": false
+  },
+  "beats_random_return": -1.207,
+  "beats_extra_control": -2.253,
+  "controls": "reactive_bc, greedy_reward, onestep_planner, value_estimator, random, actionblind_sim",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "licenses_canary": false,
+  "wall_seconds": 7.4,
+  "result_sha256": "94695b493709c1161dc54125bb2aed103300f1436b0f8a79bfda7692e2e6871e"
+}
