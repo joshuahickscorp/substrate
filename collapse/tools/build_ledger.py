@@ -290,11 +290,12 @@ def main() -> int:
                 "statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common "
                 "artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count "
                 "seed execution loops centralized with exact provider-specific records, net 191 LOC; native "
-                "dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC")
+                "dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, "
+                "gate-trace, and marginal-noise lifecycle centralized, net 73 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("collapse repeated causal gate passes and marginal-matched noise controls; "
-                                 "preserve provider state mathematics and sealed seeds")
+            it["next_action"] = ("collapse repeated fire-spread diagnostics and sealed prereg readers; "
+                                 "preserve variant-specific scoring and historical digests")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -405,6 +406,16 @@ def main() -> int:
                     "remains independent; full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-8",
         next_action="collapse repeated causal gate passes and marginal-matched noise controls"))
+    checklist.append(item(
+        "RED-starss23-causal-gate-noise", 11, "verified_reduction",
+        "Centralize STARSS23 causal gate and marginal-noise lifecycle", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/science/gating.py",
+                  "src/mop/beds/starss23/adapter.py", "tests/unit/test_starss23_counting_bed.py"],
+        validation=("226 replaced Python LOC, 153 added, net -73; production source net -84; nine "
+                    "pre/post numerical hashes exact across onset/count/DoA state inputs, traces, events, "
+                    "and seeded noise; full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-9",
+        next_action="collapse repeated fire-spread diagnostics and sealed prereg readers"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -715,6 +726,19 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 3,699 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-8.")
     lines.append("- next_exact_edit: collapse repeated causal gate passes and marginal-matched noise controls.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 9 (current checkpoint)")
+    lines.append("")
+    lines.append("- causal state: onset, count, alternate-gate count, and DoA share one label-free input assembly "
+                 "and probability/event pass while retaining their state and gate providers.")
+    lines.append("- noise controls: onset, count, swapped-featurizer count, and DoA retain independent seed "
+                 "identities but share one STARSS-shaped white-noise marginal-matching implementation.")
+    lines.append("- parity: nine checkpoint 3b2367e numerical hashes are exact; the count noise bytes are pinned in tests.")
+    lines.append("- validation: full STARSS-focused suite 487/487 in 153.43s under nice -n 10.")
+    lines.append("- production source reduction: 84 LOC; tests added net: 11 LOC; owned Python net reduction: 73 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 3,772 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-9.")
+    lines.append("- next_exact_edit: collapse repeated fire-spread diagnostics and sealed prereg readers.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

@@ -59,11 +59,12 @@ from mop.science.budget import (
     noise_control_summary,
     run_matched_budget,
 )
+from mop.science.gating import causal_gate_trace
 from mop.science.statistics import exact_sign_flip, sign_flip_payload
 from mop.substrate.events import write_canonical_json
 
 from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter, map_clip_audio, native_fold_split
+from .adapter import RealStarssAdapter, map_clip_audio, marginal_matched_noise, native_fold_split
 from .artifact import (
     ARTIFACT_SCHEMA,
     DOWNSTREAM_FLOPS_PER_FIRING,
@@ -71,7 +72,6 @@ from .artifact import (
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
     BedConfig,
-    _causal_fires,
     _flop_model,
     _pooled_score,
     _SeedRun,
@@ -88,7 +88,7 @@ from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState
 from .prereg import DEFAULT_PREREG_PATH, build_prereg
 from .referee import score_arm
-from .schema import COLLAR_FRAMES, N_CHANNELS, SAMPLES_PER_FRAME, Clip, ClipSplit
+from .schema import COLLAR_FRAMES, Clip, ClipSplit
 
 REAL_PRODUCER_SCHEMA = "mop-starss23-escs-real-producer/v1"
 
@@ -158,22 +158,9 @@ def _real_noisy_tv_features(
     target_mean: float,
     target_std: float,
 ) -> np.ndarray:
-    """Pure-aleatoric channel: 4-channel white-noise audio featurized, then affine-matched to test marginals.
+    """Build the real onset bed's independently seeded aleatoric control channel."""
 
-    White noise carries no reducible onset structure (no sharp signal-band flux attacks), so a gate that
-    keys on the coherent onset signature fires at chance on it. Matching the channel's global feature mean
-    and standard deviation to the real test content removes any raw-magnitude confound, so only a gate
-    that chases irreducible novelty fires preferentially. Deterministic in the seed.
-    """
-
-    rng = np.random.default_rng(_noise_seed(seed))
-    audio = rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
-    features = featurizer.featurize(audio)
-    mean = float(features.mean())
-    std = float(features.std())
-    if std > 0.0:
-        features = (features - mean) / std * float(target_std) + float(target_mean)
-    return features
+    return marginal_matched_noise(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------
@@ -195,7 +182,8 @@ def _run_seed_real(
     total_frames = int(sum(clip.n_frames for clip in split.test))
 
     val_probs = np.concatenate(
-        [_causal_fires(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in split.val]
+        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, OnlineState.initial)[1]
+         for clip in split.val]
     )
     best_single = BestSingleControl.tuned(
         [(features_by_clip[clip.clip_id], list(clip.onset_frames)) for clip in split.val]
@@ -207,7 +195,9 @@ def _run_seed_real(
         budget_id = f"rate_{rate:.2f}"
         val_scored = []
         for clip in split.val:
-            fires, _ = _causal_fires(gate, features_by_clip[clip.clip_id], theta)
+            fires, _ = causal_gate_trace(
+                gate, features_by_clip[clip.clip_id], theta, OnlineState.initial
+            )
             val_scored.append((list(clip.onset_frames), fires))
         val_f1 = score_arm(val_scored, COLLAR_FRAMES).f1
 
@@ -222,7 +212,9 @@ def _run_seed_real(
         for clip in split.test:
             features = features_by_clip[clip.clip_id]
             gt = list(clip.onset_frames)
-            candidate_fires, _ = _causal_fires(gate, features, theta)
+            candidate_fires, _ = causal_gate_trace(
+                gate, features, theta, OnlineState.initial
+            )
             fires = {
                 ARM_CANDIDATE: candidate_fires,
                 ARM_RATE_MATCHED_RANDOM: rate_matched_random_fires(
@@ -266,7 +258,9 @@ def _run_seed_real(
 
     operating_theta = operating["theta"]
     base_rate = operating["firings"][ARM_CANDIDATE] / max(1, total_frames)
-    noise_fires, _ = _causal_fires(gate, noise_features, operating_theta)
+    noise_fires, _ = causal_gate_trace(
+        gate, noise_features, operating_theta, OnlineState.initial
+    )
     noise_rate = len(noise_fires) / noise_features.shape[0]
     noisy_tv = {
         "firing_rate_on_noise": round(float(noise_rate), 12),

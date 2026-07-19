@@ -48,6 +48,7 @@ from mop.science.budget import (
     noise_control_summary,
     run_matched_budget,
 )
+from mop.science.gating import assemble_causal_inputs, causal_gate_trace
 from mop.science.statistics import (
     BOUNDED_CLAIM_VERB,
     PROVISIONAL_SESOI_F1,
@@ -189,21 +190,6 @@ def _voc_targets(gt_frames: Sequence[int], n_frames: int, window: int = 1) -> np
     return targets
 
 
-def _assemble_inputs(features: np.ndarray) -> np.ndarray:
-    """Assemble (n_frames, D_IN) gate inputs with a label-free causal online-state pass.
-
-    The online state is advanced with no firing (self-derived running statistics only), so no label
-    ever enters the assembled training inputs. The discriminative signal lives in the 256 features.
-    """
-
-    state = OnlineState.initial()
-    rows: list[np.ndarray] = []
-    for frame in range(features.shape[0]):
-        rows.append(np.concatenate([features[frame], state.to_vector()]))
-        state = state.update(features[frame], 0.0, False)
-    return np.asarray(rows, dtype=np.float64)
-
-
 def _noisy_tv_channel(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> np.ndarray:
     """Return the pure-aleatoric noisy-TV channel: featurized null-regime audio.
 
@@ -230,22 +216,6 @@ def _noisy_tv_channel(seed: int, config: BedConfig, featurizer: FrozenFeaturizer
     return featurizer.featurize(audio)
 
 
-def _causal_fires(gate: CandidateGate, features: np.ndarray, theta: float) -> tuple[list[int], np.ndarray]:
-    """Run the gate causally over a clip and return (fired_frames, p_fire_trace) at threshold theta."""
-
-    state = OnlineState.initial()
-    fires: list[int] = []
-    probs = np.empty(features.shape[0], dtype=np.float64)
-    for frame in range(features.shape[0]):
-        p_fire = gate.infer(features[frame], state)
-        probs[frame] = p_fire
-        fired = p_fire >= theta
-        if fired:
-            fires.append(frame)
-        state = state.update(features[frame], p_fire, fired)
-    return fires, probs
-
-
 def _train_gate(
     seed: int,
     split_train: Sequence,
@@ -258,7 +228,7 @@ def _train_gate(
     targets: list[np.ndarray] = []
     for clip in split_train:
         features = features_by_clip[clip.clip_id]
-        inputs.append(_assemble_inputs(features))
+        inputs.append(assemble_causal_inputs(features, OnlineState.initial))
         targets.append(_voc_targets(clip.onset_frames, clip.n_frames, window=config.voc_window))
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
@@ -304,7 +274,8 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
 
     # A neutral-threshold causal pass over val gives the p_fire distribution the budget grid is cut from.
     val_probs = np.concatenate(
-        [_causal_fires(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in split.val]
+        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, OnlineState.initial)[1]
+         for clip in split.val]
     )
     best_single = BestSingleControl.tuned(
         [(features_by_clip[clip.clip_id], list(clip.onset_frames)) for clip in split.val]
@@ -317,7 +288,9 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
         # Record the val F1 at this theta for provenance; the operating point is preregistered below.
         val_scored = []
         for clip in split.val:
-            fires, _ = _causal_fires(gate, features_by_clip[clip.clip_id], theta)
+            fires, _ = causal_gate_trace(
+                gate, features_by_clip[clip.clip_id], theta, OnlineState.initial
+            )
             val_scored.append((list(clip.onset_frames), fires))
         val_f1 = score_arm(val_scored, COLLAR_FRAMES).f1
 
@@ -333,7 +306,7 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
         for clip in split.test:
             features = features_by_clip[clip.clip_id]
             gt = list(clip.onset_frames)
-            candidate_fires, _ = _causal_fires(gate, features, theta)
+            candidate_fires, _ = causal_gate_trace(gate, features, theta, OnlineState.initial)
             fires = {
                 ARM_CANDIDATE: candidate_fires,
                 ARM_RATE_MATCHED_RANDOM: rate_matched_random_fires(
@@ -385,7 +358,9 @@ def _run_seed(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> _Se
     operating_theta = operating["theta"]
     base_rate = operating["firings"][ARM_CANDIDATE] / max(1, total_frames)
     noise_features = _noisy_tv_channel(seed, config, featurizer)
-    noise_fires, _ = _causal_fires(gate, noise_features, operating_theta)
+    noise_fires, _ = causal_gate_trace(
+        gate, noise_features, operating_theta, OnlineState.initial
+    )
     noise_rate = len(noise_fires) / noise_features.shape[0]
     noisy_tv = {
         "firing_rate_on_noise": round(float(noise_rate), 12),

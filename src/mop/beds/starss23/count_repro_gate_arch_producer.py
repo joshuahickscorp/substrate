@@ -57,6 +57,7 @@ from mop.science.budget import (
     noise_control_summary,
     run_matched_budget,
 )
+from mop.science.gating import assemble_causal_inputs
 from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
 from mop.substrate.events import write_canonical_json
 
@@ -76,7 +77,6 @@ from .count_producer import (
     DEFAULT_METADATA_ROOT,
     CountProducerRefusal,
     RealCountBedConfig,
-    _assemble_inputs,
     _micro_count_score,
     _real_noisy_tv_features,
     run_count_seed,
@@ -115,34 +115,6 @@ class CountReproGateArchProducerRefusal(ValueError):
     """Raised when the gate-architecture reproduction cannot assemble a well-formed sealed artifact."""
 
 
-# ---------------------------------------------------------------------------
-# Gate-touching passes: re-authored around the two-layer gate. Bodies mirror the sealed producer exactly
-# except that they construct and charge the re-authored architecture.
-# ---------------------------------------------------------------------------
-
-
-def _causal_reestimates(
-    gate: CountReproGateArchGate, features: np.ndarray, theta: float
-) -> tuple[list[int], np.ndarray]:
-    """Run the gate causally over a clip: return (reestimate_frames, p_trace) at threshold theta.
-
-    Identical control flow to the sealed producer's causal pass; only the gate object differs. The online
-    state is the sealed ``CountOnlineState``, advanced from the gate's own decisions and never a label.
-    """
-
-    state = CountOnlineState.initial()
-    reestimates: list[int] = []
-    probs = np.empty(features.shape[0], dtype=np.float64)
-    for frame in range(features.shape[0]):
-        p = gate.infer(features[frame], state)
-        probs[frame] = p
-        did = p >= theta
-        if did:
-            reestimates.append(frame)
-        state = state.update(features[frame], p, did)
-    return reestimates, probs
-
-
 def _train_count_gate(
     seed: int,
     train_clips: tuple[Clip, ...],
@@ -152,15 +124,15 @@ def _train_count_gate(
 ) -> tuple[CountReproGateArchGate, int]:
     """Train the re-authored two-layer gate on train-room value-of-computation targets.
 
-    The input assembly (``_assemble_inputs``) and the target rule (``voc_targets_from_count_track``) are the
-    sealed, held-fixed pieces; only the gate class is the varied axis.
+    The shared causal input assembly and ``voc_targets_from_count_track`` are held fixed; only the gate
+    class is the varied axis.
     """
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
     for clip in train_clips:
         features = features_by_clip[clip.clip_id]
-        inputs.append(_assemble_inputs(features))
+        inputs.append(assemble_causal_inputs(features, CountOnlineState.initial))
         targets.append(voc_targets_from_count_track(gt_by_clip[clip.clip_id], window=config.voc_window))
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
@@ -202,7 +174,7 @@ def _run_seed_real(
         train_gate=lambda: _train_count_gate(
             seed, train_clips, features_by_clip, gt_by_clip, config
         ),
-        causal_reestimates=_causal_reestimates,
+        state_factory=CountOnlineState.initial,
         score_rows=_micro_count_score,
     )
 

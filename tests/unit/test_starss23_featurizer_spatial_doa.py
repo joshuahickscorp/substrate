@@ -152,14 +152,14 @@ def test_white_noise_reads_as_highly_diffuse() -> None:
 
 
 def test_features_feed_the_unchanged_gate_without_projection() -> None:
-    from mop.beds.starss23.artifact import _assemble_inputs, _causal_fires
-    from mop.beds.starss23.gate import CandidateGate
+    from mop.beds.starss23.gate import CandidateGate, OnlineState
+    from mop.science.gating import assemble_causal_inputs, causal_gate_trace
 
     feat = _feature_block(seed=3, n_frames=80)
-    x = _assemble_inputs(feat)
+    x = assemble_causal_inputs(feat, OnlineState.initial)
     assert x.shape == (80, D_IN)  # 256 native features + 8 online scalars, no projection
     gate = CandidateGate(seed=0)
-    fires, probs = _causal_fires(gate, feat, 0.5)
+    fires, probs = causal_gate_trace(gate, feat, 0.5, OnlineState.initial)
     assert probs.shape == (80,)
     assert isinstance(fires, list)
 

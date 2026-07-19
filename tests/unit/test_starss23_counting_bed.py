@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import ast
 import copy
+import hashlib
 from dataclasses import asdict
 from pathlib import Path
 
@@ -48,6 +49,7 @@ from mop.beds.starss23.count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
     RealCountBedConfig,
+    _real_noisy_tv_features,
     _run_seed_real,
     build_real_count_bed_artifact,
 )
@@ -142,6 +144,15 @@ def test_shared_count_seed_lifecycle_matches_the_legacy_projection():
     assert canonical_sha256(asdict(run)) == (
         "f964d4568daa33f299843018f7aa89b3984f9bf9e327016be5c27af26f9e447d"
     )
+
+
+def test_shared_marginal_noise_matches_the_legacy_count_bytes():
+    noise = _real_noisy_tv_features(7, 5, FrozenCountFeaturizer(), 0.25, 1.5)
+    assert hashlib.sha256(noise.tobytes()).hexdigest() == (
+        "4f5dbf4c513685a51080ca6c82881ee5e623fea88a1fdc4015461cd4693895a0"
+    )
+    assert float(noise.mean()) == pytest.approx(0.25)
+    assert float(noise.std()) == pytest.approx(1.5)
 
 
 # ---------------------------------------------------------------------------

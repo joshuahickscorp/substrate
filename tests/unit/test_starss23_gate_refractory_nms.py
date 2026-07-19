@@ -16,7 +16,6 @@ from dataclasses import fields
 import numpy as np
 import pytest
 
-from mop.beds.starss23.artifact import _causal_fires
 from mop.beds.starss23.featurizer import FrozenFeaturizer
 from mop.beds.starss23.gate import (
     PARAM_CEILING,
@@ -33,6 +32,7 @@ from mop.beds.starss23.gate_refractory_nms import (
     tune_theta_for_rate,
 )
 from mop.beds.starss23.schema import COLLAR_FRAMES, N_CHANNELS, SAMPLES_PER_FRAME
+from mop.science.gating import causal_gate_trace
 
 _FORBIDDEN_ONLINE = ("azimuth", "elevation", "distance", "class", "onset", "label", "truth", "doa")
 
@@ -107,7 +107,7 @@ def test_causal_probs_are_byte_identical_to_the_committed_causal_pass() -> None:
     variant = RefractoryNmsGate(seed=1)
     committed = CandidateGate(seed=1)
     theta = 0.5
-    _, committed_probs = _causal_fires(committed, features, theta)
+    _, committed_probs = causal_gate_trace(committed, features, theta, OnlineState.initial)
     variant_probs = variant.causal_probs(features, theta)
     assert np.array_equal(variant_probs, committed_probs)
 
@@ -166,7 +166,7 @@ def test_refractory_fires_de_clusters_relative_to_raw_threshold() -> None:
     features = _feature_block(seed=21, n_frames=400)
     gate = RefractoryNmsGate(seed=1, window=2)
     theta = 0.5
-    raw_fires, _ = _causal_fires(gate, features, theta)
+    raw_fires, _ = causal_gate_trace(gate, features, theta, OnlineState.initial)
     nms_fires = gate.refractory_fires(features, theta)
     assert len(nms_fires) <= len(raw_fires)
     if len(nms_fires) > 1:
