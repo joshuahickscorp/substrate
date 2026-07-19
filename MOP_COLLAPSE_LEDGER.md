@@ -8,26 +8,26 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `7b8c82f` (base = current origin/main `a19ebe6`).
+- Branch `agent/mop-accretion-collapse` @ `0f950a2` (base = current origin/main `a19ebe6`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
-- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:36:28.377741+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
+- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:37:58.899565+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
 
 ## Baseline (measured, not assumed)
 
 | metric | value |
 |---|---|
-| tracked_files | 1741 |
-| python_files | 1069 |
+| tracked_files | 1744 |
+| python_files | 1070 |
 | global_owned_source_LOC | 401319 |
 | global_maintained_source_LOC | 401280 |
 | active_src_mop_LOC | 259221 |
 | test_LOC | 89983 |
 | scripts_LOC | 52076 |
 | documentation_LOC | 43932 |
-| configuration_LOC | 512703 |
+| configuration_LOC | 513974 |
 | python_modules | 466 |
-| entrypoints | 316 |
+| entrypoints | 317 |
 | root_md_docs | 35 |
 | all_md_docs | 170 |
 
@@ -259,7 +259,7 @@ Total items: 215. By status: `{"complete": 12, "active": 47, "pending": 147, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 7b8c82f
+- commit: pending; base 0f950a2
 - global_owned_source_LOC: 401319
 - global_maintained_source_LOC: 401280
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)

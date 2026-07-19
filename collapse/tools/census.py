@@ -210,7 +210,7 @@ def main() -> int:
 
     # ---- global accounting (section 4) by physical LOC ----
     def area(rel: str) -> str:
-        if rel.startswith("collapse/"):
+        if rel.startswith("collapse/") or rel.startswith(".collapse/"):
             return "collapse_tooling"
         if rel.startswith("src/mop/"):
             return "src"
@@ -250,11 +250,13 @@ def main() -> int:
     cfg_loc = sum(r["physical_LOC"] for r in records.values() if r["language"] == "config")
 
     global_maintained = py_src_loc + py_test_loc + py_scripts_loc  # owned python we maintain
+    def _harness(p: str) -> bool:
+        return p.startswith("collapse/") or p.startswith(".collapse/")
     collapse_tooling_loc = sum(r["physical_LOC"] for r in records.values()
-                               if r["language"] == "python" and r["path"].startswith("collapse/"))
+                               if r["language"] == "python" and _harness(r["path"]))
     # owned MOP system python EXCLUDES the collapse harness (analysis infrastructure, tracked separately)
     global_owned_source = sum(r["physical_LOC"] for r in records.values()
-                              if r["language"] == "python" and not r["path"].startswith("collapse/"))
+                              if r["language"] == "python" and not _harness(r["path"]))
 
     accounting = {
         "measured_at_commit": subprocess.run(

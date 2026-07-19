@@ -40,3 +40,6 @@ runs/mot/*
 *.bin
 **/.DS_Store
 GO.md
+
+# Accretion Collapse scratch working area
+.collapse/
