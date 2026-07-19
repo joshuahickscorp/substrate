@@ -1,6 +1,6 @@
 {
  "bundle": "00_master + 01_unified_campaign + 02_pre_substrate_expansion + 04_corrective",
- "commit": "e439345",
+ "commit": "ddc41c9",
  "compliant": true,
  "n_blocked_external": 0,
  "n_failures": 0,
@@ -15,7 +15,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/{specs,dag,state,decisions,executor}.py"
    ],
@@ -37,7 +37,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/broker.py",
     "src/mop/campaign/invariance.py"
@@ -60,7 +60,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/nodes/framework.py",
     "src/mop/campaign/runners.py"
@@ -83,7 +83,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "proof/PRE_SUBSTRATE_PHENOMENA_ATLAS.json",
     "registry/phenomena.yaml"
@@ -109,7 +109,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/manifest.py"
    ],
@@ -159,7 +159,7 @@
     "next": "",
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "op_invariance",
     "wave_a_identity",
@@ -220,7 +220,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "ext_ava_audiovisual",
     "ext_ego4d",
@@ -260,7 +260,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/coverage.py"
    ],
@@ -282,7 +282,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "mechanism_cards/ (4 cards)"
    ],
@@ -303,7 +303,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/nodes/analysis.py:negative_space_runner"
    ],
@@ -325,7 +325,7 @@
     ],
     "ok": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/nodes/analysis.py:readiness_gate_runner",
     "executed"
@@ -350,7 +350,7 @@
     "ok": true,
     "telegram_verified": true
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "src/mop/campaign/status.py",
     "src/mop/campaign/telegram.py",
@@ -374,7 +374,7 @@
     "ok": true,
     "sealed_nodes": 24
    },
-   "commit": "e439345",
+   "commit": "ddc41c9",
    "evidence": [
     "runs/campaign/pre_substrate_v1/state.json"
    ],
