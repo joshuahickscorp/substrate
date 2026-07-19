@@ -299,11 +299,13 @@ def main() -> int:
                 "control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP "
                 "projection, count provider binding, and onset density centralized, net 34 LOC; frozen "
                 "provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC; "
-                "topology-neutral count and DoA gate interfaces centralized, net 58 LOC")
+                "topology-neutral count and DoA gate interfaces centralized, net 58 LOC; three frozen-"
+                "featurizer producer lifecycles and spread projections centralized behind local evidence "
+                "declarations, net 260 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("remeasure remaining variant producer shells against the selected "
-                                 "per-axis declaration target and preserve independent verifier mathematics")
+            it["next_action"] = ("remeasure adjacent count and DoA producer shells against the frozen-"
+                                 "variant declaration target while preserving verifier mathematics")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -505,6 +507,17 @@ def main() -> int:
                     "forward topologies and optimizers remain local; full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-17",
         next_action="remeasure remaining variant producer shells against the declaration target"))
+    checklist.append(item(
+        "RED-starss23-frozen-featurizer-variant-lifecycle", 11, "verified_reduction",
+        "Centralize frozen-featurizer producer execution and spread projections", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json",
+                  "src/mop/beds/starss23/featurizer_variant_producer.py",
+                  "tests/unit/test_starss23_featurizer_spatial_doa.py"],
+        validation=("842 replaced Python LOC, 582 added, net -260; all three complete sealed artifact "
+                    "dictionaries exactly match checkpoint b7fcb0b under fixed clocks; independent "
+                    "verifier battery 44/44 and full focused suite 493/493 green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-18",
+        next_action="remeasure adjacent count and DoA producer shells against the declaration target"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -948,6 +961,23 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 4,308 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-17.")
     lines.append("- next_exact_edit: remeasure remaining variant producer shells against the declaration target.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 18 (current checkpoint)")
+    lines.append("")
+    lines.append("- lifecycle authority: spatial DoA, SuperFlux spectral, and interchannel coherence now declare "
+                 "only corpus preparation, frontend identity, provenance payloads, and variant anchors; one "
+                 "shared executor owns prereg reads, seeded runs, FLOP budgets, statistics, controls, receipts, "
+                 "artifact envelopes, and finalization.")
+    lines.append("- preservation: all three independent verifiers remain untouched, and frontend-specific cache/raw "
+                 "adapter preparation, FLOP charges, hypotheses, refusal classes, and artifact vocabulary stay local.")
+    lines.append("- parity: all three complete sealed artifact dictionaries exactly match checkpoint b7fcb0b under "
+                 "fixed clocks, including receipts, spread evidence, and final seals.")
+    lines.append("- validation: focused independent-verifier battery 44/44; full STARSS-focused suite 493/493 in "
+                 "155.83s under nice -n 10.")
+    lines.append("- production and owned Python net reduction: 260 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 4,568 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-18.")
+    lines.append("- next_exact_edit: remeasure adjacent count and DoA producer shells against the declaration target.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
