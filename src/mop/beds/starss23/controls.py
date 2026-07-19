@@ -27,8 +27,6 @@ val tuning of best-single). House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import hashlib
-import json
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -38,6 +36,7 @@ import numpy as np
 from mop.science.budget import ARM_ALWAYS_ON, ARM_BEST_SINGLE, ARM_RATE_MATCHED_RANDOM
 from mop.substrate.events import canonical_sha256
 
+from .adapter import domain_seed
 from .featurizer import D_FEAT
 from .referee import score_arm
 from .schema import COLLAR_FRAMES
@@ -48,24 +47,6 @@ _RMR_NAMESPACE = "mop.beds.starss23.controls.rate_matched_random"
 _NOISY_TV_NAMESPACE = "mop.beds.starss23.controls.noisy_tv"
 _RND_TARGET_NAMESPACE = "mop.beds.starss23.controls.rnd_target"
 
-
-def _child_seed(seed: int, key: str) -> int:
-    """Return a uint32 child seed domain-separated by ``(seed, key)``.
-
-    ``mop.seeding.derive_seed32`` deliberately passes an in-range seed through unchanged and ignores
-    its namespace, so it cannot separate two clips that share a small integer seed. The controls need
-    a stream that differs per clip and per namespace even at seed 0, so the full key is hashed here,
-    mirroring derive_seed32's own recipe for oversized seeds.
-    """
-
-    payload = json.dumps(
-        {"seed": int(seed), "key": str(key)},
-        ensure_ascii=True,
-        separators=(",", ":"),
-        sort_keys=True,
-    ).encode("utf-8")
-    digest = hashlib.sha256(b"mop-starss23-controls-v1\0" + payload).digest()
-    return int.from_bytes(digest[:4], byteorder="big", signed=False)
 
 # The default at-chance tolerance band for the noisy-TV firing-rate check. A gate may fire on pure noise
 # no more often than its base rate plus this slack; firing preferentially above that band is a failure.
@@ -109,7 +90,9 @@ def rate_matched_random_fires(
     k = len(fires)
     if k >= n_frames:
         return list(range(n_frames))
-    rng = np.random.default_rng(_child_seed(seed, f"{_RMR_NAMESPACE}:{clip_id}"))
+    rng = np.random.default_rng(
+        domain_seed(seed, f"{_RMR_NAMESPACE}:{clip_id}", b"mop-starss23-controls-v1")
+    )
     positions = rng.choice(n_frames, size=k, replace=False)
     return sorted(int(position) for position in positions)
 
@@ -253,7 +236,9 @@ class RndTarget:
     d_out: int = 32
 
     def _matrix(self) -> np.ndarray:
-        rng = np.random.default_rng(_child_seed(self.seed, _RND_TARGET_NAMESPACE))
+        rng = np.random.default_rng(
+            domain_seed(self.seed, _RND_TARGET_NAMESPACE, b"mop-starss23-controls-v1")
+        )
         return rng.standard_normal((self.d_out, self.d_in)) / np.sqrt(self.d_in)
 
     def novelty(self, features: np.ndarray) -> np.ndarray:
@@ -271,7 +256,9 @@ def pure_aleatoric_channel(seed: int, n_frames: int, *, d_feat: int = D_FEAT) ->
 
     if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames <= 0:
         raise ControlRefusal("n_frames must be a positive integer")
-    rng = np.random.default_rng(_child_seed(seed, _NOISY_TV_NAMESPACE))
+    rng = np.random.default_rng(
+        domain_seed(seed, _NOISY_TV_NAMESPACE, b"mop-starss23-controls-v1")
+    )
     return rng.standard_normal((n_frames, d_feat))
 
 

@@ -24,8 +24,6 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import hashlib
-import json
 import math
 import time
 from collections.abc import Callable
@@ -62,7 +60,7 @@ from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, ses
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter, map_clip_audio, marginal_matched_noise, native_fold_split
+from .adapter import RealStarssAdapter, domain_seed, map_clip_audio, marginal_matched_noise, native_fold_split
 from .controls import (
     always_on_fires,
     at_chance,
@@ -167,16 +165,6 @@ def _train_count_gate(
 # ---------------------------------------------------------------------------
 
 
-def _noise_seed(seed: int) -> int:
-    payload = json.dumps(
-        {"seed": int(seed), "key": "mop.beds.starss23.count.noisy_tv"},
-        ensure_ascii=True,
-        separators=(",", ":"),
-        sort_keys=True,
-    ).encode("utf-8")
-    return int.from_bytes(hashlib.sha256(b"mop-starss23-count-noisy-tv-v1\0" + payload).digest()[:4], "big")
-
-
 def _real_noisy_tv_features(
     seed: int,
     n_frames: int,
@@ -186,7 +174,10 @@ def _real_noisy_tv_features(
 ) -> np.ndarray:
     """Build the sealed count bed's deterministic aleatoric control channel."""
 
-    return marginal_matched_noise(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
+    noise_seed = domain_seed(
+        seed, "mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1"
+    )
+    return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------

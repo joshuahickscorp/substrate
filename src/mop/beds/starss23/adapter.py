@@ -27,6 +27,7 @@ House style: no em dashes and no en dashes.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import wave
 from collections.abc import Callable, Iterable, Mapping, Sequence
@@ -454,6 +455,18 @@ def map_clip_audio(
     """Apply one frozen provider once to every clip's audio, keyed by stable clip identity."""
 
     return {clip.clip_id: transform(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
+
+
+def domain_seed(seed: int, key: str, domain: bytes) -> int:
+    """Return a uint32 seed separated by an explicit byte domain and semantic key."""
+
+    payload = json.dumps(
+        {"seed": int(seed), "key": str(key)},
+        ensure_ascii=True,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return int.from_bytes(hashlib.sha256(domain + b"\0" + payload).digest()[:4], "big")
 
 
 def marginal_matched_noise(
