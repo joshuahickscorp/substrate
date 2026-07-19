@@ -37,6 +37,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window
 from .featurizer_spatial_doa import (
     ACN_W,
@@ -150,9 +151,11 @@ def _per_column_direction_features(
 
 
 @dataclass(frozen=True, slots=True)
-class DoaFeaturizer:
+class DoaFeaturizer(FrozenFeatureProvider):
     """The frozen zero-trained-parameter spatial-flux front-end. Deep-frozen: window and band grid fixed."""
 
+    _flops_per_frame = FLOPS_PER_FRAME
+    _frame_count_refusal = DoaFeaturizerRefusal
     sample_rate: int = 24_000
 
     @property
@@ -162,11 +165,6 @@ class DoaFeaturizer:
     @property
     def band_membership(self) -> np.ndarray:
         return _band_membership(self.sample_rate)
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The front-end is a deterministic spatial DSP, never a learned map."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest of the fixed window and band grid bytes, proving the front-end is byte-frozen."""
@@ -189,11 +187,6 @@ class DoaFeaturizer:
         }
         return canonical_sha256(payload)
 
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise DoaFeaturizerRefusal("n_frames must be a nonnegative integer")
-        return FLOPS_PER_FRAME * n_frames
-
     def featurize(self, audio: np.ndarray) -> np.ndarray:
         """Featurize a (N_CHANNELS, n_samples) FOA array into (n_frames, D_FEAT_DOA=256) float64.
 
@@ -215,8 +208,3 @@ class DoaFeaturizer:
         flux[1:] = np.abs(col_features[1:] - col_features[:-1])  # flux[0] = 0: no prior column in the clip
         frame_flux = flux.reshape(n_frames, COLS_PER_FRAME, D_FEAT_DOA).sum(axis=1)
         return np.ascontiguousarray(frame_flux, dtype=np.float64)
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        """Digest of a feature block, used to assert byte-reproducibility of the front-end."""
-
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()

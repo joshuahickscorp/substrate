@@ -48,6 +48,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window, mel_filterbank
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
@@ -107,9 +108,10 @@ def _frequency_max_filter(comp: np.ndarray, radius: int) -> np.ndarray:
 
 
 @dataclass(frozen=True, slots=True)
-class SuperfluxSpectralFeaturizer:
+class SuperfluxSpectralFeaturizer(FrozenFeatureProvider):
     """The frozen SuperFlux onset front-end. Deep-frozen: window, filterbank, MU, radius are fixed DSP."""
 
+    _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = 24_000
 
     @property
@@ -119,11 +121,6 @@ class SuperfluxSpectralFeaturizer:
     @property
     def filterbank(self) -> np.ndarray:
         return mel_filterbank(self.sample_rate)
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The front-end is a deterministic DSP, never a learned encoder."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest of the fixed DSP constants, proving the SuperFlux front-end is byte-frozen.
@@ -148,11 +145,6 @@ class SuperfluxSpectralFeaturizer:
             "sample_rate": self.sample_rate,
         }
         return canonical_sha256(payload)
-
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise ValueError("n_frames must be a nonnegative integer")
-        return FLOPS_PER_FRAME * n_frames
 
     def _channel_superflux(self, signal: np.ndarray, n_frames: int) -> np.ndarray:
         """SuperFlux novelty for one channel: returns (n_frames, N_MEL) float64.
@@ -200,8 +192,3 @@ class SuperfluxSpectralFeaturizer:
         n_frames = n_samples // SAMPLES_PER_FRAME
         per_channel = [self._channel_superflux(audio[ch], n_frames) for ch in range(N_CHANNELS)]
         return np.concatenate(per_channel, axis=1)
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        """Digest of a feature block, used to assert byte-reproducibility of the front-end."""
-
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()

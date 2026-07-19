@@ -43,6 +43,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import ZeroParameterProvider
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_REPRO_FE_ESTIMATOR_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-estimator/v1"
@@ -72,16 +73,11 @@ class CountReproEstimatorRefusal(ValueError):
 
 
 @dataclass(frozen=True, slots=True)
-class ReproCountEstimator:
+class ReproCountEstimator(ZeroParameterProvider):
     """The re-authored zero-trained-parameter cumulative-energy count estimator. Deterministic per host."""
 
     beta: float = BETA
     noise_floor: float = NOISE_FLOOR
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The estimator is a fixed DSP rule, never a learned counter."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest sealing the fixed constants and rule string so the estimator is provably frozen."""

@@ -45,6 +45,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
@@ -144,7 +145,7 @@ def _band_membership(sample_rate: int) -> np.ndarray:
 
 
 @dataclass(frozen=True, slots=True)
-class SpatialDoaFeaturizer:
+class SpatialDoaFeaturizer(FrozenFeatureProvider):
     """The frozen active-intensity DOA front-end. Deep-frozen: window and band grid are fixed DSP.
 
     The featurizer holds no trainable state. Its only constants are the Hann window and the band
@@ -152,6 +153,7 @@ class SpatialDoaFeaturizer:
     a length-256 per-frame vector so the unchanged gate consumes it directly.
     """
 
+    _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = 24_000
 
     @property
@@ -161,11 +163,6 @@ class SpatialDoaFeaturizer:
     @property
     def band_membership(self) -> np.ndarray:
         return _band_membership(self.sample_rate)
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The front-end is a deterministic spatial DSP, never a learned map."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest of the fixed window and band grid bytes, proving the front-end is byte-frozen."""
@@ -185,11 +182,6 @@ class SpatialDoaFeaturizer:
             "sample_rate": self.sample_rate,
         }
         return canonical_sha256(payload)
-
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise ValueError("n_frames must be a nonnegative integer")
-        return FLOPS_PER_FRAME * n_frames
 
     def _channel_spectra(self, signal: np.ndarray, n_cols: int) -> np.ndarray:
         """Return the windowed rFFT of one channel: (n_cols, N_BINS) complex128. Deterministic."""
@@ -268,8 +260,3 @@ class SpatialDoaFeaturizer:
 
         features = np.concatenate([dir_x, dir_y, dir_z, diffuseness], axis=1)
         return np.ascontiguousarray(features, dtype=np.float64)
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        """Digest of a feature block, used to assert byte-reproducibility of the front-end."""
-
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()

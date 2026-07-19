@@ -34,6 +34,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window, hz_to_mel
 from .schema import N_CHANNELS, SAMPLE_RATE_HZ, SAMPLES_PER_FRAME
 
@@ -110,9 +111,10 @@ def _band_partition(sample_rate: int) -> np.ndarray:
 
 
 @dataclass(frozen=True, slots=True)
-class InterchannelCoherenceFeaturizer:
+class InterchannelCoherenceFeaturizer(FrozenFeatureProvider):
     """The frozen spatial front-end. Deep-frozen: window and band partition are fixed DSP, not weights."""
 
+    _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = SAMPLE_RATE_HZ
 
     @property
@@ -122,11 +124,6 @@ class InterchannelCoherenceFeaturizer:
     @property
     def band_partition(self) -> np.ndarray:
         return _band_partition(self.sample_rate)
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The front-end is a deterministic DSP, never a learned encoder."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest of the fixed window and band-partition bytes, proving the front-end is byte-frozen."""
@@ -145,11 +142,6 @@ class InterchannelCoherenceFeaturizer:
             "family": "interchannel_coherence",
         }
         return canonical_sha256(payload)
-
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise ValueError("n_frames must be a nonnegative integer")
-        return FLOPS_PER_FRAME * n_frames
 
     def _channel_spectra(self, audio: np.ndarray, n_frames: int, n_cols: int) -> np.ndarray:
         """Return windowed spectra of all channels, shaped ``(N_CHANNELS, n_cols, N_BINS)``."""
@@ -226,8 +218,3 @@ class InterchannelCoherenceFeaturizer:
         directness = intensity_norm / (energy + _EPS)
 
         return np.concatenate([msc_wx, msc_wy, msc_wz, directness], axis=1)
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        """Digest of a feature block, used to assert byte-reproducibility of the front-end."""
-
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()
