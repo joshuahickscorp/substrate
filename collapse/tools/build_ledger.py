@@ -316,6 +316,29 @@ def main() -> int:
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
             it["validation"] = ("Architecture B selected: one 198-LOC sealed-record interpreter; "
                                  "Architecture A physically deleted")
+        if it["id"] == "TGT-DOCS":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+                                    "tests/unit/test_markdown_consolidation.py"]
+            it["validation"] = "exactly eight current Markdown authorities totaling under 8000 LOC"
+            it["next_action"] = "prevent regrowth through scripts/check_docs.py"
+        if it["id"] == "SEC-18":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+                                    "scripts/check_docs.py"]
+            it["validation"] = ("170 original document versions sealed by SHA-256 and Git blob; "
+                                 "162 superseded files deleted; eight current authorities under 800 LOC")
+            it["next_action"] = "none; enforce anti-regrowth gate"
+        if it["id"] == "CC-16":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
+            it["validation"] = "current-facing documentation consolidated to eight files"
+            it["next_action"] = "none"
+        if it["id"] == "CC-17":
+            it["status"] = "partial"
+            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
+            it["validation"] = "historical documentation sealed and indexed; historical code boundary remains"
+            it["next_action"] = "complete historical code sealing at controller migration"
 
     checklist.append(item(
         "ART-MOP_STARSS23_ARCHITECTURE_COMPARISON.json", 11, "artifact",
@@ -561,6 +584,16 @@ def main() -> int:
                     "four prereg seals exact; focused 52/52 and full STARSS suite 493/493 green; net -1717"),
         rollback_tag="mop-collapse-starss23-lifecycle-21",
         next_action="finish the dual-architecture DoA producer shell and measure STARSS residual"))
+    checklist.append(item(
+        "RED-current-documentation-authority", 18, "verified_reduction",
+        "Collapse current documentation to eight recoverable authorities", status="verified",
+        evidence=["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json", "scripts/check_docs.py",
+                  "tests/unit/test_markdown_consolidation.py"],
+        validation=("170 source versions sealed with SHA-256 and Git blobs; 162 files physically "
+                    "deleted; Markdown 95 added/43508 deleted; docs gate reports 8 files under 800 LOC; "
+                    "documentation tests 32/32 green; owned Python net -187"),
+        rollback_tag="mop-collapse-docs",
+        next_action="finish the dual-architecture DoA producer shell"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -1075,6 +1108,26 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 10,012 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-21.")
     lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.")
+    lines.append("")
+    lines.append("### Current documentation collapse (current checkpoint)")
+    lines.append("")
+    lines.append("- current authority: 170 tracked Markdown files replaced by exactly eight current-facing "
+                 "documents; the six general front doors were rewritten as compact pointers to machine state.")
+    lines.append("- historical recovery: all 170 original versions carry path, line/byte counts, SHA-256, "
+                 "Git blob, source commit, rollback tag, and recovery command in one sealed JSON index.")
+    lines.append("- physical deletion: 162 superseded Markdown files removed; no relocation or hidden pack.")
+    lines.append("- documentation change: 95 added, 43,508 deleted, net -43,413 LOC; current surface is "
+                 "eight files and under 800 LOC including this generated ledger.")
+    lines.append("- gate authority: the old 170-path Python taxonomy was replaced by the exact eight-path set; "
+                 "anti-regrowth, stale-number, script, make-target, CLI, and hardware-drift checks remain.")
+    lines.append("- validation: docs gate reports 4,135 collected tests, 133 experiments, and 10 acceptance "
+                 "checks with no drift; documentation regression battery 32/32 green in 20.18s.")
+    lines.append("- owned Python change: 31 added, 218 deleted, net -187 LOC; cumulative verified owned "
+                 "Python reduction: 10,199 LOC.")
+    lines.append("- total tracked physical change including state, ledger, tooling, and the 186-line history "
+                 "index: net -43,312 LOC.")
+    lines.append("- rollback_tag: mop-collapse-docs.")
+    lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

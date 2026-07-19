@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "7ffb74198e1904aaa713f0d871b00f2652c95a3f",
+    "base_commit": "6041a3f987ab682fc49ac3477d6360fade6bafa4",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -119,21 +119,21 @@
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 4500,
-    "deduplicated_LOC": 12749,
+    "deduplicated_LOC": 12967,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 7237,
-    "net_global_reduction_LOC": 10012
+    "added_LOC": 7268,
+    "net_global_reduction_LOC": 10199
   },
   "checklist_summary": {
-    "total": 239,
+    "total": 240,
     "by_status": {
-      "complete": 14,
+      "complete": 17,
       "active": 49,
-      "pending": 145,
-      "partial": 8,
-      "verified": 23
+      "pending": 141,
+      "partial": 9,
+      "verified": 24
     }
   },
   "checklist": [
@@ -1151,13 +1151,16 @@
       "section": 5,
       "kind": "target",
       "title": "current-facing docs <=8 documents and <=8000 lines",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+        "tests/unit/test_markdown_consolidation.py"
+      ],
+      "validation": "exactly eight current Markdown authorities totaling under 8000 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent regrowth through scripts/check_docs.py"
     },
     {
       "id": "TGT-ENTRYPOINTS",
@@ -1516,13 +1519,16 @@
       "section": 18,
       "kind": "region",
       "title": "Documentation collapse (<=8 front-door docs; sealed history index)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+        "scripts/check_docs.py"
+      ],
+      "validation": "170 original document versions sealed by SHA-256 and Git blob; 162 superseded files deleted; eight current authorities under 800 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "consolidate 34 root md + 169 total; generate current tables from authorities"
+      "next_action": "none; enforce anti-regrowth gate"
     },
     {
       "id": "SEC-19",
@@ -2153,26 +2159,30 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "current-facing docs consolidated",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+      ],
+      "validation": "current-facing documentation consolidated to eight files",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-17",
       "section": 26,
       "kind": "completion_condition",
       "title": "historical docs and code sealed and indexed",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "partial",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+      ],
+      "validation": "historical documentation sealed and indexed; historical code boundary remains",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "complete historical code sealing at controller migration"
     },
     {
       "id": "CC-18",
@@ -3366,6 +3376,23 @@
       "rollback_tag": "mop-collapse-starss23-lifecycle-21",
       "dependency": "",
       "next_action": "finish the dual-architecture DoA producer shell and measure STARSS residual"
+    },
+    {
+      "id": "RED-current-documentation-authority",
+      "section": 18,
+      "kind": "verified_reduction",
+      "title": "Collapse current documentation to eight recoverable authorities",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+        "scripts/check_docs.py",
+        "tests/unit/test_markdown_consolidation.py"
+      ],
+      "validation": "170 source versions sealed with SHA-256 and Git blobs; 162 files physically deleted; Markdown 95 added/43508 deleted; docs gate reports 8 files under 800 LOC; documentation tests 32/32 green; owned Python net -187",
+      "commit": "",
+      "rollback_tag": "mop-collapse-docs",
+      "dependency": "",
+      "next_action": "finish the dual-architecture DoA producer shell"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

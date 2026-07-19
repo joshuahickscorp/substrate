@@ -1,7 +1,5 @@
-"""Frontier 36 consolidation safety: the canonical doctrine docs and referenced operational docs still
-exist, old run/goal reports are gone, the markdown ledger matches disk exactly, and the docs-drift gate
-(now including the anti-regrowth ledger check) stays clean."""
-
+import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -10,37 +8,26 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import check_docs as CD  # noqa: E402
 
 
-def test_canonical_doctrine_docs_exist():
-    for md in CD.CANONICAL_MD:
-        assert (ROOT / md).exists(), f"canonical doctrine {md} missing"
+def test_current_markdown_authority_is_exact() -> None:
+    assert set(CD._project_markdown()) == set(CD.CURRENT_MD)
+    assert len(CD.CURRENT_MD) == 8
+    assert sum((ROOT / path).read_text().count("\n") for path in CD.CURRENT_MD) <= 8_000
 
 
-def test_referenced_docs_not_deleted():
-    # consolidation must not delete docs other files link to
-    for md in CD.OPERATIONAL_MD + CD.HISTORICAL_MD:
-        assert (ROOT / md).exists(), f"referenced doc {md} was deleted"
+def test_historical_document_index_is_sealed_and_recoverable() -> None:
+    path = ROOT / "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+    index = json.loads(path.read_text())
+    seal = index.pop("canonical_sha256")
+    canonical = json.dumps(index, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    assert hashlib.sha256(canonical).hexdigest() == seal
+    assert index["archived_document_count"] == 170
+    assert index["removed_document_count"] == 162
+    assert index["archived_total_lines"] == 44_204
+    assert index["removed_total_lines"] == 41_327
+    assert all(not (ROOT / entry["path"]).exists() for entry in index["removed_documents"])
+    entries = index["removed_documents"] + index["retained_source_versions"]
+    assert all(len(entry["git_blob"]) == 40 and len(entry["sha256"]) == 64 for entry in entries)
 
 
-def test_dead_scaffold_doc_removed():
-    assert not (ROOT / "scripts" / "_scaffold_api.md").exists()
-
-
-def test_markdown_ledger_matches_disk():
-    on_disk = set(CD._project_markdown())
-    assert on_disk == set(CD.LEDGER_MD), f"ledger/disk mismatch: {on_disk ^ set(CD.LEDGER_MD)}"
-
-
-def test_no_ledger_problems():
-    assert CD._markdown_ledger_problems() == []
-
-
-def test_docs_gate_clean_after_consolidation():
+def test_docs_gate_clean_after_consolidation() -> None:
     assert CD.check_docs() == []
-
-
-def test_old_run_reports_are_consolidated_out_of_repo():
-    # These now live in /Users/scammermike/Downloads/PROJECT_RETROSPECTIVE_CHECKPOINTS_2026_06_28.md
-    # so they cannot compete with the active Studio plan.
-    for md in ("RUN_REPORT.md", "CPU_RUN_REPORT.md", "STUDIO_MAXIMAL_GOAL.md"):
-        assert md not in CD.LEDGER_MD
-        assert not (ROOT / md).exists(), f"{md} should be consolidated, not kept as live doctrine"

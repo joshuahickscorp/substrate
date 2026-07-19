@@ -33,7 +33,7 @@ def test_collected_count_matches_independent_collection():
     # cross-check the parser against an independent pytest collection (sum of per-file counts)
     root = Path(check_docs.__file__).resolve().parents[1]
     p = subprocess.run(
-        [str(root / ".venv/bin/python"), "-m", "pytest", "--collect-only", "-q", "-p", "no:cacheprovider"],
+        [sys.executable, "-m", "pytest", "--collect-only", "-q", "-p", "no:cacheprovider"],
         cwd=root,
         capture_output=True,
         text=True,
