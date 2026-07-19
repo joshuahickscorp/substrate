@@ -28,6 +28,7 @@ from typing import Any
 import torch
 
 from mop.config import REPO_ROOT
+from mop.substrate.events import canonical_bytes, canonical_sha256
 
 _pr1: Any = import_module("scripts.pr1_mode_error_disjointness")
 MODES = tuple(str(value) for value in _pr1.MODES)
@@ -46,18 +47,8 @@ CONTEXTS = tuple(SUBPOPS)
 MAX_SEED_WORKERS = 6
 
 
-def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def sha256_file(path: Path | str) -> str:

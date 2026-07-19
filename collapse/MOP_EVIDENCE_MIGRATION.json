@@ -1,0 +1,1246 @@
+{
+  "schema": "mop-collapse-evidence-migration/v1",
+  "core_module": "mop.substrate.events",
+  "core_hashes": {
+    "canonical_bytes": "0a9dd05629b5e4b5",
+    "canonical_sha256": "4c1acb33be76690d"
+  },
+  "rows": [
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/mop_expansion_wave0.py",
+      "body_hash": "c994bf773cb78449",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/run_ecology_scaffold_batteries.py",
+      "body_hash": "6f310e0213753c44",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/run_integrity_scaffold_drills.py",
+      "body_hash": "6f310e0213753c44",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/run_material_twin_batteries.py",
+      "body_hash": "6f310e0213753c44",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/verify_ecology_scaffold_batteries.py",
+      "body_hash": "6f310e0213753c44",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/verify_expansion_wave0.py",
+      "body_hash": "c994bf773cb78449",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/verify_integrity_scaffold_drills.py",
+      "body_hash": "6f310e0213753c44",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "scripts/verify_material_twin_batteries.py",
+      "body_hash": "6f310e0213753c44",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "src/mop/studies/potential_atlas_driver.py",
+      "body_hash": "07e6e15847a4829b",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_atomic_write",
+      "path": "src/mop/studio/coexistence_cutover.py",
+      "body_hash": "d6e29b46fac80e0a",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "scripts/sanpo_attribute_map.py",
+      "body_hash": "eb58ead434bfba67",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/escs/edcm_adapter.py",
+      "body_hash": "7a4a1b39ab670194",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/experiments/e6_dense_relational.py",
+      "body_hash": "62806ee552d34a6d",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studies/continual_million_event_verify.py",
+      "body_hash": "60762bc78652a08a",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studies/generation1_competence_atlas.py",
+      "body_hash": "779e022fb8eb23ba",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studies/generation1_context_routing.py",
+      "body_hash": "779e022fb8eb23ba",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studies/p5_context_verify.py",
+      "body_hash": "43182227c401a65f",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/coexistence_cutover.py",
+      "body_hash": "1644a4b125e28f85",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/dense_atlas_gate.py",
+      "body_hash": "472cf51badd06b84",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/dr1_verifier.py",
+      "body_hash": "493704a1c7f796ae",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/general_run_orchestrator.py",
+      "body_hash": "64abb8fe1bc4c0d7",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+      "body_hash": "195aaa80b67a0589",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_continuation.py",
+      "body_hash": "dac117ffb4d54235",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_full_generations_extension_chain.py",
+      "body_hash": "3fcb858f1f49dcf3",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_subaccomplishment_emitter.py",
+      "body_hash": "a69c31051a971f50",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_successor_chain.py",
+      "body_hash": "88ad90fe62492b82",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_successor_extension_chain.py",
+      "body_hash": "53844d31dcb708e7",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_successor_extension_chain_v2.py",
+      "body_hash": "53844d31dcb708e7",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_successor_extension_chain_v3.py",
+      "body_hash": "53844d31dcb708e7",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_successor_extension_chain_v4.py",
+      "body_hash": "53844d31dcb708e7",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/studio/generation1_supervisor.py",
+      "body_hash": "50f036f56341a7ac",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/substrate/cache_manifest.py",
+      "body_hash": "d197cb649dd60a53",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/substrate/cache_tools.py",
+      "body_hash": "c4b1f4c5ede17f76",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/substrate/custom_artifact.py",
+      "body_hash": "6d23f30c5cb40382",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/substrate/sanpo_bridge.py",
+      "body_hash": "465f9fa9b204903f",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_read_json",
+      "path": "src/mop/substrate/vjepa21_dense_tasks.py",
+      "body_hash": "d066aff6dd4ca9fa",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_c3_construction.py",
+      "body_hash": "0c7b7ef256afed13",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_c3_dispatch.py",
+      "body_hash": "11f9eda92c7def3f",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_competence_atlas.py",
+      "body_hash": "fd38a8ab5a2b1338",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_context_routing.py",
+      "body_hash": "11f9eda92c7def3f",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_full_generations_wave.py",
+      "body_hash": "6d3646b2f9931935",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_full_generations_wave_verify.py",
+      "body_hash": "6d3646b2f9931935",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_successor_categorized_batch_wave.py",
+      "body_hash": "6d3646b2f9931935",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_successor_categorized_batch_wave_verify.py",
+      "body_hash": "6d3646b2f9931935",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_successor_horizon.py",
+      "body_hash": "6d3646b2f9931935",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studies/generation1_successor_horizon_v2.py",
+      "body_hash": "6d3646b2f9931935",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/campaign_recovery.py",
+      "body_hash": "bd06edf8e6a92512",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/campaign_supervisor.py",
+      "body_hash": "e57e7d3489ec702a",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/coexistence_cutover.py",
+      "body_hash": "d9ad45491c71b26e",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/general_run_orchestrator.py",
+      "body_hash": "5f999059adb58801",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+      "body_hash": "e5c1e0b4a71bae9d",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_continuation.py",
+      "body_hash": "51174f711340224d",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_full_generations_extension_chain.py",
+      "body_hash": "84ed1c143dd3087d",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_successor_chain.py",
+      "body_hash": "1dbc5e00614f57f4",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_successor_extension_chain.py",
+      "body_hash": "949645af06b15903",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_successor_extension_chain_v2.py",
+      "body_hash": "949645af06b15903",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_successor_extension_chain_v3.py",
+      "body_hash": "949645af06b15903",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_successor_extension_chain_v4.py",
+      "body_hash": "949645af06b15903",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/generation1_supervisor.py",
+      "body_hash": "91482fc915624b06",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "_validate_seal",
+      "path": "src/mop/studio/null_safe_campaign_router.py",
+      "body_hash": "47bd33147ce03c1f",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "atomic_write_json",
+      "path": "src/mop/studies/generation1_c3_dispatch.py",
+      "body_hash": "56ae364113eaece6",
+      "destination_api": "mop.substrate.events.atomic_write_json",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "atomic_write_json",
+      "path": "src/mop/studies/generation1_competence_atlas.py",
+      "body_hash": "a478b1b5f8d58611",
+      "destination_api": "mop.substrate.events.atomic_write_json",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "atomic_write_json",
+      "path": "src/mop/studies/generation1_context_routing.py",
+      "body_hash": "a478b1b5f8d58611",
+      "destination_api": "mop.substrate.events.atomic_write_json",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "atomic_write_json",
+      "path": "src/mop/studies/generation1_successor_batch.py",
+      "body_hash": "56ae364113eaece6",
+      "destination_api": "mop.substrate.events.atomic_write_json",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "atomic_write_json",
+      "path": "src/mop/studio/campaign_supervisor.py",
+      "body_hash": "9d5f7a974d58fc96",
+      "destination_api": "mop.substrate.events.atomic_write_json",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "atomic_write_json",
+      "path": "src/mop/studio/generation1_supervisor.py",
+      "body_hash": "7bdda534d29b675d",
+      "destination_api": "mop.substrate.events.atomic_write_json",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "atomic_write_json",
+      "path": "src/mop/studio/telegram_rung_notifier.py",
+      "body_hash": "925ccc3eef030632",
+      "destination_api": "mop.substrate.events.atomic_write_json",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/edcm1_event_triggered_coalition.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/escs_x0_event_formation.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/escs_x1_dispatch.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_c3_dispatch.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_cognitive_corpus.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_competence_atlas.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_context_routing.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_d1_frozen_verify.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_verifier_independence_review"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_evidence_synthesis.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_successor_batch.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studies/generation1_successor_horizon_verify.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_verifier_independence_review"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studio/campaign_recovery.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_section13_controller"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studio/campaign_supervisor.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_section13_controller"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studio/coexistence_cutover.py",
+      "body_hash": "968c2e687e4a8ecc",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studio/generation1_supervisor.py",
+      "body_hash": "968c2e687e4a8ecc",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studio/null_safe_campaign_router.py",
+      "body_hash": "968c2e687e4a8ecc",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_bytes",
+      "path": "src/mop/studio/telegram_rung_notifier.py",
+      "body_hash": "0a9dd05629b5e4b5",
+      "destination_api": "mop.substrate.events.canonical_bytes",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_section13_controller"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "scripts/build_extended_compute_requirements.py",
+      "body_hash": "b4a3291f7d811482",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/edcm1_event_triggered_coalition.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/escs_x0_event_formation.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/escs_x1_dispatch.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_c3_dispatch.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_cognitive_corpus.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_competence_atlas.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_context_routing.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_d1_frozen_verify.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_verifier_independence_review"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_evidence_synthesis.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_successor_batch.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "batch1_studies_safe"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/generation1_successor_horizon_verify.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_verifier_independence_review"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studies/p5_context_verify.py",
+      "body_hash": "9df7369e85fc88cb",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studio/campaign_recovery.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_section13_controller"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studio/campaign_supervisor.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_section13_controller"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studio/coexistence_cutover.py",
+      "body_hash": "f8303f7f741983bd",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studio/generation1_supervisor.py",
+      "body_hash": "f8303f7f741983bd",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studio/null_safe_campaign_router.py",
+      "body_hash": "f8303f7f741983bd",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studio/task_policy_authority.py",
+      "body_hash": "c22606425e7fdc81",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "canonical_sha256",
+      "path": "src/mop/studio/telegram_rung_notifier.py",
+      "body_hash": "4c1acb33be76690d",
+      "destination_api": "mop.substrate.events.canonical_sha256",
+      "matches_core": true,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "byte-identical to core + py_compile + focused import parity",
+      "batch": "defer_section13_controller"
+    },
+    {
+      "primitive": "file_sha256",
+      "path": "src/mop/experiments/e6_dense_relational.py",
+      "body_hash": "a9fbd2cb6805cf3d",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "file_sha256",
+      "path": "src/mop/studies/p5_context_verify.py",
+      "body_hash": "a4589585f7a6f404",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "read_json",
+      "path": "src/mop/studio/campaign_supervisor.py",
+      "body_hash": "2cadc887f489b517",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "read_json",
+      "path": "src/mop/studio/telegram_rung_notifier.py",
+      "body_hash": "e205a835aad2c4d2",
+      "destination_api": "TBD",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studies/generation1_c3_dispatch.py",
+      "body_hash": "3aa3f264ec795e1c",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studies/generation1_cognitive_corpus.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studies/generation1_competence_atlas.py",
+      "body_hash": "3aa3f264ec795e1c",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studies/generation1_context_routing.py",
+      "body_hash": "3aa3f264ec795e1c",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studies/generation1_successor_batch.py",
+      "body_hash": "3aa3f264ec795e1c",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studies/generation1_successor_horizon_verify.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "independent_verifier",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studies/project_exhaustion.py",
+      "body_hash": "8f30f72f4f9642b1",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studio/campaign_recovery.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studio/campaign_supervisor.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studio/generation1_supervisor.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/studio/telegram_rung_notifier.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/substrate/custom_artifact.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/substrate/custom_workbench.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/substrate/sanpo_bridge.py",
+      "body_hash": "c8b3152e61a33e12",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    },
+    {
+      "primitive": "sha256_file",
+      "path": "src/mop/substrate/vjepa21_official.py",
+      "body_hash": "021ad22fffe85291",
+      "destination_api": "mop.substrate.events.sha256_file",
+      "matches_core": false,
+      "scientific_independence": "shared_integrity",
+      "deletion_gate": "manual inspection: body differs from core",
+      "batch": "inspect_distinct_body"
+    }
+  ],
+  "batch_counts": {
+    "inspect_distinct_body": 95,
+    "batch1_studies_safe": 18,
+    "defer_verifier_independence_review": 4,
+    "defer_section13_controller": 6
+  }
+}

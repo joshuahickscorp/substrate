@@ -26,6 +26,7 @@ from collections.abc import Collection, Mapping, MutableMapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+from mop.substrate.events import canonical_bytes, canonical_sha256
 
 ENVELOPE_SCHEMA = "mop-edcm1-envelope/v3"
 CONFIG_SCHEMA = "mop-edcm1-config/v3"
@@ -219,18 +220,8 @@ MAX_CONFIG_BYTES = 1_048_576
 MAX_SCOPED_FILE_RECEIPT_BYTES = 67_108_864
 
 
-def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _stable_int(*parts: Any, modulus: int = 2**63 - 1) -> int:

@@ -28,6 +28,7 @@ import torch
 
 from mop.config import REPO_ROOT
 from mop.process_labels import set_process_label
+from mop.substrate.events import canonical_bytes, canonical_sha256
 
 _pr1: Any = import_module("scripts.pr1_mode_error_disjointness")
 ACTORS = tuple(str(value) for value in _pr1.MODES)
@@ -49,18 +50,8 @@ def _label_cell_worker(shard_index: int) -> None:
     set_process_label(f"mop-c2-s{shard_index:02d}-worker")
 
 
-def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def sha256_file(path: Path | str) -> str:

@@ -1,0 +1,22 @@
+{
+  "schema": "mop-collapse-reduction-log/v1",
+  "note": "Append-only log of VERIFIED reductions. Only proven-green eliminations/deduplications are recorded. Relocation, archiving, packing, generation, and wrappers are never counted as elimination.",
+  "events": [
+    {
+      "region": "section9_evidence_authority",
+      "batch": "batch1_studies_safe",
+      "checkpoint_status": "provisional_pending_full_suite",
+      "deduplicated_LOC": 77,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "added_LOC": 0,
+      "files_changed": 9,
+      "destination_api": "mop.substrate.events.{canonical_bytes,canonical_sha256}",
+      "proof": "byte-identical normalized-AST bodies + per-file py_compile + 9/9 import identity and known-answer parity against the core",
+      "deferred_heavy_validation": "full pytest suite over touched studies modules; run under host headroom after the General Run releases the machine",
+      "tag": "mop-collapse-evidence-batch1"
+    }
+  ]
+}

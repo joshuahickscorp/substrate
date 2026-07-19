@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from mop.config import REPO_ROOT
+from mop.substrate.events import canonical_bytes, canonical_sha256
 
 BATCH_SCHEMA = "mop-generation1-successor-batch/v1"
 READINESS_SCHEMA = "mop-generation1-successor-batch-readiness/v1"
@@ -28,18 +29,8 @@ C2_RESULT_PATH = "proof/GENERATION1_CONTEXT_ROUTING.json"
 C2_VERIFICATION_PATH = "proof/GENERATION1_CONTEXT_ROUTING.verification.json"
 
 
-def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def sha256_file(path: Path | str) -> str:

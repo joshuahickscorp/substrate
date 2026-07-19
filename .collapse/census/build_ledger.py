@@ -101,11 +101,11 @@ def build_checklist() -> list[dict]:
     census_arts = {
         "MOP_CODEBASE_CENSUS.json": "complete", "MOP_CODEBASE_CENSUS.md": "pending",
         "MOP_IMPORT_GRAPH.json": "complete", "MOP_CALL_GRAPH.json": "pending",
-        "MOP_COMMAND_GRAPH.json": "complete", "MOP_SCHEMA_GRAPH.json": "pending",
+        "MOP_COMMAND_GRAPH.json": "pending", "MOP_SCHEMA_GRAPH.json": "pending",
         "MOP_CONFIG_GRAPH.json": "pending", "MOP_TEST_OWNERSHIP.json": "pending",
-        "MOP_DOCUMENTATION_GRAPH.json": "pending", "MOP_DUPLICATION_GRAPH.json": "complete",
-        "MOP_AUTHORITY_GRAPH.json": "complete", "MOP_HISTORICAL_BOUNDARY.json": "pending",
-        "MOP_IRREDUCIBLE_KERNEL_ESTIMATE.json": "pending", "MOP_LIVE_NO_TOUCH.json": "complete",
+        "MOP_DOCUMENTATION_GRAPH.json": "pending", "MOP_DUPLICATION_GRAPH.json": "partial",
+        "MOP_AUTHORITY_GRAPH.json": "pending", "MOP_HISTORICAL_BOUNDARY.json": "pending",
+        "MOP_IRREDUCIBLE_KERNEL_ESTIMATE.json": "pending", "MOP_LIVE_NO_TOUCH.json": "pending",
     }
     for name, st in census_arts.items():
         ev = [f"collapse/{name}"] if st in ("complete", "partial") else []
@@ -156,9 +156,7 @@ def build_checklist() -> list[dict]:
         ("SEC-8", 8, "Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface)",
          "converge domains without wrapper dirs"),
         ("SEC-9", 9, "One evidence authority (compact evidence core; verifier structurally independent)",
-         "deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs "
-         "collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay "
-         "(HEAVY: queue behind live run per section 2)"),
+         "audit all seal/hash/encode impls; unify integrity; keep graded logic independent"),
         ("SEC-10", 10, "One experiment engine (ExperimentSpec..IndependentVerifier)",
          "build engine; simple<=150 LOC, complex<=400 LOC declarations"),
         ("SEC-11", 11, "STARSS23 first high-pressure region collapse (12-step process)",
@@ -258,51 +256,7 @@ def main() -> int:
     census = load("MOP_CODEBASE_CENSUS.json")
     acct = load("MOP_GLOBAL_ACCOUNTING.json")
     ctx = load("MOP_CONTEXT_SURFACE.json")
-    authority = load("MOP_AUTHORITY_GRAPH.json")
-    command = load("MOP_COMMAND_GRAPH.json")
-    dup = load("MOP_DUPLICATION_GRAPH.json")
-    equiv = load("MOP_EVIDENCE_EQUIVALENCE.json")
-    redlog = load("MOP_REDUCTION_LOG.json")
     checklist = build_checklist()
-
-    # accumulate verified reductions from the append-only log
-    red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
-           "generated_replacement_LOC": 0, "added_LOC": 0}
-    for ev in (redlog.get("events") or []):
-        for k in red:
-            red[k] += int(ev.get(k, 0) or 0)
-    red["net_global_reduction_LOC"] = (red["eliminated_LOC"] + red["deduplicated_LOC"]
-                                       + red["archived_LOC"] - red["added_LOC"])
-
-    # reconcile: record the evidence-authority deletion map and move SEC-9 into active analysis
-    checklist.append(item(
-        "ART-MOP_EVIDENCE_EQUIVALENCE.json", 9, "artifact",
-        "MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map)", status="complete",
-        evidence=["collapse/MOP_EVIDENCE_EQUIVALENCE.json"],
-        validation="normalized-AST body clustering of every owned primitive definition",
-        next_action="none"))
-    checklist.append(item(
-        "ART-MOP_EVIDENCE_MIGRATION.json", 9, "artifact",
-        "MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table)", status="complete",
-        evidence=["collapse/MOP_EVIDENCE_MIGRATION.json"],
-        validation="123 rows; batches: batch1_studies_safe/verifier-defer/controller-defer/inspect",
-        next_action="execute remaining batches under their gates"))
-    checklist.append(item(
-        "RED-batch1", 9, "verified_reduction",
-        "Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events",
-        status="verified", evidence=["collapse/MOP_REDUCTION_LOG.json"],
-        validation="77 LOC removed; byte-identical + py_compile + 9/9 import parity + known-answer",
-        commit="", rollback_tag="mop-collapse-evidence-batch1",
-        next_action="next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection"))
-    collapsible = ((equiv.get("totals") or {}).get("redundant_definitions_collapsible"))
-    for it in checklist:
-        if it["id"] == "SEC-9":
-            it["status"] = "active"
-            it["evidence_paths"] = ["collapse/MOP_AUTHORITY_GRAPH.json",
-                                    "collapse/MOP_EVIDENCE_EQUIVALENCE.json"]
-            it["validation"] = (f"{collapsible} byte-identical primitive defs identified as collapsible; "
-                                "distinct-body defs flagged for inspection")
-            it["dependency"] = "heavy parity/mutation/replay suite must run under host headroom (live run active)"
 
     # live run state (read-only), for the ledger header
     live_status = {}
@@ -357,20 +311,6 @@ def main() -> int:
             "entrypoints": 10, "controllers": 1, "evidence_engines": 1, "experiment_frameworks": 1,
             "registries": 1, "config_roots": 1, "cli": 1,
         },
-        "key_findings": {
-            "duplicate_integrity_primitive_definitions": (authority.get("implementation_counts") or {}),
-            "duplicate_integrity_total": sum((authority.get("implementation_counts") or {}).values()),
-            "scripts_class_counts": (command.get("class_counts") or {}),
-            "lifecycle_boilerplate_files": dup.get("total_boilerplate_files"),
-            "lifecycle_boilerplate_LOC": dup.get("total_boilerplate_LOC"),
-            "evidence_primitive_defs_analyzed": (equiv.get("totals") or {}).get("primitive_definitions"),
-            "evidence_primitive_defs_collapsible": (equiv.get("totals") or {}).get(
-                "redundant_definitions_collapsible"),
-            "highest_pressure_first_region": ("section 9 evidence authority: 168 duplicate integrity "
-                                              "definitions collapse to one evidence core, provable by "
-                                              "byte-parity + mutation tests (pure functions, live-safe)"),
-        },
-        "reduction_accounting_verified": red,
         "checklist_summary": {"total": len(checklist), "by_status": by_status},
         "checklist": checklist,
     }
