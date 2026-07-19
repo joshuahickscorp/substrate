@@ -16,14 +16,14 @@ from __future__ import annotations
 import ast
 import hashlib
 import pathlib
-from dataclasses import fields
 
 import numpy as np
 import pytest
 
-from mop.beds.starss23.feature_cache_spatial_doa import CachedCorpus
-from mop.beds.starss23.featurizer import FrozenFeaturizer
+from mop.beds.starss23 import spatial_doa_verifier as verifier_module
+from mop.beds.starss23.feature_cache import CachedCorpus
 from mop.beds.starss23.featurizer import FLOPS_PER_FRAME as FROZEN_FLOPS_PER_FRAME
+from mop.beds.starss23.featurizer import FrozenFeaturizer
 from mop.beds.starss23.featurizer_spatial_doa import (
     D_FEAT,
     FLOPS_PER_FRAME,
@@ -40,8 +40,6 @@ from mop.beds.starss23.harness import (
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
     FLOP_CEILING,
-    assert_matched_ex_training,
-    assert_within_ceiling,
 )
 from mop.beds.starss23.schema import (
     N_CHANNELS,
@@ -50,8 +48,7 @@ from mop.beds.starss23.schema import (
     ClipSplit,
     OnsetEvent,
 )
-from mop.beds.starss23.spatial_doa_producer import _build_budget_points, _flop_model
-from mop.beds.starss23 import spatial_doa_verifier as verifier_module
+from mop.beds.starss23.spatial_doa_producer import _flop_model
 from mop.beds.starss23.spatial_doa_verifier import verify_artifact
 
 # The committed real run's structural anchors (from proof/STARSS23_ESCS_BED_refractory_nms.json).

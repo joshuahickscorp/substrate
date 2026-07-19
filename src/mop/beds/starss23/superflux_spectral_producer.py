@@ -45,11 +45,11 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .artifact import (
-    DOWNSTREAM_FLOPS_PER_FIRING,
     FULL_SCALE_C_TRAIN,
     FULL_SCALE_TEST_FRAMES,
     PRIMARY_CONTROL,
@@ -58,10 +58,7 @@ from .artifact import (
     _SeedRun,
 )
 from .controls import at_chance
-from .feature_cache_superflux import (
-    load_or_build_superflux_cached_corpus,
-    load_superflux_cached_corpus,
-)
+from .feature_cache import load_cached_corpus, load_or_build_cached_corpus
 from .featurizer_superflux_spectral import FLOPS_PER_FRAME as SUPERFLUX_FLOPS_PER_FRAME
 from .featurizer_superflux_spectral import SuperfluxSpectralFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState, training_flops
@@ -86,7 +83,6 @@ from .real_artifact import (
 )
 from .referee import score_arm
 from .schema import COLLAR_FRAMES
-from .stats import exact_sign_flip
 from .superflux_spectral_prereg import (
     DEFAULT_FEATURIZERS_PREREG_PATH,
     FEATURIZER_VARIANTS,
@@ -318,9 +314,9 @@ def build_superflux_spectral_artifact(
     bed_config = config.bed_config()
     if corpus is None:
         if cache_root is None:
-            corpus = load_or_build_superflux_cached_corpus()
+            corpus = load_or_build_cached_corpus(front_end="superflux")
         else:
-            corpus = load_superflux_cached_corpus(cache_root=cache_root)
+            corpus = load_cached_corpus(front_end="superflux", cache_root=cache_root)
     split = corpus.split
     features_by_clip = corpus.features_by_clip
 

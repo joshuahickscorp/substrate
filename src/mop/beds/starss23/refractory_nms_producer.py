@@ -40,6 +40,7 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import exact_sign_flip
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
@@ -87,7 +88,6 @@ from .real_artifact import (
 )
 from .referee import score_arm
 from .schema import COLLAR_FRAMES, ClipSplit
-from .stats import exact_sign_flip
 
 VARIANT_ARTIFACT_SCHEMA = "mop-starss23-escs-bed-refractory-nms/v1"
 VARIANT_ID = "refractory_nms"

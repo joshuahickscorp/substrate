@@ -37,6 +37,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
@@ -45,7 +46,6 @@ from .doa_gate import ARCH_A_ID, ARCH_B_ID, C_TRAIN_ANCHOR_ARCH_A, C_TRAIN_ANCHO
 from .doa_harness import DOA_BED_ID
 from .doa_referee import DOA_COLD_START, METRIC_RULE
 from .schema import FRAME_MS
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 DOA_PREREG_SCHEMA = "mop-starss23-doa-bed-prereg/v1"
 STAGE = 3

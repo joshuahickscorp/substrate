@@ -32,6 +32,7 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import BOUNDED_CLAIM_VERB, PROVISIONAL_SESOI_F1, exact_sign_flip
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
@@ -66,7 +67,6 @@ from .harness import (
 )
 from .referee import score_arm
 from .schema import COLLAR_FRAMES, FRAME_MS
-from .stats import BOUNDED_CLAIM_VERB, PROVISIONAL_SESOI_F1, exact_sign_flip
 
 ARTIFACT_SCHEMA = "mop-starss23-escs-bed/v1"
 STAGE = 3

@@ -140,6 +140,14 @@ def always_on_fires(n_frames: int) -> list[int]:
     return list(range(n_frames))
 
 
+def never_update_reestimates(n_frames: int) -> list[int]:
+    """The shared zero-compute floor: never re-estimate and coast from the initial value."""
+
+    if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames <= 0:
+        raise ControlRefusal("n_frames must be a positive integer")
+    return []
+
+
 def frame_flux(features: np.ndarray) -> np.ndarray:
     """The single scalar the best-single reference reads: pooled half-wave-rectified flux per frame."""
 

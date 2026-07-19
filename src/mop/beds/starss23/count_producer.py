@@ -39,11 +39,12 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
-from .count_controls import (
+from .controls import (
     always_on_fires,
     at_chance,
     never_update_reestimates,
@@ -73,14 +74,12 @@ from .count_harness import (
 from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_prereg import (
     DEFAULT_COUNT_PREREG_PATH,
-    PREREGISTERED_SESOI_MAE,
     build_count_prereg,
     write_count_prereg,
 )
 from .count_referee import COLD_START, score_arm
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA, training_flops
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
-from .stats import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 
 COUNT_PRODUCER_SCHEMA = "mop-starss23-count-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed/v1"
@@ -239,7 +238,10 @@ def _train_count_gate(
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
     gate = CountGate(seed=seed)
-    gate.fit(x, y, epochs=config.epochs, learning_rate=config.learning_rate, ponder_lambda=config.ponder_lambda)
+    gate.fit(
+        x, y, epochs=config.epochs, learning_rate=config.learning_rate,
+        ponder_lambda=config.ponder_lambda,
+    )
     return gate, int(x.shape[0])
 
 
@@ -589,7 +591,9 @@ def build_real_count_bed_artifact(
 
     stats_block = {
         "metric": "coasted-count-MAE",
-        "delta_definition": "delta_i = MAE_rate_matched_random(i) - MAE_candidate(i); positive = candidate lower error",
+        "delta_definition": (
+            "delta_i = MAE_rate_matched_random(i) - MAE_candidate(i); positive = candidate lower error"
+        ),
         "deltas": [float(value) for value in deltas],
         "t_obs": float(sign_flip.mean_delta),
         "mean_delta_control_minus_candidate": float(sign_flip.mean_delta),
@@ -657,7 +661,9 @@ def build_real_count_bed_artifact(
         detail={
             "source_kind": "real",
             "forcing_null": STAGE3_FORCING_NULL,
-            "question": "concurrent-source counting (distinct from the seven sealed onset-localization nulls)",
+            "question": (
+                "concurrent-source counting (distinct from the seven sealed onset-localization nulls)"
+            ),
             "candidate_strictly_dominates_rate_matched_random": dominates,
             "one_sided_p": float(sign_flip.one_sided_p),
             "note": (

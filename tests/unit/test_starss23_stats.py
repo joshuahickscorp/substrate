@@ -12,7 +12,7 @@ import math
 
 import pytest
 
-from mop.beds.starss23 import stats
+from mop.science import statistics as stats
 
 
 def test_all_positive_deltas_hit_the_one_sided_floor() -> None:

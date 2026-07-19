@@ -41,11 +41,12 @@ from typing import Any
 import numpy as np
 
 from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL, mint_demonstration
+from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
-from .doa_controls import always_on_fires, at_chance, never_update_reestimates, rate_matched_random_fires
+from .controls import always_on_fires, at_chance, never_update_reestimates, rate_matched_random_fires
 from .doa_estimator import FLOPS_PER_REESTIMATE, FrozenDoaEstimator
 from .doa_featurizer import D_FEAT_DOA, DoaFeaturizer
 from .doa_featurizer import FLOPS_PER_FRAME as FEATURIZER_FLOPS_PER_FRAME
@@ -98,7 +99,6 @@ from .doa_referee import (
 )
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
-from .stats import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 
 DOA_PRODUCER_SCHEMA = "mop-starss23-doa-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-doa-bed/v1"

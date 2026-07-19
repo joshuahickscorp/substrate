@@ -37,11 +37,12 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
-from .count_controls import (
+from .controls import (
     always_on_fires,
     at_chance,
     never_update_reestimates,
@@ -72,10 +73,10 @@ from .count_producer import (
     FULL_SCALE_FEATURIZE,
     RealCountBedConfig,
     _causal_reestimates,
+    _estimate_all,
     _featurize_all,
     _flop_model,
     _fold_respecting_split,
-    _estimate_all,
     _real_noisy_tv_features,
     _train_count_gate,
 )
@@ -92,7 +93,6 @@ from .count_repro_scoring_unit_referee import (
     macro_score_arm,
 )
 from .schema import Clip
-from .stats import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 
 COUNT_REPRO_SCORING_UNIT_PRODUCER_SCHEMA = "mop-starss23-count-repro-scoring-unit-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-count-repro-scoring-unit-bed/v1"
@@ -544,7 +544,8 @@ def build_real_count_repro_scoring_unit_artifact(
         "harness": report.payload(),
         "matched_budget": report.matched_budget.payload(),
         "matched_budget_wall_note": (
-            "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is byte-reproducible; "
+            "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is "
+            "byte-reproducible; "
             "the measured wall is unsealed run provenance, and the authoritative sealed compute axes are the "
             "parameter count and the FLOP ledger"
         ),

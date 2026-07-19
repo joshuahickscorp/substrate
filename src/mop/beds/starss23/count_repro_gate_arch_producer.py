@@ -42,11 +42,12 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
-from .count_controls import (
+from .controls import (
     always_on_fires,
     at_chance,
     never_update_reestimates,
@@ -54,6 +55,7 @@ from .count_controls import (
 )
 from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
+from .count_gate import CountOnlineState
 from .count_harness import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -67,12 +69,11 @@ from .count_harness import (
     run_matched_budget,
 )
 from .count_labels import build_count_clips, change_density, coast_from_zero_mae
-from .count_gate import CountOnlineState
+
 # Gate-agnostic pipeline stages reused by reference from the sealed producer so they cannot drift.
 from .count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
-    DEFAULT_N_VAL_ROOMS,
     RealCountBedConfig,
     _assemble_inputs,
     _estimate_all,
@@ -82,13 +83,13 @@ from .count_producer import (
 )
 from .count_referee import COLD_START, score_arm
 from .count_repro_gate_arch_gate import (
+    D_IN_GATE_ARCH,
     FLOPS_PER_INFERENCE_GATE_ARCH,
     HIDDEN1,
     HIDDEN2,
     N_OUT,
     REPRO_AXIS,
     CountReproGateArchGate,
-    D_IN_GATE_ARCH,
     training_flops_two_layer,
     voc_targets_from_count_track,
 )
@@ -99,7 +100,6 @@ from .count_repro_gate_arch_prereg import (
     write_count_repro_gate_arch_prereg,
 )
 from .schema import Clip
-from .stats import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 
 COUNT_REPRO_GATE_ARCH_PRODUCER_SCHEMA = "mop-starss23-count-repro-gate-arch-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed-repro-gate-arch/v1"
@@ -471,7 +471,9 @@ def build_real_count_repro_gate_arch_artifact(
 
     stats_block = {
         "metric": "coasted-count-MAE",
-        "delta_definition": "delta_i = MAE_rate_matched_random(i) - MAE_candidate(i); positive = candidate lower error",
+        "delta_definition": (
+            "delta_i = MAE_rate_matched_random(i) - MAE_candidate(i); positive = candidate lower error"
+        ),
         "deltas": [float(value) for value in deltas],
         "t_obs": float(sign_flip.mean_delta),
         "mean_delta_control_minus_candidate": float(sign_flip.mean_delta),

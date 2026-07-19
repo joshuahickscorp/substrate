@@ -23,12 +23,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE
 from .gate import C_TRAIN_ANCHOR
 from .schema import COLLAR_FRAMES, FRAME_MS
-from .stats import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 
 PREREG_SCHEMA = "mop-starss23-escs-bed-prereg/v1"
 STAGE = 3

@@ -74,6 +74,24 @@
       "proof": "two implemented architectures across onset/counting/DoA/data-split reproduction; 4/4 fixture parity; selected engine 29/29 tests; 22/22 selected-architecture mutation attacks; canonical record-authority drift refusal; ruff clean",
       "accounting_note": "539 replaced physical Python LOC = 358 Architecture A engine + 54 counting declaration + 127 tests; 402 selected physical Python LOC = 198 engine + 83 four-axis declarations + 121 stronger tests",
       "tag": "mop-collapse-starss23-architecture-b"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "cache_controls_statistics",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "three feature-cache frameworks + per-axis control wrappers + family statistics module collapsed onto one cache policy, one control authority, and producer-side science statistics",
+      "deduplicated_LOC": 1816,
+      "added_LOC": 642,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1174,
+      "files_changed": 40,
+      "destination_api": "mop.beds.starss23.feature_cache.CachePolicy + mop.beds.starss23.controls.never_update_reestimates + mop.science.statistics",
+      "proof": "six historical cache-key fixtures exact; partial/malformed cache refusal and atomic-write tests; 128/128 focused controls/count/DoA/reproduction tests; exact sign-flip statistics restored to the selected engine; full STARSS-focused suite 476/476 in 139.99s under nice -n 10",
+      "accounting_note": "1816 replaced Python LOC = 1806 production-source deletions + 9 test deletions + 1 script deletion; 642 added Python LOC = 529 production source + 112 tests + 1 script; production source net -1277, tests net +103, total owned Python net -1174; decomposition tooling is measured separately and not claimed as product reduction",
+      "tag": "mop-collapse-starss23-lifecycle-1"
     }
   ],
   "deferred_heavy_validation": {

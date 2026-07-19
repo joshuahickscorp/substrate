@@ -20,8 +20,9 @@ def _value(arm: str, seed: int, direction: str) -> float:
 
 def _runner(record):
     def run(arm, seed, inputs):
+        scale = max(1.0, 2.0 * record["sesoi"]["value"] / 0.1)
         return {"arm": arm, "seed": seed,
-                "metric_value": _value(arm, seed, record["metric"]["direction"]),
+                "metric_value": scale * _value(arm, seed, record["metric"]["direction"]),
                 "receipt": {"provider": "deterministic_fixture", "arm": arm, "seed": seed}}
     return run
 

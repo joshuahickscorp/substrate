@@ -9,11 +9,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from dataclasses import dataclass
-from typing import Any
 from pathlib import Path
-import os
+from typing import Any
 
 EVENT_GRAPH_SCHEMA = "mop-event-graph/v1"
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -490,9 +490,15 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
+def atomic_write_bytes(path: Path, payload: bytes) -> None:
+    """Atomically replace a byte artifact; a crash can leave only an ignored ``.tmp`` sibling."""
+
     path.parent.mkdir(parents=True, exist_ok=True)
-    raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_bytes(raw)
+    temporary.write_bytes(payload)
     os.replace(temporary, path)
+
+
+def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
+    raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
+    atomic_write_bytes(path, raw)
