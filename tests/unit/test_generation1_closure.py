@@ -52,6 +52,13 @@ def test_admission_refuses_on_nonterminal_status(monkeypatch, tmp_path):
         "validate_general_run_status",
         lambda status, repo_root=None: "run_horizon_v2",
     )
+    # the historical-authority resolution runs first; make it succeed so the flow reaches the
+    # terminal-state check (this test isolates the not-terminal refusal, not authority resolution).
+    monkeypatch.setattr(
+        admission_module,
+        "_resolve_historical_implementation",
+        lambda status, implementation_root: (tmp_path / "impl.py", "0" * 64, []),
+    )
 
     decision = admission_module.evaluate_admission(root=tmp_path, repo_root=tmp_path, now_iso=TIMESTAMP)
 

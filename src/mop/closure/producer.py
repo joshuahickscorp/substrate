@@ -87,7 +87,12 @@ def run_closure(
     proof_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Clean-terminal admission of the live General Run. It refuses while the run is not terminal.
-    admission = evaluate_admission(root=gr_root, repo_root=LIVE_TREE, now_iso=timestamp)
+    # implementation_root is the tree the General Run actually ran from, so the recorded historical
+    # implementation authority (SHA A) resolves to real bytes even when this closure runs from a different
+    # checkout (SHA B). It defaults to the tree two levels above gr_root, which is that live tree.
+    admission = evaluate_admission(
+        root=gr_root, repo_root=LIVE_TREE, implementation_root=LIVE_TREE, now_iso=timestamp
+    )
     admitted = bool(admission.admitted)
 
     # 2. Always rebuild and write the current-state authority (not gated on terminal admission).
