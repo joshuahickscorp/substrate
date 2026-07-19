@@ -156,7 +156,9 @@ def build_checklist() -> list[dict]:
         ("SEC-8", 8, "Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface)",
          "converge domains without wrapper dirs"),
         ("SEC-9", 9, "One evidence authority (compact evidence core; verifier structurally independent)",
-         "audit all seal/hash/encode impls; unify integrity; keep graded logic independent"),
+         "deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs "
+         "collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay "
+         "(HEAVY: queue behind live run per section 2)"),
         ("SEC-10", 10, "One experiment engine (ExperimentSpec..IndependentVerifier)",
          "build engine; simple<=150 LOC, complex<=400 LOC declarations"),
         ("SEC-11", 11, "STARSS23 first high-pressure region collapse (12-step process)",
@@ -259,7 +261,25 @@ def main() -> int:
     authority = load("MOP_AUTHORITY_GRAPH.json")
     command = load("MOP_COMMAND_GRAPH.json")
     dup = load("MOP_DUPLICATION_GRAPH.json")
+    equiv = load("MOP_EVIDENCE_EQUIVALENCE.json")
     checklist = build_checklist()
+
+    # reconcile: record the evidence-authority deletion map and move SEC-9 into active analysis
+    checklist.append(item(
+        "ART-MOP_EVIDENCE_EQUIVALENCE.json", 9, "artifact",
+        "MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map)", status="complete",
+        evidence=["collapse/MOP_EVIDENCE_EQUIVALENCE.json"],
+        validation="normalized-AST body clustering of every owned primitive definition",
+        next_action="none"))
+    collapsible = ((equiv.get("totals") or {}).get("redundant_definitions_collapsible"))
+    for it in checklist:
+        if it["id"] == "SEC-9":
+            it["status"] = "active"
+            it["evidence_paths"] = ["collapse/MOP_AUTHORITY_GRAPH.json",
+                                    "collapse/MOP_EVIDENCE_EQUIVALENCE.json"]
+            it["validation"] = (f"{collapsible} byte-identical primitive defs identified as collapsible; "
+                                "distinct-body defs flagged for inspection")
+            it["dependency"] = "heavy parity/mutation/replay suite must run under host headroom (live run active)"
 
     # live run state (read-only), for the ledger header
     live_status = {}
@@ -320,6 +340,9 @@ def main() -> int:
             "scripts_class_counts": (command.get("class_counts") or {}),
             "lifecycle_boilerplate_files": dup.get("total_boilerplate_files"),
             "lifecycle_boilerplate_LOC": dup.get("total_boilerplate_LOC"),
+            "evidence_primitive_defs_analyzed": (equiv.get("totals") or {}).get("primitive_definitions"),
+            "evidence_primitive_defs_collapsible": (equiv.get("totals") or {}).get(
+                "redundant_definitions_collapsible"),
             "highest_pressure_first_region": ("section 9 evidence authority: 168 duplicate integrity "
                                               "definitions collapse to one evidence core, provable by "
                                               "byte-parity + mutation tests (pure functions, live-safe)"),

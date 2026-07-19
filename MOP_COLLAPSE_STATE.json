@@ -5,13 +5,13 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "a19ebe6d9574cee01026d10eef23398b9f88e4e4",
+    "base_commit": "8be520c7de9990f9fd02bff3a798d49f63b8af50",
     "current_main": "a19ebe6d9574cee01026d10eef23398b9f88e4e4",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
       "state": "run_categorized_wave",
       "stage": "run_categorized_wave",
-      "updated_at": "2026-07-19T04:16:51.572359+00:00",
+      "updated_at": "2026-07-19T04:20:22.808337+00:00",
       "counts": {
         "compute_complete": 2,
         "compute_total": 4,
@@ -94,14 +94,16 @@
     },
     "lifecycle_boilerplate_files": 160,
     "lifecycle_boilerplate_LOC": 57729,
+    "evidence_primitive_defs_analyzed": 125,
+    "evidence_primitive_defs_collapsible": 64,
     "highest_pressure_first_region": "section 9 evidence authority: 168 duplicate integrity definitions collapse to one evidence core, provable by byte-parity + mutation tests (pure functions, live-safe)"
   },
   "checklist_summary": {
-    "total": 212,
+    "total": 213,
     "by_status": {
-      "complete": 10,
-      "active": 46,
-      "pending": 148,
+      "complete": 11,
+      "active": 47,
+      "pending": 147,
       "partial": 8
     }
   },
@@ -1354,13 +1356,16 @@
       "section": 9,
       "kind": "region",
       "title": "One evidence authority (compact evidence core; verifier structurally independent)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "active",
+      "evidence_paths": [
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_EVIDENCE_EQUIVALENCE.json"
+      ],
+      "validation": "64 byte-identical primitive defs identified as collapsible; distinct-body defs flagged for inspection",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "",
-      "next_action": "audit all seal/hash/encode impls; unify integrity; keep graded logic independent"
+      "dependency": "heavy parity/mutation/replay suite must run under host headroom (live run active)",
+      "next_action": "deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2)"
     },
     {
       "id": "SEC-10",
@@ -2895,6 +2900,21 @@
       "rollback_tag": "",
       "dependency": "",
       "next_action": "populate from measured artifacts at conclusion"
+    },
+    {
+      "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
+      "section": 9,
+      "kind": "artifact",
+      "title": "MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map)",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_EVIDENCE_EQUIVALENCE.json"
+      ],
+      "validation": "normalized-AST body clustering of every owned primitive definition",
+      "commit": "",
+      "rollback_tag": "",
+      "dependency": "",
+      "next_action": "none"
     }
   ]
 }

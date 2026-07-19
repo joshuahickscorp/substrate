@@ -8,9 +8,9 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `a19ebe6` (base = current origin/main `a19ebe6`).
+- Branch `agent/mop-accretion-collapse` @ `8be520c` (base = current origin/main `a19ebe6`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
-- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:16:51.572359+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
+- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:20:22.808337+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
 
 ## Baseline (measured, not assumed)
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 212. By status: `{"complete": 10, "active": 46, "pending": 148, "partial": 8}`.
+Total items: 213. By status: `{"complete": 11, "active": 47, "pending": 147, "partial": 8}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -132,7 +132,7 @@ Total items: 212. By status: `{"complete": 10, "active": 46, "pending": 148, "pa
 | CKPT-50k | 5 | checkpoint | pending | Reach green global checkpoint 50k | tag mop-collapse-50k when global maintained LOC crosses 50k |
 | ESCAPE-RULE | 5 | gate | pending | Two-architecture escape rule before rejecting a lower target | only after 2 architectures implemented+failed for measured reasons + green restore + sealed receipt |
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
-| SEC-9 | 9 | region | pending | One evidence authority (compact evidence core; verifier structurally independent) | audit all seal/hash/encode impls; unify integrity; keep graded logic independent |
+| SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | pending | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
 | SEC-11 | 11 | region | pending | STARSS23 first high-pressure region collapse (12-step process) | prove method: parity byte-for-byte, replay, delete superseded, recovery map |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
@@ -251,12 +251,13 @@ Total items: 212. By status: `{"complete": 10, "active": 46, "pending": 148, "pa
 | RPT-28 | 28 | report_item | pending | Final report clause 28 | populate from measured artifacts at conclusion |
 | RPT-29 | 28 | report_item | pending | Final report clause 29 | populate from measured artifacts at conclusion |
 | RPT-30 | 28 | report_item | pending | Final report clause 30 | populate from measured artifacts at conclusion |
+| ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 
 ## History
 
 ### precheck (this checkpoint)
 
-- commit: pending; base a19ebe6
+- commit: pending; base 8be520c
 - global_owned_source_LOC: 401396
 - global_maintained_source_LOC: 401357
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
