@@ -1,0 +1,44 @@
+{
+  "schema": "mop-repaired-runtime-binding-authority/v1",
+  "purpose": "Phase 4 gate 10: bind every repaired runtime authority + source + verifier so all three lanes execute through ONE engine with distinct science.",
+  "source_commit": "f66d1f23415b541844a4a7d2cc95ab88accace9f",
+  "branch": "agent/mop-evidence-salvage",
+  "scheduler_impl": {
+    "path": "salvage/runtime/scheduler.py",
+    "sha256": "82c0341f17c2c6f6620638b2a34ede537fb969484758d7f193f56366814e6338"
+  },
+  "reliability_impl": {
+    "path": "salvage/runtime/reliability.py",
+    "sha256": "a1b26e9badbdd13a17874681497d7f99ba46a80b35cd95462cd592c108e3038b"
+  },
+  "incremental_verifier_impl": {
+    "path": "salvage/tools/incremental_verifier.py",
+    "sha256": "bacf6d40041ee8f2eed9e4c3650faa538a885e2d2ce57538bd967fc3d8421990"
+  },
+  "resource_profiles_frozen": true,
+  "resource_profiles_source": "salvage/runtime/reliability.py::PROFILES",
+  "retry_policy": "deterministic stop -> bounded_retry -> failure_hold+notify -> prohibited-without-override (append-only)",
+  "stall_detector": "salvage/runtime/reliability.py::StallDetector (6 triggers; slow-valid distinguished)",
+  "notification_projection": "salvage/runtime/reliability.py::Notifier (11 events; delivery isolated)",
+  "benchmark_authority": {
+    "path": "salvage/reports/MOP_RUNTIME_BENCHMARK.json",
+    "sha256": "3df7ef538919adc827e3532bc3858680a4df050f35906fff2f1e96f233748535"
+  },
+  "wave_verification_authority": {
+    "path": "salvage/reports/MOP_CATEGORIZED_WAVE_SALVAGE_VERIFICATION.json",
+    "sha256": "a1315edc0dc2804d43d5fbe002837b3512687da40841fb0fe9a50439decd5560"
+  },
+  "lanes_bound": [
+    "G1-P1R",
+    "G1-U1",
+    "G1-N1"
+  ],
+  "runtime_logic_shared_not_copied": true,
+  "distinct_per_lane": [
+    "scientific mathematics",
+    "independent verifier implementation",
+    "decision rules"
+  ],
+  "gate_10": "SATISFIED (this authority binds the repaired runtime for the canary lanes)",
+  "binding_sha256": "d23a06071a1b87f2c5a5aa47fb0cd6d39a3e25a62fe376f7aaff49ce7255e5ac"
+}
