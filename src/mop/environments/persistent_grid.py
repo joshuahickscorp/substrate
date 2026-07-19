@@ -22,6 +22,7 @@ from typing import Any
 
 import torch
 import torch.nn.functional as F
+from mop.substrate.events import canonical_bytes
 
 WORLD_SCHEMA = "mop-persistent-grid-world/v1"
 TRAJECTORY_SCHEMA = "mop-action-trajectory-bundle/v1"
@@ -30,24 +31,16 @@ ACTION_DELTAS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 OBSERVATION_DIM = 16
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
 def _sha256_value(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _stable_index(parts: tuple[Any, ...], count: int) -> int:
     if count <= 0:
         raise ValueError("count must be positive")
-    digest = hashlib.sha256(_canonical_bytes(list(parts))).digest()
+    digest = hashlib.sha256(canonical_bytes(list(parts))).digest()
     return int.from_bytes(digest[:8], "big") % count
 
 
@@ -247,7 +240,7 @@ class PersistentGridEnvironment:
         if (state.row, state.col) != self.spec.noisy_tv_cell:
             return (0.0, 0.0, 0.0, 0.0)
         digest = hashlib.sha256(
-            _canonical_bytes(
+            canonical_bytes(
                 [self.spec.seed, "noisy-tv", state.episode_index, state.step_index, self.state_ref(state)]
             )
         ).digest()
@@ -542,9 +535,9 @@ def verify_trajectory_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
             replayed, branches = env.step_with_counterfactuals(int(expected["action"]))
             group = replayed["counterfactual_group_ref"]
             recorded_branches = sorted(cf_by_group.get(group, []), key=lambda row: int(row["action"]))
-            if _canonical_bytes(replayed) != _canonical_bytes(expected) or _canonical_bytes(
+            if canonical_bytes(replayed) != canonical_bytes(expected) or canonical_bytes(
                 branches
-            ) != _canonical_bytes(recorded_branches):
+            ) != canonical_bytes(recorded_branches):
                 replay_ok = False
                 break
             episode_actual.append(expected)

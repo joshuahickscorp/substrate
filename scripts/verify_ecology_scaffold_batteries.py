@@ -23,7 +23,7 @@ from mop.environments.ecology_battery import (
     run_ecology_battery_seed,
 )
 from mop.environments.ecology_scaffold import verify_ecology_fixture
-from mop.substrate.events import atomic_write_json
+from mop.substrate.events import atomic_write_json, canonical_bytes
 
 SCHEMA = "mop-ecology-scaffold-battery-run/v1"
 VERIFIER_SCHEMA = "mop-ecology-scaffold-independent-verifier/v1"
@@ -149,14 +149,10 @@ CALIBRATION_SPECS = {
 _SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False
-    ).encode("utf-8")
 
 
 def _sha(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _sha_file(path: Path) -> str:
@@ -431,7 +427,7 @@ def _base_errors(
         if fixture_result.get("verified") is not True:
             errors.append(f"ecology scaffold fixture drift at {expected_seed}")
         rebuilt = run_ecology_battery_seed(expected_seed)
-        if _canonical_bytes(rebuilt) != _canonical_bytes(unit):
+        if canonical_bytes(rebuilt) != canonical_bytes(unit):
             errors.append(f"ecology exact observation replay drift at {expected_seed}")
     experiments = receipt.get("experiments", {})
     if not isinstance(experiments, dict) or tuple(experiments) != EXPERIMENT_IDS:

@@ -17,16 +17,11 @@ from pathlib import Path
 
 from mop.config import REPO_ROOT
 from mop.substrate.cache_tools import validate_cache
+from mop.substrate.events import sha256_file
 
 SCHEMA = "mop-cache-quarantine/v1"
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _inventory(store: Path) -> list[dict]:
@@ -34,7 +29,7 @@ def _inventory(store: Path) -> list[dict]:
         {
             "path": str(path.relative_to(store)),
             "bytes": path.stat().st_size,
-            "sha256": _sha256(path),
+            "sha256": sha256_file(path),
         }
         for path in sorted(store.rglob("*"))
         if path.is_file()

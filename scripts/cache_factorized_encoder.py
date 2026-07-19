@@ -46,17 +46,12 @@ from mop.substrate.cache_manifest import (
     write_cache_manifest,
 )
 from mop.substrate.encoder import module_state_sha256
+from mop.substrate.events import sha256_file
 
 log = get_logger("cache_factorized")
 FRAMES, RES = 64, 256
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _tensor_sha256(value: torch.Tensor) -> str:
@@ -226,7 +221,7 @@ def main(argv: list[str] | None = None) -> int:
                 {
                     "path": str(path.relative_to(snapshot)),
                     "bytes": path.stat().st_size,
-                    "sha256": _sha256(path),
+                    "sha256": sha256_file(path),
                 }
                 for path in architecture_files
             ],
@@ -247,7 +242,7 @@ def main(argv: list[str] | None = None) -> int:
                 {
                     "path": str(path.relative_to(snapshot)),
                     "bytes": path.stat().st_size,
-                    "sha256": _sha256(path),
+                    "sha256": sha256_file(path),
                 }
                 for path in all_snapshot_files
             ],
@@ -349,7 +344,7 @@ def main(argv: list[str] | None = None) -> int:
         "stimulus": {
             "schema": "mop-factorized-video-stimulus-receipt/v1",
             "generator": "make_factorized_clip",
-            "generator_source_sha256": _sha256(Path(__file__).resolve()),
+            "generator_source_sha256": sha256_file(Path(__file__).resolve()),
             "seed": int(cfg.seed),
             "native_resolution_render": True,
             "set_sha256": stimulus_set_digest.hexdigest(),

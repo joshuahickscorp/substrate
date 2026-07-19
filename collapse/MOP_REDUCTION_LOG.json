@@ -38,6 +38,25 @@
       "note_added_LOC": "24 added = two public primitives added once to the one evidence core (sha256_file, atomic_write_json, with pathlib and os imports) plus redirect import lines; net owned-system change is -36",
       "tag": "mop-collapse-evidence-batch2"
     }
+    ,
+    {
+      "region": "section9_evidence_authority",
+      "batch": "batch4_5_private_primitive_copies",
+      "checkpoint_status": "provisional_pending_full_suite",
+      "primitive": "_sha256 -> sha256_file (7 modules) + _canonical_bytes -> canonical_bytes (9 modules)",
+      "deduplicated_LOC": 105,
+      "added_LOC": 16,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 89,
+      "files_changed": 16,
+      "destination_api": "mop.substrate.events.{sha256_file,canonical_bytes}",
+      "proof": "name-insensitive byte-identity to core + word-boundary call-site rename + py_compile + zero residual private name + ruff F401 clean + 9/9 import-identity parity on migrated src modules",
+      "note": "STARSS23 independent verifiers with their own divergent _canonical_bytes were correctly skipped by the byte-identity gate, preserving verifier independence",
+      "tag": "mop-collapse-evidence-batch3"
+    }
   ],
   "deferred_heavy_validation": {
     "command": "PYTHONPATH=src .venv/bin/python -m pytest tests -q",

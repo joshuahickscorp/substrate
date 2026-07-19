@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 from ..config import REPO_ROOT
+from mop.substrate.events import canonical_bytes
 
 SYNTHESIS_SCHEMA = "mop-generation1-evidence-synthesis/v1"
 VERIFICATION_SCHEMA = "mop-generation1-evidence-synthesis-verification/v1"
@@ -211,18 +212,10 @@ class EvidenceSynthesisVerificationError(ValueError):
     """The evidence synthesis cannot be verified without weakening its contract."""
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
 def _canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _sha256_file(path: Path) -> str:
@@ -277,7 +270,7 @@ def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     try:
         with os.fdopen(descriptor, "wb") as handle:
-            handle.write(_canonical_bytes(payload) + b"\n")
+            handle.write(canonical_bytes(payload) + b"\n")
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temporary, path)

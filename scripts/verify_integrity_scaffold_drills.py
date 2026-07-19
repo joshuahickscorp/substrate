@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from mop.config import REPO_ROOT
-from mop.substrate.events import atomic_write_json
+from mop.substrate.events import atomic_write_json, canonical_bytes
 
 SCHEMA = "mop-integrity-scaffold-run/v1"
 VERIFIER_SCHEMA = "mop-integrity-scaffold-independent-verifier/v1"
@@ -45,14 +45,10 @@ FRESH_SEEDS = (101, 103, 107)
 _SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False
-    ).encode("utf-8")
 
 
 def _sha(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _sha_file(path: Path) -> str:

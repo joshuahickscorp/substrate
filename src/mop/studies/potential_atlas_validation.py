@@ -27,6 +27,7 @@ from .p5_terminal_evidence import (
     P5_VERIFICATION_SCHEMA,
     p5_terminal_evidence,
 )
+from mop.substrate.events import sha256_file
 
 ATLAS_SCHEMA = "mop-potential-atlas/v1"
 RECEIPT_SCHEMA = "mop-potential-atlas-validation/v1"
@@ -208,12 +209,6 @@ def _sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _valid_sha256(value: Any) -> TypeGuard[str]:
@@ -242,7 +237,7 @@ def _file_receipt(path: Path, repo_root: Path) -> dict[str, Any]:
         "exists": path.is_file(),
     }
     if path.is_file():
-        receipt.update({"bytes": path.stat().st_size, "sha256": _sha256(path)})
+        receipt.update({"bytes": path.stat().st_size, "sha256": sha256_file(path)})
     return receipt
 
 
@@ -602,7 +597,7 @@ def _source_contract(
         if not path.is_file():
             problems.append(f"source {raw_path} does not exist as a file")
             continue
-        actual = _sha256(path)
+        actual = sha256_file(path)
         if actual != digest:
             problems.append(f"source hash drift for {raw_path}: expected {digest}, found {actual}")
             continue
@@ -1607,7 +1602,7 @@ def _mechanics_progress_contract(
                 problems.append(f"P9 accounting proof path is invalid: {accounting_problem}")
             elif accounting_path is None or not accounting_path.is_file():
                 problems.append("P9 accounting proof is absent")
-            elif accounting_row.get("sha256") != _sha256(accounting_path):
+            elif accounting_row.get("sha256") != sha256_file(accounting_path):
                 problems.append("P9 accounting proof hash disagrees with its implementation binding")
             else:
                 accounting = _load_json(accounting_path)
@@ -1851,7 +1846,7 @@ def _markdown_contract(markdown_path: Path, atlas: dict[str, Any]) -> tuple[list
                 )
     return problems, {
         "bytes": markdown_path.stat().st_size,
-        "sha256": _sha256(markdown_path),
+        "sha256": sha256_file(markdown_path),
         "facet_score_rows": len(table_rows),
     }
 
@@ -1934,7 +1929,7 @@ def _render_refreshed_source_hashes(
         if not path.is_file():
             problems.append(f"source {raw_path} does not exist as a file")
             continue
-        actual = _sha256(path)
+        actual = sha256_file(path)
         encoded_path = json.dumps(raw_path, ensure_ascii=True)
         pattern = re.compile(
             r'("path"\s*:\s*' + re.escape(encoded_path) + r'\s*,\s*"sha256"\s*:\s*")([0-9a-f]{64})(")'

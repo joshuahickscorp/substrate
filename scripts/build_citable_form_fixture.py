@@ -20,16 +20,11 @@ from mop.config import REPO_ROOT
 from mop.substrate.cache_manifest import validate_cache_manifest, write_cache_manifest
 from mop.substrate.cache_tools import validate_cache
 from mop.substrate.latent_store import LatentStore
+from mop.substrate.events import sha256_file
 
 SCHEMA = "mop-programmatic-form-cache-receipt/v1"
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def build_fixture(root: Path, *, name: str, count: int, seed: int) -> dict:
@@ -91,7 +86,7 @@ def build_fixture(root: Path, *, name: str, count: int, seed: int) -> dict:
         "count": count,
         "shape": [count, tokens, dim],
         "manifest_schema": manifest["schema"],
-        "manifest_sha256": _sha256(store.root / "cache_manifest.json"),
+        "manifest_sha256": sha256_file(store.root / "cache_manifest.json"),
         "strict_manifest_problems": validate_cache_manifest(store.root, citable=True),
         "cache_problems": problems,
         "all_ok": not problems,

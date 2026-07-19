@@ -1,13 +1,13 @@
 {
   "schema": "mop-collapse-census/v1",
   "root": "/Users/scammermike/Downloads/mop-accretion-collapse",
-  "commit": "cc04b72032c6b99d8b795e6367e93f2f43236797",
+  "commit": "321cdbb8f00bfe1a0751afef7ff821c6b71dee67",
   "summary": {
-    "tracked_files": 1744,
-    "python_files": 1070,
-    "global_owned_source_LOC": 401283,
-    "global_maintained_source_LOC": 401244,
-    "active_src_mop_LOC": 259218,
+    "tracked_files": 1746,
+    "python_files": 1072,
+    "global_owned_source_LOC": 401194,
+    "global_maintained_source_LOC": 401155,
+    "active_src_mop_LOC": 259163,
     "test_LOC": 89983,
     "documentation_LOC": 43932
   },
@@ -336,7 +336,7 @@
       "path": "MOP_COLLAPSE_STATE.json",
       "language": "config",
       "physical_LOC": 2960,
-      "bytes": 85343,
+      "bytes": 85346,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -940,8 +940,8 @@
     {
       "path": "collapse/MOP_CODEBASE_CENSUS.json",
       "language": "config",
-      "physical_LOC": 40912,
-      "bytes": 1141414,
+      "physical_LOC": 40921,
+      "bytes": 1141741,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -984,8 +984,8 @@
     {
       "path": "collapse/MOP_EVIDENCE_EQUIVALENCE.json",
       "language": "config",
-      "physical_LOC": 574,
-      "bytes": 16939,
+      "physical_LOC": 548,
+      "bytes": 15359,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -1017,8 +1017,8 @@
     {
       "path": "collapse/MOP_IMPORT_GRAPH.json",
       "language": "config",
-      "physical_LOC": 1070,
-      "bytes": 37476,
+      "physical_LOC": 1082,
+      "bytes": 37814,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -1039,8 +1039,8 @@
     {
       "path": "collapse/MOP_REDUCTION_LOG.json",
       "language": "config",
-      "physical_LOC": 22,
-      "bytes": 1044,
+      "physical_LOC": 47,
+      "bytes": 2636,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -1159,6 +1159,67 @@
         "build_table",
         "redirect_file",
         "apply_batch",
+        "main"
+      ],
+      "is_entrypoint": true,
+      "module": null
+    },
+    {
+      "path": "collapse/tools/evidence_migrate2.py",
+      "language": "python",
+      "physical_LOC": 152,
+      "bytes": 5795,
+      "imports": [
+        "__future__",
+        "ast",
+        "hashlib",
+        "json",
+        "pathlib",
+        "py_compile",
+        "sys"
+      ],
+      "importers": [],
+      "public_symbols": [
+        "ROOT",
+        "CORE_MODULE",
+        "CORE_FILE",
+        "CORE_IMPORT_NEEDS",
+        "body_hash",
+        "get_def",
+        "core_has",
+        "ensure_core_defines",
+        "redirect",
+        "main"
+      ],
+      "is_entrypoint": true,
+      "module": null
+    },
+    {
+      "path": "collapse/tools/evidence_migrate3.py",
+      "language": "python",
+      "physical_LOC": 160,
+      "bytes": 6270,
+      "imports": [
+        "__future__",
+        "ast",
+        "hashlib",
+        "json",
+        "pathlib",
+        "py_compile",
+        "sys"
+      ],
+      "importers": [],
+      "public_symbols": [
+        "ROOT",
+        "CORE_MODULE",
+        "CORE_FILE",
+        "OLD",
+        "NEW",
+        "MEMBERS",
+        "body_hash",
+        "get_def",
+        "ensure_core",
+        "migrate",
         "main"
       ],
       "is_entrypoint": true,
@@ -7680,8 +7741,8 @@
     {
       "path": "scripts/build_citable_form_fixture.py",
       "language": "python",
-      "physical_LOC": 118,
-      "bytes": 4484,
+      "physical_LOC": 113,
+      "bytes": 4306,
       "imports": [
         "__future__",
         "argparse",
@@ -7691,6 +7752,7 @@
         "mop.config",
         "mop.substrate.cache_manifest",
         "mop.substrate.cache_tools",
+        "mop.substrate.events",
         "mop.substrate.latent_store",
         "numpy",
         "pathlib"
@@ -8261,8 +8323,8 @@
     {
       "path": "scripts/cache_factorized_encoder.py",
       "language": "python",
-      "physical_LOC": 397,
-      "bytes": 16574,
+      "physical_LOC": 392,
+      "bytes": 16404,
       "imports": [
         "__future__",
         "datetime",
@@ -8277,6 +8339,7 @@
         "mop.substrate",
         "mop.substrate.cache_manifest",
         "mop.substrate.encoder",
+        "mop.substrate.events",
         "omegaconf",
         "pathlib",
         "resource",
@@ -12716,8 +12779,8 @@
     {
       "path": "scripts/quarantine_uncitable_caches.py",
       "language": "python",
-      "physical_LOC": 124,
-      "bytes": 4566,
+      "physical_LOC": 119,
+      "bytes": 4388,
       "imports": [
         "__future__",
         "argparse",
@@ -12726,6 +12789,7 @@
         "json",
         "mop.config",
         "mop.substrate.cache_tools",
+        "mop.substrate.events",
         "pathlib"
       ],
       "importers": [],
@@ -14352,8 +14416,8 @@
     {
       "path": "scripts/verify_ecology_scaffold_batteries.py",
       "language": "python",
-      "physical_LOC": 707,
-      "bytes": 28169,
+      "physical_LOC": 703,
+      "bytes": 28006,
       "imports": [
         "__future__",
         "argparse",
@@ -14392,8 +14456,8 @@
     {
       "path": "scripts/verify_expansion_wave0.py",
       "language": "python",
-      "physical_LOC": 928,
-      "bytes": 42199,
+      "physical_LOC": 921,
+      "bytes": 42037,
       "imports": [
         "__future__",
         "argparse",
@@ -14401,6 +14465,7 @@
         "hashlib",
         "json",
         "mop.config",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "re",
@@ -14476,8 +14541,8 @@
     {
       "path": "scripts/verify_integrity_scaffold_drills.py",
       "language": "python",
-      "physical_LOC": 550,
-      "bytes": 23949,
+      "physical_LOC": 546,
+      "bytes": 23788,
       "imports": [
         "__future__",
         "argparse",
@@ -14515,8 +14580,8 @@
     {
       "path": "scripts/verify_material_twin_batteries.py",
       "language": "python",
-      "physical_LOC": 579,
-      "bytes": 25456,
+      "physical_LOC": 575,
+      "bytes": 25295,
       "imports": [
         "__future__",
         "argparse",
@@ -18100,13 +18165,14 @@
     {
       "path": "src/mop/environments/persistent_grid.py",
       "language": "python",
-      "physical_LOC": 632,
-      "bytes": 26479,
+      "physical_LOC": 625,
+      "bytes": 26311,
       "imports": [
         "__future__",
         "dataclasses",
         "hashlib",
         "json",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "torch",
@@ -18237,8 +18303,8 @@
     {
       "path": "src/mop/escs/archive.py",
       "language": "python",
-      "physical_LOC": 996,
-      "bytes": 41993,
+      "physical_LOC": 989,
+      "bytes": 41817,
       "imports": [
         "__future__",
         "collections",
@@ -18247,6 +18313,7 @@
         "enum",
         "hashlib",
         "json",
+        "mop.substrate.events",
         "re",
         "typing"
       ],
@@ -19843,8 +19910,8 @@
     {
       "path": "src/mop/experiments/form_rewrite_engine.py",
       "language": "python",
-      "physical_LOC": 2038,
-      "bytes": 86070,
+      "physical_LOC": 2033,
+      "bytes": 85912,
       "imports": [
         "__future__",
         "collections.abc",
@@ -19855,6 +19922,7 @@
         "hashlib",
         "json",
         "math",
+        "mop.substrate.events",
         "numpy",
         "omegaconf",
         "pathlib",
@@ -23166,8 +23234,8 @@
     {
       "path": "src/mop/studies/continual_million_event_verify.py",
       "language": "python",
-      "physical_LOC": 1628,
-      "bytes": 71108,
+      "physical_LOC": 1621,
+      "bytes": 70943,
       "imports": [
         "__future__",
         "collections.abc",
@@ -23177,6 +23245,7 @@
         "json",
         "math",
         "mop.config",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "struct",
@@ -24340,8 +24409,8 @@
     {
       "path": "src/mop/studies/generation1_cognitive_corpus_verify.py",
       "language": "python",
-      "physical_LOC": 1771,
-      "bytes": 70690,
+      "physical_LOC": 1764,
+      "bytes": 70526,
       "imports": [
         "__future__",
         "argparse",
@@ -24352,6 +24421,7 @@
         "inspect",
         "json",
         "math",
+        "mop.substrate.events",
         "omegaconf",
         "os",
         "pathlib",
@@ -24818,8 +24888,8 @@
     {
       "path": "src/mop/studies/generation1_evidence_synthesis_verify.py",
       "language": "python",
-      "physical_LOC": 1315,
-      "bytes": 53052,
+      "physical_LOC": 1308,
+      "bytes": 52889,
       "imports": [
         "__future__",
         "argparse",
@@ -24830,6 +24900,7 @@
         "hashlib",
         "json",
         "math",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "tempfile",
@@ -26137,8 +26208,8 @@
     {
       "path": "src/mop/studies/potential_atlas_validation.py",
       "language": "python",
-      "physical_LOC": 2324,
-      "bytes": 111467,
+      "physical_LOC": 2319,
+      "bytes": 111305,
       "imports": [
         "__future__",
         "argparse",
@@ -26148,6 +26219,7 @@
         "hashlib",
         "json",
         "math",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "re",
@@ -26464,14 +26536,15 @@
     {
       "path": "src/mop/studies/vjepa_scale_atlas.py",
       "language": "python",
-      "physical_LOC": 586,
-      "bytes": 26496,
+      "physical_LOC": 581,
+      "bytes": 26322,
       "imports": [
         "__future__",
         "datetime",
         "hashlib",
         "itertools",
         "json",
+        "mop.substrate.events",
         "pathlib",
         "torch",
         "torch.nn.functional",
@@ -27137,14 +27210,15 @@
     {
       "path": "src/mop/studio/encoder_scale_probe.py",
       "language": "python",
-      "physical_LOC": 341,
-      "bytes": 13572,
+      "physical_LOC": 336,
+      "bytes": 13394,
       "imports": [
         "__future__",
         "argparse",
         "datetime",
         "hashlib",
         "json",
+        "mop.substrate.events",
         "omegaconf",
         "os",
         "pathlib",
@@ -30045,8 +30119,10 @@
         "src/mop/beds/starss23/stats.py",
         "src/mop/beds/starss23/superflux_spectral_prereg.py",
         "src/mop/beds/starss23/superflux_spectral_producer.py",
+        "src/mop/environments/persistent_grid.py",
         "src/mop/escs/accounting.py",
         "src/mop/escs/actors.py",
+        "src/mop/escs/archive.py",
         "src/mop/escs/causal_resource_monitor.py",
         "src/mop/escs/chassis.py",
         "src/mop/escs/coalition_evidence.py",
@@ -30063,6 +30139,8 @@
         "src/mop/escs/substrate_assembly.py",
         "src/mop/escs/substrate_preflight.py",
         "src/mop/escs/topology_grammar.py",
+        "src/mop/experiments/form_rewrite_engine.py",
+        "src/mop/studies/continual_million_event_verify.py",
         "src/mop/studies/edcm1_event_triggered_coalition.py",
         "src/mop/studies/escs_g0_construction.py",
         "src/mop/studies/escs_g0_formation.py",
@@ -30076,10 +30154,15 @@
         "src/mop/studies/generation1_c3_construction.py",
         "src/mop/studies/generation1_c3_dispatch.py",
         "src/mop/studies/generation1_cognitive_corpus.py",
+        "src/mop/studies/generation1_cognitive_corpus_verify.py",
         "src/mop/studies/generation1_competence_atlas.py",
         "src/mop/studies/generation1_context_routing.py",
         "src/mop/studies/generation1_evidence_synthesis.py",
+        "src/mop/studies/generation1_evidence_synthesis_verify.py",
         "src/mop/studies/generation1_successor_batch.py",
+        "src/mop/studies/potential_atlas_validation.py",
+        "src/mop/studies/vjepa_scale_atlas.py",
+        "src/mop/studio/encoder_scale_probe.py",
         "src/mop/substrate/custom_artifact.py",
         "src/mop/substrate/custom_workbench.py",
         "src/mop/substrate/sanpo_bridge.py"

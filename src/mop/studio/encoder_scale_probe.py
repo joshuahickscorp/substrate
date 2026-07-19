@@ -25,18 +25,13 @@ import torch
 from omegaconf import OmegaConf
 
 from ..substrate.encoder import load_encoder
+from mop.substrate.events import sha256_file
 
 SCHEMA = "mop-real-encoder-scale-probe/v1"
 MODES = {"load", "forward"}
 DEVICES = {"cpu", "mps"}
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _rss_tree_bytes(pid: int) -> int:
@@ -210,7 +205,7 @@ def run_supervised_probe(
         "created_at": datetime.now(UTC).isoformat(),
         "config": {
             "path": str(path),
-            "sha256": _sha256(path),
+            "sha256": sha256_file(path),
             "name": str(cfg.name),
             "model_id": str(cfg.hf_id),
             "revision": str(OmegaConf.select(cfg, "revision", default="")),

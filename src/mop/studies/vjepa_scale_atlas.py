@@ -23,17 +23,12 @@ from ..diagnostics.alignment import alignment_table
 from ..substrate.cache_manifest import validate_cache_manifest
 from ..substrate.latent_store import LatentStore
 from ..substrate.real_latent import factorized_arrays
+from mop.substrate.events import sha256_file
 
 SCHEMA = "mop-vjepa-scale-atlas-local/v1"
 STIMULUS_IDENTITY_SCHEMA = "mop-factorized-stimulus-identity/v1"
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _json(path: Path) -> Any:
@@ -67,7 +62,7 @@ def _load_cache(path: Path) -> dict[str, Any]:
         "identity": identity,
         "run_receipt": run_receipt,
         "factors_metadata": factors.get("metadata") or {},
-        "manifest_sha256": _sha256(manifest_path),
+        "manifest_sha256": sha256_file(manifest_path),
     }
 
 
@@ -447,7 +442,7 @@ def build_local_scale_atlas(
         }
         if identity_path.is_file():
             stimulus_identity_file.update(
-                {"bytes": identity_path.stat().st_size, "sha256": _sha256(identity_path)}
+                {"bytes": identity_path.stat().st_size, "sha256": sha256_file(identity_path)}
             )
             try:
                 parsed_identity = _json(identity_path)
