@@ -17,7 +17,7 @@ import yaml
 from mop.config import REPO_ROOT
 from mop.environments.ecology_battery import EXPERIMENT_IDS, run_ecology_battery_seed
 from mop.experiments.expansion_harness import CLAIM_SCOPE
-from mop.substrate.events import canonical_sha256
+from mop.substrate.events import atomic_write_json, canonical_sha256
 
 SCHEMA = "mop-ecology-scaffold-battery-run/v1"
 PRIMARY_SEEDS = (11, 29, 47, 71, 89)
@@ -481,12 +481,6 @@ def build_receipt() -> dict[str, Any]:
     return receipt
 
 
-def _atomic_write(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_bytes(raw)
-    os.replace(temporary, path)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -498,7 +492,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(sys.argv[1:] if argv is None else argv)
     receipt = build_receipt()
     output = Path(args.out)
-    _atomic_write(output, receipt)
+    atomic_write_json(output, receipt)
     summary = receipt["candidate_summary"]
     print(
         f"wrote {output}: candidates={summary['favorable_candidate_count']}, "

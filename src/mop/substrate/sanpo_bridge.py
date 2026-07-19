@@ -32,6 +32,7 @@ from PIL import Image
 from PIL import __version__ as PILLOW_VERSION
 
 from ..config import REPO_ROOT
+from mop.substrate.events import sha256_file
 
 BRIDGE_PLAN_SCHEMA = "mop-sanpo-custom-substrate-bridge-plan/v1"
 BRIDGE_PREFLIGHT_SCHEMA = "mop-sanpo-custom-substrate-bridge-preflight/v1"
@@ -72,12 +73,6 @@ def json_sha256(value: Any) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def tensor_sha256(tensor: torch.Tensor) -> str:

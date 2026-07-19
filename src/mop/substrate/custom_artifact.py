@@ -27,6 +27,7 @@ from typing import Any, NamedTuple, cast
 
 import torch
 from torch import nn
+from mop.substrate.events import sha256_file
 
 ARTIFACT_SCHEMA = "mop-portable-custom-substrate/v1"
 PREFLIGHT_SCHEMA = "mop-portable-custom-substrate-preflight/v1"
@@ -103,12 +104,6 @@ def json_sha256(value: Any) -> str:
     return hashlib.sha256(_canonical_json(value)).hexdigest()
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def state_sha256(state: Mapping[str, torch.Tensor]) -> str:

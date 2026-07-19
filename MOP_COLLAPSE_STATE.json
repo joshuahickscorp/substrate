@@ -5,13 +5,13 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "0f950a2318c83ac4cdd22b3bdbf47f7bc5693051",
+    "base_commit": "cc04b72032c6b99d8b795e6367e93f2f43236797",
     "current_main": "a19ebe6d9574cee01026d10eef23398b9f88e4e4",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
       "state": "run_categorized_wave",
       "stage": "run_categorized_wave",
-      "updated_at": "2026-07-19T04:37:58.899565+00:00",
+      "updated_at": "2026-07-19T04:52:03.777364+00:00",
       "counts": {
         "compute_complete": 2,
         "compute_total": 4,
@@ -23,16 +23,16 @@
     }
   },
   "baseline_measured": {
-    "commit": "0f950a2318c83ac4cdd22b3bdbf47f7bc5693051",
+    "commit": "cc04b72032c6b99d8b795e6367e93f2f43236797",
     "tracked_files": 1744,
     "python_files": 1070,
-    "global_owned_source_LOC": 401319,
-    "global_maintained_source_LOC": 401280,
-    "active_src_mop_LOC": 259221,
+    "global_owned_source_LOC": 401283,
+    "global_maintained_source_LOC": 401244,
+    "active_src_mop_LOC": 259218,
     "test_LOC": 89983,
-    "scripts_LOC": 52076,
+    "scripts_LOC": 52043,
     "documentation_LOC": 43932,
-    "configuration_LOC": 513974,
+    "configuration_LOC": 514031,
     "python_modules": 466,
     "entrypoints": 317,
     "root_md_docs": 35,
@@ -100,12 +100,12 @@
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
-    "deduplicated_LOC": 77,
+    "deduplicated_LOC": 146,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 0,
-    "net_global_reduction_LOC": 77
+    "added_LOC": 33,
+    "net_global_reduction_LOC": 113
   },
   "checklist_summary": {
     "total": 215,

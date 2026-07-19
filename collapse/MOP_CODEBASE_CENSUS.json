@@ -1,13 +1,13 @@
 {
   "schema": "mop-collapse-census/v1",
   "root": "/Users/scammermike/Downloads/mop-accretion-collapse",
-  "commit": "0f950a2318c83ac4cdd22b3bdbf47f7bc5693051",
+  "commit": "cc04b72032c6b99d8b795e6367e93f2f43236797",
   "summary": {
     "tracked_files": 1744,
     "python_files": 1070,
-    "global_owned_source_LOC": 401319,
-    "global_maintained_source_LOC": 401280,
-    "active_src_mop_LOC": 259221,
+    "global_owned_source_LOC": 401283,
+    "global_maintained_source_LOC": 401244,
+    "active_src_mop_LOC": 259218,
     "test_LOC": 89983,
     "documentation_LOC": 43932
   },
@@ -940,8 +940,8 @@
     {
       "path": "collapse/MOP_CODEBASE_CENSUS.json",
       "language": "config",
-      "physical_LOC": 40855,
-      "bytes": 1140171,
+      "physical_LOC": 40912,
+      "bytes": 1141414,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -12853,8 +12853,8 @@
     {
       "path": "scripts/run_ecology_scaffold_batteries.py",
       "language": "python",
-      "physical_LOC": 512,
-      "bytes": 20161,
+      "physical_LOC": 506,
+      "bytes": 19860,
       "imports": [
         "__future__",
         "argparse",
@@ -13090,8 +13090,8 @@
     {
       "path": "scripts/run_integrity_scaffold_drills.py",
       "language": "python",
-      "physical_LOC": 367,
-      "bytes": 14237,
+      "physical_LOC": 361,
+      "bytes": 13936,
       "imports": [
         "__future__",
         "argparse",
@@ -13124,8 +13124,8 @@
     {
       "path": "scripts/run_material_twin_batteries.py",
       "language": "python",
-      "physical_LOC": 591,
-      "bytes": 23095,
+      "physical_LOC": 585,
+      "bytes": 22794,
       "imports": [
         "__future__",
         "argparse",
@@ -14352,8 +14352,8 @@
     {
       "path": "scripts/verify_ecology_scaffold_batteries.py",
       "language": "python",
-      "physical_LOC": 712,
-      "bytes": 28438,
+      "physical_LOC": 707,
+      "bytes": 28169,
       "imports": [
         "__future__",
         "argparse",
@@ -14363,6 +14363,7 @@
         "mop.config",
         "mop.environments.ecology_battery",
         "mop.environments.ecology_scaffold",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "re",
@@ -14475,8 +14476,8 @@
     {
       "path": "scripts/verify_integrity_scaffold_drills.py",
       "language": "python",
-      "physical_LOC": 555,
-      "bytes": 24218,
+      "physical_LOC": 550,
+      "bytes": 23949,
       "imports": [
         "__future__",
         "argparse",
@@ -14485,6 +14486,7 @@
         "json",
         "mop.config",
         "mop.falsification.integrity_scaffold",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "re",
@@ -14513,8 +14515,8 @@
     {
       "path": "scripts/verify_material_twin_batteries.py",
       "language": "python",
-      "physical_LOC": 584,
-      "bytes": 25725,
+      "physical_LOC": 579,
+      "bytes": 25456,
       "imports": [
         "__future__",
         "argparse",
@@ -14524,6 +14526,7 @@
         "math",
         "mop.config",
         "mop.studies.material_twin_scaffold",
+        "mop.substrate.events",
         "numpy",
         "numpy.typing",
         "os",
@@ -24275,8 +24278,8 @@
     {
       "path": "src/mop/studies/generation1_cognitive_corpus.py",
       "language": "python",
-      "physical_LOC": 1594,
-      "bytes": 62628,
+      "physical_LOC": 1588,
+      "bytes": 62410,
       "imports": [
         "__future__",
         "argparse",
@@ -24321,7 +24324,6 @@
         "DEFAULT_RUN_ROOT",
         "DEFAULT_OUTPUT",
         "MAX_TAIL",
-        "sha256_file",
         "load_config",
         "eligible_experiment_ids",
         "apply_effective_seed_authority",
@@ -29794,8 +29796,8 @@
     {
       "path": "src/mop/substrate/custom_artifact.py",
       "language": "python",
-      "physical_LOC": 1557,
-      "bytes": 71297,
+      "physical_LOC": 1552,
+      "bytes": 71111,
       "imports": [
         "__future__",
         "collections.abc",
@@ -29803,6 +29805,7 @@
         "hashlib",
         "json",
         "math",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "shutil",
@@ -29827,7 +29830,6 @@
         "TENSOR_PACK_SCHEMA",
         "ArtifactRefused",
         "json_sha256",
-        "sha256_file",
         "state_sha256",
         "PortableModelSpec",
         "PortableSubstrateOutput",
@@ -29846,8 +29848,8 @@
     {
       "path": "src/mop/substrate/custom_workbench.py",
       "language": "python",
-      "physical_LOC": 1983,
-      "bytes": 84463,
+      "physical_LOC": 1978,
+      "bytes": 84277,
       "imports": [
         "__future__",
         "collections.abc",
@@ -29856,6 +29858,7 @@
         "hashlib",
         "json",
         "math",
+        "mop.substrate.events",
         "os",
         "pathlib",
         "platform",
@@ -29881,7 +29884,6 @@
         "OPTIONAL_OBJECTIVE",
         "WorkbenchRefused",
         "json_sha256",
-        "sha256_file",
         "audit_requirements",
         "snapshot_requirement_sources",
         "snapshot_implementation_sources",
@@ -29973,13 +29975,15 @@
     {
       "path": "src/mop/substrate/events.py",
       "language": "python",
-      "physical_LOC": 480,
-      "bytes": 17942,
+      "physical_LOC": 498,
+      "bytes": 18540,
       "imports": [
         "__future__",
         "dataclasses",
         "hashlib",
         "json",
+        "os",
+        "pathlib",
         "re",
         "typing"
       ],
@@ -30075,7 +30079,10 @@
         "src/mop/studies/generation1_competence_atlas.py",
         "src/mop/studies/generation1_context_routing.py",
         "src/mop/studies/generation1_evidence_synthesis.py",
-        "src/mop/studies/generation1_successor_batch.py"
+        "src/mop/studies/generation1_successor_batch.py",
+        "src/mop/substrate/custom_artifact.py",
+        "src/mop/substrate/custom_workbench.py",
+        "src/mop/substrate/sanpo_bridge.py"
       ],
       "public_symbols": [
         "EVENT_GRAPH_SCHEMA",
@@ -30093,7 +30100,9 @@
         "ObservationMeta",
         "branch_replay_sha256",
         "BranchMeta",
-        "EventGraph"
+        "EventGraph",
+        "sha256_file",
+        "atomic_write_json"
       ],
       "is_entrypoint": false,
       "module": "mop.substrate.events"
@@ -30332,8 +30341,8 @@
     {
       "path": "src/mop/substrate/sanpo_bridge.py",
       "language": "python",
-      "physical_LOC": 1049,
-      "bytes": 48064,
+      "physical_LOC": 1044,
+      "bytes": 47878,
       "imports": [
         "PIL",
         "__future__",
@@ -30343,6 +30352,7 @@
         "hashlib",
         "json",
         "math",
+        "mop.substrate.events",
         "numpy",
         "os",
         "pathlib",
@@ -30370,7 +30380,6 @@
         "EXPECTED_ROLE_COUNTS",
         "SanpoBridgeRefused",
         "json_sha256",
-        "sha256_file",
         "tensor_sha256",
         "load_bridge_plan",
         "SessionRecord",

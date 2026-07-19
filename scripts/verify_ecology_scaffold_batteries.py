@@ -23,6 +23,7 @@ from mop.environments.ecology_battery import (
     run_ecology_battery_seed,
 )
 from mop.environments.ecology_scaffold import verify_ecology_fixture
+from mop.substrate.events import atomic_write_json
 
 SCHEMA = "mop-ecology-scaffold-battery-run/v1"
 VERIFIER_SCHEMA = "mop-ecology-scaffold-independent-verifier/v1"
@@ -672,12 +673,6 @@ def verify_payload_sha256(receipt: dict[str, Any]) -> bool:
     )
 
 
-def _atomic_write(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_bytes(raw)
-    os.replace(temporary, path)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -700,7 +695,7 @@ def main(argv: list[str] | None = None) -> int:
         report["errors"].append("ecology receipt payload digest drift")
         report["verified"] = False
     output = Path(args.report)
-    _atomic_write(output, report)
+    atomic_write_json(output, report)
     print(
         f"wrote {output}: verified={report['verified']}, "
         f"fresh={len(report['fresh_seed_challenges'])}, mutations={len(report['mutation_tests'])}"

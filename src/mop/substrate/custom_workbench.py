@@ -44,6 +44,7 @@ from ..config import REPO_ROOT
 from ..devices import DeviceInfo
 from .cache_manifest import validate_cache_manifest
 from .latent_store import LatentStore
+from mop.substrate.events import sha256_file
 
 WORKBENCH_SCHEMA = "mop-custom-substrate-workbench/v1"
 DATASET_SCHEMA = "mop-custom-substrate-dataset/v1"
@@ -75,12 +76,6 @@ def json_sha256(value: Any) -> str:
     return hashlib.sha256(_canonical_json(value)).hexdigest()
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _atomic_json(path: Path, payload: Any) -> None:

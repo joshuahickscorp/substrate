@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from mop.config import REPO_ROOT
+from mop.substrate.events import atomic_write_json
 
 SCHEMA = "mop-integrity-scaffold-run/v1"
 VERIFIER_SCHEMA = "mop-integrity-scaffold-independent-verifier/v1"
@@ -517,12 +518,6 @@ def verify_payload_sha256(receipt: dict[str, Any]) -> bool:
     )
 
 
-def _atomic_write(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_bytes(raw)
-    os.replace(temporary, path)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -546,7 +541,7 @@ def main(argv: list[str] | None = None) -> int:
     report["receipt_payload_sha256"] = receipt.get("payload_sha256")
     report["receipt_file_sha256"] = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
     if args.report:
-        _atomic_write(Path(args.report), report)
+        atomic_write_json(Path(args.report), report)
     print(json.dumps(report, indent=2, sort_keys=True, allow_nan=False))
     return 0 if report["verified"] and report["payload_sha256_verified"] else 1
 

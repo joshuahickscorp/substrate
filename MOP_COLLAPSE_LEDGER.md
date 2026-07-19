@@ -8,9 +8,9 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `0f950a2` (base = current origin/main `a19ebe6`).
+- Branch `agent/mop-accretion-collapse` @ `cc04b72` (base = current origin/main `a19ebe6`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
-- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:37:58.899565+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
+- Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T04:52:03.777364+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
 
 ## Baseline (measured, not assumed)
@@ -19,13 +19,13 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 |---|---|
 | tracked_files | 1744 |
 | python_files | 1070 |
-| global_owned_source_LOC | 401319 |
-| global_maintained_source_LOC | 401280 |
-| active_src_mop_LOC | 259221 |
+| global_owned_source_LOC | 401283 |
+| global_maintained_source_LOC | 401244 |
+| active_src_mop_LOC | 259218 |
 | test_LOC | 89983 |
-| scripts_LOC | 52076 |
+| scripts_LOC | 52043 |
 | documentation_LOC | 43932 |
-| configuration_LOC | 513974 |
+| configuration_LOC | 514031 |
 | python_modules | 466 |
 | entrypoints | 317 |
 | root_md_docs | 35 |
@@ -259,9 +259,9 @@ Total items: 215. By status: `{"complete": 12, "active": 47, "pending": 147, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 0f950a2
-- global_owned_source_LOC: 401319
-- global_maintained_source_LOC: 401280
+- commit: pending; base cc04b72
+- global_owned_source_LOC: 401283
+- global_maintained_source_LOC: 401244
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
 - rollback_tag: mop-collapse-precheck (to be created at commit)
 - next_exact_edit: generate remaining census graphs (call/command/schema/config/authority/historical-boundary/live-no-touch), classify unknown->0, then port PR #9 protections

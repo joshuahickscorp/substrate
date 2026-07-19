@@ -1,22 +1,47 @@
 {
   "schema": "mop-collapse-reduction-log/v1",
-  "note": "Append-only log of VERIFIED reductions. Only proven-green eliminations/deduplications are recorded. Relocation, archiving, packing, generation, and wrappers are never counted as elimination.",
+  "note": "Append-only log of VERIFIED reductions. Only proven-green eliminations/deduplications are recorded. Relocation, archiving, packing, generation, and wrappers are never counted as elimination. Per-event numbers reconcile to the census: sum(deduplicated+eliminated+archived) - sum(added) == baseline(401396) - current global_owned_source_LOC.",
+  "baseline_global_owned_source_LOC": 401396,
   "events": [
     {
       "region": "section9_evidence_authority",
-      "batch": "batch1_studies_safe",
+      "batch": "batch1_canonical_studies",
       "checkpoint_status": "provisional_pending_full_suite",
-      "deduplicated_LOC": 77,
+      "primitive": "canonical_bytes + canonical_sha256",
+      "deduplicated_LOC": 86,
+      "added_LOC": 9,
       "eliminated_LOC": 0,
       "relocated_LOC": 0,
       "archived_LOC": 0,
       "generated_replacement_LOC": 0,
-      "added_LOC": 0,
+      "net_reduction_LOC": 77,
       "files_changed": 9,
       "destination_api": "mop.substrate.events.{canonical_bytes,canonical_sha256}",
-      "proof": "byte-identical normalized-AST bodies + per-file py_compile + 9/9 import identity and known-answer parity against the core",
-      "deferred_heavy_validation": "full pytest suite over touched studies modules; run under host headroom after the General Run releases the machine",
+      "proof": "byte-identical normalized-AST bodies + per-file py_compile + 9/9 import identity and known-answer parity",
       "tag": "mop-collapse-evidence-batch1"
+    },
+    {
+      "region": "section9_evidence_authority",
+      "batch": "batch2_3_sha256file_and_atomicwrite",
+      "checkpoint_status": "provisional_pending_full_suite",
+      "primitive": "sha256_file (4 modules) + _atomic_write -> atomic_write_json (6 scripts)",
+      "deduplicated_LOC": 60,
+      "added_LOC": 24,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 36,
+      "files_changed": 10,
+      "destination_api": "mop.substrate.events.{sha256_file,atomic_write_json}",
+      "proof": "byte-identical normalized-AST bodies (name-insensitive) + per-file py_compile + no residual references; sha256_file 4/4 import identity and known-answer parity on a >1MB file; atomic_write_json round-trip + canonical-format + atomic-replace + mkdir behavioral parity",
+      "note_added_LOC": "24 added = two public primitives added once to the one evidence core (sha256_file, atomic_write_json, with pathlib and os imports) plus redirect import lines; net owned-system change is -36",
+      "tag": "mop-collapse-evidence-batch2"
     }
-  ]
+  ],
+  "deferred_heavy_validation": {
+    "command": "PYTHONPATH=src .venv/bin/python -m pytest tests -q",
+    "reason": "full suite over touched studies/substrate/scripts modules is heavy; run under host headroom after the General Run releases the machine",
+    "required_headroom": "General Run terminal or host idle; focused parity already green"
+  }
 }
