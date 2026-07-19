@@ -23,6 +23,7 @@ from typing import Any
 import yaml
 
 from mop.config import REPO_ROOT
+from mop.substrate.events import canonical_bytes
 
 VERIFIER_SCHEMA = "mop-continual-progressive-rung-independent-verifier/v1"
 RUNG_SCHEMA = "mop-continual-progressive-rung/v1"
@@ -63,18 +64,10 @@ FLAG_TRANSITION = 2
 FLAG_DELETE = 4
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
 def _canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _sha256_file(path: Path) -> str:
@@ -88,7 +81,7 @@ def _sha256_file(path: Path) -> str:
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_bytes(_canonical_bytes(payload) + b"\n")
+    temporary.write_bytes(canonical_bytes(payload) + b"\n")
     os.replace(temporary, path)
 
 
@@ -480,7 +473,7 @@ def _expected_stream_spec(plan: dict[str, Any], *, seed: int, schedule: str) -> 
 
 
 def _stable_int(spec: dict[str, Any], sequence: int, label: str, modulus: int) -> int:
-    raw = _canonical_bytes(
+    raw = canonical_bytes(
         {
             "stream_identity_sha256": _canonical_sha256(spec),
             "sequence": sequence,
@@ -1055,7 +1048,7 @@ def _recompute_cell_metrics(
                 "max_replay_records": int(state["max_replay_records"]),
                 "replay_capacity": capacity,
                 "stream_disk_bytes": stream_disk_bytes,
-                "checkpoint_state_bytes": len(_canonical_bytes(state)),
+                "checkpoint_state_bytes": len(canonical_bytes(state)),
                 "model_weights_loaded": False,
                 "accelerator_required": False,
             },

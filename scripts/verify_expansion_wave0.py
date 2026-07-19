@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from mop.config import REPO_ROOT
+from mop.substrate.events import canonical_bytes
 
 VERIFIER_SCHEMA = "mop-expansion-wave0-independent-verifier/v1"
 WAVE_SCHEMA = "mop-expansion-wave0/v1"
@@ -84,18 +85,10 @@ METRICS = {
 _SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
 def _sha(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _sha_file(path: Path) -> str:

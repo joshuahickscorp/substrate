@@ -25,6 +25,7 @@ from omegaconf import OmegaConf
 
 from ..config import REPO_ROOT, compose
 from ..experiments import REGISTRY
+from mop.substrate.events import canonical_bytes
 
 VERIFICATION_SCHEMA = "mop-generation1-cognitive-corpus-verification/v2"
 CONFIG_SCHEMA = "mop-generation1-cognitive-corpus-config/v2"
@@ -100,18 +101,10 @@ _NONSCIENTIFIC_METRIC_KEYS = frozenset(
 )
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
 def _canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _sha256_file(path: Path) -> str:
@@ -139,7 +132,7 @@ def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
     descriptor, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     try:
         with os.fdopen(descriptor, "wb") as handle:
-            handle.write(_canonical_bytes(payload) + b"\n")
+            handle.write(canonical_bytes(payload) + b"\n")
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temporary_name, path)
@@ -318,7 +311,7 @@ def _derived_seed(
         "original": original,
         "nonce": nonce,
     }
-    return int.from_bytes(hashlib.sha256(_canonical_bytes(domain)).digest()[:8], "big") % (
+    return int.from_bytes(hashlib.sha256(canonical_bytes(domain)).digest()[:8], "big") % (
         2**31 - 1
     )
 

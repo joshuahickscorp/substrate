@@ -24,6 +24,7 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any, Protocol
+from mop.substrate.events import canonical_bytes
 
 ARCHIVE_SCHEMA = "mop-escs-bounded-archive/v1"
 SEGMENT_SCHEMA = "mop-escs-payload-segment/v1"
@@ -37,14 +38,6 @@ _FORBIDDEN_ENVELOPE_KEYS = frozenset({"content", "payload", "payload_b64", "payl
 _ARCHIVE_OPERATIONS = ("append", "compaction", "erasure", "retention", "retrieval")
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
 
 
 def _sha256(raw: bytes) -> str:
@@ -241,7 +234,7 @@ class EnvelopeLineage:
             decoded = json.loads(self.envelope_canonical)
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise ValueError("immutable envelope is not valid canonical JSON") from exc
-        if _canonical_bytes(decoded) != self.envelope_canonical:
+        if canonical_bytes(decoded) != self.envelope_canonical:
             raise ValueError("immutable envelope bytes are not canonical JSON")
         if not isinstance(decoded, dict):
             raise ValueError("immutable envelope must be a JSON mapping")
@@ -324,8 +317,8 @@ def _snapshot_core(rows: tuple[CompactionRow, ...]) -> dict[str, Any]:
         "schema": SNAPSHOT_SCHEMA,
         "through_sequence": rows[-1].sequence if rows else None,
         "compacted_event_count": len(rows),
-        "lineage_root_sha256": _sha256(_canonical_bytes(lineage_rows)),
-        "segment_commitment_root_sha256": _sha256(_canonical_bytes(segment_rows)),
+        "lineage_root_sha256": _sha256(canonical_bytes(lineage_rows)),
+        "segment_commitment_root_sha256": _sha256(canonical_bytes(segment_rows)),
         "rows": [row.payload() for row in rows],
     }
 
@@ -354,7 +347,7 @@ class CompactionSnapshot:
             raise ValueError("compaction lineage root drift")
         if self.segment_commitment_root_sha256 != expected["segment_commitment_root_sha256"]:
             raise ValueError("compaction segment commitment root drift")
-        if self.snapshot_sha256 != _sha256(_canonical_bytes(expected)):
+        if self.snapshot_sha256 != _sha256(canonical_bytes(expected)):
             raise ValueError("compaction snapshot root drift")
 
     @classmethod
@@ -365,7 +358,7 @@ class CompactionSnapshot:
             through_sequence=core["through_sequence"],
             lineage_root_sha256=core["lineage_root_sha256"],
             segment_commitment_root_sha256=core["segment_commitment_root_sha256"],
-            snapshot_sha256=_sha256(_canonical_bytes(core)),
+            snapshot_sha256=_sha256(canonical_bytes(core)),
         )
 
     def payload(self) -> dict[str, Any]:
@@ -407,7 +400,7 @@ class DeletionMarker:
 
 
 def _encode_segment(lineage: EnvelopeLineage, payload: bytes) -> tuple[str, bytes]:
-    header = _canonical_bytes(
+    header = canonical_bytes(
         {
             "schema": SEGMENT_SCHEMA,
             "sequence": lineage.sequence,
@@ -437,7 +430,7 @@ def _decode_segment(raw: bytes, lineage: EnvelopeLineage, expected_root: str) ->
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise CorruptSegmentError("payload segment header is invalid JSON") from exc
     try:
-        canonical_header = _canonical_bytes(header)
+        canonical_header = canonical_bytes(header)
     except (TypeError, ValueError) as exc:
         raise CorruptSegmentError("payload segment header is outside strict JSON") from exc
     if not isinstance(header, dict) or canonical_header != segment[prefix_bytes:header_end]:
@@ -569,7 +562,7 @@ class BoundedArchive:
     def retained_bytes(self) -> int:
         lineage_bytes = sum(
             len(
-                _canonical_bytes(
+                canonical_bytes(
                     {
                         "schema": ARCHIVE_SCHEMA,
                         "sequence": row.sequence,
@@ -586,7 +579,7 @@ class BoundedArchive:
         cold_segment_bytes = sum(self._segment_sizes.values())
         cache_bytes = self._cache_bytes
         index_bytes = len(
-            _canonical_bytes(
+            canonical_bytes(
                 {
                     event_id: {
                         "tier": str(location.tier),
@@ -598,13 +591,13 @@ class BoundedArchive:
             )
         )
         snapshot_bytes = sum(
-            len(_canonical_bytes(snapshot.payload())) for snapshot in self._snapshots.values()
+            len(canonical_bytes(snapshot.payload())) for snapshot in self._snapshots.values()
         )
         marker_bytes = sum(
-            len(_canonical_bytes(marker.payload())) for marker in self._deletion_markers.values()
+            len(canonical_bytes(marker.payload())) for marker in self._deletion_markers.values()
         )
-        erased_root_bytes = len(_canonical_bytes(sorted(self._erased_segment_roots.items())))
-        accounting_bytes = len(_canonical_bytes(self.accounting_snapshot.payload()))
+        erased_root_bytes = len(canonical_bytes(sorted(self._erased_segment_roots.items())))
+        accounting_bytes = len(canonical_bytes(self.accounting_snapshot.payload()))
         return (
             lineage_bytes
             + hot_payload_bytes
@@ -660,7 +653,7 @@ class BoundedArchive:
             raise ValueError("payload does not match the immutable envelope payload_digest")
 
         try:
-            envelope_bytes = _canonical_bytes(envelope_dict)
+            envelope_bytes = canonical_bytes(envelope_dict)
         except (TypeError, ValueError) as exc:
             raise ValueError("archive envelope must contain strict JSON values") from exc
         self._advance_time(admitted_tick)
@@ -959,7 +952,7 @@ class BoundedArchive:
         self._snapshots.setdefault(snapshot.snapshot_sha256, snapshot)
         while len(self._snapshots) > self.max_snapshots:
             del self._snapshots[next(iter(self._snapshots))]
-        bytes_touched += len(_canonical_bytes(snapshot.payload()))
+        bytes_touched += len(canonical_bytes(snapshot.payload()))
         self._charge("compaction", work_units=compacted, bytes_touched=bytes_touched)
         return snapshot
 

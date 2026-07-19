@@ -18,7 +18,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from mop.config import REPO_ROOT
-from mop.substrate.events import atomic_write_json
+from mop.substrate.events import atomic_write_json, canonical_bytes
 
 SCHEMA = "mop-material-twin-batteries/v1"
 VERIFIER_SCHEMA = "mop-material-twin-independent-verifier/v1"
@@ -69,14 +69,10 @@ _SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 FloatArray = NDArray[np.float64]
 
 
-def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False
-    ).encode("utf-8")
 
 
 def _sha(value: Any) -> str:
-    return hashlib.sha256(_canonical_bytes(value)).hexdigest()
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _array_sha(array: FloatArray) -> str:

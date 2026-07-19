@@ -46,6 +46,7 @@ from ..diagnostics.riskcov import seed_ci, sign_flip_report
 from ..seeding import seed_everything
 from ..studio.profiles import get_profile
 from .base import _mean
+from mop.substrate.events import sha256_file
 
 DATASET_SCHEMA = "mop-rewrite-dataset/v1"
 RIGHTS_SCHEMA = "mop-rewrite-data-rights/v1"
@@ -206,12 +207,6 @@ def _write_json(path: Path, value: Mapping[str, Any]) -> Path:
     return path
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _json_sha256(value: Any) -> str:
@@ -367,7 +362,7 @@ def _load_evidence_document(
     return {
         "status": "valid" if not problems else "invalid",
         "path": str(path),
-        "sha256": _sha256(path),
+        "sha256": sha256_file(path),
         "problems": problems,
     }, value
 
@@ -671,7 +666,7 @@ def _validate_and_load_package(
             problems.append(f"{role} artifact does not exist: {path}")
             continue
         artifact_bytes += path.stat().st_size
-        actual_hash = _sha256(path)
+        actual_hash = sha256_file(path)
         if expected_hash.lower() != actual_hash:
             problems.append(f"{role} sha256 does not match the manifest")
     if artifact_bytes > max_package_bytes:
@@ -835,10 +830,10 @@ def _validate_and_load_package(
     }
     evidence_hashes.update(
         {
-            "dataset": _sha256(dataset_path),
-            "weights": _sha256(weights_path),
-            "inherited_features": _sha256(features_path),
-            "prerequisite_receipt": _sha256(prerequisite_path),
+            "dataset": sha256_file(dataset_path),
+            "weights": sha256_file(weights_path),
+            "inherited_features": sha256_file(features_path),
+            "prerequisite_receipt": sha256_file(prerequisite_path),
         }
     )
     resident_tensor_bytes = sum(

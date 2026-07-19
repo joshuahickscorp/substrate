@@ -2,29 +2,17 @@
   "schema": "mop-collapse-evidence-equivalence/v1",
   "purpose": "Precise deletion map for the one-evidence-authority collapse (section 9).",
   "totals": {
-    "primitive_definitions": 125,
-    "redundant_definitions_collapsible": 64,
+    "primitive_definitions": 99,
+    "redundant_definitions_collapsible": 38,
     "note": "redundant_definitions_collapsible = definitions minus distinct normalized bodies; these are exact structural duplicates that can be replaced by the evidence core once parity + mutation tests pass. distinct bodies must be inspected before deletion."
   },
   "by_primitive": {
     "_atomic_write": {
-      "definitions": 10,
-      "distinct_bodies": 4,
-      "redundant_defs_collapsible": 6,
-      "dominant_cluster_size": 6,
+      "definitions": 4,
+      "distinct_bodies": 3,
+      "redundant_defs_collapsible": 1,
+      "dominant_cluster_size": 2,
       "clusters": [
-        {
-          "body_hash": "6f310e0213753c44",
-          "count": 6,
-          "members": [
-            "scripts/run_ecology_scaffold_batteries.py",
-            "scripts/run_integrity_scaffold_drills.py",
-            "scripts/run_material_twin_batteries.py",
-            "scripts/verify_ecology_scaffold_batteries.py",
-            "scripts/verify_integrity_scaffold_drills.py",
-            "scripts/verify_material_twin_batteries.py"
-          ]
-        },
         {
           "body_hash": "c994bf773cb78449",
           "count": 2,
@@ -338,8 +326,8 @@
       ]
     },
     "atomic_write_json": {
-      "definitions": 7,
-      "distinct_bodies": 5,
+      "definitions": 8,
+      "distinct_bodies": 6,
       "redundant_defs_collapsible": 2,
       "dominant_cluster_size": 2,
       "clusters": [
@@ -379,29 +367,27 @@
           "members": [
             "src/mop/studio/telegram_rung_notifier.py"
           ]
+        },
+        {
+          "body_hash": "eccc9c6b32e46a1f",
+          "count": 1,
+          "members": [
+            "src/mop/substrate/events.py"
+          ]
         }
       ]
     },
     "canonical_bytes": {
-      "definitions": 18,
+      "definitions": 9,
       "distinct_bodies": 2,
-      "redundant_defs_collapsible": 16,
-      "dominant_cluster_size": 15,
+      "redundant_defs_collapsible": 7,
+      "dominant_cluster_size": 6,
       "clusters": [
         {
           "body_hash": "0a9dd05629b5e4b5",
-          "count": 15,
+          "count": 6,
           "members": [
-            "src/mop/studies/edcm1_event_triggered_coalition.py",
-            "src/mop/studies/escs_x0_event_formation.py",
-            "src/mop/studies/escs_x1_dispatch.py",
-            "src/mop/studies/generation1_c3_dispatch.py",
-            "src/mop/studies/generation1_cognitive_corpus.py",
-            "src/mop/studies/generation1_competence_atlas.py",
-            "src/mop/studies/generation1_context_routing.py",
             "src/mop/studies/generation1_d1_frozen_verify.py",
-            "src/mop/studies/generation1_evidence_synthesis.py",
-            "src/mop/studies/generation1_successor_batch.py",
             "src/mop/studies/generation1_successor_horizon_verify.py",
             "src/mop/studio/campaign_recovery.py",
             "src/mop/studio/campaign_supervisor.py",
@@ -421,25 +407,16 @@
       ]
     },
     "canonical_sha256": {
-      "definitions": 21,
+      "definitions": 12,
       "distinct_bodies": 5,
-      "redundant_defs_collapsible": 16,
-      "dominant_cluster_size": 15,
+      "redundant_defs_collapsible": 7,
+      "dominant_cluster_size": 6,
       "clusters": [
         {
           "body_hash": "4c1acb33be76690d",
-          "count": 15,
+          "count": 6,
           "members": [
-            "src/mop/studies/edcm1_event_triggered_coalition.py",
-            "src/mop/studies/escs_x0_event_formation.py",
-            "src/mop/studies/escs_x1_dispatch.py",
-            "src/mop/studies/generation1_c3_dispatch.py",
-            "src/mop/studies/generation1_cognitive_corpus.py",
-            "src/mop/studies/generation1_competence_atlas.py",
-            "src/mop/studies/generation1_context_routing.py",
             "src/mop/studies/generation1_d1_frozen_verify.py",
-            "src/mop/studies/generation1_evidence_synthesis.py",
-            "src/mop/studies/generation1_successor_batch.py",
             "src/mop/studies/generation1_successor_horizon_verify.py",
             "src/mop/studio/campaign_recovery.py",
             "src/mop/studio/campaign_supervisor.py",
@@ -524,24 +501,21 @@
       ]
     },
     "sha256_file": {
-      "definitions": 15,
+      "definitions": 12,
       "distinct_bodies": 4,
-      "redundant_defs_collapsible": 11,
-      "dominant_cluster_size": 9,
+      "redundant_defs_collapsible": 8,
+      "dominant_cluster_size": 6,
       "clusters": [
         {
           "body_hash": "c8b3152e61a33e12",
-          "count": 9,
+          "count": 6,
           "members": [
-            "src/mop/studies/generation1_cognitive_corpus.py",
             "src/mop/studies/generation1_successor_horizon_verify.py",
             "src/mop/studio/campaign_recovery.py",
             "src/mop/studio/campaign_supervisor.py",
             "src/mop/studio/generation1_supervisor.py",
             "src/mop/studio/telegram_rung_notifier.py",
-            "src/mop/substrate/custom_artifact.py",
-            "src/mop/substrate/custom_workbench.py",
-            "src/mop/substrate/sanpo_bridge.py"
+            "src/mop/substrate/events.py"
           ]
         },
         {

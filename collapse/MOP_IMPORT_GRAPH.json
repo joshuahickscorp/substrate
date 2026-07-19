@@ -214,10 +214,16 @@
       "mop.seeding",
       "mop.shell.verifier_exec"
     ],
+    "mop.environments.persistent_grid": [
+      "mop.substrate.events"
+    ],
     "mop.escs.accounting": [
       "mop.substrate.events"
     ],
     "mop.escs.actors": [
+      "mop.substrate.events"
+    ],
+    "mop.escs.archive": [
       "mop.substrate.events"
     ],
     "mop.escs.causal_resource_monitor": [
@@ -270,11 +276,15 @@
     "mop.escs.topology_grammar": [
       "mop.substrate.events"
     ],
+    "mop.experiments.form_rewrite_engine": [
+      "mop.substrate.events"
+    ],
     "mop.shell.verifier_exec": [
       "mop.diagnostics.hardness"
     ],
     "mop.studies.continual_million_event_verify": [
-      "mop.config"
+      "mop.config",
+      "mop.substrate.events"
     ],
     "mop.studies.edcm1_event_triggered_coalition": [
       "mop.substrate.events"
@@ -374,6 +384,9 @@
     "mop.studies.generation1_cognitive_corpus": [
       "mop.substrate.events"
     ],
+    "mop.studies.generation1_cognitive_corpus_verify": [
+      "mop.substrate.events"
+    ],
     "mop.studies.generation1_competence_atlas": [
       "mop.config",
       "mop.substrate.events"
@@ -411,6 +424,9 @@
       "mop.studies"
     ],
     "mop.studies.generation1_evidence_synthesis": [
+      "mop.substrate.events"
+    ],
+    "mop.studies.generation1_evidence_synthesis_verify": [
       "mop.substrate.events"
     ],
     "mop.studies.generation1_full_generations_wave": [
@@ -481,8 +497,17 @@
     "mop.studies.p5_terminal_evidence": [
       "mop.studio.local_throttle"
     ],
+    "mop.studies.potential_atlas_validation": [
+      "mop.substrate.events"
+    ],
+    "mop.studies.vjepa_scale_atlas": [
+      "mop.substrate.events"
+    ],
     "mop.studio.dynamic_worker_controller": [
       "mop.studio"
+    ],
+    "mop.studio.encoder_scale_probe": [
+      "mop.substrate.events"
     ],
     "mop.studio.general_run_orchestrator": [
       "mop.config",
@@ -1033,8 +1058,10 @@
       "mop.beds.starss23.stats",
       "mop.beds.starss23.superflux_spectral_prereg",
       "mop.beds.starss23.superflux_spectral_producer",
+      "mop.environments.persistent_grid",
       "mop.escs.accounting",
       "mop.escs.actors",
+      "mop.escs.archive",
       "mop.escs.causal_resource_monitor",
       "mop.escs.chassis",
       "mop.escs.coalition_evidence",
@@ -1051,6 +1078,8 @@
       "mop.escs.substrate_assembly",
       "mop.escs.substrate_preflight",
       "mop.escs.topology_grammar",
+      "mop.experiments.form_rewrite_engine",
+      "mop.studies.continual_million_event_verify",
       "mop.studies.edcm1_event_triggered_coalition",
       "mop.studies.escs_g0_construction",
       "mop.studies.escs_g0_formation",
@@ -1064,10 +1093,15 @@
       "mop.studies.generation1_c3_construction",
       "mop.studies.generation1_c3_dispatch",
       "mop.studies.generation1_cognitive_corpus",
+      "mop.studies.generation1_cognitive_corpus_verify",
       "mop.studies.generation1_competence_atlas",
       "mop.studies.generation1_context_routing",
       "mop.studies.generation1_evidence_synthesis",
+      "mop.studies.generation1_evidence_synthesis_verify",
       "mop.studies.generation1_successor_batch",
+      "mop.studies.potential_atlas_validation",
+      "mop.studies.vjepa_scale_atlas",
+      "mop.studio.encoder_scale_probe",
       "mop.substrate.custom_artifact",
       "mop.substrate.custom_workbench",
       "mop.substrate.sanpo_bridge"
