@@ -32,25 +32,21 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_sha256, write_canonical_json
 
 from . import BED_ID, CLAIM_SCOPE
 from .prereg import (
     DEFAULT_C_DOWN_FLOPS,
     DEFAULT_C_TRAIN_FLOPS,
-    PREREG_DIRECTION,
-    PREREG_METRIC,
     PREREGISTERED_SESOI_F1,
-    _sesoi_rationale,
-    compute_cost_benefit,
+    StructuralFacts,
+    base_prereg_digest,
+    family_analysis_plan,
 )
 from .real_artifact import RealBedConfig
-from .schema import COLLAR_FRAMES, FRAME_MS
 
 VARIANTS_PREREG_SCHEMA = "mop-starss23-escs-bed-variants-prereg/v1"
 STAGE = 3
@@ -155,16 +151,6 @@ def build_variants_prereg(
         if not entry.get("variant_id") or not entry.get("hypothesis"):
             raise VariantsPreregRefusal("each variant needs a variant_id and a one-line hypothesis")
 
-    cb = compute_cost_benefit(
-        c_train_flops=c_train_flops,
-        c_down_flops=c_down_flops,
-        operating_firing_fraction=operating_firing_fraction,
-        n_test_clips=n_test_clips,
-        n_test_onsets=n_test_onsets,
-    )
-    permutations = 2**n_seeds
-    min_one_sided_p = 1.0 / permutations
-
     body: dict[str, Any] = {
         "schema": VARIANTS_PREREG_SCHEMA,
         "stage": STAGE,
@@ -174,49 +160,20 @@ def build_variants_prereg(
         "preregistered_before_reading_test_scores": True,
         "wave": "E1 gate-variant iteration",
         "base_prereg_canonical_sha256": base_prereg_canonical_sha256,
-        "metric": PREREG_METRIC,
-        "collar_frames": COLLAR_FRAMES,
-        "collar_ms": COLLAR_FRAMES * FRAME_MS,
-        "direction": PREREG_DIRECTION,
-        "primary_control": "rate_matched_random",
-        "sesoi": {
-            "sesoi_f1": round(float(sesoi_f1), 12),
-            "provisional": False,
-            "selection_method": "cost-benefit (docs/ESCS_DEEP_RESEARCH.md Q5a option 3), same as base prereg",
-            "rationale": _sesoi_rationale(cb, float(sesoi_f1)),
-            "cost_benefit": cb.payload(),
-            "train_onset_density": round(float(train_onset_density), 12),
-        },
-        "operating_point_rule": (
-            "the swept firing budget whose firing fraction is closest to the train-set onset density; "
-            "a fixed rule set before scoring, using only train labels, never a val or test F1 argmax"
+        **family_analysis_plan(
+            operating_firing_fraction=operating_firing_fraction,
+            n_test_clips=n_test_clips,
+            n_test_onsets=n_test_onsets,
+            train_onset_density=train_onset_density,
+            n_test_frames=n_test_frames,
+            sesoi_f1=sesoi_f1,
+            c_train_flops=c_train_flops,
+            c_down_flops=c_down_flops,
+            n_seeds=n_seeds,
+            n_members=len(variants),
+            statistic="mean of paired per-seed F1 deltas (variant minus rate_matched_random)",
+            multiplicity=_multiplicity_block,
         ),
-        "sign_flip_test_plan": {
-            "test": "exact sign-flip permutation, one-sided, upper tail",
-            "n_paired_seeds": n_seeds,
-            "n_permutations": permutations,
-            "statistic": "mean of paired per-seed F1 deltas (variant minus rate_matched_random)",
-            "min_one_sided_p": round(min_one_sided_p, 12),
-            "two_sided_floor": round(2.0 / permutations, 12),
-            "alpha": 0.05,
-            "two_sided_alpha_reachable": (2.0 / permutations) <= 0.05,
-            "phipson_smyth_applied": False,
-        },
-        "multiplicity": _multiplicity_block(len(variants), min_one_sided_p, alpha=0.05),
-        "claim_ceiling": {
-            "experimental_unit": "clip",
-            "n_test_clips": n_test_clips,
-            "n_test_frames": int(n_test_frames),
-            "claim_verb": BOUNDED_CLAIM_VERB,
-            "forbidden_verbs": list(FORBIDDEN_CLAIM_VERBS),
-            "frame_or_clip_bootstrap_allowed": False,
-            "rationale": (
-                "with about "
-                f"{n_test_clips} test clips the clip is the experimental unit and frames are correlated "
-                "sub-samples; a frame or clip bootstrap is refused and the claim verb is bounded to "
-                "'consistent with', never 'demonstrates' or 'significant'"
-            ),
-        },
         "variants": [
             {"variant_id": entry["variant_id"], "hypothesis": entry["hypothesis"]}
             for entry in variants
@@ -232,17 +189,6 @@ def build_variants_prereg(
     }
     body["canonical_sha256"] = canonical_sha256(body)
     return body
-
-
-@dataclass(frozen=True, slots=True)
-class StructuralFacts:
-    """Label-only structural facts the cost-benefit SESOI needs. Never derived from a test score."""
-
-    operating_firing_fraction: float
-    n_test_clips: int
-    n_test_onsets: int
-    train_onset_density: float
-    n_test_frames: int
 
 
 def structural_facts_from_cache(
@@ -271,22 +217,6 @@ def structural_facts_from_cache(
     )
 
 
-def _read_base_prereg_digest() -> str | None:
-    """Return the committed base prereg canonical digest for traceability, or None if absent."""
-
-    import json
-
-    base_path = Path("proof/STARSS23_ESCS_BED.prereg.json")
-    if not base_path.is_file():
-        return None
-    try:
-        base = json.loads(base_path.read_bytes().decode("utf-8"))
-    except (ValueError, OSError):
-        return None
-    digest = base.get("canonical_sha256")
-    return str(digest) if isinstance(digest, str) else None
-
-
 def _main(argv: list[str] | None = None) -> int:
     """Seal the variant preregistration from the cached corpus structural facts and print its digest."""
 
@@ -307,7 +237,7 @@ def _main(argv: list[str] | None = None) -> int:
         n_test_onsets=facts.n_test_onsets,
         train_onset_density=facts.train_onset_density,
         n_test_frames=facts.n_test_frames,
-        base_prereg_canonical_sha256=_read_base_prereg_digest(),
+        base_prereg_canonical_sha256=base_prereg_digest(),
     )
     path = write_canonical_json(body, args.out)
     print(f"wrote {path}")

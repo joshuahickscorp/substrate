@@ -18,7 +18,9 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
+import json
 import math
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -92,6 +94,17 @@ class CostBenefit:
         }
 
 
+@dataclass(frozen=True, slots=True)
+class StructuralFacts:
+    """Label-only corpus facts needed by a family preregistration, never test scores."""
+
+    operating_firing_fraction: float
+    n_test_clips: int
+    n_test_onsets: int
+    train_onset_density: float
+    n_test_frames: int
+
+
 def compute_cost_benefit(
     *,
     c_train_flops: int,
@@ -161,6 +174,79 @@ def _sesoi_rationale(cb: CostBenefit, sesoi: float) -> str:
         "carrying a trained module over the zero-training control). A win below the SESOI is not "
         "promotable even if the one-sided sign-flip p clears alpha."
     )
+
+
+def family_analysis_plan(
+    *,
+    operating_firing_fraction: float,
+    n_test_clips: int,
+    n_test_onsets: int,
+    train_onset_density: float,
+    n_test_frames: int,
+    sesoi_f1: float,
+    c_train_flops: int,
+    c_down_flops: int,
+    n_seeds: int,
+    n_members: int,
+    statistic: str,
+    multiplicity: Callable[[int, float, float], dict[str, Any]],
+) -> dict[str, Any]:
+    """Build the common SESOI, sign-flip, multiplicity, and claim-ceiling family plan."""
+
+    cb = compute_cost_benefit(
+        c_train_flops=c_train_flops,
+        c_down_flops=c_down_flops,
+        operating_firing_fraction=operating_firing_fraction,
+        n_test_clips=n_test_clips,
+        n_test_onsets=n_test_onsets,
+    )
+    permutations = 2**n_seeds
+    min_one_sided_p = 1.0 / permutations
+    return {
+        "metric": PREREG_METRIC,
+        "collar_frames": COLLAR_FRAMES,
+        "collar_ms": COLLAR_FRAMES * FRAME_MS,
+        "direction": PREREG_DIRECTION,
+        "primary_control": "rate_matched_random",
+        "sesoi": {
+            "sesoi_f1": round(float(sesoi_f1), 12),
+            "provisional": False,
+            "selection_method": "cost-benefit (docs/ESCS_DEEP_RESEARCH.md Q5a option 3), same as base prereg",
+            "rationale": _sesoi_rationale(cb, float(sesoi_f1)),
+            "cost_benefit": cb.payload(),
+            "train_onset_density": round(float(train_onset_density), 12),
+        },
+        "operating_point_rule": (
+            "the swept firing budget whose firing fraction is closest to the train-set onset density; "
+            "a fixed rule set before scoring, using only train labels, never a val or test F1 argmax"
+        ),
+        "sign_flip_test_plan": {
+            "test": "exact sign-flip permutation, one-sided, upper tail",
+            "n_paired_seeds": n_seeds,
+            "n_permutations": permutations,
+            "statistic": statistic,
+            "min_one_sided_p": round(min_one_sided_p, 12),
+            "two_sided_floor": round(2.0 / permutations, 12),
+            "alpha": 0.05,
+            "two_sided_alpha_reachable": (2.0 / permutations) <= 0.05,
+            "phipson_smyth_applied": False,
+        },
+        "multiplicity": multiplicity(n_members, min_one_sided_p, 0.05),
+        "claim_ceiling": {
+            "experimental_unit": "clip",
+            "n_test_clips": n_test_clips,
+            "n_test_frames": int(n_test_frames),
+            "claim_verb": BOUNDED_CLAIM_VERB,
+            "forbidden_verbs": list(FORBIDDEN_CLAIM_VERBS),
+            "frame_or_clip_bootstrap_allowed": False,
+            "rationale": (
+                "with about "
+                f"{n_test_clips} test clips the clip is the experimental unit and frames are correlated "
+                "sub-samples; a frame or clip bootstrap is refused and the claim verb is bounded to "
+                "'consistent with', never 'demonstrates' or 'significant'"
+            ),
+        },
+    }
 
 
 def build_prereg(
@@ -254,3 +340,17 @@ def build_prereg(
     return body
 
 DEFAULT_PREREG_PATH = Path("proof/STARSS23_ESCS_BED.prereg.json")
+
+
+def base_prereg_digest(path: str | Path = DEFAULT_PREREG_PATH) -> str | None:
+    """Return the base preregistration's canonical digest for traceability, or None if unavailable."""
+
+    prereg_path = Path(path)
+    if not prereg_path.is_file():
+        return None
+    try:
+        body = json.loads(prereg_path.read_bytes().decode("utf-8"))
+    except (ValueError, OSError):
+        return None
+    digest = body.get("canonical_sha256")
+    return str(digest) if isinstance(digest, str) else None

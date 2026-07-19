@@ -254,6 +254,24 @@
       "proof": "four checkpoint 33a7bd8 spread-artifact byte hashes exact across interchannel, spatial-DOA, SuperFlux, and refractory-NMS variants; four checked-in prereg body hashes exact; local refusal classes and missing-file messages preserved; full STARSS-focused suite 489/489 in 146.66s under nice -n 10",
       "accounting_note": "305 replaced Python LOC are production source; 197 added Python LOC = 146 production source + 51 direct referee/prereg contract tests; production source net -159, tests net +51, total owned Python net -108",
       "tag": "mop-collapse-starss23-lifecycle-10"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "family_prereg_analysis_lifecycle",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "four family preregistration SESOI, operating-point, sign-flip, claim-ceiling, structural-facts, and base-digest paths collapsed onto the sealed onset prereg authority",
+      "deduplicated_LOC": 338,
+      "added_LOC": 200,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 138,
+      "files_changed": 6,
+      "destination_api": "mop.beds.starss23.prereg.{family_analysis_plan,StructuralFacts,base_prereg_digest}",
+      "proof": "complete outer-body and embedded canonical hashes exact against checkpoint 2f3671f for gate variants, interchannel coherence, spatial DoA, and SuperFlux; family-specific membership, multiplicity rationale, hypotheses, contracts, and promotion bars remain local; full STARSS-focused suite 490/490 in 154.46s under nice -n 10",
+      "accounting_note": "338 replaced Python LOC are production source; 200 added Python LOC = 175 production source + 25 direct four-family seal tests; production source net -163, tests net +25, total owned Python net -138",
+      "tag": "mop-collapse-starss23-lifecycle-11"
     }
   ],
   "deferred_heavy_validation": {
