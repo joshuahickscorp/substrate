@@ -1,14 +1,14 @@
 {
-  "tracked_files": 1741,
+  "tracked_files": 1744,
   "tracked_directories": 78,
   "python_modules": 466,
-  "public_symbols": 11505,
+  "public_symbols": 11518,
   "import_edges": 333,
   "strongly_connected_components_gt1": 1,
   "largest_scc_size": 2,
-  "entrypoints": 316,
+  "entrypoints": 317,
   "authoritative_documents_root_md": 35,
   "all_markdown_documents": 170,
-  "configuration_files": 494,
+  "configuration_files": 496,
   "default_reading_bytes_root_docs": 967803
 }

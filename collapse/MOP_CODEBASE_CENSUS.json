@@ -1,10 +1,10 @@
 {
   "schema": "mop-collapse-census/v1",
   "root": "/Users/scammermike/Downloads/mop-accretion-collapse",
-  "commit": "7b8c82fb44e836f34c7a55dde93370554d061b5e",
+  "commit": "0f950a2318c83ac4cdd22b3bdbf47f7bc5693051",
   "summary": {
-    "tracked_files": 1741,
-    "python_files": 1069,
+    "tracked_files": 1744,
+    "python_files": 1070,
     "global_owned_source_LOC": 401319,
     "global_maintained_source_LOC": 401280,
     "active_src_mop_LOC": 259221,
@@ -49,8 +49,8 @@
     {
       "path": ".gitignore",
       "language": "none",
-      "physical_LOC": 42,
-      "bytes": 975,
+      "physical_LOC": 45,
+      "bytes": 1029,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -993,10 +993,21 @@
       "module": null
     },
     {
+      "path": "collapse/MOP_EVIDENCE_MIGRATION.json",
+      "language": "config",
+      "physical_LOC": 1246,
+      "bytes": 48512,
+      "imports": [],
+      "importers": [],
+      "public_symbols": [],
+      "is_entrypoint": false,
+      "module": null
+    },
+    {
       "path": "collapse/MOP_GLOBAL_ACCOUNTING.json",
       "language": "config",
-      "physical_LOC": 53,
-      "bytes": 1218,
+      "physical_LOC": 56,
+      "bytes": 1317,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -1019,6 +1030,17 @@
       "language": "config",
       "physical_LOC": 30,
       "bytes": 1329,
+      "imports": [],
+      "importers": [],
+      "public_symbols": [],
+      "is_entrypoint": false,
+      "module": null
+    },
+    {
+      "path": "collapse/MOP_REDUCTION_LOG.json",
+      "language": "config",
+      "physical_LOC": 22,
+      "bytes": 1044,
       "imports": [],
       "importers": [],
       "public_symbols": [],
@@ -1053,8 +1075,8 @@
     {
       "path": "collapse/tools/census.py",
       "language": "python",
-      "physical_LOC": 373,
-      "bytes": 15062,
+      "physical_LOC": 375,
+      "bytes": 15171,
       "imports": [
         "__future__",
         "ast",
@@ -1102,6 +1124,41 @@
         "TARGETS",
         "tracked_py",
         "norm_hash",
+        "main"
+      ],
+      "is_entrypoint": true,
+      "module": null
+    },
+    {
+      "path": "collapse/tools/evidence_migrate.py",
+      "language": "python",
+      "physical_LOC": 211,
+      "bytes": 8625,
+      "imports": [
+        "__future__",
+        "ast",
+        "collections",
+        "hashlib",
+        "json",
+        "pathlib",
+        "py_compile",
+        "subprocess",
+        "sys"
+      ],
+      "importers": [],
+      "public_symbols": [
+        "ROOT",
+        "OUT",
+        "CORE_MODULE",
+        "CORE_FILE",
+        "PRIMS",
+        "body_hash",
+        "core_hashes",
+        "find_defs",
+        "tracked_py",
+        "build_table",
+        "redirect_file",
+        "apply_batch",
         "main"
       ],
       "is_entrypoint": true,
