@@ -452,6 +452,28 @@
       "proof": "four pinned complete preregistration seals exact; preregistration/verifier battery 52/52 in 2.93s; full STARSS-focused suite 493/493 in 155.78s under nice -n 10; complete package compiles and critical ruff checks pass",
       "accounting_note": "production source 219 added and 1349 deleted, net -1130; focused tests 0 added and 587 deleted; 1408 eliminated lines are comment-only documentation; all tests and independent verifier calculations remain",
       "tag": "mop-collapse-starss23-lifecycle-21"
+    },
+    {
+      "region": "section18_documentation",
+      "batch": "current_documentation_authority",
+      "checkpoint_status": "green",
+      "primitive": "170 tracked Markdown files collapsed to eight current authorities with every original version sealed in one machine-readable Git recovery index",
+      "deduplicated_LOC": 218,
+      "added_LOC": 31,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 187,
+      "documentation_deleted_LOC": 43508,
+      "documentation_added_LOC": 95,
+      "historical_index_added_LOC": 186,
+      "net_project_physical_reduction_LOC": 43312,
+      "files_changed": 172,
+      "destination_api": "scripts.check_docs.CURRENT_MD plus collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+      "proof": "sealed index covers all 170 source versions; docs gate clean; documentation regression battery 32/32 green in 20.18s; exact current surface eight files under 800 LOC",
+      "accounting_note": "owned Python accounting records only the 31 added and 218 deleted gate/test LOC; documentation and generated index LOC are recorded separately and are not misreported as owned Python reduction",
+      "tag": "mop-collapse-docs"
     }
   ],
   "deferred_heavy_validation": {

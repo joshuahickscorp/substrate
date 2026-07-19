@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `7ffb741` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `6041a3f` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 23}`.
+Total items: 240. By status: `{"complete": 17, "active": 49, "pending": 141, "partial": 9, "verified": 24}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -114,7 +114,7 @@ Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | TGT-KERNEL | 5 | target | pending | active kernel <=25000 (stretch 18000) LOC | drive region collapses toward target; measure |
 | TGT-GLOBAL | 5 | target | pending | global maintained <=75000 (extreme 50000) LOC | drive region collapses toward target; measure |
 | TGT-TESTS | 5 | target | pending | default test harness <=15000 LOC | drive region collapses toward target; measure |
-| TGT-DOCS | 5 | target | pending | current-facing docs <=8 documents and <=8000 lines | drive region collapses toward target; measure |
+| TGT-DOCS | 5 | target | complete | current-facing docs <=8 documents and <=8000 lines | prevent regrowth through scripts/check_docs.py |
 | TGT-ENTRYPOINTS | 5 | target | pending | normal executable entrypoints <=10 | drive region collapses toward target; measure |
 | TGT-CONTROLLER | 5 | target | pending | production controllers exactly 1 | drive region collapses toward target; measure |
 | TGT-EVIDENCE | 5 | target | pending | receipt/evidence engines exactly 1 | drive region collapses toward target; measure |
@@ -141,7 +141,7 @@ Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | SEC-15 | 15 | region | pending | One registry (typed capability registry) | unify experiment/mechanism/dataset/instrument/verifier registries |
 | SEC-16 | 16 | region | pending | One typed configuration authority | separate frozen-identity/runtime-policy/machine-profile/overrides |
 | SEC-17 | 17 | region | pending | Validation condensation (properties/matrices/mutation; coverage-equivalence receipts) | reduce handwritten test LOC; keep adversarial rigor + producer/verifier split |
-| SEC-18 | 18 | region | pending | Documentation collapse (<=8 front-door docs; sealed history index) | consolidate 34 root md + 169 total; generate current tables from authorities |
+| SEC-18 | 18 | region | complete | Documentation collapse (<=8 front-door docs; sealed history index) | none; enforce anti-regrowth gate |
 | SEC-19 | 19 | region | pending | Proof/evidence compaction (content-addressed index; no claim reduction) | build evidence index; dedupe byte-identical payloads; move to packs after run releases |
 | SEC-20 | 20 | region | pending | Packs follow collapse (no pack owns a 2nd controller/engine/registry/CLI) | collapse before packing; report relocation separate from elimination |
 | TGT-EXP-SIMPLE | 10 | target | pending | simple experiment <=150 LOC declaration + math | enforce |
@@ -190,8 +190,8 @@ Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | CC-13 | 26 | completion_condition | pending | mechanism-family boilerplate removed | evidence required per spec; nothing complete from prose |
 | CC-14 | 26 | completion_condition | pending | script wrappers collapsed | evidence required per spec; nothing complete from prose |
 | CC-15 | 26 | completion_condition | pending | validation uses shared matrices and properties | evidence required per spec; nothing complete from prose |
-| CC-16 | 26 | completion_condition | pending | current-facing docs consolidated | evidence required per spec; nothing complete from prose |
-| CC-17 | 26 | completion_condition | pending | historical docs and code sealed and indexed | evidence required per spec; nothing complete from prose |
+| CC-16 | 26 | completion_condition | complete | current-facing docs consolidated | none |
+| CC-17 | 26 | completion_condition | partial | historical docs and code sealed and indexed | complete historical code sealing at controller migration |
 | CC-18 | 26 | completion_condition | pending | packs contain no duplicate authorities | evidence required per spec; nothing complete from prose |
 | CC-19 | 26 | completion_condition | pending | sealed results remain replayable | evidence required per spec; nothing complete from prose |
 | CC-20 | 26 | completion_condition | pending | independent verifiers remain structurally independent | evidence required per spec; nothing complete from prose |
@@ -275,6 +275,7 @@ Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | RED-starss23-count-variant-artifact-lifecycle | 11 | verified_reduction | verified | Centralize concurrent-count producer artifact lifecycles | measure remaining DoA, refractory, and learning-progress producer shells |
 | RED-starss23-onset-variant-and-embedded-docs | 11 | verified_reduction | verified | Centralize remaining onset variants and remove embedded STARSS narratives | finish the dual-architecture DoA producer shell and measure STARSS residual |
 | RED-starss23-family-prereg-cli-comments | 11 | verified_reduction | verified | Centralize family preregistrations and delete local commands and comments | finish the dual-architecture DoA producer shell and measure STARSS residual |
+| RED-current-documentation-authority | 18 | verified_reduction | verified | Collapse current documentation to eight recoverable authorities | finish the dual-architecture DoA producer shell |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -283,7 +284,7 @@ Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 7ffb741
+- commit: pending; base 6041a3f
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -537,4 +538,17 @@ Total items: 239. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 - cumulative verified owned Python reduction: 10,012 LOC.
 - rollback_tag: mop-collapse-starss23-lifecycle-21.
 - next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.
+
+### Current documentation collapse (current checkpoint)
+
+- current authority: 170 tracked Markdown files replaced by exactly eight current-facing documents; the six general front doors were rewritten as compact pointers to machine state.
+- historical recovery: all 170 original versions carry path, line/byte counts, SHA-256, Git blob, source commit, rollback tag, and recovery command in one sealed JSON index.
+- physical deletion: 162 superseded Markdown files removed; no relocation or hidden pack.
+- documentation change: 95 added, 43,508 deleted, net -43,413 LOC; current surface is eight files and under 800 LOC including this generated ledger.
+- gate authority: the old 170-path Python taxonomy was replaced by the exact eight-path set; anti-regrowth, stale-number, script, make-target, CLI, and hardware-drift checks remain.
+- validation: docs gate reports 4,135 collected tests, 133 experiments, and 10 acceptance checks with no drift; documentation regression battery 32/32 green in 20.18s.
+- owned Python change: 31 added, 218 deleted, net -187 LOC; cumulative verified owned Python reduction: 10,199 LOC.
+- total tracked physical change including state, ledger, tooling, and the 186-line history index: net -43,312 LOC.
+- rollback_tag: mop-collapse-docs.
+- next_exact_edit: finish the dual-architecture DoA producer shell.
 
