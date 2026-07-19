@@ -32,7 +32,6 @@ from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
-from .count_harness import COUNT_BED_ID
 from .count_prereg import DEFAULT_C_TRAIN_FLOPS, compute_count_cost_benefit
 from .count_referee import COLD_START, METRIC_RULE
 from .count_repro_featurizer_estimator_estimator import (
@@ -43,6 +42,7 @@ from .count_repro_featurizer_estimator_estimator import (
     FLOPS_PER_REESTIMATE as REPRO_C_REEST_FLOPS,
 )
 from .count_repro_featurizer_estimator_featurizer import COUNT_REPRO_FE_FEATURIZER_SCHEMA
+from .experiments import COUNT_BED_ID
 from .schema import FRAME_MS
 
 COUNT_REPRO_FE_PREREG_SCHEMA = "mop-starss23-count-repro-featurizer-estimator-prereg/v1"

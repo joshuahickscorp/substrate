@@ -32,6 +32,17 @@ from typing import Any
 import numpy as np
 
 from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL, mint_demonstration
+from mop.science.budget import (
+    ARM_ALWAYS_ON,
+    ARM_CANDIDATE,
+    ARM_NEVER_UPDATE,
+    ARM_RATE_MATCHED_RANDOM,
+    Arm,
+    BudgetPoint,
+    FlopModel,
+    SeedResult,
+    run_matched_budget,
+)
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
@@ -48,18 +59,6 @@ from .count_gate import (
     CountGate,
     CountOnlineState,
     voc_targets_from_count_track,
-)
-from .count_harness import (
-    ARM_ALWAYS_ON,
-    ARM_CANDIDATE,
-    ARM_NEVER_UPDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    COUNT_BED_ID,
-    CountArm,
-    CountArmSeedResult,
-    CountBudgetPoint,
-    FlopModel,
-    run_matched_budget,
 )
 from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_producer import (
@@ -86,6 +85,7 @@ from .count_repro_featurizer_estimator_prereg import (
     build_repro_prereg,
     write_repro_prereg,
 )
+from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA, training_flops
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
 
@@ -382,23 +382,24 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: ReproCo
 
 def _build_budget_points(
     seed_runs: list[_ReproSeedRun], config: ReproCountBedConfig
-) -> list[CountBudgetPoint]:
+) -> list[BudgetPoint]:
     total_frames = seed_runs[0].total_frames
     train_frames = seed_runs[0].train_frames
     gate_params = seed_runs[0].gate_params
-    budget_points: list[CountBudgetPoint] = []
+    budget_points: list[BudgetPoint] = []
     for budget_id in seed_runs[0].per_budget:
-        arms: dict[str, CountArm] = {}
+        arms: dict[str, Arm] = {}
         for kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE):
             seed_results = tuple(
-                CountArmSeedResult(
+                SeedResult(
                     seed=run.seed,
-                    mae=run.per_budget[budget_id]["arm_scores"][kind]["mae"],
-                    reestimations=run.per_budget[budget_id]["reestimations"][kind],
+                    metric_value=run.per_budget[budget_id]["arm_scores"][kind]["mae"],
+                    actions=run.per_budget[budget_id]["reestimations"][kind],
                 )
                 for run in seed_runs
             )
-            arms[kind] = CountArm(
+            arms[kind] = Arm(
+                policy=COUNT_BUDGET_POLICY,
                 name=f"{kind}@{budget_id}",
                 kind=kind,
                 total_frames=total_frames,
@@ -407,12 +408,13 @@ def _build_budget_points(
                 seed_results=seed_results,
             )
         budget_points.append(
-            CountBudgetPoint(
+            BudgetPoint(
+                policy=COUNT_BUDGET_POLICY,
                 budget_id=budget_id,
                 candidate=arms[ARM_CANDIDATE],
                 rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
                 always_on=arms[ARM_ALWAYS_ON],
-                never_update=arms[ARM_NEVER_UPDATE],
+                reference=arms[ARM_NEVER_UPDATE],
             )
         )
     return budget_points

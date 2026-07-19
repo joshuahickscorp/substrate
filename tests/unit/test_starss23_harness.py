@@ -11,39 +11,49 @@ from __future__ import annotations
 
 import pytest
 
-from mop.beds.starss23 import harness
-from mop.beds.starss23.harness import (
+from mop.beds.starss23 import FLOP_CEILING
+from mop.beds.starss23.experiments import (
+    FEATURIZE_FLOPS_PER_FRAME,
+    GATE_INFER_FLOPS_PER_FRAME,
+    GATE_PARAMS,
+    MAX_GATE_PARAMS,
+    ONSET_BUDGET_POLICY,
+)
+from mop.ladder.stage_ladder import MatchedBudget
+from mop.science import budget as harness
+from mop.science.budget import (
+    TRAIN_BACKWARD_MULTIPLIER,
     Arm,
-    ArmSeedResult,
     BudgetPoint,
     ComputePoint,
     FlopModel,
+    SeedResult,
 )
-from mop.ladder.stage_ladder import MatchedBudget
 
 SEEDS = (0, 1, 2, 3, 4)
 TOTAL_FRAMES = 24_000
 C_DOWN = 500_000
-FEATURIZE = harness.FEATURIZE_FLOPS_PER_FRAME * TOTAL_FRAMES
-GATE_INFER = harness.GATE_INFER_FLOPS_PER_FRAME * TOTAL_FRAMES
-C_TRAIN = harness.gate_train_flops(8, 54_000)
+FEATURIZE = FEATURIZE_FLOPS_PER_FRAME * TOTAL_FRAMES
+GATE_INFER = GATE_INFER_FLOPS_PER_FRAME * TOTAL_FRAMES
+C_TRAIN = harness.gate_train_flops(8, 54_000, GATE_INFER_FLOPS_PER_FRAME)
 
 CANDIDATE_FIRINGS = (1200, 1300, 1250, 1280, 1220)
 
 
-def _seed_results(f1_by_seed, firings_by_seed) -> tuple[ArmSeedResult, ...]:
+def _seed_results(f1_by_seed, firings_by_seed) -> tuple[SeedResult, ...]:
     return tuple(
-        ArmSeedResult(seed=seed, f1=f1, firings=firings)
+        SeedResult(seed=seed, metric_value=f1, actions=firings)
         for seed, f1, firings in zip(SEEDS, f1_by_seed, firings_by_seed, strict=True)
     )
 
 
 def _candidate(f1_by_seed=(0.62, 0.60, 0.63, 0.61, 0.64), firings=CANDIDATE_FIRINGS) -> Arm:
     return Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="candidate_gate",
         kind=harness.ARM_CANDIDATE,
         total_frames=TOTAL_FRAMES,
-        params=harness.GATE_PARAMS,
+        params=GATE_PARAMS,
         flop_model=FlopModel(FEATURIZE, GATE_INFER, C_DOWN, C_TRAIN),
         seed_results=_seed_results(f1_by_seed, firings),
     )
@@ -53,6 +63,7 @@ def _rate_matched_random(f1_by_seed=(0.30, 0.28, 0.31, 0.29, 0.32), firings=CAND
     # The rate-matched-random control runs an equal-cost inference stub (same FLOP model) and fires the
     # same count per seed as the candidate, but charges no training cost.
     return Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="rate_matched_random",
         kind=harness.ARM_RATE_MATCHED_RANDOM,
         total_frames=TOTAL_FRAMES,
@@ -64,6 +75,7 @@ def _rate_matched_random(f1_by_seed=(0.30, 0.28, 0.31, 0.29, 0.32), firings=CAND
 
 def _always_on() -> Arm:
     return Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="always_on",
         kind=harness.ARM_ALWAYS_ON,
         total_frames=TOTAL_FRAMES,
@@ -75,6 +87,7 @@ def _always_on() -> Arm:
 
 def _best_single() -> Arm:
     return Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="best_single",
         kind=harness.ARM_BEST_SINGLE,
         total_frames=TOTAL_FRAMES,
@@ -90,11 +103,12 @@ def _budget_point(
     rmr_f1=(0.30, 0.28, 0.31, 0.29, 0.32),
 ) -> BudgetPoint:
     return BudgetPoint(
+        policy=ONSET_BUDGET_POLICY,
         budget_id=budget_id,
         candidate=_candidate(candidate_f1),
         rate_matched_random=_rate_matched_random(rmr_f1),
         always_on=_always_on(),
-        best_single=_best_single(),
+        reference=_best_single(),
     )
 
 
@@ -113,10 +127,10 @@ def test_lifecycle_flops_include_c_train() -> None:
 
 def test_candidate_stays_within_params_and_flop_ceiling() -> None:
     candidate = _candidate()
-    assert candidate.params <= harness.MAX_GATE_PARAMS
+    assert candidate.params <= MAX_GATE_PARAMS
     # Every paired-seed run stays under the matched-budget ceiling.
     harness.assert_within_ceiling(candidate)
-    assert candidate.max_lifecycle_flops() < harness.FLOP_CEILING
+    assert candidate.max_lifecycle_flops() < FLOP_CEILING
 
 
 def test_matched_ex_training_passes_for_identical_inference_flops() -> None:
@@ -138,6 +152,7 @@ def test_refuses_compare_when_downstream_cost_differs() -> None:
     candidate = _candidate()
     # Same firing counts, but a different per-firing downstream cost breaks the byte-equal inference FLOPs.
     rmr = Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="rate_matched_random",
         kind=harness.ARM_RATE_MATCHED_RANDOM,
         total_frames=TOTAL_FRAMES,
@@ -152,10 +167,11 @@ def test_refuses_compare_when_downstream_cost_differs() -> None:
 def test_refuses_compare_when_ctrain_is_not_charged() -> None:
     # A candidate that fails to charge its amortized training cost is refused as dishonest accounting.
     candidate = Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="candidate_gate",
         kind=harness.ARM_CANDIDATE,
         total_frames=TOTAL_FRAMES,
-        params=harness.GATE_PARAMS,
+        params=GATE_PARAMS,
         flop_model=FlopModel(FEATURIZE, GATE_INFER, C_DOWN, 0),
         seed_results=_seed_results((0.62, 0.60, 0.63, 0.61, 0.64), CANDIDATE_FIRINGS),
     )
@@ -166,10 +182,11 @@ def test_refuses_compare_when_ctrain_is_not_charged() -> None:
 def test_ceiling_is_enforced() -> None:
     # A downstream cost large enough to blow the ceiling at the always-on firing count is refused.
     over = Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="candidate_gate",
         kind=harness.ARM_CANDIDATE,
         total_frames=TOTAL_FRAMES,
-        params=harness.GATE_PARAMS,
+        params=GATE_PARAMS,
         flop_model=FlopModel(FEATURIZE, GATE_INFER, 3_000_000, C_TRAIN),
         seed_results=_seed_results((0.62, 0.60, 0.63, 0.61, 0.64), (TOTAL_FRAMES,) * 5),
     )
@@ -179,6 +196,7 @@ def test_ceiling_is_enforced() -> None:
 
 def test_certify_refuses_a_control_that_charges_training() -> None:
     trained_control = Arm(
+        policy=ONSET_BUDGET_POLICY,
         name="rate_matched_random",
         kind=harness.ARM_RATE_MATCHED_RANDOM,
         total_frames=TOTAL_FRAMES,
@@ -187,11 +205,12 @@ def test_certify_refuses_a_control_that_charges_training() -> None:
         seed_results=_seed_results((0.30, 0.28, 0.31, 0.29, 0.32), CANDIDATE_FIRINGS),
     )
     point = BudgetPoint(
+        policy=ONSET_BUDGET_POLICY,
         budget_id="theta_0.50",
         candidate=_candidate(),
         rate_matched_random=trained_control,
         always_on=_always_on(),
-        best_single=_best_single(),
+        reference=_best_single(),
     )
     with pytest.raises(harness.BudgetMismatch):
         point.certify()
@@ -204,7 +223,7 @@ def test_certify_refuses_a_control_that_charges_training() -> None:
 
 def test_gate_train_flops_matches_the_spec_anchor() -> None:
     # C_train = E * F_train_frames * 3 * infer = 8 * 54000 * 3 * 6385.
-    assert harness.gate_train_flops(8, 54_000) == 8_274_960_000
+    assert harness.gate_train_flops(8, 54_000, GATE_INFER_FLOPS_PER_FRAME) == 8_274_960_000
 
 
 def test_per_query_saving_formula() -> None:
@@ -216,7 +235,9 @@ def test_per_query_saving_formula() -> None:
 def test_break_even_matches_the_recipe_anchor() -> None:
     # N* = C_train / per_query_saving = 8.27e9 / 4e4, which is about 2.07e5 frames.
     saving = harness.per_query_saving_vs_always_on(24_000, 4_800, 50_000)
-    break_even = harness.break_even_queries(harness.gate_train_flops(8, 54_000), saving)
+    break_even = harness.break_even_queries(
+        harness.gate_train_flops(8, 54_000, GATE_INFER_FLOPS_PER_FRAME), saving
+    )
     assert break_even.amortizable is True
     assert break_even.n_star_frames == 206_874
     assert break_even.n_star_frames == pytest.approx(2.07e5, rel=0.01)
@@ -236,9 +257,9 @@ def test_break_even_is_unamortizable_without_a_saving() -> None:
 
 def test_pareto_frontier_drops_dominated_points() -> None:
     points = [
-        ComputePoint("a", harness.ARM_CANDIDATE, flops=1.0e10, f1=0.50, params=3193, firings=1000.0),
-        ComputePoint("b", harness.ARM_ALWAYS_ON, flops=2.0e10, f1=0.60, params=0, firings=24000.0),
-        ComputePoint("c", harness.ARM_BEST_SINGLE, flops=2.0e10, f1=0.40, params=0, firings=4000.0),
+        ComputePoint(ONSET_BUDGET_POLICY, "a", harness.ARM_CANDIDATE, 1.0e10, 0.50, 3193, 1000.0),
+        ComputePoint(ONSET_BUDGET_POLICY, "b", harness.ARM_ALWAYS_ON, 2.0e10, 0.60, 0, 24000.0),
+        ComputePoint(ONSET_BUDGET_POLICY, "c", harness.ARM_BEST_SINGLE, 2.0e10, 0.40, 0, 4000.0),
     ]
     frontier = harness.pareto_frontier(points)
     kinds = {point.budget_id for point in frontier}
@@ -279,15 +300,15 @@ def test_report_bridges_to_a_positive_matched_budget() -> None:
     report = harness.run_matched_budget([_budget_point()], wall_ns=1_000_000)
     matched = report.matched_budget
     assert isinstance(matched, MatchedBudget)
-    assert matched.params == harness.GATE_PARAMS
+    assert matched.params == GATE_PARAMS
     assert matched.flops > 0
     assert matched.wall_ns == 1_000_000
     assert matched.seeds == 5
-    assert matched.flops < harness.FLOP_CEILING
+    assert matched.flops < FLOP_CEILING
 
 
 def test_report_refuses_a_nonpositive_wall_clock() -> None:
-    with pytest.raises(harness.HarnessRefusal):
+    with pytest.raises(harness.BudgetRefusal):
         harness.run_matched_budget([_budget_point()], wall_ns=0)
 
 
@@ -298,7 +319,7 @@ def test_report_hardcodes_the_boundary_flags() -> None:
     assert payload["scientific_promotion"] is False
     assert payload["independent_scientific_confirmation"] is False
     assert payload["source_kind"] == "synthetic"
-    assert payload["claim_scope"] == harness.CLAIM_SCOPE
+    assert payload["claim_scope"] == ONSET_BUDGET_POLICY.claim_scope
     # A synthetic run can never be cleared: the verdict is capped at mechanics-ok.
     assert payload["verdict"] in ("mechanics-ok", "null")
 
@@ -308,18 +329,19 @@ def test_report_digest_is_deterministic() -> None:
     second = harness.run_matched_budget([_budget_point()], wall_ns=1_000_000)
     digest = first.digest()
     assert len(digest) == 64 and all(character in "0123456789abcdef" for character in digest)
+    assert digest == "7da5162d604073fa63b3c0663b2b212bc1aaa428f70248a5d881c59b4c62e160"
     assert first.digest() == second.digest()
 
 
 def test_run_refuses_duplicate_budget_ids() -> None:
-    with pytest.raises(harness.HarnessRefusal):
+    with pytest.raises(harness.BudgetRefusal):
         harness.run_matched_budget(
             [_budget_point("theta_0.50"), _budget_point("theta_0.50")], wall_ns=1_000_000
         )
 
 
 def test_run_refuses_an_empty_sweep() -> None:
-    with pytest.raises(harness.HarnessRefusal):
+    with pytest.raises(harness.BudgetRefusal):
         harness.run_matched_budget([], wall_ns=1_000_000)
 
 
@@ -333,11 +355,15 @@ def test_run_refuses_an_empty_sweep() -> None:
 def test_flop_anchors_match_the_featurizer_and_gate_modules() -> None:
     featurizer = pytest.importorskip("mop.beds.starss23.featurizer")
     gate = pytest.importorskip("mop.beds.starss23.gate")
-    assert harness.FEATURIZE_FLOPS_PER_FRAME == featurizer.FLOPS_PER_FRAME
-    assert harness.featurize_run_flops(TOTAL_FRAMES) == featurizer.FLOPS_PER_FRAME * TOTAL_FRAMES
-    assert gate.inference_flops() == harness.GATE_INFER_FLOPS_PER_FRAME
-    assert gate.param_count() == harness.GATE_PARAMS
-    assert harness.MAX_GATE_PARAMS == gate.PARAM_CEILING
-    assert harness.TRAIN_BACKWARD_MULTIPLIER == gate.TRAIN_STEP_FACTOR
+    assert FEATURIZE_FLOPS_PER_FRAME == featurizer.FLOPS_PER_FRAME
+    assert harness.featurize_run_flops(
+        TOTAL_FRAMES, FEATURIZE_FLOPS_PER_FRAME
+    ) == featurizer.FLOPS_PER_FRAME * TOTAL_FRAMES
+    assert gate.inference_flops() == GATE_INFER_FLOPS_PER_FRAME
+    assert gate.param_count() == GATE_PARAMS
+    assert MAX_GATE_PARAMS == gate.PARAM_CEILING
+    assert TRAIN_BACKWARD_MULTIPLIER == gate.TRAIN_STEP_FACTOR
     # C_train anchor: 8 * 54000 * 3 * 6385 = 8_274_960_000, identical to the gate module.
-    assert harness.gate_train_flops(8, 54_000) == gate.C_TRAIN_ANCHOR
+    assert harness.gate_train_flops(
+        8, 54_000, GATE_INFER_FLOPS_PER_FRAME
+    ) == gate.C_TRAIN_ANCHOR

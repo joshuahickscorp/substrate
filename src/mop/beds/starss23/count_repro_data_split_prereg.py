@@ -35,7 +35,6 @@ from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
-from .count_harness import COUNT_BED_ID
 from .count_prereg import (
     DEFAULT_C_REEST_FLOPS,
     DEFAULT_C_TRAIN_FLOPS,
@@ -43,6 +42,7 @@ from .count_prereg import (
     compute_count_cost_benefit,
 )
 from .count_referee import COLD_START, METRIC_RULE
+from .experiments import COUNT_BED_ID
 
 REPRO_PREREG_SCHEMA = "mop-starss23-count-repro-data-split-prereg/v1"
 REPRO_AXIS = "data_split"

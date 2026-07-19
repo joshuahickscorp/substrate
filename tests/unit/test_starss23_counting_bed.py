@@ -19,7 +19,6 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from mop.beds.starss23 import count_harness as H
 from mop.beds.starss23 import count_verifier as V
 from mop.beds.starss23.count_estimator import (
     FLOPS_PER_REESTIMATE,
@@ -51,7 +50,9 @@ from mop.beds.starss23.count_producer import (
     build_real_count_bed_artifact,
 )
 from mop.beds.starss23.count_referee import coast_emitted, mae_clip, score_arm
+from mop.beds.starss23.experiments import COUNT_BUDGET_POLICY
 from mop.beds.starss23.gate import training_flops
+from mop.science import budget as H
 
 FLOP_CEILING = 60_000_000_000
 _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
@@ -234,14 +235,15 @@ def _flop_model(kind, total_frames, train_frames):
 
 
 def _arm(kind, mae_by_seed, k_by_seed, total_frames, train_frames, seeds):
-    return H.CountArm(
+    return H.Arm(
+        policy=COUNT_BUDGET_POLICY,
         name=f"{kind}",
         kind=kind,
         total_frames=total_frames,
         params=3193 if kind == H.ARM_CANDIDATE else 0,
         flop_model=_flop_model(kind, total_frames, train_frames),
         seed_results=tuple(
-            H.CountArmSeedResult(seed=s, mae=mae_by_seed[i], reestimations=k_by_seed[i])
+            H.SeedResult(seed=s, metric_value=mae_by_seed[i], actions=k_by_seed[i])
             for i, s in enumerate(seeds)
         ),
     )
@@ -258,7 +260,7 @@ def test_harness_matched_budget_and_ceiling_and_dominance():
     nu = _arm(H.ARM_NEVER_UPDATE, [1.25] * 5, [0] * 5, total_frames, train_frames, seeds)
     # Matched ex-training must pass with equal K and byte-equal inference FLOPs.
     H.assert_matched_ex_training(cand, rmr)
-    point = H.CountBudgetPoint("rate_0.05", cand, rmr, ao, nu)
+    point = H.BudgetPoint(COUNT_BUDGET_POLICY, "rate_0.05", cand, rmr, ao, nu)
     point.certify()
     for arm in point.arms():
         assert arm.max_lifecycle_flops() <= FLOP_CEILING
@@ -268,6 +270,7 @@ def test_harness_matched_budget_and_ceiling_and_dominance():
     assert report.activation_allowed is False
     assert report.scientific_promotion is False
     assert report.independent_scientific_confirmation is False
+    assert report.digest() == "4d090c3efdb3915c12b4cd59d39f6da2d16081fa2fdc36cb820fb35c7be9d288"
 
 
 def test_harness_matched_budget_refuses_uncharged_training_and_k_mismatch():
@@ -275,7 +278,8 @@ def test_harness_matched_budget_refuses_uncharged_training_and_k_mismatch():
     total_frames = 1000
     cand = _arm(H.ARM_CANDIDATE, [0.3, 0.3], [50, 50], total_frames, 1000, seeds)
     # A candidate whose flop model charges no training is refused.
-    cand_no_train = H.CountArm(
+    cand_no_train = H.Arm(
+        policy=COUNT_BUDGET_POLICY,
         name="candidate",
         kind=H.ARM_CANDIDATE,
         total_frames=total_frames,
@@ -284,17 +288,18 @@ def test_harness_matched_budget_refuses_uncharged_training_and_k_mismatch():
         seed_results=cand.seed_results,
     )
     rmr = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.3, 0.3], [50, 50], total_frames, 1000, seeds)
-    with pytest.raises(H.CountUnchargedTraining):
+    with pytest.raises(H.UnchargedTraining):
         H.assert_matched_ex_training(cand_no_train, rmr)
     # A control whose K differs from the candidate is refused.
     rmr_bad = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.3, 0.3], [40, 50], total_frames, 1000, seeds)
-    with pytest.raises(H.CountBudgetMismatch):
+    with pytest.raises(H.BudgetMismatch):
         H.assert_matched_ex_training(cand, rmr_bad)
 
 
 def test_harness_refuses_ceiling_exceeded():
     seeds = (0, 1)
-    huge = H.CountArm(
+    huge = H.Arm(
+        policy=COUNT_BUDGET_POLICY,
         name="candidate",
         kind=H.ARM_CANDIDATE,
         total_frames=1000,
@@ -302,17 +307,17 @@ def test_harness_refuses_ceiling_exceeded():
         flop_model=H.FlopModel(
             featurize_flops=FLOP_CEILING, gate_infer_flops=1, downstream_flops_per_firing=1, train_flops=1
         ),
-        seed_results=tuple(H.CountArmSeedResult(seed=s, mae=0.1, reestimations=1) for s in seeds),
+        seed_results=tuple(H.SeedResult(seed=s, metric_value=0.1, actions=1) for s in seeds),
     )
-    with pytest.raises(H.CountCeilingExceeded):
+    with pytest.raises(H.CeilingExceeded):
         H.assert_within_ceiling(huge)
 
 
 def test_pareto_minimizes_both_flops_and_mae():
     pts = [
-        H.CountComputePoint("a", "x", flops=10.0, mae=0.5, params=0, reestimations=1.0),
-        H.CountComputePoint("b", "y", flops=20.0, mae=0.6, params=0, reestimations=1.0),  # dominated
-        H.CountComputePoint("c", "z", flops=30.0, mae=0.3, params=0, reestimations=1.0),
+        H.ComputePoint(COUNT_BUDGET_POLICY, "a", "x", 10.0, 0.5, 0, 1.0),
+        H.ComputePoint(COUNT_BUDGET_POLICY, "b", "y", 20.0, 0.6, 0, 1.0),  # dominated
+        H.ComputePoint(COUNT_BUDGET_POLICY, "c", "z", 30.0, 0.3, 0, 1.0),
     ]
     frontier = {p.budget_id for p in H.pareto_frontier(pts)}
     assert frontier == {"a", "c"}

@@ -74,13 +74,6 @@ from mop.beds.starss23.feature_cache import DEFAULT_CACHE_ROOT, load_cached_corp
 from mop.beds.starss23.featurizer import FLOPS_PER_FRAME, FrozenFeaturizer  # noqa: E402
 from mop.beds.starss23.gate import FLOPS_PER_INFERENCE, OnlineState  # noqa: E402
 from mop.beds.starss23.gate_diversity_reg import DEFAULT_SPACING_WINDOW, DiversityRegGate  # noqa: E402
-from mop.beds.starss23.harness import (  # noqa: E402
-    ARM_ALWAYS_ON,
-    ARM_BEST_SINGLE,
-    ARM_CANDIDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    run_matched_budget,
-)
 from mop.beds.starss23.prereg import PREREGISTERED_SESOI_F1  # noqa: E402
 from mop.beds.starss23.real_artifact import RealBedConfig, _real_noisy_tv_features  # noqa: E402
 from mop.beds.starss23.schema import COLLAR_FRAMES, Clip, ClipSplit  # noqa: E402
@@ -88,6 +81,13 @@ from mop.ladder.ladder_contracts import (  # noqa: E402
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
     mint_demonstration,
+)
+from mop.science.budget import (  # noqa: E402
+    ARM_ALWAYS_ON,
+    ARM_BEST_SINGLE,
+    ARM_CANDIDATE,
+    ARM_RATE_MATCHED_RANDOM,
+    run_matched_budget,
 )
 from mop.science.statistics import exact_sign_flip  # noqa: E402
 from mop.substrate.events import canonical_bytes, canonical_sha256  # noqa: E402

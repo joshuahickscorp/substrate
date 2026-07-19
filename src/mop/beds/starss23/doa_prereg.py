@@ -43,8 +43,8 @@ from mop.substrate.events import canonical_bytes, canonical_sha256
 from . import CLAIM_SCOPE
 from .doa_estimator import FLOPS_PER_REESTIMATE
 from .doa_gate import ARCH_A_ID, ARCH_B_ID, C_TRAIN_ANCHOR_ARCH_A, C_TRAIN_ANCHOR_ARCH_B
-from .doa_harness import DOA_BED_ID
 from .doa_referee import DOA_COLD_START, METRIC_RULE
+from .experiments import DOA_BED_ID
 from .schema import FRAME_MS
 
 DOA_PREREG_SCHEMA = "mop-starss23-doa-bed-prereg/v1"

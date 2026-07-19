@@ -35,10 +35,10 @@ from typing import Any
 
 import numpy as np
 
+from mop.science.budget import ARM_ALWAYS_ON, ARM_BEST_SINGLE, ARM_RATE_MATCHED_RANDOM
 from mop.substrate.events import canonical_sha256
 
 from .featurizer import D_FEAT
-from .harness import ARM_ALWAYS_ON, ARM_BEST_SINGLE, ARM_RATE_MATCHED_RANDOM
 from .referee import score_arm
 from .schema import COLLAR_FRAMES
 

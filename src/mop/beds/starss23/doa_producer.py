@@ -41,6 +41,17 @@ from typing import Any
 import numpy as np
 
 from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL, mint_demonstration
+from mop.science.budget import (
+    ARM_ALWAYS_ON,
+    ARM_CANDIDATE,
+    ARM_NEVER_UPDATE,
+    ARM_RATE_MATCHED_RANDOM,
+    Arm,
+    BudgetPoint,
+    FlopModel,
+    SeedResult,
+    run_dual_architecture,
+)
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
@@ -63,19 +74,6 @@ from .doa_gate import (
     training_flops_arch_a,
     training_flops_arch_b,
 )
-from .doa_harness import (
-    ARM_ALWAYS_ON,
-    ARM_CANDIDATE,
-    ARM_NEVER_UPDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    DOA_BED_ID,
-    VERDICT_ARCHITECTURE_FRAGILE,
-    DoaArm,
-    DoaArmSeedResult,
-    DoaBudgetPoint,
-    FlopModel,
-    run_matched_budget_dual_architecture,
-)
 from .doa_labels import (
     build_doa_clips,
     change_density,
@@ -97,6 +95,7 @@ from .doa_referee import (
     pooled_score_arm,
     room_majority_collapse,
 )
+from .experiments import DOA_BED_ID, DOA_BUDGET_POLICY
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
 
@@ -445,23 +444,24 @@ def _flop_model(
 
 def _build_budget_points(
     architecture: str, seed_runs: list[_SeedRun], config: RealDoaBedConfig
-) -> list[DoaBudgetPoint]:
+) -> list[BudgetPoint]:
     total_frames = seed_runs[0].total_frames
     train_frames = seed_runs[0].train_frames
     gate_params = seed_runs[0].gate_params
-    budget_points: list[DoaBudgetPoint] = []
+    budget_points: list[BudgetPoint] = []
     for budget_id in seed_runs[0].per_budget:
-        arms: dict[str, DoaArm] = {}
+        arms: dict[str, Arm] = {}
         for kind in _ALL_KINDS:
             seed_results = tuple(
-                DoaArmSeedResult(
+                SeedResult(
                     seed=run.seed,
-                    mae_deg=run.per_budget[budget_id]["arm_scores_macro"][kind]["macro_mae_deg"],
-                    reestimations=run.per_budget[budget_id]["reestimations"][kind],
+                    metric_value=run.per_budget[budget_id]["arm_scores_macro"][kind]["macro_mae_deg"],
+                    actions=run.per_budget[budget_id]["reestimations"][kind],
                 )
                 for run in seed_runs
             )
-            arms[kind] = DoaArm(
+            arms[kind] = Arm(
+                policy=DOA_BUDGET_POLICY,
                 name=f"{kind}@{architecture}@{budget_id}",
                 kind=kind,
                 architecture=architecture,
@@ -471,13 +471,14 @@ def _build_budget_points(
                 seed_results=seed_results,
             )
         budget_points.append(
-            DoaBudgetPoint(
+            BudgetPoint(
+                policy=DOA_BUDGET_POLICY,
                 budget_id=budget_id,
                 architecture=architecture,
                 candidate=arms[ARM_CANDIDATE],
                 rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
                 always_on=arms[ARM_ALWAYS_ON],
-                never_update=arms[ARM_NEVER_UPDATE],
+                reference=arms[ARM_NEVER_UPDATE],
             )
         )
     return budget_points
@@ -697,7 +698,7 @@ def build_real_doa_bed_artifact(
         1,
         max(point.candidate.max_lifecycle_flops() for point in (*budget_points_a, *budget_points_b)),
     )
-    report = run_matched_budget_dual_architecture(
+    report = run_dual_architecture(
         budget_points_a,
         budget_points_b,
         wall_ns=nominal_wall_ns,
@@ -715,7 +716,7 @@ def build_real_doa_bed_artifact(
     if both_survive:
         bed_verdict = VERDICT_MECHANICS_OK
     elif exactly_one_survives:
-        bed_verdict = VERDICT_ARCHITECTURE_FRAGILE
+        bed_verdict = "architecture-fragile"
     else:
         bed_verdict = VERDICT_NULL
 

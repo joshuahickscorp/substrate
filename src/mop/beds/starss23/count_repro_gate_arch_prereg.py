@@ -40,7 +40,6 @@ from mop.substrate.events import canonical_bytes, canonical_sha256
 
 from . import CLAIM_SCOPE
 from .count_estimator import FLOPS_PER_REESTIMATE
-from .count_harness import COUNT_BED_ID
 from .count_prereg import (
     DEFAULT_C_TRAIN_FLOPS,
     compute_count_cost_benefit,
@@ -55,6 +54,7 @@ from .count_repro_gate_arch_gate import (
     REPRO_AXIS,
     param_count_two_layer,
 )
+from .experiments import COUNT_BED_ID
 
 COUNT_REPRO_GATE_ARCH_PREREG_SCHEMA = "mop-starss23-count-repro-gate-arch-prereg/v1"
 STAGE = 3

@@ -38,6 +38,13 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.budget import (
+    ARM_ALWAYS_ON,
+    ARM_CANDIDATE,
+    ARM_NEVER_UPDATE,
+    ARM_RATE_MATCHED_RANDOM,
+    run_matched_budget,
+)
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
@@ -47,14 +54,6 @@ from .controls import at_chance
 from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
 from .count_gate import FLOPS_PER_INFERENCE, CountOnlineState
-from .count_harness import (
-    ARM_ALWAYS_ON,
-    ARM_CANDIDATE,
-    ARM_NEVER_UPDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    COUNT_BED_ID,
-    run_matched_budget,
-)
 from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_producer import (
     DEFAULT_FOA_ROOT,
@@ -79,6 +78,7 @@ from .count_repro_data_split_prereg import (
     build_data_split_prereg,
     write_data_split_prereg,
 )
+from .experiments import COUNT_BED_ID
 from .schema import Clip
 
 REPRO_PRODUCER_SCHEMA = "mop-starss23-count-repro-data-split-producer/v1"

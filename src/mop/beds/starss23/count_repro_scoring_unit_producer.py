@@ -37,6 +37,16 @@ from mop.ladder.ladder_contracts import (
     VERDICT_NULL,
     mint_demonstration,
 )
+from mop.science.budget import (
+    ARM_ALWAYS_ON,
+    ARM_CANDIDATE,
+    ARM_NEVER_UPDATE,
+    ARM_RATE_MATCHED_RANDOM,
+    Arm,
+    BudgetPoint,
+    SeedResult,
+    run_matched_budget,
+)
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import canonical_bytes, canonical_sha256
 
@@ -53,17 +63,6 @@ from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturi
 from .count_gate import (
     FLOPS_PER_INFERENCE,
     CountOnlineState,
-)
-from .count_harness import (
-    ARM_ALWAYS_ON,
-    ARM_CANDIDATE,
-    ARM_NEVER_UPDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    COUNT_BED_ID,
-    CountArm,
-    CountArmSeedResult,
-    CountBudgetPoint,
-    run_matched_budget,
 )
 from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_producer import (
@@ -92,6 +91,7 @@ from .count_repro_scoring_unit_referee import (
     exact_sign_flip_over_clips,
     macro_score_arm,
 )
+from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
 from .schema import Clip
 
 COUNT_REPRO_SCORING_UNIT_PRODUCER_SCHEMA = "mop-starss23-count-repro-scoring-unit-producer/v1"
@@ -233,25 +233,26 @@ def _run_seed_macro(
 
 def _build_macro_budget_points(
     seed_runs: list[_MacroSeedRun], config: RealCountBedConfig
-) -> list[CountBudgetPoint]:
+) -> list[BudgetPoint]:
     """Assemble the matched-budget arms from the clip-macro per-seed scores. FLOP model held identical."""
 
     total_frames = seed_runs[0].total_frames
     train_frames = seed_runs[0].train_frames
     gate_params = seed_runs[0].gate_params
-    budget_points: list[CountBudgetPoint] = []
+    budget_points: list[BudgetPoint] = []
     for budget_id in seed_runs[0].per_budget:
-        arms: dict[str, CountArm] = {}
+        arms: dict[str, Arm] = {}
         for kind in _ARM_KINDS:
             seed_results = tuple(
-                CountArmSeedResult(
+                SeedResult(
                     seed=run.seed,
-                    mae=run.per_budget[budget_id]["arm_scores"][kind]["macro_mae"],
-                    reestimations=run.per_budget[budget_id]["reestimations"][kind],
+                    metric_value=run.per_budget[budget_id]["arm_scores"][kind]["macro_mae"],
+                    actions=run.per_budget[budget_id]["reestimations"][kind],
                 )
                 for run in seed_runs
             )
-            arms[kind] = CountArm(
+            arms[kind] = Arm(
+                policy=COUNT_BUDGET_POLICY,
                 name=f"{kind}@{budget_id}",
                 kind=kind,
                 total_frames=total_frames,
@@ -260,12 +261,13 @@ def _build_macro_budget_points(
                 seed_results=seed_results,
             )
         budget_points.append(
-            CountBudgetPoint(
+            BudgetPoint(
+                policy=COUNT_BUDGET_POLICY,
                 budget_id=budget_id,
                 candidate=arms[ARM_CANDIDATE],
                 rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
                 always_on=arms[ARM_ALWAYS_ON],
-                never_update=arms[ARM_NEVER_UPDATE],
+                reference=arms[ARM_NEVER_UPDATE],
             )
         )
     return budget_points

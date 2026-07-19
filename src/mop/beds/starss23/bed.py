@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from mop.ladder.stage_ladder import MatchedBudget
+from mop.science.budget import ARM_ALWAYS_ON, ARM_BEST_SINGLE, ARM_RATE_MATCHED_RANDOM
 from mop.substrate.events import canonical_sha256
 
 from . import BED_ID
@@ -32,7 +33,6 @@ from .fixtures import (
     generate_clip,
 )
 from .gate import DEFAULT_EPOCHS, FLOPS_PER_INFERENCE, param_count, training_flops
-from .harness import ARM_ALWAYS_ON, ARM_BEST_SINGLE, ARM_RATE_MATCHED_RANDOM
 
 BED_ADAPTER_SCHEMA = "mop-starss23-escs-bed-adapter/v1"
 

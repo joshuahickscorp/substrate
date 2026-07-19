@@ -25,7 +25,6 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from mop.beds.starss23 import doa_harness as H
 from mop.beds.starss23 import doa_verifier as V
 from mop.beds.starss23.doa_estimator import FLOPS_PER_REESTIMATE, FrozenDoaEstimator
 from mop.beds.starss23.doa_featurizer import D_FEAT_DOA, DoaFeaturizer
@@ -72,6 +71,8 @@ from mop.beds.starss23.doa_referee import (
     pooled_score_arm,
     room_majority_collapse,
 )
+from mop.beds.starss23.experiments import DOA_BUDGET_POLICY
+from mop.science import budget as H
 
 FLOP_CEILING = 60_000_000_000
 _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
@@ -355,7 +356,8 @@ def _flop_model_doa(kind, architecture, total_frames, train_frames):
 
 def _arm_doa(kind, architecture, mae_by_seed, k_by_seed, total_frames, train_frames, seeds):
     params = (3193 if architecture == ARCH_A_ID else 1639) if kind == H.ARM_CANDIDATE else 0
-    return H.DoaArm(
+    return H.Arm(
+        policy=DOA_BUDGET_POLICY,
         name=f"{kind}@{architecture}",
         kind=kind,
         architecture=architecture,
@@ -363,7 +365,7 @@ def _arm_doa(kind, architecture, mae_by_seed, k_by_seed, total_frames, train_fra
         params=params,
         flop_model=_flop_model_doa(kind, architecture, total_frames, train_frames),
         seed_results=tuple(
-            H.DoaArmSeedResult(seed=s, mae_deg=mae_by_seed[i], reestimations=k_by_seed[i])
+            H.SeedResult(seed=s, metric_value=mae_by_seed[i], actions=k_by_seed[i])
             for i, s in enumerate(seeds)
         ),
     )
@@ -377,7 +379,9 @@ def _budget_point_doa(architecture, candidate_mae, rmr_mae, seeds=(0, 1, 2, 3, 4
     rmr = _arm_doa(H.ARM_RATE_MATCHED_RANDOM, architecture, [rmr_mae] * len(seeds), k, total_frames, train_frames, seeds)
     ao = _arm_doa(H.ARM_ALWAYS_ON, architecture, [20.0] * len(seeds), [total_frames] * len(seeds), total_frames, train_frames, seeds)
     nu = _arm_doa(H.ARM_NEVER_UPDATE, architecture, [90.0] * len(seeds), [0] * len(seeds), total_frames, train_frames, seeds)
-    return H.DoaBudgetPoint("rate_0.05", architecture, cand, rmr, ao, nu)
+    return H.BudgetPoint(
+        DOA_BUDGET_POLICY, "rate_0.05", cand, rmr, ao, nu, architecture=architecture
+    )
 
 
 def test_matched_budget_holds_for_both_architectures():
@@ -390,7 +394,7 @@ def test_matched_budget_holds_for_both_architectures():
     for arm in (*point_a.arms(), *point_b.arms()):
         assert arm.max_lifecycle_flops() <= FLOP_CEILING
 
-    report = H.run_matched_budget_dual_architecture([point_a], [point_b], wall_ns=1, source_kind="real")
+    report = H.run_dual_architecture([point_a], [point_b], wall_ns=1, source_kind="real")
     assert report.candidate_strictly_dominates_rate_matched_random_arch_a is True
     assert report.candidate_strictly_dominates_rate_matched_random_arch_b is True
     assert report.both_architectures_dominate is True
@@ -398,12 +402,13 @@ def test_matched_budget_holds_for_both_architectures():
     assert report.activation_allowed is False
     assert report.scientific_promotion is False
     assert report.independent_scientific_confirmation is False
+    assert report.digest() == "03bac31f36c573995aee374be279eb97bdd8dc09d96e89715515e45f5f1ee4d8"
 
 
 def test_architecture_fragile_fold_when_exactly_one_dominates():
     point_a = _budget_point_doa(ARCH_A_ID, candidate_mae=10.0, rmr_mae=15.0)  # candidate wins
     point_b = _budget_point_doa(ARCH_B_ID, candidate_mae=16.0, rmr_mae=15.0)  # candidate loses (tie-ish, higher)
-    report = H.run_matched_budget_dual_architecture([point_a], [point_b], wall_ns=1, source_kind="real")
+    report = H.run_dual_architecture([point_a], [point_b], wall_ns=1, source_kind="real")
     assert report.candidate_strictly_dominates_rate_matched_random_arch_a is True
     assert report.candidate_strictly_dominates_rate_matched_random_arch_b is False
     assert report.both_architectures_dominate is False
@@ -413,14 +418,15 @@ def test_architecture_fragile_fold_when_exactly_one_dominates():
 def test_null_fold_when_neither_architecture_dominates():
     point_a = _budget_point_doa(ARCH_A_ID, candidate_mae=15.0, rmr_mae=10.0)
     point_b = _budget_point_doa(ARCH_B_ID, candidate_mae=16.0, rmr_mae=15.0)
-    report = H.run_matched_budget_dual_architecture([point_a], [point_b], wall_ns=1, source_kind="real")
+    report = H.run_dual_architecture([point_a], [point_b], wall_ns=1, source_kind="real")
     assert report.both_architectures_dominate is False
     assert report.verdict == "null"
 
 
 def test_harness_refuses_uncharged_training_and_k_mismatch_and_ceiling():
     point_a = _budget_point_doa(ARCH_A_ID, candidate_mae=10.0, rmr_mae=15.0)
-    cand_no_train = H.DoaArm(
+    cand_no_train = H.Arm(
+        policy=DOA_BUDGET_POLICY,
         name="candidate_no_train",
         kind=H.ARM_CANDIDATE,
         architecture=ARCH_A_ID,
@@ -429,19 +435,20 @@ def test_harness_refuses_uncharged_training_and_k_mismatch_and_ceiling():
         flop_model=H.FlopModel(featurize_flops=1, gate_infer_flops=1, downstream_flops_per_firing=1, train_flops=0),
         seed_results=point_a.candidate.seed_results,
     )
-    with pytest.raises(H.DoaUnchargedTraining):
+    with pytest.raises(H.UnchargedTraining):
         H.assert_matched_ex_training(cand_no_train, point_a.rate_matched_random)
 
-    huge = H.DoaArm(
+    huge = H.Arm(
+        policy=DOA_BUDGET_POLICY,
         name="candidate_huge",
         kind=H.ARM_CANDIDATE,
         architecture=ARCH_A_ID,
         total_frames=1000,
         params=3193,
         flop_model=H.FlopModel(featurize_flops=FLOP_CEILING, gate_infer_flops=1, downstream_flops_per_firing=1, train_flops=1),
-        seed_results=tuple(H.DoaArmSeedResult(seed=s, mae_deg=1.0, reestimations=1) for s in (0, 1)),
+        seed_results=tuple(H.SeedResult(seed=s, metric_value=1.0, actions=1) for s in (0, 1)),
     )
-    with pytest.raises(H.DoaCeilingExceeded):
+    with pytest.raises(H.CeilingExceeded):
         H.assert_within_ceiling(huge)
 
 
