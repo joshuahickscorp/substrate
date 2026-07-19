@@ -1,0 +1,20 @@
+{
+  "schema": "mop-canary-preregistration-realdata/v1",
+  "lane": "G1-N1",
+  "source_commit": "16dc1c6b03122606b5fc87b05cb313e76650d0db",
+  "dataset": "MNIST + FashionMNIST (public, MNIST public-domain, FashionMNIST MIT), local campaign2/data",
+  "provenance": "torchvision official mirror; downloaded for this campaign",
+  "rights": "lawful research use",
+  "question": "can N1 identify novelty whose downstream error is reducible by a bounded intervention while rejecting irreducible noise/OOD",
+  "mechanism": "best of capable estimators (knn, kernel_ridge, rff) predicting MEASURED reducibility from decision-time features (logits, entropy, margin, maxprob, feature-norm, novelty distance)",
+  "intervention": "test-time-augmentation ensemble inference (K=8 augmented forward passes), real compute cost",
+  "independent_units": "6 distribution regimes (clean/noise/blur/rotate/elastic/fashion_ood), group-disjoint item splits",
+  "oracle": "allocate intervention budget to top MEASURED reducibility",
+  "primary_metric": "fraction of oracle headroom over random captured",
+  "sesoi": 0.05,
+  "group_rule": "random-effects lower-95%-CB >= SESOI (sealed Phase 4B)",
+  "architecture_rule": ">=2 capable estimators (sealed Phase 4B)",
+  "claim_ceiling": "real-data CANARY evidence; a positive licenses ONE larger independent-confirmation experiment (more sources/tasks/implementations), NOT activation and NOT scientific confirmation by itself",
+  "stop_rule": "terminal after one canary; a tie is a null; wrong-direction fails",
+  "prereg_sha256": "7b1aba45d428bc93249900b2b5f4504ea86a6efd5f807f11db891bd7b61972a9"
+}
