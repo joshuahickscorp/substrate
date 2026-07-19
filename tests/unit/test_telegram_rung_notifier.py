@@ -49,14 +49,13 @@ def test_collects_completed_capsule_terminal_and_standalone_proof(tmp_path: Path
         {"schema": "proof/v1", "complete": True, "decision": {"verdict": "candidate"}},
     )
     events = notifier.collect_events(runs_root=runs, proof_root=proofs)
-    assert {event["kind"] for event in events} == {"rung", "terminal", "proof"}
-    assert next(event for event in events if event["kind"] == "rung")["progress"] == {
+    # Per-rung milestone events are retired: a completed program now yields only its terminal
+    # event (per-capsule progress is carried by the sub-task start/complete stream) and any
+    # standalone proof.
+    assert {event["kind"] for event in events} == {"terminal", "proof"}
+    assert next(event for event in events if event["kind"] == "terminal")["progress"] == {
         "complete": 1,
         "total": 1,
-    }
-    assert next(event for event in events if event["kind"] == "rung")["eta"] == {
-        "block_seconds": 0.0,
-        "session_seconds": 0.0,
     }
 
 
@@ -195,30 +194,43 @@ def test_dead_supervisor_has_ten_minute_grace(monkeypatch, tmp_path: Path) -> No
     assert notifier.collect_events(runs_root=runs, proof_root=tmp_path / "proof") == []
 
 
-def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None:
-    monkeypatch.setattr(
-        notifier,
-        "host_health",
-        lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0},
-    )
+def test_start_blip_shows_facet_and_full_run_eta() -> None:
+    # The retired 10%-milestone ping's two ETAs (this facet, the full run) now ride on the
+    # single per-sub-task START blip instead.
     message = notifier.format_event(
         {
-            "kind": "rung",
-            "program_id": "generation1-c3-d1-router-redesign-screen-v1",
-            "capsule_id": "g1_c3_router_redesign_rung_09",
-            "progress": {"complete": 10, "total": 48},
-            "eta": {"block_seconds": 1500.0, "session_seconds": 6848.0},
-            "problems": [],
+            "kind": "subtask",
+            "phase": "start",
+            "program_id": "generation1-full-generations-wave-v1",
+            "capsule_id": "w01_communication_repair",
+            "wave_epoch": "01",
+            "category": "communication_repair",
+            "eta": {"facet_seconds": 420.0, "overall_seconds": 9000.0},
         }
     )
     assert message == (
-        "🧪 MOP C3 Router Redesign\n"
-        "Progress: 10/48 (21%)\n"
-        "Next 25%: 25m\n"
-        "Full queue: 1h 55m\n"
-        "Health: good\n"
-        "Errors: none"
+        "▶️ General Run · Wave 01 — starting\n"
+        "Communication & repair  (V1, M1, K1)\n"
+        "→ Can perspectives fix a contradiction by messaging just the one that's wrong, "
+        "instead of broadcasting to everyone?\n"
+        "ETA: this facet ~7m  ·  full run ~2h 30m"
     )
+
+
+def test_start_blip_omits_eta_line_when_no_estimate_is_available() -> None:
+    message = notifier.format_event(
+        {
+            "kind": "subtask",
+            "phase": "start",
+            "program_id": "generation1-full-generations-wave-v1",
+            "capsule_id": "w05_construction",
+            "wave_epoch": "05",
+            "category": "construction",
+            "eta": {"facet_seconds": None, "overall_seconds": None},
+        }
+    )
+    assert message.endswith("beat a greedy pick when there is real synergy to find?")
+    assert "ETA:" not in message
 
 
 def test_successor_chain_family_renders_as_unified_general_run() -> None:
@@ -234,8 +246,12 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
     assert notifier._program_label("generation1-successor-evidence-chain-v7") == "General Run: Adopter"
     assert notifier._program_label("generation1-successor-horizon-v1") == "General Run: Horizon 1"
     assert notifier._program_label("generation1-successor-horizon-v2") == "General Run: Horizon 2"
-    assert notifier._program_label("generation1-successor-extension-chain-v1") == "General Run: Horizon Waiter"
-    assert notifier._program_label("generation1-successor-extension-chain-v3") == "General Run: Horizon Waiter"
+    assert (
+        notifier._program_label("generation1-successor-extension-chain-v1") == "General Run: Horizon Waiter"
+    )
+    assert (
+        notifier._program_label("generation1-successor-extension-chain-v3") == "General Run: Horizon Waiter"
+    )
     assert (
         notifier._program_label("generation1-successor-categorized-batch-wave-v1")
         == "General Run: Categorized Wave"
@@ -243,25 +259,36 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
     assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Run: Final"
     # the C0/C1/C2/C3/D1 one-off experiments keep their own labels, unchanged
     assert notifier._program_label("generation1-c3-d1-router-redesign-screen-v1") == "C3 Router Redesign"
-    assert notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
+    assert (
+        notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
+    )
 
 
-def test_event_eta_prefers_next_rung_cost() -> None:
-    # complete=5/total=200 is in the 0-24% bucket; the next milestone (25%) is reached at
-    # rung 50, so 45 rungs remain to it: 32.1 * 45 / 1 worker = 1444.5.
-    eta = notifier._event_eta(
+def test_adaptive_eta_reports_facet_and_full_run_from_the_adaptive_block() -> None:
+    # facet prefers the next-rung cost over the running average; full run is the session eta.
+    eta = notifier._adaptive_eta(
         {
             "adaptive_execution": {
-                "average_rung_seconds": 1.0,
+                "average_rung_seconds": 50.0,
                 "next_rung_seconds": 32.1,
                 "eta_seconds": 9_876.0,
-                "workers": 1,
+                "workers": 4,
             }
         },
+        {},
         complete=5,
         total=200,
     )
-    assert eta == {"block_seconds": 1_444.5, "session_seconds": 9_876.0}
+    assert eta == {"facet_seconds": 32.1, "overall_seconds": 9_876.0}
+
+    # with no next-rung cost the facet falls back to the average
+    fallback = notifier._adaptive_eta(
+        {"adaptive_execution": {"average_rung_seconds": 50.0, "eta_seconds": 100.0}},
+        {},
+        complete=1,
+        total=10,
+    )
+    assert fallback == {"facet_seconds": 50.0, "overall_seconds": 100.0}
 
 
 def test_short_block_eta_uses_seconds_instead_of_rounding_to_one_minute() -> None:
@@ -292,9 +319,7 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
     fills the gap from real capsule finish timestamps plus a live controller sample."""
 
     idle_sample, idle_target = _fake_host_sample(free_p_cores=14, hawking_active=False)
-    monkeypatch.setattr(
-        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample
-    )
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample)
     capsules = {
         "a": {"finished_at": "2026-07-18T00:00:00+00:00"},
         "b": {"finished_at": "2026-07-18T00:01:00+00:00"},
@@ -315,9 +340,7 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
     from mop.studio import dynamic_worker_controller as controller
 
     hawking_sample, _ = _fake_host_sample(free_p_cores=14, hawking_active=True)
-    monkeypatch.setattr(
-        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: hawking_sample
-    )
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: hawking_sample)
     hawking = notifier._synthetic_adaptive(capsules, total=74, complete=3)
     assert hawking is not None
     assert hawking["workers"] == controller.HAWKING_RESERVE_WORKERS
@@ -325,9 +348,12 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
 
     # A real adaptive_execution block is never overridden by the synthetic fallback.
     real = {"average_rung_seconds": 5.0, "workers": 8, "mode": "hawking_idle", "eta_seconds": 100.0}
-    assert notifier._with_effective_adaptive(
-        {"adaptive_execution": real}, capsules, total=74, complete=3
-    )["adaptive_execution"] == real
+    assert (
+        notifier._with_effective_adaptive({"adaptive_execution": real}, capsules, total=74, complete=3)[
+            "adaptive_execution"
+        ]
+        == real
+    )
 
     # Never fatal: if the controller sample fails and there are not enough timestamps to
     # derive an average either, the fallback is a clean None rather than a raised exception.
@@ -338,49 +364,52 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
     assert notifier._synthetic_adaptive({}, total=74, complete=0) is None
 
 
-def test_collect_events_shows_workers_and_eta_for_a_dynamic_pool_stage_with_no_counts(
-    monkeypatch, tmp_path: Path
-) -> None:
-    """End-to-end reproduction of the horizon_v1/v2 shape: a status with `capsules` but no
-    `counts` and no `adaptive_execution` (exactly runs/generation1/generation1-successor-
-    horizon-v1/current_status.json). Workers and ETA must show up in the resulting event."""
+def test_adaptive_eta_synthesizes_facet_and_full_run_for_a_dynamic_pool_stage(monkeypatch) -> None:
+    """Dynamic-worker-pool stages (horizon/categorized/full-generations) never write a real
+    adaptive_execution block, so the START blip's two ETAs are synthesized from capsule finish
+    timestamps plus a live controller sample, not left blank."""
 
-    fake_sample, expected_workers = _fake_host_sample(free_p_cores=13, hawking_active=False)
-    monkeypatch.setattr(
-        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: fake_sample
-    )
-    runs = tmp_path / "runs"
-    _write(
-        runs / "horizon" / "current_status.json",
-        {
-            "program_id": "successor-horizon-v1",
-            "state": "running",
-            "problems": [],
-            "capsules": {
-                "g1_h01_classify": {
-                    "returncode": 0,
-                    "finished_at": "2026-07-18T00:00:00+00:00",
-                    "attempts": 1,
-                    "artifacts": [{"all_ok": True, "sha256": "a" * 64}],
-                },
-                "g1_h01_d1_shard_00": {
-                    "returncode": 0,
-                    "finished_at": "2026-07-18T00:01:00+00:00",
-                    "attempts": 1,
-                    "artifacts": [{"all_ok": True, "sha256": "b" * 64}],
-                },
-                "g1_h01_d1_shard_01": {},
-            },
-        },
-    )
-    events = notifier.collect_events(runs_root=runs, proof_root=tmp_path / "proof")
-    rungs = [event for event in events if event["kind"] == "rung"]
-    assert len(rungs) == 2
-    for event in rungs:
-        assert event["adaptive"]["workers"] == expected_workers
-        assert event["adaptive"]["mode"] == "hawking_idle"
-        assert event["eta"]["block_seconds"] is not None
-    assert notifier._worker_line(rungs[-1]) == f"Workers: {expected_workers} (idle burst)"
+    idle_sample, idle_target = _fake_host_sample(free_p_cores=13, hawking_active=False)
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample)
+    capsules = {
+        "g1_h01_classify": {"finished_at": "2026-07-18T00:00:00+00:00"},
+        "g1_h01_d1_shard_00": {"finished_at": "2026-07-18T00:01:00+00:00"},
+        "g1_h01_d1_shard_01": {"finished_at": "2026-07-18T00:02:00+00:00"},
+    }
+    eta = notifier._adaptive_eta({"state": "running"}, capsules, complete=3, total=74)
+    # facet = the average capsule wall-time (60s between three evenly-spaced finishes)
+    assert eta["facet_seconds"] == 60.0
+    # full run = average * remaining / settled worker count
+    assert eta["overall_seconds"] == 60.0 * (74 - 3) / idle_target
+    assert eta["overall_seconds"] is not None
+
+
+def test_synthetic_adaptive_hardens_average_from_a_single_finished_capsule(monkeypatch) -> None:
+    # The old span method needed TWO finish timestamps and blanked to "estimating" until then.
+    # The per-capsule duration (finished_at - started_at) yields a real number from just one.
+    idle_sample, _ = _fake_host_sample(free_p_cores=14, hawking_active=False)
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample)
+    capsules = {
+        "a": {"started_at": "2026-07-18T00:00:00+00:00", "finished_at": "2026-07-18T00:02:00+00:00"},
+        "b": {"status": "pending"},
+    }
+    synthetic = notifier._synthetic_adaptive(capsules, total=10, complete=1)
+    assert synthetic is not None
+    assert synthetic["average_rung_seconds"] == 120.0
+    assert synthetic["eta_seconds"] is not None
+
+
+def test_synthetic_adaptive_falls_back_to_in_flight_elapsed_when_nothing_has_finished(monkeypatch) -> None:
+    # Nothing finished yet, one capsule running: rather than "estimating", derive a provisional
+    # per-capsule estimate from the longest in-flight elapsed so an ETA number still shows.
+    idle_sample, _ = _fake_host_sample(free_p_cores=14, hawking_active=False)
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample)
+    capsules = {"a": {"started_at": "2020-01-01T00:00:00+00:00"}}
+    synthetic = notifier._synthetic_adaptive(capsules, total=10, complete=0)
+    assert synthetic is not None
+    assert synthetic["average_rung_seconds"] is not None
+    assert synthetic["average_rung_seconds"] > 0
+    assert synthetic["eta_seconds"] is not None
 
 
 def test_proof_summary_extracts_c2_metrics_and_decision() -> None:
@@ -441,21 +470,16 @@ def test_prime_suppresses_history_and_run_sends_only_new_event(monkeypatch, tmp_
     assert sent == ["two"]
 
 
-def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
+def test_run_delivers_every_new_event_now_that_milestone_gating_is_gone(
+    monkeypatch, tmp_path: Path
+) -> None:
+    # With the 10%-step rung stream retired, run_once no longer suppresses anything: each new
+    # event (here a terminal) delivers immediately, deduped only by event_id.
     state_path = tmp_path / "state.json"
     state = notifier._new_state()
     state["primed"] = True
     notifier.save_state(state, state_path)
     events = [
-        {
-            "event_id": f"rung-{index}",
-            "kind": "rung",
-            "program_id": "program",
-            "progress": {"complete": index, "total": 100},
-        }
-        for index in range(1, 100)
-    ]
-    events.append(
         {
             "event_id": "terminal",
             "kind": "terminal",
@@ -464,43 +488,6 @@ def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(monke
             "progress": {"complete": 100, "total": 100},
             "problems": [],
         }
-    )
-    monkeypatch.setattr(notifier, "collect_events", lambda: events)
-    monkeypatch.setattr(notifier, "format_event", lambda event: str(event["event_id"]))
-    sent: list[str] = []
-    result = notifier.run_once(
-        state_path=state_path,
-        runs_root=tmp_path / "runs",
-        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
-    )
-
-    # One notification at each 25% crossing (25, 50, 75), plus the terminal event.
-    assert result["sent"] == 4
-    assert sent == ["rung-25", "rung-50", "rung-75", "terminal"]
-    delivered = notifier.load_state(state_path)["delivered"]
-    assert delivered["rung-10"]["status"] == "suppressed-nonmilestone"
-    assert delivered["rung-99"]["status"] == "suppressed-nonmilestone"
-
-
-def test_run_does_not_spam_every_rung_when_total_is_smaller_than_the_old_fixed_step(
-    monkeypatch, tmp_path: Path
-) -> None:
-    """Regression: the horizon_v1 bug. A 74-capsule stage with the former fixed 100-rung step
-    fired on every single rung (an escape hatch made `total <= step` always true). The
-    percentage milestone must instead fire only near each quartile, on any total."""
-
-    state_path = tmp_path / "state.json"
-    state = notifier._new_state()
-    state["primed"] = True
-    notifier.save_state(state, state_path)
-    events = [
-        {
-            "event_id": f"rung-{index}",
-            "kind": "rung",
-            "program_id": "program",
-            "progress": {"complete": index, "total": 74},
-        }
-        for index in range(1, 75)
     ]
     monkeypatch.setattr(notifier, "collect_events", lambda: events)
     monkeypatch.setattr(notifier, "format_event", lambda event: str(event["event_id"]))
@@ -510,33 +497,16 @@ def test_run_does_not_spam_every_rung_when_total_is_smaller_than_the_old_fixed_s
         runs_root=tmp_path / "runs",
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
-    # Not 74 (one per rung, the old bug). One near each of 25/50/75/100%.
-    assert result["sent"] == 4
-    assert sent == ["rung-19", "rung-37", "rung-56", "rung-74"]
+    assert result["sent"] == 1
+    assert sent == ["terminal"]
 
-
-def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
-    def rung(complete: int, total: int) -> dict:
-        return {"kind": "rung", "progress": {"complete": complete, "total": total}}
-
-    # A single-item program always gets exactly one notification, at 100%.
-    assert notifier._should_send(rung(1, 1)) is True
-    # Round totals: milestones land exactly on the quartile.
-    assert notifier._should_send(rung(24, 100)) is False
-    assert notifier._should_send(rung(25, 100)) is True
-    assert notifier._should_send(rung(49, 100)) is False
-    assert notifier._should_send(rung(50, 100)) is True
-    assert notifier._should_send(rung(74, 100)) is False
-    assert notifier._should_send(rung(75, 100)) is True
-    assert notifier._should_send(rung(99, 100)) is False
-    assert notifier._should_send(rung(100, 100)) is True
-    # Completion (100%) always fires, regardless of total size.
-    assert notifier._should_send(rung(240, 240)) is True
-    assert notifier._should_send(rung(101, 101)) is True
-    # Malformed or non-positive progress never sends.
-    assert notifier._should_send(rung(5, 0)) is False
-    assert notifier._should_send({"kind": "rung", "progress": {}}) is False
-    assert notifier._should_send({"kind": "rung", "progress": {"complete": 1, "total": None}}) is False
+    # a second poll re-observes the same terminal and never re-sends it
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=tmp_path / "runs",
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 0
 
 
 def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
@@ -555,9 +525,7 @@ def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
 
 
 def test_full_generations_programs_render_under_general_chain() -> None:
-    assert (
-        notifier._program_label("generation1-full-generations-wave-v1") == "General Run: Full Generations"
-    )
+    assert notifier._program_label("generation1-full-generations-wave-v1") == "General Run: Full Generations"
     assert (
         notifier._program_label("generation1-full-generations-extension-chain-v1")
         == "General Run: Full Gen Waiter"
@@ -571,36 +539,35 @@ def test_worker_line_reflects_mode_and_is_omitted_when_absent(monkeypatch) -> No
         lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0},
     )
 
-    def rung(adaptive: dict | None) -> str:
+    def terminal(adaptive: dict | None) -> str:
         event = {
-            "kind": "rung",
+            "kind": "terminal",
             "program_id": "generation1-c3-d1-router-redesign-screen-v1",
-            "progress": {"complete": 10, "total": 48},
-            "eta": {"block_seconds": 1500.0, "session_seconds": 6848.0},
+            "state": "complete",
+            "progress": {"complete": 48, "total": 48},
             "problems": [],
         }
         if adaptive is not None:
             event["adaptive"] = adaptive
         return notifier.format_event(event)
 
-    idle = rung({"workers": 16, "mode": "idle_opportunistic"})
+    idle = terminal({"workers": 16, "mode": "idle_opportunistic"})
     assert idle == (
-        "🧪 MOP C3 Router Redesign\n"
-        "Progress: 10/48 (21%)\n"
-        "Next 25%: 25m\n"
-        "Full queue: 1h 55m\n"
+        "✅ MOP C3 Router Redesign: complete\n"
+        "Progress: 48/48 (100%)\n"
+        "Chain stage complete\n"
         "Workers: 16 (idle burst)\n"
         "Health: good\n"
         "Errors: none"
     )
-    assert "Workers: 1 (Hawking active)" in rung({"workers": 1, "mode": "hawking_active"})
-    assert "Workers: 8 (steady)" in rung({"workers": 8, "mode": "steady"})
+    assert "Workers: 1 (Hawking active)" in terminal({"workers": 1, "mode": "hawking_active"})
+    assert "Workers: 8 (steady)" in terminal({"workers": 8, "mode": "steady"})
     # Regression: "hawking_idle" (the real census mode string when Hawking is NOT active and
     # the pool runs at full speed) must read as idle burst, not be mislabeled "Hawking active"
     # by a bare "hawking" substring match landing before the "idle" check.
-    assert "Workers: 8 (idle burst)" in rung({"workers": 8, "mode": "hawking_idle"})
+    assert "Workers: 8 (idle burst)" in terminal({"workers": 8, "mode": "hawking_idle"})
     # adaptive block absent: no worker line, original shape preserved
-    assert "Workers:" not in rung(None)
+    assert "Workers:" not in terminal(None)
 
 
 def test_terminal_chain_stage_annotation_and_worker_line(monkeypatch) -> None:
@@ -733,7 +700,10 @@ def test_throttle_shift_delivers_once_through_run_once(monkeypatch, tmp_path: Pa
     assert notifier.load_state(state_path)["last_seen_mode"] == {"generation1-flip": "idle"}
 
 
-def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(tmp_path: Path) -> None:
+def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(
+        notifier, "host_health", lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0}
+    )
     runs = tmp_path / "runs"
 
     def write_lane(complete: int, total: int) -> None:
@@ -760,7 +730,11 @@ def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(tmp_path:
     assert events[0]["kind"] == "subtask"
     assert events[0]["lane_short"] == "E1"
     assert events[0]["event_id"] == "subtask/lane/generation1-successor-mechanics-extended-v1/G1-E1"
-    assert notifier.format_event(events[0]) == "General Run: E1 sub-task complete (129/129)"
+    assert notifier.format_event(events[0]) == (
+        "✅ General Run · E1 done\n"
+        " • E1 — event formation: carve the stream into meaningful events (the continual-learning gate)\n"
+        "Progress: 129/129 (100%)  ·  Health: good"
+    )
 
     # a steady complete poll does not re-announce the same lane
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
@@ -803,7 +777,10 @@ def test_lane_already_complete_on_first_sight_is_treated_as_history(tmp_path: Pa
     assert lanes["generation1-successor-mechanics-extended-v1/G1-A1"] == "complete"
 
 
-def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path: Path) -> None:
+def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(
+        notifier, "host_health", lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0}
+    )
     runs = tmp_path / "runs"
 
     def write_capsule(done: bool) -> None:
@@ -838,14 +815,21 @@ def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path:
     assert events[0]["wave_epoch"] == "08"
     assert events[0]["category"] == "construction"
     assert events[0]["event_id"] == "subtask/capsule/generation1-full-generations-wave-v1/w08_construction"
-    assert notifier.format_event(events[0]) == "General Run: W08 construction sub-task complete (G1)"
+    assert notifier.format_event(events[0]) == (
+        "✅ General Run · Wave 08 — Construction search done\n"
+        " • G1 — construction: cost-charged topology search over shadow coalitions\n"
+        "Wave progress: 1/1 (100%)  ·  Health: good"
+    )
 
     # steady completed poll does not re-fire
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
     assert events == []
 
 
-def test_wave_capsule_formation_trace_names_all_covered_mechanisms(tmp_path: Path) -> None:
+def test_wave_capsule_formation_trace_names_all_covered_mechanisms(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(
+        notifier, "host_health", lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0}
+    )
     runs = tmp_path / "runs"
     _write(
         runs / "wave" / "current_status.json",
@@ -865,9 +849,11 @@ def test_wave_capsule_formation_trace_names_all_covered_mechanisms(tmp_path: Pat
     seed = {"generation1-successor-categorized-batch-wave-v1/w15_formation_trace": "incomplete"}
     events, _, _ = notifier._collect_subtask_events({}, seed, runs_root=runs)
     assert len(events) == 1
-    assert (
-        notifier.format_event(events[0])
-        == "General Run: W15 formation_trace sub-task complete (C0, E1)"
+    assert notifier.format_event(events[0]) == (
+        "✅ General Run · Wave 15 — Formation & trace done\n"
+        " • C0 — trace stability: does it form the same events cross-seed and cross-session?\n"
+        " • E1 — event formation: carve the stream into meaningful events (the continual-learning gate)\n"
+        "Wave progress: 1/1 (100%)  ·  Health: good"
     )
 
 
@@ -893,7 +879,274 @@ def test_wave_capsule_only_fires_for_general_chain_programs(tmp_path: Path) -> N
     assert events == []
 
 
+def test_wave_capsule_fires_a_start_blip_on_pending_to_running(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+
+    def write_capsule(*, status: str, started: bool) -> None:
+        row: dict = {"returncode": None, "artifacts": [], "status": status}
+        if started:
+            row["started_at"] = "2026-07-19T00:00:00+00:00"
+        _write(
+            runs / "wave" / "current_status.json",
+            {
+                "program_id": "full-generations-wave-v1",
+                "state": "running",
+                "problems": [],
+                "capsules": {"w01_communication_repair": row},
+            },
+        )
+
+    # first observation of a pending capsule records state and never fires
+    write_capsule(status="pending", started=False)
+    events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    assert events == []
+
+    # pending -> running fires exactly one start blip, distinct id from the completion blip
+    write_capsule(status="running", started=True)
+    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    assert len(events) == 1
+    assert events[0]["phase"] == "start"
+    assert (
+        events[0]["event_id"]
+        == "subtask/capsule-start/generation1-full-generations-wave-v1/w01_communication_repair"
+    )
+    message = notifier.format_event(events[0])
+    assert message.startswith(
+        "▶️ General Run · Wave 01 — starting\n"
+        "Communication & repair  (V1, M1, K1)\n"
+        "→ Can perspectives fix a contradiction by messaging just the one that's wrong, "
+        "instead of broadcasting to everyone?"
+    )
+    # hardened ETA: a running capsule (started, none finished) still yields real numbers from
+    # its in-flight elapsed, not "estimating"
+    assert "\nETA: this facet ~" in message
+
+    # a steady running poll does not re-announce the start
+    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    assert events == []
+
+
+def test_wave_capsule_running_on_first_sight_never_back_announces_a_start(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "wave" / "current_status.json",
+        {
+            "program_id": "full-generations-wave-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {
+                "w01_construction": {
+                    "returncode": None,
+                    "artifacts": [],
+                    "status": "running",
+                    "started_at": "2026-07-19T00:00:00+00:00",
+                }
+            },
+        },
+    )
+    events, _, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    assert events == []
+    assert capsules["generation1-full-generations-wave-v1/w01_construction"] == "running"
+
+
+def test_legacy_incomplete_capsule_state_never_emits_a_spurious_start(tmp_path: Path) -> None:
+    # A capsule persisted under the pre-lifecycle "incomplete" vocabulary must upgrade cleanly:
+    # transitioning into "running" is NOT a witnessed pending->running start, so it stays silent.
+    runs = tmp_path / "runs"
+    _write(
+        runs / "wave" / "current_status.json",
+        {
+            "program_id": "full-generations-wave-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {
+                "w01_construction": {
+                    "returncode": None,
+                    "artifacts": [],
+                    "status": "running",
+                    "started_at": "2026-07-19T00:00:00+00:00",
+                }
+            },
+        },
+    )
+    seed = {"generation1-full-generations-wave-v1/w01_construction": "incomplete"}
+    events, _, capsules = notifier._collect_subtask_events({}, seed, runs_root=runs)
+    assert events == []
+    assert capsules["generation1-full-generations-wave-v1/w01_construction"] == "running"
+
+
+def test_wave_capsule_start_delivers_once_through_run_once(monkeypatch, tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "wave" / "current_status.json",
+        {
+            "program_id": "full-generations-wave-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {
+                "w01_construction": {
+                    "returncode": None,
+                    "artifacts": [],
+                    "status": "running",
+                    "started_at": "2026-07-19T00:00:00+00:00",
+                }
+            },
+        },
+    )
+    state_path = tmp_path / "state.json"
+    state = notifier._new_state()
+    state["primed"] = True
+    # seen as pending on the prior poll, so this poll witnesses the pending -> running start
+    state["last_seen_complete_capsules"] = {
+        "generation1-full-generations-wave-v1/w01_construction": "pending"
+    }
+    notifier.save_state(state, state_path)
+    monkeypatch.setattr(notifier, "collect_events", lambda: [])
+    sent: list[str] = []
+
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 1
+    assert sent[0].startswith("▶️ General Run · Wave 01 — starting")
+    assert "Construction search  (G1)" in sent[0]
+
+    # the same running status on the next poll must not re-announce the start
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 0
+
+
+def _halfway_status(runs: Path, n_complete: int, n_total: int, *, state: str = "running") -> None:
+    def complete_row(i: int) -> dict:
+        return {
+            "returncode": 0,
+            "started_at": f"2026-07-18T00:0{i}:00+00:00",
+            "finished_at": f"2026-07-18T00:0{i + 1}:00+00:00",
+            "artifacts": [{"all_ok": True, "sha256": str(i) * 64}],
+        }
+
+    capsules = {
+        f"cap_{i}": (complete_row(i) if i < n_complete else {"status": "pending"}) for i in range(n_total)
+    }
+    _write(
+        runs / "wave" / "current_status.json",
+        {
+            "program_id": "successor-categorized-batch-wave-v1",
+            "state": state,
+            "problems": [],
+            "capsules": capsules,
+        },
+    )
+
+
+def test_progress_halfway_fires_once_when_a_general_run_crosses_the_half_mark(
+    monkeypatch, tmp_path: Path
+) -> None:
+    monkeypatch.setattr(
+        notifier, "host_health", lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0}
+    )
+    program = "generation1-successor-categorized-batch-wave-v1"
+    runs = tmp_path / "runs"
+
+    # below half on first sight: only record the stage, never fire
+    _halfway_status(runs, 1, 6)
+    events, seen = notifier._collect_progress_events({}, runs_root=runs)
+    assert events == []
+    assert seen == {program: "below"}
+
+    # crossing to >= 50% fires exactly one halfway ping carrying progress and a real ETA
+    _halfway_status(runs, 3, 6)
+    events, seen = notifier._collect_progress_events(seen, runs_root=runs)
+    assert len(events) == 1
+    assert events[0]["kind"] == "progress"
+    assert events[0]["event_id"] == f"progress/{program}/halfway"
+    assert events[0]["progress"] == {"complete": 3, "total": 6}
+    message = notifier.format_event(events[0])
+    assert message.startswith("⏳ General Run: Categorized Wave — halfway\nProgress: 3/6 (50%)")
+    # hardened: real numbers (60s per-capsule duration), not "estimating"
+    assert "ETA: this facet ~60s" in message
+    assert seen[program] == "half"
+
+    # a later poll still past half does not re-announce the checkpoint
+    _halfway_status(runs, 4, 6)
+    events, seen = notifier._collect_progress_events(seen, runs_root=runs)
+    assert events == []
+
+
+def test_progress_halfway_is_suppressed_for_a_terminal_run(tmp_path: Path) -> None:
+    program = "generation1-successor-categorized-batch-wave-v1"
+    runs = tmp_path / "runs"
+    _halfway_status(runs, 3, 6, state="complete")
+    events, _ = notifier._collect_progress_events({program: "below"}, runs_root=runs)
+    assert events == []
+
+
+def test_progress_halfway_ignores_non_general_run_programs(tmp_path: Path) -> None:
+    runs = tmp_path / "runs"
+    _write(
+        runs / "other" / "current_status.json",
+        {
+            "program_id": "some-unlisted-experiment-v1",
+            "state": "running",
+            "problems": [],
+            "capsules": {
+                "cap_0": {
+                    "returncode": 0,
+                    "finished_at": "2026-07-18T00:01:00+00:00",
+                    "artifacts": [{"all_ok": True, "sha256": "a" * 64}],
+                },
+                "cap_1": {"status": "pending"},
+            },
+        },
+    )
+    events, seen = notifier._collect_progress_events({}, runs_root=runs)
+    assert events == []
+    assert seen == {}
+
+
+def test_progress_halfway_delivers_once_through_run_once(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(
+        notifier, "host_health", lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0}
+    )
+    program = "generation1-successor-categorized-batch-wave-v1"
+    runs = tmp_path / "runs"
+    _halfway_status(runs, 3, 6)
+    state_path = tmp_path / "state.json"
+    state = notifier._new_state()
+    state["primed"] = True
+    state["last_seen_progress"] = {program: "below"}  # witnessed below the mark last poll
+    notifier.save_state(state, state_path)
+    monkeypatch.setattr(notifier, "collect_events", lambda: [])
+    sent: list[str] = []
+
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 1
+    assert sent[0].startswith("⏳ General Run: Categorized Wave — halfway")
+
+    # a second poll still at half must not re-send the checkpoint
+    result = notifier.run_once(
+        state_path=state_path,
+        runs_root=runs,
+        sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
+    )
+    assert result["sent"] == 0
+    assert notifier.load_state(state_path)["last_seen_progress"] == {program: "half"}
+
+
 def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(
+        notifier, "host_health", lambda: {"pressure": 1, "swap_mb": 11.0, "disk_free_gb": 182.0}
+    )
     runs = tmp_path / "runs"
     _write(
         runs / "mechanics" / "current_status.json",
@@ -919,7 +1172,11 @@ def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
     assert result["sent"] == 1
-    assert sent == ["General Run: E1 sub-task complete (129/129)"]
+    assert sent == [
+        "✅ General Run · E1 done\n"
+        " • E1 — event formation: carve the stream into meaningful events (the continual-learning gate)\n"
+        "Progress: 129/129 (100%)  ·  Health: good"
+    ]
 
     # the same complete lane on the next poll must not re-announce the sub-task
     result = notifier.run_once(
@@ -928,7 +1185,11 @@ def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
     assert result["sent"] == 0
-    assert sent == ["General Run: E1 sub-task complete (129/129)"]
+    assert sent == [
+        "✅ General Run · E1 done\n"
+        " • E1 — event formation: carve the stream into meaningful events (the continual-learning gate)\n"
+        "Progress: 129/129 (100%)  ·  Health: good"
+    ]
     assert notifier.load_state(state_path)["last_seen_complete_lanes"] == {
         "generation1-successor-mechanics-extended-v1/G1-E1": "complete"
     }
