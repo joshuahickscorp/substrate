@@ -51,6 +51,7 @@ from mop.science.budget import (
     ARM_RATE_MATCHED_RANDOM,
     BudgetSeedRun,
     FlopModel,
+    arm_flop_model,
     build_budget_points,
     noise_control_summary,
     run_matched_budget,
@@ -313,8 +314,10 @@ def _run_seed_real(
     noise_features: np.ndarray,
     config: RealCountBedConfig,
     operating_density: float,
+    *,
+    train_gate_provider: Callable[..., tuple[Any, int]] = _train_count_gate,
 ) -> BudgetSeedRun:
-    """Bind the sealed gate and frame-micro referee to the shared counting seed lifecycle."""
+    """Bind a count-gate provider and the frame-micro referee to the shared seed lifecycle."""
 
     return run_count_seed(
         seed=seed,
@@ -326,7 +329,7 @@ def _run_seed_real(
         noise_features=noise_features,
         target_rates=config.target_rates,
         operating_density=operating_density,
-        train_gate=lambda: _train_count_gate(
+        train_gate=lambda: train_gate_provider(
             seed, train_clips, features_by_clip, gt_by_clip, config
         ),
         state_factory=CountOnlineState.initial,
@@ -342,15 +345,13 @@ def _run_seed_real(
 def _flop_model(
     kind: str, total_frames: int, train_frames: int, config: RealCountBedConfig
 ) -> FlopModel:
-    featurize = FLOPS_PER_FRAME_COUNT * total_frames
-    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
-    gate_infer = FLOPS_PER_INFERENCE * total_frames if runs_gate else 0
-    train = training_flops(train_frames, config.epochs) if kind == ARM_CANDIDATE else 0
-    return FlopModel(
-        featurize_flops=featurize,
-        gate_infer_flops=gate_infer,
+    return arm_flop_model(
+        kind,
+        total_frames,
+        featurize_per_frame=FLOPS_PER_FRAME_COUNT,
+        gate_infer_per_frame=FLOPS_PER_INFERENCE,
         downstream_flops_per_firing=config.downstream_flops_per_reestimate,
-        train_flops=train,
+        candidate_train_flops=lambda: training_flops(train_frames, config.epochs),
     )
 
 

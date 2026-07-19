@@ -52,6 +52,7 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
     FlopModel,
+    arm_flop_model,
     build_budget_points,
     noise_control_summary,
     run_matched_budget,
@@ -65,6 +66,7 @@ from mop.science.statistics import (
 from mop.substrate.events import canonical_sha256, write_canonical_json
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
+from .adapter import onset_density as _onset_density
 from .artifact import (
     ARTIFACT_SCHEMA,
     DOWNSTREAM_FLOPS_PER_FIRING,
@@ -244,12 +246,6 @@ def _train_lp_gate(
     return gate, int(train_features.shape[0])
 
 
-def _onset_density(clips: tuple[Clip, ...]) -> float:
-    onsets = sum(len(clip.onsets) for clip in clips)
-    frames = sum(clip.n_frames for clip in clips)
-    return onsets / frames if frames > 0 else 0.0
-
-
 def _adjacency_fraction(fires: list[int]) -> tuple[int, int]:
     """Return (n_adjacent, n_fires): a fire is adjacent when another fire sits one frame away."""
 
@@ -411,15 +407,13 @@ def _flop_model_lp(
     gate: LearningProgressGate,
     epochs: int,
 ) -> FlopModel:
-    featurize = FLOPS_PER_FRAME * total_frames
-    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
-    gate_infer = gate.flops_per_inference() * total_frames if runs_gate else 0
-    train = gate.training_flops(train_frames, epochs) if kind == ARM_CANDIDATE else 0
-    return FlopModel(
-        featurize_flops=featurize,
-        gate_infer_flops=gate_infer,
+    return arm_flop_model(
+        kind,
+        total_frames,
+        featurize_per_frame=FLOPS_PER_FRAME,
+        gate_infer_per_frame=gate.flops_per_inference(),
         downstream_flops_per_firing=DOWNSTREAM_FLOPS_PER_FIRING,
-        train_flops=train,
+        candidate_train_flops=lambda: gate.training_flops(train_frames, epochs),
     )
 
 

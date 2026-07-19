@@ -53,6 +53,7 @@ from mop.science.budget import (
     ARM_RATE_MATCHED_RANDOM,
     BudgetPoint,
     FlopModel,
+    arm_flop_model,
     build_budget_points,
     run_dual_architecture,
 )
@@ -117,9 +118,6 @@ DEFAULT_METADATA_ROOT = Path(
 
 DEFAULT_N_VAL_ROOMS = 2
 _ALL_KINDS: tuple[str, ...] = (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE)
-_GATE_TRAINED_KINDS: tuple[str, ...] = (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
-
-
 class DoaProducerRefusal(ValueError):
     """Raised when the DoA producer cannot assemble a well-formed sealed artifact."""
 
@@ -344,20 +342,15 @@ def _run_seed_real(
 def _flop_model(
     kind: str, architecture: str, total_frames: int, train_frames: int, config: RealDoaBedConfig
 ) -> FlopModel:
-    featurize = FEATURIZER_FLOPS_PER_FRAME * total_frames
-    runs_gate = kind in _GATE_TRAINED_KINDS
     infer_per_frame = FLOPS_PER_INFERENCE_ARCH_A if architecture == ARCH_A_ID else FLOPS_PER_INFERENCE_ARCH_B
-    gate_infer = infer_per_frame * total_frames if runs_gate else 0
-    if kind == ARM_CANDIDATE:
-        train_fn = training_flops_arch_a if architecture == ARCH_A_ID else training_flops_arch_b
-        train = train_fn(train_frames, config.epochs)
-    else:
-        train = 0
-    return FlopModel(
-        featurize_flops=featurize,
-        gate_infer_flops=gate_infer,
+    train_fn = training_flops_arch_a if architecture == ARCH_A_ID else training_flops_arch_b
+    return arm_flop_model(
+        kind,
+        total_frames,
+        featurize_per_frame=FEATURIZER_FLOPS_PER_FRAME,
+        gate_infer_per_frame=infer_per_frame,
         downstream_flops_per_firing=config.downstream_flops_per_reestimate,
-        train_flops=train,
+        candidate_train_flops=lambda: train_fn(train_frames, config.epochs),
     )
 
 

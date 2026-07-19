@@ -457,6 +457,13 @@ def map_clip_audio(
     return {clip.clip_id: transform(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
 
 
+def onset_density(clips: Sequence[Clip]) -> float:
+    """Return label-only onset density over a clip sequence."""
+
+    frames = sum(clip.n_frames for clip in clips)
+    return sum(len(clip.onsets) for clip in clips) / frames if frames > 0 else 0.0
+
+
 def domain_seed(seed: int, key: str, domain: bytes) -> int:
     """Return a uint32 seed separated by an explicit byte domain and semantic key."""
 

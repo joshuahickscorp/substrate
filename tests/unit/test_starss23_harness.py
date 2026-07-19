@@ -31,6 +31,7 @@ from mop.science.budget import (
     ComputePoint,
     FlopModel,
     SeedResult,
+    arm_flop_model,
 )
 
 SEEDS = (0, 1, 2, 3, 4)
@@ -118,6 +119,25 @@ def _budget_point(
 # ---------------------------------------------------------------------------
 # Full-lifecycle FLOP accounting.
 # ---------------------------------------------------------------------------
+
+
+def test_arm_flop_model_projects_candidate_only_training_and_shared_frontend() -> None:
+    train_calls: list[None] = []
+
+    def training() -> int:
+        train_calls.append(None)
+        return 13
+
+    kwargs = dict(
+        featurize_per_frame=2, gate_infer_per_frame=3,
+        downstream_flops_per_firing=5, candidate_train_flops=training,
+    )
+    assert arm_flop_model(harness.ARM_CANDIDATE, 7, **kwargs).payload() == {
+        "featurize_flops": 14, "gate_infer_flops": 21,
+        "downstream_flops_per_firing": 5, "train_flops": 13,
+    }
+    assert arm_flop_model(harness.ARM_ALWAYS_ON, 7, **kwargs).payload()["gate_infer_flops"] == 0
+    assert train_calls == [None]
 
 
 def test_lifecycle_flops_include_c_train() -> None:
