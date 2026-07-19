@@ -1,33 +1,3 @@
-"""Byte-identity and peak-RAM proof for the cache-chunked vectorized oracle kernel.
-
-``construction_search_vec_impl.vec_run_oracle`` scores the exhaustive ``2**num_members`` subset
-enumeration in cache-fitting chunks over the subset axis instead of one monolithic
-``(2**num_members, num_members, num_tasks)`` float64 array (about 1 GB at the 20-member oracle
-ceiling). That chunking is a frontier speed and safety lever: it bounds the peak transient RSS to a
-few megabytes so a numpy allocation spike can never cross the ``-P kill`` line mid-rung, and it is
-faster on any host whose cache the monolithic temporary overflows. It may only ship if it is
-byte-for-byte identical to the path it replaces, because the oracle raw_score folds into the
-construction lane's ``favorable_headroom_gap`` and therefore into the sealed receipt digest, so a
-single differing bit would change the evidence class.
-
-This module proves that identity against BOTH references the lever must match:
-
-- the pre-change monolithic vectorized path, reproduced verbatim below as
-  ``_reference_monolithic_oracle`` (a single full-batch ``_score_subsets`` over every subset plus one
-  ``np.argmax``), which is exactly the body ``vec_run_oracle`` had before the chunking edit, and
-- the sealed scalar authority ``construction_search_impl.run_oracle``.
-
-The wide sweep covers seeds 0..999, the full 256-seed G1-G1 canary band, and the real G1-G1 producer
-and challenge bands carried through the full-generations fresh cycles 19..32, on both the favorable and
-null regime, which is well over one thousand distinct seeds. A ceiling case exercises the chunk-boundary
-tie-break directly at member counts that split into many chunks, a receipt case proves the full minted
-``RunReceipt.digest()`` through the vectorized runner is identical for the chunked, the monolithic, and
-the scalar oracle, an isolated-subprocess case measures the peak RSS before and after the change at the
-20-member ceiling, and a wall-time case measures the speedup over more than two hundred seeds. Every
-identity case counts mismatches and fails if any is nonzero.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -60,14 +30,6 @@ _CEILING_MEMBERS = 20  # the oracle headroom ceiling: the ~1 GB monolithic temp 
 
 
 def _reference_monolithic_oracle(spec) -> VecArmResult:
-    """Verbatim pre-change monolithic ``vec_run_oracle``: one full-batch score plus one argmax.
-
-    This is the exact body the vectorized oracle had before the cache-chunking edit. It builds the
-    whole ``2**num_members`` subset table at once, scores it in a single ``_score_subsets`` call, and
-    takes a single ``np.argmax``. It reuses the module's own unchanged ``_affinity_array`` and
-    ``_score_subsets``, so it reproduces the monolithic path bit for bit and is the reference the
-    chunked path must equal.
-    """
 
     num_members = spec.num_members
     if num_members > vec._MAX_ORACLE_MEMBERS:
@@ -90,19 +52,16 @@ def _reference_monolithic_oracle(spec) -> VecArmResult:
 
 
 def _float_bits(value: float) -> bytes:
-    """The raw 8 IEEE-754 bytes of a float, so any bit difference (sign of zero included) is caught."""
 
     return struct.pack("<d", float(value))
 
 
 def _g1g1_lane():
-    """The G1-G1 construction_search lane spec: the authority for the real executed seed bands."""
 
     return next(lane for lane in LANES if lane.lane_id == "G1-G1")
 
 
 def _cycle_shifted_seed(base_start: int, rung: int, offset: int, cycle: int) -> int:
-    """One real executed G1-G1 band seed carried into a fresh cycle, exact fresh_mechanics_item math."""
 
     lane = _g1g1_lane()
     source_seed = base_start + rung * lane.seeds_per_rung + offset
@@ -110,7 +69,6 @@ def _cycle_shifted_seed(base_start: int, rung: int, offset: int, cycle: int) -> 
 
 
 def _cycle_band_seeds() -> list[int]:
-    """The real G1-G1 producer and challenge seed bands across the full-generations cycles 19..32."""
 
     lane = _g1g1_lane()
     seeds: list[int] = []
@@ -123,7 +81,6 @@ def _cycle_band_seeds() -> list[int]:
 
 
 def _wide_sweep_seeds() -> list[int]:
-    """Dense floor 0..999, the full real canary band, and the cycle-shifted G1-G1 bands, deduped."""
 
     lane = _g1g1_lane()
     seeds: list[int] = list(range(1000))
@@ -139,7 +96,6 @@ def _wide_sweep_seeds() -> list[int]:
 
 
 def _oracle_mismatch(left: VecArmResult, right, seed: int, regime: str, tag: str):
-    """Return a mismatch tuple if two oracle arm results differ in any receipt-bearing field, else None."""
 
     if _float_bits(left.raw_score) != _float_bits(right.raw_score):
         return (seed, regime, tag, "raw_score", right.raw_score.hex(), float(left.raw_score).hex())
@@ -151,7 +107,6 @@ def _oracle_mismatch(left: VecArmResult, right, seed: int, regime: str, tag: str
 
 
 def test_chunked_oracle_is_bit_identical_to_monolithic_and_scalar_over_wide_sweep() -> None:
-    """The chunked oracle equals BOTH the monolithic vec path and the scalar authority, bit for bit."""
 
     bed = ConstructionSearchBed()
     seeds = _wide_sweep_seeds()
@@ -180,13 +135,6 @@ def test_chunked_oracle_is_bit_identical_to_monolithic_and_scalar_over_wide_swee
 
 
 def test_chunked_oracle_matches_references_at_multi_chunk_ceiling_member_counts() -> None:
-    """Where the enumeration splits into many chunks, the boundary tie-break stays byte-identical.
-
-    The default bed enumerates 4096 subsets as a single chunk, so the chunk-boundary reduction is not
-    exercised there. This drives member counts whose enumeration splits into dozens or hundreds of
-    chunks and asserts the chunked oracle still equals the monolithic vec path exactly, plus the scalar
-    authority at the counts small enough to brute force cheaply.
-    """
 
     mismatches: list[tuple] = []
     for num_members, seed_count, check_scalar in ((14, 12, True), (16, 12, True), (18, 8, False), (20, 4, False)):
@@ -216,13 +164,6 @@ def test_chunked_oracle_matches_references_at_multi_chunk_ceiling_member_counts(
 def test_chunked_oracle_receipt_digest_matches_monolithic_and_scalar_through_the_vec_runner(
     monkeypatch,
 ) -> None:
-    """The full minted RunReceipt digest and payload are identical for chunked, monolithic, and scalar.
-
-    The vectorized runner mints receipts from ``vec_evaluate_regime``, which resolves ``vec_run_oracle``
-    from the impl module at call time. Swapping in the monolithic reference therefore yields the
-    monolithic-path receipt, and the unpatched runner yields the chunked-path receipt; both must equal
-    the sealed scalar runner's receipt to the byte.
-    """
 
     bed = ConstructionSearchBed()
     lane = _g1g1_lane()
@@ -232,11 +173,9 @@ def test_chunked_oracle_receipt_digest_matches_monolithic_and_scalar_through_the
     scalar_runner = ConstructionSearchRunner()
     vec_runner = ConstructionSearchVecRunner()
 
-    # Chunked-path receipts first (module unpatched), captured as (digest, payload) per seed.
     chunked = {seed: vec_runner.mint(vec_runner.run(bed, seed)) for seed in seeds}
     scalar_receipts = {seed: scalar_runner.mint(scalar_runner.run(bed, seed)) for seed in seeds}
 
-    # Now route the vectorized oracle arm through the monolithic reference and re-mint.
     monkeypatch.setattr(vec, "vec_run_oracle", _reference_monolithic_oracle)
     monolithic = {seed: vec_runner.mint(vec_runner.run(bed, seed)) for seed in seeds}
 
@@ -287,7 +226,6 @@ _RSS_PROGRAM = textwrap.dedent(
 
 
 def _subprocess_peak_rss(mode: str, num_members: int, ncalls: int) -> tuple[float, float]:
-    """Run one oracle path in an isolated interpreter and return its (peak_mb, baseline_mb) RSS."""
 
     env = {
         "PATH": "/usr/bin:/bin",
@@ -309,7 +247,6 @@ def _subprocess_peak_rss(mode: str, num_members: int, ncalls: int) -> tuple[floa
 
 
 def test_chunked_oracle_peak_rss_is_bounded_far_below_monolithic() -> None:
-    """At the 20-member ceiling the chunked oracle's peak RSS is hundreds of MB below the monolithic."""
 
     monolithic_peak, _monolithic_base = _subprocess_peak_rss("monolithic", _CEILING_MEMBERS, 6)
     chunked_peak, _chunked_base = _subprocess_peak_rss("chunked", _CEILING_MEMBERS, 6)
@@ -319,9 +256,6 @@ def test_chunked_oracle_peak_rss_is_bounded_far_below_monolithic() -> None:
         f"monolithic(before)={monolithic_peak:.1f} MB chunked(after)={chunked_peak:.1f} MB "
         f"reduction={monolithic_peak - chunked_peak:.1f} MB"
     )
-    # The monolithic 2**20 x 20 x 3 float64 temporary is about 0.5 GB (near 1 GB peak with the np.where
-    # intermediate); the chunked path holds only a ~2 MB chunk. The gap is hundreds of MB with wide
-    # margin. A modest floor keeps this robust to interpreter and numpy baseline drift across hosts.
     assert monolithic_peak - chunked_peak > 300.0, (
         f"chunking must cut peak RSS by >300 MB at the ceiling: "
         f"monolithic={monolithic_peak:.1f} MB chunked={chunked_peak:.1f} MB"
@@ -333,12 +267,6 @@ def test_chunked_oracle_peak_rss_is_bounded_far_below_monolithic() -> None:
 
 
 def test_chunked_oracle_wall_speedup_over_wide_seed_run() -> None:
-    """The chunked oracle is not slower than the monolithic path over more than two hundred seeds.
-
-    On a host whose cache the ~113 MB monolithic temporary at ``_SPEEDUP_MEMBERS`` overflows, chunking
-    is modestly faster; on a very large cache it is roughly neutral. The hard ship gate is byte-identity
-    (asserted above), so this case only guards against a real regression and prints the measured ratio.
-    """
 
     import time
 
@@ -346,7 +274,6 @@ def test_chunked_oracle_wall_speedup_over_wide_seed_run() -> None:
     specs = [bed.favorable_regime(seed) for seed in range(_SPEEDUP_MIN_SEEDS)]
     assert len(specs) >= _SPEEDUP_MIN_SEEDS
 
-    # Warm both paths so first-call numpy costs are not charged to the measurement.
     _reference_monolithic_oracle(specs[0])
     vec_run_oracle(specs[0])
 

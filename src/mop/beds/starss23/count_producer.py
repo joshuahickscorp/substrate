@@ -121,8 +121,6 @@ def _train_count_gate(
     return gate, int(x.shape[0])
 
 
-
-
 def _real_noisy_tv_features(
     seed: int,
     n_frames: int,
@@ -135,8 +133,6 @@ def _real_noisy_tv_features(
         seed, "mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1"
     )
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
-
-
 
 
 def run_count_seed(
@@ -285,8 +281,6 @@ def _run_seed_real(
     )
 
 
-
-
 def _flop_model(
     kind: str, total_frames: int, train_frames: int, config: RealCountBedConfig
 ) -> FlopModel:
@@ -298,8 +292,6 @@ def _flop_model(
         downstream_flops_per_firing=config.downstream_flops_per_reestimate,
         candidate_train_flops=lambda: training_flops(train_frames, config.epochs),
     )
-
-
 
 
 def build_real_count_bed_artifact(

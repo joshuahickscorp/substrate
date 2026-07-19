@@ -1,44 +1,3 @@
-"""EX15: shrink-and-perturb rejuvenation against loss of plasticity. Builds directly on
-EX13's long-stream harness (ex13_long_stream.py: a domain-incremental stream, anchor-task
-retention curve, periodic effective_rank sampling). EX13 asks whether protection (replay+EWC)
-beats naive over hundreds of tasks; EX15 asks a narrower, mechanism-specific question layered
-on top of the protected arm: does the stream itself, at this scale, exhibit loss of plasticity
-(units going dead, effective rank collapsing), and if so, does a periodic shrink-and-perturb
-schedule (Ash and Adams 2020: shrink the head's weights toward init by a factor, add small
-noise, WITHOUT touching optimizer/buffer/consolidation state) restore it, or only trade it for
-retention.
-
-Three arms, all built on the SAME domain-incremental stream and anchor-retention machinery as
-EX13:
-  protected            : replay + EWC, no rejuvenation (the EX13 baseline arm, standing control).
-  protected_rejuvenated : replay + EWC, PLUS a shrink-and-perturb schedule every K tasks.
-  frozen_random_rejuvenated : the rejuvenation recipe applied on top of a frozen-random-substrate
-                          projection of the input latents (standing control: is the rejuvenation
-                          effect, if any, substrate-specific, or would it show up on any linear
-                          projection of the same data).
-
-Dead units: for the head's hidden layer (the last pre-logit activation), a unit is "dead" when
-its activation variance over a probe batch (the current anchor set) falls below a small
-threshold (1e-4). Sampled at the same eval_every cadence as effective_rank, so the two
-plasticity-collapse readings line up on the same stream-position axis.
-
-Shrink-and-perturb: every rejuvenation_interval tasks, on the trainable head's parameters,
-theta <- shrink_factor * theta + (1 - shrink_factor) * theta_init + noise_std * N(0, 1). The
-optimizer's running state (Adam moments), the replay buffer, and the EWC Fisher/anchor state
-are all left untouched, only the weights move: this is the point of shrink-and-perturb over a
-hard reset, it perturbs the weight geometry (breaking dead units out of their collapsed state)
-without discarding what replay/consolidation have already anchored.
-
-NULL (registered, used near-verbatim): rejuvenation does not restore plasticity, or it restores
-plasticity at the cost of retention; the frozen-latent shell does not suffer loss of plasticity
-at this scale. null_supported is set when ANY of: (a) the no-rejuvenation arm never shows
-material plasticity loss at this scale (nothing to restore), (b) rejuvenation does not move
-effective_rank / dead_unit_count in the helpful direction relative to the no-rejuvenation arm,
-or (c) it does, but retained_accuracy on the anchor tasks drops meaningfully as a cost. The
-honest trade-off is always reported in the output, never forced to a clean win.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -64,9 +23,6 @@ DEAD_UNIT_VAR_THRESHOLD = 1e-4
 
 @torch.no_grad()
 def _hidden_activations(model: ClassHead, x: torch.Tensor) -> torch.Tensor:
-    """The representation effective_rank/dead-unit readings are taken on: the output of the
-    last hidden layer if the head has one (net is an nn.Sequential ending in the final
-    Linear), else the raw input latent (a depth-0 head is a bare nn.Linear, no hidden layer)."""
     net = model.net
     if isinstance(net, torch.nn.Sequential) and len(net) > 1:
         return net[:-1](x)
@@ -75,8 +31,6 @@ def _hidden_activations(model: ClassHead, x: torch.Tensor) -> torch.Tensor:
 
 @torch.no_grad()
 def _dead_unit_count(model: ClassHead, x: torch.Tensor, threshold: float = DEAD_UNIT_VAR_THRESHOLD) -> int:
-    """Count hidden units whose activation variance over the probe batch x falls below
-    threshold. On a depth-0 head (no hidden layer), there are no hidden units to go dead: 0."""
     net = model.net
     if not (isinstance(net, torch.nn.Sequential) and len(net) > 1):
         return 0
@@ -95,10 +49,6 @@ def _shrink_and_perturb(
     noise_std: float,
     seed: int,
 ) -> None:
-    """Shrink-and-perturb (Ash and Adams 2020): theta <- shrink*theta + (1-shrink)*theta_init +
-    noise. Applied to every trainable parameter of the head. Deliberately does NOT touch the
-    optimizer, replay buffer, or consolidation (Fisher/anchor) state: only the weight geometry
-    moves, which is what distinguishes this from a hard reset."""
     g = torch.Generator().manual_seed(seed)
     for name, p in model.named_parameters():
         if not p.requires_grad:
@@ -154,7 +104,6 @@ class EX15(Experiment):
         results: dict[str, dict] = {}
         wall: dict[str, float] = {}
 
-        # (a) protected, no rejuvenation: the EX13 baseline/standing control.
         t0 = time.time()
         results["protected"] = self._run_arm(
             "protected",
@@ -169,7 +118,6 @@ class EX15(Experiment):
         )
         wall["protected"] = round(time.time() - t0, 3)
 
-        # (b) protected + rejuvenation: the treatment arm.
         t0 = time.time()
         results["protected_rejuvenated"] = self._run_arm(
             "protected_rejuvenated",
@@ -184,9 +132,6 @@ class EX15(Experiment):
         )
         wall["protected_rejuvenated"] = round(time.time() - t0, 3)
 
-        # (c) frozen-random-substrate + rejuvenation: is the effect substrate-specific, or would
-        # it show up on any linear projection of the same underlying data. Run at a possibly
-        # smaller scale (n_tasks_control) to bound cost while still checking the control.
         control_n_tasks = int(e.get("n_tasks_control", n_tasks))
         if control_n_tasks == n_tasks:
             control_train, control_anchors = train, anchors
@@ -225,10 +170,6 @@ class EX15(Experiment):
         rej = results["protected_rejuvenated"]["summary"]
         ctrl = results["frozen_random_rejuvenated"]["summary"]
 
-        # Plasticity-loss check: did the no-rejuvenation arm show material collapse at this
-        # scale in the first place (final effective_rank well below its own peak, or dead units
-        # present at the end of the stream)? Without this, "rejuvenation didn't help" is
-        # meaningless (nothing to fix).
         base_rank_peak = max(results["protected"]["effective_rank_by_task"].values(), default=0.0)
         base_rank_final = base["final_effective_rank"]
         rank_collapse_margin = float(e.get("rank_collapse_margin", 0.1))
@@ -236,31 +177,21 @@ class EX15(Experiment):
             base_rank_peak > 0 and (base_rank_peak - base_rank_final) / base_rank_peak > rank_collapse_margin
         ) or bool(base["final_dead_units"] > 0)
 
-        # Restoration check: rejuvenation arm ends with higher effective_rank and/or fewer dead
-        # units than the matched no-rejuvenation arm.
         rank_restore_margin = float(e.get("rank_restore_margin", 0.05))
         rank_restored = bool(rej["final_effective_rank"] > base_rank_final * (1.0 + rank_restore_margin))
         dead_units_reduced = bool(rej["final_dead_units"] < base["final_dead_units"])
         restores_plasticity = rank_restored or dead_units_reduced
 
-        # Retention cost check: rejuvenation's final anchor accuracy vs the no-rejuvenation arm's.
         retention_cost_margin = float(e.get("retention_cost_margin", 0.1))
         retention_cost = base["final_mean_anchor_acc"] - rej["final_mean_anchor_acc"]
         retention_cost_paid = bool(retention_cost > retention_cost_margin)
 
-        # Substrate-specificity check: does the frozen-random control show the SAME restoration
-        # pattern. If it does just as strongly, the effect is a generic linear-projection
-        # property, not something specific to the real substrate geometry.
         ctrl_rank_restored = bool(
             ctrl["final_effective_rank"]
             > results["frozen_random_rejuvenated"]["baseline_rank_reference"] * (1.0 + rank_restore_margin)
         )
         substrate_specific = restores_plasticity and not ctrl_rank_restored
 
-        # null_supported per the registered null: TRUE if (1) nothing to restore at this scale,
-        # OR (2) rejuvenation does not restore effective_rank/reduce dead units, OR (3) it does
-        # restore plasticity but retained_accuracy pays a meaningful cost. Report the honest
-        # trade-off; never force a clean win.
         null_supported = (
             (not plasticity_loss_observed)
             or (not restores_plasticity)
@@ -316,8 +247,6 @@ class EX15(Experiment):
         init_state = copy.deepcopy(model.state_dict())
 
         sh = cfg.shell
-        # protected recipe (replay + EWC) on every arm here: the standing no-rejuvenation
-        # control is the EX13 "protected" arm, not the naive arm (EX13 already covers naive).
         buffer = ReplayBuffer(
             capacity=int(sh.buffer.capacity),
             dim=dim,

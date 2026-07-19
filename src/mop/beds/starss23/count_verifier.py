@@ -38,8 +38,6 @@ class CountVerificationRefusal(ValueError):
     pass
 
 
-
-
 def _canonical_bytes(value: object) -> bytes:
     return json.dumps(
         value,
@@ -52,8 +50,6 @@ def _canonical_bytes(value: object) -> bytes:
 
 def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
-
-
 
 
 def _as_count_track(track: object, label: str) -> list[int]:
@@ -117,8 +113,6 @@ def _reestimates_for_arm(
     return _as_reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-
-
 def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
     n = len(deltas)
     if n == 0:
@@ -132,8 +126,6 @@ def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
         if flipped_mean >= observed - _TOL:
             at_least += 1
     return observed, at_least / total, total
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -163,8 +155,6 @@ def _agree(a: object, b: object) -> bool:
     if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
         return False
     return abs(float(a) - float(b)) <= _TOL
-
-
 
 
 def _score_arm_pooled(

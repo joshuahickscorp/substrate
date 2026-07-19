@@ -1,23 +1,3 @@
-"""Executable full-generations successor mechanics waves after the categorized v1 wave.
-
-Five serial gates bind the clean categorized batch-wave v1 authority, carry its
-completed frozen D1 retirement and no-candidate redesign freeze forward without
-recompute, rescreen the append-only D1-v2 catalog (still unauthorized without
-real candidate evidence), admit three redesigned mechanism lanes (G1-U1
-calibrated_uncertainty, G1-N1 reducible_novelty, and G1-P1R
-stability_plasticity_r2), and freeze the full-generations routing.
-
-Fourteen fresh mechanics cycles (19-32) then run through seven legible
-categories.  Old lanes flow through the sealed consolidated fresh-cycle
-mechanics semantics; the three new lanes flow through an equivalent local
-fresh-item mapping over the new-mechanisms queue with the same cycle-offset
-seed math.  Each category capsule uses a dynamic process pool that floats from
-one to twenty workers with live host load described by eight balanced planning
-shards, then seals one serial classifier.  G1-I1 is evaluated once after W21 with its dependency set
-substituted (G1-P1 replaced by G1-P1R), and a separate integration classifier
-follows.  The pruned old G1-P1 lane never reappears.  A final advisory release
-audit is captured without gating any activation, promotion, or confirmation.
-"""
 
 from __future__ import annotations
 
@@ -103,49 +83,27 @@ EPOCH_IDS = (
 )
 EPOCH_CYCLES = (19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)
 INTERNAL_SHARD_COUNT = 8
-# Declared idle-host pool ceiling: the measured Hawking-idle aggregate throughput peak on this host
-# (dynamic_worker_controller.WORKER_CEILING = 20; 24 workers regress). The ACTUAL pool width floats
-# dynamically from 1 to this ceiling with live host load (see _dynamic_pool_width); this constant is
-# only the declared ceiling recorded in receipts (worker_pool_max_workers) and the planning divisor,
-# never the fluctuating instantaneous count, so every sealed field stays deterministic.
 IDLE_WORKERS = 20
 CAPSULE_COUNT = 123
 RETRY_LIMIT = 3
 I1_LANE_ID = "G1-I1"
 
-# The substituted I1 dependency closure: the retired old G1-P1 lane is replaced by the redesigned
-# G1-P1R lane. The integration bed itself (integrated_escs) is unchanged; only routing changes.
 I1_DEPENDENCIES = ("G1-E1", "G1-D1", "G1-M1", "G1-V1", "G1-R1", "G1-P1R")
 
-# Origin tags for the dual work-item tables. Old lanes resolve against the sealed mechanics queue;
-# new lanes resolve against the new-mechanisms queue. Both carry a local source index.
 _OLD_ORIGIN = "consolidated"
 _NEW_ORIGIN = "new_mechanisms"
 _NEW_ARTIFACT_KIND = "new_mechanics_fresh"
 
-# Real repository source root, resolved from this module's own location so that new-mechanism
-# authority hashing is immune to any REPO_ROOT rebinding during tests.
 _REPO_SOURCE_ROOT = Path(__file__).resolve().parents[3]
 _MECHANISM_DIRNAME = "src/mop/mechanisms"
 
-# Construction lane routing. The G1-G1 construction_search lane is executed by the proven
-# numpy-vectorized runner (construction_search_vec_runner), which mints receipts byte-identical to the
-# sealed scalar runner over the full G1-G1 seed bands (proven at the receipt level in
-# tests/unit/test_construction_search_vec_runner_equivalence.py). Only this lane is routed through the
-# vec path; every other lane keeps its existing scalar path. The vectorized rung is byte-identical to
-# the scalar rung, so no receipt, digest, seal, or verdict tally changes.
 _CONSTRUCTION_MECHANISM = "construction_search"
 
-# Measured vectorized speedup over the scalar bed on the review host is 6.82x across the real 256-seed
-# canary band. A conservative 6.7x planning factor is applied to the construction pacing seconds only.
-# This is an ETA figure and never enters any receipt: the mechanics rung JSON carries no timing, and
-# the vec rung folds to the same result_sha256 the scalar rung folds to.
 CONSTRUCTION_VEC_SPEEDUP = 6.7
 
 
 @dataclass(frozen=True, slots=True)
 class WaveWorkItem:
-    """A fresh-cycle mechanics work unit that dispatches to one of two source tables."""
 
     key: str
     origin: str
@@ -207,8 +165,6 @@ _CANARY_POLICY = {
     "enforced_by": "serial_classifier_null_safe_pruning",
 }
 
-# Maximum executable raw receipt envelope: every category item runs once per fresh cycle, plus the
-# single post-W21 substituted-dependency I1 integration lane.
 _OLD_CATEGORY_ITEM_COUNT = len([item for item in mechanics.WORK_ITEMS if item.lane_id in _CATEGORY_LANE_IDS])
 _NEW_CATEGORY_ITEM_COUNT = len([item for item in newq.NEW_WORK_ITEMS if item.lane_id in _CATEGORY_LANE_IDS])
 _ITEMS_PER_EPOCH = _OLD_CATEGORY_ITEM_COUNT + _NEW_CATEGORY_ITEM_COUNT
@@ -324,9 +280,6 @@ def _integration_classification_path(root: Path) -> Path:
     return Path(root).resolve() / "integration" / "i1_classification.json"
 
 
-# --------------------------------------------------------------------------------------------------
-# Dual work-item table dispatch: old lanes vs new lanes share one WaveWorkItem representation.
-# --------------------------------------------------------------------------------------------------
 
 
 def _source_item(work: WaveWorkItem) -> mechanics.WorkItem:
@@ -353,7 +306,6 @@ def _consolidated_work(work: WaveWorkItem) -> consolidated.WorkItem:
 
 
 def _fresh_new_item(work: WaveWorkItem) -> mechanics.WorkItem:
-    """Cycle-shifted fresh item for a new-lane work unit, mirroring fresh_mechanics_item exactly."""
 
     source = newq.NEW_WORK_ITEMS[work.source_index]
     cycle_offset = consolidated.MECHANICS_FRESH_BASE + work.cycle * consolidated.MECHANICS_CYCLE_STRIDE
@@ -382,7 +334,6 @@ def _work_seconds(work: WaveWorkItem) -> float:
         rates = mechanics.PLANNED_SECONDS_PER_SEED
     seconds = float(item.seed_count * rates[item.mechanism])
     if item.mechanism == _CONSTRUCTION_MECHANISM:
-        # Pacing only: construction executes on the vectorized runner. Never a receipt value.
         seconds /= CONSTRUCTION_VEC_SPEEDUP
     return seconds
 
@@ -429,17 +380,6 @@ def _execute_work(work: WaveWorkItem, raw_root: str) -> tuple[str, float]:
 
 
 def _construction_rung_payload(item: mechanics.WorkItem) -> dict[str, Any]:
-    """Mint the construction rung via the vectorized runner, byte-identical to the scalar path.
-
-    This reproduces ``mechanics._run_item_payload`` exactly (the same rung schema, program id, claim
-    scope, item block, verdict and control-clear tallies, confirmation count, ascending-seed digest
-    fold, and canonical seal) but drives the proven ``ConstructionSearchVecRunner`` over the same bed
-    ``build_pair`` hands the scalar path, instead of the scalar runner. The two rungs are byte-identical
-    because the vec runner mints a receipt byte-identical to the scalar runner for every seed (proven at
-    the receipt level in ``tests/unit/test_construction_search_vec_runner_equivalence.py``): every
-    folded ``receipt.digest()``, every verdict and control tally, and therefore the final
-    ``result_sha256`` fold to the same bytes the scalar rung folds to. Construction lane only.
-    """
 
     if item.mechanism != _CONSTRUCTION_MECHANISM:
         raise ValueError("construction rung payload requires the construction_search mechanism")
@@ -486,11 +426,6 @@ def _construction_rung_payload(item: mechanics.WorkItem) -> dict[str, Any]:
 
 
 def _execute_construction_work(work: WaveWorkItem, raw_root: str) -> tuple[str, float]:
-    """Execute one construction (G1-G1) fresh-cycle rung through the vectorized runner.
-
-    Writes to the exact same raw artifact path the scalar old-lane path writes to, with a rung payload
-    byte-identical to the scalar path, then validates it with the sealed ``mechanics.validate_rung``.
-    """
 
     set_process_label(f"mop-fullgen-vec-{work.key[:20]}")
     with suppress(OSError):
@@ -516,11 +451,6 @@ def _execute_new_work(work: WaveWorkItem, raw_root: str) -> tuple[str, float]:
 
 
 def _runner_for(work: WaveWorkItem):
-    """Select the per-work executor. Construction routes through the proven vectorized runner.
-
-    New lanes keep the new-mechanisms path; the construction_search old lane (G1-G1) routes through the
-    net-new vectorized executor; every other old lane keeps the sealed scalar path unchanged.
-    """
 
     if work.origin == _NEW_ORIGIN:
         return _execute_new_work
@@ -540,19 +470,6 @@ def _require_complete_receipts(
 
 
 def _dynamic_pool_width(pending_count: int) -> tuple[int, int | None]:
-    """Size the process pool from live host load, floating in ``[1, min(IDLE_WORKERS, pending)]``.
-
-    The pool width is a WALL-TIME lever only: it is passed to ``ProcessPoolExecutor(max_workers=...)``
-    and is never written to any receipt, so every seeded-sha256 capsule result is byte-identical at
-    any width. ``IDLE_WORKERS`` (20) is the declared ceiling; the dynamic worker controller floats the
-    instantaneous width beneath it with the live host state, backing off fast under the external
-    Hawking workload and ramping back toward the ceiling when the host is idle. The controller is
-    imported lazily so the wave pays no import cost at module load. If it cannot sample a live host
-    (psutil absent or a refusal) the width falls back to the static ``min(IDLE_WORKERS, pending)``
-    exactly as before, so the wave never fails to run. Returns ``(width, nice_level)`` where
-    ``nice_level`` is the controller's advisory worker priority, or ``None`` when no live sample was
-    available (the fallback path applies no initializer).
-    """
 
     static_cap = min(IDLE_WORKERS, pending_count)
     if static_cap <= 1:
@@ -569,12 +486,6 @@ def _dynamic_pool_width(pending_count: int) -> tuple[int, int | None]:
 
 
 def _pool_worker_priority_init(nice_level: int) -> None:
-    """Best-effort worker priority: nudge each pool worker toward the advised nice level.
-
-    Never fatal and never touches a receipt: OS scheduling priority does not enter the seeded sha256
-    capsule result, so this only changes how the surviving pool yields cores to the external Hawking
-    workload by priority. Any failure is swallowed.
-    """
 
     with suppress(Exception):
         os.nice(int(nice_level))
@@ -589,10 +500,6 @@ def _execute_pending(
     pending = [work for work in works if work.key not in receipts]
     durations: dict[str, float] = {}
     if pending:
-        # Size the pool dynamically from live host load. Each _execute_pending call is one capsule
-        # batch, so the width is re-evaluated per capsule batch as the wave advances category by
-        # category: an idle host runs at the ceiling, and a mid-run Hawking start backs the next
-        # batch off. The width and priority are wall-time levers only and never enter any receipt.
         width, nice_level = _dynamic_pool_width(len(pending))
         initializer = _pool_worker_priority_init if nice_level is not None else None
         initargs = (int(nice_level),) if nice_level is not None else ()
@@ -793,17 +700,9 @@ def planned_serial_hours() -> float:
 
 
 def planned_ideal_worker_hours() -> float:
-    """Ideal wall-hours at the declared idle-host pool ceiling (planned serial seconds / IDLE_WORKERS).
-
-    The instantaneous pool width floats from 1 to IDLE_WORKERS with live host load, so this is the
-    best-case wall time when the host stays idle enough to hold the declared ceiling.
-    """
     return planned_program_compute_seconds() / IDLE_WORKERS / 3_600
 
 
-# --------------------------------------------------------------------------------------------------
-# Parent categorized-wave binding.
-# --------------------------------------------------------------------------------------------------
 
 
 def _artifact_report(
@@ -936,9 +835,6 @@ def _validated_parent(
     }
 
 
-# --------------------------------------------------------------------------------------------------
-# Serial admission gates.
-# --------------------------------------------------------------------------------------------------
 
 
 def _prior_gate(root: Path, gate_index: int) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
@@ -1379,9 +1275,6 @@ def materialize_gate(
     return value
 
 
-# --------------------------------------------------------------------------------------------------
-# Routing context.
-# --------------------------------------------------------------------------------------------------
 
 
 def _routing_for_epoch(
@@ -1857,9 +1750,6 @@ def run_category(
     return value
 
 
-# --------------------------------------------------------------------------------------------------
-# Serial classifiers with anti-resurrection.
-# --------------------------------------------------------------------------------------------------
 
 
 def _classification_components(
@@ -2046,9 +1936,6 @@ def classify_epoch(*, root: Path = DEFAULT_ROOT, epoch_index: int) -> dict[str, 
     return value
 
 
-# --------------------------------------------------------------------------------------------------
-# Single post-W21 I1 integration with substituted dependency closure.
-# --------------------------------------------------------------------------------------------------
 
 
 def _i1_eligible(root: Path) -> tuple[dict[str, Any], bool, bool]:
@@ -2429,9 +2316,6 @@ def classify_integration(*, root: Path = DEFAULT_ROOT) -> dict[str, Any]:
     return value
 
 
-# --------------------------------------------------------------------------------------------------
-# Aggregation, report, and advisory release audit.
-# --------------------------------------------------------------------------------------------------
 
 
 def _validated_wave_graph(
@@ -2854,7 +2738,6 @@ def render_report(
 
 
 def build_release_audit(*, paths: Any = None) -> dict[str, Any]:
-    """Capture an advisory read-only release-audit report; never gates activation or promotion."""
 
     from mop.studies import generation1_release_audit as release_audit
 

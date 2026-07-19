@@ -49,8 +49,6 @@ class GateRefusal(ValueError):
     pass
 
 
-
-
 def param_count(d_in: int = D_IN, hidden: int = HIDDEN, n_out: int = N_OUT) -> int:
 
     return d_in * hidden + hidden + hidden * n_out + n_out
@@ -92,8 +90,6 @@ def break_even_frames(
     if not isinstance(per_query_saving_flops, (int, float)) or per_query_saving_flops <= 0:
         raise GateRefusal("per_query_saving_flops must be a positive number")
     return training_flops(n_train_frames, epochs, d_in, hidden, n_out) / float(per_query_saving_flops)
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -163,8 +159,6 @@ def _sigmoid(x: np.ndarray) -> np.ndarray:
     exp_x = np.exp(x[~positive])
     out[~positive] = exp_x / (1.0 + exp_x)
     return out
-
-
 
 
 @dataclass

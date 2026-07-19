@@ -1,31 +1,3 @@
-"""Interactive ecology scaffold contracts for facets RA5, RA6, PA7, PA8, and PA9.
-
-Five machine-checkable contract families raise the scaffolding axis of the interactive ecology
-cluster without running any experiment:
-
-1. Bounded world generation (RA5): hidden dynamics, tools, damage, and sensor cost declarations
-   plus a declared world-resampling rule that separates adaptation from map memorization.
-2. Active perception (RA6, rows f22 and f28): costed choices among view, time, audio, and
-   abstention with declared acquisition controls and a pre-cost sensor value forecast declaration.
-3. Autotelic and quality-diverse ecology (PA7, rows f50, f51, f52): a goal archive, a
-   learning-progress curriculum band, noisy-TV and reward-hacking guards written as refusal rules,
-   and plateau, collapse, archive-bloat, and unsafe-goal stop rules.
-4. Simulated partners (PA8, rows f53, f54, f55, f56, f58): private observations, held-out
-   policies, declared joint-attention, repair, selective-imitation, teaching-versus-equal-
-   information, and cumulative-convention experiments, and a partner-policy pattern-matching
-   control declaration.
-5. Communication grounding (PA9, row f57): messages bound to events, actions, consequences,
-   uncertainty, and repair, with random, fixed, direct-state, and equal-bandwidth controls.
-
-Everything is deterministic and content-addressed through the Wave E0 canonical JSON identity in
-``mop.substrate.events``. Fixtures reuse the persistent grid world specification instead of adding
-a second environment primitive. Every validator fails closed: malformed or missing declarations
-raise at construction time, and refusal rules are executable code, never comments.
-
-Claim scope: deterministic programmatic mechanics only; no capability claim. Passing these
-contracts licenses scaffold readiness, not embodiment, open-endedness, social cognition, or
-grounded communication on natural data.
-"""
 
 from __future__ import annotations
 
@@ -89,7 +61,6 @@ REFUSAL_RULES = (
 
 
 class EcologyRefusal(ValueError):
-    """A named, fail-closed refusal. The rule name is code-checked against REFUSAL_RULES."""
 
     def __init__(self, rule: str, message: str) -> None:
         if rule not in REFUSAL_RULES:
@@ -136,19 +107,10 @@ def _require_claim_scope(value: str) -> None:
         raise ValueError("ecology claim scope cannot be widened or dropped")
 
 
-# ---------------------------------------------------------------------------
-# (a) Bounded world generation contract (RA5)
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class WorldResamplingRule:
-    """Declared rule separating adaptation from map or state memorization.
-
-    Held-out worlds are freshly derived layouts on the declared resample axis, so a policy that
-    memorizes one map cannot transfer by lookup. The memorization control names the arm that is
-    allowed to memorize (replay-only) and must therefore fail on held-out worlds.
-    """
 
     train_worlds: int
     held_out_worlds: int
@@ -188,7 +150,6 @@ class WorldResamplingRule:
 
 @dataclass(frozen=True, slots=True)
 class HiddenDynamicsDeclaration:
-    """Declares which world parameters stay hidden from the observation channel."""
 
     hidden_parameters: tuple[str, ...]
     tool_count: int
@@ -220,10 +181,6 @@ class HiddenDynamicsDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class BoundedWorldContract:
-    """Bounded world generation contract for RA5.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     family_seed: int
     resampling: WorldResamplingRule
@@ -240,7 +197,6 @@ class BoundedWorldContract:
         self.resampling.world_seeds(self.family_seed)
 
     def world_fixture(self) -> dict[str, Any]:
-        """Instantiate deterministic persistent-grid worlds for every declared seed."""
 
         train_seeds, held_seeds = self.resampling.world_seeds(self.family_seed)
 
@@ -273,14 +229,10 @@ class BoundedWorldContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# (b) Active perception contract (RA6, rows f22 and f28)
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class SensingCostDeclaration:
-    """One sensing action with declared sensing, motion, latency, and compute charges."""
 
     action: str
     sensing_units: int
@@ -312,11 +264,6 @@ class SensingCostDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class ValueForecastDeclaration:
-    """Pre-cost sensor value forecast declaration for row f28.
-
-    The forecast must be committed before the sensing charge is paid; a post-hoc value control is
-    mandatory so hindsight scoring can never impersonate a forecast.
-    """
 
     forecast_metric: str
     horizon_steps: int
@@ -344,10 +291,6 @@ class ValueForecastDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class ActivePerceptionContract:
-    """Costed acquisition contract for RA6 and row f22.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     costs: tuple[SensingCostDeclaration, ...]
     value_forecast: ValueForecastDeclaration
@@ -384,14 +327,10 @@ class ActivePerceptionContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# (c) Autotelic and quality-diverse ecology contract (PA7, rows f50, f51, f52)
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class GoalRecord:
-    """One candidate goal with the fields the refusal rules inspect."""
 
     goal_ref: str
     descriptor: tuple[int, ...]
@@ -423,14 +362,12 @@ class GoalRecord:
 
 
 def guard_noisy_tv(goal: GoalRecord) -> None:
-    """Refuse goals that target a declared irreducible noise source."""
 
     if goal.target_kind == "noise-source":
         raise EcologyRefusal("noisy-tv", f"goal {goal.goal_ref} targets an irreducible noise source")
 
 
 def guard_reward_hacking(goal: GoalRecord) -> None:
-    """Refuse goals whose reward is not bound to an environment consequence."""
 
     if goal.reward_source != "environment-consequence":
         raise EcologyRefusal(
@@ -440,18 +377,12 @@ def guard_reward_hacking(goal: GoalRecord) -> None:
 
 
 def guard_unsafe_goal(goal: GoalRecord) -> None:
-    """Refuse goals carrying the declared unsafe flag."""
 
     if goal.unsafe:
         raise EcologyRefusal("unsafe-goal", f"goal {goal.goal_ref} is flagged unsafe")
 
 
 class GoalArchive:
-    """Quality-diverse goal archive keyed by descriptor cell.
-
-    Admission runs every guard first, then either fills a new cell, improves an existing cell, or
-    refuses with archive-bloat when a new cell would exceed the declared capacity.
-    """
 
     def __init__(self, *, capacity: int) -> None:
         if capacity < 1:
@@ -489,11 +420,6 @@ class GoalArchive:
 
 @dataclass(frozen=True, slots=True)
 class CurriculumDeclaration:
-    """Learning-progress goldilocks band for row f50.
-
-    Tasks are selectable only when their measured pass rate sits strictly inside the declared
-    band, so both trivially easy and currently impossible tasks are excluded by construction.
-    """
 
     selection_signal: str
     too_hard_pass_rate: float
@@ -524,7 +450,6 @@ class CurriculumDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class StopRuleConfig:
-    """Thresholds for the four declared ecology stop rules."""
 
     plateau_window: int
     min_new_cells_per_window: int
@@ -552,7 +477,6 @@ _HISTORY_KEYS = ("new_cells", "distinct_cells", "archive_size", "unsafe_flag")
 
 
 def evaluate_stop_rules(config: StopRuleConfig, history: Sequence[dict[str, Any]]) -> str | None:
-    """Return the first triggered stop rule name, or None. Malformed history raises."""
 
     if not history:
         raise ValueError("stop rule evaluation requires at least one history row")
@@ -578,10 +502,6 @@ def evaluate_stop_rules(config: StopRuleConfig, history: Sequence[dict[str, Any]
 
 @dataclass(frozen=True, slots=True)
 class AutotelicEcologyContract:
-    """Autotelic goal ecology contract for PA7 and rows f50, f51, f52.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     archive_capacity: int
     stop: StopRuleConfig
@@ -619,12 +539,6 @@ class AutotelicEcologyContract:
 def run_goal_babbling_fixture(
     contract: AutotelicEcologyContract, *, seed: int, steps: int = 24
 ) -> dict[str, Any]:
-    """Deterministic safe-play fixture for row f51.
-
-    Generates seeded candidate goals, routes each through the guarded archive, records every
-    refusal by rule name, and evaluates the stop rules after every step. This exercises the
-    scaffold mechanics only; it measures nothing about learned behavior.
-    """
 
     if seed < 0:
         raise ValueError("babbling seed must be nonnegative")
@@ -680,14 +594,10 @@ def run_goal_babbling_fixture(
     return trace
 
 
-# ---------------------------------------------------------------------------
-# (d) Simulated partner contract (PA8, rows f53, f54, f55, f56, f58)
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class PartnerSpec:
-    """One simulated partner with private observations and a held-out flag."""
 
     partner_ref: str
     policy_ref: str
@@ -713,7 +623,6 @@ class PartnerSpec:
 
 @dataclass(frozen=True, slots=True)
 class PartnerExperimentDeclaration:
-    """One declared social experiment with its metric, null, and mandatory control."""
 
     name: str
     metric: str
@@ -740,13 +649,6 @@ class PartnerExperimentDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class SimulatedPartnerContract:
-    """Simulated partner contract for PA8.
-
-    The pattern-matching control pins the honest alternative reading: apparent partner modeling
-    may be regularity matching over the partner policy family, so the control arm is mandatory.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     partners: tuple[PartnerSpec, ...]
     learner_visible_keys: tuple[str, ...]
@@ -793,14 +695,10 @@ class SimulatedPartnerContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# (e) Communication grounding contract (PA9, row f57)
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MessageBindingDeclaration:
-    """One message bound to a referent whose namespace must match the binding kind."""
 
     message_ref: str
     binding: str
@@ -822,10 +720,6 @@ class MessageBindingDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class CommunicationGroundingContract:
-    """Communication grounding contract for PA9 and row f57.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     bindings: tuple[MessageBindingDeclaration, ...]
     channel_bits: int
@@ -870,17 +764,10 @@ class CommunicationGroundingContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Bundle and deterministic fixture
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class EcologyScaffoldBundle:
-    """All five interactive ecology contracts under one content-addressed identity.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     seed: int
     world: BoundedWorldContract
@@ -921,7 +808,6 @@ class EcologyScaffoldBundle:
 
 
 def make_ecology_fixture(seed: int) -> EcologyScaffoldBundle:
-    """Build the deterministic toy fixture bundle for one nonnegative seed."""
 
     if seed < 0:
         raise ValueError("fixture seed must be nonnegative")
@@ -1052,7 +938,6 @@ def make_ecology_fixture(seed: int) -> EcologyScaffoldBundle:
 
 
 def verify_ecology_fixture(payload: dict[str, Any]) -> dict[str, Any]:
-    """Re-derive the fixture from its seed and compare canonical bytes. Fail closed on drift."""
 
     checks: dict[str, bool] = {}
     errors: list[str] = []

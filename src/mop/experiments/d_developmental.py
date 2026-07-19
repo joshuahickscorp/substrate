@@ -1,23 +1,3 @@
-"""Series D: developmental-psychology precursors on the FROZEN pooled-latent substrate. Each entry
-declares an explicit NULL, gates the mechanism claim on a linear probe where relevant, wires a standing
-control (frozen-random substrate via substrate_ablation/frozen_random_projection, OR a compute-matched
-baseline, OR a tuned/nearest-centroid baseline), and reports honest nulls. Dense/environment-needed
-entries ship the POOLED PRECURSOR / probe-gate version that runs on cached pooled latents NOW and is
-EXPECTED to land in failure-taxonomy slot 3 (the published bound IS the result).
-
-The eight cpu-now experiments:
-  D1 fast mapping: one-shot mutual-exclusivity prototype binding with interference retention.
-  D2 object permanence as a violation-of-expectation prediction-error gap (pooled precursor, gate-first).
-  D3 blicket-detector causal inference: cause vs correlated confound under intervention.
-  D4 U-shaped overgeneralization: the over-regularization dip on minority exceptions.
-  D5 learning-progress self-curriculum recovers a difficulty-ordered developmental sequence.
-  D7 scaffolding: external frontier-gating versus self-curriculum.
-  D8 imitation as demonstration-conditioned latent trajectory prediction.
-  D9 analogy/relational transfer gate on pooled latents (relation_change precursor, gate-first).
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only). No sentience or
-agency language. Honest nulls only (null_supported reflects the real toy outcome).
-"""
 
 from __future__ import annotations
 
@@ -39,9 +19,6 @@ from ..shell.predictor import mlp
 from .base import Experiment, _mean
 
 
-# ----------------------------------------------------------------------------------------------------
-# D1: fast mapping (one-shot mutual-exclusivity binding) with interference retention.
-# ----------------------------------------------------------------------------------------------------
 class D1(Experiment):
     id = "d1_fast_mapping"
     metric = ("one_shot_acc", "acc_vs_nearest_centroid", "retention_drop_gate_vs_softmax")
@@ -66,7 +43,6 @@ class D1(Experiment):
         gate_ret, soft_ret = [], []
         for s in seeds:
             seed_everything(s)
-            # class-incremental stream: task0 holds known prototypes; the novel class is the held-out one.
             tasks = make_task_stream(
                 n_tasks=n_distractors + 2,
                 dim=dim,
@@ -79,35 +55,22 @@ class D1(Experiment):
             known = tasks[: n_distractors + 1]  # prototypes already learned
             novel = tasks[n_distractors + 1]  # the to-be-bound class
 
-            # prototypes from the known classes (centroid per class).
             protos = torch.stack([t.x.mean(0) for t in known])  # [C, dim]
-            # one exposure of the novel class.
             g = torch.Generator().manual_seed(s + 7)
             ex_idx = torch.randint(0, novel.x.shape[0], (1,), generator=g)
             novel_exemplar = novel.x[ex_idx]  # [1, dim]
 
-            # mutual-exclusivity prior: a query that is far from ALL known prototypes is assigned the
-            # novel label; we bind a fast-weight prototype = the single exemplar.
             bound_protos = torch.cat([protos, novel_exemplar], 0)  # [C+1, dim]
 
-            # eval: held-out novel-class queries plus known-class queries.
             novel_q = novel.x[torch.randperm(novel.x.shape[0])[: int(e.eval_n)]]
-            # 1-shot accuracy on the novel class: nearest of the bound prototype set predicts label C.
             d_gate = torch.cdist(novel_q, bound_protos)
             gate_pred = d_gate.argmin(1)
             gate_acc.append(float((gate_pred == protos.shape[0]).float().mean()))
 
-            # nearest-centroid baseline: same nearest-prototype rule but WITHOUT the ME novelty prior,
-            # i.e. the exemplar is added as just one more centroid with no far-from-all bias. With one
-            # exposure the centroid IS the exemplar, so this is the matched non-developmental control.
             nc_protos = torch.cat([protos, novel_exemplar], 0)
             d_nc = torch.cdist(novel_q, nc_protos)
             nc_acc.append(float((d_nc.argmin(1) == protos.shape[0]).float().mean()))
 
-            # interference retention: train a softmax head on the bound class, then on n_distractors
-            # more classes, and measure accuracy drop on the bound class. The gated arm freezes the
-            # bound prototype (nearest-prototype readout is interference-immune by construction); the
-            # vanilla softmax arm is retrained end-to-end and can forget.
             nc_total = protos.shape[0] + 1
             head = nn.Linear(dim, nc_total)
             xb = torch.cat([novel_exemplar.repeat(int(e.samples_per_class), 1)], 0)
@@ -123,7 +86,6 @@ class D1(Experiment):
                 opt.step()
             with torch.no_grad():
                 soft_before = float((head(novel_q).argmax(-1) == protos.shape[0]).float().mean())
-            # interference phase: retrain ONLY on distractor classes (catastrophic-interference regime).
             for _ in range(epochs):
                 opt.zero_grad()
                 F.cross_entropy(head(xk), yk).backward()
@@ -131,7 +93,6 @@ class D1(Experiment):
             with torch.no_grad():
                 soft_after = float((head(novel_q).argmax(-1) == protos.shape[0]).float().mean())
             soft_ret.append(soft_before - soft_after)
-            # the gated (frozen-prototype) arm: its bound-class accuracy is unchanged by interference.
             gate_ret.append(0.0)
 
         ga, na = _mean(gate_acc), _mean(nc_acc)
@@ -146,19 +107,12 @@ class D1(Experiment):
             "retention_drop_softmax": round(sr, 4),
             "retention_advantage": round(ret_advantage, 4),
             "seeds": list(seeds),
-            # null: gate ties nearest-centroid on 1-shot acc AND is not more interference-robust.
             "null_supported": bool(acc_gain <= 0.05 and ret_advantage <= 0.05),
             "gate_beats_baselines": bool(acc_gain > 0.05 or ret_advantage > 0.05),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# D2: object permanence as a violation-of-expectation prediction-error gap (POOLED PRECURSOR).
-# dense=True -> probe-gate version on cached pooled latents; EXPECTED taxonomy slot 3 (the bound IS
-# the result). The pooled latent discards within-frame object/spatial structure, so the
-# occluded-object-present factor is expected NOT to be linearly decodable.
-# ----------------------------------------------------------------------------------------------------
 class D2(Experiment):
     id = "d2_object_permanence_voe"
     metric = ("occluded_present_decodability", "voe_error_gap", "wm_widening")
@@ -183,36 +137,22 @@ class D2(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # POOLED PRECURSOR construction faithful to V-JEPA pooling: a scene is a set of object
-            # tokens that get MEAN-POOLED into one pooled latent. The occluded object is exactly ONE
-            # token among many AND it is hidden behind an occluder (its token is itself replaced by the
-            # occluder token), so mean-pooling averages its presence away below the noise floor. This is
-            # the honest substrate limit the doctrine wants published (pooling discards the slot).
             n_tokens = int(e.n_tokens)
             present = torch.randint(0, 2, (n,), generator=g)  # occluded-object-present factor
             obj_dir = torch.randn(dim, generator=g)
             occluder_dir = torch.randn(dim, generator=g)
-            # background tokens (the dominant, present-independent scene content).
             bg = torch.randn(n, n_tokens - 1, dim, generator=g)
-            # the occluded slot token: when present it is the object BEHIND the occluder, so what the
-            # encoder sees in that slot is the occluder, NOT the object (occlusion hides the object).
             occ_token = occluder_dir.expand(n, dim) + 0.1 * present.unsqueeze(1).float() * obj_dir
             tokens = torch.cat([bg, occ_token.unsqueeze(1)], 1)  # [n, n_tokens, dim]
             x = tokens.mean(1)  # MEAN-POOL: the single weak object trace is diluted by 1/n_tokens
 
-            # MANDATORY GATE FIRST: is the occluded-present factor linearly decodable from pooled latents.
             probe = linear_probe(x, present, seed=s)
             decods.append(probe["score"])
             fr_probe = linear_probe(frozen_random_projection(x, s), present, seed=s)
             fr_decods.append(fr_probe["score"])
 
-            # VoE error gap: a forward predictor trained on legal-continue dynamics; illegal-vanish clips
-            # delete the (already pooled-out) object component, so the next-latent target shifts only by
-            # the weak term. The gap is bounded by what the pooled latent retained.
             rot = torch.linalg.qr(torch.randn(dim, dim, generator=g))[0]
             xnext_legal = x @ rot + 0.1 * float(e.separation)
-            # illegal vanish: the object disappears mid-clip (present -> absent), an unexpected delta.
-            # Reconstruct the pooled latent with the object trace removed from the occluded slot.
             occ_token_vanish = occluder_dir.expand(n, dim)
             tokens_vanish = torch.cat([bg, occ_token_vanish.unsqueeze(1)], 1)
             x_vanish = tokens_vanish.mean(1)
@@ -228,8 +168,6 @@ class D2(Experiment):
                 continue_err.append(float((pred(x) - xnext_legal).pow(2).mean()))
                 vanish_err.append(float((pred(x) - xnext_vanish).pow(2).mean()))
 
-            # WorkingMemory-slot predictor: a recurrent scratchpad that could in principle hold the
-            # occluded slot. On pooled latents the slot has nothing extra to hold, so widening is bounded.
             wm = WorkingMemory(dim, slots=int(e.wm_slots))
             wm_pred = mlp(dim, dim, int(e.hidden), depth=2)
             opt2 = torch.optim.Adam([*wm.parameters(), *wm_pred.parameters()], lr=lr)
@@ -260,16 +198,12 @@ class D2(Experiment):
             "wm_voe_error_gap": round(wm_gap, 5),
             "wm_widening": round(wm_widening, 5),
             "seeds": list(seeds),
-            # null: gate fails OR no VoE gap. EXPECTED true (taxonomy 3 substrate bound).
             "null_supported": bool((not gate_passes) or voe_gap <= 1e-3),
             "taxonomy_slot": 3,
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# D3: blicket-detector causal inference, cause vs correlated confound under intervention.
-# ----------------------------------------------------------------------------------------------------
 class D3(Experiment):
     id = "d3_blicket_causal"
     metric = ("held_out_cause_attribution", "interventional_vs_observational_gap", "cause_confound_separable")
@@ -296,7 +230,6 @@ class D3(Experiment):
             cause_dir = torch.randn(dim, generator=g)
             confound_dir = torch.randn(dim, generator=g)
 
-            # OBSERVATIONAL regime: cause and confound are correlated (p_agree high), outcome = f(cause).
             def make_obs(m, agree, g=g, cause_dir=cause_dir, confound_dir=confound_dir):
                 cause = torch.randint(0, 2, (m,), generator=g)
                 flip = (torch.rand(m, generator=g) > agree).long()
@@ -310,16 +243,12 @@ class D3(Experiment):
                 outcome = cause  # the blicket-activation is a deterministic function of the true cause
                 return feats, outcome, cause, confound
 
-            # INTERVENTIONAL regime: do(cause) breaks the cause-confound correlation (agree = 0.5).
             xo, yo, co, cfo = make_obs(n, float(e.obs_agreement))
             xi, yi, ci, cfi = make_obs(int(n * float(e.interventional_frac)), 0.5)
 
-            # separability gate: cause and confound each linearly decodable from the pooled feats.
             cause_dec.append(linear_probe(xo, co, seed=s)["score"])
             confound_dec.append(linear_probe(xo, cfo, seed=s)["score"])
 
-            # held-out test: configurations where cause and confound DISAGREE (the diagnostic of true
-            # causal attribution vs confound reliance), unseen in the correlated observational set.
             xt, yt, ct, cft = make_obs(int(e.eval_n), 0.0)  # fully anti-correlated -> cause != confound
 
             def fit(train_x, train_y, hidden, xt=xt, yt=yt):
@@ -332,8 +261,6 @@ class D3(Experiment):
                 with torch.no_grad():
                     return float((net(xt).argmax(-1) == yt).float().mean()), net
 
-            # observational-only at a hidden width; interventional arm gets the SAME width (capacity
-            # match) but adds the few interventional trials, the only difference being intervention.
             h = int(e.hidden)
             a_obs, net_obs = fit(xo, yo, h)
             a_int, net_int = fit(torch.cat([xo, xi]), torch.cat([yo, yi]), h)
@@ -343,7 +270,6 @@ class D3(Experiment):
         oa, ia = _mean(obs_acc), _mean(int_acc)
         cd, cfd = _mean(cause_dec), _mean(confound_dec)
         gap = ia - oa
-        # capacity match: identical architecture/width, so forward FLOPs are equal by construction.
         flops = mlp_flops([dim, int(e.hidden), 2])
         compute = matched_within(flops, flops)
         out = {
@@ -355,16 +281,12 @@ class D3(Experiment):
             "cause_confound_separable": bool(cd > 0.6 and cfd > 0.6),
             "capacity_matched": compute["matched"],
             "seeds": list(seeds),
-            # null: interventional does NOT beat observational on held-out attribution.
             "null_supported": bool(gap <= float(e.margin)),
             "interventional_helps": bool(gap > float(e.margin)),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# D4: U-shaped overgeneralization, the over-regularization dip on minority exceptions.
-# ----------------------------------------------------------------------------------------------------
 class D4(Experiment):
     id = "d4_ushaped_overgen"
     metric = ("u_dip_depth", "time_to_recovery", "dip_removed_by_exception_memory")
@@ -387,17 +309,13 @@ class D4(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # a family where most clips follow rule A (label = f_A) and a minority are exception B.
             n_reg = int(e.n_regular)
             n_exc = int(e.n_exception)
             ruleA_dir = torch.randn(dim, generator=g)
-            # regulars: a shared surface cue that maps to label-by-rule; exceptions share that cue but
-            # carry the OPPOSITE label (so over-regularizing the rule hurts them first, then they recover).
             xr = torch.randn(n_reg, dim, generator=g) * 0.5 + ruleA_dir
             yr = torch.ones(n_reg, dtype=torch.long)  # rule A label
             xe = torch.randn(n_exc, dim, generator=g) * 0.5 + ruleA_dir
             ye = torch.zeros(n_exc, dtype=torch.long)  # exception label (opposite)
-            # a small per-exception idiosyncratic tag that lets a memory eventually carve them out.
             exc_tag = torch.randn(dim, generator=g)
             xe = xe + 0.6 * exc_tag
 
@@ -436,13 +354,11 @@ class D4(Experiment):
             mem_curve = train_curve(int(e.hidden), True)
 
             def dip(curve):
-                # U-dip depth: how far the minimum after an early peak falls below the early peak.
                 early = max(curve[: max(1, len(curve) // 4)])
                 later_min = min(curve[len(curve) // 4 :])
                 return max(0.0, early - later_min)
 
             def recovery(curve):
-                # epochs from the trough back to within 90% of the final value.
                 trough = int(torch.tensor(curve).argmin())
                 final = curve[-1]
                 for t in range(trough, len(curve)):
@@ -469,16 +385,12 @@ class D4(Experiment):
             "dip_removed_by_width_alone": width_removes,
             "dip_removed_by_exception_memory": memory_removes,
             "seeds": list(seeds),
-            # null: no dip, OR the dip is just capacity starvation removed by width alone.
             "null_supported": bool((not has_dip) or width_removes),
             "genuine_overregularization_dip": bool(has_dip and not width_removes),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# D5: learning-progress self-curriculum recovers a difficulty-ordered developmental sequence.
-# ----------------------------------------------------------------------------------------------------
 class D5(Experiment):
     id = "d5_lp_self_curriculum"
     metric = ("entry_order_difficulty_rank_corr", "final_acc_by_ordering", "noisy_tv_rejected")
@@ -504,7 +416,6 @@ class D5(Experiment):
         nt_rejected = []
         for s in seeds:
             seed_everything(s)
-            # families of graded difficulty: separation descends, so later families are harder.
             seps = torch.linspace(float(e.sep_hi), float(e.sep_lo), n_families).tolist()
             families = []
             for fi, sep in enumerate(seps):
@@ -518,11 +429,8 @@ class D5(Experiment):
                 )[0]
                 families.append(t)
 
-            # independent difficulty: asymptotic error of a fixed linear probe per family.
             difficulty = [1.0 - linear_probe(t.x, t.y, seed=s)["score"] for t in families]
 
-            # LP-selection: greedily enter the family with the highest current learning progress (drop
-            # in error over a short window). On graded families this should recover an easy-to-hard order.
             heads = {fi: nn.Linear(dim, int(e.n_classes)) for fi in range(n_families)}
             opts = {fi: torch.optim.Adam(heads[fi].parameters(), lr=lr) for fi in range(n_families)}
             prev_err = {fi: 1.0 for fi in range(n_families)}
@@ -535,7 +443,6 @@ class D5(Experiment):
                     return float((heads[fi](t.x).argmax(-1) != t.y).float().mean())
 
             for _round in range(n_families):
-                # one probe step on each not-yet-mastered family to estimate LP.
                 lp = {}
                 for fi in range(n_families):
                     t = families[fi]
@@ -545,13 +452,11 @@ class D5(Experiment):
                     cur = err_of(fi)
                     lp[fi] = prev_err[fi] - cur
                     prev_err[fi] = cur
-                # pick the highest-LP family not yet recorded as entered.
                 cand = [fi for fi in range(n_families) if fi not in entered]
                 pick = max(cand, key=lambda fi: lp[fi])
                 entry_order.append(pick)
                 entered.add(pick)
 
-            # rank correlation between entry order and difficulty (Spearman via ranked Pearson).
             order_rank = torch.zeros(n_families)
             for pos, fi in enumerate(entry_order):
                 order_rank[fi] = pos
@@ -563,7 +468,6 @@ class D5(Experiment):
             corr = float((a * b).sum() / (a.norm() * b.norm() + 1e-8))
             rank_corrs.append(corr)
 
-            # final-competence-by-ordering: train one shared head sequentially under three orders.
             def final_acc(order, s=s, families=families):
                 seed_everything(s + 1)
                 head = nn.Linear(dim, int(e.n_classes))
@@ -574,7 +478,6 @@ class D5(Experiment):
                         opt.zero_grad()
                         F.cross_entropy(head(t.x), t.y).backward()
                         opt.step()
-                # competence on the whole pool.
                 accs = []
                 for t in families:
                     with torch.no_grad():
@@ -588,7 +491,6 @@ class D5(Experiment):
             rand_final.append(final_acc(rand_order))
             rev_final.append(final_acc(list(reversed(easy_to_hard))))
 
-            # noisy-TV guard: LP must reject the irreducible-noise region (aleatoric_tv).
             nt = noisy_tv_diagnostic(dim=dim, steps=int(e.tv_steps), batch=64, seed=s)
             nt_rejected.append(bool(nt["learning_progress_separates"]))
 
@@ -605,16 +507,12 @@ class D5(Experiment):
             "lp_vs_random_gain": round(lf - rf, 4),
             "noisy_tv_rejected": tv_ok,
             "seeds": list(seeds),
-            # null: LP ties random on final accuracy AND entry order uncorrelated with difficulty.
             "null_supported": bool((not lp_helps) and (not corr_present)),
             "lp_recovers_developmental_order": bool(lp_helps and corr_present and tv_ok),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# D7: scaffolding, external frontier-gating versus self-curriculum.
-# ----------------------------------------------------------------------------------------------------
 class D7(Experiment):
     id = "d7_scaffolding"
     metric = ("scaffolded_final_acc", "scaffolding_vs_self_lp_gain", "scaffolding_vs_random_mask_gain")
@@ -652,7 +550,6 @@ class D7(Experiment):
                 for fi, sep in enumerate(seps)
             ]
             difficulty = [1.0 - linear_probe(t.x, t.y, seed=s)["score"] for t in families]
-            # the learnable frontier = families of intermediate difficulty (not too easy, not too hard).
             frontier = sorted(range(n_families), key=lambda fi: difficulty[fi])[: n_families // 2 + 1]
 
             def eval_pool(head, families=families):
@@ -680,13 +577,9 @@ class D7(Experiment):
                         opt.step()
                 return eval_pool(head)
 
-            # SCAFFOLDED: teacher gates input to the learnable frontier first (frontier order + gate).
             scaf.append(train_order(frontier + [fi for fi in range(n_families) if fi not in frontier], True))
-            # UNSCAFFOLDED: natural (index) order, no gate.
             unscaf.append(train_order(list(range(n_families)), False))
-            # SELF-LP-ONLY: easy-to-hard self order, no external teacher gate.
             selflp.append(train_order(sorted(range(n_families), key=lambda fi: difficulty[fi]), False))
-            # RANDOM-MASK control: gating with no frontier info (random order + gate).
             g = torch.Generator().manual_seed(s + 9)
             randmask.append(train_order(torch.randperm(n_families, generator=g).tolist(), True))
 
@@ -704,16 +597,12 @@ class D7(Experiment):
             "scaffolding_vs_random_mask_gain": round(vs_random, 4),
             "scaffolding_vs_unscaffolded_gain": round(vs_unscaf, 4),
             "seeds": list(seeds),
-            # null: scaffolding ties self-curriculum and unscaffolded (no benefit over self-LP).
             "null_supported": bool(vs_self <= margin and vs_unscaf <= margin),
             "scaffolding_helps": bool(vs_self > margin and vs_random > margin),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# D8: imitation as demonstration-conditioned latent trajectory prediction.
-# ----------------------------------------------------------------------------------------------------
 class D8(Experiment):
     id = "d8_imitation_conditioned_rollout"
     metric = ("conditioned_vs_unconditioned_rollout_error", "terminal_state_decodability", "novel_start_gap")
@@ -737,8 +626,6 @@ class D8(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # navigation-style clips: each demonstration is characterized by a terminal-state factor
-            # (the goal) which selects which deterministic linear dynamics governs the rollout.
             n_goals = int(e.n_goals)
             goal_rots = [torch.linalg.qr(torch.randn(dim, dim, generator=g))[0] for _ in range(n_goals)]
             goal_emb = torch.randn(n_goals, dim, generator=g)  # demonstration embedding per goal
@@ -751,10 +638,8 @@ class D8(Experiment):
                 return start, nxt, demo, goal
 
             xs, xn, demo, goal = make(n)
-            # terminal-state decodability gate: is the demonstrated goal decodable from the demo embed.
             term_dec.append(linear_probe(demo, goal, seed=s)["score"])
 
-            # unconditioned predictor: start -> next, must average over goals (cannot disambiguate).
             unc = mlp(dim, dim, int(e.hidden), depth=2)
             opt = torch.optim.Adam(unc.parameters(), lr=lr)
             for _ in range(epochs):
@@ -762,7 +647,6 @@ class D8(Experiment):
                 F.mse_loss(unc(xs), xn).backward()
                 opt.step()
 
-            # conditioned predictor: concat the demonstration latent (no action model, concat-only).
             con = mlp(dim * 2, dim, int(e.hidden), depth=2)
             optc = torch.optim.Adam(con.parameters(), lr=lr)
             for _ in range(epochs):
@@ -770,7 +654,6 @@ class D8(Experiment):
                 F.mse_loss(con(torch.cat([xs, demo], -1)), xn).backward()
                 optc.step()
 
-            # shuffled-demonstration control: demo embeddings permuted (conditioning carries no signal).
             perm = torch.randperm(n, generator=g)
             shc = mlp(dim * 2, dim, int(e.hidden), depth=2)
             opts = torch.optim.Adam(shc.parameters(), lr=lr)
@@ -779,7 +662,6 @@ class D8(Experiment):
                 F.mse_loss(shc(torch.cat([xs, demo[perm]], -1)), xn).backward()
                 opts.step()
 
-            # novel start states (held-out), same goals.
             xst, xnt, demot, _ = make(int(e.eval_n))
             with torch.no_grad():
                 uncond_err.append(float((unc(xst) - xnt).pow(2).mean()))
@@ -798,17 +680,12 @@ class D8(Experiment):
             "conditioned_vs_unconditioned_improvement": round(improvement, 5),
             "terminal_state_decodability": round(td, 4),
             "seeds": list(seeds),
-            # null: conditioning gives no improvement on novel starts (ties unconditioned).
             "null_supported": bool(improvement <= margin),
             "conditioning_helps": bool(improvement > margin and (se - ce) > margin),
         }
         return out
 
 
-# ----------------------------------------------------------------------------------------------------
-# D9: analogy/relational transfer gate on pooled latents (relation_change POOLED PRECURSOR).
-# dense=True -> probe-gate version; EXPECTED taxonomy slot 3 (pooled latent discards the relation).
-# ----------------------------------------------------------------------------------------------------
 class D9(Experiment):
     id = "d9_relation_transfer_gate"
     metric = ("relation_decodability", "held_out_same_relation_transfer", "transfer_vs_surface")
@@ -832,20 +709,12 @@ class D9(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # a relation_change PRECURSOR faithful to pooling: each item-pair is TWO object tokens that
-            # get MEAN-POOLED into one pooled latent. The relation is a property of the PAIR (the
-            # directed difference between the two object tokens); mean-pooling cancels that difference
-            # (mean of a and b loses a - b), so the relation is discarded by the pooled substrate. The
-            # surviving variance is surface instance identity. This is the substrate bound to publish.
             n_rel = int(e.n_relations)
             rel_dir = torch.randn(n_rel, dim, generator=g)
             relation = torch.randint(0, n_rel, (n,), generator=g)
             instance = torch.randint(0, int(e.n_instances), (n,), generator=g)
             inst_dir = torch.randn(int(e.n_instances), dim, generator=g)
             weak = float(e.relation_weight)
-            # token A carries instance identity plus +half the relation vector; token B carries the
-            # SAME instance identity minus half the relation vector. Their mean keeps instance, drops
-            # the relation entirely (a + b)/2 has no a - b term.
             rel_vec = weak * rel_dir[relation]
             noise_a = 0.3 * torch.randn(n, dim, generator=g)
             noise_b = 0.3 * torch.randn(n, dim, generator=g)
@@ -853,13 +722,9 @@ class D9(Experiment):
             tok_b = inst_dir[instance] - 0.5 * rel_vec + noise_b
             x = 0.5 * (tok_a + tok_b)  # MEAN-POOL the pair: the relation difference cancels
 
-            # MANDATORY GATE FIRST: relation linearly decodable from pooled latents.
             rel_dec.append(linear_probe(x, relation, seed=s)["score"])
             fr_rel_dec.append(linear_probe(frozen_random_projection(x, s), relation, seed=s)["score"])
 
-            # transfer test: train a relation classifier on some instances, test on held-out instances
-            # sharing the same relation. A surface-feature baseline trains on raw x with no relation
-            # structure available to exploit (it can only ride instance identity, which does not transfer).
             held = instance >= int(e.n_instances) // 2
             xtr, rtr = x[~held], relation[~held]
             xte, rte = x[held], relation[held]
@@ -871,8 +736,6 @@ class D9(Experiment):
                 opt.step()
             with torch.no_grad():
                 transfer_acc.append(float((clf(xte).argmax(-1) == rte).float().mean()))
-            # surface baseline: predict relation from instance identity alone (one-hot), which cannot
-            # generalize to held-out instances -> chance-level transfer.
             onehot_tr = F.one_hot(instance[~held], int(e.n_instances)).float()
             onehot_te = F.one_hot(instance[held], int(e.n_instances)).float()
             sclf = nn.Linear(int(e.n_instances), n_rel)
@@ -898,7 +761,6 @@ class D9(Experiment):
             "surface_baseline_transfer": round(sa, 4),
             "transfer_vs_surface": round(transfer_gain, 4),
             "seeds": list(seeds),
-            # null: relation not decodable (gate fails) OR no transfer beyond surface. EXPECTED true.
             "null_supported": bool((not gate_passes) or transfer_gain <= float(e.margin)),
             "taxonomy_slot": 3,
         }

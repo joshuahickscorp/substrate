@@ -1,60 +1,4 @@
 #!/usr/bin/env python
-"""DR13 on the REAL V-JEPA 2 PREDICTOR: world-model rollout fidelity (facet 12 acceptance gate).
-
-The synthetic sibling `scripts/mop_dr13_horizon_limit.py` tests rollout-error compounding against
-RANDOM transitions. This script is the real-predictor counterpart the Studio audit calls for
-(STUDIO_POTENTIAL_AUDIT.md facet 12): it drives V-JEPA 2's actual PREDICTOR, the learned
-latent-space simulator of video dynamics that the entire MoP corpus used the ENCODER of and threw
-away, and measures how far its latent rollouts stay faithful before error compounds past the
-trivial baselines. It gates the whole rollout lane (counterfactual and interventional abstraction,
-the ex2 latent-planning precursor, DR7 latent chain-of-thought).
-
-MECHANISM (from transformers/models/vjepa2/modeling_vjepa2.py): the predictor is a masked
-spatiotemporal-patch predictor over one clip's temporal-slot x spatial patch grid. Given encoder
-hidden states at CONTEXT patch indices plus TARGET patch indices, it forecasts the target patch
-representations. The teacher is the encoder's OWN representation of those target patches, exactly
-V-JEPA's training signal (validated bit-exact against the top-level VJEPA2Model path).
-
-TEMPORAL ROLLOUT: context = all patches in temporal slots [0..t]; target = all patches in slot t+h.
-h=1 single-step predicts slot t+1 from ground-truth context. h>=2 compounds by substituting the
-PREDICTED slot reps back into the context buffer before predicting the next slot, a true open-loop
-rollout through the model's own outputs.
-
-PREREGISTERED NULL, THRESHOLD, CONTROLS (fixed in code before any number):
-  usable horizon = the largest CONTIGUOUS h (from h=1) at which real_nmse.hi < every control_nmse.lo
-  (non-overlapping seed CI, lower is better) AND real_nmse.mean < USABLE_FRACTION * best_control_nmse.
-  A tie is a NULL. Controls (all non-vacuous):
-    (a) persistence : predict slot t+h = copy the last ground-truth context slot (no dynamics).
-    (b) random_init : the SAME predictor architecture, freshly initialized weights, identical pipe.
-    (c) shuffled_tgt: the real predictor output scored against a DIFFERENT clip's true slot t+h
-        (shares the predictor-vs-encoder representational gap, so beating it isolates genuine
-        clip-specific dynamics net of that gap).
-  Verdict: convert (usable horizon >= 2), wall-to-1-step (real cleanly usable only at h=1),
-  null (real never reaches the usability bar at any horizon; a directional-but-sub-usable signal
-  is still a null under this rule).
-
-PROVENANCE (M3 Pro, 24 synthetic bound-nuisance clips, CPU, 2026-07-03): verdict NULL. The real
-predictor beat all three controls by non-overlapping seed CI at every horizon 1..8, but by only
-~5 to 7 percent (real ~0.93 of the best control), never near the 0.5 usability bar. A leakage probe
-showed the predictor is lossy even on a VISIBLE slot (in-context nmse ~0.75), so most of the ~0.77
-one-step error is a predictor-vs-encoder representational gap and the marginal one-step forecast
-cost is small (~0.025 nmse above that floor); the encoder's own adjacent-slot nmse scale is ~0.95,
-so slots are nearly decorrelated. This is a real-but-sub-usable world-model signal. The clips are
-SYNTHETIC and out-of-distribution for a predictor trained on real video, and the whole-future-slot
-masking is OOD for the training mask distribution, so the null is PROVISIONAL on this clipset; the
-licensed real-scale verdict requires re-running with --clip-dir on the Studio's hosted real corpora
-(facet 14 feeds facet 12). See docs/mixture_of_perspectives/RESULTS_LEDGER.md.
-
-Form (goal loop): no em dashes or en dashes. Preregister before running. A tie is a null. No score
-is faked. A proven wall with a mechanism is success.
-
-Usage:
-  PYTHONPATH=<repo>/src:<repo>/scripts OMP_NUM_THREADS=4 \
-    .venv/bin/python scripts/mop_dr13_predictor_fidelity.py [--n-clips 24] [--clip-dir DIR] [--out OUT]
-
-  --clip-dir DIR points the gate at real clips: a directory of .pt tensors each shaped
-  [frames, 3, H, W] (the Studio real-corpora re-run). Default is the synthetic reproduction.
-"""
 
 from __future__ import annotations
 
@@ -77,9 +21,6 @@ from transformers.models.vjepa2.modeling_vjepa2 import VJEPA2Predictor  # noqa: 
 
 from mop.diagnostics.riskcov import seed_ci  # noqa: E402
 
-# ------------------------------------------------------------------------------------------------
-# PREREGISTERED CONSTANTS (before any number exists)
-# ------------------------------------------------------------------------------------------------
 HF = "facebook/vjepa2-vitl-fpc64-256"
 HORIZONS = [1, 2, 3, 4, 6, 8]  # temporal-slot lookaheads
 DEFAULT_N_CLIPS = 24  # tractable on CPU
@@ -108,7 +49,6 @@ def cosd(p: torch.Tensor, y: torch.Tensor) -> float:
 
 @torch.no_grad()
 def encode_clip(model, clip: torch.Tensor) -> torch.Tensor:
-    """clip [frames,3,H,W] -> encoder patch states [N, D]."""
     out = model(pixel_values_videos=clip.unsqueeze(0), skip_predictor=True)
     return out.last_hidden_state[0]
 
@@ -117,8 +57,6 @@ def encode_clip(model, clip: torch.Tensor) -> torch.Tensor:
 def predict_slot(
     predictor, ctx_buffer: torch.Tensor, ctx_idx: torch.Tensor, tgt_idx: torch.Tensor
 ) -> torch.Tensor:
-    """Run the predictor once. ctx_buffer [N,D] is the full patch buffer (real encoder states,
-    with predicted slots substituted in for h>=2). Returns predicted target rows [len(tgt),D]."""
     out = predictor(
         encoder_hidden_states=ctx_buffer.unsqueeze(0),
         context_mask=[ctx_idx.unsqueeze(0)],
@@ -129,8 +67,6 @@ def predict_slot(
 
 @torch.no_grad()
 def rollout_errors(predictor, seq: torch.Tensor, seq_other: torch.Tensor, pps: int, gd: int):
-    """One clip. Returns {horizon -> {real,persist,shuffled}: (nmse, cosd)}. Compounding: predicted
-    slots are fed back into the context buffer for the next step (true open-loop rollout)."""
     res: dict[int, dict[str, tuple[float, float]]] = {}
     buf = seq.clone()
     ctx_idx = context_up_to(T_START, pps)
@@ -164,8 +100,6 @@ def rollout_errors(predictor, seq: torch.Tensor, seq_other: torch.Tensor, pps: i
 
 
 def load_clips(clip_dir: str | None, n: int, frames: int, hw: int):
-    """Yield (name, clip[frames,3,hw,hw]). Synthetic by default; a directory of .pt clip tensors
-    (each [frames,3,hw,hw]) points the gate at real corpora for the Studio real-scale re-run."""
     if clip_dir:
         paths = sorted(Path(clip_dir).glob("*.pt"))[:n]
         if not paths:
@@ -199,7 +133,6 @@ def run_predictor(predictor, seqs, tag, t0):
 
 
 class SeqSet(list):
-    """A list of encoder sequences carrying the grid geometry for the rollout helpers."""
 
     def __init__(self, items, pps: int, gd: int):
         super().__init__(items)

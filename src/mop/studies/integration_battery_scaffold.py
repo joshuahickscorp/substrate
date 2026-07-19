@@ -1,36 +1,3 @@
-"""Contract scaffold for the workspace, self-model, and integration-theory cluster.
-
-Scaffolding only: machine-checkable contracts, deterministic seeded fixture generators, declared
-controls and nulls, and fail-closed refusal rules for facet PA6 (competing integration-theory
-operationalization) with scaffold support for PA4 (limited-capacity broadcast) and PA5 (operational
-self-model and metacognition). Claim scope everywhere: deterministic programmatic mechanics only;
-no capability claim. Nothing here runs an experiment, loads weights, touches the network, or reads
-the clock. The module raises on missing or malformed declarations rather than defaulting them.
-
-Five contract families:
-
-1. Theory battery (proposed rows around PA6): each registered theory declares DIVERGENT bounded
-   predictions over the same operations at five levels (activation, behavior, lesion, restoration,
-   construct-validity), plus precommitted disconfirming patterns and neighboring dissociations.
-   A hard code rule keeps nonfunctional and moral-status interpretation out of the functional
-   score: the scorer refuses any theory entry whose free text trips the north_star sentience rail
-   and refuses any observation annotated with interpretation vocabulary.
-2. Operational self-model contracts (f31 hardware and body model, f32 tool incorporation,
-   f33 internal telemetry prediction, f34 homeostatic resource control): declared prediction
-   targets over the telemetry vocabulary of studio/local_throttle.collect_host_telemetry. The
-   field names are mirrored by NAME only; the heavy throttle machinery is never imported here.
-3. Self-report grounding contract (f35): declared report fields over the same telemetry
-   vocabulary, reusing the report_grounding metric names from diagnostics/operational_awareness.
-4. Limited-broadcast necessity and sufficiency contracts (f36, f37): capacity-limited broadcast
-   arm against an unrestricted-bus control plus mode-specific lesion/restoration or matched
-   dense-state/depth/routing controls at a declared matched FLOP budget.
-5. Metacognitive-efficiency contract (f38): per-component OA baselines and monitor cost budgets,
-   reusing the OA component names from diagnostics/operational_awareness, with a code rule that
-   refuses any composite score spanning more than one OA component.
-
-House style: no em or en dashes; engineering vocabulary only. All free text in every contract is
-gated by the north_star sentience rail at construction time and again inside the scorer.
-"""
 
 from __future__ import annotations
 
@@ -56,10 +23,6 @@ METACOG_EFFICIENCY_SCHEMA = "mop-metacognitive-efficiency/v1"
 OPERATION_LEVELS = ("activation", "behavior", "lesion", "restoration", "construct-validity")
 PREDICTION_DIRECTIONS = ("increase", "decrease", "no-change")
 
-# Tokens that mark nonfunctional or moral-status interpretation. Any metric name, annotation key,
-# or annotation value carrying one of these is refused by code, so the functional score can never
-# absorb an interpretation claim. "experien" covers experience/experiential without colliding with
-# "experiment"; "sentien" and "conscious" duplicate the rail on purpose (defense in depth).
 INTERPRETATION_EXCLUDED_TOKENS = (
     "moral",
     "welfare",
@@ -73,9 +36,6 @@ INTERPRETATION_EXCLUDED_TOKENS = (
     "feel",
 )
 
-# Telemetry vocabulary mirrored BY NAME from studio/local_throttle.collect_host_telemetry (and its
-# _mps/_thermal/_power/_processes probes). The throttle module is deliberately not imported: this
-# scaffold only needs the field names as declared prediction targets.
 TELEMETRY_FIELDS: Mapping[str, tuple[str, ...]] = {
     "cpu": (
         "logical_cpus",
@@ -99,8 +59,6 @@ TELEMETRY_FIELDS: Mapping[str, tuple[str, ...]] = {
     "power": ("on_ac", "battery_percent"),
 }
 
-# The numeric subset: forecast targets and homeostatic setpoints must be numbers, not lists or
-# categorical strings.
 TELEMETRY_NUMERIC_FIELDS: Mapping[str, tuple[str, ...]] = {
     "cpu": TELEMETRY_FIELDS["cpu"],
     "memory": TELEMETRY_FIELDS["memory"],
@@ -119,8 +77,6 @@ SELF_MODEL_KINDS = (
 )
 TARGET_PHASES = ("standing", "pre-tool", "post-tool")
 
-# Required control sets are FIXED tuples (order included), mirroring the Wave E0 harness rule that
-# control drift fails closed instead of silently shrinking.
 REQUIRED_SELF_MODEL_CONTROLS: Mapping[str, tuple[str, ...]] = {
     "hardware-body": ("boundary-shuffled", "wrong-channel", "constant-report"),
     "tool-incorporation": ("tool-detached", "wrong-tool", "phase-shuffled"),
@@ -128,8 +84,6 @@ REQUIRED_SELF_MODEL_CONTROLS: Mapping[str, tuple[str, ...]] = {
     "homeostatic-control": ("matched-random-actuation", "no-actuation", "setpoint-shuffled"),
 }
 
-# Actuator vocabulary mirrored by name from the throttle governor's admission, lane, checkpoint,
-# and cache levers. Declaring an actuator here claims nothing about its effect.
 HOMEOSTATIC_ACTUATORS = (
     "defer-admission",
     "downshift-lane",
@@ -176,7 +130,6 @@ def _require_id(value: str, label: str) -> str:
 
 
 def _clean_text(text: str, where: str) -> str:
-    """Fail closed on empty text, em or en dashes, and sentience-rail hits."""
     if not text.strip():
         raise ValueError(f"{where} must not be empty")
     if "\u2014" in text or "\u2013" in text:
@@ -189,7 +142,6 @@ def _clean_text(text: str, where: str) -> str:
 
 
 def refuse_interpretation_tokens(values: Iterable[str], where: str) -> None:
-    """Hard code rule: nonfunctional and moral-status vocabulary never enters the functional score."""
     for value in values:
         lowered = value.lower()
         for token in INTERPRETATION_EXCLUDED_TOKENS:
@@ -206,14 +158,10 @@ def _require_finite(value: float, label: str) -> float:
     return float(value)
 
 
-# ---------------------------------------------------------------------------------------------
-# 1. Competing integration-theory battery
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class BoundedPrediction:
-    """One theory's bounded, directional prediction for one operation at one level."""
 
     theory_id: str
     operation_id: str
@@ -258,7 +206,6 @@ class BoundedPrediction:
 
 @dataclass(frozen=True, slots=True)
 class DisconfirmingPattern:
-    """A precommitted observation pattern that counts AGAINST the theory if realized."""
 
     theory_id: str
     operation_id: str
@@ -296,7 +243,6 @@ class DisconfirmingPattern:
 
 @dataclass(frozen=True, slots=True)
 class NeighboringDissociation:
-    """A declared neighboring pair: the moving operation shifts while the unaffected one holds."""
 
     theory_id: str
     moving_operation_id: str
@@ -329,7 +275,6 @@ class NeighboringDissociation:
 
 @dataclass(frozen=True, slots=True)
 class TheoryEntry:
-    """One registered theory: predictions at all five levels plus its own falsification surface."""
 
     id: str
     name: str
@@ -375,7 +320,6 @@ class TheoryEntry:
 
 
 def _pair_diverges(a: TheoryEntry, b: TheoryEntry) -> bool:
-    """Two theories diverge when a shared key predicts different directions or disjoint bounds."""
     index = {row.key: row for row in a.predictions}
     for row in b.predictions:
         other = index.get(row.key)
@@ -390,7 +334,6 @@ def _pair_diverges(a: TheoryEntry, b: TheoryEntry) -> bool:
 
 @dataclass(frozen=True, slots=True)
 class TheoryBatteryContract:
-    """The battery: at least two theories with divergent bounded predictions over shared operations."""
 
     theories: tuple[TheoryEntry, ...]
     operations: tuple[str, ...]
@@ -450,7 +393,6 @@ class TheoryBatteryContract:
 
 @dataclass(frozen=True, slots=True)
 class Observation:
-    """One realized functional outcome for one (operation, level, metric) key."""
 
     operation_id: str
     level: str
@@ -493,13 +435,6 @@ def score_functional_outcomes(
     contract: TheoryBatteryContract,
     observations: Sequence[Observation],
 ) -> dict[str, Any]:
-    """Score each theory's bounded predictions against realized functional outcomes.
-
-    Deterministic programmatic mechanics only; no capability claim. The score is purely
-    functional: the scorer re-scans every theory's free text through the sentience rail and
-    refuses interpretation vocabulary anywhere in observations or output keys, so moral-status
-    and nonfunctional interpretation stay outside the number by construction.
-    """
     if not observations:
         raise ValueError("the functional scorer needs at least one observation")
     index: dict[tuple[str, str, str], Observation] = {}
@@ -555,14 +490,10 @@ def score_functional_outcomes(
     return result
 
 
-# ---------------------------------------------------------------------------------------------
-# 2. Operational self-model contracts (f31-f34)
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class PredictionTarget:
-    """One declared prediction target over the mirrored throttle telemetry vocabulary."""
 
     channel: str
     field_name: str
@@ -602,7 +533,6 @@ class PredictionTarget:
 
 @dataclass(frozen=True, slots=True)
 class HomeostaticSetpoint:
-    """A declared numeric operating band with a named actuator from the throttle vocabulary."""
 
     channel: str
     field_name: str
@@ -635,11 +565,6 @@ class HomeostaticSetpoint:
 
 @dataclass(frozen=True, slots=True)
 class SelfModelContract:
-    """One operational self-model contract (f31-f34) over the mirrored telemetry vocabulary.
-
-    Deterministic programmatic mechanics only; no capability claim. "Self-model" here means a
-    declared set of prediction targets about the host process and hardware, nothing more.
-    """
 
     kind: str
     targets: tuple[PredictionTarget, ...]
@@ -731,18 +656,10 @@ class SelfModelContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------------------------
-# 3. Self-report grounding contract (f35)
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class SelfReportGroundingContract:
-    """Declared report fields checked against the run trace (reuses OA8 report_grounding names).
-
-    Deterministic programmatic mechanics only; no capability claim. Grounding means field-level
-    agreement between a rendered report and traced telemetry, nothing about inner life.
-    """
 
     report_fields: tuple[str, ...]
     controls: tuple[str, ...]
@@ -786,19 +703,10 @@ class SelfReportGroundingContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------------------------
-# 4. Limited-broadcast necessity and sufficiency contracts (f36, f37)
-# ---------------------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class BroadcastExperimentContract:
-    """Capacity-limited broadcast against an unrestricted bus at a matched FLOP budget.
-
-    Deterministic programmatic mechanics only; no capability claim. Necessity mode declares
-    lesion, delay, restoration, and shuffle operations on the broadcast link; sufficiency mode
-    declares matched dense-state, depth, specialist, and equal-FLOP routing comparators.
-    """
 
     mode: str
     capacity_slots: int
@@ -857,17 +765,9 @@ class BroadcastExperimentContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------------------------
-# 5. Metacognitive-efficiency contract (f38)
-# ---------------------------------------------------------------------------------------------
 
 
 def refuse_composite_metric(metric_name: str, component_span: Sequence[str]) -> None:
-    """Fail closed on any request to aggregate OA components into one number.
-
-    Mirrors the oa_suite doctrine as code: a metric may describe exactly one OA component. Any
-    span over two or more components is refused before it can become a headline score.
-    """
     _require_id(metric_name, "metacognitive metric name")
     span = set(component_span)
     unknown = sorted(span - set(OA_COMPONENTS))
@@ -882,12 +782,6 @@ def refuse_composite_metric(metric_name: str, component_span: Sequence[str]) -> 
 
 @dataclass(frozen=True, slots=True)
 class MetacognitiveEfficiencyContract:
-    """Per-component monitoring benefit against declared monitor cost budgets (f38).
-
-    Deterministic programmatic mechanics only; no capability claim. Reuses the OA component
-    names from diagnostics/operational_awareness; every component carries its own named
-    baseline and the efficiency metric is benefit per monitor FLOP, never a composite.
-    """
 
     components: tuple[str, ...]
     baselines: tuple[tuple[str, str], ...]
@@ -955,9 +849,6 @@ class MetacognitiveEfficiencyContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------------------------
-# Deterministic seeded fixture generators (no clock, no network, no weights)
-# ---------------------------------------------------------------------------------------------
 
 _FIXTURE_OPERATIONS = (
     "op:workspace-report",
@@ -1024,7 +915,6 @@ def _fixture_theory(
 
 
 def make_theory_battery_fixture(seed: int = 0) -> tuple[TheoryBatteryContract, tuple[Observation, ...]]:
-    """Build a two-theory divergent battery plus deterministic observations for the scorer."""
     if seed < 0:
         raise ValueError("fixture seed must be nonnegative")
     contract = TheoryBatteryContract(
@@ -1070,7 +960,6 @@ def make_theory_battery_fixture(seed: int = 0) -> tuple[TheoryBatteryContract, t
 
 
 def make_telemetry_trace_fixture(seed: int = 0, steps: int = 8) -> tuple[dict[str, Any], ...]:
-    """Deterministic synthetic telemetry snapshots over the numeric mirrored vocabulary."""
     if seed < 0:
         raise ValueError("fixture seed must be nonnegative")
     if steps < 1:
@@ -1195,7 +1084,6 @@ def make_metacognitive_efficiency_contract(seed: int = 0) -> MetacognitiveEffici
 
 
 def scaffold_manifest() -> dict[str, Any]:
-    """One deterministic receipt naming every contract family this scaffold declares."""
     manifest = {
         "schema": "mop-integration-battery-scaffold-manifest/v1",
         "claim_scope": CLAIM_SCOPE,

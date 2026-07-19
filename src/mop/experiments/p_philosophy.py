@@ -1,19 +1,3 @@
-"""Series P: philosophy operationalized. Each experiment takes a philosophical claim about concepts,
-knowledge, meaning, symbols, language, or perception and turns it into a falsifiable measurement on
-cached pooled latents with an explicit null and a standing control (frozen-random, matched-compute, or a
-tuned/memorization baseline). Honest nulls only: the bound IS the result.
-
-P1  concept formation without labels (unsupervised shell structure vs imposed projection geometry).
-P2  memorization vs concept (the interpolation-extrapolation cut vs nearest-neighbor lookup).
-P3  is knowledge prediction (next-latent R2 vs factor probe-decodability coupling across a sweep).
-P4  is intelligence compression (capability-per-bit on the replay buffer, monotone vs non-monotone).
-P5  can a latent space be a private language (cross-seed code correspondence vs frozen-random floor).
-P6  can meaning exist without symbols (continuous vs VQ code utility at matched capacity).
-P9  does thought require language (reasoning gain in a language-free latent substrate, matched compute).
-P10 theory-ladenness of perception (nonlinear-minus-linear probe gain, real vs frozen-random).
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -37,11 +21,7 @@ from ..substrate.datasets import make_task_stream
 from .base import Experiment, _fit_eval, _mean
 
 
-# ----------------------------------------------------------------------------------------------------
-# shared tiny helpers (inline mechanisms, per the established pattern)
-# ----------------------------------------------------------------------------------------------------
 def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> torch.Tensor:
-    """Lloyd k-means; returns the hard code assignment per row (the VQ codes in the no-decoder setting)."""
     g = torch.Generator().manual_seed(seed)
     idx = torch.randperm(x.shape[0], generator=g)[:k]
     cent = x[idx].clone()
@@ -56,7 +36,6 @@ def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> torch.Tensor:
 
 
 def _purity(codes: torch.Tensor, y: torch.Tensor, k: int) -> float:
-    """Cluster purity: fraction of points whose cluster-majority label matches their own."""
     correct = 0
     for c in range(k):
         m = codes == c
@@ -66,9 +45,6 @@ def _purity(codes: torch.Tensor, y: torch.Tensor, k: int) -> float:
 
 
 class _PredShell(nn.Module):
-    """A tiny next-latent predictor with a readable hidden activation. forward returns (pred_next,
-    hidden); the hidden state is what the probes/k-means read in P1 (the SHELL's internal code, not the
-    raw substrate)."""
 
     def __init__(self, dim: int, hidden: int):
         super().__init__()
@@ -89,9 +65,6 @@ def _train_next_latent(shell: nn.Module, x: torch.Tensor, xnext: torch.Tensor, e
         opt.step()
 
 
-# ----------------------------------------------------------------------------------------------------
-# P1: concept formation without labels
-# ----------------------------------------------------------------------------------------------------
 class P1(Experiment):
     id = "p1_concept_no_labels"
     metric = ("hidden_purity", "hidden_probe_acc", "delta_over_raw", "delta_over_frozen_random")
@@ -110,8 +83,6 @@ class P1(Experiment):
         hid_pur, raw_pur, fr_pur, hid_acc, raw_acc, fr_acc = [], [], [], [], [], []
         for s in seeds:
             seed_everything(s)
-            # the stream the shell trains on (next-latent target); the held-out factor is the class
-            # label, NEVER used as a training target (self-supervision only).
             task = make_task_stream(
                 n_tasks=1,
                 dim=dim,
@@ -151,18 +122,12 @@ class P1(Experiment):
             "delta_over_frozen_random": round(d_fr, 4),
             "seed_spread": round(seed_spread, 4),
             "seeds": list(seeds),
-            # null: shell adds no concept over raw OR the gain also appears under frozen-random
             "null_supported": bool(d_raw <= seed_spread or d_fr <= seed_spread),
             "shell_forms_concept": bool(d_raw > seed_spread and d_fr > seed_spread),
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# P2: memorization vs concept (interpolation-extrapolation cut)
-# ----------------------------------------------------------------------------------------------------
 def _nn_memorize(xtr: torch.Tensor, ytr: torch.Tensor, xte: torch.Tensor) -> torch.Tensor:
-    """Nearest-neighbor lookup over cached latents: the pure-memorization baseline. Returns the stored
-    target of the closest training latent for each query (no generalization rule, only recall)."""
     nn_idx = torch.cdist(xte, xtr).argmin(1)
     return ytr[nn_idx]
 
@@ -186,17 +151,12 @@ class P2(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # one continuous generative factor f in [-1,1]; latent = f-modulated direction + drift.
-            # target = a smooth (linear) function of f, so a CONCEPT (the rule) generalizes but lookup
-            # cannot fill the held-out band.
             n = int(e.samples)
             f = torch.rand(n, generator=g) * 2 - 1
             direction = torch.randn(dim, generator=g)
             direction = direction / direction.norm()
             x = f.unsqueeze(1) * direction * float(e.separation) + 0.3 * torch.randn(n, dim, generator=g)
             target = (float(e.slope) * f + float(e.bias)).unsqueeze(1)
-            # band split: train on |f| in a middle band, test interpolated (a held-out sub-band) and
-            # extrapolated (|f| beyond the trained band where lookup is at chance).
             lo, hi = float(e.band_lo), float(e.band_hi)
             seen = (f.abs() >= lo) & (f.abs() <= hi)
             interp = f.abs() < lo
@@ -232,8 +192,6 @@ class P2(Experiment):
             return {"null_supported": True, "degenerate_split": True, "seeds": list(seeds)}
         ggs, ggn = _mean(gg_shell), _mean(gg_nn)
         exs, exn = _mean(ex_shell), _mean(ex_nn)
-        # the shell forms a concept iff it beats lookup on interpolation (smaller gen gap) AND retains
-        # accuracy where lookup is at chance (extrapolation error far below NN's).
         margin = float(e.margin)
         beats_interp = ggs < ggn - margin
         beats_extrap = exs < exn * float(e.extrap_ratio)
@@ -246,15 +204,11 @@ class P2(Experiment):
             "beats_interp": bool(beats_interp),
             "beats_extrap": bool(beats_extrap),
             "seeds": list(seeds),
-            # null: shell ties lookup on interpolation OR fails extrapolation where lookup fails
             "null_supported": bool(not (beats_interp and beats_extrap)),
             "concept_formed": bool(beats_interp and beats_extrap),
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# P3: is knowledge prediction (prediction quality vs probe-decodability)
-# ----------------------------------------------------------------------------------------------------
 class P3(Experiment):
     id = "p3_knowledge_is_prediction"
     metric = ("pred_decode_correlation", "dissociation_found", "max_pred_r2", "max_factor_acc")
@@ -301,7 +255,6 @@ class P3(Experiment):
                 acc = linear_probe(hid_all, y, seed=s)["score"]
                 r2s.append(r2)
                 accs.append(acc)
-            # correlation across the rung sweep between prediction R2 and factor decodability
             r = torch.tensor(r2s)
             a = torch.tensor(accs)
             if r.std() > 1e-6 and a.std() > 1e-6:
@@ -309,7 +262,6 @@ class P3(Experiment):
             else:
                 corr = 0.0
             corr_seeds.append(corr)
-            # a dissociation: a step where prediction R2 rises but decodability does not (or vice versa)
             dissoc = False
             for i in range(1, len(r2s)):
                 d_r2 = r2s[i] - r2s[i - 1]
@@ -332,21 +284,12 @@ class P3(Experiment):
             "capacity_rungs": list(rungs),
             "decodability_saturated": bool(_mean(max_acc_all) > float(e.saturate_acc)),
             "seeds": list(seeds),
-            # null: no dissociation point exists, so prediction and factor decodability stay coupled
-            # (the knowledge-is-prediction identity is trivially supported and uninformative at this
-            # substrate). A positive correlation OR a saturated-ceiling decodability both mean no
-            # dissociation; only a found dissociation (good prediction with falling decodability, or
-            # vice versa) falsifies the identity.
             "null_supported": bool(not any_dissoc),
             "identity_falsified": bool(any_dissoc),
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# P4: is intelligence compression (capability-per-bit on the replay buffer)
-# ----------------------------------------------------------------------------------------------------
 def _quantize_bits(x: torch.Tensor, bits: int) -> torch.Tensor:
-    """Per-feature uniform quantize to `bits` and dequantize (the stored-replay compression knob)."""
     levels = max(2, 2**bits)
     lo = x.min(0, keepdim=True).values
     hi = x.max(0, keepdim=True).values
@@ -371,8 +314,6 @@ class P4(Experiment):
         seeds = list(e.seeds)
         dim = int(e.dim)
         bits_list = list(e.bits)
-        # held-out generalization: train a probe on a SEEN class subset of the compressed buffer, test
-        # transfer of the rule to a held-out class split (does compression help abstraction across it).
         curves: dict[int, list[float]] = {b: [] for b in bits_list}
         for s in seeds:
             seed_everything(s)
@@ -389,7 +330,6 @@ class P4(Experiment):
                 xq = _quantize_bits(x, b)
                 curves[b].append(linear_probe(xq, y, seed=s)["score"])
         curve = {b: round(_mean(curves[b]), 4) for b in bits_list}
-        # order from most-compressed to least; non-monotone peak = an interior bit level beats full.
         ordered = sorted(bits_list)
         full_acc = curve[ordered[-1]]
         interior = ordered[:-1]
@@ -399,7 +339,6 @@ class P4(Experiment):
             spread = 0.03
         peak_bits = max(interior, key=lambda b: curve[b]) if interior else ordered[-1]
         non_monotone = curve[peak_bits] > full_acc + spread
-        # monotone decay: accuracy is non-decreasing in bits (more bits never hurts beyond spread)
         monotone = all(curve[ordered[i]] <= curve[ordered[i + 1]] + spread for i in range(len(ordered) - 1))
         return {
             "capability_vs_bits": curve,
@@ -409,15 +348,11 @@ class P4(Experiment):
             "monotone_decay": bool(monotone),
             "seed_spread": round(spread, 4),
             "seeds": list(seeds),
-            # null: monotone decay, no compression-helps regime
             "null_supported": bool(not non_monotone),
             "compression_as_abstraction": bool(non_monotone),
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# P5: can a latent space be a private language (Wittgenstein)
-# ----------------------------------------------------------------------------------------------------
 class P5(Experiment):
     id = "p5_private_language"
     metric = ("cross_seed_cka", "cross_shell_probe_acc", "code_stability", "delta_over_frozen_random")
@@ -434,7 +369,6 @@ class P5(Experiment):
         dim, hidden, k = int(e.dim), int(e.hidden), int(e.k_clusters)
         n_shells = int(e.n_shells)
         seed_everything(int(e.data_seed))
-        # the SAME stream for every shell (shared points), so codes are comparable row-wise.
         task = make_task_stream(
             n_tasks=1,
             dim=dim,
@@ -455,11 +389,9 @@ class P5(Experiment):
                 _, h = shell(x)
             reps.append(h)
             codes.append(_kmeans(h, k, int(e.kmeans_iters), j + 1))
-        # (1) cross-seed CKA of shell hidden states vs frozen-random floor
         cka = cross_seed_cka(reps)["mean_cka"]
         fr_reps = [frozen_random_projection(x, j + 100) for j in range(n_shells)]
         fr_cka = cross_seed_cka(fr_reps)["mean_cka"]
-        # (2) cross-shell probe transfer: train a probe on shell-A hidden, decode shell-B hidden
         cut = int(x.shape[0] * 0.7)
         nc = int(y.max()) + 1
         transfer = []
@@ -476,13 +408,10 @@ class P5(Experiment):
                 with torch.no_grad():
                     acc = float((probe(reps[bsh][cut:]).argmax(-1) == y[cut:]).float().mean())
                 transfer.append(acc)
-        # (3) code stability across shells
         stab = code_stability(codes, k)
         mt = _mean(transfer)
         chance = 1.0 / nc
         delta_fr = cka - fr_cka
-        # the code is a PUBLIC language iff it aligns above the frozen-random floor AND transfers above
-        # chance AND the cluster identity is stable across seeds.
         public = (delta_fr > float(e.margin)) and (mt > chance + 0.1) and stab["stable"]
         return {
             "cross_seed_cka": round(cka, 4),
@@ -493,18 +422,12 @@ class P5(Experiment):
             "code_stability": stab["mean_agreement"],
             "code_stable": bool(stab["stable"]),
             "n_shells": n_shells,
-            # null: codes are a private language (no cross-seed alignment, no transfer, unstable)
             "null_supported": bool(not public),
             "public_language": bool(public),
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# P6: can meaning exist without symbols (continuous vs VQ at matched capacity)
-# ----------------------------------------------------------------------------------------------------
 def _eval_code_transfer(codes_feat: torch.Tensor, y: torch.Tensor, seed: int) -> float:
-    """Decode the held-out factor from a code feature (one-hot for discrete, raw hidden for continuous)
-    via a linear probe; the downstream-utility metric for P6."""
     return linear_probe(codes_feat, y, seed=seed)["score"]
 
 
@@ -541,8 +464,6 @@ class P6(Experiment):
             _train_next_latent(shell, x, xnext, int(e.epochs), float(e.lr))
             with torch.no_grad():
                 _, h = shell(x)
-            # continuous code = the raw hidden state. VQ code = k-means assignment one-hot. random
-            # codebook = a random assignment one-hot (the symbol-structure control).
             cont_acc.append(_eval_code_transfer(h, y, s))
             vq_codes = _kmeans(h, k, int(e.kmeans_iters), s)
             g = torch.Generator().manual_seed(s + 7)
@@ -554,7 +475,6 @@ class P6(Experiment):
 
         ca, va, ra = _mean(cont_acc), _mean(vq_acc), _mean(rand_acc)
         margin = float(e.margin)
-        # symbols help only if VQ beats the matched continuous code AND beats the random codebook.
         vq_beats_cont = va > ca + margin
         vq_beats_random = va > ra + margin
         return {
@@ -565,18 +485,12 @@ class P6(Experiment):
             "discrete_minus_random": round(va - ra, 4),
             "codebook_size": k,
             "seeds": list(seeds),
-            # null: VQ ties the continuous code, or only ties because random also ties
             "null_supported": bool(not (vq_beats_cont and vq_beats_random)),
             "symbols_buy_meaning": bool(vq_beats_cont and vq_beats_random),
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# P9: does thought require language (reasoning gain in a language-free substrate)
-# ----------------------------------------------------------------------------------------------------
 class _UntiedDepth(nn.Module):
-    """Compute-matched control for P9: `steps` UNTIED residual blocks applied once each (depth, not
-    iteration). Same block count and hidden width as the refiner, so forward FLOPs match; more params."""
 
     def __init__(self, dim: int, hidden: int, steps: int):
         super().__init__()
@@ -648,15 +562,11 @@ class P9(Experiment):
             "params_control": param_count(ctl),
             "compute_matched": compute["matched"],
             "seeds": list(seeds),
-            # null: refiner ties the compute-matched control (gain was depth, not language-free reasoning)
             "null_supported": bool(abs(gain) <= margin),
             "language_free_reasoning": bool(gain > margin and compute["matched"]),
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# P10: theory-ladenness of perception (Quine / Kant)
-# ----------------------------------------------------------------------------------------------------
 class P10(Experiment):
     id = "p10_theory_ladenness"
     metric = ("readout_contribution_index", "nonlinear_gain_real", "nonlinear_gain_fr", "index_per_factor")
@@ -679,7 +589,6 @@ class P10(Experiment):
             idx_seeds, gr_seeds, gf_seeds = [], [], []
             for s in seeds:
                 seed_everything(s + fct)
-                # each "factor" is a distinct cluster geometry; the held-out label is the factor target.
                 task = make_task_stream(
                     n_tasks=1,
                     dim=dim,
@@ -700,8 +609,6 @@ class P10(Experiment):
             gain_fr_all.append(_mean(gf_seeds))
         mean_idx = _mean(idx_all)
         margin = float(e.margin)
-        # the substrate contributes structure iff the nonlinear gain is LARGER on real than on
-        # frozen-random (index > margin); else the structure is the probe's contribution.
         substrate_contributes = mean_idx > margin
         return {
             "readout_contribution_index": round(mean_idx, 4),
@@ -710,7 +617,6 @@ class P10(Experiment):
             "index_per_factor": idx_per_factor,
             "n_factors": n_factors,
             "seeds": list(seeds),
-            # null: index ~ 0, the nonlinear gain is the probe's contribution (theory-laden readout)
             "null_supported": bool(not substrate_contributes),
             "substrate_contributes_structure": bool(substrate_contributes),
         }

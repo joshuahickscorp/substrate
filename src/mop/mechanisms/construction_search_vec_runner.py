@@ -1,30 +1,3 @@
-"""Net-new vectorized construction_search runner: mints receipts byte-identical to the scalar runner.
-
-This module is an independent reimplementation of the sealed authority
-``construction_search_runner.ConstructionSearchRunner``. It drives the proven numpy-vectorized arms in
-``construction_search_vec_impl`` instead of the scalar arms, then mints exactly the same
-``RunReceipt`` the scalar runner would mint for the same bed and seed. Every receipt this runner emits
-has a ``.digest()`` and a ``.payload()`` byte-identical to the scalar runner's, because:
-
-- the five arm results (raw_score and evaluation counts) are bitwise identical to the scalar arms,
-  already proven over a wide seed sweep by ``tests/unit/test_construction_search_vec_equivalence.py``,
-  so every charged net, margin, headroom gap, and derived verdict boolean folds to the same bytes, and
-- the mint logic below (the verdict rule, the controls_cleared ordering, the evidence payload, the
-  detail dict, and the receipt fields) reproduces the scalar runner's mint logic exactly.
-
-Like ``construction_search_vec_impl``, this module imports NOTHING from the sealed runner. The two
-runner-private strings the evidence digest folds (the evidence schema and the prior null text) are
-reproduced here by value, and the bed-owned identity constants (mechanism id, requirement id, stage,
-arm names, claim scope) are imported from the shared bed the scalar runner also imports them from.
-This keeps the vectorized runner's correctness un-coupled from the sealed runner's source hash. The
-guard that this reproduction is byte-identical, not merely intended to be, is the wide receipt-level
-sweep in ``tests/unit/test_construction_search_vec_runner_equivalence.py``: a single differing byte in
-any receipt digest or payload fails that proof, so this runner may never diverge.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim. The
-receipts are always mechanics demonstrations; they never carry a cleared verdict and never open a
-stage gate. House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -50,10 +23,6 @@ from .construction_search_bed import (
 )
 from .construction_search_vec_impl import VecArmResult, vec_evaluate_regime
 
-# Reproduced locally by value from the sealed scalar runner (construction_search_runner.py). They are
-# NOT imported, so this module carries no import-time coupling to that source hash. The receipt sweep
-# in tests/unit/test_construction_search_vec_runner_equivalence.py proves both strings fold to the same
-# bytes the scalar runner folds, for every seed.
 CONSTRUCTION_SEARCH_EVIDENCE_SCHEMA = "mop-construction-search-evidence/v1"
 PRIOR_NULL = (
     "G0 formation mechanics existed without demonstrated efficacy; construction search buys nothing "
@@ -62,11 +31,6 @@ PRIOR_NULL = (
 
 
 def _charged_net(result: VecArmResult, per_eval_cost: float) -> float:
-    """The objective net of the charged search cost: raw score minus cost times evaluations.
-
-    Mirrors ArmResult.charged_net. raw_score is a bitwise-identical Python float and evaluations is a
-    Python int, so this product and difference are the same IEEE doubles the scalar path computes.
-    """
 
     return result.raw_score - per_eval_cost * result.evaluations
 
@@ -81,13 +45,6 @@ def _sorted_floats(values: dict[str, float]) -> dict[str, float]:
 
 @dataclass(frozen=True, slots=True)
 class VecRunResults:
-    """The charged-cost outcome across both regimes for one seed, mirroring the scalar RunResults.
-
-    Its evidence_payload, evidence_digest, and detail methods emit the same dicts the scalar
-    RunResults emits, so a receipt minted from these results is byte-identical to the scalar receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     seed: int
     per_eval_cost: float
@@ -142,12 +99,10 @@ class VecRunResults:
 
 
 class ConstructionSearchVecRunner:
-    """Vectorized construction_search runner. Mints receipts byte-identical to the scalar runner."""
 
     mechanism_id: str = MECHANISM_ID
 
     def run(self, bed: Bed, seed: int) -> VecRunResults:
-        """Score the charged-cost net objective for the search and every control on both regimes."""
 
         if seed < 0:
             raise ValueError("run seed must be nonnegative")
@@ -192,7 +147,6 @@ class ConstructionSearchVecRunner:
         )
 
     def mint(self, results: VecRunResults) -> RunReceipt:
-        """Mint a mechanics demonstration. ``mechanics-ok`` only when the favorable claim is earned."""
 
         earned = results.favorable_beats_all and results.null_holds
         verdict = VERDICT_MECHANICS_OK if earned else VERDICT_NULL

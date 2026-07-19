@@ -1,23 +1,3 @@
-"""Deterministic seeded bed for the Stage 5 session-disjoint general-validity harness.
-
-This module raises the SCAFFOLDING axis only. It supplies a deterministic, seeded task environment
-that produces per-axis disjointness evidence and per-control leak evidence, a measured-resource
-block, and a non-vacuous matched full-system budget. It builds the evidence the validity evaluator
-reads; it never certifies generality and never mints a receipt.
-
-Two canonical regimes are exposed. The favorable regime carries evidence in which every disjointness
-axis clears its pass band and every leak control stays under its reproduce band. The null regime
-carries evidence in which at least one axis falls under its pass band and at least one leak control
-reproduces the result, so the session-bound-leakage prior null explains it. A third candidate regime
-mirrors the favorable regime but folds in any defect the bed was constructed with (a failing axis, a
-reproducing leak control, a declared-versus-measured efficiency mismatch), so the fail-closed paths
-of the runner can be exercised without editing any evidence in place.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. The statistics are seeded test vectors, not measurements of value.
-
-House style: no em or en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -29,11 +9,8 @@ from ..substrate.events import canonical_sha256
 
 STAGE5_VALIDITY_BED_SCHEMA = "mop-stage5-validity-bed/v1"
 
-# Must stay byte-identical to the receipt mechanism id the runner mints under. Underscores are legal
-# for the ladder id grammar; this id names the bed and every receipt it feeds.
 MECHANISM_ID = "stage5_session_disjoint_validity"
 
-# The disjointness axes a general-validity claim must clear. Order is load-bearing for the digests.
 VALIDITY_AXES: tuple[str, ...] = (
     "fresh-session",
     "new-seeds",
@@ -42,26 +19,20 @@ VALIDITY_AXES: tuple[str, ...] = (
     "independent-reconstruction",
 )
 
-# The leak controls that must stay clean; if any reproduces, the prior null explains the result.
 LEAK_CONTROLS: tuple[str, ...] = (
     "same-session-leak",
     "seed-reuse",
     "single-task-family",
 )
 
-# The measured compute resources carried in every regime. Order is load-bearing for the digests.
 RESOURCE_KINDS: tuple[str, ...] = (
     "wall_time_s",
     "flops",
 )
 
-# The canonical null regime fails one axis and reproduces one leak control.
 NULL_FAILING_AXIS = "new-task-families"
 NULL_REPRODUCING_CONTROL = "same-session-leak"
 
-# Statistic bands. A passing axis clears the pass floor; a failing axis stays under the fail ceiling.
-# A clean control stays under the fail ceiling; a reproducing control clears the pass floor. The
-# thresholds the evaluator applies sit between these bands, so bed and evaluator stay consistent.
 _PASS_FLOOR = 0.55
 _FAIL_CEILING = 0.44
 _MISMATCH_FACTOR = 2.0
@@ -69,18 +40,16 @@ _TWO_POW_32 = float(0x1_0000_0000)
 
 
 class Stage5ValidityBedRefusal(ValueError):
-    """Raised whenever a regime is asked for an unknown axis, leak control, or resource kind."""
+    pass
 
 
 def _unit_fraction(seed: int, label: str) -> float:
-    """Deterministic fraction in [0, 1) from a digest. No wall clock, no OS entropy."""
 
     digest = canonical_sha256({"seed": seed, "label": label, "schema": STAGE5_VALIDITY_BED_SCHEMA})
     return int(digest[:8], 16) / _TWO_POW_32
 
 
 def _seeded_int(seed: int, label: str, modulo: int) -> int:
-    """Deterministic small integer from a digest. No wall clock, no OS entropy."""
 
     if modulo <= 0:
         raise Stage5ValidityBedRefusal("modulo must be positive")
@@ -90,7 +59,6 @@ def _seeded_int(seed: int, label: str, modulo: int) -> int:
 
 @dataclass(frozen=True, slots=True)
 class AxisSample:
-    """One disjointness axis of seeded evidence. The evaluator recomputes the pass verdict."""
 
     axis: str
     disjoint_from_calibration: bool
@@ -110,7 +78,6 @@ class AxisSample:
 
 @dataclass(frozen=True, slots=True)
 class ControlSample:
-    """One leak-control sample of seeded evidence. The evaluator recomputes the reproduce verdict."""
 
     control: str
     statistic: float
@@ -126,7 +93,6 @@ class ControlSample:
 
 @dataclass(frozen=True, slots=True)
 class ResourceSample:
-    """One measured resource whose declared cost is compared against its measured cost."""
 
     kind: str
     declared: float
@@ -146,7 +112,6 @@ class ResourceSample:
 
 @dataclass(frozen=True, slots=True)
 class RegimeEvidence:
-    """A full seeded regime: every axis, every leak control, the resource block, and the budget."""
 
     regime: str
     axes: tuple[AxisSample, ...]
@@ -183,13 +148,6 @@ class RegimeEvidence:
 
 @dataclass(frozen=True, slots=True)
 class Stage5ValidityBed:
-    """A deterministic, seeded bed for the Stage 5 session-disjoint validity harness.
-
-    A bed carries an optional defect set (failing axes, reproducing leak controls, resource kinds
-    whose measured cost drifts from the declared cost). A bed with no defects yields a favorable
-    candidate regime in which every check passes; a bed with any defect yields a candidate regime
-    that fails closed. The favorable and null regimes are always the pure canonical regimes.
-    """
 
     base_seed: int = 0
     failing_axes: tuple[str, ...] = ()
@@ -215,7 +173,6 @@ class Stage5ValidityBed:
         return LEAK_CONTROLS
 
     def matched_cost(self) -> MatchedBudget:
-        """Return a non-vacuous matched full-system budget seeded from the bed base seed."""
 
         return MatchedBudget(
             params=4096 + _seeded_int(self.base_seed, "params", 4096),
@@ -304,19 +261,16 @@ class Stage5ValidityBed:
         )
 
     def favorable_regime(self, seed: int) -> RegimeEvidence:
-        """The pure favorable regime: every axis passes, every leak control stays clean."""
 
         return self._regime(seed, "favorable", (), (), ())
 
     def null_regime(self, seed: int) -> RegimeEvidence:
-        """The pure null regime: one axis falls under the pass band and one leak control reproduces."""
 
         return self._regime(
             seed, "null", (NULL_FAILING_AXIS,), (NULL_REPRODUCING_CONTROL,), ()
         )
 
     def candidate_regime(self, seed: int) -> RegimeEvidence:
-        """The regime the runner evaluates: favorable, plus whatever defect the bed was built with."""
 
         return self._regime(
             seed,
@@ -343,13 +297,11 @@ class Stage5ValidityBed:
 
 
 def build_bed(seed: int = 0) -> Stage5ValidityBed:
-    """Return a clean bed whose candidate regime is favorable for every seed."""
 
     return Stage5ValidityBed(base_seed=seed)
 
 
 def build_null_bed(seed: int = 0) -> Stage5ValidityBed:
-    """Return a bed whose candidate regime carries the canonical null defect set."""
 
     return Stage5ValidityBed(
         base_seed=seed,

@@ -12,7 +12,6 @@ from mop.ladder.stage_ladder import MatchedBudget
 from mop.substrate.events import write_canonical_json
 
 
-
 def test_bed_satisfies_the_ladder_bed_protocol() -> None:
     bed = build_bed()
     assert isinstance(bed, Bed)
@@ -43,8 +42,6 @@ def test_bed_regimes_are_deterministic_and_distinct() -> None:
     assert favorable.regime == "favorable"
     assert null.regime == "null"
     assert bed.favorable_regime(1).digest() != favorable.digest()
-
-
 
 
 def test_producer_seals_a_file_the_independent_verifier_reproduces(
@@ -79,8 +76,6 @@ def test_synthetic_run_can_never_be_scientifically_confirmed(starss23_bed_artifa
     assert starss23_bed_artifact.artifact["reproductions"] == 0
     assert starss23_bed_artifact.verdict in ("mechanics-ok", "null")
     assert starss23_bed_artifact.verdict != "cleared"
-
-
 
 
 def test_producer_and_verifier_scripts_expose_a_main() -> None:

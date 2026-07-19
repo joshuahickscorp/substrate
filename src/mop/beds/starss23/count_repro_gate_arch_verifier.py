@@ -45,8 +45,6 @@ class CountReproGateArchVerificationRefusal(ValueError):
     pass
 
 
-
-
 def _canonical_bytes(value: object) -> bytes:
     return json.dumps(
         value,
@@ -59,8 +57,6 @@ def _canonical_bytes(value: object) -> bytes:
 
 def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
-
-
 
 
 def _as_count_track(track: object, label: str) -> list[int]:
@@ -124,8 +120,6 @@ def _reestimates_for_arm(
     return _as_reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-
-
 def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
     n = len(deltas)
     if n == 0:
@@ -141,8 +135,6 @@ def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
     return observed, at_least / total, total
 
 
-
-
 def _param_count_two_layer(d_in: int, h1: int, h2: int, n_out: int) -> int:
     return d_in * h1 + h1 + h1 * h2 + h2 + h2 * n_out + n_out
 
@@ -152,8 +144,6 @@ def _inference_flops_two_layer(d_in: int, h1: int, h2: int, n_out: int) -> int:
     layer2 = 2 * h1 * h2 + h2 + h2
     layer3 = 2 * h2 * n_out + n_out
     return layer1 + layer2 + layer3
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -184,8 +174,6 @@ def _agree(a: object, b: object) -> bool:
     if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
         return False
     return abs(float(a) - float(b)) <= _TOL
-
-
 
 
 def _score_arm_pooled(

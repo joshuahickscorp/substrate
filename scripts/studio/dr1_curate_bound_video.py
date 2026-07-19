@@ -1,90 +1,4 @@
 #!/usr/bin/env python
-"""DR1 (Process B, full-corpus profile): curate REAL bound-attribute natural video and encode it past the
-128-clip laptop clamp into a full V-JEPA latent store, so the compositional-binding and abstraction
-probes finally run on real bound-attribute states with MANY genuine composable factors instead of the
-two-factor (shape, color) programmatic clipset.
-
-HARDENED (carries the five rounds of laptop learnings). The Studio session should only need to point
---source at the curated corpus and scale the leg ranges. Every acceptance gate and control the laptop
-mandated is wired here and RUNS before any encode is spent:
-
-  1. MULTI-FACTOR COMPOSABLE CURATION (expand plan Track B). The laptop's abstraction ceiling (6) was
-     the two-composable-factor wall: the clipset had exactly one categorical factor (shape) plus color.
-     This script curates the four composable factors the plan names: object identity, count, relation,
-     action. A cell folder names EVERY factor: <object>-<count>-<relation>-<action> (a configurable
-     schema via --factors). assert_bound_and_stocked asserts every folder carries the full factor tuple
-     (no single-factor cell), each factor has >= 2 values, and every cell clears the per-cell floor.
-
-  2. PAIRED REAL-CAPTION ACCEPTANCE GATE (expand plan, mandated pre-encode). The laptop killed the
-     cross-family (vision<->language) abstraction because the synthetic pixel-text was SHAPE-BLIND (it
-     carried color, not shape; see mop_a6_residual_alignment.py provenance). Here the paired perspective
-     is a REAL caption per clip (captions.json sidecar) that must CARRY each composable factor. The
-     preregistered acceptance gate assert_caption_recoverable fits a single linear probe on a cheap,
-     label-free caption featurization and REFUSES the encode unless EVERY factor is recoverable above
-     chance+ACCEPT_MARGIN on a held-out split. This is now WIRED into main() as a hard pre-encode gate
-     (the pre-authored version defined the gate but never called it: a dead gate, fixed here). A tie is a
-     NULL: the encode is refused rather than tuned toward a pass.
-
-  3. A6 RESIDUALIZED-ALIGNMENT GUARD (expand plan; mop_a6_residual_alignment.py). A cross-modal
-     caption<->vision topology "win" must not be the retired nuisance-geometry confound. The --a6-guard
-     pass, run AFTER the encode over the merged store + captions, projects out the named factors and the
-     spatiotemporal nuisance (train-fit only) and tests whether the residual vision<->caption neighbor
-     topology still clears a permutation floor with a stable sign. A survivor there is genuine shared
-     structure; a tie is a null. This guard needs the encoded store, so it is a Studio-time pass, but the
-     preregistered rule and the residualization machinery ship here so the Studio only flips the flag.
-
-  4. RAM + ENCODER-LANE GUARDS. The original full-corpus preset retains a conservative >= 32GB
-     free-RAM policy guard; this guard is not a measured hardware-boundary receipt. The
-     one-encoder-at-a-time pgrep guard refuses to start while another encoder lane is alive.
-
-WHY THE FULL CORPUS IS A SEPARATE RUNG: the probes' bite depends on the factors being genuinely BOUND in
-the pixels and on enough clips per cell for a non-degenerate hold-out. Bounded real encodes already run
-locally, serially, but the original full preset and 32GB guard were written for a larger corpus. Rights,
-cell coverage, and citable annotations are the first scientific blockers; larger hardware is justified
-only by a measured local throughput or memory remainder.
-
-PREREGISTERED NULL (fixed here before any real-video result exists): on real composable-factor video, a
-probe trained to read a CONJUNCTION (full cell identity) from V-JEPA features does no better, outside seed
-spread, than the FACTORIZED baseline that predicts each factor independently and multiplies. The null is
-REJECTED only if the conjunction probe's held-out cell accuracy beats the factorized product baseline
-with a seed-CI lower bound above zero AND a consistent per-seed sign. A square latent projection is NOT an
-admissible baseline; the factorized-product predictor is the honest floor. This script only CURATES and
-ENCODES (and runs the pre-encode gates + the post-encode A6 guard); the conjunction/abstraction verdicts
-live in the scripts/compositional_binding_probe.py and scripts/mop_abstraction_systematicity.py consumers,
-which read this store.
-
-CURATION CONTRACT enforced before any encode:
-  - source layout is <source>/<cell>/<clip>.mp4 where <cell> names EVERY composable factor joined by
-    CELL_DELIM (default '-'), e.g. dog-2-left_of-running. validate_source checks the folders exist and
-    are non-empty; the folder-name parse asserts the full factor tuple so no unbound cell sneaks in.
-  - a per-cell count floor (--min-per-cell) is asserted so no cell is too thin for a hold-out.
-  - a per-clip captions.json ({clip_stem: caption}) must exist and cover every clip, and every factor
-    must be label-free-recoverable from the captions before the encode is spent.
-  - the sorted-folder->index label_map and a per-cell manifest are persisted beside the store.
-
-RESUMABLE PER-CLIP-RANGE LEGS: --start/--end select a half-open clip-index range over the flattened
-sorted clip list, so a long encode runs as several bounded legs (each a separate guarded process). Each
-leg writes to its own store shard data/cache/<name>/leg_<start>_<end>; a final --merge pass stitches the
-shards. A leg refuses to overwrite a finished shard unless --force is given.
-
-Usage (Studio):
-  # 0. turn the measured encode schedule into gate/leg/merge commands
-  python scripts/studio/dr1_source_intake.py --source /data/comp_video \
-    --source-card runs/studio_dr1/dr1_source_card.json \
-    --out runs/studio_dr1/dr1_source_intake.json
-  python scripts/studio/dr1_schedule_plan.py --source /data/comp_video \
-    --source-intake runs/studio_dr1/dr1_source_intake.json \
-    --daemon-out runs/studio_wave0/dr1_daemon_plan.json
-  # 1. pre-encode gate + legs (gate runs automatically inside each leg before any byte is decoded)
-  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 0   --end 256 --device cpu
-  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --start 256 --end 512 --device cpu
-  # 2. stitch and write the FormMatrix-backed Perspective v1 receipt when the root store exists
-  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --merge
-  # 3. cross-modal nuisance guard over the merged store (Studio-time; needs the encoded latents)
-  python scripts/studio/dr1_curate_bound_video.py --source /data/comp_video --a6-guard
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -113,49 +27,20 @@ from mop.substrate.video import detect_partial_cache, validate_source, write_lab
 
 MIN_FREE_RAM_GB = 32.0  # Original full-corpus policy floor, not measured boundary evidence.
 
-# The composable factors the expand plan needs (Track B). A cell folder names EVERY factor in this order,
-# joined by CELL_DELIM. Override with --factors to curate a different composable schema.
 DEFAULT_FACTORS = ("object", "count", "relation", "action")
 CELL_DELIM = "-"  # <object>-<count>-<relation>-<action>; '-' never appears inside a factor value.
 CAPTIONS_NAME = "captions.json"  # per-clip paired real captions: {clip_stem: caption}
 
-# =========================== PREREGISTERED ACCEPTANCE CRITERION ============================
-# (fixed here IN CODE, before any real-video encode is spent; mirrors the shapecap kill-switch
-# in scripts/cache_qwen_shapecap.py). A tie is a NULL: a factor that only reaches chance FAILS the
-# criterion, and the encode is refused rather than tuned toward a pass.
-#
-# WHY: the Studio V-JEPA encode is expensive and one-shot. Before spending it, EVERY composable factor
-# (object, count, relation, action, read off the <cell> folder) must be LABEL-FREE-RECOVERABLE from the
-# PAIRED REAL CAPTION alone: a single linear probe on a cheap, label-free, deterministic featurization of
-# each clip's caption must beat chance on a HELD-OUT split. If the caption cannot even carry a factor
-# label-free, then no downstream cross-modal (vision<->language) result on these clips can be attributed
-# to the substrate rather than to the caption pipeline, and the encode is a waste. This is exactly the
-# wall the laptop hit: the synthetic pixel-text was shape-blind, so the cross-family abstraction result
-# was uninterpretable. This gate REFUSES to repeat that with real video.
-#
-# THRESHOLD (preregistered, not tuned): the probe's held-out accuracy must exceed chance by at least
-# ACCEPT_MARGIN on EVERY factor. chance = 1 / n_classes for that factor. Equality with (or below)
-# chance + margin is a NULL and REFUSES the encode.
 ACCEPT_MARGIN = 0.10  # held-out accuracy must beat chance by this margin (mirrors linear_probe's)
 ACCEPT_PROBE_SEED = 0  # fixed split/seed so the acceptance decision is deterministic
-# ==========================================================================================
 
-# =========================== A6 RESIDUAL-ALIGNMENT GUARD (preregistered) ===================
-# Ported from scripts/mop_a6_residual_alignment.py. A cross-modal caption<->vision topology alignment is
-# only genuine shared structure if it SURVIVES projecting out the named composable factors AND the
-# spatiotemporal nuisance (train-fit only, no test leakage). Verdict rule (fixed here, a tie is a null):
-#   a pair "shares structure" in the minus_all condition iff the learned-vs-permuted neighbor-recall
-#   delta has a seed-CI lower bound strictly > 0 AND a consistent per-seed sign (no flip). Anything at or
-#   below the permutation floor COLLAPSES (nuisance-geometry confound, exactly the retired failure mode).
 A6_RANK = 32  # primary rank (al2 PRIMARY_RANK)
 A6_KNN_K = 10  # al2 KNN_K
 A6_N_PERM = 20  # permuted-pairing floor draws per seed (al2 N_PERM)
 A6_SEEDS = tuple(range(8))  # 8 seeds, matched to the laptop abstraction runs
-# ==========================================================================================
 
 
 def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB) -> float:
-    """Enforce the original full-corpus policy floor, not a measured hardware boundary."""
     try:
         import psutil
 
@@ -175,9 +60,6 @@ def assert_studio_ram(min_gb: float = MIN_FREE_RAM_GB) -> float:
 
 
 def parse_cell(folder: str, factors: tuple[str, ...]) -> dict[str, str]:
-    """A curated folder names a composable cell as <f0>-<f1>-...-<fN> in `factors` order; return
-    {factor: value}. Raises if the name does not carry EVERY factor (guards against an unbound
-    single-factor folder sneaking in, the two-factor wall the laptop hit)."""
     parts = folder.split(CELL_DELIM)
     if len(parts) != len(factors) or not all(parts):
         raise ValueError(
@@ -190,9 +72,6 @@ def parse_cell(folder: str, factors: tuple[str, ...]) -> dict[str, str]:
 
 
 def assert_bound_and_stocked(manifest: dict, min_per_cell: int, factors: tuple[str, ...]) -> dict:
-    """Validate every class folder is a full composable cell and clears the per-cell count floor. Every
-    factor must take >= 2 values (else that factor cannot be tested). Returns a per-cell manifest
-    {cell: {**factor_values, count}} for the sidecar."""
     cells: dict[str, dict] = {}
     thin: list[tuple[str, int]] = []
     values: dict[str, set] = {f: set() for f in factors}
@@ -219,10 +98,6 @@ def assert_bound_and_stocked(manifest: dict, min_per_cell: int, factors: tuple[s
 
 
 def load_captions(source: str | Path) -> dict[str, str]:
-    """Load the paired real captions sidecar {clip_stem: caption} from <source>/captions.json. Raises a
-    clear SystemExit if it is missing (the paired-language perspective is mandatory: the cross-family
-    abstraction gate cannot run without it, and the laptop's cross-modal null came from a caption side
-    that did not carry the attribute)."""
     p = Path(source) / CAPTIONS_NAME
     if not p.exists():
         raise SystemExit(
@@ -237,14 +112,6 @@ def load_captions(source: str | Path) -> dict[str, str]:
 
 
 def _caption_features(captions: list[str], dim: int = 256) -> torch.Tensor:
-    """Cheap, LABEL-FREE, deterministic featurization of a caption: a fixed-width hashed character-
-    trigram bag (no learned weights, no external model, no labels). Deliberately weak, so a probe
-    clearing chance on it means the factor is recoverable from the caption TEXT itself, not from some
-    heavy encoder. Returns a [n, dim] float tensor.
-
-    Determinism note: Python's builtin hash() is salted per-process (PYTHONHASHSEED), which would make
-    the acceptance decision non-reproducible across runs. We use a fixed, salt-free trigram hash instead
-    so ACCEPT_PROBE_SEED alone pins the decision."""
     import torch
 
     feats = torch.zeros(len(captions), dim)
@@ -258,8 +125,6 @@ def _caption_features(captions: list[str], dim: int = 256) -> torch.Tensor:
 
 
 def _stable_hash(s: str) -> int:
-    """Deterministic, process-salt-free string hash (FNV-1a 32-bit). Replaces builtin hash() so the
-    acceptance decision is reproducible regardless of PYTHONHASHSEED."""
     h = 2166136261
     for ch in s.encode("utf-8"):
         h = ((h ^ ch) * 16777619) & 0xFFFFFFFF
@@ -267,9 +132,6 @@ def _stable_hash(s: str) -> int:
 
 
 def caption_recoverability(captions: list[str], labels: list[int], seed: int = ACCEPT_PROBE_SEED) -> dict:
-    """PREREGISTERED acceptance probe: fit a single linear layer on cheap label-free caption features to
-    predict a factor label on a HELD-OUT split. Returns {score, chance, margin, passed}. passed is True
-    only if held-out accuracy beats chance by ACCEPT_MARGIN (a tie is a NULL)."""
     import torch
 
     x = _caption_features(captions)
@@ -285,10 +147,6 @@ def caption_recoverability(captions: list[str], labels: list[int], seed: int = A
 
 
 def assert_caption_recoverable(captions: list[str], cells: list[str], factors: tuple[str, ...]) -> dict:
-    """ACCEPTANCE GATE the Studio run MUST pass before spending the encode. Given one caption per clip and
-    its composable <cell>, verify EVERY factor clears the preregistered above-chance floor on a held-out
-    probe. Raises SystemExit (refusing the encode) if any factor is at or below the chance+margin floor.
-    Returns the per-factor acceptance report on success."""
     if len(captions) != len(cells):
         raise ValueError(f"captions ({len(captions)}) and cells ({len(cells)}) must be 1:1 per clip")
     parsed = [parse_cell(c, factors) for c in cells]
@@ -311,10 +169,6 @@ def assert_caption_recoverable(captions: list[str], cells: list[str], factors: t
 
 
 def _clip_stems_in_leg(source, factors, min_per_cell, start, end) -> tuple[list[str], list[str]]:
-    """Return (clip_stems, cells) for the clips whose flattened sorted index falls in [start, end). The
-    order MUST match iter_video_clips' walk (sorted class folders, then sorted files). Used to pair
-    captions and cells to the exact clips a leg will encode, so the acceptance gate probes the same
-    subset (not a mismatched superset). No decode happens here; it is a filesystem walk only."""
     from mop.substrate.video import list_class_files
 
     _classes, files = list_class_files(source)  # sorted class folders, then sorted files
@@ -332,9 +186,6 @@ def _clip_stems_in_leg(source, factors, min_per_cell, start, end) -> tuple[list[
 def run_acceptance_gate(
     source: str, factors: tuple[str, ...], min_per_cell: int, start: int, end: int
 ) -> dict:
-    """Wire the preregistered caption-recoverability gate: validate curation, load the paired captions,
-    pair them to the leg's clips, and REFUSE the encode unless every composable factor is recoverable.
-    Returns the acceptance report (also persisted by the caller)."""
     manifest = validate_source(source)
     assert_bound_and_stocked(manifest, min_per_cell, factors)  # curation contract
     caps_map = load_captions(source)
@@ -370,12 +221,6 @@ def encode_leg(
     device: str,
     force: bool,
 ) -> dict:
-    """Encode the half-open clip-index range [start, end) into its own store shard. The preregistered
-    caption-recoverability acceptance gate runs FIRST and refuses the encode on a NULL. The real V-JEPA
-    encoder is then loaded once; iter_video_clips streams the curated clips; cache_latents writes the
-    shard."""
-    # PRE-ENCODE GATE (wired here, hard): curation contract + paired-caption recoverability. Refuses the
-    # encode before any byte is decoded if a composable factor is not carried by the caption.
     accept_report = run_acceptance_gate(source, factors, min_per_cell, start, end)
 
     manifest = validate_source(source)
@@ -414,9 +259,6 @@ def encode_leg(
         enc, stream, cache_root, name, total=total, device=dev, result_tag=f"dr1_comp_leg_{start}_{end}"
     )
     write_label_map(cache_root / name, manifest["label_map"])
-    # The store's clip order (walk = sorted class folders then sorted files), so the A6 cross-modal guard
-    # can pair captions and residualize named factors 1:1 against the latent rows. clip_stems is the row
-    # order; clip_cells is the parallel per-clip cell folder.
     clip_stems, clip_cells = _clip_stems_in_leg(source, factors, min_per_cell, start, end)
     sidecar = {
         "leg": [start, end],
@@ -431,9 +273,6 @@ def encode_leg(
         "curation": f"composable real video, <{CELL_DELIM.join(factors)}> folders",
     }
     (cache_root / name / "cells.json").write_text(json.dumps(sidecar, indent=2, sort_keys=True))
-    # Persist the two consumer-shaped sidecars beside THIS leg store (a leg dir IS a LatentStore), so a
-    # per-leg A6 guard works; merge_shards concatenates them across legs for a merged store. clip_stems.json
-    # is a list (store-row order); clip_cells.json is a {stem: cell} map, exactly what the guard reads.
     (cache_root / name / "clip_stems.json").write_text(json.dumps(clip_stems, indent=2))
     (cache_root / name / "clip_cells.json").write_text(
         json.dumps(dict(zip(clip_stems, clip_cells, strict=True)), indent=2, sort_keys=True)
@@ -452,8 +291,6 @@ def encode_leg(
 
 
 def _sliced_clip_stream(source, fpc, res, start, end, hashes):
-    """Yield only clips whose flattened index falls in [start, end). Wraps iter_video_clips (batch=1 so
-    the index is exact) and drops out once end is reached, so a leg touches only its range."""
     stream = iter_video_clips(source, frames_per_clip=fpc, res=res, batch=1, hashes_out=hashes)
     for idx, (x, y) in enumerate(stream):
         if idx >= end:
@@ -465,8 +302,6 @@ def _sliced_clip_stream(source, fpc, res, start, end, hashes):
 def merge_shards(
     base_name: str, source: str | None = None, factors: tuple[str, ...] = DEFAULT_FACTORS
 ) -> dict:
-    """Report the finished leg shards for base_name and the merge plan. Validate the legs are contiguous
-    and label-consistent and emit a manifest the probe consumer reads. (No encoder is loaded here.)"""
     cache_root = REPO_ROOT / "data" / "cache" / base_name
     if not cache_root.exists():
         raise SystemExit(f"no shards under {cache_root}; run at least one leg first.")
@@ -480,9 +315,6 @@ def merge_shards(
     ranges = [tuple(s_["leg"]) for s_ in legs]
     contiguous = all(ranges[i][1] == ranges[i + 1][0] for i in range(len(ranges) - 1))
     total = sum(s_["n_encoded"] for s_ in legs)
-    # Concatenate the per-leg clip order (in sorted-leg order = merged store-row order) into store-root
-    # sidecars, so the A6 cross-modal guard can run against the merged store. Both consumer-shaped:
-    # clip_stems.json a list, clip_cells.json a {stem: cell} map.
     order_ok = bool(legs) and all("clip_stems" in s_ and "clip_cells" in s_ for s_ in legs)
     if order_ok:
         all_stems: list[str] = []
@@ -533,11 +365,6 @@ def merge_shards(
     return manifest
 
 
-# ------------------------------------------------------------------------------------------
-# A6 RESIDUALIZED-ALIGNMENT GUARD (ported from scripts/mop_a6_residual_alignment.py). Nuisance-geometry
-# control for a cross-modal caption<->vision result. Needs the encoded store, so it is a Studio-time
-# pass; the machinery ships here so the Studio only flips --a6-guard.
-# ------------------------------------------------------------------------------------------
 def _standardize(train, other):
     import torch  # noqa: F401
 
@@ -582,17 +409,6 @@ def _project_out(x, design, tr):
 
 
 def a6_residual_guard(store_dir: Path, captions_map: dict, factors: tuple[str, ...]) -> dict:
-    """Preregistered cross-modal nuisance-geometry control. Load the encoded vision latents and the
-    paired caption features (same clips, same order), project out the named composable factors AND the
-    spatiotemporal nuisance (train-fit only), then test whether the residual vision<->caption neighbor
-    topology still clears a permutation floor with a stable sign. A survivor is genuine shared structure;
-    a tie/below-floor COLLAPSES (nuisance-geometry confound). Returns the verdict report.
-
-    STUDIO-TIME NOTE: this reads the encoded store, so it runs after the merge. If a per-clip nuisance
-    array is not persisted with the store (the real-video path does not synthesize the 6-factor nuisance
-    the programmatic clipset had), the guard runs the label-partition conditions (raw / minus_factors)
-    and flags that the explicit nuisance-design condition needs the nuisance sidecar. It never fakes the
-    nuisance condition."""
     import numpy as np
     import torch
 
@@ -606,9 +422,6 @@ def a6_residual_guard(store_dir: Path, captions_map: dict, factors: tuple[str, .
     store = LatentStore.open(store_dir)
     xv = store.latents().float()
 
-    # Pair captions to the store's clip order via the persisted label_map + cells sidecar. The store rows
-    # are in the flattened sorted-clip order; we reconstruct the (stem, cell) order the same way the
-    # encode walked them so captions align 1:1. If a stems sidecar is present we use it; else we rebuild.
     stems_p = store_dir / "clip_stems.json"
     if stems_p.exists():
         stems = json.loads(stems_p.read_text())
@@ -631,8 +444,6 @@ def a6_residual_guard(store_dir: Path, captions_map: dict, factors: tuple[str, .
     has_nuisance = nuis_p.exists()
     nuis = torch.tensor(np.load(nuis_p)).float() if has_nuisance else None
 
-    # We need the named-factor labels per clip for the minus_factors / minus_all designs. Reconstruct
-    # them from the label_map + cells sidecar of the store.
     factor_labels = _factor_labels_for_store(store_dir, stems, factors)
 
     conditions = ["raw", "minus_factors"] + (["minus_nuisance", "minus_all"] if has_nuisance else [])
@@ -676,11 +487,8 @@ def a6_residual_guard(store_dir: Path, captions_map: dict, factors: tuple[str, .
 
 
 def _factor_labels_for_store(store_dir: Path, stems: list[str], factors: tuple[str, ...]):
-    """Reconstruct per-clip factor integer labels {factor: LongTensor[N]} from the store's cells sidecar
-    and clip stems, so the A6 designs can one-hot them."""
     import torch
 
-    # clip_cells.json maps stem -> cell folder name (persisted by the merge pass alongside clip_stems).
     cc_p = store_dir / "clip_cells.json"
     if not cc_p.exists():
         raise SystemExit(
@@ -698,8 +506,6 @@ def _factor_labels_for_store(store_dir: Path, stems: list[str], factors: tuple[s
 
 
 def _a6_one(xv, xt, factor_labels, nuis, mode, seed) -> float:
-    """One seed of the residual-alignment delta (learned neighbor-recall minus permuted-pairing floor)
-    for the vision->caption map under a residualization mode."""
     import torch
     import torch.nn.functional as F
 
@@ -759,8 +565,6 @@ def main(argv=None) -> int:
     factors = tuple(f for f in a.factors.split(",") if f)
 
     if a.gate_only:
-        # The gate is a filesystem + text probe only; it does NOT need Studio RAM, so it can dry-run
-        # anywhere (including the laptop) to confirm the caption pipeline before the Studio encode.
         if not a.source:
             print("FAIL: --source is required for --gate-only")
             return 1

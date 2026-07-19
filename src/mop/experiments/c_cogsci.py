@@ -1,22 +1,3 @@
-"""Series C: cognitive-science probes on FROZEN pooled latents (cached-latent-first, CPU, seconds).
-Every experiment declares an explicit NULL, gates on a linear probe before any mechanism claim, and
-wires a standing control (frozen-random via substrate_ablation/frozen_random_projection, or a shuffle
-floor, or matched-compute). Pooled latents discard within-frame object/spatial structure, so the
-compositional / held-out / segmentation probes are EXPECTED to land in failure-taxonomy slot 3 or 5 and
-the published bound IS the result. Honest nulls only; null_supported reflects the real toy outcome.
-
-C1 held-out-combination decoding (compositionality gate)
-C2 latent analogy by structure-mapping (vector parallelogram + relation-consistency)
-C3 schema as prototype / cluster geometry (prototype recovery + typicality)
-C4 event segmentation as chunking at prediction-surprise boundaries
-C5 transfer matrix as cross-domain analogical mapping
-C6 dual-process gating: fast single-pass vs slow iterative refinement by difficulty
-C7 chunking-as-expertise: does learned event chunking speed downstream acquisition
-C8 concept blending: linear interpolation between category centroids and its decodability
-C9 systematicity stress: probe generalization under combinatorial held-out depth
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -37,9 +18,6 @@ from ..shell.refine import IterativeRefiner
 from .base import Experiment, _mean
 
 
-# ----------------------------------------------------------------------------------------------------
-# C1: held-out-combination decoding (compositionality gate)
-# ----------------------------------------------------------------------------------------------------
 class C1(Experiment):
     id = "c1_held_out_combination"
     metric = ("heldout_minus_seen_gap", "per_factor_heldout_vs_shuffle_floor", "heldout_vs_frozen_random")
@@ -66,17 +44,14 @@ class C1(Experiment):
             x, ya, yb = factorized_latents(
                 n_a=n_a, n_b=n_b, per_cell=per_cell, dim=dim, interaction=interaction, seed=s
             )
-            # gate: both factors must be jointly decodable for the test to be interpretable
             a_decode.append(linear_probe(x, ya, seed=s)["score"])
             b_decode.append(linear_probe(x, yb, seed=s)["score"])
             r = held_out_combination(x, ya, yb, seed=s)
             real_ho.append(r["heldout_acc"])
             real_seen.append(r["seen_acc"])
             real_gap.append(r["gap"])
-            # frozen-random arm: the would-any-projection floor
             fr = held_out_combination(frozen_random_projection(x, s), ya, yb, seed=s)
             fr_ho.append(fr["heldout_acc"])
-            # shuffle-label floor: break the held-out factor labels
             g = torch.Generator().manual_seed(s + 7)
             yshuf = ya[torch.randperm(ya.shape[0], generator=g)]
             sh = held_out_combination(x, yshuf, yb, seed=s)
@@ -87,7 +62,6 @@ class C1(Experiment):
         frm, shm = _mean(fr_ho), _mean(shuf_ho)
         jointly_decodable = bool(_mean(a_decode) > chance + 0.1 and _mean(b_decode) > chance + 0.1)
         compositional = bool(ho > shm + 0.15 and ho > frm + 0.1)
-        # NULL: held-out collapses to chance while seen stays high, OR not jointly decodable
         null_supported = bool((not jointly_decodable) or (ho <= chance + 0.15 and seen > chance + 0.2))
         return {
             "heldout_acc": round(ho, 4),
@@ -105,13 +79,7 @@ class C1(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C2: latent analogy by structure-mapping (vector parallelogram)
-# ----------------------------------------------------------------------------------------------------
 def _analogy_quads(n_content: int, dim: int, sep: float, seed: int):
-    """Build aligned latent quads. Each content c has a source z(A_c) and a target z(B_c) related by a
-    SHARED relational offset r plus content-specific noise. The structure-mapping test: does z(A_c)+r
-    land near z(B_c) for a content not used to estimate r. Returns (src [C,dim], tgt [C,dim])."""
     g = torch.Generator().manual_seed(seed)
     contents = torch.randn(n_content, dim, generator=g) * sep
     r = torch.randn(dim, generator=g)  # the shared relational transform offset
@@ -174,7 +142,6 @@ class C2(Experiment):
         rt, st, ft = _mean(real_top1), _mean(shuf_top1), _mean(fr_top1)
         chance = 1.0 / n_content
         delta = rt - st
-        # NULL: structure-mapping ties the shuffled-offset control (offset does not transfer)
         null_supported = bool(delta <= 0.1 or rt <= chance + 0.1)
         return {
             "analogy_retrieval_top1": round(rt, 4),
@@ -189,11 +156,7 @@ class C2(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C3: schema as prototype / cluster geometry (typicality)
-# ----------------------------------------------------------------------------------------------------
 def _category_latents(n_cat: int, dim: int, sep: float, per: int, seed: int):
-    """Gaussian categories with a typicality gradient by construction (radius from centroid)."""
     g = torch.Generator().manual_seed(seed)
     centers = torch.randn(n_cat, dim, generator=g) * sep
     xs, ys = [], []
@@ -204,7 +167,6 @@ def _category_latents(n_cat: int, dim: int, sep: float, per: int, seed: int):
 
 
 def _silhouette(x: torch.Tensor, y: torch.Tensor) -> float:
-    """Mean silhouette over points: (b - a) / max(a, b) with a == mean intra, b == nearest-other mean."""
     d = torch.cdist(x, x)
     n = x.shape[0]
     vals = []
@@ -251,13 +213,10 @@ class C3(Experiment):
             x, y = x[perm], y[perm]
             xtr, ytr, xte, yte = x[:cut], y[:cut], x[cut:], y[cut:]
             cents = torch.stack([xtr[ytr == c].mean(0) for c in range(n_cat)])
-            # prototype (nearest-centroid) classifier
             pd = torch.cdist(xte, cents)
             pacc = float((pd.argmin(1) == yte).float().mean())
-            # exemplar 1-NN classifier
             ed = torch.cdist(xte, xtr)
             eacc = float((ytr[ed.argmin(1)] == yte).float().mean())
-            # typicality: distance-to-own-centroid vs probe margin (more typical -> higher margin)
             margins = []
             dists = []
             head = torch.nn.Linear(dim, n_cat)
@@ -291,7 +250,6 @@ class C3(Experiment):
         sr, sf = _mean(sil_real), _mean(sil_fr)
         prototype_works = bool(abs(pa - ea) < 0.1 and pa > 1.0 / n_cat + 0.1)
         has_typicality = bool(abs(corr) > 0.1)
-        # NULL: no typicality gradient OR frozen-random ties real silhouette
         null_supported = bool((not has_typicality) or (sr - sf) <= 0.05)
         return {
             "typicality_correlation": round(corr, 4),
@@ -308,12 +266,7 @@ class C3(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C4: event segmentation as chunking at prediction-surprise boundaries
-# ----------------------------------------------------------------------------------------------------
 def _event_sequence(n_events: int, frames_per_event: int, dim: int, sep: float, seed: int):
-    """A scripted [1, T, dim] latent sequence: within-event frames cluster near an event centroid; the
-    transition frame jumps to the next centroid. Ground-truth boundary frames are the transitions."""
     g = torch.Generator().manual_seed(seed)
     cents = torch.randn(n_events, dim, generator=g) * sep
     frames, truth = [], []
@@ -325,8 +278,6 @@ def _event_sequence(n_events: int, frames_per_event: int, dim: int, sep: float, 
 
 
 def _boundary_f1(pred: torch.Tensor, truth: torch.Tensor) -> float:
-    """F1 of predicted boundary frames vs ground-truth transition frames. pred/truth are [T] in {0,1};
-    pred is aligned to the gap index t (boundary between frame t and t+1) mapped to frame t+1."""
     tp = float(((pred == 1) & (truth == 1)).sum())
     fp = float(((pred == 1) & (truth == 0)).sum())
     fn = float(((pred == 0) & (truth == 1)).sum())
@@ -359,7 +310,6 @@ class C4(Experiment):
             seq, truth = _event_sequence(n_events, fpe, dim, sep, s)
             gap_truth = truth[1:]  # gap t corresponds to transition into frame t+1
             d = (seq[0, 1:] - seq[0, :-1]).norm(dim=-1)  # [T-1] successive-latent distance
-            # sweep threshold over the surprise signal, pick best F1 (the PR sweep)
             thrs = torch.linspace(d.min(), d.max(), int(e.n_thresholds))
             best, bthr = 0.0, float(thrs[0])
             for thr in thrs:
@@ -370,11 +320,9 @@ class C4(Experiment):
                     best, bthr = f1, float(thr)
             surf1.append(best)
             best_thr.append(bthr)
-            # uniform-rate control: a boundary every fpe gaps
             unif = torch.zeros_like(gap_truth)
             unif[(fpe - 1) :: fpe] = 1
             unif1.append(_boundary_f1(unif.long(), gap_truth.long()))
-            # shuffled-latent control: destroy temporal structure, then best-threshold sweep
             g = torch.Generator().manual_seed(s + 3)
             sseq = seq[:, torch.randperm(seq.shape[1], generator=g)]
             sd = (sseq[0, 1:] - sseq[0, :-1]).norm(dim=-1)
@@ -387,7 +335,6 @@ class C4(Experiment):
         sf, uf, hf = _mean(surf1), _mean(unif1), _mean(shuf1)
         beats_uniform = bool(sf > uf + 0.1)
         beats_shuffle = bool(sf > hf + 0.1)
-        # NULL: surprise does not beat uniform-rate, or no usable surprise signal (ties shuffle)
         null_supported = bool((not beats_uniform) or (not beats_shuffle))
         return {
             "boundary_f1": round(sf, 4),
@@ -403,13 +350,7 @@ class C4(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C5: transfer matrix as cross-domain analogical mapping
-# ----------------------------------------------------------------------------------------------------
 def _relational_family(family: int, n_rel: int, dim: int, sep: float, per: int, seed: int):
-    """A family carries a shared abstract relation (label in 0..n_rel-1) atop a family-specific surface
-    code. The relation is embedded along a family-shared axis so a probe trained on family i can in
-    principle read it on family j; surface content is family-specific noise that should not transfer."""
     g = torch.Generator().manual_seed(seed + 1000 * family)
     rel_axis = torch.randn(dim, generator=torch.Generator().manual_seed(99))  # SHARED across families
     surface = torch.randn(dim, generator=g) * sep  # family-specific surface offset
@@ -466,11 +407,9 @@ class C5(Experiment):
             offmask = ~torch.eye(n_fam, dtype=torch.bool)
             off_real.append(float(M[offmask].mean()))
             asym.append(float((M - M.T).abs()[offmask].mean()))
-            # frozen-random arm
             frfams = [(frozen_random_projection(fams[f][0], s), fams[f][1]) for f in range(n_fam)]
             Mfr = _matrix(lambda i, src=frfams: src[i])
             off_fr.append(float(Mfr[offmask].mean()))
-            # shuffle floor
             shfams = []
             for f in range(n_fam):
                 g = torch.Generator().manual_seed(s + f + 50)
@@ -482,7 +421,6 @@ class C5(Experiment):
         orr, ofr, osh = _mean(off_real), _mean(off_fr), _mean(off_shuf)
         chance = 1.0 / n_rel
         transfers = bool(orr > max(osh, chance) + 0.1 and orr > ofr + 0.05)
-        # NULL: off-diagonal transfer at chance (ties shuffle floor)
         null_supported = bool(orr <= osh + 0.1 or orr <= chance + 0.1)
         return {
             "off_diagonal_transfer_accuracy": round(orr, 4),
@@ -497,9 +435,6 @@ class C5(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C6: dual-process gating: fast single-pass vs slow iterative refinement by difficulty
-# ----------------------------------------------------------------------------------------------------
 class C6(Experiment):
     id = "c6_dual_process_halting"
     metric = ("halting_vs_difficulty_correlation", "accuracy_at_matched_compute", "gain_per_compute")
@@ -523,7 +458,6 @@ class C6(Experiment):
         corrs, ref_acc, single_acc = [], [], []
         for s in seeds:
             seed_everything(s)
-            # difficulty-graded set: easy cluster (high separation) and hard cluster (low separation)
             easy = make_task_stream(
                 n_tasks=1,
                 dim=dim,
@@ -561,14 +495,12 @@ class C6(Experiment):
             with torch.no_grad():
                 z, used = refiner(xte)
                 ref_acc.append(float((rhead(z).argmax(-1) == yte).float().mean()))
-            # correlation of halting step with difficulty (hard -> more steps)
             u = used - used.mean()
             dd = dte - dte.mean()
             denom = (u.norm() * dd.norm()).clamp(min=1e-8)
             corrs.append(float((u * dd).sum() / denom))
             avg_steps = float(used.float().mean())
 
-            # single-pass head at MATCHED average compute: a depth-D MLP with D == round(avg_steps)
             seed_everything(s)
             depth = max(1, round(avg_steps))
             single = IterativeRefiner(dim, hidden, depth, halt=False)
@@ -585,13 +517,11 @@ class C6(Experiment):
 
         corr = _mean(corrs)
         ra, sa = _mean(ref_acc), _mean(single_acc)
-        # matched-compute audit: refiner average steps vs single-pass depth FLOPs
         flops_ref = refiner_flops(dim, hidden, max(1, round(steps)))
         flops_single = refiner_flops(dim, hidden, max(1, round(steps)))
         compute = matched_within(flops_ref, flops_single)
         halts_with_difficulty = bool(abs(corr) > 0.1)
         gain = ra - sa
-        # NULL: halting uncorrelated with difficulty OR adaptive ties single-pass at matched compute
         null_supported = bool((not halts_with_difficulty) or abs(gain) <= float(e.margin))
         return {
             "halting_vs_difficulty_correlation": round(corr, 4),
@@ -606,9 +536,6 @@ class C6(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C7: chunking-as-expertise: does learned event chunking speed downstream acquisition
-# ----------------------------------------------------------------------------------------------------
 class C7(Experiment):
     id = "c7_chunking_expertise"
     metric = ("steps_to_competence_ratio", "final_accuracy_gap", "delta_over_random_boundaries")
@@ -631,9 +558,6 @@ class C7(Experiment):
         chunk_final, unif_final = [], []
         for s in seeds:
             seed_everything(s)
-            # build a labelled set of event sequences; the downstream task is event-identity prediction
-            # from a pooled summary token. Chunk summary = mean within surprise boundaries; uniform =
-            # mean within fixed windows; random = mean within random-boundary windows.
             n_seq = int(e.n_sequences)
             xs_chunk, xs_unif, xs_rand, ys = [], [], [], []
             for q in range(n_seq):
@@ -642,7 +566,6 @@ class C7(Experiment):
                 d = (frames[1:] - frames[:-1]).norm(dim=-1)
                 thr = float(d.mean() + d.std())
                 bnds = (d > thr).nonzero().flatten().tolist()
-                # summary over the FIRST chunk vs first fixed window vs first random window
                 first_chunk_end = (bnds[0] + 1) if bnds else fpe
                 xs_chunk.append(frames[:first_chunk_end].mean(0))
                 xs_unif.append(frames[:fpe].mean(0))
@@ -685,7 +608,6 @@ class C7(Experiment):
         cs, us, rs = _mean(chunk_steps), _mean(unif_steps), _mean(rand_steps)
         ratio = cs / max(1e-6, us)
         chunk_helps = bool(cs < us - 0.5 and cs < rs - 0.5)
-        # NULL: chunked ties uniform (ratio ~ 1) or does not beat random boundaries
         null_supported = bool(ratio >= 0.9 or cs >= rs - 0.5)
         return {
             "steps_to_competence_chunked": round(cs, 4),
@@ -700,9 +622,6 @@ class C7(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C8: concept blending: linear interpolation between category centroids
-# ----------------------------------------------------------------------------------------------------
 class C8(Experiment):
     id = "c8_concept_blending"
     metric = ("midpoint_decodability", "off_manifold_distance_ratio", "midpoint_vs_frozen_random")
@@ -723,26 +642,22 @@ class C8(Experiment):
         for s in seeds:
             seed_everything(s)
             x, y, cents = _category_latents(n_cat, dim, sep, per, s)
-            # train a probe on the real category latents, then read it at interpolated midpoints
             head = torch.nn.Linear(dim, n_cat)
             opt = torch.optim.Adam(head.parameters(), lr=0.05)
             for _ in range(int(e.probe_epochs)):
                 opt.zero_grad()
                 F.cross_entropy(head(x), y).backward()
                 opt.step()
-            # blend categories 0 and 1: at alpha 0.5 a coherent blend reads as BOTH parents above chance
             cA, cB = cents[0], cents[1]
             mid = 0.5 * cA + 0.5 * cB
             with torch.no_grad():
                 probs = torch.softmax(head(mid.unsqueeze(0)), dim=-1)[0]
             mid_dec.append(float(probs[0] + probs[1]))  # mass on the two parents
-            # off-manifold: midpoint distance to nearest real latent vs typical intra-category NN dist
             dmid = float((x - mid).norm(dim=-1).min())
             dnn = torch.cdist(x[:50], x[:50])
             dnn.fill_diagonal_(float("inf"))
             typ = float(dnn.min(1).values.mean())
             off_ratio.append(dmid / max(1e-6, typ))
-            # frozen-random arm: same construction in a random projection
             xf = frozen_random_projection(x, s)
             centsf = torch.stack([xf[y == c].mean(0) for c in range(n_cat)])
             headf = torch.nn.Linear(dim, n_cat)
@@ -757,10 +672,8 @@ class C8(Experiment):
             fr_mid_dec.append(float(pf[0] + pf[1]))
 
         md, orr, frd = _mean(mid_dec), _mean(off_ratio), _mean(fr_mid_dec)
-        # a coherent blend: parents share the midpoint mass (both well above 0) and it is near-manifold
         coherent = bool(md > 0.6 and orr < float(e.off_manifold_ratio))
         differs_from_fr = bool(abs(md - frd) > 0.1)
-        # NULL: midpoint off-manifold/undecodable OR frozen-random shows identical behavior
         null_supported = bool((not coherent) or (not differs_from_fr))
         return {
             "midpoint_decodability": round(md, 4),
@@ -774,9 +687,6 @@ class C8(Experiment):
         }
 
 
-# ----------------------------------------------------------------------------------------------------
-# C9: systematicity stress: probe generalization under combinatorial held-out depth
-# ----------------------------------------------------------------------------------------------------
 class C9(Experiment):
     id = "c9_systematicity_sweep"
     metric = ("systematicity_curve", "cliff_location", "real_minus_frozen_random_auc")
@@ -829,17 +739,14 @@ class C9(Experiment):
         chance = 1.0 / n_a
         real_curve = {w: round(_mean(curve_real[w]), 4) for w in widths}
         fr_curve = {w: round(_mean(curve_fr[w]), 4) for w in widths}
-        # cliff: the first held-out width where real accuracy drops below chance + 0.15
         cliff = None
         for w in widths:
             if real_curve[w] <= chance + 0.15:
                 cliff = w
                 break
-        # area-under-curve gap (mean over widths) real vs frozen-random
         auc_gap = _mean([real_curve[w] - fr_curve[w] for w in widths])
         graceful = bool(cliff is None or cliff > widths[0])
         beats_fr = bool(auc_gap > 0.05)
-        # NULL: cliffs at the very first held-out width, OR identical to frozen-random
         null_supported = bool((cliff is not None and cliff == widths[0]) or (not beats_fr))
         return {
             "systematicity_curve_real": real_curve,

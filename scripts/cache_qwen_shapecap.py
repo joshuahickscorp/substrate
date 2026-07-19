@@ -1,35 +1,4 @@
 #!/usr/bin/env python
-"""WP-01 cache pass (Controls phase, ENCODER LANE ONLY): a LABEL-FREE pixel-derived SHAPE CAPTION of the
-shared nuisance clips, run through the staged small LLM (Qwen2.5-0.5B, or its staged fallback), real AND
-from_config random-init, mid-layer mean hidden state, into data/cache/qwen05b_shapecap_{real,randominit}.
-
-WHY: the prior label-free substrates (HOG handcrafted, palette-color textification) all sit at chance for
-SHAPE decode (0.217, 0.267 vs chance 0.20), so shape was never linguistically recoverable from pixels.
-This caption makes the SHAPE axis testable by computing ROTATION/SCALE/TRANSLATION-invariant shape
-descriptors on a foreground mask and verbalizing them. It reads ONLY pixels, never the shape or color
-labels, so any decodability was carried through the rendering, not injected by it. The random-init
-same-arch arm at identical text is the non-vacuous control.
-
-SHAPE CAPTION (shapecap_clip): per subsampled frame, segment the foreground object from the cluttered
-background (background color = mean of the 4 corner pixels; foreground score = max(color-distance-to-bg,
-colorfulness), thresholded, then the largest 4-connected component to shed clutter blobs). From the binary
-mask compute invariant descriptors in pure numpy/torch: the 7 Hu moment invariants (sign-preserving log
-magnitude, computed on the BINARY mask so they are color-independent), circularity (4*pi*area/perimeter^2),
-eccentricity (eigenvalue ratio of the pixel-coordinate covariance), and extent (area/bbox area). Average
-over frames, verbalize into a short deterministic English caption, and append the existing palette-color
-grid (color is partialed out downstream; shape is the point).
-
-PREREGISTERED KILL-SWITCH (in code, before running): if the REAL-arm shape_probe_acc <= 0.30 (5-way task,
-chance 0.20), the caption FAILED to make shape linguistically recoverable; killswitch_fired=true, reported
-honestly, NO post-hoc tuning of the descriptor to chase the number.
-
-HARD RULES: encoder lane only, strictly after the in-flight V-JEPA encode, one model in memory at a time
-(arms sequential), clips streamed one at a time as uint8 (clip identity rule), local_files_only.
-
-Usage: python scripts/cache_qwen_shapecap.py   -> runs/mot/cache_qwen_shapecap.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -71,8 +40,6 @@ KILLSWITCH_SHAPE_ACC = 0.30  # <= this on the real arm means the caption failed 
 
 
 def _largest_cc(mask: torch.Tensor) -> torch.Tensor:
-    """Largest 4-connected component of a boolean [H,W] mask, via iterative min-label propagation in pure
-    torch (no scipy). Sheds background clutter blobs so the descriptors see the object, not the noise."""
     h, w = mask.shape
     idx = torch.arange(h * w).reshape(h, w)
     big = h * w + 1
@@ -101,9 +68,6 @@ def _largest_cc(mask: torch.Tensor) -> torch.Tensor:
 
 
 def _foreground_mask(frame_u8: torch.Tensor) -> torch.Tensor:
-    """Label-free foreground segmentation of one [3,H,W] uint8 frame. Background color is the mean of the 4
-    corner pixels; foreground score is max(euclidean color distance to bg, colorfulness = max-min channel)
-    so both saturated-hue and near-white objects segment. Threshold, then keep the largest component."""
     f = frame_u8.float() / 255.0
     corners = torch.stack([f[:, 0, 0], f[:, 0, -1], f[:, -1, 0], f[:, -1, -1]])  # [4,3]
     bg = corners.mean(dim=0)
@@ -113,10 +77,6 @@ def _foreground_mask(frame_u8: torch.Tensor) -> torch.Tensor:
 
 
 def _shape_descriptors(mask: torch.Tensor) -> torch.Tensor:
-    """13 invariant shape descriptors from a boolean [H,W] mask: 7 Hu log-invariants (color-independent by
-    construction, on the binary mask), circularity, eccentricity, extent, plus log-area and aspect-log as
-    weak scale/orientation-tolerant context. All rotation/scale/translation tolerant except the last two,
-    which are down-weighted by being logs. Returns a fixed-length [13] float vector (zeros if too small)."""
     ys, xs = torch.nonzero(mask, as_tuple=True)
     if xs.numel() < 8:
         return torch.zeros(13)
@@ -149,7 +109,6 @@ def _shape_descriptors(mask: torch.Tensor) -> torch.Tensor:
     ) * (3 * (n30 + n12) ** 2 - (n21 + n03) ** 2)
     hlog = torch.sign(h) * torch.log10(h.abs() + 1e-30)
 
-    # perimeter via boundary count (a foreground pixel with a non-foreground 4-neighbor), circularity
     m = mask.float()
     nb = torch.zeros_like(m)
     nb[1:, :] += m[:-1, :]
@@ -179,8 +138,6 @@ def _shape_descriptors(mask: torch.Tensor) -> torch.Tensor:
 
 
 def _color_grid_lines(frames: torch.Tensor, grid: int = GRID) -> list[str]:
-    """The palette-color grid from cache_qwen_textified, reused verbatim so color is still present in the
-    caption (it is partialed out downstream). Reads pixels only, never labels."""
     names = list(PALETTE)
     pal = torch.tensor([PALETTE[k] for k in names])
     lines = []
@@ -196,9 +153,6 @@ def _color_grid_lines(frames: torch.Tensor, grid: int = GRID) -> list[str]:
 
 
 def shapecap_clip(frames_u8: torch.Tensor, tsub: int = TSUB) -> str:
-    """Deterministic LABEL-FREE shape caption: per subsampled frame segment the object and compute invariant
-    shape descriptors, average them over frames, verbalize, then append the palette-color grid. Pixels in,
-    prose out; the shape/color labels are never read."""
     t = frames_u8.shape[0]
     frames = frames_u8[:: max(1, t // tsub)][:tsub].float() / 255.0
     sub = frames_u8[:: max(1, t // tsub)][:tsub]
@@ -228,7 +182,6 @@ def load_arm(model_id: str, arm: str, seed: int):
 
 
 def mid_layer_mean(model, tokenizer, text: str) -> torch.Tensor:
-    """Mid-layer mean hidden state: layer len(hidden_states)//2, mean over tokens -> [D]."""
     enc = tokenizer(text, return_tensors="pt", truncation=True, max_length=1024)
     with torch.no_grad():
         hs = model(**enc, output_hidden_states=True).hidden_states

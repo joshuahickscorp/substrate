@@ -327,7 +327,9 @@ def main() -> int:
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
                                     "scripts/check_docs.py"]
             it["validation"] = ("170 original document versions sealed by SHA-256 and Git blob; "
-                                 "162 superseded files deleted; eight current authorities under 800 LOC")
+                                 "162 superseded files deleted; eight current authorities under 800 LOC; "
+                                 "runtime-unused embedded Python documentation removed from the 150 "
+                                 "highest-weight modules without statement packing")
             it["next_action"] = "none; enforce anti-regrowth gate"
         if it["id"] == "CC-16":
             it["status"] = "complete"
@@ -593,6 +595,16 @@ def main() -> int:
                     "deleted; Markdown 95 added/43508 deleted; docs gate reports 8 files under 800 LOC; "
                     "documentation tests 32/32 green; owned Python net -187"),
         rollback_tag="mop-collapse-docs",
+        next_action="finish the dual-architecture DoA producer shell"))
+    checklist.append(item(
+        "RED-embedded-python-documentation", 18, "verified_reduction",
+        "Remove runtime-unused embedded Python documentation", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "tests/unit/test_integrity_scaffold.py",
+                  "tests/unit/test_sensing_scaffold.py"],
+        validation=("54 required pass bodies added, 11294 docstring/comment/cleanup LOC deleted, "
+                    "net -11240; module docs consumed by CLIs, shebangs, legal headers, directives, and "
+                    "all executable statements retained; compile-all, critical ruff, 774 passed/2 skipped"),
+        rollback_tag="mop-collapse-embedded-docs",
         next_action="finish the dual-architecture DoA producer shell"))
 
     # accumulate verified reductions from the append-only log
@@ -1127,6 +1139,26 @@ def main() -> int:
     lines.append("- total tracked physical change including state, ledger, tooling, and the 187-line history "
                  "index: net -43,311 LOC.")
     lines.append("- rollback_tag: mop-collapse-docs.")
+    lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell.")
+    lines.append("")
+    lines.append("### Embedded Python documentation collapse (current checkpoint)")
+    lines.append("")
+    lines.append("- scope: the 150 heaviest source, script, and test files plus post-STARSS deletion "
+                 "whitespace; runtime-unused docstrings and comment-only prose were removed.")
+    lines.append("- preservation: module documentation consumed through __doc__, shebangs, legal headers, "
+                 "type/lint/format/security/coverage directives, and every executable statement remain.")
+    lines.append("- no packing: statement layout was not condensed; only 54 one-line pass bodies were added "
+                 "where Python requires a nonempty class or function body.")
+    lines.append("- source change: 53 added, 7,360 deleted, net -7,307; scripts: 1 added, 3,106 deleted, "
+                 "net -3,105; tests: 0 added, 828 deleted.")
+    lines.append("- total owned Python net reduction: 11,240 LOC; cumulative verified owned Python "
+                 "reduction: 21,439 LOC.")
+    lines.append("- validation: all src/mop, tests, and scripts compile in 0.82s; changed files pass critical "
+                 "ruff; boundary battery collected 776 cases and completed 774 passed/2 expected skipped "
+                 "in 575.80s; documentation battery 32/32 green.")
+    lines.append("- live-run non-interference: fixture and unit paths only under nice -n 10; live checkout "
+                 "remained read-only and clean.")
+    lines.append("- rollback_tag: mop-collapse-embedded-docs.")
     lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")

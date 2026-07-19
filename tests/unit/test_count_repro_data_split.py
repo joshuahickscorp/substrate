@@ -33,8 +33,6 @@ _SMALL_CONFIG = RealCountBedConfig(
 )
 
 
-
-
 def test_prereg_self_derived_sesoi_and_floor():
     body = build_data_split_prereg(
         timestamp=_TIMESTAMP,
@@ -69,8 +67,6 @@ def test_prereg_refuses_below_granularity_floor():
         )
 
 
-
-
 def test_additive_only_repro_paths_are_net_new():
     prereg = Path(DEFAULT_REPRO_PREREG_PATH)
     artifact = Path(DEFAULT_REPRO_ARTIFACT_PATH)
@@ -82,8 +78,6 @@ def test_additive_only_repro_paths_are_net_new():
         "STARSS23_COUNTING_BED.verification.json",
     }
     assert prereg.name not in sealed and artifact.name not in sealed
-
-
 
 
 def test_verifier_imports_no_producer_or_mop_code():
@@ -116,8 +110,6 @@ def test_verifier_imports_no_producer_or_mop_code():
         "dataclasses",
         "__future__",
     }
-
-
 
 
 @pytest.fixture(scope="module")

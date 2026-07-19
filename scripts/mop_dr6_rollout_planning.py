@@ -1,36 +1,4 @@
 #!/usr/bin/env python
-"""DR6: internal simulation / rollout planning (the ex2 extension), H-ROLLOUT harness, WP-05.
-
-THESIS: simulating futures with an action-conditioned learned dynamics model and acting on the
-imagined endpoint beats a reactive policy AND an action-shuffle control at matched compute.
-
-NULL (preregistered, in code before any result): planning ties max(reactive, action-shuffle) at
-matched compute. Falsifier: planner true-env terminal distance is not lower than the BEST control
-by PLANNING_MARGIN on every seed, or the rollout gate fails (rollout not licensed, EX2 stays weak).
-
-Honest-scoring rule (the close_ex2_planning fix, applied from the start): the planner and the
-shuffle SELECT their action sequence through the learned model (search in-belief is legitimate,
-that is what planning is) but are SCORED by executing the selected sequence through the TRUE
-dynamics, exactly as the reactive arms are scored. All arms share one yardstick.
-
-Compute accounting: ALL rollouts are counted. The planner spends cem_iters * n_samples * horizon
-dynamics-model forwards per trial; the matched-compute reactive control (greedy one-step search)
-gets the SAME total forward budget per trial (cem_iters * n_samples candidates per step, horizon
-steps); the shuffle control spends n_samples * horizon (reported, never more than the planner).
-matched_within certifies planner vs greedy.
-
-Controls: action-shuffle (candidate/action correspondence destroyed before rollout), amortized
-flat-reactive head (ex2's trained policy, cheap by construction, reported), greedy one-step search
-at matched FLOPs (the strong reactive), rollout_gate (diagnostics/sysid licensing gate) plus the
-learned model's one-step and k-step R2 floors.
-
-Reuses the shipped ex2 helpers (mop.experiments.ex2_latent_planning), does not edit them.
-Writes runs/mot/dr6_rollout_planning.json.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: PYTHONPATH=. .venv/bin/python scripts/mop_dr6_rollout_planning.py --seeds 0-4
-"""
 
 from __future__ import annotations
 
@@ -63,9 +31,6 @@ from mop.experiments.ex2_latent_planning import (
 )
 from mop.seeding import parse_seeds, seed_everything
 
-# ------------------------------------------------------------------------------------------------
-# preregistered thresholds (in code before any result exists, per the honesty doctrine)
-# ------------------------------------------------------------------------------------------------
 PLANNING_MARGIN = 0.05  # planner must beat the BEST control's mean terminal distance by this
 R2_FLOOR = 0.5  # learned-model one-step and k-step rollout R2 licensing floor
 FLOP_TOL = 0.10  # planner vs greedy matched-compute tolerance (matched_within)
@@ -97,8 +62,6 @@ def default_cfg() -> DictConfig:
 def execute_true(
     seq: torch.Tensor, z0: torch.Tensor, goal: torch.Tensor, params, nonlin: float, g: torch.Generator
 ) -> float:
-    """Execute an action sequence [H, A] through the TRUE dynamics (noise 0, matching how ex2 scores
-    the flat head) and return the real terminal distance to goal: the one honest yardstick."""
     z = z0.clone()
     with torch.no_grad():
         for t in range(seq.shape[0]):
@@ -115,9 +78,6 @@ def shuffled_plan_seq(
     action_dim: int,
     g: torch.Generator,
 ) -> torch.Tensor:
-    """Action-shuffle control selection: mirror _mpc_plan_shuffled (permute the candidate/action
-    correspondence before rollout, no CEM refit) and return the SELECTED shuffled sequence so it can
-    be executed on the true dynamics like every other arm."""
     cand = torch.randn(n_samples, horizon, action_dim, generator=g).clamp(-2.0, 2.0)
     shuffled = cand[torch.randperm(n_samples, generator=g)]
     terminal = _rollout(model, z0, shuffled)
@@ -136,10 +96,6 @@ def greedy_matched_trial(
     nonlin: float,
     g: torch.Generator,
 ) -> float:
-    """The matched-compute reactive control: at each of `horizon` steps sample n_per_step candidate
-    one-step actions, forward each ONCE through the learned model, take the argmin distance to goal,
-    execute that single action in the TRUE env. Total model forwards = horizon * n_per_step, set by
-    the caller to equal the planner's budget exactly. No lookahead beyond one step: reactive."""
     z = z0.clone()
     with torch.no_grad():
         for _ in range(horizon):
@@ -164,11 +120,8 @@ def _run_seed(cfg: DictConfig, seed: int) -> dict:
     model = _DynamicsModel(dim, adim, hid)
     _train_dynamics(model, z_tr, a_tr, zn_tr, int(cfg.epochs), float(cfg.lr))
 
-    # rollout_gate: linear sysid licensing gate on the SAME transitions (descriptive on the mildly
-    # nonlinear generator, but actions-move-state and the Gramian rank are the licensing facts)
     gate = sysid_report(z_tr, a_tr, zn_tr, k=int(cfg.rollout_k), seed=seed)
 
-    # learned-model predictability floors (one-step and k-step open-loop R2)
     n_val = max(64, int(cfg.n_train_transitions) // 4)
     z_val = torch.randn(n_val, dim, generator=g)
     a_val = _sample_actions(n_val, adim, g)
@@ -186,7 +139,6 @@ def _run_seed(cfg: DictConfig, seed: int) -> dict:
     kstep_r2 = _r2(z_pred, z_true)
     rollout_licensed = bool(one_step_r2 > R2_FLOOR and kstep_r2 > R2_FLOOR)
 
-    # amortized flat-reactive head (ex2's policy baseline, trained through the learned model)
     flat = _FlatReactiveHead(dim, adim, hid)
     n_flat = int(cfg.n_train_transitions) // 2
     _train_flat_head(
@@ -201,7 +153,6 @@ def _run_seed(cfg: DictConfig, seed: int) -> dict:
         g,
     )
 
-    # compute accounting: ALL rollouts counted, per trial, in dynamics-model forwards and FLOPs
     fwd_flops = mlp_flops([dim + adim, hid, hid, dim])  # _DynamicsModel is a depth-2 mlp
     planner_fwds = cem_iters * n_samples * horizon
     n_per_step = cem_iters * n_samples  # greedy budget per step -> horizon * n_per_step == planner

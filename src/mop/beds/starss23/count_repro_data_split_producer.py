@@ -47,8 +47,6 @@ def default_data_split_config() -> RealCountBedConfig:
     return RealCountBedConfig(seeds=DATA_SPLIT_SEEDS)
 
 
-
-
 def _swapped_fold_split(
     adapter: RealStarssAdapter, n_val_rooms: int
 ) -> tuple[tuple[Clip, ...], tuple[Clip, ...], tuple[Clip, ...], dict[str, Any]]:
@@ -84,8 +82,6 @@ def _swapped_fold_split(
         "swapped_from_sealed": True,
     }
     return train, val, test, detail
-
-
 
 
 def build_data_split_repro_artifact(

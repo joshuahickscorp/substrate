@@ -1,24 +1,3 @@
-"""Deterministic toy bed for the memory-organization epoch (mechanism_id memory_organization).
-
-This module builds the task environment, not a result. It supplies a null regime where there is no
-reusable structure across decisions, so any memory organization buys nothing and the named prior
-null holds, and a favorable regime where there is reusable structure across future decisions that an
-organized memory can exploit through revision, provenance, deletion, and action-conditioned recall.
-Every regime is a stream of memory ops followed by future-decision queries, and every arm is scored
-on the FUTURE decisions it makes, not only on the values it predicts.
-
-The favorable regime has four selectable structure modes. The reusable mode carries genuine reusable
-structure that lets an organized memory beat every control. The absent mode strips that structure so
-the favorable regime degenerates to the null and no arm can win. The prediction-only mode carries
-structure that lets an organized memory recall values more accurately without changing any decision,
-which must never count as a future-decision win. The harmful mode injects misleading memory so a
-faithful organized recall does worse than ignoring memory, which the episodic-harm guard must catch.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim. The
-streams are toy op logs and the scores are byte-exact test vectors, not evidence about any memory.
-
-House style: no em or en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -31,19 +10,14 @@ from .memory_organization_scaffold import FUTURE_DECISION_CONTROLS
 
 MECHANISM_ID = "memory_organization"
 
-# The treatment arm and its four declared controls, reusing the scaffold's canonical control tuple.
 ORGANIZED_ARM = "organized-memory"
 ARMS: tuple[str, ...] = (ORGANIZED_ARM,) + FUTURE_DECISION_CONTROLS
 
-# The action space. action_of buckets a recalled value into a decision. Values that share a bucket
-# yield the same decision, which is what makes prediction-only improvement possible without any
-# future-decision gain.
 N_ACTIONS = 4
 
 REGIME_NULL = "null"
 REGIME_FAVORABLE = "favorable"
 
-# Favorable regime structure modes. Only the reusable mode should ever yield a future-decision win.
 STRUCTURE_REUSABLE = "reusable-structure"
 STRUCTURE_ABSENT = "no-reusable-structure"
 STRUCTURE_PREDICTION_ONLY = "prediction-only"
@@ -57,18 +31,16 @@ FAVORABLE_STRUCTURES: tuple[str, ...] = (
 
 
 class MemoryBedRefusal(ValueError):
-    """Raised when a bed request is malformed. The bed fails closed."""
+    pass
 
 
 def action_of(value: int) -> int:
-    """Bucket a recalled value into a decision. Deterministic and total over the integers."""
 
     return value % N_ACTIONS
 
 
 @dataclass(frozen=True, slots=True)
 class MemoryOp:
-    """One memory operation arriving at a step: a keyed value with provenance and a retract flag."""
 
     step: int
     key: int
@@ -88,7 +60,6 @@ class MemoryOp:
 
 @dataclass(frozen=True, slots=True)
 class DecisionQuery:
-    """One future decision: which key it is about, the observable default, and the ground truth."""
 
     key: int
     default_feature: int
@@ -106,7 +77,6 @@ class DecisionQuery:
 
 @dataclass(frozen=True, slots=True)
 class DecisionStream:
-    """One regime instance: the memory ops that arrived and the future decisions to be made."""
 
     regime: str
     structure: str
@@ -131,26 +101,18 @@ class DecisionStream:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Scenario builders. Each scenario uses one unique key and is designed so that a specific subset of
-# arms recalls the correct current value and the others do not. Values are fixed so the win pattern
-# holds for every seed; the seed only offsets keys and salts the pseudo-random null targets.
-# ---------------------------------------------------------------------------
 
-# Fixed value labels. action_of(0)=0, action_of(1)=1, action_of(2)=2, action_of(3)=3.
 _A = 1
 _B = 2
 _C = 3
 _W = 2
 _DEFAULT = 0
-# Prediction-only labels: _PA and _PB share an action bucket but differ in value.
 _PA = 1
 _PB = 1 + N_ACTIONS
 _PDEFAULT = 1
 
 
 def _revision_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
-    """Late genuine revision. Organized and flat recall the new value; replay and stale do not."""
 
     ops = [
         MemoryOp(step=0, key=key, value=_A, reliable=True, retract=False),
@@ -165,7 +127,6 @@ def _revision_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
 
 
 def _provenance_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
-    """Late unreliable noise. Organized, replay, and stale keep the trusted value; flat is fooled."""
 
     ops = [
         MemoryOp(step=0, key=key, value=_A, reliable=True, retract=False),
@@ -179,7 +140,6 @@ def _provenance_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
 
 
 def _deletion_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
-    """A retraction. Organized and no-memory fall back to the default; the rest keep a dead value."""
 
     ops = [
         MemoryOp(step=0, key=key, value=_A, reliable=True, retract=False),
@@ -192,7 +152,6 @@ def _deletion_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
 
 
 def _organized_only_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
-    """Revision plus provenance so only the fully organized memory recalls the current value."""
 
     ops = [
         MemoryOp(step=0, key=key, value=_A, reliable=True, retract=False),
@@ -207,7 +166,6 @@ def _organized_only_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
 
 
 def _misleading_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
-    """Misleading memory. Every arm that trusts memory picks a worse action than no-memory does."""
 
     ops = [
         MemoryOp(step=0, key=key, value=_W, reliable=True, retract=False),
@@ -220,7 +178,6 @@ def _misleading_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
 
 
 def _prediction_only_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
-    """A revision whose old and new values share an action bucket: better recall, same decision."""
 
     ops = [
         MemoryOp(step=0, key=key, value=_PA, reliable=True, retract=False),
@@ -235,7 +192,6 @@ def _prediction_only_scenario(key: int) -> tuple[list[MemoryOp], DecisionQuery]:
 
 
 def _structureless_scenario(seed: int, key: int) -> tuple[list[MemoryOp], DecisionQuery]:
-    """No reusable structure: memory only echoes the default, so every arm ties at the same score."""
 
     optimal = int(canonical_sha256({"seed": seed, "key": key})[:8], 16) % N_ACTIONS
     ops = [MemoryOp(step=0, key=key, value=_PDEFAULT, reliable=True, retract=False)]
@@ -276,10 +232,6 @@ def _key_base(seed: int) -> int:
 
 @dataclass(frozen=True, slots=True)
 class MemoryOrganizationBed:
-    """A deterministic memory-organization bed with a null and a favorable regime.
-
-    Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-    """
 
     structure: str = STRUCTURE_REUSABLE
     mechanism_id: str = MECHANISM_ID
@@ -294,12 +246,10 @@ class MemoryOrganizationBed:
         return FUTURE_DECISION_CONTROLS
 
     def matched_cost(self) -> MatchedBudget:
-        """A non-vacuous matched retrieval budget every arm is held to before comparison."""
 
         return MatchedBudget(params=256, flops=4096, wall_ns=1024, seeds=8)
 
     def null_regime(self, seed: int) -> DecisionStream:
-        """No reusable structure across decisions, so an organized memory can buy nothing here."""
 
         _require_seed(seed)
         base = _key_base(seed)
@@ -307,7 +257,6 @@ class MemoryOrganizationBed:
         return _assemble(REGIME_NULL, STRUCTURE_ABSENT, seed, scenarios)
 
     def favorable_regime(self, seed: int) -> DecisionStream:
-        """Reusable structure across future decisions, selected by this bed's structure mode."""
 
         _require_seed(seed)
         base = _key_base(seed)
@@ -326,24 +275,20 @@ class MemoryOrganizationBed:
 
 
 def favorable_bed() -> MemoryOrganizationBed:
-    """The default bed whose favorable regime carries genuine reusable structure."""
 
     return MemoryOrganizationBed(structure=STRUCTURE_REUSABLE)
 
 
 def structureless_bed() -> MemoryOrganizationBed:
-    """A bed whose favorable regime is stripped of reusable structure, so no arm can win."""
 
     return MemoryOrganizationBed(structure=STRUCTURE_ABSENT)
 
 
 def prediction_only_bed() -> MemoryOrganizationBed:
-    """A bed whose favorable regime improves recall accuracy but changes no future decision."""
 
     return MemoryOrganizationBed(structure=STRUCTURE_PREDICTION_ONLY)
 
 
 def harmful_bed() -> MemoryOrganizationBed:
-    """A bed whose favorable regime injects misleading memory that harms future decisions."""
 
     return MemoryOrganizationBed(structure=STRUCTURE_HARMFUL)

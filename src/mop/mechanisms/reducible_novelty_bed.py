@@ -1,23 +1,3 @@
-"""Deterministic source-panel bed for the reducible novelty mechanism (lane reducible_novelty).
-
-This module is runnable machinery, not a scaffold and not evidence. It builds the two source-panel
-regimes a reducible-novelty curiosity mechanism must be measured on:
-
-- NULL regime: every source is irreducible seeded noise by construction. Probing a source never
-  reduces its error, so total learning progress is zero for EVERY allocation policy, and no policy
-  can strictly beat uniform_allocation on that axis. The irreducible noise trap holds by
-  construction: a joint win is impossible on this panel.
-- FAVORABLE regime: a mixed panel. Even-indexed sources carry learnable seeded structure (a positive
-  reducible signal that decays under probing); odd-indexed sources are pure noise whose raw novelty
-  is deliberately LOUDER than any reducible source. Targeting predicted learning progress can, in
-  principle, win both axes; chasing raw novelty parks the budget on the loud noise.
-
-The regimes are mechanics only: seeded, byte-reproducible float panels with no capability claim and
-no natural data. The bed owns the source geometry; the allocators live in the impl module and the
-measurement and verdict live in the runner module.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -32,23 +12,12 @@ MECHANISM_ID = "reducible_novelty"
 BED_SCHEMA = "mop-reducible-novelty-bed/v1"
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
-# Geometry of the source panel. Even indices are the reducible slots in the favorable regime; odd
-# indices are always irreducible noise. In the null regime every slot is irreducible.
 SOURCE_COUNT = 8
 REDUCIBLE_INDICES: tuple[int, ...] = (0, 2, 4, 6)
 
-# The fixed probe budget every allocation policy must spend exactly, and the per-source pilot spend
-# the mechanism uses to estimate learning progress before committing the remainder.
 PROBE_BUDGET = 40.0
 PILOT_PROBES_PER_SOURCE = 1.0
 
-# Seeded parameter bands. They are chosen so the strict joint win in the favorable regime holds BY
-# CONSTRUCTION for every nonnegative seed (the impl module carries the margin arithmetic):
-# - reducible signal in [1.0, 1.2) and decay in [0.55, 0.65), so a pilot probe always observes a
-#   strictly positive progress gain of at least 0.35;
-# - reducible noise floor in [0.10, 0.15), so reducible raw novelty stays at or below 1.35;
-# - irreducible noise floor in [2.0, 2.5), so irreducible raw novelty stays at or above 2.0 and the
-#   novelty chaser is always pulled toward the unlearnable sources.
 REDUCIBLE_SIGNAL_BASE = 1.0
 REDUCIBLE_SIGNAL_SPAN = 0.2
 REDUCIBLE_DECAY_BASE = 0.55
@@ -67,11 +36,10 @@ Values = tuple[float, ...]
 
 
 class BedRefusal(ValueError):
-    """Raised when a bed regime request is malformed or a declaration is widened."""
+    pass
 
 
 def _unit(seed: int, label: str) -> float:
-    """A deterministic value in [0, 1) from a seeded digest; no wall clock, no rng."""
 
     if seed < 0:
         raise BedRefusal("bed seed must be nonnegative")
@@ -81,13 +49,6 @@ def _unit(seed: int, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class SourcePanel:
-    """One regime rendered as concrete seeded source parameters.
-
-    ``signals`` are the reducible components (zero means the source is pure irreducible noise);
-    ``decays`` are the per-probe residual factors of the reducible component; ``noise_floors`` are
-    the irreducible error levels. Raw novelty of a source is noise_floor + signal. Claim scope:
-    deterministic programmatic mechanics only.
-    """
 
     regime: str
     seed: int
@@ -129,7 +90,6 @@ class SourcePanel:
 
     @property
     def novelties(self) -> Values:
-        """Raw novelty per source: the loud irreducible floor plus any reducible signal."""
 
         return tuple(
             self.noise_floors[index] + self.signals[index] for index in range(self.source_count)
@@ -137,7 +97,6 @@ class SourcePanel:
 
     @property
     def reducible_sources(self) -> tuple[int, ...]:
-        """The indices whose error a probe can actually reduce (strictly positive signal)."""
 
         return tuple(index for index in range(self.source_count) if self.signals[index] > 0.0)
 
@@ -160,10 +119,6 @@ class SourcePanel:
 
 @dataclass(frozen=True, slots=True)
 class ReducibleNoveltyBed:
-    """The concrete reducible novelty bed. mechanism_id matches the scaffold and the runner.
-
-    Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-    """
 
     mechanism_id: str = MECHANISM_ID
     schema: str = BED_SCHEMA
@@ -178,19 +133,16 @@ class ReducibleNoveltyBed:
             raise BedRefusal("bed claim scope cannot be widened")
 
     def controls(self) -> tuple[str, ...]:
-        """The declared control family: uniform, random, novelty chaser, static prior."""
 
         return REQUIRED_CONTROLS
 
     def matched_cost(self) -> MatchedBudget:
-        """A non-vacuous matched full-system budget every arm is held to. Positive on every axis."""
 
         return MatchedBudget(
             params=SOURCE_COUNT * SOURCE_COUNT, flops=1_048_576, wall_ns=1_000_000, seeds=8
         )
 
     def null_regime(self, seed: int) -> SourcePanel:
-        """A panel of pure irreducible noise: no probe reduces any error; the trap holds."""
 
         signals = tuple(0.0 for _ in range(SOURCE_COUNT))
         decays = tuple(IRREDUCIBLE_DECAY for _ in range(SOURCE_COUNT))
@@ -203,7 +155,6 @@ class ReducibleNoveltyBed:
         )
 
     def favorable_regime(self, seed: int) -> SourcePanel:
-        """A mixed panel: quiet learnable sources next to louder pure-noise sources."""
 
         signals: list[float] = []
         decays: list[float] = []
@@ -236,7 +187,6 @@ class ReducibleNoveltyBed:
         )
 
     def regime(self, name: str, seed: int) -> SourcePanel:
-        """Dispatch to a regime by name. Fails closed on an unknown regime."""
 
         if name == REGIME_NULL:
             return self.null_regime(seed)

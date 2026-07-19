@@ -35,8 +35,6 @@ def _fixture_audio(n_frames: int, seed: int = 7) -> np.ndarray:
     return rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
 
 
-
-
 def test_zero_trained_parameters() -> None:
     assert SuperfluxSpectralFeaturizer().n_params() == 0
 
@@ -45,8 +43,6 @@ def test_parameter_digest_is_stable_and_distinct_from_the_base_front_end() -> No
     f = SuperfluxSpectralFeaturizer()
     assert f.parameter_digest() == SuperfluxSpectralFeaturizer().parameter_digest()
     assert f.parameter_digest() != FrozenFeaturizer().parameter_digest()
-
-
 
 
 def test_deterministic_feature_bytes_across_runs_and_instances() -> None:
@@ -76,8 +72,6 @@ def test_flux_responds_to_a_planted_onset() -> None:
     assert per_frame_l1[2] > per_frame_l1[3]
 
 
-
-
 def test_output_is_256_dim_and_feeds_the_unchanged_gate() -> None:
     features = SuperfluxSpectralFeaturizer().featurize(_fixture_audio(6))
     assert features.shape == (6, D_FEAT)
@@ -96,8 +90,6 @@ def test_rejects_bad_audio_shape() -> None:
         f.featurize(np.zeros(SAMPLES_PER_FRAME))
     with pytest.raises(ValueError):
         f.featurize(np.zeros((N_CHANNELS, SAMPLES_PER_FRAME + 1)))
-
-
 
 
 def test_flops_per_frame_matches_the_documented_analytic_ledger() -> None:
@@ -131,8 +123,6 @@ def test_flops_for_frames_rejects_bad_counts() -> None:
         f.flops_for_frames(-1)
     with pytest.raises(ValueError):
         f.flops_for_frames(True)
-
-
 
 
 def test_sealed_prereg_carries_a_reproducible_seal() -> None:

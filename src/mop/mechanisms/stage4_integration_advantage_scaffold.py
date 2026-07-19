@@ -1,27 +1,3 @@
-"""Scaffold spine for Stage 4 of the Form Substrate mechanism ladder: integrated architecture advantage.
-
-Stage 4 asks a single, sharp question: does composing several already confirmed Stage-3 mechanisms into one
-integrated architecture buy a JOINT advantage that none of them, and no static composition of them, can reach
-at matched compute. This module raises the scaffolding axis only. It supplies machine-checkable contracts that
-ENCODE the bar such an advantage must clear, plus a fail-closed entry gate. It runs no model, loads no
-weights, touches no network, and asserts no capability.
-
-The load-bearing precondition is composition order: an integrated advantage may not even be measured until
-every component mechanism has been INDEPENDENTLY CONFIRMED at Stage 3, each carrying a promotion-gate pass
-digest. The Stage-3 modules are never imported here; a confirmation is referenced only through a receipt
-dataclass carrying a schema and content digest, so this scaffold has no capability-bearing import surface.
-
-The named prior null this stage must reject is fixed and duplicated as a constant: no joint advantage exists
-beyond the best single confirmed mechanism or a static (non-integrated) composition of the confirmed
-mechanisms. Every joint-advantage contract refuses to validate unless it names exactly that null and is
-measured at matched compute against the strong baseline set.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or natural-data
-claim. A green contract here means the declarations are complete and self-consistent, never that any
-integrated architecture carries a demonstrated advantage.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -33,23 +9,15 @@ from typing import Any
 from ..substrate.events import canonical_sha256
 
 STAGE4_SCHEMA = "mop-stage4-integration-advantage/v1"
-# The expected schema of an external Stage-3 promotion receipt. Referenced, never imported, so this scaffold
-# depends on no Stage-3 capability code; only on the shape of a confirmation record.
 STAGE3_RECEIPT_SCHEMA = "mop-stage3-promotion-receipt/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
-# The named prior null. An integrated architecture advantage does not exist beyond the best single confirmed
-# mechanism or a static composition of the confirmed mechanisms. Stage 4 exists only to reject this null.
 PRIOR_NULL = "no-joint-advantage-beyond-best-single-or-static-composition"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-# The strong baseline set a joint advantage must beat, in canonical order. Membership and order are
-# load-bearing so the completeness check can detect a baseline family being dropped or reordered.
 STRONG_BASELINES: tuple[str, ...] = (
     "scaled-monolith",
     "tuned-ensemble",
@@ -57,24 +25,19 @@ STRONG_BASELINES: tuple[str, ...] = (
     "static-composition",
 )
 
-# The ablation ladder arms, in canonical order. "each-mechanism-alone" expands to one arm per component; the
-# other two are single arms.
 REQUIRED_ABLATION_ARMS: tuple[str, ...] = (
     "each-mechanism-alone",
     "best-single",
     "static-composition",
 )
 
-# The minimum number of independently confirmed Stage-3 mechanisms required before an integration
-# battery may run.
 MIN_CONFIRMED_MECHANISMS = 2
 
-# The minimum independent replications a Stage-3 confirmation must carry to count as independently confirmed.
 MIN_INDEPENDENT_REPLICATIONS = 2
 
 
 class Stage4Refusal(ValueError):
-    """Raised whenever a Stage 4 declaration is missing, malformed, or outside its declared scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -92,22 +55,10 @@ def _require_positive(value: int, label: str) -> None:
         raise Stage4Refusal(f"{label} must be positive (non-vacuous)")
 
 
-# ---------------------------------------------------------------------------
-# Section A. Stage-3 confirmation receipt. Referenced, never imported.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class Stage3ConfirmationReceipt:
-    """An independently confirmed Stage-3 mechanism, referenced by schema and digest, never imported.
-
-    The receipt carries the promotion-gate pass digest of the confirming Stage-3 run and a self-recomputable
-    content digest for tamper detection. A receipt that does not declare confirmation, or that carries fewer
-    than the minimum independent replications, fails closed at construction.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. Holding a receipt asserts
-    nothing beyond the referenced Stage-3 module having recorded a promotion-gate pass.
-    """
 
     mechanism_id: str
     promotion_gate_digest: str
@@ -160,7 +111,6 @@ def build_stage3_receipt(
     promotion_gate_digest: str,
     independent_replications: int = MIN_INDEPENDENT_REPLICATIONS,
 ) -> Stage3ConfirmationReceipt:
-    """Deterministically build a confirmed Stage-3 receipt with a self-consistent content digest."""
 
     _require_id(mechanism_id, "build_stage3_receipt.mechanism_id")
     _require_sha256(promotion_gate_digest, "build_stage3_receipt.promotion_gate_digest")
@@ -181,7 +131,6 @@ def build_stage3_receipt(
 
 
 def distinct_confirmed_mechanisms(receipts: Sequence[Stage3ConfirmationReceipt]) -> tuple[str, ...]:
-    """Return the sorted distinct mechanism ids across confirmed receipts; fail closed on a duplicate id."""
 
     ids = [r.mechanism_id for r in receipts if r.confirmed]
     if len(set(ids)) != len(ids):
@@ -189,14 +138,10 @@ def distinct_confirmed_mechanisms(receipts: Sequence[Stage3ConfirmationReceipt])
     return tuple(sorted(ids))
 
 
-# ---------------------------------------------------------------------------
-# Section B. Matched budget and matched-compute joint-advantage contract.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-    """The full-system budget an arm is held to. Every axis must be positive so the budget is non-vacuous."""
 
     params: int
     flops: int
@@ -210,7 +155,6 @@ class MatchedBudget:
         _require_positive(self.wall_clock_ms, "MatchedBudget.wall_clock_ms")
 
     def compute_axes(self) -> tuple[int, int]:
-        """The two axes that define matched compute: flops and wall-clock time."""
 
         return (self.flops, self.wall_clock_ms)
 
@@ -225,15 +169,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class JointAdvantageContract:
-    """Declares the matched-compute frontier win the integrated architecture must show vs strong baselines.
-
-    The integrated arm and the baseline arm must sit at matched compute (identical flops and wall-clock
-    budget), the strong baseline set must be complete and in canonical order, the declared effect must be
-    strictly positive, and the contract must name exactly the prior null this stage rejects.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. A valid instance is a
-    preregistration of the bar, not a result.
-    """
 
     schema: str
     integrated_budget: MatchedBudget
@@ -285,15 +220,10 @@ class JointAdvantageContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section C. Ablation ladder: each-mechanism-alone, best-single, static-composition.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class AblationArm:
-    """One arm of the ablation ladder. No arm may declare integration; integration is the treatment, not a
-    rung."""
 
     arm: str
     mechanism_ids: tuple[str, ...]
@@ -331,15 +261,6 @@ class AblationArm:
 
 @dataclass(frozen=True, slots=True)
 class AblationLadder:
-    """The complete ablation ladder over the battery's mechanisms; fails closed on any missing rung.
-
-    Every ladder label in ``REQUIRED_ABLATION_ARMS`` must appear. The each-mechanism-alone arms must cover
-    every declared mechanism exactly once, best-single must be a single declared mechanism, and
-    static-composition must compose exactly the full declared mechanism set. This encodes attribution: a
-    joint advantage is only credible once each rung below it has been measured.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     mechanism_ids: tuple[str, ...]
@@ -389,7 +310,6 @@ class AblationLadder:
 
 
 def build_ablation_ladder(mechanism_ids: Sequence[str]) -> AblationLadder:
-    """Deterministically build a complete ablation ladder over the given mechanism ids."""
 
     ordered = tuple(mechanism_ids)
     if len(ordered) < MIN_CONFIRMED_MECHANISMS:
@@ -403,23 +323,10 @@ def build_ablation_ladder(mechanism_ids: Sequence[str]) -> AblationLadder:
     return AblationLadder(schema=STAGE4_SCHEMA, mechanism_ids=ordered, arms=tuple(arms))
 
 
-# ---------------------------------------------------------------------------
-# Section D. Integration battery contract: the composed precondition.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class IntegrationBatteryContract:
-    """Requires at least two independently confirmed Stage-3 receipts before an integrated advantage is
-    measured.
-
-    The receipts, the joint-advantage contract, and the ablation ladder must all agree on one mechanism
-    set. The joint-advantage contract must name the Stage 4 prior null, and the ladder must cover the same
-    mechanisms the receipts confirm. Construction encodes the composition rule: no integrated advantage may
-    be asserted before its component mechanisms are each confirmed.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     receipts: tuple[Stage3ConfirmationReceipt, ...]
@@ -465,23 +372,10 @@ class IntegrationBatteryContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section E. Activation gate: off by default, opens only on enough confirmed receipts.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class Stage4EntryGate:
-    """A fail-closed gate. It is closed by default and only authorizes a battery when enough Stage-3
-    mechanisms are independently confirmed.
-
-    Activation is not earned by construction; the only key that opens the gate is a set of at least
-    ``min_confirmed_mechanisms`` distinct confirmed Stage-3 receipts, each carrying a promotion-gate pass
-    digest. ``authorize`` with too few receipts raises ``Stage4Refusal``.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so that
-    Stage 4 code can never quietly assert an integrated advantage before its components are confirmed.
-    """
 
     min_confirmed_mechanisms: int = MIN_CONFIRMED_MECHANISMS
     claim_scope: str = CLAIM_SCOPE
@@ -495,8 +389,6 @@ class Stage4EntryGate:
             raise Stage4Refusal("Stage 4 entry gate claim scope cannot be widened")
 
     def authorize(self, receipts: Sequence[Stage3ConfirmationReceipt]) -> str:
-        """Open the gate only when enough distinct confirmed receipts are supplied; return an activation
-        digest."""
 
         if not receipts:
             raise Stage4Refusal("Stage 4 entry gate is closed: no confirmed Stage-3 receipts were supplied")
@@ -530,22 +422,16 @@ class Stage4EntryGate:
 
 
 def authorize_battery(gate: Stage4EntryGate, contract: IntegrationBatteryContract) -> str:
-    """Run the entry gate against a battery's receipts and return the activation digest; fail closed
-    otherwise."""
 
     return gate.authorize(contract.receipts)
 
 
-# ---------------------------------------------------------------------------
 # Coverage record.
-# ---------------------------------------------------------------------------
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 
 
 def coverage() -> dict[str, tuple[str, ...]]:
-    """Static record mapping this epoch's Stage 4 sub-questions to what the scaffold encodes (readiness
-    only)."""
 
     return {
         "S4.1 component-confirmation-precondition": (

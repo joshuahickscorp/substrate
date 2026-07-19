@@ -1,18 +1,3 @@
-"""Series Y: the shell as a dynamical system. Eight cpu-now experiments that instrument the trainable
-shell with dynamical-systems readouts: fixed-point convergence of the IterativeRefiner (Y1), basin
-stability under input perturbation (Y2), seed consistency of fixed points (Y3), a homeostatic PI
-learning-rate loop vs a tuned schedule (Y5), free-energy-vs-learning-progress on the noisy-TV budget
-(Y6), a controllability system-identification gate before any latent-planning claim (Y7), recurrent
-BIBS stability of a stateful shell (Y8), and the verifier as a contraction operator (Y9).
-
-Every run() declares an explicit NULL and returns "null_supported": bool. Each wires a standing control:
-matched-compute (Y1, Y8, Y9 via diagnostics.compute), frozen-random substrate (Y3 via
-frozen_random_projection), a tuned baseline (Y5), an action-shuffle / marginal floor (Y7), or the
-noisy-TV guard (Y5, Y6). Honest nulls only; never tuned toward a positive. Pooled latents discard
-within-frame structure, so these are precursor / probe-gate measurements on cached pooled latents.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -38,9 +23,6 @@ from ..shell.refine import IterativeRefiner, Verifier
 from .base import Experiment, _mean
 
 
-# --------------------------------------------------------------------------------------------------
-# small shared helpers
-# --------------------------------------------------------------------------------------------------
 def _make_stream(e, s: int, forward_dynamics: bool = False):
     from ..substrate.datasets import make_task_stream
 
@@ -64,9 +46,6 @@ def _train_refiner(refiner: nn.Module, head: nn.Module, x, y, epochs: int, lr: f
         opt.step()
 
 
-# ==================================================================================================
-# Y1: fixed-point existence and convergence of the IterativeRefiner trajectory
-# ==================================================================================================
 class Y1(Experiment):
     id = "y1_fixed_point_convergence"
     metric = ("converged_fraction", "contraction_factor", "head_loss_at_fixed_point_vs_trained_n")
@@ -99,7 +78,6 @@ class Y1(Experiment):
             head = nn.Linear(dim, nc)
             _train_refiner(refiner, head, xtr, ytr, int(e.epochs), float(e.lr))
 
-            # per-sample convergence: unroll each row to K and check final update norm < eps
             converged = 0
             with torch.no_grad():
                 for i in range(xte.shape[0]):
@@ -110,7 +88,6 @@ class Y1(Experiment):
                 rep = convergence_report(refiner, xte, steps=big_k)
                 cfactors.append(rep["contraction_factor"])
 
-                # head loss at trained N vs at the fixed point (unrolled K)
                 z_n, _ = refiner(xte, max_steps=trained_n)
                 z_fp, _ = refiner.unroll(xte, big_k)
                 loss_n.append(float(F.cross_entropy(head(z_n), yte)))
@@ -120,7 +97,6 @@ class Y1(Experiment):
         frac = _mean(conv_frac)
         ln, lfp = _mean(loss_n), _mean(loss_fp)
         loss_improves = (ln - lfp) > margin  # does going to the fixed point lower head loss
-        # null: no contraction (cf >= 0 OR few converge) OR the fixed point does not beat trained N
         null = bool((cf >= 0.0 or frac < 0.5) or not loss_improves)
         return {
             "converged_fraction": round(frac, 4),
@@ -138,9 +114,6 @@ class Y1(Experiment):
         }
 
 
-# ==================================================================================================
-# Y2: basin stability of refinement under input perturbation (Lyapunov-lite)
-# ==================================================================================================
 class Y2(Experiment):
     id = "y2_basin_stability"
     metric = ("sensitivity_coefficient", "contraction_ratio", "perturbed_acc_vs_raw")
@@ -180,7 +153,6 @@ class Y2(Experiment):
                 ro.step()
 
             with torch.no_grad():
-                # sensitivity slope: mean output displacement at fixed point vs input epsilon
                 z_clean, _ = refiner.unroll(xte, unroll)
                 disp, scale = [], float(xte.norm(dim=-1).mean())
                 g = torch.Generator().manual_seed(s + 7)
@@ -189,7 +161,6 @@ class Y2(Experiment):
                     u = u / u.norm(dim=-1, keepdim=True).clamp(min=1e-8)
                     z_p, _ = refiner.unroll(xte + ep * scale * u, unroll)
                     disp.append(float((z_p - z_clean).norm(dim=-1).mean()))
-                # slope of output displacement vs (epsilon*scale)
                 xs = [ep * scale for ep in eps_grid]
                 mx, my = _mean(xs), _mean(disp)
                 num = sum((a - mx) * (b - my) for a, b in zip(xs, disp, strict=True))
@@ -199,7 +170,6 @@ class Y2(Experiment):
                 bs = basin_stability(refiner, xte, eps=float(e.basin_eps), steps=unroll, seed=s)
                 ratio_list.append(bs["contraction_ratio"])
 
-                # perturbed-input accuracy: refiner-head vs raw-head on a fixed perturbation
                 u = torch.randn(xte.shape, generator=g)
                 u = u / u.norm(dim=-1, keepdim=True).clamp(min=1e-8)
                 xp = xte + float(e.basin_eps) * scale * u
@@ -212,7 +182,6 @@ class Y2(Experiment):
         ra, rw = _mean(ref_acc), _mean(raw_acc)
         stable = sens < 1.0 and ratio < 1.0
         helps = (ra - rw) > float(e.acc_margin)
-        # null: not a contracting basin (sens/ratio >= 1) OR perturbed acc no better than raw head
         null = bool((not stable) or (not helps))
         return {
             "sensitivity_coefficient": round(sens, 4),
@@ -228,9 +197,6 @@ class Y2(Experiment):
         }
 
 
-# ==================================================================================================
-# Y3: seed consistency of fixed points (do refiners from different seeds find the same attractor)
-# ==================================================================================================
 class Y3(Experiment):
     id = "y3_seed_consistent_fixed_points"
     metric = ("cross_seed_fixed_point_cka", "decision_agreement", "spread_ratio_vs_frozen_random")
@@ -269,27 +235,22 @@ class Y3(Experiment):
                 fixed_points.append(z_fp.clone())
                 decisions.append(head(z_fp).argmax(-1))
 
-        # cross-seed CKA of the converged fixed points (rotation invariant, respects D2)
         fp_cka = cross_seed_cka(fixed_points)["mean_cka"]
-        # frozen-random floor: CKA across random projections of the same inputs
         rand_reps = [frozen_random_projection(xte, seed=s) for s in range(k_seeds)]
         floor_cka = cross_seed_cka(rand_reps)["mean_cka"]
 
-        # decision agreement: mean pairwise fraction of identical argmax decisions
         agrees = []
         for i in range(k_seeds):
             for j in range(i + 1, k_seeds):
                 agrees.append(float((decisions[i] == decisions[j]).float().mean()))
         agree = _mean(agrees) if agrees else 1.0
 
-        # spread ratio: cross-seed fixed-point spread vs within-class input spread
         fp_stack = torch.stack(fixed_points, dim=0)  # [K, N, D]
         fp_spread = float((fp_stack - fp_stack.mean(0, keepdim=True)).norm(dim=-1).mean())
         class_spread = float((xte - xte.mean(0, keepdim=True)).norm(dim=-1).mean())
         spread_ratio = fp_spread / max(1e-9, class_spread)
 
         consistent = (fp_cka > floor_cka + float(e.cka_margin)) and (agree > float(e.agree_floor))
-        # null: cross-seed CKA at/below the frozen-random floor (seed-dependent attractor)
         null = bool(not consistent)
         return {
             "cross_seed_fixed_point_cka": round(fp_cka, 4),
@@ -303,9 +264,6 @@ class Y3(Experiment):
         }
 
 
-# ==================================================================================================
-# Y5: homeostatic learning-rate control loop vs scheduled plasticity
-# ==================================================================================================
 class Y5(Experiment):
     id = "y5_homeostatic_lr_loop"
     metric = ("frontier_auc_pi_minus_tuned", "lr_overshoot", "gate_on_noisy_tv")
@@ -319,8 +277,6 @@ class Y5(Experiment):
     tier = "cpu-now"
 
     def _run_schedule(self, x, y, dim, nc, epochs, base_lr, kind, kp, ki, setpoint):
-        """Train a linear head over a class-incremental stream; return per-epoch held-out error and the
-        LR trajectory. kind in {constant, cosine, pi}. pi regulates LR to a prediction-error setpoint."""
         cut = int(x.shape[0] * 0.7)
         xtr, ytr, xte, yte = x[:cut], y[:cut], x[cut:], y[cut:]
         head = nn.Linear(dim, nc)
@@ -374,14 +330,12 @@ class Y5(Experiment):
             peak = max(lrs_pi) if lrs_pi else base_lr
             overshoots.append((peak - base_lr) / max(1e-9, base_lr))
 
-        # noisy-TV guard: does the homeostat raise LR on irreducible aleatoric error
         ntv = noisy_tv_diagnostic(dim=dim, device=device, steps=int(e.ntv_steps), seed=int(seeds[0]))
         chases_noise = bool(not ntv["learning_progress_separates"])
 
         pim, cm, com = _mean(pi_auc), _mean(const_auc), _mean(cos_auc)
         best_tuned = max(cm, com)
         gain = pim - best_tuned
-        # null: PI ties the best tuned open-loop within margin, OR it chases noisy-TV
         null = bool(gain <= float(e.margin) or chases_noise)
         return {
             "frontier_auc_pi": round(pim, 4),
@@ -397,9 +351,6 @@ class Y5(Experiment):
         }
 
 
-# ==================================================================================================
-# Y6: free-energy (active-inference) selection vs learning-progress, decomposed
-# ==================================================================================================
 class Y6(Experiment):
     id = "y6_free_energy_vs_lp"
     metric = ("noisy_tv_rejection_efe", "efe_lp_rank_correlation", "epistemic_minus_lp_coverage")
@@ -420,18 +371,14 @@ class Y6(Experiment):
         rank_corrs, efe_rej, lp_rej, cover_gain = [], [], [], []
         for s in seeds:
             # the noisy-TV diagnostic gives, per region, raw error (pragmatic), disagreement
-            # (epistemic), and learning progress. We build the EFE-epistemic = disagreement and
-            # compare its region ranking to the learning-progress ranking on the same regions.
             ntv = noisy_tv_diagnostic(dim=dim, device=device, steps=int(e.ntv_steps), seed=s)
             dis_l = ntv["disagreement"]["learnable"]
             dis_n = ntv["disagreement"]["noise"]
             lp_l = ntv["learning_progress"]["learnable"]
             lp_n = ntv["learning_progress"]["noise"]
 
-            # EFE-epistemic (disagreement) rejects noise if it scores learnable above noise
             efe_rej.append(1.0 if dis_l > dis_n else 0.0)
             lp_rej.append(1.0 if lp_l > lp_n else 0.0)
-            # two-point rank agreement between epistemic and LP orderings (1 if same sign, else -1)
             same = (dis_l - dis_n) * (lp_l - lp_n)
             rank_corrs.append(1.0 if same > 0 else (-1.0 if same < 0 else 0.0))
             # learnable-coverage proxy: epistemic mass on learnable vs total (vs LP coverage)
@@ -444,7 +391,6 @@ class Y6(Experiment):
         cov = _mean(cover_gain)
         relabel = corr > float(e.corr_threshold)  # epistemic == LP relabeled
         beats = (efe_r > lp_r + 1e-6) or (cov > float(e.cover_margin))
-        # null: EFE does not beat LP AND epistemic is rank-correlated with LP near 1 (relabel)
         null = bool((not beats) and relabel)
         return {
             "noisy_tv_rejection_efe": round(efe_r, 4),
@@ -458,9 +404,6 @@ class Y6(Experiment):
         }
 
 
-# ==================================================================================================
-# Y7: linear-probe gate for control-theoretic state (is the latent a controllable system)
-# ==================================================================================================
 class Y7(Experiment):
     id = "y7_controllability_sysid_gate"
     metric = ("one_step_rollout_r2", "controllability_gramian_rank", "action_shuffle_delta")
@@ -483,9 +426,6 @@ class Y7(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # action-conditioned synthetic control family: z' = A z + B a + small noise. This is the
-            # forward_dynamics analog with an explicit action channel (controls.py style); it is a TOY
-            # controllable system so the gate measures whether sysid recovers it from pooled latents.
             A = torch.randn(dim, dim, generator=g) * (1.0 / dim**0.5)
             B = torch.randn(dim, adim, generator=g) * (1.0 / adim**0.5)
             Z = torch.randn(n, dim, generator=g)
@@ -502,7 +442,6 @@ class Y7(Experiment):
         rank = _mean(ranks)
         delta = _mean(deltas)
         lic = _mean(licensed)
-        # null: actions do not move the state (small action-delta) OR rollout R2 below the floor
         not_controllable = (delta <= float(e.action_margin)) or (os_r2 <= float(e.r2_floor))
         null = bool(not_controllable)
         return {
@@ -518,12 +457,7 @@ class Y7(Experiment):
         }
 
 
-# ==================================================================================================
-# Y8: recurrent state stability (does a stateful shell drift or settle over a stream)
-# ==================================================================================================
 class _LeakyRecurrent(nn.Module):
-    """A leaky recurrent predictor over the latent stream: h_{t+1} = (1-alpha) h_t + alpha f(h_t, z_t).
-    The readout uses [z_t, h_t]. The stateless control reads z_t alone at matched parameter budget."""
 
     def __init__(self, dim: int, hidden: int, nc: int, alpha: float, gain: float):
         super().__init__()
@@ -561,7 +495,6 @@ class Y8(Experiment):
         bounded, eranks, transfers = [], [], []
         for s in seeds:
             seed_everything(s)
-            # domain-incremental stream so order carries usable cross-task state
             from ..substrate.datasets import make_task_stream
 
             tasks = make_task_stream(
@@ -589,7 +522,6 @@ class Y8(Experiment):
                 opt.step()
                 h = h_new.detach()
                 norms.append(float(h.norm(dim=-1).mean()))
-            # BIBS: bounded if the late state norm did not blow up vs the early norm
             early, late = norms[0] if norms else 1.0, norms[-1] if norms else 1.0
             is_bounded = late < float(e.divergence_factor) * max(early, 1e-6)
             bounded.append(1.0 if is_bounded else 0.0)
@@ -599,7 +531,6 @@ class Y8(Experiment):
                 logits_te, _ = rec(xte, torch.zeros(xte.shape[0], dim))
                 stateful_acc = float((logits_te.argmax(-1) == yte).float().mean())
 
-            # stateless control at matched compute: same width head reading [z, z] (no recurrence)
             seed_everything(s)
             sl_head = nn.Sequential(mlp(dim + dim, dim, hidden, depth=1, ln=True), nn.Linear(dim, nc))
             so = torch.optim.Adam(sl_head.parameters(), lr=float(e.lr))
@@ -613,8 +544,6 @@ class Y8(Experiment):
                 )
             transfers.append(stateful_acc - stateless_acc)
 
-        # matched-compute check: stateful step and stateless head both apply one (2*dim->hidden->dim)
-        # block per pass, so forward FLOPs match within tolerance
         flops_rec = mlp_flops([2 * dim, hidden, dim])
         flops_sl = mlp_flops([2 * dim, hidden, dim])
         compute = matched_within(flops_rec, flops_sl)
@@ -624,7 +553,6 @@ class Y8(Experiment):
         tr = _mean(transfers)
         all_bounded = bnd >= 0.5
         helps = tr > float(e.transfer_margin)
-        # null: state diverges/saturates OR (when stable) no transfer gain at matched compute
         null = bool((not all_bounded) or (not helps))
         return {
             "hidden_state_bounded": bool(all_bounded),
@@ -639,9 +567,6 @@ class Y8(Experiment):
         }
 
 
-# ==================================================================================================
-# Y9: verifier as a contraction operator (EX18 self-correction as fixed-point iteration)
-# ==================================================================================================
 class Y9(Experiment):
     id = "y9_verifier_contraction"
     metric = ("monotone_descent_fraction", "self_correction_gain_vs_ex17", "shuffled_verifier_delta")
@@ -673,8 +598,6 @@ class Y9(Experiment):
             refiner = IterativeRefiner(dim, hidden, steps)
             head = nn.Linear(dim, nc)
             verifier = Verifier(dim, hidden=hidden)
-            # train refiner+head, then train the verifier to predict per-sample head NLL (the error
-            # functional V it must drive down). Verifier loss is regression onto current NLL.
             _train_refiner(refiner, head, xtr, ytr, int(e.epochs), float(e.lr))
             vo = torch.optim.Adam(verifier.parameters(), lr=float(e.lr))
             with torch.no_grad():
@@ -692,7 +615,6 @@ class Y9(Experiment):
             with torch.no_grad():
                 z, _ = refiner(xte)
                 vs = [V(z)]
-                # verify-revise: where the verifier flags high error, apply an extra refine step
                 for _ in range(revise_iters):
                     flag = verifier.score(z) > thresh
                     z_ref, _ = refiner(z, max_steps=1)
@@ -700,17 +622,14 @@ class Y9(Experiment):
                     vs.append(V(z))
                 ex18_acc = float((head(z).argmax(-1) == yte).float().mean())
 
-                # monotone-descent fraction across the V trajectory
                 drops = sum(1 for a, b in zip(vs[:-1], vs[1:], strict=True) if b <= a + 1e-6)
                 descent_frac.append(drops / max(1, len(vs) - 1))
 
-                # plain EX17: refine the SAME extra steps unconditionally (compute-matched depth)
                 z17, _ = refiner(xte)
                 z17, _ = refiner(z17, max_steps=revise_iters)
                 ex17_acc = float((head(z17).argmax(-1) == yte).float().mean())
                 gains.append(ex18_acc - ex17_acc)
 
-                # shuffled-verifier control: permute verifier scores (no usable direction)
                 g = torch.Generator().manual_seed(s + 3)
                 zsh, _ = refiner(xte)
                 for _ in range(revise_iters):
@@ -722,7 +641,6 @@ class Y9(Experiment):
                 shuf_acc = float((head(zsh).argmax(-1) == yte).float().mean())
                 shuf_deltas.append(ex18_acc - shuf_acc)
 
-        # matched-compute: EX18 and plain-EX17 both spend (steps + revise_iters) refiner blocks worst case
         flops_ex18 = refiner_flops(dim, hidden, steps + revise_iters)
         flops_ex17 = refiner_flops(dim, hidden, steps + revise_iters)
         compute = matched_within(flops_ex18, flops_ex17)
@@ -733,7 +651,6 @@ class Y9(Experiment):
         monotone = mdf >= float(e.descent_floor)
         beats_ex17 = gain > float(e.margin)
         beats_shuffle = shuf > float(e.margin)
-        # null: V not monotone OR (verify-revise ties EX17 and the shuffled verifier ties it)
         null = bool((not monotone) or (not beats_ex17 and not beats_shuffle))
         return {
             "monotone_descent_fraction": round(mdf, 4),

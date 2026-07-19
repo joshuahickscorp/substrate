@@ -44,8 +44,6 @@ def _separable_voc_problem(n: int = 400, seed: int = 123) -> tuple[np.ndarray, n
     return x, y
 
 
-
-
 def test_param_count_matches_committed_gate() -> None:
     assert DiversityRegGate(seed=0).n_params() == 3193
     assert DiversityRegGate(seed=0).n_params() == param_count()
@@ -68,8 +66,6 @@ def test_refusal_is_a_gate_refusal() -> None:
     assert issubclass(DiversityRegRefusal, GateRefusal)
 
 
-
-
 def test_flop_cost_functions_match_committed_gate() -> None:
     gate = DiversityRegGate(seed=0)
     assert gate.flops_per_inference() == 6385
@@ -88,8 +84,6 @@ def test_work_vectors_charge_the_right_buckets() -> None:
     assert train_work.total_work == 8_274_960_000
 
 
-
-
 def test_infer_interface_carries_no_label() -> None:
     infer_params = list(inspect.signature(DiversityRegGate.infer).parameters)
     assert infer_params == ["self", "features", "state"]
@@ -101,8 +95,6 @@ def test_no_ground_truth_in_online_state() -> None:
     names = [field.name.lower() for field in fields(OnlineState)]
     for forbidden in _FORBIDDEN_ONLINE:
         assert all(forbidden not in name for name in names), forbidden
-
-
 
 
 def test_init_weights_match_committed_gate() -> None:
@@ -130,8 +122,6 @@ def test_positive_lambda_changes_the_weights() -> None:
     assert baseline.parameter_digest() != regularized.parameter_digest()
 
 
-
-
 def test_paired_seed_weights_are_reproducible() -> None:
     a = DiversityRegGate(seed=0, diversity_lambda=1.5)
     b = DiversityRegGate(seed=0, diversity_lambda=1.5)
@@ -154,8 +144,6 @@ def test_fit_is_deterministic() -> None:
     first.fit(x, y, epochs=20, learning_rate=0.1, ponder_lambda=0.02, segment_lengths=[200, 200])
     second.fit(x, y, epochs=20, learning_rate=0.1, ponder_lambda=0.02, segment_lengths=[200, 200])
     assert first.parameter_digest() == second.parameter_digest()
-
-
 
 
 def test_spacing_kernel_is_normalized_and_decreasing() -> None:
@@ -189,8 +177,6 @@ def test_clip_index_rejects_bad_segment_lengths() -> None:
         _clip_index([5, 5], 12)  # sums to 10, not 12
     with pytest.raises(DiversityRegRefusal):
         _clip_index([0, 12], 12)  # nonpositive segment
-
-
 
 
 def _adjacency_energy_ratio(p: np.ndarray, clip_index: np.ndarray, kernel: np.ndarray) -> float:
@@ -252,8 +238,6 @@ def test_spacing_penalty_is_zero_at_lambda_zero_and_positive_otherwise() -> None
     assert payload["spacing_window"] == DEFAULT_SPACING_WINDOW
 
 
-
-
 def test_construction_rejects_bad_diversity_lambda() -> None:
     with pytest.raises(DiversityRegRefusal):
         DiversityRegGate(diversity_lambda=-1.0)
@@ -286,8 +270,6 @@ def test_fit_rejects_segment_lengths_that_do_not_cover_the_batch() -> None:
         gate.fit(x, y, epochs=2, segment_lengths=[50, 40])  # sums to 90, not 100
 
 
-
-
 def test_predict_proba_matches_infer_and_rejects_bad_shape() -> None:
     gate = DiversityRegGate(seed=2, diversity_lambda=1.0)
     features = np.linspace(-0.5, 0.5, D_FEAT)
@@ -308,8 +290,6 @@ def test_fire_respects_threshold() -> None:
     assert fired == (p_fire >= gate.theta)
     assert gate.fire(features, state, theta=0.0)[0] is True
     assert gate.fire(features, state, theta=1.000001)[0] is False
-
-
 
 
 def test_gate_consumes_featurizer_output_online() -> None:

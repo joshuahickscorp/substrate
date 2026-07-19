@@ -54,8 +54,6 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-
-
 def test_count_track_distinct_tracks_and_tail_silence():
     text = "0,1,1,10,0,100\n1,1,1,10,0,100\n1,2,3,20,0,100\n"
     track = count_track_from_metadata_text(text, n_frames=5)
@@ -138,8 +136,6 @@ def test_shared_marginal_noise_matches_the_legacy_count_bytes():
     assert float(noise.std()) == pytest.approx(1.5)
 
 
-
-
 def test_featurizer_zero_param_and_deterministic():
     fz = FrozenCountFeaturizer()
     assert fz.n_params() == 0
@@ -152,8 +148,6 @@ def test_featurizer_zero_param_and_deterministic():
     assert fz.feature_digest(f1) == fz.feature_digest(f2)
     assert fz.parameter_digest() == FrozenCountFeaturizer().parameter_digest()
     assert FLOPS_PER_FRAME_COUNT == 1_120_700
-
-
 
 
 def test_estimator_zero_param_deterministic_range_and_silence():
@@ -169,8 +163,6 @@ def test_estimator_zero_param_deterministic_range_and_silence():
     assert est.estimate_track(silence).tolist() == [0, 0, 0, 0]
     assert est.flops_for_reestimations(5) == 5 * FLOPS_PER_REESTIMATE
     assert FLOPS_PER_REESTIMATE == 80_000
-
-
 
 
 def test_gate_param_and_state_ceilings():
@@ -210,8 +202,6 @@ def test_voc_targets_fire_near_changes_only():
     assert targets.tolist() == [0, 1, 1, 1, 1, 1]
 
 
-
-
 def test_referee_toy_known_mae():
     gt = [0, 1, 1, 2, 0]
     estimator = [0, 1, 2, 2, 0]
@@ -237,8 +227,6 @@ def test_referee_pooling_micro_averages_across_clips():
     score = score_arm([(gt, estimator, reestimates), (gt, estimator, reestimates)])
     assert score.abs_error_sum == 4 and score.n_frames == 10
     assert score.mae == pytest.approx(0.4)
-
-
 
 
 def _flop_model(kind, total_frames, train_frames):
@@ -337,8 +325,6 @@ def test_pareto_minimizes_both_flops_and_mae():
     assert frontier == {"a", "c"}
 
 
-
-
 def test_prereg_sesoi_and_rationale_numbers():
     body = build_count_prereg(
         timestamp=_TIMESTAMP,
@@ -360,8 +346,6 @@ def test_prereg_sesoi_and_rationale_numbers():
     assert body["sign_flip_test_plan"]["two_sided_alpha_reachable"] is False
 
 
-
-
 def test_verifier_imports_no_producer_or_mop_code():
     source = Path(V.__file__).read_text(encoding="utf-8")
     tree = ast.parse(source)
@@ -375,8 +359,6 @@ def test_verifier_imports_no_producer_or_mop_code():
     for name in imported:
         assert not any(name == bad or name.startswith(bad + ".") for bad in forbidden), name
     assert set(n.split(".")[0] for n in imported) <= {"json", "hashlib", "itertools", "dataclasses", "__future__"}
-
-
 
 
 _SMALL_CONFIG = RealCountBedConfig(seeds=(0, 1, 2), target_rates=(0.10, 0.05), noisy_tv_frames=400, max_frames=100)

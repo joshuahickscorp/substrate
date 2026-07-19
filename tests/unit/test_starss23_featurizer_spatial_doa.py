@@ -50,8 +50,6 @@ def _feature_block(seed: int, n_frames: int) -> np.ndarray:
     return SpatialDoaFeaturizer().featurize(audio)
 
 
-
-
 def test_zero_trained_parameters() -> None:
     featurizer = SpatialDoaFeaturizer()
     assert featurizer.n_params() == 0
@@ -62,8 +60,6 @@ def test_parameter_digest_hashes_only_frozen_dsp_constants() -> None:
     assert SpatialDoaFeaturizer().parameter_digest() == SpatialDoaFeaturizer().parameter_digest()
     assert SpatialDoaFeaturizer().parameter_digest() != FrozenFeaturizer().parameter_digest()
     assert SpatialDoaFeaturizer(sample_rate=16000).parameter_digest() != SpatialDoaFeaturizer().parameter_digest()
-
-
 
 
 def test_output_dim_matches_the_gate_contract() -> None:
@@ -99,8 +95,6 @@ def test_direction_cosines_are_unit_vectors_and_diffuseness_is_bounded() -> None
     assert float(diffuseness.max()) <= 1.0
 
 
-
-
 def test_feature_bytes_are_deterministic() -> None:
     rng = np.random.default_rng(11)
     audio = rng.standard_normal((N_CHANNELS, SAMPLES_PER_FRAME * 50))
@@ -126,8 +120,6 @@ def test_white_noise_reads_as_highly_diffuse() -> None:
     assert float(diffuseness.mean()) > 0.6
 
 
-
-
 def test_features_feed_the_unchanged_gate_without_projection() -> None:
     from mop.beds.starss23.gate import CandidateGate, OnlineState
     from mop.science.gating import assemble_causal_inputs, causal_gate_trace
@@ -139,8 +131,6 @@ def test_features_feed_the_unchanged_gate_without_projection() -> None:
     fires, probs = causal_gate_trace(gate, feat, 0.5, OnlineState.initial)
     assert probs.shape == (80,)
     assert isinstance(fires, list)
-
-
 
 
 def test_flops_per_frame_is_analytic_and_linear() -> None:
@@ -175,8 +165,6 @@ def test_candidate_lifecycle_stays_under_the_flop_ceiling() -> None:
     lifecycle = candidate.lifecycle_flops(firings)
     assert lifecycle <= FLOP_CEILING == 60_000_000_000
     assert lifecycle > 0
-
-
 
 
 def _synthetic_clip(clip_id: str, room_id: str, seed: int, n_frames: int) -> tuple[Clip, np.ndarray]:
@@ -298,8 +286,6 @@ def test_family_verifier_imports_no_producer_code() -> None:
     assert not relative, f"relative imports would pull producer code: {relative}"
     assert "mop" not in roots, "verifier must not import anything under mop"
     assert not (roots - allowed), f"verifier imported unexpected modules: {roots - allowed}"
-
-
 
 
 def test_all_family_preregistrations_preserve_their_complete_seals() -> None:

@@ -1,32 +1,3 @@
-"""Receipt-level proof that the vectorized construction_search runner equals the scalar runner.
-
-The vectorized runner ``ConstructionSearchVecRunner`` is the frontier speed lever for the
-construction lane at the receipt boundary. It may only ship if, for every seed the wave will ever
-run, the receipt it mints is byte-identical to the sealed scalar ``ConstructionSearchRunner``: the
-same ``RunReceipt.digest()`` (the folded artifact) and the same ``RunReceipt.payload()`` (every
-field, including the verdict, the controls_cleared ordering, the evidence digest, overturns_null, and
-the detail dict). A single differing byte would change the construction lane's evidence class, so this
-proof is the quality guard for routing the wave through the vectorized runner.
-
-The wide sweep covers, on the default bed:
-
-- seeds 0..999 (the dense low-seed floor),
-- the full 256-seed G1-G1 canary band from ``generation1_successor_mechanics_queue``, and
-- the real G1-G1 producer and challenge bands carried through the full-generations fresh-cycle seed
-  math for every cycle 19..32 (``EPOCH_CYCLES``), using the exact old-lane offset
-  ``base + rung*seeds_per_rung + offset + MECHANICS_FRESH_BASE + cycle*MECHANICS_CYCLE_STRIDE`` that
-  ``fresh_mechanics_item`` applies, sampling the first, middle, and last rung and the first, second,
-  middle, and last seed of each rung.
-
-That is more than fifteen hundred distinct seeds, all minting the earned mechanics-ok verdict. Two
-degenerate beds (zero synergy and a punitive per-evaluation cost) add the null-verdict branch with an
-empty controls_cleared receipt, so both mint branches are proven byte-identical. The test counts
-receipt mismatches and fails if any is nonzero, reporting the diverging seed and the exact differing
-receipt field. A separate case measures the vectorized runner's speedup over the scalar runner across
-the whole canary band.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -43,26 +14,17 @@ from mop.studies.generation1_consolidated_final_campaign import (
 from mop.studies.generation1_full_generations_wave import EPOCH_CYCLES
 from mop.studies.generation1_successor_mechanics_queue import CANARY_SEEDS, LANES
 
-# First, middle, and last rung of the 480-rung producer and challenge phases, and the first, second,
-# middle, and last executed seed within each 2048-seed rung. These land on the real executed seeds.
 _RUNG_SAMPLE = (0, 240, 479)
 _OFFSET_SAMPLE = (0, 1, 1024, 2047)
 _SPEEDUP_MIN_SEEDS = 200
 
 
 def _g1g1_lane():
-    """The G1-G1 construction_search lane spec: the authority for the real executed seed bands."""
 
     return next(lane for lane in LANES if lane.lane_id == "G1-G1")
 
 
 def _cycle_shifted_seed(base_start: int, rung: int, offset: int, cycle: int) -> int:
-    """One real executed seed of a G1-G1 band carried into the given fresh cycle.
-
-    Reproduces the old-lane fresh-cycle offset math from ``fresh_mechanics_item`` exactly: the source
-    band seed ``base_start + rung*seeds_per_rung + offset`` shifted by
-    ``MECHANICS_FRESH_BASE + cycle*MECHANICS_CYCLE_STRIDE``.
-    """
 
     lane = _g1g1_lane()
     source_seed = base_start + rung * lane.seeds_per_rung + offset
@@ -70,7 +32,6 @@ def _cycle_shifted_seed(base_start: int, rung: int, offset: int, cycle: int) -> 
 
 
 def _cycle_band_seeds() -> list[int]:
-    """The real G1-G1 producer and challenge seed bands across fresh cycles 19..32."""
 
     lane = _g1g1_lane()
     seeds: list[int] = []
@@ -83,7 +44,6 @@ def _cycle_band_seeds() -> list[int]:
 
 
 def _default_bed_seeds() -> list[int]:
-    """Dense floor, the full real canary band, and the cycle-shifted G1-G1 producer/challenge bands."""
 
     lane = _g1g1_lane()
     seeds: set[int] = set(range(1000))
@@ -93,17 +53,11 @@ def _default_bed_seeds() -> list[int]:
 
 
 def _float_bits(value: float) -> bytes:
-    """Raw IEEE-754 bytes of a float, so any bit difference (including sign of zero) is caught."""
 
     return struct.pack("<d", float(value))
 
 
 def _first_field_diff(scalar_obj, vec_obj, path: str = ""):
-    """First bit-level differing field between two receipt payloads, or None if identical.
-
-    Floats are compared by their raw bytes so a sign-of-zero difference that ``==`` would miss is
-    still reported. Dicts recurse by sorted key; lists recurse by index.
-    """
 
     if isinstance(scalar_obj, dict) and isinstance(vec_obj, dict):
         for key in sorted(set(scalar_obj) | set(vec_obj)):
@@ -129,7 +83,6 @@ def _first_field_diff(scalar_obj, vec_obj, path: str = ""):
 
 
 def _compare_receipts(scalar_runner, vec_runner, bed, seed):
-    """Return (matched, verdict, controls_cleared_len, field_diff) for one scalar vs vectorized seed."""
 
     scalar_receipt = scalar_runner.mint(scalar_runner.run(bed, seed))
     vec_receipt = vec_runner.mint(vec_runner.run(bed, seed))
@@ -142,7 +95,6 @@ def _compare_receipts(scalar_runner, vec_runner, bed, seed):
 
 
 def test_vec_runner_receipts_are_byte_identical_to_scalar_over_wide_sweep():
-    """Every minted receipt (digest and full payload) equals the scalar runner over the wide sweep."""
 
     scalar_runner = ConstructionSearchRunner()
     vec_runner = ConstructionSearchVecRunner()
@@ -151,9 +103,6 @@ def test_vec_runner_receipts_are_byte_identical_to_scalar_over_wide_sweep():
     default_seeds = _default_bed_seeds()
     assert len(default_seeds) >= 1500, f"default-bed sweep must exceed 1500 seeds, got {len(default_seeds)}"
 
-    # Both mint branches: the default bed earns mechanics-ok, the degenerate beds fall to null with an
-    # empty controls_cleared receipt (zero synergy collapses favorable onto null; a punitive
-    # per-evaluation cost sinks the search net of cost).
     degenerate_beds = (
         ("zero_synergy", ConstructionSearchBed(synergy_bonus=0.0)),
         ("punitive_cost", ConstructionSearchBed(per_eval_cost=0.05)),
@@ -197,7 +146,6 @@ def test_vec_runner_receipts_are_byte_identical_to_scalar_over_wide_sweep():
         f"{len(mismatches)} receipt mismatches over {seeds_tested} seeds; "
         f"first diverging (bed, seed, field_path/scalar/vec): {mismatches[0]}"
     )
-    # Both mint branches were actually exercised, not just the earned one.
     assert {"mechanics-ok", "null"} <= verdicts_seen, f"both verdict branches must run: {verdicts_seen}"
     assert {0, 3} <= controls_lengths_seen, (
         f"both empty and fully cleared controls must run: {controls_lengths_seen}"
@@ -205,7 +153,6 @@ def test_vec_runner_receipts_are_byte_identical_to_scalar_over_wide_sweep():
 
 
 def test_vec_runner_matches_scalar_on_real_g1g1_cycle_bands_19_to_32():
-    """The real G1-G1 producer/challenge bands carried through fresh cycles 19..32 are byte-identical."""
 
     scalar_runner = ConstructionSearchRunner()
     vec_runner = ConstructionSearchVecRunner()
@@ -231,7 +178,6 @@ def test_vec_runner_matches_scalar_on_real_g1g1_cycle_bands_19_to_32():
 
 
 def test_vec_runner_is_faster_than_scalar_runner_over_the_canary_band():
-    """The vectorized runner is measurably faster than the scalar runner over the real canary band."""
 
     scalar_runner = ConstructionSearchRunner()
     vec_runner = ConstructionSearchVecRunner()
@@ -240,7 +186,6 @@ def test_vec_runner_is_faster_than_scalar_runner_over_the_canary_band():
     seeds = list(range(lane.canary_start, lane.canary_start + CANARY_SEEDS))
     assert len(seeds) >= _SPEEDUP_MIN_SEEDS, f"speedup band must cover >= {_SPEEDUP_MIN_SEEDS} seeds"
 
-    # Warm both paths once so numpy import and first-call costs are not charged to the measurement.
     scalar_runner.run(bed, seeds[0])
     vec_runner.run(bed, seeds[0])
 

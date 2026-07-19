@@ -1,24 +1,3 @@
-"""Scaffold spine for the bounded causal messaging and contradiction repair cluster (epoch G1).
-
-This module raises the SCAFFOLDING axis only. It supplies machine-checkable contracts for three
-epoch sub-questions: bounded causal messaging (M1), value of verification (V1), and contradiction
-repair (K1). It carries deterministic, seeded mechanics for causal message routing and for
-disagreement detection and targeted repair. It declares completeness-checked control sets and a
-non-vacuous matched budget for every contract, and it quarantines any real deployment behind an
-activation gate that local code cannot pass without an external confirmation receipt.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. Nothing here establishes that bounded messaging, selective verification, or
-contradiction repair carries any advantage. The routing and repair helpers operate on toy tuples
-of ids and integer claims; they are harness plumbing, not results.
-
-The two named prior nulls this epoch must clear are encoded as fail-closed conditions:
-limited-broadcast (bounded causal messaging must beat a limited broadcast baseline) and
-disagreement-only (repair may fire only on detected disagreement). Unbounded messaging and
-always-on verification are refused by construction.
-
-House style: no em or en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -31,8 +10,6 @@ from ..substrate.events import canonical_sha256
 
 MESSAGING_REPAIR_SCHEMA = "mop-messaging-repair/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
@@ -42,12 +19,9 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class MessagingRepairRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, unbounded, or outside its scope."""
+    pass
 
 
-# ---------------------------------------------------------------------------
-# Section A. Shared validators, matched budget, control registry, and named nulls.
-# ---------------------------------------------------------------------------
 
 
 def _require_id(value: str, label: str) -> None:
@@ -66,13 +40,11 @@ def _require_nonempty(value: str, label: str) -> None:
 
 
 def _require_exact_sequence(declared: tuple[str, ...], canonical: tuple[str, ...], label: str) -> None:
-    """Fail closed if a declared control set drifts in membership or order."""
 
     if tuple(declared) != tuple(canonical):
         raise MessagingRepairRefusal(f"{label} controls or order drift")
 
 
-# Canonical control sets. Order is load-bearing for every contract digest.
 BOUNDED_MESSAGE_CONTROLS: tuple[str, ...] = ("no-message", "broadcast-all", "random-route")
 VERIFICATION_CONTROLS: tuple[str, ...] = ("no-verify", "always-verify")
 REPAIR_CONTROLS: tuple[str, ...] = ("no-message", "broadcast-all", "stale-message", "majority-vote")
@@ -80,17 +52,12 @@ REPAIR_CONTROLS: tuple[str, ...] = ("no-message", "broadcast-all", "stale-messag
 ROUTING_RULE = "causal-only"
 REPAIR_TRIGGER = "detected-disagreement"
 
-# The named prior nulls that force each contract's bar.
 ALLOWED_PRIOR_NULLS: frozenset[str] = frozenset(
     {"limited-broadcast", "disagreement-only", "always-on-verification-suffices"}
 )
 
 
 def verify_control_registry() -> bool:
-    """Module-level completeness check: fail closed if any canonical control set is degenerate.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     registry: tuple[tuple[str, tuple[str, ...]], ...] = (
         ("bounded-message", BOUNDED_MESSAGE_CONTROLS),
@@ -111,10 +78,6 @@ def verify_control_registry() -> bool:
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-    """The matched full-system budget a comparison must be tuned to before it counts.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     messages: int
     verify_calls: int
@@ -143,20 +106,10 @@ class MatchedBudget:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section B. Bounded causal messaging (sub-question M1).
-# Contract refuses unbounded broadcast; mechanics route only along causal edges.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class BoundedMessageContract:
-    """A declared bandwidth limit and a causal-only routing rule. Refuses unbounded broadcast.
-
-    The prior null forced here is limited-broadcast: bounded causal messaging must beat a limited
-    broadcast baseline at matched cost, so an unbounded broadcast is refused by construction.
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     bandwidth_limit: int
@@ -209,10 +162,6 @@ class BoundedMessageContract:
 
 @dataclass(frozen=True, slots=True)
 class MessagePlan:
-    """A deterministic, bandwidth-limited routing plan over a causal edge set.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     seed: int
@@ -248,7 +197,6 @@ class MessagePlan:
 
 
 def _assert_acyclic(children: Mapping[str, tuple[str, ...]]) -> None:
-    """Refuse a non-causal edge set: any cycle violates the causal-only rule."""
 
     color: dict[str, int] = {}  # 0 = visiting, 1 = done
 
@@ -266,13 +214,6 @@ def _assert_acyclic(children: Mapping[str, tuple[str, ...]]) -> None:
 
 
 def causal_message_plan(*, edges: Sequence[tuple[str, str]], bandwidth_limit: int, seed: int) -> MessagePlan:
-    """Route messages along causal parent to child edges only, capped by the bandwidth limit.
-
-    Deterministic and seeded: when a node has more children than the bandwidth limit, the retained
-    children are chosen by a stable seeded hash order, never by wall-clock or unseeded randomness.
-    Fails closed on a cyclic (non-causal) edge set. Claim scope: deterministic programmatic
-    mechanics only; no capability claim.
-    """
 
     if bandwidth_limit < 1:
         raise MessagingRepairRefusal("bandwidth limit must be a positive message budget")
@@ -305,21 +246,10 @@ def causal_message_plan(*, edges: Sequence[tuple[str, str]], bandwidth_limit: in
     )
 
 
-# ---------------------------------------------------------------------------
-# Section C. Value of verification (sub-question V1).
-# Verification is selective and matched-cost; controls are no-verify and always-verify.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class VerificationValueContract:
-    """Declares that verification is SELECTIVE and matched-cost. Refuses always-on verification.
-
-    The prior null forced here is always-on-verification-suffices: a selective verification policy
-    must beat both the no-verify floor and the always-verify ceiling at matched cost, so a
-    verify_fraction of exactly zero or one is refused. Claim scope: deterministic programmatic
-    mechanics only; no capability claim.
-    """
 
     schema: str
     selective: bool
@@ -369,10 +299,6 @@ class VerificationValueContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section D. Contradiction repair (sub-question K1).
-# Repair triggers only on detected disagreement; controls span the four baselines.
-# ---------------------------------------------------------------------------
 
 REPAIR_METRICS: tuple[str, ...] = (
     "repair_latency",
@@ -384,12 +310,6 @@ REPAIR_METRICS: tuple[str, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class ContradictionRepairContract:
-    """Repair fires ONLY on detected disagreement. Controls span the four canonical baselines.
-
-    The prior null forced here is disagreement-only: repair traffic that fires without detected
-    disagreement is refused. Claim scope: deterministic programmatic mechanics only; no capability
-    claim.
-    """
 
     schema: str
     trigger_condition: str
@@ -433,10 +353,6 @@ class ContradictionRepairContract:
 
 @dataclass(frozen=True, slots=True)
 class RepairPlan:
-    """A deterministic repair plan: targeted messages from an anchor to each dissenter.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     seed: int
@@ -477,7 +393,6 @@ class RepairPlan:
 
 
 def _majority_value(claims: Sequence[tuple[str, int]]) -> int:
-    """Deterministic majority: highest count, ties broken toward the smaller integer value."""
 
     counts: dict[int, int] = {}
     for _, value in claims:
@@ -486,14 +401,6 @@ def _majority_value(claims: Sequence[tuple[str, int]]) -> int:
 
 
 def detect_and_repair(*, claims: Sequence[tuple[str, int]], seed: int) -> RepairPlan:
-    """Detect disagreement across agent claims and emit targeted repair messages if and only if
-    a disagreement exists.
-
-    When every agent agrees, the plan is untriggered and carries no messages: this encodes the
-    disagreement-only null directly. When they disagree, the lowest-id majority agent anchors a
-    targeted message to each dissenter, never a broadcast. Deterministic and seeded. Claim scope:
-    deterministic programmatic mechanics only; no capability claim.
-    """
 
     if seed < 0:
         raise MessagingRepairRefusal("repair seed must be nonnegative")
@@ -529,24 +436,15 @@ def detect_and_repair(*, claims: Sequence[tuple[str, int]], seed: int) -> Repair
 
 
 def assert_disagreement_present(claims: Sequence[tuple[str, int]]) -> None:
-    """Fail closed if repair is requested with no detected disagreement (disagreement-only null)."""
 
     if len({value for _, value in claims}) <= 1:
         raise MessagingRepairRefusal("repair refused: no detected disagreement to repair")
 
 
-# ---------------------------------------------------------------------------
-# Section E. Activation gate. Any real deployment is quarantined behind a receipt that local code
-# cannot forge; the gate is OFF by default and encodes that activation is not earned yet.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
-    """An external confirmation receipt required to pass the activation gate.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     license_id: str
     authority: str
@@ -573,12 +471,6 @@ class ActivationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class MessagingActivationGate:
-    """A fail-closed gate. Off by default; authorization requires a valid external receipt.
-
-    The gate exists so that scaffold code can never quietly deploy a messaging or repair policy as
-    if the epoch bar had been cleared. Claim scope: deterministic programmatic mechanics only; no
-    capability claim.
-    """
 
     activated: bool = False
     claim_scope: str = CLAIM_SCOPE
@@ -590,7 +482,6 @@ class MessagingActivationGate:
             raise MessagingRepairRefusal("activation gate claim scope cannot be widened")
 
     def authorize(self, receipt: ActivationReceipt | None = None) -> None:
-        """Raise unless a valid external confirmation receipt is supplied. Off by default."""
 
         if receipt is None:
             raise MessagingRepairRefusal(
@@ -605,9 +496,6 @@ class MessagingActivationGate:
         return {"activated": self.activated, "claim_scope": self.claim_scope}
 
 
-# ---------------------------------------------------------------------------
-# Convenience builders (deterministic; used by tests and later wiring).
-# ---------------------------------------------------------------------------
 
 
 def _default_budget() -> MatchedBudget:
@@ -654,10 +542,6 @@ def default_contradiction_repair_contract() -> ContradictionRepairContract:
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static record of which epoch G1 sub-questions this scaffold supports (readiness only).
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     return {
         "M1: does bounded causal messaging beat a limited broadcast baseline?": (

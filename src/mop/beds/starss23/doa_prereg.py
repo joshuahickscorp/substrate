@@ -49,8 +49,6 @@ def _require_positive(value: float, label: str) -> float:
     return float(value)
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class DoaCostBenefit:
 
@@ -105,8 +103,6 @@ def compute_doa_cost_benefit(
         break_even_hours=break_even_hours,
         train_flops_in_reestimate_equivalents=reestimate_equivalents,
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -191,8 +187,6 @@ def _sesoi_rationale(
         "dynamic range. A win below the SESOI recovers less than about one clip of change-tracking over "
         "free random placement and is not promotable even if the clip-level sign-flip p clears alpha."
     )
-
-
 
 
 def build_doa_prereg(

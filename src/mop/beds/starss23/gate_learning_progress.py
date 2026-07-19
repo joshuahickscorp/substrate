@@ -41,8 +41,6 @@ class LPGateRefusal(ValueError):
     pass
 
 
-
-
 def param_count(proj_dim: int = LP_PROJ_DIM, target_dim: int = LP_TARGET_DIM) -> int:
 
     return proj_dim * target_dim
@@ -86,15 +84,11 @@ def training_flops(
 C_TRAIN_ANCHOR = training_flops()
 
 
-
-
 def _softplus(x: float) -> float:
 
     if x > 0.0:
         return x + math.log1p(math.exp(-x))
     return math.log1p(math.exp(x))
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -113,8 +107,6 @@ class LPOnlineState:
     def state_bytes(proj_dim: int = LP_PROJ_DIM, target_dim: int = LP_TARGET_DIM) -> int:
 
         return proj_dim * target_dim * 8 + 3 * 8
-
-
 
 
 @dataclass

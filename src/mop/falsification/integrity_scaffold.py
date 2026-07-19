@@ -1,28 +1,3 @@
-"""Integrity, self-rewrite, and welfare-governance scaffold contracts (SG2, SG3).
-
-Claim scope: deterministic programmatic mechanics only; no capability claim. This module raises
-scaffolding, not evidence. It declares machine-checkable contracts and refusal rules for four lanes:
-
-1. A unified threat-model contract over the eight attack surfaces (source, cache, memory,
-   checkpoint, verifier, artifact, queue, report), each bound to a declared attack family and a
-   named defense predicate composed from existing receipt patterns (cache_manifest schema pins,
-   verdict_gate top-level flag discipline, lifecycle hash chains, north_star report rail).
-2. Memory-poisoning-resistance and privacy-leakage-through-consolidation experiment contracts over
-   the Wave E0 lifecycle journal, including deletion-through-consolidation verification. The
-   journal is append-only, so these drills verify the availability plane and consolidated content,
-   never byte-level erasure of history; that limit is declared, not hidden.
-3. A transactional self-rewrite drill contract with shadow, canary, rollback, and
-   evaluator-conflict stages, promotion authority separated from execution authority as distinct
-   declared roles, and refusal rules that fail closed on authority confusion.
-4. A welfare-governance trigger-matrix contract: theory-plural trigger declarations that carry an
-   explicit non-ontological flag (no trigger settles experience or establishes moral status),
-   conservative design, monitor, pause, review, and language rules, and six exercise-case
-   declarations that each require an independent reviewer distinct from the operator.
-
-Nothing here runs an experiment, loads weights, touches the network, or reads a clock. Every
-validator raises on missing or malformed declarations. All free text is gated through the
-north_star claim rail.
-"""
 
 from __future__ import annotations
 
@@ -114,7 +89,6 @@ _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 
 
 def _stable_hex(seed: int, label: str) -> str:
-    """Deterministic hex material for fixture content; no clock, no OS randomness."""
 
     return canonical_sha256({"seed": seed, "label": label})
 
@@ -131,9 +105,6 @@ def _require_rail_clean(value: str, label: str) -> None:
         raise ValueError(f"{label} trips the sentience rail: {hits[0]['match']!r}")
 
 
-# ---------------------------------------------------------------------------
-# Lane (a): unified threat model over receipt patterns
-# ---------------------------------------------------------------------------
 
 DefensePredicate = Callable[[Mapping[str, Any]], list[str]]
 
@@ -145,7 +116,6 @@ def _digest_items(receipt: Mapping[str, Any]) -> Iterable[tuple[str, Any]]:
 
 
 def predicate_full_digest(receipt: Mapping[str, Any]) -> list[str]:
-    """Refuse truncated or malformed digests: every *sha256* field must be full lowercase hex."""
 
     problems: list[str] = []
     items = list(_digest_items(receipt))
@@ -158,7 +128,6 @@ def predicate_full_digest(receipt: Mapping[str, Any]) -> list[str]:
 
 
 def predicate_source_provenance(receipt: Mapping[str, Any]) -> list[str]:
-    """Source intake needs a full digest plus explicit origin and license declarations."""
 
     problems = predicate_full_digest(receipt)
     for key in ("origin", "license"):
@@ -171,7 +140,6 @@ def predicate_source_provenance(receipt: Mapping[str, Any]) -> list[str]:
 
 
 def predicate_schema_pinned(receipt: Mapping[str, Any]) -> list[str]:
-    """Cache receipts must pin the latest data-plane schema; legacy schema is a downgrade."""
 
     schema = receipt.get("schema")
     if schema == CACHE_SCHEMA_LEGACY:
@@ -182,7 +150,6 @@ def predicate_schema_pinned(receipt: Mapping[str, Any]) -> list[str]:
 
 
 def predicate_hash_chain(receipt: Mapping[str, Any]) -> list[str]:
-    """Lifecycle payloads must keep an unbroken monotonic hash chain (rollback and replay tamper)."""
 
     entries = receipt.get("entries")
     if not isinstance(entries, list) or not entries:
@@ -206,7 +173,6 @@ def predicate_hash_chain(receipt: Mapping[str, Any]) -> list[str]:
 
 
 def predicate_safe_serialization(receipt: Mapping[str, Any]) -> list[str]:
-    """Checkpoint receipts must declare a safe format and explicitly disallow pickle."""
 
     problems: list[str] = []
     fmt = receipt.get("format")
@@ -219,7 +185,6 @@ def predicate_safe_serialization(receipt: Mapping[str, Any]) -> list[str]:
 
 
 def predicate_verifier_flags(receipt: Mapping[str, Any]) -> list[str]:
-    """Compose the verdict-gate discipline: promotion flags are top-level assertions only."""
 
     problems: list[str] = []
     if not truthy_top_level(dict(receipt), PASS_KEYS):
@@ -246,7 +211,6 @@ def _path_values(receipt: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
 
 
 def predicate_path_confinement(receipt: Mapping[str, Any]) -> list[str]:
-    """Artifact paths must be relative, forward-slash, and free of parent traversal."""
 
     values = list(_path_values(receipt))
     if not values:
@@ -263,7 +227,6 @@ def predicate_path_confinement(receipt: Mapping[str, Any]) -> list[str]:
 
 
 def predicate_replay_guard(receipt: Mapping[str, Any]) -> list[str]:
-    """Queue receipts must carry an epoch and strictly increasing sequence numbers."""
 
     problems: list[str] = []
     epoch = receipt.get("queue_epoch")
@@ -282,7 +245,6 @@ def predicate_replay_guard(receipt: Mapping[str, Any]) -> list[str]:
 
 
 def predicate_report_redaction(receipt: Mapping[str, Any]) -> list[str]:
-    """Report bodies must exclude every declared private token and pass the north_star claim rail."""
 
     problems: list[str] = []
     denylist = receipt.get("denylist")
@@ -379,7 +341,6 @@ class ThreatModelContract:
 
 
 def build_threat_model_contract() -> ThreatModelContract:
-    """The canonical SG2 declaration set: eight surfaces, nine families, nine named defenses."""
 
     return ThreatModelContract(
         declarations=(
@@ -444,7 +405,6 @@ def build_threat_model_contract() -> ThreatModelContract:
 def evaluate_threat_model(
     contract: ThreatModelContract, receipts: Mapping[str, Mapping[str, Any]]
 ) -> dict[str, Any]:
-    """Run every declared defense predicate; a missing receipt is a failure, never a skip."""
 
     rows: list[dict[str, Any]] = []
     for declaration in contract.declarations:
@@ -484,9 +444,6 @@ def assert_defended(
     return result
 
 
-# ---------------------------------------------------------------------------
-# Lane (b): memory poisoning and privacy consolidation drills over the journal
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -593,7 +550,6 @@ def build_consolidation_contract() -> MemoryDrillContract:
 
 
 def build_poisoning_drill_journal(seed: int) -> LifecycleJournal:
-    """Deterministic drill: record clean, inject adversarial, quarantine, roll back to clean."""
 
     if seed < 0:
         raise ValueError("drill seed must be nonnegative")
@@ -622,7 +578,6 @@ def build_poisoning_drill_journal(seed: int) -> LifecycleJournal:
 
 
 def verify_poisoning_resistance(journal: LifecycleJournal) -> list[str]:
-    """Fail-closed drill verification over the availability plane and the hash chain."""
 
     problems = journal.verify()
     operations = [entry.operation for entry in journal.entries]
@@ -659,7 +614,6 @@ def verify_poisoning_resistance(journal: LifecycleJournal) -> list[str]:
 
 
 def build_consolidation_drill_journal(seed: int) -> tuple[LifecycleJournal, tuple[str, ...]]:
-    """Deterministic drill: private record, token-free consolidation, deletion follow-up."""
 
     if seed < 0:
         raise ValueError("drill seed must be nonnegative")
@@ -686,12 +640,6 @@ def build_consolidation_drill_journal(seed: int) -> tuple[LifecycleJournal, tupl
 def verify_deletion_through_consolidation(
     journal: LifecycleJournal, private_tokens: tuple[str, ...]
 ) -> list[str]:
-    """Verify token-free consolidation and closed availability after deletion.
-
-    The journal is append-only: raw history stays in earlier entries by design. This verifier
-    checks the availability plane and the consolidated content, and it never claims byte-level
-    erasure of history.
-    """
 
     if not private_tokens or any(not token.strip() for token in private_tokens):
         raise ValueError("deletion verification needs nonempty private tokens")
@@ -724,13 +672,10 @@ def verify_deletion_through_consolidation(
     return problems
 
 
-# ---------------------------------------------------------------------------
-# Lane (c): transactional self-rewrite drill with separated authorities
-# ---------------------------------------------------------------------------
 
 
 class PromotionRefused(ValueError):
-    """Raised when a rewrite promotion request violates a declared refusal rule."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
@@ -880,12 +825,6 @@ def build_rewrite_drill_contract() -> TransactionalRewriteContract:
 def enforce_promotion_refusal(
     contract: TransactionalRewriteContract, request: Mapping[str, Any]
 ) -> dict[str, Any]:
-    """Fail-closed promotion gate: returns an allow decision payload or raises PromotionRefused.
-
-    Refusal rules are code: authority confusion, missing or malformed stage receipts, and
-    unresolved evaluator conflict each refuse promotion. Deterministic programmatic mechanics
-    only; no capability claim.
-    """
 
     requested_by = str(request.get("requested_by") or "")
     executed_by = str(request.get("executed_by") or "")
@@ -959,9 +898,6 @@ def enforce_promotion_refusal(
     return decision
 
 
-# ---------------------------------------------------------------------------
-# Lane (d): welfare-governance trigger matrix, explicitly non-ontological
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
@@ -1076,7 +1012,6 @@ class WelfareGovernanceContract:
 
 
 def build_welfare_governance_contract() -> WelfareGovernanceContract:
-    """The canonical SG3 trigger matrix. Triggers are review inputs, never status classifiers."""
 
     return WelfareGovernanceContract(
         triggers=(

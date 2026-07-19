@@ -30,8 +30,6 @@ def _require_n_frames(n_frames: int) -> int:
     return n_frames
 
 
-
-
 def dominant_track_at_frame(rows: Sequence[MetadataRow]) -> MetadataRow:
 
     if not rows:
@@ -76,8 +74,6 @@ def doa_track_from_metadata_text(text: str, n_frames: int) -> tuple[tuple[float,
     return doa_track_from_rows(parse_starss23_metadata(text), n_frames)
 
 
-
-
 def direction_to_unit_vector(azimuth_deg: float, elevation_deg: float) -> tuple[float, float, float]:
 
     az = math.radians(float(azimuth_deg))
@@ -112,8 +108,6 @@ def great_circle_degrees_batch(directions_a: np.ndarray, directions_b: np.ndarra
     return np.degrees(np.arccos(dot))
 
 
-
-
 def _change_frames_for_track(
     track: Sequence[tuple[float, float] | None], angle_threshold_deg: float = DOA_CHANGE_THRESHOLD_DEG
 ) -> tuple[int, ...]:
@@ -132,8 +126,6 @@ def _change_frames_for_track(
                 changes.append(t)
         previous = current
     return tuple(changes)
-
-
 
 
 @dataclass(frozen=True, slots=True)

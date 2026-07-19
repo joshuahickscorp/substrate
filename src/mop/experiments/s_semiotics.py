@@ -1,19 +1,3 @@
-"""Series S: semiotics / universal-latent-language probes over frozen pooled latents. Eight cpu-now
-experiments that ask whether a learned discrete code (VQ over latents) behaves as a grounded sign, whether
-concept arithmetic is meaningful, whether discrete bottlenecks help reasoning at matched compute, whether
-codes are stable across seeds, whether latent concepts compose, whether learned codes beat designed
-symbols, whether useful directions are interpretable, and a standing anti-self-deception meta-test that
-flags any S-test a frozen-random projection passes (vacuous).
-
-Every experiment declares an explicit NULL and returns "null_supported": bool. The standing controls are
-wired where relevant: frozen-random substrate arm (substrate_ablation / frozen_random_projection),
-matched compute (diagnostics.compute), or a tuned/random-matched baseline. Honest nulls only: the toy
-outcome is reported as-is, never tuned toward a positive. Pooling discards within-frame object/spatial
-structure, so the compositional and grounding tests are EXPECTED to land in failure-taxonomy slot 3 and
-the published bound IS the result.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -36,12 +20,7 @@ from ..shell.refine import IterativeRefiner
 from .base import Experiment, _mean
 
 
-# ----------------------------------------------------------------------------------------------------
-# shared tiny mechanisms (inline, the established pattern)
-# ----------------------------------------------------------------------------------------------------
 def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> tuple[torch.Tensor, torch.Tensor]:
-    """Lloyd k-means; returns (hard code assignment per row, centroids). The VQ codebook in the
-    frozen-latent setting (no pixel decoder, the codes ARE the abstraction)."""
     g = torch.Generator().manual_seed(seed)
     idx = torch.randperm(x.shape[0], generator=g)[:k]
     cent = x[idx].clone()
@@ -63,8 +42,6 @@ def _onehot(codes: torch.Tensor, k: int) -> torch.Tensor:
 
 
 def _mutual_information(codes: torch.Tensor, world: torch.Tensor, k: int, nb: int) -> float:
-    """Discrete MI between code assignment and a quantized world variable (both small alphabets).
-    Plug-in estimator over the joint histogram, in nats."""
     joint = torch.zeros(k, nb)
     for c, w in zip(codes.tolist(), world.tolist(), strict=True):
         joint[int(c), int(w)] += 1.0
@@ -76,9 +53,6 @@ def _mutual_information(codes: torch.Tensor, world: torch.Tensor, k: int, nb: in
     return float((joint[nz] * (joint[nz] / denom[nz]).log()).sum())
 
 
-# ====================================================================================================
-# S1: symbol-grounding gate (icon / index / symbol)
-# ====================================================================================================
 class S1(Experiment):
     id = "s1_symbol_grounding"
     metric = ("code_world_mi", "code_world_mi_random", "code_rsa", "needs_real")
@@ -113,24 +87,16 @@ class S1(Experiment):
             codes, cent = _kmeans(x, k, int(e.kmeans_iters), s)
             g = torch.Generator().manual_seed(s + 7)
             rand_codes = torch.randint(0, k, (x.shape[0],), generator=g)
-            # indexicality: MI(code; world_var) vs MI(random_code; world_var)
             mi_learned.append(_mutual_information(codes, world, k, nb))
             mi_random.append(_mutual_information(rand_codes, world, k, nb))
-            # iconicity: RSA between code-centroid adjacency and the stimulus adjacency of those codes
-            # (do geometrically near codes tag perceptually near clips). The shuffled control permutes
-            # the code-to-centroid correspondence (breaks any icon structure).
             stim_proto = torch.stack(
                 [x[codes == c].mean(0) if (codes == c).any() else cent[c] for c in range(k)]
             )
             rsa_real.append(rsa(cent, stim_proto))
             gp = torch.Generator().manual_seed(s + 11)
             rsa_shuf.append(rsa(cent, stim_proto[torch.randperm(k, generator=gp)]))
-            # code_probe_R2 minus raw_latent_probe_R2 (does the one-hot code add over the raw latent)
             code_r2.append(linear_probe(_onehot(codes, k), world, seed=s)["score"])
             raw_r2.append(linear_probe(x, world, seed=s)["score"])
-            # sanity: is the world var decodable above the shuffled chance floor at all (taxonomy-3 gate).
-            # needs_real here means "above the shuffled floor", NOT "needed the real encoder": a
-            # frozen-random LINEAR projection is invertible so it is vacuous for this linear metric.
             abl = substrate_ablation(x, world, seed=s)
             needs_real_flags.append(abl["needs_real"])
 
@@ -150,24 +116,15 @@ class S1(Experiment):
             "code_probe_acc": round(cr, 4),
             "raw_latent_probe_acc": round(rr, 4),
             "code_minus_raw": round(cr - rr, 4),
-            # decodability sanity: above the shuffled floor, NOT an encoder-specificity claim (the
-            # frozen-random arm is vacuous for this linear metric, see substrate_ablation module doc)
             "needs_real": needs_real,
             "codebook_size": k,
             "seeds": list(seeds),
-            # null: code is an arbitrary label (MI ties the random-code floor AND RSA ties the shuffled floor)
             "null_supported": bool(mi_gain <= 0.05 and rsa_gain <= 0.1),
-            # grounded index (Peirce): indexicality (MI over the random-code floor) AND iconicity (code
-            # geometry RSA over the shuffled floor). Both are earned controls; frozen-random is NOT used
-            # (it is vacuous for these linear/geometry metrics, see substrate_ablation module doc).
             "grounded_index": bool(mi_gain > 0.05 and rsa_gain > 0.1),
         }
         return out
 
 
-# ====================================================================================================
-# S3: latent concept arithmetic (a:b :: c:d offset retrieval)
-# ====================================================================================================
 class S3(Experiment):
     id = "s3_concept_arithmetic"
     metric = ("retrieval_at1", "gain_vs_random_offset", "gain_vs_frozen_random", "probe_r2")
@@ -180,8 +137,6 @@ class S3(Experiment):
     tier = "cpu-now"
 
     def _quadruples(self, dim, n_factor, per, sep, seed):
-        """Two-factor latents; a quadruple (a,b,c,d) varies ONE factor f1 while sharing f2, so the
-        offset latent(b)-latent(a) should transport latent(c) to latent(d). Returns x, f1, f2."""
         x, f1, f2 = factorized_latents(
             n_a=n_factor, n_b=n_factor, per_cell=per, dim=dim, interaction=0.0, seed=seed
         )
@@ -189,7 +144,6 @@ class S3(Experiment):
 
     def _retrieval(self, x, f1, f2, n_factor, projfn=None, random_offset=False, seed=0):
         z = projfn(x) if projfn is not None else x
-        # cell-mean prototypes indexed by (f1, f2)
         proto = {}
         for a in range(n_factor):
             for b in range(n_factor):
@@ -209,7 +163,6 @@ class S3(Experiment):
                         continue
                     if (a, bp) not in proto or (ap, bp) not in proto:
                         continue
-                    # analogy: a_b : ap_b :: a_bp : ?  (vary f1 from a to ap, hold f2)
                     off = proto[(ap, b)] - proto[(a, b)]
                     if random_offset:
                         r = torch.randn(off.shape, generator=g)
@@ -229,7 +182,6 @@ class S3(Experiment):
         for s in seeds:
             seed_everything(s)
             x, f1, f2 = self._quadruples(dim, nf, int(e.per_cell), float(e.separation), s)
-            # gate: the factor must be linearly decodable first
             probe.append(linear_probe(x, f1, seed=s)["score"])
             learned.append(self._retrieval(x, f1, f2, nf, seed=s))
             randoff.append(self._retrieval(x, f1, f2, nf, random_offset=True, seed=s))
@@ -248,16 +200,12 @@ class S3(Experiment):
             "gain_vs_frozen_random": round(gain_frozen, 4),
             "factor_probe_acc": round(pm, 4),
             "seeds": list(seeds),
-            # null: ties random offset, OR survives equally under frozen-random (generic, not V-JEPA)
             "null_supported": bool(gain_rand <= 0.1 or abs(gain_frozen) <= 0.1),
             "arithmetic_meaningful": bool(gain_rand > 0.1 and gain_frozen > 0.1),
         }
         return out
 
 
-# ====================================================================================================
-# S4: latent reasoning vs discrete-bottleneck reasoning at matched compute
-# ====================================================================================================
 class S4(Experiment):
     id = "s4_latent_vs_discrete"
     metric = ("acc_latent", "acc_discrete", "gain_at_matched_flops", "params_ratio")
@@ -288,8 +236,6 @@ class S4(Experiment):
             return float((head(z).argmax(-1) == yte).float().mean())
 
     def _vq(self, z, codebook):
-        """Straight-through VQ bottleneck: snap each intermediate state to the nearest codeword (the
-        symbolic serialization), but pass gradients through (so the arms train comparably)."""
         d = torch.cdist(z, codebook)
         idx = d.argmin(1)
         zq = codebook[idx]
@@ -303,7 +249,6 @@ class S4(Experiment):
         lat_acc, dis_acc = [], []
         for s in seeds:
             seed_everything(s)
-            # a multi-cell relational task: predict the joint (f1,f2) cell as one label (composition)
             x, f1, f2 = factorized_latents(
                 n_a=int(e.n_factor),
                 n_b=int(e.n_factor),
@@ -319,12 +264,10 @@ class S4(Experiment):
             xtr, ytr, xte, yte = x[:cut], y[:cut], x[cut:], y[cut:]
             nc = int(y.max()) + 1
 
-            # arm A: continuous latent refiner end to end
             seed_everything(s)
             refA = IterativeRefiner(dim, hidden, steps)
             headA = nn.Linear(dim, nc)
             lat_acc.append(self._fit_eval(refA, headA, None, xtr, ytr, xte, yte, epochs, lr, k))
-            # arm B: same refiner + compute, every intermediate state forced through a VQ bottleneck
             seed_everything(s)
             refB = IterativeRefiner(dim, hidden, steps)
             headB = nn.Linear(dim, nc)
@@ -336,7 +279,6 @@ class S4(Experiment):
         gain = am - bm
         refA = IterativeRefiner(dim, hidden, steps)
         refB = IterativeRefiner(dim, hidden, steps)
-        # the VQ snap adds a nearest-codeword lookup, negligible vs the refiner linear FLOPs; arms match
         flops = mlp_flops([dim, hidden, dim]) * steps
         compute = matched_within(flops, flops)
         out = {
@@ -350,16 +292,12 @@ class S4(Experiment):
             "params_ratio": round(param_count(refA) / max(1, param_count(refB)), 4),
             "compute_matched": compute,
             "seeds": list(seeds),
-            # null: latent ties discrete at matched compute (serialization not a measurable bottleneck)
             "null_supported": bool(abs(gain) <= float(e.margin)),
             "latent_beats_discrete": bool(gain > float(e.margin) and compute["matched"]),
         }
         return out
 
 
-# ====================================================================================================
-# S5: private-language stability (cross-seed code reproducibility)
-# ====================================================================================================
 class S5(Experiment):
     id = "s5_code_stability"
     metric = ("code_agreement", "code_agreement_chance", "cross_seed_cka", "cka_frozen_random")
@@ -377,7 +315,6 @@ class S5(Experiment):
         e = cfg.experiment
         dim, k = int(e.dim), int(e.codebook_size)
         n_runs = int(e.n_runs)
-        # one shared cached-latent set, K independent codebooks on different seeds
         seed_everything(0)
         task = make_task_stream(
             n_tasks=1,
@@ -395,7 +332,6 @@ class S5(Experiment):
             onehots.append(_onehot(codes, k))
         cs = code_stability(code_assignments, k)
         cka = cross_seed_cka(onehots)
-        # frozen-random CKA floor: same points under independent random projections (no learned structure)
         fr_reps = [frozen_random_projection(x, seed=200 + r) for r in range(n_runs)]
         fr_cka = cross_seed_cka(fr_reps)
         agreement = cs["mean_agreement"]
@@ -409,7 +345,6 @@ class S5(Experiment):
             "cka_above_frozen_random": round(cka["mean_cka"] - fr_cka["mean_cka"], 4),
             "codebook_size": k,
             "n_runs": n_runs,
-            # null: agreement ties the random floor AND code CKA ties the frozen-random floor (idiolect)
             "null_supported": bool(
                 (agreement - chance) <= 0.2 and (cka["mean_cka"] - fr_cka["mean_cka"]) <= 0.1
             ),
@@ -418,9 +353,6 @@ class S5(Experiment):
         return out
 
 
-# ====================================================================================================
-# S6: compositionality probe (held-out-combination decoding)
-# ====================================================================================================
 class S6(Experiment):
     id = "s6_compositionality"
     metric = ("heldout_acc", "heldout_acc_frozen_random", "gap_to_seen", "compositional")
@@ -463,16 +395,12 @@ class S6(Experiment):
             "compositional": bool(sum(comp_flags) > len(comp_flags) / 2) if comp_flags else False,
             "interaction": float(e.interaction),
             "seeds": list(seeds),
-            # null: held-out not decodable above frozen-random floor (no compositional structure)
             "null_supported": bool(above_floor <= 0.1 or (hr - 1.0 / nf) <= 0.15),
             "systematic_composition": bool(above_floor > 0.1 and (hr - 1.0 / nf) > 0.15),
         }
         return out
 
 
-# ====================================================================================================
-# S7: learned codes vs human-designed symbols at matched capacity
-# ====================================================================================================
 class S7(Experiment):
     id = "s7_learned_vs_designed"
     metric = ("acc_learned", "acc_designed", "acc_random", "raw_ceiling")
@@ -494,8 +422,6 @@ class S7(Experiment):
         learned, designed, randc, raw = [], [], [], []
         for s in seeds:
             seed_everything(s)
-            # task target distinct from the generative label so neither vocabulary trivially equals it:
-            # downstream target = parity of the generative label index (a derived task over the world)
             task = make_task_stream(
                 n_tasks=1,
                 dim=dim,
@@ -506,11 +432,8 @@ class S7(Experiment):
             )[0]
             x, world = task.x, task.y
             target = (world % 2).long()  # the held-out downstream task
-            # A: learned VQ codebook of size k
             codes_l, _ = _kmeans(x, k, int(e.kmeans_iters), s)
-            # B: human-designed symbols = ground-truth generative labels quantized to k symbols
             codes_d = (world % k).long()
-            # control: random codebook at k
             g = torch.Generator().manual_seed(s + 9)
             codes_r = torch.randint(0, k, (x.shape[0],), generator=g)
             learned.append(linear_probe(_onehot(codes_l, k), target, seed=s)["score"])
@@ -529,16 +452,12 @@ class S7(Experiment):
             "margin": float(e.margin),
             "codebook_size": k,
             "seeds": list(seeds),
-            # null: learned ties designed at matched capacity (use-optimization buys nothing)
             "null_supported": bool(abs(gain) <= float(e.margin)),
             "learned_beats_designed": bool(gain > float(e.margin)),
         }
         return out
 
 
-# ====================================================================================================
-# S9: interpretable vs merely useful directions
-# ====================================================================================================
 class S9(Experiment):
     id = "s9_interpretable_vs_useful"
     metric = ("spearman_use_interp", "frac_top_useful_named", "frac_random_named", "needs_real")
@@ -569,7 +488,6 @@ class S9(Experiment):
             )
             target = (ya * nf + yb).long()
             nc = int(target.max()) + 1
-            # learned directions = rows of a trained linear probe weight (the readout basis)
             head = nn.Linear(dim, nc)
             opt = torch.optim.Adam(head.parameters(), lr=float(e.lr))
             for _ in range(int(e.epochs)):
@@ -577,9 +495,7 @@ class S9(Experiment):
                 F.cross_entropy(head(x), target).backward()
                 opt.step()
             W = head.weight.detach()  # [nc, dim]
-            # usefulness per dim = summed absolute readout weight (ablation-magnitude proxy)
             usefulness = W.abs().sum(0)  # [dim]
-            # interpretability per dim = max abs correlation with a named generative factor (ya, yb)
             fa = ya.float() - ya.float().mean()
             fb = yb.float() - yb.float().mean()
             interp = torch.zeros(dim)
@@ -589,7 +505,6 @@ class S9(Experiment):
                 cb = abs(float((xj * fb).sum() / (xj.norm() * fb.norm() + 1e-12)))
                 interp[j] = max(ca, cb)
             spear.append(self._spearman(usefulness, interp))
-            # fraction of the top-useful dims whose interpretability exceeds the random-dim median
             topk = max(1, dim // 5)
             top_idx = usefulness.argsort(descending=True)[:topk]
             thresh = interp.median()
@@ -597,8 +512,6 @@ class S9(Experiment):
             g = torch.Generator().manual_seed(s + 13)
             rand_idx = torch.randperm(dim, generator=g)[:topk]
             frac_random.append(float((interp[rand_idx] > thresh).float().mean()))
-            # decodability sanity only (above the shuffled floor); reported, not gated. This is NOT an
-            # encoder-specificity claim (frozen-random is vacuous for a linear probe).
             abl = substrate_ablation(x, target, seed=s)
             needs_real_flags.append(abl["needs_real"])
 
@@ -611,16 +524,12 @@ class S9(Experiment):
             "named_gain_vs_random": round(fu - fr, 4),
             "needs_real": needs_real,
             "seeds": list(seeds),
-            # null: usefulness and interpretability uncorrelated (Spearman ~ 0, top-useful not more named)
             "null_supported": bool(abs(sm) <= 0.2 and (fu - fr) <= 0.15),
             "useful_is_namable": bool(sm > 0.2 and (fu - fr) > 0.15),
         }
         return out
 
 
-# ====================================================================================================
-# S10: anti-self-deception meta-test (does a random projection pass the S-tests)
-# ====================================================================================================
 class S10(Experiment):
     id = "s10_anti_self_deception"
     metric = (
@@ -647,8 +556,6 @@ class S10(Experiment):
         e = cfg.experiment
         seeds = list(e.seeds)
         dim, nf = int(e.dim), int(e.n_factor)
-        # the S-style decode tests routed through substrate_ablation: alignment (cluster label),
-        # arithmetic-factor decode, compositional joint-cell decode, translation (single factor decode)
         per_test: dict[str, dict] = {}
         for name in ("alignment", "arithmetic", "compositionality", "translation"):
             per_test[name] = {"needs_real": [], "dfr": [], "dsh": []}
@@ -674,7 +581,6 @@ class S10(Experiment):
             }
             for name, (xx, yy) in tests.items():
                 abl = substrate_ablation(xx, yy, seed=s)
-                # needs_real now means "real beats the shuffled floor" (genuine signal present)
                 per_test[name]["needs_real"].append(abl["needs_real"])
                 per_test[name]["dfr"].append(abl["delta_frozen_random"])
                 per_test[name]["dsh"].append(abl["delta_shuffled"])
@@ -691,8 +597,6 @@ class S10(Experiment):
                 "delta_frozen_random": round(dfr, 4),
                 "delta_shuffled": round(_mean(d["dsh"]), 4),
                 "ties_frozen_random": ties_fr,
-                # a test carries real signal iff it beats the shuffled floor; the frozen_random tie is
-                # expected (invertible linear map) and does NOT make a shuffle-beating test vacuous
                 "verdict": "SIGNAL-PRESENT" if above else "NO-SIGNAL",
             }
             n_above_shuffle += int(above)
@@ -703,15 +607,10 @@ class S10(Experiment):
             "per_test": verdicts,
             "frac_tests_above_shuffle": round(frac_above, 4),
             "all_tests_above_shuffle": bool(all_above_shuffle),
-            # the honest meta-finding: for these LINEAR decode tests real always ties frozen_random, so
-            # the frozen_random arm is a vacuous certifier (it cannot fail on an invertible map). The
-            # shuffled floor is the valid certifier and every test clears it.
             "frozen_random_is_vacuous_control": bool(all_tie_frozen_random),
             "valid_certifier": "shuffled_floor",
             "n_tests": len(verdicts),
             "seeds": list(seeds),
-            # null: some test carries no genuine signal (does not beat the shuffled floor). With the
-            # corrected certifier this is False here (all tests clear the floor).
             "null_supported": bool(not all_above_shuffle),
         }
         return out

@@ -1,25 +1,3 @@
-"""Series N: neuroscience and neuroscience-of-thought on the FROZEN pooled-latent substrate, CPU, seconds.
-
-Eleven cpu-now experiments, each a self-contained Experiment subclass with an explicit null check and a
-wired standing control (frozen-random substrate, matched-compute, or a tuned baseline; noisy-TV guard
-where a curiosity signal appears). The mechanisms are implemented INLINE in this module per the
-established pattern (see ex16_codebook_sr, ex17_latent_reasoning, ex8_curiosity_bakeoff).
-
-  N1  replay ordering and surprise-prioritization in the latent hippocampus     (tax 5)
-  N3  predictive-coding refiner vs generic residual refiner at matched compute   (tax 9)
-  N4  synaptic tagging-and-capture as a surprise-gated consolidation schedule    (tax 2)
-  N5  Fisher-triggered plasticity reopening at an unknown distribution shift     (tax 2)
-  N6  ACh-vs-NE dissociation: expected vs unexpected uncertainty gating          (tax 1)
-  N7  latent scratchpad: working-memory slots for a delayed-match latent task    (tax 5)
-  N8  object permanence as a pooled-latent prediction bound                      (tax 3)
-  N9  attractor convergence of the latent refiner                                (tax 9)
-  N10 confidence-based halting tracks difficulty (latent metacognition)          (tax 4)
-  N11 latent self-verification as error-monitoring                              (tax 4)
-
-Honest nulls only: null_supported reflects the real toy outcome, never tuned toward a positive. Pooled
-latents discard within-frame object/spatial structure, so N8 ships the bound (taxonomy slot 3) as the
-result. No sentience or agency language. No em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -43,7 +21,6 @@ from .base import Experiment, _fit_eval, _mean, _spread
 
 
 def _pearson(a: list[float], b: list[float]) -> float:
-    """Pearson correlation; 0.0 when either side is constant (no usable signal)."""
     n = len(a)
     if n < 2:
         return 0.0
@@ -56,9 +33,6 @@ def _pearson(a: list[float], b: list[float]) -> float:
     return num / (da * db)
 
 
-# =====================================================================================================
-# N1: replay ordering and surprise-prioritization in the latent hippocampus
-# =====================================================================================================
 class N1(Experiment):
     id = "n1_replay_ordering"
     metric = ("backward_transfer", "frontier_auc", "ordering_deltas")
@@ -83,7 +57,6 @@ class N1(Experiment):
 
         schemes = ("no_replay", "uniform", "forward", "reverse", "surprise")
         bwt: dict[str, list[float]] = {s: [] for s in schemes}
-        # frozen-random arm only for the headline (surprise) scheme
         bwt_fr: list[float] = []
 
         for s in seeds:
@@ -129,7 +102,6 @@ class N1(Experiment):
                             yb = torch.cat([y, by[gsel]])
                         F.cross_entropy(head(xb), yb).backward()
                         opt.step()
-                    # store with a disagreement-proxy priority: distance to current decision margin
                     with torch.no_grad():
                         logits = head(x)
                         srt = logits.sort(dim=-1, descending=True).values
@@ -140,12 +112,10 @@ class N1(Experiment):
                     buffer_p.append(prio.detach())
                     if t == 0:
                         pass
-                    # measure retention of task 0 after each task
                     with torch.no_grad():
                         x0 = stream[0].x if transform is None else transform(stream[0].x)
                         a0 = float((head(x0).argmax(-1) == stream[0].y).float().mean())
                     first_task_acc.append(a0)
-                # backward transfer: task-0 acc at end minus right after learning it
                 return first_task_acc[-1] - first_task_acc[0]
 
             for scheme in schemes:
@@ -159,7 +129,6 @@ class N1(Experiment):
         d_reverse = means["reverse"] - means["uniform"]
         d_surprise = means["surprise"] - means["uniform"]
         d_replay_vs_none = means["uniform"] - means["no_replay"]
-        # null: best ordering ties uniform within seed spread, OR replay ties no-replay
         best_order_delta = max(d_reverse, d_surprise)
         ordering_ties_uniform = best_order_delta <= uni_spread + 1e-4
         replay_ties_none = d_replay_vs_none <= _spread(bwt["uniform"]) + 1e-4
@@ -176,11 +145,7 @@ class N1(Experiment):
         }
 
 
-# =====================================================================================================
-# N3: predictive-coding refiner vs generic residual refiner at matched compute
-# =====================================================================================================
 class _UntiedDepth(nn.Module):
-    """Compute-matched control: `steps` untied residual blocks applied once each (depth, not iteration)."""
 
     def __init__(self, dim: int, hidden: int, steps: int):
         super().__init__()
@@ -244,7 +209,6 @@ class N3(Experiment):
             ctl = _UntiedDepth(dim, hidden, steps)
             ctl_acc.append(_fit_eval(ctl, nn.Linear(dim, nc), xtr, ytr, xte, yte, epochs, lr))
 
-            # frozen-random substrate arm for the PC refiner
             seed_everything(s)
             xfr = frozen_random_projection(x, seed=s)
             pcfr = IterativeRefiner(dim, hidden, steps, mode="predictive_coding", pc_rate=float(e.pc_rate))
@@ -274,9 +238,6 @@ class N3(Experiment):
         }
 
 
-# =====================================================================================================
-# N4: synaptic tagging-and-capture as a surprise-gated consolidation schedule
-# =====================================================================================================
 class N4(Experiment):
     id = "n4_tag_and_capture"
     metric = ("backward_transfer", "retention_per_byte")
@@ -335,7 +296,6 @@ class N4(Experiment):
                             yb = torch.cat([y, sy[gsel]])
                         F.cross_entropy(head(xb), yb).backward()
                         opt.step()
-                    # tag low-confidence entries; capture depends on a later disagreement event
                     with torch.no_grad():
                         logits = head(x)
                         p = logits.softmax(-1)
@@ -387,9 +347,6 @@ class N4(Experiment):
         }
 
 
-# =====================================================================================================
-# N5: Fisher-triggered plasticity reopening at an unknown distribution shift
-# =====================================================================================================
 class N5(Experiment):
     id = "n5_fisher_reopen"
     metric = ("frontier_auc_after_shift", "adaptation_speed", "shift_localization_acc")
@@ -417,7 +374,6 @@ class N5(Experiment):
         loc_acc: list[float] = []
 
         for s in seeds:
-            # build a two-domain stream; a SHIFT happens at an unknown chunk index
             g = torch.Generator().manual_seed(s)
             shift_at = int(torch.randint(n_chunks // 3, 2 * n_chunks // 3, (1,), generator=g))
             two = make_task_stream(
@@ -462,7 +418,6 @@ class N5(Experiment):
                     for _ in range(epochs):
                         opt.zero_grad()
                         F.cross_entropy(head(x), y).backward()
-                        # Fisher-trace proxy: mean squared grad over trainable params
                         ftrace = sum(
                             float((p.grad.detach() ** 2).mean())
                             for p in head.parameters()
@@ -481,7 +436,6 @@ class N5(Experiment):
                         fisher_ema = 0.9 * fisher_ema + 0.1 * ftrace
                     with torch.no_grad():
                         accs.append(float((head(x).argmax(-1) == y).float().mean()))
-                # post-shift frontier AUC: mean acc over chunks after the shift
                 post = accs[shift_at:]
                 auc = _mean(post)
                 return auc, triggered_at
@@ -490,7 +444,6 @@ class N5(Experiment):
                 auc, trig = run_sched(name)
                 post_auc[name].append(auc)
                 if name == "fisher_trigger":
-                    # localization: did the trigger land within a small window of the true shift
                     hit = trig >= 0 and abs(trig - shift_at) <= int(e.localize_tol)
                     loc_acc.append(1.0 if hit else 0.0)
             auc_fr, _ = run_sched(
@@ -511,15 +464,11 @@ class N5(Experiment):
             "shift_localization_acc": round(loc, 4),
             "fisher_trigger_frozen_random_auc": round(_mean(post_auc_fr), 4),
             "seeds": list(seeds),
-            # null holds if it ties cosine OR fails to localize the shift
             "null_supported": bool(ties_cosine or not localizes),
             "reopening_beats_and_localizes": bool(not ties_cosine and localizes),
         }
 
 
-# =====================================================================================================
-# N6: ACh-vs-NE dissociation: expected vs unexpected uncertainty gating
-# =====================================================================================================
 class N6(Experiment):
     id = "n6_ach_ne_dissociation"
     metric = ("adapt_speed_at_boundary", "within_context_noise_rejection", "calibration_ece")
@@ -545,7 +494,6 @@ class N6(Experiment):
         ece_list = []
 
         for s in seeds:
-            # two contexts (a boundary between them) with within-context aleatoric noise
             two = make_task_stream(
                 n_tasks=2,
                 dim=dim,
@@ -566,7 +514,6 @@ class N6(Experiment):
                 seed_everything(s)
                 head = nn.Linear(dim, nc)
                 opt = torch.optim.Adam(head.parameters(), lr=lr)
-                # context 0 with within-context noise, then a boundary into context 1
                 xs = [add_aleatoric(two[0].x), two[1].x]
                 ys = [two[0].y, two[1].y]
                 boundary_speed = None
@@ -576,16 +523,12 @@ class N6(Experiment):
                     for ep in range(epochs):
                         opt.zero_grad()
                         logits = head(x)
-                        # disagreement proxy: entropy of the predictive softmax (a scalar gate signal,
-                        # detached so it never carries a gradient into the LR schedule)
                         p = logits.detach().softmax(-1)
                         ent = float((-(p * (p + 1e-9).log()).sum(-1)).mean())
                         if ema_dis is None:
                             ema_dis = ent
                         spike = (ent - ema_dis) / (abs(ema_dis) + 1e-8)
                         ema_dis = 0.9 * ema_dis + 0.1 * ent
-                        # ACh (within-context, expected) down-weights LR under high entropy;
-                        # NE (boundary, unexpected) raises LR on a disagreement spike.
                         if split:
                             ach = 1.0 / (1.0 + float(e.ach_strength) * ent)
                             ne = 1.0 + float(e.ne_strength) * max(0.0, spike) if ci > 0 else 1.0
@@ -603,16 +546,12 @@ class N6(Experiment):
                             pre = acc
                     if ci == 1 and boundary_speed is None:
                         boundary_speed = epochs
-                # within-context noise rejection: how stable predictions are on the noisy-TV noise region
                 with torch.no_grad():
                     nz = ntv["noise"].x
-                    # rejection == NOT moving much on irreducibly-noisy inputs (low logit variance over a
-                    # perturbation), higher is better
                     gg = torch.Generator().manual_seed(s + 11)
                     nz2 = nz + torch.randn(nz.shape, generator=gg) * float(e.aleatoric_scale)
                     drift = float((head(nz) - head(nz2)).abs().mean())
                     rejection = 1.0 / (1.0 + drift)
-                    # calibration ECE on context 1
                     logits1 = head(xs[1])
                     p1 = logits1.softmax(-1)
                     conf, pred = p1.max(-1)
@@ -628,7 +567,6 @@ class N6(Experiment):
             split_rej.append(rej_p)
             ece_list.append(ece_p)
 
-        # lower boundary step == faster adaptation; higher rejection == better
         d_adapt = _mean(single_adapt) - _mean(split_adapt)  # positive == split adapts faster
         d_rej = _mean(split_rej) - _mean(single_rej)  # positive == split rejects better
         adapt_spread = _spread(single_adapt)
@@ -644,17 +582,12 @@ class N6(Experiment):
             "delta_noise_rejection": round(d_rej, 4),
             "calibration_ece_split": round(_mean(ece_list), 4),
             "seeds": list(seeds),
-            # null holds if the split does NOT beat the single scalar on BOTH axes beyond seed spread
             "null_supported": bool(not (split_better_adapt and split_better_rej)),
             "dissociation_helps": bool(split_better_adapt and split_better_rej),
         }
 
 
-# =====================================================================================================
-# N7: latent scratchpad, working-memory slots for a delayed-match latent task
-# =====================================================================================================
 class _WMHead(nn.Module):
-    """WorkingMemory scratchpad consumed across a delay-filled sequence, then a match decision."""
 
     def __init__(self, dim: int, slots: int):
         super().__init__()
@@ -662,7 +595,6 @@ class _WMHead(nn.Module):
         self.cls = nn.Linear(dim * 2, 2)
 
     def forward(self, cue: torch.Tensor, delay: torch.Tensor, probe: torch.Tensor) -> torch.Tensor:
-        # delay: [B, T, D] distractor sequence; write cue first, then distractors, read at probe time
         mem = None
         read, mem = self.wm(cue, mem)
         for t in range(delay.shape[1]):
@@ -671,7 +603,6 @@ class _WMHead(nn.Module):
 
 
 class _FFHead(nn.Module):
-    """Feedforward control: cue concatenated to probe (no memory across the delay)."""
 
     def __init__(self, dim: int, hidden: int):
         super().__init__()
@@ -706,7 +637,6 @@ class N7(Experiment):
         acc_by_delay: dict[int, list[float]] = {}
 
         for s in seeds:
-            # delayed-match-to-sample: cue is one of K latent prototypes; probe matches (y=1) or not (y=0)
             stream = make_task_stream(
                 n_tasks=1,
                 dim=dim,
@@ -736,7 +666,6 @@ class N7(Experiment):
 
                 cue = protos[cue_id] + noise()
                 probe = protos[probe_id] + noise()
-                # distractors: random prototype draws (carry no info about the cue)
                 delay = (
                     torch.stack(
                         [protos[torch.randint(0, K, (n,), generator=gg)] + noise() for _ in range(delay_t)],
@@ -780,7 +709,6 @@ class N7(Experiment):
 
         wm = _mean(wm_acc)
         ff = _mean(ff_acc)
-        # matched compute: report params, the FF control gets a comparable hidden width
         wm_params = param_count(_WMHead(dim, int(e.wm_slots)))
         ff_params = param_count(_FFHead(dim, hidden))
         compute = matched_within(wm_params, ff_params, tol=0.5)
@@ -803,9 +731,6 @@ class N7(Experiment):
         }
 
 
-# =====================================================================================================
-# N8: object permanence as a pooled-latent prediction bound (EXPECTED taxonomy slot 3)
-# =====================================================================================================
 class N8(Experiment):
     id = "n8_object_permanence_bound"
     metric = ("post_reveal_prediction_error", "occluded_identity_probe_acc")
@@ -830,26 +755,19 @@ class N8(Experiment):
         for s in seeds:
             seed_everything(s)
             g = torch.Generator().manual_seed(s)
-            # object prototypes; a clip is [pre-occlusion, OCCLUDED pooled frame, post-reveal]. POOLING
-            # the occluded frame mixes the occluder over the object, so identity is largely washed out:
-            # this is the expected slot-3 bound on a pooled substrate.
             protos = torch.randn(K, dim, generator=g) * float(e.separation)
             occluder = torch.randn(1, dim, generator=g) * float(e.separation)
             obj = torch.randint(0, K, (n,), generator=g)
             pre = protos[obj] + 0.3 * torch.randn(n, dim, generator=g)
-            # pooled occluded frame: alpha-blend object with the occluder (pooling washes identity)
             alpha = float(e.occlusion_alpha)
             occ = (1 - alpha) * protos[obj] + alpha * occluder + 0.3 * torch.randn(n, dim, generator=g)
             post = protos[obj] + 0.3 * torch.randn(n, dim, generator=g)  # reveal: same object returns
 
-            # GATE: is occluded identity even decodable from the pooled occluded frame
             pr = linear_probe(occ, obj, seed=s)
             probe_acc.append(pr["score"])
             chance.append(pr["chance"])
-            # frozen-random substrate arm of the same probe
             probe_fr.append(linear_probe(frozen_random_projection(occ, seed=s), obj, seed=s)["score"])
 
-            # predict the post-reveal latent from [pre, occ]; baselines: last-frame (occ) and marginal mean
             cut = int(n * 0.7)
             feat = torch.cat([pre, occ], dim=-1)
             net = mlp(dim * 2, dim, int(e.hidden), depth=1, ln=True)
@@ -870,8 +788,6 @@ class N8(Experiment):
         pe, lf, mg = _mean(pred_err), _mean(lastframe_err), _mean(marginal_err)
         identity_decodable = pa > ch + 0.1
         beats_last_frame = lf - pe > float(e.margin)
-        # null (the expected slot-3 bound): identity NOT decodable through occlusion, OR predictor
-        # ties the last-frame baseline. Either way the pooled-latent bound is the published result.
         return {
             "occluded_identity_probe_acc": round(pa, 4),
             "chance": round(ch, 4),
@@ -884,14 +800,10 @@ class N8(Experiment):
             "seeds": list(seeds),
             "identity_decodable_through_occlusion": bool(identity_decodable),
             "predictor_beats_last_frame": bool(beats_last_frame),
-            # null holds (and is EXPECTED) when identity is washed out OR predictor ties last-frame
             "null_supported": bool(not identity_decodable or not beats_last_frame),
         }
 
 
-# =====================================================================================================
-# N9: attractor convergence of the latent refiner
-# =====================================================================================================
 class N9(Experiment):
     id = "n9_attractor_convergence"
     metric = ("fixed_point_residual", "convergence_depth_vs_difficulty", "converged_decode_gap")
@@ -941,7 +853,6 @@ class N9(Experiment):
             bs = basin_stability(refiner, xte, eps=float(e.perturb_eps), steps=int(e.unroll_steps), seed=s)
             stable_frac.append(1.0 if bs["stable"] else 0.0)
 
-            # convergence depth vs difficulty: per-sample steps-to-small-update vs linear-probe margin
             with torch.no_grad():
                 z = xte.clone()
                 per_sample_depth = torch.full((xte.shape[0],), float(e.unroll_steps))
@@ -953,7 +864,6 @@ class N9(Experiment):
                     per_sample_depth[newly] = float(t)
                     done = done | newly
                     z = z + u
-            # difficulty proxy: inverse linear margin from a probe head fit on raw latents
             seed_everything(s)
             head = nn.Linear(dim, nc)
             opt = torch.optim.Adam(head.parameters(), lr=lr)
@@ -985,15 +895,11 @@ class N9(Experiment):
             "converges": bool(converges),
             "margin": margin,
             "seeds": list(seeds),
-            # null holds if it drifts OR converged accuracy ties the matched control
             "null_supported": bool(not converges or ties_matched),
             "converges_and_beats_matched": bool(converges and gain > margin),
         }
 
 
-# =====================================================================================================
-# N10: confidence-based halting tracks difficulty (latent metacognition signature)
-# =====================================================================================================
 class N10(Experiment):
     id = "n10_halting_difficulty"
     metric = ("halt_step_vs_difficulty_corr", "accuracy_at_lower_compute")
@@ -1017,7 +923,6 @@ class N10(Experiment):
         adaptive_acc, fixed_acc, adaptive_steps = [], [], []
         for s in seeds:
             seed_everything(s)
-            # mixed-difficulty stream: some classes well separated, some not
             task = make_task_stream(
                 n_tasks=1,
                 dim=dim,
@@ -1043,14 +948,12 @@ class N10(Experiment):
             with torch.no_grad():
                 z, used = refiner(xte)
                 a_adaptive = float((head(z).argmax(-1) == yte).float().mean())
-                # fixed-N: force all samples to full steps
                 zf, _ = refiner(xte, max_steps=steps)
                 a_fixed = float((head(zf).argmax(-1) == yte).float().mean())
             adaptive_acc.append(a_adaptive)
             fixed_acc.append(a_fixed)
             adaptive_steps.append(float(used.float().mean()))
 
-            # independent difficulty: linear-probe margin on raw latents
             seed_everything(s)
             phead = nn.Linear(dim, nc)
             popt = torch.optim.Adam(phead.parameters(), lr=lr)
@@ -1063,7 +966,6 @@ class N10(Experiment):
                 srt = logits.sort(dim=-1, descending=True).values
                 difficulty = 1.0 / ((srt[:, 0] - srt[:, 1]).abs() + 1e-3)
             corr_list.append(_pearson(used.tolist(), difficulty.tolist()))
-            # random-halt control: shuffle the halt steps, correlation should vanish
             g = torch.Generator().manual_seed(s + 3)
             shuf = used[torch.randperm(used.shape[0], generator=g)]
             rand_corr_list.append(_pearson(shuf.tolist(), difficulty.tolist()))
@@ -1085,15 +987,11 @@ class N10(Experiment):
             "compute_saved": bool(compute_saved),
             "accuracy_kept": bool(acc_kept),
             "seeds": list(seeds),
-            # null holds if halting does not track difficulty, OR adaptive loses accuracy with no saving
             "null_supported": bool(not halt_tracks_difficulty or not (compute_saved and acc_kept)),
             "metacognition_signature": bool(halt_tracks_difficulty and compute_saved and acc_kept),
         }
 
 
-# =====================================================================================================
-# N11: latent self-verification as error-monitoring
-# =====================================================================================================
 class N11(Experiment):
     id = "n11_self_verification"
     metric = ("accuracy", "self_correction_gain", "halting_step_distribution")
@@ -1139,7 +1037,6 @@ class N11(Experiment):
                 z, _ = refiner(xtr)
                 logits = head(z)
                 ce = F.cross_entropy(logits, ytr)
-                # verifier target: 1 when the current prediction is wrong (error monitoring)
                 with torch.no_grad():
                     wrong = (logits.argmax(-1) != ytr).float()
                 vloss = F.binary_cross_entropy_with_logits(verifier.score(z), wrong)
@@ -1149,7 +1046,6 @@ class N11(Experiment):
             with torch.no_grad():
                 z1, _ = refiner(xte)
                 single = float((head(z1).argmax(-1) == yte).float().mean())
-                # verify-revise: high verifier score -> one more refine step
                 score = torch.sigmoid(verifier.score(z1))
                 revise = score > float(e.revise_threshold)
                 z2 = z1.clone()
@@ -1157,7 +1053,6 @@ class N11(Experiment):
                     extra, _ = refiner(z1[revise], max_steps=int(e.revise_steps))
                     z2[revise] = extra
                 rev_acc = float((head(z2).argmax(-1) == yte).float().mean())
-                # shuffled-verifier control: revise a random equal-size subset
                 g = torch.Generator().manual_seed(s + 5)
                 k = int(revise.sum())
                 shuf_mask = torch.zeros_like(revise)
@@ -1170,7 +1065,6 @@ class N11(Experiment):
                     z3[shuf_mask] = extra2
                 sh_acc = float((head(z3).argmax(-1) == yte).float().mean())
 
-            # compute-matched single-shot: a fixed extra step for EVERYONE (same total compute as revise)
             seed_everything(s)
             ref2 = IterativeRefiner(dim, hidden, steps + int(e.revise_steps))
             ctl_acc.append(_fit_eval(ref2, nn.Linear(dim, nc), xtr, ytr, xte, yte, epochs, lr))
@@ -1204,7 +1098,6 @@ class N11(Experiment):
             "compute_matched": compute,
             "margin": margin,
             "seeds": list(seeds),
-            # null holds if verify-revise does NOT beat the compute-matched control AND shuffled verifier
             "null_supported": bool(not (beats_matched and beats_shuffled)),
             "verifier_carries_signal": bool(beats_matched and beats_shuffled and beats_single),
         }

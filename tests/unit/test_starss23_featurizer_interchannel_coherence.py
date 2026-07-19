@@ -37,8 +37,6 @@ def _fixture_audio(n_frames: int, seed: int = 7) -> np.ndarray:
     return rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
 
 
-
-
 def test_zero_trained_parameters() -> None:
     assert InterchannelCoherenceFeaturizer().n_params() == 0
 
@@ -49,8 +47,6 @@ def test_frozen_dsp_is_not_learned() -> None:
     assert a.window.tobytes() == b.window.tobytes()
     assert a.band_partition.tobytes() == b.band_partition.tobytes()
     assert a.parameter_digest() == b.parameter_digest()
-
-
 
 
 def test_deterministic_feature_bytes_across_runs() -> None:
@@ -71,8 +67,6 @@ def test_deterministic_feature_bytes_across_instances() -> None:
         InterchannelCoherenceFeaturizer().featurize(audio)
     )
     assert digest_a == digest_b
-
-
 
 
 def test_feature_block_shape_is_256() -> None:
@@ -102,8 +96,6 @@ def test_gate_consumes_the_256_features_unchanged() -> None:
     assert gate.n_params() == 3193
     p_fire = gate.infer(features[0], OnlineState.initial())
     assert 0.0 <= float(p_fire) <= 1.0
-
-
 
 
 def test_flops_per_frame_matches_documented_formula() -> None:
@@ -143,8 +135,6 @@ def test_featurize_flops_charged_into_matched_budget_ledger() -> None:
     assert artifact["matched_budget"]["flops"] <= FLOP_CEILING
 
 
-
-
 def test_seal_present_and_reproducible() -> None:
     body = {
         "featurizer": "interchannel_coherence",
@@ -166,8 +156,6 @@ def test_seal_present_and_reproducible() -> None:
         stored_seal = artifact.pop("seal")
         assert isinstance(stored_seal, str) and len(stored_seal) == 64
         assert canonical_sha256(artifact) == stored_seal
-
-
 
 
 def test_responds_to_planted_directional_onset() -> None:

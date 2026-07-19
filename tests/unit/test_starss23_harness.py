@@ -106,8 +106,6 @@ def _budget_point(
     )
 
 
-
-
 def test_arm_flop_model_projects_candidate_only_training_and_shared_frontend() -> None:
     train_calls: list[None] = []
 
@@ -219,8 +217,6 @@ def test_certify_refuses_a_control_that_charges_training() -> None:
         point.certify()
 
 
-
-
 def test_gate_train_flops_matches_the_spec_anchor() -> None:
     assert harness.gate_train_flops(8, 54_000, GATE_INFER_FLOPS_PER_FRAME) == 8_274_960_000
 
@@ -244,8 +240,6 @@ def test_break_even_is_unamortizable_without_a_saving() -> None:
     break_even = harness.break_even_queries(C_TRAIN, 0.0)
     assert break_even.amortizable is False
     assert break_even.n_star_frames is None
-
-
 
 
 def test_pareto_frontier_drops_dominated_points() -> None:
@@ -333,8 +327,6 @@ def test_candidate_does_not_dominate_when_it_loses_at_a_budget() -> None:
     assert report.verdict == "null"
 
 
-
-
 def test_report_bridges_to_a_positive_matched_budget() -> None:
     report = harness.run_matched_budget([_budget_point()], wall_ns=1_000_000)
     matched = report.matched_budget
@@ -381,8 +373,6 @@ def test_run_refuses_duplicate_budget_ids() -> None:
 def test_run_refuses_an_empty_sweep() -> None:
     with pytest.raises(harness.BudgetRefusal):
         harness.run_matched_budget([], wall_ns=1_000_000)
-
-
 
 
 def test_flop_anchors_match_the_featurizer_and_gate_modules() -> None:

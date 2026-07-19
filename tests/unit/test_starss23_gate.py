@@ -41,8 +41,6 @@ def _separable_voc_problem(n: int = 400, seed: int = 123) -> tuple[np.ndarray, n
     return x, y
 
 
-
-
 def test_input_geometry() -> None:
     assert N_ONLINE == 8
     assert HIDDEN == 12
@@ -74,8 +72,6 @@ def test_state_stays_within_few_kilobytes() -> None:
     vector = OnlineState.initial().to_vector()
     assert vector.shape == (N_ONLINE,)
     assert vector.dtype == np.float64
-
-
 
 
 def test_inference_flops_matches_documented_formula() -> None:
@@ -118,8 +114,6 @@ def test_work_vectors_charge_the_right_buckets() -> None:
     assert train_work.total_work == 8_274_960_000  # amortized training charged to learning only
 
 
-
-
 def test_infer_interface_carries_no_label() -> None:
     infer_params = list(inspect.signature(CandidateGate.infer).parameters)
     assert infer_params == ["self", "features", "state"]
@@ -131,8 +125,6 @@ def test_online_state_has_no_ground_truth_fields() -> None:
     names = [field.name.lower() for field in fields(OnlineState)]
     for forbidden in _FORBIDDEN_ONLINE:
         assert all(forbidden not in name for name in names), forbidden
-
-
 
 
 def test_paired_seed_weights_are_reproducible() -> None:
@@ -155,8 +147,6 @@ def test_fit_is_deterministic() -> None:
     assert first.parameter_digest() == second.parameter_digest()
 
 
-
-
 def test_online_state_update_is_causal_and_bounded() -> None:
     features = np.full(D_FEAT, 0.1)
     idle = OnlineState.initial()
@@ -170,8 +160,6 @@ def test_online_state_update_is_causal_and_bounded() -> None:
     vector = fired.to_vector()
     assert np.all(vector >= -1.0 - 1e-9)
     assert np.all(vector <= 1.0 + 1e-9)
-
-
 
 
 def test_predict_proba_matches_infer() -> None:
@@ -199,8 +187,6 @@ def test_predict_proba_rejects_bad_shape() -> None:
         gate.predict_proba(np.zeros((4, D_IN + 1)))
     with pytest.raises(GateRefusal):
         gate.infer(np.zeros(D_FEAT + 1), OnlineState.initial())
-
-
 
 
 def test_fit_learns_voc_targets() -> None:
@@ -234,8 +220,6 @@ def test_fit_rejects_malformed_targets() -> None:
         gate.fit(x, np.zeros(9))  # misaligned length
     with pytest.raises(GateRefusal):
         gate.fit(np.zeros((10, D_IN + 3)), np.zeros(10))  # wrong input width
-
-
 
 
 def test_gate_consumes_featurizer_output_online() -> None:

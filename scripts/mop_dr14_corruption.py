@@ -1,49 +1,4 @@
 #!/usr/bin/env python
-"""DR14: reasoning under corruption/compression, laptop arms (VQ/low-rank, 4-bit, noise), WP-13.
-
-THESIS: an iterative reasoning primitive degrades with a FLATTER accuracy-vs-corruption slope than
-a matched single-pass baseline: iteration recovers corrupted information a passive readout cannot.
-
-NULL (preregistered): reasoning and single-pass degrade at the same rate under EVERY corruption
-family (slope difference within SLOPE_MARGIN): iteration only processes what survives corruption.
-
-Arms (both trained on CLEAN latents, both evaluated under IDENTICAL corrupted tensors, corrupted
-once and shared, never re-drawn per arm):
-  reasoning: IterativeRefiner (weight-tied residual refinement, the shell's canonical laptop
-    reasoning primitive from the EX17 line) + linear head.
-  single-pass baseline: untied residual blocks at depth_for_matched_flops (equal block count,
-    equal forward FLOPs; parameter counts differ by construction and are reported honestly).
-The dropped-channel arm is implemented cache-first over a strict citable dense-token cache. It
-uses nested deterministic channel-group masks and the exact same materialized view for both arms.
-When the natural task cache is absent it fails closed as a skipped environment/data gate, not a
-Studio compute gate. Which OTHER primitives survived their own WP rows is read from runs/mot/*.json
-at run time and recorded as context only (their
-scripts are separate lanes; this script owns the corruption mechanics, not their harnesses).
-
-Corruption families (severity normalized to [0, 1] per family, slopes fit on the degradation
-acc_clean - acc vs severity):
-  lowrank_vq: project onto the top-r principal components of the CLEAN TRAIN latents (r swept
-    down), the low-rank/VQ compression proxy on pooled latents.
-  quantize: per-feature uniform quantize_dequantize bit sweep (the shipped 4-bit control).
-  noise: additive Gaussian at multiples of the latent std.
-
-Guards (preregistered): noisy-TV guard on the noise arm: on PURE-NOISE inputs (signal destroyed,
-marginals matched) BOTH arms must sit within GUARD_TOL of chance, otherwise the eval leaks and no
-slope is interpretable. Shuffled-feature floor (cross-feature structure destroyed) reported per
-arm. D3 difficulty calibration: the synthetic regime's separation is chosen so the clean linear
-probe lands INSIDE [CAL_LO, CAL_HI] (no ceiling, no floor) before any arm is scored.
-
-Data: the verdict is computed on the calibrated synthetic latent stream. The real pooled V-JEPA
-cache (data/cache/vjepa2_vitl_fpc64_256_real, count 64) is swept identically and reported as a
-pilot replication: 64 samples is below the preregistered MIN_REAL_N power floor, so the real arm
-cannot set the verdict either way and is labeled as such.
-
-Writes runs/mot/dr14_corruption.json.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: PYTHONPATH=. .venv/bin/python scripts/mop_dr14_corruption.py --seeds 0-2
-"""
 
 from __future__ import annotations
 
@@ -69,9 +24,6 @@ from mop.shell.predictor import mlp
 from mop.shell.refine import IterativeRefiner
 from mop.substrate.vjepa21_dense_tasks import DenseTaskError, build_dr14_dense_views
 
-# ------------------------------------------------------------------------------------------------
-# preregistered thresholds (in code before any result exists)
-# ------------------------------------------------------------------------------------------------
 SLOPE_MARGIN = 0.05  # single-pass slope must exceed reasoning slope by this for "flatter"
 GUARD_TOL = 0.08  # pure-noise accuracy must sit within this of chance for BOTH arms
 CAL_LO, CAL_HI = 0.55, 0.90  # clean linear-probe band certifying a non-ceiling, non-floor regime
@@ -107,12 +59,7 @@ def default_cfg() -> DictConfig:
     )
 
 
-# ------------------------------------------------------------------------------------------------
-# corruption operators (each applied ONCE per severity, the corrupted tensor shared by both arms)
-# ------------------------------------------------------------------------------------------------
 def corrupt_lowrank(x: torch.Tensor, train_ref: torch.Tensor, frac: float) -> torch.Tensor:
-    """Project x onto the top-r principal directions of the CLEAN TRAIN latents (r = frac of the
-    full rank, at least 1). frac >= 1.0 is the identity by construction."""
     if frac >= 1.0:
         return x.clone()
     mu = train_ref.mean(0, keepdim=True)
@@ -127,7 +74,6 @@ def corrupt_quantize(x: torch.Tensor, bits: int) -> torch.Tensor:
 
 
 def corrupt_noise(x: torch.Tensor, level: float, seed: int) -> torch.Tensor:
-    """Additive Gaussian at `level` times the latent std (deterministic given seed)."""
     if level <= 0.0:
         return x.clone()
     g = torch.Generator().manual_seed(seed)
@@ -136,14 +82,11 @@ def corrupt_noise(x: torch.Tensor, level: float, seed: int) -> torch.Tensor:
 
 
 def pure_noise_like(x: torch.Tensor, seed: int) -> torch.Tensor:
-    """Signal destroyed, marginal scale matched: the noisy-TV guard input."""
     g = torch.Generator().manual_seed(seed)
     return x.mean() + x.std() * torch.randn(x.shape, generator=g)
 
 
 def shuffle_features(x: torch.Tensor, seed: int) -> torch.Tensor:
-    """Independently permute each feature column across rows (the destroyed-structure floor,
-    latent_robustness's control convention)."""
     g = torch.Generator().manual_seed(seed)
     out = x.clone()
     for j in range(x.shape[1]):
@@ -151,11 +94,7 @@ def shuffle_features(x: torch.Tensor, seed: int) -> torch.Tensor:
     return out
 
 
-# ------------------------------------------------------------------------------------------------
-# arms
-# ------------------------------------------------------------------------------------------------
 class ReasoningArm(nn.Module):
-    """Weight-tied iterative refinement + linear head: the reasoning primitive under test."""
 
     def __init__(self, dim: int, hidden: int, steps: int, n_classes: int):
         super().__init__()
@@ -168,8 +107,6 @@ class ReasoningArm(nn.Module):
 
 
 class SinglePassArm(nn.Module):
-    """Untied residual blocks at matched FLOPs (equal block count, refine.py's stated control:
-    iteration vs depth is exactly tied-vs-untied at equal blocks) + linear head."""
 
     def __init__(self, dim: int, hidden: int, blocks: int, n_classes: int):
         super().__init__()
@@ -198,7 +135,6 @@ def _acc(model: nn.Module, x: torch.Tensor, y: torch.Tensor) -> float:
 
 
 def fit_slope(severities: list[float], degradations: list[float]) -> float:
-    """Least-squares slope of degradation (acc_clean - acc) on normalized severity."""
     s = torch.tensor(severities, dtype=torch.float64)
     d = torch.tensor(degradations, dtype=torch.float64)
     sc, dc = s - s.mean(), d - d.mean()
@@ -206,15 +142,9 @@ def fit_slope(severities: list[float], degradations: list[float]) -> float:
     return float((sc * dc).sum() / denom) if denom > 0 else 0.0
 
 
-# ------------------------------------------------------------------------------------------------
-# data
-# ------------------------------------------------------------------------------------------------
 def make_synthetic(
     cfg: DictConfig, seed: int
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, dict]:
-    """Gaussian class clusters with the separation CALIBRATED into the preregistered non-ceiling
-    band [CAL_LO, CAL_HI] via the clean linear probe (D3): a slope on an at-ceiling or at-floor
-    regime would be uninterpretable."""
     g = torch.Generator().manual_seed(seed)
     dim, k = int(cfg.dim), int(cfg.n_classes)
     n = int(cfg.n_train) + int(cfg.n_test)
@@ -250,7 +180,6 @@ def load_real_cache(cache_dir: Path) -> tuple[torch.Tensor, torch.Tensor] | None
 
 
 def run_dense_drop_sweep(cfg: DictConfig, cache_dir: Path, seed: int) -> dict:
-    """Run the registered dense dropped-channel arm from one strict shared-view receipt."""
 
     try:
         bundle = build_dr14_dense_views(
@@ -358,9 +287,6 @@ def run_dense_drop_sweep(cfg: DictConfig, cache_dir: Path, seed: int) -> dict:
     }
 
 
-# ------------------------------------------------------------------------------------------------
-# the sweep (one train/test split, both arms, all families, identical corrupted tensors)
-# ------------------------------------------------------------------------------------------------
 def run_sweep(
     cfg: DictConfig, xtr: torch.Tensor, ytr: torch.Tensor, xte: torch.Tensor, yte: torch.Tensor, seed: int
 ) -> dict:
@@ -410,11 +336,9 @@ def run_sweep(
             "reasoning_flatter": bool(slope_s - slope_r > SLOPE_MARGIN),
         }
 
-    # noisy-TV guard (noise arm): pure-noise inputs must put BOTH arms at chance
     xn = pure_noise_like(xte, seed=seed + 77)
     guard_r, guard_s = _acc(reason, xn, yte), _acc(single, xn, yte)
     guard_ok = bool(abs(guard_r - chance) <= GUARD_TOL and abs(guard_s - chance) <= GUARD_TOL)
-    # destroyed-structure floor (reported, the latent_robustness convention)
     xs = shuffle_features(xte, seed=seed + 78)
     floor_r, floor_s = _acc(reason, xs, yte), _acc(single, xs, yte)
 
@@ -442,7 +366,6 @@ def run_sweep(
 
 
 def _upstream_context() -> dict:
-    """Which reasoning-primitive rows have verdicts on disk (context only, never rebuilt here)."""
     ctx = {}
     mot = Path("runs/mot")
     if mot.exists():

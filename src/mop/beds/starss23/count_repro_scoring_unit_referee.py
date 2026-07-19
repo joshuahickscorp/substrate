@@ -95,8 +95,6 @@ def macro_score_arm(
     return MacroCountScore(n_clips=len(per_clip), macro_mae=macro_mae, per_clip=tuple(per_clip))
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ClipClusterPermutation:
 

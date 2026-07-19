@@ -31,8 +31,6 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-
-
 def test_macro_referee_weights_each_clip_equally():
     score = macro_score_arm(
         [("A", [0, 1, 1, 2, 0], [0, 1, 2, 2, 0], [1, 3]), ("B", [0, 0], [1, 1], [])]
@@ -95,8 +93,6 @@ def test_clip_permutation_all_positive_hits_the_floor():
     assert cluster.fraction_candidate_lower == pytest.approx(1.0)
 
 
-
-
 def test_prereg_macro_sesoi_uses_the_reused_rule_and_clears_the_floor():
     facts = [ClipLabelFact(clip_id=f"c{i:02d}", n_frames=1000, n_changes=40) for i in range(21)]
     body = build_count_repro_scoring_unit_prereg(
@@ -136,8 +132,6 @@ def test_prereg_refuses_when_sesoi_below_the_macro_granularity_floor():
         )
 
 
-
-
 def test_verifier_imports_only_stdlib_and_no_producer_or_mop_code():
     source = Path(V.__file__).read_text(encoding="utf-8")
     tree = ast.parse(source)
@@ -164,8 +158,6 @@ def test_reproduction_reuses_sealed_coasting_by_import_not_reimplementation():
     import mop.beds.starss23.count_repro_scoring_unit_referee as macro
 
     assert macro.mae_clip is sealed.mae_clip
-
-
 
 
 _SMALL_CONFIG = RealCountBedConfig(

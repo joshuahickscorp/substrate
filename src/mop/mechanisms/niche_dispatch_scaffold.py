@@ -1,24 +1,3 @@
-"""Scaffold spine for reproducible niches, real complementarity, and value-of-compute dispatch.
-
-This module raises the SCAFFOLDING axis only for epoch G1 sub-questions C1, C2, and D1. It supplies
-machine-checkable contracts and deterministic mechanics that ENCODE the bar a niche-dispatch
-mechanism must clear before it may claim any value. It builds the harness, not the result.
-
-C1 asks whether perspectives occupy reproducible, disjoint context niches. C2 asks whether those
-niches are genuinely complementary, that is, whether each retained perspective owns at least one
-uniquely positive niche and no retained perspective is net-harmful. D1 asks whether dispatching
-compute across niches beats every matched control at matched cost.
-
-The named prior null this module encodes is the EDCM invalid-bed null: if the evidence bed is uneven
-in niche size, contains a net-harmful perspective, or has no uniquely positive niche, then the
-forced assumption of universal complementarity is the wrong assumption and every downstream
-complementarity or dispatch claim must fail closed. Nothing here asserts that any perspective
-actually is complementary or that dispatch actually carries value. The synthetic beds are toy,
-seeded partitions. The controls are declarations, not runs. Real activation is quarantined behind a
-gate that local code refuses to pass without a valid confirmation receipt.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -32,15 +11,11 @@ from ..substrate.events import canonical_sha256
 
 NICHE_DISPATCH_SCHEMA = "mop-niche-dispatch/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-# The matched-control family a dispatch claim must beat. Ordering is load-bearing for the interface
-# digest and for the completeness check, so a membership or order drift is refused.
 DISPATCH_CONTROLS: tuple[str, ...] = (
     "all-perspectives",  # always run every perspective; no dispatch saving
     "random-dispatch",  # dispatch to a perspective chosen at random per context
@@ -48,12 +23,11 @@ DISPATCH_CONTROLS: tuple[str, ...] = (
     "majority-vote",  # run all perspectives and take a majority vote
 )
 
-# The scopes a confirmation receipt may authorize. Activation stays off until a receipt is supplied.
 ACTIVATION_SCOPES: tuple[str, ...] = ("shadow-eval", "gated-pilot", "full-dispatch")
 
 
 class NicheDispatchRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, drifted, or outside its declared scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -81,18 +55,10 @@ def _require_cells(cells: Sequence[str], label: str) -> tuple[str, ...]:
     return tuple(sorted(cells))
 
 
-# ---------------------------------------------------------------------------
-# Section A. Context partition and single-perspective niche declaration (C1 substrate).
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ContextPartition:
-    """A closed universe of disjoint context cells that niches are claimed over.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. A partition is a
-    bookkeeping universe, never a statement that any partitioning of natural context is meaningful.
-    """
 
     partition_id: str
     cells: tuple[str, ...]
@@ -128,10 +94,6 @@ class ContextPartition:
 
 @dataclass(frozen=True, slots=True)
 class NicheDeclaration:
-    """A perspective plus the context cells where it is claimed useful, for one seed.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     perspective_id: str
     seed: int
@@ -163,18 +125,10 @@ class NicheDeclaration:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section B. Reproduction across seeds and the disjoint-niche contract (C1).
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ReproducedNiche:
-    """One perspective's niche declared across at least two seeds; reproduced only if it is stable.
-
-    A niche reproduces only when every seed yields the identical cell set. Claim scope:
-    deterministic programmatic mechanics only; no capability claim.
-    """
 
     perspective_id: str
     seed_cells: Mapping[int, tuple[str, ...]]
@@ -223,12 +177,6 @@ class ReproducedNiche:
 
 @dataclass(frozen=True, slots=True)
 class DisjointNicheContract:
-    """C1 contract: every perspective niche reproduces across seeds and no two niches overlap.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. A green contract
-    means the niches are reproducible and disjoint by construction, never that the partition carves
-    natural context at a real joint.
-    """
 
     partition: ContextPartition
     niches: tuple[ReproducedNiche, ...]
@@ -283,19 +231,10 @@ class DisjointNicheContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section C. Complementarity screening (C2) and the EDCM invalid-bed null.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class PerspectiveAssessment:
-    """A perspective's measured net effect and the cells where it is uniquely positive.
-
-    net_effect is a signed held-out delta vs the no-perspective baseline. A uniquely positive cell
-    is one this perspective helps on where no retained rival also helps. Claim scope: deterministic
-    programmatic mechanics only; no capability claim.
-    """
 
     perspective_id: str
     net_effect: float
@@ -344,13 +283,6 @@ def assert_valid_edcm_bed(
     *,
     evenness_tolerance: float,
 ) -> None:
-    """Encode the EDCM invalid-bed null: refuse the forced universal-complementarity assumption.
-
-    The bed is invalid, and forced universal complementarity is the wrong assumption, when the bed
-    is uneven in niche size, contains any net-harmful perspective, or has no uniquely positive
-    perspective. Any of these fails closed. Claim scope: deterministic programmatic mechanics only;
-    no capability claim.
-    """
 
     if len(assessments) < 2:
         raise NicheDispatchRefusal("an EDCM bed needs at least two perspectives")
@@ -376,13 +308,6 @@ def assert_valid_edcm_bed(
 
 @dataclass(frozen=True, slots=True)
 class ComplementarityContract:
-    """C2 contract: screen perspectives, keep only those with a uniquely positive niche.
-
-    This contract refuses the universal-complementarity assumption outright: it never assumes every
-    perspective helps. It retains a perspective only when that perspective is net-positive and owns
-    at least one uniquely positive cell, and it refuses any perspective declared retained that is
-    net-harmful. Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     assessments: tuple[PerspectiveAssessment, ...]
     evenness_tolerance: float
@@ -399,23 +324,19 @@ class ComplementarityContract:
             raise NicheDispatchRefusal(
                 "complementarity contract refuses the universal-complementarity assumption"
             )
-        # The EDCM null gates the whole contract: an invalid bed fails closed here.
         assert_valid_edcm_bed(self.assessments, evenness_tolerance=self.evenness_tolerance)
 
     @property
     def retained(self) -> tuple[str, ...]:
-        """The perspectives that earn retention: net-positive and uniquely positive."""
 
         return tuple(sorted(a.perspective_id for a in self.assessments if a.uniquely_positive))
 
     @property
     def refused(self) -> tuple[str, ...]:
-        """The perspectives screened out: not uniquely positive under this bed."""
 
         return tuple(sorted(a.perspective_id for a in self.assessments if not a.uniquely_positive))
 
     def assert_retention_honest(self, claimed_retained: Sequence[str]) -> None:
-        """Fail closed if a caller tries to retain a perspective that did not earn it."""
 
         claimed = set(claimed_retained)
         earned = set(self.retained)
@@ -442,14 +363,10 @@ class ComplementarityContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section D. Matched compute and the value-of-compute dispatch contract (D1).
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-    """The matched full-system compute budget every dispatch arm must be held to before comparison."""
 
     params: int
     flops: int
@@ -477,12 +394,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class DispatchValueContract:
-    """D1 contract: dispatch may claim value only if it beats every matched control at matched cost.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The controls tuple
-    is fixed and its order is load-bearing. A losing or tied dispatch does not raise; it simply
-    yields no value claim, which is the fail-closed default.
-    """
 
     controls: tuple[str, ...]
     matched: MatchedBudget
@@ -510,10 +421,6 @@ class DispatchValueContract:
         dispatch_score: float,
         control_scores: Mapping[str, float],
     ) -> bool:
-        """Return True only if dispatch strictly beats every matched control on the declared metric.
-
-        Fails closed on an incomplete or non-finite control set. A tie or loss returns False.
-        """
 
         if set(control_scores) != set(DISPATCH_CONTROLS):
             raise NicheDispatchRefusal("control scores must cover exactly the declared control family")
@@ -539,19 +446,10 @@ class DispatchValueContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section E. Activation gate. Real dispatch activation is quarantined behind a receipt this
-# process cannot mint, encoding that activation is not earned yet.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
-    """A confirmation receipt that a downstream authority issues to license dispatch activation.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The receipt is a
-    declaration; possessing one does not create evidence, it only records that an authority signed.
-    """
 
     issuer: str
     license_sha256: str
@@ -569,11 +467,6 @@ class ConfirmationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class DispatchActivationGate:
-    """A fail-closed gate. Local code cannot activate real dispatch without a valid receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that scaffold code can never quietly stand in for an earned, externally confirmed deployment.
-    """
 
     activation_required: bool = True
     local_activation_permitted: bool = False
@@ -585,7 +478,6 @@ class DispatchActivationGate:
             raise NicheDispatchRefusal("local activation of dispatch is never permitted by default")
 
     def authorize(self, receipt: ConfirmationReceipt | None = None) -> ConfirmationReceipt:
-        """Fail closed unless a valid confirmation receipt is supplied by an external authority."""
 
         if receipt is None:
             raise NicheDispatchRefusal(
@@ -603,9 +495,6 @@ class DispatchActivationGate:
         }
 
 
-# ---------------------------------------------------------------------------
-# Section F. Deterministic synthetic bed builders (seeded, reproducible; used by tests and wiring).
-# ---------------------------------------------------------------------------
 
 
 def _cell_id(index: int) -> str:
@@ -617,7 +506,6 @@ def _perspective_id(index: int) -> str:
 
 
 def synthesize_partition(*, n_perspectives: int, cells_each: int) -> ContextPartition:
-    """Build a deterministic partition with disjoint cell blocks, one block per perspective."""
 
     if n_perspectives < 2:
         raise NicheDispatchRefusal("a synthetic bed needs at least two perspectives")
@@ -634,10 +522,6 @@ def synthesize_disjoint_bed(
     n_perspectives: int = 3,
     cells_each: int = 2,
 ) -> DisjointNicheContract:
-    """Build a reproducible, disjoint bed. Cells depend on perspective index only, so the niche is
-    identical across seeds by construction and therefore reproduces. Claim scope: deterministic
-    programmatic mechanics only; no capability claim.
-    """
 
     if len(seeds) < 2:
         raise NicheDispatchRefusal("reproduction requires at least two seeds")
@@ -658,11 +542,6 @@ def synthesize_valid_assessments(
     n_perspectives: int = 3,
     cells_each: int = 2,
 ) -> tuple[PerspectiveAssessment, ...]:
-    """Build a deterministic set of even, net-positive, uniquely positive assessments (a valid bed).
-
-    Effects are drawn from a seeded hash so they are reproducible without any wall-clock or OS
-    entropy. Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     _require_seed(seed, "synthesize_valid_assessments.seed")
     assessments: list[PerspectiveAssessment] = []
@@ -681,7 +560,6 @@ def synthesize_valid_assessments(
 
 
 def build_default_dispatch_value_contract() -> DispatchValueContract:
-    """Return a canonical, non-vacuous D1 dispatch value contract."""
 
     return DispatchValueContract(
         controls=DISPATCH_CONTROLS,
@@ -692,15 +570,12 @@ def build_default_dispatch_value_contract() -> DispatchValueContract:
     )
 
 
-# ---------------------------------------------------------------------------
 # Coverage record and capability declaration.
-# ---------------------------------------------------------------------------
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static record of which epoch G1 sub-questions this scaffold arms (readiness only)."""
 
     return {
         "C1": (

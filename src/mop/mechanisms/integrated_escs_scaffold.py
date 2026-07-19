@@ -1,20 +1,3 @@
-"""Fail-closed scaffold for the integrated ESCS advantage frontier (epoch G1-I1).
-
-This module raises the SCAFFOLDING axis only. It encodes, as machine-checkable contracts and
-deterministic mechanics, the bar an integrated ESCS system must clear before it may claim any
-advantage. It builds the harness, not the result. Nothing here asserts that an integrated system
-actually dominates anything or is capable on natural data.
-
-The scientific claim it guards (G1-I1): an integrated ESCS advantage may be claimed ONLY IF the
-integrated system dominates every matched baseline (single-perspective, static-ensemble, no-memory,
-sparse-only) on the quality-vs-compute Pareto frontier, at matched full-system cost, across
-independent replications. The named prior null is that there is no integrated advantage: the
-integrated system fails to dominate at matched cost. That null is reachable and holds by default.
-Every added mechanism on the ablation ladder must justify its marginal compute. Real activation is
-quarantined behind a gate that local code refuses to pass without a valid activation receipt.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -26,16 +9,12 @@ from ..substrate.events import canonical_sha256
 
 INTEGRATED_ESCS_SCHEMA = "mop-integrated-escs/v1"
 
-# Must stay byte-identical to the program-wide claim scope. Duplicated here instead of imported so
-# this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 
-# The ordered cost axes a cost vector reports. Order is load-bearing for the interface digest.
 COST_AXES: tuple[str, ...] = ("params", "flops", "memory_bytes", "wall_ticks", "energy_units")
 
-# The matched-baseline family an integrated advantage must dominate. Order is load-bearing.
 REQUIRED_BASELINES: tuple[str, ...] = (
     "single-perspective",
     "static-ensemble",
@@ -43,7 +22,6 @@ REQUIRED_BASELINES: tuple[str, ...] = (
     "sparse-only",
 )
 
-# The ordered mechanisms the ablation ladder adds; each rung must justify its marginal compute.
 MECHANISM_LADDER: tuple[str, ...] = (
     "multi-perspective",
     "dynamic-composition",
@@ -51,7 +29,6 @@ MECHANISM_LADDER: tuple[str, ...] = (
     "dense-mixing",
 )
 
-# Verdict tokens. The null is the fail-closed default; the advantage token must be earned.
 NULL_VERDICT = "no-integrated-advantage-at-matched-cost"
 ADVANTAGE_VERDICT = "integrated-advantage-earned-at-matched-cost"
 
@@ -60,7 +37,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class IntegratedEscsRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, drifted, or outside its declared scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -73,18 +50,10 @@ def _require_sha256(value: str, label: str) -> None:
         raise IntegratedEscsRefusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-# ---------------------------------------------------------------------------
-# Section A. Cost vectors and frontier points.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class CostVector:
-    """A non-vacuous compute cost along the fixed axes params, flops, memory, wall ticks, energy.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. A cost vector is a
-    bookkeeping tuple, never a measurement of any real system.
-    """
 
     params: int
     flops: int
@@ -118,10 +87,6 @@ class CostVector:
 
 @dataclass(frozen=True, slots=True)
 class FrontierPoint:
-    """A labeled quality-vs-cost point on the frontier. Quality lies in the closed unit interval.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     label: str
     quality: float
@@ -141,7 +106,6 @@ class FrontierPoint:
             raise IntegratedEscsRefusal("frontier point quality must lie in [0.0, 1.0]")
 
     def dominates(self, other: FrontierPoint) -> bool:
-        """Pareto domination: no worse on quality and every cost axis, strictly better somewhere."""
 
         mine = self.cost.as_tuple()
         theirs = other.cost.as_tuple()
@@ -166,17 +130,10 @@ class FrontierPoint:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section B. Matched baselines and the completeness check.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class BaselineDeclaration:
-    """One matched baseline: a family, its frontier point, a rationale, and a cost-match assertion.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     family: str
     point: FrontierPoint
@@ -204,11 +161,6 @@ class BaselineDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class BaselineSet:
-    """The complete, ordered set of matched baselines an advantage claim must dominate.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. Order and membership
-    are load-bearing, so any drift from the required family list fails closed.
-    """
 
     schema: str
     declarations: tuple[BaselineDeclaration, ...]
@@ -224,7 +176,6 @@ class BaselineSet:
             raise IntegratedEscsRefusal("baseline set membership or order drift is refused")
 
     def assert_all_cost_matched(self, cost: CostVector) -> None:
-        """Fail closed unless every baseline point carries the integrated full-system cost exactly."""
 
         for row in self.declarations:
             if row.point.cost.as_tuple() != cost.as_tuple():
@@ -243,12 +194,10 @@ class BaselineSet:
         return canonical_sha256(self.payload())
 
 
-# The single matched full-system cost every baseline and the integrated point are held to.
 _MATCHED_COST = CostVector(params=1000, flops=2000, memory_bytes=4000, wall_ticks=100, energy_units=50)
 
 
 def build_default_baseline_set() -> BaselineSet:
-    """Return the canonical, ordered, cost-matched baseline set (four families, matched cost)."""
 
     qualities = {
         "single-perspective": 0.50,
@@ -272,19 +221,10 @@ def build_default_baseline_set() -> BaselineSet:
     return BaselineSet(schema=INTEGRATED_ESCS_SCHEMA, declarations=declarations)
 
 
-# ---------------------------------------------------------------------------
-# Section C. Integrated advantage contract.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class IntegratedAdvantageContract:
-    """The contract an integrated ESCS advantage claim must satisfy before it may be asserted.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. A valid contract
-    only records that the bar is well formed and that the supplied points clear it; it never asserts
-    that the integrated system is capable on natural data.
-    """
 
     schema: str
     integrated: FrontierPoint
@@ -333,18 +273,10 @@ class IntegratedAdvantageContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section D. Ablation ladder: each added mechanism must justify its marginal compute.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MechanismRung:
-    """One mechanism added to the ladder, with its marginal quality gain and marginal compute.
-
-    Efficiency is marginal quality gain per marginal FLOP. Claim scope: deterministic programmatic
-    mechanics only; no capability claim.
-    """
 
     mechanism: str
     marginal_quality_gain: float
@@ -376,11 +308,6 @@ class MechanismRung:
 
 @dataclass(frozen=True, slots=True)
 class AblationLadderContract:
-    """The ordered ablation ladder; each rung must justify its marginal compute or it fails closed.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. Membership and order
-    of the mechanism ladder are load-bearing, so any drift fails closed.
-    """
 
     schema: str
     rungs: tuple[MechanismRung, ...]
@@ -414,7 +341,6 @@ class AblationLadderContract:
 
 
 def build_default_ablation_ladder() -> AblationLadderContract:
-    """Return a canonical, ordered ladder where every rung justifies its marginal compute."""
 
     rungs = tuple(
         MechanismRung(
@@ -430,19 +356,10 @@ def build_default_ablation_ladder() -> AblationLadderContract:
     return AblationLadderContract(schema=INTEGRATED_ESCS_SCHEMA, rungs=rungs)
 
 
-# ---------------------------------------------------------------------------
-# Section E. Frontier verdict: the prior null and the earn path.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class FrontierVerdict:
-    """The frontier verdict. The prior null (no integrated advantage) holds unless dominance is shown.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. A verdict of the
-    advantage token records only that the encoded bar was cleared on the supplied points; it never
-    claims the underlying system is capable on natural data.
-    """
 
     schema: str
     integrated: FrontierPoint
@@ -498,7 +415,6 @@ class FrontierVerdict:
 
 
 def build_null_frontier_verdict(seed: int = 0) -> FrontierVerdict:
-    """Return the fail-closed null verdict: the integrated point does not dominate at matched cost."""
 
     integrated = FrontierPoint(label="integrated.escs.null", quality=0.30, cost=_MATCHED_COST)
     return FrontierVerdict(
@@ -512,7 +428,6 @@ def build_null_frontier_verdict(seed: int = 0) -> FrontierVerdict:
 
 
 def build_dominating_frontier_verdict(seed: int = 0) -> FrontierVerdict:
-    """Return a verdict where the integrated point strictly dominates every matched baseline."""
 
     integrated = FrontierPoint(label="integrated.escs.dominating", quality=0.95, cost=_MATCHED_COST)
     return FrontierVerdict(
@@ -525,20 +440,10 @@ def build_dominating_frontier_verdict(seed: int = 0) -> FrontierVerdict:
     )
 
 
-# ---------------------------------------------------------------------------
-# Section F. Activation gate. Real activation is quarantined behind a receipt this process cannot
-# mint, encoding that activation is not earned yet.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
-    """A receipt an external authority issues to license real integrated activation.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. Possessing a receipt
-    does not create evidence; it only records that an external authority signed a specific verdict
-    digest under a preregistration.
-    """
 
     verdict_digest: str
     replications: int
@@ -558,11 +463,6 @@ class ActivationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class IntegratedActivationGate:
-    """A fail-closed gate. Local code cannot activate integration without a valid receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that scaffold code can never quietly stand in for an earned, externally confirmed deployment.
-    """
 
     activation_required: bool = True
     local_activation_permitted: bool = False
@@ -579,7 +479,6 @@ class IntegratedActivationGate:
         *,
         expected_verdict_digest: str,
     ) -> ActivationReceipt:
-        """Fail closed unless a receipt that binds the expected verdict digest is supplied."""
 
         _require_sha256(expected_verdict_digest, "IntegratedActivationGate.expected_verdict_digest")
         if receipt is None:
@@ -594,13 +493,10 @@ class IntegratedActivationGate:
         return receipt
 
 
-# ---------------------------------------------------------------------------
 # Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def coverage() -> dict[str, tuple[str, ...]]:
-    """Static record of which G1-I1 sub-questions this scaffold arms (readiness only)."""
 
     return {
         "matched-baseline-frontier": (

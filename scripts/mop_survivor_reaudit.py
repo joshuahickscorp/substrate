@@ -1,41 +1,4 @@
 #!/usr/bin/env python
-"""LANE reaudit: A6-grade adversarial controls on the three Studio-bound positives plus the substrate
-headline. All on existing caches, zero new encode. READ-ONLY on the repo; writes only to this lane folder.
-
-PREREGISTERED (all thresholds fixed in code BEFORE any result is read; a tie is a NULL):
-
-  T1 at3_time_axis (motion_dir4, speed2). The temporal labels are DERIVED from (vx, vy) in nuisance.npy.
-     Adversarial control: partial out (r, vx, vy) via train-fit projection (mirroring A6 project_out)
-     from BOTH the full-clip and single-frame latents, then recompute the full-minus-single delta.
-     THRESHOLD (T1): at3 HARDENS iff, after residualizing (r, vx, vy), the residualized full-minus-single
-     delta still has a 10-seed CI lower bound > 0 with no per-seed sign flip (same rule at3 used).
-     If the residualized delta CI includes 0 or flips sign  -> DEMOTE (it was reading injected velocity).
-     If CI>0 but the effect shrinks a lot (>50 percent) -> HOLD with caveat. Otherwise HARDEN.
-     A no-op control (partial out nothing) must reproduce the baseline delta, else the harness is wrong.
-
-  T2 at1_grid_pilot (cross-substrate invariance). Not a new run: quantify how much INDEPENDENT content
-     at1's two survivors (vjepa_singleframe, dinov2s) add beyond a single-substrate restatement, by the
-     cross-substrate correlation of per-clip shape-probe correctness. THRESHOLD (T2): if the two survivors'
-     per-clip correctness is near-perfectly correlated (phi > 0.8) they double-count one signal -> HOLD
-     with "same-signal" caveat; if phi is modest (independent errors) they add genuinely independent
-     invariance evidence -> HARDEN. (No threshold tuned post hoc; 0.8 fixed now.)
-
-  T3 pr7 delta-rule null vs Hebbian floor + Hebbian fast-store honest gain.
-     THRESHOLD (T3): the delta-rule null HOLDS iff delta_rule minus max(slow_only, fast_slow) has CI
-     upper bound <= 0 (it does not beat the Hebbian floor). The Hebbian fast-store gain is reported as the
-     fast_slow minus best-control delta with its CI; it is a genuine but small win only if CI lo > 0.02.
-
-  T4 substrate-special single-split fragility. Bootstrap the reported single 29-clip test split
-     (vjepa 15/29, random-init 7/29) by resampling test clips WITH REPLACEMENT (B=10000), recomputing the
-     one-sided Fisher p each resample. Report the fraction of resamples with p < 0.05 (the split's
-     robustness), and the one-clip-swing sensitivity. Supporting reproduction on the on-disk 200-clip
-     vjepa vs randominit nuisance caches (a DIFFERENT, larger split we actually possess). This does NOT
-     multi-seed a new encode (that is Studio B5); it only characterizes fragility.
-     THRESHOLD (T4): substrate headline HOLDS iff > 50 percent of bootstrap resamples keep p < 0.05;
-     HARDEN iff > 90 percent; DEMOTE iff < 50 percent (the single split is a coin-flip artifact).
-
-No em dashes or en dashes (BLACKHOLE.md house style).
-"""
 
 from __future__ import annotations
 
@@ -60,16 +23,12 @@ SEEDS = list(range(10))
 LANE = Path(__file__).resolve().parent
 
 
-# --- shared residualization (mirror A6 project_out, train-fit) ---
 def project_out(x: torch.Tensor, design: torch.Tensor, tr: torch.Tensor) -> torch.Tensor:
-    """Remove component of x explained by design's column space, coefficients fit on TRAIN only."""
     beta = torch.linalg.pinv(design[tr]) @ x[tr]
     return x - design @ beta
 
 
 def velocity_size_design(nuis: torch.Tensor, cols: list[str]) -> torch.Tensor:
-    """Design matrix = intercept + the requested nuisance columns (raw linear). For the temporal
-    partial-out we remove r, vx, vy (the injected velocity magnitude/direction sources plus size)."""
     idx = [NUIS_COLS.index(c) for c in cols]
     parts = [torch.ones(nuis.shape[0], 1)]
     for i in idx:
@@ -88,11 +47,6 @@ def temporal_labels(nuis: torch.Tensor) -> dict[str, torch.Tensor]:
 
 
 def strong_motion_design(nuis: torch.Tensor) -> torch.Tensor:
-    """The STRONG (nonlinear-capable) partial-out. A linear (vx, vy) design cannot remove a MAGNITUDE
-    (speed = sqrt(vx^2+vy^2)) nor a QUADRANT (needs sign structure), so a linear-only control lets a
-    factor survive spuriously. This design removes the ground-truth motion fully: r, vx, vy, vx^2, vy^2,
-    |v| (speed magnitude), sin/cos of the motion angle (direction). If a factor's full-vs-single edge
-    survives THIS, it is genuine temporal integration, not a read of the injected motion draw."""
     r = nuis[:, NUIS_COLS.index("r")]
     vx = nuis[:, NUIS_COLS.index("vx")]
     vy = nuis[:, NUIS_COLS.index("vy")]
@@ -102,7 +56,6 @@ def strong_motion_design(nuis: torch.Tensor) -> torch.Tensor:
     return torch.stack([ones, r, vx, vy, vx * vx, vy * vy, speed, torch.sin(ang), torch.cos(ang)], dim=1)
 
 
-# a probe that residualizes with the SAME train/test split it evaluates on (no test leakage)
 def probe_residualized(
     x: torch.Tensor,
     y: torch.Tensor,
@@ -130,7 +83,6 @@ def probe_residualized(
         return float((head(xte).argmax(-1) == yte).float().mean())
 
 
-# ============================ T1: at3 residualized time-axis =============================
 def t1_at3():
     full = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "features.npy")).float()
     single = torch.tensor(np.load(CACHE / "vjepa2_vitl_singleframe" / "features.npy")).float()
@@ -165,7 +117,6 @@ def t1_at3():
         lin_ci = seed_ci(lin_deltas)
         str_ci = seed_ci(str_deltas)
         str_flips = sign_flip_report(str_deltas)
-        # the ADVERSARIAL verdict uses the STRONG control (a linear-only control lets magnitudes survive)
         survives = str_ci["lo"] > 0 and str_flips["consistent_sign"] == 1
         shrink = None
         if base_ci["mean"] != 0:
@@ -206,19 +157,14 @@ def t1_at3():
     return out
 
 
-# ============================ T2: at1 independent-content check =============================
 def t2_at1():
     with open(REPO / "runs" / "mot" / "at1_grid_pilot_seeds10.json") as f:
         at1 = json.load(f)
-    # survivors per the file: vjepa_singleframe, dinov2s. Recompute per-clip shape-probe correctness on
-    # each and measure phi (cross-substrate correlation of correctness). Uses on-disk caches.
     single = torch.tensor(np.load(CACHE / "vjepa2_vitl_singleframe" / "features.npy")).float()
     dino = torch.tensor(np.load(CACHE / "dinov2s_nuisance_real" / "latents.npy")).float()
     y = torch.tensor(np.load(CACHE / "vjepa2_vitl_singleframe" / "labels_shape.npy")).long()
-    # sanity: dinov2 shape labels (factors.json) must match the vision-cache labels (clip identity)
     _dfac = json.loads((CACHE / "dinov2s_nuisance_real" / "factors.json").read_text())
     assert (torch.tensor(_dfac["shape"]).long() == y).all(), "dinov2 clip identity mismatch"
-    # random-init vitl as the shared control (what at1 subtracts)
     torch.tensor(np.load(CACHE / "randominit_vitl_nuisance" / "features.npy")).float()
 
     def per_clip_correct(x, seed, test_frac=0.3):
@@ -239,13 +185,10 @@ def t2_at1():
             correct = (head(x[te]).argmax(-1) == y[te]).long()
         return te, correct
 
-    # collect correctness over shared test clips across seeds, then phi over the union
     phis = []
     for s in SEEDS:
-        # same split seed => same test clips for all three (perm depends only on seed)
         te_a, ca = per_clip_correct(single, s)
         te_b, cb = per_clip_correct(dino, s)
-        # te_a and te_b identical because torch.manual_seed(s) then randperm deterministic on same n
         phi = (
             float(np.corrcoef(ca.numpy(), cb.numpy())[0, 1])
             if ca.float().std() > 0 and cb.float().std() > 0
@@ -255,7 +198,6 @@ def t2_at1():
     phis_clean = [p for p in phis if not math.isnan(p)]
     phi_mean = float(np.mean(phis_clean)) if phis_clean else float("nan")
 
-    # independent content: how often does exactly one of the two survivors get a clip right
     single_ci = at1["grid"][0]["linear_ci"]
     dino_ci = at1["grid"][1]["linear_ci"]
     verdict = "HOLD" if (not math.isnan(phi_mean) and phi_mean > 0.8) else "HARDEN"
@@ -276,17 +218,14 @@ def t2_at1():
     }
 
 
-# ============================ T3: pr7 delta-rule null + Hebbian gain =============================
 def t3_pr7():
     with open(REPO / "runs" / "mot" / "pr7_delta_rule.json") as f:
         dr = json.load(f)
     with open(REPO / "runs" / "mot" / "pr7_fast_slow_seeds10.json") as f:
         fs = json.load(f)
-    # delta-rule vs Hebbian floor (published): must NOT beat max(slow_only, fast_slow)
     dr_block = dr["delta_rule"]["vs_hebbian_floor_only"]
     dr_ci = dr_block["ci"]
     dr_holds = dr_ci["hi"] <= 0  # never beats the Hebbian floor
-    # Hebbian fast-store honest gain
     heb = fs["delta_online_vs_best_control"]["ci"]
     heb_flips = fs["delta_online_vs_best_control"]["sign_flips"]
     heb_win = heb["lo"] > 0.02 and heb_flips["consistent_sign"] == 1
@@ -306,12 +245,7 @@ def t3_pr7():
     }
 
 
-# ============================ T4: substrate single-split bootstrap =============================
 def _fisher_one_sided_p(a, b, c, d):
-    """One-sided Fisher exact p for the 2x2 [[a,b],[c,d]] testing vjepa correct-rate > randinit, in the
-    direction of MORE vjepa successes. Pure-python hypergeometric tail."""
-    # table: rows = arm (vjepa, randinit), cols = (correct, wrong). a=vjepa correct, b=vjepa wrong,
-    # c=randinit correct, d=randinit wrong. One-sided p = P(vjepa correct >= observed) given margins.
     row1, _row2 = a + b, c + d
     col1 = a + c
     total = a + b + c + d
@@ -325,19 +259,15 @@ def _fisher_one_sided_p(a, b, c, d):
     kmax = min(row1, col1)
     obs = hyp(a)
     sum(hyp(k) for k in range(a, kmax + 1) if hyp(k) <= obs + 1e-9) / denom
-    # standard one-sided (upper tail) definition:
     p_upper = sum(hyp(k) for k in range(a, kmax + 1)) / denom
     return p_upper
 
 
 def t4_substrate():
-    # reported single split: n_test=29, vjepa 15/29 correct, randinit 7/29 correct
     n_test = 29
     v_correct, r_correct = 15, 7
-    # Build the per-clip correctness vectors implied by counts (order irrelevant for resampling stats).
     v_vec = np.array([1] * v_correct + [0] * (n_test - v_correct))
     r_vec = np.array([1] * r_correct + [0] * (n_test - r_correct))
-    # published point p
     p_point = _fisher_one_sided_p(v_correct, n_test - v_correct, r_correct, n_test - r_correct)
 
     rng = np.random.default_rng(0)  # preregistered seed
@@ -352,11 +282,9 @@ def t4_substrate():
     p_median = float(np.median(ps))
     p_90 = float(np.quantile(ps, 0.90))
 
-    # one-clip-swing sensitivity: flip one vjepa correct->wrong (14/29) and one randinit wrong->correct (8/29)
     p_swing_worse = _fisher_one_sided_p(14, 15, 8, 21)
     p_swing_better = _fisher_one_sided_p(16, 13, 6, 23)
 
-    # supporting reproduction on the on-disk 200-clip vjepa vs randominit nuisance caches (real split)
     vj = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "features.npy")).float()
     ri = torch.tensor(np.load(CACHE / "randominit_vitl_nuisance" / "features.npy")).float()
     yv = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "labels_shape.npy")).long()

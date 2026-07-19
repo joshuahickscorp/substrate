@@ -1,19 +1,3 @@
-"""Child-learner curriculum engine (Frontier 33 + the non-environment active-curriculum of
-Frontier 26). It chooses the next thing to study by LEARNING PROGRESS, not raw error, and rejects
-the noisy-TV (aleatoric noise that error-seeking would chase forever). "Curiosity" here is strictly
-an engineered objective term (see north_star): novelty x learnability, measured.
-
-The learning-progress signal is real and cheap: fit a linear probe on a small subset of a candidate's
-frozen latents, then on the full set; the accuracy GAIN is the progress. A learnable signal gains with
-more data; pure noise stays at chance with ~zero gain (so it is rejected); an already-mastered signal
-is high at both (low remaining progress, deprioritized). This runs on the M3 Pro over generated control
-corpora and tiny caches; on the Studio it ranks natural-video subsets for the next Tier C cache.
-
-The output is a NEXT-LESSON MANIFEST: what to study next, why, the capacity it targets, the expected
-cost, the stopping condition, and the fallback. Budget-aware and bounded.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -28,28 +12,18 @@ log = get_logger("curriculum")
 
 
 def clamp_clips_for(profile, n: int) -> int:
-    """Clip kill switch: clamp n to the profile cap when a profile is given, else pass through (>=1)."""
     if profile is not None:
         return profile.clamp_clips(n)
     return max(1, int(n))
 
 
-# Noisy-TV (aleatoric) detection by PERMUTATION TEST: at tiny scale the frozen latent dim far exceeds
-# the sample count, so a probe overfits and even pure noise scores above chance. The robust signal is
-# real-label accuracy MINUS shuffled-label accuracy: the shuffle baseline absorbs the overfitting, so
-# genuine signal shows a gap and aleatoric noise does not. A candidate is the noisy-TV if real labels
-# are no more decodable than shuffled labels.
 SIGNAL_MARGIN = 0.15  # real must beat shuffled-label accuracy by this to count as decodable
 PROGRESS_EPS = 0.05  # learning progress below this is "flat" (used in the stopping condition)
 MASTERY_THRESH = 0.92  # decodability above this is "already learned" (low remaining value)
-# the permutation baseline is averaged over the same fold count as acc_full (see learning_progress);
-# the default eval budget is 48 clips so the signal is robustly above SIGNAL_MARGIN at small scale.
 DEFAULT_EVAL_CLIPS = 48
 
 
 def _encode_source(src: Path, encoder_name: str, n: int, seed: int) -> tuple[torch.Tensor, torch.Tensor]:
-    """Encode up to n stratified clips of a class-folder source into pooled latents (x [N,dim], y [N]).
-    In-memory (no persistent cache) so the engine can score many candidates cheaply."""
     from ..config import compose
     from ..devices import resolve
     from ..substrate import iter_video_clips, load_encoder
@@ -74,19 +48,10 @@ def _mean_probe(x: torch.Tensor, y: torch.Tensor, seeds: range) -> float:
 
 
 def learning_progress(x: torch.Tensor, y: torch.Tensor, seed: int = 0, folds: int = 5) -> dict:
-    """Decodability (vs a shuffled-label permutation baseline) plus learning progress (small vs full).
-
-    acc_full/acc_small are multi-split means; `signal` is acc_full minus the mean shuffled-label
-    accuracy (the permutation test that survives dim>>n overfitting). is_noise (the noisy-TV) means
-    real labels are no more decodable than shuffled. progress is the small->full gain (momentum).
-    Returns {acc_small, acc_full, shuffled, signal, progress, chance, mastery, decodable, is_noise}."""
     n = int(x.shape[0])
     small = max(8, n // 3)
     acc_full = _mean_probe(x, y, range(seed, seed + folds))
     acc_small = _mean_probe(x[:small], y[:small], range(seed, seed + folds))
-    # the shuffled permutation baseline is averaged over the SAME number of fits as acc_full, so
-    # signal = acc_full - shuffled is not variance-asymmetric (a real audit finding: folds 5 vs
-    # shuffles 3 made a learnable family occasionally read as noise at small n).
     shuffled = 0.0
     for k in range(folds):
         g = torch.Generator().manual_seed(seed + 1000 + k)
@@ -111,10 +76,6 @@ def learning_progress(x: torch.Tensor, y: torch.Tensor, seed: int = 0, folds: in
 
 
 def score_candidate(slug: str, src: Path, encoder_name: str, n: int, seed: int) -> dict:
-    """Score one candidate by the novelty-vs-learnability tradeoff: among DECODABLE, not-yet-mastered
-    candidates prefer the most remaining room plus positive learning momentum; reject the aleatoric
-    noisy-TV (undecodable + flat), and deprioritize already-mastered signals. This is learning-progress
-    gated by learnability, NOT raw error (which the noisy-TV would exploit forever)."""
     try:
         x, y = _encode_source(src, encoder_name, n, seed)
     except Exception as e:
@@ -137,13 +98,6 @@ def next_lesson(
     next_clips: int = 64,
     seed: int = 0,
 ) -> dict:
-    """Rank candidate sources by learning progress and emit the next-lesson manifest.
-
-    sources: [{slug, root, capacity?}] candidate class-folder corpora.
-    profile: a studio.Profile for the clip kill switch (eval/next clip counts are clamped to it).
-    Returns {ranked, chosen, reason, expected_capacity, expected_cost_clips, stopping_condition,
-    fallback, rejected_noise, north_star_step}.
-    """
     n_eval = clamp_clips_for(profile, eval_clips)
     scored = [score_candidate(s["slug"], Path(s["root"]), encoder_name, n_eval, seed) for s in sources]
     by_slug = {s["slug"]: s for s in sources}

@@ -38,8 +38,6 @@ def _unique_sorted_frames(frames: Sequence[int], n_frames: int, label: str) -> l
     return sorted(seen)
 
 
-
-
 def rate_matched_random_fires(
     candidate_fires: Sequence[int], n_frames: int, *, seed: int, clip_id: str
 ) -> list[int]:
@@ -69,8 +67,6 @@ class RateMatchedRandomControl:
         return rate_matched_random_fires(
             candidate_fires, n_frames, seed=self.seed, clip_id=clip_id
         )
-
-
 
 
 def always_on_fires(n_frames: int) -> list[int]:
@@ -158,8 +154,6 @@ class AlwaysOnControl:
 
     def fires_for_clip(self, n_frames: int) -> list[int]:
         return always_on_fires(n_frames)
-
-
 
 
 @dataclass(frozen=True, slots=True)

@@ -1,13 +1,3 @@
-"""Bounded, charged coalition runtime for the ESCS mechanics chassis.
-
-This runtime intentionally has no learned router and makes no capability claim.  A
-dispatch policy is injected, candidate access is bounded under one of three explicit
-organizations, and every control/message/action path is written to the shared
-``LifecycleLedger``.  Policy and readiness see headers only.  Event payloads and
-updates are delivered only to selected actors.  Python cannot preempt a dishonest or
-hung actor call: reported work and post-call wall checks are mechanics, while hard
-timeouts and metered resource truth remain the Studio governor's responsibility.
-"""
 
 from __future__ import annotations
 
@@ -52,11 +42,11 @@ from .messages import (
 
 
 class RuntimeContractError(RuntimeError):
-    """An actor, policy, or event violated the declared runtime contract."""
+    pass
 
 
 class RuntimeCapExceeded(RuntimeContractError):
-    """Execution attempted to exceed a frozen finite cap."""
+    pass
 
 
 def _require_sha256_digest(value: object, label: str) -> str:
@@ -77,7 +67,6 @@ class CandidateMode(StrEnum):
 
 @dataclass(frozen=True, slots=True)
 class RuntimeCaps:
-    """Exact structural, byte, work, state, and authority caps."""
 
     K: int  # candidate actors per dispatch
     C: int  # actors in a selected coalition
@@ -215,7 +204,6 @@ class RuntimeConfig:
 
 @dataclass(frozen=True, slots=True)
 class DispatchRequest:
-    """The complete payload-free view supplied to an injected policy."""
 
     event_header: DispatchEventHeader
     readiness: tuple[ReadinessEstimate, ...]
@@ -226,7 +214,6 @@ class DispatchRequest:
 
 @dataclass(frozen=True, slots=True)
 class DispatchDecision:
-    """Bounded policy output, including the beam it actually considered."""
 
     selected_actor_ids: tuple[str, ...]
     considered_coalitions: tuple[tuple[str, ...], ...]
@@ -258,7 +245,6 @@ class DispatchPolicy(Protocol):
 
 
 class ScriptedDispatchPolicy:
-    """Deterministic injected policy for mechanics tests and controlled studies."""
 
     _MAX_REQUEST_COUNT = (1 << 64) - 1
 
@@ -533,7 +519,6 @@ class _StagedClaim:
 
 
 class _ActorCatalog:
-    """Private actor objects plus precomputed bounded routing indices."""
 
     def __init__(self, actors: Sequence[Actor]) -> None:
         actor_rows = tuple(actors)
@@ -610,7 +595,6 @@ class _ActorCatalog:
         return sum(actor.retained_state_bytes for actor in self._actors.values())
 
     def routing_payload(self) -> dict[str, object]:
-        """Canonical logical bytes retained by the catalog and routing indices."""
 
         descriptors = [
             {
@@ -676,8 +660,6 @@ class _ActorCatalog:
         result: list[str] = []
         seen: set[str] = set()
         inspected = 0
-        # At most ``cap`` rows from each precomputed source are inspected, and
-        # collection stops as soon as K unique candidates have been found.
         for source in sources:
             for actor_id in source[:cap]:
                 inspected += 1
@@ -691,7 +673,6 @@ class _ActorCatalog:
 
 
 class CoalitionRuntime:
-    """Execute one external hypothesis plus at most R endogenous rounds."""
 
     def __init__(
         self,
@@ -772,31 +753,26 @@ class CoalitionRuntime:
 
     @property
     def lifecycle_ledger(self) -> LifecycleLedger:
-        """Authoritative shared ledger identity; callers may inspect but not replace it."""
 
         return self._ledger
 
     @property
     def event_ledger(self) -> EventLedger | None:
-        """Authoritative event-ledger identity, or ``None`` when none was injected."""
 
         return self._event_ledger
 
     @property
     def runtime_id(self) -> str:
-        """Stable identity of this configured runtime authority."""
 
         return self._runtime_id
 
     @property
     def actor_descriptors(self) -> tuple[ActorDescriptor, ...]:
-        """Return public routing metadata, never actor objects or private state."""
 
         return tuple(self._catalog.descriptor(actor_id) for actor_id in sorted(self._catalog.actor_ids))
 
     @property
     def actor_state_versions(self) -> Mapping[str, str]:
-        """Public content versions for audit without exposing private actor state."""
 
         return MappingProxyType(
             {
@@ -838,12 +814,6 @@ class CoalitionRuntime:
 
     @property
     def retained_state_bytes(self) -> int:
-        """Exact declared logical bytes owned by the runtime at the current frontier.
-
-        Injected ledgers and schemas retain their own state. Actor and policy-private
-        state is counted once through their required declarations; runtime routing,
-        authority, and control state is counted once through canonical serialization.
-        """
 
         policy_bytes = self._policy.retained_state_bytes
         if isinstance(policy_bytes, bool) or not isinstance(policy_bytes, int) or policy_bytes < 0:
@@ -880,7 +850,6 @@ class CoalitionRuntime:
         self._retention_last_tick = end_tick
 
     def finalize(self, *, end_tick: int) -> None:
-        """Close retention ownership at ``end_tick`` exactly once."""
 
         if self._active_episode_work is not None:
             raise RuntimeContractError("cannot finalize an active runtime episode")
@@ -1264,8 +1233,6 @@ class CoalitionRuntime:
             ),
             evidence_class=proposal.evidence_class,
         )
-        # Preflight the exact derived dispatch before publishing the event. The
-        # returned frame is reconstructed only from the ledger-resident record.
         preview = self._dispatch_from_hypothesis(event, payload_bytes=proposal.payload_bytes)
         self._admit_dispatch_event(preview, proposal.created_tick)
         try:
@@ -1406,7 +1373,6 @@ class CoalitionRuntime:
             )
 
     def run(self, event: DispatchEvent | None, *, now_tick: int | None = None) -> RuntimeTrace:
-        """Run one episode under cumulative abstract-work and post-call wall bounds."""
 
         if self._retention_finalized:
             raise RuntimeContractError("cannot run a finalized runtime")
@@ -1433,7 +1399,6 @@ class CoalitionRuntime:
             self._active_deadline_ns = None
 
     def _run_episode(self, event: DispatchEvent | None, *, now_tick: int | None = None) -> RuntimeTrace:
-        """Run one event-authorized episode to quiescence or a declared bound."""
 
         ledger_start = self._ledger.entry_count
         if event is None:
@@ -1947,9 +1912,6 @@ class CoalitionRuntime:
         )
         branch_updates: list[_BranchUpdate] = []
         for branch_id in sorted(branch_active):
-            # Simulated branches never install persistent actor state.  They may
-            # inform later factual hypotheses, but only a factual action creates
-            # delayed update authority in this runtime.
             if branch_id != str(FACTUAL_BRANCH):
                 continue
             branch_action_ids = tuple(
@@ -2070,7 +2032,6 @@ class CoalitionRuntime:
         consequence_payload_bytes: bytes,
         tick: int,
     ) -> tuple[str, ...]:
-        """Atomically replace actors authorized by one branch-bound accepted action."""
 
         consequence_ref = EventRef(consequence_event_id)
         branch = BranchRef(branch_id)
@@ -2212,8 +2173,6 @@ class CoalitionRuntime:
         if consumed_bytes > self._config.caps.max_consumed_authority_bytes:
             raise RuntimeCapExceeded("consumed consequence authority bytes exceeded their cap")
 
-        # This is the sole commit point: every complete replacement is validated
-        # before the private catalog reference changes.
         self._catalog.replace_many(replacements)
         remaining = tuple(row for row in pending.branches if row.branch_id != branch_id)
         if remaining:

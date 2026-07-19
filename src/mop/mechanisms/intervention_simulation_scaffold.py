@@ -1,23 +1,3 @@
-"""Scaffold spine for the causal-intervention and simulation-for-action mechanism cluster.
-
-Epoch G1-A1/S1/U1/N1. This module raises the SCAFFOLDING axis only. It supplies machine-checkable
-contracts that ENCODE the scientific bar a mechanism must clear before any capability may be claimed:
-a do-operator arm that must beat an observational-only control, a rollout policy that must beat a
-random-action control at matched compute, a reliability metric that must beat an overconfident and a
-temperature-one control, and a curiosity signal that may target reducible novelty only and refuses
-irreducible-noise seeking. It builds the harness, not the result.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. Nothing here establishes planning value, calibrated uncertainty, or useful
-curiosity. The comparison helpers are seeded toy arithmetic over hashes; the activation gate is off
-by default and refuses until an earned confirmation receipt is supplied by an external audit.
-
-The named prior nulls are encoded as fail-closed conditions: the P7 planning null forces the
-simulation-for-action bar, and the intervention, uncertainty, and curiosity nulls each force their
-own contract to refuse unless the declared arm beats its matched control by the declared margin.
-
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -28,8 +8,6 @@ from typing import Any
 from ..substrate.events import canonical_sha256
 
 INTERVENTION_SIM_SCHEMA = "mop-intervention-simulation/v1"
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
@@ -37,7 +15,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class InterventionSimulationRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, or outside its declared scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -60,10 +38,6 @@ def _require_schema(value: str) -> None:
         raise InterventionSimulationRefusal(f"unsupported intervention-simulation schema {value!r}")
 
 
-# ---------------------------------------------------------------------------
-# Named prior nulls. Each contract binds to exactly one; a mismatched null is refused so a
-# contract can never be re-pointed at a weaker null that its arm would trivially clear.
-# ---------------------------------------------------------------------------
 
 INTERVENTION_NULL = "observational-confound-null"
 PLANNING_NULL = "p7-planning-null"
@@ -78,17 +52,12 @@ PRIOR_NULLS: tuple[str, ...] = (
 )
 
 
-# ---------------------------------------------------------------------------
-# Canonical control sets. Membership and order are load-bearing for the registry digest, so the
-# completeness check can detect a control being dropped, added, or reordered.
-# ---------------------------------------------------------------------------
 
 INTERVENTION_CONTROLS: tuple[str, ...] = ("observational-only", "backdoor-adjusted")
 SIMULATION_CONTROLS: tuple[str, ...] = ("random-action", "zero-step-greedy", "replay-only")
 UNCERTAINTY_CONTROLS: tuple[str, ...] = ("overconfident", "temperature-one")
 NOVELTY_CONTROLS: tuple[str, ...] = ("random-curiosity", "count-based")
 
-# The registry the completeness check pins. Order across families is also load-bearing.
 CONTROL_REGISTRY: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("intervention", INTERVENTION_CONTROLS),
     ("simulation-for-action", SIMULATION_CONTROLS),
@@ -98,7 +67,6 @@ CONTROL_REGISTRY: tuple[tuple[str, tuple[str, ...]], ...] = (
 
 
 def assert_control_registry_intact() -> None:
-    """Fail closed if any declared control family is empty, non-unique, or duplicated by name."""
 
     family_names = [name for name, _ in CONTROL_REGISTRY]
     if len(set(family_names)) != len(family_names):
@@ -111,21 +79,15 @@ def assert_control_registry_intact() -> None:
 
 
 def control_registry_digest() -> str:
-    """Stable digest over the entire control registry, membership and order included."""
 
     assert_control_registry_intact()
     return canonical_sha256({"registry": [[name, list(arms)] for name, arms in CONTROL_REGISTRY]})
 
 
-# ---------------------------------------------------------------------------
-# Matched cost discipline. Every contract implies a comparison, so every contract carries a matched
-# budget that must be non-vacuous, and each refuses unless matched cost is explicitly required.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-    """The matched full-system budget an arm and its control must share before comparison."""
 
     params: int
     flops: int
@@ -156,17 +118,9 @@ def _require_matched_cost(matched_cost_required: bool, label: str) -> None:
         raise InterventionSimulationRefusal(f"{label} must require matched full-system cost")
 
 
-# ---------------------------------------------------------------------------
-# Deterministic, seeded comparison mechanics. These are toy hash-derived scores, not measurements
-# on natural data. They exist so the fail-closed control-win rule can be exercised reproducibly.
-# ---------------------------------------------------------------------------
 
 
 def deterministic_unit_score(*, seed: int, label: str) -> float:
-    """A reproducible score in [0, 1) from hashing; no wall-clock, no unseeded randomness.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if seed < 0:
         raise InterventionSimulationRefusal("score seed must be nonnegative")
@@ -177,7 +131,6 @@ def deterministic_unit_score(*, seed: int, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class ControlWinOutcome:
-    """The result of a single matched arm-vs-control comparison. Carries no capability claim."""
 
     arm_id: str
     control_id: str
@@ -211,7 +164,6 @@ class ControlWinOutcome:
 def evaluate_control_win(
     *, arm_id: str, control_id: str, seed: int, margin_required: float
 ) -> ControlWinOutcome:
-    """Deterministically score an arm and its control from a shared seed and compare them."""
 
     return ControlWinOutcome(
         arm_id=arm_id,
@@ -223,10 +175,6 @@ def evaluate_control_win(
 
 
 def require_control_win(outcome: ControlWinOutcome, *, null_name: str) -> None:
-    """Encode the named null as code: refuse unless the arm beats its matched control.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if null_name not in PRIOR_NULLS:
         raise InterventionSimulationRefusal(f"unknown prior null {null_name!r}")
@@ -237,14 +185,10 @@ def require_control_win(outcome: ControlWinOutcome, *, null_name: str) -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Contract A1. Causal intervention: a do-operator arm vs an observational-only control.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class InterventionContract:
-    """Declares a do-operator arm and the observational control it must beat under the null."""
 
     do_operator_arm: str
     observational_control: str
@@ -298,15 +242,10 @@ class InterventionContract:
         )
 
 
-# ---------------------------------------------------------------------------
-# Contract S1. Simulation for action: a rollout policy that must beat a random-action control at
-# matched compute. Bound to the P7 planning null.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class SimulationForActionContract:
-    """Declares a rollout policy whose value must beat a random-action control at matched compute."""
 
     policy_id: str
     controls: tuple[str, ...]
@@ -359,15 +298,10 @@ class SimulationForActionContract:
         )
 
 
-# ---------------------------------------------------------------------------
-# Contract U1. Calibrated uncertainty: a reliability metric that must beat an overconfident and a
-# temperature-one control. Bound to the temperature-one uncertainty null.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class CalibratedUncertaintyContract:
-    """Declares a reliability metric and the two miscalibrated controls it must beat."""
 
     reliability_metric: str
     controls: tuple[str, ...]
@@ -424,10 +358,6 @@ class CalibratedUncertaintyContract:
         )
 
 
-# ---------------------------------------------------------------------------
-# Contract N1. Reducible-novelty curiosity: the signal may target reducible novelty only and REFUSES
-# irreducible-noise seeking; it must beat random-curiosity and count-based controls.
-# ---------------------------------------------------------------------------
 
 ALLOWED_NOVELTY_TARGET = "reducible"
 FORBIDDEN_NOVELTY_TARGETS: tuple[str, ...] = (
@@ -440,7 +370,6 @@ FORBIDDEN_NOVELTY_TARGETS: tuple[str, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class ReducibleNoveltyContract:
-    """Declares a curiosity signal restricted to reducible novelty, with a noise-seeking refusal."""
 
     curiosity_signal: str
     novelty_target: str
@@ -503,16 +432,10 @@ class ReducibleNoveltyContract:
         )
 
 
-# ---------------------------------------------------------------------------
-# Activation gate. Off by default. Any local attempt to authorize deployment of these mechanisms
-# raises unless an earned confirmation receipt from an external audit is supplied and matches the
-# preregistered digest. This encodes "activation not earned yet".
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class DeploymentActivationGate:
-    """A fail-closed gate. Activation is off until an external audit receipt is presented."""
 
     preregistration_digest: str
     activation_requested: bool = False
@@ -526,7 +449,6 @@ class DeploymentActivationGate:
             _require_sha256(self.confirmation_receipt, "DeploymentActivationGate.confirmation_receipt")
 
     def authorize(self) -> None:
-        """Fail closed unless activation was explicitly requested with a matching audit receipt."""
 
         if not self.activation_requested:
             raise InterventionSimulationRefusal(
@@ -550,14 +472,10 @@ class DeploymentActivationGate:
         }
 
 
-# ---------------------------------------------------------------------------
-# Epoch aggregate. Composes all four contracts and the gate into one digest-bound scaffold.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class EpochScaffold:
-    """The complete G1-A1/S1/U1/N1 scaffold with a stable digest over all four contracts."""
 
     intervention: InterventionContract
     simulation: SimulationForActionContract
@@ -589,9 +507,6 @@ class EpochScaffold:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Deterministic default builders (used by tests and later wiring).
-# ---------------------------------------------------------------------------
 
 
 def _default_budget() -> MatchedBudget:
@@ -653,7 +568,6 @@ def default_activation_gate() -> DeploymentActivationGate:
 
 
 def build_epoch_scaffold() -> EpochScaffold:
-    """Return a fully valid, off-by-default epoch scaffold; deterministic and side-effect free."""
 
     return EpochScaffold(
         intervention=default_intervention_contract(),
@@ -664,15 +578,12 @@ def build_epoch_scaffold() -> EpochScaffold:
     )
 
 
-# ---------------------------------------------------------------------------
 # Capability posture and coverage record.
-# ---------------------------------------------------------------------------
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 
 
 def coverage() -> dict[str, list[str]]:
-    """Static record of the epoch sub-questions this scaffold encodes (readiness only)."""
 
     return {
         "A1-causal-intervention": [

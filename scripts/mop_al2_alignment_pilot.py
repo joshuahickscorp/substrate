@@ -1,38 +1,4 @@
 #!/usr/bin/env python
-"""AL2 shared-latent alignment pilot (WP-14, Q3.9): does a THIN linear map between substrate pairs on
-the shared nuisance clips PRESERVE NEIGHBOR STRUCTURE from one substrate onto another ABOVE a
-permuted-pairing floor of equal rank? The alignment-artifact verdict (nine-verdict order, step 4) says
-any apparent agreement is the map's capacity, not shared structure; this pilot measures exactly that,
-per pair, per rank.
-
-A1 RE-GRADE (zero new encode): the earlier build won on ridge R^2 over a random-map floor. Ridge R^2 is
-the WRONG honest floor here: a high-capacity least-squares map can inflate R^2 by fitting target variance
-without preserving which points are neighbors of which, and R^2 credits a good scalar fit even when the
-learned map is just the target's own principal axes. The honest floor is a TOPOLOGY / PERMUTATION null:
-does the learned rank-k map carry a source point's neighbors onto the target point's neighbors ABOVE a
-map fit on a shuffled target-side pairing (correspondence destroyed, capacity and rank intact)? R^2 is
-kept ONLY as a descriptive scalar, never as the win criterion.
-
-Preregistered construction (in code before any result exists):
-  - learned map: ridge least squares train-split fit, SVD-truncated to rank k
-  - WIN METRIC: kNN neighbor-preservation on the TEST split. Map each test source point through the
-    learned map; for each mapped point, take its k_nn nearest neighbors among the mapped test set and
-    ask what fraction coincide with the true target point's k_nn nearest neighbors among the true target
-    test set (mean neighbor recall). This asks about topology, not reconstruction magnitude.
-  - PERMUTATION FLOOR: refit the identical ridge+rank-k map after ROW-SHUFFLING the target-side pairing
-    on train (source i <- target pi(i)); the correspondence is destroyed, capacity and rank preserved.
-    Score its kNN neighbor recall on the test split the same way, averaged over several shuffles.
-  - per-seed delta = learned neighbor-recall minus permuted neighbor-recall; primary rank is 32.
-  - R^2 of the learned map is recorded per seed as a DESCRIPTIVE scalar only.
-Preregistered null (registry AL2): a rank-k map fit on a permuted pairing preserves neighbor structure
-as well as the learned map (alignment-artifact) for every substrate pair. A pair only clears the null
-when the learned-minus-permuted neighbor-recall delta has a seed-CI lower bound strictly above zero and
-no per-seed sign flip.
-
-Usage: python scripts/mop_al2_alignment_pilot.py --seeds 0-9   -> runs/mot/al2_alignment_regrade.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -67,10 +33,6 @@ EXPERIMENT = {
     "'vjepa2_vitl_nuisance' (was omitted as 'vjepa2_vitl_nuisance_real', a name mismatch).",
 }
 
-# Real arms only: mapping a pretrained substrate onto a random-init one is a context row, not a claim.
-# A1 FIX: the real V-JEPA nuisance arm lives on disk as 'vjepa2_vitl_nuisance' (backend vjepa_hf,
-# pretrained, 200 clips). The earlier build looked for 'vjepa2_vitl_nuisance_real' and silently dropped
-# it as missing. Use the real on-disk name.
 DEFAULT_ARMS = [
     "vjepa2_vitl_nuisance",
     "vjepa2_vitl_singleframe",
@@ -92,7 +54,6 @@ def _standardize(train: torch.Tensor, other: torch.Tensor) -> tuple[torch.Tensor
 
 
 def ridge_fit(xa: torch.Tensor, xb: torch.Tensor, lam: float = RIDGE_LAMBDA) -> torch.Tensor:
-    """W = argmin ||xa W - xb||^2 + lam ||W||^2, closed form. [Da,Db]."""
     da = xa.shape[1]
     return torch.linalg.solve(xa.T @ xa + lam * torch.eye(da), xa.T @ xb)
 
@@ -111,7 +72,6 @@ def r2_score(pred: torch.Tensor, y: torch.Tensor) -> float:
 
 
 def _knn_index(x: torch.Tensor, k: int) -> torch.Tensor:
-    """For each row, the indices of its k nearest neighbors (excluding self) by Euclidean distance."""
     d = torch.cdist(x, x)
     d.fill_diagonal_(float("inf"))
     kk = min(k, x.shape[0] - 1)
@@ -119,9 +79,6 @@ def _knn_index(x: torch.Tensor, k: int) -> torch.Tensor:
 
 
 def knn_neighbor_recall(pred_b: torch.Tensor, true_b: torch.Tensor, k: int = KNN_K) -> float:
-    """Topology score: fraction of each point's true-target k nearest neighbors that are also among the
-    mapped-target k nearest neighbors. 1.0 = neighbor structure fully preserved by the map; chance is
-    roughly (k / (n - 1)) if the map scrambles neighborhoods."""
     if pred_b.shape[0] <= k:
         return 0.0
     nn_pred = _knn_index(pred_b, k)
@@ -137,8 +94,6 @@ def knn_neighbor_recall(pred_b: torch.Tensor, true_b: torch.Tensor, k: int = KNN
 def learned_vs_floors(
     xa: torch.Tensor, xb: torch.Tensor, seed: int, rank: int, test_frac: float = 0.3
 ) -> dict:
-    """One seed, one rank: learned rank-k map kNN neighbor-recall vs the permuted-pairing floor. Win
-    criterion is the topology delta; R^2 is recorded only as a descriptive scalar."""
     g = torch.Generator().manual_seed(seed)
     n = xa.shape[0]
     perm = torch.randperm(n, generator=g)
@@ -152,8 +107,6 @@ def learned_vs_floors(
     learned_recall = knn_neighbor_recall(pred, bte)
     learned_r2 = r2_score(pred, bte)  # descriptive only, never the win criterion
 
-    # Permutation floor: refit the same rank-k ridge map with the target-side pairing row-shuffled on
-    # train. Rank and capacity are identical; only the source<->target correspondence is destroyed.
     perm_recalls = []
     for _ in range(N_PERM):
         shuf = torch.randperm(cut, generator=g)
@@ -170,10 +123,6 @@ def learned_vs_floors(
 
 
 def classify_pair(deltas: list[float]) -> dict:
-    """Decision order for one pair on the topology delta (learned minus permuted neighbor-recall): the
-    delta CI lower bound must be strictly above zero to clear the permutation null, else the apparent
-    alignment is within the floor's own spread -> alignment-artifact; a per-seed sign flip -> non-
-    replicating; only a strictly-positive, sign-stable delta is genuine shared structure."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     if ci["lo"] <= 0:
@@ -234,7 +183,6 @@ def evaluate_pairs(
         "arms_missing": sorted(set(arms) - set(loaded)),
         "clip_identity": clip_identity_check(sidecars),
         "pairs": pairs,
-        # not evaluable with no pairs on disk: None, never a rejected null
         "null_supported": (
             all(p["verdict"] == "alignment-artifact" for p in pairs.values()) if pairs else None
         ),

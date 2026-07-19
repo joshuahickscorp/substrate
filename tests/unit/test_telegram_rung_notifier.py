@@ -222,13 +222,10 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
 
 
 def test_successor_chain_family_renders_as_unified_general_run() -> None:
-    # the single-process orchestrator itself is the "General Run" umbrella
     assert notifier._program_label("general-run") == "General Run"
-    # every successor-chain-family stage is presented under the unified name
     assert notifier._program_label("generation1-successor-mechanics-extended-v1") == "General Run: Mechanics"
     assert notifier._program_label("generation1-successor-evidence-chain-v2") == "General Run: Adopter"
     assert notifier._program_label("generation1-successor-evidence-chain-v4") == "General Run: Adopter"
-    # the newly added v5/v6/v7 and ext-v2/ext-v3 ids join the same families
     assert notifier._program_label("generation1-successor-evidence-chain-v5") == "General Run: Adopter"
     assert notifier._program_label("generation1-successor-evidence-chain-v6") == "General Run: Adopter"
     assert notifier._program_label("generation1-successor-evidence-chain-v7") == "General Run: Adopter"
@@ -241,14 +238,11 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
         == "General Run: Categorized Wave"
     )
     assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Run: Final"
-    # the C0/C1/C2/C3/D1 one-off experiments keep their own labels, unchanged
     assert notifier._program_label("generation1-c3-d1-router-redesign-screen-v1") == "C3 Router Redesign"
     assert notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
 
 
 def test_event_eta_prefers_next_rung_cost() -> None:
-    # complete=5/total=200 is in the 0-24% bucket; the next milestone (25%) is reached at
-    # rung 50, so 45 rungs remain to it: 32.1 * 45 / 1 worker = 1444.5.
     eta = notifier._event_eta(
         {
             "adaptive_execution": {
@@ -269,8 +263,6 @@ def test_short_block_eta_uses_seconds_instead_of_rounding_to_one_minute() -> Non
 
 
 def _fake_host_sample(*, free_p_cores: int, hawking_active: bool):
-    """A minimal but genuine controller sample: a real HostState (dataclasses.replace-able)
-    plus a bounds dict, exactly the two fields _synthetic_adaptive reads."""
 
     from mop.studio import dynamic_worker_controller as controller
 
@@ -287,9 +279,6 @@ def _fake_host_sample(*, free_p_cores: int, hawking_active: bool):
 
 
 def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_execution(monkeypatch) -> None:
-    """The dynamic-worker-pool stages (horizon, categorized, full-generations) never write a
-    census-style adaptive_execution block, so Workers/ETA were silently blank for them. This
-    fills the gap from real capsule finish timestamps plus a live controller sample."""
 
     idle_sample, idle_target = _fake_host_sample(free_p_cores=14, hawking_active=False)
     monkeypatch.setattr(
@@ -303,15 +292,11 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
     synthetic = notifier._synthetic_adaptive(capsules, total=74, complete=3)
     assert synthetic is not None
     assert synthetic["average_rung_seconds"] == 60.0
-    # Not the cold-start ramp artifact (which would read 1 from a stateless current_workers=0
-    # sample): the settled, capacity-based recommendation, matching the comfortable target.
     assert synthetic["workers"] == idle_target
     assert synthetic["workers"] > 1
     assert synthetic["mode"] == "hawking_idle"
     assert synthetic["eta_seconds"] == 60.0 * (74 - 3) / synthetic["workers"]
 
-    # Hawking active is reflected too, and correctly overrides the settled comfortable target
-    # with the small fixed reserve (the control law's own tiered logic, not re-derived here).
     from mop.studio import dynamic_worker_controller as controller
 
     hawking_sample, _ = _fake_host_sample(free_p_cores=14, hawking_active=True)
@@ -323,14 +308,11 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
     assert hawking["workers"] == controller.HAWKING_RESERVE_WORKERS
     assert hawking["mode"] == "hawking_active"
 
-    # A real adaptive_execution block is never overridden by the synthetic fallback.
     real = {"average_rung_seconds": 5.0, "workers": 8, "mode": "hawking_idle", "eta_seconds": 100.0}
     assert notifier._with_effective_adaptive(
         {"adaptive_execution": real}, capsules, total=74, complete=3
     )["adaptive_execution"] == real
 
-    # Never fatal: if the controller sample fails and there are not enough timestamps to
-    # derive an average either, the fallback is a clean None rather than a raised exception.
     monkeypatch.setattr(
         "mop.studio.dynamic_worker_controller.sample_host_state",
         lambda **_: (_ for _ in ()).throw(RuntimeError("no host state available")),
@@ -341,9 +323,6 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
 def test_collect_events_shows_workers_and_eta_for_a_dynamic_pool_stage_with_no_counts(
     monkeypatch, tmp_path: Path
 ) -> None:
-    """End-to-end reproduction of the horizon_v1/v2 shape: a status with `capsules` but no
-    `counts` and no `adaptive_execution` (exactly runs/generation1/generation1-successor-
-    horizon-v1/current_status.json). Workers and ETA must show up in the resulting event."""
 
     fake_sample, expected_workers = _fake_host_sample(free_p_cores=13, hawking_active=False)
     monkeypatch.setattr(
@@ -474,7 +453,6 @@ def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(monke
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
 
-    # One notification at each 25% crossing (25, 50, 75), plus the terminal event.
     assert result["sent"] == 4
     assert sent == ["rung-25", "rung-50", "rung-75", "terminal"]
     delivered = notifier.load_state(state_path)["delivered"]
@@ -485,9 +463,6 @@ def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(monke
 def test_run_does_not_spam_every_rung_when_total_is_smaller_than_the_old_fixed_step(
     monkeypatch, tmp_path: Path
 ) -> None:
-    """Regression: the horizon_v1 bug. A 74-capsule stage with the former fixed 100-rung step
-    fired on every single rung (an escape hatch made `total <= step` always true). The
-    percentage milestone must instead fire only near each quartile, on any total."""
 
     state_path = tmp_path / "state.json"
     state = notifier._new_state()
@@ -510,7 +485,6 @@ def test_run_does_not_spam_every_rung_when_total_is_smaller_than_the_old_fixed_s
         runs_root=tmp_path / "runs",
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
-    # Not 74 (one per rung, the old bug). One near each of 25/50/75/100%.
     assert result["sent"] == 4
     assert sent == ["rung-19", "rung-37", "rung-56", "rung-74"]
 
@@ -519,9 +493,7 @@ def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
     def rung(complete: int, total: int) -> dict:
         return {"kind": "rung", "progress": {"complete": complete, "total": total}}
 
-    # A single-item program always gets exactly one notification, at 100%.
     assert notifier._should_send(rung(1, 1)) is True
-    # Round totals: milestones land exactly on the quartile.
     assert notifier._should_send(rung(24, 100)) is False
     assert notifier._should_send(rung(25, 100)) is True
     assert notifier._should_send(rung(49, 100)) is False
@@ -530,10 +502,8 @@ def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
     assert notifier._should_send(rung(75, 100)) is True
     assert notifier._should_send(rung(99, 100)) is False
     assert notifier._should_send(rung(100, 100)) is True
-    # Completion (100%) always fires, regardless of total size.
     assert notifier._should_send(rung(240, 240)) is True
     assert notifier._should_send(rung(101, 101)) is True
-    # Malformed or non-positive progress never sends.
     assert notifier._should_send(rung(5, 0)) is False
     assert notifier._should_send({"kind": "rung", "progress": {}}) is False
     assert notifier._should_send({"kind": "rung", "progress": {"complete": 1, "total": None}}) is False
@@ -595,11 +565,7 @@ def test_worker_line_reflects_mode_and_is_omitted_when_absent(monkeypatch) -> No
     )
     assert "Workers: 1 (Hawking active)" in rung({"workers": 1, "mode": "hawking_active"})
     assert "Workers: 8 (steady)" in rung({"workers": 8, "mode": "steady"})
-    # Regression: "hawking_idle" (the real census mode string when Hawking is NOT active and
-    # the pool runs at full speed) must read as idle burst, not be mislabeled "Hawking active"
-    # by a bare "hawking" substring match landing before the "idle" check.
     assert "Workers: 8 (idle burst)" in rung({"workers": 8, "mode": "hawking_idle"})
-    # adaptive block absent: no worker line, original shape preserved
     assert "Workers:" not in rung(None)
 
 
@@ -627,7 +593,6 @@ def test_terminal_chain_stage_annotation_and_worker_line(monkeypatch) -> None:
         "Health: good\n"
         "Errors: none"
     )
-    # unknown program: no chain-stage annotation
     unknown = notifier.format_event(
         {
             "kind": "terminal",
@@ -638,7 +603,6 @@ def test_terminal_chain_stage_annotation_and_worker_line(monkeypatch) -> None:
         }
     )
     assert "Chain stage complete" not in unknown
-    # a failure of a known chain stage is never labeled a completed stage
     failed_known = notifier.format_event(
         {
             "kind": "failure",
@@ -666,13 +630,11 @@ def test_throttle_shift_fires_once_per_transition(tmp_path: Path) -> None:
             },
         )
 
-    # first observation only records the mode; it never announces a transition
     write_mode("hawking_active", 1)
     events, seen = notifier._collect_throttle_events({}, runs_root=runs)
     assert events == []
     assert seen == {"generation1-flip": "hawking"}
 
-    # hawking -> idle fires exactly one throttle event
     write_mode("idle_opportunistic", 16)
     events, seen = notifier._collect_throttle_events(seen, runs_root=runs)
     assert len(events) == 1
@@ -682,11 +644,9 @@ def test_throttle_shift_fires_once_per_transition(tmp_path: Path) -> None:
     assert seen == {"generation1-flip": "idle"}
     assert notifier.format_event(events[0]) == "⚙️ MOP Flip: Hawking cleared, ramping to 16 workers"
 
-    # a steady idle poll does not re-fire
     events, seen = notifier._collect_throttle_events(seen, runs_root=runs)
     assert events == []
 
-    # idle -> hawking fires the opposite direction
     write_mode("hawking_active", 1)
     events, seen = notifier._collect_throttle_events(seen, runs_root=runs)
     assert len(events) == 1
@@ -722,7 +682,6 @@ def test_throttle_shift_delivers_once_through_run_once(monkeypatch, tmp_path: Pa
     assert result["sent"] == 1
     assert sent == ["⚙️ MOP Flip: Hawking cleared, ramping to 16 workers"]
 
-    # the same idle status on the next poll must not re-announce the transition
     result = notifier.run_once(
         state_path=state_path,
         runs_root=runs,
@@ -748,12 +707,10 @@ def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(tmp_path:
             },
         )
 
-    # first observation of an in-progress lane only records state; it never fires
     write_lane(128, 129)
     events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
     assert events == []
 
-    # the completing transition fires exactly one named sub-task blip
     write_lane(129, 129)
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
     assert len(events) == 1
@@ -762,7 +719,6 @@ def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(tmp_path:
     assert events[0]["event_id"] == "subtask/lane/generation1-successor-mechanics-extended-v1/G1-E1"
     assert notifier.format_event(events[0]) == "General Run: E1 sub-task complete (129/129)"
 
-    # a steady complete poll does not re-announce the same lane
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
     assert events == []
 
@@ -781,7 +737,6 @@ def test_partial_lane_progress_fires_nothing(tmp_path: Path) -> None:
     )
     events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
     assert events == []
-    # still incomplete on a later poll: still nothing
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
     assert events == []
 
@@ -826,12 +781,10 @@ def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path:
             },
         )
 
-    # in-progress capsule: first observation records, never fires
     write_capsule(done=False)
     events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
     assert events == []
 
-    # completed capsule fires one blip naming its epoch, category and mechanisms
     write_capsule(done=True)
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
     assert len(events) == 1
@@ -840,7 +793,6 @@ def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path:
     assert events[0]["event_id"] == "subtask/capsule/generation1-full-generations-wave-v1/w08_construction"
     assert notifier.format_event(events[0]) == "General Run: W08 construction sub-task complete (G1)"
 
-    # steady completed poll does not re-fire
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
     assert events == []
 
@@ -921,7 +873,6 @@ def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path
     assert result["sent"] == 1
     assert sent == ["General Run: E1 sub-task complete (129/129)"]
 
-    # the same complete lane on the next poll must not re-announce the sub-task
     result = notifier.run_once(
         state_path=state_path,
         runs_root=runs,

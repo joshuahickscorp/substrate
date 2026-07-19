@@ -139,8 +139,6 @@ def _train_gate(
     return gate, int(x.shape[0])
 
 
-
-
 def _real_noisy_tv_features(
     seed: int, n_frames: int, featurizer: DoaFeaturizer, target_mean: float, target_std: float
 ) -> np.ndarray:
@@ -149,8 +147,6 @@ def _real_noisy_tv_features(
         seed, "mop.beds.starss23.doa.noisy_tv", b"mop-starss23-doa-noisy-tv-v1"
     )
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
-
-
 
 
 def _deterministic_arm_tuples(
@@ -167,8 +163,6 @@ def _deterministic_arm_tuples(
         )
         tuples.append((clip.clip_id, gt_directions, estimator_by_clip[clip.clip_id], r, active_mask))
     return tuples
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -291,8 +285,6 @@ def _run_seed_real(
     )
 
 
-
-
 def _flop_model(
     kind: str, architecture: str, total_frames: int, train_frames: int, config: RealDoaBedConfig
 ) -> FlopModel:
@@ -306,8 +298,6 @@ def _flop_model(
         downstream_flops_per_firing=config.downstream_flops_per_reestimate,
         candidate_train_flops=lambda: train_fn(train_frames, config.epochs),
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -384,8 +374,6 @@ def _architecture_stats(
         survives=survives,
         pooled_mean_delta_deg=pooled_mean_delta_deg,
     )
-
-
 
 
 def build_real_doa_bed_artifact(

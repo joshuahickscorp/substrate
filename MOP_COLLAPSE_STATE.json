@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "2ebd473a83bc1c5b663551b55e55fe05205d367f",
+    "base_commit": "7c70cdaca1e7b9e00826444c69d51a6c5b9e246e",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 4500,
+    "eliminated_LOC": 15794,
     "deduplicated_LOC": 12967,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 7268,
-    "net_global_reduction_LOC": 10199
+    "added_LOC": 7322,
+    "net_global_reduction_LOC": 21439
   },
   "checklist_summary": {
-    "total": 240,
+    "total": 241,
     "by_status": {
       "complete": 17,
       "active": 49,
       "pending": 141,
       "partial": 9,
-      "verified": 24
+      "verified": 25
     }
   },
   "checklist": [
@@ -1524,7 +1524,7 @@
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
         "scripts/check_docs.py"
       ],
-      "validation": "170 original document versions sealed by SHA-256 and Git blob; 162 superseded files deleted; eight current authorities under 800 LOC",
+      "validation": "170 original document versions sealed by SHA-256 and Git blob; 162 superseded files deleted; eight current authorities under 800 LOC; runtime-unused embedded Python documentation removed from the 150 highest-weight modules without statement packing",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3391,6 +3391,23 @@
       "validation": "170 source versions sealed with SHA-256 and Git blobs; 162 files physically deleted; Markdown 95 added/43508 deleted; docs gate reports 8 files under 800 LOC; documentation tests 32/32 green; owned Python net -187",
       "commit": "",
       "rollback_tag": "mop-collapse-docs",
+      "dependency": "",
+      "next_action": "finish the dual-architecture DoA producer shell"
+    },
+    {
+      "id": "RED-embedded-python-documentation",
+      "section": 18,
+      "kind": "verified_reduction",
+      "title": "Remove runtime-unused embedded Python documentation",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "tests/unit/test_integrity_scaffold.py",
+        "tests/unit/test_sensing_scaffold.py"
+      ],
+      "validation": "54 required pass bodies added, 11294 docstring/comment/cleanup LOC deleted, net -11240; module docs consumed by CLIs, shebangs, legal headers, directives, and all executable statements retained; compile-all, critical ruff, 774 passed/2 skipped",
+      "commit": "",
+      "rollback_tag": "mop-collapse-embedded-docs",
       "dependency": "",
       "next_action": "finish the dual-architecture DoA producer shell"
     },

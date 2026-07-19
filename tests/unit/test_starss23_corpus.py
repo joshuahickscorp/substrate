@@ -13,8 +13,6 @@ def _tiny() -> SC.SyntheticStarssCorpus:
     return SC.generate_corpus(SC.SyntheticCorpusConfig.tiny(), seed=0)
 
 
-
-
 def test_same_seed_gives_byte_identical_audio_and_metadata() -> None:
     config = SC.SyntheticCorpusConfig.tiny()
     first = SC.generate_corpus(config, seed=11)
@@ -41,8 +39,6 @@ def test_audio_is_contiguous_float32_and_a_whole_number_of_frames() -> None:
         assert audio.dtype == np.float32
         assert audio.shape == (N_CHANNELS, n_frames * SAMPLES_PER_FRAME)
         assert audio.shape[1] % SAMPLES_PER_FRAME == 0
-
-
 
 
 def test_default_split_is_clip_and_room_disjoint_with_no_leakage() -> None:
@@ -78,8 +74,6 @@ def test_onset_frames_within_a_clip_are_distinct_and_in_range() -> None:
         assert all(0 <= frame < clip.n_frames for frame in frames)
 
 
-
-
 def test_planted_labels_round_trip_through_metadata_and_adapter() -> None:
     corpus = _tiny()
     adapter = corpus.adapter()
@@ -103,15 +97,11 @@ def test_metadata_text_is_native_six_column_starss23() -> None:
         assert all(field.lstrip("-").isdigit() for field in fields)
 
 
-
-
 def test_default_corpus_clears_the_validation_and_test_positive_floors() -> None:
     corpus = SC.generate_corpus(seed=0)
     counts = SC.SyntheticStarssCorpus.positive_counts(corpus.default_split())
     assert counts["val"] >= SC.MIN_VAL_ONSETS
     assert counts["test"] >= SC.MIN_TEST_ONSETS
-
-
 
 
 def test_planted_onsets_carry_real_energy_a_spatial_oracle_can_score() -> None:
@@ -144,8 +134,6 @@ def test_bare_energy_threshold_cannot_isolate_onsets_because_nuisance_intrudes()
     assert admitted_nuisance > 0
 
 
-
-
 def test_write_to_and_from_dir_preserve_audio_sha256(tmp_path) -> None:
     corpus = _tiny()
     corpus.write_to(tmp_path)
@@ -154,8 +142,6 @@ def test_write_to_and_from_dir_preserve_audio_sha256(tmp_path) -> None:
     for clip in disk_adapter.clips():
         assert clip.audio_sha256 == memory[clip.clip_id].audio_sha256
         assert clip.onsets == memory[clip.clip_id].onsets
-
-
 
 
 @pytest.mark.parametrize(

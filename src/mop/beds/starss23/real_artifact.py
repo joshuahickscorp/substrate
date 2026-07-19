@@ -84,8 +84,6 @@ class RealBedConfig:
         )
 
 
-
-
 def _real_noisy_tv_features(
     seed: int,
     n_frames: int,
@@ -98,8 +96,6 @@ def _real_noisy_tv_features(
         seed, "mop.beds.starss23.real.noisy_tv", b"mop-starss23-real-noisy-tv-v1"
     )
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
-
-
 
 
 def _run_seed_real(
@@ -210,8 +206,6 @@ def _run_seed_real(
         per_seed_block=per_seed_block,
         noisy_tv=noisy_tv,
     )
-
-
 
 
 def build_real_bed_artifact(

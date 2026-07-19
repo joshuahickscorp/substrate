@@ -153,9 +153,6 @@ def _fake_horizon_program(parent: chain.SuccessorEvidenceChain, tmp_path: Path) 
     )
 
 
-# ----------------------------------------------------------------------------
-# Identity and authority chain (v7 supersedes v6)
-# ----------------------------------------------------------------------------
 
 
 def test_v7_adopts_exact_live_parent_under_fresh_identity_and_supersedes_v6(tmp_path: Path) -> None:
@@ -217,9 +214,6 @@ def test_v7_status_validator_requires_supersedes_v6(tmp_path: Path) -> None:
         )
 
 
-# ----------------------------------------------------------------------------
-# Preserved spawn-title-transition re-sample (byte-for-byte v6 behavior)
-# ----------------------------------------------------------------------------
 
 
 def test_v7_resamples_exact_spawn_title_transition_until_worker_label(tmp_path: Path) -> None:
@@ -271,10 +265,6 @@ def test_v7_resamples_exact_spawn_title_transition_until_worker_label(tmp_path: 
     assert "spawn_main" not in serialized
 
 
-# ----------------------------------------------------------------------------
-# CRUX: detached (launchd-reparented) worker mid-exit is what held v6.
-# v7 tracks it by (pid, create_time) without an attachment gate.
-# ----------------------------------------------------------------------------
 
 
 def test_tolerable_transient_worker_gate_truth_table_v7(tmp_path: Path) -> None:
@@ -283,22 +273,16 @@ def test_tolerable_transient_worker_gate_truth_table_v7(tmp_path: Path) -> None:
     owner = _process(tmp_path, pid=714, label=spec.process_label, command=(spec.process_label, ""))
     prefix = spec.child_label_prefixes[0]
 
-    # The exact v6-killer: a mop-final worker mid-exit, reparented to launchd
-    # (ppid 1) with its OWN process group, still carrying the repo cwd. It is
-    # NOT attached to the parent by ppid or pgid, yet v7 must track it.
     detached_launchd = _process(
         tmp_path, pid=33846, label=f"{prefix}0490", command=(f"{prefix}0490",), pgid=33846, ppid=1
     )
     assert parent._tolerable_transient_worker(detached_launchd, owner, spec) is True
 
-    # Detached with a foreign parent (own group, ppid neither 1 nor parent):
-    # v6 rejected this (not attached); v7 tracks it (repo cwd, not clean).
     detached_foreign_parent = _process(
         tmp_path, pid=45242, label=f"{prefix}0493", command=(f"{prefix}0493",), pgid=45242, ppid=999
     )
     assert parent._tolerable_transient_worker(detached_foreign_parent, owner, spec) is True
 
-    # Attached mid setpgid/reparent (still tolerated, as in v6).
     reparenting = _process(
         tmp_path, pid=45239, label=f"{prefix}0491", command=(f"{prefix}0491",), pgid=45239, ppid=714
     )
@@ -309,13 +293,11 @@ def test_tolerable_transient_worker_gate_truth_table_v7(tmp_path: Path) -> None:
     )
     assert parent._tolerable_transient_worker(regrouping, owner, spec) is True
 
-    # The clean all-three residual is NOT a transient (it is the settled state).
     clean_residual = _process(
         tmp_path, pid=45241, label=f"{prefix}0494", command=(f"{prefix}0494",), pgid=714, ppid=714
     )
     assert parent._tolerable_transient_worker(clean_residual, owner, spec) is False
 
-    # A foreign cwd (a different worktree) is never tolerable, attachment aside.
     foreign_cwd = _process(
         tmp_path,
         pid=45243,
@@ -327,7 +309,6 @@ def test_tolerable_transient_worker_gate_truth_table_v7(tmp_path: Path) -> None:
     )
     assert parent._tolerable_transient_worker(foreign_cwd, owner, spec) is False
 
-    # A foreign label is never tolerable.
     wrong_label = _process(
         tmp_path, pid=45244, label="mop-other-0490", command=("mop-other-0490",), pgid=45244, ppid=714
     )
@@ -335,11 +316,6 @@ def test_tolerable_transient_worker_gate_truth_table_v7(tmp_path: Path) -> None:
 
 
 def test_v7_detached_worker_that_exits_is_tolerated_regression(tmp_path: Path) -> None:
-    # THE v6 REGRESSION, fixed. A consolidated-final worker mid-exit, already
-    # reparented to launchd (ppid 1, its own pgid), still carrying the mop-final
-    # label and the repo cwd, is NOT attached to the parent. v6 raised straight
-    # to integrity_hold; v7 tracks it and tolerates it because it is GONE on the
-    # next sample, so adoption proceeds cleanly.
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
     owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
@@ -386,9 +362,6 @@ def test_v7_detached_worker_that_exits_is_tolerated_regression(tmp_path: Path) -
 
 
 def test_v7_detached_worker_that_persists_still_holds(tmp_path: Path) -> None:
-    # A detached inexact worker that never exits and never resolves into the
-    # clean residual is a genuine stuck/foreign process: it stays inexact across
-    # the entire bounded window and still fails closed to integrity_hold.
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
     owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
@@ -430,8 +403,6 @@ def test_v7_detached_worker_that_persists_still_holds(tmp_path: Path) -> None:
 
 
 def test_v7_tolerates_attached_mid_fork_worker_until_clean_residual(tmp_path: Path) -> None:
-    # Preserved v6 behavior: an attached worker mid setpgid/reparent that
-    # resolves into the clean all-three residual is tolerated and adopts.
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
     owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
@@ -522,16 +493,9 @@ def test_v7_clean_worker_set_adopts_without_resample(tmp_path: Path) -> None:
     assert launches == []
 
 
-# ----------------------------------------------------------------------------
-# Preserved fail-closed safety (genuinely foreign or stuck processes still hold)
-# ----------------------------------------------------------------------------
 
 
 def test_v7_tracked_worker_that_turns_foreign_cwd_fails_closed(tmp_path: Path) -> None:
-    # A tracked boundary-transient worker whose (pid, create_time) survives but
-    # whose cwd mutates to a foreign worktree resolves to an unauthorized class
-    # and fails closed. (Merely detaching while keeping the repo cwd is now
-    # tolerated; escaping the tree is not.)
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
     owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
@@ -609,10 +573,6 @@ def test_v7_boundary_transient_worker_pid_reuse_fails_closed(tmp_path: Path) -> 
 
 
 def test_v7_same_repo_worker_outside_ownership_that_persists_fails_closed(tmp_path: Path) -> None:
-    # A same-repo detached worker that NEVER exits and NEVER resolves is a stuck
-    # process: it is tracked, but it stays inexact across the whole window and
-    # fails closed. (Unlike v6, this no longer fails on the first sample; the
-    # bounded window is exhausted first.)
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
     parent_process = _process(
@@ -672,10 +632,6 @@ def test_v7_foreign_cwd_worker_claiming_ownership_still_fails_closed(
 
 
 def test_v7_hard_same_group_intruder_surfaces_after_boundary_transient_exits(tmp_path: Path) -> None:
-    # A tolerable boundary-transient short-circuits _matching_processes before
-    # the group-membership check, but the chain can never adopt while a hard
-    # intruder remains in the exact parent group: the moment the transient
-    # exits, the intruder surfaces by exact pid and the chain fails closed.
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
     owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
@@ -742,9 +698,6 @@ def test_v7_title_transition_cannot_mask_hard_same_group_intruder(tmp_path: Path
     assert calls == 1
 
 
-# ----------------------------------------------------------------------------
-# Horizon launch (unchanged v1 target) and detached start (v7 entrypoint)
-# ----------------------------------------------------------------------------
 
 
 def test_v7_launches_horizon_v1_when_legacy_complete(

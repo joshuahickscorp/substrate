@@ -1,29 +1,3 @@
-"""Scaffold spine for the redesigned stability vs plasticity mechanism cluster (lane G1-P1R).
-
-This module raises the SCAFFOLDING axis only, for the REDESIGNED stable-core bed. It encodes, as
-machine-checkable contracts, the exact bar the redesigned mechanism must clear before any claim: a
-stable core, orthogonal per-task adapters, and selective consolidation driven by an honest
-recurrence signal must improve BOTH retention AND future learnability, jointly, at matched cost,
-against the declared control family (fresh_init, frozen_core, full_retrain, no_replay). It builds
-the harness, not the result. Nothing here demonstrates that any mechanism clears the bar.
-
-Why a redesign exists at all: the old G1-P1 bed gave the mechanism no exploitable recurrence
-signal, so the old lane was canary-pruned. The r2 bed (doc 20 route: repaired bed under new
-authority) carries an honest recurrence signal in its favorable regime; this scaffold pins the same
-P6 prior null and the same joint bar, so the redesign changes the bed, never the standard.
-
-Named prior null (forces the bar): the P6 stability vs plasticity split. Fresh actors adapt but
-forget; frozen actors retain but fail to adapt. The split is the default hypothesis. A single-axis
-win is exactly what the null predicts, so a single-axis win is refused. The scaffold fails closed
-unless both axes strictly improve together at matched cost, and even then a claim stays quarantined
-behind an activation gate that local code cannot open without an external confirmation receipt.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. The controls are declarations. The verdict is arithmetic over declared
-readings, never a measurement of a real system.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -37,27 +11,20 @@ from ..substrate.events import canonical_sha256
 
 STABILITY_PLASTICITY_R2_SCHEMA = "mop-stability-plasticity-r2/v1"
 
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-# The named prior null this lane must clear. The redesign keeps the SAME null as the retired G1-P1
-# lane; a repaired bed never gets a softer hypothesis.
 PRIOR_NULL = "p6-stability-plasticity-split"
 
-# The two axes that must improve jointly. Ordering is load-bearing for digests and completeness.
 DUAL_AXES: tuple[str, ...] = ("retention", "future_learnability")
 
-# The declared control family, same family as the retired G1-P1 lane. Ordering is load-bearing; a
-# completeness check refuses drift.
 REQUIRED_CONTROLS: tuple[str, ...] = ("fresh_init", "frozen_core", "full_retrain", "no_replay")
 
 
 class StabilityPlasticityR2Refusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, widened, or below the joint bar."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -79,17 +46,10 @@ def _require_sha256(value: str, label: str) -> None:
         raise StabilityPlasticityR2Refusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-# ---------------------------------------------------------------------------
-# Section A. Dual metric reading. Retention and future learnability, normalized to [0, 1].
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class DualMetricReading:
-    """One condition's normalized score on both axes. Neither axis stands alone.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     retention: float
     future_learnability: float
@@ -123,14 +83,10 @@ class DualMetricReading:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section B. Matched cost budget. A comparison is honest only at equal cost.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedCostBudget:
-    """The full-system budget every arm, candidate and control, must be held to before comparison."""
 
     params: int
     flops: int
@@ -161,17 +117,10 @@ class MatchedCostBudget:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Section C. Control arm and control family declaration.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ControlArm:
-    """One declared control condition with its reading and its held budget.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     control: str
     reading: DualMetricReading
@@ -198,7 +147,6 @@ class ControlArm:
 
 @dataclass(frozen=True, slots=True)
 class ControlFamily:
-    """The complete declared control family; membership and order must match REQUIRED_CONTROLS."""
 
     schema: str
     arms: tuple[ControlArm, ...]
@@ -245,24 +193,15 @@ class ControlFamily:
 
 
 def assert_control_completeness(controls: Sequence[str]) -> None:
-    """Module-level fail-closed check that a declared control set matches membership and order."""
 
     if tuple(controls) != REQUIRED_CONTROLS:
         raise StabilityPlasticityR2Refusal("declared control set drifted in membership or order")
 
 
-# ---------------------------------------------------------------------------
-# Section D. The contract that declares the joint bar.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class StabilityPlasticityR2Contract:
-    """Declares the joint-improvement rule: keep a mechanism only for a replicated, matched-cost,
-    both-axes win against the full declared control family.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     axes: tuple[str, ...]
@@ -317,7 +256,6 @@ class StabilityPlasticityR2Contract:
 
 
 def default_contract() -> StabilityPlasticityR2Contract:
-    """The canonical lane G1-P1R contract: both axes, matched cost, two replications, P6 null."""
 
     return StabilityPlasticityR2Contract(
         schema=STABILITY_PLASTICITY_R2_SCHEMA,
@@ -330,14 +268,10 @@ def default_contract() -> StabilityPlasticityR2Contract:
     )
 
 
-# ---------------------------------------------------------------------------
-# Section E. Axis comparison and joint verdict. The verdict certifies nothing on a single axis.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class AxisComparison:
-    """A candidate value vs the best control value on one axis, with a strict-improvement flag."""
 
     axis: str
     candidate_value: float
@@ -369,14 +303,6 @@ class AxisComparison:
 
 @dataclass(frozen=True, slots=True)
 class JointImprovementVerdict:
-    """Arithmetic verdict over two axis comparisons. A single-axis win never certifies a claim.
-
-    The verdict object itself is a neutral record; it does not raise on a single-axis result because
-    a single-axis result is a valid, and expected, null outcome. The claim path, ``certify``, fails
-    closed unless BOTH axes strictly improve at matched cost. That is the P6 split encoded as code.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     retention: AxisComparison
@@ -410,7 +336,6 @@ class JointImprovementVerdict:
         return self.retention.improved != self.future_learnability.improved
 
     def certify(self) -> JointImprovementVerdict:
-        """Fail closed unless both axes strictly improve. A single-axis win is the P6 split, refused."""
 
         if self.only_one_axis_improved:
             winner = "retention" if self.retention.improved else "future_learnability"
@@ -447,14 +372,6 @@ def evaluate_joint_improvement(
     candidate_budget: MatchedCostBudget,
     controls: ControlFamily,
 ) -> JointImprovementVerdict:
-    """Compare a candidate reading against the best control per axis, at matched cost.
-
-    Fails closed if the candidate is not held to the same budget as the control family. The verdict
-    compares the candidate to the strongest control on EACH axis independently; the P6 split makes
-    that pair of maxima come from different controls, which is exactly why a joint win is hard.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     if candidate_budget.digest() != controls.matched.digest():
         raise StabilityPlasticityR2Refusal(
@@ -479,19 +396,10 @@ def evaluate_joint_improvement(
     )
 
 
-# ---------------------------------------------------------------------------
-# Section F. Activation gate. A joint claim stays quarantined until an external receipt opens it.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
-    """An external confirmation receipt; the only thing that can open the joint-claim gate.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. This receipt is a
-    declaration that an independent party replicated the joint, matched-cost win. Local code cannot
-    mint a valid one for itself; a test asserts the gate stays closed without it.
-    """
 
     preregistration_sha256: str
     verdict_digest: str
@@ -526,12 +434,6 @@ class ConfirmationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class JointClaimGate:
-    """A fail-closed activation gate. OFF by default; opening it needs a matching external receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that a merely arithmetic both-axes win in this process can never be promoted to a standing claim
-    without independent, matched-cost, replicated confirmation supplied from outside.
-    """
 
     activation_permitted: bool = False
     claim_scope: str = CLAIM_SCOPE
@@ -545,7 +447,6 @@ class JointClaimGate:
         verdict: JointImprovementVerdict,
         receipt: ConfirmationReceipt | None = None,
     ) -> JointImprovementVerdict:
-        """Fail closed. Raise unless activation is permitted AND a valid receipt matches this verdict."""
 
         if not self.activation_permitted:
             raise StabilityPlasticityR2Refusal(
@@ -565,13 +466,10 @@ class JointClaimGate:
         return {"activation_permitted": self.activation_permitted, "claim_scope": self.claim_scope}
 
 
-# ---------------------------------------------------------------------------
 # Section G. Coverage record for this lane's sub-questions (readiness only).
-# ---------------------------------------------------------------------------
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static record of which G1-P1R sub-questions this scaffold arms. Readiness, not results."""
 
     return {
         "stable-core-coexists-with-rapid-adaptation": (

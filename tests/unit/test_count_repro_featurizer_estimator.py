@@ -40,8 +40,6 @@ _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-
-
 def test_repro_featurizer_shape_layout_and_zero_params():
     rng = np.random.default_rng(0)
     audio = rng.standard_normal((4, 2400 * 12))
@@ -74,8 +72,6 @@ def test_repro_featurizer_flops_keep_candidate_under_ceiling():
     assert featurize + gate_infer + c_train + k_max < FLOP_CEILING
 
 
-
-
 def test_repro_estimator_zero_params_and_caps_at_four():
     rng = np.random.default_rng(1)
     audio = rng.standard_normal((4, 2400 * 30))
@@ -100,8 +96,6 @@ def test_repro_estimator_silence_is_zero_and_rule_differs_from_sealed():
     assert not np.array_equal(new, old)
     assert est.parameter_digest() != FrozenCountEstimator().parameter_digest()
     assert FLOPS_PER_REESTIMATE >= 80_000
-
-
 
 
 def test_repro_prereg_sesoi_is_half_over_test_clips_and_sealed_before_scores():
@@ -132,8 +126,6 @@ def test_repro_prereg_refuses_below_granularity_floor():
         )
 
 
-
-
 def test_verifier_imports_no_producer_or_mop_code():
     source = Path(V.__file__).read_text(encoding="utf-8")
     tree = ast.parse(source)
@@ -161,8 +153,6 @@ def test_verifier_imports_no_producer_or_mop_code():
         "dataclasses",
         "__future__",
     }
-
-
 
 
 _SMALL_CONFIG = ReproCountBedConfig(

@@ -1,46 +1,4 @@
 #!/usr/bin/env python
-"""AL1: uncertainty router with noisy-TV guard (WP-08, H-ENSEMBLE consumer; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, AL full schema).
-
-Thesis: an uncertainty signal used ONLY as a ROUTER input (explicitly never a learning-rate gate,
-the e4 corpus negative refuted that use 30/30) selects which episodes get the update budget and
-beats random episode selection on adaptation-per-update, while passing the noisy-TV guard.
-
-Regime (synthetic latents, no encoder, preregistered): a STREAM of candidate episodes with limited
-lookahead (a sliding window of unconsumed episodes). Learnable episodes carry samples from a fixed
-cluster task; noise episodes carry unlearnable content (random inputs, uniform random labels, fresh
-every draw). Every arm gets the SAME update budget and the SAME fixed learning rate (uncertainty is
-admitted only as a selection input); arms differ ONLY in which episode of the window they select:
-  disagreement    : ensemble disagreement on the episode (epistemic, the tested arm)
-  random          : uniform choice (the matched baseline)
-  point_error     : current loss on the episode (the noisy-TV bait arm, expected to chase noise)
-  disagreement_permuted : the tested arm on a PERMUTED stream order (the curriculum-permutation
-                          control: the advantage must not be an ordering artifact)
-All arms share the member initialization per seed, so selection policy is the only difference.
-
-Metric: adaptation-per-update, scored as held-out learnable accuracy at the matched update budget
-(equal updates for every arm makes final accuracy the per-update comparison); the accuracy curve and
-adaptation_speed (diagnostics/continual_metrics) are reported alongside. Router scoring overhead
-(no_grad forward passes on window episodes) is reported honestly; the preregistered match is on
-gradient updates, the quantity the metric normalizes by.
-
-Guard: the three-boolean contract from diagnostics/noisy_tv.py must pass jointly, AND the
-disagreement router's selected-noise share must not exceed the pool noise fraction (selecting noise
-above base rate = chasing aleatoric noise = e4 in router clothing). A guard failure overrides any
-primary win (manifest appendix).
-
-Preregistered verdict logic (fixed in code before any run):
-  DEGENERATE if the random arm's final accuracy > 0.97 or < chance + 0.05 on any seed
-  GUARD-FAIL if the noisy-TV booleans do not all pass or the disagreement router chases noise
-  WIN  if guard passes AND delta(disagreement - random) has mean > seed SD, mean > 0, no sign flip,
-       AND the permuted-stream disagreement arm also beats random on mean (curriculum control)
-  NULL otherwise (the registry null: router matches random episode selection)
-
-Usage: PYTHONPATH=. python scripts/mop_al1_uncertainty_router.py --seeds 0-4
-Output: runs/mot/al1_uncertainty_router.json (--rerun writes al1_uncertainty_router_seeds10.json)
-
-No em dashes or en dashes (BLACKHOLE.md). No encoder, no weights, latents are synthetic.
-"""
 
 from __future__ import annotations
 
@@ -86,8 +44,6 @@ def build_pool(
     separation: float,
     n_eval: int,
 ) -> tuple[list[dict], torch.Tensor, torch.Tensor]:
-    """The episode pool plus a held-out learnable eval set. Learnable episodes draw from fixed
-    cluster centers; noise episodes are random inputs with uniform random labels (irreducible)."""
     g = torch.Generator().manual_seed(seed)
     centers = torch.randn(n_classes, dim, generator=g)
 
@@ -127,8 +83,6 @@ def run_arm(
     lr: float,
     eval_every: int,
 ) -> dict:
-    """One selection policy at the matched update budget. All arms rebuild the SAME initial members
-    (same seed) so policy is the only difference; the LR is fixed (never gated by uncertainty)."""
     stream = list(range(len(pool)))
     if arm == "disagreement_permuted":
         gp = torch.Generator().manual_seed(seed + 4242)
@@ -167,7 +121,6 @@ def run_arm(
             pick = candidates[max(range(len(candidates)), key=lambda k: scores[k])]
         used.add(pick)
         noise_picks += int(pool[pick]["noise"])
-        # fresh labels for noise episodes on every visit (irreducible by construction)
         ep = pool[pick]
         y_ep = torch.randint(0, n_classes, ep["y"].shape, generator=gr) if ep["noise"] else ep["y"]
         for _ in range(updates_per_episode):
@@ -197,11 +150,6 @@ def build_pool_d3(
     separation: float,
     n_eval: int,
 ) -> tuple[list[dict], torch.Tensor, torch.Tensor]:
-    """A5 recal pool: learnable episodes and the held-out eval set are drawn from the D3 graded slot
-    task (diagnostics/hardness), whose binary DSL label sits at a CALIBRATED, non-ceiling difficulty
-    (~0.85 best-mode) so the random arm cannot saturate to 1.0 (the degenerate the base al1 hit). Noise
-    episodes stay irreducible (random inputs, uniform random labels, fresh every visit). dim/n_classes
-    are overridden to the D3 task's own (64, 2); the passed separation is ignored (D3 sets difficulty)."""
     from mop.diagnostics.hardness import make_graded_slot_task
 
     n_noise = int(round(n_pool * noise_frac))
@@ -385,7 +333,6 @@ def main(argv=None) -> int:
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
     if a.recal:
-        # D3 task is binary and 64-dim; learnable content sits at a calibrated non-ceiling difficulty
         result = run(
             parse_seeds(a.seeds),
             dim=64,

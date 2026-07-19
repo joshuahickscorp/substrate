@@ -1,31 +1,4 @@
 #!/usr/bin/env python
-"""WS3 (WP-12, gated on a positive WS1): capacity-neutral arbitration. Given that agreement carries
-correctness information (the WS1 gate), do fixed Bayesian-style rules beat naive combination with
-essentially zero added parameters?
-
-Arms (per-source heads are the ONLY trained modules, shared by every rule; the expensive path is one
-small concat-MLP used by both routing arms identically):
-  equal_weight: mean of the two source probability vectors.
-  inverse_variance: per-sample precision weights 1 / (entropy_i + eps), the fixed Bayesian rule.
-  disagreement_routed: the top route_frac samples by disagreement (1 - sum_k pA_k pB_k) get the
-  expensive concat-MLP prediction, the rest get equal_weight.
-  random_routed: the SAME expensive-path budget spent on a seeded random subset (the matched-rate
-  control), plus single_best_source and concat_mlp reported for context.
-
-GATE: this experiment runs only if `ws1_positive` is true in the WS1 verdict json; otherwise it writes
-a SKIPPED record citing the WS1 verdict (Q3.7). PREREGISTERED NULL (verbatim, registry WS3): precision
-weights are uninformative so inverse-variance ties equal-weight averaging, and disagreement is
-uncorrelated with correctness so disagreement routing ties random routing at matched rate; OR
-disagreement fires on aleatoric noise (fails noisy-TV).
-PREREGISTERED VERDICT RULE (fixed before any result exists): the null is REJECTED only if BOTH the
-inverse-variance delta over equal-weight AND the disagreement-routing delta over random routing have
-5-seed 95 percent CIs excluding zero from below with no sign flips, AND noisy-TV passes on every seed.
-A noisy-TV failure overrides any primary win.
-
-Usage: python scripts/mop_ws3_arbitration.py --seeds 0-4
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -84,8 +57,6 @@ def _entropy(p: torch.Tensor) -> torch.Tensor:
 
 
 def inverse_variance_fuse(pa: torch.Tensor, pb: torch.Tensor, eps: float) -> torch.Tensor:
-    """Precision-weighted fusion with per-sample weights 1 / (predictive entropy + eps): the fixed
-    zero-parameter Bayesian rule."""
     wa, wb = 1.0 / (_entropy(pa) + eps), 1.0 / (_entropy(pb) + eps)
     w = wa + wb
     return (wa / w).unsqueeze(-1) * pa + (wb / w).unsqueeze(-1) * pb
@@ -94,7 +65,6 @@ def inverse_variance_fuse(pa: torch.Tensor, pb: torch.Tensor, eps: float) -> tor
 def routed_accuracy(
     fused: torch.Tensor, expensive: torch.Tensor, route_mask: torch.Tensor, y: torch.Tensor
 ) -> float:
-    """Accuracy when routed samples take the expensive path and the rest take the cheap fusion."""
     preds = torch.where(route_mask, expensive.argmax(-1), fused.argmax(-1))
     return float((preds == y).float().mean())
 
@@ -162,12 +132,6 @@ def run_seed(za: torch.Tensor, zb: torch.Tensor, y: torch.Tensor, seed: int, cfg
 
 
 def load_dual_source_d3(seed: int, n: int = 2000) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """A5 recal dual source: two distinct views of the D3 graded slot latent over the SAME samples, so
-    per-sample disagreement is decision-relevant (the two views disagree exactly where corruption bites,
-    the D3 hard bin). Source A sees the four slot blocks with independent view-noise; source B sees the
-    same latent under a DIFFERENT independent view-noise draw plus a fixed random rotation, so the two
-    heads land in different solutions and their agreement carries correctness information (the WS1
-    premise that the base ws3 could not establish on the real caches). y is the D3 DSL label."""
     from mop.diagnostics.hardness import make_graded_slot_task
 
     task = make_graded_slot_task(n, noise=2.4, seed=seed)
@@ -248,14 +212,6 @@ def run(cfg=None, device=None, run_dir: Path | None = None) -> dict:
 
 
 def run_recal(cfg=None, run_dir: Path | None = None) -> dict:
-    """A5 recalibration: the base ws3 self-reported SKIPPED because it was gated on a positive WS1 that
-    never materialized on the real caches (agreement carried no correctness information there). This
-    driver UNGATES arbitration by running the identical arms (equal-weight, inverse-variance,
-    disagreement-routed vs random-routed at matched rate, all controls and the noisy-TV guard verbatim)
-    on the D3 graded slot task, where per-sample hardness IS decision-relevant so agreement/disagreement
-    can in principle carry information. Verdict rule is unchanged: the null is REJECTED only if BOTH the
-    inverse-variance delta and the disagreement-routing delta have CIs excluding zero from below with no
-    sign flips AND noisy-TV passes every seed. A fresh D3 dual source is drawn per seed."""
     base = {"experiment": WS3Experiment.id, "contract": WS3Experiment().contract()}
     seeds = list(_get(cfg, "seeds", DEFAULTS["seeds"]))
     t0 = time.perf_counter()

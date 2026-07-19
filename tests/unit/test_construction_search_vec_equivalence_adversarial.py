@@ -1,33 +1,3 @@
-"""Independent adversarial re-proof that the vectorized construction search is bitwise identical.
-
-This test does not trust the prior equivalence proof in
-``tests/unit/test_construction_search_vec_equivalence.py``. It re-derives the identity from scratch
-over a deliberately DIFFERENT and WIDER sweep than the prior proof used, so that a single differing
-bit anywhere in the vectorized path (``construction_search_vec_impl``) versus the sealed scalar
-authority (``construction_search_impl``) is surfaced with its exact diverging seed and value.
-
-The prior proof swept seeds 0..999 plus the G1-G1 lane bands. This proof deliberately avoids that
-seed set and instead uses three independent, fully deterministic seed sources:
-
-- the disjoint dense range 1000..3000 (no overlap with the prior floor),
-- 64 large seeds drawn from a fixed sha256 walk seeded by a constant literal (no rng, no OS entropy),
-  which land uniformly across the full 64-bit seed space the dense floor never reaches, and
-- explicit boundary seeds: 0, 1, 2, powers-of-two edges up to 2**64-1, and the two salts themselves
-  (which force the salted LCG stream seed to exactly zero, a stream boundary the prior proof skipped).
-
-For every seed the full five-arm ``evaluate_regime`` structure is compared field for field on BOTH
-regimes: arm name, raw_score compared as raw IEEE-754 bytes (so sign-of-zero and any mantissa bit is
-caught), evaluation count as an exact integer, and the member tuple. A separate case stresses the
-vectorized LCG block decomposition directly at many adversarial stream lengths, and a third case
-reproduces the sealed runner receipt digest end to end from the vectorized arms.
-
-The stance is refute-by-default: identity is asserted only if zero mismatches are found. The salts,
-LCG constants, and control policy values used here are reproduced as local literals and then
-cross-checked against the scalar authority, so this test carries no hidden coupling to the module
-under test.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -47,9 +17,6 @@ from mop.mechanisms.construction_search_vec_impl import (
     vec_evaluate_regime,
 )
 
-# Reproduced by value from the scalar authority and cross-checked in test_local_constants_match_authority
-# below. Defining them locally (rather than importing the private module constants) keeps this proof
-# from silently inheriting a wrong salt or mask from the module it is meant to audit.
 _MASK64 = (1 << 64) - 1
 _LCG_MULT = 6364136223846793005
 _LCG_ADD = 1442695040888963407
@@ -64,18 +31,11 @@ _ARM_FIELDS = ("no-search", "greedy-only", "random-construction", SEARCH_ARM, OR
 
 
 def _float_bits(value: float) -> bytes:
-    """The raw 8 IEEE-754 bytes of a float, so any bit difference (sign of zero included) is caught."""
 
     return struct.pack("<d", float(value))
 
 
 def _sha_walk_seeds(count: int) -> list[int]:
-    """``count`` deterministic 64-bit seeds from a fixed sha256 walk. No rng, no OS entropy.
-
-    The walk is seeded from a constant literal, then each step hashes the previous digest and reads
-    the leading 8 bytes as a big-endian uint64. Successive seeds spread across the whole 64-bit space,
-    so many exceed 2**63, exercising the high-seed region the dense floor 1000..3000 never touches.
-    """
 
     seeds: list[int] = []
     state = hashlib.sha256(b"mop-adversarial-construction-search-vec-equivalence/v1").digest()
@@ -86,7 +46,6 @@ def _sha_walk_seeds(count: int) -> list[int]:
 
 
 def _boundary_seeds() -> list[int]:
-    """Explicit edge seeds, including the two salts that force a salted stream seed of exactly zero."""
 
     return [
         0,
@@ -119,10 +78,8 @@ def _boundary_seeds() -> list[int]:
 
 
 def _sweep_seeds() -> list[int]:
-    """The independent adversarial seed set: dense 1000..3000, sha walk, and boundary edges."""
 
     seeds = list(range(1000, 3001)) + _sha_walk_seeds(64) + _boundary_seeds()
-    # De-duplicate while preserving order, so an accidental overlap does not inflate the count.
     seen: set[int] = set()
     unique: list[int] = []
     for seed in seeds:
@@ -133,7 +90,6 @@ def _sweep_seeds() -> list[int]:
 
 
 def _arm_mismatches(scalar_arms, vec_arms, seed: int, regime: str) -> list[tuple]:
-    """Every field-level bitwise difference between the scalar and vectorized arm dicts for one seed."""
 
     diffs: list[tuple] = []
     if frozenset(vec_arms) != _EXPECTED_ARMS:
@@ -159,7 +115,6 @@ def _arm_mismatches(scalar_arms, vec_arms, seed: int, regime: str) -> list[tuple
 
 
 def test_local_constants_match_authority():
-    """The literals this proof uses must equal the sealed scalar authority; otherwise the proof lies."""
 
     assert _MASK64 == scalar._MASK64
     assert _LCG_MULT == scalar._LCG_MULT
@@ -170,13 +125,6 @@ def test_local_constants_match_authority():
 
 
 def test_adversarial_lcg_block_math_matches_scalar_stream():
-    """The vectorized uint64 LCG reproduces DeterministicStream bit for bit at many stress lengths.
-
-    The vectorized states pass through a sqrt-sized block decomposition whose behavior depends on the
-    requested count, so identity is checked at counts spanning perfect squares, primes, block-size
-    boundaries, and the two real arm lengths (480 restarts-worth and 30000 random-worth), for stream
-    seeds including the salted seeds this bed actually produces and the exact-zero stream boundary.
-    """
 
     short_lengths = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 24, 25, 26, 35, 36, 37,
@@ -232,11 +180,6 @@ def test_adversarial_lcg_block_math_matches_scalar_stream():
 
 
 def test_adversarial_full_structure_bitwise_identical_over_independent_sweep():
-    """Full five-arm evaluate_regime is bitwise identical, scalar vs vectorized, on every sweep seed.
-
-    Refute-by-default: the assertion passes only when zero field-level mismatches are found across the
-    entire independent sweep on both the favorable and the null regime.
-    """
 
     bed = ConstructionSearchBed()
     seeds = _sweep_seeds()
@@ -256,11 +199,6 @@ def test_adversarial_full_structure_bitwise_identical_over_independent_sweep():
 
 
 def _run_results_from_arms(bed, seed, favorable_arms, null_arms) -> RunResults:
-    """Reproduce the sealed RunResults from a supplied arm dict, mirroring the runner formulas.
-
-    Fed the scalar arms it validates the mirror against the real runner; fed the vectorized arms it
-    proves the vectorized path reproduces the exact sealed receipt digest bit for bit.
-    """
 
     favorable_spec = bed.favorable_regime(seed)
     null_spec = bed.null_regime(seed)
@@ -292,12 +230,6 @@ def _run_results_from_arms(bed, seed, favorable_arms, null_arms) -> RunResults:
 
 
 def test_adversarial_vectorized_arms_reproduce_sealed_receipt_digest():
-    """The vectorized arms reproduce the real runner receipt digest, the folded sealed artifact.
-
-    For each seed the real runner (which runs the scalar arms internally) is minted end to end, then
-    the same digest is rebuilt from the vectorized arms through the runner formulas. The scalar mirror
-    is validated against the real runner on every seed so the reproduction formula is known faithful.
-    """
 
     bed = ConstructionSearchBed()
     runner = ConstructionSearchRunner()

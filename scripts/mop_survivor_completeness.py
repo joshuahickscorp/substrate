@@ -1,58 +1,4 @@
 #!/usr/bin/env python
-"""SURVIVOR-COMPLETENESS AUDIT (falsification-engine axis at ceiling).
-
-Adversarially re-audit EVERY remaining MoP positive with a NON-VACUOUS control, on existing caches,
-zero new encode. Read-only on the repo; writes only to this lane folder. Per claim we issue
-HARDEN / HOLD / DEMOTE with an effect size and a spread. A tie is a NULL. Thresholds are PREREGISTERED
-in code below, BEFORE any number is read. No em dashes or en dashes (house style).
-
-The four surviving positives and their adversarial controls:
-
-C1 substrate-special (real V-JEPA shape-decodes > random-init same-arch ViT-L).
-    The published headline rests on a SINGLE 29-clip split (vjepa 15/29 vs randinit 7/29, Fisher
-    p=0.0285) already flagged fragile (63.7 percent bootstrap keep of p<0.05). We REPLACE that fragile
-    single-p with a MULTI-SPLIT bootstrap on the on-disk 200-clip vjepa vs randominit_vitl_nuisance
-    caches: resample train/test splits B>=1000 times, each time fit a fresh linear shape-probe on train,
-    score both arms on the SAME held-out test, and record the pretraining-minus-randinit shape-decode
-    gap. Report the gap distribution and the fraction of resamples with gap > 0.
-    THRESHOLD (C1): HARDEN iff the 2.5th percentile of the bootstrapped gap distribution is > 0 AND the
-    fraction of resamples with gap>0 is >= 0.99. HOLD iff frac>0 in [0.90, 0.99). DEMOTE iff frac<0.90.
-    (The gap here is between-arm on a shared split, so we bootstrap the split, not the clip counts.)
-
-C2 compositional factoring (held-out (shape,color) 0.725 ~= seen 0.708: shape factored from color).
-    Two distinct claims are bundled: (a) held-out ~= seen EQUALITY (within-arm, no control), and (b)
-    the substrate-specificity vs a control (published control was resolution-confounded random-pixel).
-    We test whether the equality is GENUINE novel-combo generalization or LEAKAGE, with:
-      - a truly-unseen diagonal held-out set (the 5-cell diagonal (s,s) held out of training entirely),
-        multi-seed over which diagonal is held out (5 rotations), so no held-out (shape,color) pair is
-        ever seen in training;
-      - a LABEL-PERMUTATION null: shuffle the shape labels within the whole set, refit, and re-measure
-        held-out accuracy. If shuffled held-out accuracy stays near real held-out accuracy, the "held-out
-        decode" is a leakage/degrees-of-freedom artifact, not shape generalization;
-      - a matched-256px randinit control (randominit_vitl_nuisance, NOT resolution-confounded random
-        pixels) run through the SAME held-out protocol.
-    THRESHOLD (C2): HARDEN iff (i) real held-out accuracy CI-lo > permutation-null held-out CI-hi (real
-    beats the shuffled-label floor) AND (ii) |seen - heldout| gap CI includes 0 (equality holds: no
-    memorization penalty) AND (iii) real held-out CI-lo > randinit held-out CI-hi (substrate-specific
-    on a matched control). HOLD iff (i) and (ii) hold but (iii) fails (equality real but substrate
-    edge not clean on the matched control). DEMOTE iff (i) fails (held-out decode is at the shuffle floor).
-
-C3 PR1 oracle gain (het_oracle_gain 0.1553 > hom_oracle_gain 0.1183; router precondition).
-    Published on 5 seeds; hom_gain seed sd=0.06 (large), gate margin only 0.0226. We re-run PR1's EXACT
-    machinery at MORE seeds with the calibration-pinned separation, and report the het-minus-hom gap
-    distribution and the fraction of seeds with het_gain > hom_gain (per-seed, not just mean).
-    THRESHOLD (C3): HARDEN iff the mean het-minus-hom gap seed-CI lo > 0 AND per-seed het>hom in >=90pct
-    of seeds AND mean het_gain > 0.05. HOLD iff CI lo > 0 but per-seed frac in [0.6,0.9). DEMOTE iff CI
-    lo <= 0 (the het edge over the seed-copy control is within seed noise).
-
-C4 shapecap real-vs-randinit lift (real shape decode 0.6167 vs randinit 0.50).
-    Both are SINGLE-seed point estimates. We multi-seed both arms with a fresh linear shape-probe per
-    seed on the SAME split, and report the real-minus-randinit lift seed-CI and sign-flip.
-    THRESHOLD (C4): HARDEN iff lift seed-CI lo > 0 AND no per-seed sign flip AND real arm mean > chance
-    + 0.1 (0.30) AND randinit arm mean < 0.35 (near chance, so the real caption text genuinely carries
-    shape the random-init text does not). HOLD iff lift CI lo > 0 with a flip or a small (<0.05) lift.
-    DEMOTE iff lift CI lo <= 0 (the "lift" is within seed noise; the random-init text decodes shape too).
-"""
 
 from __future__ import annotations
 
@@ -78,7 +24,6 @@ SEEDS = list(range(10))
 CHANCE_SHAPE = 0.20
 
 
-# ------------------------- shared linear shape-probe -------------------------
 def zscore_fit(xtr: torch.Tensor, xte: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
     mu = xtr.mean(0, keepdim=True)
     sd = xtr.std(0, keepdim=True) + 1e-6
@@ -95,7 +40,6 @@ def fit_probe_acc(
     lr: float = 0.05,
     seed: int = 0,
 ) -> float:
-    """Fit a single linear head on TRAIN, return TEST accuracy. z-scoring fit on train only."""
     torch.manual_seed(seed)
     xtr, xte = zscore_fit(xtr, xte)
     head = torch.nn.Linear(xtr.shape[1], n_classes)
@@ -108,7 +52,6 @@ def fit_probe_acc(
         return float((head(xte).argmax(-1) == yte).float().mean())
 
 
-# ========================= C1 substrate-special multi-split bootstrap =========================
 def c1_substrate():
     vj = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "features.npy")).float()
     ri = torch.tensor(np.load(CACHE / "randominit_vitl_nuisance" / "features.npy")).float()
@@ -124,7 +67,6 @@ def c1_substrate():
     for b in range(B):
         perm = torch.tensor(rng.permutation(n))
         tr, te = perm[:cut], perm[cut:]
-        # fresh head per arm, SAME split, same probe-init seed b so the only difference is the substrate
         av = fit_probe_acc(vj[tr], y[tr], vj[te], y[te], n_classes, seed=b)
         ar = fit_probe_acc(ri[tr], y[tr], ri[te], y[te], n_classes, seed=b)
         vj_accs.append(av)
@@ -170,7 +112,6 @@ def c1_substrate():
     }
 
 
-# ========================= C2 compositional factoring held-out generalization =========================
 def _held_out_diagonal_acc(
     x: torch.Tensor,
     shape: torch.Tensor,
@@ -179,10 +120,6 @@ def _held_out_diagonal_acc(
     seed: int,
     permute_shape: bool = False,
 ) -> tuple[float, float]:
-    """Train a shape-probe with the diagonal set of (shape, color) cells {(s, (s+diag_offset)%5)}
-    FULLY held out of training; test on those held-out cells. Returns (seen_acc, heldout_acc).
-    If permute_shape: shuffle the shape labels globally (a leakage/DOF null); a genuine held-out
-    shape decode must collapse toward chance under this shuffle."""
     n = x.shape[0]
     n_shape = int(shape.max()) + 1
     y = shape.clone()
@@ -194,7 +131,6 @@ def _held_out_diagonal_acc(
     )
     tr_idx = torch.where(~held_mask)[0]
     te_idx = torch.where(held_mask)[0]
-    # also carve a held-back slice of SEEN cells for the seen-acc estimate (never train on test)
     g2 = torch.Generator().manual_seed(seed + 3)
     tr_perm = tr_idx[torch.randperm(len(tr_idx), generator=g2)]
     seen_te_n = max(1, int(0.2 * len(tr_perm)))
@@ -211,7 +147,6 @@ def c2_compositional():
     shape = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "labels_shape.npy")).long()
     color = torch.tensor(np.load(CACHE / "vjepa2_vitl_nuisance" / "labels_color.npy")).long()
 
-    # sweep all 5 diagonal offsets x SEEDS: every held-out set is a truly-unseen (shape,color) diagonal
     real_seen, real_held, perm_held, ri_held, gaps = [], [], [], [], []
     for off in range(5):
         for s in SEEDS:
@@ -270,9 +205,7 @@ def c2_compositional():
     }
 
 
-# ========================= C3 PR1 oracle gain robustness across seeds =========================
 def c3_pr1():
-    # Import PR1's EXACT machinery and re-run at MORE seeds with the calibration-pinned separation.
     from scripts.pr1_mode_error_disjointness import (  # noqa: E402
         DETERMINISTIC_MODES,
         MODES,
@@ -281,8 +214,6 @@ def c3_pr1():
         run_mode,
     )
 
-    # published run pinned separation 0.12 via calibration (CALIBRATION_SEED disjoint). Reuse it so we
-    # do not re-tune difficulty; the audit is about SEED robustness of the gap at fixed difficulty.
     published = json.loads((REPO / "runs" / "pre_studio" / "pr1_mode_error_disjointness.json").read_text())
     sep = float(published["config"]["separation"])
     n_train, n_test, n_classes, dim, epochs = 2000, 600, 10, 1024, 30
@@ -301,15 +232,12 @@ def c3_pr1():
         best_acc = accs[best_mode]
         het_oracle = float(torch.stack([1 - errors[m] for m in MODES]).amax(0).float().mean())
         het_gain = het_oracle - best_acc
-        # homogeneous seed-copy control, mirroring the published gate (trained-copy always valid; the
-        # subsample control only strengthens the null when the best mode is deterministic)
         best_trained = max((m for m in MODES if m not in DETERMINISTIC_MODES), key=lambda m: accs[m])
         _, _, tr_gain = hom_copies(
             best_trained, xtr, ytr, xte, yte, n_classes, epochs, seed_base=s * 1000 + 1
         )
         hom_gain = tr_gain
         if best_mode in DETERMINISTIC_MODES:
-            # subsample control at the published fractions; take the max gain (conservative vs GREEN)
             from scripts.pr1_mode_error_disjointness import MIN_COPY_TOL, SUBSAMPLE_FRACTIONS
 
             tr_accs_for_sd, _, _ = hom_copies(
@@ -362,7 +290,6 @@ def c3_pr1():
     }
 
 
-# ========================= C4 shapecap real-vs-randinit lift honesty =========================
 def c4_shapecap():
     real = torch.tensor(np.load(CACHE / "qwen05b_shapecap_real" / "latents.npy")).float()
     rand = torch.tensor(np.load(CACHE / "qwen05b_shapecap_randominit" / "latents.npy")).float()
@@ -378,7 +305,6 @@ def c4_shapecap():
 
     real_accs, rand_accs, lifts = [], [], []
     for s in SEEDS:
-        # SAME split per seed for both arms so the only difference is the caption encoder
         torch.manual_seed(s)
         perm = torch.randperm(n)
         tr, te = perm[:cut], perm[cut:]
@@ -457,7 +383,6 @@ def main():
     }
     (OUT / "survivor_completeness.json").write_text(json.dumps(result, indent=2, default=str))
     print(json.dumps(result["summary"], indent=2))
-    # compact per-claim numbers for the return
     print(
         "---C1---",
         json.dumps(

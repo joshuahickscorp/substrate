@@ -47,8 +47,6 @@ class DoaVerificationRefusal(ValueError):
     pass
 
 
-
-
 def _canonical_bytes(value: object) -> bytes:
     return json.dumps(
         value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False
@@ -67,8 +65,6 @@ def _agree(a: object, b: object, tol: float = _TOL) -> bool:
     return abs(float(a) - float(b)) <= tol
 
 
-
-
 def _direction_to_vector(azimuth_deg: float, elevation_deg: float) -> tuple[float, float, float]:
     az = math.radians(azimuth_deg)
     el = math.radians(elevation_deg)
@@ -82,8 +78,6 @@ def _great_circle_degrees(az1: float, el1: float, az2: float, el2: float) -> flo
     dot = v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
     dot = max(-1.0, min(1.0, dot))
     return math.degrees(math.acos(dot))
-
-
 
 
 def _as_direction_track(track: object, label: str) -> list[list[float] | None]:
@@ -178,8 +172,6 @@ def _reestimates_for_arm(arm: str, clip_id: str, n_frames: int, reestimates_by_c
     return _as_reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-
-
 def _sign_flip_one_sided_brute_force(deltas: list[float]) -> tuple[float, float, int]:
     n = len(deltas)
     if n == 0:
@@ -249,8 +241,6 @@ def _room_majority(clip_deltas_by_room: dict[str, list[float]]) -> tuple[int, fl
     return n_favorable, one_sided_p, n_rooms, per_room
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class DoaVerificationResult:
     seal_intact: bool
@@ -269,8 +259,6 @@ class DoaVerificationResult:
     @property
     def rejected(self) -> bool:
         return not self.independent_referee_reproduction
-
-
 
 
 def _rescore_seed_block(
@@ -405,8 +393,6 @@ def _rescore_architecture(
         "room_n_rooms": n_rooms,
         "room_per_room": per_room,
     }
-
-
 
 
 def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:

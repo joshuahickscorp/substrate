@@ -1,37 +1,4 @@
 #!/usr/bin/env python
-"""PR8: memory-augmented retrieval head (WP-06, H-MEMORY; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, PR full schema part 2).
-
-Thesis: a retrieval-conditioned head over the frozen-latent KV buffer beats BOTH plain kNN AND a
-matched-param parametric head on new-class few-shot, exploiting that frozen-encoder keys never go
-stale (the doctrinal free lunch). The head must add value over its own two halves: if it ties kNN
-the parametric part adds nothing; if it ties the parametric head the memory adds nothing.
-
-Task (synthetic latents, no encoder): the DR10 universe, fine-grained local sub-clusters in a
-signal subspace plus high-variance nuisance dims. New classes exist only as k-shot buffer entries
-(never as retrieval-head training queries), so the retrieval head must GENERALIZE its learned
-attention from base classes to unseen ones, which is exactly the stale-free-keys claim. The
-parametric head, whose only channel is its weights, trains on the same information (base data plus
-the k-shot supports as ordinary training points): information access is matched per arm, only the
-storage substrate (weights vs buffer) differs.
-
-Arms:
-  retrieval_head : learned query/key attention over the k retrieved neighbors' labels, mixed with a
-                   small parametric branch (trained on base queries only)
-  knn            : distance-weighted vote over the SAME retrieved neighbors (no trainable part)
-  parametric     : an MLP head with params matched to retrieval_head via shell/capmatch (trained on
-                   base data PLUS the new-class shots, its only channel to them)
-  random_key     : the retrieval head trained and evaluated through a PERMUTED-key buffer (the
-                   registry's random-key retrieval control)
-
-Preregistered null (fixed before running): retrieval_head ties kNN OR ties the parametric head at
-matched capacity. Verdict rule, uniform across the MoT memory scripts: WIN iff BOTH per-seed delta
-means (head minus kNN, head minus parametric, on new-class accuracy) exceed max(per-seed SD,
-MIN_MARGIN) with no sign flip; else null_supported=True.
-
-Usage: python scripts/mop_pr8_retrieval_head.py --seeds 0-4
-Writes runs/mot/pr8_retrieval_head.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -61,7 +28,6 @@ ARMS = ("retrieval_head", "knn", "parametric", "random_key")
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -98,10 +64,6 @@ def build_buffer(x: torch.Tensor, y: torch.Tensor, seed: int, permute_keys: bool
 
 
 class RetrievalHead(nn.Module):
-    """The memory-augmented head: buffer.retrieve fetches k neighbors through the FROZEN raw-latent
-    keys; a learned query/key projection then re-weights them (it can learn to project out the
-    nuisance dims raw L2 cannot), the label votes are attention-combined, and a small parametric
-    branch handles what memory does not carry. logits = vote_scale * attn_votes + mlp(z)."""
 
     def __init__(self, dim: int, n_classes: int, attn_dim: int, hidden: int):
         super().__init__()
@@ -113,7 +75,6 @@ class RetrievalHead(nn.Module):
         self.par = mlp(dim, n_classes, hidden, depth=1, ln=True)
 
     def forward(self, z: torch.Tensor, neigh_x: torch.Tensor, neigh_y: torch.Tensor) -> torch.Tensor:
-        """z [B,D]; neigh_x [B,k,D]; neigh_y [B,k]."""
         scores = (self.kproj(neigh_x) @ self.q(z).unsqueeze(-1)).squeeze(-1) / math.sqrt(self.attn_dim)
         attn = torch.softmax(scores, dim=-1).unsqueeze(-1)  # [B,k,1]
         votes = (attn * F.one_hot(neigh_y, self.n_classes).float()).sum(1)
@@ -121,7 +82,6 @@ class RetrievalHead(nn.Module):
 
 
 def knn_logits(z: torch.Tensor, neigh_x: torch.Tensor, neigh_y: torch.Tensor, n_classes: int):
-    """Plain kNN over the same retrieved set: distance-weighted label vote (no trainable part)."""
     dist = (z.unsqueeze(1) - neigh_x).norm(dim=-1)
     w = torch.softmax(-dist, dim=-1).unsqueeze(-1)
     return (w * F.one_hot(neigh_y, n_classes).float()).sum(1)
@@ -164,9 +124,6 @@ def _arm_acc(arm: str, x: torch.Tensor, y: torch.Tensor, models: dict, k: int, n
 
 
 def _run_seed(e: DictConfig, s: int, dim: int, base_classes: list[int], new_classes: list[int]) -> dict:
-    """One seed: build the universe and buffers, train the three trainable arms, score all four,
-    and trace the retrieval-head accuracy-vs-shots curve. Factored out of the seed loop so no
-    closure binds a loop variable."""
     seed_everything(s)
     uni = make_universe(s, e)
     n_classes = uni["n_classes"]
@@ -182,8 +139,6 @@ def _run_seed(e: DictConfig, s: int, dim: int, base_classes: list[int], new_clas
     torch.manual_seed(s)
     head = RetrievalHead(dim, n_classes, attn_dim=int(e.attn_dim), hidden=int(e.hidden))
     _train(head, partial(_head_forward, head, buf, k), xtr, ytr, e, seed=s)
-    # matched-param parametric head via the capmatch doctrine helper; its ONLY channel to the new
-    # classes is training on the k-shot supports as ordinary labeled points
     target = sum(p.numel() for p in head.parameters())
     width, achieved = width_for_param_count(
         partial(_make_parametric, dim, n_classes), target, tol=float(e.capmatch_tol)
@@ -202,7 +157,6 @@ def _run_seed(e: DictConfig, s: int, dim: int, base_classes: list[int], new_clas
         n_all = xte_b.shape[0] + xte_n.shape[0]
         overall = (acc_b * xte_b.shape[0] + acc_n * xte_n.shape[0]) / n_all
         accs[arm] = {"base": acc_b, "new": acc_n, "overall": overall}
-    # adaptation vs shots: retrieval-head new-class accuracy as the buffer grows 1..k_shot
     curve = []
     for shots in range(1, int(e.k_shot) + 1):
         keep = torch.cat([torch.arange(len(new_classes)) * int(e.k_shot) + j for j in range(shots)]).sort()[0]

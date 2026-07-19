@@ -28,7 +28,6 @@ _CLIP_GT = {
 }
 
 
-
 _ALLOWED_IMPORT_ROOTS = {
     "__future__",
     "hashlib",
@@ -72,8 +71,6 @@ def test_verifier_module_namespace_holds_no_producer_symbol() -> None:
         assert not module_name.startswith("mop.beds.starss23.referee")
         assert not module_name.startswith("mop.beds.starss23.stats")
         assert not module_name.startswith("mop.science.statistics")
-
-
 
 
 def _rmr_fires(gt: list[int], seed: int, clip: str) -> list[int]:
@@ -181,8 +178,6 @@ def _reseal(artifact: dict) -> dict:
     return artifact
 
 
-
-
 def test_verifier_reproduces_referee_f1_from_the_sealed_artifact() -> None:
     artifact = _build_sealed_artifact()
     result = verify_artifact(artifact)
@@ -212,8 +207,6 @@ def test_sign_flip_floor_and_reachability_match_the_recipe() -> None:
     assert n_perm == 32
     assert one_sided_p == pytest.approx(1 / 32)
     assert (2.0 / n_perm) > 0.05
-
-
 
 
 def test_forged_score_without_resealing_is_rejected_by_the_seal() -> None:
@@ -279,8 +272,6 @@ def test_overreaching_claim_verb_is_rejected() -> None:
     _reseal(artifact)
     result = verify_artifact(artifact)
     assert not result.honesty_ok
-
-
 
 
 def test_synthetic_reproduces_but_never_promotes() -> None:

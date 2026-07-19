@@ -1,28 +1,4 @@
 #!/usr/bin/env python
-"""AXIS: abstraction-across-perspectives, pushed to its laptop ceiling.
-
-Build a RICHER synthetic clipset than the shape+color-only instrument by adding NEW attribute SLOTS:
-  shape (6), color (6), count (1..3 objects), relation (primary object left/right of the other objects,
-  defined only for count>=2), size (small/large primary object).
-All buried under the usual nuisance (random position, scale, per-object rotation, background clutter,
-motion). Then encode each clip with TWO perspectives and probe every slot from both:
-  IMAGE : facebook/dinov2-small, middle frame, mean-pooled patch tokens -> 384d.
-  TEXT  : LABEL-FREE pixel-derived textification -> Qwen2.5-0.5B mid-layer mean -> 896d.
-
-LABEL-FREE RULE (hard): the text perspective reads ONLY pixels (a coarse palette-quantized grid + a count
-of distinct bright blobs + their horizontal ordering + a coarse size estimate). It NEVER sees any slot
-label, so decodability in the text substrate was carried through the rendering, not injected. This keeps a
-random-init control valid.
-
-PREREGISTERED (in code, below): a slot is 'instrumented' from a perspective iff its linear-probe accuracy
-beats chance with a seed-CI lower bound (over N_SEEDS probe seeds) strictly above chance + MARGIN. A TIE
-(CI lo <= chance + MARGIN) is a NULL. We do not fake scores.
-
-Run:
-  OMP_NUM_THREADS=4 .venv/bin/python scripts/mop_abstraction_richer_slots.py
-
-No em dashes or en dashes (house rule).
-"""
 
 from __future__ import annotations
 
@@ -35,7 +11,6 @@ import torch
 
 from mop.diagnostics.riskcov import seed_ci
 
-# ------------------------------------------------------------------ preregistered constants
 OUT = Path(__file__).resolve().parents[1] / "runs" / "mot"
 OUT.mkdir(parents=True, exist_ok=True)
 DINO_ID = "facebook/dinov2-small"
@@ -52,7 +27,6 @@ N_PROBE_SEEDS = 5
 MARGIN = 0.03  # CI lo must clear chance by this to count as instrumented (a tie is a null)
 
 
-# ------------------------------------------------------------------ render primitives (reused shapes)
 def _hue(c: float) -> torch.Tensor:
     return torch.tensor(
         [
@@ -82,14 +56,9 @@ def _shape_mask(shape, cx, cy, r, rot, yy, xx):
 
 
 def make_rich_clip(shape, color, count, size, g) -> tuple[torch.Tensor, int]:
-    """One clip with LABELED slots (shape,color,count,size) bound into the PRIMARY object, plus (count-1)
-    filler objects (each a random shape/color) to realize the object count, all under nuisance. Returns
-    the clip [FRAMES,3,RES,RES] and the derived relation label (0=primary left of fillers' mean-x,
-    1=primary right; -1 if count==1)."""
     lin = torch.linspace(-1, 1, RES)
     yy, xx = torch.meshgrid(lin, lin, indexing="ij")
 
-    # primary object: LABELED size drives its radius band; nuisance jitter within the band
     r_small, r_large = 0.10, 0.20
     base_r = (r_small if size == 0 else r_large) + 0.03 * float(torch.rand(1, generator=g))
     hue = _hue(color / N_COLOR)  # LABELED color
@@ -99,8 +68,6 @@ def make_rich_clip(shape, color, count, size, g) -> tuple[torch.Tensor, int]:
     pvy = 0.3 * (float(torch.rand(1, generator=g)) - 0.5)
     prot = float(torch.rand(1, generator=g)) * 2 * math.pi  # nuisance rotation
 
-    # filler objects (count-1 of them): random shape/color/pos, so COUNT is a real slot but shape/color
-    # of fillers is nuisance. Their radius is drawn independent of the primary's size label.
     fillers = []
     for _ in range(count - 1):
         fshape = int(torch.randint(0, N_SHAPE, (1,), generator=g))
@@ -113,7 +80,6 @@ def make_rich_clip(shape, color, count, size, g) -> tuple[torch.Tensor, int]:
         frot = float(torch.rand(1, generator=g)) * 2 * math.pi
         fillers.append((fshape, _hue(fcol), fr, fx0, fy0, fvx, fvy, frot))
 
-    # relation label: primary's x0 vs mean filler x0 (a scene-geometry fact, not injected into pixels)
     relation = -1
     if count >= 2:
         mean_fx = sum(f[3] for f in fillers) / len(fillers)
@@ -129,7 +95,6 @@ def make_rich_clip(shape, color, count, size, g) -> tuple[torch.Tensor, int]:
     frames = []
     for t in range(FRAMES):
         frame = bg.clone()
-        # fillers first (drawn under the primary so the primary stays identifiable)
         for fshape, fhue, fr, fx0, fy0, fvx, fvy, frot in fillers:
             fcx, fcy = fx0 + fvx * (t / FRAMES), fy0 + fvy * (t / FRAMES)
             fm = _shape_mask(fshape, fcx, fcy, fr, frot, yy, xx).float()
@@ -143,8 +108,6 @@ def make_rich_clip(shape, color, count, size, g) -> tuple[torch.Tensor, int]:
 
 
 def build_clipset(seed: int):
-    """Sample N_CLIPS clips with balanced-ish marginals over every slot. We enumerate a shuffled product
-    and truncate, so each slot's classes stay roughly uniform (verified by the printed marginals)."""
     g = torch.Generator().manual_seed(seed)
     combos = [(s, c, n, z) for s in range(N_SHAPE) for c in range(N_COLOR) for n in COUNTS for z in SIZES]
     idx = torch.randperm(len(combos), generator=g).tolist()
@@ -157,10 +120,7 @@ def build_clipset(seed: int):
     return specs
 
 
-# ------------------------------------------------------------------ IMAGE perspective (dinov2-small)
 def encode_image(specs):
-    # torchvision is absent, so we replicate BitImageProcessor manually: our frames are already RES=224
-    # (== dinov2 crop size), so resize/center-crop are no-ops; we only apply ImageNet normalization.
     from transformers import AutoModel
 
     mean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1)
@@ -173,7 +133,6 @@ def encode_image(specs):
         inp = (mid - mean) / std
         with torch.no_grad():
             out = model(pixel_values=inp)
-        # mean-pool patch tokens (drop CLS at index 0)
         z = out.last_hidden_state[0, 1:, :].mean(dim=0).float()
         feats.append(z)
         if (i + 1) % 16 == 0 or i + 1 == len(specs):
@@ -182,7 +141,6 @@ def encode_image(specs):
     return torch.stack(feats)
 
 
-# ------------------------------------------------------------------ TEXT perspective (label-free)
 PALETTE = {
     "black": (0.0, 0.0, 0.0),
     "white": (1.0, 1.0, 1.0),
@@ -197,10 +155,6 @@ PALETTE = {
 
 
 def _blob_stats(frame):
-    """LABEL-FREE pixel analysis of one frame: find bright/saturated foreground blobs on the dark-ish bg by
-    a connected-component sweep on a coarse grid. Per blob it returns (x-centroid, area, nearest-palette
-    colour name of the blob's mean pixel). Returns (n_blobs, per-blob list ordered left->right, total fg
-    area fraction). Pure pixels in, numbers/names out; no slot label is consulted."""
     g = 28  # coarse grid
     names = list(PALETTE)
     pal = torch.tensor([PALETTE[k] for k in names])
@@ -241,8 +195,6 @@ def _blob_stats(frame):
 
 
 def textify_clip(clip):
-    """LABEL-FREE prose from pixels: for a few subsampled frames, a coarse palette grid plus derived blob
-    count / left-right x-ordering / foreground-area (proxies for count, relation, size). No labels."""
     tsub, grid = 4, 4
     t = clip.shape[0]
     frames = clip[:: max(1, t // tsub)][:tsub]  # [tsub,3,RES,RES]
@@ -258,7 +210,6 @@ def textify_clip(clip):
         idx = ((flat[:, None, :] - pal[None]) ** 2).sum(-1).argmin(dim=1)
         rows = [" ".join(names[int(idx[r * grid + c])] for c in range(grid)) for r in range(grid)]
         nb, comps, ff = _blob_stats(fr)
-        # per-blob descriptor: colour, x-position, coarse size bucket (all pixel-derived, label-free)
         descs = []
         for x, area, cname in comps:
             szbucket = "big" if area >= 12 else ("mid" if area >= 5 else "small")
@@ -292,15 +243,11 @@ def encode_text(specs):
     return torch.stack(feats)
 
 
-# ------------------------------------------------------------------ probing (seed-CI vs chance)
 def probe_slot(x, y, mask=None):
-    """Linear probe with N_PROBE_SEEDS train/test splits; returns seed-CI dict + chance. Optional mask
-    selects a subset of clips (for relation, which is only defined when count>=2)."""
     from mop.diagnostics.linear_probe import linear_probe as lp
 
     if mask is not None:
         x, y = x[mask], y[mask]
-    # remap labels to contiguous 0..K-1 so chance = 1/K is honest for the present classes
     uniq = sorted(set(int(v) for v in y.tolist()))
     remap = {u: k for k, u in enumerate(uniq)}
     yy = torch.tensor([remap[int(v)] for v in y.tolist()])
@@ -334,7 +281,6 @@ def main():
         k: torch.tensor([sp[1][k] for sp in specs]) for k in ("shape", "color", "count", "size", "relation")
     }
 
-    # marginals sanity
     marg = {}
     for k, v in labels.items():
         vals = [int(x) for x in v.tolist()]
@@ -347,7 +293,6 @@ def main():
     x_txt = encode_text(specs)
     print(f"features: image {tuple(x_img.shape)}, text {tuple(x_txt.shape)}", flush=True)
 
-    # standardize features (probe-friendly)
     def z(x):
         return (x - x.mean(0)) / (x.std(0) + 1e-6)
 
@@ -362,7 +307,6 @@ def main():
             "text": probe_slot(xt, labels[slot], m),
         }
 
-    # save features + labels + nuisance-free slot record
     torch.save(
         {
             "x_image": x_img,

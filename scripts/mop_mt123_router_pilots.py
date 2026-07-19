@@ -1,51 +1,4 @@
 #!/usr/bin/env python
-"""MP1/MP2/MP3 router pilots (WP-08; registry docs/mixture_of_perspectives/11_experiment_registry.md,
-MT full schema). Synthetic pilots today; the real answer stays blocked on DR1 (the manifest is
-explicit), so this run scores accuracy-per-FLOP capability density only, the retention/byte axis is
-the Studio's.
-
-Three preregistered questions over ONE heterogeneous mode bank routed per episode:
-  MP1: a per-episode router over {reactive readout, planner (refiner), sparse (kWTA) head} beats the
-       single best mode on capability density (accuracy per FLOP) at matched compute
-  MP2: ROUTING beats a uniform equal-weight blend of the same modes at matched TOTAL FLOPs (the
-       matched blend shrinks the planner/sparse hidden widths so its per-sample cost equals the
-       routed arm's, the honest matched-total-compute control; the full-cost blend is reported on
-       density alongside)
-  MP3: mode DIVERSITY is load-bearing: the heterogeneous bank beats k seed-copies of the best mode
-       at matched params (capmatch, tol enforced) AND reported FLOPs, routed identically
-
-PR1 reuse (the manifest rule, never rebuilt, never hardcoded): the calibrated difficulty
-(separation), dim, and class count are READ from runs/pre_studio/pr1_mode_error_disjointness.json at
-run time, and the task is PR1's preregistered three-subpopulation mixture imported from
-scripts/pr1_mode_error_disjointness.py. The PR1 verdict gates interpretation: GREEN licenses these
-as live tests; NULL demotes any win to PLAUSIBLE-BUT-UNVERIFIED reported against the PR1 context.
-
-Episodes: each episode is `episode_size` samples drawn from ONE subpopulation of the mixture (the
-natural per-episode structure the router must exploit); the router is a scalar-cheap selector (one
-linear map on the episode mean latent, cheaper per sample than the cheapest mode) trained on a
-router-train split disjoint from both the mode-train set and the eval episodes.
-
-Mode bank note: the e7 sparse mode uses a local kWTA head defined in this script; WP-02 pass 2 owns
-the shared shell/heads.py kWTA and this script should switch to it when it lands (deviation logged
-in the lane report, the WP-02 stub API defers the heads extension).
-
-Preregistered verdict logic per pilot (fixed in code before any run; manifest appendix):
-  WIN iff the per-seed delta (routed minus baseline, on the pilot's preregistered metric) has
-  mean > seed SD, mean > 0, and no sign flip, AND the recorded compute match holds on every seed
-  (MP3: matched params AND FLOPs; MP2's matched blend is matched by construction; MP1's density
-  metric embeds compute); a failed match reports UNMATCHED with null_supported=None (not evaluable),
-  never a WIN and never a NULL; else NULL.
-  MP1 metric: density delta vs the best single mode (selected on router-train, the tuned baseline).
-  MP2 metric: accuracy delta vs the budget-matched blend when attainable (matched_within tol 0.10),
-  else density delta vs the full blend (fallback logged).
-  MP3 metric: density delta vs the param-matched homogeneous k-copy bank.
-  A PR1 NULL context demotes every WIN string to PLAUSIBLE-BUT-UNVERIFIED (rows still run).
-
-Usage: PYTHONPATH=. python scripts/mop_mt123_router_pilots.py --seeds 0-4 [--tuned]
-Output: runs/mot/mt123_router_pilots.json (--tuned appends _tuned, --rerun appends _seeds10)
-
-No em dashes or en dashes (BLACKHOLE.md). No encoder, no weights, latents are synthetic.
-"""
 
 from __future__ import annotations
 
@@ -86,8 +39,6 @@ TUNE_GRID_EPOCH_MULT = [1, 2]
 
 
 class KWTAHead(nn.Module):
-    """Local e7-style sparse mode: linear -> k-winners-take-all over hidden units -> linear. The
-    shared shell/heads.py kWTA is a WP-02 pass 2 deliverable; switch to it when it lands."""
 
     def __init__(self, dim: int, hidden: int, n_classes: int, k_frac: float = 0.25):
         super().__init__()
@@ -113,8 +64,6 @@ def build_mode(name: str, dim: int, n_classes: int, hidden: int, steps: int, see
 
 
 def mode_flops(name: str, dim: int, n_classes: int, hidden: int, steps: int) -> int:
-    """Per-sample forward FLOPs (kWTA masking and the refiner LayerNorm are rounding error, per the
-    diagnostics/compute convention)."""
     if name == "reactive":
         return mlp_flops([dim, n_classes])
     if name == "planner":
@@ -148,8 +97,6 @@ def fit_mode(
     seed: int,
     tuned: bool,
 ) -> tuple[nn.Module, dict]:
-    """Fit one mode; --tuned sweeps a small lr x epochs grid selected on the router-train split (the
-    tuned-baseline doctrine), else uses the PR1-convention default lr per family."""
     default_lr = 1e-2 if name == "reactive" else 1e-3
     grid = (
         [(lr, epochs * m) for lr in TUNE_GRID_LR for m in TUNE_GRID_EPOCH_MULT]
@@ -170,8 +117,6 @@ def fit_mode(
 def make_episodes(
     sub: torch.Tensor, n_episodes: int, episode_size: int, seed: int
 ) -> list[tuple[torch.Tensor, int]]:
-    """Episodes of `episode_size` indices, each drawn (with replacement) from ONE subpopulation,
-    round-robin over subpopulations for balance."""
     g = torch.Generator().manual_seed(seed + 71)
     by_sub = [torch.nonzero(sub == k).flatten() for k in range(len(SUBPOPS))]
     episodes = []
@@ -190,8 +135,6 @@ def train_router(
     seed: int,
     epochs: int = 200,
 ) -> nn.Module:
-    """The scalar-cheap selector: one linear map on the episode mean latent, trained to predict the
-    best arm per episode (label = argmax episode accuracy on the router-train split)."""
     feats = torch.stack([x[idx].mean(0) for idx, _ in episodes])
     labels = torch.stack([correct[:, idx].float().mean(1).argmax() for idx, _ in episodes])
     torch.manual_seed(seed + 13)
@@ -214,8 +157,6 @@ def routed_eval(
     router_flops: int,
     episode_size: int,
 ) -> dict:
-    """Route each eval episode to one arm; also compute the per-episode oracle bound. Per-sample
-    cost = selected arm cost + amortized router cost."""
     n_arms = preds.shape[0]
     total_correct, total, flops_sum, oracle_correct = 0.0, 0, 0.0, 0.0
     picks = []
@@ -238,17 +179,12 @@ def routed_eval(
 
 
 def density(acc: float, flops_per_sample: float) -> float:
-    """Capability density: accuracy per MFLOP per sample (the MP1/MP2/MP3 pilot metric)."""
     return acc / (flops_per_sample / 1e6)
 
 
 def verdict_block(
     deltas: list[float], metric: str, match: dict | None, pr1_green: bool, matched_ok: bool = True
 ) -> dict:
-    """The preregistered WIN rule gated on the recorded compute match: a WIN can only fire when
-    matched_ok is True (for MP3 that means params AND FLOPs matched on every seed, the manifest
-    appendix wording). A failed match yields UNMATCHED with null_supported=None: the run is not
-    evaluable at the preregistered matched compute, so neither the win nor the null branch fires."""
     ci, flips = seed_ci(deltas), sign_flip_report(deltas)
     cleared = ci["mean"] > max(ci["sd"], 0.0) and ci["mean"] > 0 and not flips["any_flip"]
     win = cleared and matched_ok
@@ -336,7 +272,6 @@ def run(
         router = train_router(x_rt, ep_rt, correct_rt, len(MODE_NAMES), s)
         routed = routed_eval(x_ev, y_ev, ep_ev, preds_ev, router, flops, router_flops, episode_size)
 
-        # MP1: best single mode, SELECTED ON ROUTER-TRAIN (the tuned baseline), scored on eval episodes
         best_i = int(correct_rt.float().mean(1).argmax())
         ev_idx = torch.cat([idx for idx, _ in ep_ev])
         mode_ev_acc = [(preds_ev[i][ev_idx] == y_ev[ev_idx]).float().mean().item() for i in range(3)]
@@ -344,14 +279,11 @@ def run(
         routed_density = density(routed["acc"], routed["flops_per_sample"])
         d_mt1.append(routed_density - best_density)
 
-        # MP2: uniform blend, full cost, plus the budget-matched blend at the routed arm's cost
         blend_pred = probs_ev.mean(0).argmax(-1)
         blend_acc = float((blend_pred[ev_idx] == y_ev[ev_idx]).float().mean())
         blend_flops = float(sum(flops))
         target = routed["flops_per_sample"]
         fixed = flops[0] + mlp_flops([dim, n_classes])  # reactive + planner head, width-independent
-        # solve widths proportionally: keep the planner/sparse width ratio, total hidden units = scale;
-        # cost(scale) = fixed + scale * (ratio * planner-per-unit + (1 - ratio) * sparse-per-unit)
         ratio = planner_hidden / (planner_hidden + sparse_hidden)
         var_per_unit = ratio * (4 * dim * planner_steps) + (1 - ratio) * 2 * (dim + n_classes)
         scale = (target - fixed) / var_per_unit
@@ -393,14 +325,11 @@ def run(
             d_mt2.append(routed_density - density(blend_acc, blend_flops))
             mt2_fallbacks += 1
 
-        # MP3: homogeneous k-copy bank of the best mode at matched TOTAL params (capmatch)
         het_params = sum(param_count(modes[m]) for m in MODE_NAMES)
         best_name = MODE_NAMES[best_i]
         per_copy_target = het_params // len(MODE_NAMES)
         homo_note = ""
         if best_name == "reactive":
-            # a linear head has no width knob; use depth-1 MLP copies at matched params, a strictly
-            # at-least-as-capable homogeneous family (conservative against a false heterogeneous win)
             homo_note = "best mode is reactive (no width knob), homogeneous copies are depth-1 MLPs"
 
             def make_copy_arch(h):
@@ -420,9 +349,6 @@ def run(
 
             copy_flops_of = lambda h: mlp_flops([dim, h, n_classes])  # noqa: E731
         width, copy_params = width_for_param_count(make_copy_arch, per_copy_target, tol=cap_tol)
-        # each homogeneous copy goes through the SAME fit_mode path as the heterogeneous modes (same
-        # tuned flag, same grid, selection on the router-train split), so the MP3 baseline is never
-        # under-tuned relative to the routed arm; per-copy seeds stay decorrelated (s*1000+300+j)
         copies, copy_meta = [], []
         for j in range(len(MODE_NAMES)):
             cseed = s * 1000 + 300 + j
@@ -479,9 +405,6 @@ def run(
         if mt2_fallbacks == 0
         else f"density_vs_full_blend (matched blend unattainable on {mt2_fallbacks}/{len(seeds)} seeds)"
     )
-    # MP3's appendix wording is "matched params AND FLOPs": both must hold on every seed or the
-    # verdict is UNMATCHED. MP1 embeds compute in the density metric; MP2's matched blend is matched
-    # by construction (only used when matched_within passes) and its density fallback is preregistered.
     mt3_matched_ok = all(m["params"]["matched"] and m["flops"]["matched"] for m in mt3_matches)
     return {
         "experiment": "mop_mt123_router_pilots",

@@ -33,8 +33,6 @@ _REAL_PRESENT = _FOA.is_dir() and _META.is_dir()
 _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 
-
-
 def test_verifier_imports_only_stdlib():
     source = Path(V.__file__).read_text(encoding="utf-8")
     tree = ast.parse(source)
@@ -70,8 +68,6 @@ def test_verifier_imports_only_stdlib():
     }
 
 
-
-
 def test_reproduction_is_additive_and_disjoint():
     assert DEFAULT_COUNT_REPRO_GATE_ARCH_ARTIFACT_PATH == Path(
         "proof/STARSS23_COUNTING_REPRO_gate_arch.json"
@@ -88,8 +84,6 @@ def test_reproduction_is_additive_and_disjoint():
     for sealed in ("count_gate.py", "count_producer.py", "count_verifier.py", "count_prereg.py"):
         text = (Path("src/mop/beds/starss23") / sealed).read_text(encoding="utf-8")
         assert "count_repro_gate_arch" not in text, sealed
-
-
 
 
 def test_gate_topology_and_cost_anchors():
@@ -127,8 +121,6 @@ def test_prereg_sesoi_is_label_only_and_above_floor():
     assert prereg["sesoi"]["granularity_multiple"] >= 100.0
     assert prereg["preregistered_before_reading_test_scores"] is True
     assert prereg["activation_allowed"] is False and prereg["scientific_promotion"] is False
-
-
 
 
 _SMALL_CONFIG = RealCountBedConfig(

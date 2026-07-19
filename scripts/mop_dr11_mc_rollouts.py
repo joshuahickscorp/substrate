@@ -1,36 +1,4 @@
 #!/usr/bin/env python
-"""DR11: Monte-Carlo latent rollouts, H-ROLLOUT harness, WP-05.
-
-THESIS: averaging many sampled STOCHASTIC rollouts of the learned model when scoring candidate
-plans beats spending the identical FLOP budget on more DETERMINISTIC rollouts, on a genuinely
-stochastic environment, without chasing irreducible aleatoric noise.
-
-NULL (preregistered): MC ties the matched deterministic budget (the samples collapse to the mean,
-diversity ~ 0) OR any apparent MC win also appears in the noise-dominant regime (winning by
-exploiting irreducible aleatoric noise, the noisy-TV failure).
-
-FLOP matching (all rollouts counted): the MC arm scores n_cand candidates by the MEAN terminal
-distance over k_mc stochastic rollouts each (n_cand * k_mc * horizon model forwards); the matched
-deterministic arm scores n_cand * k_mc candidates with ONE deterministic rollout each (identical
-n_cand * k_mc * horizon forwards). At a fixed task horizon the FLOP-matched deterministic spend is
-more candidates, not a longer rollout (a longer rollout would change the task); this reading of
-the registry's matched single-rollout baseline is preregistered here.
-
-Noisy-TV guard: the whole comparison is run twice, on a LEARNABLE-stochastic regime (moderate
-process noise, real action structure) and on a NOISE-DOMINANT regime (process noise dwarfs the
-action effect, irreducibly random outcomes). The MC advantage must appear in the learnable regime
-and must NOT appear in the noise regime. The stochastic-rollout diversity statistic (normalized
-spread of terminal latents across the k_mc samples) is reported: near-zero diversity means the
-samples collapsed to the mean and any tie is mechanistic, not mysterious.
-
-Honest scoring: both arms EXECUTE their selected sequence in the TRUE stochastic environment,
-averaged over the same number of noise realizations. Reuses ex2 helpers, does not edit them.
-Writes runs/mot/dr11_mc_rollouts.json.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: PYTHONPATH=. .venv/bin/python scripts/mop_dr11_mc_rollouts.py --seeds 0-4
-"""
 
 from __future__ import annotations
 
@@ -57,9 +25,6 @@ from mop.experiments.ex2_latent_planning import (
 )
 from mop.seeding import parse_seeds, seed_everything
 
-# ------------------------------------------------------------------------------------------------
-# preregistered thresholds (in code before any result exists)
-# ------------------------------------------------------------------------------------------------
 MC_MARGIN = 0.05  # MC must beat the matched deterministic arm's mean true-env distance by this
 NOISE_REGIME_MARGIN = 0.05  # any MC "advantage" in the noise-dominant regime above this fails the guard
 DIVERSITY_FLOOR = 1e-3  # normalized terminal spread below this = samples collapsed to the mean
@@ -93,9 +58,6 @@ def default_cfg() -> DictConfig:
 def stochastic_rollout(
     model: _DynamicsModel, z0: torch.Tensor, seqs: torch.Tensor, resid_std: float, g: torch.Generator
 ) -> torch.Tensor:
-    """Roll the learned model with injected Gaussian noise at the model's own fitted residual scale
-    (the preregistered noise model: the residual std on held-out transitions, no tuning). seqs is
-    [N, H, A]; returns terminal latents [N, D]. One model forward per candidate per step."""
     n, horizon, _ = seqs.shape
     z = z0.unsqueeze(0).expand(n, -1).clone()
     with torch.no_grad():
@@ -123,8 +85,6 @@ def execute_true_stochastic(
     n_exec: int,
     g: torch.Generator,
 ) -> float:
-    """Execute a selected sequence in the TRUE stochastic env over n_exec noise realizations and
-    return the mean terminal distance: the one honest yardstick, identical for both arms."""
     z = z0.unsqueeze(0).expand(n_exec, -1).clone()
     with torch.no_grad():
         for t in range(seq.shape[0]):
@@ -159,18 +119,15 @@ def _run_regime(cfg: DictConfig, seed: int, noise: float, g: torch.Generator) ->
         z0 = torch.randn(dim, generator=g)
         goal = torch.randn(dim, generator=g)
 
-        # MC arm: n_cand candidates, k_mc stochastic rollouts each, score by MEAN terminal distance
         cand = torch.randn(n_cand, horizon, adim, generator=g).clamp(-2.0, 2.0)
         rep = cand.repeat_interleave(k_mc, dim=0)  # [n_cand * k_mc, H, A]
         term = stochastic_rollout(model, z0, rep, resid_std, g).view(n_cand, k_mc, dim)
         dist = (term - goal.view(1, 1, dim)).norm(dim=-1)  # [n_cand, k_mc]
         mc_seq = cand[int(torch.argmin(dist.mean(dim=1)))]
-        # diversity statistic: normalized spread of terminal latents across the k_mc samples
         spread = term.std(dim=1).mean()
         scale = term.norm(dim=-1).mean().clamp(min=1e-8)
         diversities.append(float(spread / scale))
 
-        # matched deterministic arm: n_cand * k_mc candidates, ONE deterministic rollout each
         dcand = torch.randn(n_cand * k_mc, horizon, adim, generator=g).clamp(-2.0, 2.0)
         dterm = deterministic_rollout(model, z0, dcand)
         det_seq = dcand[int(torch.argmin((dterm - goal.unsqueeze(0)).norm(dim=-1)))]

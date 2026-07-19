@@ -1,36 +1,3 @@
-"""Retention-per-byte frontier on data/cache/vjepa2_vitl_nuisance (READ-ONLY input).
-
-Axis: retention (capability retained) per byte (replay-buffer memory).
-
-Continual task sequence: CLASS-INCREMENTAL over the 5 shape classes. Task t introduces
-class t (its 40 cached V-JEPA latents), streamed t=0..4 into a shared 5-way linear head.
-Later tasks overwrite the head -> catastrophic forgetting of earlier classes. An
-experience-REPLAY buffer stores K exemplars PER PAST class (byte-costed) and is mixed into
-each task's training to counter forgetting.
-
-We sweep the buffer byte budget by varying K (exemplars stored per class). Bytes are
-counted EXACTLY as (total stored exemplars) * dim * 4 (float32 latents), which is the
-brief's bytes = K * 1024 * 4 accounting, summed over stored exemplars.
-
-Retention is measured two honest ways, both from the accuracy matrix:
-  - BWT (GEM): mean_{j<T-1} R[T-1][j] - R[j][j]   (negative = forgetting; higher = better)
-  - final mean accuracy R[T-1][:].mean()          (raw capability retained at the end)
-
-Gaming guard (12_metrics.md B3 retention-per-byte, "how it can be gamed": bigger buffer
-trivially wins -> report the RATIO and the KNEE, not just raw retention):
-  - report retention_per_byte RATIO = (retention - no_replay_floor) / bytes at each budget,
-  - locate the KNEE (largest budget still above a preregistered marginal-efficiency floor),
-  - a budget only "counts" as a win if it beats the K=0 no-replay floor by a preregistered
-    margin AND sits on the Pareto front of (bytes, retention); raw retention alone is not a
-    verdict.
-
-Reuse (no reinvented continual loop): the BWT core is the same acc-first / acc-end pattern
-as buffer_compression._bwt_at_bits; mop.shell.buffer.ReplayBuffer (reservoir, capacity=K)
-for exact per-class storage; mop.metrics.continual_metrics.backward_transfer for the matrix
-form; mop.metrics.frontier for Pareto dominance; mop.diagnostics.riskcov.seed_ci + pareto_frontier.
-
-House style: no em/en dashes.
-"""
 
 from __future__ import annotations
 
@@ -48,7 +15,6 @@ from mop.metrics import FrontierPoint, pareto_front
 from mop.seeding import seed_everything
 from mop.shell.buffer import ReplayBuffer
 
-# ----------------------- PREREGISTERED THRESHOLDS (in code) -----------------------
 _ROOT = Path(__file__).resolve().parents[1]
 CACHE = _ROOT / "data" / "cache" / "vjepa2_vitl_nuisance"
 OUT = _ROOT / "runs" / "mot" / "density_retention_byte.json"
@@ -60,20 +26,11 @@ EPOCHS = 40
 LR = 0.05
 N_CLASSES = 5
 
-# A budget counts as a real retention win only if it beats the no-replay (K=0) floor by this
-# margin in BWT units, AND lies on the Pareto front. Preregistered before seeing results.
 RETENTION_WIN_MARGIN = 0.05
-# The knee is the largest budget whose MARGINAL retention-per-byte (gain over the previous
-# budget, per added byte) is still at least this fraction of the FIRST budget's per-byte
-# efficiency. Below this, extra bytes buy negligible retention (the "bigger buffer trivially
-# wins" trap): we refuse to credit budgets past the knee.
 KNEE_MARGINAL_EFF_FRAC = 0.10
-# ---------------------------------------------------------------------------------
 
 
 def load_stream():
-    """Return (X, y) tensors for the 5 shape classes, class-incremental task list.
-    Task t = the (X, y) pair for shape class t only."""
     X = torch.from_numpy(np.load(CACHE / "features.npy")).float()
     y = torch.from_numpy(np.load(CACHE / "labels_shape.npy")).long()
     tasks = []
@@ -84,18 +41,10 @@ def load_stream():
 
 
 def run_stream(tasks, k_per_class: int, seed: int):
-    """Class-incremental continual training with a per-class reservoir replay buffer capped at
-    k_per_class exemplars per past class. Returns (acc_matrix, stored_exemplars).
-
-    acc_matrix[i][j] = accuracy on class j after finishing training task i (5x5).
-    stored_exemplars = the exact number of latents ever held in replay (for byte accounting).
-    """
     seed_everything(seed)
     head = nn.Linear(DIM, N_CLASSES)
     opt = torch.optim.Adam(head.parameters(), lr=LR)
 
-    # One reservoir buffer PER class so storage is exactly k_per_class per class (deterministic
-    # byte cost). k=0 -> no replay at all.
     bufs: dict[int, ReplayBuffer] = {}
 
     def all_replay(exclude=None):
@@ -121,12 +70,10 @@ def run_stream(tasks, k_per_class: int, seed: int):
                 yb = torch.cat([yt, rep[1]])
             F.cross_entropy(head(xb), yb).backward()
             opt.step()
-        # store this task's exemplars into its own capped reservoir (if budget > 0)
         if k_per_class > 0:
             b = ReplayBuffer(k_per_class, DIM, prioritized=False, seed=seed + 100 * ti)
             b.add(xt, yt)
             bufs[ti] = b
-        # evaluate accuracy on every class seen so far (and future cols stay 0 by convention)
         with torch.no_grad():
             for j in range(N_CLASSES):
                 xj, yj = tasks[j]
@@ -137,9 +84,6 @@ def run_stream(tasks, k_per_class: int, seed: int):
 
 
 def retention_scores(acc_matrix):
-    """Two retention read-outs from the 5x5 matrix.
-    bwt: mean_{j<T-1} R[T-1][j] - R[j][j]  (higher = less forgetting).
-    final_mean: mean_j R[T-1][j] over classes seen (raw capability retained)."""
     T = len(acc_matrix)
     bwt = bwt_matrix(acc_matrix)  # reuse the factored BWT core, not a hand-rolled loop
     final_mean = sum(acc_matrix[T - 1][j] for j in range(T)) / T
@@ -150,7 +94,6 @@ def retention_scores(acc_matrix):
 def main():
     tasks = load_stream()
 
-    # per (budget, seed): retention scores + exact stored bytes
     raw = {}  # k -> list over seeds of dict(bwt, final_mean, final_first, bytes, stored)
     for k in K_PER_CLASS:
         raw[k] = []
@@ -161,7 +104,6 @@ def main():
             sc["bytes"] = stored * DIM * BYTES_PER_FLOAT
             raw[k].append(sc)
 
-    # aggregate over seeds
     agg = {}
     for k in K_PER_CLASS:
         rows = raw[k]
@@ -174,12 +116,9 @@ def main():
             "final_first": seed_ci([r["final_first"] for r in rows]),
         }
 
-    # --------- GAMING GUARD: ratio + knee, not raw retention ---------
     floor_bwt = agg[0]["bwt"]["mean"]  # K=0 no-replay retention floor
     floor_final = agg[0]["final_mean"]["mean"]
 
-    # retention-per-byte RATIO for each budget: (retention - no_replay_floor) / bytes.
-    # And the MARGINAL per-byte efficiency vs the previous budget (the knee diagnostic).
     per_byte = {}
     ordered = [k for k in K_PER_CLASS if k > 0]
     prev_bytes, prev_bwt = 0.0, floor_bwt
@@ -204,27 +143,17 @@ def main():
         }
         prev_bytes, prev_bwt = b, agg[k]["bwt"]["mean"]
 
-    # KNEE: largest budget whose marginal per-byte efficiency is still >= the preregistered
-    # fraction of the FIRST budget's efficiency. Past the knee, extra bytes are wasted.
     knee_k = None
     for k in ordered:
         if per_byte[k]["marginal_eff_frac_of_first"] >= KNEE_MARGINAL_EFF_FRAC:
             knee_k = k
-    # A budget WINS only if it beats the K=0 floor by the preregistered margin (in BWT).
     wins = {k: bool(agg[k]["bwt"]["mean"] - floor_bwt >= RETENTION_WIN_MARGIN) for k in ordered}
 
-    # --------- Pareto frontier of (bytes, retention) ---------
-    # Use FrontierPoint machinery: adaptation-axis reused here as (normalized) 1/bytes-rank is
-    # not meaningful, so we build the frontier directly in (bytes, retention) space with the
-    # riskcov pareto_frontier (cost=bytes ascending, quality=retention). Lower bytes + higher
-    # retention dominates.
     pts_bwt = [(float(agg[k]["bytes"]), float(agg[k]["bwt"]["mean"])) for k in K_PER_CLASS]
     pts_final = [(float(agg[k]["bytes"]), float(agg[k]["final_mean"]["mean"])) for k in K_PER_CLASS]
     front_bwt = pareto_frontier(pts_bwt)  # keep point iff no cheaper point has >= retention
     front_final = pareto_frontier(pts_final)
 
-    # also express as FrontierPoint pareto_front for the metric contract (adaptation = -bytes
-    # normalized so cheaper = higher adaptation; retention = retention). Cross-check only.
     max_bytes = max(p[0] for p in pts_bwt) or 1.0
     fps = [
         FrontierPoint(
@@ -292,7 +221,6 @@ def main():
         },
     }
 
-    # --------- HONEST VERDICT ---------
     winning_budgets = [k for k in ordered if wins[k]]
     floor_forgets = floor_bwt < -RETENTION_WIN_MARGIN  # did the no-replay arm actually forget?
     if not floor_forgets:

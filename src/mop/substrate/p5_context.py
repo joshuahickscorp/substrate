@@ -1,15 +1,3 @@
-"""P5 exact-versus-factorized context pilot.
-
-A staged pilot over twelve registered (frame count x context mechanism) cells of the locally
-trainable video-token substrate.  Every mechanism trains the predictive objective from a shared
-per-seed trunk initialization at matched parameters and matched total estimated FLOPs against the
-exact global-attention reference, beside a frozen evaluation of its own exact initial state.
-Stage one runs seed 0 across all frame counts (descending), gates on f64 trainability, and marks
-each frame count on or off ceiling; stage two runs the remaining seeds only on off-ceiling frame
-counts with a three-seed futility truncation per frame count.  The pilot ranks context mechanisms
-on deterministic programmatic video only; the promotion block refuses confirmatory claims by
-construction and states that category 9 is impossible from this instrument.
-"""
 
 from __future__ import annotations
 
@@ -115,8 +103,6 @@ class P5CellSpec:
             raise ValueError(f"mechanism must be one of {P5_MECHANISMS}")
 
 
-# Serial registry order: frames descending so the most expensive cells run first and the seed-0
-# trainability gate reads the f64 exact arm before any cheaper work; mechanisms in fixed order.
 P5_CELLS: tuple[P5CellSpec, ...] = tuple(
     P5CellSpec(frames, mechanism)
     for frames in sorted(P5_FRAME_COUNTS, reverse=True)
@@ -125,11 +111,6 @@ P5_CELLS: tuple[P5CellSpec, ...] = tuple(
 
 
 def _windows(hidden: torch.Tensor, window: int) -> torch.Tensor:
-    """Reshape [batch, tokens, dim] into contiguous non-overlapping windows in token order.
-
-    A sequence at or below one window stays a single window, the degenerate-global case the f16
-    cells exercise; ragged token counts are refused rather than silently padded.
-    """
 
     batch, tokens, dim = hidden.shape
     effective = min(window, tokens)
@@ -139,7 +120,6 @@ def _windows(hidden: torch.Tensor, window: int) -> torch.Tensor:
 
 
 def _unwindows(hidden: torch.Tensor, batch: int) -> torch.Tensor:
-    """Inverse of ``_windows`` for the same batch size; restores [batch, tokens, dim] token order."""
 
     windows, window, dim = hidden.shape
     if batch < 1 or windows % batch:
@@ -148,7 +128,6 @@ def _unwindows(hidden: torch.Tensor, batch: int) -> torch.Tensor:
 
 
 def _encoder_layer(dim: int, heads: int, mlp_ratio: int) -> nn.TransformerEncoderLayer:
-    """The exact TransformerEncoderLayer shape TinyVideoSubstrate stacks in its dense trunk."""
 
     return nn.TransformerEncoderLayer(
         d_model=dim,
@@ -162,7 +141,6 @@ def _encoder_layer(dim: int, heads: int, mlp_ratio: int) -> nn.TransformerEncode
 
 
 class WindowedBlocks(nn.Module):
-    """Dense-shaped encoder layers applied per contiguous non-overlapping 512-token window."""
 
     def __init__(self, dim: int, depth: int, heads: int, mlp_ratio: int, window: int = P5_WINDOW_TOKENS):
         super().__init__()
@@ -177,7 +155,6 @@ class WindowedBlocks(nn.Module):
 
 
 class WindowedVideoSubstrate(TinyVideoSubstrate):
-    """TinyVideoSubstrate with the dense stack replaced by windowed local attention."""
 
     def __init__(self, spec: ModelSpec):
         super().__init__(spec)
@@ -185,13 +162,6 @@ class WindowedVideoSubstrate(TinyVideoSubstrate):
 
 
 class HierarchicalPooledBlocks(nn.Module):
-    """Windowed pass plus a same-weight full-attention pass over per-window mean summaries.
-
-    Each layer runs the windowed pass exactly as WindowedBlocks with the same layer weights, mean
-    pools every window to one summary token, runs the same layer over the summaries with full
-    attention, then broadcasts the transformed summaries back to token length and adds them to the
-    windowed output.  Parameter count is therefore identical to the dense and windowed stacks.
-    """
 
     def __init__(self, dim: int, depth: int, heads: int, mlp_ratio: int, window: int = P5_WINDOW_TOKENS):
         super().__init__()
@@ -209,7 +179,6 @@ class HierarchicalPooledBlocks(nn.Module):
 
 
 class HierarchicalVideoSubstrate(TinyVideoSubstrate):
-    """TinyVideoSubstrate with the dense stack replaced by windowed plus pooled-summary attention."""
 
     def __init__(self, spec: ModelSpec):
         super().__init__(spec)
@@ -235,7 +204,6 @@ def model_spec_for_cell(cell: P5CellSpec, *, overrides: Mapping[str, Any] | None
 
 
 def corpus_spec_for_frames(frames: int, *, overrides: Mapping[str, Any] | None = None) -> CorpusSpec:
-    """One corpus per frame count; every mechanism at that frame count shares it exactly."""
 
     fields: dict[str, int] = {
         "resolution": P5_RESOLUTION,
@@ -274,7 +242,6 @@ def estimated_train_step_flops_p5(
     objective: str,
     model_overrides: Mapping[str, Any] | None = None,
 ) -> int:
-    """Mechanism-aware analogue of the dense estimator; used only to match arms, never as energy."""
 
     cell.validate()
     model = model_spec_for_cell(cell, overrides=model_overrides)
@@ -283,11 +250,9 @@ def estimated_train_step_flops_p5(
     n, d, ff = token_count(data, model), model.dim, model.dim * model.mlp_ratio
     conv = 2 * batch_size * n * d * 3 * model.tubelet * model.patch_size**2
     if cell.mechanism == "recurrent":
-        # GRU gates: three input and three hidden matmuls per layer, multiply-add counted as two.
         per_layer = 2 * 6 * batch_size * n * d * d
     else:
         window = min(P5_WINDOW_TOKENS, n)
-        # Windowed attention replaces the dense 4*B*n*n*d score term with 4*B*n*window*d.
         attention = 2 * 4 * batch_size * n * d * d + 4 * batch_size * n * window * d
         mlp = 4 * batch_size * n * d * ff
         per_layer = attention + mlp
@@ -315,17 +280,6 @@ def solve_matched_steps(
     checkpoint_every: int,
     step_granularity: int = 5,
 ) -> dict[str, Any]:
-    """Step count whose estimated total FLOPs sit closest to the dense reference.
-
-    Preregistration amendment (made before any pilot seed ran): matching rounds to multiples of
-    ``step_granularity`` (default 5), not ``checkpoint_every``.  Checkpoint-multiple rounding left
-    the recurrent arms outside the 0.02 band at every granularity-25 grid point (0.0269 at f64,
-    0.0352 at f16), a rounding artifact rather than a compute mismatch.  Checkpoints still land
-    every ``checkpoint_every`` steps; the matched-updates secondary endpoint still reads the
-    checkpoint whose completed steps equal the dense count.  A deviation above
-    ``P5_FLOP_MATCH_TOLERANCE`` refuses the matched-compute claim (``matched_ok`` false); the
-    caller must record that refusal as a receipt problem rather than report matched compute.
-    """
 
     values = (
         int(dense_steps),
@@ -337,8 +291,6 @@ def solve_matched_steps(
     if min(values) <= 0:
         raise ValueError("solve_matched_steps needs positive steps, FLOPs, and granularities")
     target = int(dense_steps) * int(dense_flops)
-    # The matching grid never exceeds the checkpoint interval, so bounded smokes with
-    # checkpoint_every 1 keep exact tiny step counts while the pilot grid stays at 5.
     grain = min(int(step_granularity), int(checkpoint_every))
     steps = max(1, round(target / int(arm_flops) / grain)) * grain
     deviation = abs(steps * int(arm_flops) - target) / target
@@ -355,7 +307,6 @@ def solve_matched_steps(
 
 
 def _verify_config_cells(config_cells: Any) -> None:
-    """Refuse drift between the config cell table and the registered P5_CELLS constant."""
 
     if not isinstance(config_cells, list) or not config_cells:
         raise WorkbenchRefused("config cells must be a non-empty list matching the registered table")
@@ -375,7 +326,6 @@ def _cell_sort_key(cell: P5CellSpec) -> tuple[int, str]:
 
 
 def _flops_adapter(cell: P5CellSpec, model_overrides: Mapping[str, Any] | None) -> Callable[..., int]:
-    """Adapt the cell-aware estimator to the train_arm flops_estimator call shape."""
 
     def estimator(
         data_spec: CorpusSpec,
@@ -398,8 +348,6 @@ def _verify_parameter_identity(
     *,
     model_overrides: Mapping[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
-    """Refuse the pilot unless the transformer mechanisms are parameter identical per frame count
-    and the recurrent stack sits within the 0.5 percent envelope of that reference."""
 
     rows: list[dict[str, Any]] = []
     for frames in sorted({cell.frames for cell in cells}, reverse=True):
@@ -445,7 +393,6 @@ def _frozen_heldout(payload: Mapping[str, Any], mechanism: str) -> float:
 
 
 def _source_bindings() -> list[dict[str, str]]:
-    """Bind the exact live P5 config, CLI, and runner sources into the sealed receipt."""
 
     return [
         {"path": relative, "file_sha256": sha256_file(REPO_ROOT / relative)} for relative in P5_SOURCE_PATHS
@@ -453,7 +400,6 @@ def _source_bindings() -> list[dict[str, str]]:
 
 
 def _checkpoint_requirements_sha256(registry_sha256: str, source_bindings_sha256: str) -> str:
-    """Bind cell registration and live sources into every arm checkpoint identity."""
 
     return json_sha256(
         {
@@ -468,11 +414,6 @@ def _fresh_challenge_required(
     secondary_contrasts_f32: Mapping[str, Mapping[str, Any]] | None,
     sesoi: float,
 ) -> bool:
-    """Return a non-evidentiary authorization hint for strict primary directional patterns.
-
-    Only f64 and f32 contrasts with at least two units qualify. A confidence interval must sit
-    wholly beyond either SESOI boundary. Equality to either boundary remains a null.
-    """
 
     for contrasts in (primary_contrasts_f64, secondary_contrasts_f32):
         if not isinstance(contrasts, Mapping):
@@ -507,13 +448,6 @@ def run_p5_pilot(
     model_overrides: Mapping[str, Any] | None = None,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Run or resume the pilot; rerunning the same command resumes from durable receipts.
-
-    Serial order: seeds outermost, frame counts descending, mechanisms in the fixed registered
-    order.  After seed 0 completes, each frame count is marked on or off ceiling and the f64
-    trainability gate is evaluated; seeds 1 and later run only on off-ceiling frame counts, with a
-    three-seed futility truncation per frame count.
-    """
 
     run_dir.mkdir(parents=True, exist_ok=True)
     config_plain = json.loads(json.dumps(dict(config)))
@@ -665,9 +599,6 @@ def run_p5_pilot(
             mechanisms = mechanisms_by_frames[frames]
             seed_dir = context["dir"] / f"seed_{seed}"
             with accountant.phase("model"):
-                # Shared trunk per (seed, frames): every mechanism loads the exact_global model's
-                # patch_embed, mask_token, position, norm, and predictor state, while its blocks
-                # initialize from the mechanism-specific stable seed.
                 torch.manual_seed(_stable_seed("p5", frames, seed))
                 reference = build_p5_substrate(
                     P5CellSpec(frames, "exact_global"), model_overrides=model_overrides

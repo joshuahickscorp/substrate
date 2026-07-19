@@ -1,46 +1,4 @@
 #!/usr/bin/env python
-"""A6 residual alignment (the language-independent-abstraction bet, laptop lane, ZERO new encode).
-
-Motivation, grounded in verified disk state (2026-07-02): al2's regrade reports
-vjepa2_vitl_nuisance -> qwen05b_textified_real as "genuine-shared-structure" (delta 0.084). But a read
-only probe shows BOTH the pixel-derived text cache (shape 0.267 vs chance 0.20, color 0.517) and the
-handcrafted HOG descriptor (shape 0.217, color 1.000) carry color and NOT shape, while the frozen vision
-encoders carry shape (0.78-0.87). So the raw vision<->text topology alignment could be nothing more than
-the color channel both sides trivially share.
-
-This experiment separates two very different readings of "perspectives share a code":
-  (1) TRIVIAL: both sides can decode the same discrete factor (color), so their neighbor graphs both
-      cluster by color and any topology metric lights up. This is "they name the same categories."
-  (2) THESIS: the two representations share metric geometry BEYOND the label partition, i.e. residual
-      within/between structure aligns after the known discrete factors are projected out. This is the
-      actual MoP shared-code claim.
-
-Design (preregistered in code before any result):
-  - Reuse al2's exact topology metric: rank-k ridge map, kNN neighbor-recall on the test split, permuted
-    pairing floor of equal rank. delta = learned recall minus permuted recall.
-  - RESIDUALIZATION is fit on the TRAIN split only (no test leakage): project out the column space of a
-    per-condition design matrix (discrete factors as one-hot class means, the 6 nuisance factors as a
-    linear design with rotation entered as sin/cos), learned from train, from both reps on train and test.
-  - Conditions per pair: raw ; minus_color ; minus_shape_color ; minus_nuisance ; minus_all.
-  - A pair "shares structure" in a condition only when the delta seed-CI lower bound is strictly above
-    zero AND no per-seed sign flip (al2's classify_pair rule); that is the only survivor verdict.
-
-Preregistered nulls (N1, N2 first; N3, N4 added as a follow-up control after N2 rejected, see EXPERIMENT
-provenance):
-  - N1 (color-carried): after minus_color, alignment is within the permutation floor.
-  - N2 (label-partition-only): after minus_shape_color, within the floor. Rejecting N2 means shared
-    structure survives removing both discrete labels.
-  - N3 (nuisance-geometry-carried): after minus_nuisance, within the floor.
-  - N4 (nothing-beyond-named-factors): after minus_all (shape+color+nuisance), within the floor. A
-    survivor here would be shared structure beyond every generative factor, the strongest positive.
-A tie is a null. No threshold is tuned after seeing a number.
-
-Usage:
-  PYTHONPATH=<repo>/src OMP_NUM_THREADS=4 .venv/bin/python scripts/mop_a6_residual_alignment.py --seeds 0-9
-  -> runs/mot/a6_residual_alignment.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -93,7 +51,6 @@ EXPERIMENT = {
     "train-fit only; a survivor is a stable genuine-shared-structure verdict, ties are nulls.",
 }
 
-# Vision (carries shape+color) crossed with the pixel-derived non-encoder columns (carry color, not shape).
 PAIRS = [
     ("vjepa2_vitl_nuisance", "qwen05b_textified_real"),
     ("qwen05b_textified_real", "vjepa2_vitl_nuisance"),
@@ -101,38 +58,16 @@ PAIRS = [
     ("vjepa2_vitl_nuisance", "handcrafted_descriptors"),
 ]
 
-# SHAPE-AXIS BET (this file's addition; distinct --out, no clobber of the base run). The shapecap text cache
-# is a Qwen mean over a caption that DOES carry shape (build report: carries_shape=true, killswitch did NOT
-# fire, real shape linear-decode 0.6167 vs chance 0.20). Unlike the color-grid textification (shape at
-# chance 0.267), this text side has a real shape signal, so it is the FIRST column where a surviving
-# minus_all vision<->text alignment could be shape-carried shared abstraction rather than nuisance geometry.
-#
-# PREREGISTERED VERDICT RULE for the shape axis (fixed in code before running; a tie is a null):
-#   Testability killswitch: the shape-caption cache must carry shape (real shape decode strictly above
-#   chance 0.20). It does (0.6167), so shape_axis_testable=True. If a future rebuild had it at chance, the
-#   axis would be moot on this clipset (requires DR1 real video) and we would report testable=False, NOT
-#   fake a positive.
-#   Decisive question: does vision<->shapecap alignment SURVIVE minus_all (shape+color+nuisance removed)?
-#     - SURVIVES  := for a vision->shapecap pair, the minus_all condition returns the ONLY clearing verdict
-#       "genuine-shared-structure" (al2 classify_pair: seed-CI lower bound strictly > 0 AND no sign flip)
-#       at the primary rank. This would be shape-carried cross-modal abstract shared code (a genuine first).
-#     - COLLAPSES := minus_all is "alignment-artifact" or "non-replicating" (at/indistinguishable from the
-#       permutation floor, or unstable). This bounds the null: even a shape-carrying caption shares no
-#       abstract geometry with vision beyond the nuisance, exactly as the color-grid text did.
-#   A minus_all that merely ties the floor is a COLLAPSE (null), never rounded up to a survivor.
 SHAPECAP_PAIRS = [
     ("vjepa2_vitl_nuisance", "qwen05b_shapecap_real"),
     ("dinov2s_nuisance_real", "qwen05b_shapecap_real"),
 ]
 CONDITIONS = ["raw", "minus_color", "minus_shape_color", "minus_nuisance", "minus_all"]
-# The 6 generative nuisance factors are per-clip (same clips across every column), read once from the
-# canonical vision cache. Rotation is circular, so it enters the design as sin/cos, not a raw linear term.
 NUIS_SOURCE = "vjepa2_vitl_nuisance"
 NUIS_COLS = ["r", "rot", "x0", "y0", "vx", "vy"]
 
 
 def load_column(name: str) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor] | None:
-    """(latents [N,D], shape [N], color [N]) handling both cache layouts, or None if absent."""
     root = CACHE_ROOT / name
     if not (root / "meta.json").exists():
         return None
@@ -158,8 +93,6 @@ def _standardize(train: torch.Tensor, other: torch.Tensor) -> tuple[torch.Tensor
 
 
 def nuisance_design(nuis: torch.Tensor) -> torch.Tensor:
-    """The 6 raw nuisance columns -> a linear design [N, 7]: r, x0, y0, vx, vy, sin(rot), cos(rot).
-    Rotation enters as sin/cos because it is circular (a raw linear term cannot remove a periodic factor)."""
     r, rot, x0, y0, vx, vy = (nuis[:, i] for i in range(6))
     return torch.stack([r, x0, y0, vx, vy, torch.sin(rot), torch.cos(rot)], dim=1)
 
@@ -167,8 +100,6 @@ def nuisance_design(nuis: torch.Tensor) -> torch.Tensor:
 def build_design(
     shape: torch.Tensor, color: torch.Tensor, nuis: torch.Tensor, mode: str
 ) -> torch.Tensor | None:
-    """The design matrix whose column space is projected out, per condition. One-hot factors span the
-    constant; minus_nuisance adds an explicit intercept so the mean is removed too. None = raw (no-op)."""
     n_s, n_c = int(shape.max()) + 1, int(color.max()) + 1
     oh_s, oh_c = _onehot(shape, n_s), _onehot(color, n_c)
     znuis = nuisance_design(nuis)
@@ -187,8 +118,6 @@ def build_design(
 
 
 def project_out(x: torch.Tensor, design: torch.Tensor, tr: torch.Tensor) -> torch.Tensor:
-    """Remove the component of x explained by the design's column space, coefficients fit on TRAIN only
-    (no test leakage): beta = pinv(D_tr) @ X_tr, residual = X - D @ beta."""
     beta = torch.linalg.pinv(design[tr]) @ x[tr]
     return x - design @ beta
 
@@ -204,8 +133,6 @@ def residual_learned_vs_floors(
     rank: int,
     test_frac: float = 0.3,
 ) -> dict:
-    """One seed, one rank, one residualization condition. Residualizer fit on train only, applied to
-    both a and b, on train and test alike; then al2's learned-vs-permuted topology delta."""
     g = torch.Generator().manual_seed(seed)
     n = xa.shape[0]
     perm = torch.randperm(n, generator=g)
@@ -268,8 +195,6 @@ def condition_report(
 
 
 def load_nuisance(cache_root: Path) -> torch.Tensor:
-    """The per-clip generative nuisance, read once from the canonical vision cache (same clips for every
-    column by the clip-identity rule). [N, 6] in NUIS_COLS order."""
     return torch.tensor(np.load(cache_root / NUIS_SOURCE / "nuisance.npy")).float()
 
 
@@ -289,12 +214,9 @@ def evaluate(cache_root: Path, seeds: list[int], ranks: list[int], pairs: list |
         xb, sb, cb = loaded[b_name]
         if xa.shape[0] != xb.shape[0] or xa.shape[0] != nuis.shape[0]:
             continue
-        # clip identity across columns is the featurizer's invariant (same clips, same order); the
-        # per-column labels must agree, else the residualizer would remove the wrong factor.
         if not (torch.equal(sa, sb) and torch.equal(ca, cb)):
             print(f"[skip {a_name} -> {b_name}] label mismatch across columns", flush=True)
             continue
-        # labels are identical across columns; use the source column's shape/color for residualization.
         conditions = {mode: condition_report(xa, xb, sa, ca, nuis, mode, seeds, ranks) for mode in CONDITIONS}
         pairs_out[f"{a_name} -> {b_name}"] = {
             "conditions": conditions,
@@ -312,14 +234,9 @@ def evaluate(cache_root: Path, seeds: list[int], ranks: list[int], pairs: list |
         return all(p[f"{mode}_verdict"] == "alignment-artifact" for p in pairs_out.values())
 
     def _survivors(mode: str) -> int:
-        # A "survivor" retains STABLE shared structure (genuine-shared-structure), the only verdict that
-        # clears the null. non-replicating and alignment-artifact both fail to reject it.
         return sum(1 for p in pairs_out.values() if p[f"{mode}_verdict"] == "genuine-shared-structure")
 
     survivors = {mode: _survivors(mode) for mode in CONDITIONS}
-    # Decisive carrier read: what factor's removal collapses every pair to a non-survivor? If minus_all
-    # and minus_nuisance leave zero survivors while minus_shape_color leaves some, the cross-modal shared
-    # code is the spatiotemporal NUISANCE geometry, not the semantic (shape,color) abstraction.
     if not pairs_out:
         carrier = "no-pairs"
     elif survivors["minus_nuisance"] == 0 and survivors["minus_shape_color"] > 0:
@@ -331,9 +248,6 @@ def evaluate(cache_root: Path, seeds: list[int], ranks: list[int], pairs: list |
     else:
         carrier = "mixed; see per-pair table"
 
-    # SHAPE-AXIS decisive read (only meaningful when the run's pairs target the shapecap text column). We
-    # apply the preregistered rule: a vision->shapecap pair whose minus_all verdict is
-    # "genuine-shared-structure" SURVIVES (shape-carried cross-modal abstraction); anything else COLLAPSES.
     shapecap_pairs = {k: v for k, v in pairs_out.items() if k.endswith("qwen05b_shapecap_real")}
     shape_axis = None
     if shapecap_pairs:
@@ -373,8 +287,6 @@ def evaluate(cache_root: Path, seeds: list[int], ranks: list[int], pairs: list |
         "shape_axis": shape_axis,
         "stable_genuine_survivors_per_condition": survivors,
         "carrier_verdict": carrier,
-        # Legacy strict-floor flags (every pair at the permutation floor). non-replicating is unstable,
-        # not floor, so these can read False even when zero pairs stably survive; use the survivor counts.
         "n1_color_carried_all_pairs": _all_floor("minus_color"),
         "n2_label_partition_only_all_pairs": _all_floor("minus_shape_color"),
         "n3_nuisance_carried_all_pairs": _all_floor("minus_nuisance"),

@@ -41,8 +41,6 @@ class ReproVerificationRefusal(ValueError):
     pass
 
 
-
-
 def _canonical_bytes(value: object) -> bytes:
     return json.dumps(
         value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False
@@ -59,8 +57,6 @@ def _close(a: object, b: object) -> bool:
     if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):
         return False
     return abs(float(a) - float(b)) <= _TOL
-
-
 
 
 def _count_track(track: object, label: str) -> list[int]:
@@ -112,8 +108,6 @@ def _arm_reestimates(arm: str, clip_id: str, n_frames: int, stored_by_clip: dict
     return _reestimates(stored.get(arm), n_frames, f"{arm} reestimate_frames on {clip_id}")
 
 
-
-
 def _sign_flip(deltas: list[float]) -> tuple[float, float, int]:
     n = len(deltas)
     if n == 0:
@@ -127,8 +121,6 @@ def _sign_flip(deltas: list[float]) -> tuple[float, float, int]:
         if flipped >= observed - _TOL:
             at_least += 1
     return observed, at_least / total, total
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -154,8 +146,6 @@ class ReproVerificationResult:
         return not self.independent_referee_reproduction
 
 
-
-
 def _check_split_disjoint(artifact: dict, mismatches: list[str]) -> bool:
     real = artifact.get("real_corpus")
     if not isinstance(real, dict):
@@ -179,8 +169,6 @@ def _check_split_disjoint(artifact: dict, mismatches: list[str]) -> bool:
         ok = False
         mismatches.append("the split is not marked as swapped from the sealed bed")
     return ok
-
-
 
 
 def _score_pooled(

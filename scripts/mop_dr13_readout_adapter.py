@@ -1,40 +1,4 @@
 #!/usr/bin/env python
-"""FACET 12 licensed re-test scaffold: does a READOUT ADAPTER recover rollout fidelity net of the
-predictor-vs-encoder representational sub-space shift?
-
-Wave 2 (RESULTS_LEDGER.md section 11) found that object content SURVIVES the compounded predictor
-rollout but in a sub-space the encoder-trained head cannot read zero-shot (in-domain probe R2 0.73 vs
-encoder-trained 0.09). The named fix is a readout adapter: a linear map from predictor-output space to
-encoder space, fit self-supervised on VISIBLE slots (no future labels needed), then applied to the
-open-loop rollout. This script is that adapter, turnkey for the Studio real-video re-test.
-
-METHOD (preregistered in code before any number; a tie is a null):
-  For each clip, encode to per-slot latents. Fit a linear adapter A (D x D, least squares) on pairs
-  (predicted VISIBLE slot, true encoder slot): for slots s in [1..T_START] predict slot s from context
-  [0..s] (the slot is in context, so this is the representational-gap signal, not a forecast), pair the
-  prediction with the encoder's true slot s. A is fit on a TRAIN split of clips and applied UNCHANGED to
-  a held-out split, so A cannot launder future labels.
-  On the held-out clips, open-loop rollout predicts slot T_START+h (feeding predicted slots back). We
-  compare, per horizon, the nmse to the true future slot of:
-    - RAW rollout        (no adapter)
-    - ADAPTED rollout    (pred @ A)
-    - PERSISTENCE        (copy the last real context slot; the no-dynamics floor)
-  The adapter RECOVERS usable fidelity iff the adapted nmse is BOTH below RAW (the sub-space shift was
-  real and correctable) AND below USABLE_FRACTION * persistence (usable in absolute terms). A tie is a
-  null. The gap-closed fraction (raw - adapted) / (raw - in_context_floor) quantifies how much of the
-  representational gap the adapter removes.
-
-CAVEAT baked in: on near-static SYNTHETIC clips future slots are close to the visible slots, so the
-adapter's benefit is confounded (future ~ in-context) and the synthetic run only validates the pipeline.
-The licensed test is REAL MOVING VIDEO via --clip-dir (a dir of .pt clip tensors [frames,3,H,W]), where
-the adapter must transfer from visible slots to genuinely different future slots.
-
-Form (goal loop): no em or en dashes. Preregister before running. A tie is a null. No score faked.
-
-Usage:
-  PYTHONPATH=src:scripts:. OMP_NUM_THREADS=4 .venv/bin/python scripts/mop_dr13_readout_adapter.py \
-      [--n-clips 16] [--clip-dir DIR] [--out OUT]
-"""
 
 from __future__ import annotations
 
@@ -51,7 +15,6 @@ sys.path.insert(0, str(_ROOT / "scripts"))
 sys.path.insert(0, str(_ROOT / "src"))
 sys.path.insert(0, str(_ROOT))
 
-# reuse the proven, bit-exact facet-12 primitives (import runs no main())
 from mop_dr13_predictor_fidelity import (  # noqa: E402
     DEVICE,
     HF,
@@ -75,8 +38,6 @@ SEED_BUCKETS = 3
 
 @torch.no_grad()
 def in_context_pairs(predictor, seq, pps):
-    """Adapter training pairs from VISIBLE slots: predict slot s from context [0..s] (s in context),
-    pair (prediction, true slot s). Returns stacked (P, Y) over slots 1..T_START."""
     ps, ys = [], []
     for s in range(1, T_START + 1):
         ctx = context_up_to(s, pps)
@@ -89,7 +50,6 @@ def in_context_pairs(predictor, seq, pps):
 
 @torch.no_grad()
 def rollout_future(predictor, seq, pps, gd):
-    """Open-loop rollout from T_START. Returns {h: (pred_future, true_future, persistence)}."""
     buf = seq.clone()
     ctx = context_up_to(T_START, pps)
     out = {}
@@ -109,9 +69,6 @@ def rollout_future(predictor, seq, pps, gd):
 
 
 def fit_adapter(P: torch.Tensor, Y: torch.Tensor) -> torch.Tensor:
-    """Ridge least squares A minimizing ||P A - Y||^2 + lam||A||^2 with a SCALE-RELATIVE ridge
-    (lam = RIDGE * mean diagonal of P^T P), so the D x D solve is well conditioned regardless of latent
-    scale and does not amplify out-of-distribution rollout inputs. Returns A [D, D]."""
     d = P.shape[1]
     ptp = P.T @ P
     lam = RIDGE * (ptp.diagonal().mean().item() + 1e-8)
@@ -144,7 +101,6 @@ def main() -> int:
     ntr = max(2, n // 2)
     train, test = seqs[:ntr], seqs[ntr:] or seqs[:1]
 
-    # in-context representational-gap floor (mean over train visible slots), for the gap-closed metric
     P = torch.cat([in_context_pairs(predictor, s, pps)[0] for s in train])
     Y = torch.cat([in_context_pairs(predictor, s, pps)[1] for s in train])
     in_ctx_floor = nmse(P, Y)

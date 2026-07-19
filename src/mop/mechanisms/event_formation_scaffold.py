@@ -1,25 +1,3 @@
-"""Scaffold spine for G1-E1 event formation: relational, temporal, oracle, and utility contracts.
-
-This module raises the SCAFFOLDING axis for epoch G1 mechanism epoch E1, event formation. It
-supplies machine-checkable contracts and deterministic mechanics that ENCODE the bar an event
-mechanism must clear before it may claim any utility. It builds the harness, not the result.
-
-The named prior null is the X0 strong null: a stateless delayed-scalar trigger can save charged
-compute while it destroys utility and loses to both untrained controls. Under that null no useful
-event exists. An event may be claimed useful ONLY IF measured utility is preserved AND charged
-compute is cut versus BOTH untrained controls. The X0 verdict is reachable and holds by default.
-
-The controls are wrong-time, wrong-event, appearance-only, and stateless-delayed-trigger. The last
-two are the untrained controls a utility claim must beat on both utility and cost. An oracle
-headroom contract requires a measured semantic-oracle upper bound, so a claim over a saturated bed
-fails closed. Real activation is quarantined behind a gate that local code cannot self-permit and
-that refuses every receipt which does not claim a replicated, useful event.
-
-Nothing here asserts that any event actually is useful. The synthetic episodes are toy, seeded
-records. The controls are declarations, not runs.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -33,15 +11,11 @@ from ..substrate.events import canonical_sha256
 
 EVENT_FORMATION_SCHEMA = "mop-event-formation/v1"
 
-# Must stay byte-identical to the program-wide claim scope. Duplicated here instead of imported so
-# this scaffold module has no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
-# The full matched-control family an event mechanism must confront. Ordering is load-bearing for the
-# ledger digest and the completeness check, so any membership or order drift is refused.
 REQUIRED_CONTROLS: tuple[str, ...] = (
     "wrong-time",  # the bound event fired outside its temporal window
     "wrong-event",  # a decoy event stood in for the target event
@@ -49,20 +23,17 @@ REQUIRED_CONTROLS: tuple[str, ...] = (
     "stateless-delayed-trigger",  # a stateless delayed-scalar trigger, the X0 null mechanism
 )
 
-# The two untrained controls a utility claim must beat on both utility and charged compute.
 UNTRAINED_CONTROLS: tuple[str, ...] = ("appearance-only", "stateless-delayed-trigger")
 
-# Independent replications a receipt must carry before the activation gate may open.
 REQUIRED_REPLICATIONS = 3
 
-# No capability is claimed anywhere in this module. This flag is asserted by the contract tests.
 SCIENTIFIC_CAPABILITY_CLAIM = False
 
 _EPISODE_RELATIONS: tuple[str, ...] = ("supports", "contains", "precedes", "opposes")
 
 
 class EventFormationRefusal(ValueError):
-    """Raised whenever a declaration is missing, malformed, drifted, or outside its declared scope."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -81,7 +52,6 @@ def _require_finite(value: float, label: str) -> None:
 
 
 def assert_control_ledger(controls: Sequence[str]) -> None:
-    """Fail closed unless the controls match the required family exactly, in canonical order."""
 
     if tuple(controls) != REQUIRED_CONTROLS:
         raise EventFormationRefusal(
@@ -89,17 +59,10 @@ def assert_control_ledger(controls: Sequence[str]) -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Control ledger.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ControlLedgerContract:
-    """The fixed control family every event-utility claim must confront, in canonical order.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     controls: tuple[str, ...] = REQUIRED_CONTROLS
     claim_scope: str = CLAIM_SCOPE
@@ -123,17 +86,10 @@ class ControlLedgerContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Relational event contract.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class RelationalEventContract:
-    """A relational event: a typed relation over at least two distinct entities, never a scalar.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     event_id: str
     relation: str
@@ -172,17 +128,10 @@ class RelationalEventContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Temporal event binding contract.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class TemporalEventBindingContract:
-    """Binds an event to a clock window, plus a wrong-time and a wrong-event control.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     event_id: str
     clock_id: str
@@ -232,17 +181,10 @@ class TemporalEventBindingContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Oracle headroom contract.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class OracleHeadroomContract:
-    """A measured semantic-oracle upper bound and the compute it charges vs the full system.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     oracle_id: str
     oracle_utility: float
@@ -298,14 +240,10 @@ class OracleHeadroomContract:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Matched budget.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-    """The matched budget every arm is held to before any utility or compute comparison."""
 
     relational_ops: int
     temporal_ops: int
@@ -331,19 +269,10 @@ class MatchedBudget:
         }
 
 
-# ---------------------------------------------------------------------------
-# Event utility verdict: the named X0 strong null lives here.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class EventUtilityVerdict:
-    """A utility-vs-compute verdict over an event candidate against the untrained controls.
-
-    An event is claimed useful only if measured utility is preserved above a floor, it beats both
-    untrained controls on utility, and its charged compute is cut below both untrained controls.
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     candidate_id: str
     oracle: OracleHeadroomContract
@@ -430,18 +359,10 @@ class EventUtilityVerdict:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Activation receipt and the fail-closed activation gate.
-# ---------------------------------------------------------------------------
 
 
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
-    """A receipt an external authority issues after replicated confirmation of a useful event.
-
-    Possessing a receipt does not create evidence; it records a signed, replicated confirmation.
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     license_id: str
     verdict_digest: str
@@ -476,11 +397,6 @@ class ActivationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class EventFormationActivationGate:
-    """A fail-closed gate. Local code cannot activate event formation without a valid receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. The gate exists so
-    that scaffold code can never quietly stand in for an earned, externally confirmed activation.
-    """
 
     activation_permitted: bool = False
     required_replications: int = REQUIRED_REPLICATIONS
@@ -494,7 +410,6 @@ class EventFormationActivationGate:
             raise EventFormationRefusal("required replications must be at least one")
 
     def authorize(self, receipt: ActivationReceipt | None = None) -> ActivationReceipt:
-        """Fail closed unless a valid, replicated receipt claiming a useful event is supplied."""
 
         if receipt is None:
             raise EventFormationRefusal(
@@ -512,7 +427,6 @@ class EventFormationActivationGate:
         return receipt
 
     def authorize_local(self) -> ActivationReceipt:
-        """Local activation is never permitted; this always fails closed."""
 
         raise EventFormationRefusal("local activation of event formation is never permitted")
 
@@ -523,13 +437,9 @@ class EventFormationActivationGate:
         }
 
 
-# ---------------------------------------------------------------------------
-# Deterministic builders (seeded, reproducible; used by tests and wiring).
-# ---------------------------------------------------------------------------
 
 
 def default_matched_budget() -> MatchedBudget:
-    """Return a canonical, non-vacuous matched budget for verdict construction."""
 
     return MatchedBudget(relational_ops=8, temporal_ops=4, trigger_evals=4, memory_bytes=1024)
 
@@ -547,9 +457,6 @@ def _reference_oracle() -> OracleHeadroomContract:
 
 
 def build_x0_strong_null_verdict() -> EventUtilityVerdict:
-    """The named X0 strong null: a stateless delayed-scalar trigger that saved charged compute but
-    destroyed utility and lost to both untrained controls. It never claims a useful event.
-    """
 
     return EventUtilityVerdict(
         candidate_id="candidate.stateless-delayed-trigger",
@@ -564,9 +471,6 @@ def build_x0_strong_null_verdict() -> EventUtilityVerdict:
 
 
 def build_hypothetical_useful_verdict() -> EventUtilityVerdict:
-    """A hypothetical verdict that clears every gate. It is a construction, not a measurement, and
-    asserts nothing about any real event.
-    """
 
     return EventUtilityVerdict(
         candidate_id="candidate.hypothetical",
@@ -586,11 +490,6 @@ def mint_receipt(
     license_id: str,
     independent_replications: int,
 ) -> ActivationReceipt:
-    """Mint a receipt that records a verdict digest and whether it claims a useful event.
-
-    Minting a receipt does not authorize activation; the gate still checks replication and the
-    useful-event claim before it opens.
-    """
 
     return ActivationReceipt(
         license_id=license_id,
@@ -601,9 +500,6 @@ def mint_receipt(
 
 
 def synthesize_relational_episode(seed: int, *, num_entities: int = 3) -> RelationalEventContract:
-    """Build a deterministic, seeded relational episode. Identical seeds yield an identical digest;
-    distinct seeds yield distinct digests. Claim scope: deterministic programmatic mechanics only.
-    """
 
     if seed < 0:
         raise EventFormationRefusal("episode seed must be nonnegative")
@@ -619,13 +515,10 @@ def synthesize_relational_episode(seed: int, *, num_entities: int = 3) -> Relati
     )
 
 
-# ---------------------------------------------------------------------------
 # Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def coverage() -> dict[str, Sequence[str]]:
-    """Static record of the event-formation sub-questions this scaffold arms (readiness only)."""
 
     return {
         "relational-events": (

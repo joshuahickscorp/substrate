@@ -1,23 +1,3 @@
-"""Deterministic mechanics for the messaging_repair Stage 3 workstream (epoch messaging_repair).
-
-This module carries the runnable mechanics the runner scores: a bounded causal message router, a
-selective verifier, and a disagreement-triggered contradiction repairer, together with the declared
-control policies (no-message, broadcast-all, stale-message, no-verify, always-verify, majority-vote).
-
-Every policy operates on the same toy regime under the same matched action budget, so a comparison
-between the mechanism and any control is matched-cost by construction. A policy takes a Regime and a
-MatchedCost and returns a PolicyOutcome carrying the final per-agent estimates, the total error
-before and after, and the number of budgeted actions it spent. The mechanism spends actions on
-selective verification and bounded adoption first, then on repair; a control that spends its whole
-budget verifying everything has nothing left for repair, which is exactly the value-of-verification
-tradeoff the epoch asks about.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim. Nothing
-here shows that bounded messaging, selective verification, or contradiction repair carries any real
-advantage; the numbers are toy integers on a seeded bed, harness plumbing rather than a result.
-
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -29,12 +9,8 @@ from ..substrate.events import canonical_sha256
 
 MESSAGING_REPAIR_IMPL_SCHEMA = "mop-messaging-repair-impl/v1"
 
-# Must stay byte-identical to the mechanism scaffold CLAIM_SCOPE. Duplicated as a literal so this
-# mechanics module carries no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
-# The default matched action budget shared by every policy. Each verify, each adoption, and each
-# repair message costs one action, so a comparison at this budget is matched-cost.
 DEFAULT_ACTION_BUDGET = 10
 
 NULL_REGIME = "null"
@@ -43,7 +19,6 @@ _REGIME_KINDS = frozenset({NULL_REGIME, FAVORABLE_REGIME})
 
 _AGENT_ROLES = frozenset({"source", "flaky", "sink"})
 
-# The declared control policies for this epoch, in the order the metric names them.
 DECLARED_CONTROLS: tuple[str, ...] = (
     "no-message",
     "broadcast-all",
@@ -55,15 +30,11 @@ DECLARED_CONTROLS: tuple[str, ...] = (
 
 
 class MessagingRepairImplError(ValueError):
-    """Raised when a regime, budget, or agent record is malformed. The mechanics fail closed."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class Agent:
-    """One agent holding a scalar estimate of the hidden target, with a reliability marker.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     agent_id: str
     estimate: int
@@ -79,10 +50,6 @@ class Agent:
 
 @dataclass(frozen=True, slots=True)
 class Offer:
-    """A candidate causal message: a parent offers its estimate to a child along a causal edge.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     parent: str
     child: str
@@ -96,10 +63,6 @@ class Offer:
 
 @dataclass(frozen=True, slots=True)
 class MatchedCost:
-    """The matched action budget every policy is charged against. Non-vacuous by construction.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     action_budget: int
 
@@ -110,10 +73,6 @@ class MatchedCost:
 
 @dataclass(frozen=True, slots=True)
 class Regime:
-    """A deterministic seeded task: agents, causal offers, a hidden target, and a matched budget.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     kind: str
@@ -158,10 +117,6 @@ class Regime:
 
 @dataclass(frozen=True, slots=True)
 class PolicyOutcome:
-    """The deterministic result of running one policy against one regime under the matched budget.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     policy: str
     final_estimates: tuple[tuple[str, int], ...]
@@ -171,7 +126,6 @@ class PolicyOutcome:
 
     @property
     def improvement(self) -> int:
-        """Total error removed relative to the untouched initial state. Higher is better."""
 
         return self.initial_error - self.final_error
 
@@ -189,9 +143,6 @@ class PolicyOutcome:
 PolicyFn = Callable[[Regime, MatchedCost], PolicyOutcome]
 
 
-# ---------------------------------------------------------------------------
-# Shared deterministic helpers.
-# ---------------------------------------------------------------------------
 
 
 def _initial_state(regime: Regime) -> dict[str, int]:
@@ -210,7 +161,6 @@ def _consensus_value(offers: Sequence[Offer]) -> int | None:
 
 
 def _suspicion_ordered(offers: Sequence[Offer], consensus: int | None) -> list[Offer]:
-    """Order offers least-suspicious first: closeness to the causal consensus, then parent id."""
 
     base = consensus if consensus is not None else 0
     return sorted(offers, key=lambda offer: (abs(offer.value - base), offer.parent))
@@ -236,20 +186,9 @@ def _outcome(policy: str, regime: Regime, state: dict[str, int], actions_used: i
     )
 
 
-# ---------------------------------------------------------------------------
-# The mechanism: bounded causal messaging + selective verification + repair.
-# ---------------------------------------------------------------------------
 
 
 def policy_mechanism(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
-    """Route bounded causal messages, verify selectively, and repair on detected disagreement.
-
-    Per child the router considers only causal-edge offers, ordered least-suspicious first, verifies
-    candidates one at a time, and adopts the first verified-reliable one (then stops: selective, it
-    never verifies the unused offers). Any leftover budget funds repair, which fires only when a
-    disagreement with the verified anchor remains. Claim scope: deterministic programmatic mechanics
-    only; no capability claim.
-    """
 
     state = _initial_state(regime)
     remaining = budget.action_budget
@@ -278,23 +217,14 @@ def policy_mechanism(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
     return _outcome("messaging-repair", regime, state, budget.action_budget - remaining)
 
 
-# ---------------------------------------------------------------------------
-# The declared control policies. Each is charged against the same matched budget.
-# ---------------------------------------------------------------------------
 
 
 def policy_no_message(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
-    """No messaging: every agent keeps its initial estimate. The trivial floor."""
 
     return _outcome("no-message", regime, _initial_state(regime), 0)
 
 
 def policy_broadcast_all(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
-    """Unbounded broadcast: every agent floods every other, no causal bound and no verification.
-
-    Deliveries follow a fixed recipient-then-sender order and overwrite blindly until the matched
-    budget is spent, so the budget is squandered on non-causal traffic and unverified values.
-    """
 
     initial = _initial_state(regime)
     state = dict(initial)
@@ -314,11 +244,6 @@ def policy_broadcast_all(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
 
 
 def policy_stale_message(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
-    """Stale messaging: each message carries an outdated value equal to what the child already holds.
-
-    A stale message is delivered and charged, but it carries no new information, so it never moves
-    an estimate.
-    """
 
     state = _initial_state(regime)
     remaining = budget.action_budget
@@ -332,11 +257,6 @@ def policy_stale_message(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
 
 
 def policy_no_verify(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
-    """Messaging with no verification: adopt every causal offer blindly, last write wins per child.
-
-    Without verification there is no trusted anchor, so the disagreement repair cannot fire and any
-    unreliable offer that lands last corrupts its child.
-    """
 
     state = _initial_state(regime)
     remaining = budget.action_budget
@@ -349,11 +269,6 @@ def policy_no_verify(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
 
 
 def policy_always_verify(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
-    """Always-on verification: verify every offer up front, then adopt and repair with the remainder.
-
-    Verifying everything, including offers the router would never use, consumes the matched budget so
-    that fewer adoptions and repairs remain affordable. This is the always-verify ceiling.
-    """
 
     state = _initial_state(regime)
     remaining = budget.action_budget
@@ -384,10 +299,6 @@ def policy_always_verify(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
 
 
 def policy_majority_vote(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
-    """Majority-vote repair: pull every agent to the global majority estimate, ignoring structure.
-
-    It disregards causal edges and reliability, so a noisy majority overwrites the informed minority.
-    """
 
     initial = _initial_state(regime)
     counts: dict[int, int] = {}

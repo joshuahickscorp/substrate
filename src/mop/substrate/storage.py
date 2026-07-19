@@ -1,44 +1,11 @@
-"""Disk accounting for the latent substrate: estimate a cache before you compute it, list
-caches with their on-disk size, prune old ones SAFELY. The cache is the laptop-feasibility
-keystone (encode once, train forever), so knowing its footprint up front, and being able to
-reclaim it without ever fat-fingering a delete, is part of the contract.
-
-A cache on disk is <root>/<name>/{latents.npy, keys.npy, meta.json, labels.npy?, provenance.json}.
-The bytes are dominated by three memmap arrays: latents [N, *feat], keys [N, key_dim],
-labels [N]. Each .npy carries a tiny fixed header (~128 bytes); estimate_cache_bytes returns the
-raw array bytes (the load-bearing term) and the header is rounding error at any real N. dtype
-widths: float32=4, float16=2, int64=8 (labels are always int64).
-
-Expected disk for natural-video caches (per clip), pooled vs dense
-------------------------------------------------------------------
-Pooled = one embed_dim vector per clip; the keys array duplicates it (key_dim==embed_dim), so
-pooled latents+keys cost 2*embed_dim*4 bytes/clip in float32. Dense keeps every token and therefore
-scales with the exact configured token count. The default 8192-token estimate is a conservative
-sizing fixture, while official dense ViT-B at 64 frames uses 18432 tokens. Callers with an owned
-or alternative substrate must pass its measured token count explicitly.
-
-Per-clip cost, float32 latents with keys and labels included:
-
-  substrate role         embed_dim  tokens   pooled/clip   dense total/clip
-  pooled control             1024         1      ~8.0 KB          ~8.0 KB
-  sizing fixture             1024      8192      ~8.0 KB         ~32.0 MB
-  official dense ViT-B        768     18432      ~6.0 KB         ~56.6 MB
-
-At scale, 10k clips at the 8192-token sizing fixture need about 313 GB in float32. Pooled stores
-remain local-disk cheap, and bounded dense shards are locally testable. Scientific readiness is a
-separate data, control, and evidence question; model naming never changes this byte calculation.
-"""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-# bytes per element by numpy dtype name (the dtypes a LatentStore can write).
 _DTYPE_BYTES = {"float32": 4, "float16": 2, "fp16": 2, "int64": 8, "int32": 4, "uint8": 1}
 
-# Default dense tokens per clip used only as a documented sizing fixture. Real callers should pass
-# their exact token geometry, such as 18432 for the retained official dense ViT-B 64-frame path.
 DENSE_TOKENS_PER_CLIP = 8192
 
 
@@ -56,14 +23,6 @@ def estimate_cache_bytes(
     has_labels: bool = True,
     dense: bool = False,
 ) -> int:
-    """Raw array bytes for a cache of `count` items with per-item latent shape `feat_shape`.
-
-    Sums the three memmap arrays: latents (count * prod(feat_shape) * dtype_width), keys
-    (count * key_dim * 4, key_dim taken as the last feat dim, always float32 like the store),
-    labels (count * 8 int64 when has_labels). Ignores the ~128-byte/file npy header (rounding
-    error). `dense` is accepted for signature symmetry; the shape already encodes density, so it
-    does not change the math here (use estimate_for_encoder to expand pooled vs dense shapes).
-    """
     if count < 0:
         raise ValueError("count must be >= 0")
     if not feat_shape:
@@ -86,12 +45,6 @@ def estimate_for_encoder(
     has_labels: bool = True,
     dense_tokens: int | None = None,
 ) -> dict:
-    """Estimate cache bytes for `n_clips` through an encoder config (a dict with `embed_dim`,
-    optionally `dense`/`pool`/`name`). Pooled -> feat_shape [embed_dim]; dense -> feat_shape
-    [tokens, embed_dim] with tokens = dense_tokens or DENSE_TOKENS_PER_CLIP. The explicit
-    `dense` arg overrides the config's dense flag so callers can price either layout for any
-    encoder. Returns {bytes, human, n_clips, dense, tokens_per_clip, embed_dim, per_clip_bytes}.
-    """
     embed_dim = int(encoder_cfg_dict["embed_dim"])
     use_dense = bool(dense or encoder_cfg_dict.get("dense", False))
     tokens = int(dense_tokens or DENSE_TOKENS_PER_CLIP) if use_dense else 1
@@ -111,7 +64,6 @@ def estimate_for_encoder(
 
 
 def human_bytes(n: int) -> str:
-    """Human-readable size, binary units (1 KB == 1024 B). 2 sig figs past KB, integer bytes."""
     x = float(n)
     units = ("B", "KB", "MB", "GB", "TB", "PB")
     i = 0
@@ -124,7 +76,6 @@ def human_bytes(n: int) -> str:
 
 
 def dir_size(path: Path) -> int:
-    """Total bytes of all files under `path` (recursive). Missing path -> 0."""
     p = Path(path)
     if not p.exists():
         return 0
@@ -138,9 +89,6 @@ def _is_cache_dir(p: Path) -> bool:
 
 
 def list_caches_with_size(root: Path) -> list[dict]:
-    """Every cache directory directly under `root`, with on-disk size and (when present) the
-    count/feat_shape/dtype/backend from meta.json + provenance.json. A cache dir is one holding a
-    meta.json. Sorted largest first. Missing root -> []."""
     r = Path(root)
     out: list[dict] = []
     if not r.is_dir():
@@ -173,13 +121,6 @@ def list_caches_with_size(root: Path) -> list[dict]:
 
 
 def prune_caches(root: Path, keep: list[str] | None = None, dry_run: bool = True) -> list[dict]:
-    """Plan (and only with dry_run=False, perform) deletion of caches under `root` whose name is
-    NOT in `keep`. SAFE BY DEFAULT: dry_run=True (the default) deletes nothing, it only returns
-    the plan. Returns one record per cache: {name, path, bytes, human, kept, would_delete,
-    deleted}. Deletion happens only when dry_run is False AND the cache is not kept; everything
-    in `keep` is always preserved. `keep=None` keeps nothing (every cache is a deletion
-    candidate), so an empty keep-list is an explicit, deliberate choice by the caller.
-    """
     keepset = set(keep or [])
     plan: list[dict] = []
     for rec in list_caches_with_size(root):

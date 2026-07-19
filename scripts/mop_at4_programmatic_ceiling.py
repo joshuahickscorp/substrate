@@ -1,46 +1,4 @@
 #!/usr/bin/env python
-"""AT4: programmatic ceiling reference (WP-09 atlas guard; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, AT full schema).
-
-Thesis: a handcrafted-descriptor and a ground-truth scene-program (programmatic) substrate scored on
-the SAME atlas factors as the perceptual caches provide a difficulty ceiling, so a perceptual tie can
-be read as substrate-bounded rather than test-too-easy. This is the only route to reading a tie as a
-real substrate bound (the custom-branch trigger).
-
-Columns (all precomputed LatentStores under data/cache, WP-01 outputs; missing stores are SKIPPED with
-a log line, never silently substituted):
-  reference : programmatic_reference (the by-construction ceiling), handcrafted_descriptors (the
-              classical-vision reference)
-  perceptual: the encoder caches on the same clip set (V-JEPA full-clip and single-frame, DINOv2-S,
-              textified Qwen, sonified wav2vec2)
-Factors: shape and color, read from each store's factors.json sidecar (clip identity rule: the
-sidecar checksums verify every column saw the SAME clips before any comparison).
-
-Preregistered per-factor reading (fixed in code before any run):
-  DEGENERATE  if the programmatic column does not decode the factor at >= CEILING_MIN mean accuracy
-              (it contains the one-hot factor by construction, so failure means a broken pipeline)
-  HEADROOM    if the per-seed delta (programmatic minus best perceptual, best selected on mean) has
-              a seed-CI lower bound > 0: perceptual columns sit measurably below the ceiling, so a
-              perceptual tie on this factor IS attributable to a substrate bound
-  TEST-TOO-EASY otherwise: perceptual columns tie the ceiling, no tie on this factor can be blamed
-              on a substrate bound
-Registry null (AT4): the programmatic reference does not exceed the perceptual substrates on any
-factor (trivially separable everywhere), so no perceptual tie can be attributed to a substrate bound.
-null_supported is True iff at least one factor was comparable and NO comparable factor shows headroom;
-the not-evaluable states (NO CEILING, NO PERCEPTUAL COLUMNS, DEGENERATE) report null_supported=None,
-so a missing cache or a broken pipeline never reads as a rejected null downstream.
-
-Controls: shuffled-label floor per column and factor (diagnostics/cross_substrate.shuffled_label_null,
-the honest chance floor for this class balance); the handcrafted column is reported with its own
-headroom numbers as the classical-vision reference, but the preregistered null keys on the
-programmatic column only. No random linear read-head is used anywhere: linear probes are
-projection-invariant, so that control is vacuous by construction (the frozen-random census result).
-
-Usage: python scripts/mop_at4_programmatic_ceiling.py --seeds 0-4
-Output: runs/mot/at4_programmatic_ceiling.json
-
-No em dashes or en dashes (BLACKHOLE.md). No encoder loads: pure aggregation over cached latents.
-"""
 
 from __future__ import annotations
 
@@ -89,9 +47,6 @@ CEILING_MIN = 0.99  # the programmatic column carries the one-hot factor, anythi
 
 
 def load_column(root: Path) -> dict | None:
-    """{latents, factors: {name: LongTensor}, sidecar} or None when the store or sidecar is absent.
-    Factor labels come from factors.json (the clip identity sidecar), never from the store labels
-    alone, so shape and color are read the same way for every column."""
     if not (root / "meta.json").exists() or not (root / "factors.json").exists():
         return None
     from mop.substrate import LatentStore
@@ -108,8 +63,6 @@ def load_column(root: Path) -> dict | None:
 
 
 def clip_identity_check(sidecars: dict[str, dict]) -> dict:
-    """Checksum agreement across every loaded column: all columns must have featurized the SAME clips
-    (first and last clip sha256) before any cross-column comparison is meaningful."""
     fp = {
         t: (s.get("checksum_first"), s.get("checksum_last"))
         for t, s in sidecars.items()
@@ -127,8 +80,6 @@ def probe_accs(x: torch.Tensor, y: torch.Tensor, seeds: list[int], epochs: int) 
 
 
 def factor_reading(prog_accs: list[float], perceptual: dict[str, list[float]], chance: float) -> dict:
-    """The preregistered per-factor reading (module docstring). Best perceptual column is selected on
-    mean accuracy; the headroom test is the seed-CI lower bound of the per-seed delta."""
     prog = seed_ci(prog_accs)
     if prog["mean"] < CEILING_MIN:
         return {

@@ -1,28 +1,3 @@
-"""B8: morphogenetic structural growth vs fixed final capacity. The only catalog mechanism that tests
-STRUCTURAL change (adding units), not just reweighting: a direct moldability probe. Question: does a
-shell that GROWS hidden units in response to experience (add units when learning plateaus) beat simply
-starting at the final size?
-
-Three arms at matched data/seed/budget:
-  GROWN: starts at a small width, adds hidden units whenever validation loss plateaus over a patience
-         window, up to a final width W_final.
-  FIXED-FINAL: a shell of width W_final from the start. THIS is the matched-final-capacity control, the
-         only one that isolates the growth PROCESS from just-more-capacity (the b2/EX4 confound).
-  FIXED-INITIAL: a shell that stays at the small initial width (shows growing does SOMETHING vs never).
-
-grown_vs_fixed_final_delta = final_acc(grown) minus final_acc(fixed-final): the ONLY number that tests
-the null, since it holds capacity constant. We confirm capacity_matched via param_count (grown and
-fixed-final end at the same trainable parameter count). growth_events counts how many times it grew.
-
-null_supported = grown ties fixed-final within seed spread (growth-as-process adds nothing over just
-being that size), which the corpus capacity-confound experience (b2/EX4) predicts is likely. The grown
-arm must NOT win merely by ending larger or training longer, that is the exact confound controlled out:
-all three arms train for the SAME number of epochs on the SAME data, and grown/fixed-final end at the
-SAME width.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only). No sentience or
-agency language. Honest nulls only (null_supported reflects the real toy outcome).
-"""
 
 from __future__ import annotations
 
@@ -42,13 +17,6 @@ from .base import _split_xy as _split
 
 
 class _GrowableHead(nn.Module):
-    """A one-hidden-layer classifier (dim -> width -> nc) whose hidden width can GROW in place. Growth
-    adds fresh hidden units: new rows in the input weight (in_proj) and new columns in the output weight
-    (out_proj). Existing units keep their learned weights, so growth is structural addition, not a reset.
-    New in_proj rows are randomly initialized; new out_proj columns are zeroed so that adding a unit does
-    NOT perturb the current function (the network output is unchanged at the growth step, the new unit
-    then learns from zero contribution). GELU nonlinearity matches the shell.predictor.mlp block.
-    """
 
     def __init__(self, dim: int, width: int, nc: int, gen: torch.Generator):
         super().__init__()
@@ -67,21 +35,16 @@ class _GrowableHead(nn.Module):
 
     @torch.no_grad()
     def grow(self, add: int) -> None:
-        """Append `add` hidden units. in_proj gains `add` random rows (new features), out_proj gains
-        `add` zeroed columns (so the function is preserved at the growth step). Returns nothing."""
         if add <= 0:
             return
         w_old = self.width
-        # new in_proj: [w_old+add, dim], first w_old rows copied, new rows randomly initialized.
         new_in = nn.Linear(self.dim, w_old + add)
         new_in.weight.zero_()
         new_in.bias.zero_()
         new_in.weight[:w_old].copy_(self.in_proj.weight)
         new_in.bias[:w_old].copy_(self.in_proj.bias)
-        # small random init for the fresh rows (Kaiming-ish scale for GELU), reproducible via self.gen.
         scale = (2.0 / self.dim) ** 0.5
         new_in.weight[w_old:].copy_(torch.randn(add, self.dim, generator=self.gen) * scale)
-        # new out_proj: [nc, w_old+add], first w_old columns copied, new columns ZEROED (function preserved).
         new_out = nn.Linear(w_old + add, self.nc)
         new_out.weight.zero_()
         new_out.bias.copy_(self.out_proj.bias)
@@ -110,7 +73,6 @@ class B8(Experiment):
 
     @staticmethod
     def _train_epochs(head: nn.Module, opt, xtr, ytr, xva, yva, epochs) -> list[float]:
-        """Train `head` for a fixed number of epochs; return the per-epoch held-out (val) loss trace."""
         val_trace = []
         for _ in range(epochs):
             opt.zero_grad()
@@ -122,8 +84,6 @@ class B8(Experiment):
 
     @staticmethod
     def _plateaued(trace: list[float], patience: int, min_delta: float) -> bool:
-        """A plateau: over the last `patience` epochs the best val loss did not improve by min_delta vs
-        the best seen BEFORE that window (learning stalled)."""
         if len(trace) <= patience:
             return False
         best_before = min(trace[:-patience])
@@ -131,9 +91,6 @@ class B8(Experiment):
         return (best_before - best_recent) < min_delta
 
     def _run_grown(self, xtr, ytr, xva, yva, dim, nc, e, gen, lr) -> tuple[float, int, int, nn.Module]:
-        """GROWN arm: start at w_init, train epoch-by-epoch, and add `grow_add` units whenever the val
-        loss plateaus, up to w_final. Trains for the SAME total epochs as the fixed arms (grow_budget).
-        Returns (final val accuracy, growth_events, final width, head)."""
         w_init, w_final = int(e.w_init), int(e.w_final)
         grow_add = int(e.grow_add)
         patience, min_delta = int(e.patience), float(e.min_delta)
@@ -149,8 +106,6 @@ class B8(Experiment):
             opt.step()
             with torch.no_grad():
                 trace.append(float(F.cross_entropy(head(xva), yva)))
-            # growth trigger: on a plateau, add units (up to the final width) and rebuild the optimizer
-            # so it tracks the new parameters. Reset the plateau window after growing.
             if head.width < w_final and self._plateaued(trace, patience, min_delta):
                 add = min(grow_add, w_final - head.width)
                 head.grow(add)
@@ -162,7 +117,6 @@ class B8(Experiment):
         return acc, events, head.width, head
 
     def _run_fixed(self, xtr, ytr, xva, yva, dim, nc, e, gen, lr, width) -> tuple[float, nn.Module]:
-        """A fixed-width arm: build a head at `width`, train the SAME total epochs, no growth."""
         head = _GrowableHead(dim, width, nc, gen)
         opt = _fresh_opt(head, lr)
         self._train_epochs(head, opt, xtr, ytr, xva, yva, int(e.epochs))
@@ -182,8 +136,6 @@ class B8(Experiment):
         param_grown, param_fixed_final, param_fixed_init = [], [], []
         for s in seeds:
             seed_everything(s)
-            # a multi-class stream with a modest separation so the small (w_init) shell is genuinely
-            # capacity-starved and growing has room to help IF the process (not just the size) matters.
             task = make_task_stream(
                 n_tasks=1,
                 dim=dim,
@@ -194,8 +146,6 @@ class B8(Experiment):
             )[0]
             xtr, ytr, xva, yva = _split(task.x, task.y)
 
-            # one shared generator per seed drives every arm's fresh-unit init, so growth randomness is
-            # controlled and reproducible. All three arms see the SAME data split and epoch budget.
             g_grown = torch.Generator().manual_seed(s + 101)
             ga, ev, gw, ghead = self._run_grown(xtr, ytr, xva, yva, dim, nc, e, g_grown, lr)
             grown_acc.append(ga)
@@ -218,18 +168,10 @@ class B8(Experiment):
         grown_vs_fixed_final = gm - ffm  # THE null-testing number (capacity held constant)
         grown_vs_fixed_init = gm - fim  # sanity: did growing do anything vs never growing
 
-        # capacity match: the grown arm and the fixed-final arm must END at the same trainable param
-        # count. Both are dim->w_final->nc heads once grown, so this holds exactly when every seed grew
-        # all the way to w_final. Report it honestly per the actual param counts.
         widths_all_final = all(w == w_final for w in grown_widths)
         capacity_matched = bool(param_grown == param_fixed_final) and widths_all_final
 
-        # the grown arm BEATS fixed-final only if it clears the seed spread. That is the only way to
-        # reject the null, since capacity is held constant.
         growth_helps = capacity_matched and (grown_vs_fixed_final > spread)
-        # null: growth-as-process adds nothing over just being the final size (grown ties fixed-final
-        # within seed spread), OR the capacity was not actually matched (then the delta is confounded and
-        # cannot reject the null anyway). The b2/EX4 capacity-confound experience predicts this is true.
         null = bool((not capacity_matched) or (grown_vs_fixed_final <= spread))
         return {
             "grown_final_acc": round(gm, 4),
@@ -249,7 +191,5 @@ class B8(Experiment):
             "capacity_matched": capacity_matched,
             "growth_helps_over_matched_capacity": bool(growth_helps),
             "seeds": list(seeds),
-            # null: grown ties fixed-final within seed spread (process adds nothing over size), OR
-            # capacity was not matched (delta is confounded).
             "null_supported": null,
         }

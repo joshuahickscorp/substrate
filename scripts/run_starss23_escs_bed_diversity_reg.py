@@ -1,37 +1,4 @@
 #!/usr/bin/env python3
-"""E1 variant producer: run the diversity_reg gate on the cached real STARSS23 corpus and seal the proof.
-
-This is a net-new, additive entrypoint. It changes no sealed scoring logic and edits no committed file. It
-runs the ``diversity_reg`` gate variant (src/mop/beds/starss23/gate_diversity_reg.py) through the EXISTING
-sealed harness, referee, controls, and statistics on the shared feature cache, and writes the sealed
-``proof/STARSS23_ESCS_BED_diversity_reg.json`` with the same schema as the committed real artifact.
-
-What is reused unchanged (imported, never reimplemented):
-  * the frozen feature cache (load_cached_corpus): the featurizer is computed ONCE over the corpus and
-    every arm reads the cache, so this variant run is featurize-free. The FLOP ledger still charges the
-    featurizer per arm from the cached frame count, exactly as if it had been recomputed;
-  * the value-of-computation target assembly, the online-state input assembly, the causal firing pass,
-    the pooled referee scoring, the FLOP model, and the budget-point assembly (from artifact.py);
-  * the three sealed controls (rate-matched-random, always-on, best-single) and the noisy-TV channel;
-  * the matched-budget harness and the exact sign-flip statistics;
-  * the committed SESOI (0.05) and the sign-flip plan, read from the sealed preregistrations. Nothing here
-    changes the SESOI or any threshold.
-
-What differs from the committed candidate: only the gate. Its architecture, initialization, online state,
-inference path, and per-step training cost are byte-identical to the committed gate; its training loss adds
-a within-clip determinantal spacing regularizer. Its strength is selected per seed on the val rooms over a
-preregistered grid (val tuning, never a test-score read), the same way theta and the best-single threshold
-are already tuned on val.
-
-Honesty notes carried into the sealed artifact:
-  * ``diversity_reg`` is an ADDITIONAL exploratory variant beyond the sealed four-variant E1 family
-    (proof/STARSS23_ESCS_BED_VARIANTS.prereg.json). It reuses the identical sealed metric, direction, SESOI
-    0.05, controls, referee, and sign-flip plan, and only inflates the variant family, so the preregistered
-    multiplicity wall is if anything stronger. No single run can promote; the flags are hardcoded false.
-  * activation_allowed=false, scientific_promotion=false, independent_scientific_confirmation=false.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -98,19 +65,12 @@ VARIANT_ID = "diversity_reg"
 VARIANT_PRODUCER_SCHEMA = "mop-starss23-escs-diversity-reg-producer/v1"
 SPACING_WINDOW = DEFAULT_SPACING_WINDOW
 
-# Preregistered before the run: the val-selection grid of spacing-regularizer strengths. All strictly
-# positive, so the variant always applies the diagnosed-failure countermeasure; val onset-F1 at the
-# operating budget selects the strength per seed (never a test-score read). Ties keep the smaller strength.
 DIVERSITY_LAMBDA_GRID: tuple[float, ...] = (0.5, 1.0, 2.0, 4.0)
 
 DEFAULT_OUT_PATH = REPO_ROOT / "proof" / "STARSS23_ESCS_BED_diversity_reg.json"
 BASE_PREREG_PATH = REPO_ROOT / "proof" / "STARSS23_ESCS_BED.prereg.json"
 VARIANTS_PREREG_PATH = REPO_ROOT / "proof" / "STARSS23_ESCS_BED_VARIANTS.prereg.json"
 
-# Committed baseline reference at the operating budget (seed 0), from the sealed committed real null
-# proof/STARSS23_ESCS_BED.json: the trained value-of-computation gate recovered 204 distinct-onset true
-# positives against 237 for rate-matched-random. Carried for context only; the head-to-head test in this
-# run is the variant against its own per-seed rate-matched-random control.
 COMMITTED_BASELINE_TP_SEED0 = 204
 COMMITTED_RANDOM_TP_SEED0 = 237
 
@@ -122,12 +82,6 @@ def _train_variant_gate(
     config: BedConfig,
     diversity_lambda: float,
 ) -> tuple[DiversityRegGate, int]:
-    """Train one diversity_reg gate on the train rooms. Returns the gate and the train-frame count.
-
-    The training inputs and value-of-computation targets are assembled by the same reused helpers the
-    committed producer uses; ``segment_lengths`` carries the per-clip frame counts so the spacing
-    regularizer never couples two different train clips.
-    """
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -157,7 +111,6 @@ def _val_f1_at_operating_rate(
     features_by_clip: dict[str, np.ndarray],
     operating_rate: float,
 ) -> float:
-    """Score the gate's val onset-F1 at the operating firing budget. Reads only val labels, never test."""
 
     from mop.beds.starss23.referee import score_arm
 
@@ -179,12 +132,6 @@ def _select_diversity_lambda(
     config: BedConfig,
     operating_rate: float,
 ) -> tuple[float, DiversityRegGate, int, dict[str, float]]:
-    """Select the spacing strength on val onset-F1 at the operating budget, over the preregistered grid.
-
-    Val tuning only: no test-split score is read. Ties keep the smaller strength (the grid is ascending and
-    a strength replaces the incumbent only on a strictly greater val F1), the conservative choice closest to
-    the committed gate.
-    """
 
     best_lambda = DIVERSITY_LAMBDA_GRID[0]
     best_gate: DiversityRegGate | None = None
@@ -207,12 +154,6 @@ def _select_diversity_lambda(
 
 
 def _adjacency_fraction(fires_by_clip: list[list[int]]) -> tuple[float, int, int]:
-    """Fraction of fires immediately adjacent (gap of one frame) to another fire in the same clip.
-
-    Returns (adjacency_fraction, adjacent_fire_count, total_fire_count). This is the exact fire-spread
-    diagnostic the committed null flagged: clustered fires waste budget because two fires inside one collar
-    can score at most one distinct-onset true positive.
-    """
 
     adjacent = 0
     total = 0
@@ -235,7 +176,6 @@ def _run_seed_variant(
     operating_density: float,
     operating_rate: float,
 ) -> tuple[_SeedRun, dict[str, Any]]:
-    """Select the strength on val, then sweep the budget and score every arm on the fixed real test set."""
 
     from mop.beds.starss23.referee import score_arm
 
@@ -323,8 +263,6 @@ def _run_seed_variant(
         "n_noise_frames": int(noise_features.shape[0]),
     }
 
-    # Fire-spread diagnostic at the operating budget: adjacency fraction and distinct-onset true positives
-    # for the variant and its rate-matched-random control, measured identically in the same run.
     candidate_fires_by_clip = [block["fires"][ARM_CANDIDATE] for block in operating["clips"]]
     rmr_fires_by_clip = [block["fires"][ARM_RATE_MATCHED_RANDOM] for block in operating["clips"]]
     cand_adj, cand_adj_n, cand_total = _adjacency_fraction(candidate_fires_by_clip)
@@ -374,10 +312,6 @@ def build_diversity_reg_artifact(
     cache_root: str | Path = DEFAULT_CACHE_ROOT,
     config: RealBedConfig | None = None,
 ) -> tuple[dict[str, Any], int]:
-    """Run the diversity_reg variant on the cached real corpus and assemble the sealed artifact body.
-
-    Returns the byte-sealed body and the measured wall in nanoseconds (unsealed run provenance).
-    """
 
     config = config or RealBedConfig()
     bed_config = config.bed_config()
@@ -395,7 +329,6 @@ def build_diversity_reg_artifact(
         raise SystemExit("the real test split carries no onsets to score")
     operating_rate = min(bed_config.target_rates, key=lambda r: abs(r - train_density))
 
-    # The noisy-TV channel marginals are matched to the pooled real test content, as in the committed run.
     pooled_test_features = np.concatenate([features_by_clip[c.clip_id] for c in split.test], axis=0)
     target_mean = float(pooled_test_features.mean())
     target_std = float(pooled_test_features.std())
@@ -478,7 +411,6 @@ def build_diversity_reg_artifact(
     meets_bar = dominates and sign_flip.one_sided_significant and mean_delta_exceeds_sesoi
     verdict = VERDICT_MECHANICS_OK if meets_bar else VERDICT_NULL
 
-    # Fire-spread diagnostic aggregated across seeds, versus the committed baseline reference.
     mean_candidate_tp = math.fsum(d["candidate_distinct_onset_tp"] for d in variant_details) / n_runs
     mean_rmr_tp = (
         math.fsum(d["rate_matched_random_distinct_onset_tp"] for d in variant_details) / n_runs

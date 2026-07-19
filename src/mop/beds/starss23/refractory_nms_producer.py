@@ -71,8 +71,6 @@ def _variant_hypothesis() -> str:
     raise RefractoryNmsRefusal(f"variant {VARIANT_ID!r} is not in the sealed variant family")
 
 
-
-
 def _train_refractory_gate(
     seed: int,
     split_train: Any,
@@ -95,10 +93,6 @@ def _train_refractory_gate(
     gate = RefractoryNmsGate(seed=seed, window=window)
     gate.fit(x, y, epochs=epochs, learning_rate=learning_rate, ponder_lambda=ponder_lambda)
     return gate, int(x.shape[0])
-
-
-
-
 
 
 def _run_seed_variant(
@@ -286,8 +280,6 @@ def _committed_gate_reference(
         "candidate": fire_spread(candidate_pairs),
         "rate_matched_random": fire_spread(rmr_pairs),
     }
-
-
 
 
 def build_refractory_nms_artifact(

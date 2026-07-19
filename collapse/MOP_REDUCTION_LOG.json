@@ -474,6 +474,24 @@
       "proof": "sealed index covers all 170 source versions; docs gate clean; documentation regression battery 32/32 green in 20.18s; exact current surface eight files under 800 LOC",
       "accounting_note": "owned Python accounting records only the 31 added and 218 deleted gate/test LOC; documentation and generated index LOC are recorded separately and are not misreported as owned Python reduction",
       "tag": "mop-collapse-docs"
+    },
+    {
+      "region": "section18_embedded_documentation",
+      "batch": "highest_weight_python_documentation",
+      "checkpoint_status": "green",
+      "primitive": "runtime-unused docstrings and comment-only prose removed from the 150 highest-weight Python files; post-STARSS deletion whitespace normalized without statement packing",
+      "deduplicated_LOC": 0,
+      "added_LOC": 54,
+      "eliminated_LOC": 11294,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 11240,
+      "files_changed": 203,
+      "destination_api": "executable source and the eight current Markdown authorities",
+      "proof": "compile-all over src/mop, tests, and scripts in 0.82s; changed files critical-ruff clean; 776-case boundary battery completed 774 passed and 2 expected skips in 575.80s; documentation battery 32/32 green",
+      "accounting_note": "src 53 added/7360 deleted; scripts 1 added/3106 deleted; tests 0 added/828 deleted; CLI-consumed module docs, shebangs, legal headers, directives, and executable statements retained",
+      "tag": "mop-collapse-embedded-docs"
     }
   ],
   "deferred_heavy_validation": {

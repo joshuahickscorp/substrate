@@ -1,13 +1,3 @@
-"""Cache integrity tools. A latent cache is the substrate the whole shell trains on, so it
-has to be trustworthy: the meta must parse, the arrays on disk must have the shape/dtype the
-meta claims, labels must line up with the latents and stay in range, and (when a cache records
-provenance) the result tag must be honest and the content hash must still match. These read-only
-checks let `scripts/cache_tool.py` list, describe, and validate every cache under data/cache
-without touching the encoder.
-
-Nothing here writes: opening a store is read-only, and validate_cache only reads meta, provenance,
-the array headers, and three random rows.
-"""
 
 from __future__ import annotations
 
@@ -24,14 +14,12 @@ DEFAULT_ROOT = Path("data/cache")
 
 
 def _read_json(path: Path) -> dict | None:
-    """Parse a json file; None if absent, raise nothing on a missing file."""
     if not path.exists():
         return None
     return json.loads(path.read_text())
 
 
 def _meta_summary(store_dir: Path) -> dict:
-    """Best-effort one-line facts about a store dir for listings (never raises)."""
     out: dict = {"name": store_dir.name, "count": None, "dim": None, "backend": None, "result_tag": None}
     try:
         meta = LatentStore.open(store_dir).meta
@@ -48,9 +36,6 @@ def _meta_summary(store_dir: Path) -> dict:
 
 
 def list_caches(root: Path | str = DEFAULT_ROOT) -> list[dict]:
-    """Every cache under `root` (a dir is a cache if it holds a meta.json), as
-    {name, count, dim, backend, result_tag}. backend/result_tag are None when no provenance.json.
-    """
     root = Path(root)
     if not root.exists():
         return []
@@ -59,8 +44,6 @@ def list_caches(root: Path | str = DEFAULT_ROOT) -> list[dict]:
 
 
 def cache_info(store_dir: Path | str) -> dict:
-    """Full record for one cache: its meta, its provenance (or None), and a few sanity facts
-    (on-disk array shapes/dtypes, label range, content cache_id recomputed from a sample)."""
     store_dir = Path(store_dir)
     meta = _read_json(store_dir / "meta.json")
     prov = _read_json(store_dir / "provenance.json")
@@ -95,13 +78,6 @@ def cache_info(store_dir: Path | str) -> dict:
 
 
 def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]:
-    """Read-only integrity check. Returns a list of problems; empty means clean.
-
-    Checks: meta.json present and parses; latents/keys arrays exist with shape (count, *feat_shape)
-    and dtype matching meta; labels length == count and labels in [0, n_classes) when has_labels;
-    backend tag present and result_tag in RESULT_TAGS when provenance present; recomputed content
-    cache_id matches provenance cache_id; and three random rows are readable via LatentStore.open.
-    """
     store_dir = Path(store_dir)
     problems: list[str] = []
 
@@ -116,7 +92,6 @@ def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]
 
     count, feat_shape = int(meta.count), tuple(meta.feat_shape)
 
-    # latents: shape and dtype
     lat_hdr = _npy_header(_latent_path(store_dir))
     if lat_hdr is None:
         problems.append("latents.npy/features.npy missing or unreadable")
@@ -133,7 +108,6 @@ def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]
         if lat_hdr["dtype"] != meta.dtype:
             problems.append(f"latents dtype {lat_hdr['dtype']} != meta dtype {meta.dtype}")
 
-    # keys: leading dim and key_dim
     key_hdr = _npy_header(store_dir / "keys.npy")
     if key_hdr is None:
         if int(meta.key_dim) > 0:
@@ -144,7 +118,6 @@ def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]
         if len(key_hdr["shape"]) >= 2 and int(key_hdr["shape"][1]) != int(meta.key_dim):
             problems.append(f"keys dim {key_hdr['shape'][1]} != meta key_dim {meta.key_dim}")
 
-    # labels: present, length matches count, class mapping in range
     if meta.has_labels:
         label_path = (
             store_dir / "labels.npy"
@@ -163,7 +136,6 @@ def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]
             if sub.size and not np.issubdtype(sub.dtype, np.integer):
                 problems.append(f"labels dtype {sub.dtype} is not integer")
             # honest class coverage: a persisted label_map must not claim classes the cache lacks.
-            # Guards against a capped build that drops whole classes while still declaring them.
             lm = _read_json(store_dir / "label_map.json")
             if lm and sub.size:
                 declared = {int(v) for v in lm.values()}
@@ -176,7 +148,6 @@ def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]
                         f"present classes"
                     )
 
-    # provenance (optional): backend tag present, honest result tag, content hash matches
     prov = _read_json(store_dir / "provenance.json")
     if prov is not None:
         if not prov.get("encoder_backend"):
@@ -190,15 +161,12 @@ def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]
                 f"cache_id mismatch: provenance {prov.get('cache_id')!r} != recomputed {recomputed!r}"
             )
 
-    # Legacy operational validation keeps manifests optional. Citable validation requires the full
-    # manifest, form declaration, encoder receipt, and explicit referent sidecar.
     if (store_dir / DEFAULT_MANIFEST).exists():
         for problem in validate_cache_manifest(store_dir, citable=citable):
             problems.append(f"{DEFAULT_MANIFEST}: {problem}")
     elif citable:
         problems.append(f"{DEFAULT_MANIFEST}: missing for citable cache")
 
-    # three random rows must actually be readable through the public store API
     if not problems and count > 0:
         try:
             store = LatentStore.open(store_dir)
@@ -214,8 +182,6 @@ def validate_cache(store_dir: Path | str, *, citable: bool = False) -> list[str]
 
 
 def _content_cache_id(store_dir: Path, meta: dict) -> str | None:
-    """Recompute the cache_id the writer stamped: cache_id(name, count, sample), where sample is
-    the first <=4 latent rows' bytes truncated to 4096 (matches substrate.cache._write_provenance)."""
     lat = _load_npy(_latent_path(store_dir))
     if lat is None:
         return None
@@ -226,14 +192,11 @@ def _content_cache_id(store_dir: Path, meta: dict) -> str | None:
 
 
 def _latent_path(store_dir: Path) -> Path:
-    """Return the native or compatibility latent-array path."""
     native = store_dir / "latents.npy"
     return native if native.exists() else store_dir / "features.npy"
 
 
 def _npy_header(path: Path) -> dict | None:
-    """Read an .npy header (shape, dtype) without loading the array body. A memmap reads only the
-    header off disk, so .shape/.dtype are cheap and the data never enters RAM. None if unreadable."""
     arr = _load_npy(path)
     if arr is None:
         return None
@@ -241,7 +204,6 @@ def _npy_header(path: Path) -> dict | None:
 
 
 def _load_npy(path: Path) -> np.ndarray | None:
-    """Memmap-load an .npy array read-only. None if absent or unreadable."""
     if not path.exists():
         return None
     try:

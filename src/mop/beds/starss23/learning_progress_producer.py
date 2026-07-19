@@ -77,8 +77,6 @@ class LPProducerRefusal(ValueError):
     pass
 
 
-
-
 def _read_variants_prereg_digest(path: Path = DEFAULT_VARIANTS_PREREG_PATH) -> str | None:
 
     import json
@@ -173,8 +171,6 @@ def build_lp_prereg(
     }
     body["canonical_sha256"] = canonical_sha256(body)
     return body
-
-
 
 
 def _train_lp_gate(
@@ -342,7 +338,6 @@ def _run_seed_lp(
     )
 
 
-
 def _flop_model_lp(
     kind: str,
     total_frames: int,
@@ -358,8 +353,6 @@ def _flop_model_lp(
         downstream_flops_per_firing=DOWNSTREAM_FLOPS_PER_FIRING,
         candidate_train_flops=lambda: gate.training_flops(train_frames, epochs),
     )
-
-
 
 
 def build_lp_bed_artifact(

@@ -1,10 +1,3 @@
-"""Idempotent Telegram notifications for MOP Generation 1 rungs and results.
-
-The notifier reads compact supervisor status and proof JSON only. Telegram is
-operational telemetry, never evidence or promotion authority. The existing
-Hawking bot token and private chat ID are read from macOS Keychain; neither is
-written into this repository, launchd, state, or logs.
-"""
 
 from __future__ import annotations
 
@@ -40,7 +33,6 @@ ERROR_LOG = OUTPUT_ROOT / "notifier.error.log"
 PLIST = Path.home() / "Library/LaunchAgents/com.mop.generation1.telegram.plist"
 LABEL = "com.mop.generation1.telegram"
 
-# Reuse the already configured Hawking bot and private chat. Read-only here.
 TOKEN_SERVICE = "com.hawking.doctorv5.telegram.bot-token"
 CHAT_SERVICE = "com.hawking.doctorv5.telegram.chat-id"
 KEYCHAIN_ACCOUNT = "hawking"
@@ -49,25 +41,12 @@ STATE_SCHEMA = "mop-generation1-telegram-notifier-state/v1"
 MAX_JSON_BYTES = 32 * 1024 * 1024
 MAX_MESSAGE_CHARS = 4000
 POLL_SECONDS = 120
-# Rung milestones fire on progress PERCENTAGE, not a fixed rung count. A fixed count (the
-# former RUNG_NOTIFICATION_EVERY) is meaningless across programs of wildly different sizes:
-# a 100-rung step is silent-then-spammy on a 74-capsule stage (it never divides evenly, so
-# the "total is smaller than the step" escape hatch fires on every single rung instead of a
-# handful of meaningful checkpoints) and coarse on a 7,332-rung census. A percentage scales
-# correctly to any total: exactly one notification near each quartile, on any program size.
 MILESTONE_PERCENT_STEP = 25
 STALL_GRACE_SECONDS = 10 * 60
 PROCESS_IDENTITY_TOLERANCE_SECONDS = 0.01
 TERMINAL_STATES = {"complete", "failure_hold", "integrity_hold", "failed", "drained", "stopped"}
 FAILURE_STATES = {"failure_hold", "integrity_hold", "failed", "stopped"}
 
-# The successor-chain family is presented to the operator under one unified
-# "General Run" name, with the stage kept as a short suffix so the individual
-# rungs remain distinguishable. The single-process "general-run" orchestrator is
-# shown under the same "General Run" umbrella, with its current STAGE surfaced by
-# the per-stage compute program below (Horizon 1/2, Categorized Wave, Full
-# Generations). The C0/C1/C2/C3/D1 one-off experiments keep their own labels. See
-# _collect_subtask_events for the per-mechanism sub-task stream.
 PROGRAM_LABELS = {
     "generation1-c3-d1-router-redesign-screen-v1": "C3 Router Redesign",
     "generation1-c3-d1-expanded-canary-v1": "C3 Dispatch Canary",
@@ -92,9 +71,6 @@ PROGRAM_LABELS = {
     "generation1-full-generations-extension-chain-v1": "General Run: Full Gen Waiter",
 }
 
-# Wave capsule ids encode epoch + mechanism category, e.g. "w08_formation_trace".
-# Each category is mapped to the mechanisms it exercises so the sub-task blip can
-# name them for the operator when the mapping is known.
 CATEGORY_MECHANISMS = {
     "formation_trace": ("C0", "E1"),
     "communication_repair": ("V1", "M1", "K1"),
@@ -119,7 +95,7 @@ NEXT_LABELS = {
 
 
 class MOPNotifierError(RuntimeError):
-    """Notifier configuration or compact telemetry is invalid."""
+    pass
 
 
 def _now() -> str:
@@ -307,7 +283,6 @@ def _capsule_complete(row: Mapping[str, Any]) -> bool:
 
 
 def _progress_percent(complete: int, total: int) -> int | None:
-    """The whole-number completion percentage, or None if total is not positive."""
 
     if total <= 0:
         return None
@@ -315,13 +290,6 @@ def _progress_percent(complete: int, total: int) -> int | None:
 
 
 def _milestone_bucket(complete: int, total: int, *, percent: int = MILESTONE_PERCENT_STEP) -> int:
-    """Which percent-of-percent bucket (0..100//percent) `complete` falls into.
-
-    Pure and total-size-independent: bucket 0 covers [0, percent)%, bucket 1 covers
-    [percent, 2*percent)%, ..., and the final bucket is reached only at complete >= total
-    (100%). This is what makes a percentage step work identically on a 5-item program and
-    a 7,332-item program, unlike a fixed rung count.
-    """
 
     if total <= 0:
         return 0
@@ -330,7 +298,6 @@ def _milestone_bucket(complete: int, total: int, *, percent: int = MILESTONE_PER
 
 
 def _next_milestone_complete(complete: int, total: int, *, percent: int = MILESTONE_PERCENT_STEP) -> int:
-    """The smallest rung count at which the NEXT percent milestone is first reached."""
 
     if total <= 0:
         return complete
@@ -371,7 +338,6 @@ def _status_age_seconds(status: Mapping[str, Any]) -> float | None:
 
 
 def _supervisor_identity_state(identity: Any) -> str:
-    """Return alive, gone, or unknown for an exact PID/create-time identity."""
 
     if not isinstance(identity, Mapping):
         return "unknown"
@@ -412,7 +378,6 @@ def _stall_event(
     complete: int,
     total: int,
 ) -> dict[str, Any] | None:
-    """Build one stable alert only for a stale, exact, demonstrably dead supervisor."""
 
     state = str(status.get("state", "unknown"))
     identity = status.get("supervisor")
@@ -447,7 +412,6 @@ def _stall_event(
 
 
 def _adaptive_summary(status: Mapping[str, Any]) -> dict[str, Any] | None:
-    """Return a compact {workers, mode} view of the adaptive block, or None."""
 
     adaptive = status.get("adaptive_execution")
     if not isinstance(adaptive, Mapping):
@@ -456,7 +420,6 @@ def _adaptive_summary(status: Mapping[str, Any]) -> dict[str, Any] | None:
 
 
 def _capsule_finish_times(capsules: Mapping[str, Any]) -> list[dt.datetime]:
-    """Sorted UTC finish timestamps of every capsule that reports one."""
 
     times: list[dt.datetime] = []
     for row in capsules.values():
@@ -474,16 +437,6 @@ def _capsule_finish_times(capsules: Mapping[str, Any]) -> list[dt.datetime]:
 
 
 def _synthetic_adaptive(capsules: Mapping[str, Any], *, total: int, complete: int) -> dict[str, Any] | None:
-    """Best-effort operational telemetry for stages that never populate adaptive_execution.
-
-    The dynamic-worker-pool stages (horizon, categorized, full-generations) size their pool
-    per capsule batch but do not write a census-style adaptive_execution block, so the
-    Workers/ETA lines were silently blank for them. This synthesizes an equivalent view:
-    average rung duration from real capsule finish timestamps, and a LIVE sample of the
-    dynamic worker controller's current recommendation. This is display-only operational
-    telemetry (never a receipt field, never a claim about what any specific past rung
-    actually ran under) so a live sample is an honest and sufficient substitute.
-    """
 
     times = _capsule_finish_times(capsules)
     average_rung_seconds = None
@@ -500,12 +453,6 @@ def _synthetic_adaptive(capsules: Mapping[str, Any], *, total: int, complete: in
 
         sample = controller.sample_host_state()
         mode = "hawking_active" if sample.state.hawking_active else "hawking_idle"
-        # sample.recommended_workers is ramp-limited from an assumed current_workers=0 (a
-        # fresh, stateless sample has no memory of an actual running pool), so it is capped
-        # at the +1-per-tick ramp step and reads as a permanent "Workers: 1" artifact rather
-        # than the host's true capacity. Re-derive the recommendation as if the pool had
-        # already settled at its comfortable target, which is the honest steady-state number
-        # to show as operational telemetry.
         settled_state = dataclasses.replace(
             sample.state, current_workers=sample.bounds["comfortable_target"]
         )
@@ -529,7 +476,6 @@ def _synthetic_adaptive(capsules: Mapping[str, Any], *, total: int, complete: in
 def _with_effective_adaptive(
     status: Mapping[str, Any], capsules: Mapping[str, Any], *, total: int, complete: int
 ) -> Mapping[str, Any]:
-    """`status`, with a synthesized adaptive_execution injected only if it was missing."""
 
     if isinstance(status.get("adaptive_execution"), Mapping):
         return status
@@ -540,7 +486,6 @@ def _with_effective_adaptive(
 
 
 def _classify_mode(mode: Any) -> str | None:
-    """Map a raw adaptive mode string to a tracked throttle class, or None."""
 
     if not isinstance(mode, str):
         return None
@@ -557,12 +502,6 @@ def _collect_throttle_events(
     *,
     runs_root: Path = RUNS_ROOT,
 ) -> tuple[list[dict[str, Any]], dict[str, str]]:
-    """Detect hawking<->idle mode transitions per program across polls.
-
-    Returns the transition events plus the refreshed per-program mode map. The
-    first observation of any program only records its mode and never fires, so a
-    freshly primed notifier never announces a transition it did not witness.
-    """
 
     events: list[dict[str, Any]] = []
     updated: dict[str, str] = {
@@ -605,7 +544,6 @@ def _collect_throttle_events(
 
 
 def _lane_short_name(lane_id: str) -> str:
-    """Map a lane id such as "G1-E1" to its short experiment name "E1"."""
 
     return lane_id[3:] if lane_id.startswith("G1-") else lane_id
 
@@ -616,23 +554,6 @@ def _collect_subtask_events(
     *,
     runs_root: Path = RUNS_ROOT,
 ) -> tuple[list[dict[str, Any]], dict[str, str], dict[str, str]]:
-    """Emit one sub-task-completed blip per mechanism lane or wave capsule.
-
-    Two data sources are folded into a single per-mechanism stream:
-
-    * ``lane_progress`` maps a mechanics lane id (``G1-E1``) to
-      ``{"complete", "total"}``. A blip fires once when a lane first reaches
-      ``complete == total``.
-    * wave capsule ids encode ``wNN_<category>`` (``w08_construction``). A blip
-      fires once when such a capsule row first completes inside a General Run
-      wave status.
-
-    Like the throttle collector, the very first observation of any lane or
-    capsule only records its state and never fires, so a lane or capsule that was
-    already complete before this collector started is treated as history and
-    never announced. The refreshed per-key maps are returned so run_once can seal
-    them back into the notifier state.
-    """
 
     events: list[dict[str, Any]] = []
     lanes_updated: dict[str, str] = {
@@ -715,7 +636,6 @@ def collect_events(
     runs_root: Path = RUNS_ROOT,
     proof_root: Path = PROOF_ROOT,
 ) -> list[dict[str, Any]]:
-    """Return stable capsule, terminal, failure, and standalone-proof events."""
 
     events: list[dict[str, Any]] = []
     statuses: list[dict[str, Any]] = []
@@ -847,7 +767,6 @@ def _fmt(value: Any, digits: int = 4) -> str:
 
 
 def proof_summary(proof: Mapping[str, Any]) -> list[str]:
-    """Extract compact high-value metrics without trusting them as authority."""
 
     lines: list[str] = []
     grid = proof.get("grid")
@@ -965,7 +884,6 @@ def _format_duration(value: Any) -> str:
 
 
 def _worker_line(event: Mapping[str, Any]) -> str | None:
-    """Render a compact worker/throttle line from an event's adaptive block."""
 
     adaptive = event.get("adaptive")
     if not isinstance(adaptive, Mapping):
@@ -979,10 +897,6 @@ def _worker_line(event: Mapping[str, Any]) -> str | None:
     workers_text = str(workers) if has_workers else "?"
     if has_mode:
         lowered = mode.lower()
-        # "idle" must win over a bare "hawking" substring match: the real mode string used
-        # by the census (hawking_mode()) is "hawking_idle" when Hawking is NOT active and
-        # the pool is running at full speed, so checking "hawking" first would mislabel the
-        # fast, idle-host case as "Hawking active" (backwards).
         if "idle" in lowered or "opportunistic" in lowered:
             label = "idle burst"
         elif "hawking" in lowered:
@@ -994,7 +908,6 @@ def _worker_line(event: Mapping[str, Any]) -> str | None:
 
 
 def _throttle_message(event: Mapping[str, Any]) -> str:
-    """Render the one-line throttle-shift blip for a mode transition."""
 
     label = _program_label(event.get("program_id"))
     workers = event.get("workers")
@@ -1008,12 +921,6 @@ def _throttle_message(event: Mapping[str, Any]) -> str:
 
 
 def _subtask_message(event: Mapping[str, Any]) -> str:
-    """Render the one-line per-mechanism sub-task-completed blip.
-
-    Both a mechanics lane and a wave capsule are presented under the unified
-    "General Run" name, naming the experiment or capsule category so the
-    operator recovers the old "E1 done / D1 done" style.
-    """
 
     lane_short = event.get("lane_short")
     if isinstance(lane_short, str):
@@ -1110,9 +1017,6 @@ def _should_send(event: Mapping[str, Any]) -> bool:
     ):
         return False
     complete = min(max(complete, 0), total)
-    # Send only the FIRST rung whose completion crosses into a new percent bucket. This is
-    # size-independent by construction: a 5-rung program and a 7,332-rung program both get
-    # one notification near each 25% mark, never a flood and never silence.
     return _milestone_bucket(complete, total) > _milestone_bucket(complete - 1, total)
 
 
