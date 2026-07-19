@@ -308,6 +308,24 @@
       "proof": "checkpoint d873a13 periodic-Hann bytes, 64-mel and 32-mel filterbank bytes, and seven complete frontend parameter digests exact across onset, SuperFlux, count, coherence, spatial DoA, reproduced count, and DoA; exact byte hashes pinned in default tests; full STARSS-focused suite 491/491 in 160.35s under nice -n 10",
       "accounting_note": "121 replaced Python LOC are production source; 47 added Python LOC = 32 production source + 15 exact-byte tests; production source net -89, tests net +15, total owned Python net -74",
       "tag": "mop-collapse-starss23-lifecycle-13"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "domain_separated_seed_derivation",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "five private SHA-256 seed derivations collapsed onto one explicit domain-and-key authority",
+      "deduplicated_LOC": 82,
+      "added_LOC": 61,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 21,
+      "files_changed": 7,
+      "destination_api": "mop.beds.starss23.adapter.domain_seed",
+      "proof": "checkpoint 22e6772 exact uint32 seeds for onset, count, swapped-featurizer count, and DoA across seeds 0, 7, and 2**32+3; rate-matched-random positions, RndTarget matrix bytes, and pure-aleatoric bytes exact; four noisy-TV streams pinned at the shared boundary; full STARSS-focused suite 492/492 in 143.67s under nice -n 10",
+      "accounting_note": "82 replaced Python LOC are production source; 61 added Python LOC = 45 production source + 16 exact-seed tests; production source net -37, tests net +16, total owned Python net -21",
+      "tag": "mop-collapse-starss23-lifecycle-14"
     }
   ],
   "deferred_heavy_validation": {

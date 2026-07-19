@@ -30,8 +30,6 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import hashlib
-import json
 import math
 import time
 from dataclasses import dataclass
@@ -63,7 +61,7 @@ from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_ch
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter, map_clip_audio, marginal_matched_noise, native_fold_split
+from .adapter import RealStarssAdapter, domain_seed, map_clip_audio, marginal_matched_noise, native_fold_split
 from .controls import always_on_fires, at_chance, never_update_reestimates, rate_matched_random_fires
 from .doa_estimator import FLOPS_PER_REESTIMATE, FrozenDoaEstimator
 from .doa_featurizer import D_FEAT_DOA, DoaFeaturizer
@@ -180,22 +178,15 @@ def _train_gate(
 # ---------------------------------------------------------------------------
 
 
-def _noise_seed(seed: int) -> int:
-    payload = json.dumps(
-        {"seed": int(seed), "key": "mop.beds.starss23.doa.noisy_tv"},
-        ensure_ascii=True,
-        separators=(",", ":"),
-        sort_keys=True,
-    ).encode("utf-8")
-    return int.from_bytes(hashlib.sha256(b"mop-starss23-doa-noisy-tv-v1\0" + payload).digest()[:4], "big")
-
-
 def _real_noisy_tv_features(
     seed: int, n_frames: int, featurizer: DoaFeaturizer, target_mean: float, target_std: float
 ) -> np.ndarray:
     """Build the DoA bed's independently seeded aleatoric control channel."""
 
-    return marginal_matched_noise(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
+    noise_seed = domain_seed(
+        seed, "mop.beds.starss23.doa.noisy_tv", b"mop-starss23-doa-noisy-tv-v1"
+    )
+    return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------

@@ -21,8 +21,6 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
-import hashlib
-import json
 import math
 import time
 from dataclasses import dataclass
@@ -53,7 +51,7 @@ from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, ses
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import marginal_matched_noise
+from .adapter import domain_seed, marginal_matched_noise
 from .controls import (
     at_chance,
 )
@@ -135,19 +133,6 @@ class ReproCountBedConfig:
 # ---------------------------------------------------------------------------
 
 
-def _noise_seed(seed: int) -> int:
-    payload = json.dumps(
-        {"seed": int(seed), "key": "mop.beds.starss23.count_repro_featurizer_estimator.noisy_tv"},
-        ensure_ascii=True,
-        separators=(",", ":"),
-        sort_keys=True,
-    ).encode("utf-8")
-    return int.from_bytes(
-        hashlib.sha256(b"mop-starss23-count-repro-featurizer-estimator-noisy-tv-v1\0" + payload).digest()[:4],
-        "big",
-    )
-
-
 def _real_noisy_tv_features(
     seed: int,
     n_frames: int,
@@ -157,7 +142,12 @@ def _real_noisy_tv_features(
 ) -> np.ndarray:
     """Build the swapped front-end's independently seeded aleatoric control channel."""
 
-    return marginal_matched_noise(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
+    noise_seed = domain_seed(
+        seed,
+        "mop.beds.starss23.count_repro_featurizer_estimator.noisy_tv",
+        b"mop-starss23-count-repro-featurizer-estimator-noisy-tv-v1",
+    )
+    return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------

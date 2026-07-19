@@ -167,6 +167,22 @@ def test_metadata_serialization_refuses_non_integer_onset_fields() -> None:
         A.metadata_rows_from_onsets(onsets)
 
 
+def test_domain_seed_preserves_the_four_noisy_tv_streams() -> None:
+    cases = (
+        ("mop.beds.starss23.real.noisy_tv", b"mop-starss23-real-noisy-tv-v1", 481492669),
+        ("mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1", 2165001989),
+        (
+            "mop.beds.starss23.count_repro_featurizer_estimator.noisy_tv",
+            b"mop-starss23-count-repro-featurizer-estimator-noisy-tv-v1",
+            1391724852,
+        ),
+        ("mop.beds.starss23.doa.noisy_tv", b"mop-starss23-doa-noisy-tv-v1", 3650713416),
+    )
+    assert tuple(A.domain_seed(7, key, domain) for key, domain, _ in cases) == tuple(
+        expected for _, _, expected in cases
+    )
+
+
 # ---------------------------------------------------------------------------
 # The synthetic adapter protocol.
 # ---------------------------------------------------------------------------
