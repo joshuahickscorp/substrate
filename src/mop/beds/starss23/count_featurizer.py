@@ -30,6 +30,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window, mel_filterbank
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
@@ -69,9 +70,11 @@ class CountFeaturizerRefusal(ValueError):
 
 
 @dataclass(frozen=True, slots=True)
-class FrozenCountFeaturizer:
+class FrozenCountFeaturizer(FrozenFeatureProvider):
     """The frozen deterministic count front-end. Window and 32-mel filterbank are fixed DSP, not weights."""
 
+    _flops_per_frame = FLOPS_PER_FRAME_COUNT
+    _frame_count_refusal = CountFeaturizerRefusal
     sample_rate: int = 24_000
 
     @property
@@ -81,11 +84,6 @@ class FrozenCountFeaturizer:
     @property
     def filterbank(self) -> np.ndarray:
         return mel_filterbank(self.sample_rate, N_MEL, N_BINS)
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The front-end is a deterministic DSP, never a learned encoder."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest of the fixed window and filterbank bytes, proving the front-end is byte-frozen."""
@@ -103,11 +101,6 @@ class FrozenCountFeaturizer:
             "sample_rate": self.sample_rate,
         }
         return canonical_sha256(payload)
-
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise CountFeaturizerRefusal("n_frames must be a nonnegative integer")
-        return FLOPS_PER_FRAME_COUNT * n_frames
 
     def _channel_flux(self, signal: np.ndarray, n_frames: int) -> tuple[np.ndarray, np.ndarray]:
         """Positive and negative half-wave log-mel flux for one channel: each (n_frames, N_MEL) float64."""
@@ -153,8 +146,3 @@ class FrozenCountFeaturizer:
             pos_blocks.append(pos)
             neg_blocks.append(neg)
         return np.concatenate([*pos_blocks, *neg_blocks], axis=1)
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        """Digest of a feature block, used to assert byte-reproducibility of the front-end."""
-
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()

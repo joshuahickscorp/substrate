@@ -464,6 +464,31 @@ def onset_density(clips: Sequence[Clip]) -> float:
     return sum(len(clip.onsets) for clip in clips) / frames if frames > 0 else 0.0
 
 
+class ZeroParameterProvider:
+    """Shared introspection for deterministic providers with no trained parameters."""
+
+    __slots__ = ()
+
+    def n_params(self) -> int:
+        return 0
+
+
+class FrozenFeatureProvider(ZeroParameterProvider):
+    """Shared feature bytes and analytic per-frame cost introspection."""
+
+    __slots__ = ()
+    _flops_per_frame = 0
+    _frame_count_refusal: type[ValueError] = ValueError
+
+    def flops_for_frames(self, n_frames: int) -> int:
+        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
+            raise self._frame_count_refusal("n_frames must be a nonnegative integer")
+        return self._flops_per_frame * n_frames
+
+    def feature_digest(self, features: np.ndarray) -> str:
+        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()
+
+
 def domain_seed(seed: int, key: str, domain: bytes) -> int:
     """Return a uint32 seed separated by an explicit byte domain and semantic key."""
 

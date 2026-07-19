@@ -36,6 +36,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import ZeroParameterProvider
 from .doa_referee import DOA_COLD_START_AZIMUTH_DEG, DOA_COLD_START_ELEVATION_DEG
 from .featurizer_spatial_doa import ACN_W, ACN_X, ACN_Y, ACN_Z
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
@@ -64,15 +65,10 @@ class DoaEstimatorRefusal(ValueError):
 
 
 @dataclass(frozen=True, slots=True)
-class FrozenDoaEstimator:
+class FrozenDoaEstimator(ZeroParameterProvider):
     """The frozen, zero-trained-parameter wideband DoA estimator. Deterministic per host."""
 
     noise_floor: float = NOISE_FLOOR
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The estimator is a fixed DSP rule, never a learned map."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         payload = {

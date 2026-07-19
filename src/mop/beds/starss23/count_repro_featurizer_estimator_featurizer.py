@@ -49,6 +49,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import FrozenFeatureProvider
 from .featurizer import hann_window
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
@@ -135,9 +136,11 @@ def _gammatone_filterbank(sample_rate: int) -> np.ndarray:
 
 
 @dataclass(frozen=True, slots=True)
-class ReproCountFeaturizer:
+class ReproCountFeaturizer(FrozenFeatureProvider):
     """The re-authored frozen count front-end: gammatone ERB bands plus causal relative spectral flux."""
 
+    _flops_per_frame = FLOPS_PER_FRAME_COUNT
+    _frame_count_refusal = CountReproFeaturizerRefusal
     sample_rate: int = 24_000
 
     @property
@@ -147,11 +150,6 @@ class ReproCountFeaturizer:
     @property
     def filterbank(self) -> np.ndarray:
         return _gammatone_filterbank(self.sample_rate)
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The front-end is a deterministic DSP, never a learned encoder."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest of the fixed window, gammatone filterbank, and change-statistic constants."""
@@ -178,11 +176,6 @@ class ReproCountFeaturizer:
             ),
         }
         return canonical_sha256(payload)
-
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise CountReproFeaturizerRefusal("n_frames must be a nonnegative integer")
-        return FLOPS_PER_FRAME_COUNT * n_frames
 
     def _columns(self, signal: np.ndarray, n_frames: int) -> np.ndarray:
         """Return the (n_cols, WINDOW) windowed short-time columns at the frozen hop. Byte-deterministic."""
@@ -239,8 +232,3 @@ class ReproCountFeaturizer:
             pos_blocks.append(pos)
             neg_blocks.append(neg)
         return np.concatenate([*pos_blocks, *neg_blocks], axis=1)
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        """Digest of a feature block, used to assert byte-reproducibility of the front-end."""
-
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()

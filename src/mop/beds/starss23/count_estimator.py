@@ -31,6 +31,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import ZeroParameterProvider
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_ESTIMATOR_SCHEMA = "mop-starss23-count-estimator/v1"
@@ -60,16 +61,11 @@ class CountEstimatorRefusal(ValueError):
 
 
 @dataclass(frozen=True, slots=True)
-class FrozenCountEstimator:
+class FrozenCountEstimator(ZeroParameterProvider):
     """The frozen, zero-trained-parameter concurrent-source count estimator. Deterministic per host."""
 
     alpha: float = ALPHA
     noise_floor: float = NOISE_FLOOR
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The estimator is a fixed DSP rule, never a learned counter."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest sealing the fixed constants and rule string so the estimator is provably frozen."""

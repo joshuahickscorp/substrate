@@ -297,11 +297,12 @@ def main() -> int:
                 "label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, "
                 "mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated "
                 "control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP "
-                "projection, count provider binding, and onset density centralized, net 34 LOC")
+                "projection, count provider binding, and onset density centralized, net 34 LOC; frozen "
+                "provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("collapse repeated frozen-provider introspection methods while preserving "
-                                 "parameter digests, exact FLOP constants, and verifier independence")
+            it["next_action"] = ("measure common causal gate state, forward, and decision kernels while "
+                                 "preserving architecture topology and independent verifier mathematics")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -483,6 +484,16 @@ def main() -> int:
                     "producer/verifier path green, and independent verifier formulas remain local"),
         rollback_tag="mop-collapse-starss23-lifecycle-15",
         next_action="collapse repeated frozen-provider introspection methods"))
+    checklist.append(item(
+        "RED-starss23-frozen-provider-introspection", 11, "verified_reduction",
+        "Centralize STARSS23 frozen-provider introspection", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/adapter.py",
+                  "tests/unit/test_starss23_featurizer.py", "tests/unit/test_starss23_counting_bed.py"],
+        validation=("130 replaced Python LOC, 55 added, net -75; ten dataclass and slot layouts, ten "
+                    "parameter digests, seven feature digests, seven frame costs, and all refusal types "
+                    "and messages exact; full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-16",
+        next_action="measure common causal gate state, forward, and decision kernels"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -896,6 +907,21 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 4,175 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-15.")
     lines.append("- next_exact_edit: collapse repeated frozen-provider introspection methods.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 16 (current checkpoint)")
+    lines.append("")
+    lines.append("- provider authority: ten frozen estimators/frontends inherit zero-parameter introspection; "
+                 "seven frontends also share feature-byte sealing and analytic frame-cost validation.")
+    lines.append("- preservation: local parameter digests, per-frame constants, custom refusal classes, dataclass "
+                 "fields, and slot-only layouts remain exact.")
+    lines.append("- parity: ten parameter identities, seven feature digests, seven frame charges, and every "
+                 "ordinary/custom error pair match checkpoint ec5257e.")
+    lines.append("- validation: focused provider battery 175/175; full STARSS-focused suite 493/493 in 153.14s "
+                 "under nice -n 10.")
+    lines.append("- production and owned Python net reduction: 75 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 4,250 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-16.")
+    lines.append("- next_exact_edit: measure common causal gate state, forward, and decision kernels.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

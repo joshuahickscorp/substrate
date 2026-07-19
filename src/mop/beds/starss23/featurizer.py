@@ -22,6 +22,7 @@ import numpy as np
 
 from mop.substrate.events import canonical_sha256
 
+from .adapter import FrozenFeatureProvider
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 # The DSP grid. The front-end owns these; the schema owns only the label grid.
@@ -85,9 +86,10 @@ def mel_filterbank(sample_rate: int, n_mel: int = N_MEL, n_bins: int = N_BINS) -
 
 
 @dataclass(frozen=True, slots=True)
-class FrozenFeaturizer:
+class FrozenFeaturizer(FrozenFeatureProvider):
     """The frozen deterministic front-end. Deep-frozen: window and filterbank are fixed DSP, not weights."""
 
+    _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = 24_000
 
     @property
@@ -97,11 +99,6 @@ class FrozenFeaturizer:
     @property
     def filterbank(self) -> np.ndarray:
         return mel_filterbank(self.sample_rate)
-
-    def n_params(self) -> int:
-        """Zero trained parameters. The front-end is a deterministic DSP, never a learned encoder."""
-
-        return 0
 
     def parameter_digest(self) -> str:
         """Digest of the fixed window and filterbank bytes, proving the front-end is byte-frozen."""
@@ -116,11 +113,6 @@ class FrozenFeaturizer:
             "sample_rate": self.sample_rate,
         }
         return canonical_sha256(payload)
-
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise ValueError("n_frames must be a nonnegative integer")
-        return FLOPS_PER_FRAME * n_frames
 
     def _channel_flux(self, signal: np.ndarray, n_frames: int) -> np.ndarray:
         """Half-wave-rectified log-mel flux for one channel: returns (n_frames, N_MEL) float64."""
@@ -159,8 +151,3 @@ class FrozenFeaturizer:
         n_frames = n_samples // SAMPLES_PER_FRAME
         per_channel = [self._channel_flux(audio[ch], n_frames) for ch in range(N_CHANNELS)]
         return np.concatenate(per_channel, axis=1)
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        """Digest of a feature block, used to assert byte-reproducibility of the front-end."""
-
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()

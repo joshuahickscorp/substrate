@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `d5d6ec4` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `ec5257e` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 233. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 17}`.
+Total items: 234. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 18}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -134,7 +134,7 @@ Total items: 233. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
-| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | collapse repeated frozen-provider introspection methods while preserving parameter digests, exact FLOP constants, and verifier independence |
+| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | measure common causal gate state, forward, and decision kernels while preserving architecture topology and independent verifier mathematics |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
 | SEC-13 | 13 | region | pending | One campaign controller (AFTER live run terminal + PR30 closure) | build vs fixtures only while live; archive historical bytes; replay-equivalence then delete |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
@@ -269,6 +269,7 @@ Total items: 233. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | RED-starss23-frozen-spectral-primitives | 11 | verified_reduction | verified | Centralize STARSS23 frozen spectral primitives | collapse repeated noisy-TV namespace and frontend wrappers |
 | RED-starss23-domain-seeds | 11 | verified_reduction | verified | Centralize STARSS23 domain-separated seed derivation | measure remaining repeated producer FLOP models and onset-density wrappers |
 | RED-starss23-flop-provider-projection | 11 | verified_reduction | verified | Centralize STARSS23 arm FLOP projection and count provider binding | collapse repeated frozen-provider introspection methods |
+| RED-starss23-frozen-provider-introspection | 11 | verified_reduction | verified | Centralize STARSS23 frozen-provider introspection | measure common causal gate state, forward, and decision kernels |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -277,7 +278,7 @@ Total items: 233. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base d5d6ec4
+- commit: pending; base ec5257e
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -463,4 +464,15 @@ Total items: 233. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 - cumulative verified owned Python reduction: 4,175 LOC.
 - rollback_tag: mop-collapse-starss23-lifecycle-15.
 - next_exact_edit: collapse repeated frozen-provider introspection methods.
+
+### STARSS23 lifecycle cluster 16 (current checkpoint)
+
+- provider authority: ten frozen estimators/frontends inherit zero-parameter introspection; seven frontends also share feature-byte sealing and analytic frame-cost validation.
+- preservation: local parameter digests, per-frame constants, custom refusal classes, dataclass fields, and slot-only layouts remain exact.
+- parity: ten parameter identities, seven feature digests, seven frame charges, and every ordinary/custom error pair match checkpoint ec5257e.
+- validation: focused provider battery 175/175; full STARSS-focused suite 493/493 in 153.14s under nice -n 10.
+- production and owned Python net reduction: 75 LOC.
+- cumulative verified owned Python reduction: 4,250 LOC.
+- rollback_tag: mop-collapse-starss23-lifecycle-16.
+- next_exact_edit: measure common causal gate state, forward, and decision kernels.
 
