@@ -1,0 +1,88 @@
+{
+  "schema": "mop-r1-admission-result/v1",
+  "lane": "G1-R1",
+  "source_commit": "d7f752bcd422a8747cf8ed30edb36cc545bab36c",
+  "classification": "canary_null",
+  "battery_classification": "pruned_mechanism",
+  "first_failing_clause": "G_noisy_tv",
+  "clauses_passed": "7/11",
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.371,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "raw_headroom_fraction": 0.783,
+      "pass": true
+    },
+    "residual_learnable_headroom": {
+      "value": 0.648,
+      "best_simple_control_norm": 0.352,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.371,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "best_arch": "knn",
+      "mean_incr_over_simple": 0.264,
+      "lower_95_cb": -0.076,
+      "pass": false
+    },
+    "E_group_generalization": {
+      "rule": "random_effects_lower_95_cb",
+      "mean_family_effect": 0.264,
+      "between_family_sd": 0.415,
+      "lower_95_cb": -0.076,
+      "min_detectable_effect": 0.34,
+      "favorable_family_fraction": 0.8,
+      "pass": false
+    },
+    "F_architecture_independence": {
+      "capable_estimators": [
+        "knn",
+        "kernel_ridge",
+        "rff_ridge"
+      ],
+      "n_passing": 0,
+      "per_arch": {
+        "knn": -0.076,
+        "kernel_ridge": -0.349,
+        "rff_ridge": -0.261
+      },
+      "linear_baseline_incr": 0.236,
+      "pass": false
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": 0.161,
+      "pass": false
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": -0.172,
+      "mechanism_norm_mean": 0.615,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": -0.286,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.632,
+      "pass": true
+    }
+  },
+  "residual_learnable_headroom": 0.648,
+  "independent_verification": {
+    "independent_mean_effect": 0.648,
+    "producer_mean_effect": 0.632,
+    "agree": true
+  },
+  "dataset": "KMNIST",
+  "strongest_simple_control": "nearest_similarity (encoded as a decision-time feature; the battery's simple controls include it)",
+  "note": "R1 must beat nearest-similarity retrieval; the D_incremental clause is mechanism-minus-best-simple-control",
+  "evidence_class": "real-data retrieval admission canary",
+  "claim_ceiling": "only canary_positive licenses the R1+P1R factorial cluster",
+  "wall_seconds": 12.3,
+  "result_sha256": "038fa208c102c0cfc802743d7fb22c6071c96ae89e70d3c6b21d5fb2c8746f3f"
+}
