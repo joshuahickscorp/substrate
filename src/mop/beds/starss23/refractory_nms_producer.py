@@ -45,10 +45,11 @@ from mop.science.budget import (
     ARM_BEST_SINGLE,
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
+    build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import exact_sign_flip
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .artifact import (
@@ -58,8 +59,8 @@ from .artifact import (
     STAGE,
     STAGE3_REQUIREMENT_ID,
     _assemble_inputs,
-    _build_budget_points,
     _causal_fires,
+    _flop_model,
     _pooled_score,
     _SeedRun,
     _voc_targets,
@@ -70,6 +71,7 @@ from .controls import (
     at_chance,
     rate_matched_random_fires,
 )
+from .experiments import ONSET_BUDGET_POLICY
 from .feature_cache import DEFAULT_CACHE_ROOT, CachedCorpus, load_cached_corpus
 from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
 from .gate import FLOPS_PER_INFERENCE, CandidateGate, OnlineState
@@ -201,8 +203,6 @@ def _arm_spread(
         "fp": score.fp,
         "fn": score.fn,
     }
-
-
 # ---------------------------------------------------------------------------
 # Per-seed run: variant candidate plus the three controls, and a committed-gate reference.
 # ---------------------------------------------------------------------------
@@ -489,7 +489,13 @@ def build_refractory_nms_artifact(
         diagnostics.append(diagnostic)
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
 
-    budget_points = _build_budget_points(seed_runs, bed_config)
+    budget_points = build_budget_points(
+        ONSET_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="f1",
+        action_group="firings",
+        flop_model=lambda kind: _flop_model(
+            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, bed_config
+        ),
+    )
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
         budget_points,
@@ -723,14 +729,3 @@ def _assemble_spread_diagnostic(diagnostics: list[dict[str, Any]]) -> dict[str, 
         },
         "per_seed": diagnostics,
     }
-
-
-def write_variant_artifact(
-    artifact: dict[str, Any], out_path: str | Path = DEFAULT_VARIANT_ARTIFACT_PATH
-) -> Path:
-    """Write the sealed variant artifact as canonical JSON bytes so its on-disk digest is reproducible."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(artifact))
-    return path

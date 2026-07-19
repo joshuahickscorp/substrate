@@ -28,10 +28,11 @@ DEFAULT_PREREG_TIMESTAMP = "2026-07-17T00:00:00Z"
 
 
 def _run_synthetic(out_path: Path) -> int:
-    from mop.beds.starss23.artifact import BedConfig, build_bed_artifact, write_artifact
+    from mop.beds.starss23.artifact import BedConfig, build_bed_artifact
+    from mop.substrate.events import write_canonical_json
 
     bed = build_bed_artifact(BedConfig())
-    path = write_artifact(bed.artifact, out_path)
+    path = write_canonical_json(bed.artifact, out_path)
     print(f"wrote {path}")
     print(
         f"verdict={bed.verdict} "
@@ -48,12 +49,12 @@ def _run_synthetic(out_path: Path) -> int:
 
 
 def _run_real(out_path: Path, foa_root: Path, metadata_root: Path, timestamp: str) -> int:
-    from mop.beds.starss23.artifact import write_artifact
     from mop.beds.starss23.real_artifact import (
         DEFAULT_FOA_ROOT,
         DEFAULT_METADATA_ROOT,
         build_real_bed_artifact,
     )
+    from mop.substrate.events import write_canonical_json
 
     prereg_path = REPO_ROOT / "proof" / "STARSS23_ESCS_BED.prereg.json"
     bed = build_real_bed_artifact(
@@ -62,7 +63,7 @@ def _run_real(out_path: Path, foa_root: Path, metadata_root: Path, timestamp: st
         metadata_root=metadata_root or DEFAULT_METADATA_ROOT,
         prereg_path=prereg_path,
     )
-    path = write_artifact(bed.artifact, out_path)
+    path = write_canonical_json(bed.artifact, out_path)
     print(f"wrote prereg {prereg_path}")
     print(f"wrote {path}")
     print(

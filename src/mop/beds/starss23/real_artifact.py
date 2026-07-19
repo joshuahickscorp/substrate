@@ -49,6 +49,7 @@ from mop.science.budget import (
     ARM_BEST_SINGLE,
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
+    build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import exact_sign_flip
@@ -65,8 +66,8 @@ from .artifact import (
     STAGE,
     STAGE3_REQUIREMENT_ID,
     BedConfig,
-    _build_budget_points,
     _causal_fires,
+    _flop_model,
     _pooled_score,
     _SeedRun,
     _train_gate,
@@ -77,6 +78,7 @@ from .controls import (
     at_chance,
     rate_matched_random_fires,
 )
+from .experiments import ONSET_BUDGET_POLICY
 from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
 from .gate import FLOPS_PER_INFERENCE, OnlineState
 from .prereg import DEFAULT_PREREG_PATH, build_prereg, write_prereg
@@ -399,7 +401,13 @@ def build_real_bed_artifact(
         )
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
 
-    budget_points = _build_budget_points(seed_runs, bed_config)
+    budget_points = build_budget_points(
+        ONSET_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="f1",
+        action_group="firings",
+        flop_model=lambda kind: _flop_model(
+            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, bed_config
+        ),
+    )
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
         budget_points,

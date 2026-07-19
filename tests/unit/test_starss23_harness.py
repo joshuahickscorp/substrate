@@ -9,6 +9,9 @@ and no en dashes.
 
 from __future__ import annotations
 
+from dataclasses import replace
+from types import SimpleNamespace
+
 import pytest
 
 from mop.beds.starss23 import FLOP_CEILING
@@ -272,6 +275,36 @@ def test_paired_deltas_are_candidate_minus_control() -> None:
     deltas = harness.paired_deltas(_candidate(), _rate_matched_random())
     assert all(delta > 0 for delta in deltas)
     assert len(deltas) == 5
+
+
+def test_conventional_seed_projection_matches_the_direct_budget_point() -> None:
+    direct = _budget_point()
+    runs = []
+    for seed in SEEDS:
+        runs.append(SimpleNamespace(
+            seed=seed, total_frames=TOTAL_FRAMES, gate_params=GATE_PARAMS,
+            per_budget={direct.budget_id: {
+                "arm_scores": {arm.kind: {"f1": arm.result_for_seed(seed).metric_value}
+                               for arm in direct.arms()},
+                "firings": {arm.kind: arm.result_for_seed(seed).actions for arm in direct.arms()},
+            }},
+        ))
+    models = {arm.kind: arm.flop_model for arm in direct.arms()}
+    projected = harness.build_budget_points(
+        ONSET_BUDGET_POLICY, runs, score_group="arm_scores", score_field="f1",
+        action_group="firings", flop_model=models.__getitem__,
+    )
+    expected = BudgetPoint(
+        policy=direct.policy,
+        budget_id=direct.budget_id,
+        candidate=replace(direct.candidate, name=f"candidate@{direct.budget_id}"),
+        rate_matched_random=replace(
+            direct.rate_matched_random, name=f"rate_matched_random@{direct.budget_id}"
+        ),
+        always_on=replace(direct.always_on, name=f"always_on@{direct.budget_id}"),
+        reference=replace(direct.reference, name=f"best_single@{direct.budget_id}"),
+    )
+    assert projected == [expected]
 
 
 def test_candidate_strictly_dominates_rate_matched_random_when_it_wins_everywhere() -> None:

@@ -38,9 +38,9 @@ def main(argv: list[str] | None = None) -> int:
     from mop.beds.starss23.interchannel_coherence_producer import (
         DEFAULT_VARIANT_ARTIFACT_PATH,
         build_interchannel_coherence_artifact,
-        write_variant_artifact,
     )
     from mop.beds.starss23.real_artifact import DEFAULT_FOA_ROOT, DEFAULT_METADATA_ROOT
+    from mop.substrate.events import write_canonical_json
 
     out_path = Path(args.out_path) if args.out_path else REPO_ROOT / DEFAULT_VARIANT_ARTIFACT_PATH
     foa_root = Path(args.foa_root) if args.foa_root else DEFAULT_FOA_ROOT
@@ -51,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
         foa_root=foa_root,
         metadata_root=metadata_root,
     )
-    path = write_variant_artifact(bed.artifact, out_path)
+    path = write_canonical_json(bed.artifact, out_path)
 
     detail = bed.detail
     spread = detail["spread"]

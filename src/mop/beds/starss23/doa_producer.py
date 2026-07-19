@@ -46,14 +46,13 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
-    Arm,
     BudgetPoint,
     FlopModel,
-    SeedResult,
+    build_budget_points,
     run_dual_architecture,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -442,48 +441,6 @@ def _flop_model(
     )
 
 
-def _build_budget_points(
-    architecture: str, seed_runs: list[_SeedRun], config: RealDoaBedConfig
-) -> list[BudgetPoint]:
-    total_frames = seed_runs[0].total_frames
-    train_frames = seed_runs[0].train_frames
-    gate_params = seed_runs[0].gate_params
-    budget_points: list[BudgetPoint] = []
-    for budget_id in seed_runs[0].per_budget:
-        arms: dict[str, Arm] = {}
-        for kind in _ALL_KINDS:
-            seed_results = tuple(
-                SeedResult(
-                    seed=run.seed,
-                    metric_value=run.per_budget[budget_id]["arm_scores_macro"][kind]["macro_mae_deg"],
-                    actions=run.per_budget[budget_id]["reestimations"][kind],
-                )
-                for run in seed_runs
-            )
-            arms[kind] = Arm(
-                policy=DOA_BUDGET_POLICY,
-                name=f"{kind}@{architecture}@{budget_id}",
-                kind=kind,
-                architecture=architecture,
-                total_frames=total_frames,
-                params=gate_params if kind == ARM_CANDIDATE else 0,
-                flop_model=_flop_model(kind, architecture, total_frames, train_frames, config),
-                seed_results=seed_results,
-            )
-        budget_points.append(
-            BudgetPoint(
-                policy=DOA_BUDGET_POLICY,
-                budget_id=budget_id,
-                architecture=architecture,
-                candidate=arms[ARM_CANDIDATE],
-                rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
-                always_on=arms[ARM_ALWAYS_ON],
-                reference=arms[ARM_NEVER_UPDATE],
-            )
-        )
-    return budget_points
-
-
 # ---------------------------------------------------------------------------
 # Per-architecture statistical assembly: clip-level primary, 5-seed secondary, room-majority, SESOI.
 # ---------------------------------------------------------------------------
@@ -692,8 +649,18 @@ def build_real_doa_bed_artifact(
             )
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
 
-    budget_points_a = _build_budget_points(ARCH_A_ID, seed_runs_by_arch[ARCH_A_ID], config)
-    budget_points_b = _build_budget_points(ARCH_B_ID, seed_runs_by_arch[ARCH_B_ID], config)
+    def project_budget_points(architecture: str) -> list[BudgetPoint]:
+        runs = seed_runs_by_arch[architecture]
+        return build_budget_points(
+            DOA_BUDGET_POLICY, runs, score_group="arm_scores_macro", score_field="macro_mae_deg",
+            action_group="reestimations", architecture=architecture,
+            flop_model=lambda kind: _flop_model(
+                kind, architecture, runs[0].total_frames, runs[0].train_frames, config
+            ),
+        )
+
+    budget_points_a = project_budget_points(ARCH_A_ID)
+    budget_points_b = project_budget_points(ARCH_B_ID)
     nominal_wall_ns = max(
         1,
         max(point.candidate.max_lifecycle_flops() for point in (*budget_points_a, *budget_points_b)),
@@ -973,12 +940,3 @@ def build_real_doa_bed_artifact(
 
 
 DEFAULT_DOA_ARTIFACT_PATH = Path("proof/STARSS23_DOA_BED.json")
-
-
-def write_doa_artifact(artifact: dict[str, Any], out_path: str | Path = DEFAULT_DOA_ARTIFACT_PATH) -> Path:
-    """Write the sealed artifact as canonical JSON bytes so its on-disk digest is reproducible."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(artifact))
-    return path

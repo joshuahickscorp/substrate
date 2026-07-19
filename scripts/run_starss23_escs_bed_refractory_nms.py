@@ -40,8 +40,8 @@ def main(argv: list[str] | None = None) -> int:
     from mop.beds.starss23.refractory_nms_producer import (
         DEFAULT_VARIANT_ARTIFACT_PATH,
         build_refractory_nms_artifact,
-        write_variant_artifact,
     )
+    from mop.substrate.events import write_canonical_json
 
     out_path = Path(args.out_path) if args.out_path else REPO_ROOT / DEFAULT_VARIANT_ARTIFACT_PATH
     cache_root = Path(args.cache_root) if args.cache_root else DEFAULT_CACHE_ROOT
@@ -52,7 +52,7 @@ def main(argv: list[str] | None = None) -> int:
         cache_root=cache_root,
         window=window,
     )
-    path = write_variant_artifact(bed.artifact, out_path)
+    path = write_canonical_json(bed.artifact, out_path)
 
     detail = bed.detail
     spread = detail["spread"]

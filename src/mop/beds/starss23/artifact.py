@@ -37,14 +37,12 @@ from mop.science.budget import (
     ARM_BEST_SINGLE,
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
-    Arm,
-    BudgetPoint,
     FlopModel,
-    SeedResult,
+    build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, PROVISIONAL_SESOI_F1, exact_sign_flip
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import SyntheticStarssAdapter, metadata_text_from_onsets
@@ -415,44 +413,6 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: BedConf
     )
 
 
-def _build_budget_points(seed_runs: Sequence[_SeedRun], config: BedConfig) -> list[BudgetPoint]:
-    total_frames = seed_runs[0].total_frames
-    train_frames = seed_runs[0].train_frames
-    params = {ARM_CANDIDATE: seed_runs[0].gate_params}
-    budget_points: list[BudgetPoint] = []
-    for budget_id in seed_runs[0].per_budget:
-        arms: dict[str, Arm] = {}
-        for kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE):
-            seed_results = tuple(
-                SeedResult(
-                    seed=run.seed,
-                    metric_value=run.per_budget[budget_id]["arm_scores"][kind]["f1"],
-                    actions=run.per_budget[budget_id]["firings"][kind],
-                )
-                for run in seed_runs
-            )
-            arms[kind] = Arm(
-                policy=ONSET_BUDGET_POLICY,
-                name=f"{kind}@{budget_id}",
-                kind=kind,
-                total_frames=total_frames,
-                params=params.get(kind, 0),
-                flop_model=_flop_model(kind, total_frames, train_frames, config),
-                seed_results=seed_results,
-            )
-        budget_points.append(
-            BudgetPoint(
-                policy=ONSET_BUDGET_POLICY,
-                budget_id=budget_id,
-                candidate=arms[ARM_CANDIDATE],
-                rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
-                always_on=arms[ARM_ALWAYS_ON],
-                reference=arms[ARM_BEST_SINGLE],
-            )
-        )
-    return budget_points
-
-
 # ---------------------------------------------------------------------------
 # Assemble and seal the artifact.
 # ---------------------------------------------------------------------------
@@ -481,7 +441,13 @@ def build_bed_artifact(config: BedConfig | None = None) -> BedArtifact:
     seed_runs = [_run_seed(seed, config, featurizer) for seed in config.seeds]
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
 
-    budget_points = _build_budget_points(seed_runs, config)
+    budget_points = build_budget_points(
+        ONSET_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="f1",
+        action_group="firings",
+        flop_model=lambda kind: _flop_model(
+            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, config
+        ),
+    )
     # Seal a deterministic nominal wall (the binding candidate lifecycle FLOPs at a 1 GFLOP/s reference)
     # so the whole artifact is byte-reproducible. A measured wall is inherently non-reproducible, so it is
     # kept as unsealed run provenance in BedArtifact.detail; the authoritative sealed compute axes are the
@@ -628,12 +594,3 @@ def build_bed_artifact(config: BedConfig | None = None) -> BedArtifact:
 
 
 DEFAULT_ARTIFACT_PATH = Path("proof/STARSS23_ESCS_BED.json")
-
-
-def write_artifact(artifact: dict[str, Any], out_path: str | Path = DEFAULT_ARTIFACT_PATH) -> Path:
-    """Write the sealed artifact as canonical JSON bytes so its on-disk digest is reproducible."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(artifact))
-    return path

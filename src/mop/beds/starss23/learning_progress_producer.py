@@ -45,10 +45,8 @@ from mop.science.budget import (
     ARM_BEST_SINGLE,
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
-    Arm,
-    BudgetPoint,
     FlopModel,
-    SeedResult,
+    build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS, exact_sign_flip
@@ -295,7 +293,6 @@ def _run_seed_lp(
     best_single = BestSingleControl.tuned(
         [(features_by_clip[clip.clip_id], list(clip.onset_frames)) for clip in split.val]
     )
-
     per_budget: dict[str, dict[str, Any]] = {}
     for rate in config.target_rates:
         theta = float(np.quantile(val_probs, 1.0 - rate))
@@ -400,7 +397,6 @@ def _run_seed_lp(
         diagnostics=diagnostics,
     )
 
-
 # ---------------------------------------------------------------------------
 # FLOP ledger charged with the learning_progress gate's own honest cost.
 # ---------------------------------------------------------------------------
@@ -423,46 +419,6 @@ def _flop_model_lp(
         downstream_flops_per_firing=DOWNSTREAM_FLOPS_PER_FIRING,
         train_flops=train,
     )
-
-
-def _build_budget_points_lp(
-    seed_runs: list[_LPSeedRun], gate: LearningProgressGate, epochs: int
-) -> list[BudgetPoint]:
-    total_frames = seed_runs[0].total_frames
-    train_frames = seed_runs[0].train_frames
-    params = {ARM_CANDIDATE: seed_runs[0].gate_params}
-    budget_points: list[BudgetPoint] = []
-    for budget_id in seed_runs[0].per_budget:
-        arms: dict[str, Arm] = {}
-        for kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE):
-            seed_results = tuple(
-                SeedResult(
-                    seed=run.seed,
-                    metric_value=run.per_budget[budget_id]["arm_scores"][kind]["f1"],
-                    actions=run.per_budget[budget_id]["firings"][kind],
-                )
-                for run in seed_runs
-            )
-            arms[kind] = Arm(
-                policy=ONSET_BUDGET_POLICY,
-                name=f"{kind}@{budget_id}",
-                kind=kind,
-                total_frames=total_frames,
-                params=params.get(kind, 0),
-                flop_model=_flop_model_lp(kind, total_frames, train_frames, gate, epochs),
-                seed_results=seed_results,
-            )
-        budget_points.append(
-            BudgetPoint(
-                policy=ONSET_BUDGET_POLICY,
-                budget_id=budget_id,
-                candidate=arms[ARM_CANDIDATE],
-                rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
-                always_on=arms[ARM_ALWAYS_ON],
-                reference=arms[ARM_BEST_SINGLE],
-            )
-        )
-    return budget_points
 
 
 # ---------------------------------------------------------------------------
@@ -557,7 +513,13 @@ def build_lp_bed_artifact(
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
     assert reference_gate is not None
 
-    budget_points = _build_budget_points_lp(seed_runs, reference_gate, epochs)
+    budget_points = build_budget_points(
+        ONSET_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="f1",
+        action_group="firings",
+        flop_model=lambda kind: _flop_model_lp(
+            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, reference_gate, epochs
+        ),
+    )
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
         budget_points,
@@ -776,12 +738,3 @@ def build_lp_bed_artifact(
             "pooled_rate_matched_random_distinct_onset_tp": total_rmr_tp,
         },
     )
-
-
-def write_artifact(artifact: dict[str, Any], out_path: str | Path = DEFAULT_ARTIFACT_PATH) -> Path:
-    """Write the sealed learning_progress artifact as canonical JSON bytes for a stable on-disk digest."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(artifact))
-    return path

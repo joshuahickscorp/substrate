@@ -502,3 +502,11 @@ def atomic_write_bytes(path: Path, payload: bytes) -> None:
 def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
     raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
     atomic_write_bytes(path, raw)
+
+
+def write_canonical_json(payload: dict[str, Any], out_path: str | Path) -> Path:
+    """Crash-safely write canonical JSON bytes and return the resolved path object."""
+
+    path = Path(out_path)
+    atomic_write_bytes(path, canonical_bytes(payload))
+    return path
