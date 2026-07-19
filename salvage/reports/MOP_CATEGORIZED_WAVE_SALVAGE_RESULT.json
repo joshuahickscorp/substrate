@@ -1,0 +1,100 @@
+{
+  "schema": "mop-starss23-categorized-batch-wave-salvage-result/v1",
+  "program_id": "generation1-successor-categorized-batch-wave-v1",
+  "claim_scope": "recovered categorized-wave result from preserved sealed receipts; independently verified without recomputation; no activation, no promotion, no independent scientific confirmation, no Stage 3, and Full Generations did not run",
+  "parent_authority": {
+    "result": {
+      "path": "proof/GENERATION1_SUCCESSOR_HORIZON_V2.json",
+      "file_sha256": "ee822859b48ae5b2e425c018e4b03cdf171cb19a0841f30b073a629c2edd38a1"
+    },
+    "verification": {
+      "path": "proof/GENERATION1_SUCCESSOR_HORIZON_V2.verification.json",
+      "file_sha256": "acac6ec36100cd806764bb065a5e2ad43365897cb36e6b788a634fb2639d9f97"
+    },
+    "report_receipt": {
+      "path": "runs/generation1/generation1-successor-horizon-v2/report_receipt.json",
+      "file_sha256": "8d9fe26025a833fe7b72d0165ca66723bb83f7195519582ca807ea77cd0d2134"
+    }
+  },
+  "gate_seals": [
+    "acc9df224ffbacaaf532a344b10ec90a5475551f01c40a2b6090f4489a434335",
+    "565ee677c97642cf70d18e787007e6866c0d34c1212e3e0c4a80a2b8ae26ac06",
+    "74e105f56233015cd896daa45f56bd3d5bce36f862f9488bb96fe0b0f1aa9c21",
+    "e6f5be59ea8814d13870e95e025a9d1493439634263ebe2c6b1bab3addeee4f1",
+    "689abace7cd5b260c33352c4b893e5b894715ab5cb0767060799b3cc8f9671ae"
+  ],
+  "wave_classifications": [
+    "3c96e129f1cc9122644c155eb518f110d3d97179dbec4932983055b6b4cec2a3",
+    "a8cb65bc71be89852d80b9dbc5466a34c735b31d93344eaa6fb574b14b2c26a4",
+    "0b63d270353ba62563aaca609a41c0417b59dbc7b3e5f376bc4432c21fddb49f",
+    "b9b1ca81034bb71bc1fed320e0d09379f1ddf7e4a94e2b16bd887283c0d89f56",
+    "fa6d46dbf62ab71a841bf8bf129c40050c36b6410a372a013e541080907ae01e",
+    "7217adfc121556dc3bbd5acfe6d515d7603e77778d064b6e1773acfa388db739",
+    "64c85c86fab75874d5c65390149a44d60fda25f6dfaf1e3dda54f4fe3ffcd35b"
+  ],
+  "final_wave_routing": {
+    "action_simulation": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-A1",
+        "G1-S1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "communication_repair": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-V1",
+        "G1-M1",
+        "G1-K1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "construction": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-G1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "dispatch_redesign": {
+      "continue": false,
+      "eligible_lane_ids": [],
+      "pruned_lane_ids": [
+        "G1-D1"
+      ],
+      "reason": "null_safe_pruning_after_route_or_mechanics_warning"
+    },
+    "formation_trace": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-C0",
+        "G1-E1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "memory_plasticity": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-R1"
+      ],
+      "pruned_lane_ids": [
+        "G1-P1"
+      ],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    }
+  },
+  "category_capsules_verified": 42,
+  "integration": "0ad1f76b4350631c69299414a7dafcb2c6738b93693af9a813e6331564603383",
+  "integration_classification": "83a41529edaeb2f6748388c4696e9ed633f693bac165a03fbdef66430258639f",
+  "complete": true,
+  "activation_allowed": false,
+  "scientific_promotion": false,
+  "independent_scientific_confirmation": false,
+  "full_generations_ran": false,
+  "result_sha256": "de1e55459b5a12a4d92c7181da11c951097b918cb945a689bd1cb692372ec63f"
+}
