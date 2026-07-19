@@ -293,11 +293,12 @@ def main() -> int:
                 "dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, "
                 "gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread "
                 "diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg "
-                "analysis plans centralized with local family declarations retained, net 138 LOC")
+                "analysis plans centralized with local family declarations retained, net 138 LOC; family "
+                "label-fact, Bonferroni, and CLI projections centralized, net 28 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("measure remaining family structural-fact and prereg CLI lifecycle; "
-                                 "preserve source-specific label authority and family reporting")
+            it["next_action"] = ("collapse exact-clone frozen spectral primitives; preserve every "
+                                 "front-end's distinct DSP, parameter digest, and FLOP ledger")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -439,6 +440,15 @@ def main() -> int:
                     "multiplicity rationales and hypotheses preserved; full focused suite green"),
         rollback_tag="mop-collapse-starss23-lifecycle-11",
         next_action="measure remaining family structural-fact and prereg CLI lifecycle"))
+    checklist.append(item(
+        "RED-starss23-family-prereg-facts-cli", 11, "verified_reduction",
+        "Centralize STARSS23 family prereg facts, multiplicity, and CLI projections", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/prereg.py"],
+        validation=("170 replaced Python LOC, 142 added, net -28; four complete body/seal pairs and four "
+                    "CLI summary hashes exact; hand-computable split facts exact; local data sources and "
+                    "family vocabulary preserved; full focused suite green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-12",
+        next_action="collapse exact-clone frozen spectral primitives"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -795,6 +805,19 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 4,018 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-11.")
     lines.append("- next_exact_edit: measure remaining family structural-fact and prereg CLI lifecycle.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 12 (current checkpoint)")
+    lines.append("")
+    lines.append("- label facts: cache-backed and native-split prereg lanes share one label-only reduction while "
+                 "retaining their distinct source loaders and the spatial lane's public dict shape.")
+    lines.append("- reporting: family-specific Bonferroni vocabulary and precision feed one projection; four "
+                 "command-line summaries share one stable report shape.")
+    lines.append("- parity: four checkpoint 237e4b4 body/seal pairs and all four CLI summary hashes are exact.")
+    lines.append("- validation: full STARSS-focused suite 490/490 in 154.66s under nice -n 10.")
+    lines.append("- production and owned Python net reduction: 28 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 4,046 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-12.")
+    lines.append("- next_exact_edit: collapse exact-clone frozen spectral primitives.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

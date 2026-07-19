@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -103,6 +103,45 @@ class StructuralFacts:
     n_test_onsets: int
     train_onset_density: float
     n_test_frames: int
+
+    @classmethod
+    def from_corpus(cls, corpus: Any, target_rates: Sequence[float]) -> StructuralFacts:
+        """Reduce one cached corpus to label-only preregistration facts."""
+
+        train_density = corpus.train_onset_density()
+        operating_rate = min(target_rates, key=lambda rate: abs(rate - train_density))
+        return cls(
+            operating_firing_fraction=float(operating_rate),
+            n_test_clips=corpus.n_test_clips(),
+            n_test_onsets=corpus.n_test_onsets(),
+            train_onset_density=float(train_density),
+            n_test_frames=corpus.n_test_frames(),
+        )
+
+    @classmethod
+    def from_split(cls, split: Any, target_rates: Sequence[float]) -> StructuralFacts:
+        """Reduce one native clip split to label-only preregistration facts."""
+
+        train_onsets = sum(len(clip.onsets) for clip in split.train)
+        train_frames = sum(clip.n_frames for clip in split.train)
+        train_density = train_onsets / train_frames if train_frames > 0 else 0.0
+        operating_rate = min(target_rates, key=lambda rate: abs(rate - train_density))
+        return cls(
+            operating_firing_fraction=float(operating_rate),
+            n_test_clips=len(split.test),
+            n_test_onsets=sum(len(clip.onsets) for clip in split.test),
+            train_onset_density=float(train_density),
+            n_test_frames=int(sum(clip.n_frames for clip in split.test)),
+        )
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "operating_firing_fraction": self.operating_firing_fraction,
+            "n_test_clips": self.n_test_clips,
+            "n_test_onsets": self.n_test_onsets,
+            "train_onset_density": self.train_onset_density,
+            "n_test_frames": self.n_test_frames,
+        }
 
 
 def compute_cost_benefit(
@@ -249,6 +288,40 @@ def family_analysis_plan(
     }
 
 
+def bonferroni_family(
+    n_members: int,
+    min_one_sided_p: float,
+    alpha: float,
+    *,
+    family_phrase: str,
+    member_label: str,
+    n_field: str,
+    per_alpha_field: str,
+    alpha_digits: int,
+) -> dict[str, Any]:
+    """Build the shared Bonferroni wall while retaining a family's declared vocabulary."""
+
+    per_alpha = alpha / n_members
+    return {
+        n_field: n_members,
+        "correction": "Bonferroni",
+        "family_alpha": alpha,
+        per_alpha_field: round(per_alpha, 12),
+        "min_achievable_one_sided_p": round(min_one_sided_p, 12),
+        "family_significance_reachable_at_n5": bool(min_one_sided_p <= per_alpha),
+        "rationale": (
+            f"{family_phrase} scored against one fixed test split inflate the family-wise error, so each "
+            f"{member_label} is held to the Bonferroni-adjusted alpha {per_alpha:.{alpha_digits}f}. With "
+            f"five paired seeds the smallest achievable one-sided sign-flip p is {min_one_sided_p:.5f}, "
+            f"which exceeds that adjusted alpha, so no single {member_label} can clear family-wise "
+            "significance from this family alone. This is a preregistered statistical wall: a "
+            f"{member_label} "
+            "may still register a SESOI-exceeding effect for triangulation, but family-wise promotion needs "
+            "more seeds and bias-independent reproductions, never a larger claim squeezed from n equals 5"
+        ),
+    }
+
+
 def build_prereg(
     *,
     timestamp: str,
@@ -354,3 +427,27 @@ def base_prereg_digest(path: str | Path = DEFAULT_PREREG_PATH) -> str | None:
         return None
     digest = body.get("canonical_sha256")
     return str(digest) if isinstance(digest, str) else None
+
+
+def family_cli_summary(
+    body: dict[str, Any],
+    count_field: str,
+    members_field: str,
+    member_id_field: str,
+    ids_field: str,
+    multiplicity_fields: Sequence[str] = (),
+) -> dict[str, Any]:
+    """Project the stable command-line summary of a sealed family preregistration."""
+
+    multiplicity = body["multiplicity"]
+    summary = {
+        "canonical_sha256": body["canonical_sha256"],
+        "sesoi_f1": body["sesoi"]["sesoi_f1"],
+        count_field: multiplicity[count_field],
+    }
+    summary.update((field, multiplicity[field]) for field in multiplicity_fields)
+    summary["family_significance_reachable_at_n5"] = multiplicity[
+        "family_significance_reachable_at_n5"
+    ]
+    summary[ids_field] = [member[member_id_field] for member in body[members_field]]
+    return summary

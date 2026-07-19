@@ -44,7 +44,9 @@ from .prereg import (
     PREREGISTERED_SESOI_F1,
     StructuralFacts,
     base_prereg_digest,
+    bonferroni_family,
     family_analysis_plan,
+    family_cli_summary,
 )
 from .real_artifact import RealBedConfig
 
@@ -100,24 +102,11 @@ class FeaturizersPreregRefusal(ValueError):
 def _multiplicity_block(n_variants: int, min_one_sided_p: float, alpha: float) -> dict[str, Any]:
     """Bonferroni family-wise control across the featurizer family, honest about the n equals 5 floor."""
 
-    per_variant_alpha = alpha / n_variants
-    return {
-        "n_variants": n_variants,
-        "correction": "Bonferroni",
-        "family_alpha": alpha,
-        "per_variant_alpha": round(per_variant_alpha, 12),
-        "min_achievable_one_sided_p": round(min_one_sided_p, 12),
-        "family_significance_reachable_at_n5": bool(min_one_sided_p <= per_variant_alpha),
-        "rationale": (
-            "three featurizers scored against one fixed test split inflate the family-wise error, so each "
-            f"featurizer is held to the Bonferroni-adjusted alpha {per_variant_alpha:.4f}. With five "
-            f"paired seeds the smallest achievable one-sided sign-flip p is {min_one_sided_p:.5f}, which "
-            "exceeds that adjusted alpha, so no single featurizer can clear family-wise significance from "
-            "this family alone. This is a preregistered statistical wall: a featurizer may still register "
-            "a SESOI-exceeding effect for triangulation, but family-wise promotion needs more seeds and "
-            "bias-independent reproductions, never a larger claim squeezed from n equals 5"
-        ),
-    }
+    return bonferroni_family(
+        n_variants, min_one_sided_p, alpha,
+        family_phrase="three featurizers", member_label="featurizer",
+        n_field="n_variants", per_alpha_field="per_variant_alpha", alpha_digits=4,
+    )
 
 
 def build_featurizers_prereg(
@@ -219,7 +208,6 @@ def structural_facts_from_adapter(
         DEFAULT_METADATA_ROOT,
         DEFAULT_N_VAL_ROOMS,
         RealArtifactRefusal,
-        _onset_density,
     )
 
     config = RealBedConfig()
@@ -236,15 +224,7 @@ def structural_facts_from_adapter(
         refusal=RealArtifactRefusal,
         refuse_empty=False,
     )
-    train_density = _onset_density(split.train)
-    operating_rate = min(rates, key=lambda r: abs(r - train_density))
-    return StructuralFacts(
-        operating_firing_fraction=float(operating_rate),
-        n_test_clips=len(split.test),
-        n_test_onsets=sum(len(clip.onsets) for clip in split.test),
-        train_onset_density=float(train_density),
-        n_test_frames=int(sum(clip.n_frames for clip in split.test)),
-    )
+    return StructuralFacts.from_split(split, rates)
 
 
 def _main(argv: list[str] | None = None) -> int:
@@ -265,28 +245,17 @@ def _main(argv: list[str] | None = None) -> int:
     facts = structural_facts_from_adapter(foa_root=args.foa_root, metadata_root=args.metadata_root)
     body = build_featurizers_prereg(
         timestamp=args.timestamp,
-        operating_firing_fraction=facts.operating_firing_fraction,
-        n_test_clips=facts.n_test_clips,
-        n_test_onsets=facts.n_test_onsets,
-        train_onset_density=facts.train_onset_density,
-        n_test_frames=facts.n_test_frames,
+        **facts.payload(),
         base_prereg_canonical_sha256=base_prereg_digest(),
     )
     path = write_canonical_json(body, args.out)
     print(f"wrote {path}")
     print(
         json.dumps(
-            {
-                "canonical_sha256": body["canonical_sha256"],
-                "sesoi_f1": body["sesoi"]["sesoi_f1"],
-                "n_variants": body["multiplicity"]["n_variants"],
-                "per_variant_alpha": body["multiplicity"]["per_variant_alpha"],
-                "min_achievable_one_sided_p": body["multiplicity"]["min_achievable_one_sided_p"],
-                "family_significance_reachable_at_n5": body["multiplicity"][
-                    "family_significance_reachable_at_n5"
-                ],
-                "variant_ids": [v["variant_id"] for v in body["variants"]],
-            },
+            family_cli_summary(
+                body, "n_variants", "variants", "variant_id", "variant_ids",
+                ("per_variant_alpha", "min_achievable_one_sided_p"),
+            ),
             indent=2,
             sort_keys=True,
         )
