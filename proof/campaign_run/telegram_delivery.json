@@ -16,5 +16,23 @@
   "kind": "campaign frontier complete",
   "key": "summary-ea32d1d73191-24",
   "message_id": 6051
+ },
+ {
+  "delivered": true,
+  "kind": "orchestrator launched",
+  "key": "orch-launch-c6c642a54ce7",
+  "message_id": 6053
+ },
+ {
+  "delivered": true,
+  "kind": "resource mode",
+  "key": "mode-greedy-0",
+  "message_id": 6054
+ },
+ {
+  "delivered": true,
+  "kind": "orchestrator quiescent",
+  "key": "orch-quiescent-c6c642a54ce7-20",
+  "message_id": 6056
  }
 ]
