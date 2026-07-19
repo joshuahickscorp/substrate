@@ -1,0 +1,469 @@
+{
+  "schema": "mop-evidence-campaign-state/v1",
+  "mandate": "SALVAGE THE GENERAL RUN AND BUILD THE NEXT EVIDENCE CAMPAIGN",
+  "branch": "agent/mop-evidence-salvage",
+  "central_question": "does any surviving mechanism produce independently reproducible value on genuinely different data, tasks, contexts, and implementations, after charging its full computation?",
+  "hard_constraints": [
+    "do not restart the stopped General Run unchanged",
+    "do not run the retired frozen D1 design again",
+    "do not add another same-code robustness horizon",
+    "do not increase mechanism count unnecessarily; increase evidence breadth",
+    "do not rewrite historical files to appear complete",
+    "do not recompute categorized-wave capsules whose exact receipts already exist",
+    "do not promise a wall time before benchmarking; 6-10h is a hypothesis to test",
+    "run small canaries first; do not auto-authorize 14 epochs / full waves / integration"
+  ],
+  "verified_salvage_facts": {
+    "fresh_seed_robustness_epochs": 10,
+    "executed_mechanics_rungs_h1": 10739,
+    "executed_mechanics_rungs_h2": 9965,
+    "executed_mechanics_rungs_total": 20704,
+    "surviving_mechanics_lanes": [
+      "G1-A1",
+      "G1-C0",
+      "G1-E1",
+      "G1-G1",
+      "G1-K1",
+      "G1-M1",
+      "G1-R1",
+      "G1-S1",
+      "G1-V1"
+    ],
+    "pruned_lanes": [
+      "G1-D1",
+      "G1-I1",
+      "G1-P1"
+    ],
+    "d1_terminal_route": "blocked (do not rerun the retired frozen D1 design)",
+    "i1_horizon2_route": "not survived (pruned)",
+    "claim_boundary": "same-code generated mechanics robustness only; no independent scientific confirmation, no natural-task value, no activation, no promotion, no Stage 3"
+  },
+  "salvage_categories": {
+    "terminal_verified_evidence": "Horizon 1 + Horizon 2 (10 epochs, 20704 rungs, all seals verified)",
+    "partial_but_valid_receipts": 57,
+    "incomplete_capsules": [
+      "categorized_wave_verify (stuck)",
+      "categorized_wave_report (pending)",
+      "full_generations_wave (never started)"
+    ]
+  },
+  "decision_tree": [
+    "salvage categorized artifacts",
+    "repair scheduler/verification/retry/notification",
+    "P1R/U1/N1 admission and canaries",
+    "three independent-confirmation clusters",
+    "construction search over confirmed survivors only",
+    "I1 integration only if dependency closure survives"
+  ],
+  "checklist_summary": {
+    "total": 49,
+    "by_status": {
+      "complete": 3,
+      "pending": 34,
+      "partial": 2,
+      "active": 10
+    }
+  },
+  "checklist": [
+    {
+      "id": "DELIV-D1",
+      "phase": "final",
+      "title": "stopped-run forensic report",
+      "status": "complete",
+      "evidence": [
+        "salvage/reports/MOP_STOPPED_RUN_FORENSIC.json"
+      ],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D2",
+      "phase": "final",
+      "title": "salvage inventory",
+      "status": "complete",
+      "evidence": [
+        "salvage/reports/MOP_SALVAGE_INVENTORY.json"
+      ],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D3",
+      "phase": "final",
+      "title": "categorized-wave incremental verification",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D4",
+      "phase": "final",
+      "title": "runtime failure root-cause report",
+      "status": "partial",
+      "evidence": [
+        "salvage/reports/MOP_STOPPED_RUN_FORENSIC.json (root_cause_of_stop)"
+      ],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D5",
+      "phase": "final",
+      "title": "receipt-cache design and proof",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D6",
+      "phase": "final",
+      "title": "parallel scheduler benchmarks",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D7",
+      "phase": "final",
+      "title": "retry-escalation tests",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D8",
+      "phase": "final",
+      "title": "notification-stall tests",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D9",
+      "phase": "final",
+      "title": "P1R/U1/N1 admission results",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D10",
+      "phase": "final",
+      "title": "canary results",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D11",
+      "phase": "final",
+      "title": "three confirmation-cluster preregistrations",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D12",
+      "phase": "final",
+      "title": "results + independent verification per executed cluster",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D13",
+      "phase": "final",
+      "title": "construction-search decision",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D14",
+      "phase": "final",
+      "title": "I1 dependency decision",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D15",
+      "phase": "final",
+      "title": "exact resource and wall-time accounting",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D16",
+      "phase": "final",
+      "title": "exact scientific claim boundary",
+      "status": "partial",
+      "evidence": [
+        "salvage/reports/MOP_STOPPED_RUN_FORENSIC.json (claim_boundary)"
+      ],
+      "next_action": ""
+    },
+    {
+      "id": "DELIV-D17",
+      "phase": "final",
+      "title": "exact next campaign, if any",
+      "status": "pending",
+      "evidence": [],
+      "next_action": ""
+    },
+    {
+      "id": "PHASE-P1",
+      "phase": "P1",
+      "title": "forensic closure and salvage",
+      "status": "complete",
+      "evidence": [],
+      "next_action": "run closed operator-partial; horizons independently seal-verified; salvage inventory sealed"
+    },
+    {
+      "id": "PHASE-P2",
+      "phase": "P2",
+      "title": "salvage the categorized wave (incremental resumable verifier)",
+      "status": "active",
+      "evidence": [],
+      "next_action": "build receipt-caching incremental verifier; complete wave verify/report from existing 57 receipts without full-chain replay or new heavy compute"
+    },
+    {
+      "id": "PHASE-P3",
+      "phase": "P3",
+      "title": "repair the runtime architecture",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "work-conserving DAG scheduler + task-class profiles + receipt-cached verification + resumable verification + retry escalation (deferral->failure_hold->alert) + notifications"
+    },
+    {
+      "id": "PHASE-P4",
+      "phase": "P4",
+      "title": "P1R/U1/N1 admission and small canaries",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "G1-P1R redesigned stability-plasticity, G1-U1 calibrated uncertainty, G1-N1 reducible novelty; each declares null/units/controls/SESOI/multiplicity/stop/claim; apply Mechanism Admission Battery"
+    },
+    {
+      "id": "PHASE-P5",
+      "phase": "P5",
+      "title": "three independent-confirmation clusters",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "A: V1+K1+M1 (verify/repair/messaging); B: R1+P1R (memory/plasticity); C: A1+S1 (action/simulation); strongest simple controls; independent units"
+    },
+    {
+      "id": "PHASE-P6",
+      "phase": "P6",
+      "title": "increase the correct forms of breadth",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "data/implementation/context/control breadth; not more seeds on same referents+implementation"
+    },
+    {
+      "id": "PHASE-P7",
+      "phase": "P7",
+      "title": "construction (G1-G1) then I1 integration, only after confirmation",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "G1-G1 search only over confirmed survivors, cost charged; G1-I1 only if dependency closure survives"
+    },
+    {
+      "id": "CANARY-P1R",
+      "phase": "P4",
+      "title": "G1-P1R: redesigned stability-plasticity",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
+    },
+    {
+      "id": "CANARY-U1",
+      "phase": "P4",
+      "title": "G1-U1: calibrated uncertainty",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
+    },
+    {
+      "id": "CANARY-N1",
+      "phase": "P4",
+      "title": "G1-N1: reducible novelty",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
+    },
+    {
+      "id": "CLUSTER-A",
+      "phase": "P5",
+      "title": "Cluster A (V1+K1+M1): does selective verification, contradiction repair, and bounded messaging improve downstream decisions enough to justify charged computation",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "preregister null/units/controls/SESOI/multiplicity/stop/claim; run + verify"
+    },
+    {
+      "id": "CLUSTER-B",
+      "phase": "P5",
+      "title": "Cluster B (R1+P1R): can the system improve retention and future adaptation jointly, not trade one for other",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "preregister null/units/controls/SESOI/multiplicity/stop/claim; run + verify"
+    },
+    {
+      "id": "CLUSTER-C",
+      "phase": "P5",
+      "title": "Cluster C (A1+S1): does simulation improve action selection on independently sourced trajectories vs reactive and simpler predictive controls",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "preregister null/units/controls/SESOI/multiplicity/stop/claim; run + verify"
+    },
+    {
+      "id": "BATTERY-WHAT_estimator_suf",
+      "phase": "P4",
+      "title": "admission battery: WHAT estimator sufficiency",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-oracle_budget_head",
+      "phase": "P4",
+      "title": "admission battery: oracle budget headroom",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-WHEN-value_decodab",
+      "phase": "P4",
+      "title": "admission battery: WHEN-value decodability",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-value_beyond_simpl",
+      "phase": "P4",
+      "title": "admission battery: value beyond simple heuristics",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-group-disjoint_val",
+      "phase": "P4",
+      "title": "admission battery: group-disjoint validity",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-architecture_indep",
+      "phase": "P4",
+      "title": "admission battery: architecture independence",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-noisy-TV_control",
+      "phase": "P4",
+      "title": "admission battery: noisy-TV control",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-shuffled-target_co",
+      "phase": "P4",
+      "title": "admission battery: shuffled-target control",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-wrong-time_control",
+      "phase": "P4",
+      "title": "admission battery: wrong-time control",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "BATTERY-rate-matched-rando",
+      "phase": "P4",
+      "title": "admission battery: rate-matched-random control",
+      "status": "pending",
+      "evidence": [],
+      "next_action": "gate before heavy compute"
+    },
+    {
+      "id": "STOP-admission_battery_fa",
+      "phase": "stop_rules",
+      "title": "stop when: admission battery fails",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-point_estimate_wrong",
+      "phase": "stop_rules",
+      "title": "stop when: point estimate wrong direction",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-SESOI_unreachable",
+      "phase": "stop_rules",
+      "title": "stop when: SESOI unreachable",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-strongest_control_wi",
+      "phase": "stop_rules",
+      "title": "stop when: strongest control wins",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-independent_units_co",
+      "phase": "stop_rules",
+      "title": "stop when: independent units contradict seed-level result",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-architecture_depende",
+      "phase": "stop_rules",
+      "title": "stop when: architecture dependence detected",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-reproduction_fails",
+      "phase": "stop_rules",
+      "title": "stop when: reproduction fails",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-futility_boundary_cr",
+      "phase": "stop_rules",
+      "title": "stop when: futility boundary crossed",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    },
+    {
+      "id": "STOP-required_dependency_",
+      "phase": "stop_rules",
+      "title": "stop when: required dependency fails",
+      "status": "active",
+      "evidence": [],
+      "next_action": "enforce on every branch; do not continue merely because compute remains"
+    }
+  ]
+}
