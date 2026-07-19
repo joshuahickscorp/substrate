@@ -1,0 +1,13 @@
+{
+  "schema": "mop-phase4-frozen-interpretation/v1",
+  "preserved": "The Phase 4 sealed results (MOP_G1_{P1R,U1,N1}_ADMISSION_BATTERY.json, MOP_PHASE4_ADMISSION_SUMMARY.json) are preserved exactly and NOT rewritten, weakened, or relabeled.",
+  "original_results": {
+    "G1-P1R": "pruned_mechanism; failed incremental value (0.018 < SESOI 0.05)",
+    "G1-U1": "insufficient_independent_units; strong average (0.122) but failed the sealed all-groups rule (min-regime 0.048 < 0.05)",
+    "G1-N1": "architecture_dependent; strong group-disjoint effect captured by KNN but not the linear implementation"
+  },
+  "claim_boundary": "These reject or defer the EXACT tested generic learned-allocation proxy on its exact synthetic bed. They do NOT establish that the broader scientific mechanisms (stability-plasticity, calibrated uncertainty, reducible novelty) are impossible or valueless.",
+  "phase4b_reason": "Phase 4 had three construct-validity weaknesses: (1) the sole non-KNN architecture was a deliberately lower-capacity linear model, so failing it is evidence of nonlinearity, not architecture dependence; (2) 3 generator families is underpowered for a group-generalization conclusion; (3) an all-groups 0.05 cliff is arbitrary. Phase 4B repairs these under NEW append-only authorities without altering the old thresholds or files.",
+  "rule": "Do not rerun the same authority with altered thresholds. All repaired tests use new append-only authorities. SESOI stays 0.05.",
+  "frozen_sha256": "c479f9bb95342c522147f3e78044ab01db06099d7f81a0b48fdf86c3f28dce36"
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "mop-phase4b-battery-calibration/v1",
+  "positive_control": "admitted",
+  "null_bed": "pruned_mechanism",
+  "oracle_free_bed": "invalid_bed",
+  "calibration_passed": true,
+  "meaning": "the battery passes a known-good mechanism and rejects null and oracle-free beds, so it is trustworthy to prune scientific lanes",
+  "calibration_sha256": "f08038921dcd504f15f170a0012d09b83941e695b82577f333f44c97a052e299"
+}

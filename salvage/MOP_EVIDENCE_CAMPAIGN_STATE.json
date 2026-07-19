@@ -58,9 +58,10 @@
   "checklist_summary": {
     "total": 49,
     "by_status": {
-      "complete": 21,
+      "complete": 18,
       "pending": 15,
       "partial": 1,
+      "admitted_pending_real_data_canary": 3,
       "blocked": 3,
       "active": 9
     }
@@ -270,7 +271,7 @@
       "id": "CANARY-P1R",
       "phase": "P4",
       "title": "G1-P1R: redesigned stability-plasticity",
-      "status": "complete",
+      "status": "admitted_pending_real_data_canary",
       "evidence": [],
       "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
     },
@@ -278,7 +279,7 @@
       "id": "CANARY-U1",
       "phase": "P4",
       "title": "G1-U1: calibrated uncertainty",
-      "status": "complete",
+      "status": "admitted_pending_real_data_canary",
       "evidence": [],
       "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
     },
@@ -286,7 +287,7 @@
       "id": "CANARY-N1",
       "phase": "P4",
       "title": "G1-N1: reducible novelty",
-      "status": "complete",
+      "status": "admitted_pending_real_data_canary",
       "evidence": [],
       "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
     },
