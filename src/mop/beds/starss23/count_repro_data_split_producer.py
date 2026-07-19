@@ -27,7 +27,6 @@ from __future__ import annotations
 
 import math
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -36,8 +35,8 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -47,7 +46,7 @@ from mop.science.budget import (
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
-from mop.substrate.events import canonical_sha256
+from mop.substrate.events import write_canonical_json
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -63,7 +62,6 @@ from .count_producer import (
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
     STAGE,
-    STAGE3_REQUIREMENT_ID,
     CountProducerRefusal,
     RealCountBedConfig,
     _estimate_all,
@@ -77,7 +75,6 @@ from .count_repro_data_split_prereg import (
     DEFAULT_REPRO_PREREG_PATH,
     REPRO_AXIS,
     build_data_split_prereg,
-    write_data_split_prereg,
 )
 from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
 from .schema import Clip
@@ -154,20 +151,6 @@ def _swapped_fold_split(
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class DataSplitReproArtifact:
-    """The assembled sealed data-split reproduction artifact plus the mechanics-only receipt and detail."""
-
-    artifact: dict[str, Any]
-    prereg: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_data_split_repro_artifact(
     *,
     timestamp: str,
@@ -175,7 +158,7 @@ def build_data_split_repro_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_REPRO_PREREG_PATH,
-) -> DataSplitReproArtifact:
+) -> ArtifactResult:
     """Run the whole counting bed on the real subset with the fold split swapped, and seal the artifact.
 
     The preregistration is written to disk before any test score is computed. ``timestamp`` is passed by
@@ -219,7 +202,7 @@ def build_data_split_repro_artifact(
         train_change_density=train_density,
         coast_from_zero_mae=test_coast_from_zero,
     )
-    prereg_written = write_data_split_prereg(prereg, prereg_path)
+    prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_mae = float(prereg["sesoi"]["sesoi_mae"])
 
     # 2. Now run the paired seeds and score the swapped test split. The per-seed run, noisy-TV channel, and
@@ -340,13 +323,10 @@ def build_data_split_repro_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=COUNT_BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "real",
@@ -446,12 +426,10 @@ def build_data_split_repro_artifact(
             "provisional": False,
             "written_before_test_scores": True,
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return DataSplitReproArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         prereg=prereg,
         verdict=verdict,
         detail={

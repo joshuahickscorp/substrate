@@ -37,7 +37,7 @@ from pathlib import Path
 from typing import Any
 
 from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256, write_canonical_json
 
 from . import BED_ID, CLAIM_SCOPE
 from .prereg import (
@@ -234,17 +234,6 @@ def build_variants_prereg(
     return body
 
 
-def write_variants_prereg(
-    body: dict[str, Any], out_path: str | Path = DEFAULT_VARIANTS_PREREG_PATH
-) -> Path:
-    """Write the self-sealed variant preregistration as canonical JSON bytes for a stable on-disk digest."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(body))
-    return path
-
-
 @dataclass(frozen=True, slots=True)
 class StructuralFacts:
     """Label-only structural facts the cost-benefit SESOI needs. Never derived from a test score."""
@@ -320,7 +309,7 @@ def _main(argv: list[str] | None = None) -> int:
         n_test_frames=facts.n_test_frames,
         base_prereg_canonical_sha256=_read_base_prereg_digest(),
     )
-    path = write_variants_prereg(body, args.out)
+    path = write_canonical_json(body, args.out)
     print(f"wrote {path}")
     print(
         json.dumps(

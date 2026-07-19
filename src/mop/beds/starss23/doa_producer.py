@@ -40,7 +40,8 @@ from typing import Any
 
 import numpy as np
 
-from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL, mint_demonstration
+from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -52,7 +53,7 @@ from mop.science.budget import (
     run_dual_architecture,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
-from mop.substrate.events import canonical_sha256
+from mop.substrate.events import write_canonical_json
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -85,7 +86,6 @@ from .doa_prereg import (
     ROOM_MAJORITY_ALPHA,
     DoaClipLabelFact,
     build_doa_prereg,
-    write_doa_prereg,
 )
 from .doa_referee import (
     DOA_COLD_START,
@@ -530,18 +530,6 @@ def _architecture_stats(
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class RealDoaBedArtifact:
-    artifact: dict[str, Any]
-    prereg: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_real_doa_bed_artifact(
     *,
     timestamp: str,
@@ -549,7 +537,7 @@ def build_real_doa_bed_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealDoaBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_DOA_PREREG_PATH,
-) -> RealDoaBedArtifact:
+) -> ArtifactResult:
     """Run the whole DoA bed on the real STARSS23 subset, under BOTH architectures, and seal the artifact."""
 
     config = config or RealDoaBedConfig()
@@ -592,7 +580,7 @@ def build_real_doa_bed_artifact(
         c_train_flops_arch_a=C_TRAIN_ANCHOR_ARCH_A,
         c_train_flops_arch_b=C_TRAIN_ANCHOR_ARCH_B,
     )
-    prereg_written = write_doa_prereg(prereg, prereg_path)
+    prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_deg = float(prereg["sesoi"]["sesoi_deg"])
 
     # 2. Architecture-independent arms (always_on, never_update): computed ONCE, reused everywhere.
@@ -796,14 +784,11 @@ def build_real_doa_bed_artifact(
         "harness": report.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
     receipt_verdict = VERDICT_MECHANICS_OK if both_survive else VERDICT_NULL
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=DOA_BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=receipt_verdict,
         detail={
             "source_kind": "real",
@@ -899,12 +884,10 @@ def build_real_doa_bed_artifact(
             "written_before_test_scores": True,
         },
         "noisy_tv_at_chance_both_architectures": noisy_tv_at_chance_both,
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return RealDoaBedArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         prereg=prereg,
         verdict=bed_verdict,
         detail={

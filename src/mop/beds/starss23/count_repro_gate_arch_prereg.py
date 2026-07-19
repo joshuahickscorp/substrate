@@ -36,7 +36,7 @@ from pathlib import Path
 from typing import Any
 
 from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256
 
 from . import CLAIM_SCOPE
 from .count_estimator import FLOPS_PER_REESTIMATE
@@ -245,19 +245,6 @@ def build_count_repro_gate_arch_prereg(
     body["canonical_sha256"] = canonical_sha256(body)
     return body
 
-
 DEFAULT_COUNT_REPRO_GATE_ARCH_PREREG_PATH = Path(
     "proof/STARSS23_COUNTING_REPRO_gate_arch.prereg.json"
 )
-
-
-def write_count_repro_gate_arch_prereg(
-    body: dict[str, Any],
-    out_path: str | Path = DEFAULT_COUNT_REPRO_GATE_ARCH_PREREG_PATH,
-) -> Path:
-    """Write the self-sealed preregistration as canonical JSON bytes so its on-disk digest is stable."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(body))
-    return path

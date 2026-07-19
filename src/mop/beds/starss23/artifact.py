@@ -21,7 +21,7 @@ from __future__ import annotations
 import math
 import time
 from collections.abc import Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -30,8 +30,8 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -42,7 +42,6 @@ from mop.science.budget import (
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, PROVISIONAL_SESOI_F1, exact_sign_flip
-from mop.substrate.events import canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import SyntheticStarssAdapter, metadata_text_from_onsets
@@ -418,21 +417,7 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: BedConf
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class BedArtifact:
-    """The assembled sealed bed artifact plus the mechanics-only demonstration receipt."""
-
-    artifact: dict[str, Any]
-    receipt_payload: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any] = field(default_factory=dict)
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
-def build_bed_artifact(config: BedConfig | None = None) -> BedArtifact:
+def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
     """Run the whole bed and assemble the sealed artifact. Synthetic: capped at mechanics-ok."""
 
     config = config or BedConfig()
@@ -450,7 +435,7 @@ def build_bed_artifact(config: BedConfig | None = None) -> BedArtifact:
     )
     # Seal a deterministic nominal wall (the binding candidate lifecycle FLOPs at a 1 GFLOP/s reference)
     # so the whole artifact is byte-reproducible. A measured wall is inherently non-reproducible, so it is
-    # kept as unsealed run provenance in BedArtifact.detail; the authoritative sealed compute axes are the
+    # kept as unsealed run provenance in ArtifactResult.detail; the authoritative sealed compute axes are the
     # deterministic parameter count and FLOP ledger.
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
@@ -515,13 +500,10 @@ def build_bed_artifact(config: BedConfig | None = None) -> BedArtifact:
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "synthetic",
@@ -575,13 +557,11 @@ def build_bed_artifact(config: BedConfig | None = None) -> BedArtifact:
             "downstream_flops_per_firing": config.downstream_flops_per_firing,
             "break_even_frames_anchor": FULL_SCALE_C_TRAIN // config.downstream_flops_per_firing,
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return BedArtifact(
-        artifact=body,
-        receipt_payload=receipt.payload(),
+    return finalize_artifact(
+        body,
+        receipt_payload=receipt,
         verdict=verdict,
         detail={
             "dominates": dominates,

@@ -150,6 +150,20 @@ class SeedResult:
 
 
 @dataclass(frozen=True, slots=True)
+class BudgetSeedRun:
+    """The conventional per-seed producer record consumed by budget-point projection."""
+
+    seed: int
+    total_frames: int
+    train_frames: int
+    gate_params: int
+    per_budget: dict[str, dict[str, Any]]
+    operating_budget_id: str
+    per_seed_block: dict[str, Any]
+    noisy_tv: dict[str, Any]
+
+
+@dataclass(frozen=True, slots=True)
 class Arm:
     policy: BudgetPolicy
     name: str
@@ -658,6 +672,7 @@ __all__ = [
     "ARM_ALWAYS_ON", "ARM_BEST_SINGLE", "ARM_CANDIDATE", "ARM_NEVER_UPDATE",
     "ARM_RATE_MATCHED_RANDOM", "TRAIN_BACKWARD_MULTIPLIER", "ArchitectureReport", "Arm",
     "BreakEven", "BudgetMismatch", "BudgetPoint", "BudgetPolicy", "BudgetRefusal", "BudgetReport",
+    "BudgetSeedRun",
     "CeilingExceeded", "ComputePoint", "DualBudgetReport", "FlopModel", "SeedResult",
     "UnchargedTraining", "assert_matched_ex_training", "assert_within_ceiling", "break_even_queries",
     "build_budget_points", "featurize_run_flops", "gate_infer_run_flops", "gate_train_flops", "paired_deltas",

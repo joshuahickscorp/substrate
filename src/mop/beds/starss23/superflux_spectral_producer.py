@@ -33,7 +33,6 @@ from __future__ import annotations
 import json
 import math
 import time
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -42,8 +41,8 @@ import numpy as np
 from mop.ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
     VERDICT_NULL,
-    mint_demonstration,
 )
+from mop.science import ArtifactResult, demonstration_receipt, finalize_artifact
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
@@ -54,7 +53,6 @@ from mop.science.budget import (
     run_matched_budget,
 )
 from mop.science.statistics import exact_sign_flip
-from mop.substrate.events import canonical_sha256
 
 from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .artifact import (
@@ -62,7 +60,6 @@ from .artifact import (
     FULL_SCALE_TEST_FRAMES,
     PRIMARY_CONTROL,
     STAGE,
-    STAGE3_REQUIREMENT_ID,
     _SeedRun,
 )
 from .controls import at_chance
@@ -240,19 +237,6 @@ def _assemble_spread_diagnostic(per_seed: list[dict[str, Any]]) -> dict[str, Any
 # ---------------------------------------------------------------------------
 
 
-@dataclass(frozen=True, slots=True)
-class SuperfluxSpectralArtifact:
-    """The assembled sealed featurizer-variant artifact plus the mechanics-only detail."""
-
-    artifact: dict[str, Any]
-    verdict: str
-    detail: dict[str, Any]
-
-    @property
-    def seal(self) -> str:
-        return self.artifact["seal"]
-
-
 def build_superflux_spectral_artifact(
     *,
     timestamp: str,
@@ -260,7 +244,7 @@ def build_superflux_spectral_artifact(
     cache_root: str | Path | None = None,
     config: RealBedConfig | None = None,
     featurizers_prereg_path: str | Path = DEFAULT_FEATURIZERS_PREREG_PATH,
-) -> SuperfluxSpectralArtifact:
+) -> ArtifactResult:
     """Run the superflux_spectral featurizer on the real corpus and assemble the sealed artifact.
 
     The SuperFlux features are read from the SuperFlux feature cache (built once if absent); the SESOI and
@@ -382,13 +366,10 @@ def build_superflux_spectral_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags_block,
     }
-    evidence_digest = canonical_sha256(core_evidence)
-    receipt = mint_demonstration(
+    receipt = demonstration_receipt(
         mechanism_id=BED_ID,
-        stage=STAGE,
-        requirement_id=STAGE3_REQUIREMENT_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
-        evidence_digest=evidence_digest,
+        evidence=core_evidence,
         verdict=verdict,
         detail={
             "source_kind": "real",
@@ -491,12 +472,10 @@ def build_superflux_spectral_artifact(
             "written_before_test_scores": True,
             "rebuilt_by_this_producer": False,
         },
-        "demonstration_receipt": receipt.payload(),
+        "demonstration_receipt": receipt,
     }
-    body["seal"] = canonical_sha256(body)
-
-    return SuperfluxSpectralArtifact(
-        artifact=body,
+    return finalize_artifact(
+        body,
         verdict=verdict,
         detail={
             "beats_random": beats_random,
