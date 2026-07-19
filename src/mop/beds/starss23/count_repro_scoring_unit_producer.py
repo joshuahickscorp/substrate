@@ -74,7 +74,6 @@ from .count_producer import (
     FULL_SCALE_FEATURIZE,
     CountProducerRefusal,
     RealCountBedConfig,
-    _causal_reestimates,
     _flop_model,
     _real_noisy_tv_features,
     _train_count_gate,
@@ -150,7 +149,7 @@ def _run_seed_macro(
         train_gate=lambda: _train_count_gate(
             seed, train_clips, features_by_clip, gt_by_clip, config
         ),
-        causal_reestimates=_causal_reestimates,
+        state_factory=CountOnlineState.initial,
         score_rows=_macro_count_score,
     )
 

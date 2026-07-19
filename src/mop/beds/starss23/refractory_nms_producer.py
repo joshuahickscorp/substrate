@@ -54,6 +54,7 @@ from mop.science.budget import (
     noise_control_summary,
     run_matched_budget,
 )
+from mop.science.gating import assemble_causal_inputs, causal_gate_trace
 from mop.science.statistics import exact_sign_flip, sign_flip_payload
 
 from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
@@ -61,8 +62,6 @@ from .artifact import (
     FULL_SCALE_C_TRAIN,
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
-    _assemble_inputs,
-    _causal_fires,
     _flop_model,
     _pooled_score,
     _SeedRun,
@@ -145,8 +144,8 @@ def _train_refractory_gate(
 ) -> tuple[RefractoryNmsGate, int]:
     """Train the variant gate. Byte-identical training to the committed gate; only the class differs.
 
-    Uses the committed producer's value-of-computation target assembly (``_assemble_inputs`` with the
-    label-free online-state pass and ``_voc_targets``) unchanged. ``RefractoryNmsGate`` subclasses
+    Uses the shared label-free causal input assembly and the committed ``_voc_targets`` rule unchanged.
+    ``RefractoryNmsGate`` subclasses
     ``CandidateGate`` with an identical constructor and ``fit``, so the trained weights are byte-identical
     to the committed gate at the same seed. The refractory NMS only changes the firing selection later.
     """
@@ -155,7 +154,7 @@ def _train_refractory_gate(
     targets: list[np.ndarray] = []
     for clip in split_train:
         features = features_by_clip[clip.clip_id]
-        inputs.append(_assemble_inputs(features))
+        inputs.append(assemble_causal_inputs(features, OnlineState.initial))
         targets.append(_voc_targets(clip.onset_frames, clip.n_frames, window=voc_window))
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
@@ -379,7 +378,7 @@ def _committed_gate_reference(
     targets: list[np.ndarray] = []
     for clip in split.train:
         features = features_by_clip[clip.clip_id]
-        inputs.append(_assemble_inputs(features))
+        inputs.append(assemble_causal_inputs(features, OnlineState.initial))
         targets.append(_voc_targets(clip.onset_frames, clip.n_frames, window=config.voc_window))
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
@@ -393,7 +392,8 @@ def _committed_gate_reference(
     )
 
     val_probs = np.concatenate(
-        [_causal_fires(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in split.val]
+        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, OnlineState.initial)[1]
+         for clip in split.val]
     )
     rates = {rate: float(np.quantile(val_probs, 1.0 - rate)) for rate in config.target_rates}
     operating_rate = min(rates, key=lambda r: abs(r - operating_density))
@@ -403,7 +403,9 @@ def _committed_gate_reference(
     rmr_pairs: list[tuple[list[int], list[int]]] = []
     for clip in split.test:
         gt = list(clip.onset_frames)
-        candidate_fires, _ = _causal_fires(gate, features_by_clip[clip.clip_id], theta)
+        candidate_fires, _ = causal_gate_trace(
+            gate, features_by_clip[clip.clip_id], theta, OnlineState.initial
+        )
         rmr_fires = rate_matched_random_fires(
             candidate_fires, clip.n_frames, seed=seed, clip_id=clip.clip_id
         )

@@ -57,11 +57,12 @@ from mop.science.budget import (
     noise_control_summary,
     run_matched_budget,
 )
+from mop.science.gating import assemble_causal_inputs, causal_gate_trace
 from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter, map_clip_audio, native_fold_split
+from .adapter import RealStarssAdapter, map_clip_audio, marginal_matched_noise, native_fold_split
 from .controls import (
     always_on_fires,
     at_chance,
@@ -85,7 +86,7 @@ from .count_prereg import (
 from .count_referee import COLD_START, score_arm
 from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA, training_flops
-from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
+from .schema import Clip
 
 COUNT_PRODUCER_SCHEMA = "mop-starss23-count-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed/v1"
@@ -136,44 +137,6 @@ class RealCountBedConfig:
             raise CountProducerRefusal("at least one re-estimation budget target rate is required")
 
 
-# ---------------------------------------------------------------------------
-# Label-free online-state assembly and causal re-estimation passes.
-# ---------------------------------------------------------------------------
-
-
-def _assemble_inputs(features: np.ndarray) -> np.ndarray:
-    """Assemble (n_frames, D_IN) gate inputs with a label-free causal online-state pass.
-
-    The online state is advanced with no re-estimation (self-derived running statistics only), so no label
-    ever enters the assembled training inputs. The discriminative signal lives in the 256 features.
-    """
-
-    state = CountOnlineState.initial()
-    rows: list[np.ndarray] = []
-    for frame in range(features.shape[0]):
-        rows.append(np.concatenate([features[frame], state.to_vector()]))
-        state = state.update(features[frame], 0.0, False)
-    return np.asarray(rows, dtype=np.float64)
-
-
-def _causal_reestimates(
-    gate: CountGate, features: np.ndarray, theta: float
-) -> tuple[list[int], np.ndarray]:
-    """Run the gate causally over a clip: return (reestimate_frames, p_trace) at threshold theta."""
-
-    state = CountOnlineState.initial()
-    reestimates: list[int] = []
-    probs = np.empty(features.shape[0], dtype=np.float64)
-    for frame in range(features.shape[0]):
-        p = gate.infer(features[frame], state)
-        probs[frame] = p
-        did = p >= theta
-        if did:
-            reestimates.append(frame)
-        state = state.update(features[frame], p, did)
-    return reestimates, probs
-
-
 def _train_count_gate(
     seed: int,
     train_clips: tuple[Clip, ...],
@@ -187,7 +150,7 @@ def _train_count_gate(
     targets: list[np.ndarray] = []
     for clip in train_clips:
         features = features_by_clip[clip.clip_id]
-        inputs.append(_assemble_inputs(features))
+        inputs.append(assemble_causal_inputs(features, CountOnlineState.initial))
         targets.append(voc_targets_from_count_track(gt_by_clip[clip.clip_id], window=config.voc_window))
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
@@ -214,25 +177,6 @@ def _noise_seed(seed: int) -> int:
     return int.from_bytes(hashlib.sha256(b"mop-starss23-count-noisy-tv-v1\0" + payload).digest()[:4], "big")
 
 
-def _matched_noise_features(
-    noise_seed: int,
-    n_frames: int,
-    featurizer: Any,
-    target_mean: float,
-    target_std: float,
-) -> np.ndarray:
-    """Featurize deterministic white noise and match it to the test feature marginals."""
-
-    rng = np.random.default_rng(noise_seed)
-    audio = rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
-    features = featurizer.featurize(audio)
-    mean = float(features.mean())
-    std = float(features.std())
-    if std > 0.0:
-        features = (features - mean) / std * float(target_std) + float(target_mean)
-    return features
-
-
 def _real_noisy_tv_features(
     seed: int,
     n_frames: int,
@@ -242,7 +186,7 @@ def _real_noisy_tv_features(
 ) -> np.ndarray:
     """Build the sealed count bed's deterministic aleatoric control channel."""
 
-    return _matched_noise_features(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
+    return marginal_matched_noise(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------
@@ -262,7 +206,7 @@ def run_count_seed(
     target_rates: tuple[float, ...],
     operating_density: float,
     train_gate: Callable[[], tuple[Any, int]],
-    causal_reestimates: Callable[[Any, np.ndarray, float], tuple[list[int], np.ndarray]],
+    state_factory: Callable[[], Any],
     score_rows: Callable[
         [list[tuple[str, list[int], list[int], list[int]]]], dict[str, Any]
     ],
@@ -274,7 +218,8 @@ def run_count_seed(
 
     # A neutral-threshold causal pass over val gives the p distribution the budget grid is cut from.
     val_probs = np.concatenate(
-        [causal_reestimates(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in val_clips]
+        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, state_factory)[1]
+         for clip in val_clips]
     )
 
     per_budget: dict[str, dict[str, Any]] = {}
@@ -294,7 +239,7 @@ def run_count_seed(
             features = features_by_clip[clip.clip_id]
             gt = list(gt_by_clip[clip.clip_id])
             estimator = [int(v) for v in estimator_by_clip[clip.clip_id].tolist()]
-            candidate_r, _ = causal_reestimates(gate, features, theta)
+            candidate_r, _ = causal_gate_trace(gate, features, theta, state_factory)
             arm_r = {
                 ARM_CANDIDATE: candidate_r,
                 ARM_RATE_MATCHED_RANDOM: rate_matched_random_fires(
@@ -339,7 +284,7 @@ def run_count_seed(
 
     operating_theta = operating["theta"]
     base_rate = operating["reestimations"][ARM_CANDIDATE] / max(1, total_frames)
-    noise_reestimates, _ = causal_reestimates(gate, noise_features, operating_theta)
+    noise_reestimates, _ = causal_gate_trace(gate, noise_features, operating_theta, state_factory)
     noise_rate = len(noise_reestimates) / noise_features.shape[0]
     noisy_tv = {
         "reestimate_rate_on_noise": round(float(noise_rate), 12),
@@ -393,7 +338,7 @@ def _run_seed_real(
         train_gate=lambda: _train_count_gate(
             seed, train_clips, features_by_clip, gt_by_clip, config
         ),
-        causal_reestimates=_causal_reestimates,
+        state_factory=CountOnlineState.initial,
         score_rows=_micro_count_score,
     )
 

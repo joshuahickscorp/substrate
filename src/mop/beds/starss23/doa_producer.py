@@ -58,11 +58,12 @@ from mop.science.budget import (
     build_budget_points,
     run_dual_architecture,
 )
+from mop.science.gating import assemble_causal_inputs, causal_gate_trace
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter, map_clip_audio, native_fold_split
+from .adapter import RealStarssAdapter, map_clip_audio, marginal_matched_noise, native_fold_split
 from .controls import always_on_fires, at_chance, never_update_reestimates, rate_matched_random_fires
 from .doa_estimator import FLOPS_PER_REESTIMATE, FrozenDoaEstimator
 from .doa_featurizer import D_FEAT_DOA, DoaFeaturizer
@@ -102,7 +103,7 @@ from .doa_referee import (
 )
 from .experiments import DOA_BED_ID, DOA_BUDGET_POLICY
 from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA
-from .schema import N_CHANNELS, SAMPLES_PER_FRAME, Clip
+from .schema import Clip
 
 DOA_PRODUCER_SCHEMA = "mop-starss23-doa-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-doa-bed/v1"
@@ -149,39 +150,6 @@ class RealDoaBedConfig:
             raise DoaProducerRefusal("at least one re-estimation budget target rate is required")
 
 
-# ---------------------------------------------------------------------------
-# Label-free online-state assembly and causal re-estimation passes. Architecture-agnostic: either gate
-# class satisfies the same infer/update duck-typed protocol.
-# ---------------------------------------------------------------------------
-
-
-def _assemble_inputs(features: np.ndarray) -> np.ndarray:
-    """Assemble (n_frames, D_IN) gate training inputs with a label-free causal online-state pass."""
-
-    state = DoaOnlineState.initial()
-    rows: list[np.ndarray] = []
-    for frame in range(features.shape[0]):
-        rows.append(np.concatenate([features[frame], state.to_vector()]))
-        state = state.update(features[frame], 0.0, False)
-    return np.asarray(rows, dtype=np.float64)
-
-
-def _causal_reestimates(gate: Any, features: np.ndarray, theta: float) -> tuple[list[int], np.ndarray]:
-    """Run a gate causally over a clip: return (reestimate_frames, p_trace) at threshold theta."""
-
-    state = DoaOnlineState.initial()
-    reestimates: list[int] = []
-    probs = np.empty(features.shape[0], dtype=np.float64)
-    for frame in range(features.shape[0]):
-        p = gate.infer(features[frame], state)
-        probs[frame] = p
-        did = p >= theta
-        if did:
-            reestimates.append(frame)
-        state = state.update(features[frame], p, did)
-    return reestimates, probs
-
-
 def _train_gate(
     architecture: str,
     seed: int,
@@ -196,7 +164,7 @@ def _train_gate(
     targets: list[np.ndarray] = []
     for clip in train_clips:
         features = features_by_clip[clip.clip_id]
-        inputs.append(_assemble_inputs(features))
+        inputs.append(assemble_causal_inputs(features, DoaOnlineState.initial))
         targets.append(doa_voc_targets_from_track(doa_track_by_clip[clip.clip_id], window=config.voc_window))
     x = np.concatenate(inputs, axis=0)
     y = np.concatenate(targets, axis=0)
@@ -225,16 +193,9 @@ def _noise_seed(seed: int) -> int:
 def _real_noisy_tv_features(
     seed: int, n_frames: int, featurizer: DoaFeaturizer, target_mean: float, target_std: float
 ) -> np.ndarray:
-    """Pure-aleatoric channel: 4-channel white-noise audio featurized, affine-matched to test marginals."""
+    """Build the DoA bed's independently seeded aleatoric control channel."""
 
-    rng = np.random.default_rng(_noise_seed(seed))
-    audio = rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
-    features = featurizer.featurize(audio)
-    mean = float(features.mean())
-    std = float(features.std())
-    if std > 0.0:
-        features = (features - mean) / std * float(target_std) + float(target_mean)
-    return features
+    return marginal_matched_noise(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------
@@ -300,7 +261,8 @@ def _run_seed_real(
     total_frames = int(sum(clip.n_frames for clip in test_clips))
 
     val_probs = np.concatenate(
-        [_causal_reestimates(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in val_clips]
+        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, DoaOnlineState.initial)[1]
+         for clip in val_clips]
     )
 
     per_budget: dict[str, dict[str, Any]] = {}
@@ -316,7 +278,9 @@ def _run_seed_real(
             features = features_by_clip[clip.clip_id]
             active_mask, gt_directions = arrays_by_clip[clip.clip_id]
             estimator_track = estimator_by_clip[clip.clip_id]
-            candidate_r, _ = _causal_reestimates(gate, features, theta)
+            candidate_r, _ = causal_gate_trace(
+                gate, features, theta, DoaOnlineState.initial
+            )
             rmr_r = rate_matched_random_fires(candidate_r, clip.n_frames, seed=seed, clip_id=clip.clip_id)
             candidate_tuples.append(
                 (clip.clip_id, gt_directions, estimator_track, list(candidate_r), active_mask)
@@ -357,7 +321,9 @@ def _run_seed_real(
     operating = per_budget[operating_budget_id]
     operating_theta = operating["theta"]
     base_rate = operating["reestimations"][ARM_CANDIDATE] / max(1, total_frames)
-    noise_reestimates, _ = _causal_reestimates(gate, noise_features, operating_theta)
+    noise_reestimates, _ = causal_gate_trace(
+        gate, noise_features, operating_theta, DoaOnlineState.initial
+    )
     noise_rate = len(noise_reestimates) / noise_features.shape[0]
     noisy_tv = {
         "reestimate_rate_on_noise": round(float(noise_rate), 12),

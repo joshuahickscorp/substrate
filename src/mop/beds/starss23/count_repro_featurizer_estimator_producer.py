@@ -53,6 +53,7 @@ from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, ses
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
+from .adapter import marginal_matched_noise
 from .controls import (
     at_chance,
 )
@@ -66,8 +67,6 @@ from .count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
     CountProducerRefusal,
-    _causal_reestimates,
-    _matched_noise_features,
     _micro_count_score,
     _train_count_gate,
     run_count_seed,
@@ -158,7 +157,7 @@ def _real_noisy_tv_features(
 ) -> np.ndarray:
     """Build the swapped front-end's independently seeded aleatoric control channel."""
 
-    return _matched_noise_features(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
+    return marginal_matched_noise(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
 
 
 # ---------------------------------------------------------------------------
@@ -193,7 +192,7 @@ def _run_seed_real(
         train_gate=lambda: _train_count_gate(
             seed, train_clips, features_by_clip, gt_by_clip, config
         ),
-        causal_reestimates=_causal_reestimates,
+        state_factory=CountOnlineState.initial,
         score_rows=_micro_count_score,
     )
 

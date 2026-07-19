@@ -456,6 +456,25 @@ def map_clip_audio(
     return {clip.clip_id: transform(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
 
 
+def marginal_matched_noise(
+    noise_seed: int,
+    n_frames: int,
+    featurizer: Any,
+    target_mean: float,
+    target_std: float,
+) -> np.ndarray:
+    """Featurize deterministic STARSS-shaped white noise and match test feature marginals."""
+
+    rng = np.random.default_rng(noise_seed)
+    audio = rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
+    features = featurizer.featurize(audio)
+    mean = float(features.mean())
+    std = float(features.std())
+    if std > 0.0:
+        features = (features - mean) / std * float(target_std) + float(target_mean)
+    return features
+
+
 class SyntheticStarssAdapter:
     """Serve the frozen ``Clip`` contract from deterministic in-memory fixtures.
 

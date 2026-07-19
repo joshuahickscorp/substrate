@@ -218,6 +218,24 @@
       "proof": "checkpoint 0936cc0 onset ClipSplit payload and count/DoA tuple projections byte-identical; fold-4 remains the exact score partition; invalid validation-room counts refuse; swapped-fold reproduction remains separate; full STARSS-focused suite 486/486 in 149.91s under nice -n 10",
       "accounting_note": "245 replaced Python LOC are production source; 154 added Python LOC = 139 production source + 15 direct adapter/split tests; production source net -106, tests net +15, total owned Python net -91",
       "tag": "mop-collapse-starss23-lifecycle-8"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "causal_gate_and_noise_lifecycle",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "three causal input assemblers, four causal probability/event passes, and three marginal-matched noise implementations collapsed onto provider-neutral lifecycle functions",
+      "deduplicated_LOC": 226,
+      "added_LOC": 153,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 73,
+      "files_changed": 13,
+      "destination_api": "mop.science.gating.{assemble_causal_inputs,causal_gate_trace} + mop.beds.starss23.adapter.marginal_matched_noise",
+      "proof": "checkpoint 3b2367e byte hashes exact for onset/count/DoA input matrices, probability traces and event frames, plus all three independently seeded noise channels; count noise hash pinned in default tests; full STARSS-focused suite 487/487 in 153.43s under nice -n 10",
+      "accounting_note": "226 replaced Python LOC = 219 production source + 7 migrated tests; 153 added Python LOC = 135 production source + 18 tests; production source net -84, tests net +11, total owned Python net -73",
+      "tag": "mop-collapse-starss23-lifecycle-9"
     }
   ],
   "deferred_heavy_validation": {
