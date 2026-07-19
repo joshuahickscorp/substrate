@@ -30,8 +30,8 @@ def main(argv: list[str] | None = None) -> int:
         DEFAULT_ARTIFACT_PATH,
         DEFAULT_PREREG_PATH,
         build_lp_bed_artifact,
-        write_artifact,
     )
+    from mop.substrate.events import write_canonical_json
 
     parser = argparse.ArgumentParser(
         description="Run the STARSS23 ESCS learning_progress gate variant on the cached real corpus."
@@ -56,7 +56,7 @@ def main(argv: list[str] | None = None) -> int:
         metadata_root=args.metadata or DEFAULT_METADATA_ROOT,
         prereg_path=prereg_path,
     )
-    path = write_artifact(bed.artifact, out_path)
+    path = write_canonical_json(bed.artifact, out_path)
     print(f"wrote prereg {prereg_path}")
     print(f"wrote {path}")
     print(

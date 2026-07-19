@@ -37,14 +37,12 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
-    Arm,
-    BudgetPoint,
     FlopModel,
-    SeedResult,
+    build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .controls import (
@@ -380,46 +378,6 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: ReproCo
     )
 
 
-def _build_budget_points(
-    seed_runs: list[_ReproSeedRun], config: ReproCountBedConfig
-) -> list[BudgetPoint]:
-    total_frames = seed_runs[0].total_frames
-    train_frames = seed_runs[0].train_frames
-    gate_params = seed_runs[0].gate_params
-    budget_points: list[BudgetPoint] = []
-    for budget_id in seed_runs[0].per_budget:
-        arms: dict[str, Arm] = {}
-        for kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE):
-            seed_results = tuple(
-                SeedResult(
-                    seed=run.seed,
-                    metric_value=run.per_budget[budget_id]["arm_scores"][kind]["mae"],
-                    actions=run.per_budget[budget_id]["reestimations"][kind],
-                )
-                for run in seed_runs
-            )
-            arms[kind] = Arm(
-                policy=COUNT_BUDGET_POLICY,
-                name=f"{kind}@{budget_id}",
-                kind=kind,
-                total_frames=total_frames,
-                params=gate_params if kind == ARM_CANDIDATE else 0,
-                flop_model=_flop_model(kind, total_frames, train_frames, config),
-                seed_results=seed_results,
-            )
-        budget_points.append(
-            BudgetPoint(
-                policy=COUNT_BUDGET_POLICY,
-                budget_id=budget_id,
-                candidate=arms[ARM_CANDIDATE],
-                rate_matched_random=arms[ARM_RATE_MATCHED_RANDOM],
-                always_on=arms[ARM_ALWAYS_ON],
-                reference=arms[ARM_NEVER_UPDATE],
-            )
-        )
-    return budget_points
-
-
 # ---------------------------------------------------------------------------
 # Assemble and seal the reproduction artifact.
 # ---------------------------------------------------------------------------
@@ -520,7 +478,13 @@ def build_repro_count_bed_artifact(
         )
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
 
-    budget_points = _build_budget_points(seed_runs, config)
+    budget_points = build_budget_points(
+        COUNT_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="mae",
+        action_group="reestimations",
+        flop_model=lambda kind: _flop_model(
+            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, config
+        ),
+    )
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
         budget_points,
@@ -729,14 +693,3 @@ def build_repro_count_bed_artifact(
 
 
 DEFAULT_REPRO_ARTIFACT_PATH = Path("proof/STARSS23_COUNTING_REPRO_featurizer_estimator.json")
-
-
-def write_repro_count_artifact(
-    artifact: dict[str, Any], out_path: str | Path = DEFAULT_REPRO_ARTIFACT_PATH
-) -> Path:
-    """Write the sealed reproduction artifact as reproducible canonical JSON bytes."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(artifact))
-    return path

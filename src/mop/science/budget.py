@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from typing import Any
 
@@ -358,6 +358,47 @@ class BudgetPoint:
         ) > 0
 
 
+def build_budget_points(
+    policy: BudgetPolicy,
+    seed_runs: Sequence[Any],
+    *,
+    score_group: str,
+    score_field: str,
+    action_group: str,
+    flop_model: Callable[[str], FlopModel],
+    architecture: str | None = None,
+) -> list[BudgetPoint]:
+    """Project conventional per-seed producer records into one certified budget sweep."""
+
+    runs = list(seed_runs)
+    if not runs:
+        raise BudgetRefusal("budget-point projection needs at least one seed run")
+    first = runs[0]
+    points = []
+    for budget_id in first.per_budget:
+        arms = {}
+        for kind in policy.all_arms:
+            results = tuple(
+                SeedResult(
+                    run.seed,
+                    run.per_budget[budget_id][score_group][kind][score_field],
+                    run.per_budget[budget_id][action_group][kind],
+                )
+                for run in runs
+            )
+            arm_name = f"{kind}@{architecture}@{budget_id}" if architecture else f"{kind}@{budget_id}"
+            arms[kind] = Arm(
+                policy, arm_name, kind, first.total_frames,
+                first.gate_params if kind == ARM_CANDIDATE else 0,
+                flop_model(kind), results, architecture,
+            )
+        points.append(BudgetPoint(
+            policy, budget_id, arms[ARM_CANDIDATE], arms[ARM_RATE_MATCHED_RANDOM],
+            arms[ARM_ALWAYS_ON], arms[policy.reference_kind], architecture,
+        ))
+    return points
+
+
 @dataclass(frozen=True, slots=True)
 class ComputePoint:
     policy: BudgetPolicy
@@ -619,7 +660,7 @@ __all__ = [
     "BreakEven", "BudgetMismatch", "BudgetPoint", "BudgetPolicy", "BudgetRefusal", "BudgetReport",
     "CeilingExceeded", "ComputePoint", "DualBudgetReport", "FlopModel", "SeedResult",
     "UnchargedTraining", "assert_matched_ex_training", "assert_within_ceiling", "break_even_queries",
-    "featurize_run_flops", "gate_infer_run_flops", "gate_train_flops", "paired_deltas",
+    "build_budget_points", "featurize_run_flops", "gate_infer_run_flops", "gate_train_flops", "paired_deltas",
     "pareto_frontier", "per_query_saving_vs_always_on", "run_dual_architecture",
     "run_matched_budget",
 ]

@@ -43,10 +43,11 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
+    build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import BOUNDED_CLAIM_VERB, exact_sign_flip, sesoi_check
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_sha256
 
 from . import CLAIM_SCOPE, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
@@ -65,9 +66,9 @@ from .count_producer import (
     STAGE3_REQUIREMENT_ID,
     CountProducerRefusal,
     RealCountBedConfig,
-    _build_budget_points,
     _estimate_all,
     _featurize_all,
+    _flop_model,
     _real_noisy_tv_features,
     _run_seed_real,
 )
@@ -78,7 +79,7 @@ from .count_repro_data_split_prereg import (
     build_data_split_prereg,
     write_data_split_prereg,
 )
-from .experiments import COUNT_BED_ID
+from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
 from .schema import Clip
 
 REPRO_PRODUCER_SCHEMA = "mop-starss23-count-repro-data-split-producer/v1"
@@ -249,7 +250,13 @@ def build_data_split_repro_artifact(
         )
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
 
-    budget_points = _build_budget_points(seed_runs, config)
+    budget_points = build_budget_points(
+        COUNT_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="mae",
+        action_group="reestimations",
+        flop_model=lambda kind: _flop_model(
+            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, config
+        ),
+    )
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
         budget_points,
@@ -463,14 +470,3 @@ def build_data_split_repro_artifact(
 
 
 DEFAULT_REPRO_ARTIFACT_PATH = Path("proof/STARSS23_COUNTING_REPRO_data_split.json")
-
-
-def write_data_split_artifact(
-    artifact: dict[str, Any], out_path: str | Path = DEFAULT_REPRO_ARTIFACT_PATH
-) -> Path:
-    """Write the sealed artifact as canonical JSON bytes so its on-disk digest is reproducible."""
-
-    path = Path(out_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(canonical_bytes(artifact))
-    return path

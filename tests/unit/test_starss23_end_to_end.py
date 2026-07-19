@@ -14,11 +14,11 @@ import importlib
 import json
 
 from mop.beds.starss23 import BED_ID
-from mop.beds.starss23.artifact import write_artifact
 from mop.beds.starss23.bed import Starss23EscsBed, build_bed
 from mop.beds.starss23.verifier import verify_sealed_file
 from mop.ladder.ladder_contracts import Bed
 from mop.ladder.stage_ladder import MatchedBudget
+from mop.substrate.events import write_canonical_json
 
 # ---------------------------------------------------------------------------
 # The ladder Bed adapter.
@@ -69,7 +69,7 @@ def test_producer_seals_a_file_the_independent_verifier_reproduces(
     starss23_bed_artifact, tmp_path
 ) -> None:
     out_path = tmp_path / "STARSS23_ESCS_BED.json"
-    written = write_artifact(starss23_bed_artifact.artifact, out_path)
+    written = write_canonical_json(starss23_bed_artifact.artifact, out_path)
     assert written.exists()
 
     # The on-disk file is canonical JSON and its stored seal matches a re-hash of the body.

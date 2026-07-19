@@ -37,8 +37,8 @@ def main(argv: list[str] | None = None) -> int:
     from mop.beds.starss23.superflux_spectral_producer import (
         DEFAULT_VARIANT_ARTIFACT_PATH,
         build_superflux_spectral_artifact,
-        write_variant_artifact,
     )
+    from mop.substrate.events import write_canonical_json
 
     out_path = Path(args.out_path) if args.out_path else REPO_ROOT / DEFAULT_VARIANT_ARTIFACT_PATH
 
@@ -46,7 +46,7 @@ def main(argv: list[str] | None = None) -> int:
         timestamp=args.timestamp,
         cache_root=args.cache_root,
     )
-    path = write_variant_artifact(bed.artifact, out_path)
+    path = write_canonical_json(bed.artifact, out_path)
 
     detail = bed.detail
     spread = detail["spread"]

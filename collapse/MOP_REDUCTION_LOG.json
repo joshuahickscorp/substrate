@@ -110,6 +110,24 @@
       "proof": "representative onset/count/DoA report payloads byte-equal to deleted implementations; legacy digests pinned in tests; matched cost, charged training, ceiling, metric direction, Pareto, break-even, and dual-architecture fold exercised; full STARSS-focused suite 476/476 in 143.36s under nice -n 10",
       "accounting_note": "2142 replaced Python LOC = 2068 production-source deletions + 67 test deletions + 7 script deletions; 1004 added Python LOC = 892 production source (including the 625-LOC shared engine) + 105 tests + 7 scripts; production source net -1176, tests net +38, total owned Python net -1138",
       "tag": "mop-collapse-starss23-lifecycle-2"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "producer_budget_projection_and_canonical_writes",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "eight producer budget-point assemblers and twelve final artifact writers collapsed onto one budget projection and one crash-safe canonical writer",
+      "deduplicated_LOC": 618,
+      "added_LOC": 240,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 378,
+      "files_changed": 24,
+      "destination_api": "mop.science.budget.build_budget_points + mop.substrate.events.write_canonical_json",
+      "proof": "exact conventional BudgetPoint projection against the prior arm contract; all producer and diversity entry points import the shared projection directly; canonical on-disk bytes independently verified; atomic replacement and cache-write tests green; full STARSS-focused suite 477/477 in 141.78s under nice -n 10",
+      "accounting_note": "618 replaced Python LOC = 600 production-source deletions + 2 test deletions + 16 script deletions; 240 added Python LOC = 177 production source (including the 39-LOC generic projection and 8-LOC canonical writer) + 35 tests + 28 scripts; production source net -423, tests net +33, scripts net +12, total owned Python net -378",
+      "tag": "mop-collapse-starss23-lifecycle-3"
     }
   ],
   "deferred_heavy_validation": {

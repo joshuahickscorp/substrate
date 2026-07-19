@@ -58,8 +58,8 @@ from mop.beds.starss23.artifact import (  # noqa: E402
     STAGE3_REQUIREMENT_ID,
     BedConfig,
     _assemble_inputs,
-    _build_budget_points,
     _causal_fires,
+    _flop_model,
     _pooled_score,
     _SeedRun,
     _voc_targets,
@@ -70,6 +70,7 @@ from mop.beds.starss23.controls import (  # noqa: E402
     at_chance,
     rate_matched_random_fires,
 )
+from mop.beds.starss23.experiments import ONSET_BUDGET_POLICY  # noqa: E402
 from mop.beds.starss23.feature_cache import DEFAULT_CACHE_ROOT, load_cached_corpus  # noqa: E402
 from mop.beds.starss23.featurizer import FLOPS_PER_FRAME, FrozenFeaturizer  # noqa: E402
 from mop.beds.starss23.gate import FLOPS_PER_INFERENCE, OnlineState  # noqa: E402
@@ -87,6 +88,7 @@ from mop.science.budget import (  # noqa: E402
     ARM_BEST_SINGLE,
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
+    build_budget_points,
     run_matched_budget,
 )
 from mop.science.statistics import exact_sign_flip  # noqa: E402
@@ -412,7 +414,16 @@ def build_diversity_reg_artifact(
         variant_details.append(variant_detail)
     measured_wall_ns = max(1, time.perf_counter_ns() - started)
 
-    budget_points = _build_budget_points(seed_runs, bed_config)
+    budget_points = build_budget_points(
+        ONSET_BUDGET_POLICY,
+        seed_runs,
+        score_group="arm_scores",
+        score_field="f1",
+        action_group="firings",
+        flop_model=lambda kind: _flop_model(
+            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, bed_config
+        ),
+    )
     nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
     report = run_matched_budget(
         budget_points,
