@@ -618,6 +618,15 @@
     "mop.studio.telegram_rung_notifier": [
       "mop.config",
       "mop.studio"
+    ],
+    "mop.substrate.custom_artifact": [
+      "mop.substrate.events"
+    ],
+    "mop.substrate.custom_workbench": [
+      "mop.substrate.events"
+    ],
+    "mop.substrate.sanpo_bridge": [
+      "mop.substrate.events"
     ]
   },
   "reverse_edges": {
@@ -1058,7 +1067,10 @@
       "mop.studies.generation1_competence_atlas",
       "mop.studies.generation1_context_routing",
       "mop.studies.generation1_evidence_synthesis",
-      "mop.studies.generation1_successor_batch"
+      "mop.studies.generation1_successor_batch",
+      "mop.substrate.custom_artifact",
+      "mop.substrate.custom_workbench",
+      "mop.substrate.sanpo_bridge"
     ]
   },
   "strongly_connected_components": [

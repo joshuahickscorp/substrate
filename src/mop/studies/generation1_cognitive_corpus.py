@@ -31,7 +31,7 @@ from omegaconf import DictConfig, OmegaConf
 
 from ..config import REPO_ROOT, compose
 from ..experiments import REGISTRY
-from mop.substrate.events import canonical_bytes, canonical_sha256
+from mop.substrate.events import canonical_bytes, canonical_sha256, sha256_file
 
 CONFIG_SCHEMA = "mop-generation1-cognitive-corpus-config/v2"
 SEED_SCHEMA = "mop-generation1-cognitive-seed/v2"
@@ -58,12 +58,6 @@ MAX_TAIL = 12_000
 
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:

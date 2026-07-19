@@ -27,7 +27,7 @@ from mop.falsification.integrity_scaffold import (
     verify_deletion_through_consolidation,
     verify_poisoning_resistance,
 )
-from mop.substrate.events import EventRef, canonical_sha256
+from mop.substrate.events import EventRef, atomic_write_json, canonical_sha256
 from mop.substrate.lifecycle import LifecycleJournal, MemoryRef
 
 if str(REPO_ROOT) not in sys.path:
@@ -338,12 +338,6 @@ def build_receipt() -> dict[str, Any]:
     return receipt
 
 
-def _atomic_write(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_bytes(raw)
-    os.replace(temporary, path)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -354,7 +348,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(sys.argv[1:] if argv is None else argv)
     receipt = build_receipt()
     output = Path(args.out)
-    _atomic_write(output, receipt)
+    atomic_write_json(output, receipt)
     print(
         f"wrote {output}: status={receipt['status']}, "
         f"units={receipt['f59']['independent_unit_count'] + receipt['f60']['independent_unit_count']}, "
