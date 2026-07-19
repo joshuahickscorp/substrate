@@ -1,0 +1,133 @@
+{
+  "schema": "mop-starss23-architecture-comparison/v1",
+  "measured_commit": "d052b3f3051d6b02f86888dba22cf714cb76fac0",
+  "measurement_host": {
+    "logical_cpus": 28,
+    "live_general_run_immutable": true,
+    "scheduling": "nice +10, deterministic fixtures only"
+  },
+  "required_axes": [
+    "onset",
+    "counting",
+    "direction_of_arrival",
+    "counting_data_split_reproduction"
+  ],
+  "architecture_a": {
+    "design": "frozen dataclass specification plus direct typed pipeline functions",
+    "engine": {
+      "loc": 374,
+      "module_count": 4,
+      "public_symbol_count": 13,
+      "dependency_edges": 10,
+      "bytes": 15749,
+      "orientation_tokens_estimated_ceil_bytes_div_4": 3938
+    },
+    "declarations": {
+      "loc": 83,
+      "module_count": 1,
+      "public_symbol_count": 8,
+      "dependency_edges": 2,
+      "bytes": 4998,
+      "orientation_tokens_estimated_ceil_bytes_div_4": 1250
+    },
+    "tests": {
+      "dedicated_physical_loc": 127,
+      "shared_comparison_physical_loc": 177,
+      "candidate_specific_test_function_loc": 31,
+      "fixture_loc_shared": 18,
+      "mutation_attacks_refused": 16,
+      "mutation_attacks_total": 16
+    },
+    "cold_import": {
+      "median_ms": 632.152,
+      "q1_ms": 621.751,
+      "q3_ms": 637.572,
+      "samples": 20,
+      "protocol": "fresh subprocesses, interleaved A then B"
+    },
+    "fixture_execution": {
+      "median_us_per_run": 31.487,
+      "min_us_per_run": 30.983,
+      "repeats": 9,
+      "runs_per_repeat": 2000
+    },
+    "auditability_score": 8,
+    "auditability_notes": [
+      "strong static top-level typing and explicit provider boundary",
+      "nested scientific contracts occupy an opaque mutable extra mapping",
+      "the declaration has no single canonical authority seal",
+      "lifecycle order is spread across direct functions"
+    ]
+  },
+  "architecture_b": {
+    "design": "canonically sealed scientific record plus explicit operation interpreter",
+    "engine": {
+      "loc": 190,
+      "module_count": 1,
+      "public_symbol_count": 9,
+      "dependency_edges": 6,
+      "bytes": 9529,
+      "orientation_tokens_estimated_ceil_bytes_div_4": 2383
+    },
+    "declarations": {
+      "loc": 83,
+      "module_count": 1,
+      "public_symbol_count": 8,
+      "dependency_edges": 2,
+      "bytes": 5134,
+      "orientation_tokens_estimated_ceil_bytes_div_4": 1284
+    },
+    "tests": {
+      "dedicated_physical_loc": 0,
+      "shared_comparison_physical_loc": 177,
+      "candidate_specific_test_function_loc": 49,
+      "fixture_loc_shared": 18,
+      "mutation_attacks_refused": 22,
+      "mutation_attacks_total": 22
+    },
+    "cold_import": {
+      "median_ms": 625.158,
+      "q1_ms": 621.802,
+      "q3_ms": 630.997,
+      "samples": 20,
+      "protocol": "fresh subprocesses, interleaved A then B"
+    },
+    "fixture_execution": {
+      "median_us_per_run": 41.280,
+      "min_us_per_run": 40.813,
+      "repeats": 9,
+      "runs_per_repeat": 2000
+    },
+    "auditability_score": 9,
+    "auditability_notes": [
+      "all lifecycle and scientific contracts are explicit record fields",
+      "canonical record authority detects pre-execution scientific drift",
+      "declared operation order is visible and validated",
+      "independent verifier is a data-only callback with no Architecture A import",
+      "plain records trade static field typing for runtime validation and canonical authority"
+    ]
+  },
+  "parity": {
+    "axis_fixture_cases_passed": 4,
+    "axis_fixture_cases_total": 4,
+    "same_identity": true,
+    "same_decision": true,
+    "same_paired_improvements": true,
+    "same_verdict": true,
+    "tie_rule": "tie is a null",
+    "producer_verifier_graded_logic_shared": false
+  },
+  "performance_investigation": {
+    "fixture_execution_relative_change_percent_b_vs_a": 31.101,
+    "fixture_execution_absolute_change_us_b_vs_a": 9.793,
+    "cause": "Architecture B recomputes the canonical authority hash over the complete scientific record before every interpretation",
+    "disposition": "retain fail-closed authority validation; remeasure with real providers where DSP, estimation, and gate execution dominate by orders of magnitude"
+  },
+  "selection": {
+    "selected": "architecture_b",
+    "rejected": "architecture_a",
+    "tie": false,
+    "reason": "B is the lower coherent design: 49.2 percent fewer engine LOC, three fewer engine modules, four fewer public symbols, four fewer dependency edges, a smaller orientation surface, a sealed declaration authority, and a more explicit audit path. The measured 9.793 microsecond interpreter overhead is understood and does not offset the structural reduction.",
+    "rejected_candidate_deletion_required": true
+  }
+}

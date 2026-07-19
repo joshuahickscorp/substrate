@@ -5,13 +5,13 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "fec8fa325e30b1b03dd5e5c3969aa118ed8250ef",
-    "current_main": "a19ebe6d9574cee01026d10eef23398b9f88e4e4",
+    "base_commit": "d052b3f1bee9d93f2572e36d45f432a6d88972fc",
+    "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
       "state": "run_categorized_wave",
       "stage": "run_categorized_wave",
-      "updated_at": "2026-07-19T05:28:47.572673+00:00",
+      "updated_at": "2026-07-19T18:13:03.965920+00:00",
       "counts": {
         "compute_complete": 2,
         "compute_total": 4,
@@ -100,25 +100,26 @@
     "floor_correction": "duplicate-function analysis (14.3k byte-identical, 27k structural) measures similarity WITHIN the current shape, NOT the architectural-collapse ceiling. Measured STARSS23 anatomy: 18669 collapsible LOC (68 percent) fold into the shared engine. The 50k global target is not disproven.",
     "starss23_collapsible_loc": 18669,
     "starss23_preserved_loc": 8753,
-    "shared_engine": "src/mop/science architecture A (357 LOC), 9/9 fixture parity+mutation"
+    "shared_engine": "src/mop/science architecture B (198 LOC), 29/29 focused tests",
+    "selected_experiment_architecture": "architecture_b"
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 0,
-    "deduplicated_LOC": 251,
+    "deduplicated_LOC": 790,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 49,
-    "net_global_reduction_LOC": 202
+    "added_LOC": 451,
+    "net_global_reduction_LOC": 339
   },
   "checklist_summary": {
-    "total": 215,
+    "total": 217,
     "by_status": {
-      "complete": 12,
+      "complete": 13,
       "active": 49,
       "pending": 145,
       "partial": 8,
-      "verified": 1
+      "verified": 2
     }
   },
   "checklist": [
@@ -1388,9 +1389,10 @@
       "title": "One experiment engine (ExperimentSpec..IndependentVerifier)",
       "status": "active",
       "evidence_paths": [
-        "src/mop/science/"
+        "src/mop/science/",
+        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
       ],
-      "validation": "one shared experiment engine implemented (architecture A), fixture-proven",
+      "validation": "Architecture B selected: one 198-LOC sealed-record interpreter; Architecture A physically deleted",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1405,14 +1407,15 @@
       "evidence_paths": [
         "collapse/MOP_STARSS23_ANATOMY.json",
         "src/mop/science/",
-        "src/mop/beds/starss23/count_spec.py",
+        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
+        "src/mop/beds/starss23/experiments.py",
         "tests/unit/test_science_engine.py"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~70; engine A built + 9/9 fixture parity+mutation",
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks",
       "commit": "",
       "rollback_tag": "",
       "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity (heavy real audio science) deferred to host headroom",
-      "next_action": "implement architecture B and measure vs A; wire axis math providers; full-lifecycle fixture parity; delete superseded orchestration"
+      "next_action": "finish line-range source decomposition; wire real providers; prove full-lifecycle fixture parity; delete superseded orchestration"
     },
     {
       "id": "SEC-12",
@@ -2921,6 +2924,37 @@
       "rollback_tag": "",
       "dependency": "",
       "next_action": "populate from measured artifacts at conclusion"
+    },
+    {
+      "id": "ART-MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
+      "section": 11,
+      "kind": "artifact",
+      "title": "MOP_STARSS23_ARCHITECTURE_COMPARISON.json (implemented A/B selection)",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
+      ],
+      "validation": "four axes in both designs; LOC/API/dependency/import/runtime/audit/mutation measured",
+      "commit": "",
+      "rollback_tag": "",
+      "dependency": "",
+      "next_action": "none"
+    },
+    {
+      "id": "RED-starss23-architecture-b",
+      "section": 10,
+      "kind": "verified_reduction",
+      "title": "Select Architecture B and physically delete Architecture A",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "539 replaced Python LOC, 402 added, net -137; 29/29 focused green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-architecture-b",
+      "dependency": "",
+      "next_action": "wire real STARSS23 providers and delete superseded family lifecycle"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
