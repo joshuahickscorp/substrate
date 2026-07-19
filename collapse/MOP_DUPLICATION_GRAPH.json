@@ -1,0 +1,722 @@
+{
+  "schema": "mop-collapse-duplication-graph/v1",
+  "purpose": "Repeated per-experiment lifecycle files (section 12/10 collapse targets).",
+  "cluster_summary": {
+    "_scaffold.py": {
+      "files": 37,
+      "LOC": 20945
+    },
+    "_runner.py": {
+      "files": 26,
+      "LOC": 4455
+    },
+    "_bed.py": {
+      "files": 18,
+      "LOC": 4312
+    },
+    "_gate.py": {
+      "files": 15,
+      "LOC": 3207
+    },
+    "_impl.py": {
+      "files": 15,
+      "LOC": 3481
+    },
+    "_producer.py": {
+      "files": 11,
+      "LOC": 7525
+    },
+    "_verifier.py": {
+      "files": 11,
+      "LOC": 5994
+    },
+    "_prereg.py": {
+      "files": 10,
+      "LOC": 3262
+    },
+    "_harness.py": {
+      "files": 5,
+      "LOC": 1983
+    },
+    "_estimator.py": {
+      "files": 4,
+      "LOC": 670
+    },
+    "_featurizer.py": {
+      "files": 4,
+      "LOC": 838
+    },
+    "_referee.py": {
+      "files": 4,
+      "LOC": 1057
+    }
+  },
+  "total_boilerplate_files": 160,
+  "total_boilerplate_LOC": 57729,
+  "clusters": {
+    "_gate.py": [
+      {
+        "path": "src/mop/beds/starss23/doa_gate.py",
+        "physical_LOC": 624
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_gate_arch_gate.py",
+        "physical_LOC": 395
+      },
+      {
+        "path": "src/mop/beds/starss23/count_gate.py",
+        "physical_LOC": 366
+      },
+      {
+        "path": "scripts/mop_pr4_epistemic_gate.py",
+        "physical_LOC": 294
+      },
+      {
+        "path": "tests/unit/test_starss23_gate.py",
+        "physical_LOC": 280
+      },
+      {
+        "path": "src/mop/studio/process_c_gate.py",
+        "physical_LOC": 274
+      },
+      {
+        "path": "src/mop/falsification/verdict_gate.py",
+        "physical_LOC": 230
+      },
+      {
+        "path": "src/mop/studio/dense_atlas_gate.py",
+        "physical_LOC": 229
+      },
+      {
+        "path": "tests/unit/test_process_c_license_gate.py",
+        "physical_LOC": 119
+      },
+      {
+        "path": "tests/unit/test_verdict_gate.py",
+        "physical_LOC": 96
+      },
+      {
+        "path": "tests/unit/test_dense_atlas_gate.py",
+        "physical_LOC": 89
+      },
+      {
+        "path": "scripts/studio/process_c_license_gate.py",
+        "physical_LOC": 62
+      },
+      {
+        "path": "scripts/studio/dense_atlas_gate.py",
+        "physical_LOC": 59
+      },
+      {
+        "path": "tests/integration/test_e1_gate.py",
+        "physical_LOC": 49
+      },
+      {
+        "path": "scripts/verdict_gate.py",
+        "physical_LOC": 41
+      }
+    ],
+    "_scaffold.py": [
+      {
+        "path": "src/mop/studies/integration_battery_scaffold.py",
+        "physical_LOC": 1218
+      },
+      {
+        "path": "src/mop/falsification/integrity_scaffold.py",
+        "physical_LOC": 1175
+      },
+      {
+        "path": "src/mop/substrate/sensing_scaffold.py",
+        "physical_LOC": 1174
+      },
+      {
+        "path": "src/mop/environments/ecology_scaffold.py",
+        "physical_LOC": 1070
+      },
+      {
+        "path": "src/mop/studies/material_twin_scaffold.py",
+        "physical_LOC": 913
+      },
+      {
+        "path": "src/mop/mechanisms/construction_search_scaffold.py",
+        "physical_LOC": 821
+      },
+      {
+        "path": "src/mop/mechanisms/niche_dispatch_scaffold.py",
+        "physical_LOC": 720
+      },
+      {
+        "path": "src/mop/mechanisms/intervention_simulation_scaffold.py",
+        "physical_LOC": 698
+      },
+      {
+        "path": "src/mop/mechanisms/messaging_repair_scaffold.py",
+        "physical_LOC": 677
+      },
+      {
+        "path": "src/mop/mechanisms/calibrated_uncertainty_scaffold.py",
+        "physical_LOC": 676
+      },
+      {
+        "path": "src/mop/mechanisms/reducible_novelty_scaffold.py",
+        "physical_LOC": 662
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_scaffold.py",
+        "physical_LOC": 654
+      },
+      {
+        "path": "src/mop/mechanisms/event_formation_scaffold.py",
+        "physical_LOC": 648
+      },
+      {
+        "path": "src/mop/mechanisms/integrated_escs_scaffold.py",
+        "physical_LOC": 620
+      },
+      {
+        "path": "src/mop/mechanisms/stage5_session_disjoint_validity_scaffold.py",
+        "physical_LOC": 607
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_r2_scaffold.py",
+        "physical_LOC": 601
+      },
+      {
+        "path": "src/mop/mechanisms/trace_stability_scaffold.py",
+        "physical_LOC": 582
+      },
+      {
+        "path": "src/mop/mechanisms/memory_organization_scaffold.py",
+        "physical_LOC": 576
+      },
+      {
+        "path": "src/mop/mechanisms/stage4_integration_advantage_scaffold.py",
+        "physical_LOC": 568
+      },
+      {
+        "path": "tests/unit/test_integrity_scaffold.py",
+        "physical_LOC": 501
+      },
+      {
+        "path": "tests/unit/test_material_twin_scaffold.py",
+        "physical_LOC": 482
+      },
+      {
+        "path": "tests/unit/test_integration_battery_scaffold.py",
+        "physical_LOC": 444
+      },
+      {
+        "path": "tests/unit/test_sensing_scaffold.py",
+        "physical_LOC": 429
+      },
+      {
+        "path": "tests/unit/test_ecology_scaffold.py",
+        "physical_LOC": 417
+      },
+      {
+        "path": "tests/unit/test_event_formation_scaffold.py",
+        "physical_LOC": 416
+      },
+      {
+        "path": "tests/unit/test_stability_plasticity_scaffold.py",
+        "physical_LOC": 408
+      },
+      {
+        "path": "tests/unit/test_intervention_simulation_scaffold.py",
+        "physical_LOC": 391
+      },
+      {
+        "path": "tests/unit/test_construction_search_scaffold.py",
+        "physical_LOC": 367
+      },
+      {
+        "path": "tests/unit/test_messaging_repair_scaffold.py",
+        "physical_LOC": 367
+      },
+      {
+        "path": "tests/unit/test_stage4_integration_advantage_scaffold.py",
+        "physical_LOC": 362
+      },
+      {
+        "path": "tests/unit/test_integrated_escs_scaffold.py",
+        "physical_LOC": 351
+      },
+      {
+        "path": "tests/unit/test_trace_stability_scaffold.py",
+        "physical_LOC": 344
+      },
+      {
+        "path": "tests/unit/test_memory_organization_scaffold.py",
+        "physical_LOC": 329
+      },
+      {
+        "path": "tests/unit/test_stage5_session_disjoint_validity_scaffold.py",
+        "physical_LOC": 319
+      },
+      {
+        "path": "tests/unit/test_niche_dispatch_scaffold.py",
+        "physical_LOC": 303
+      },
+      {
+        "path": "scripts/verify_sensing_scaffold.py",
+        "physical_LOC": 30
+      },
+      {
+        "path": "scripts/run_sensing_scaffold.py",
+        "physical_LOC": 25
+      }
+    ],
+    "_bed.py": [
+      {
+        "path": "tests/unit/test_starss23_doa_bed.py",
+        "physical_LOC": 624
+      },
+      {
+        "path": "tests/unit/test_starss23_counting_bed.py",
+        "physical_LOC": 469
+      },
+      {
+        "path": "src/mop/mechanisms/stage5_validity_bed.py",
+        "physical_LOC": 358
+      },
+      {
+        "path": "src/mop/mechanisms/memory_organization_bed.py",
+        "physical_LOC": 349
+      },
+      {
+        "path": "src/mop/mechanisms/stage4_integration_bed.py",
+        "physical_LOC": 344
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_r2_bed.py",
+        "physical_LOC": 319
+      },
+      {
+        "path": "src/mop/mechanisms/construction_search_bed.py",
+        "physical_LOC": 277
+      },
+      {
+        "path": "src/mop/mechanisms/reducible_novelty_bed.py",
+        "physical_LOC": 261
+      },
+      {
+        "path": "src/mop/mechanisms/calibrated_uncertainty_bed.py",
+        "physical_LOC": 236
+      },
+      {
+        "path": "src/mop/mechanisms/intervention_simulation_bed.py",
+        "physical_LOC": 226
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_bed.py",
+        "physical_LOC": 214
+      },
+      {
+        "path": "src/mop/mechanisms/integrated_escs_bed.py",
+        "physical_LOC": 144
+      },
+      {
+        "path": "src/mop/mechanisms/messaging_repair_bed.py",
+        "physical_LOC": 143
+      },
+      {
+        "path": "scripts/run_starss23_escs_bed.py",
+        "physical_LOC": 104
+      },
+      {
+        "path": "src/mop/mechanisms/niche_dispatch_bed.py",
+        "physical_LOC": 92
+      },
+      {
+        "path": "src/mop/mechanisms/trace_stability_bed.py",
+        "physical_LOC": 57
+      },
+      {
+        "path": "scripts/verify_starss23_escs_bed.py",
+        "physical_LOC": 49
+      },
+      {
+        "path": "src/mop/mechanisms/event_formation_bed.py",
+        "physical_LOC": 46
+      }
+    ],
+    "_estimator.py": [
+      {
+        "path": "tests/unit/test_count_repro_featurizer_estimator.py",
+        "physical_LOC": 277
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_featurizer_estimator_estimator.py",
+        "physical_LOC": 140
+      },
+      {
+        "path": "src/mop/beds/starss23/doa_estimator.py",
+        "physical_LOC": 128
+      },
+      {
+        "path": "src/mop/beds/starss23/count_estimator.py",
+        "physical_LOC": 125
+      }
+    ],
+    "_featurizer.py": [
+      {
+        "path": "src/mop/beds/starss23/count_repro_featurizer_estimator_featurizer.py",
+        "physical_LOC": 250
+      },
+      {
+        "path": "src/mop/beds/starss23/doa_featurizer.py",
+        "physical_LOC": 223
+      },
+      {
+        "path": "src/mop/beds/starss23/count_featurizer.py",
+        "physical_LOC": 194
+      },
+      {
+        "path": "tests/unit/test_starss23_featurizer.py",
+        "physical_LOC": 171
+      }
+    ],
+    "_harness.py": [
+      {
+        "path": "src/mop/beds/starss23/doa_harness.py",
+        "physical_LOC": 640
+      },
+      {
+        "path": "src/mop/beds/starss23/count_harness.py",
+        "physical_LOC": 502
+      },
+      {
+        "path": "tests/unit/test_starss23_harness.py",
+        "physical_LOC": 343
+      },
+      {
+        "path": "src/mop/experiments/expansion_harness.py",
+        "physical_LOC": 325
+      },
+      {
+        "path": "src/mop/experiments/e1_baseline_harness.py",
+        "physical_LOC": 173
+      }
+    ],
+    "_prereg.py": [
+      {
+        "path": "src/mop/beds/starss23/doa_prereg.py",
+        "physical_LOC": 436
+      },
+      {
+        "path": "src/mop/beds/starss23/interchannel_coherence_prereg.py",
+        "physical_LOC": 371
+      },
+      {
+        "path": "src/mop/beds/starss23/spatial_doa_prereg.py",
+        "physical_LOC": 362
+      },
+      {
+        "path": "src/mop/beds/starss23/superflux_spectral_prereg.py",
+        "physical_LOC": 351
+      },
+      {
+        "path": "src/mop/beds/starss23/gate_variants_prereg.py",
+        "physical_LOC": 344
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_scoring_unit_prereg.py",
+        "physical_LOC": 313
+      },
+      {
+        "path": "src/mop/beds/starss23/count_prereg.py",
+        "physical_LOC": 308
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_featurizer_estimator_prereg.py",
+        "physical_LOC": 288
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_gate_arch_prereg.py",
+        "physical_LOC": 263
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_data_split_prereg.py",
+        "physical_LOC": 226
+      }
+    ],
+    "_producer.py": [
+      {
+        "path": "src/mop/beds/starss23/doa_producer.py",
+        "physical_LOC": 983
+      },
+      {
+        "path": "src/mop/beds/starss23/count_producer.py",
+        "physical_LOC": 785
+      },
+      {
+        "path": "src/mop/beds/starss23/learning_progress_producer.py",
+        "physical_LOC": 784
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_featurizer_estimator_producer.py",
+        "physical_LOC": 738
+      },
+      {
+        "path": "src/mop/beds/starss23/refractory_nms_producer.py",
+        "physical_LOC": 736
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_gate_arch_producer.py",
+        "physical_LOC": 703
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_scoring_unit_producer.py",
+        "physical_LOC": 642
+      },
+      {
+        "path": "src/mop/beds/starss23/superflux_spectral_producer.py",
+        "physical_LOC": 568
+      },
+      {
+        "path": "src/mop/beds/starss23/interchannel_coherence_producer.py",
+        "physical_LOC": 566
+      },
+      {
+        "path": "src/mop/beds/starss23/spatial_doa_producer.py",
+        "physical_LOC": 546
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_data_split_producer.py",
+        "physical_LOC": 474
+      }
+    ],
+    "_referee.py": [
+      {
+        "path": "src/mop/beds/starss23/doa_referee.py",
+        "physical_LOC": 449
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_scoring_unit_referee.py",
+        "physical_LOC": 238
+      },
+      {
+        "path": "src/mop/beds/starss23/count_referee.py",
+        "physical_LOC": 185
+      },
+      {
+        "path": "tests/unit/test_starss23_referee.py",
+        "physical_LOC": 185
+      }
+    ],
+    "_verifier.py": [
+      {
+        "path": "src/mop/falsification/form_verifier.py",
+        "physical_LOC": 1478
+      },
+      {
+        "path": "src/mop/beds/starss23/doa_verifier.py",
+        "physical_LOC": 701
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_scoring_unit_verifier.py",
+        "physical_LOC": 673
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_gate_arch_verifier.py",
+        "physical_LOC": 607
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_data_split_verifier.py",
+        "physical_LOC": 558
+      },
+      {
+        "path": "src/mop/beds/starss23/count_repro_featurizer_estimator_verifier.py",
+        "physical_LOC": 523
+      },
+      {
+        "path": "src/mop/beds/starss23/count_verifier.py",
+        "physical_LOC": 514
+      },
+      {
+        "path": "src/mop/beds/starss23/spatial_doa_verifier.py",
+        "physical_LOC": 458
+      },
+      {
+        "path": "src/mop/studio/dr1_verifier.py",
+        "physical_LOC": 246
+      },
+      {
+        "path": "tests/unit/test_starss23_interchannel_coherence_verifier.py",
+        "physical_LOC": 139
+      },
+      {
+        "path": "tests/unit/test_dr1_verifier.py",
+        "physical_LOC": 97
+      }
+    ],
+    "_impl.py": [
+      {
+        "path": "src/mop/mechanisms/messaging_repair_impl.py",
+        "physical_LOC": 411
+      },
+      {
+        "path": "src/mop/mechanisms/construction_search_vec_impl.py",
+        "physical_LOC": 402
+      },
+      {
+        "path": "src/mop/mechanisms/niche_dispatch_impl.py",
+        "physical_LOC": 253
+      },
+      {
+        "path": "src/mop/mechanisms/reducible_novelty_impl.py",
+        "physical_LOC": 253
+      },
+      {
+        "path": "src/mop/mechanisms/stage4_integration_impl.py",
+        "physical_LOC": 253
+      },
+      {
+        "path": "src/mop/mechanisms/construction_search_impl.py",
+        "physical_LOC": 233
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_r2_impl.py",
+        "physical_LOC": 233
+      },
+      {
+        "path": "src/mop/mechanisms/intervention_simulation_impl.py",
+        "physical_LOC": 223
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_impl.py",
+        "physical_LOC": 215
+      },
+      {
+        "path": "src/mop/mechanisms/stage5_validity_impl.py",
+        "physical_LOC": 208
+      },
+      {
+        "path": "src/mop/mechanisms/trace_stability_impl.py",
+        "physical_LOC": 196
+      },
+      {
+        "path": "src/mop/mechanisms/event_formation_impl.py",
+        "physical_LOC": 192
+      },
+      {
+        "path": "src/mop/mechanisms/calibrated_uncertainty_impl.py",
+        "physical_LOC": 152
+      },
+      {
+        "path": "src/mop/mechanisms/integrated_escs_impl.py",
+        "physical_LOC": 146
+      },
+      {
+        "path": "src/mop/mechanisms/memory_organization_impl.py",
+        "physical_LOC": 111
+      }
+    ],
+    "_runner.py": [
+      {
+        "path": "src/mop/mechanisms/intervention_simulation_runner.py",
+        "physical_LOC": 254
+      },
+      {
+        "path": "src/mop/mechanisms/calibrated_uncertainty_runner.py",
+        "physical_LOC": 210
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_r2_runner.py",
+        "physical_LOC": 210
+      },
+      {
+        "path": "tests/unit/test_stability_plasticity_runner.py",
+        "physical_LOC": 209
+      },
+      {
+        "path": "src/mop/mechanisms/construction_search_vec_runner.py",
+        "physical_LOC": 208
+      },
+      {
+        "path": "src/mop/mechanisms/event_formation_runner.py",
+        "physical_LOC": 207
+      },
+      {
+        "path": "src/mop/mechanisms/reducible_novelty_runner.py",
+        "physical_LOC": 205
+      },
+      {
+        "path": "src/mop/mechanisms/stability_plasticity_runner.py",
+        "physical_LOC": 205
+      },
+      {
+        "path": "src/mop/mechanisms/integrated_escs_runner.py",
+        "physical_LOC": 199
+      },
+      {
+        "path": "src/mop/mechanisms/memory_organization_runner.py",
+        "physical_LOC": 199
+      },
+      {
+        "path": "tests/unit/test_stage4_integration_runner.py",
+        "physical_LOC": 199
+      },
+      {
+        "path": "src/mop/mechanisms/messaging_repair_runner.py",
+        "physical_LOC": 187
+      },
+      {
+        "path": "tests/unit/test_messaging_repair_runner.py",
+        "physical_LOC": 186
+      },
+      {
+        "path": "src/mop/mechanisms/construction_search_runner.py",
+        "physical_LOC": 184
+      },
+      {
+        "path": "src/mop/mechanisms/niche_dispatch_runner.py",
+        "physical_LOC": 173
+      },
+      {
+        "path": "tests/unit/test_trace_stability_runner.py",
+        "physical_LOC": 162
+      },
+      {
+        "path": "tests/unit/test_construction_search_runner.py",
+        "physical_LOC": 161
+      },
+      {
+        "path": "src/mop/mechanisms/stage4_integration_runner.py",
+        "physical_LOC": 158
+      },
+      {
+        "path": "src/mop/mechanisms/trace_stability_runner.py",
+        "physical_LOC": 148
+      },
+      {
+        "path": "tests/unit/test_intervention_simulation_runner.py",
+        "physical_LOC": 148
+      },
+      {
+        "path": "tests/unit/test_integrated_escs_runner.py",
+        "physical_LOC": 126
+      },
+      {
+        "path": "tests/unit/test_niche_dispatch_runner.py",
+        "physical_LOC": 115
+      },
+      {
+        "path": "tests/unit/test_memory_organization_runner.py",
+        "physical_LOC": 105
+      },
+      {
+        "path": "tests/unit/test_event_formation_runner.py",
+        "physical_LOC": 104
+      },
+      {
+        "path": "tests/unit/test_stage5_validity_runner.py",
+        "physical_LOC": 101
+      },
+      {
+        "path": "src/mop/mechanisms/stage5_validity_runner.py",
+        "physical_LOC": 92
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "mop-collapse-live-no-touch/v1",
+  "rule": "The detached General Run and its live tree are immutable while active. Condensation occurs only in the isolated worktree. Never edit, signal, restart, retune, or merge into the live tree or its processes.",
+  "live_tree": "/Users/scammermike/Downloads/mop",
+  "live_branch_head": "f6d107bc869ec85ea1d4b2d09e4ab76f060936b6",
+  "live_branch": "agent/save-mop-stable-work",
+  "run_root": "/Users/scammermike/Downloads/mop/runs/generation1/general-run",
+  "live_status": {
+    "state": "run_categorized_wave",
+    "stage": "run_categorized_wave",
+    "updated_at": "2026-07-19T04:15:51.231787+00:00",
+    "counts": {
+      "compute_complete": 2,
+      "compute_total": 4,
+      "legacy_complete": 3,
+      "legacy_total": 3,
+      "stage_index": 3,
+      "stage_total": 5
+    },
+    "parent_implementation": {
+      "path": "src/mop/studio/general_run_orchestrator.py",
+      "sha256": "85ce363de4f24aa52d2742cca6104f47cd46d08c7a3d5f42d2fd233fa7575c36"
+    }
+  },
+  "forbidden_paths_for_edit": [
+    "/Users/scammermike/Downloads/mop"
+  ],
+  "worktree_is_separate_checkout": true,
+  "note": "Worktree edits cannot affect the live run: the live processes execute from the live tree's own physical files on branch save-mop-stable-work, which are distinct from this worktree."
+}
