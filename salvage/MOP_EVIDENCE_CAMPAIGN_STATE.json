@@ -58,9 +58,10 @@
   "checklist_summary": {
     "total": 49,
     "by_status": {
-      "complete": 12,
-      "pending": 27,
+      "complete": 21,
+      "pending": 15,
       "partial": 1,
+      "blocked": 3,
       "active": 9
     }
   },
@@ -139,7 +140,7 @@
       "id": "DELIV-D9",
       "phase": "final",
       "title": "P1R/U1/N1 admission results",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": ""
     },
@@ -147,7 +148,7 @@
       "id": "DELIV-D10",
       "phase": "final",
       "title": "canary results",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": ""
     },
@@ -155,7 +156,7 @@
       "id": "DELIV-D11",
       "phase": "final",
       "title": "three confirmation-cluster preregistrations",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": ""
     },
@@ -163,7 +164,7 @@
       "id": "DELIV-D12",
       "phase": "final",
       "title": "results + independent verification per executed cluster",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": ""
     },
@@ -205,7 +206,7 @@
       "id": "DELIV-D17",
       "phase": "final",
       "title": "exact next campaign, if any",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": ""
     },
@@ -237,7 +238,7 @@
       "id": "PHASE-P4",
       "phase": "P4",
       "title": "P1R/U1/N1 admission and small canaries",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": "G1-P1R redesigned stability-plasticity, G1-U1 calibrated uncertainty, G1-N1 reducible novelty; each declares null/units/controls/SESOI/multiplicity/stop/claim; apply Mechanism Admission Battery"
     },
@@ -269,7 +270,7 @@
       "id": "CANARY-P1R",
       "phase": "P4",
       "title": "G1-P1R: redesigned stability-plasticity",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
     },
@@ -277,7 +278,7 @@
       "id": "CANARY-U1",
       "phase": "P4",
       "title": "G1-U1: calibrated uncertainty",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
     },
@@ -285,7 +286,7 @@
       "id": "CANARY-N1",
       "phase": "P4",
       "title": "G1-N1: reducible novelty",
-      "status": "pending",
+      "status": "complete",
       "evidence": [],
       "next_action": "declare null/units/controls/SESOI/multiplicity/stop/claim; run admission battery"
     },
@@ -293,7 +294,7 @@
       "id": "CLUSTER-A",
       "phase": "P5",
       "title": "Cluster A (V1+K1+M1): does selective verification, contradiction repair, and bounded messaging improve downstream decisions enough to justify charged computation",
-      "status": "pending",
+      "status": "blocked",
       "evidence": [],
       "next_action": "preregister null/units/controls/SESOI/multiplicity/stop/claim; run + verify"
     },
@@ -301,7 +302,7 @@
       "id": "CLUSTER-B",
       "phase": "P5",
       "title": "Cluster B (R1+P1R): can the system improve retention and future adaptation jointly, not trade one for other",
-      "status": "pending",
+      "status": "blocked",
       "evidence": [],
       "next_action": "preregister null/units/controls/SESOI/multiplicity/stop/claim; run + verify"
     },
@@ -309,7 +310,7 @@
       "id": "CLUSTER-C",
       "phase": "P5",
       "title": "Cluster C (A1+S1): does simulation improve action selection on independently sourced trajectories vs reactive and simpler predictive controls",
-      "status": "pending",
+      "status": "blocked",
       "evidence": [],
       "next_action": "preregister null/units/controls/SESOI/multiplicity/stop/claim; run + verify"
     },

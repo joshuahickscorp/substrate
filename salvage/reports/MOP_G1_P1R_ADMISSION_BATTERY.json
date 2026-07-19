@@ -1,0 +1,129 @@
+{
+  "schema": "mop-admission-battery-report/v1",
+  "lane": "G1-P1R",
+  "prereg_sha256": "e4e13985a8fc938fff1be4c66e523e54a193c9b028b1309ad237413b445c2ee6",
+  "sesoi": 0.05,
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.208,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "oracle_norm": 1.0,
+      "random_norm": 0.615,
+      "headroom_over_random": 0.385,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.208,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "mechanism_minus_best_heuristic": 0.018,
+      "pass": false
+    },
+    "E_group_disjoint": {
+      "min_regime_incr": -0.035,
+      "pass": false
+    },
+    "F_architecture_independence": {
+      "per_impl_mean_incr": {
+        "linear": -0.081,
+        "knn": 0.018
+      },
+      "pass": false
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": 0.003,
+      "pass": true
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": 0.579,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": 0.0,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.047,
+      "pass": false
+    }
+  },
+  "summary": {
+    "mechanism_norm_mean": 0.662,
+    "best_heuristic_norm_mean": 0.644,
+    "random_norm_mean": 0.615,
+    "incremental_over_heuristic": 0.018
+  },
+  "per_regime": {
+    "0": {
+      "oracle": 312.12,
+      "random": 186.6,
+      "oracle_headroom_norm": 1.0,
+      "decodability": 0.15,
+      "best_mechanism_norm": 0.615,
+      "best_heuristic_norm": 0.642,
+      "mechanism_by_impl": {
+        "linear": 0.584,
+        "knn": 0.615
+      },
+      "excess_noisy_tv_alloc": -0.018,
+      "shuffled_norm": 0.5,
+      "wrongtime_norm": 0.0
+    },
+    "1": {
+      "oracle": 314.37,
+      "random": 183.53,
+      "oracle_headroom_norm": 1.0,
+      "decodability": 0.007,
+      "best_mechanism_norm": 0.586,
+      "best_heuristic_norm": 0.621,
+      "mechanism_by_impl": {
+        "linear": 0.526,
+        "knn": 0.586
+      },
+      "excess_noisy_tv_alloc": 0.015,
+      "shuffled_norm": 0.618,
+      "wrongtime_norm": 0.0
+    },
+    "2": {
+      "oracle": 375.04,
+      "random": 248.41,
+      "oracle_headroom_norm": 1.0,
+      "decodability": 0.467,
+      "best_mechanism_norm": 0.785,
+      "best_heuristic_norm": 0.67,
+      "mechanism_by_impl": {
+        "linear": 0.579,
+        "knn": 0.785
+      },
+      "excess_noisy_tv_alloc": 0.013,
+      "shuffled_norm": 0.619,
+      "wrongtime_norm": 0.0
+    }
+  },
+  "classification": "pruned_mechanism",
+  "first_failing_clause": "D_incremental_value",
+  "clauses_passed": 6,
+  "clauses_total": 10,
+  "independent_verification": {
+    "independent_incremental": 0.047,
+    "producer_incremental": 0.047,
+    "sign_and_magnitude_agree": true
+  },
+  "mutation_suite": {
+    "mutations": {
+      "shuffled_units_collapses": true,
+      "zero_budget_detected": true,
+      "oracle_ge_mechanism": true,
+      "claim_ceiling_present": true,
+      "verdict_matches_thresholds": true
+    },
+    "rejected": 5,
+    "total": 5,
+    "all_rejected": true
+  },
+  "claim_ceiling": "controlled-bed mechanism plausibility only; NOT scientific confirmation; a real-data canary with independent-unit data is required before any confirmation claim",
+  "report_sha256": "a612c21215c43eed3608d60f751351866371d7105b8a91eda8136a945d352893"
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "mop-phase4-admission-summary/v1",
+  "runtime_binding_authority": "salvage/reports/MOP_REPAIRED_RUNTIME_BINDING_AUTHORITY.json (gate 10 satisfied)",
+  "method": "controlled admission beds with KNOWN ground truth, real oracle, real controls (noisy-TV, shuffled-target, wrong-time, rate-matched-random), 3 independent generator families, 2 implementations; a generic learned-allocation mechanism proxies each lane. Preregistration sealed before results; SESOI 0.05 fixed.",
+  "per_lane": {
+    "G1-P1R": {
+      "classification": "pruned_mechanism",
+      "first_failing_clause": "D_incremental_value",
+      "clauses_passed": 6,
+      "oracle_headroom": 0.385,
+      "incremental_over_heuristic": 0.018,
+      "independent_verification_agrees": true,
+      "mutations": "5/5",
+      "repair": "pruned_mechanism (fails D + F): allocation signal does not beat simple heuristics by SESOI and is architecture-dependent. Exact repair: redesign the estimator to capture the oracle-visible signal above heuristics AND make it architecture-robust before any re-admission; do not weaken the SESOI."
+    },
+    "G1-U1": {
+      "classification": "insufficient_independent_units",
+      "first_failing_clause": "E_group_disjoint",
+      "clauses_passed": 8,
+      "oracle_headroom": 0.418,
+      "incremental_over_heuristic": 0.122,
+      "independent_verification_agrees": true,
+      "mutations": "5/5",
+      "repair": "insufficient_independent_units (fails E + F): strong on average but the effect does not hold across every independent generator family and is architecture-dependent. Exact repair: obtain more/stronger independent units OR a mechanism whose benefit holds group-disjoint and across implementations."
+    },
+    "G1-N1": {
+      "classification": "architecture_dependent",
+      "first_failing_clause": "F_architecture_independence",
+      "clauses_passed": 9,
+      "oracle_headroom": 0.488,
+      "incremental_over_heuristic": 0.167,
+      "independent_verification_agrees": true,
+      "mutations": "5/5",
+      "repair": "architecture_dependent (fails F): strongest, group-disjoint signal, but the benefit exists only under one implementation (linear actively hurts). Exact repair: an architecture-robust estimator, or accept the effect as implementation-specific (which does not clear clause F)."
+    }
+  },
+  "admitted_lanes": [],
+  "dominant_finding": "all three lanes FAIL clause F (architecture independence): the learned-allocation benefit exists only under kNN; the linear implementation gives negative incremental value. Even the strongest lane (N1) does not robustly clear the bar.",
+  "beds_valid": "yes: oracle headroom 0.39-0.49 >> SESOI 0.05, so these are genuine mechanism failures, not invalid or underpowered beds.",
+  "canaries_run": "NONE (no lane was admitted; the admission gate pruned all three before heavy compute, as designed)",
+  "compute_accounting": {
+    "admission_batteries_wall_seconds": 0.37,
+    "peak_rss_mb": 35,
+    "canary_compute": 0,
+    "compute_avoided_by_pruning": "the full canary + confirmation-cluster compute for three lanes"
+  },
+  "claim_ceiling": "controlled-bed mechanism plausibility screen only; NOT scientific confirmation and NOT a claim that the real-world mechanisms are worthless. It is a cheap pre-canary gate; failing it is a valid terminal result that defers heavy compute.",
+  "phase5_launch_set": "EMPTY. No lane is admitted, so no Phase 5 independent-confirmation cluster proceeds with G1-P1R, G1-U1, or G1-N1 as currently mechanized. Each carries a named repair. The overarching prerequisite is an architecture-robust allocation mechanism (all three fail clause F).",
+  "recommendation": "Do not spend canary or cluster compute on these three lanes as-is. Redesign the mechanism to be architecture-robust and to beat heuristics group-disjoint, then re-run the SAME sealed admission battery. Do not weaken any gate. The next scientific compute must answer whether a repaired mechanism produces independently reproducible decision value, not merely re-run mechanics.",
+  "summary_sha256": "dcddbad2d21069013ee269fb33e03a3a152f2e69b85634e04fbe163794e63812"
+}
