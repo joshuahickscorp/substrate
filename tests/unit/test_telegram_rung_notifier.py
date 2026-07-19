@@ -214,7 +214,7 @@ def test_rung_message_is_short_and_uses_simple_program_name(monkeypatch) -> None
     assert message == (
         "🧪 MOP C3 Router Redesign\n"
         "Progress: 10/48 (21%)\n"
-        "Next 25%: 25m\n"
+        "Next 10%: 25m\n"
         "Full queue: 1h 55m\n"
         "Health: good\n"
         "Errors: none"
@@ -234,8 +234,12 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
     assert notifier._program_label("generation1-successor-evidence-chain-v7") == "General Run: Adopter"
     assert notifier._program_label("generation1-successor-horizon-v1") == "General Run: Horizon 1"
     assert notifier._program_label("generation1-successor-horizon-v2") == "General Run: Horizon 2"
-    assert notifier._program_label("generation1-successor-extension-chain-v1") == "General Run: Horizon Waiter"
-    assert notifier._program_label("generation1-successor-extension-chain-v3") == "General Run: Horizon Waiter"
+    assert (
+        notifier._program_label("generation1-successor-extension-chain-v1") == "General Run: Horizon Waiter"
+    )
+    assert (
+        notifier._program_label("generation1-successor-extension-chain-v3") == "General Run: Horizon Waiter"
+    )
     assert (
         notifier._program_label("generation1-successor-categorized-batch-wave-v1")
         == "General Run: Categorized Wave"
@@ -243,12 +247,14 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
     assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Run: Final"
     # the C0/C1/C2/C3/D1 one-off experiments keep their own labels, unchanged
     assert notifier._program_label("generation1-c3-d1-router-redesign-screen-v1") == "C3 Router Redesign"
-    assert notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
+    assert (
+        notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
+    )
 
 
 def test_event_eta_prefers_next_rung_cost() -> None:
-    # complete=5/total=200 is in the 0-24% bucket; the next milestone (25%) is reached at
-    # rung 50, so 45 rungs remain to it: 32.1 * 45 / 1 worker = 1444.5.
+    # complete=5/total=200 is in the 0-9% bucket; the next milestone (10%) is reached at
+    # rung 20, so 15 rungs remain to it: 32.1 * 15 / 1 worker = 481.5.
     eta = notifier._event_eta(
         {
             "adaptive_execution": {
@@ -261,7 +267,7 @@ def test_event_eta_prefers_next_rung_cost() -> None:
         complete=5,
         total=200,
     )
-    assert eta == {"block_seconds": 1_444.5, "session_seconds": 9_876.0}
+    assert eta == {"block_seconds": 481.5, "session_seconds": 9_876.0}
 
 
 def test_short_block_eta_uses_seconds_instead_of_rounding_to_one_minute() -> None:
@@ -292,9 +298,7 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
     fills the gap from real capsule finish timestamps plus a live controller sample."""
 
     idle_sample, idle_target = _fake_host_sample(free_p_cores=14, hawking_active=False)
-    monkeypatch.setattr(
-        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample
-    )
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: idle_sample)
     capsules = {
         "a": {"finished_at": "2026-07-18T00:00:00+00:00"},
         "b": {"finished_at": "2026-07-18T00:01:00+00:00"},
@@ -315,9 +319,7 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
     from mop.studio import dynamic_worker_controller as controller
 
     hawking_sample, _ = _fake_host_sample(free_p_cores=14, hawking_active=True)
-    monkeypatch.setattr(
-        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: hawking_sample
-    )
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: hawking_sample)
     hawking = notifier._synthetic_adaptive(capsules, total=74, complete=3)
     assert hawking is not None
     assert hawking["workers"] == controller.HAWKING_RESERVE_WORKERS
@@ -325,9 +327,12 @@ def test_synthetic_adaptive_derives_workers_and_eta_when_status_lacks_adaptive_e
 
     # A real adaptive_execution block is never overridden by the synthetic fallback.
     real = {"average_rung_seconds": 5.0, "workers": 8, "mode": "hawking_idle", "eta_seconds": 100.0}
-    assert notifier._with_effective_adaptive(
-        {"adaptive_execution": real}, capsules, total=74, complete=3
-    )["adaptive_execution"] == real
+    assert (
+        notifier._with_effective_adaptive({"adaptive_execution": real}, capsules, total=74, complete=3)[
+            "adaptive_execution"
+        ]
+        == real
+    )
 
     # Never fatal: if the controller sample fails and there are not enough timestamps to
     # derive an average either, the fallback is a clean None rather than a raised exception.
@@ -346,9 +351,7 @@ def test_collect_events_shows_workers_and_eta_for_a_dynamic_pool_stage_with_no_c
     horizon-v1/current_status.json). Workers and ETA must show up in the resulting event."""
 
     fake_sample, expected_workers = _fake_host_sample(free_p_cores=13, hawking_active=False)
-    monkeypatch.setattr(
-        "mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: fake_sample
-    )
+    monkeypatch.setattr("mop.studio.dynamic_worker_controller.sample_host_state", lambda **_: fake_sample)
     runs = tmp_path / "runs"
     _write(
         runs / "horizon" / "current_status.json",
@@ -441,7 +444,9 @@ def test_prime_suppresses_history_and_run_sends_only_new_event(monkeypatch, tmp_
     assert sent == ["two"]
 
 
-def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(monkeypatch, tmp_path: Path) -> None:
+def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(
+    monkeypatch, tmp_path: Path
+) -> None:
     state_path = tmp_path / "state.json"
     state = notifier._new_state()
     state["primed"] = True
@@ -474,11 +479,22 @@ def test_run_sends_only_at_percent_milestones_but_keeps_terminal_immediate(monke
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
 
-    # One notification at each 25% crossing (25, 50, 75), plus the terminal event.
-    assert result["sent"] == 4
-    assert sent == ["rung-25", "rung-50", "rung-75", "terminal"]
+    # One notification at each 10% crossing (10, 20, ..., 90), plus the terminal event.
+    assert result["sent"] == 10
+    assert sent == [
+        "rung-10",
+        "rung-20",
+        "rung-30",
+        "rung-40",
+        "rung-50",
+        "rung-60",
+        "rung-70",
+        "rung-80",
+        "rung-90",
+        "terminal",
+    ]
     delivered = notifier.load_state(state_path)["delivered"]
-    assert delivered["rung-10"]["status"] == "suppressed-nonmilestone"
+    assert delivered["rung-5"]["status"] == "suppressed-nonmilestone"
     assert delivered["rung-99"]["status"] == "suppressed-nonmilestone"
 
 
@@ -487,7 +503,7 @@ def test_run_does_not_spam_every_rung_when_total_is_smaller_than_the_old_fixed_s
 ) -> None:
     """Regression: the horizon_v1 bug. A 74-capsule stage with the former fixed 100-rung step
     fired on every single rung (an escape hatch made `total <= step` always true). The
-    percentage milestone must instead fire only near each quartile, on any total."""
+    percentage milestone must instead fire only near each tenth, on any total."""
 
     state_path = tmp_path / "state.json"
     state = notifier._new_state()
@@ -510,9 +526,20 @@ def test_run_does_not_spam_every_rung_when_total_is_smaller_than_the_old_fixed_s
         runs_root=tmp_path / "runs",
         sender=lambda text: sent.append(text) or {"message_id": len(sent), "sent_at": "now"},
     )
-    # Not 74 (one per rung, the old bug). One near each of 25/50/75/100%.
-    assert result["sent"] == 4
-    assert sent == ["rung-19", "rung-37", "rung-56", "rung-74"]
+    # Not 74 (one per rung, the old bug). One near each 10% mark (10, 20, ..., 100%).
+    assert result["sent"] == 10
+    assert sent == [
+        "rung-8",
+        "rung-15",
+        "rung-23",
+        "rung-30",
+        "rung-37",
+        "rung-45",
+        "rung-52",
+        "rung-60",
+        "rung-67",
+        "rung-74",
+    ]
 
 
 def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
@@ -521,13 +548,13 @@ def test_milestone_boundary_and_small_parent_chain_delivery() -> None:
 
     # A single-item program always gets exactly one notification, at 100%.
     assert notifier._should_send(rung(1, 1)) is True
-    # Round totals: milestones land exactly on the quartile.
-    assert notifier._should_send(rung(24, 100)) is False
-    assert notifier._should_send(rung(25, 100)) is True
+    # Round totals: milestones land exactly on the tenth.
+    assert notifier._should_send(rung(9, 100)) is False
+    assert notifier._should_send(rung(10, 100)) is True
+    assert notifier._should_send(rung(19, 100)) is False
+    assert notifier._should_send(rung(20, 100)) is True
     assert notifier._should_send(rung(49, 100)) is False
     assert notifier._should_send(rung(50, 100)) is True
-    assert notifier._should_send(rung(74, 100)) is False
-    assert notifier._should_send(rung(75, 100)) is True
     assert notifier._should_send(rung(99, 100)) is False
     assert notifier._should_send(rung(100, 100)) is True
     # Completion (100%) always fires, regardless of total size.
@@ -555,9 +582,7 @@ def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
 
 
 def test_full_generations_programs_render_under_general_chain() -> None:
-    assert (
-        notifier._program_label("generation1-full-generations-wave-v1") == "General Run: Full Generations"
-    )
+    assert notifier._program_label("generation1-full-generations-wave-v1") == "General Run: Full Generations"
     assert (
         notifier._program_label("generation1-full-generations-extension-chain-v1")
         == "General Run: Full Gen Waiter"
@@ -587,7 +612,7 @@ def test_worker_line_reflects_mode_and_is_omitted_when_absent(monkeypatch) -> No
     assert idle == (
         "🧪 MOP C3 Router Redesign\n"
         "Progress: 10/48 (21%)\n"
-        "Next 25%: 25m\n"
+        "Next 10%: 25m\n"
         "Full queue: 1h 55m\n"
         "Workers: 16 (idle burst)\n"
         "Health: good\n"
@@ -865,10 +890,7 @@ def test_wave_capsule_formation_trace_names_all_covered_mechanisms(tmp_path: Pat
     seed = {"generation1-successor-categorized-batch-wave-v1/w15_formation_trace": "incomplete"}
     events, _, _ = notifier._collect_subtask_events({}, seed, runs_root=runs)
     assert len(events) == 1
-    assert (
-        notifier.format_event(events[0])
-        == "General Run: W15 formation_trace sub-task complete (C0, E1)"
-    )
+    assert notifier.format_event(events[0]) == "General Run: W15 formation_trace sub-task complete (C0, E1)"
 
 
 def test_wave_capsule_only_fires_for_general_chain_programs(tmp_path: Path) -> None:

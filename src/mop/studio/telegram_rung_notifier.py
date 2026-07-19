@@ -54,8 +54,9 @@ POLL_SECONDS = 120
 # a 100-rung step is silent-then-spammy on a 74-capsule stage (it never divides evenly, so
 # the "total is smaller than the step" escape hatch fires on every single rung instead of a
 # handful of meaningful checkpoints) and coarse on a 7,332-rung census. A percentage scales
-# correctly to any total: exactly one notification near each quartile, on any program size.
-MILESTONE_PERCENT_STEP = 25
+# correctly to any total: exactly one notification near each step, on any program size. A 10 percent
+# step gives ten checkpoints per program (10, 20, ..., 100 percent).
+MILESTONE_PERCENT_STEP = 10
 STALL_GRACE_SECONDS = 10 * 60
 PROCESS_IDENTITY_TOLERANCE_SECONDS = 0.01
 TERMINAL_STATES = {"complete", "failure_hold", "integrity_hold", "failed", "drained", "stopped"}
