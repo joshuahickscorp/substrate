@@ -1,42 +1,3 @@
-"""A net-new FROZEN zero-trained-parameter SuperFlux onset front-end for the STARSS23 ESCS bed.
-
-This is an additive component. It changes no sealed scoring path. It implements the same featurizer
-interface as the committed ``FrozenFeaturizer`` (``featurize``, ``n_params``, ``parameter_digest``,
-``feature_digest``, ``flops_for_frames`` plus a module-level analytic ``FLOPS_PER_FRAME``) but swaps the
-front-end DSP for a frozen SuperFlux onset detector (Boeck and Widmer, "Maximum Filter Vibrato
-Suppression for Onset Detection", DAFx 2013).
-
-Mechanism (all fixed DSP, zero trained parameters)
---------------------------------------------------
-Per short-time column, per FOA channel:
-
-1. Hann window (1024) then n_fft 1024 real FFT (513 one-sided bins), identical grid to the base
-   front-end, so five STFT columns at hop 480 tile exactly one 100 ms / 2400-sample label frame and the
-   output tiles ``COLS_PER_FRAME * n_frames`` columns.
-2. Power spectrum projected through the same fixed triangular 64-mel filterbank.
-3. A mu-law-style logarithmic magnitude companding ``log1p(MU * mel) / log1p(MU)`` with a fixed MU. This
-   is the frozen loudness compression; it carries no learned quantity.
-4. The SuperFlux core: a maximum filter of a fixed small radius is applied ACROSS FREQUENCY to the
-   PREVIOUS column's compressed magnitudes before the positive spectral difference is taken. The
-   frequency max filter tracks a partial's short trajectory across a small band, so a vibrato or a
-   fundamental wobble of up to the filter radius does not register as an onset. The per-bin novelty is
-   the half-wave-rectified difference ``max(0, comp[t] - freqmax(comp[t - 1]))``.
-5. The five columns of each 100 ms frame are summed, giving 64 mel-flux features per channel; the four
-   channels concatenate to exactly 256 per-frame features, so the unchanged 256-input gate consumes the
-   output with no projection, truncation, or padding, and adds no trained parameter.
-
-Compute is charged analytically, never measured, so the ledger is reproducible across hosts. The
-per-column-per-channel FLOP budget mirrors the base ledger with the mu-law companding replacing the plain
-log and the frequency max filter added, so this front-end is slightly costlier per frame than the base
-and that higher cost is charged honestly to every arm.
-
-Zero trained parameters is asserted two ways, exactly as the base front-end asserts it: ``n_params()``
-returns 0, and ``parameter_digest()`` hashes only deterministic functions of the sample rate, the n_fft,
-and the fixed DSP constants (the Hann window, the mel filterbank, MU, and the max-filter radius), never a
-learned weight. The output is byte-reproducible: identical input bytes yield identical output bytes.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -85,13 +46,6 @@ FLOPS_PER_FRAME = FLOPS_PER_COL_PER_CH * N_CHANNELS * COLS_PER_FRAME  # 1_129_02
 
 
 def _frequency_max_filter(comp: np.ndarray, radius: int) -> np.ndarray:
-    """Edge-clamped maximum filter of the given radius along the frequency axis (axis 1).
-
-    ``comp`` is (T, N_MEL). For each mel bin the output is the maximum over the ``2 * radius + 1`` band
-    centered on it, with the band clamped (edge-replicated) at the two extremes. This is the SuperFlux
-    frequency max filter: a partial that wobbles across up to ``radius`` bins between adjacent columns
-    stays inside the band and so does not register as an onset. Deterministic and byte-reproducible.
-    """
 
     if radius <= 0:
         return comp
@@ -109,7 +63,6 @@ def _frequency_max_filter(comp: np.ndarray, radius: int) -> np.ndarray:
 
 @dataclass(frozen=True, slots=True)
 class SuperfluxSpectralFeaturizer(FrozenFeatureProvider):
-    """The frozen SuperFlux onset front-end. Deep-frozen: window, filterbank, MU, radius are fixed DSP."""
 
     _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = 24_000
@@ -123,14 +76,6 @@ class SuperfluxSpectralFeaturizer(FrozenFeatureProvider):
         return mel_filterbank(self.sample_rate)
 
     def parameter_digest(self) -> str:
-        """Digest of the fixed DSP constants, proving the SuperFlux front-end is byte-frozen.
-
-        Hashes only deterministic functions of the sample rate and n_fft (the Hann window and the mel
-        filterbank) plus the fixed SuperFlux constants MU and the max-filter radius. No learned weight
-        enters, so ``n_params()`` is 0 and this digest is a pure function of the frozen configuration. It
-        differs from the base front-end's digest because MU and the frequency max filter are new fixed
-        DSP, so a feature cache keyed on it can never be served the base front-end's bytes and vice versa.
-        """
 
         payload = {
             "front_end": "superflux_spectral",
@@ -147,12 +92,6 @@ class SuperfluxSpectralFeaturizer(FrozenFeatureProvider):
         return canonical_sha256(payload)
 
     def _channel_superflux(self, signal: np.ndarray, n_frames: int) -> np.ndarray:
-        """SuperFlux novelty for one channel: returns (n_frames, N_MEL) float64.
-
-        Per column: window, rFFT, power, mel projection, mu-law companding. Then the SuperFlux positive
-        difference against the frequency-max-filtered previous column, half-wave rectified. The
-        COLS_PER_FRAME columns of each label frame are summed.
-        """
 
         padded = np.zeros(n_frames * SAMPLES_PER_FRAME + PAD_RIGHT, dtype=np.float64)
         padded[: signal.shape[0]] = signal
@@ -178,10 +117,6 @@ class SuperfluxSpectralFeaturizer(FrozenFeatureProvider):
         return flux.reshape(n_frames, COLS_PER_FRAME, N_MEL).sum(axis=1)
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:
-        """Featurize a (N_CHANNELS, n_samples) FOA array into (n_frames, D_FEAT=256) float64.
-
-        Byte-reproducible: identical input bytes yield identical output bytes on a given host.
-        """
 
         audio = np.asarray(audio, dtype=np.float64)
         if audio.ndim != 2 or audio.shape[0] != N_CHANNELS:

@@ -1,20 +1,3 @@
-"""Preregistration of the STARSS23 ESCS bed SESOI and analysis plan.
-
-This is a net-new, additive component. It fixes the smallest-effect-size-of-interest (SESOI) on onset F1
-by explicit cost-benefit reasoning (docs/ESCS_DEEP_RESEARCH.md Q5a option 3) and freezes the whole
-analysis plan into a self-sealed artifact ``proof/STARSS23_ESCS_BED.prereg.json`` that MUST be written
-before the run reads any test-split score. The committed provisional SESOI (0.05) was a placeholder; this
-module replaces it with a preregistered value carrying a written, quantified rationale.
-
-Nothing here reads a test score. The cost-benefit derivation uses only fixed compute anchors (the gate's
-amortized C_train and the downstream cost per firing) and structural facts of the corpus that are known
-from the labels before any arm is scored (the test-clip count, the pooled test onset count, and the
-train-set onset density). The sealed body carries ``activation_allowed=false`` and
-``scientific_promotion=false`` and a fixed timestamp that is passed in, never read from the wall clock
-inside the sealed body.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -51,7 +34,7 @@ N_PAIRED_SEEDS = 5
 
 
 class PreregRefusal(ValueError):
-    """Raised when a preregistration input is malformed."""
+    pass
 
 
 def _require_positive(value: float, label: str) -> float:
@@ -64,7 +47,6 @@ def _require_positive(value: float, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class CostBenefit:
-    """The cost-benefit inputs and derived break-even that justify the SESOI on the F1 scale."""
 
     c_train_flops: int
     c_down_flops: int
@@ -96,7 +78,6 @@ class CostBenefit:
 
 @dataclass(frozen=True, slots=True)
 class StructuralFacts:
-    """Label-only corpus facts needed by a family preregistration, never test scores."""
 
     operating_firing_fraction: float
     n_test_clips: int
@@ -106,7 +87,6 @@ class StructuralFacts:
 
     @classmethod
     def from_corpus(cls, corpus: Any, target_rates: Sequence[float]) -> StructuralFacts:
-        """Reduce one cached corpus to label-only preregistration facts."""
 
         train_density = corpus.train_onset_density()
         operating_rate = min(target_rates, key=lambda rate: abs(rate - train_density))
@@ -120,7 +100,6 @@ class StructuralFacts:
 
     @classmethod
     def from_split(cls, split: Any, target_rates: Sequence[float]) -> StructuralFacts:
-        """Reduce one native clip split to label-only preregistration facts."""
 
         train_onsets = sum(len(clip.onsets) for clip in split.train)
         train_frames = sum(clip.n_frames for clip in split.train)
@@ -152,7 +131,6 @@ def compute_cost_benefit(
     n_test_clips: int,
     n_test_onsets: int,
 ) -> CostBenefit:
-    """Derive the break-even and F1 granularity that bound the SESOI. Reads no test score."""
 
     c_train_flops = int(_require_positive(c_train_flops, "c_train_flops"))
     c_down_flops = int(_require_positive(c_down_flops, "c_down_flops"))
@@ -230,7 +208,6 @@ def family_analysis_plan(
     statistic: str,
     multiplicity: Callable[[int, float, float], dict[str, Any]],
 ) -> dict[str, Any]:
-    """Build the common SESOI, sign-flip, multiplicity, and claim-ceiling family plan."""
 
     cb = compute_cost_benefit(
         c_train_flops=c_train_flops,
@@ -299,7 +276,6 @@ def bonferroni_family(
     per_alpha_field: str,
     alpha_digits: int,
 ) -> dict[str, Any]:
-    """Build the shared Bonferroni wall while retaining a family's declared vocabulary."""
 
     per_alpha = alpha / n_members
     return {
@@ -335,7 +311,6 @@ def build_prereg(
     c_down_flops: int = DEFAULT_C_DOWN_FLOPS,
     n_seeds: int = N_PAIRED_SEEDS,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed preregistration body. The timestamp is passed, never read from a clock."""
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise PreregRefusal("timestamp must be a non-empty string passed by the caller")
@@ -416,7 +391,6 @@ DEFAULT_PREREG_PATH = Path("proof/STARSS23_ESCS_BED.prereg.json")
 
 
 def base_prereg_digest(path: str | Path = DEFAULT_PREREG_PATH) -> str | None:
-    """Return the base preregistration's canonical digest for traceability, or None if unavailable."""
 
     prereg_path = Path(path)
     if not prereg_path.is_file():
@@ -437,7 +411,6 @@ def family_cli_summary(
     ids_field: str,
     multiplicity_fields: Sequence[str] = (),
 ) -> dict[str, Any]:
-    """Project the stable command-line summary of a sealed family preregistration."""
 
     multiplicity = body["multiplicity"]
     summary = {

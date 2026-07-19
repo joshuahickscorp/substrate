@@ -1,12 +1,3 @@
-"""Tests for the E1 learning_progress gate variant (bed component 3-lp).
-
-These lock the hard ESCS constraints on this net-new trained module: the trainable-parameter count sits
-under the shared 4096 ceiling, the per-stream online state stays within a few kilobytes, the online
-interface (infer / update / fire) never receives a label, the batched causal pass reproduces the
-per-frame infer-then-update loop byte for byte, the whole gate is deterministic in its seed, the offline
-self-supervised RND fit reduces its own training error, and the analytic FLOP-cost functions are exposed
-for the ledger. Claim scope: deterministic programmatic mechanics only.
-"""
 
 from __future__ import annotations
 
@@ -34,7 +25,6 @@ _FORBIDDEN_ONLINE = ("azimuth", "elevation", "distance", "class", "onset", "labe
 
 
 def _fake_clip_features(n: int = 240, seed: int = 7) -> np.ndarray:
-    """A block of nonnegative feature rows in the shape the frozen featurizer emits."""
 
     rng = np.random.default_rng(seed)
     return np.abs(rng.standard_normal((n, D_FEAT)))

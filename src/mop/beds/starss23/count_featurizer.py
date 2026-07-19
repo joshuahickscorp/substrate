@@ -1,25 +1,3 @@
-"""Concurrent-source-counting bed, component 2: the frozen zero-parameter count front-end.
-
-The count featurizer is byte-reproducible and carries no trained parameter, exactly like the sealed onset
-featurizer. Its per-frame output is a 256-vector built from a 32-mel log-mel spectrogram of each of the
-four FOA channels, split into a positive (source-enter) flux readout and a negative (source-leave) flux
-readout across short-time columns:
-
-    per (mel band, channel): pos_flux = sum_cols max(0, logmel[c] - logmel[c-1])   (32 x 4 = 128 features)
-                             neg_flux = sum_cols max(0, logmel[c-1] - logmel[c])   (32 x 4 = 128 features)
-    D_CFEAT = 128 + 128 = 256
-
-A concurrent-source COUNT changes exactly when a source enters (a positive log-mel attack) or leaves (a
-negative log-mel decay), so a change-detector gate reads its evidence from these two flux polarities. The
-256-vector keeps the gate input width at D_IN = 256 + 8 = 264, byte-identical to the sealed onset gate, so
-the reused parameter and FLOP anchors of gate.py carry over unchanged.
-
-Compute is charged analytically, not measured, so the ledger is reproducible across hosts. n_params() is
-exactly zero: the Hann window and the 32-mel filterbank are deterministic functions of the sample rate
-and n_fft, not learned weights.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -66,12 +44,11 @@ _LOG_EPS = 1e-6
 
 
 class CountFeaturizerRefusal(ValueError):
-    """Raised when the count featurizer input violates the frozen FOA acquisition contract."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class FrozenCountFeaturizer(FrozenFeatureProvider):
-    """The frozen deterministic count front-end. Window and 32-mel filterbank are fixed DSP, not weights."""
 
     _flops_per_frame = FLOPS_PER_FRAME_COUNT
     _frame_count_refusal = CountFeaturizerRefusal
@@ -86,7 +63,6 @@ class FrozenCountFeaturizer(FrozenFeatureProvider):
         return mel_filterbank(self.sample_rate, N_MEL, N_BINS)
 
     def parameter_digest(self) -> str:
-        """Digest of the fixed window and filterbank bytes, proving the front-end is byte-frozen."""
 
         payload = {
             "schema": COUNT_FEATURIZER_SCHEMA,
@@ -103,7 +79,6 @@ class FrozenCountFeaturizer(FrozenFeatureProvider):
         return canonical_sha256(payload)
 
     def _channel_flux(self, signal: np.ndarray, n_frames: int) -> tuple[np.ndarray, np.ndarray]:
-        """Positive and negative half-wave log-mel flux for one channel: each (n_frames, N_MEL) float64."""
 
         padded = np.zeros(n_frames * SAMPLES_PER_FRAME + PAD_RIGHT, dtype=np.float64)
         padded[: signal.shape[0]] = signal
@@ -125,12 +100,6 @@ class FrozenCountFeaturizer(FrozenFeatureProvider):
         return pos, neg
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:
-        """Featurize a ``(N_CHANNELS, n_samples)`` FOA array into ``(n_frames, D_CFEAT=256)`` float64.
-
-        The 256-vector is ``[pos_flux(4 channels x 32 mel), neg_flux(4 channels x 32 mel)]``: the first
-        128 columns are the source-enter (positive) polarity and the last 128 are the source-leave
-        (negative) polarity. Byte-reproducible for identical input bytes on a given host.
-        """
 
         audio = np.asarray(audio, dtype=np.float64)
         if audio.ndim != 2 or audio.shape[0] != N_CHANNELS:

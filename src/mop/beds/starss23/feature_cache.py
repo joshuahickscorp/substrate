@@ -1,10 +1,3 @@
-"""One typed feature-cache lifecycle for every frozen STARSS23 front end.
-
-The front-end policy supplies only identity and unique deterministic DSP.  This module owns corpus loading,
-room-disjoint split projection, cache keys, feature-block bytes, integrity checks, build/load behavior,
-atomic writes, FLOP charging metadata, and reports.  The base, SuperFlux, and spatial-DoA policies preserve
-their historical schemas and canonical manifest projections, so existing immutable caches remain readable.
-"""
 
 from __future__ import annotations
 
@@ -41,12 +34,11 @@ _MANIFEST_NAME = "manifest.json"
 
 
 class FeatureCacheRefusal(ValueError):
-    """The cache authority, bytes, source, split, or requested provider is invalid."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class CachePolicy:
-    """The only front-end-specific cache data; lifecycle stays in this module."""
 
     name: str
     schema: str
@@ -59,7 +51,6 @@ class CachePolicy:
 
 
 def cache_policy(front_end: str = "base") -> CachePolicy:
-    """Resolve a small provider policy without importing unused DSP providers."""
 
     if front_end == "base":
         from .featurizer import D_FEAT, FLOPS_PER_FRAME, FrozenFeaturizer
@@ -101,7 +92,6 @@ def cache_key(
     foa_root: str | Path = DEFAULT_FOA_ROOT, metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     max_frames: int | None = None, n_val_rooms: int = DEFAULT_N_VAL_ROOMS,
 ) -> str:
-    """Return the historical canonical key for one front-end and corpus configuration."""
 
     policy = cache_policy(front_end)
     provider = featurizer or policy.factory()
@@ -128,7 +118,6 @@ def _feature_bytes(features: np.ndarray) -> bytes:
 
 @dataclass(frozen=True, slots=True)
 class CachedCorpus:
-    """A verified featurize-free view of the corpus under one named front end."""
 
     cache_key: str
     cache_dir: Path
@@ -165,7 +154,6 @@ class CachedCorpus:
 
 @dataclass(frozen=True, slots=True)
 class BuildReport:
-    """Unsealed wall-clock and size provenance for one cache build."""
 
     front_end: str
     cache_key: str
@@ -201,7 +189,6 @@ def build_feature_cache(
     foa_root: str | Path = DEFAULT_FOA_ROOT, metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     max_frames: int | None = None, n_val_rooms: int = DEFAULT_N_VAL_ROOMS,
 ) -> BuildReport:
-    """Build one cache through the shared lifecycle, preserving its historical manifest projection."""
 
     policy = cache_policy(front_end)
     featurizer = policy.factory()
@@ -305,7 +292,6 @@ def load_cached_corpus(
     foa_root: str | Path = DEFAULT_FOA_ROOT, metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     max_frames: int | None = None, n_val_rooms: int = DEFAULT_N_VAL_ROOMS,
 ) -> CachedCorpus:
-    """Load an existing cache and revalidate every block, split reference, and provider authority."""
 
     policy = cache_policy(front_end)
     featurizer = policy.factory()
@@ -345,7 +331,6 @@ def load_cached_corpus(
 
 
 def load_or_build_cached_corpus(**kwargs: Any) -> CachedCorpus:
-    """Build only when the exact canonical cache authority is absent, then load through verification."""
 
     directory = cache_dir_for(**kwargs)
     if not (directory / _MANIFEST_NAME).is_file():
@@ -368,7 +353,6 @@ def verify_cache_bytes(
     foa_root: str | Path = DEFAULT_FOA_ROOT, metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     max_frames: int | None = None, n_val_rooms: int = DEFAULT_N_VAL_ROOMS, n_clips: int = 2,
 ) -> VerifyReport:
-    """Re-featurize a bounded sample and demand byte identity with the selected cache policy."""
 
     if n_clips <= 0:
         raise FeatureCacheRefusal("n_clips must be positive")

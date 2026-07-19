@@ -1,40 +1,3 @@
-"""E1 gate variant: the ``recurrence_spread`` value-of-computation event-formation gate.
-
-This is a net-new, additive component. It changes no sealed scoring logic and does not edit the committed
-``gate.py``. It answers the diagnosed null of the first real Stage-3 run: the base value-of-computation
-gate clusters roughly 42 percent of its fires adjacently on high-energy regions and so recovers fewer
-distinct onsets (204 true positives) than uniform random placement (237) at matched budget
-(docs/mixture_of_perspectives/26_escs_starss23_bed.md). This variant operationalizes the sealed
-``recency_gap_penalty`` / recurrence-aware family of ``gate_variants_prereg.py``.
-
-Hypothesis (sealed SESOI 0.05, direction candidate greater than rate-matched-random): a tiny recurrent
-state that tracks time-since-last-fire and recent fire density, and penalizes firing when density is high,
-learns to spread its fires across distinct onsets instead of clustering adjacent fires on one loud region.
-
-Design. The variant reuses the committed candidate gate UNCHANGED as its signal head (the same frozen
-264 -> 12 -> 1 MLP, trained byte-identically on the same value-of-computation targets), so the ONLY thing
-that differs from the null is the firing policy. On top of the signal logit it subtracts a nonnegative
-recurrent spreading penalty:
-
-    penalty(state) = w_density * (firing_rate_ema / rho) + w_refractory * max(0, 1 - gap / R)
-    p_fire         = sigmoid(signal_logit - penalty)
-
-where ``firing_rate_ema`` (recent fire density) and ``gap = frames-since-last-fire`` come from the SAME
-committed ``OnlineState`` (no new state, no ground truth, blind online by construction), ``rho`` is the
-fixed operating firing fraction, and ``R`` is a fixed short refractory horizon. Both penalty terms are
-nonnegative, so the penalty can only SUPPRESS a fire that lands right after a recent fire or inside a
-locally dense burst; it never manufactures a fire. The two nonnegative weights ``w_density`` and
-``w_refractory`` are the only trained additions (2 parameters), fit on the train rooms by a small
-deterministic grid search on train onset F1. The grid contains the no-spread point (0, 0), so on ties the
-gate degrades gracefully to the exact committed null rather than spreading spuriously.
-
-Constraints held in code: total trainable parameters (signal 3193 + 2 spread) stay under the 4096 ceiling;
-the online state is the committed few-KB ``OnlineState``; ``infer`` takes only features plus self-state and
-never a label; the full-lifecycle training cost (signal C_train plus the honest grid-search cost) is
-exposed for the FLOP ledger; and the whole gate is deterministic in its seed.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -89,7 +52,6 @@ _PROB_EPS = 1e-12
 
 
 def _sigmoid_scalar(x: float) -> float:
-    """Numerically stable scalar logistic sigmoid."""
 
     if x >= 0.0:
         return 1.0 / (1.0 + math.exp(-x))
@@ -98,7 +60,6 @@ def _sigmoid_scalar(x: float) -> float:
 
 
 def _prob_to_logit(p: float) -> float:
-    """Inverse sigmoid with a saturation clip so the logit is always finite."""
 
     clipped = min(max(float(p), _PROB_EPS), 1.0 - _PROB_EPS)
     return math.log(clipped / (1.0 - clipped))
@@ -106,7 +67,6 @@ def _prob_to_logit(p: float) -> float:
 
 @dataclass
 class SpreadTrainingReport:
-    """Deterministic record of one spreading-weight fit. Compute is charged as honest search FLOPs."""
 
     rate: float
     density_grid: tuple[float, ...]
@@ -138,13 +98,6 @@ class SpreadTrainingReport:
 
 @dataclass
 class RecurrenceSpreadGate:
-    """The recurrence_spread variant: a committed signal gate plus a trained recurrent spreading penalty.
-
-    ``signal_gate`` is a fully trained committed ``CandidateGate`` (the null's exact signal head). The two
-    nonnegative weights are fit by ``fit_spread`` on the train rooms. Construction asserts the total
-    trainable-parameter count (signal plus spread) stays under the 4096 ceiling and that the online state
-    is the committed few-KB ``OnlineState``.
-    """
 
     signal_gate: CandidateGate
     rho: float
@@ -186,7 +139,6 @@ class RecurrenceSpreadGate:
         return N_SPREAD_PARAMS
 
     def n_params(self) -> int:
-        """Total trainable parameters: the frozen signal MLP plus the two spreading weights."""
 
         return self.signal_gate.n_params() + N_SPREAD_PARAMS
 
@@ -197,12 +149,10 @@ class RecurrenceSpreadGate:
         return self.signal_gate.training_flops(n_train_frames, epochs)
 
     def total_training_flops(self, n_train_frames: int, epochs: int) -> int:
-        """Full-lifecycle C_train: the signal MLP's training cost plus the honest grid-search cost."""
 
         return self.signal_training_flops(n_train_frames, epochs) + int(self.search_flops)
 
     def parameter_digest(self) -> str:
-        """Digest binding the signal weights, the two spreading weights, and the fixed hyperparameters."""
 
         payload = {
             "variant_id": VARIANT_ID,
@@ -218,7 +168,6 @@ class RecurrenceSpreadGate:
     # -- firing policy (the only thing that differs from the committed gate) --
 
     def _penalty(self, state: OnlineState) -> float:
-        """Nonnegative recurrent spreading penalty from time-since-last-fire and recent fire density."""
 
         density = state.firing_rate_ema / self.rho  # firing_rate_ema >= 0, rho > 0 => density >= 0
         if state.last_fire_frame >= 0.0:
@@ -229,7 +178,6 @@ class RecurrenceSpreadGate:
         return self.density_weight * density + self.refractory_weight * refractory
 
     def infer(self, features: np.ndarray, state: OnlineState) -> float:
-        """Online effective firing probability for one frame. Takes features and self-state, never a label."""
 
         p_signal = self.signal_gate.infer(features, state)
         if self.density_weight == 0.0 and self.refractory_weight == 0.0:
@@ -242,13 +190,11 @@ class RecurrenceSpreadGate:
     def fire(
         self, features: np.ndarray, state: OnlineState, theta: float
     ) -> tuple[bool, float]:
-        """Return (fired, p_fire) for one frame; fires iff the effective p_fire is at least theta."""
 
         p_fire = self.infer(features, state)
         return (p_fire >= float(theta), p_fire)
 
     def causal_pass(self, features: np.ndarray, theta: float) -> tuple[list[int], np.ndarray]:
-        """Run the gate causally over a clip and return (fired_frames, effective_p_fire_trace)."""
 
         features = np.asarray(features, dtype=np.float64)
         if features.ndim != 2 or features.shape[1] != D_FEAT:
@@ -276,14 +222,6 @@ class RecurrenceSpreadGate:
         refractory_grid: tuple[float, ...] = DEFAULT_REFRACTORY_GRID,
         collar_frames: int = COLLAR_FRAMES,
     ) -> SpreadTrainingReport:
-        """Fit the two nonnegative spreading weights by a deterministic grid search on train onset F1.
-
-        For each grid point the firing threshold is tuned on the train rooms to the target rate (train
-        labels only, never a val or test score), the gate is scored on the train rooms through the sealed
-        referee, and the point with the highest train onset F1 is kept. Ties, including a tie with the
-        no-spread point (0, 0), resolve toward the smallest total weight, so the gate spreads only when
-        spreading measurably helps on train. The search cost is recorded as honest full-lifecycle FLOPs.
-        """
 
         if not train_clips:
             raise GateRefusal("fit_spread needs at least one train clip")

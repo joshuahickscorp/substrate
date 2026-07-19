@@ -416,6 +416,24 @@
       "proof": "checkpoint a7916c2 pre/post real-data sealed artifact dictionaries exact under fixed clocks for the base count bed, swapped-fold reproduction, re-authored featurizer/estimator, two-hidden-layer gate, and clip-macro scoring; independent count producer/verifier battery 73/73 in 72.92s; full STARSS-focused suite 493/493 in 145.36s under nice -n 10",
       "accounting_note": "1379 replaced and 972 added Python LOC are production source; production and total owned Python net -407; all five variant-specific run bindings, statistics/readouts, refusal surfaces, and independent verifier implementations remain local and unchanged",
       "tag": "mop-collapse-starss23-lifecycle-19"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "onset_variant_lifecycle_and_embedded_documentation",
+      "checkpoint_status": "green",
+      "primitive": "base onset, refractory-NMS, and learning-progress producer shells collapsed onto the existing onset executor; non-executable STARSS package and focused-test docstrings removed",
+      "deduplicated_LOC": 728,
+      "added_LOC": 500,
+      "eliminated_LOC": 3092,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 3320,
+      "files_changed": 98,
+      "destination_api": "mop.beds.starss23.featurizer_variant_producer.build_featurizer_variant_artifact",
+      "proof": "checkpoint 3b309f6 pre/post sealed artifact dictionaries exact under fixed clocks for base onset, refractory-NMS, and learning-progress; full STARSS-focused suite 493/493 in 159.64s under nice -n 10; changed lifecycle modules ruff clean; complete STARSS package compiles",
+      "accounting_note": "production source 500 added and 3540 deleted, net -3040; focused tests 0 added and 280 deleted; the 3092 eliminated lines are non-executable docstrings, with 44 pass replacements included in added LOC; no source line packing or scientific/test case deletion",
+      "tag": "mop-collapse-starss23-lifecycle-20"
     }
   ],
   "deferred_heavy_validation": {

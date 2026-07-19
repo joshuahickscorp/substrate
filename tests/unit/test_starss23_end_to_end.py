@@ -1,12 +1,3 @@
-"""End-to-end tests for the STARSS23 ESCS bed: the ladder Bed adapter and the producer / verifier round trip.
-
-These tests exercise the whole lane the way the ladder and the entrypoint scripts do: the Bed adapter
-plugs into ladder_contracts.Bed, the producer seals an artifact to disk, and the separately authored
-verifier re-scores it from the sealed file. On synthetic fixtures the verdict is capped at mechanics-ok
-and the independent confirmation stays false.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

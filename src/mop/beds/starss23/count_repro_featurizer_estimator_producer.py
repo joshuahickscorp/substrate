@@ -1,7 +1,3 @@
-"""Re-authored frontend and estimator reproduction producer for the STARSS23 count bed.
-
-Provider, split, preregistration, gate, estimator, FLOP, and evidence declarations remain local; the
-shared count-variant authority owns only the held-fixed scoring and sealed-artifact lifecycle."""
 
 from __future__ import annotations
 
@@ -70,12 +66,11 @@ DEFAULT_N_VAL_ROOMS = 2
 
 
 class CountReproProducerRefusal(ValueError):
-    """Raised when the reproduction producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class ReproCountBedConfig:
-    """Reproduction-run configuration. The disjoint seed family and the sweep mirror the sealed recipe."""
 
     seeds: tuple[int, ...] = REPRO_SEEDS
     n_val_rooms: int = DEFAULT_N_VAL_ROOMS
@@ -109,7 +104,6 @@ def _real_noisy_tv_features(
     target_mean: float,
     target_std: float,
 ) -> np.ndarray:
-    """Build the swapped front-end's independently seeded aleatoric control channel."""
 
     noise_seed = domain_seed(
         seed,
@@ -136,7 +130,6 @@ def _run_seed_real(
     config: ReproCountBedConfig,
     operating_density: float,
 ) -> BudgetSeedRun:
-    """Bind the swapped providers to the held-fixed counting seed lifecycle."""
 
     return run_count_seed(
         seed=seed,
@@ -185,7 +178,6 @@ def build_repro_count_bed_artifact(
     config: ReproCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_REPRO_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the re-authored providers through the shared count lifecycle."""
 
     config = config or ReproCountBedConfig()
     featurizer = ReproCountFeaturizer()

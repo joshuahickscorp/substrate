@@ -1,30 +1,3 @@
-"""Adversarial reproduction 1 (data-split axis): preregistration of the swapped-fold SESOI.
-
-This is a net-new, additive component. It sits beside the sealed counting bed and edits nothing under
-it. It preregisters the smallest-effect-size-of-interest for the DATA-SPLIT reproduction, in which the
-room-fold partition is swapped: the gate trains on the rooms the original bed scored (fold-4) and is
-scored on the rooms the original bed trained and tuned on (fold-3). The two folds share no room, so the
-swapped split is still genuinely room-disjoint and clip-disjoint.
-
-The SESOI is fixed by the SAME cost-benefit rule the sealed bed used, reused by import
-(``count_prereg.compute_count_cost_benefit``), evaluated on THIS reproduction's own label-only structural
-facts (the fold-3 test-clip count, the fold-3 test-frame count, the fold-3 test change count, and the
-fold-4 train-density-derived operating fraction). The registered number is this reproduction's own
-one-test-clip catchable-change-mass on the count-MAE scale:
-
-    SESOI = one_clip_change_mass_mae = (changes_per_clip * mean_run_frames / 2) / n_test_frames
-          = 0.5 / n_test_clips   on the pooled-frame scale
-
-so with the 24 fold-3 test clips it lands near 0.0208, on the same count scale as the original 0.02. The
-prereg refuses unless the SESOI is at least 100x the per-frame measurement granularity, keeping it far
-above the pseudoreplication floor.
-
-Nothing here reads a test score. The body carries ``activation_allowed=false`` and
-``scientific_promotion=false`` and a fixed timestamp that is passed in, never read from the wall clock. It
-must be written before the run reads any test-split MAE.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -64,7 +37,7 @@ PREREG_DIRECTION = (
 
 
 class ReproPreregRefusal(ValueError):
-    """Raised when a data-split reproduction preregistration input is malformed."""
+    pass
 
 
 def _swapped_split_rationale(cb: Any, sesoi: float, granularity_multiple: float) -> str:
@@ -100,12 +73,6 @@ def build_data_split_prereg(
     c_reest_flops: int = DEFAULT_C_REEST_FLOPS,
     n_seeds: int = N_PAIRED_SEEDS,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed data-split reproduction preregistration.
-
-    The SESOI is computed from the fold-3 test labels by the reused cost-benefit rule and refused unless it
-    clears the granularity floor. The timestamp is passed by the caller, never read from a clock. No test
-    score is read.
-    """
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise ReproPreregRefusal("timestamp must be a non-empty string passed by the caller")

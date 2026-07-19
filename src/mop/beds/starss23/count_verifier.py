@@ -1,43 +1,3 @@
-"""Concurrent-source-counting bed, component 7b: the independent verifier.
-
-Authored separately from the producer for the independent-verify phase. It imports none of the
-counting bed's own modules and nothing under ``mop``: only the standard library. The point is
-triangulation, not trust. Every graded number in a sealed count bed artifact is re-derived here
-from the written specification, so agreement with the producer is real independent reproduction and
-not a shared implementation bug. A unit test parses this file and fails if the import surface ever
-grows past ``json``, ``hashlib``, ``itertools``, ``dataclasses``, and ``__future__``.
-
-What is re-derived from specification
--------------------------------------
-1. Canonical seal. ``sha256`` over ``json.dumps(body, sort_keys=True, separators=(",", ":"),
-   ensure_ascii=True, allow_nan=False)`` where ``body`` is the whole artifact minus its ``seal`` key.
-   A re-hash must reproduce the stored seal exactly, or the artifact was mutated after sealing.
-2. The coasted-count-MAE referee. For each arm the emitted track is re-coasted from the frozen
-   shared estimator track E and the per-arm re-estimation set R as ``emitted(t) = E[max{r in R : r <= t}]``,
-   else the cold start 0. The pooled score is ``sum_clips sum_t |emitted(t) - C_gt(t)| / sum_clips T``,
-   a frame micro-average. Two arms are recomputed without any stored R: ``always_on`` uses ``R = range(T)``
-   and must reduce to ``mean|E - C_gt|``; ``never_update`` uses ``R = []`` and must reduce to ``mean|C_gt|``.
-   The primary control ``rate_matched_random`` must spend exactly the candidate's re-estimation count per
-   clip and per seed, or the matched-budget contract is broken. Any tampered E, R, or stored score is caught
-   because the stored numbers are never used to compute, only to compare against.
-3. The exact sign-flip permutation. On the re-derived paired deltas
-   ``delta_i = MAE_rate_matched_random(i) - MAE_candidate(i)`` (positive means the candidate placed its
-   fixed re-estimation budget better), enumerate all two-to-the-n sign assignments; the one-sided p is the
-   fraction whose mean is at least the observed mean. At n = 5 all-same-sign the minimum one-sided p is
-   1/32 = 0.03125 and two-sided 0.05 is unreachable.
-
-The two verdicts, kept strictly apart
---------------------------------------
-``independent_referee_reproduction`` is set true only when the seal is intact, the schema and claim scope
-are the frozen contract, every recomputed MAE and delta and p agrees within tolerance, and the producer's
-honesty flags are all false. That is a mechanics reproduction: it says the arithmetic in the artifact is
-real. ``independent_scientific_confirmation`` is set true only when, on top of that, the data is real, its
-rights are clean, the noisy-TV control sat at chance, and at least three bias-independent reproductions are
-on record. One real run can pass the first and never the second. This verifier will not self-certify the
-second on a single run no matter how clean the arithmetic is; that is the whole guardrail.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -78,7 +38,7 @@ _TOL = 1e-9
 
 
 class CountVerificationRefusal(ValueError):
-    """Raised when an artifact is too malformed to even attempt an independent re-score."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -132,7 +92,6 @@ def _as_reestimates(frames: object, n_frames: int, label: str) -> list[int]:
 
 
 def _coast(estimator: list[int], reestimates: list[int], cold_start: int = COLD_START) -> list[int]:
-    """Hold the most recent re-estimate, else the cold start. Strictly causal by construction."""
 
     fire = set(reestimates)
     emitted: list[int] = []
@@ -156,7 +115,6 @@ def _reestimates_for_arm(
     n_frames: int,
     reestimates_by_clip: dict,
 ) -> list[int]:
-    """Return the re-estimation set an arm spends on a clip. Deterministic arms carry no stored set."""
 
     if arm == ARM_ALWAYS_ON:
         return list(range(n_frames))
@@ -195,7 +153,6 @@ def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class CountVerificationResult:
-    """Outcome of one independent verification pass over a sealed count bed artifact."""
 
     seal_intact: bool
     schema_ok: bool
@@ -236,7 +193,6 @@ def _score_arm_pooled(
     candidate_count_by_clip: dict[str, int],
     mismatches: list[str],
 ) -> tuple[int, int, bool]:
-    """Micro-average one arm across the test clips, from raw tracks only. Returns budget-match flag too."""
 
     abs_error = 0
     frames = 0
@@ -264,7 +220,6 @@ def _score_arm_pooled(
 
 
 def verify_count_artifact(artifact: dict) -> CountVerificationResult:
-    """Re-derive every graded number in a sealed count bed artifact and rule on both verdicts."""
 
     if not isinstance(artifact, dict):
         raise CountVerificationRefusal("artifact must be a JSON object")
@@ -478,7 +433,6 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
 
 
 def count_verification_payload(result: CountVerificationResult) -> dict:
-    """Assemble the self-sealed proof/STARSS23_COUNTING_BED.verification.json body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -500,7 +454,6 @@ def count_verification_payload(result: CountVerificationResult) -> dict:
 
 
 def verify_sealed_count_file(in_path: str) -> dict:
-    """Read a sealed count artifact from disk, verify it, and return the self-sealed verification payload."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -508,7 +461,6 @@ def verify_sealed_count_file(in_path: str) -> dict:
 
 
 def write_count_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

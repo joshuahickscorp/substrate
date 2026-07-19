@@ -1,13 +1,3 @@
-"""Component 1a: the frozen STARSS23 clip and label contract.
-
-This module defines the immutable data schema the whole bed is scored against and the room-disjoint,
-clip-disjoint split discipline. It performs validation only and charges no arm compute. The grid is
-fixed to the STARSS23 native format: 100 ms label frames, 24 kHz audio, 4 channels (first-order
-Ambisonics / FOA-like). A real STARSS23 clip slots into ``Clip`` unchanged because the fields are the
-DCASE onset contract: per 100 ms frame a class, an azimuth, an elevation, and a distance.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -34,7 +24,7 @@ _SHA256_HEX = frozenset("0123456789abcdef")
 
 
 class SchemaRefusal(ValueError):
-    """Raised when a clip, onset, or split violates the frozen STARSS23 contract."""
+    pass
 
 
 def _require_sha256(value: str, label: str) -> str:
@@ -51,7 +41,6 @@ def _require_finite(value: float, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class OnsetEvent:
-    """One onset-localized sound event at a 100 ms frame with its direction-of-arrival label."""
 
     frame: int
     class_id: int
@@ -98,7 +87,6 @@ class OnsetEvent:
 
 @dataclass(frozen=True, slots=True)
 class Clip:
-    """One room-disjoint clip: identity, room, frame count, audio digest, and its onset labels."""
 
     clip_id: str
     room_id: str
@@ -161,12 +149,6 @@ class Clip:
 
 @dataclass(frozen=True, slots=True)
 class ClipSplit:
-    """A room-disjoint and clip-disjoint partition: train fits the gate, val picks theta, test scores.
-
-    Disjointness is enforced on both axes at once. No clip id and no room id may appear in more than
-    one partition. This is the native STARSS23 dev-train / dev-test discipline generalized to the
-    three-way fit / tune / score split the matched-budget harness needs.
-    """
 
     train: tuple[Clip, ...]
     val: tuple[Clip, ...]
@@ -223,12 +205,6 @@ class ClipSplit:
 def room_disjoint_split(
     clips: Sequence[Clip], *, n_train_rooms: int, n_val_rooms: int
 ) -> ClipSplit:
-    """Partition clips into train / val / test by room, keeping rooms and clips fully disjoint.
-
-    Rooms are assigned in sorted order for determinism: the first ``n_train_rooms`` rooms fit the gate,
-    the next ``n_val_rooms`` rooms pick theta, and every remaining room scores. Refuses if any
-    partition would be empty. Validation only, no arm compute.
-    """
 
     if n_train_rooms <= 0 or n_val_rooms <= 0:
         raise SchemaRefusal("room split needs at least one train room and one val room")
@@ -264,7 +240,6 @@ def room_disjoint_split(
 
 
 def clip_partition(split: ClipSplit) -> dict[str, tuple[str, ...]]:
-    """Return the clip-id membership of each partition for provenance sealing."""
 
     return {
         "train": tuple(clip.clip_id for clip in split.train),

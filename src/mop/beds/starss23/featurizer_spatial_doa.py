@@ -1,40 +1,3 @@
-"""A net-new FROZEN zero-trained-parameter spatial direction-of-arrival featurizer.
-
-This is an additive front-end swap for the STARSS23 ESCS event-formation bed. It changes NO sealed
-scoring module. Where the committed ``FrozenFeaturizer`` emits half-wave-rectified log-mel spectral flux,
-this featurizer emits per-band ACTIVE-INTENSITY DIRECTION-OF-ARRIVAL features computed from the FOA
-B-format: per frequency band the active-intensity vector I = Re{conj(W) [X, Y, Z]} is reduced to a
-source azimuth and elevation (encoded as wraparound-free direction cosines) plus a DirAC diffuseness. It
-carries the identical interface as the frozen featurizer (``featurize``, ``n_params``,
-``parameter_digest``, ``feature_digest``, ``flops_for_frames`` and a module-level ``FLOPS_PER_FRAME``),
-so it feeds the SAME unchanged trained gate through the SAME sealed harness, referee, and controls.
-
-Physical motivation (docs/ESCS_DEEP_RESEARCH.md spatial cue). A new sound event onset introduces energy
-arriving from a new direction. Plain log-mel energy discards the spatial channel entirely: two events at
-the same loudness from different directions look identical to it. The active-intensity DOA makes that
-spatial structure explicit, and the diffuseness flags frames where the field is incoherent (reverberant
-tails, silence, isotropic noise) so the estimate is untrustworthy. Whether the trained gate can USE that
-spatial structure to place a fixed firing budget better than uniform-random placement is exactly the
-falsifiable question the bed scores; nothing here presupposes it can.
-
-Zero trained parameters, asserted the same way the base featurizer asserts it: ``n_params()`` returns 0
-and ``parameter_digest()`` hashes only deterministic functions of the sample rate and the transform grid
-(the Hann window and the fixed triangular-free 0/1 band-membership matrix), never a learned weight. The
-pipeline is float64 throughout and byte-reproducible: identical input bytes yield identical output bytes.
-
-Output dimension. The featurizer emits exactly ``D_FEAT = 256`` per-frame features (64 frequency bands
-times 4 spatial features: three direction cosines and one diffuseness), so the unchanged gate, whose
-input contract is hardcoded to a length-256 feature vector, consumes it with NO projection and NO
-truncation. This is deliberate: matching 256 natively keeps the gate, its 3193-parameter count, the
-4096 ceiling, and the whole matched-budget story byte-identical to every other arm.
-
-Compute is charged analytically, never measured, so the FLOP ledger is host-independent. The per-frame
-cost is dominated by the same four-channel short-time transform the frozen front-end runs, so the DOA
-front-end costs almost exactly what the frozen front-end costs and the matched-budget ceiling story is
-unchanged.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -110,13 +73,6 @@ def _mel_to_hz(mel: float) -> float:
 
 
 def _band_edges(sample_rate: int) -> np.ndarray:
-    """Return N_BANDS+1 strictly increasing integer rFFT-bin edges, mel-spaced, covering all N_BINS bins.
-
-    The band partition is a deterministic function of the sample rate and the transform size, never a
-    learned quantity. Each of the N_BANDS bands owns a contiguous, non-empty range of rFFT bins, and the
-    bands tile [0, N_BINS) exactly. Mel spacing puts finer bands at low frequency; the strictly
-    increasing clamp guarantees no band is empty even where the mel grid is narrower than one bin.
-    """
 
     f_max = sample_rate / 2.0
     mel_lo, mel_hi = _hz_to_mel(0.0), _hz_to_mel(f_max)
@@ -135,7 +91,6 @@ def _band_edges(sample_rate: int) -> np.ndarray:
 
 
 def _band_membership(sample_rate: int) -> np.ndarray:
-    """Return the fixed (N_BANDS, N_BINS) 0/1 band-membership matrix. Zero trained parameters."""
 
     edges = _band_edges(sample_rate)
     membership = np.zeros((N_BANDS, N_BINS), dtype=np.float64)
@@ -146,12 +101,6 @@ def _band_membership(sample_rate: int) -> np.ndarray:
 
 @dataclass(frozen=True, slots=True)
 class SpatialDoaFeaturizer(FrozenFeatureProvider):
-    """The frozen active-intensity DOA front-end. Deep-frozen: window and band grid are fixed DSP.
-
-    The featurizer holds no trainable state. Its only constants are the Hann window and the band
-    membership matrix, both deterministic functions of the sample rate and the transform grid. It emits
-    a length-256 per-frame vector so the unchanged gate consumes it directly.
-    """
 
     _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = 24_000
@@ -165,7 +114,6 @@ class SpatialDoaFeaturizer(FrozenFeatureProvider):
         return _band_membership(self.sample_rate)
 
     def parameter_digest(self) -> str:
-        """Digest of the fixed window and band grid bytes, proving the front-end is byte-frozen."""
 
         membership = self.band_membership
         payload = {
@@ -184,7 +132,6 @@ class SpatialDoaFeaturizer(FrozenFeatureProvider):
         return canonical_sha256(payload)
 
     def _channel_spectra(self, signal: np.ndarray, n_cols: int) -> np.ndarray:
-        """Return the windowed rFFT of one channel: (n_cols, N_BINS) complex128. Deterministic."""
 
         padded = np.zeros(n_cols * HOP + PAD_RIGHT, dtype=np.float64)
         padded[: signal.shape[0]] = signal
@@ -197,12 +144,6 @@ class SpatialDoaFeaturizer(FrozenFeatureProvider):
         return np.fft.rfft(columns, n=N_FFT, axis=1)
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:
-        """Featurize a (N_CHANNELS, n_samples) FOA array into (n_frames, D_FEAT=256) float64.
-
-        Byte-reproducible: identical input bytes yield identical output bytes on a given host. The output
-        is laid out as four contiguous 64-band blocks: the three source-direction cosines (from the
-        active-intensity azimuth and elevation) followed by the DirAC diffuseness.
-        """
 
         audio = np.asarray(audio, dtype=np.float64)
         if audio.ndim != 2 or audio.shape[0] != N_CHANNELS:

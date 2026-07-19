@@ -1,19 +1,3 @@
-"""The ladder Bed adapter for the STARSS23 event-formation bed.
-
-This implements ``mop.ladder.ladder_contracts.Bed`` so the bed plugs into the Stage 3 ladder as a
-deterministic task environment. It declares the three controls, the matched full-system budget, and the
-two regimes the recipe requires:
-
-- ``null_regime``: nuisance-only. The audio carries only band-limited distractor grains and the onset
-  labels are independent of the audio, so no featurizer signal predicts them. A learned gate cannot beat
-  the rate-matched-random control, so the strong null holds.
-- ``favorable_regime``: planted onsets. Coherent first-order-Ambisonics-steered onset grains sit at the
-  labeled frames, so a gate that reads the signal-band signature can fire on them.
-
-The Bed carries no training and no scoring itself; it hands the ladder the deterministic regimes and the
-matched budget. Synthetic data caps any downstream verdict at mechanics-ok. House style: no em dashes and
-no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -52,7 +36,6 @@ _REGIME_ROOM = "room00"
 
 
 def _matched_budget() -> MatchedBudget:
-    """The deterministic full-lifecycle matched budget, asserted under the ~6e10 FLOP ceiling."""
 
     firings = int(NOMINAL_FIRING_FRACTION * NOMINAL_TEST_FRAMES)
     flops = (
@@ -67,7 +50,6 @@ def _matched_budget() -> MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class RegimeSample:
-    """A deterministic regime materialization: the generated clips and a content digest."""
 
     regime: str
     seed: int
@@ -91,7 +73,6 @@ class RegimeSample:
 
 
 class Starss23EscsBed:
-    """The Stage 3 ladder Bed for the STARSS23 event-formation lane. Deterministic and mechanics-only."""
 
     mechanism_id: str = BED_ID
 
@@ -126,17 +107,14 @@ class Starss23EscsBed:
         )
 
     def null_regime(self, seed: int) -> RegimeSample:
-        """Nuisance-only regime: onset labels are independent of the audio, so the strong null holds."""
 
         return self._sample(seed, REGIME_NULL)
 
     def favorable_regime(self, seed: int) -> RegimeSample:
-        """Planted-onset regime: coherent Ambisonics-steered onset grains sit at the labeled frames."""
 
         return self._sample(seed, REGIME_FAVORABLE)
 
 
 def build_bed(*, clip_seconds: float = 6.0) -> Starss23EscsBed:
-    """Return the default STARSS23 ESCS ladder Bed."""
 
     return Starss23EscsBed(clip_seconds=clip_seconds)

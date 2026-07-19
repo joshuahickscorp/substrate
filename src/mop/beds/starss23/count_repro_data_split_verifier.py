@@ -1,43 +1,3 @@
-"""Adversarial reproduction 1 (data-split axis): the separately authored independent verifier.
-
-Authored independently of the producer for the independent-verify phase. It imports nothing under ``mop``
-and nothing from any counting-bed module: only the standard library (``json``, ``hashlib``, ``itertools``,
-``dataclasses``, ``__future__``). A unit test parses this file and fails if the import surface ever grows
-past that set. The point is triangulation, not trust: every graded number in the sealed swapped-fold
-artifact is re-derived here from the written specification, so agreement with the producer is a genuine
-independent reproduction and not a shared implementation bug.
-
-What is re-derived from specification
--------------------------------------
-1. Canonical seal. ``sha256`` over ``json.dumps(body, sort_keys=True, separators=(",", ":"),
-   ensure_ascii=True, allow_nan=False)`` of the whole artifact minus its ``seal`` key. A re-hash must
-   reproduce the stored seal exactly, or the artifact was mutated after sealing.
-2. The swapped-split contract. The artifact must carry the data-split reproduction schema, stage 3, the
-   frozen claim scope, ``rate_matched_random`` as the primary control, and a room-disjoint swapped split
-   whose train, val, and test room sets are pairwise disjoint (the whole point of the axis).
-3. The coasted-count-MAE referee. For each arm the emitted track is re-coasted from the frozen shared
-   estimator track E and the arm's re-estimation set R as ``emitted(t) = E[max{r in R : r <= t}]`` else the
-   cold start 0. The pooled score is ``sum_clips sum_t |emitted(t) - C_gt(t)| / sum_clips T``, a frame
-   micro-average. ``always_on`` (R = every frame) must reduce to ``mean|E - C_gt|`` and ``never_update``
-   (R = []) to ``mean|C_gt|``. ``rate_matched_random`` must spend exactly the candidate's re-estimation
-   count on every clip and seed, or the matched-budget contract is broken.
-4. The exact sign-flip permutation. On the re-derived paired deltas
-   ``delta_i = MAE_rate_matched_random(i) - MAE_candidate(i)`` enumerate all 2^n sign assignments; the
-   one-sided p is the fraction whose mean is at least the observed mean. At n = 5 the floor is 1/32.
-5. The registered SESOI. The mean control-minus-candidate delta is compared against the SESOI recorded in
-   the artifact prereg, and the producer's exceedance flag is checked for honesty.
-
-The two verdicts, kept strictly apart
---------------------------------------
-``independent_referee_reproduction`` is set only when the seal is intact, the contract holds, every
-recomputed MAE and delta and p agrees within tolerance, and the honesty flags are all false. That is a
-mechanics reproduction. ``independent_scientific_confirmation`` additionally requires real rights-clean
-data, the noisy-TV control at chance, and at least three bias-independent reproductions on record. One
-reproduction can pass the first and never the second; the ``reproductions`` counter on a lone append-only
-run is 0, so this verifier will not self-certify the second no matter how clean the arithmetic is.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -81,7 +41,7 @@ _TOL = 1e-9
 
 
 class ReproVerificationRefusal(ValueError):
-    """Raised when the swapped-fold artifact is too malformed to attempt an independent re-score."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -139,7 +99,6 @@ def _reestimates(frames: object, n_frames: int, label: str) -> list[int]:
 
 
 def _coast_abs_error(gt: list[int], estimator: list[int], reestimates: list[int]) -> int:
-    """Coast the emitted count and return the pooled absolute error for one clip. Strictly causal."""
 
     fire = set(reestimates)
     held = COLD_START
@@ -189,7 +148,6 @@ def _sign_flip(deltas: list[float]) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class ReproVerificationResult:
-    """Outcome of one independent verification pass over a sealed swapped-fold reproduction artifact."""
 
     seal_intact: bool
     schema_ok: bool
@@ -279,7 +237,6 @@ def _score_pooled(
 
 
 def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
-    """Re-derive every graded number in a sealed swapped-fold artifact and rule on both verdicts."""
 
     if not isinstance(artifact, dict):
         raise ReproVerificationRefusal("artifact must be a JSON object")
@@ -519,7 +476,6 @@ def verify_data_split_artifact(artifact: dict) -> ReproVerificationResult:
 
 
 def data_split_verification_payload(result: ReproVerificationResult) -> dict:
-    """Assemble the self-sealed verification proof body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -544,7 +500,6 @@ def data_split_verification_payload(result: ReproVerificationResult) -> dict:
 
 
 def verify_sealed_data_split_file(in_path: str) -> dict:
-    """Read a sealed swapped-fold artifact from disk, verify it, and return the self-sealed payload."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -552,7 +507,6 @@ def verify_sealed_data_split_file(in_path: str) -> dict:
 
 
 def write_data_split_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

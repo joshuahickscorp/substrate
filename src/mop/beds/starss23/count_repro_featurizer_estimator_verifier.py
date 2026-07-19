@@ -1,31 +1,3 @@
-"""Independent verifier for the featurizer_estimator reproduction of the STARSS23 counting bed.
-
-Authored separately from the producer for the independent-verify phase. It imports none of the counting
-bed's own modules and nothing under ``mop``: only the standard library. The point is triangulation, not
-trust. Every graded number in the sealed reproduction artifact is re-derived here from the written
-specification, so agreement with the producer is real independent reproduction and not a shared
-implementation bug. A unit test parses this file and fails if the import surface ever grows past ``json``,
-``hashlib``, ``itertools``, ``dataclasses``, and ``__future__``.
-
-Because the coasted-count-MAE referee re-scores from the sealed raw tracks (the shared ground-truth count
-track and the shared frozen estimator track ``E'``) plus each arm's re-estimation set, this verifier is
-estimator-agnostic and gate-agnostic by construction: it never re-runs the re-authored featurizer, the
-re-authored estimator, or the gate. It re-coasts and re-scores every arm from the sealed ``E'``, so a
-tampered ``E'``, re-estimation set, or stored score is caught because the stored numbers are only compared
-against, never used to compute.
-
-The two verdicts, kept strictly apart
---------------------------------------
-``independent_referee_reproduction`` is set true only when the seal is intact, the schema and claim scope are
-the frozen reproduction contract, every recomputed MAE and delta and p agrees within tolerance, and the
-producer's honesty flags are all false. ``independent_scientific_confirmation`` is set true only when, on top
-of that, the data is real, its rights are clean, the noisy-TV control sat at chance, and at least three
-bias-independent reproductions are on record. A single reproduction carries ``reproductions = 0``, so it can
-pass the first and never the second: this verifier will not self-certify the second on one file no matter how
-clean the arithmetic is. That is the whole guardrail.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -67,7 +39,7 @@ _TOL = 1e-9
 
 
 class ReproVerificationRefusal(ValueError):
-    """Raised when an artifact is too malformed to even attempt an independent re-score."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -117,7 +89,6 @@ def _as_reestimates(frames: object, n_frames: int, label: str) -> list[int]:
 
 
 def _coast(estimator: list[int], reestimates: list[int], cold_start: int = COLD_START) -> list[int]:
-    """Hold the most recent re-estimate, else the cold start. Strictly causal by construction."""
 
     fire = set(reestimates)
     emitted: list[int] = []
@@ -136,7 +107,6 @@ def _abs_error_sum(gt: list[int], emitted: list[int]) -> int:
 
 
 def _reestimates_for_arm(arm: str, clip_id: str, n_frames: int, reestimates_by_clip: dict) -> list[int]:
-    """Return the re-estimation set an arm spends on a clip. Deterministic arms carry no stored set."""
 
     if arm == ARM_ALWAYS_ON:
         return list(range(n_frames))
@@ -175,7 +145,6 @@ def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class ReproVerificationResult:
-    """Outcome of one independent verification pass over a sealed reproduction artifact."""
 
     seal_intact: bool
     schema_ok: bool
@@ -212,7 +181,6 @@ def _score_arm_pooled(
     candidate_count_by_clip: dict[str, int],
     mismatches: list[str],
 ) -> tuple[int, int, bool]:
-    """Micro-average one arm across the test clips, from raw tracks only. Returns budget-match flag too."""
 
     abs_error = 0
     frames = 0
@@ -240,7 +208,6 @@ def _score_arm_pooled(
 
 
 def verify_repro_count_artifact(artifact: dict) -> ReproVerificationResult:
-    """Re-derive every graded number in a sealed reproduction artifact and rule on both verdicts."""
 
     if not isinstance(artifact, dict):
         raise ReproVerificationRefusal("artifact must be a JSON object")
@@ -485,7 +452,6 @@ def verify_repro_count_artifact(artifact: dict) -> ReproVerificationResult:
 
 
 def repro_verification_payload(result: ReproVerificationResult) -> dict:
-    """Assemble the self-sealed reproduction verification body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -509,7 +475,6 @@ def repro_verification_payload(result: ReproVerificationResult) -> dict:
 
 
 def verify_sealed_repro_count_file(in_path: str) -> dict:
-    """Read a sealed reproduction artifact from disk, verify it, and return the self-sealed verification body."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -517,7 +482,6 @@ def verify_sealed_repro_count_file(in_path: str) -> dict:
 
 
 def write_repro_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

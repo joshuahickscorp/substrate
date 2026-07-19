@@ -1,37 +1,3 @@
-"""Sealed preregistration for the F1 frozen-featurizer iteration wave (STARSS23 ESCS bed).
-
-This is a net-new, additive component. It changes no sealed scoring logic. The first real Stage-3 run
-nulled because the trained value-of-computation gate, reading the base half-wave-rectified log-mel flux,
-clusters its fires on high-energy regions and recovers fewer distinct onsets than uniform random
-placement at matched budget. The F1 wave keeps the SAME sealed gate, referee, and controls and swaps only
-the FROZEN zero-trained-parameter FEATURIZER, testing whether a stronger hand-crafted onset front-end
-exposes onset structure the unchanged gate can localize.
-
-Testing a family of frozen featurizers against one fixed test split inflates the family-wise error, so
-this module preregisters, IN CODE and sealed to ``proof/STARSS23_ESCS_BED_superflux_spectral.prereg.json``
-BEFORE any featurizer reads a test score:
-
-- the metric and direction (onset F1 at the DCASE plus-or-minus 200 ms collar, greedy one-to-one, strict
-  point-wise PR; direction candidate greater than rate-matched-random), restated from the committed prereg;
-- the SESOI (0.05), on the identical cost-benefit basis as the committed prereg, recomputed from the
-  label structure of the corpus (never from a test score);
-- the exact one-sided sign-flip plan (five paired seeds, min one-sided p 1/32, two-sided 0.05 unreachable
-  at n equals 5);
-- a multiplicity control across the three featurizer families (Bonferroni). With three featurizers the
-  per-family adjusted alpha is 0.05/3 = 0.016667, and the smallest achievable one-sided sign-flip p at
-  five paired seeds is 1/32 = 0.03125, which exceeds it, so NO single featurizer can clear family-wise
-  significance from this family alone at n equals 5: a preregistered statistical wall, not a moved
-  goalpost;
-- the claim ceiling (the clip is the experimental unit, the verb is bounded to "consistent with");
-- the three featurizer ids, each with a one-line falsifiable hypothesis.
-
-Nothing here reads a test-split F1. The cost-benefit derivation uses only fixed compute anchors and label
-structure known before scoring (test-clip count, pooled test onset count, train-set onset density). The
-timestamp is passed by the caller, never read from the wall clock inside the sealed body, and the sealed
-body carries ``activation_allowed=false`` and ``scientific_promotion=false``.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -95,11 +61,10 @@ FEATURIZER_VARIANTS: tuple[dict[str, str], ...] = (
 
 
 class FeaturizersPreregRefusal(ValueError):
-    """Raised when the featurizer preregistration inputs are malformed."""
+    pass
 
 
 def _multiplicity_block(n_variants: int, min_one_sided_p: float, alpha: float) -> dict[str, Any]:
-    """Bonferroni family-wise control across the featurizer family, honest about the n equals 5 floor."""
 
     return bonferroni_family(
         n_variants, min_one_sided_p, alpha,
@@ -123,10 +88,6 @@ def build_featurizers_prereg(
     variants: tuple[dict[str, str], ...] = FEATURIZER_VARIANTS,
     base_prereg_canonical_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed featurizer preregistration body.
-
-    The timestamp is passed by the caller and never read from a clock.
-    """
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise FeaturizersPreregRefusal("timestamp must be a non-empty string passed by the caller")
@@ -191,13 +152,6 @@ def structural_facts_from_superflux_cache(
     cache_root: str | Path | None = None,
     target_rates: tuple[float, ...] | None = None,
 ) -> StructuralFacts:
-    """Derive the label-only structural facts from the built SuperFlux cache. Reads no test-split F1.
-
-    Onset counts, frame counts, and the train onset density are label-only and identical across
-    featurizers (only the feature bytes differ), so reading them from the SuperFlux cache is a pure
-    label-structure read. The operating firing fraction is the swept target rate closest to the train
-    onset density, the exact rule the producer preregisters, using train labels only.
-    """
 
     from .feature_cache import DEFAULT_CACHE_ROOT, load_or_build_cached_corpus
 
@@ -209,7 +163,6 @@ def structural_facts_from_superflux_cache(
 
 
 def _main(argv: list[str] | None = None) -> int:
-    """Seal the featurizer preregistration from the cached corpus structural facts and print its digest."""
 
     import argparse
     import json

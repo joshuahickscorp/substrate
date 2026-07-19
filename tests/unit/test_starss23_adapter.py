@@ -1,12 +1,3 @@
-"""Unit tests for the STARSS23 data adapter (bed component 1b).
-
-Coverage: native metadata-schema parsing and serialization round-trips, clip filename identity, onset
-derivation from dense per-frame activity (including simultaneous-onset collapse), the synthetic adapter
-protocol, the room-disjoint dev-train / dev-test split, the nested three-way harness split, the blocked
-real adapter, and the raw-transport work charge. Real STARSS23 files pass through the same code path.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -316,7 +307,6 @@ def test_native_dev_split_refuses_overlapping_clips() -> None:
 
 
 def _write_real_tree(root, clips: dict[str, tuple[int, tuple[OnsetEvent, ...]]]):
-    """Write a STARSS23-shaped tree: foa/<fold-dir>/<clip>.wav and meta/<fold-dir>/<clip>.csv."""
 
     foa_root = root / "foa_dev"
     meta_root = root / "metadata_dev"

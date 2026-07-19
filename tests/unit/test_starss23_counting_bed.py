@@ -1,14 +1,3 @@
-"""Unit tests for the STARSS23 ESCS concurrent-source-counting value-of-computation bed.
-
-These exercise the net-new counting modules end to end without touching the sealed onset scoring path:
-the frozen zero-parameter count featurizer and estimator, the trained count gate, the sealed
-coasted-count-MAE referee (on a hand-built toy with a known answer), the matched-budget count harness, the
-preregistered SESOI, and the real-data producer plus the independent verifier (seal, byte-reproducible
-receipt, referee and stats reproduction, tamper detection, and the additive-only import boundary).
-
-The end-to-end producer tests run on the REAL STARSS23 subset with a small frame cap and a reduced seed set
-so they stay fast; when the real subset is absent they skip. House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

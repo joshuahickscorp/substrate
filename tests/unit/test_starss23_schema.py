@@ -1,10 +1,3 @@
-"""Tests for component 1a: the frozen STARSS23 clip and label schema.
-
-Covers the fixed acquisition grid, the onset and clip validation, and the room-disjoint, clip-disjoint
-split discipline (train fits the gate, val picks theta, test scores, with disjoint rooms AND clips).
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

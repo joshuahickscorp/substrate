@@ -1,39 +1,3 @@
-"""Bias-independent reproduction (axis: featurizer_estimator), part B: a re-authored frozen count estimator.
-
-This is a NET-NEW, ADDITIVE module. It edits no sealed count_* or onset module and no existing proof. It
-pairs with the re-authored gammatone front-end to adversarially test whether the counting bed's first
-mechanics-ok signal survives when BOTH the front-end the gate reads AND the count estimator the gate decides
-to spend are swapped for independently authored zero-parameter DSP rules. If the win was an artifact of the
-sealed eigenvalue-threshold estimator's particular error signature, it dies here; if the gate genuinely
-places its fixed re-estimation budget near real count changes, it survives against a different estimator too.
-
-What differs from the sealed ``count_estimator.FrozenCountEstimator``
---------------------------------------------------------------------
-The sealed estimator counts eigenvalues that clear a fixed fraction of the leading eigenvalue,
-``clamp(#{eig >= ALPHA * max_eig}, 1, 4)`` with ``ALPHA = 0.15``. This module instead uses a
-CUMULATIVE-ENERGY (proportion-of-variance) rule on the SAME 4x4 FOA spatial covariance: it returns the
-smallest number of leading eigenvalues whose running sum reaches a fixed fraction ``BETA`` of the total
-covariance energy (the trace),
-
-    K_t     = (S_t @ S_t.T) / SAMPLES_PER_FRAME              # 4x4 real symmetric PSD spatial covariance
-    power   = trace(K_t)                                     # total covariance energy = sum of eigenvalues
-    lambda  = eigvalsh(K_t) sorted descending               # l1 >= l2 >= l3 >= l4 >= 0
-    E'(t)   = 0                                              if power < NOISE_FLOOR    (silence)
-    E'(t)   = clamp( smallest k with sum(l_1..l_k)/power >= BETA, 1, 4 )   otherwise
-
-with a fixed, preregistered, corpus-independent ``BETA = 0.90``. This is a genuinely different frozen track:
-the eigenvalue-threshold rule keys on the RATIO of each eigenvalue to the largest, while the cumulative-energy
-rule keys on how many directions are needed to explain a fixed share of the total power, so the two disagree
-frame by frame. Both cap at 4 (the FOA rank ceiling) and both are threshold-sensitive, so this estimator is
-genuinely imperfect and is not the label: there is no leakage.
-
-Like the sealed estimator it carries ZERO trained parameters (``n_params() == 0``): ``BETA`` and
-``NOISE_FLOOR`` are hand-set DSP priors, not learned. It is computed once per clip; the referee indexes into
-the resulting track at the arm's re-estimation frames, so compute is charged per re-estimation actually
-spent. Its analytic per-re-estimation FLOPs are its own anchor.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -69,18 +33,16 @@ FLOPS_PER_REESTIMATE = FLOPS_COVARIANCE + FLOPS_EIGEN_4X4 + FLOPS_CUMULATIVE  # 
 
 
 class CountReproEstimatorRefusal(ValueError):
-    """Raised when the estimator input violates the frozen FOA acquisition contract."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class ReproCountEstimator(ZeroParameterProvider):
-    """The re-authored zero-trained-parameter cumulative-energy count estimator. Deterministic per host."""
 
     beta: float = BETA
     noise_floor: float = NOISE_FLOOR
 
     def parameter_digest(self) -> str:
-        """Digest sealing the fixed constants and rule string so the estimator is provably frozen."""
 
         payload = {
             "schema": COUNT_REPRO_FE_ESTIMATOR_SCHEMA,
@@ -94,11 +56,6 @@ class ReproCountEstimator(ZeroParameterProvider):
         return canonical_sha256(payload)
 
     def estimate_track(self, audio: np.ndarray) -> np.ndarray:
-        """Return the (n_frames,) int64 per-frame count estimate over a ``(N_CHANNELS, n_samples)`` block.
-
-        Deterministic and byte-reproducible on a given host: identical input bytes yield an identical track.
-        The audio length must be a whole number of 100 ms frames, matching the frozen grid.
-        """
 
         array = np.asarray(audio, dtype=np.float64)
         if array.ndim != 2 or array.shape[0] != N_CHANNELS:
@@ -129,7 +86,6 @@ class ReproCountEstimator(ZeroParameterProvider):
         return track
 
     def flops_for_reestimations(self, k: int) -> int:
-        """Analytic FLOPs for spending ``k`` re-estimations: k x FLOPS_PER_REESTIMATE. Reproducible."""
 
         if isinstance(k, bool) or not isinstance(k, int) or k < 0:
             raise CountReproEstimatorRefusal("k must be a nonnegative integer")

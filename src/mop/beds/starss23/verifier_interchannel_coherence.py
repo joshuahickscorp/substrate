@@ -1,41 +1,3 @@
-"""Independent verifier for the STARSS23 ESCS interchannel-coherence featurizer-swap artifact.
-
-This module is authored separately from the producer and imports NONE of the producer's code and nothing
-under ``mop``. Its whole purpose is to re-derive every scored number in the sealed featurizer-swap
-artifact from specification, using only the standard library, so that agreement between the two is real
-triangulation and not a shared bug. The committed ``verifier.py`` is schema-locked to the base
-``mop-starss23-escs-bed/v1`` artifact and refuses the featurizer-swap schema, so this net-new verifier
-covers the ``mop-starss23-escs-bed-interchannel-coherence/v1`` schema with the SAME import discipline:
-only ``json``, ``hashlib``, ``itertools``, and ``dataclasses``.
-
-What it re-implements from the written specification
-----------------------------------------------------
-1. Canonical JSON sealing: ``json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
-   allow_nan=False)`` hashed with SHA-256. The seal covers the whole artifact except the ``seal`` key.
-2. The onset-F1 referee: greedy one-to-one nearest-first matching within the plus or minus two frame
-   collar, strict point-wise precision, recall, and F1 pooled across the test clips.
-3. The exact sign-flip permutation test: enumerate all two-to-the-n sign assignments of the paired
-   per-seed deltas; one-sided p is the fraction whose mean reaches the observed mean. At n = 5 the
-   minimum one-sided p is 1/32 and two-sided 0.05 is unreachable.
-4. The fire-spread diagnostics: the pooled adjacency fraction and the pooled distinct-onset true
-   positives per arm at the operating point, so the mechanistic wall (the candidate clusters and recovers
-   fewer distinct onsets than free random) is re-derived, never merely trusted.
-
-What it checks about the matched budget and the frozen featurizer
------------------------------------------------------------------
-5. Every arm's stored full-lifecycle FLOPs stay under the 6e10 ceiling, and the candidate and the
-   rate-matched-random control have byte-equal inference (featurize + gate + firing) FLOPs at every
-   budget, so the comparison is matched ex-training.
-6. The featurizer carries zero trained parameters and the featurize charge in the ledger equals its
-   sealed per-frame FLOPs times the test frame count, so the new front-end is priced honestly.
-
-The verifier re-scores from the rawest data the artifact carries (the per-clip ground-truth onsets and
-the per-arm fire frames), so tampering with a stored score, a fire list, a FLOP figure, or the seal is
-detected. Because the run is a single real run at n = 5 across a three-featurizer family, scientific
-confirmation stays false by construction: mechanics reproduce, science does not promote.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -72,7 +34,7 @@ _COLLAR = 2
 
 
 class VerificationRefusal(ValueError):
-    """Raised when an artifact is too malformed to even attempt independent re-scoring."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -112,7 +74,6 @@ def _clean_frames(frames: object, label: str) -> list[int]:
 
 
 def _match_counts(gt_frames: object, pred_frames: object, collar: int) -> tuple[int, int, int]:
-    """Independent greedy one-to-one nearest-first matcher. Returns ``(tp, fp, fn)``."""
 
     gt = _clean_frames(gt_frames, "gt_onsets")
     pred = _clean_frames(pred_frames, "fires")
@@ -148,7 +109,6 @@ def _prf(tp: int, fp: int, fn: int) -> tuple[float, float, float]:
 
 
 def _pool_arm(clips: list, arm: str, collar: int) -> dict:
-    """Recompute an arm's pooled score across clips from raw ground truth and fires."""
 
     tp = fp = fn = 0
     for clip in clips:
@@ -164,7 +124,6 @@ def _pool_arm(clips: list, arm: str, collar: int) -> dict:
 
 
 def _adjacency_fraction(clip_fire_lists: list, collar: int) -> float:
-    """Pooled fraction of fires within ``collar`` frames of another fire on the same clip."""
 
     total = 0
     adjacent = 0
@@ -206,7 +165,6 @@ def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class VerificationResult:
-    """The outcome of an independent verification pass over one sealed featurizer-swap artifact."""
 
     seal_intact: bool
     schema_ok: bool
@@ -239,7 +197,6 @@ def _floats_agree(a: object, b: object) -> bool:
 
 
 def verify_artifact(artifact: dict) -> VerificationResult:
-    """Independently re-score a sealed featurizer-swap artifact and decide referee reproduction."""
 
     if not isinstance(artifact, dict):
         raise VerificationRefusal("artifact must be a JSON object")
@@ -522,7 +479,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
 
 
 def verification_payload(result: VerificationResult) -> dict:
-    """Assemble the sealed verification body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -548,7 +504,6 @@ def verification_payload(result: VerificationResult) -> dict:
 
 
 def verify_sealed_file(in_path: str) -> dict:
-    """Read a sealed artifact from disk, verify it, and return the sealed verification payload."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -556,7 +511,6 @@ def verify_sealed_file(in_path: str) -> dict:
 
 
 def write_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

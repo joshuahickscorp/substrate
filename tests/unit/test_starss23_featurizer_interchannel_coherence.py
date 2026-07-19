@@ -1,11 +1,3 @@
-"""Tests for the frozen zero-parameter interchannel-coherence STARSS23 featurizer.
-
-These lock the properties the ESCS constraints require of a swapped-in frozen front-end: it carries zero
-trained parameters, it is byte-reproducible, it emits exactly the 256-vector the sealed gate consumes,
-its per-frame FLOPs are the documented analytic formula and are charged into the matched-budget ledger,
-and the sealed prereg and artifact carry reproducible seals. Claim scope: deterministic programmatic
-mechanics only.
-"""
 
 from __future__ import annotations
 

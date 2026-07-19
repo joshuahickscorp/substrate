@@ -1,44 +1,3 @@
-"""E1 gate variant: the diversity-regularized value-of-computation gate.
-
-This is a net-new, additive component. It changes no sealed scoring logic and it does not edit the
-committed gate. It keeps the committed candidate's architecture exactly (a 264 -> 12 -> 1 multilayer
-perceptron, 3193 trainable parameters, the identical He initialization seeded through the identical
-namespace, the identical few-KB online state, and a byte-identical online inference path) and changes
-only ONE thing: the training loss gains a determinantal / spacing regularizer that penalizes firing
-probability mass on adjacent frames within a clip.
-
-Why this variant exists. The first real Stage-3 run nulled because the trained gate clusters roughly 42
-percent of its fires adjacently on high-energy regions, so it recovers fewer distinct onsets (204 true
-positives at the operating budget) than uniform random placement (237) at matched firing count
-(docs/mixture_of_perspectives/26_escs_starss23_bed.md). Two fires inside one referee collar can only ever
-score one true positive under the sealed one-to-one matcher, so a second adjacent fire is pure wasted
-budget. The spacing regularizer prices exactly that waste at training time. Because the firing threshold
-theta is re-derived per seed from the val firing-probability quantile, only the RANKING of frames matters
-at inference, and the budget is a fixed COUNT. A naive ``sum p_i p_j`` adjacency penalty is therefore the
-wrong lever: it is minimized by shrinking every firing probability toward zero, which leaves the
-rank-selected budget untouched. So this variant uses a SCALE-INVARIANT determinantal / spacing regularizer,
-the fraction of firing energy that is adjacent,
-``S = diversity_lambda * (p^T K p) / (sum_i p_i^2)`` with ``K`` the within-clip spacing kernel (nonzero
-only inside the collar). Invariant to scaling all ``p``, it cannot be gamed by lowering the firing count;
-its gradient reshapes placements so high-probability frames sit next to LOW-probability frames, promoting
-isolated onset-like frames into the fired top-K. Hypothesis: a spacing-regularized gate places the same
-firing budget on more distinct onsets and so beats rate-matched-random at matched budget.
-
-What is deliberately identical to the committed gate, so the ablation is clean:
-
-- geometry and parameter count (264 -> 12 -> 1 = 3193 <= 4096), asserted in code;
-- weight initialization (same ``derive_seed32`` recipe, same seed namespace), so at
-  ``diversity_lambda == 0`` this gate's ``fit`` reproduces the committed gate byte for byte;
-- the online state and the online inference path (imported ``OnlineState`` and ``_sigmoid``), so a
-  scored fire trace is byte-identical to the committed gate given identical weights;
-- the analytic FLOP cost model (same ``inference_flops`` and ``training_flops``), so the matched-budget
-  ledger charges this variant exactly as it charges the committed candidate. The spacing regularizer is a
-  training-loss term computed from quantities already materialized in the forward pass; it adds no
-  inference cost and the honest per-step training cost is unchanged.
-
-Claim scope: deterministic programmatic mechanics only; no capability, learning, or efficiency claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -88,16 +47,10 @@ _RATIO_EPS = 1e-12
 
 
 class DiversityRegRefusal(GateRefusal):
-    """Raised when the diversity-regularized gate would breach a contract. Is-a GateRefusal."""
+    pass
 
 
 def spacing_kernel(window: int) -> np.ndarray:
-    """Return the normalized triangular spacing kernel over offsets 1..window.
-
-    Closer frames repel more: the weight for a distance-1 pair is the largest and it decays linearly to
-    the collar edge. Normalized to sum to one per direction so ``diversity_lambda`` has a stable meaning
-    independent of the window width. For the default window 2 this is (2/3, 1/3).
-    """
 
     if isinstance(window, bool) or not isinstance(window, int) or window < 1:
         raise DiversityRegRefusal("spacing window must be a positive integer")
@@ -109,7 +62,6 @@ def spacing_kernel(window: int) -> np.ndarray:
 
 
 def _clip_index(segment_lengths: Sequence[int] | None, n: int) -> np.ndarray:
-    """Map each of ``n`` concatenated frames to its clip index so the penalty never crosses a clip edge."""
 
     if segment_lengths is None:
         return np.zeros(n, dtype=np.int64)
@@ -124,12 +76,6 @@ def _clip_index(segment_lengths: Sequence[int] | None, n: int) -> np.ndarray:
 def _neighbor_probability_sum(
     p_fire: np.ndarray, clip_index: np.ndarray, kernel: np.ndarray
 ) -> np.ndarray:
-    """Return, per frame, the kernel-weighted sum of firing probabilities of its within-clip neighbors.
-
-    Vectorized over frames: it loops only over the small set of spacing offsets (two by default), never
-    over frames. ``neighbor[a] = sum over b with 0 < |a - b| <= window and same clip of
-    kernel(|a - b|) * p_fire[b]``.
-    """
 
     n = p_fire.shape[0]
     neighbor = np.zeros(n, dtype=np.float64)
@@ -145,7 +91,6 @@ def _neighbor_probability_sum(
 
 @dataclass
 class DiversityRegTrainingReport:
-    """Deterministic record of one fit call, including the diversity regularizer provenance."""
 
     epochs: int
     n_train_frames: int
@@ -176,13 +121,6 @@ class DiversityRegTrainingReport:
 
 
 class DiversityRegGate:
-    """The diversity-regularized candidate gate: committed architecture, spacing-regularized training.
-
-    Construction hard-asserts the same parameter ceiling (<= 4096) and online-state ceiling (few-KB) as
-    the committed gate, and seeds the identical weights, so at ``diversity_lambda == 0`` a fit is byte
-    identical to the committed gate. Only the training loss differs: a within-clip spacing regularizer is
-    added. Inference is byte-identical to the committed gate for identical weights.
-    """
 
     # Deliberately the SAME namespace as the committed gate so paired-seed weights match byte for byte.
     _SEED_NAMESPACE = "mop.beds.starss23.gate.init"
@@ -294,7 +232,6 @@ class DiversityRegGate:
         return np.concatenate([features, state.to_vector()])
 
     def infer(self, features: np.ndarray, state: OnlineState) -> float:
-        """Online firing probability for one frame. Takes features and self-state, never a label."""
 
         x = self._assemble(features, state)
         return float(self.predict_proba(x[None, :])[0])
@@ -318,21 +255,6 @@ class DiversityRegGate:
         ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
         segment_lengths: Sequence[int] | None = None,
     ) -> DiversityRegTrainingReport:
-        """Fit on value-of-computation targets with a ponder penalty and a within-clip spacing regularizer.
-
-        The BCE-plus-ponder objective and the full-batch deterministic gradient descent are byte-identical
-        to the committed gate. The only addition is a SCALE-INVARIANT spacing penalty
-        ``S = diversity_lambda * (p^T K p) / (sum_i p_i^2)`` where ``K`` is the within-clip spacing kernel
-        (nonzero only for pairs closer than the collar). The ratio is the fraction of firing energy that is
-        adjacent, so it is invariant to scaling all firing probabilities: unlike a bare ``sum p_i p_j``
-        penalty, it cannot be trivially minimized by shrinking every ``p`` toward zero (which leaves the
-        quantile-selected firing budget unchanged), so it prices spread AT MATCHED FIRING COUNT and forces
-        the gate to reshape placements toward isolated frames. Its logit gradient is folded into the output
-        logit before the identical backward pass. ``segment_lengths`` gives the per-clip frame counts so the
-        penalty never couples two different clips; when it is None the whole batch is treated as one segment.
-        At ``diversity_lambda == 0`` the update is byte-identical to the committed gate. The reported compute
-        is the analytic C_train, charged in full regardless of wall time.
-        """
 
         x = np.asarray(x, dtype=np.float64)
         y = np.asarray(voc_targets, dtype=np.float64)

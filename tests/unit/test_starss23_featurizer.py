@@ -1,9 +1,3 @@
-"""Tests for the frozen zero-parameter STARSS23 featurizer (bed component 2).
-
-These lock the three properties the ESCS constraints require of the front-end: it is byte-reproducible
-on a fixture, it carries zero trained parameters, and its FLOP-cost functions return the documented
-formulas. Claim scope: deterministic programmatic mechanics only.
-"""
 
 from __future__ import annotations
 

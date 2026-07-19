@@ -1,4 +1,3 @@
-"""Shared sealed-artifact lifecycle for STARSS23 concurrent-count variants."""
 
 from __future__ import annotations
 
@@ -52,7 +51,6 @@ def _analysis_passes(_analysis: Any) -> bool:
 
 @dataclass(frozen=True, slots=True)
 class CountVariantCorpus:
-    """Provider outputs and label-only structural facts for one count variant."""
 
     adapter: Any
     foa_root: Path
@@ -75,7 +73,6 @@ class CountVariantCorpus:
 
 @dataclass(frozen=True, slots=True)
 class CountVariantSpec:
-    """Local scientific declarations surrounding the shared count lifecycle."""
 
     artifact_schema: str
     producer_schema: str
@@ -101,7 +98,6 @@ class CountVariantSpec:
 
 @dataclass(frozen=True, slots=True)
 class CountVariantContext:
-    """Computed evidence exposed to variant-specific artifact projections."""
 
     seed_runs: list[Any]
     report: Any
@@ -120,7 +116,6 @@ def prepare_count_variant_corpus(
     config: Any,
     split_provider: Callable[[Any], Any],
 ) -> CountVariantCorpus:
-    """Map providers once, resolve the declared split, and derive label-only facts."""
 
     count_clips = build_count_clips(adapter, metadata_root)
     gt_by_clip = {clip_id: clip.count_track for clip_id, clip in count_clips.items()}
@@ -167,7 +162,6 @@ def build_count_variant_artifact(
     spec: CountVariantSpec,
     clock_ns: Callable[[], int],
 ) -> ArtifactResult:
-    """Execute and seal one declared real-data concurrent-count experiment."""
 
     if corpus.n_test_changes == 0:
         raise spec.refusal(spec.no_changes_message)

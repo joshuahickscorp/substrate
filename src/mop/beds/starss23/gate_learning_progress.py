@@ -1,49 +1,3 @@
-"""Component 3-lp: the E1 "learning_progress" candidate gate variant.
-
-This is a net-new, additive module. It changes no sealed scoring logic and does NOT edit the committed
-``gate.py``. It is a drop-in alternative firing policy with the same owned-substrate contract as the
-committed CandidateGate (trainable parameters hard-capped at 4096, per-stream online state hard-capped
-at a few kilobytes, blind to ground truth online, an analytic C_train exposed for the FLOP ledger), and
-the same ``infer(features, state)`` plus ``update(features, state)`` shape. Only the firing policy and
-the loss differ, per the hypothesis.
-
-Hypothesis (E1 exploratory variant, outside the sealed four-variant family)
---------------------------------------------------------------------------
-Fire on REDUCIBLE surprise, not raw energy. The committed value-of-computation gate nulled because it
-clusters roughly 42 percent of its fires on high-energy regions and recovers fewer distinct onsets than
-uniform random placement. This variant follows docs/ESCS_DEEP_RESEARCH.md lines 51 to 55: a Random
-Network Distillation (RND) predictor error against a fixed, deterministic, randomly-initialized target
-f*(o) of the current observation, gated by the DERIVATIVE of that error (learning progress, Schmidhuber
-1991; Oudeyer and Kaplan 2007), which is zero on irreducible noise. So the gate fires where surprise is
-being reduced by online learning (a coherent, learnable onset), not where energy or raw novelty is high
-(a steady sustain or aleatoric static).
-
-Mechanism, all causal and blind to ground truth
------------------------------------------------
-- A fixed random projection R maps the 256 frozen features to a low-dimensional code, then the code is
-  L2-normalized to its direction. Normalizing partials out raw magnitude, so a loud steady passage does
-  not by itself drive the error. Neither R nor the target is trained.
-- A fixed random target f*(z_hat) of the projected direction (RND target), never trained.
-- A predictor P(z_hat) of that target. P is the ONLY trained tensor (LP_PROJ_DIM * LP_TARGET_DIM
-  parameters, well under the 4096 ceiling). It is fit offline on the train-room feature distribution by
-  deterministic full-batch gradient descent (self-supervised: it never sees a label), then adapted
-  ONLINE per stream from a per-clip working copy Pw held in the few-KB online state.
-- Per frame the base error e_base uses the frozen offline predictor P0 and the online error e_online
-  uses the adapted Pw. The surprise is a softplus of e_online above its own causal EMA baseline (so
-  steady low-error regions contribute little). The reducible fraction is
-  ReLU(e_base - e_online) / (e_base + floor): the share of the surprise that online learning has removed,
-  which is zero on irreducible noise (adapting to iid static does not generalize to the next static
-  frame) and zero on already-predictable steady content (tiny e_base). The firing score is
-  surprise * reducible, squashed monotonically to a firing probability.
-
-Because a monotone squash is order-preserving and the harness thresholds a quantile of the score, the
-exact squash scale never changes which frames fire at a given budget: the ranking is what matters.
-
-Compute is charged analytically, not measured, so the ledger is reproducible across hosts. Claim scope:
-deterministic programmatic mechanics only; no capability, learning, or efficiency claim.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -91,7 +45,7 @@ _SEED_PREDICTOR = "mop.beds.starss23.gate_lp.predictor_init"
 
 
 class LPGateRefusal(ValueError):
-    """Raised when the learning-progress gate would breach its parameter, state, or interface contract."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -100,17 +54,11 @@ class LPGateRefusal(ValueError):
 
 
 def param_count(proj_dim: int = LP_PROJ_DIM, target_dim: int = LP_TARGET_DIM) -> int:
-    """Trainable parameters: the predictor P is a proj_dim -> target_dim linear map with no bias."""
 
     return proj_dim * target_dim
 
 
 def _forward_flops(d_feat: int, proj_dim: int, target_dim: int) -> int:
-    """Per-frame forward FLOPs shared by inference and a training forward pass.
-
-    Projection R (d_feat -> proj_dim), a normalize, the fixed target f* and both predictor forwards,
-    and the two squared-error norms. Multiply-add counted as two FLOPs.
-    """
 
     project = 2 * proj_dim * d_feat
     normalize = 3 * proj_dim
@@ -123,11 +71,6 @@ def _forward_flops(d_feat: int, proj_dim: int, target_dim: int) -> int:
 def inference_flops(
     d_feat: int = D_FEAT, proj_dim: int = LP_PROJ_DIM, target_dim: int = LP_TARGET_DIM
 ) -> int:
-    """Per-frame online inference FLOPs: the forward path, the second (base) predictor, and the update.
-
-    Inference runs both the offline base predictor and the online adapted predictor, then takes one
-    online gradient step on the working copy Pw (gradient outer product and the weight update).
-    """
 
     forward = _forward_flops(d_feat, proj_dim, target_dim)
     base_predict = 2 * target_dim * proj_dim + 2 * target_dim  # second predictor forward and its error
@@ -142,7 +85,6 @@ def training_flops(
     proj_dim: int = LP_PROJ_DIM,
     target_dim: int = LP_TARGET_DIM,
 ) -> int:
-    """Amortized offline training cost C_train, charged in full: epochs * frames * step_factor * forward."""
 
     if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
         raise LPGateRefusal("n_train_frames must be a nonnegative integer")
@@ -160,7 +102,6 @@ C_TRAIN_ANCHOR = training_flops()
 
 
 def _softplus(x: float) -> float:
-    """Numerically stable softplus, log(1 + exp(x))."""
 
     if x > 0.0:
         return x + math.log1p(math.exp(-x))
@@ -174,13 +115,6 @@ def _softplus(x: float) -> float:
 
 @dataclass(frozen=True, slots=True)
 class LPOnlineState:
-    """Per-stream online state for the learning-progress gate: the working predictor and an error EMA.
-
-    ``pw`` is the online-adapted working predictor, a copy of the offline base P0 at clip start that is
-    updated one gradient step per frame toward the fixed RND target. ``error_ema`` is the causal EMA of
-    the online error that the surprise is measured against. ``n_frames`` counts frames. None of these is
-    a label, a class, or a direction of arrival: the gate is blind to ground truth online by construction.
-    """
 
     pw: np.ndarray
     error_ema: float
@@ -193,7 +127,6 @@ class LPOnlineState:
 
     @staticmethod
     def state_bytes(proj_dim: int = LP_PROJ_DIM, target_dim: int = LP_TARGET_DIM) -> int:
-        """Byte footprint of the per-stream state: the working predictor plus three float64 scalars."""
 
         return proj_dim * target_dim * 8 + 3 * 8
 
@@ -205,7 +138,6 @@ class LPOnlineState:
 
 @dataclass
 class LPTrainingReport:
-    """Deterministic record of one offline fit. Compute is the analytic C_train, not a measured count."""
 
     epochs: int
     n_train_frames: int
@@ -226,13 +158,6 @@ class LPTrainingReport:
 
 
 class LearningProgressGate:
-    """The learning_progress candidate gate: RND reducible-surprise firing with an online predictor.
-
-    Construction hard-asserts the parameter ceiling (<= 4096) and the online-state ceiling (few-KB).
-    The fixed random projection and target and the predictor initialization are all seeded through
-    ``derive_seed32`` so paired seeds reproduce byte for byte. No label ever enters infer, update, or the
-    online state; the offline fit is self-supervised against the fixed target.
-    """
 
     def __init__(
         self,
@@ -279,7 +204,6 @@ class LearningProgressGate:
     # -- geometry and cost ---------------------------------------------------
 
     def n_params(self) -> int:
-        """Exact trainable-parameter count from the live predictor array."""
 
         return int(self.P0.size)
 
@@ -293,19 +217,16 @@ class LearningProgressGate:
         return training_flops(n_train_frames, epochs, self.d_feat, self.proj_dim, self.target_dim)
 
     def infer_work_vector(self, n_frames: int) -> WorkVector:
-        """Charge inference to dispatch and exploration: the gate decides whether to spend compute."""
 
         if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
             raise LPGateRefusal("n_frames must be a nonnegative integer")
         return WorkVector(dispatch_and_exploration=self.flops_per_inference() * n_frames)
 
     def train_work_vector(self, n_train_frames: int, epochs: int) -> WorkVector:
-        """Charge the amortized training cost to the learning bucket, in full."""
 
         return WorkVector(learning=self.training_flops(n_train_frames, epochs))
 
     def parameter_digest(self) -> str:
-        """Digest of the current fixed tensors and trained predictor, for paired-seed reproduction checks."""
 
         payload = {
             "r_sha256": hashlib.sha256(self.R.astype("<f8").tobytes()).hexdigest(),
@@ -321,21 +242,18 @@ class LearningProgressGate:
     # -- projected code and targets (no label ever enters here) --------------
 
     def _code(self, features: np.ndarray) -> np.ndarray:
-        """Return the L2-normalized projected direction of one feature row (magnitude partialled out)."""
 
         z = self.R @ np.asarray(features, dtype=np.float64)
         norm = math.sqrt(float(z @ z)) + EPS_NORM
         return z / norm
 
     def _codes(self, features: np.ndarray) -> np.ndarray:
-        """Batched L2-normalized projected directions for a whole clip. Shape (n, d_feat) -> (n, proj_dim)."""
 
         z = np.asarray(features, dtype=np.float64) @ self.R.T
         norms = np.sqrt((z * z).sum(axis=1)) + EPS_NORM
         return z / norms[:, None]
 
     def initial_state(self) -> LPOnlineState:
-        """Return the per-stream online state at clip start: the working predictor copies the base P0."""
 
         return LPOnlineState.initial(self.P0)
 
@@ -344,7 +262,6 @@ class LearningProgressGate:
     def _score_from_code(
         self, code: np.ndarray, target_vec: np.ndarray, e_base: float, state: LPOnlineState
     ) -> float:
-        """Reducible-surprise firing score for one frame from its precomputed code, target, and base error."""
 
         pred_w = state.pw @ code
         residual = pred_w - target_vec
@@ -359,7 +276,6 @@ class LearningProgressGate:
     def _next_state(
         self, code: np.ndarray, target_vec: np.ndarray, state: LPOnlineState
     ) -> LPOnlineState:
-        """Advance the online state: one gradient step of Pw toward the fixed target, and the error EMA."""
 
         pred_w = state.pw @ code
         residual = pred_w - target_vec
@@ -376,7 +292,6 @@ class LearningProgressGate:
         )
 
     def infer(self, features: np.ndarray, state: LPOnlineState) -> float:
-        """Online firing probability for one frame. Takes features and the online state, never a label."""
 
         features = np.asarray(features, dtype=np.float64)
         if features.shape != (self.d_feat,):
@@ -391,7 +306,6 @@ class LearningProgressGate:
         return self._score_from_code(code, target_vec, e_base, state)
 
     def update(self, features: np.ndarray, state: LPOnlineState) -> LPOnlineState:
-        """Return the next online state after observing one frame. Deterministic, label-free."""
 
         features = np.asarray(features, dtype=np.float64)
         if features.shape != (self.d_feat,):
@@ -405,19 +319,12 @@ class LearningProgressGate:
     def fire(
         self, features: np.ndarray, state: LPOnlineState, theta: float | None = None
     ) -> tuple[bool, float]:
-        """Return (fired, p_fire) for one frame; fires iff p_fire >= theta."""
 
         threshold = self.theta if theta is None else float(theta)
         p_fire = self.infer(features, state)
         return (p_fire >= threshold, p_fire)
 
     def causal_scores(self, features: np.ndarray) -> np.ndarray:
-        """Return the per-frame firing-probability trace over a whole clip, causal and theta-independent.
-
-        The projected codes, targets, and base errors are computed once in a batch (they use only the
-        fixed tensors); the online working predictor and error baseline advance sequentially, exactly as
-        the per-frame infer and update would, so this is a vectorized equivalent of the online pass.
-        """
 
         features = np.asarray(features, dtype=np.float64)
         if features.ndim != 2 or features.shape[1] != self.d_feat:
@@ -437,7 +344,6 @@ class LearningProgressGate:
         return probs
 
     def causal_fires(self, features: np.ndarray, theta: float) -> tuple[list[int], np.ndarray]:
-        """Run the gate causally over a clip and return (fired_frames, p_fire_trace) at threshold theta."""
 
         probs = self.causal_scores(features)
         fires = [int(i) for i in np.nonzero(probs >= float(theta))[0]]
@@ -452,13 +358,6 @@ class LearningProgressGate:
         epochs: int = DEFAULT_EPOCHS,
         learning_rate: float = ONLINE_LR,
     ) -> LPTrainingReport:
-        """Fit the base predictor P0 to the fixed RND target on the train-room feature distribution.
-
-        ``features`` is (N, d_feat): the pooled train-room frames. The objective is the self-supervised
-        RND regression mean ||P0 z_hat - f*(z_hat)||^2 over the projected directions; no label is used.
-        Full-batch deterministic gradient descent. The reported compute is the analytic C_train, charged
-        in full regardless of the measured wall time.
-        """
 
         features = np.asarray(features, dtype=np.float64)
         if features.ndim != 2 or features.shape[1] != self.d_feat:

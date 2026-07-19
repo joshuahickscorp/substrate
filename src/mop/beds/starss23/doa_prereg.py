@@ -1,33 +1,3 @@
-"""Direction-of-arrival bed, component 8: the preregistered SESOI, promotion rule, and analysis plan.
-
-This fixes the smallest-effect-size-of-interest (SESOI) on clip-macro great-circle MAE (degrees) by
-explicit cost-benefit reasoning, formalizes the SURVIVES(X) promotion rule per architecture, and freezes
-the whole analysis plan into a self-sealed artifact ``proof/STARSS23_DOA_BED.prereg.json`` that MUST be
-written before the run reads any test-split score. Nothing here reads a test score.
-
-The SESOI is derived twice, deliberately, and the two derivations are sealed side by side:
-
-1. A cost-benefit break-even narrative, reported PER ARCHITECTURE since C_train differs between
-   Architecture A and Architecture B (``compute_doa_cost_benefit``).
-2. A structural, architecture-independent registered number (``compute_doa_sesoi_deg``): one clip's worth
-   of a single missed direction change, coasted for about half the typical inter-change dwell time before
-   the next catch-up chance, expressed at the angular scale, folded into the equal-weight clip-macro mean
-   by a double ``1/n_clips`` normalization (a single change-bearing clip's own mass, divided by n_clips once
-   for "typical clip" scale, divided again for its share of the equal-weighted macro mean). This second
-   number, not the cost-benefit narrative, is the one used directly as the registered SESOI_DEG: there is
-   no separate hardcoded default parameter it merely approximates, closing the gap the counting bed's own
-   prereg left between its hardcoded ``PREREGISTERED_SESOI_MAE`` and its dynamically computed
-   ``one_clip_change_mass_mae``.
-
-The granularity floor multiple is 10x (``GRANULARITY_FLOOR_MULTIPLE_DOA``), not the counting bed's 100x: a
-deliberate, justified departure. Angular error is bounded to [0, 180] degrees and the corpus's 1-degree
-label quantization is already coarse relative to plausible single-to-double-digit-degree SESOI magnitudes,
-so demanding 100x would push the floor toward the metric's own maximum possible value, which is
-self-defeating; 10x preserves the same qualitative discipline (well clear of raw quantization noise) while
-staying achievable within the metric's real dynamic range.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -72,7 +42,7 @@ _FRAMES_PER_SECOND = 1000.0 / FRAME_MS  # 10 frames per second on the 100 ms lab
 
 
 class DoaPreregRefusal(ValueError):
-    """Raised when a DoA preregistration input is malformed."""
+    pass
 
 
 def _require_positive(value: float, label: str) -> float:
@@ -90,7 +60,6 @@ def _require_positive(value: float, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class DoaCostBenefit:
-    """The cost-benefit inputs and derived break-even for ONE architecture's C_train."""
 
     architecture: str
     c_train_flops: int
@@ -121,7 +90,6 @@ def compute_doa_cost_benefit(
     c_reest_flops: int,
     operating_reestimate_fraction: float,
 ) -> DoaCostBenefit:
-    """Derive the per-architecture break-even. Reads no test score."""
 
     c_train_flops_arch = int(_require_positive(c_train_flops_arch, "c_train_flops_arch"))
     c_reest_flops = int(_require_positive(c_reest_flops, "c_reest_flops"))
@@ -153,7 +121,6 @@ def compute_doa_cost_benefit(
 
 @dataclass(frozen=True, slots=True)
 class DoaClipLabelFact:
-    """One test clip's label-only structural facts: its active-frame count and its change count."""
 
     clip_id: str
     n_active_frames: int
@@ -163,13 +130,6 @@ class DoaClipLabelFact:
 def compute_doa_sesoi_deg(
     test_clip_facts: Sequence[DoaClipLabelFact], mean_change_jump_deg: float
 ) -> tuple[float, list[dict[str, Any]]]:
-    """Return ``(SESOI_DEG, per_clip_brackets)``: one clip's worth of a missed change, clip-macro scale.
-
-    For each test clip c: ``mean_run_c = n_active_c / n_changes_c`` (0 contribution if ``n_changes_c == 0``);
-    ``per_clip_mass_c_deg = mean_change_jump_deg * (mean_run_c / 2.0)``;
-    ``per_clip_mae_mass_c = per_clip_mass_c_deg / n_active_c``.
-    ``SESOI_DEG = mean_over_clips(per_clip_mae_mass_c) / n_test_clips`` (the double 1/n_clips normalization).
-    """
 
     facts = tuple(test_clip_facts)
     if not facts:
@@ -261,7 +221,6 @@ def build_doa_prereg(
     c_reest_flops: int = DEFAULT_C_REEST_FLOPS,
     n_seeds: int = N_PAIRED_SEEDS,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed DoA preregistration body. The timestamp is passed, never read from a clock."""
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise DoaPreregRefusal("timestamp must be a non-empty string passed by the caller")

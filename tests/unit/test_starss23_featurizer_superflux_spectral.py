@@ -1,11 +1,3 @@
-"""Tests for the frozen zero-parameter SuperFlux featurizer (F1 frozen-featurizer wave).
-
-These lock the properties the ESCS constraints require of a swapped front-end: it carries zero trained
-parameters, it is byte-reproducible, it emits exactly the gate's 256-dim input so the unchanged gate
-consumes it, its per-frame FLOPs are the documented analytic cost and are charged into every arm under the
-6e10 ceiling, and the sealed artifact and preregistration carry a reproducible seal. Claim scope:
-deterministic programmatic mechanics only.
-"""
 
 from __future__ import annotations
 

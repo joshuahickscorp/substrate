@@ -1,26 +1,3 @@
-"""Direction-of-arrival bed, component 4: the shared online state and both trained gate architectures.
-
-This is the ONLY trained module in the DoA bed, and it hardens the bed against the failure mode that
-killed the counting bed's ``gate_arch`` reproduction (doc 28): instead of building one architecture now and
-bolting a second on later after a positive, both co-equal architectures live in this module from day one.
-
-Architecture A (``DoaGateArchA``, ``264 -> 12 -> 1``) is byte-identical in shape to the sealed onset gate
-(``gate.py``) and the counting bed's gate (``count_gate.py``): 3193 trainable parameters, 6385 inference
-FLOPs. Architecture B (``DoaGateArchB``, ``264 -> 6 -> 6 -> 1``) is a genuinely deeper, narrower two-hidden
--layer MLP: 1639 trainable parameters, 3277 inference FLOPs, mirroring the depth change (not the exact
-widths) of the counting bed's ``count_repro_gate_arch_gate.CountReproGateArchGate``. Both are hard-capped
-well under the 4096-parameter ceiling and share an identical training objective, decision rule, and
-``derive_seed32`` seeding discipline (each with its own domain-separated namespace), so the reproduction
-cannot smuggle in a second change: architecture is the only axis that moves.
-
-Per 100 ms frame each architecture consumes the 256 frozen ``DoaFeaturizer`` features plus 8 self-derived
-online scalars (264 inputs) and emits a re-estimation probability ``p_reestimate = sigmoid(MLP(z))``; it
-re-estimates iff ``p_reestimate >= theta``. Neither architecture ever sees a label online: ``infer`` and
-``decide`` take only features and self-state. Training target derivation (``doa_labels.
-doa_voc_targets_from_track``) uses train-room ground truth only, offline.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -60,7 +37,7 @@ _DIFFUSENESS_FLUX_INDICES = tuple(range(3, D_FEAT_DOA, 4))
 
 
 class DoaGateRefusal(ValueError):
-    """Raised when a DoA gate would breach its parameter, state, or interface contract."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -70,11 +47,6 @@ class DoaGateRefusal(ValueError):
 
 @dataclass(frozen=True, slots=True)
 class DoaOnlineState:
-    """Per-stream online state fed to either gate architecture. Carries only self-derived statistics.
-
-    The eight registers are updated causally from the frozen features and the gate's own re-estimation
-    decisions. None is a label: the gate is blind to ground truth online by construction.
-    """
 
     n_frames: float = 0.0
     n_reestimates: float = 0.0
@@ -91,12 +63,10 @@ class DoaOnlineState:
 
     @classmethod
     def state_bytes(cls) -> int:
-        """Byte footprint of the per-stream state: one float64 per register. Hard-capped few-KB."""
 
         return len(fields(cls)) * 8
 
     def to_vector(self) -> np.ndarray:
-        """Return the eight bounded online scalars either gate consumes, as float64."""
 
         recency = math.tanh((self.n_frames - self.last_reestimate_frame) / PHASE_HORIZON)
         phase = math.fmod(self.n_frames, PHASE_HORIZON) / PHASE_HORIZON
@@ -116,10 +86,6 @@ class DoaOnlineState:
         )
 
     def update(self, features: np.ndarray, p_reestimate: float, reestimated: bool) -> DoaOnlineState:
-        """Return the next state after observing one frame and the gate's own re-estimation decision.
-
-        Deterministic. Uses only the features and the decision, never a label.
-        """
 
         features = np.asarray(features, dtype=np.float64)
         energy = float(np.abs(features).mean()) if features.size else 0.0
@@ -144,7 +110,6 @@ class DoaOnlineState:
 
 @runtime_checkable
 class DoaGateProtocol(Protocol):
-    """The shared protocol both gate architectures satisfy, so the harness and producer are arch-agnostic."""
 
     architecture: str
 
@@ -175,7 +140,6 @@ class DoaGateProtocol(Protocol):
 
 @dataclass
 class DoaTrainingReport:
-    """Deterministic record of one fit call. Compute is the analytic C_train, not a measured count."""
 
     architecture: str
     epochs: int
@@ -212,7 +176,6 @@ def _assemble(features: np.ndarray, state: DoaOnlineState, d_in: int) -> np.ndar
 
 
 class _DoaGateInterface:
-    """Topology-neutral probability and threshold surface shared by both DoA gates."""
 
     __slots__ = ()
 
@@ -268,7 +231,6 @@ FLOPS_PER_INFERENCE_ARCH_A = inference_flops_arch_a()
 
 
 class DoaGateArchA(_DoaGateInterface):
-    """264 -> 12 -> 1 single-hidden-layer re-estimation gate. Params = 3193 (<= 4096)."""
 
     _SEED_NAMESPACE = "mop.beds.starss23.doa_gate.arch_a.init"
     architecture = ARCH_A_ID
@@ -442,7 +404,6 @@ FLOPS_PER_INFERENCE_ARCH_B = inference_flops_arch_b()
 
 
 class DoaGateArchB(_DoaGateInterface):
-    """264 -> 6 -> 6 -> 1 two-hidden-layer re-estimation gate. Params = 1639 (<= 4096)."""
 
     _SEED_NAMESPACE = "mop.beds.starss23.doa_gate.arch_b.init"
     architecture = ARCH_B_ID
@@ -604,7 +565,6 @@ C_TRAIN_ANCHOR_ARCH_B = training_flops_arch_b(54_000)
 def build_gate(
     architecture: str, *, seed: int = 0, theta: float = DEFAULT_THETA
 ) -> DoaGateArchA | DoaGateArchB:
-    """Construct a fresh gate of the named architecture. The one place that switches on the axis."""
 
     if architecture not in GATE_CLASSES:
         raise DoaGateRefusal(f"unknown architecture {architecture!r}, expected one of {ARCHITECTURES}")

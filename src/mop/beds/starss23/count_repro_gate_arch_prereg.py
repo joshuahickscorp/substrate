@@ -1,34 +1,3 @@
-"""Preregistration for the STARSS23 counting bed gate-architecture reproduction.
-
-This is a net-new, ADDITIVE component. It fixes the smallest-effect-size-of-interest (SESOI) on count-MAE
-for the gate-architecture reproduction and freezes the analysis plan into a self-sealed artifact,
-``proof/STARSS23_COUNTING_REPRO_gate_arch.prereg.json``, that MUST be written before the run reads any
-test-split score.
-
-The SESOI is computed IN CODE, before any test MAE, by the SAME cost-benefit rule the sealed bed uses:
-``count_prereg.compute_count_cost_benefit`` is reused unchanged on this reproduction's own label-only
-structural facts (test-clip count, test-change count, test-frame count) and the frozen compute anchors
-(the sealed gate's amortized C_train and the per-re-estimation estimator cost C_reest). The registered
-number is this reproduction's own one-test-clip catchable-change-mass on the count-MAE scale,
-
-    SESOI = one_clip_change_mass_mae = (changes_per_clip * mean_run_frames / 2) / n_test_frames
-          = 0.5 / n_test_clips
-
-which is a property of the ground-truth labels alone and therefore does NOT depend on the gate
-architecture. Because the gate-architecture reproduction holds the room-disjoint split fixed (native
-fold-3 train, fold-4 test), the label facts, and hence this SESOI, coincide with the original's one-clip
-mass (about 0.0238, close to the round 0.02 the original registered); it is nonetheless independently
-recomputed and sealed here from first principles. The prereg refuses unless the SESOI clears 100 times the
-pooled per-frame granularity floor, keeping it far above the pseudoreplication floor.
-
-The C_train and C_reest anchors fed to the cost-benefit are the frozen sealed-bed anchors, held unchanged
-across every reproduction so the SESOI derivation is identical; the actual FLOP ledger of the re-authored
-two-layer gate lives in the sealed artifact, not here. Nothing in this module reads a test score. The body
-carries ``activation_allowed=false`` and ``scientific_promotion=false`` and a fixed timestamp passed by the
-caller, never read from the wall clock.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -76,7 +45,7 @@ PREREG_DIRECTION = (
 
 
 class CountReproGateArchPreregRefusal(ValueError):
-    """Raised when a gate-architecture reproduction preregistration input is malformed or below the floor."""
+    pass
 
 
 def _sesoi_rationale(cb: Any, sesoi: float) -> str:
@@ -112,11 +81,6 @@ def build_count_repro_gate_arch_prereg(
     c_reest_flops: int = DEFAULT_C_REEST_FLOPS,
     n_seeds: int = N_PAIRED_SEEDS,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed gate-architecture reproduction preregistration body.
-
-    The SESOI is derived in code from the label-only cost-benefit and equals the reproduction's own
-    one-test-clip change mass. The timestamp is passed by the caller, never read from a clock.
-    """
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise CountReproGateArchPreregRefusal("timestamp must be a non-empty string passed by the caller")

@@ -1,17 +1,3 @@
-"""Component 2: the frozen zero-trained-parameter deterministic DSP front-end.
-
-The featurizer is byte-reproducible and carries no trained parameter. Its per-frame output is the
-half-wave-rectified log-mel spectral flux of each of the four FOA channels, dim D = 256 (64 mel by 4
-channels). The pipeline per short-time column is: Hann window (1024), n_fft 1024 real FFT (513 bins),
-power, a fixed sparse 64-mel projection, log, then a half-wave-rectified flux across columns. Five
-STFT columns at hop 480 tile exactly one 100 ms / 2400-sample label frame.
-
-Compute is charged analytically, not measured. The per-column-per-channel cost is a fixed constant so
-the ledger is reproducible across hosts. n_params() is exactly zero: the Hann window and the mel
-filterbank are deterministic functions of the sample rate and n_fft, not learned weights.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -51,7 +37,6 @@ _LOG_EPS = 1e-6
 
 
 def hann_window() -> np.ndarray:
-    """Return the fixed periodic Hann window of length WINDOW as float64. Zero trained parameters."""
 
     n = np.arange(WINDOW, dtype=np.float64)
     return 0.5 - 0.5 * np.cos(2.0 * np.pi * n / WINDOW)
@@ -66,7 +51,6 @@ def mel_to_hz(mel: np.ndarray) -> np.ndarray:
 
 
 def mel_filterbank(sample_rate: int, n_mel: int = N_MEL, n_bins: int = N_BINS) -> np.ndarray:
-    """Return one fixed triangular mel filterbank as a float64 zero-trained DSP matrix."""
 
     f_min = 0.0
     f_max = sample_rate / 2.0
@@ -87,7 +71,6 @@ def mel_filterbank(sample_rate: int, n_mel: int = N_MEL, n_bins: int = N_BINS) -
 
 @dataclass(frozen=True, slots=True)
 class FrozenFeaturizer(FrozenFeatureProvider):
-    """The frozen deterministic front-end. Deep-frozen: window and filterbank are fixed DSP, not weights."""
 
     _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = 24_000
@@ -101,7 +84,6 @@ class FrozenFeaturizer(FrozenFeatureProvider):
         return mel_filterbank(self.sample_rate)
 
     def parameter_digest(self) -> str:
-        """Digest of the fixed window and filterbank bytes, proving the front-end is byte-frozen."""
 
         payload = {
             "window_sha256": hashlib.sha256(self.window.astype("<f8").tobytes()).hexdigest(),
@@ -115,7 +97,6 @@ class FrozenFeaturizer(FrozenFeatureProvider):
         return canonical_sha256(payload)
 
     def _channel_flux(self, signal: np.ndarray, n_frames: int) -> np.ndarray:
-        """Half-wave-rectified log-mel flux for one channel: returns (n_frames, N_MEL) float64."""
 
         padded = np.zeros(n_frames * SAMPLES_PER_FRAME + PAD_RIGHT, dtype=np.float64)
         padded[: signal.shape[0]] = signal
@@ -137,10 +118,6 @@ class FrozenFeaturizer(FrozenFeatureProvider):
         return flux.reshape(n_frames, COLS_PER_FRAME, N_MEL).sum(axis=1)
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:
-        """Featurize a (N_CHANNELS, n_samples) FOA array into (n_frames, D_FEAT=256) float64.
-
-        Byte-reproducible: identical input bytes yield identical output bytes on a given host.
-        """
 
         audio = np.asarray(audio, dtype=np.float64)
         if audio.ndim != 2 or audio.shape[0] != N_CHANNELS:

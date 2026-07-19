@@ -1,32 +1,3 @@
-"""Direction-of-arrival bed, component 3: the frozen zero-trained-parameter wideband DoA estimator.
-
-This is the WHAT signal: the fixed, non-trained re-estimation mechanism a re-estimating arm actually gets
-when it spends a look. It is deliberately a DIFFERENT, cheaper computation than the featurizer (mirrors
-``count_estimator.py`` being a different, cheaper computation than ``count_featurizer.py``): a single
-WIDEBAND time-domain active-intensity direction per frame, not per-band, no FFT.
-
-Per 100 ms frame, over its ``(N_CHANNELS, SAMPLES_PER_FRAME)`` block, ACN channel order ``(W, Y, Z, X)``
-reused from ``featurizer_spatial_doa.ACN_W/Y/Z/X``:
-
-    I_x = sum_n W(n) * X(n)     I_y = sum_n W(n) * Y(n)     I_z = sum_n W(n) * Z(n)
-    energy = 0.5 * sum_n (W(n)^2 + X(n)^2 + Y(n)^2 + Z(n)^2)
-    azimuth   = atan2(-I_y, -I_x)      (DirAC convention: direction opposite the intensity flow)
-    elevation = atan2(-I_z, sqrt(I_x^2 + I_y^2))
-    E(t) = (azimuth_deg, elevation_deg)          if energy >= NOISE_FLOOR
-    E(t) = the referee's fixed cold-start boresight direction    otherwise (silence: numerically defined,
-                                                                              never scored at that frame)
-
-At about 33,687 FLOPs this is roughly 33x cheaper than the featurizer's 1,127,761 FLOPs per frame (so
-re-estimation is not the dominant cost, coasting genuinely saves compute) and roughly 5x Architecture A's
-6,385-FLOP gate inference (so choosing well about WHEN to spend it is a real, non-trivial saving), the
-same qualitative relationship ``count_estimator.py`` establishes for counting.
-
-The estimator track is computed ONCE per clip and shared across every arm, every seed, and BOTH gate
-architectures. Only the re-estimation frame set differs per arm, per seed, and per architecture, mirroring
-the counting bed's E-is-shared, R-varies design.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -61,12 +32,11 @@ FLOPS_PER_REESTIMATE = FLOPS_INTENSITY_TD + FLOPS_ENERGY_TD + FLOPS_COMBINE + FL
 
 
 class DoaEstimatorRefusal(ValueError):
-    """Raised when the estimator input violates the frozen FOA acquisition contract."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class FrozenDoaEstimator(ZeroParameterProvider):
-    """The frozen, zero-trained-parameter wideband DoA estimator. Deterministic per host."""
 
     noise_floor: float = NOISE_FLOOR
 
@@ -83,11 +53,6 @@ class FrozenDoaEstimator(ZeroParameterProvider):
         return canonical_sha256(payload)
 
     def estimate_track(self, audio: np.ndarray) -> np.ndarray:
-        """Return the (n_frames, 2) float64 per-frame wideband direction estimate, in degrees.
-
-        Deterministic and byte-reproducible on a given host: identical input bytes yield an identical
-        track. The audio length must be a whole number of 100 ms frames, matching the frozen grid.
-        """
 
         array = np.asarray(audio, dtype=np.float64)
         if array.ndim != 2 or array.shape[0] != N_CHANNELS:
@@ -117,7 +82,6 @@ class FrozenDoaEstimator(ZeroParameterProvider):
         return np.ascontiguousarray(np.stack([azimuth_deg, elevation_deg], axis=1), dtype=np.float64)
 
     def flops_for_reestimations(self, k: int) -> int:
-        """Analytic FLOPs for spending ``k`` re-estimations: k x FLOPS_PER_REESTIMATE. Reproducible."""
 
         if isinstance(k, bool) or not isinstance(k, int) or k < 0:
             raise DoaEstimatorRefusal("k must be a nonnegative integer")

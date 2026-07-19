@@ -1,12 +1,3 @@
-"""Tests for the refractory_nms gate variant (E1 gate-variant iteration wave).
-
-These lock the invariants that make the variant an honest controlled experiment: it isolates the firing
-SELECTION policy and nothing else. The trained module is byte-identical to the committed gate (same
-parameters under the 4096 ceiling, same few-KB state, same label-blind infer interface, same amortized
-C_train, and byte-identical paired-seed weights and p_fire trace); only the collar-width refractory
-non-maximum-suppression policy on the p_fire trace differs, and that policy is deterministic, causal, and
-never reads a label. Claim scope: deterministic programmatic mechanics only.
-"""
 
 from __future__ import annotations
 

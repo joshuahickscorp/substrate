@@ -1,32 +1,3 @@
-"""Direction-of-arrival bed, component 2: the frozen zero-trained-parameter spatial-flux front-end.
-
-This is the WHEN signal: "is the spatial field changing right now," not "what direction is it." It is a
-net-new, additive front-end that reuses the DSP grid and per-band active-intensity math already built for
-the onset bed's spatial-DOA front-end swap (``featurizer_spatial_doa.py``, itself additive and not
-sealed), by import: ``WINDOW``, ``N_FFT``, ``HOP``, ``COLS_PER_FRAME``, ``PAD_RIGHT``, ``N_BANDS``,
-``FEATURES_PER_BAND``, ``ACN_W/Y/Z/X``, the shared Hann window, and the spatial helpers
-``_band_edges`` and ``_band_membership``.
-
-At each of the ``COLS_PER_FRAME = 5`` STFT columns this computes the SAME per-band direction and
-diffuseness reduction ``SpatialDoaFeaturizer`` computes (64 bands times [dir_x, dir_y, dir_z,
-diffuseness]), but at COLUMN resolution instead of pooled to one value per label frame. It then takes the
-elementwise absolute difference between consecutive columns (full-wave, not half-wave rectified: a
-direction reversing is exactly as much "change" as a direction advancing) and sums the five within-frame
-differences into one 256-dim frame vector, mirroring the sealed featurizer's "aggregate the
-``COLS_PER_FRAME`` columns of each label frame by summation" convention exactly. The flux at the very
-first column of the whole clip is defined as zero (there is no prior column to differ against).
-
-Output layout is PER-BAND INTERLEAVED, not block-major: feature index ``4*b + 0..3`` holds
-``[dir_x, dir_y, dir_z, diffuseness]`` for band ``b``, so the 64 diffuseness-flux components sit at
-indices ``3, 7, 11, ..., 255``. This is the layout ``doa_gate.py``'s online-state diffuseness-flux EMA
-slices, mirroring ``count_gate.py``'s ``_POS_BLOCK`` slicing convention.
-
-Zero trained parameters: ``n_params()`` returns 0 and ``parameter_digest()`` hashes only deterministic
-functions of the sample rate and the transform grid, never a learned weight. Compute is charged
-analytically, never measured, so the FLOP ledger is host-independent.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -77,17 +48,10 @@ _EPS = 1e-12
 
 
 class DoaFeaturizerRefusal(ValueError):
-    """Raised when the DoA featurizer input violates the frozen FOA acquisition contract."""
+    pass
 
 
 def _channel_spectra(signal: np.ndarray, n_cols: int, window: np.ndarray) -> np.ndarray:
-    """Windowed rFFT of one channel at COLUMN resolution: (n_cols, N_BINS) complex128. Deterministic.
-
-    Structurally identical to ``featurizer_spatial_doa.SpatialDoaFeaturizer._channel_spectra`` (same
-    WINDOW/N_FFT/HOP/PAD_RIGHT grid), reimplemented as a free function here because that method is bound
-    to an instance's cached window property and is not part of this module's declared reuse-by-import
-    surface.
-    """
 
     padded = np.zeros(n_cols * HOP + PAD_RIGHT, dtype=np.float64)
     padded[: signal.shape[0]] = signal
@@ -102,14 +66,6 @@ def _channel_spectra(signal: np.ndarray, n_cols: int, window: np.ndarray) -> np.
 def _per_column_direction_features(
     audio: np.ndarray, band_membership: np.ndarray, window: np.ndarray
 ) -> np.ndarray:
-    """Per-STFT-column direction cosines and diffuseness, per band, interleaved: (n_cols, D_FEAT_DOA).
-
-    Same active-intensity reduction ``SpatialDoaFeaturizer.featurize`` performs (active-intensity vector
-    ``I = Re{conj(W) [X, Y, Z]}``, DirAC energy density, azimuth/elevation reduced to direction cosines,
-    diffuseness as one minus the intensity-to-energy ratio), but evaluated at COLUMN resolution: the
-    per-band pooling over the five columns of a label frame is skipped here so a rate-of-change over
-    columns can be measured afterward.
-    """
 
     n_samples = audio.shape[1]
     n_frames = n_samples // SAMPLES_PER_FRAME
@@ -152,7 +108,6 @@ def _per_column_direction_features(
 
 @dataclass(frozen=True, slots=True)
 class DoaFeaturizer(FrozenFeatureProvider):
-    """The frozen zero-trained-parameter spatial-flux front-end. Deep-frozen: window and band grid fixed."""
 
     _flops_per_frame = FLOPS_PER_FRAME
     _frame_count_refusal = DoaFeaturizerRefusal
@@ -167,7 +122,6 @@ class DoaFeaturizer(FrozenFeatureProvider):
         return _band_membership(self.sample_rate)
 
     def parameter_digest(self) -> str:
-        """Digest of the fixed window and band grid bytes, proving the front-end is byte-frozen."""
 
         membership = self.band_membership
         payload = {
@@ -188,10 +142,6 @@ class DoaFeaturizer(FrozenFeatureProvider):
         return canonical_sha256(payload)
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:
-        """Featurize a (N_CHANNELS, n_samples) FOA array into (n_frames, D_FEAT_DOA=256) float64.
-
-        Byte-reproducible: identical input bytes yield identical output bytes on a given host.
-        """
 
         audio = np.asarray(audio, dtype=np.float64)
         if audio.ndim != 2 or audio.shape[0] != N_CHANNELS:

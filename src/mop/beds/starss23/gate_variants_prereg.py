@@ -1,34 +1,3 @@
-"""Component 9b: the sealed preregistration for the E1 gate-variant iteration wave.
-
-This is a net-new, additive component. It changes no sealed scoring logic. The first real Stage-3 run
-nulled because the trained value-of-computation gate clusters roughly 42 percent of its fires adjacently
-on high-energy regions and so recovers fewer distinct onsets than uniform random placement at matched
-budget (docs/mixture_of_perspectives/26_escs_starss23_bed.md). The E1 wave tests four new gate designs
-against the SAME sealed referee and controls, each aimed squarely at that clustering-on-energy failure.
-
-Testing a family of variants against one fixed test split inflates the family-wise error, so this module
-preregisters, IN CODE and sealed to ``proof/STARSS23_ESCS_BED_VARIANTS.prereg.json`` BEFORE any variant
-reads a test score:
-
-- the metric and direction (onset F1 at the DCASE plus-or-minus 200 ms collar, greedy one-to-one, strict
-  point-wise PR; direction variant greater than rate-matched-random), restated from the committed prereg;
-- the SESOI (0.05), on the identical cost-benefit basis as the committed prereg, recomputed from the
-  cached corpus label structure (never from a test score);
-- the exact one-sided sign-flip plan (five paired seeds, min one-sided p 1/32, two-sided 0.05 unreachable
-  at n equals 5);
-- a multiplicity control across the four variants (Bonferroni), which at n equals 5 has a floor above the
-  family-adjusted alpha, so no single variant can clear family-wise significance from this family alone:
-  a preregistered wall, not a moved goalpost;
-- the claim ceiling (the clip is the experimental unit, the verb is bounded to "consistent with");
-- the four variant ids, each with a one-line falsifiable hypothesis.
-
-Nothing here reads a test-split F1. The cost-benefit derivation uses only fixed compute anchors and label
-structure known before scoring (test-clip count, pooled test onset count, train-set onset density). The
-timestamp is passed by the caller, never read from the wall clock inside the sealed body, and the sealed
-body carries ``activation_allowed=false`` and ``scientific_promotion=false``.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -97,11 +66,10 @@ GATE_VARIANTS: tuple[dict[str, str], ...] = (
 
 
 class VariantsPreregRefusal(ValueError):
-    """Raised when the variant preregistration inputs are malformed."""
+    pass
 
 
 def _multiplicity_block(n_variants: int, min_one_sided_p: float, alpha: float) -> dict[str, Any]:
-    """Bonferroni family-wise control across the variant family, honest about the n equals 5 floor."""
 
     return bonferroni_family(
         n_variants, min_one_sided_p, alpha,
@@ -125,7 +93,6 @@ def build_variants_prereg(
     variants: tuple[dict[str, str], ...] = GATE_VARIANTS,
     base_prereg_canonical_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed variant preregistration body. The timestamp is passed, never a clock read."""
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise VariantsPreregRefusal("timestamp must be a non-empty string passed by the caller")
@@ -185,11 +152,6 @@ def structural_facts_from_cache(
     cache_root: str | Path | None = None,
     target_rates: tuple[float, ...] | None = None,
 ) -> StructuralFacts:
-    """Derive the label-only structural facts from the built feature cache. Reads no test-split F1.
-
-    The operating firing fraction is the swept target rate closest to the train-set onset density, the
-    exact rule the real producer preregisters, using train labels only.
-    """
 
     from .feature_cache import DEFAULT_CACHE_ROOT, load_cached_corpus
 
@@ -199,7 +161,6 @@ def structural_facts_from_cache(
 
 
 def _main(argv: list[str] | None = None) -> int:
-    """Seal the variant preregistration from the cached corpus structural facts and print its digest."""
 
     import argparse
     import json

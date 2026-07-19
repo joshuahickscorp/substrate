@@ -1,14 +1,3 @@
-"""Tests for component 8a: the producer orchestration, sealed artifact, and ladder bridge.
-
-The producer runs the whole bed and seals proof/STARSS23_ESCS_BED.json. These tests assert the sealed
-artifact honors every hard ESCS constraint: the honesty flags are hardcoded off, the statistics are the
-exact sign-flip at n=5 (min one-sided p = 1/32, two-sided 0.05 unreachable), the candidate strictly
-dominates the rate-matched-random control at matched inference cost, the noisy-TV control is at chance,
-the gate is the only trained module within its parameter ceiling, the featurizer is zero-parameter, the
-artifact is byte-reproducible, and the demonstration receipt can never be cleared on synthetic data.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

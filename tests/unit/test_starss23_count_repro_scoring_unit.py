@@ -1,15 +1,3 @@
-"""Unit tests for the scoring-unit adversarial reproduction of the STARSS23 counting bed.
-
-These exercise the net-new clip-macro reproduction modules without touching the sealed onset or count
-scoring paths: the clip-macro referee (per-clip MAE then equal-weight macro mean, plus the exact
-clip-clustered permutation by meet in the middle), the reused-rule SESOI preregistration on the clip-macro
-scale, the real-data producer, and the separately authored stdlib-only independent verifier (seal,
-byte-reproducible re-derivation of the clip-macro scores and both permutations, tamper detection, and the
-additive-only import boundary).
-
-The end-to-end producer tests run on the REAL STARSS23 subset with a small frame cap and a reduced seed set
-so they stay fast; when the real subset is absent they skip. House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

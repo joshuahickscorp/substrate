@@ -1,18 +1,3 @@
-"""Component 1c: the deterministic byte-reproducible synthetic STARSS23 generator.
-
-Every array is generated from a domain-separated child seed, so the whole pipeline is testable now
-without any real download. Planted onset grains are encoded with analytic first-order-Ambisonics
-steering (W = 1/sqrt(2), X = cos(az)cos(el), Y = sin(az)cos(el), Z = sin(el), each divided by
-distance), so a spatial oracle that knows the onset frames scores onset F1 = 1.0 on the favorable
-regime. Rooms carry a correlated colored background so a room-disjoint split tests real
-generalization, not room memorization. Nuisance grains are planted in a different spectral band with
-matched energy, so a bare total-flux threshold trips on them (it cannot separate the bands) while a
-gate that reads the per-mel-bin features can. That keeps the bed off the flux-threshold ceiling.
-
-Compute here is charged to WorkVector.raw_transport_and_adapters, off the arm budget.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -46,7 +31,6 @@ REGIMES = (REGIME_FAVORABLE, REGIME_NULL)
 
 @dataclass(frozen=True, slots=True)
 class SyntheticStarssConfig:
-    """Knobs for the synthetic corpus. Defaults are small and fast; scale up for a full run."""
 
     clip_seconds: float = 6.0
     onsets_per_clip: int = 8
@@ -73,13 +57,6 @@ class SyntheticStarssConfig:
 
 
 def _rng_for(base_seed: int, namespace: str) -> np.random.Generator:
-    """Return a generator domain-separated by ``(base_seed, namespace)``.
-
-    ``mop.seeding.derive_seed32`` passes an in-range seed through unchanged and ignores its namespace,
-    so it cannot separate two rooms, clips, or roles that share a small integer seed (every namespace
-    would collapse to the same stream at seed 0). The full key is therefore hashed here so each room,
-    clip, and role gets its own byte-reproducible stream.
-    """
 
     payload = json.dumps(
         {"base_seed": int(base_seed), "namespace": str(namespace)},
@@ -92,7 +69,6 @@ def _rng_for(base_seed: int, namespace: str) -> np.random.Generator:
 
 
 def _band_grain(rng: np.random.Generator, band: tuple[float, float], amplitude: float) -> np.ndarray:
-    """A short mono burst confined to a spectral band with a sharp attack (a flux-spike source)."""
 
     t = np.arange(GRAIN_SAMPLES, dtype=np.float64) / SAMPLE_RATE_HZ
     n_tones = 4
@@ -108,7 +84,6 @@ def _band_grain(rng: np.random.Generator, band: tuple[float, float], amplitude: 
 
 
 def _ambisonics_gains(azimuth_deg: float, elevation_deg: float, distance: float) -> np.ndarray:
-    """First-order Ambisonics channel gains [W, X, Y, Z] for one steered mono source."""
 
     az = np.deg2rad(azimuth_deg)
     el = np.deg2rad(elevation_deg)
@@ -120,7 +95,6 @@ def _ambisonics_gains(azimuth_deg: float, elevation_deg: float, distance: float)
 
 
 def _room_background(rng: np.random.Generator, room_id: str, n_samples: int, amplitude: float) -> np.ndarray:
-    """Room-correlated colored background, shape (N_CHANNELS, n_samples). Deterministic per room."""
 
     room_rng = _rng_for(0, f"room-color:{room_id}")
     # A fixed per-room AR(1) coloring coefficient makes each room's spectrum distinct and correlated.
@@ -142,7 +116,6 @@ def _place(audio: np.ndarray, start_sample: int, grain: np.ndarray, gains: np.nd
 
 
 def _draw_frames(rng: np.random.Generator, n_frames: int, count: int, forbidden: set[int]) -> list[int]:
-    """Draw ``count`` well-separated frames avoiding ``forbidden`` and each other's collar."""
 
     chosen: list[int] = []
     taken = set(forbidden)
@@ -167,13 +140,6 @@ def generate_clip(
     regime: str,
     config: SyntheticStarssConfig,
 ) -> tuple[Clip, np.ndarray]:
-    """Generate one deterministic clip and its 4-channel audio for the given regime.
-
-    favorable: onset grains sit at the labeled onset frames (spatial oracle scores F1 = 1.0), with
-    nuisance grains in a disjoint band elsewhere.
-    null: audio is nuisance-only and the onset labels are placed at independent frames that carry no
-    grain, so no feature predicts them and a learned gate cannot beat rate-matched-random.
-    """
 
     if regime not in REGIMES:
         raise ValueError(f"unknown regime {regime!r}")
@@ -244,10 +210,6 @@ def generate_clip(
 
 
 def pure_aleatoric_frames(seed: int, n_frames: int) -> np.ndarray:
-    """A block of (n_frames, D_FEAT) pure-aleatoric feature rows with no reducible structure.
-
-    Used by the noisy-TV control: an honest gate must fire on these at chance, never preferentially.
-    """
 
     from .featurizer import D_FEAT
 

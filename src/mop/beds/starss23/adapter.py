@@ -1,28 +1,3 @@
-"""Component 1b: the STARSS23 data adapter.
-
-This module parses the native STARSS23 / DCASE onset-metadata schema and serves the frozen ``Clip``
-contract of ``schema.py``. It is the single seam between raw corpus media and the scored bed: the same
-parse path handles synthetic fixtures now and real STARSS23 files later, unchanged.
-
-Two adapters implement one protocol:
-
-- ``SyntheticStarssAdapter`` wraps deterministic in-memory (or on-disk) fixtures. Its ``source_kind`` is
-  ``"synthetic"``, so the producer downstream refuses any verdict above a mechanics demonstration.
-- ``RealStarssAdapter`` is a blocked stub. It carries the identical parse wiring so a real, MIT-licensed
-  STARSS23 tree slots in unchanged, but it refuses to load in this no-download workflow. Only its audio
-  decode is deferred; the metadata, filename, and onset-derivation paths are shared and exercised now.
-
-The STARSS23 metadata grid is the DCASE onset contract: one row per active 100 ms frame per source,
-carrying ``frame, class, source, azimuth, elevation`` and, from STARSS23 on, ``distance`` (integer cm).
-An onset is the first frame of a contiguous activity run for a ``(class, source)`` track. Because the
-referee scores onset presence per frame, simultaneous onsets collapse to one label per frame, matching
-the ``Clip.onsets`` at-most-one-per-frame contract.
-
-Recomputing ``audio_sha256`` is raw transport work, charged to ``WorkVector.raw_transport_and_adapters``
-and kept off the matched arm budget.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -70,11 +45,11 @@ _CLIP_NAME_RE = re.compile(r"^fold(\d+)_room(\d+)_mix(\d+)$")
 
 
 class AdapterRefusal(ValueError):
-    """Raised when corpus media or metadata violates the STARSS23 adapter contract."""
+    pass
 
 
 class RealDataBlocked(AdapterRefusal):
-    """Raised when the real STARSS23 adapter is used in this no-download workflow."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -84,7 +59,6 @@ class RealDataBlocked(AdapterRefusal):
 
 @dataclass(frozen=True, slots=True)
 class ClipName:
-    """The parsed STARSS23 clip filename ``fold{F}_room{R}_mix{M}``."""
 
     fold: int
     room: int
@@ -107,7 +81,6 @@ class ClipName:
 
 
 def parse_clip_name(name: str) -> ClipName:
-    """Parse a STARSS23 clip id or filename (any audio/metadata extension is stripped)."""
 
     if not isinstance(name, str) or not name.strip():
         raise AdapterRefusal("clip name must be a nonempty string")
@@ -129,7 +102,6 @@ def format_clip_id(fold: int, room: int, mix: int) -> str:
 
 @dataclass(frozen=True, slots=True)
 class MetadataRow:
-    """One native STARSS23 metadata row: an active 100 ms frame of one source with its DOA and distance."""
 
     frame: int
     class_id: int
@@ -171,12 +143,6 @@ class MetadataRow:
 
 
 def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
-    """Parse native STARSS23 metadata text into rows.
-
-    Accepts the six-column STARSS23 form ``frame,class,source,azimuth,elevation,distance`` and the
-    five-column pre-2023 form without distance (distance then parses as ``DISTANCE_ABSENT``). Blank
-    lines are ignored. This is the exact seam a real STARSS23 file passes through unchanged.
-    """
 
     if not isinstance(text, str):
         raise AdapterRefusal("metadata text must be a string")
@@ -211,11 +177,6 @@ def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
 
 
 def format_starss23_metadata(rows: Sequence[MetadataRow]) -> str:
-    """Serialize rows to native STARSS23 metadata text, sorted by ``(frame, class, source)``.
-
-    Six columns are written when every row carries a distance, five when none do. A mixed set is
-    refused: a partial distance column is not a valid STARSS23 file.
-    """
 
     rows = tuple(rows)
     if not rows:
@@ -234,7 +195,6 @@ def format_starss23_metadata(rows: Sequence[MetadataRow]) -> str:
 
 
 def _prefer_onset(candidate: OnsetEvent, incumbent: OnsetEvent) -> bool:
-    """Deterministic tie-break at a co-onset frame: keep the nearest source, then a stable order."""
 
     return (candidate.distance, candidate.class_id, candidate.azimuth, candidate.elevation) < (
         incumbent.distance,
@@ -245,13 +205,6 @@ def _prefer_onset(candidate: OnsetEvent, incumbent: OnsetEvent) -> bool:
 
 
 def onset_events_from_rows(rows: Iterable[MetadataRow]) -> tuple[OnsetEvent, ...]:
-    """Derive onset labels from dense per-frame activity.
-
-    An onset is the first frame of a contiguous activity run for a ``(class, source)`` track. Because
-    the referee scores onset presence per frame, simultaneous onsets from different sources collapse to
-    a single label per frame (the nearest source wins, with a stable tie-break). A row missing its
-    distance label is refused: the bed requires STARSS23 distance.
-    """
 
     by_track: dict[tuple[int, int], list[MetadataRow]] = {}
     for row in rows:
@@ -279,7 +232,6 @@ def onset_events_from_rows(rows: Iterable[MetadataRow]) -> tuple[OnsetEvent, ...
 
 
 def _as_int_label(value: float, label: str) -> int:
-    """Coerce an integer-valued onset field to int. Native STARSS23 metadata is integer only."""
 
     number = float(value)
     rounded = round(number)
@@ -291,11 +243,6 @@ def _as_int_label(value: float, label: str) -> int:
 def metadata_rows_from_onsets(
     onsets: Iterable[OnsetEvent], *, active_frames: int = 1
 ) -> tuple[MetadataRow, ...]:
-    """Serialize onset labels into dense native STARSS23 rows, one source per onset.
-
-    Each onset becomes ``active_frames`` consecutive active rows for its own source track, exactly the
-    dense form ``onset_events_from_rows`` inverts. Requires integer-valued degrees and centimeters.
-    """
 
     if isinstance(active_frames, bool) or not isinstance(active_frames, int) or active_frames < 1:
         raise AdapterRefusal("active_frames must be a positive integer")
@@ -319,7 +266,6 @@ def metadata_rows_from_onsets(
 
 
 def metadata_text_from_onsets(onsets: Iterable[OnsetEvent], *, active_frames: int = 1) -> str:
-    """Serialize onset labels to native STARSS23 metadata text (dense per-frame activity rows)."""
 
     return format_starss23_metadata(metadata_rows_from_onsets(onsets, active_frames=active_frames))
 
@@ -330,7 +276,6 @@ def metadata_text_from_onsets(onsets: Iterable[OnsetEvent], *, active_frames: in
 
 
 def audio_sha256(audio: np.ndarray) -> str:
-    """Content digest of a FOA audio array over canonical little-endian float32 bytes."""
 
     array = np.ascontiguousarray(np.asarray(audio), dtype="<f4")
     return hashlib.sha256(array.tobytes()).hexdigest()
@@ -352,7 +297,6 @@ def _require_audio(audio: np.ndarray, clip_id: str) -> np.ndarray:
 
 @dataclass(frozen=True, slots=True)
 class NativeDevSplit:
-    """The native STARSS23 room-disjoint dev-train / dev-test split (the 90 / 78 clip discipline)."""
 
     dev_train: tuple[str, ...]
     dev_test: tuple[str, ...]
@@ -374,7 +318,6 @@ class NativeDevSplit:
 
 @runtime_checkable
 class StarssAdapter(Protocol):
-    """The read seam every scored arm goes through, regardless of synthetic or real provenance."""
 
     def source_kind(self) -> str: ...
 
@@ -388,7 +331,6 @@ class StarssAdapter(Protocol):
 
 
 def native_dev_split(clips: Sequence[Clip]) -> NativeDevSplit:
-    """Project the one native fold-3 train / fold-4 test authority from clip identities."""
 
     dev_train: list[str] = []
     dev_test: list[str] = []
@@ -419,7 +361,6 @@ def native_fold_split(
     refusal: type[Exception] = AdapterRefusal,
     refuse_empty: bool = True,
 ) -> ClipSplit:
-    """Carve validation rooms from fold 3 while keeping fold 4 as the exact score partition."""
 
     dev = adapter.dev_split()
     by_id = {clip.clip_id: clip for clip in adapter.clips()}
@@ -452,20 +393,17 @@ def native_fold_split(
 def map_clip_audio(
     adapter: StarssAdapter, transform: Callable[[np.ndarray], np.ndarray]
 ) -> dict[str, np.ndarray]:
-    """Apply one frozen provider once to every clip's audio, keyed by stable clip identity."""
 
     return {clip.clip_id: transform(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
 
 
 def onset_density(clips: Sequence[Clip]) -> float:
-    """Return label-only onset density over a clip sequence."""
 
     frames = sum(clip.n_frames for clip in clips)
     return sum(len(clip.onsets) for clip in clips) / frames if frames > 0 else 0.0
 
 
 class ZeroParameterProvider:
-    """Shared introspection for deterministic providers with no trained parameters."""
 
     __slots__ = ()
 
@@ -474,7 +412,6 @@ class ZeroParameterProvider:
 
 
 class FrozenFeatureProvider(ZeroParameterProvider):
-    """Shared feature bytes and analytic per-frame cost introspection."""
 
     __slots__ = ()
     _flops_per_frame = 0
@@ -490,7 +427,6 @@ class FrozenFeatureProvider(ZeroParameterProvider):
 
 
 def domain_seed(seed: int, key: str, domain: bytes) -> int:
-    """Return a uint32 seed separated by an explicit byte domain and semantic key."""
 
     payload = json.dumps(
         {"seed": int(seed), "key": str(key)},
@@ -508,7 +444,6 @@ def marginal_matched_noise(
     target_mean: float,
     target_std: float,
 ) -> np.ndarray:
-    """Featurize deterministic STARSS-shaped white noise and match test feature marginals."""
 
     rng = np.random.default_rng(noise_seed)
     audio = rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
@@ -521,12 +456,6 @@ def marginal_matched_noise(
 
 
 class SyntheticStarssAdapter:
-    """Serve the frozen ``Clip`` contract from deterministic in-memory fixtures.
-
-    Clips are built through the same parse path a real adapter uses: metadata text is parsed to rows,
-    rows are reduced to onset labels, and the audio digest is recomputed from the media. ``source_kind``
-    is ``"synthetic"`` so no run through this adapter can be promoted past a mechanics demonstration.
-    """
 
     def __init__(
         self,
@@ -586,29 +515,18 @@ class SyntheticStarssAdapter:
         return native_dev_split(self._clips)
 
     def harness_split(self, *, n_train_rooms: int, n_val_rooms: int) -> ClipSplit:
-        """Build the three-way fit / tune / score partition through the schema's room-disjoint split.
-
-        With ``n_train_rooms + n_val_rooms`` equal to the fold-3 room count, the score partition is
-        exactly the fold-4 dev-test rooms, so the harness split nests inside the native dev split.
-        """
 
         return room_disjoint_split(
             self._clips, n_train_rooms=n_train_rooms, n_val_rooms=n_val_rooms
         )
 
     def transport_charge(self) -> WorkVector:
-        """Raw transport work for recomputing every clip's ``audio_sha256``, off the arm budget."""
 
         total_bytes = sum(array.nbytes for array in self._audio.values())
         return WorkVector(raw_transport_and_adapters=int(total_bytes))
 
     @classmethod
     def from_dir(cls, root: str | Path, *, rights_clean: bool = True) -> SyntheticStarssAdapter:
-        """Load a STARSS23-shaped tree: ``foa_dev/<clip>.npy`` audio and ``metadata_dev/<clip>.csv``.
-
-        This is the on-disk analogue of the real slot-in path: a real lane substitutes ``.wav`` decode
-        for ``np.load`` and reaches the identical metadata parse and Clip construction.
-        """
 
         root = Path(root)
         audio_dir = root / "foa_dev"
@@ -638,7 +556,6 @@ _INT16_FULL_SCALE = 32768.0
 
 @dataclass(frozen=True, slots=True)
 class ClipTruncation:
-    """Provenance of the whole-frame truncation applied to one real clip on decode."""
 
     clip_id: str
     raw_samples: int
@@ -659,13 +576,6 @@ class ClipTruncation:
 
 
 def decode_foa_wav(path: str | Path) -> np.ndarray:
-    """Decode a STARSS23 FOA WAV into a ``(N_CHANNELS, n_samples)`` float array in [-1, 1).
-
-    The file must be 24 kHz, four channel, 16-bit PCM (the frozen STARSS23 FOA acquisition grid). Samples
-    are read with the stdlib ``wave`` module, de-interleaved to channel-major order, and scaled from
-    int16 to float by the int16 full-scale so the featurizer sees a consistent amplitude across clips.
-    No resampling and no channel remap is performed: the corpus is already on the bed's native grid.
-    """
 
     path = Path(path)
     with wave.open(str(path), "rb") as handle:
@@ -688,7 +598,6 @@ def decode_foa_wav(path: str | Path) -> np.ndarray:
 
 
 def _truncate_to_frames(audio: np.ndarray, max_frames: int | None) -> tuple[np.ndarray, int, bool]:
-    """Truncate a decoded clip to a whole number of 100 ms frames (and an optional frame cap)."""
 
     n_samples = audio.shape[1]
     n_frames = n_samples // SAMPLES_PER_FRAME
@@ -703,20 +612,6 @@ def _truncate_to_frames(audio: np.ndarray, max_frames: int | None) -> tuple[np.n
 
 
 class RealStarssAdapter:
-    """Serve the frozen ``Clip`` contract from a real, MIT-licensed STARSS23 FOA tree.
-
-    This is the real-data twin of ``SyntheticStarssAdapter``. It decodes the native 24 kHz, 4-channel,
-    16-bit FOA WAV media and parses the native STARSS23 metadata CSVs through the exact same parse and
-    onset-derivation path the synthetic adapter uses, so the harness and referee consume it unchanged.
-    ``source_kind`` is ``"real"`` and ``rights_clean`` defaults to True for the rights-clean MIT corpus.
-
-    Construction points at two directory roots (the FOA audio tree and the metadata tree). Every ``*.wav``
-    reachable under ``foa_root`` is matched to its ``<clip>.csv`` under ``metadata_root`` by clip stem, so
-    the STARSS23 subset layout ``foa_dev/dev-train-*/`` and ``metadata_dev/dev-train-*/`` slots in with no
-    reshaping. Each clip is truncated to a whole number of 100 ms label frames (and an optional
-    ``max_frames`` cap for the FLOP budget); metadata onsets past the kept length are dropped and the
-    truncation is recorded per clip so nothing is silently lost.
-    """
 
     def __init__(
         self,
@@ -810,7 +705,6 @@ class RealStarssAdapter:
         return self._audio[clip_id]
 
     def truncations(self) -> tuple[ClipTruncation, ...]:
-        """Per-clip whole-frame truncation provenance, so no clip is silently shortened or dropped."""
 
         return tuple(self._truncations)
 
@@ -818,7 +712,6 @@ class RealStarssAdapter:
         return native_dev_split(self._clips)
 
     def transport_charge(self) -> WorkVector:
-        """Raw transport work for recomputing every clip's ``audio_sha256``, off the arm budget."""
 
         total_bytes = sum(array.nbytes for array in self._audio.values())
         return WorkVector(raw_transport_and_adapters=int(total_bytes))

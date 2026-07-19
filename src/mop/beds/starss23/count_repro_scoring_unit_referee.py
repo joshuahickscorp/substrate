@@ -1,31 +1,3 @@
-"""Scoring-unit adversarial reproduction, component A: the clip-macro count referee.
-
-This is a net-new, additive module for the STARSS23 concurrent-source-counting bed. It re-scores the
-exact same coasted count estimates as the sealed pooled referee, but with the CLIP as the experimental
-unit instead of the pooled frame micro-average. It kills the spurious win that would arise from
-pseudoreplication inflation: in the pooled micro-average, frames within a clip are correlated and long
-clips dominate the pool, so a win concentrated in one long clip can masquerade as a corpus-wide effect.
-The sealed prereg itself names the clip as the experimental unit and refuses a clip bootstrap; this
-reproduction honours that by re-scoring with the clip as the unit.
-
-Nothing sealed is edited. Coasting is reused unchanged BY IMPORT from the sealed ``count_referee``
-(``coast_emitted`` and ``mae_clip``), so the per-clip absolute error and the per-clip frame count are
-byte-identical to the pooled path. Only the AGGREGATION differs:
-
-    MAE_clip(c) = abs_error(c) / n_frames(c)                 (per-clip mean absolute error)
-    macro_MAE   = (1 / n_clips) * sum_c MAE_clip(c)          (every clip weighted equally)
-
-replacing the pooled frame micro-average ``sum_c abs_error(c) / sum_c n_frames(c)``. This macro-MAE is a
-nonnegative minimized float, so it feeds straight into the reused ``CountArm``/``CountArmSeedResult`` and
-``run_matched_budget`` machinery, which is metric-agnostic between the micro and the macro pooling.
-
-The module also provides the honest "clip is the experimental unit" corroborating test the sealed prereg
-deferred: an EXACT sign-flip permutation OVER CLIPS. With about twenty test clips a full 2^n_clips
-enumeration is done by meet in the middle so it stays exact and fast, and the reused five-seed sign-flip
-enumeration (n = 5, 2^5 = 32) is left untouched for the primary statistic.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -51,12 +23,11 @@ _TIE_EPS = 1e-9
 
 
 class CountReproScoringUnitRefereeRefusal(ValueError):
-    """Raised when a clip triple or a clip-cluster permutation input violates the macro-referee contract."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class MacroClipScore:
-    """One clip's coasted-count score under the clip-macro rule: absolute error, frame count, per-clip MAE."""
 
     clip_id: str
     abs_error_sum: int
@@ -74,7 +45,6 @@ class MacroClipScore:
 
 @dataclass(frozen=True, slots=True)
 class MacroCountScore:
-    """A clip-macro arm score: the per-clip MAEs and the equal-weight clip-macro mean over them."""
 
     n_clips: int
     macro_mae: float
@@ -101,13 +71,6 @@ def macro_score_arm(
     clips: Iterable[tuple[str, Sequence[int], Sequence[int], Sequence[int]]],
     cold_start: int = COLD_START,
 ) -> MacroCountScore:
-    """Score one arm with the clip as the experimental unit.
-
-    ``clips`` is an iterable of ``(clip_id, gt_track, estimator_track, reestimate_frames)``. Per clip the
-    reused sealed ``mae_clip`` re-coasts the estimator at the arm's re-estimation frames and returns the
-    byte-identical ``(abs_error_sum, n_frames)``; the per-clip MAE is their ratio and the arm score is the
-    equal-weight mean of the per-clip MAEs. A clip must carry at least one frame.
-    """
 
     per_clip: list[MacroClipScore] = []
     seen: set[str] = set()
@@ -141,7 +104,6 @@ def macro_score_arm(
 
 @dataclass(frozen=True, slots=True)
 class ClipClusterPermutation:
-    """The exact clip-clustered sign-flip: one sign per clip over all 2^n_clips assignments."""
 
     n_clips: int
     permutations: int
@@ -170,14 +132,6 @@ class ClipClusterPermutation:
 
 
 def _exact_sign_flip_one_sided_meet_in_middle(deltas: Sequence[float]) -> tuple[float, float, int]:
-    """Return ``(t_observed, one_sided_p, permutations)`` for the exact sign-flip over ``deltas``.
-
-    The statistic is ``T(s) = sum_i s_i * delta_i`` with ``s_i`` in ``{+1, -1}``; the observed assignment
-    is all plus, ``T_obs = sum_i delta_i``. The one-sided upper-tail p is the fraction of the ``2^n`` sign
-    assignments with ``T(s) >= T_obs``. This is a subset-sum threshold count, so it is done exactly by meet
-    in the middle: enumerate one half's partial sums, sort them, and binary-search the complementary
-    threshold for each partial sum of the other half. Exact and deterministic for any ``n``.
-    """
 
     values = [float(v) for v in deltas]
     n = len(values)
@@ -210,13 +164,6 @@ def _exact_sign_flip_one_sided_meet_in_middle(deltas: Sequence[float]) -> tuple[
 
 
 def exact_sign_flip_over_clips(deltas: Sequence[float]) -> ClipClusterPermutation:
-    """Run the exact clip-clustered sign-flip over per-clip paired deltas (rate_matched_random - candidate).
-
-    A positive per-clip delta means the candidate reached a strictly lower per-clip MAE on that clip. The
-    direction agrees with the pooled and macro claim only when the mean per-clip delta is strictly positive
-    (the candidate is lower on the clip average). Reports the fraction of clips on which the candidate is
-    strictly lower and the exact one-sided permutation p over signs assigned per clip.
-    """
 
     values = [float(v) for v in deltas]
     n = len(values)

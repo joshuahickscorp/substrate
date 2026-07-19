@@ -1,11 +1,3 @@
-"""Tests for the candidate value-of-computation event-formation gate (bed component 3).
-
-These lock the hard ESCS constraints on the only trained module: the trainable-parameter assert fails
-when the 4096 ceiling is exceeded, the online state stays within a few kilobytes, the FLOP-cost
-functions return the documented formulas, the online interface never receives a label, and the
-training procedure with its ponder penalty actually learns value-of-computation targets. Claim scope:
-deterministic programmatic mechanics only.
-"""
 
 from __future__ import annotations
 
@@ -40,7 +32,6 @@ _FORBIDDEN_ONLINE = ("azimuth", "elevation", "distance", "class", "onset", "labe
 
 
 def _separable_voc_problem(n: int = 400, seed: int = 123) -> tuple[np.ndarray, np.ndarray]:
-    """A learnable value-of-computation dataset: y is a linear rule on the 264-dim gate input."""
 
     rng = np.random.default_rng(seed)
     x = rng.standard_normal((n, D_IN))

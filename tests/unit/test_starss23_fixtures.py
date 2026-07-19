@@ -1,11 +1,3 @@
-"""Tests for component 1c: the deterministic synthetic STARSS23 fixture generator.
-
-Covers byte-reproducibility, the analytic Ambisonics-steered planted onsets (a signal-band oracle scores
-F1 = 1.0), the off-ceiling nuisance design (a bare total-flux threshold cannot solve it), integer DOA
-labels, room-correlated backgrounds, and the strong-null null regime.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

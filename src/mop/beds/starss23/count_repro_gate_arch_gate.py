@@ -1,24 +1,3 @@
-"""STARSS23 counting bed, gate-architecture reproduction: the re-authored trained gate.
-
-This is a net-new, ADDITIVE component for the gate-architecture bias reproduction. It varies exactly ONE
-axis of the sealed counting bed: the shape of the only trained module. Where the sealed ``count_gate.py``
-gate is a single-hidden-layer MLP ``264 -> 12 -> 1`` (3193 trainable parameters), this reproduction uses a
-genuinely deeper, narrower TWO-hidden-layer MLP ``264 -> 8 -> 4 -> 1`` (2161 trainable parameters, still
-hard-capped at 4096). Nothing else moves: the input contract (256 frozen features plus the same 8
-self-derived online scalars = 264 inputs), the training objective (binary cross-entropy plus the same
-firing-rate ponder penalty on the same value-of-computation targets), the decision rule (re-estimate iff
-``p_reestimate >= theta``), and the deterministic ``derive_seed32`` seeding are all held identical and are
-reused BY IMPORT from the sealed gate so the reproduction cannot smuggle in a second change.
-
-The point is adversarial: if the sealed counting bed's first positive mechanics-ok signal (the trained gate
-reaching strictly lower coasted-count-MAE than rate-matched-random at matched budget) is a fingerprint of
-that one gate shape, a different-shape gate trained the same way on the same data will fail to beat the same
-control. If instead the mechanism is architecture-robust, the different-shape gate survives too. This module
-runs no experiment and makes no claim; it only defines the alternative gate and its own analytic FLOP and
-parameter cost anchors so the matched-budget harness can charge them in full-lifecycle accounting.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -88,7 +67,7 @@ DEFAULT_THETA = 0.5
 
 
 class CountReproGateArchRefusal(ValueError):
-    """Raised when the re-authored two-layer gate would breach its parameter, state, or interface contract."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -102,10 +81,6 @@ def param_count_two_layer(
     hidden2: int = HIDDEN2,
     n_out: int = N_OUT,
 ) -> int:
-    """Trainable parameters of a ``d_in -> hidden1 -> hidden2 -> n_out`` MLP: W1+b1 + W2+b2 + W3+b3.
-
-    For 264 -> 8 -> 4 -> 1 this is 264*8+8 + 8*4+4 + 4*1+1 = 2161, under the 4096 ceiling.
-    """
 
     return (
         d_in * hidden1
@@ -123,10 +98,6 @@ def inference_flops_two_layer(
     hidden2: int = HIDDEN2,
     n_out: int = N_OUT,
 ) -> int:
-    """Per-frame forward FLOPs: three matmuls (multiply-add), three bias adds, two ReLU layers.
-
-    For 264 -> 8 -> 4 -> 1 this is (2*264*8 + 8 + 8) + (2*8*4 + 4 + 4) + (2*4*1 + 1) = 4321 FLOPs.
-    """
 
     layer1 = 2 * d_in * hidden1 + hidden1 + hidden1
     layer2 = 2 * hidden1 * hidden2 + hidden2 + hidden2
@@ -142,11 +113,6 @@ def training_flops_two_layer(
     hidden2: int = HIDDEN2,
     n_out: int = N_OUT,
 ) -> int:
-    """Amortized training cost C_train: epochs * frames * TRAIN_STEP_FACTOR * per-frame inference FLOPs.
-
-    The step factor (one forward plus a backward pass costed at about twice the forward) is reused
-    unchanged from the sealed gate, so only the per-frame inference FLOPs differ from the original.
-    """
 
     if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
         raise CountReproGateArchRefusal("n_train_frames must be a nonnegative integer")
@@ -162,18 +128,10 @@ FLOPS_PER_INFERENCE_GATE_ARCH = inference_flops_two_layer()
 
 
 class CountReproGateArchTrainingReport(CountTrainingReport):
-    """Held-fixed count training report under the alternate gate topology."""
+    pass
 
 
 class CountReproGateArchGate(CountGateInterface):
-    """The re-authored two-hidden-layer re-estimation gate: 264 -> 8 -> 4 -> 1 with ReLU.
-
-    Identical interface, objective, and decision rule to the sealed ``CountGate``; only the multilayer
-    perceptron topology differs. Construction hard-asserts the 4096-parameter ceiling and the few-KB
-    online-state ceiling. Weights are seeded deterministically through ``derive_seed32`` so paired seeds
-    reproduce byte for byte. The forward path takes the 256 frozen features plus the 8 self-derived online
-    scalars and never a label.
-    """
 
     _SEED_NAMESPACE = "mop.beds.starss23.count_repro_gate_arch.init"
     _feature_dim = N_CFEAT_GATE_ARCH
@@ -223,7 +181,6 @@ class CountReproGateArchGate(CountGateInterface):
         self.b3 = np.zeros(n_out, dtype=np.float64)
 
     def n_params(self) -> int:
-        """Exact trainable-parameter count from the live weight arrays."""
 
         return int(
             self.W1.size
@@ -279,13 +236,6 @@ class CountReproGateArchGate(CountGateInterface):
         learning_rate: float = DEFAULT_LEARNING_RATE,
         ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
     ) -> CountReproGateArchTrainingReport:
-        """Fit the two-layer gate on train-room value-of-computation targets with a ponder penalty.
-
-        Identical objective to the sealed gate: binary cross-entropy plus ``ponder_lambda`` times the mean
-        re-estimation probability, full-batch deterministic gradient descent. Only the backward pass carries
-        the extra hidden layer. ``x`` is (N, d_in); ``voc_targets`` is (N,) in {0, 1}. The reported compute
-        is the analytic C_train for this architecture.
-        """
 
         x = np.asarray(x, dtype=np.float64)
         y = np.asarray(voc_targets, dtype=np.float64)

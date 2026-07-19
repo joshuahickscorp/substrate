@@ -1,44 +1,3 @@
-"""Bias-independent reproduction (axis: featurizer_estimator), part A: a re-authored frozen count front-end.
-
-This is a NET-NEW, ADDITIVE module. It edits no sealed count_* or onset module and no existing proof. It
-exists to adversarially test whether the counting bed's first mechanics-ok signal (the trained gate reaching
-strictly lower coasted-count-MAE than rate-matched-random at a matched re-estimation budget) survives when
-the frozen front-end is swapped for an independently authored one with a different frequency warping, a
-different bandwidth law, and a different change statistic. If the win is a fingerprint of the sealed 32-mel
-log-mel-flux front-end, it dies here; if the gate keys on real concurrent-source count-change structure, it
-survives the swap.
-
-What differs from the sealed ``count_featurizer.FrozenCountFeaturizer``
-----------------------------------------------------------------------
-1. FILTERBANK: a 32-band gammatone filterbank on the ERB (equivalent-rectangular-bandwidth) scale, replacing
-   the mel triangular filterbank. Center frequencies are spaced uniformly on the Glasberg and Moore ERB-rate
-   scale between ``F_MIN`` and Nyquist, each with its own ERB bandwidth ``b = 1.019 * ERB(fc)``, and the
-   per-bin weight is the fourth-order gammatone magnitude response ``(1 + ((f - fc)/b)^2)^(-2)``. This is a
-   dense, physiologically-motivated response with genuinely different bandwidths from the sparse triangular
-   mel filters, not a re-warp of the same triangles.
-2. CHANGE STATISTIC: a relative spectral flux in the LINEAR band-energy domain, normalized by a causal
-   per-band running average and bounded with a hyperbolic-tangent squash, replacing the half-wave difference
-   of LOG-mel energy. Per band and short-time column the flux is ``rf = (B[c] - B[c-1]) / (R[c] + eps)`` with
-   ``R[c]`` a strictly causal exponential moving average of the band energy over columns before ``c``; the
-   positive polarity accumulates ``max(0, tanh(rf))`` and the negative polarity ``max(0, tanh(-rf))`` across
-   the five columns of each 100 ms frame. This is a normalized novelty signal, not a log difference.
-
-What is held IDENTICAL to the sealed front-end (so the frozen gate consumes it byte-unchanged)
-----------------------------------------------------------------------------------------------
-The output is exactly ``D_CFEAT = 256`` per frame in the identical ``[128 positive | 128 negative]`` block
-layout (32 bands x 4 channels x 2 polarities), so the held-fixed ``CountGate`` and ``CountOnlineState`` (which
-read the two 128-blocks for the positive and negative flux peaks and the D_IN = 264 gate width) consume it
-with no change at all. The DSP grid (1024 window, 1024 n_fft, 480 hop, 5 columns per 100 ms frame) is the
-frozen native grid.
-
-Like the sealed front-end, this carries ZERO trained parameters (``n_params() == 0``): the Hann window, the
-gammatone filterbank, and the running-average decay are deterministic functions of the sample rate, not
-learned weights. Compute is charged analytically for a host-independent ledger. Its ``parameter_digest``
-seals the window bytes, the filterbank bytes, and the change-statistic constants, and is provably distinct
-from the sealed mel front-end's digest.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -89,11 +48,10 @@ FLOPS_PER_FRAME_COUNT = FLOPS_PER_COL_PER_CH * N_CHANNELS * COLS_PER_FRAME  # 1_
 
 
 class CountReproFeaturizerRefusal(ValueError):
-    """Raised when the re-authored count featurizer input violates the frozen FOA acquisition contract."""
+    pass
 
 
 def _hz_to_erb_rate(hz: np.ndarray) -> np.ndarray:
-    """Glasberg and Moore ERB-rate (number of ERBs below hz). Monotone, so it defines the warping."""
 
     return 21.4 * np.log10(4.37e-3 * hz + 1.0)
 
@@ -103,19 +61,11 @@ def _erb_rate_to_hz(erb: np.ndarray) -> np.ndarray:
 
 
 def _erb_hz(hz: np.ndarray) -> np.ndarray:
-    """Glasberg and Moore equivalent rectangular bandwidth in Hz at center frequency hz."""
 
     return 24.7 * (4.37e-3 * hz + 1.0)
 
 
 def _gammatone_filterbank(sample_rate: int) -> np.ndarray:
-    """Return a fixed fourth-order gammatone filterbank, shape (N_BANDS, N_BINS), float64, zero-trained.
-
-    Center frequencies are uniform on the ERB-rate scale from ``F_MIN`` to Nyquist. Each band's magnitude
-    weight at rFFT bin frequency f is ``(1 + ((f - fc)/b)^2)^(-ORDER/2)`` with ``b = 1.019 * ERB(fc)``, the
-    standard fourth-order gammatone equivalent-bandwidth magnitude response. Each band is peak-normalized to
-    unit maximum weight so no band dominates by its raw gain. Deterministic in the sample rate alone.
-    """
 
     f_max = sample_rate / 2.0
     erb_lo = _hz_to_erb_rate(np.array([F_MIN]))[0]
@@ -137,7 +87,6 @@ def _gammatone_filterbank(sample_rate: int) -> np.ndarray:
 
 @dataclass(frozen=True, slots=True)
 class ReproCountFeaturizer(FrozenFeatureProvider):
-    """The re-authored frozen count front-end: gammatone ERB bands plus causal relative spectral flux."""
 
     _flops_per_frame = FLOPS_PER_FRAME_COUNT
     _frame_count_refusal = CountReproFeaturizerRefusal
@@ -152,7 +101,6 @@ class ReproCountFeaturizer(FrozenFeatureProvider):
         return _gammatone_filterbank(self.sample_rate)
 
     def parameter_digest(self) -> str:
-        """Digest of the fixed window, gammatone filterbank, and change-statistic constants."""
 
         payload = {
             "schema": COUNT_REPRO_FE_FEATURIZER_SCHEMA,
@@ -178,7 +126,6 @@ class ReproCountFeaturizer(FrozenFeatureProvider):
         return canonical_sha256(payload)
 
     def _columns(self, signal: np.ndarray, n_frames: int) -> np.ndarray:
-        """Return the (n_cols, WINDOW) windowed short-time columns at the frozen hop. Byte-deterministic."""
 
         padded = np.zeros(n_frames * SAMPLES_PER_FRAME + PAD_RIGHT, dtype=np.float64)
         padded[: signal.shape[0]] = signal
@@ -188,7 +135,6 @@ class ReproCountFeaturizer(FrozenFeatureProvider):
         return np.ascontiguousarray(windows) * self.window
 
     def _channel_flux(self, signal: np.ndarray, n_frames: int) -> tuple[np.ndarray, np.ndarray]:
-        """Positive and negative causal relative-flux for one channel: each (n_frames, N_BANDS) float64."""
 
         columns = self._columns(signal, n_frames)
         n_cols = columns.shape[0]
@@ -211,12 +157,6 @@ class ReproCountFeaturizer(FrozenFeatureProvider):
         return pos, neg
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:
-        """Featurize a ``(N_CHANNELS, n_samples)`` FOA array into ``(n_frames, D_CFEAT=256)`` float64.
-
-        The 256-vector is ``[pos_flux(4 channels x 32 bands), neg_flux(4 channels x 32 bands)]``: the first
-        128 columns are the source-enter (positive) polarity and the last 128 the source-leave (negative)
-        polarity, byte-identical in layout to the sealed front-end so the frozen gate reads it unchanged.
-        """
 
         audio = np.asarray(audio, dtype=np.float64)
         if audio.ndim != 2 or audio.shape[0] != N_CHANNELS:

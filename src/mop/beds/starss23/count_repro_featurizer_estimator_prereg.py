@@ -1,26 +1,3 @@
-"""Preregistration for the featurizer_estimator bias-independent reproduction of the counting bed.
-
-This is a NET-NEW, ADDITIVE module. It edits no sealed count_* or onset module and no existing proof. It
-fixes THIS reproduction's own smallest-effect-size-of-interest (SESOI) on count-MAE by the SAME cost-benefit
-rule the sealed bed used (``count_prereg.compute_count_cost_benefit``, imported unchanged), computed from THIS
-reproduction's own label-only structural facts BEFORE any test-split score is read, and freezes the whole
-analysis plan into a self-sealed artifact at
-``proof/STARSS23_COUNTING_REPRO_featurizer_estimator.prereg.json``.
-
-The SESOI is the reproduction's own one-test-clip catchable-change mass on the count-MAE scale, the rule's
-``one_clip_change_mass_mae`` output, which reduces to ``0.5 / n_test_clips`` on the pooled-frame scale. Because
-this reproduction holds the room-fold split fixed (native fold-3 train, fold-4 test), the label-only facts
-coincide with the sealed bed, so the SESOI lands on the same count scale as the sealed 0.02; it is
-nonetheless recomputed here in code and sealed before any test MAE. The estimator swap does NOT move the
-SESOI, which is correct: the SESOI is a property of the ground-truth count labels, not of the estimator track.
-
-Nothing here reads a test score. The prereg refuses unless the SESOI clears 100x the per-frame measurement
-granularity (the sealed bed clears this at about 537x), keeping it far above the pseudoreplication floor. The
-sign-flip multiplicity wall is the exact permutation floor: five paired seeds give 2^5 = 32 sign assignments,
-so the minimum one-sided p is 1/32 and two-sided 0.05 is unreachable.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -66,12 +43,11 @@ MIN_GRANULARITY_MULTIPLE = 100.0
 
 
 class CountReproPreregRefusal(ValueError):
-    """Raised when the reproduction preregistration input is malformed or the SESOI floor is not cleared."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class ReproSesoi:
-    """The reproduction's SESOI and the label-only facts and granularity multiple that justify it."""
 
     sesoi_mae: float
     one_clip_change_mass_mae: float
@@ -103,12 +79,6 @@ def compute_repro_sesoi(
     c_train_flops: int = DEFAULT_C_TRAIN_FLOPS,
     c_reest_flops: int = DEFAULT_C_REEST_FLOPS,
 ) -> tuple[ReproSesoi, Any]:
-    """Derive the reproduction's SESOI from label-only facts via the reused cost-benefit rule. Reads no score.
-
-    Returns the SESOI and the full ``CountCostBenefit`` the sealed rule produced, so the sealed prereg body
-    carries the same cost-benefit provenance as the original. Refuses if the SESOI does not clear the
-    granularity floor.
-    """
 
     cb = compute_count_cost_benefit(
         c_train_flops=c_train_flops,
@@ -171,7 +141,6 @@ def build_repro_prereg(
     c_reest_flops: int = DEFAULT_C_REEST_FLOPS,
     n_seeds: int = N_PAIRED_SEEDS,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed reproduction prereg body. The timestamp is passed, never read from a clock."""
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise CountReproPreregRefusal("timestamp must be a non-empty string passed by the caller")
