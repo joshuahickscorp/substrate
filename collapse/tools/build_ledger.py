@@ -1124,8 +1124,8 @@ def main() -> int:
                  "checks with no drift; documentation regression battery 32/32 green in 20.18s.")
     lines.append("- owned Python change: 31 added, 218 deleted, net -187 LOC; cumulative verified owned "
                  "Python reduction: 10,199 LOC.")
-    lines.append("- total tracked physical change including state, ledger, tooling, and the 186-line history "
-                 "index: net -43,312 LOC.")
+    lines.append("- total tracked physical change including state, ledger, tooling, and the 187-line history "
+                 "index: net -43,311 LOC.")
     lines.append("- rollback_tag: mop-collapse-docs.")
     lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell.")
     lines.append("")
