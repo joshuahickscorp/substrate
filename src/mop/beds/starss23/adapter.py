@@ -29,7 +29,7 @@ from __future__ import annotations
 import hashlib
 import re
 import wave
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
@@ -386,6 +386,76 @@ class StarssAdapter(Protocol):
     def dev_split(self) -> NativeDevSplit: ...
 
 
+def native_dev_split(clips: Sequence[Clip]) -> NativeDevSplit:
+    """Project the one native fold-3 train / fold-4 test authority from clip identities."""
+
+    dev_train: list[str] = []
+    dev_test: list[str] = []
+    train_rooms: set[str] = set()
+    test_rooms: set[str] = set()
+    for clip in clips:
+        name = parse_clip_name(clip.clip_id)
+        if name.fold == FOLD_DEV_TRAIN:
+            dev_train.append(clip.clip_id)
+            train_rooms.add(clip.room_id)
+        elif name.fold == FOLD_DEV_TEST:
+            dev_test.append(clip.clip_id)
+            test_rooms.add(clip.room_id)
+        else:
+            raise AdapterRefusal(
+                f"clip {clip.clip_id} is not in a STARSS23 dev fold ({FOLD_DEV_TRAIN} or {FOLD_DEV_TEST})"
+            )
+    shared_rooms = train_rooms & test_rooms
+    if shared_rooms:
+        raise AdapterRefusal(f"dev split is not room-disjoint, shared rooms: {sorted(shared_rooms)}")
+    return NativeDevSplit(dev_train=tuple(sorted(dev_train)), dev_test=tuple(sorted(dev_test)))
+
+
+def native_fold_split(
+    adapter: StarssAdapter,
+    n_val_rooms: int,
+    *,
+    refusal: type[Exception] = AdapterRefusal,
+    refuse_empty: bool = True,
+) -> ClipSplit:
+    """Carve validation rooms from fold 3 while keeping fold 4 as the exact score partition."""
+
+    dev = adapter.dev_split()
+    by_id = {clip.clip_id: clip for clip in adapter.clips()}
+    fold3 = [by_id[clip_id] for clip_id in dev.dev_train]
+    fold4 = [by_id[clip_id] for clip_id in dev.dev_test]
+    fold3_rooms = sorted({clip.room_id for clip in fold3})
+    if n_val_rooms <= 0 or n_val_rooms >= len(fold3_rooms):
+        raise refusal(
+            f"n_val_rooms must leave at least one train room; saw {n_val_rooms} of {len(fold3_rooms)}"
+        )
+    val_rooms = set(fold3_rooms[-n_val_rooms:])
+    train = tuple(sorted((clip for clip in fold3 if clip.room_id not in val_rooms), key=lambda x: x.clip_id))
+    val = tuple(sorted((clip for clip in fold3 if clip.room_id in val_rooms), key=lambda x: x.clip_id))
+    test = tuple(sorted(fold4, key=lambda x: x.clip_id))
+    if refuse_empty and (not train or not val or not test):
+        raise refusal("the fold-respecting split produced an empty partition")
+    return ClipSplit(
+        train=train,
+        val=val,
+        test=test,
+        detail={
+            "train_rooms": sorted({clip.room_id for clip in train}),
+            "val_rooms": sorted(val_rooms),
+            "test_rooms": sorted({clip.room_id for clip in test}),
+            "split_rule": "test = native fold-4 dev-test; val = last N fold-3 rooms; train = rest of fold-3",
+        },
+    )
+
+
+def map_clip_audio(
+    adapter: StarssAdapter, transform: Callable[[np.ndarray], np.ndarray]
+) -> dict[str, np.ndarray]:
+    """Apply one frozen provider once to every clip's audio, keyed by stable clip identity."""
+
+    return {clip.clip_id: transform(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
+
+
 class SyntheticStarssAdapter:
     """Serve the frozen ``Clip`` contract from deterministic in-memory fixtures.
 
@@ -449,27 +519,7 @@ class SyntheticStarssAdapter:
         return self._audio[clip_id]
 
     def dev_split(self) -> NativeDevSplit:
-        dev_train: list[str] = []
-        dev_test: list[str] = []
-        train_rooms: set[str] = set()
-        test_rooms: set[str] = set()
-        for clip in self._clips:
-            name = parse_clip_name(clip.clip_id)
-            if name.fold == FOLD_DEV_TRAIN:
-                dev_train.append(clip.clip_id)
-                train_rooms.add(clip.room_id)
-            elif name.fold == FOLD_DEV_TEST:
-                dev_test.append(clip.clip_id)
-                test_rooms.add(clip.room_id)
-            else:
-                raise AdapterRefusal(
-                    f"clip {clip.clip_id} is not in a STARSS23 dev fold ({FOLD_DEV_TRAIN} or "
-                    f"{FOLD_DEV_TEST})"
-                )
-        shared_rooms = train_rooms & test_rooms
-        if shared_rooms:
-            raise AdapterRefusal(f"dev split is not room-disjoint, shared rooms: {sorted(shared_rooms)}")
-        return NativeDevSplit(dev_train=tuple(sorted(dev_train)), dev_test=tuple(sorted(dev_test)))
+        return native_dev_split(self._clips)
 
     def harness_split(self, *, n_train_rooms: int, n_val_rooms: int) -> ClipSplit:
         """Build the three-way fit / tune / score partition through the schema's room-disjoint split.
@@ -701,27 +751,7 @@ class RealStarssAdapter:
         return tuple(self._truncations)
 
     def dev_split(self) -> NativeDevSplit:
-        dev_train: list[str] = []
-        dev_test: list[str] = []
-        train_rooms: set[str] = set()
-        test_rooms: set[str] = set()
-        for clip in self._clips:
-            name = parse_clip_name(clip.clip_id)
-            if name.fold == FOLD_DEV_TRAIN:
-                dev_train.append(clip.clip_id)
-                train_rooms.add(clip.room_id)
-            elif name.fold == FOLD_DEV_TEST:
-                dev_test.append(clip.clip_id)
-                test_rooms.add(clip.room_id)
-            else:
-                raise AdapterRefusal(
-                    f"clip {clip.clip_id} is not in a STARSS23 dev fold ({FOLD_DEV_TRAIN} or "
-                    f"{FOLD_DEV_TEST})"
-                )
-        shared_rooms = train_rooms & test_rooms
-        if shared_rooms:
-            raise AdapterRefusal(f"dev split is not room-disjoint, shared rooms: {sorted(shared_rooms)}")
-        return NativeDevSplit(dev_train=tuple(sorted(dev_train)), dev_test=tuple(sorted(dev_test)))
+        return native_dev_split(self._clips)
 
     def transport_charge(self) -> WorkVector:
         """Raw transport work for recomputing every clip's ``audio_sha256``, off the arm budget."""

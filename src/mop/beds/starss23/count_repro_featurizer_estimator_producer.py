@@ -65,8 +65,8 @@ from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
+    CountProducerRefusal,
     _causal_reestimates,
-    _fold_respecting_split,  # held-fixed native fold split, imported by reference and never edited
     _matched_noise_features,
     _micro_count_score,
     _train_count_gate,
@@ -129,23 +129,6 @@ class ReproCountBedConfig:
             raise CountReproProducerRefusal("paired seeds must be unique")
         if not self.target_rates:
             raise CountReproProducerRefusal("at least one re-estimation budget target rate is required")
-
-
-# ---------------------------------------------------------------------------
-# One-time featurization / estimation with the re-authored frozen modules.
-# ---------------------------------------------------------------------------
-
-
-def _featurize_all(adapter, featurizer: ReproCountFeaturizer) -> dict[str, np.ndarray]:
-    """Featurize every real clip once with the re-authored count front-end. Reused across all paired seeds."""
-
-    return {clip.clip_id: featurizer.featurize(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
-
-
-def _estimate_all(adapter, estimator: ReproCountEstimator) -> dict[str, np.ndarray]:
-    """Compute the re-authored estimator track once per clip. Shared across all arms and all paired seeds."""
-
-    return {clip.clip_id: estimator.estimate_track(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
 
 
 # ---------------------------------------------------------------------------
@@ -252,7 +235,7 @@ def build_repro_count_bed_artifact(
     caller and never read from the wall clock inside a sealed body.
     """
 
-    from .adapter import RealStarssAdapter  # imported here to keep the module import surface narrow
+    from .adapter import RealStarssAdapter, map_clip_audio, native_fold_split
 
     config = config or ReproCountBedConfig()
     featurizer = ReproCountFeaturizer()
@@ -262,9 +245,11 @@ def build_repro_count_bed_artifact(
     count_clips = build_count_clips(adapter, metadata_root)
     gt_by_clip = {cid: cc.count_track for cid, cc in count_clips.items()}
 
-    features_by_clip = _featurize_all(adapter, featurizer)
-    estimator_by_clip = _estimate_all(adapter, estimator)
-    train_clips, val_clips, test_clips, split_detail = _fold_respecting_split(adapter, config.n_val_rooms)
+    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
+    estimator_by_clip = map_clip_audio(adapter, estimator.estimate_track)
+    split = native_fold_split(adapter, config.n_val_rooms, refusal=CountProducerRefusal)
+    train_clips, val_clips, test_clips = split.train, split.val, split.test
+    split_detail = dict(split.detail)
 
     # Structural facts used by the SESOI cost-benefit and the operating-point rule. Label-only or constant.
     train_count_clips = [count_clips[c.clip_id] for c in train_clips]

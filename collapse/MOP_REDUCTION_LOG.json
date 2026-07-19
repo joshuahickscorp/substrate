@@ -200,6 +200,24 @@
       "proof": "complete BudgetSeedRun digests from checkpoint 48a587d exact for sealed frame-micro, swapped featurizer-estimator, alternate gate architecture, and clip-macro scoring; held-fixed gate assembly/training imported by reference; direct legacy digest pinned; full STARSS-focused suite 485/485 in 161.37s under nice -n 10",
       "accounting_note": "372 replaced Python LOC are production source; 181 added Python LOC = 138 production source + 43 direct legacy projection tests; production source net -234, tests net +43, total owned Python net -191",
       "tag": "mop-collapse-starss23-lifecycle-7"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "native_split_and_corpus_mapping",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "two native dev-fold projectors, three fold-respecting split builders, and seven one-time corpus provider maps collapsed onto one adapter authority",
+      "deduplicated_LOC": 245,
+      "added_LOC": 154,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 91,
+      "files_changed": 13,
+      "destination_api": "mop.beds.starss23.adapter.{native_dev_split,native_fold_split,map_clip_audio}",
+      "proof": "checkpoint 0936cc0 onset ClipSplit payload and count/DoA tuple projections byte-identical; fold-4 remains the exact score partition; invalid validation-room counts refuse; swapped-fold reproduction remains separate; full STARSS-focused suite 486/486 in 149.91s under nice -n 10",
+      "accounting_note": "245 replaced Python LOC are production source; 154 added Python LOC = 139 production source + 15 direct adapter/split tests; production source net -106, tests net +15, total owned Python net -91",
+      "tag": "mop-collapse-starss23-lifecycle-8"
     }
   ],
   "deferred_heavy_validation": {

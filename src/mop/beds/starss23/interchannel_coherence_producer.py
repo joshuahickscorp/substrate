@@ -58,7 +58,7 @@ from mop.science.budget import (
 from mop.science.statistics import exact_sign_flip, sign_flip_payload
 
 from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter
+from .adapter import RealStarssAdapter, map_clip_audio, native_fold_split
 from .artifact import (
     FULL_SCALE_C_TRAIN,
     FULL_SCALE_FEATURIZE,
@@ -81,9 +81,8 @@ from .real_artifact import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
     REAL_PRODUCER_SCHEMA,
+    RealArtifactRefusal,
     RealBedConfig,
-    _featurize_all,
-    _fold_respecting_split,
     _onset_density,
     _real_noisy_tv_features,
     _run_seed_real,
@@ -261,8 +260,10 @@ def build_interchannel_coherence_artifact(
     featurizer = InterchannelCoherenceFeaturizer()
 
     adapter = RealStarssAdapter(foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames)
-    features_by_clip = _featurize_all(adapter, featurizer)
-    split = _fold_respecting_split(adapter, config.n_val_rooms)
+    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
+    split = native_fold_split(
+        adapter, config.n_val_rooms, refusal=RealArtifactRefusal, refuse_empty=False
+    )
 
     prereg = _read_sealed_featurizers_prereg(featurizers_prereg_path)
     sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])

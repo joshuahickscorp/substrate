@@ -56,7 +56,7 @@ from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, ses
 from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter
+from .adapter import RealStarssAdapter, map_clip_audio
 from .controls import at_chance
 from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
@@ -70,8 +70,6 @@ from .count_producer import (
     PRIMARY_CONTROL,
     CountProducerRefusal,
     RealCountBedConfig,
-    _estimate_all,
-    _featurize_all,
     _flop_model,
     _real_noisy_tv_features,
     _run_seed_real,
@@ -180,8 +178,8 @@ def build_data_split_repro_artifact(
     count_clips = build_count_clips(adapter, metadata_root)
     gt_by_clip = {cid: cc.count_track for cid, cc in count_clips.items()}
 
-    features_by_clip = _featurize_all(adapter, featurizer)
-    estimator_by_clip = _estimate_all(adapter, estimator)
+    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
+    estimator_by_clip = map_clip_audio(adapter, estimator.estimate_track)
     # THE ONE VARIED AXIS: the swapped fold split.
     train_clips, val_clips, test_clips, split_detail = _swapped_fold_split(adapter, config.n_val_rooms)
 
