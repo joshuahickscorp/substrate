@@ -1,0 +1,63 @@
+{
+  "schema": "mop-campaign2-canary-summary/v1",
+  "source_commit": "9ac24c641a7d106a5a3c116fecd29eadef293ea0",
+  "all_three_canaries_terminal": true,
+  "per_lane": {
+    "G1-N1": {
+      "classification": "canary_positive",
+      "battery": "admitted",
+      "first_failing_clause": null,
+      "clauses_passed": "11/11",
+      "D_incr": 0.406,
+      "D_lower95cb": 0.241,
+      "capable_arch_passing": 2,
+      "oracle_headroom": 0.802,
+      "residual_headroom": 0.679,
+      "independent_verification_agrees": true
+    },
+    "G1-U1": {
+      "classification": "pruned_mechanism",
+      "battery": "pruned_mechanism",
+      "first_failing_clause": "G_noisy_tv",
+      "clauses_passed": "10/11",
+      "D_incr": 0.505,
+      "D_lower95cb": 0.335,
+      "capable_arch_passing": 3,
+      "oracle_headroom": 0.776,
+      "residual_headroom": 0.758,
+      "independent_verification_agrees": true
+    },
+    "G1-P1R": {
+      "classification": "canary_positive",
+      "battery": "admitted",
+      "first_failing_clause": null,
+      "clauses_passed": "11/11",
+      "D_incr": 0.532,
+      "D_lower95cb": 0.271,
+      "capable_arch_passing": 3,
+      "oracle_headroom": 0.5,
+      "residual_headroom": 0.647,
+      "independent_verification_agrees": true
+    }
+  },
+  "canary_positive": [
+    "G1-N1",
+    "G1-P1R"
+  ],
+  "pruned": [
+    "G1-U1"
+  ],
+  "U1_finding": "U1 uncertainty has strong incremental value (0.505) and is architecture-robust (3/3), but FAILS the noisy-TV control: it allocates verification to high-uncertainty IRREDUCIBLE items. Raw uncertainty does not distinguish reducible from irreducible uncertainty, so it wastes budget. This is a genuine decision-value null, not instrumentation. The one permitted bounded repair (a reducibility-aware uncertainty) essentially reduces to the N1 mechanism; not executed now to avoid gate-chasing.",
+  "evidence_ladder": {
+    "mechanics_robustness": "Horizons 1-2 (same-code, 20704 rungs)",
+    "controlled_bed_plausibility": "Phase 4B (all three admitted on calibrated battery)",
+    "real_data_canary": "Campaign 2 (N1 positive, P1R positive, U1 pruned)",
+    "independent_confirmation": "NOT YET DONE"
+  },
+  "phase6_confirmation_decision": "N1 and P1R (canary_positive) are LICENSED for one bounded independent-confirmation experiment each, increasing >=2 of: data-source breadth (add a second real dataset e.g. KMNIST/CIFAR or STARSS23), implementation breadth (a materially independent mechanism implementation), context/unit breadth. U1 is pruned; no confirmation. Cluster B (R1+P1R) may use P1R real-data admission authority; Cluster A/C await their own real-data canaries (V1/K1/M1/A1/S1 have only mechanics evidence, which does not license a cluster).",
+  "claim_ceiling": "real-data CANARY evidence for N1 and P1R: stronger than controlled-bed, but single-source (MNIST-family) and NOT yet independently confirmed. Not scientific confirmation and not activation. Activation authority remains FALSE.",
+  "activation_allowed": false,
+  "scientific_promotion": false,
+  "independent_scientific_confirmation": false,
+  "summary_sha256": "cf3713d6a4d95dca252a82bf1d42e4c59857009843e57cbf58d8292eaf745ee1"
+}
