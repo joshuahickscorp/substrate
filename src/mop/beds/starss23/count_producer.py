@@ -28,6 +28,7 @@ import hashlib
 import json
 import math
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -265,23 +266,16 @@ def _noise_seed(seed: int) -> int:
     return int.from_bytes(hashlib.sha256(b"mop-starss23-count-noisy-tv-v1\0" + payload).digest()[:4], "big")
 
 
-def _real_noisy_tv_features(
-    seed: int,
+def _matched_noise_features(
+    noise_seed: int,
     n_frames: int,
-    featurizer: FrozenCountFeaturizer,
+    featurizer: Any,
     target_mean: float,
     target_std: float,
 ) -> np.ndarray:
-    """Pure-aleatoric channel: 4-channel white-noise audio featurized, then affine-matched to test marginals.
+    """Featurize deterministic white noise and match it to the test feature marginals."""
 
-    White noise carries no reducible count-change structure (no systematic source-enter or source-leave
-    log-mel transitions), so a gate that keys on the coherent change signature re-estimates at chance on it.
-    Matching the channel's global feature mean and standard deviation to the real test content removes any
-    raw-magnitude confound, so only a gate that chases irreducible novelty re-estimates preferentially.
-    Deterministic in the seed.
-    """
-
-    rng = np.random.default_rng(_noise_seed(seed))
+    rng = np.random.default_rng(noise_seed)
     audio = rng.standard_normal((N_CHANNELS, n_frames * SAMPLES_PER_FRAME))
     features = featurizer.featurize(audio)
     mean = float(features.mean())
@@ -291,51 +285,68 @@ def _real_noisy_tv_features(
     return features
 
 
+def _real_noisy_tv_features(
+    seed: int,
+    n_frames: int,
+    featurizer: FrozenCountFeaturizer,
+    target_mean: float,
+    target_std: float,
+) -> np.ndarray:
+    """Build the sealed count bed's deterministic aleatoric control channel."""
+
+    return _matched_noise_features(_noise_seed(seed), n_frames, featurizer, target_mean, target_std)
+
+
 # ---------------------------------------------------------------------------
 # Per-seed run on the fixed real split.
 # ---------------------------------------------------------------------------
 
 
-def _run_seed_real(
+def run_count_seed(
+    *,
     seed: int,
-    train_clips: tuple[Clip, ...],
     val_clips: tuple[Clip, ...],
     test_clips: tuple[Clip, ...],
     features_by_clip: dict[str, np.ndarray],
     estimator_by_clip: dict[str, np.ndarray],
     gt_by_clip: dict[str, tuple[int, ...]],
     noise_features: np.ndarray,
-    config: RealCountBedConfig,
+    target_rates: tuple[float, ...],
     operating_density: float,
+    train_gate: Callable[[], tuple[Any, int]],
+    causal_reestimates: Callable[[Any, np.ndarray, float], tuple[list[int], np.ndarray]],
+    score_rows: Callable[
+        [list[tuple[str, list[int], list[int], list[int]]]], dict[str, Any]
+    ],
 ) -> BudgetSeedRun:
-    """Train the gate for one seed, sweep the budget, score every arm on the fixed real test set."""
+    """Run the shared counting seed lifecycle with explicit gate and scoring providers."""
 
-    gate, train_frames = _train_count_gate(seed, train_clips, features_by_clip, gt_by_clip, config)
+    gate, train_frames = train_gate()
     total_frames = int(sum(clip.n_frames for clip in test_clips))
 
     # A neutral-threshold causal pass over val gives the p distribution the budget grid is cut from.
     val_probs = np.concatenate(
-        [_causal_reestimates(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in val_clips]
+        [causal_reestimates(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in val_clips]
     )
 
     per_budget: dict[str, dict[str, Any]] = {}
-    for rate in config.target_rates:
+    for rate in target_rates:
         theta = float(np.quantile(val_probs, 1.0 - rate))
         budget_id = f"rate_{rate:.2f}"
 
-        arm_clip_scores: dict[str, list[tuple[list[int], list[int], list[int]]]] = {
+        arm_rows: dict[str, list[tuple[str, list[int], list[int], list[int]]]] = {
             ARM_CANDIDATE: [],
             ARM_RATE_MATCHED_RANDOM: [],
             ARM_ALWAYS_ON: [],
             ARM_NEVER_UPDATE: [],
         }
-        reestimations = {kind: 0 for kind in arm_clip_scores}
+        reestimations = {kind: 0 for kind in arm_rows}
         clips_block: list[dict[str, Any]] = []
         for clip in test_clips:
             features = features_by_clip[clip.clip_id]
             gt = list(gt_by_clip[clip.clip_id])
             estimator = [int(v) for v in estimator_by_clip[clip.clip_id].tolist()]
-            candidate_r, _ = _causal_reestimates(gate, features, theta)
+            candidate_r, _ = causal_reestimates(gate, features, theta)
             arm_r = {
                 ARM_CANDIDATE: candidate_r,
                 ARM_RATE_MATCHED_RANDOM: rate_matched_random_fires(
@@ -345,7 +356,7 @@ def _run_seed_real(
                 ARM_NEVER_UPDATE: never_update_reestimates(clip.n_frames),
             }
             for kind, r in arm_r.items():
-                arm_clip_scores[kind].append((gt, estimator, list(r)))
+                arm_rows[kind].append((clip.clip_id, gt, estimator, list(r)))
                 reestimations[kind] += len(r)
             clips_block.append(
                 {
@@ -356,9 +367,7 @@ def _run_seed_real(
                     },
                 }
             )
-        arm_scores = {
-            kind: score_arm(pairs, COLD_START).payload() for kind, pairs in arm_clip_scores.items()
-        }
+        arm_scores = {kind: score_rows(rows) for kind, rows in arm_rows.items()}
         per_budget[budget_id] = {
             "theta": theta,
             "rate": rate,
@@ -382,7 +391,7 @@ def _run_seed_real(
 
     operating_theta = operating["theta"]
     base_rate = operating["reestimations"][ARM_CANDIDATE] / max(1, total_frames)
-    noise_reestimates, _ = _causal_reestimates(gate, noise_features, operating_theta)
+    noise_reestimates, _ = causal_reestimates(gate, noise_features, operating_theta)
     noise_rate = len(noise_reestimates) / noise_features.shape[0]
     noisy_tv = {
         "reestimate_rate_on_noise": round(float(noise_rate), 12),
@@ -400,6 +409,44 @@ def _run_seed_real(
         operating_budget_id=operating_budget_id,
         per_seed_block=per_seed_block,
         noisy_tv=noisy_tv,
+    )
+
+
+def _micro_count_score(
+    rows: list[tuple[str, list[int], list[int], list[int]]],
+) -> dict[str, Any]:
+    return score_arm([(gt, estimator, r) for _, gt, estimator, r in rows], COLD_START).payload()
+
+
+def _run_seed_real(
+    seed: int,
+    train_clips: tuple[Clip, ...],
+    val_clips: tuple[Clip, ...],
+    test_clips: tuple[Clip, ...],
+    features_by_clip: dict[str, np.ndarray],
+    estimator_by_clip: dict[str, np.ndarray],
+    gt_by_clip: dict[str, tuple[int, ...]],
+    noise_features: np.ndarray,
+    config: RealCountBedConfig,
+    operating_density: float,
+) -> BudgetSeedRun:
+    """Bind the sealed gate and frame-micro referee to the shared counting seed lifecycle."""
+
+    return run_count_seed(
+        seed=seed,
+        val_clips=val_clips,
+        test_clips=test_clips,
+        features_by_clip=features_by_clip,
+        estimator_by_clip=estimator_by_clip,
+        gt_by_clip=gt_by_clip,
+        noise_features=noise_features,
+        target_rates=config.target_rates,
+        operating_density=operating_density,
+        train_gate=lambda: _train_count_gate(
+            seed, train_clips, features_by_clip, gt_by_clip, config
+        ),
+        causal_reestimates=_causal_reestimates,
+        score_rows=_micro_count_score,
     )
 
 

@@ -32,7 +32,6 @@ from __future__ import annotations
 import math
 import time
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
@@ -64,10 +63,7 @@ from mop.substrate.events import write_canonical_json
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import RealStarssAdapter
 from .controls import (
-    always_on_fires,
     at_chance,
-    never_update_reestimates,
-    rate_matched_random_fires,
 )
 from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
@@ -83,9 +79,11 @@ from .count_producer import (
     _estimate_all,
     _featurize_all,
     _fold_respecting_split,
+    _micro_count_score,
     _real_noisy_tv_features,
+    run_count_seed,
 )
-from .count_referee import COLD_START, score_arm
+from .count_referee import COLD_START
 from .count_repro_gate_arch_gate import (
     D_IN_GATE_ARCH,
     FLOPS_PER_INFERENCE_GATE_ARCH,
@@ -191,95 +189,23 @@ def _run_seed_real(
     config: RealCountBedConfig,
     operating_density: float,
 ) -> BudgetSeedRun:
-    """Train the gate for one seed, sweep the budget, score every arm on the fixed real test set."""
+    """Bind the alternate gate to the held-fixed counting seed lifecycle."""
 
-    gate, train_frames = _train_count_gate(seed, train_clips, features_by_clip, gt_by_clip, config)
-    total_frames = int(sum(clip.n_frames for clip in test_clips))
-
-    val_probs = np.concatenate(
-        [_causal_reestimates(gate, features_by_clip[clip.clip_id], 0.5)[1] for clip in val_clips]
-    )
-
-    per_budget: dict[str, dict[str, Any]] = {}
-    for rate in config.target_rates:
-        theta = float(np.quantile(val_probs, 1.0 - rate))
-        budget_id = f"rate_{rate:.2f}"
-
-        arm_clip_scores: dict[str, list[tuple[list[int], list[int], list[int]]]] = {
-            ARM_CANDIDATE: [],
-            ARM_RATE_MATCHED_RANDOM: [],
-            ARM_ALWAYS_ON: [],
-            ARM_NEVER_UPDATE: [],
-        }
-        reestimations = {kind: 0 for kind in arm_clip_scores}
-        clips_block: list[dict[str, Any]] = []
-        for clip in test_clips:
-            features = features_by_clip[clip.clip_id]
-            gt = list(gt_by_clip[clip.clip_id])
-            estimator = [int(v) for v in estimator_by_clip[clip.clip_id].tolist()]
-            candidate_r, _ = _causal_reestimates(gate, features, theta)
-            arm_r = {
-                ARM_CANDIDATE: candidate_r,
-                ARM_RATE_MATCHED_RANDOM: rate_matched_random_fires(
-                    candidate_r, clip.n_frames, seed=seed, clip_id=clip.clip_id
-                ),
-                ARM_ALWAYS_ON: always_on_fires(clip.n_frames),
-                ARM_NEVER_UPDATE: never_update_reestimates(clip.n_frames),
-            }
-            for kind, r in arm_r.items():
-                arm_clip_scores[kind].append((gt, estimator, list(r)))
-                reestimations[kind] += len(r)
-            clips_block.append(
-                {
-                    "clip_id": clip.clip_id,
-                    "reestimate_frames": {
-                        ARM_CANDIDATE: list(arm_r[ARM_CANDIDATE]),
-                        ARM_RATE_MATCHED_RANDOM: list(arm_r[ARM_RATE_MATCHED_RANDOM]),
-                    },
-                }
-            )
-        arm_scores = {
-            kind: score_arm(pairs, COLD_START).payload() for kind, pairs in arm_clip_scores.items()
-        }
-        per_budget[budget_id] = {
-            "theta": theta,
-            "rate": rate,
-            "clips": clips_block,
-            "arm_scores": arm_scores,
-            "reestimations": reestimations,
-        }
-
-    operating_budget_id = min(
-        per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - operating_density)
-    )
-    operating = per_budget[operating_budget_id]
-    per_seed_block = {
-        "seed": seed,
-        "operating_budget_id": operating_budget_id,
-        "clips": operating["clips"],
-        "arm_scores": operating["arm_scores"],
-    }
-
-    operating_theta = operating["theta"]
-    base_rate = operating["reestimations"][ARM_CANDIDATE] / max(1, total_frames)
-    noise_reestimates, _ = _causal_reestimates(gate, noise_features, operating_theta)
-    noise_rate = len(noise_reestimates) / noise_features.shape[0]
-    noisy_tv = {
-        "reestimate_rate_on_noise": round(float(noise_rate), 12),
-        "base_rate": round(float(base_rate), 12),
-        "at_chance": at_chance(min(1.0, noise_rate), min(1.0, base_rate)),
-        "n_noise_frames": int(noise_features.shape[0]),
-    }
-
-    return BudgetSeedRun(
+    return run_count_seed(
         seed=seed,
-        total_frames=total_frames,
-        train_frames=train_frames,
-        gate_params=gate.n_params(),
-        per_budget=per_budget,
-        operating_budget_id=operating_budget_id,
-        per_seed_block=per_seed_block,
-        noisy_tv=noisy_tv,
+        val_clips=val_clips,
+        test_clips=test_clips,
+        features_by_clip=features_by_clip,
+        estimator_by_clip=estimator_by_clip,
+        gt_by_clip=gt_by_clip,
+        noise_features=noise_features,
+        target_rates=config.target_rates,
+        operating_density=operating_density,
+        train_gate=lambda: _train_count_gate(
+            seed, train_clips, features_by_clip, gt_by_clip, config
+        ),
+        causal_reestimates=_causal_reestimates,
+        score_rows=_micro_count_score,
     )
 
 
