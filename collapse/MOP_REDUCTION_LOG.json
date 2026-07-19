@@ -398,6 +398,24 @@
       "proof": "checkpoint b7fcb0b pre/post sealed artifact dictionaries exact for spatial DoA, SuperFlux spectral, and interchannel coherence under fixed clocks; independent featurizer verifier battery 44/44; full STARSS-focused suite 493/493 in 155.83s under nice -n 10",
       "accounting_note": "842 replaced and 582 added Python LOC are production source; production and total owned Python net -260; three independent verifier implementations and all test code remain unchanged",
       "tag": "mop-collapse-starss23-lifecycle-18"
+    },
+    {
+      "region": "section11_starss23",
+      "batch": "count_variant_artifact_lifecycle",
+      "checkpoint_status": "focused_green_pending_full_suite",
+      "primitive": "five complete concurrent-count producer preparation, scoring, budget, receipt, corpus-track, and finalization shells collapsed onto one provider-neutral sealed count-variant lifecycle",
+      "deduplicated_LOC": 1379,
+      "added_LOC": 972,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 407,
+      "files_changed": 6,
+      "destination_api": "mop.beds.starss23.count_variant_producer.{prepare_count_variant_corpus,build_count_variant_artifact}",
+      "proof": "checkpoint a7916c2 pre/post real-data sealed artifact dictionaries exact under fixed clocks for the base count bed, swapped-fold reproduction, re-authored featurizer/estimator, two-hidden-layer gate, and clip-macro scoring; independent count producer/verifier battery 73/73 in 72.92s; full STARSS-focused suite 493/493 in 145.36s under nice -n 10",
+      "accounting_note": "1379 replaced and 972 added Python LOC are production source; production and total owned Python net -407; all five variant-specific run bindings, statistics/readouts, refusal surfaces, and independent verifier implementations remain local and unchanged",
+      "tag": "mop-collapse-starss23-lifecycle-19"
     }
   ],
   "deferred_heavy_validation": {

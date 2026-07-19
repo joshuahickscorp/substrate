@@ -1,86 +1,43 @@
-"""Adversarial reproduction 1 (data-split axis): the swapped-fold real-data producer.
+"""Swapped-room-fold reproduction producer for the STARSS23 concurrent-count bed.
 
-This is a net-new, additive component. It runs the sealed STARSS23 concurrent-source-counting bed end to
-end on the REAL STARSS23 FOA subset with ONE thing varied: the room-fold partition is SWAPPED. The gate
-trains and tunes on the rooms the sealed bed scored (fold-4) and is scored on the rooms the sealed bed
-trained and tuned on (fold-3). Fold-3 and fold-4 share no room, so the swapped split is still genuinely
-room-disjoint and clip-disjoint.
-
-Everything else is held byte-identical to the sealed bed by IMPORTING it, never re-implementing it: the
-frozen count featurizer and estimator, the trained count gate, the sealed coasted-count-MAE referee, the
-matched-budget FLOP harness, the four controls (rate-matched-random primary, always-on, never-update,
-noisy-TV), and the exact sign-flip statistic all come straight from ``count_producer`` and its sealed
-dependencies. The private per-seed run, featurization, estimation, noisy-TV, and budget-point builders of
-``count_producer`` are reused directly, so the ONLY difference from the sealed run is which rooms train and
-which rooms score, plus the disjoint seed family (10..14) that also breaks the original's seed luck.
-
-The SESOI is preregistered by the reused cost-benefit rule on the fold-3 test labels before any test score
-is read (see ``count_repro_data_split_prereg``); this producer writes the sealed prereg first and records
-its digest in the artifact. The verdict is a mechanics demonstration only: ``activation_allowed``,
-``scientific_promotion``, and ``independent_scientific_confirmation`` are hardcoded false, and a single
-reproduction can never be scientifically confirmed.
-
-House style: no em dashes and no en dashes.
-"""
+Provider, split, preregistration, gate, estimator, FLOP, and evidence declarations remain local; the
+shared count-variant authority owns only the held-fixed scoring and sealed-artifact lifecycle."""
 
 from __future__ import annotations
 
-import math
 import time
 from pathlib import Path
 from typing import Any
 
-import numpy as np
+from mop.science import ArtifactResult
 
-from mop.ladder.ladder_contracts import (
-    VERDICT_MECHANICS_OK,
-    VERDICT_NULL,
-)
-from mop.science import (
-    ArtifactResult,
-    artifact_envelope,
-    demonstration_receipt,
-    finalize_artifact,
-    safety_flags,
-)
-from mop.science.budget import (
-    ARM_ALWAYS_ON,
-    ARM_CANDIDATE,
-    ARM_NEVER_UPDATE,
-    ARM_RATE_MATCHED_RANDOM,
-    build_budget_points,
-    noise_control_summary,
-    run_matched_budget,
-)
-from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
-from mop.substrate.events import write_canonical_json
-
-from . import FLOP_CEILING, STAGE3_FORCING_NULL
-from .adapter import RealStarssAdapter, map_clip_audio
-from .controls import at_chance
+from .adapter import RealStarssAdapter
 from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
 from .count_gate import FLOPS_PER_INFERENCE, CountOnlineState
-from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_producer import (
     DEFAULT_FOA_ROOT,
     DEFAULT_METADATA_ROOT,
     FULL_SCALE_C_TRAIN,
     FULL_SCALE_FEATURIZE,
-    PRIMARY_CONTROL,
     CountProducerRefusal,
     RealCountBedConfig,
     _flop_model,
     _real_noisy_tv_features,
     _run_seed_real,
 )
-from .count_referee import COLD_START
 from .count_repro_data_split_prereg import (
     DEFAULT_REPRO_PREREG_PATH,
     REPRO_AXIS,
     build_data_split_prereg,
 )
-from .experiments import COUNT_BED_ID, COUNT_BUDGET_POLICY
+from .count_variant_producer import (
+    CountVariantContext,
+    CountVariantSpec,
+    build_count_variant_artifact,
+    prepare_count_variant_corpus,
+)
+from .experiments import COUNT_BED_ID
 from .schema import Clip
 
 REPRO_PRODUCER_SCHEMA = "mop-starss23-count-repro-data-split-producer/v1"
@@ -163,249 +120,115 @@ def build_data_split_repro_artifact(
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_REPRO_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the whole counting bed on the real subset with the fold split swapped, and seal the artifact.
-
-    The preregistration is written to disk before any test score is computed. ``timestamp`` is passed by
-    the caller and never read from the wall clock inside a sealed body. Every scored path except the split
-    is imported from the sealed bed, so the ONLY manipulated variable is which rooms train and which score.
-    """
+    """Run the swapped-fold declaration through the shared count lifecycle."""
 
     config = config or default_data_split_config()
     featurizer = FrozenCountFeaturizer()
     estimator = FrozenCountEstimator()
-
-    adapter = RealStarssAdapter(foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames)
-    count_clips = build_count_clips(adapter, metadata_root)
-    gt_by_clip = {cid: cc.count_track for cid, cc in count_clips.items()}
-
-    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
-    estimator_by_clip = map_clip_audio(adapter, estimator.estimate_track)
-    # THE ONE VARIED AXIS: the swapped fold split.
-    train_clips, val_clips, test_clips, split_detail = _swapped_fold_split(adapter, config.n_val_rooms)
-
-    # Structural facts used by the SESOI cost-benefit and the operating-point rule. All label-only or
-    # constant; no test score is read to build the prereg.
-    train_count_clips = [count_clips[c.clip_id] for c in train_clips]
-    test_count_clips = [count_clips[c.clip_id] for c in test_clips]
-    train_density = change_density(train_count_clips)
-    n_test_clips = len(test_clips)
-    n_test_frames = int(sum(clip.n_frames for clip in test_clips))
-    n_test_changes = int(sum(cc.n_changes for cc in test_count_clips))
-    test_coast_from_zero = coast_from_zero_mae(test_count_clips)
-    if n_test_changes == 0:
-        raise CountProducerRefusal("the swapped-fold test split carries no count changes to track")
-    operating_rate = min(config.target_rates, key=lambda r: abs(r - train_density))
-
-    # 1. Preregister the SESOI and analysis plan BEFORE reading any test-split score.
-    prereg = build_data_split_prereg(
-        timestamp=timestamp,
-        operating_reestimate_fraction=operating_rate,
-        n_test_clips=n_test_clips,
-        n_test_changes=n_test_changes,
-        n_test_frames=n_test_frames,
-        train_change_density=train_density,
-        coast_from_zero_mae=test_coast_from_zero,
+    adapter = RealStarssAdapter(
+        foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames
     )
-    prereg_written = write_canonical_json(prereg, prereg_path)
-    sesoi_mae = float(prereg["sesoi"]["sesoi_mae"])
-
-    # 2. Now run the paired seeds and score the swapped test split. The per-seed run, noisy-TV channel, and
-    # budget-point builder are the sealed bed's own functions, reused unchanged.
-    pooled_test_features = np.concatenate([features_by_clip[c.clip_id] for c in test_clips], axis=0)
-    target_mean = float(pooled_test_features.mean())
-    target_std = float(pooled_test_features.std())
-
-    started = time.perf_counter_ns()
-    seed_runs = []
-    for seed in config.seeds:
-        noise_features = _real_noisy_tv_features(
-            seed, config.noisy_tv_frames, featurizer, target_mean, target_std
-        )
-        seed_runs.append(
-            _run_seed_real(
-                seed,
-                train_clips,
-                val_clips,
-                test_clips,
-                features_by_clip,
-                estimator_by_clip,
-                gt_by_clip,
-                noise_features,
-                config,
-                train_density,
-            )
-        )
-    measured_wall_ns = max(1, time.perf_counter_ns() - started)
-
-    budget_points = build_budget_points(
-        COUNT_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="mae",
-        action_group="reestimations",
-        flop_model=lambda kind: _flop_model(
-            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, config
+    corpus = prepare_count_variant_corpus(
+        adapter=adapter,
+        foa_root=foa_root,
+        metadata_root=metadata_root,
+        featurizer=featurizer,
+        estimator=estimator,
+        config=config,
+        split_provider=lambda current_adapter: _swapped_fold_split(
+            current_adapter, config.n_val_rooms
         ),
     )
-    nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
-    report = run_matched_budget(
-        budget_points,
-        wall_ns=nominal_wall_ns,
-        operating_budget_id=seed_runs[0].operating_budget_id,
-        source_kind="real",
-        ceiling=FLOP_CEILING,
-    )
 
-    per_seed = [run.per_seed_block for run in seed_runs]
-    # Sign-flip statistic: delta_i = MAE_rate_matched_random(i) - MAE_candidate(i). Positive = candidate
-    # reduces error. The exact_sign_flip test is one-sided upper tail on these deltas.
-    deltas = [
-        block["arm_scores"][PRIMARY_CONTROL]["mae"] - block["arm_scores"][ARM_CANDIDATE]["mae"]
-        for block in per_seed
-    ]
-    sign_flip = exact_sign_flip(deltas)
-    sesoi = sesoi_check(sign_flip.mean_delta, sesoi_f1=sesoi_mae, provisional=False)
-    mean_delta_exceeds_sesoi = bool(sesoi.exceeds_sesoi)
-    # Report-facing convention (task): candidate minus random, negative = candidate better (lower MAE).
-    mean_delta_candidate_minus_random = -float(sign_flip.mean_delta)
-
-    stats_block = count_sign_flip_payload(
-        sign_flip, deltas, sesoi=sesoi_mae, exceeds_sesoi=mean_delta_exceeds_sesoi,
-        mean_candidate_minus_control=mean_delta_candidate_minus_random,
-        prereg_digest=prereg["canonical_sha256"],
-    )
-
-    n_runs = len(seed_runs)
-    mean_noise_rate = math.fsum(run.noisy_tv["reestimate_rate_on_noise"] for run in seed_runs) / n_runs
-    mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
-    noisy_tv_at_chance = at_chance(min(1.0, mean_noise_rate), min(1.0, mean_base_rate))
-    controls_block = noise_control_summary(
-        COUNT_BUDGET_POLICY, seed_runs, at_chance=noisy_tv_at_chance, mean_noise_rate=mean_noise_rate,
-        mean_base_rate=mean_base_rate, rate_key="mean_reestimate_rate_on_noise",
-    )
-    flags_block = safety_flags()
-
-    # Shared per-clip tracks, sealed once (identical across seeds): the ground-truth count track and the
-    # frozen estimator track the verifier re-coasts every arm against.
-    corpus_tracks = {
-        clip.clip_id: {
-            "n_frames": clip.n_frames,
-            "gt_count_track": list(gt_by_clip[clip.clip_id]),
-            "estimator_track": [int(v) for v in estimator_by_clip[clip.clip_id].tolist()],
-        }
-        for clip in test_clips
-    }
-
-    dominates = report.candidate_strictly_dominates_rate_matched_random
-    meets_bar = dominates and sign_flip.one_sided_significant and mean_delta_exceeds_sesoi
-    verdict = VERDICT_MECHANICS_OK if meets_bar else VERDICT_NULL
-
-    core_evidence = {
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "matched_budget": report.matched_budget.payload(),
-        "flags": flags_block,
-    }
-    receipt = demonstration_receipt(
-        mechanism_id=COUNT_BED_ID,
-        controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"),
-        evidence=core_evidence,
-        verdict=verdict,
-        detail={
-            "source_kind": "real",
-            "forcing_null": STAGE3_FORCING_NULL,
-            "reproduction_axis": REPRO_AXIS,
-            "question": "concurrent-source counting under a swapped room-fold partition",
-            "candidate_strictly_dominates_rate_matched_random": dominates,
-            "one_sided_p": float(sign_flip.one_sided_p),
-            "note": (
-                "one swapped-fold reproduction is a mechanics demonstration; scientific confirmation needs "
-                "the independent verifier plus at least three bias-independent reproductions and cannot be "
-                "self-certified"
-            ),
-        },
-    )
-
-    truncations = [t.payload() for t in adapter.truncations()]
-    dropped_onsets = sum(t["dropped_onsets_past_end"] for t in truncations)
-    capped_clips = sum(1 for t in truncations if t["capped_by_max_frames"])
-
-    body = artifact_envelope(
-        schema=REPRO_ARTIFACT_SCHEMA, report=report, seeds=config.seeds, per_seed=per_seed,
-        stats=stats_block, controls=controls_block, flags=flags_block, verdict=verdict,
-        featurizer={
+    def featurizer_payload(_context: CountVariantContext) -> dict[str, Any]:
+        return {
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME_COUNT,
             "d_cfeat": D_CFEAT,
-        }, gate={
-            "params": seed_runs[0].gate_params,
+        }
+
+    def gate_payload(context: CountVariantContext) -> dict[str, Any]:
+        return {
+            "params": context.seed_runs[0].gate_params,
             "param_ceiling": 4096,
             "state_bytes": CountOnlineState.state_bytes(),
             "flops_per_inference": FLOPS_PER_INFERENCE,
-        }, receipt_payload=receipt,
-        extra={
-        "reproduction_axis": REPRO_AXIS,
-        "of_bed": COUNT_BED_ID,
-        "cold_start": COLD_START,
-        "primary_control": PRIMARY_CONTROL,
-        "corpus_tracks": corpus_tracks,
-        "estimator": {
+        }
+
+    def estimator_payload(_context: CountVariantContext) -> dict[str, Any]:
+        return {
             "n_params": estimator.n_params(),
             "parameter_digest": estimator.parameter_digest(),
             "flops_per_reestimate": FLOPS_PER_REESTIMATE,
+        }
+
+    spec = CountVariantSpec(
+        artifact_schema=REPRO_ARTIFACT_SCHEMA,
+        producer_schema=REPRO_PRODUCER_SCHEMA,
+        refusal=CountProducerRefusal,
+        no_changes_message="the swapped-fold test split carries no count changes to track",
+        score_field="mae",
+        build_prereg=lambda current: build_data_split_prereg(
+            timestamp=timestamp,
+            operating_reestimate_fraction=current.operating_rate,
+            n_test_clips=current.n_test_clips,
+            n_test_changes=current.n_test_changes,
+            n_test_frames=current.n_test_frames,
+            train_change_density=current.train_density,
+            coast_from_zero_mae=current.test_coast_from_zero,
+        ),
+        noise_features=_real_noisy_tv_features,
+        run_seed=lambda seed, current, noise: _run_seed_real(
+            seed,
+            current.train_clips,
+            current.val_clips,
+            current.test_clips,
+            current.features_by_clip,
+            current.estimator_by_clip,
+            current.gt_by_clip,
+            noise,
+            config,
+            current.train_density,
+        ),
+        flop_model=lambda kind, total_frames, train_frames: _flop_model(
+            kind, total_frames, train_frames, config
+        ),
+        featurizer_payload=featurizer_payload,
+        gate_payload=gate_payload,
+        estimator_payload=estimator_payload,
+        receipt_detail=lambda _context: {
+            "reproduction_axis": REPRO_AXIS,
+            "question": "concurrent-source counting under a swapped room-fold partition",
+            "note": (
+                "one swapped-fold reproduction is a mechanics demonstration; scientific confirmation "
+                "needs the independent verifier plus at least three bias-independent reproductions and "
+                "cannot be self-certified"
+            ),
         },
-        "full_scale_anchors": {
-            "c_train_flops": FULL_SCALE_C_TRAIN,
-            "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
-            "downstream_flops_per_reestimate": config.downstream_flops_per_reestimate,
-            "break_even_frames_anchor": FULL_SCALE_C_TRAIN // config.downstream_flops_per_reestimate,
-        },
-        "real_corpus": {
-            "producer_schema": REPRO_PRODUCER_SCHEMA,
-            "foa_root": str(Path(foa_root)),
-            "metadata_root": str(Path(metadata_root)),
-            "n_clips": len(adapter.clips()),
-            "split_rooms": split_detail,
-            "n_train_clips": len(train_clips),
-            "n_val_clips": len(val_clips),
-            "n_train_frames": seed_runs[0].train_frames,
-            "n_test_clips": n_test_clips,
-            "n_test_frames": n_test_frames,
-            "n_test_changes": n_test_changes,
-            "train_change_density": round(float(train_density), 12),
-            "test_coast_from_zero_mae": round(float(test_coast_from_zero), 12),
-            "operating_reestimate_fraction": round(float(operating_rate), 12),
-            "truncation": {
-                "clips_capped_by_max_frames": capped_clips,
-                "onsets_dropped_past_audio_end": dropped_onsets,
-                "max_frames": config.max_frames,
-                "per_clip": truncations,
+        artifact_extra=lambda _context: {
+            "reproduction_axis": REPRO_AXIS,
+            "of_bed": COUNT_BED_ID,
+            "full_scale_anchors": {
+                "c_train_flops": FULL_SCALE_C_TRAIN,
+                "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
+                "downstream_flops_per_reestimate": config.downstream_flops_per_reestimate,
+                "break_even_frames_anchor": (
+                    FULL_SCALE_C_TRAIN // config.downstream_flops_per_reestimate
+                ),
             },
         },
-        "prereg": {
-            "path": str(prereg_written),
-            "canonical_sha256": prereg["canonical_sha256"],
-            "sesoi_mae": sesoi_mae,
-            "provisional": False,
-            "written_before_test_scores": True,
-        },
-        },
+        prereg_extra=lambda _context: {},
+        final_extra=lambda _context: {},
     )
-    return finalize_artifact(
-        body,
-        prereg=prereg,
-        verdict=verdict,
-        detail={
-            "dominates": dominates,
-            "mean_delta_control_minus_candidate": float(sign_flip.mean_delta),
-            "mean_delta_candidate_minus_control": mean_delta_candidate_minus_random,
-            "one_sided_p": float(sign_flip.one_sided_p),
-            "one_sided_significant": bool(sign_flip.one_sided_significant),
-            "mean_delta_exceeds_sesoi": mean_delta_exceeds_sesoi,
-            "sesoi_mae": sesoi_mae,
-            "noisy_tv_at_chance": noisy_tv_at_chance,
-            "measured_wall_ns": measured_wall_ns,
-            "per_seed_deltas": [float(v) for v in deltas],
-        },
+    return build_count_variant_artifact(
+        config=config,
+        corpus=corpus,
+        featurizer=featurizer,
+        estimator=estimator,
+        prereg_path=prereg_path,
+        spec=spec,
+        clock_ns=time.perf_counter_ns,
     )
 
 
