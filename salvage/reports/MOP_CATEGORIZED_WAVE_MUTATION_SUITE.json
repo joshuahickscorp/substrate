@@ -1,0 +1,90 @@
+{
+  "schema": "mop-categorized-wave-mutation-suite/v1",
+  "total_mutations": 16,
+  "rejected": 16,
+  "all_rejected": true,
+  "positive_verification_requires": "every required mutation rejected; a tie is a null",
+  "results": [
+    {
+      "mutation": "self_seal_broken",
+      "rejected": true,
+      "detail": "self-seal did not reproduce for capsule:w03:construction at /var/folders/yc/1c930rns2rz1_t"
+    },
+    {
+      "mutation": "missing_capsule",
+      "rejected": true,
+      "detail": "category capsule missing: w03/construction"
+    },
+    {
+      "mutation": "stale_cached_verification",
+      "rejected": true,
+      "detail": "self-seal did not reproduce for capsule:w03:construction at /var/folders/yc/1c930rns2rz1_t"
+    },
+    {
+      "mutation": "wrong_verifier_identity",
+      "rejected": true,
+      "detail": "self-seal did not reproduce for capsule:w03:construction at /var/folders/yc/1c930rns2rz1_t"
+    },
+    {
+      "mutation": "changed_source_unchanged_path",
+      "rejected": true,
+      "detail": "self-seal did not reproduce for capsule:w03:construction at /var/folders/yc/1c930rns2rz1_t"
+    },
+    {
+      "mutation": "changed_dependency_receipt",
+      "rejected": true,
+      "detail": "classification chain broken at w04"
+    },
+    {
+      "mutation": "removed_capsule",
+      "rejected": true,
+      "detail": "category capsule missing: w05/memory_plasticity"
+    },
+    {
+      "mutation": "duplicated_capsule",
+      "rejected": true,
+      "detail": "duplicated capsule identity at w02/formation_trace: bf5404e1653685a118ebba3db7f4bfc777f32b"
+    },
+    {
+      "mutation": "wrong_category_assignment",
+      "rejected": true,
+      "detail": "wrong category assignment at w03/construction: capsule declares 'formation_trace'"
+    },
+    {
+      "mutation": "wrong_lane_carry_forward",
+      "rejected": true,
+      "detail": "classification chain broken at w05"
+    },
+    {
+      "mutation": "resurrected_pruned_lane",
+      "rejected": true,
+      "detail": "classification chain broken at w04"
+    },
+    {
+      "mutation": "altered_seed_interval",
+      "rejected": true,
+      "detail": "self-seal did not reproduce for capsule:w06:action_simulation at /var/folders/yc/1c930rns2"
+    },
+    {
+      "mutation": "altered_resource_accounting",
+      "rejected": true,
+      "detail": "self-seal did not reproduce for capsule:w07:dispatch_redesign at /var/folders/yc/1c930rns2"
+    },
+    {
+      "mutation": "partial_aggregate",
+      "rejected": true,
+      "detail": "missing authority artifact: /var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gq/T/tmpii8fq0xr/w"
+    },
+    {
+      "mutation": "forged_completion_field",
+      "rejected": true,
+      "detail": "self-seal did not reproduce for capsule:w02:communication_repair at /var/folders/yc/1c930r"
+    },
+    {
+      "mutation": "changed_claim_scope",
+      "rejected": true,
+      "detail": "classification chain broken at w06"
+    }
+  ],
+  "mutation_suite_sha256": "7d04bf6dc4920239f388eb33e3215121368acac4881984b10f2ae566885c6984"
+}
