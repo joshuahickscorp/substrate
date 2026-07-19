@@ -2,6 +2,17 @@
 
 Legend: [x] done+tested, [~] scaffolded/deferred, [ ] not started, [!] degraded.
 
+<!-- CURRENT-STATE:START -->
+**Current state.** The machine-readable current authority is `proof/MOP_CURRENT_FRONTIER.json`, generated
+from live artifacts and bound by source hashes. The potential atlas now scores 41 facets. P4 is
+governor-closed, a bounded five-seed pilot that cannot be promoted. The live Generation 1 General Run is
+the exclusive active heavy lane. Heavy work runs under the dynamic worker controller across 1 to 20
+workers, with a measured optimum at 20 and shedding to a tiny reserve under Hawking. Current STARSS23
+standing carries two mapped nulls: the source-counting reproduction null, where the counting signal did
+not survive bias-independent reproduction, and the direction-of-arrival null, which stayed clean on both
+gate architectures. Dated log entries below are historical and are not superseded by this banner.
+<!-- CURRENT-STATE:END -->
+
 ## 2026-07-16 Generation 1 successor evidence recovery v5
 
 - [x] The C0 corpus and synthesis, C1 generated competence atlas, and C2 context-labeled frozen
