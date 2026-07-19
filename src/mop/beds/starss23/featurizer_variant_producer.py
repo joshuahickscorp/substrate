@@ -1,4 +1,3 @@
-"""One sealed producer lifecycle for frozen STARSS23 featurizer variants."""
 
 from __future__ import annotations
 
@@ -40,10 +39,35 @@ from .real_artifact import _real_noisy_tv_features, _run_seed_real
 from .referee import summarize_fire_spread_blocks
 from .schema import COLLAR_FRAMES
 
+_DEFAULT_RECEIPT_NOTE = (
+    "one real run of one frozen featurizer is a mechanics outcome; scientific confirmation "
+    "needs the independent verifier plus at least three bias-independent reproductions and, "
+    "for this three-featurizer family at n equals 5, cannot clear family-wise significance"
+)
+
+
+def _default_seed_run(
+    seed: int,
+    corpus: VariantCorpus,
+    noise_features: np.ndarray,
+    bed_config: Any,
+) -> Any:
+    return _run_seed_real(
+        seed,
+        corpus.split,
+        corpus.features_by_clip,
+        noise_features,
+        bed_config,
+        corpus.train_density,
+    )
+
+
+def _beats_random_extra(beats_random: bool) -> dict[str, Any]:
+    return {"beats_rate_matched_random": beats_random}
+
 
 @dataclass(frozen=True, slots=True)
 class VariantCorpus:
-    """Prepared label facts and features consumed by every frozen-frontend variant."""
 
     split: Any
     features_by_clip: dict[str, np.ndarray]
@@ -55,11 +79,10 @@ class VariantCorpus:
 
 @dataclass(frozen=True, slots=True)
 class FeaturizerVariantSpec:
-    """Variant declaration surrounding the shared producer lifecycle."""
 
     artifact_schema: str
     variant_id: str
-    identity_key: str
+    identity_key: str | None
     prereg_schema: str
     prereg_family_field: str
     prereg_member_field: str
@@ -70,11 +93,20 @@ class FeaturizerVariantSpec:
     extra_payload: Callable[[VariantContext], dict[str, Any]]
     final_extra: Callable[[VariantContext], dict[str, Any]]
     receipt_extra: dict[str, Any]
+    run_seed: Callable[[int, VariantCorpus, np.ndarray, Any], Any] = _default_seed_run
+    prereg_family_label: str = "featurizer"
+    receipt_note: str = _DEFAULT_RECEIPT_NOTE
+    prepare_prereg: Callable[[VariantCorpus], tuple[dict[str, Any], str | Path]] | None = None
+    include_prereg_in_result: bool = False
+    flop_model: Callable[[str, list[Any], Any], Any] | None = None
+    include_spread_in_detail: bool = True
+    gate_payload: Callable[[VariantContext], dict[str, Any]] | None = None
+    stats_extra: Callable[[bool], dict[str, Any]] = _beats_random_extra
+    include_beats_random_in_detail: bool = True
 
 
 @dataclass(frozen=True, slots=True)
 class VariantContext:
-    """Computed evidence exposed to the declaration-only payload projections."""
 
     prereg_digest: str
     sesoi_f1: float
@@ -93,7 +125,6 @@ def featurizer_spread_diagnostic(
     anchor_key: str,
     source: str,
 ) -> dict[str, Any]:
-    """Project the shared fire-spread evidence with one variant-specific provenance anchor."""
 
     return {
         "definition": definition,
@@ -119,17 +150,19 @@ def build_featurizer_variant_artifact(
     spec: FeaturizerVariantSpec,
     clock_ns: Callable[[], int],
 ) -> ArtifactResult:
-    """Execute, seal, and finalize one declared frozen-featurizer experiment."""
 
-    prereg = read_sealed_prereg_member(
-        prereg_path,
-        expected_schema=spec.prereg_schema,
-        family_field=spec.prereg_family_field,
-        member_field=spec.prereg_member_field,
-        member_id=spec.variant_id,
-        family_label="featurizer",
-        refusal=spec.refusal,
-    )
+    if spec.prepare_prereg is None:
+        prereg = read_sealed_prereg_member(
+            prereg_path,
+            expected_schema=spec.prereg_schema,
+            family_field=spec.prereg_family_field,
+            member_field=spec.prereg_member_field,
+            member_id=spec.variant_id,
+            family_label=spec.prereg_family_label,
+            refusal=spec.refusal,
+        )
+    else:
+        prereg, prereg_path = spec.prepare_prereg(corpus)
     sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
     prereg_digest = str(prereg["canonical_sha256"])
     if corpus.n_test_onsets == 0:
@@ -148,16 +181,7 @@ def build_featurizer_variant_artifact(
         noise_features = _real_noisy_tv_features(
             seed, config.noisy_tv_frames, featurizer, target_mean, target_std
         )
-        seed_runs.append(
-            _run_seed_real(
-                seed,
-                corpus.split,
-                corpus.features_by_clip,
-                noise_features,
-                bed_config,
-                corpus.train_density,
-            )
-        )
+        seed_runs.append(spec.run_seed(seed, corpus, noise_features, bed_config))
     measured_wall_ns = max(1, clock_ns() - started)
 
     budget_points = build_budget_points(
@@ -166,15 +190,19 @@ def build_featurizer_variant_artifact(
         score_group="arm_scores",
         score_field="f1",
         action_group="firings",
-        flop_model=lambda kind: arm_flop_model(
-            kind,
-            seed_runs[0].total_frames,
-            featurize_per_frame=spec.flops_per_frame,
-            gate_infer_per_frame=FLOPS_PER_INFERENCE,
-            downstream_flops_per_firing=bed_config.downstream_flops_per_firing,
-            candidate_train_flops=lambda: training_flops(
-                seed_runs[0].train_frames, bed_config.epochs
-            ),
+        flop_model=lambda kind: (
+            spec.flop_model(kind, seed_runs, bed_config)
+            if spec.flop_model is not None
+            else arm_flop_model(
+                kind,
+                seed_runs[0].total_frames,
+                featurize_per_frame=spec.flops_per_frame,
+                gate_infer_per_frame=FLOPS_PER_INFERENCE,
+                downstream_flops_per_firing=bed_config.downstream_flops_per_firing,
+                candidate_train_flops=lambda: training_flops(
+                    seed_runs[0].train_frames, bed_config.epochs
+                ),
+            )
         ),
     )
     nominal_wall_ns = max(
@@ -205,7 +233,7 @@ def build_featurizer_variant_artifact(
         exceeds_sesoi=mean_delta_exceeds_sesoi,
         provisional=False,
         prereg_digest=prereg_digest,
-        extra={"beats_rate_matched_random": beats_random},
+        extra=spec.stats_extra(beats_random),
     )
 
     n_runs = len(seed_runs)
@@ -245,17 +273,14 @@ def build_featurizer_variant_artifact(
     }
     receipt_detail = {
         "source_kind": "real",
-        spec.identity_key: spec.variant_id,
         **spec.receipt_extra,
         "forcing_null": STAGE3_FORCING_NULL,
         "candidate_strictly_dominates_rate_matched_random": dominates,
         "one_sided_p": float(sign_flip.one_sided_p),
-        "note": (
-            "one real run of one frozen featurizer is a mechanics outcome; scientific confirmation "
-            "needs the independent verifier plus at least three bias-independent reproductions and, "
-            "for this three-featurizer family at n equals 5, cannot clear family-wise significance"
-        ),
+        "note": spec.receipt_note,
     }
+    if spec.identity_key is not None:
+        receipt_detail[spec.identity_key] = spec.variant_id
     receipt = demonstration_receipt(
         mechanism_id=BED_ID,
         controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
@@ -273,17 +298,20 @@ def build_featurizer_variant_artifact(
         flags=flags,
         verdict=verdict,
         featurizer=spec.featurizer_payload(context),
-        gate={
-            "params": seed_runs[0].gate_params,
-            "param_ceiling": 4096,
-            "state_bytes": OnlineState.state_bytes(),
-            "flops_per_inference": FLOPS_PER_INFERENCE,
-        },
+        gate=(
+            spec.gate_payload(context)
+            if spec.gate_payload is not None
+            else {
+                "params": seed_runs[0].gate_params,
+                "param_ceiling": 4096,
+                "state_bytes": OnlineState.state_bytes(),
+                "flops_per_inference": FLOPS_PER_INFERENCE,
+            }
+        ),
         receipt_payload=receipt,
         extra=spec.extra_payload(context),
     )
     detail = {
-        "beats_random": beats_random,
         "dominates": dominates,
         "mean_delta": float(sign_flip.mean_delta),
         "one_sided_p": float(sign_flip.one_sided_p),
@@ -292,10 +320,14 @@ def build_featurizer_variant_artifact(
         "noisy_tv_at_chance": noisy_tv_at_chance,
         "measured_wall_ns": measured_wall_ns,
         "per_seed_deltas": [float(value) for value in deltas],
-        "spread": spread,
         **spec.final_extra(context),
     }
-    return finalize_artifact(body, verdict=verdict, detail=detail)
+    if spec.include_beats_random_in_detail:
+        detail["beats_random"] = beats_random
+    if spec.include_spread_in_detail:
+        detail["spread"] = spread
+    kwargs = {"prereg": prereg} if spec.include_prereg_in_result else {}
+    return finalize_artifact(body, verdict=verdict, detail=detail, **kwargs)
 
 
 __all__ = [

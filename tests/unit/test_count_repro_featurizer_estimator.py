@@ -1,15 +1,3 @@
-"""Unit tests for the featurizer_estimator bias-independent reproduction of the STARSS23 counting bed.
-
-These exercise the net-new reproduction modules without editing the sealed count scoring path: the
-re-authored gammatone-plus-relative-flux frozen featurizer, the re-authored cumulative-energy frozen
-estimator, the reproduction preregistration (SESOI computed in code by the reused cost-benefit rule and its
-granularity floor), and the real-data producer plus the independent verifier (seal, byte-reproducible
-receipt, referee and stats reproduction, tamper detection, the strict survival readout, the single-run
-confirmation guardrail, and the additive-only stdlib-only import boundary).
-
-The end-to-end producer tests run on the REAL STARSS23 subset with a frame cap and a reduced seed set so they
-stay fast; when the real subset is absent they skip. House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

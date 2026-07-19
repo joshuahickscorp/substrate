@@ -1,21 +1,3 @@
-"""Unit tests for the STARSS23 counting bed gate-architecture reproduction.
-
-These tests assert the two invariants the design mandates for every reproduction:
-
-1. the separately-authored verifier imports only the standard library (``json``, ``hashlib``,
-   ``itertools``, ``dataclasses``, ``__future__``) and nothing under ``mop`` or from the producer, so
-   agreement with the producer is real triangulation and not a shared bug;
-2. the reproduction is strictly ADDITIVE: it writes only net-new ``count_repro_gate_arch_*`` sources and
-   ``proof/STARSS23_COUNTING_REPRO_gate_arch*`` files, uses its own artifact schema id disjoint from the
-   sealed bed, and holds the re-authored gate under the 4096-parameter ceiling.
-
-Plus a fast end-to-end producer-and-verifier pass on the real subset (skipped when the data is absent) that
-checks the verifier reproduces every graded number with zero mismatches, that the varied-axis gate anchors
-are self-consistent, that a lone reproduction never self-certifies scientific confirmation, and that
-tampering with the seal is caught.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

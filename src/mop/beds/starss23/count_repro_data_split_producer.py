@@ -1,7 +1,3 @@
-"""Swapped-room-fold reproduction producer for the STARSS23 concurrent-count bed.
-
-Provider, split, preregistration, gate, estimator, FLOP, and evidence declarations remain local; the
-shared count-variant authority owns only the held-fixed scoring and sealed-artifact lifecycle."""
 
 from __future__ import annotations
 
@@ -52,7 +48,6 @@ DATA_SPLIT_SEEDS: tuple[int, ...] = (10, 11, 12, 13, 14)
 
 
 def default_data_split_config() -> RealCountBedConfig:
-    """Return the full-scale swapped-fold configuration with disjoint seeds 10 through 14."""
 
     return RealCountBedConfig(seeds=DATA_SPLIT_SEEDS)
 
@@ -66,13 +61,6 @@ def default_data_split_config() -> RealCountBedConfig:
 def _swapped_fold_split(
     adapter: RealStarssAdapter, n_val_rooms: int
 ) -> tuple[tuple[Clip, ...], tuple[Clip, ...], tuple[Clip, ...], dict[str, Any]]:
-    """Build train / val / test with the fold roles swapped: test is exactly the native fold-3 dev-train.
-
-    The sealed bed uses test = fold-4 dev-test, val = last N fold-3 rooms, train = rest of fold-3. This
-    reproduction swaps the two folds: train comes from fold-4 (the original test rooms), val is the last N
-    fold-4 rooms by sorted id, and the score partition is the whole native fold-3 dev-train. Fold-3 and
-    fold-4 are physically room-disjoint, so train, val, and test remain room-disjoint and clip-disjoint.
-    """
 
     dev = adapter.dev_split()
     by_id = {clip.clip_id: clip for clip in adapter.clips()}
@@ -120,7 +108,6 @@ def build_data_split_repro_artifact(
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_REPRO_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the swapped-fold declaration through the shared count lifecycle."""
 
     config = config or default_data_split_config()
     featurizer = FrozenCountFeaturizer()

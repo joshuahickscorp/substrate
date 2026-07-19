@@ -1,27 +1,3 @@
-"""Component 1c: the STARSS23-metadata-faithful synthetic corpus generator.
-
-This is the fixture generator the data adapter is scored through. It complements the regime-oriented
-per-clip primitives in ``fixtures.py`` by producing exactly what a real STARSS23 download provides and
-what ``adapter.py`` parses: 4-channel FOA audio at 24 kHz plus native integer metadata label files, laid
-out room-disjoint across fold-3 dev-train and fold-4 dev-test rooms. Labels use the real STARSS23 units
-(integer degrees of azimuth and elevation, integer centimeters of distance) so they round-trip through
-the metadata schema exactly; the regime fixtures use continuous floats and never touch the label files.
-
-Every array is byte-reproducible from a single integer seed. All randomness comes from PCG64 streams
-domain-separated per room and per clip through ``mop.seeding.derive_seed32``. Three faithfulness
-properties are built into the signal, matching the deep-research recipe:
-
-- Planted onsets are coherent FOA point sources steered by the exact analytic first-order encoding
-  (W = 1/sqrt(2), X = cos(az) cos(el), Y = sin(az) cos(el), Z = sin(el)) with an inverse-distance law,
-  so firing at the planted frames scores onset F1 = 1.0.
-- The background is room-correlated: each room owns a fixed FIR coloration, so a model that memorizes
-  one room's texture does not transfer to a disjoint room. That makes the room split a real test.
-- Nuisance flux is spatially incoherent energy at non-onset frames. It raises single-channel flux
-  exactly where there is no onset, so a bare flux threshold cannot reach F1 = 1.0; only a
-  coherence-aware gate separates onsets from nuisance. That keeps the task off the trivial ceiling.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -68,16 +44,10 @@ MIN_VAL_ONSETS = 24
 
 
 class CorpusRefusal(ValueError):
-    """Raised when a synthetic corpus configuration is internally inconsistent."""
+    pass
 
 
 def _derive_child(master_seed: int, *parts: object) -> int:
-    """Domain-separated 32-bit child seed for one purpose, stable across hosts.
-
-    ``derive_seed32`` returns an in-range seed unchanged, so a small master seed is first lifted above
-    2**32; that forces the hashed, namespace-mixing path, yielding a child that depends on both the
-    master seed and the namespace. PCG64 is then byte-identical across platforms for that child.
-    """
 
     if isinstance(master_seed, bool) or not isinstance(master_seed, int) or master_seed < 0:
         raise CorpusRefusal("master seed must be a nonnegative integer")
@@ -88,12 +58,6 @@ def _derive_child(master_seed: int, *parts: object) -> int:
 
 @dataclass(frozen=True, slots=True)
 class SyntheticCorpusConfig:
-    """Knobs for the synthetic corpus. Defaults clear the Q3(d) validation and test positive floors.
-
-    Rooms mirror the native STARSS23 dev discipline: ``n_fold3_rooms`` room-disjoint dev-train rooms
-    (split further into fit and tune rooms) and ``n_fold4_rooms`` disjoint dev-test rooms. Real STARSS23
-    is 90 dev-train and 78 dev-test clips; ``real_scale`` mirrors that shape and the 60 s clip length.
-    """
 
     n_fold3_rooms: int = 5
     n_val_rooms: int = 2
@@ -154,7 +118,6 @@ class SyntheticCorpusConfig:
 
     @classmethod
     def tiny(cls) -> SyntheticCorpusConfig:
-        """A minimal fast corpus for unit tests. Positive floors are not guaranteed at this size."""
 
         return cls(
             n_fold3_rooms=3,
@@ -169,7 +132,6 @@ class SyntheticCorpusConfig:
 
     @classmethod
     def real_scale(cls) -> SyntheticCorpusConfig:
-        """Mirror the STARSS23 dev shape and 60 s clip length for the matched-budget harness lane."""
 
         return cls(
             n_fold3_rooms=9,
@@ -184,7 +146,6 @@ class SyntheticCorpusConfig:
 
 
 def _room_kernel(room_rng: np.random.Generator) -> np.ndarray:
-    """A fixed per-room FIR coloration. Same room and master seed always yield the same kernel."""
 
     kernel = room_rng.standard_normal(_ROOM_KERNEL_LEN)
     norm = float(np.linalg.norm(kernel))
@@ -195,7 +156,6 @@ def _room_kernel(room_rng: np.random.Generator) -> np.ndarray:
 
 
 def _onset_grain(rng: np.random.Generator, length: int, class_id: int) -> np.ndarray:
-    """A mono onset transient: sharp attack, exponential decay, class-characteristic tone plus noise."""
 
     t = np.arange(length, dtype=np.float64) / SAMPLE_RATE_HZ
     envelope = np.exp(-t / _DECAY_TAU_S)
@@ -205,12 +165,6 @@ def _onset_grain(rng: np.random.Generator, length: int, class_id: int) -> np.nda
 
 
 def _foa_encode(grain: np.ndarray, azimuth: int, elevation: int, distance_cm: int) -> np.ndarray:
-    """Steer a mono grain into a coherent FOA point source, shape (N_CHANNELS, length).
-
-    Exact spec encoding: W = 1/sqrt(2), X = cos(az) cos(el), Y = sin(az) cos(el), Z = sin(el), each
-    scaled by an inverse-distance radial gain anchored at the 1 m reference. The four channels are
-    scaled copies of one grain, so the source is perfectly inter-channel coherent.
-    """
 
     az = math.radians(azimuth)
     el = math.radians(elevation)
@@ -228,11 +182,6 @@ def _foa_encode(grain: np.ndarray, azimuth: int, elevation: int, distance_cm: in
 
 
 def _nuisance_burst(rng: np.random.Generator, length: int) -> np.ndarray:
-    """A spatially incoherent energy burst, shape (N_CHANNELS, length).
-
-    Same decaying envelope as an onset grain, so it raises the spectral flux, but each channel is
-    independent noise, so it is not a valid FOA point source and a coherence-aware gate can reject it.
-    """
 
     t = np.arange(length, dtype=np.float64) / SAMPLE_RATE_HZ
     envelope = np.exp(-t / _DECAY_TAU_S)
@@ -243,7 +192,6 @@ def _nuisance_burst(rng: np.random.Generator, length: int) -> np.ndarray:
 def _spaced_event_frames(
     rng: np.random.Generator, count: int, clip_frames: int, active_frames: int
 ) -> list[int]:
-    """Pick ``count`` non-overlapping event start frames, one jittered frame per equal bin."""
 
     valid_starts = clip_frames - active_frames + 1
     bin_width = valid_starts // count
@@ -258,7 +206,6 @@ def _spaced_event_frames(
 
 @dataclass(frozen=True, slots=True)
 class SyntheticStarssCorpus:
-    """Raw synthetic media and native label text plus the planted ground truth for verification."""
 
     config: SyntheticCorpusConfig
     seed: int
@@ -276,16 +223,10 @@ class SyntheticStarssCorpus:
         return self.metadata_by_clip[clip_id]
 
     def adapter(self) -> SyntheticStarssAdapter:
-        """The parse seam over this corpus. Real STARSS23 uses the same adapter, unchanged."""
 
         return SyntheticStarssAdapter(self.audio_by_clip, self.metadata_by_clip)
 
     def default_split(self) -> ClipSplit:
-        """The three-way room-disjoint and clip-disjoint fit / tune / score partition.
-
-        Train and val come from the fold-3 dev-train rooms; test is the fold-4 dev-test rooms, so the
-        score partition nests exactly inside the native STARSS23 dev split.
-        """
 
         clips = self.adapter().clips()
         return room_disjoint_split(
@@ -296,7 +237,6 @@ class SyntheticStarssCorpus:
 
     @staticmethod
     def positive_counts(split: ClipSplit) -> dict[str, int]:
-        """Onset (positive) counts per partition, for checking the Q3(d) validation and test floors."""
 
         return {
             "train": sum(len(clip.onsets) for clip in split.train),
@@ -305,11 +245,6 @@ class SyntheticStarssCorpus:
         }
 
     def write_to(self, root: str | Path) -> Path:
-        """Write a STARSS23-shaped layout: ``foa_dev/<clip>.npy`` and ``metadata_dev/<clip>.csv``.
-
-        Audio is stored as exact little-endian float32 ``.npy``; the real lane substitutes ``.wav`` and
-        the same metadata files. This makes the on-disk round trip testable without an audio codec.
-        """
 
         root = Path(root)
         audio_dir = root / "foa_dev"
@@ -329,7 +264,6 @@ def _build_clip_audio(
     clip_id: str,
     room_num: int,
 ) -> tuple[np.ndarray, str, tuple[OnsetEvent, ...], tuple[int, ...]]:
-    """Synthesize one clip: audio, native metadata text, planted onsets, and nuisance frames."""
 
     clip_rng = np.random.default_rng(_derive_child(seed, "clip", clip_id))
     room_rng = np.random.default_rng(_derive_child(seed, "room", room_num))
@@ -405,7 +339,6 @@ def _build_clip_audio(
 def generate_corpus(
     config: SyntheticCorpusConfig | None = None, *, seed: int = 0
 ) -> SyntheticStarssCorpus:
-    """Deterministically synthesize the whole corpus. Same config and seed give byte-identical media."""
 
     config = config or SyntheticCorpusConfig()
     if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
@@ -450,7 +383,6 @@ def generate_corpus(
 
 
 def frame_energy(audio: np.ndarray, *, channel: int = 0) -> np.ndarray:
-    """Per-100 ms-frame energy on one channel. A minimal, featurizer-free onset proxy for tests."""
 
     array = np.asarray(audio, dtype=np.float64)
     n_frames = array.shape[1] // SAMPLES_PER_FRAME

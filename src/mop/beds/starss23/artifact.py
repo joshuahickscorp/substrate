@@ -1,20 +1,3 @@
-"""Component 8a: the producer orchestration, the sealed artifact, and the ladder bridge.
-
-This is the producer. It runs the whole bed end to end on the synthetic STARSS23 fixtures and assembles
-the byte-sealed ``proof/STARSS23_ESCS_BED.json`` the independent verifier (component 8b) re-scores from
-specification. Per paired seed it builds a room-disjoint, clip-disjoint split through the adapter,
-featurizes with the frozen front-end, trains the one candidate gate on train-room value-of-computation
-targets, tunes the firing threshold on the val rooms, and scores the candidate and the three controls on
-the test rooms through the sealed referee. It then runs the matched-budget harness, the exact sign-flip
-statistics, and the noisy-TV at-chance check.
-
-Because the data is synthetic the verdict is capped at mechanics-ok and can never clear a stage gate.
-Every artifact hardcodes ``activation_allowed=false``, ``scientific_promotion=false``, and
-``independent_scientific_confirmation=false``. The demonstration receipt is minted through
-``mint_demonstration`` at stage 3, which by construction can never carry the cleared verdict.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -97,12 +80,11 @@ FULL_SCALE_FEATURIZE = FLOPS_PER_FRAME * FULL_SCALE_TEST_FRAMES  # ~2.691e10
 
 
 class ArtifactRefusal(ValueError):
-    """Raised when the producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class BedConfig:
-    """Run configuration. The default is small and fast; ``full_scale`` mirrors the recipe anchors."""
 
     seeds: tuple[int, ...] = (0, 1, 2, 3, 4)
     clip_seconds: float = 8.0
@@ -141,7 +123,6 @@ class BedConfig:
 
 
 def _build_adapter(seed: int, config: BedConfig) -> SyntheticStarssAdapter:
-    """Generate the synthetic corpus for one seed and serve it through the synthetic adapter."""
 
     fixture_config = SyntheticStarssConfig(
         clip_seconds=config.clip_seconds,
@@ -177,12 +158,6 @@ def _featurize(adapter: SyntheticStarssAdapter, featurizer: FrozenFeaturizer) ->
 
 
 def _voc_targets(gt_frames: Sequence[int], n_frames: int, window: int = 1) -> np.ndarray:
-    """Value-of-computation targets: 1 within ``window`` frames of an onset, where firing recovers a TP.
-
-    The window is kept narrower than the referee collar so the gate learns to fire at the onset rather
-    than smear fires across the whole collar, which the one-to-one matcher would charge as false
-    positives. Firing anywhere in the collar still scores a matched true positive at evaluation.
-    """
 
     targets = np.zeros(n_frames, dtype=np.float64)
     for frame in range(n_frames):
@@ -192,15 +167,6 @@ def _voc_targets(gt_frames: Sequence[int], n_frames: int, window: int = 1) -> np
 
 
 def _noisy_tv_channel(seed: int, config: BedConfig, featurizer: FrozenFeaturizer) -> np.ndarray:
-    """Return the pure-aleatoric noisy-TV channel: featurized null-regime audio.
-
-    The channel is real null-regime audio put through the same frozen front-end: it carries band-limited
-    distractor grains (an active, noisy channel, not silence) but NO signal-band onset grains and no
-    reducible onset structure. Its distractor density is matched to the training distribution, so the
-    channel looks exactly like the non-onset part of real audio. An honest gate that fires on the
-    coherent signal-band onset signature therefore fires at its background rate on it (at chance), while
-    a gate that chases irreducible activity fires preferentially.
-    """
 
     n_frames = config.noisy_tv_frames
     favorable_frames = max(1, round(config.clip_seconds * 1000.0 / FRAME_MS))
@@ -223,7 +189,6 @@ def _train_gate(
     features_by_clip: dict[str, np.ndarray],
     config: BedConfig,
 ) -> tuple[CandidateGate, int]:
-    """Train the one candidate gate on the train rooms. Returns the gate and the train-frame count."""
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -404,7 +369,6 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: BedConf
 
 
 def build_bed_artifact(config: BedConfig | None = None) -> ArtifactResult:
-    """Run the whole bed and assemble the sealed artifact. Synthetic: capped at mechanics-ok."""
 
     config = config or BedConfig()
     featurizer = FrozenFeaturizer()

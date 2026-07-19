@@ -1,4 +1,3 @@
-"""Parity, authority, and mutation tests for the selected scientific record interpreter."""
 
 from __future__ import annotations
 
@@ -67,7 +66,6 @@ def _runner(record):
 
 
 def _independent(rows, record):
-    """Separate graded recomputation: no producer decision helper is imported or called."""
 
     candidate = {row["seed"]: row["metric_value"] for row in rows["candidate"]}
     primary = record["controls"]["primary"]

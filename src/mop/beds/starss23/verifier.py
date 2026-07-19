@@ -1,36 +1,3 @@
-"""Component 8b: the independent verifier.
-
-This module is authored separately from the producer and imports none of the producer's code. Its whole
-purpose is to re-derive every scored number in a sealed bed artifact from specification, using only the
-standard library, so that agreement between the two is real triangulation and not a shared bug. The
-import surface is deliberately tiny: ``json`` and ``hashlib`` to re-implement the canonical seal,
-``itertools`` for the sign-flip enumeration, and ``dataclasses`` for the result container. It does not
-import ``referee``, ``stats``, ``artifact``, ``schema``, or anything else under ``mop``. A test parses
-this file and fails if that ever changes.
-
-What it re-implements from the written specification
-----------------------------------------------------
-1. Canonical JSON sealing: ``json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
-   allow_nan=False)`` hashed with SHA-256. The seal covers the whole artifact except the ``seal`` key.
-2. The onset-F1 referee: greedy one-to-one nearest-first matching within the plus or minus two frame
-   collar, strict point-wise precision, recall, and F1 pooled across the test clips.
-3. The exact sign-flip permutation test: enumerate all two-to-the-n sign assignments of the paired
-   per-seed deltas, one-sided p equal to the fraction of assignments whose mean is at least the observed
-   mean. At n = 5 the minimum one-sided p is 1/32 and two-sided 0.05 is unreachable.
-
-The promotion gate
-------------------
-The verifier re-scores from the rawest data the artifact carries (the per-clip ground-truth onsets and
-the per-arm fire frames), so tampering with a stored score, a fire list, or the seal is detected. It sets
-``independent_referee_reproduction`` true when the seal is intact and every recomputed count, F1, delta,
-and p-value agrees with the artifact within tolerance. It sets ``independent_scientific_confirmation``
-true only when, in addition, the data is real, its rights are clean, the noisy-TV control fired at
-chance, the producer's honesty flags are all false, and at least three bias-independent reproductions
-are on record. On synthetic fixtures the referee reproduction can pass while confirmation stays false,
-which is the whole point: mechanics reproduce, science does not promote.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -66,7 +33,7 @@ _FLOAT_TOL = 1e-9
 
 
 class VerificationRefusal(ValueError):
-    """Raised when an artifact is too malformed to even attempt independent re-scoring."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -106,7 +73,6 @@ def _clean_frames(frames: object, label: str) -> list[int]:
 
 
 def _match_counts(gt_frames: object, pred_frames: object, collar: int) -> tuple[int, int, int]:
-    """Independent greedy one-to-one nearest-first matcher. Returns ``(tp, fp, fn)``."""
 
     gt = _clean_frames(gt_frames, "gt_onsets")
     pred = _clean_frames(pred_frames, "fires")
@@ -142,7 +108,6 @@ def _prf(tp: int, fp: int, fn: int) -> tuple[float, float, float]:
 
 
 def _pool_arm(clips: list, arm: str, collar: int) -> dict:
-    """Recompute an arm's pooled score across clips from raw ground truth and fires."""
 
     tp = fp = fn = 0
     for clip in clips:
@@ -163,12 +128,6 @@ def _pool_arm(clips: list, arm: str, collar: int) -> dict:
 
 
 def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
-    """Return ``(t_obs, one_sided_p, n_permutations)`` for the exact sign-flip test.
-
-    T is the mean of the deltas. Every one of the two-to-the-n sign assignments is enumerated; the
-    one-sided p is the fraction whose mean is at least the observed mean. The all-positive assignment
-    reproduces T_obs, so p is never zero (its floor is 1 / two-to-the-n).
-    """
 
     n = len(deltas)
     if n == 0:
@@ -191,7 +150,6 @@ def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class VerificationResult:
-    """The outcome of an independent verification pass over one sealed artifact."""
 
     seal_intact: bool
     schema_ok: bool
@@ -220,7 +178,6 @@ def _floats_agree(a: object, b: object) -> bool:
 
 
 def verify_artifact(artifact: dict) -> VerificationResult:
-    """Independently re-score a sealed bed artifact and decide referee reproduction and promotion."""
 
     if not isinstance(artifact, dict):
         raise VerificationRefusal("artifact must be a JSON object")
@@ -386,7 +343,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
 
 
 def verification_payload(result: VerificationResult) -> dict:
-    """Assemble the sealed proof/STARSS23_ESCS_BED.verification.json body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -408,7 +364,6 @@ def verification_payload(result: VerificationResult) -> dict:
 
 
 def verify_sealed_file(in_path: str) -> dict:
-    """Read a sealed artifact from disk, verify it, and return the sealed verification payload."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -416,7 +371,6 @@ def verify_sealed_file(in_path: str) -> dict:
 
 
 def write_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

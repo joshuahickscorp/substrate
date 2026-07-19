@@ -1,4 +1,3 @@
-"""Parity and refusal matrix for the collapsed STARSS23 feature-cache lifecycle."""
 
 from __future__ import annotations
 

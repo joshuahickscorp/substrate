@@ -1,7 +1,3 @@
-"""Sealed STARSS23 producer for the frozen spatial-DOA frontend.
-
-Only the zero-parameter frontend and its honest per-frame FLOP charge differ; the shared frozen-variant
-lifecycle owns scoring, controls, statistics, receipts, and preregistered mechanics."""
 
 from __future__ import annotations
 
@@ -51,7 +47,7 @@ FULL_SCALE_FEATURIZE = FLOPS_PER_FRAME * FULL_SCALE_TEST_FRAMES
 
 
 class SpatialDoaRefusal(ValueError):
-    """Raised when the spatial_doa producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 def _featurizer_hypothesis() -> str:
@@ -84,7 +80,6 @@ def build_spatial_doa_artifact(
     config: RealBedConfig | None = None,
     featurizers_prereg_path: str | Path = DEFAULT_FEATURIZERS_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the declared spatial-DOA frontend through the shared frozen-variant lifecycle."""
 
     config = config or RealBedConfig()
     bed_config = config.bed_config()

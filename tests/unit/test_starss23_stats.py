@@ -1,10 +1,3 @@
-"""Tests for the STARSS23 ESCS bed statistics module (spec component 7).
-
-These pin the honest small-n paired statistics: an exact sign-flip permutation whose p values match a
-hand enumeration, the discrete two-sided 0.05 floor being unreachable at five seeds, the registered
-SESOI gating promotability, and the pseudoreplication claim ceiling. House style: no em dashes and no
-en dashes.
-"""
 
 from __future__ import annotations
 

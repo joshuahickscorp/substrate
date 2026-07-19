@@ -1,30 +1,3 @@
-"""Independent verifier for the STARSS23 ESCS "superflux_spectral" frozen-featurizer artifact.
-
-This module is authored separately from the producer and imports NONE of the producer's code, and nothing
-under ``mop``. Its whole purpose is to re-derive every scored number in the sealed superflux_spectral
-artifact from specification, using only the standard library, so agreement is real triangulation and not a
-shared bug. The import surface is deliberately tiny: ``json`` and ``hashlib`` to re-implement the canonical
-seal, ``itertools`` for the sign-flip enumeration, and ``dataclasses`` for the result container. A test
-parses this file and fails if that import discipline ever changes.
-
-Why a net-new verifier: the committed ``verifier.py`` hard-locks ``EXPECTED_ARTIFACT_SCHEMA`` to the base
-bed schema ``mop-starss23-escs-bed/v1`` and marks any variant schema not-ok, so it cannot certify this
-featurizer family. This verifier locks instead to ``mop-starss23-escs-bed-superflux-spectral/v1`` and
-re-scores the same way: the referee is re-implemented from the written spec (greedy one-to-one nearest-
-first within the plus or minus two frame collar, strict point-wise PR, pooled across test clips), and the
-exact sign-flip permutation is re-enumerated over the 2^n sign assignments of the paired per-seed deltas.
-The verifier never touches the featurizer: it re-scores from the rawest data the artifact carries (the
-per-clip ground-truth onsets and per-arm fire frames), so tampering with a stored score, a fire list, the
-FLOP ledger, or the seal is detected.
-
-Scope: it sets ``independent_referee_reproduction`` true when the seal is intact, the schema and honesty
-flags are the frozen ones, and every recomputed count, F1, delta, and p-value agrees with the artifact.
-``independent_scientific_confirmation`` stays false unless, in addition, the data is real, its rights are
-clean, the noisy-TV control fired at chance, the honesty flags are all false, and at least three
-bias-independent reproductions are on record. A single real run reproduces mechanics but never promotes.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -84,7 +57,7 @@ _FLOAT_TOL = 1e-9
 
 
 class VerificationRefusal(ValueError):
-    """Raised when an artifact is too malformed to even attempt independent re-scoring."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -120,7 +93,6 @@ def _clean_frames(frames: object, label: str) -> list[int]:
 
 
 def _match_counts(gt_frames: object, pred_frames: object, collar: int) -> tuple[int, int, int]:
-    """Independent greedy one-to-one nearest-first matcher. Returns ``(tp, fp, fn)``."""
 
     gt = _clean_frames(gt_frames, "gt_onsets")
     pred = _clean_frames(pred_frames, "fires")
@@ -196,7 +168,6 @@ def _sign_flip_one_sided_p(deltas: list) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class VerificationResult:
-    """The outcome of an independent verification pass over one sealed superflux_spectral artifact."""
 
     seal_intact: bool
     schema_ok: bool
@@ -226,7 +197,6 @@ def _floats_agree(a: object, b: object) -> bool:
 
 
 def _verify_flops(artifact: dict, mismatches: list) -> bool:
-    """Re-derive the SuperFlux featurize charge and every arm's lifecycle FLOPs, and check the ceiling."""
 
     flops_ok = True
     featurizer = artifact.get("featurizer", {})
@@ -278,7 +248,6 @@ def _verify_flops(artifact: dict, mismatches: list) -> bool:
 
 
 def verify_artifact(artifact: dict) -> VerificationResult:
-    """Independently re-score a sealed superflux_spectral artifact and decide reproduction and promotion."""
 
     if not isinstance(artifact, dict):
         raise VerificationRefusal("artifact must be a JSON object")
@@ -453,7 +422,6 @@ def verify_artifact(artifact: dict) -> VerificationResult:
 
 
 def verification_payload(result: VerificationResult) -> dict:
-    """Assemble the sealed verification body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -476,7 +444,6 @@ def verification_payload(result: VerificationResult) -> dict:
 
 
 def verify_sealed_file(in_path: str) -> dict:
-    """Read a sealed artifact from disk, verify it, and return the sealed verification payload."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -484,7 +451,6 @@ def verify_sealed_file(in_path: str) -> dict:
 
 
 def write_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

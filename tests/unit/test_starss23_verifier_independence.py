@@ -1,13 +1,3 @@
-"""Tests for component 8b, the independent verifier.
-
-These assert the verifier imports none of the producer's code, that it reproduces the referee's F1 from
-sealed artifacts without importing the referee, that its independent matcher agrees with the referee's
-across a random battery, that it rejects every forgery mode, and that promotion to
-independent_scientific_confirmation is gated exactly as the recipe requires (synthetic reproduces but
-never promotes).
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

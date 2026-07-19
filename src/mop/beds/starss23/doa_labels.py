@@ -1,35 +1,3 @@
-"""Direction-of-arrival bed, component 1: ground-truth per-frame DoA, geometry, and VoC targets.
-
-This is a net-new, additive component for the STARSS23 direction-of-arrival (DoA) re-estimation bed. It
-sits entirely beside the sealed onset-localization path and the sealed counting-bed modules (nothing
-under referee.py stats.py controls.py harness.py gate.py prereg.py or count_*.py is edited). It reuses
-the adapter's metadata parse path by import and adds a per-frame ground-truth direction track on top of
-the frozen ``Clip`` identity, room, and audio digest.
-
-Derivation
-----------
-STARSS23 native metadata carries a mandatory ``(azimuth, elevation)`` on every active-frame row
-(``MetadataRow``), unlike ``distance`` which has an explicit absent sentinel. So, unlike source counting
-or onset presence, ground-truth direction of arrival is available directly from the corpus at the full
-100 ms frame rate, for the entire duration each source is active:
-
-    A(t) == {}      (silence): no ground-truth direction is defined at t (excluded from all scoring).
-    |A(t)| == 1: ground truth is that row's (azimuth, elevation).
-    |A(t)| > 1  (polyphonic overlap): ground truth is the DOMINANT track's direction, using the identical
-                tie-break the sealed adapter already applies to simultaneous onsets (nearest by distance,
-                then class_id, then azimuth, then elevation, ascending), generalized from onset frames to
-                every active frame. A polyphonic frame with an absent distance is refused, mirroring the
-                adapter's existing refusal when distance is missing at a co-onset.
-
-Geometry (``direction_to_unit_vector``, ``great_circle_degrees``, ``great_circle_degrees_batch``) is owned
-here because it is label and ground-truth geometry, reused by the referee and the gate's value-of-
-computation target. The great-circle distance is the standard DCASE SELD-style DOA error: a wraparound-
-free spherical distance with no naive-difference artifacts at the +/-180 degree seam or near the poles,
-for the same reason ``featurizer_spatial_doa.py`` already encodes direction cosines instead of raw
-azimuth and elevation.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -57,7 +25,7 @@ DOA_VOC_WINDOW = 1
 
 
 class DoaLabelRefusal(ValueError):
-    """Raised when a DoA track cannot be derived or would violate the DoA label contract."""
+    pass
 
 
 def _require_n_frames(n_frames: int) -> int:
@@ -72,13 +40,6 @@ def _require_n_frames(n_frames: int) -> int:
 
 
 def dominant_track_at_frame(rows: Sequence[MetadataRow]) -> MetadataRow:
-    """Return the dominant row at one polyphonic frame: nearest by distance, then class_id, az, el.
-
-    Mirrors ``adapter._prefer_onset``'s tie-break tuple ``(distance, class_id, azimuth, elevation)``
-    ascending, generalized from co-onset frames to every polyphonic active frame. A polyphonic frame
-    requires every row to carry STARSS23 distance, exactly as the sealed onset derivation requires it
-    before it will break a co-onset tie; a row missing distance refuses the whole frame.
-    """
 
     if not rows:
         raise DoaLabelRefusal("dominant_track_at_frame needs at least one row")
@@ -95,10 +56,6 @@ def dominant_track_at_frame(rows: Sequence[MetadataRow]) -> MetadataRow:
 def doa_track_from_rows(
     rows: Sequence[MetadataRow], n_frames: int
 ) -> tuple[tuple[float, float] | None, ...]:
-    """Return the length-``n_frames`` ground-truth direction track: ``(azimuth_deg, elevation_deg)`` or
-    ``None`` at a silent frame. Rows with ``frame >= n_frames`` are dropped, mirroring the whole-frame
-    truncation provenance the real adapter already records.
-    """
 
     n_frames = _require_n_frames(n_frames)
     by_frame: dict[int, list[MetadataRow]] = {}
@@ -122,7 +79,6 @@ def doa_track_from_rows(
 
 
 def doa_track_from_metadata_text(text: str, n_frames: int) -> tuple[tuple[float, float] | None, ...]:
-    """Parse native STARSS23 metadata text (reused ``parse_starss23_metadata``) into a DoA track."""
 
     return doa_track_from_rows(parse_starss23_metadata(text), n_frames)
 
@@ -133,7 +89,6 @@ def doa_track_from_metadata_text(text: str, n_frames: int) -> tuple[tuple[float,
 
 
 def direction_to_unit_vector(azimuth_deg: float, elevation_deg: float) -> tuple[float, float, float]:
-    """Convert an (azimuth, elevation) direction in degrees to a unit vector on the sphere."""
 
     az = math.radians(float(azimuth_deg))
     el = math.radians(float(elevation_deg))
@@ -142,10 +97,6 @@ def direction_to_unit_vector(azimuth_deg: float, elevation_deg: float) -> tuple[
 
 
 def great_circle_degrees(az1_deg: float, el1_deg: float, az2_deg: float, el2_deg: float) -> float:
-    """Great-circle angular distance in degrees between two directions.
-
-    Symmetric; 0 identical, 180 antipodal.
-    """
 
     v1 = direction_to_unit_vector(az1_deg, el1_deg)
     v2 = direction_to_unit_vector(az2_deg, el2_deg)
@@ -155,7 +106,6 @@ def great_circle_degrees(az1_deg: float, el1_deg: float, az2_deg: float, el2_deg
 
 
 def great_circle_degrees_batch(directions_a: np.ndarray, directions_b: np.ndarray) -> np.ndarray:
-    """Vectorized great-circle distance. Each input is ``(N, 2)`` of ``(azimuth_deg, elevation_deg)``."""
 
     a = np.asarray(directions_a, dtype=np.float64)
     b = np.asarray(directions_b, dtype=np.float64)
@@ -180,8 +130,6 @@ def great_circle_degrees_batch(directions_a: np.ndarray, directions_b: np.ndarra
 def _change_frames_for_track(
     track: Sequence[tuple[float, float] | None], angle_threshold_deg: float = DOA_CHANGE_THRESHOLD_DEG
 ) -> tuple[int, ...]:
-    """Frame t is a change iff (a) it is the first active frame after silence or the clip start, or
-    (b) t-1 and t are both active and their great-circle jump is at least ``angle_threshold_deg``."""
 
     changes: list[int] = []
     previous: tuple[float, float] | None = None
@@ -206,7 +154,6 @@ def _change_frames_for_track(
 
 @dataclass(frozen=True, slots=True)
 class DoaClip:
-    """One clip's ground-truth DoA track, keyed to the frozen ``Clip`` identity and audio digest."""
 
     clip_id: str
     room_id: str
@@ -269,7 +216,6 @@ class DoaClip:
 
 
 def _metadata_index(metadata_root: str | Path) -> dict[str, Path]:
-    """Index metadata CSVs by clip stem with the exact ``rglob`` the adapter uses. Label-only."""
 
     root = Path(metadata_root)
     if not root.is_dir():
@@ -281,7 +227,6 @@ def _metadata_index(metadata_root: str | Path) -> dict[str, Path]:
 
 
 def build_doa_clips(adapter: RealStarssAdapter, metadata_root: str | Path) -> dict[str, DoaClip]:
-    """Derive a ``DoaClip`` for every clip the adapter serves. Mirrors ``count_labels.build_count_clips``."""
 
     index = _metadata_index(metadata_root)
     out: dict[str, DoaClip] = {}
@@ -301,8 +246,6 @@ def build_doa_clips(adapter: RealStarssAdapter, metadata_root: str | Path) -> di
 
 
 def to_arrays(clip: DoaClip) -> tuple[np.ndarray, np.ndarray]:
-    """Return ``(active_mask, directions)``: a ``(n_frames,)`` bool mask and a ``(n_frames, 2)`` float64
-    array of ``(azimuth_deg, elevation_deg)``, garbage (zero) where the mask is False."""
 
     active_mask = np.zeros(clip.n_frames, dtype=bool)
     directions = np.zeros((clip.n_frames, 2), dtype=np.float64)
@@ -315,10 +258,6 @@ def to_arrays(clip: DoaClip) -> tuple[np.ndarray, np.ndarray]:
 
 
 def change_density(clips: Iterable[DoaClip]) -> float:
-    """Pooled ``n_changes / n_active_frames`` across clips.
-
-    Label-only, mirrors count_labels.change_density.
-    """
 
     total_changes = 0
     total_active = 0
@@ -329,12 +268,6 @@ def change_density(clips: Iterable[DoaClip]) -> float:
 
 
 def mean_change_jump_deg(clips: Iterable[DoaClip]) -> float:
-    """Pooled mean great-circle jump between the direction just before and just after each change frame.
-
-    A change frame caused by a silence gap contributes the jump from the nearest surrounding active frame
-    (the last active direction seen before the gap); a clip-start change with no prior active frame in the
-    clip is excluded, since there is no "jump size" for a first observation. Label-only, no arm score read.
-    """
 
     total = 0.0
     count = 0
@@ -358,11 +291,6 @@ def doa_voc_targets_from_track(
     angle_threshold_deg: float = DOA_CHANGE_THRESHOLD_DEG,
     window: int = DOA_VOC_WINDOW,
 ) -> np.ndarray:
-    """Value-of-computation targets: 1 within +/- ``window`` frames of a change_frames entry, else 0.
-
-    Used only on TRAIN rooms, mirrors ``count_gate.voc_targets_from_count_track``'s window-dilation
-    exactly. A pure function of ground truth; no arm score is read.
-    """
 
     track = list(doa_track)
     n_frames = len(track)

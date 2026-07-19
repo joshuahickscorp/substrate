@@ -1,32 +1,3 @@
-"""Scoring-unit adversarial reproduction, component B: the clip-macro SESOI preregistration.
-
-Net-new and additive. It fixes the smallest-effect-size-of-interest for the clip-macro reproduction on the
-clip-macro count-MAE scale and freezes the whole analysis plan into a self-sealed artifact
-``proof/STARSS23_COUNTING_REPRO_scoring_unit.prereg.json`` that MUST be written before the run reads any
-test-split score.
-
-The SESOI is derived by the SAME cost-benefit rule the sealed bed uses, reused BY IMPORT: it calls
-``count_prereg.compute_count_cost_benefit`` on the reproduction's own label-only structural facts (its test
-clip count, test frame count, pooled test change count, and its train-density operating fraction, with the
-unchanged C_train and C_reest anchors). That rule returns ``one_clip_change_mass_mae``, one test clip's
-worth of catchable count changes expressed on the count-MAE scale, which is the registered SESOI.
-
-Because this reproduction re-scores with the clip as the experimental unit, the same quantity is ALSO
-restated directly on the clip-macro scale: each change-bearing clip's own catchable change mass is
-``(changes_c * mean_run_c / 2) / n_frames_c`` per-clip MAE, and because each clip enters the macro mean with
-weight ``1 / n_clips`` the macro-MAE gap of one clip's worth of change tracking is the clip mean of that
-per-clip quantity divided by ``n_clips``. That macro restatement coincides EXACTLY with the reused pooled
-rule at ``0.5 / n_clips``, so the registered number is identical on both derivations; sealing both makes the
-coincidence auditable. The registered SESOI is the exact computed value, not a hand-rounded number.
-
-The prereg refuses unless the registered SESOI clears 100 times the macro measurement granularity
-``1 / (n_clips * min_clip_frames)`` (one frame of absolute error in the shortest clip, carried into the
-equal-weight macro mean), keeping it far above the clip-macro pseudoreplication floor.
-
-Nothing here reads a test score. ``activation_allowed`` and ``scientific_promotion`` are hardcoded false and
-the timestamp is passed by the caller, never read from the wall clock. House style: no em dashes and no en
-dashes.
-"""
 
 from __future__ import annotations
 
@@ -68,12 +39,11 @@ PREREG_DIRECTION = (
 
 
 class CountReproScoringUnitPreregRefusal(ValueError):
-    """Raised when a clip-macro preregistration input is malformed or the SESOI floor is not cleared."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class ClipLabelFact:
-    """One test clip's label-only structural facts: its frame count and its count-change count."""
 
     clip_id: str
     n_frames: int
@@ -81,14 +51,6 @@ class ClipLabelFact:
 
 
 def _macro_restatement(facts: Sequence[ClipLabelFact], n_clips: int) -> tuple[float, list[dict[str, Any]]]:
-    """Restate one clip's worth of catchable change mass directly on the clip-macro MAE scale.
-
-    For a change-bearing clip the per-clip catchable change mass is
-    ``(changes_c * mean_run_c / 2) / n_frames_c`` with ``mean_run_c = n_frames_c / changes_c``, which is
-    exactly ``0.5`` of that clip's own frame scale; a clip with no changes contributes zero. Because each
-    clip enters the equal-weight macro mean with weight ``1 / n_clips``, one clip's worth of change tracking
-    moves the macro mean by the clip mean of that per-clip quantity divided by ``n_clips``.
-    """
 
     brackets: list[dict[str, Any]] = []
     total = 0.0
@@ -122,12 +84,6 @@ def build_count_repro_scoring_unit_prereg(
     c_reest_flops: int = DEFAULT_C_REEST_FLOPS,
     n_seeds: int = N_PAIRED_SEEDS,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed clip-macro preregistration body. Reads no test score.
-
-    The registered SESOI on the clip-macro count-MAE scale is the reused cost-benefit rule's
-    ``one_clip_change_mass_mae`` computed from label-only facts, cross-derived by the macro restatement and
-    refused unless it clears ``MIN_GRANULARITY_MULTIPLE`` times the clip-macro measurement granularity.
-    """
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise CountReproScoringUnitPreregRefusal("timestamp must be a non-empty string passed by the caller")

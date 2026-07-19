@@ -1,37 +1,3 @@
-"""Sealed preregistration for the STARSS23 ESCS FROZEN-FEATURIZER iteration wave.
-
-This is a net-new, additive component. It changes no sealed scoring logic. The committed real Stage-3 run
-and every gate-policy variant so far nulled: the trained value-of-computation gate, reading half-wave
-rectified log-mel spectral flux, clusters its fires on high-energy regions and recovers fewer distinct
-onsets than uniform-random placement at matched budget. Those variants all kept the frozen log-mel flux
-FRONT-END and changed only the gate. This wave asks a different question: does swapping the frozen
-zero-trained-parameter FEATURIZER for one that exposes a spatial cue the log-mel front-end discards let
-the SAME gate place a fixed firing budget better than rate-matched-random?
-
-Testing a family of frozen featurizers against one fixed test split inflates the family-wise error, so
-this module preregisters, IN CODE and sealed to ``proof/STARSS23_ESCS_BED_spatial_doa.prereg.json`` BEFORE
-any featurizer reads a test score:
-
-- the metric and direction (onset F1 at the DCASE plus-or-minus 200 ms collar, greedy one-to-one, strict
-  point-wise PR; direction candidate greater than rate-matched-random), restated from the committed prereg;
-- the SESOI (0.05), on the identical cost-benefit basis as the committed prereg, from label-only corpus
-  structure (never from a test score);
-- the exact one-sided sign-flip plan (five paired seeds, min one-sided p 1/32, two-sided 0.05 unreachable
-  at n equals 5);
-- a multiplicity control across the THREE featurizer families (Bonferroni). At three families the
-  per-family adjusted alpha is 0.05/3 = 0.016667, and the smallest achievable one-sided sign-flip p at
-  five seeds is 1/32 = 0.03125, which exceeds it, so no single featurizer can clear family-wise
-  significance from this family alone: a preregistered statistical wall, not a moved goalpost;
-- the claim ceiling (the clip is the experimental unit, the verb is bounded to "consistent with");
-- the three featurizer ids, each with a one-line falsifiable hypothesis.
-
-Nothing here reads a test-split F1. The cost-benefit derivation uses only fixed compute anchors and label
-structure known before scoring (test-clip count, pooled test onset count, train-set onset density). The
-timestamp is passed by the caller, never read from the wall clock inside the sealed body, and the sealed
-body carries ``activation_allowed=false`` and ``scientific_promotion=false``.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -95,11 +61,10 @@ FEATURIZERS: tuple[dict[str, str], ...] = (
 
 
 class FeaturizersPreregRefusal(ValueError):
-    """Raised when the featurizer preregistration inputs are malformed."""
+    pass
 
 
 def _multiplicity_block(n_featurizers: int, min_one_sided_p: float, alpha: float) -> dict[str, Any]:
-    """Bonferroni family-wise control across the featurizer family, honest about the n equals 5 floor."""
 
     return bonferroni_family(
         n_featurizers, min_one_sided_p, alpha,
@@ -123,10 +88,6 @@ def build_featurizers_prereg(
     featurizers: tuple[dict[str, str], ...] = FEATURIZERS,
     base_prereg_canonical_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed featurizer preregistration body.
-
-    The timestamp is passed, never a clock read.
-    """
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise FeaturizersPreregRefusal("timestamp must be a non-empty string passed by the caller")
@@ -200,11 +161,6 @@ def structural_facts_from_adapter(
     n_val_rooms: int | None = None,
     target_rates: tuple[float, ...] | None = None,
 ) -> dict[str, Any]:
-    """Derive the label-only structural facts the cost-benefit SESOI needs. Reads no feature and no score.
-
-    The split is the native fold-respecting split (test is exactly fold-4 dev-test), and every fact below
-    is a function of the clip and onset LABELS only. No audio is featurized, so this cannot leak a score.
-    """
 
     from .adapter import RealStarssAdapter, native_fold_split
     from .real_artifact import (
@@ -229,7 +185,6 @@ def structural_facts_from_adapter(
 
 
 def _main(argv: list[str] | None = None) -> int:
-    """Seal the featurizer preregistration from label-only structural facts and print its digest."""
 
     import argparse
     import json

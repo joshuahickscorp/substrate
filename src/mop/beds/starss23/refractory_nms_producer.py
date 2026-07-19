@@ -1,68 +1,25 @@
-"""Real-data producer for the E1 gate variant "refractory_nms" on the cached STARSS23 corpus.
-
-This is a net-new, additive component. It runs the refractory_nms gate variant end to end on the REAL,
-MIT-licensed STARSS23 FOA subset and assembles a sealed ``proof/STARSS23_ESCS_BED_refractory_nms.json``
-with the same shape as the committed ``proof/STARSS23_ESCS_BED.json``. It changes NONE of the sealed
-scoring logic: the referee, the matched-budget harness and its FLOP accounting, the exact sign-flip
-statistics, and every control are imported unchanged, and the value-of-computation training-target
-assembly, the causal p_fire pass, the FLOP model, and the budget-point assembly are imported unchanged
-from the committed producer so the variant lane scores through the identical machinery. The ONLY thing
-that differs from the committed real run is the firing-selection policy: the candidate commits fires by
-collar-width refractory NMS on the same p_fire trace (see ``gate_refractory_nms``).
-
-Performance: the deterministic featurizer is the dominant, gate-independent cost, so it is never
-recomputed here. The producer consumes the shared feature cache (``feature_cache.load_cached_corpus``),
-which featurized the room-disjoint subset exactly once. The FLOP ledger still charges the featurizer per
-arm from the cache's honest per-frame count, so caching is a wall-clock optimization, never a budget cut.
-
-The SESOI and the whole analysis plan are read from the already-sealed variant preregistration
-``proof/STARSS23_ESCS_BED_VARIANTS.prereg.json``; this producer NEVER rebuilds or reweakens it. The
-verdict is a mechanics outcome only: ``activation_allowed``, ``scientific_promotion``, and
-``independent_scientific_confirmation`` are hardcoded false, and a single run at n equals 5 across the
-four-variant family can never promote.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
-import math
 import time
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 
-from mop.ladder.ladder_contracts import (
-    VERDICT_MECHANICS_OK,
-    VERDICT_NULL,
-)
-from mop.science import (
-    ArtifactResult,
-    artifact_envelope,
-    demonstration_receipt,
-    finalize_artifact,
-    read_sealed_prereg_member,
-    safety_flags,
-)
+from mop.science import ArtifactResult
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
-    build_budget_points,
-    noise_control_summary,
-    run_matched_budget,
 )
 from mop.science.gating import assemble_causal_inputs, causal_gate_trace
-from mop.science.statistics import exact_sign_flip, sign_flip_payload
 
-from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
 from .artifact import (
     FULL_SCALE_C_TRAIN,
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
-    _flop_model,
     _pooled_score,
     _SeedRun,
     _voc_targets,
@@ -73,10 +30,15 @@ from .controls import (
     at_chance,
     rate_matched_random_fires,
 )
-from .experiments import ONSET_BUDGET_POLICY
 from .feature_cache import DEFAULT_CACHE_ROOT, CachedCorpus, load_cached_corpus
 from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
-from .gate import FLOPS_PER_INFERENCE, CandidateGate, OnlineState
+from .featurizer_variant_producer import (
+    FeaturizerVariantSpec,
+    VariantContext,
+    VariantCorpus,
+    build_featurizer_variant_artifact,
+)
+from .gate import CandidateGate, OnlineState
 from .gate_refractory_nms import (
     DEFAULT_WINDOW_FRAMES,
     RefractoryNmsGate,
@@ -88,7 +50,6 @@ from .real_artifact import (
     DEFAULT_METADATA_ROOT,
     REAL_PRODUCER_SCHEMA,
     RealBedConfig,
-    _real_noisy_tv_features,
 )
 from .referee import fire_spread, score_arm, summarize_fire_spread
 from .schema import COLLAR_FRAMES, ClipSplit
@@ -100,7 +61,7 @@ DEFAULT_VARIANT_ARTIFACT_PATH = Path("proof/STARSS23_ESCS_BED_refractory_nms.jso
 
 
 class RefractoryNmsRefusal(ValueError):
-    """Raised when the refractory_nms producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 def _variant_hypothesis() -> str:
@@ -125,13 +86,6 @@ def _train_refractory_gate(
     voc_window: int,
     window: int,
 ) -> tuple[RefractoryNmsGate, int]:
-    """Train the variant gate. Byte-identical training to the committed gate; only the class differs.
-
-    Uses the shared label-free causal input assembly and the committed ``_voc_targets`` rule unchanged.
-    ``RefractoryNmsGate`` subclasses
-    ``CandidateGate`` with an identical constructor and ``fit``, so the trained weights are byte-identical
-    to the committed gate at the same seed. The refractory NMS only changes the firing selection later.
-    """
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -165,16 +119,6 @@ def _run_seed_variant(
     operating_density: float,
     window: int,
 ) -> tuple[_SeedRun, dict[str, Any]]:
-    """Run one paired seed of the variant, and reproduce the committed gate at its operating point.
-
-    The variant candidate commits fires by refractory NMS on its p_fire trace; the rate-matched-random
-    control matches the committed count per clip and seed; always-on and best-single are the committed
-    controls unchanged. The threshold per swept budget is tuned so the POST-NMS val firing fraction hits
-    the swept target rate, so the variant spends the same firing budget spread rather than clustered. The
-    committed gate (raw threshold firing) is reproduced at the same operating point purely as a
-    fire-spread reference, so this artifact carries the 204-true-positive / 42-percent-adjacency anchor of
-    the committed null internally.
-    """
 
     gate, train_frames = _train_refractory_gate(
         seed,
@@ -312,13 +256,6 @@ def _committed_gate_reference(
     config: Any,
     operating_density: float,
 ) -> dict[str, Any]:
-    """Reproduce the committed gate's operating-point firing (raw threshold) as a fire-spread anchor.
-
-    This trains the committed ``CandidateGate`` (byte-identical weights to the variant) and fires it with
-    the committed raw-threshold rule at the committed operating point, so the artifact carries the
-    committed null's clustered-firing fingerprint (its distinct-onset true positives and its adjacency
-    fraction) reproduced from the cached corpus, not merely quoted.
-    """
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -378,180 +315,77 @@ def build_refractory_nms_artifact(
     config: RealBedConfig | None = None,
     variants_prereg_path: str | Path = DEFAULT_VARIANTS_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the refractory_nms variant on the cached real corpus and assemble the sealed artifact.
-
-    The SESOI and the analysis plan come from the already-sealed variant preregistration; this producer
-    never rebuilds or reweakens it. ``timestamp`` is passed by the caller and never read from the wall
-    clock inside a sealed body. The frozen featurizer is never recomputed: the corpus is loaded from the
-    shared feature cache, and the FLOP ledger still charges the featurizer per arm from the cache count.
-    """
 
     config = config or RealBedConfig()
     bed_config = config.bed_config()
     corpus = corpus or load_cached_corpus(cache_root=cache_root)
-    split = corpus.split
-    features_by_clip = corpus.features_by_clip
-
-    prereg = read_sealed_prereg_member(
-        variants_prereg_path,
-        expected_schema=VARIANTS_PREREG_SCHEMA,
-        family_field="variants",
-        member_field="variant_id",
-        member_id=VARIANT_ID,
-        family_label="variant",
-        refusal=RefractoryNmsRefusal,
+    prepared = VariantCorpus(
+        split=corpus.split,
+        features_by_clip=corpus.features_by_clip,
+        train_density=corpus.train_onset_density(),
+        n_test_clips=corpus.n_test_clips(),
+        n_test_onsets=corpus.n_test_onsets(),
+        n_test_frames=corpus.n_test_frames(),
     )
-    sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
-    prereg_digest = str(prereg["canonical_sha256"])
-
-    # Structural facts (label-only), used for provenance and the operating-point rule.
-    train_density = corpus.train_onset_density()
-    n_test_clips = corpus.n_test_clips()
-    n_test_onsets = corpus.n_test_onsets()
-    n_test_frames = corpus.n_test_frames()
-    if n_test_onsets == 0:
-        raise RefractoryNmsRefusal("the real test split carries no onsets to score")
-    operating_rate = min(bed_config.target_rates, key=lambda r: abs(r - train_density))
-
-    # noisy-TV marginals: match the injected white-noise channel to the real test feature marginals.
     featurizer = FrozenFeaturizer()
-    pooled_test_features = np.concatenate(
-        [features_by_clip[clip.clip_id] for clip in split.test], axis=0
-    )
-    target_mean = float(pooled_test_features.mean())
-    target_std = float(pooled_test_features.std())
-
-    started = time.perf_counter_ns()
-    seed_runs: list[_SeedRun] = []
     diagnostics: list[dict[str, Any]] = []
-    for seed in config.seeds:
-        noise_features = _real_noisy_tv_features(
-            seed, config.noisy_tv_frames, featurizer, target_mean, target_std
-        )
+
+    def run_seed(
+        seed: int,
+        current: VariantCorpus,
+        noise_features: np.ndarray,
+        current_bed_config: Any,
+    ) -> _SeedRun:
         seed_run, diagnostic = _run_seed_variant(
-            seed, split, features_by_clip, noise_features, bed_config, train_density, window
+            seed,
+            current.split,
+            current.features_by_clip,
+            noise_features,
+            current_bed_config,
+            current.train_density,
+            window,
         )
-        seed_runs.append(seed_run)
         diagnostics.append(diagnostic)
-    measured_wall_ns = max(1, time.perf_counter_ns() - started)
+        return seed_run
 
-    budget_points = build_budget_points(
-        ONSET_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="f1",
-        action_group="firings",
-        flop_model=lambda kind: _flop_model(
-            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, bed_config
-        ),
-    )
-    nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
-    report = run_matched_budget(
-        budget_points,
-        wall_ns=nominal_wall_ns,
-        operating_budget_id=seed_runs[0].operating_budget_id,
-        source_kind="real",
-        ceiling=FLOP_CEILING,
-    )
-
-    per_seed = [run.per_seed_block for run in seed_runs]
-    deltas = [
-        block["arm_scores"][ARM_CANDIDATE]["f1"] - block["arm_scores"][PRIMARY_CONTROL]["f1"]
-        for block in per_seed
-    ]
-    sign_flip = exact_sign_flip(deltas)
-    mean_delta_exceeds_sesoi = bool(sign_flip.mean_delta >= sesoi_f1)
-    beats_random = bool(sign_flip.one_sided_significant and mean_delta_exceeds_sesoi)
-    stats_block = sign_flip_payload(
-        sign_flip, deltas, sesoi_key="sesoi_f1", sesoi=sesoi_f1,
-        exceeds_sesoi=mean_delta_exceeds_sesoi, provisional=False,
-        prereg_digest=prereg_digest, extra={"beats_rate_matched_random": beats_random},
-    )
-
-    n_runs = len(seed_runs)
-    mean_noise_rate = math.fsum(run.noisy_tv["firing_rate_on_noise"] for run in seed_runs) / n_runs
-    mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
-    noisy_tv_at_chance = at_chance(min(1.0, mean_noise_rate), min(1.0, mean_base_rate))
-    controls_block = noise_control_summary(
-        ONSET_BUDGET_POLICY, seed_runs, at_chance=noisy_tv_at_chance, mean_noise_rate=mean_noise_rate,
-        mean_base_rate=mean_base_rate, rate_key="mean_firing_rate_on_noise",
-    )
-    flags_block = safety_flags()
-
-    spread_block = _assemble_spread_diagnostic(diagnostics)
-
-    dominates = report.candidate_strictly_dominates_rate_matched_random
-    meets_bar = dominates and sign_flip.one_sided_significant and mean_delta_exceeds_sesoi
-    verdict = VERDICT_MECHANICS_OK if meets_bar else VERDICT_NULL
-
-    core_evidence = {
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "matched_budget": report.matched_budget.payload(),
-        "flags": flags_block,
-    }
-    receipt = demonstration_receipt(
-        mechanism_id=BED_ID,
-        controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
-        evidence=core_evidence,
-        verdict=verdict,
-        detail={
-            "source_kind": "real",
-            "variant_id": VARIANT_ID,
-            "forcing_null": STAGE3_FORCING_NULL,
-            "candidate_strictly_dominates_rate_matched_random": dominates,
-            "one_sided_p": float(sign_flip.one_sided_p),
-            "note": (
-                "one real run of one gate variant is a mechanics outcome; scientific confirmation needs "
-                "the independent verifier plus at least three bias-independent reproductions and, for this "
-                "four-variant family at n equals 5, cannot clear family-wise significance at all"
-            ),
-        },
-    )
-
-    body = artifact_envelope(
-        schema=VARIANT_ARTIFACT_SCHEMA,
-        report=report,
-        seeds=config.seeds,
-        per_seed=per_seed,
-        stats=stats_block,
-        controls=controls_block,
-        flags=flags_block,
-        verdict=verdict,
-        featurizer={
+    def featurizer_payload(_context: VariantContext) -> dict[str, Any]:
+        return {
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME,
             "feature_cache_key": corpus.cache_key,
-            "note": "featurized once and cached; the FLOP ledger charges it per arm from the cache count",
-        },
-        gate={
-            "params": seed_runs[0].gate_params,
-            "param_ceiling": 4096,
-            "state_bytes": OnlineState.state_bytes(),
-            "flops_per_inference": FLOPS_PER_INFERENCE,
-        },
-        receipt_payload=receipt,
-        extra={
+            "note": (
+                "featurized once and cached; the FLOP ledger charges it per arm from the cache count"
+            ),
+        }
+
+    def extra_payload(context: VariantContext) -> dict[str, Any]:
+        return {
             "variant_id": VARIANT_ID,
             "collar_frames": COLLAR_FRAMES,
             "primary_control": PRIMARY_CONTROL,
-            "beats_rate_matched_random": beats_random,
+            "beats_rate_matched_random": context.beats_random,
             "variant": {
                 "variant_id": VARIANT_ID,
                 "hypothesis": _variant_hypothesis(),
-                "firing_policy": "collar-width refractory non-maximum suppression on the p_fire trace",
+                "firing_policy": (
+                    "collar-width refractory non-maximum suppression on the p_fire trace"
+                ),
                 "window_frames": int(window),
                 "window_ms": int(window) * 100,
                 "only_firing_policy_differs": True,
                 "trained_weights_identical_to_committed_gate": True,
                 "variants_prereg_path": str(Path(variants_prereg_path)),
-                "variants_prereg_canonical_sha256": prereg_digest,
-                "fire_spread_diagnostic": spread_block,
+                "variants_prereg_canonical_sha256": context.prereg_digest,
+                "fire_spread_diagnostic": context.spread,
             },
             "full_scale_anchors": {
                 "c_train_flops": FULL_SCALE_C_TRAIN,
                 "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
                 "downstream_flops_per_firing": bed_config.downstream_flops_per_firing,
-                "break_even_frames_anchor": FULL_SCALE_C_TRAIN // bed_config.downstream_flops_per_firing,
+                "break_even_frames_anchor": (
+                    FULL_SCALE_C_TRAIN // bed_config.downstream_flops_per_firing
+                ),
             },
             "real_corpus": {
                 "producer_schema": REAL_PRODUCER_SCHEMA,
@@ -560,44 +394,58 @@ def build_refractory_nms_artifact(
                 "metadata_root": str(Path(DEFAULT_METADATA_ROOT)),
                 "feature_cache_key": corpus.cache_key,
                 "n_clips": len(corpus.clips),
-                "split_rooms": dict(split.detail),
-                "n_train_frames": seed_runs[0].train_frames,
-                "n_test_clips": n_test_clips,
-                "n_test_onsets": n_test_onsets,
-                "n_test_frames": n_test_frames,
-                "train_onset_density": round(float(train_density), 12),
-                "operating_firing_fraction": round(float(operating_rate), 12),
+                "split_rooms": dict(corpus.split.detail),
+                "n_train_frames": context.seed_runs[0].train_frames,
+                "n_test_clips": prepared.n_test_clips,
+                "n_test_onsets": prepared.n_test_onsets,
+                "n_test_frames": prepared.n_test_frames,
+                "train_onset_density": round(float(prepared.train_density), 12),
+                "operating_firing_fraction": round(float(context.operating_rate), 12),
             },
             "prereg": {
                 "path": str(Path(variants_prereg_path)),
-                "canonical_sha256": prereg_digest,
-                "sesoi_f1": sesoi_f1,
+                "canonical_sha256": context.prereg_digest,
+                "sesoi_f1": context.sesoi_f1,
                 "provisional": False,
                 "written_before_test_scores": True,
                 "rebuilt_by_this_producer": False,
             },
-        },
+        }
+
+    spec = FeaturizerVariantSpec(
+        artifact_schema=VARIANT_ARTIFACT_SCHEMA,
+        variant_id=VARIANT_ID,
+        identity_key="variant_id",
+        prereg_schema=VARIANTS_PREREG_SCHEMA,
+        prereg_family_field="variants",
+        prereg_member_field="variant_id",
+        refusal=RefractoryNmsRefusal,
+        flops_per_frame=FLOPS_PER_FRAME,
+        spread=lambda _per_seed: _assemble_spread_diagnostic(diagnostics),
+        featurizer_payload=featurizer_payload,
+        extra_payload=extra_payload,
+        final_extra=lambda _context: {},
+        receipt_extra={},
+        run_seed=run_seed,
+        prereg_family_label="variant",
+        receipt_note=(
+            "one real run of one gate variant is a mechanics outcome; scientific confirmation needs "
+            "the independent verifier plus at least three bias-independent reproductions and, for this "
+            "four-variant family at n equals 5, cannot clear family-wise significance at all"
+        ),
     )
-    return finalize_artifact(
-        body,
-        verdict=verdict,
-        detail={
-            "beats_random": beats_random,
-            "dominates": dominates,
-            "mean_delta": float(sign_flip.mean_delta),
-            "one_sided_p": float(sign_flip.one_sided_p),
-            "mean_delta_exceeds_sesoi": mean_delta_exceeds_sesoi,
-            "sesoi_f1": sesoi_f1,
-            "noisy_tv_at_chance": noisy_tv_at_chance,
-            "measured_wall_ns": measured_wall_ns,
-            "per_seed_deltas": [float(v) for v in deltas],
-            "spread": spread_block,
-        },
+    return build_featurizer_variant_artifact(
+        config=config,
+        bed_config=bed_config,
+        corpus=prepared,
+        featurizer=featurizer,
+        prereg_path=variants_prereg_path,
+        spec=spec,
+        clock_ns=time.perf_counter_ns,
     )
 
 
 def _assemble_spread_diagnostic(diagnostics: list[dict[str, Any]]) -> dict[str, Any]:
-    """Summarize the per-seed fire-spread diagnostics: variant vs committed-gate reference."""
 
     def _summary(path: tuple[str, ...]) -> dict[str, Any]:
         per_seed = []

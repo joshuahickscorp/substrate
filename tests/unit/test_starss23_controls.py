@@ -1,14 +1,3 @@
-"""Tests for component 4: the three honest controls of the STARSS23 ESCS bed.
-
-The task-critical properties, one test each:
-- rate-matched-random fires the SAME count as the candidate, matched per seed and per clip, with the
-  positions permuted (a different WHERE, an identical how-much);
-- best-single is deterministic;
-- a gate that preferentially fires on the injected noisy-TV channel FAILS the at-chance check while an
-  honest gate passes.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -115,7 +104,6 @@ def test_best_single_threshold_separates_flux_spikes() -> None:
 
 
 class _ScheduleGate:
-    """An honest gate whose firing is uncorrelated with the input: it fires on a fixed schedule."""
 
     def __init__(self, period: int) -> None:
         self.period = period

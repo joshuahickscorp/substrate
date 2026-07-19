@@ -1,32 +1,3 @@
-"""Direction-of-arrival bed, component 9: the real-data producer, run under BOTH architectures.
-
-This is a net-new, additive component. It runs the whole DoA bed end to end on the REAL, MIT-licensed
-STARSS23 FOA subset served by ``RealStarssAdapter`` (the same fixed subset the counting bed used) and
-assembles the byte-sealed ``proof/STARSS23_DOA_BED.json`` the separately authored independent verifier
-re-scores from specification. It edits no sealed module: the paired-seed statistics (``stats.
-exact_sign_flip``) and the rate-matched-random/always-on controls are imported unchanged; the DoA labels,
-featurizer, estimator, gate (both architectures), referee, controls, harness, and preregistration are the
-net-new DoA modules built alongside this one.
-
-The corpus is fixed real data, so the adapter is built once, every clip is featurized once with the frozen
-``DoaFeaturizer``, and the frozen ``FrozenDoaEstimator`` track is computed once per clip; only the trained
-gate (per architecture, per seed) and the rate-matched-random permutation vary. The room-disjoint split
-respects the native STARSS23 fold boundary exactly as the counting bed's producer does: test is fold-4
-dev-test, val is carved from the tail of fold-3 dev-train rooms, train is the rest of fold-3.
-
-The SESOI and the full SURVIVES(X) promotion rule are preregistered before any test score is read (see
-``doa_prereg.py``); this producer writes the sealed prereg first and records its digest in the artifact.
-For each architecture, SURVIVES(X) requires ALL of: the point-estimate strict inequality; the registered
-SESOI cleared on the mean clip-level (seed-averaged) delta; the primary clip-level exact sign-flip p
-clearing alpha=0.05; the 5-seed secondary sign-flip agreeing in direction; and (the calibration note's
-added discipline) the room-majority collapse not contradicting at alpha=0.10. The bed-level verdict is
-"mechanics-ok" only when BOTH architectures survive, "architecture-fragile" when exactly one does, else
-"null". ``activation_allowed``, ``scientific_promotion``, and ``independent_scientific_confirmation`` are
-hardcoded false: a single run can never be scientifically confirmed, and a positive here is flagged for
-human review only.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -119,12 +90,11 @@ DEFAULT_METADATA_ROOT = Path(
 DEFAULT_N_VAL_ROOMS = 2
 _ALL_KINDS: tuple[str, ...] = (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE)
 class DoaProducerRefusal(ValueError):
-    """Raised when the DoA producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class RealDoaBedConfig:
-    """Real-run configuration. Five paired seeds per architecture; the corpus is fixed."""
 
     seeds: tuple[int, ...] = (0, 1, 2, 3, 4)
     n_val_rooms: int = DEFAULT_N_VAL_ROOMS
@@ -154,7 +124,6 @@ def _train_gate(
     doa_track_by_clip: dict[str, tuple],
     config: RealDoaBedConfig,
 ) -> tuple[Any, int]:
-    """Train one candidate gate of the named architecture on train-room value-of-computation targets."""
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -179,7 +148,6 @@ def _train_gate(
 def _real_noisy_tv_features(
     seed: int, n_frames: int, featurizer: DoaFeaturizer, target_mean: float, target_std: float
 ) -> np.ndarray:
-    """Build the DoA bed's independently seeded aleatoric control channel."""
 
     noise_seed = domain_seed(
         seed, "mop.beds.starss23.doa.noisy_tv", b"mop-starss23-doa-noisy-tv-v1"
@@ -242,7 +210,6 @@ def _run_seed_real(
     always_on_payloads: dict[str, dict[str, Any]],
     never_update_payloads: dict[str, dict[str, Any]],
 ) -> _SeedRun:
-    """Train the gate for one (architecture, seed); sweep the budget, score every arm on the test set."""
 
     gate, train_frames = _train_gate(
         architecture, seed, train_clips, features_by_clip, doa_track_by_clip, config
@@ -451,7 +418,6 @@ def build_real_doa_bed_artifact(
     config: RealDoaBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_DOA_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the whole DoA bed on the real STARSS23 subset, under BOTH architectures, and seal the artifact."""
 
     config = config or RealDoaBedConfig()
     featurizer = DoaFeaturizer()

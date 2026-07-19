@@ -1,38 +1,3 @@
-"""Scoring-unit adversarial reproduction, component D: the independent verifier.
-
-Authored separately from the producer for the independent-verify phase. It imports none of the counting
-bed's own modules and nothing under ``mop``: only the standard library (``json``, ``hashlib``,
-``itertools``, ``dataclasses``, ``__future__``). The point is triangulation, not trust. Every graded number
-in the sealed clip-macro reproduction is re-derived here from the written specification, so agreement with
-the producer is real independent reproduction and not a shared implementation bug. A unit test parses this
-file and fails if the import surface ever grows past those five roots.
-
-What is re-derived from specification
--------------------------------------
-1. Canonical seal. ``sha256`` over ``json.dumps(body, sort_keys=True, separators=(",", ":"),
-   ensure_ascii=True, allow_nan=False)`` of the artifact minus its ``seal`` key. A re-hash must reproduce
-   the stored seal exactly, or the artifact was mutated after sealing.
-2. The clip-macro referee, re-derived along a genuinely different path from the sealed pooled verifier: for
-   each arm and each clip the emitted track is re-coasted from the frozen shared estimator track E and the
-   per-arm re-estimation set R as ``emitted(t) = E[max{r in R : r <= t}]`` else cold start 0, the per-clip
-   MAE is ``abs_error / n_frames``, and the ARM SCORE is the equal-weight clip-macro mean of the per-clip
-   MAEs (never the pooled frame micro-average). ``always_on`` uses ``R = range(T)`` and ``never_update``
-   uses ``R = []``; the primary control ``rate_matched_random`` must spend exactly the candidate's
-   re-estimation count per clip and per seed, or the matched-budget contract is broken.
-3. The primary exact five-seed sign-flip permutation on the re-derived clip-macro paired deltas
-   ``delta_i = macro_MAE_rate_matched_random(i) - macro_MAE_candidate(i)``.
-4. The corroborating exact clip-clustered sign-flip: per-clip paired deltas at the operating point averaged
-   over seeds, one sign per clip over all ``2^n_clips`` assignments, done exactly by meet in the middle,
-   and the requirement that it agree in direction (mean per-clip delta strictly positive).
-
-The two verdicts are kept strictly apart. ``independent_referee_reproduction`` is set true only when the
-seal is intact, the schema and claim scope are the frozen contract, every recomputed clip-macro MAE and
-delta and permutation p agrees within tolerance, the clip-clustered readout agrees in direction, and the
-honesty flags are all false. ``independent_scientific_confirmation`` additionally needs real rights-clean
-data, the noisy-TV control at chance, and at least three bias-independent reproductions on record; one real
-reproduction can pass the first and never the second, and this verifier will not self-certify the second on
-a single run. House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -74,7 +39,7 @@ _TIE_EPS = 1e-9
 
 
 class CountReproScoringUnitVerificationRefusal(ValueError):
-    """Raised when an artifact is too malformed to even attempt an independent re-score."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -128,7 +93,6 @@ def _as_reestimates(frames: object, n_frames: int, label: str) -> list[int]:
 
 
 def _coast(estimator: list[int], reestimates: list[int], cold_start: int = COLD_START) -> list[int]:
-    """Hold the most recent re-estimate, else the cold start. Strictly causal by construction."""
 
     fire = set(reestimates)
     emitted: list[int] = []
@@ -163,7 +127,6 @@ def _reestimates_for_arm(arm: str, clip_id: str, n_frames: int, reestimates_by_c
 
 
 def _sign_flip_one_sided_small(deltas: list[float]) -> tuple[float, float, int]:
-    """Exact one-sided upper-tail sign-flip by full enumeration. Used for the small five-seed statistic."""
 
     n = len(deltas)
     if n == 0:
@@ -180,7 +143,6 @@ def _sign_flip_one_sided_small(deltas: list[float]) -> tuple[float, float, int]:
 
 
 def _count_ge(sorted_vals: list[float], threshold: float) -> int:
-    """Return the count of entries in an ascending-sorted list that are >= threshold. Hand-rolled bisect."""
 
     lo, hi = 0, len(sorted_vals)
     while lo < hi:
@@ -204,7 +166,6 @@ def _partial_sums(part: list[float]) -> list[float]:
 
 
 def _sign_flip_one_sided_clips(deltas: list[float]) -> tuple[float, float, int]:
-    """Exact one-sided upper-tail sign-flip over clips by meet in the middle. Exact for any n."""
 
     n = len(deltas)
     if n == 0:
@@ -227,7 +188,6 @@ def _sign_flip_one_sided_clips(deltas: list[float]) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class CountReproScoringUnitVerificationResult:
-    """Outcome of one independent verification pass over a sealed clip-macro reproduction artifact."""
 
     seal_intact: bool
     schema_ok: bool
@@ -269,7 +229,6 @@ def _macro_score_arm(
     candidate_count_by_clip: dict[str, int],
     mismatches: list[str],
 ) -> tuple[float, dict[str, tuple[int, int, float]], bool]:
-    """Re-score one arm with the clip as the unit. Returns macro MAE, per-clip triples, and budget flag."""
 
     per_clip: dict[str, tuple[int, int, float]] = {}
     budget_ok = True
@@ -305,7 +264,6 @@ def _macro_score_arm(
 def verify_count_repro_scoring_unit_artifact(
     artifact: dict,
 ) -> CountReproScoringUnitVerificationResult:
-    """Re-derive every graded number in a sealed clip-macro reproduction and rule on both verdicts."""
 
     if not isinstance(artifact, dict):
         raise CountReproScoringUnitVerificationRefusal("artifact must be a JSON object")
@@ -632,7 +590,6 @@ def verify_count_repro_scoring_unit_artifact(
 def count_repro_scoring_unit_verification_payload(
     result: CountReproScoringUnitVerificationResult,
 ) -> dict:
-    """Assemble the self-sealed verification body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -657,7 +614,6 @@ def count_repro_scoring_unit_verification_payload(
 
 
 def verify_sealed_count_repro_scoring_unit_file(in_path: str) -> dict:
-    """Read a sealed clip-macro reproduction from disk, verify it, and return the sealed verification payload."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -667,7 +623,6 @@ def verify_sealed_count_repro_scoring_unit_file(in_path: str) -> dict:
 
 
 def write_count_repro_scoring_unit_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

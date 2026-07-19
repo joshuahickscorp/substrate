@@ -1,23 +1,3 @@
-"""Component 3: the candidate online value-of-computation event-formation gate.
-
-This is the ONLY trained module in the STARSS23 bed. Per 100 ms frame it consumes the frozen
-featurizer's 256 features plus 8 online state scalars (264 inputs) and emits a firing probability
-p_fire = sigmoid(MLP(z)); it fires iff p_fire >= theta. The multilayer perceptron is 264 -> 12 -> 1,
-so its trainable parameter count is 3193, hard-capped at 4096, and its per-stream online state is a
-handful of float64 registers, hard-capped at a few kilobytes. Both caps are asserted in code.
-
-The gate predicts the value of spending downstream compute, that is, whether firing here recovers a
-matched referee true positive that a non-fire would miss. It is trained on train-room value-of-
-computation targets with a firing-rate ponder penalty. It never sees ground truth, class, or
-direction-of-arrival online: infer() and the online state carry features and self-derived running
-statistics only. Its inference cost and its amortized training cost C_train are both exposed so the
-matched-budget harness can charge them in full-lifecycle FLOP accounting.
-
-Compute is charged analytically, not measured, so the ledger is reproducible across hosts.
-
-Claim scope: deterministic programmatic mechanics only; no capability, learning, or efficiency claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -73,7 +53,7 @@ FLOPS_PER_INFERENCE = (
 
 
 class GateRefusal(ValueError):
-    """Raised when the candidate gate would breach its parameter, state, or interface contract."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -82,13 +62,11 @@ class GateRefusal(ValueError):
 
 
 def param_count(d_in: int = D_IN, hidden: int = HIDDEN, n_out: int = N_OUT) -> int:
-    """Trainable parameters of a d_in -> hidden -> n_out MLP: W1 + b1 + W2 + b2."""
 
     return d_in * hidden + hidden + hidden * n_out + n_out
 
 
 def inference_flops(d_in: int = D_IN, hidden: int = HIDDEN, n_out: int = N_OUT) -> int:
-    """Per-frame forward FLOPs: two matmuls (multiply-add), two bias adds, one ReLU layer."""
 
     return 2 * d_in * hidden + hidden + hidden + 2 * hidden * n_out + n_out
 
@@ -100,7 +78,6 @@ def training_flops(
     hidden: int = HIDDEN,
     n_out: int = N_OUT,
 ) -> int:
-    """Amortized training cost C_train charged in full: epochs * frames * step_factor * infer FLOPs."""
 
     if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
         raise GateRefusal("n_train_frames must be a nonnegative integer")
@@ -122,7 +99,6 @@ def break_even_frames(
     hidden: int = HIDDEN,
     n_out: int = N_OUT,
 ) -> float:
-    """Break-even query count N* = C_train / per-query saving. Below N* the gate has not paid back."""
 
     if not isinstance(per_query_saving_flops, (int, float)) or per_query_saving_flops <= 0:
         raise GateRefusal("per_query_saving_flops must be a positive number")
@@ -136,12 +112,6 @@ def break_even_frames(
 
 @dataclass(frozen=True, slots=True)
 class OnlineState:
-    """Per-stream online state fed to the gate. Carries only self-derived running statistics.
-
-    The eight registers below are updated causally from the features and the gate's own firing
-    decisions. None of them is a label, a class, or a direction-of-arrival: the gate is blind to
-    ground truth online by construction. ``to_vector`` returns the eight bounded scalars the MLP sees.
-    """
 
     n_frames: float = 0.0
     n_fires: float = 0.0
@@ -158,12 +128,10 @@ class OnlineState:
 
     @classmethod
     def state_bytes(cls) -> int:
-        """Byte footprint of the per-stream state: one float64 per register. Hard-capped few-KB."""
 
         return len(fields(cls)) * 8
 
     def to_vector(self) -> np.ndarray:
-        """Return the eight bounded online scalars the gate consumes, as float64."""
 
         recency = math.tanh((self.n_frames - self.last_fire_frame) / PHASE_HORIZON)
         phase = math.fmod(self.n_frames, PHASE_HORIZON) / PHASE_HORIZON
@@ -183,12 +151,6 @@ class OnlineState:
         )
 
     def update(self, features: np.ndarray, p_fire: float, fired: bool) -> OnlineState:
-        """Return the next state after observing one frame and the gate's own decision on it.
-
-        Deterministic. Uses only the features and the firing decision, never a label. The energy and
-        peak summaries are self-derived from the frozen features; the exponential moving averages
-        decay at a fixed rate.
-        """
 
         features = np.asarray(features, dtype=np.float64)
         energy = float(features.mean())
@@ -208,7 +170,6 @@ class OnlineState:
 
 
 def _sigmoid(x: np.ndarray) -> np.ndarray:
-    """Numerically stable elementwise logistic sigmoid."""
 
     out = np.empty_like(x, dtype=np.float64)
     positive = x >= 0.0
@@ -225,7 +186,6 @@ def _sigmoid(x: np.ndarray) -> np.ndarray:
 
 @dataclass
 class TrainingReport:
-    """Deterministic record of one fit call. Compute is the analytic C_train, not a measured count."""
 
     epochs: int
     n_train_frames: int
@@ -248,12 +208,6 @@ class TrainingReport:
 
 
 class CandidateGate:
-    """The only trained module: an online value-of-computation firing trigger.
-
-    Construction hard-asserts the parameter ceiling (<= 4096) and the online-state ceiling (few-KB).
-    Weights are seeded deterministically through ``derive_seed32`` so paired seeds reproduce byte for
-    byte. The forward path takes features plus online scalars and never a label.
-    """
 
     _SEED_NAMESPACE = "mop.beds.starss23.gate.init"
 
@@ -300,7 +254,6 @@ class CandidateGate:
     # -- geometry and cost ---------------------------------------------------
 
     def n_params(self) -> int:
-        """Exact trainable-parameter count from the live weight arrays."""
 
         return int(self.W1.size + self.b1.size + self.W2.size + self.b2.size)
 
@@ -311,19 +264,16 @@ class CandidateGate:
         return training_flops(n_train_frames, epochs, self.d_in, self.hidden, self.n_out)
 
     def infer_work_vector(self, n_frames: int) -> WorkVector:
-        """Charge inference to dispatch and exploration: the gate decides whether to spend compute."""
 
         if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
             raise GateRefusal("n_frames must be a nonnegative integer")
         return WorkVector(dispatch_and_exploration=self.flops_per_inference() * n_frames)
 
     def train_work_vector(self, n_train_frames: int, epochs: int) -> WorkVector:
-        """Charge the amortized training cost to the learning bucket, in full."""
 
         return WorkVector(learning=self.training_flops(n_train_frames, epochs))
 
     def parameter_digest(self) -> str:
-        """Digest of the current weight bytes, so paired-seed reproductions can be checked."""
 
         payload = {
             "w1_sha256": hashlib.sha256(self.W1.astype("<f8").tobytes()).hexdigest(),
@@ -340,7 +290,6 @@ class CandidateGate:
     # -- forward path (no label ever enters here) ----------------------------
 
     def _forward(self, x: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-        """Return (p_fire, hidden_pre_activation, hidden_activation) for a batch of inputs."""
 
         hidden_pre = x @ self.W1.T + self.b1
         hidden = np.maximum(0.0, hidden_pre)
@@ -349,7 +298,6 @@ class CandidateGate:
         return p_fire, hidden_pre, hidden
 
     def predict_proba(self, x: np.ndarray) -> np.ndarray:
-        """Firing probability for a batch of 264-dim inputs. Shape (N, d_in) -> (N,)."""
 
         x = np.asarray(x, dtype=np.float64)
         if x.ndim != 2 or x.shape[1] != self.d_in:
@@ -366,7 +314,6 @@ class CandidateGate:
         return np.concatenate([features, state.to_vector()])
 
     def infer(self, features: np.ndarray, state: OnlineState) -> float:
-        """Online firing probability for one frame. Takes features and self-state, never a label."""
 
         x = self._assemble(features, state)
         return float(self.predict_proba(x[None, :])[0])
@@ -374,7 +321,6 @@ class CandidateGate:
     def fire(
         self, features: np.ndarray, state: OnlineState, theta: float | None = None
     ) -> tuple[bool, float]:
-        """Return (fired, p_fire) for one frame; fires iff p_fire >= theta."""
 
         threshold = self.theta if theta is None else float(theta)
         p_fire = self.infer(features, state)
@@ -391,15 +337,6 @@ class CandidateGate:
         learning_rate: float = DEFAULT_LEARNING_RATE,
         ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
     ) -> TrainingReport:
-        """Fit the gate on train-room value-of-computation targets with a firing-rate ponder penalty.
-
-        ``x`` is (N, d_in): each row is a frame's 256 features plus its 8 online scalars, assembled by
-        the harness on the train rooms. ``voc_targets`` is (N,) in {0, 1}: 1 where firing recovers a
-        matched referee true positive a non-fire would miss. The loss is binary cross-entropy plus
-        ``ponder_lambda`` times the mean firing probability, which prices ponder so the gate does not
-        fire everywhere. Full-batch deterministic gradient descent. The reported compute is the
-        analytic C_train, charged in full regardless of the measured wall time.
-        """
 
         x = np.asarray(x, dtype=np.float64)
         y = np.asarray(voc_targets, dtype=np.float64)

@@ -1,20 +1,3 @@
-"""Unit tests for the STARSS23 ESCS direction-of-arrival (DoA) re-estimation bed.
-
-These exercise the net-new DoA modules end to end without touching any sealed onset or counting-bed
-module: ground-truth label derivation and great-circle geometry, the frozen zero-parameter DoA featurizer
-and estimator, both trained gate architectures (Architecture A 264->12->1 and Architecture B 264->6->6->1),
-the clip-macro-primary referee (including the clip-level meet-in-the-middle sign-flip and the
-calibration-note room-majority collapse), the dual-architecture matched-budget harness, the preregistered
-SESOI, and the real-data producer plus the independent, stdlib-only verifier (seal, byte-reproducible
-receipt, referee and stats reproduction, tamper detection, and the additive-only import boundary).
-
-The end-to-end producer tests run on the REAL STARSS23 subset with a small frame cap and a reduced seed
-and rate set so they stay fast; when the real subset is absent they skip. The full, uncapped, 5-seed,
-both-architecture run lives in ``proof/STARSS23_DOA_BED.json`` and ``proof/STARSS23_DOA_BED.prereg.json``,
-produced separately, not by this test suite.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

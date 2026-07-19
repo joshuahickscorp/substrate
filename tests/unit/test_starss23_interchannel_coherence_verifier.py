@@ -1,10 +1,3 @@
-"""Tests for the independent interchannel-coherence verifier and the featurizer-family preregistration.
-
-These lock two house rules of the lane: the verifier is authored separately and imports no producer code
-(so agreement is triangulation, not a shared bug) and re-derives the sealed null from raw data and detects
-tampering; and the three-featurizer preregistration seals a Bonferroni wall no single featurizer can clear
-at n = 5. Claim scope: deterministic programmatic mechanics only.
-"""
 
 from __future__ import annotations
 

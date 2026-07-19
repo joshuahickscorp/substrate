@@ -1,11 +1,3 @@
-"""Tests for the STARSS23 ESCS bed matched-budget harness (spec component 6).
-
-These pin the full-lifecycle FLOP accounting: the comparison refuses unless the candidate and the
-matched control share byte-equal inference FLOPs and the candidate charges its amortized training cost
-C_train; every arm stays under the ~6e10 ceiling; the break-even N* matches the recipe anchor; and the
-strict-dominance verdict is capped at mechanics-ok and never opens a gate. House style: no em dashes
-and no en dashes.
-"""
 
 from __future__ import annotations
 

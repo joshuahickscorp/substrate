@@ -1,7 +1,3 @@
-"""Two-hidden-layer gate reproduction producer for the STARSS23 concurrent-count bed.
-
-Provider, split, preregistration, gate, estimator, FLOP, and evidence declarations remain local; the
-shared count-variant authority owns only the held-fixed scoring and sealed-artifact lifecycle."""
 
 from __future__ import annotations
 
@@ -68,7 +64,7 @@ GATE_ARCH_SEEDS: tuple[int, ...] = (40, 41, 42, 43, 44)
 
 
 class CountReproGateArchProducerRefusal(ValueError):
-    """Raised when the gate-architecture reproduction cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 def _train_count_gate(
@@ -78,11 +74,6 @@ def _train_count_gate(
     gt_by_clip: dict[str, tuple[int, ...]],
     config: RealCountBedConfig,
 ) -> tuple[CountReproGateArchGate, int]:
-    """Train the re-authored two-layer gate on train-room value-of-computation targets.
-
-    The shared causal input assembly and ``voc_targets_from_count_track`` are held fixed; only the gate
-    class is the varied axis.
-    """
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -129,7 +120,6 @@ def build_real_count_repro_gate_arch_artifact(
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_COUNT_REPRO_GATE_ARCH_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the two-hidden-layer gate declaration through the shared count lifecycle."""
 
     config = config or RealCountBedConfig(seeds=GATE_ARCH_SEEDS)
     featurizer = FrozenCountFeaturizer()

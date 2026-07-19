@@ -1,29 +1,3 @@
-"""Frozen zero-trained-parameter interchannel-coherence front-end for the STARSS23 ESCS bed.
-
-This is a net-new, additive featurizer. It is an alternative to the committed log-mel spectral-flux
-``FrozenFeaturizer``: instead of per-channel energy flux it emits a frozen SPATIAL front-end, the
-magnitude-squared coherence between the FOA omni channel W and each of the three gradient channels
-X, Y, Z per frequency band, plus the DirAC directness (one minus diffuseness) per band. Its per-frame
-output is dim D = 256 (64 bands by 4 spatial features: MSC(W,X), MSC(W,Y), MSC(W,Z), directness), the
-exact width the sealed gate consumes, so the unchanged 264-input gate scores it without any change.
-
-Physical motivation. A transient onset is a direct sound: within the short analysis frame its energy is
-strongly coherent across the omni and gradient channels (the active-intensity vector is long relative to
-the total energy, so diffuseness is low and directness is high). Steady room ambience and late
-reverberation are diffuse: energy arrives from many directions at once, the cross-channel phase scrambles
-over the band, so the magnitude-squared coherence and the directness both fall. That direct-versus-diffuse
-contrast is a cue ORTHOGONAL to per-channel energy: coherence and directness are normalized ratios,
-invariant to the overall gain the log-mel flux front-end keys on. Nothing here is a change detector; the
-gate's own online state supplies temporal dynamics.
-
-Zero trained parameters. The Hann window and the mel-spaced band-partition matrix are deterministic
-functions of the sample rate and the FFT size, never learned weights, so ``n_params()`` is exactly zero
-and ``parameter_digest()`` hashes only those fixed DSP constants. Compute is charged analytically, not
-measured, so the FLOP ledger is reproducible across hosts. The featurize path is byte-reproducible in
-float64 on a given host: identical input bytes yield identical output bytes.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -93,12 +67,6 @@ FLOPS_PER_FRAME = (
 
 
 def _band_partition(sample_rate: int) -> np.ndarray:
-    """Return the (N_BANDS, N_BINS) 0/1 band-partition matrix. Fixed DSP, zero trained parameters.
-
-    Each rFFT bin is assigned to exactly one mel-spaced band, so the coherence estimate in a band pools
-    every bin of that band. The partition is a deterministic function of the sample rate and the FFT
-    size, never a learned quantity.
-    """
 
     bin_freqs = np.linspace(0.0, sample_rate / 2.0, N_BINS)
     mel = hz_to_mel(bin_freqs)
@@ -112,7 +80,6 @@ def _band_partition(sample_rate: int) -> np.ndarray:
 
 @dataclass(frozen=True, slots=True)
 class InterchannelCoherenceFeaturizer(FrozenFeatureProvider):
-    """The frozen spatial front-end. Deep-frozen: window and band partition are fixed DSP, not weights."""
 
     _flops_per_frame = FLOPS_PER_FRAME
     sample_rate: int = SAMPLE_RATE_HZ
@@ -126,7 +93,6 @@ class InterchannelCoherenceFeaturizer(FrozenFeatureProvider):
         return _band_partition(self.sample_rate)
 
     def parameter_digest(self) -> str:
-        """Digest of the fixed window and band-partition bytes, proving the front-end is byte-frozen."""
 
         payload = {
             "window_sha256": hashlib.sha256(self.window.astype("<f8").tobytes()).hexdigest(),
@@ -144,7 +110,6 @@ class InterchannelCoherenceFeaturizer(FrozenFeatureProvider):
         return canonical_sha256(payload)
 
     def _channel_spectra(self, audio: np.ndarray, n_frames: int, n_cols: int) -> np.ndarray:
-        """Return windowed spectra of all channels, shaped ``(N_CHANNELS, n_cols, N_BINS)``."""
 
         window = self.window
         spectra = np.empty((N_CHANNELS, n_cols, N_BINS), dtype=np.complex128)
@@ -159,12 +124,6 @@ class InterchannelCoherenceFeaturizer(FrozenFeatureProvider):
         return spectra
 
     def featurize(self, audio: np.ndarray) -> np.ndarray:
-        """Featurize a (N_CHANNELS, n_samples) FOA array into (n_frames, D_FEAT=256) float64.
-
-        The 256 features are, per mel-spaced band: the magnitude-squared coherence between W and each of
-        X, Y, Z, then the DirAC directness. Byte-reproducible: identical input bytes yield identical
-        output bytes on a given host.
-        """
 
         audio = np.asarray(audio, dtype=np.float64)
         if audio.ndim != 2 or audio.shape[0] != N_CHANNELS:

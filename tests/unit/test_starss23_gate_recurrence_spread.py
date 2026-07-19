@@ -1,12 +1,3 @@
-"""Tests for the recurrence_spread E1 gate variant (net-new, additive).
-
-These lock the hard ESCS constraints on the variant: the total trainable-parameter count (signal MLP plus
-the two spreading weights) stays under the 4096 ceiling, the online state is the committed few-KB
-``OnlineState``, the online interface never receives a label, the recurrent spreading penalty only ever
-suppresses a fire (never manufactures one), the no-spread configuration is byte-identical to the committed
-null gate, the spreading fit is deterministic and grounded only in train labels, and the FLOP-cost surface
-matches the documented constants. Claim scope: deterministic programmatic mechanics only.
-"""
 
 from __future__ import annotations
 
@@ -42,7 +33,6 @@ def _gate(seed: int = 0, rho: float = 0.08, **kwargs) -> RecurrenceSpreadGate:
 def _synthetic_clips(
     n_clips: int = 3, n_frames: int = 60, seed: int = 7
 ) -> list[tuple[np.ndarray, list[int]]]:
-    """A few small feature clips with a handful of onset frames each. Deterministic in the seed."""
 
     rng = np.random.default_rng(seed)
     clips: list[tuple[np.ndarray, list[int]]] = []

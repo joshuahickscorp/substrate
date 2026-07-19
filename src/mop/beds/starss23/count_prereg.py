@@ -1,22 +1,3 @@
-"""Preregistration of the STARSS23 concurrent-source-counting bed SESOI and analysis plan.
-
-This is a net-new, additive component. It fixes the smallest-effect-size-of-interest (SESOI) on count-MAE
-by explicit cost-benefit reasoning and freezes the whole analysis plan into a self-sealed artifact
-``proof/STARSS23_COUNTING_BED.prereg.json`` that MUST be written before the run reads any test-split score.
-
-Nothing here reads a test score. The cost-benefit derivation uses only fixed compute anchors (the gate's
-amortized C_train and the per-re-estimation estimator cost C_reest) and structural facts of the corpus
-known from the labels before any arm is scored (the test-clip count, the test-frame count, the pooled
-test count-change count, and the never-update drift scale). The sealed body carries
-``activation_allowed=false`` and ``scientific_promotion=false`` and a fixed timestamp that is passed in,
-never read from the wall clock.
-
-The multiplicity wall is the exact sign-flip permutation floor: with five paired seeds there are 2^5 = 32
-sign assignments, so the minimum one-sided p is 1/32 and two-sided 0.05 is unreachable. This is preregistered
-in code below.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -59,7 +40,7 @@ _FRAMES_PER_SECOND = 1000.0 / FRAME_MS  # 10 frames per second
 
 
 class CountPreregRefusal(ValueError):
-    """Raised when a count preregistration input is malformed."""
+    pass
 
 
 def _require_positive(value: float, label: str) -> float:
@@ -72,7 +53,6 @@ def _require_positive(value: float, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class CountCostBenefit:
-    """The cost-benefit inputs and derived break-even that justify the SESOI on the count-MAE scale."""
 
     c_train_flops: int
     c_reest_flops: int
@@ -122,7 +102,6 @@ def compute_count_cost_benefit(
     n_test_changes: int,
     coast_from_zero_mae: float,
 ) -> CountCostBenefit:
-    """Derive the break-even and the count-MAE granularity that bound the SESOI. Reads no test score."""
 
     c_train_flops = int(_require_positive(c_train_flops, "c_train_flops"))
     c_reest_flops = int(_require_positive(c_reest_flops, "c_reest_flops"))
@@ -211,7 +190,6 @@ def build_count_prereg(
     c_reest_flops: int = DEFAULT_C_REEST_FLOPS,
     n_seeds: int = N_PAIRED_SEEDS,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed count preregistration body. The timestamp is passed, never read from a clock."""
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise CountPreregRefusal("timestamp must be a non-empty string passed by the caller")

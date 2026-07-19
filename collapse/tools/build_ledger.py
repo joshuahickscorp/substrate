@@ -302,11 +302,13 @@ def main() -> int:
                 "topology-neutral count and DoA gate interfaces centralized, net 58 LOC; three frozen-"
                 "featurizer producer lifecycles and spread projections centralized behind local evidence "
                 "declarations, net 260 LOC; five concurrent-count producer artifact lifecycles centralized "
-                "behind provider, split, preregistration, scoring, and readout declarations, net 407 LOC")
+                "behind provider, split, preregistration, scoring, and readout declarations, net 407 LOC; "
+                "base onset, refractory-NMS, and learning-progress producer lifecycles centralized behind "
+                "the onset executor, and embedded STARSS narrative documentation removed, net 3320 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
                                 "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("measure the remaining DoA, refractory, and learning-progress producer "
-                                 "shells against declaration-based lifecycle targets")
+            it["next_action"] = ("finish the remaining dual-architecture DoA producer shell and measure "
+                                 "the residual STARSS lifecycle surface")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -531,6 +533,20 @@ def main() -> int:
                     "independent producer/verifier battery 73/73 and full focused suite 493/493 green"),
         rollback_tag="mop-collapse-starss23-lifecycle-19",
         next_action="measure remaining DoA, refractory, and learning-progress producer shells"))
+    checklist.append(item(
+        "RED-starss23-onset-variant-and-embedded-docs", 11, "verified_reduction",
+        "Centralize remaining onset variants and remove embedded STARSS narratives", status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json",
+                  "src/mop/beds/starss23/featurizer_variant_producer.py",
+                  "src/mop/beds/starss23/real_artifact.py",
+                  "src/mop/beds/starss23/refractory_nms_producer.py",
+                  "src/mop/beds/starss23/learning_progress_producer.py"],
+        validation=("728 lifecycle LOC replaced by 456 executor/declaration LOC; 3092 source/test "
+                    "documentation LOC eliminated with 44 pass replacements; net -3320; base onset, "
+                    "refractory-NMS, and learning-progress sealed artifact dictionaries exactly match "
+                    "checkpoint 3b309f6 under fixed clocks; full STARSS suite 493/493 green"),
+        rollback_tag="mop-collapse-starss23-lifecycle-20",
+        next_action="finish the dual-architecture DoA producer shell and measure STARSS residual"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -1007,6 +1023,25 @@ def main() -> int:
     lines.append("- cumulative verified owned Python reduction: 4,975 LOC.")
     lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-19.")
     lines.append("- next_exact_edit: measure remaining DoA, refractory, and learning-progress producer shells.")
+    lines.append("")
+    lines.append("### STARSS23 lifecycle cluster 20 (current checkpoint)")
+    lines.append("")
+    lines.append("- lifecycle authority: base onset, refractory-NMS, and learning-progress now declare their "
+                 "distinct seed runner, gate, preregistration, FLOP, diagnostic, and evidence projections "
+                 "against the existing onset-variant executor.")
+    lines.append("- documentation deletion: 3,092 non-executable STARSS source/test docstring LOC removed; "
+                 "44 one-line pass bodies retained where Python requires a class body; no code was packed.")
+    lines.append("- preservation: all unique gate/training/statistical mathematics, preregistration payloads, "
+                 "refusal surfaces, and independent verifier implementations remain executable and separate.")
+    lines.append("- parity: base onset, refractory-NMS, and learning-progress complete artifact dictionaries and "
+                 "seals exactly match checkpoint 3b309f6 under fixed clocks.")
+    lines.append("- validation: full STARSS-focused suite 493/493 in 159.64s under nice -n 10; changed lifecycle "
+                 "modules pass ruff and the complete STARSS package compiles.")
+    lines.append("- source change: 500 added, 3,540 deleted, net -3,040; tests: 0 added, 280 deleted; "
+                 "total owned Python net reduction: 3,320 LOC.")
+    lines.append("- cumulative verified owned Python reduction: 8,295 LOC.")
+    lines.append("- rollback_tag: mop-collapse-starss23-lifecycle-20.")
+    lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

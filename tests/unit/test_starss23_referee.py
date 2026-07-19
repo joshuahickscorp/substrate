@@ -1,11 +1,3 @@
-"""Tests for component 5, the sealed onset-F1 referee.
-
-These pin the exact hand-computable F1 on known events, prove the strict one-to-one matcher resists the
-inflation that point-adjustment suffers, and lock the collar boundary, nearest-first tie-break, micro
-pooling, validation, and seal determinism.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

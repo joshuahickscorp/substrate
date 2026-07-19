@@ -1,21 +1,3 @@
-"""Concurrent-source-counting bed, component 3b: the candidate online re-estimation gate.
-
-This is the ONLY trained module in the counting bed. Per 100 ms frame it consumes the 256 frozen count
-features plus 8 self-derived online scalars (264 inputs) and emits a re-estimation probability
-``p_reestimate = sigmoid(MLP(z))``; it re-estimates iff ``p_reestimate >= theta``. The multilayer
-perceptron is 264 -> 12 -> 1, so its trainable parameter count is 3193, hard-capped at 4096 and
-byte-identical to the sealed onset gate, so the reused parameter and FLOP cost anchors of ``gate.py``
-carry over exactly. Its per-stream online state is eight float64 registers, hard-capped at a few kilobytes.
-
-The gate predicts the value of spending a re-estimation, that is, whether the concurrent-source count is
-about to change so a fresh estimate beats coasting on the stale one. It is trained on train-room value-of-
-computation targets (fire near a count change) with a firing-rate ponder penalty. It NEVER sees the count
-label online: ``infer`` and the online state carry the frozen features and self-derived running statistics
-only, so it is a pure change-detector decoupled from the estimator value. Compute is charged analytically
-through the reused ``gate`` cost model, so the ledger is reproducible across hosts.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -69,17 +51,11 @@ FLOPS_PER_INFERENCE = inference_flops(D_IN, HIDDEN, N_OUT)  # 6385
 
 
 class CountGateRefusal(ValueError):
-    """Raised when the candidate count gate would breach its parameter, state, or interface contract."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class CountOnlineState:
-    """Per-stream online state fed to the count gate. Carries only self-derived running statistics.
-
-    The eight registers are updated causally from the frozen features and the gate's own re-estimation
-    decisions. None is a count label: the gate is blind to ground truth online by construction.
-    ``to_vector`` returns the eight bounded scalars the MLP sees.
-    """
 
     n_frames: float = 0.0
     n_reestimates: float = 0.0
@@ -96,12 +72,10 @@ class CountOnlineState:
 
     @classmethod
     def state_bytes(cls) -> int:
-        """Byte footprint of the per-stream state: one float64 per register. Hard-capped few-KB."""
 
         return len(fields(cls)) * 8
 
     def to_vector(self) -> np.ndarray:
-        """Return the eight bounded online scalars the gate consumes, as float64."""
 
         recency = math.tanh((self.n_frames - self.last_reestimate_frame) / PHASE_HORIZON)
         phase = math.fmod(self.n_frames, PHASE_HORIZON) / PHASE_HORIZON
@@ -121,12 +95,6 @@ class CountOnlineState:
         )
 
     def update(self, features: np.ndarray, p_reestimate: float, reestimated: bool) -> CountOnlineState:
-        """Return the next state after observing one frame and the gate's own re-estimation decision.
-
-        Deterministic. Uses only the features and the decision, never a label. The energy is the mean of
-        the 256 features; the positive and negative flux peaks are the maxima of the two 128-feature
-        polarity blocks. The exponential moving averages decay at a fixed rate.
-        """
 
         features = np.asarray(features, dtype=np.float64)
         energy = float(features.mean()) if features.size else 0.0
@@ -147,7 +115,6 @@ class CountOnlineState:
 
 @dataclass
 class CountTrainingReport:
-    """Deterministic record of one fit call. Compute is the analytic C_train, not a measured count."""
 
     epochs: int
     n_train_frames: int
@@ -170,7 +137,6 @@ class CountTrainingReport:
 
 
 class CountGateInterface:
-    """Topology-neutral input, probability, and threshold surface for count gates."""
 
     __slots__ = ()
     _feature_dim = N_CFEAT
@@ -203,12 +169,6 @@ class CountGateInterface:
 
 
 class CountGate(CountGateInterface):
-    """The only trained module: an online value-of-computation re-estimation trigger for counting.
-
-    Construction hard-asserts the parameter ceiling (<= 4096) and the online-state ceiling (few-KB).
-    Weights are seeded deterministically through ``derive_seed32`` so paired seeds reproduce byte for
-    byte. The forward path takes features plus online scalars and never a label.
-    """
 
     _SEED_NAMESPACE = "mop.beds.starss23.count_gate.init"
 
@@ -251,7 +211,6 @@ class CountGate(CountGateInterface):
         self.b2 = np.zeros(n_out, dtype=np.float64)
 
     def n_params(self) -> int:
-        """Exact trainable-parameter count from the live weight arrays."""
 
         return int(self.W1.size + self.b1.size + self.W2.size + self.b2.size)
 
@@ -291,14 +250,6 @@ class CountGate(CountGateInterface):
         learning_rate: float = DEFAULT_LEARNING_RATE,
         ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
     ) -> CountTrainingReport:
-        """Fit the gate on train-room value-of-computation targets with a re-estimation ponder penalty.
-
-        ``x`` is (N, d_in): each row is a frame's 256 features plus its 8 online scalars. ``voc_targets`` is
-        (N,) in {0, 1}: 1 within ``COUNT_VOC_WINDOW`` frames of a count change, where a re-estimation beats
-        coasting. The loss is binary cross-entropy plus ``ponder_lambda`` times the mean re-estimation
-        probability, which prices re-estimations so the gate does not re-estimate everywhere. Full-batch
-        deterministic gradient descent. The reported compute is the analytic C_train.
-        """
 
         x = np.asarray(x, dtype=np.float64)
         y = np.asarray(voc_targets, dtype=np.float64)
@@ -351,11 +302,6 @@ class CountGate(CountGateInterface):
 
 
 def voc_targets_from_count_track(count_track, window: int = COUNT_VOC_WINDOW) -> np.ndarray:
-    """Value-of-computation targets: 1 within ``window`` frames of a count change, else 0. Train labels only.
-
-    A change frame c satisfies ``count[c] != count[c-1]``; a re-estimation within ``window`` of any change
-    recovers the fresh count that coasting would miss. Used only at train time on train rooms.
-    """
 
     track = [int(v) for v in count_track]
     n_frames = len(track)

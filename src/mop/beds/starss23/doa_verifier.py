@@ -1,43 +1,3 @@
-"""Direction-of-arrival bed, component 10: the independent verifier.
-
-Authored separately from the producer, for the independent-verify phase. It imports none of the DoA bed's
-own modules and nothing under ``mop``: only the standard library (``json``, ``hashlib``, ``itertools``,
-``math``, ``bisect``, ``dataclasses``, ``__future__``). A unit test parses this file and fails if the
-import surface ever grows past that allowlist, mirroring ``count_verifier.py``'s exact discipline.
-
-The point is triangulation, not trust. Every graded number in a sealed DoA bed artifact is re-derived here
-from the written specification (including the great-circle geometry itself, reimplemented independently
-with plain ``math.acos`` over the unit-vector dot product, not reused from any producer module), so
-agreement with the producer is real independent reproduction, not a shared implementation bug.
-
-What is re-derived from specification, per architecture, per seed
--------------------------------------------------------------------
-1. Canonical seal: ``sha256`` over canonical JSON of the whole artifact minus its ``seal`` key.
-2. The coasted great-circle DoA error for every arm, from raw ``corpus_tracks`` only: candidate and
-   rate_matched_random re-coast from their stored ``reestimate_frames``; always_on and never_update are
-   recomputed from the deterministic rule (R = every frame, R = empty) with no stored set at all.
-3. The clip-macro aggregation (PRIMARY) and the pooled-frame aggregation (secondary).
-4. The rate_matched_random budget match: same re-estimation COUNT as candidate, per clip, per seed.
-5. The PRIMARY clip-level exact sign-flip (meet in the middle, re-implemented independently here), on the
-   per-clip deltas each averaged over the paired seeds first.
-6. The 5-seed secondary sign-flip (brute-force enumeration; n=5 is small enough that meet-in-the-middle
-   is not needed for an independent check).
-7. The room-majority collapse (calibration-note discipline): binomial-style exact sign-flip over rooms.
-8. The SESOI comparison and the full per-architecture SURVIVES(X) conjunction.
-9. The bed-level fold: both-survive / architecture-fragile / null.
-
-The two verdicts, kept strictly apart
---------------------------------------
-``independent_referee_reproduction`` is set true only when the seal is intact, the schema and claim scope
-are the frozen contract, every recomputed number agrees within tolerance, and the producer's honesty flags
-are all false and never widened. That is a mechanics reproduction: the arithmetic in the artifact is real.
-``independent_scientific_confirmation`` is set true only when, on top of that, the data is real, its rights
-are clean, the noisy-TV control sat at chance under BOTH architectures, and at least three bias-independent
-reproductions are on record. One real run can pass the first and never the second; this verifier will not
-self-certify the second on a single run no matter how clean the arithmetic is.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -87,7 +47,7 @@ _TOL = 1e-6
 
 
 class DoaVerificationRefusal(ValueError):
-    """Raised when an artifact is too malformed to even attempt an independent re-score."""
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -337,10 +297,6 @@ class DoaVerificationResult:
 def _rescore_seed_block(
     seed_block: dict, corpus: dict, cold_start: list[float], mismatches: list[str], architecture: str
 ) -> dict[str, tuple[float, float]]:
-    """Return {arm: (recomputed_macro_mae, recomputed_pooled_mae)} for one seed block.
-
-    Checks stored values along the way.
-    """
 
     seed = seed_block.get("seed")
     reestimates_by_clip = seed_block.get("reestimate_frames", {})
@@ -478,10 +434,6 @@ def _rescore_architecture(
 
 
 def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:
-    """Re-derive every graded number in a sealed DoA bed artifact from raw tracks.
-
-    Rules on both verdicts.
-    """
 
     if not isinstance(artifact, dict):
         raise DoaVerificationRefusal("artifact must be a JSON object")
@@ -665,7 +617,6 @@ def verify_doa_artifact(artifact: dict) -> DoaVerificationResult:
 
 
 def doa_verification_payload(result: DoaVerificationResult) -> dict:
-    """Assemble the self-sealed proof/STARSS23_DOA_BED.verification.json body from a result."""
 
     body = {
         "schema": VERIFIER_SCHEMA,
@@ -687,7 +638,6 @@ def doa_verification_payload(result: DoaVerificationResult) -> dict:
 
 
 def verify_sealed_doa_file(in_path: str) -> dict:
-    """Read a sealed DoA artifact from disk, verify it, and return the self-sealed verification payload."""
 
     with open(in_path, encoding="utf-8") as handle:
         artifact = json.load(handle)
@@ -695,7 +645,6 @@ def verify_sealed_doa_file(in_path: str) -> dict:
 
 
 def write_doa_verification(payload: dict, out_path: str) -> None:
-    """Write a verification payload as canonical JSON."""
 
     with open(out_path, "w", encoding="utf-8") as handle:
         handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

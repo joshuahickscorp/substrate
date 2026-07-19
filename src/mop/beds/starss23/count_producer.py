@@ -1,7 +1,3 @@
-"""Sealed real-data producer for the STARSS23 concurrent-count bed.
-
-Provider, split, preregistration, gate, estimator, FLOP, and evidence declarations remain local; the
-shared count-variant authority owns only the held-fixed scoring and sealed-artifact lifecycle."""
 
 from __future__ import annotations
 
@@ -77,12 +73,11 @@ FULL_SCALE_FEATURIZE = FLOPS_PER_FRAME_COUNT * FULL_SCALE_TEST_FRAMES
 
 
 class CountProducerRefusal(ValueError):
-    """Raised when the count producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class RealCountBedConfig:
-    """Real-run configuration. The paired seeds and the sweep mirror the recipe; the data is fixed."""
 
     seeds: tuple[int, ...] = (0, 1, 2, 3, 4)
     n_val_rooms: int = DEFAULT_N_VAL_ROOMS
@@ -111,7 +106,6 @@ def _train_count_gate(
     gt_by_clip: dict[str, tuple[int, ...]],
     config: RealCountBedConfig,
 ) -> tuple[CountGate, int]:
-    """Train the one candidate gate on train-room value-of-computation targets. Returns gate, train frames."""
 
     inputs: list[np.ndarray] = []
     targets: list[np.ndarray] = []
@@ -141,7 +135,6 @@ def _real_noisy_tv_features(
     target_mean: float,
     target_std: float,
 ) -> np.ndarray:
-    """Build the sealed count bed's deterministic aleatoric control channel."""
 
     noise_seed = domain_seed(
         seed, "mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1"
@@ -171,7 +164,6 @@ def run_count_seed(
         [list[tuple[str, list[int], list[int], list[int]]]], dict[str, Any]
     ],
 ) -> BudgetSeedRun:
-    """Run the shared counting seed lifecycle with explicit gate and scoring providers."""
 
     gate, train_frames = train_gate()
     total_frames = int(sum(clip.n_frames for clip in test_clips))
@@ -285,7 +277,6 @@ def _run_seed_real(
     *,
     train_gate_provider: Callable[..., tuple[Any, int]] = _train_count_gate,
 ) -> BudgetSeedRun:
-    """Bind a count-gate provider and the frame-micro referee to the shared seed lifecycle."""
 
     return run_count_seed(
         seed=seed,
@@ -336,7 +327,6 @@ def build_real_count_bed_artifact(
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_COUNT_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the declared sealed count bed through the shared count lifecycle."""
 
     config = config or RealCountBedConfig()
     featurizer = FrozenCountFeaturizer()

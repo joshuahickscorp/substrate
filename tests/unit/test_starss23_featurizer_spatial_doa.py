@@ -1,15 +1,3 @@
-"""Tests for the frozen spatial-DOA featurizer swap (F1 frozen-featurizer iteration wave).
-
-These lock the invariants that make the spatial-DOA front-end an honest controlled experiment: it is a
-frozen zero-trained-parameter featurizer that emits exactly 256 features, so it feeds the SAME unchanged
-gate through the SAME sealed harness, referee, and controls, and its per-frame FLOPs are charged into the
-matched-budget ledger identically to every arm and stay under the 6e10 ceiling. The featurizer is
-deterministic and byte-reproducible, the sealed artifact carries a seal, and the independently authored
-family verifier (importing no producer code) reproduces the sealed scores. Claim scope: deterministic
-programmatic mechanics only; no capability claim.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

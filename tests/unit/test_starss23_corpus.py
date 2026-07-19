@@ -1,17 +1,3 @@
-"""Unit tests for the synthetic STARSS23 corpus generator (bed component 1c).
-
-The three load-bearing properties the deep-research recipe demands:
-
-- the room-disjoint / clip-disjoint split has no leakage,
-- the planted onset labels round-trip through the native metadata schema and the adapter, and
-- the fixtures are byte-reproducible from a seed.
-
-Plus the faithfulness guards: the planted signal is really present at onset frames (a spatial oracle
-can score it), a bare per-frame energy threshold cannot isolate onsets because nuisance flux intrudes
-(the task stays off the trivial ceiling), and the default corpus clears the Q3(d) positive floors.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

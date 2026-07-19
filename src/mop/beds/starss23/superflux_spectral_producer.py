@@ -1,7 +1,3 @@
-"""Sealed STARSS23 producer for the frozen SuperFlux spectral frontend.
-
-Only the zero-parameter frontend and its honest per-frame FLOP charge differ; the shared frozen-variant
-lifecycle owns scoring, controls, statistics, receipts, and preregistered mechanics."""
 
 from __future__ import annotations
 
@@ -49,7 +45,7 @@ SUPERFLUX_FULL_SCALE_FEATURIZE = SUPERFLUX_FLOPS_PER_FRAME * FULL_SCALE_TEST_FRA
 
 
 class SuperfluxSpectralRefusal(ValueError):
-    """Raised when the superflux_spectral producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 def _variant_hypothesis() -> str:
@@ -66,7 +62,6 @@ def build_superflux_spectral_artifact(
     config: RealBedConfig | None = None,
     featurizers_prereg_path: str | Path = DEFAULT_FEATURIZERS_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the declared SuperFlux frontend through the shared frozen-variant lifecycle."""
 
     config = config or RealBedConfig()
     bed_config = config.bed_config()

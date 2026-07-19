@@ -1,15 +1,3 @@
-"""Tests for the diversity_reg E1 gate variant (net-new, additive).
-
-These lock the hard ESCS constraints on the variant gate and the properties that make its ablation clean:
-the 4096 trainable-parameter ceiling and the few-KB online state are asserted, the FLOP-cost functions
-return the committed formulas, the online interface never receives a label, the initialization and the
-lambda == 0 training path are byte-identical to the committed gate, the within-clip spacing kernel and
-neighbor sum are correct, the scale-invariant adjacency-energy ratio penalty is invariant to the firing
-scale (so it prices spread at matched firing count and cannot be gamed by shrinking p), and its analytic
-gradient matches a numerical gradient. Claim scope: deterministic programmatic mechanics only.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -47,7 +35,6 @@ _FORBIDDEN_ONLINE = ("azimuth", "elevation", "distance", "class", "onset", "labe
 
 
 def _separable_voc_problem(n: int = 400, seed: int = 123) -> tuple[np.ndarray, np.ndarray]:
-    """A learnable value-of-computation dataset: y is a linear rule on the 264-dim gate input."""
 
     rng = np.random.default_rng(seed)
     x = rng.standard_normal((n, D_IN))

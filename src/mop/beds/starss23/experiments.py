@@ -1,4 +1,3 @@
-"""STARSS23 onset, counting, DoA, and reproduction declarations for the shared science engine."""
 
 from __future__ import annotations
 

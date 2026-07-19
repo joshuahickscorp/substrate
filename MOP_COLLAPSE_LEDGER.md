@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `a7916c2` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `3b309f6` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 237. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 21}`.
+Total items: 238. By status: `{"complete": 14, "active": 49, "pending": 145, "partial": 8, "verified": 22}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -134,7 +134,7 @@ Total items: 237. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
-| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | measure the remaining DoA, refractory, and learning-progress producer shells against declaration-based lifecycle targets |
+| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | finish the remaining dual-architecture DoA producer shell and measure the residual STARSS lifecycle surface |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
 | SEC-13 | 13 | region | pending | One campaign controller (AFTER live run terminal + PR30 closure) | build vs fixtures only while live; archive historical bytes; replay-equivalence then delete |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
@@ -273,6 +273,7 @@ Total items: 237. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 | RED-starss23-topology-neutral-gate-interfaces | 11 | verified_reduction | verified | Centralize STARSS23 topology-neutral gate interfaces | remeasure remaining variant producer shells against the declaration target |
 | RED-starss23-frozen-featurizer-variant-lifecycle | 11 | verified_reduction | verified | Centralize frozen-featurizer producer execution and spread projections | remeasure adjacent count and DoA producer shells against the declaration target |
 | RED-starss23-count-variant-artifact-lifecycle | 11 | verified_reduction | verified | Centralize concurrent-count producer artifact lifecycles | measure remaining DoA, refractory, and learning-progress producer shells |
+| RED-starss23-onset-variant-and-embedded-docs | 11 | verified_reduction | verified | Centralize remaining onset variants and remove embedded STARSS narratives | finish the dual-architecture DoA producer shell and measure STARSS residual |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -281,7 +282,7 @@ Total items: 237. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base a7916c2
+- commit: pending; base 3b309f6
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -511,4 +512,16 @@ Total items: 237. By status: `{"complete": 14, "active": 49, "pending": 145, "pa
 - cumulative verified owned Python reduction: 4,975 LOC.
 - rollback_tag: mop-collapse-starss23-lifecycle-19.
 - next_exact_edit: measure remaining DoA, refractory, and learning-progress producer shells.
+
+### STARSS23 lifecycle cluster 20 (current checkpoint)
+
+- lifecycle authority: base onset, refractory-NMS, and learning-progress now declare their distinct seed runner, gate, preregistration, FLOP, diagnostic, and evidence projections against the existing onset-variant executor.
+- documentation deletion: 3,092 non-executable STARSS source/test docstring LOC removed; 44 one-line pass bodies retained where Python requires a class body; no code was packed.
+- preservation: all unique gate/training/statistical mathematics, preregistration payloads, refusal surfaces, and independent verifier implementations remain executable and separate.
+- parity: base onset, refractory-NMS, and learning-progress complete artifact dictionaries and seals exactly match checkpoint 3b309f6 under fixed clocks.
+- validation: full STARSS-focused suite 493/493 in 159.64s under nice -n 10; changed lifecycle modules pass ruff and the complete STARSS package compiles.
+- source change: 500 added, 3,540 deleted, net -3,040; tests: 0 added, 280 deleted; total owned Python net reduction: 3,320 LOC.
+- cumulative verified owned Python reduction: 8,295 LOC.
+- rollback_tag: mop-collapse-starss23-lifecycle-20.
+- next_exact_edit: finish the dual-architecture DoA producer shell and measure STARSS residual.
 

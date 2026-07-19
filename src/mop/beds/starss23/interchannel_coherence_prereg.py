@@ -1,34 +1,3 @@
-"""Sealed preregistration for the F1 featurizer-swap iteration wave (three frozen featurizer families).
-
-This is a net-new, additive component. It changes no sealed scoring logic. The committed gate-variant
-wave held the frozen log-mel spectral-flux front-end fixed and changed only the firing policy; every arm
-nulled because a per-channel ENERGY front-end gives the gate no cue that separates a direct-sound onset
-from loud steady ambience. This wave instead swaps the FROZEN featurizer for a new zero-trained-parameter
-front-end and scores it through the SAME sealed gate, harness, referee, and controls.
-
-Testing a family of featurizers against one fixed test split inflates the family-wise error, so this
-module preregisters, IN CODE and sealed BEFORE any featurizer reads a test score:
-
-- the metric and direction (onset F1 at the DCASE plus-or-minus 200 ms collar, greedy one-to-one, strict
-  point-wise PR; direction candidate greater than rate-matched-random), restated from the committed prereg;
-- the SESOI (0.05), on the identical cost-benefit basis as the committed prereg, recomputed from the
-  corpus label structure (never from a test score);
-- the exact one-sided sign-flip plan (five paired seeds, min one-sided p 1/32, two-sided 0.05 unreachable
-  at n equals 5);
-- a multiplicity control across the THREE featurizer families (Bonferroni), whose per-family adjusted
-  alpha 0.05/3 = 0.016667 sits BELOW the smallest achievable one-sided sign-flip p 1/32 = 0.03125, so no
-  single featurizer can clear family-wise significance from this family alone: a preregistered wall, not a
-  moved goalpost;
-- the claim ceiling (the clip is the experimental unit, the verb is bounded to "consistent with");
-- the three featurizer ids, each with a one-line falsifiable hypothesis.
-
-Nothing here reads a test-split F1. The cost-benefit derivation uses only fixed compute anchors and label
-structure known before scoring (test-clip count, pooled test onset count, train-set onset density). The
-timestamp is passed by the caller, never read from the wall clock inside the sealed body, and the sealed
-body carries ``activation_allowed=false`` and ``scientific_promotion=false``.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -96,11 +65,10 @@ FEATURIZER_VARIANTS: tuple[dict[str, str], ...] = (
 
 
 class FeaturizersPreregRefusal(ValueError):
-    """Raised when the featurizer preregistration inputs are malformed."""
+    pass
 
 
 def _multiplicity_block(n_variants: int, min_one_sided_p: float, alpha: float) -> dict[str, Any]:
-    """Bonferroni family-wise control across the featurizer family, honest about the n equals 5 floor."""
 
     return bonferroni_family(
         n_variants, min_one_sided_p, alpha,
@@ -124,10 +92,6 @@ def build_featurizers_prereg(
     variants: tuple[dict[str, str], ...] = FEATURIZER_VARIANTS,
     base_prereg_canonical_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Assemble the self-sealed featurizer preregistration body.
-
-    The timestamp is passed, never a clock read.
-    """
 
     if not isinstance(timestamp, str) or not timestamp.strip():
         raise FeaturizersPreregRefusal("timestamp must be a non-empty string passed by the caller")
@@ -195,12 +159,6 @@ def structural_facts_from_adapter(
     target_rates: tuple[float, ...] | None = None,
     n_val_rooms: int | None = None,
 ) -> StructuralFacts:
-    """Derive the label-only structural facts from a fresh real-adapter split. Reads no test-split F1.
-
-    Only clip onset counts and frame counts are read (labels), never a featurized frame or a score. The
-    operating firing fraction is the swept target rate closest to the train-set onset density, the exact
-    rule the producer preregisters, using train labels only.
-    """
 
     from .adapter import RealStarssAdapter, native_fold_split
     from .real_artifact import (
@@ -228,7 +186,6 @@ def structural_facts_from_adapter(
 
 
 def _main(argv: list[str] | None = None) -> int:
-    """Seal the featurizer preregistration from the real-adapter structural facts and print its digest."""
 
     import argparse
     import json

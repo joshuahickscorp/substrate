@@ -1,23 +1,3 @@
-"""STARSS23 event-formation bed: the first real Stage 3 experimental lane.
-
-This package implements the adversarially verified recipe in docs/ESCS_DEEP_RESEARCH.md against
-synthetic STARSS23-shaped fixtures. It is additive-only mechanics infrastructure. Every artifact it
-produces is hardcoded to activation_allowed=false, scientific_promotion=false, and
-independent_scientific_confirmation=false. On synthetic data the producer refuses any verdict above
-mechanics-ok, so the bed can never open a stage gate.
-
-The hard ESCS constraints, enforced in code and in tests:
-
-- only the candidate gate is trained (<= 4096 parameters plus a few-KB online state);
-- the front-end featurizer is a frozen zero-trained-parameter deterministic DSP;
-- candidate and every control run at the same total inference compute under a ~6e10 FLOP ceiling with
-  the same paired seeds; the gate's amortized training cost is charged in full-lifecycle accounting;
-- the referee is byte-sealed onset F1 at a DCASE plus or minus 200 ms collar with strict point-wise PR;
-- statistics are an exact sign-flip permutation over five paired seeds (min one-sided p = 1/32);
-- the clip is the experimental unit, so claims are worded "consistent with", never "demonstrates".
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

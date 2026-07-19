@@ -1,7 +1,3 @@
-"""Sealed STARSS23 producer for the frozen interchannel-coherence frontend.
-
-Only the zero-parameter frontend and its honest per-frame FLOP charge differ; the shared frozen-variant
-lifecycle owns scoring, controls, statistics, receipts, and preregistered mechanics."""
 
 from __future__ import annotations
 
@@ -51,7 +47,7 @@ DEFAULT_VARIANT_ARTIFACT_PATH = Path("proof/STARSS23_ESCS_BED_interchannel_coher
 
 
 class InterchannelCoherenceRefusal(ValueError):
-    """Raised when the interchannel_coherence producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 def _variant_hypothesis() -> str:
@@ -68,7 +64,6 @@ def build_interchannel_coherence_artifact(
     config: RealBedConfig | None = None,
     featurizers_prereg_path: str | Path = DEFAULT_FEATURIZERS_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the declared interchannel frontend through the shared frozen-variant lifecycle."""
 
     config = config or RealBedConfig()
     bed_config = config.bed_config()

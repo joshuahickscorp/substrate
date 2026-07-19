@@ -1,7 +1,3 @@
-"""Clip-macro scoring reproduction producer for the STARSS23 concurrent-count bed.
-
-The scoring unit, clustered readout, preregistration, and evidence vocabulary remain local; the shared
-count-variant authority owns only the held-fixed execution and sealed-artifact lifecycle."""
 
 from __future__ import annotations
 
@@ -68,7 +64,7 @@ STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 DEFAULT_SCORING_UNIT_SEEDS: tuple[int, ...] = (30, 31, 32, 33, 34)
 
 class CountReproScoringUnitProducerRefusal(ValueError):
-    """Raised when the clip-macro reproduction cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 def _macro_count_score(
@@ -78,7 +74,6 @@ def _macro_count_score(
 
 
 def default_scoring_unit_config() -> RealCountBedConfig:
-    """The full-scale reproduction config: the disjoint seed family, everything else at sealed defaults."""
 
     return RealCountBedConfig(seeds=DEFAULT_SCORING_UNIT_SEEDS)
 
@@ -95,7 +90,6 @@ def _run_seed_macro(
     config: RealCountBedConfig,
     operating_density: float,
 ) -> BudgetSeedRun:
-    """Bind the clip-macro referee to the held-fixed counting seed lifecycle."""
 
     return run_count_seed(
         seed=seed,
@@ -116,12 +110,6 @@ def _run_seed_macro(
 
 
 def _clip_cluster_readout(seed_runs: list[BudgetSeedRun]) -> tuple[dict[str, Any], bool]:
-    """Form per-clip paired deltas at the operating point (per-clip MAE averaged over seeds) and permute.
-
-    d_c = mean_seed macro MAE_clip(rate_matched_random, c) minus mean_seed macro MAE_clip(candidate, c). A
-    positive d_c means the candidate is strictly lower on clip c on the seed average. The exact sign-flip
-    over clips assigns one sign per clip. Direction agreement requires the mean per-clip delta positive.
-    """
 
     operating_id = seed_runs[0].operating_budget_id
     n_seeds = len(seed_runs)
@@ -157,7 +145,6 @@ def build_real_count_repro_scoring_unit_artifact(
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_COUNT_REPRO_SCORING_UNIT_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the clip-macro scoring declaration through the shared count lifecycle."""
 
     config = config or default_scoring_unit_config()
     featurizer = FrozenCountFeaturizer()

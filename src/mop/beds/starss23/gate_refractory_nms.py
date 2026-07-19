@@ -1,35 +1,3 @@
-"""E1 gate variant "refractory_nms": a post-decision refractory / non-maximum-suppression policy.
-
-This is a net-new, additive component. It changes no sealed scoring logic and does not edit the committed
-``gate.py``. The first real Stage-3 run nulled because the trained value-of-computation gate clusters
-roughly 42 percent of its fires adjacently on high-energy regions and so recovers fewer distinct onsets
-than uniform random placement at matched budget (docs/mixture_of_perspectives/26_escs_starss23_bed.md).
-
-The refractory_nms variant keeps the committed gate's model, its training, its parameters, its online
-state, and its per-frame ``p_fire`` trace byte-for-byte identical. The ONLY thing that differs is the
-firing SELECTION policy applied to that trace: after a fire, a collar-width window suppresses further
-fires unless a strictly higher score arrives, in which case the single held peak moves to the higher
-score. Each cluster of supra-threshold frames therefore commits exactly ONE fire (its local maximum),
-so a fixed firing budget spreads across distinct onsets instead of piling adjacent fires onto one
-high-energy region. This is a post-decision policy on ``p_fire``, exactly as the sealed variant
-preregistration states.
-
-Design invariants, asserted in code and in tests:
-
-- ``RefractoryNmsGate`` subclasses the committed ``CandidateGate`` with an identical ``__init__`` and
-  ``fit``, so its trainable-parameter count (3193, hard-capped at 4096), its few-KB online state, its
-  ``infer(features, state)`` interface (blind to ground truth online), and its amortized ``C_train`` are
-  the committed ones unchanged. Paired-seed weights are byte-identical to ``CandidateGate`` at the same
-  seed, so the variant isolates the firing policy and nothing else.
-- The causal ``p_fire`` pass advances the online state exactly as the committed producer's causal pass
-  does (``fired = p_fire >= theta`` provisional excitation), so the trace the selection reads is the same
-  trace the committed gate produces at that threshold.
-- The refractory NMS is deterministic and causal (bounded latency of ``window`` frames): it never reads a
-  label, a class, or a direction of arrival, and it emits fires separated by strictly more than ``window``
-  frames, so no second fire lands inside an already-covered collar.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -51,22 +19,6 @@ def _require_window(window: int) -> int:
 
 
 def refractory_nms_select(probs: np.ndarray, theta: float, window: int) -> list[int]:
-    """Select committed fire frames from a p_fire trace by causal collar-width non-maximum suppression.
-
-    The rule, written out fully so an independent reader can reproduce it byte for byte:
-
-    Sweep frames left to right. A window is "armed" by the first frame whose score reaches ``theta``; the
-    armed peak is that frame and its score, and the window runs for ``window`` frames past the peak. While
-    armed, a later supra-threshold frame whose score is STRICTLY higher than the held peak moves the peak
-    to that frame and re-arms the window from there (this is the "unless a strictly higher score arrives"
-    override); a supra-threshold frame that is not strictly higher is a non-maximum and is suppressed. The
-    first frame that falls strictly past the window commits the single held peak as one fire and, if it is
-    itself supra-threshold, arms the next window. Any peak still held at the end of the trace is committed.
-
-    Consequences: each maximal cluster of supra-threshold activity commits exactly one fire (its local
-    maximum), and committed fires are separated by strictly more than ``window`` frames, so no second fire
-    lands inside an already-covered collar. Deterministic; ties on equal scores keep the earliest frame.
-    """
 
     trace = np.asarray(probs, dtype=np.float64)
     if trace.ndim != 1:
@@ -104,27 +56,12 @@ def refractory_nms_select(probs: np.ndarray, theta: float, window: int) -> list[
 
 
 class RefractoryNmsGate(CandidateGate):
-    """The committed value-of-computation gate with a refractory / NMS firing-selection policy bolted on.
-
-    Everything trained is inherited unchanged from ``CandidateGate``: the 264 to 12 to 1 MLP, the 3193
-    trainable parameters (asserted against the 4096 ceiling by the inherited constructor), the few-KB
-    ``OnlineState``, the label-blind ``infer(features, state)`` path, ``fit``, and the amortized
-    ``C_train`` exposed for the FLOP ledger. Paired-seed weights are byte-identical to ``CandidateGate``
-    at the same seed. Only the firing policy differs: ``causal_probs`` reproduces the committed causal
-    ``p_fire`` trace, and ``refractory_fires`` selects the committed fires by collar-width NMS on it.
-    """
 
     def __init__(self, *, window: int = DEFAULT_WINDOW_FRAMES, **kwargs: object) -> None:
         super().__init__(**kwargs)  # type: ignore[arg-type]
         self.window = _require_window(window)
 
     def causal_probs(self, features: np.ndarray, theta: float = DEFAULT_THETA) -> np.ndarray:
-        """Return the causal per-frame p_fire trace, advancing state as the committed producer does.
-
-        The online state is advanced with the committed producer's provisional decision
-        ``fired = p_fire >= theta``, so this trace is byte-identical to the committed gate's causal pass at
-        the same threshold. No label ever enters here.
-        """
 
         features = np.asarray(features, dtype=np.float64)
         if features.ndim != 2:
@@ -141,7 +78,6 @@ class RefractoryNmsGate(CandidateGate):
     def refractory_fires(
         self, features: np.ndarray, theta: float, window: int | None = None
     ) -> list[int]:
-        """Committed fire frames for one clip: causal p_fire trace, then collar-width refractory NMS."""
 
         window = self.window if window is None else _require_window(window)
         probs = self.causal_probs(features, theta)
@@ -151,7 +87,6 @@ class RefractoryNmsGate(CandidateGate):
 def pooled_post_nms_fraction(
     prob_traces: list[np.ndarray], theta: float, window: int
 ) -> float:
-    """Fraction of frames that commit a fire under refractory NMS at ``theta``, pooled over the traces."""
 
     total_frames = sum(int(trace.shape[0]) for trace in prob_traces)
     if total_frames <= 0:
@@ -167,16 +102,6 @@ def tune_theta_for_rate(
     *,
     n_candidates: int = 60,
 ) -> float:
-    """Pick the theta whose pooled post-NMS firing fraction is closest to ``target_rate``. Label-free.
-
-    The committed producer sets its threshold by a val p_fire quantile so the RAW firing fraction hits the
-    swept target rate. The refractory NMS commits fewer fires than it thresholds, so this tunes the
-    threshold so the POST-NMS firing fraction hits the same target rate: the variant then spends the same
-    firing budget as the swept rate, but spread by NMS instead of clustered. Uses only the val p_fire
-    traces (no label, no test score). Candidate thresholds are val-prob quantiles spanning a band around
-    the target rate; ties on the fraction gap break toward the HIGHER threshold (fewer fires,
-    conservative), mirroring the best-single tuning convention.
-    """
 
     if not prob_traces:
         raise GateRefusal("theta tuning needs at least one val p_fire trace")

@@ -1,14 +1,3 @@
-"""Unit tests for the STARSS23 counting-bed DATA-SPLIT adversarial reproduction.
-
-These exercise the net-new swapped-fold reproduction modules end to end without editing the sealed count
-scoring path: the self-derived SESOI preregistration, the swapped-fold producer (train on the original
-test rooms, score on the original train rooms), and the separately authored independent verifier (seal,
-byte-reproducible referee and stats reproduction, tamper detection, the swapped-split room-disjointness
-check, and the additive-only, stdlib-only import boundary).
-
-The end-to-end producer tests run on the REAL STARSS23 subset with a frame cap and skip when the real
-subset is absent. House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

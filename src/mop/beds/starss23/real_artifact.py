@@ -1,35 +1,6 @@
-"""Real-data producer for the STARSS23 ESCS event-formation bed.
-
-This is a net-new, additive component. It runs the whole bed end to end on the REAL, MIT-licensed
-STARSS23 FOA subset served by ``RealStarssAdapter`` and assembles the same byte-sealed
-``proof/STARSS23_ESCS_BED.json`` schema the independent verifier re-scores from specification. It changes
-none of the sealed scoring logic: the referee, the harness FLOP accounting and Pareto analysis, the exact
-sign-flip statistics, and every control are imported unchanged from their modules, and the value-of-
-computation training-target assembly, the causal firing pass, the FLOP model, and the budget-point
-assembly are imported unchanged from the synthetic producer so the real lane scores byte-identically to
-the tested synthetic lane.
-
-Two things differ from the synthetic producer, both because the corpus is now fixed real data rather than
-a per-seed regenerated fixture:
-
-1. The adapter is built once and every clip is featurized once; only the trained gate and the random
-   controls vary across the five paired seeds. Data, split, and ground truth are identical across seeds.
-2. The room-disjoint split respects the native STARSS23 fold boundary: the score partition is exactly the
-   fold-4 dev-test rooms, and the val rooms are carved from the fold-3 dev-train rooms, so train, val, and
-   test are room-disjoint and clip-disjoint and the test set is the held-out native dev-test.
-
-The SESOI is preregistered before any test score is read (see ``prereg.py``); this producer writes the
-sealed prereg first and records its digest in the artifact. The verdict is a mechanics demonstration
-only: ``activation_allowed``, ``scientific_promotion``, and ``independent_scientific_confirmation`` are
-hardcoded false, and a single run can never be scientifically confirmed (that needs the independent
-verifier plus at least three bias-independent reproductions).
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
-import math
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -37,31 +8,16 @@ from typing import Any
 
 import numpy as np
 
-from mop.ladder.ladder_contracts import (
-    VERDICT_MECHANICS_OK,
-    VERDICT_NULL,
-)
-from mop.science import (
-    ArtifactResult,
-    artifact_envelope,
-    demonstration_receipt,
-    finalize_artifact,
-    safety_flags,
-)
+from mop.science import ArtifactResult
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_BEST_SINGLE,
     ARM_CANDIDATE,
     ARM_RATE_MATCHED_RANDOM,
-    build_budget_points,
-    noise_control_summary,
-    run_matched_budget,
 )
 from mop.science.gating import causal_gate_trace
-from mop.science.statistics import exact_sign_flip, sign_flip_payload
 from mop.substrate.events import write_canonical_json
 
-from . import BED_ID, FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import (
     RealStarssAdapter,
     domain_seed,
@@ -79,7 +35,6 @@ from .artifact import (
     FULL_SCALE_FEATURIZE,
     PRIMARY_CONTROL,
     BedConfig,
-    _flop_model,
     _pooled_score,
     _SeedRun,
     _train_gate,
@@ -90,9 +45,8 @@ from .controls import (
     at_chance,
     rate_matched_random_fires,
 )
-from .experiments import ONSET_BUDGET_POLICY
 from .featurizer import FLOPS_PER_FRAME, FrozenFeaturizer
-from .gate import FLOPS_PER_INFERENCE, OnlineState
+from .gate import OnlineState
 from .prereg import DEFAULT_PREREG_PATH, build_prereg
 from .referee import score_arm
 from .schema import COLLAR_FRAMES, ClipSplit
@@ -111,12 +65,11 @@ DEFAULT_N_VAL_ROOMS = 2
 
 
 class RealArtifactRefusal(ValueError):
-    """Raised when the real producer cannot assemble a well-formed sealed artifact."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class RealBedConfig:
-    """Real-run configuration. The paired seeds and the sweep mirror the recipe; the data is fixed."""
 
     seeds: tuple[int, ...] = (0, 1, 2, 3, 4)
     n_val_rooms: int = DEFAULT_N_VAL_ROOMS
@@ -125,7 +78,6 @@ class RealBedConfig:
     max_frames: int | None = None
 
     def bed_config(self) -> BedConfig:
-        """A BedConfig carrying only the fields the reused synthetic helpers read (epochs, lr, etc.)."""
 
         return BedConfig(
             seeds=self.seeds,
@@ -147,7 +99,6 @@ def _real_noisy_tv_features(
     target_mean: float,
     target_std: float,
 ) -> np.ndarray:
-    """Build the real onset bed's independently seeded aleatoric control channel."""
 
     noise_seed = domain_seed(
         seed, "mop.beds.starss23.real.noisy_tv", b"mop-starss23-real-noisy-tv-v1"
@@ -168,7 +119,6 @@ def _run_seed_real(
     config: BedConfig,
     operating_density: float,
 ) -> _SeedRun:
-    """Train the gate for one seed, sweep the firing budget, score every arm on the fixed real test set."""
 
     gate, train_frames = _train_gate(seed, split.train, features_by_clip, config)
     total_frames = int(sum(clip.n_frames for clip in split.test))
@@ -286,193 +236,128 @@ def build_real_bed_artifact(
     config: RealBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_PREREG_PATH,
 ) -> ArtifactResult:
-    """Run the whole bed on the real STARSS23 subset and assemble the sealed artifact.
 
-    The preregistration is written to disk before any test score is computed. ``timestamp`` is passed by
-    the caller and never read from the wall clock inside a sealed body.
-    """
+    from .featurizer_variant_producer import (
+        FeaturizerVariantSpec,
+        VariantContext,
+        VariantCorpus,
+        build_featurizer_variant_artifact,
+    )
 
     config = config or RealBedConfig()
     bed_config = config.bed_config()
     featurizer = FrozenFeaturizer()
-
-    adapter = RealStarssAdapter(foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames)
+    adapter = RealStarssAdapter(
+        foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames
+    )
     features_by_clip = map_clip_audio(adapter, featurizer.featurize)
     split = native_fold_split(
-        adapter, config.n_val_rooms, refusal=RealArtifactRefusal, refuse_empty=False
+        adapter,
+        config.n_val_rooms,
+        refusal=RealArtifactRefusal,
+        refuse_empty=False,
     )
-
-    # Structural facts used by the SESOI cost-benefit and the operating-point rule. All label-only or
-    # constant; no test score is read to build the prereg.
-    train_density = _onset_density(split.train)
-    n_test_clips = len(split.test)
-    n_test_onsets = sum(len(clip.onsets) for clip in split.test)
-    n_test_frames = int(sum(clip.n_frames for clip in split.test))
-    if n_test_onsets == 0:
-        raise RealArtifactRefusal("the real test split carries no onsets to score")
-    operating_rate = min(bed_config.target_rates, key=lambda r: abs(r - train_density))
-
-    # 1. Preregister the SESOI and analysis plan BEFORE reading any test-split score.
-    prereg = build_prereg(
-        timestamp=timestamp,
-        operating_firing_fraction=operating_rate,
-        n_test_clips=n_test_clips,
-        n_test_onsets=n_test_onsets,
-        train_onset_density=train_density,
-        n_test_frames=n_test_frames,
+    prepared = VariantCorpus(
+        split=split,
+        features_by_clip=features_by_clip,
+        train_density=_onset_density(split.train),
+        n_test_clips=len(split.test),
+        n_test_onsets=sum(len(clip.onsets) for clip in split.test),
+        n_test_frames=int(sum(clip.n_frames for clip in split.test)),
     )
-    prereg_written = write_canonical_json(prereg, prereg_path)
-    sesoi_f1 = float(prereg["sesoi"]["sesoi_f1"])
-
-    # 2. Now run the paired seeds and score the test split.
-    pooled_test_features = np.concatenate([features_by_clip[c.clip_id] for c in split.test], axis=0)
-    target_mean = float(pooled_test_features.mean())
-    target_std = float(pooled_test_features.std())
-
-    started = time.perf_counter_ns()
-    seed_runs: list[_SeedRun] = []
-    for seed in config.seeds:
-        noise_features = _real_noisy_tv_features(
-            seed, config.noisy_tv_frames, featurizer, target_mean, target_std
-        )
-        seed_runs.append(
-            _run_seed_real(seed, split, features_by_clip, noise_features, bed_config, train_density)
-        )
-    measured_wall_ns = max(1, time.perf_counter_ns() - started)
-
-    budget_points = build_budget_points(
-        ONSET_BUDGET_POLICY, seed_runs, score_group="arm_scores", score_field="f1",
-        action_group="firings",
-        flop_model=lambda kind: _flop_model(
-            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, bed_config
-        ),
-    )
-    nominal_wall_ns = max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points))
-    report = run_matched_budget(
-        budget_points,
-        wall_ns=nominal_wall_ns,
-        operating_budget_id=seed_runs[0].operating_budget_id,
-        source_kind="real",
-        ceiling=FLOP_CEILING,
-    )
-
-    per_seed = [run.per_seed_block for run in seed_runs]
-    deltas = [
-        block["arm_scores"][ARM_CANDIDATE]["f1"] - block["arm_scores"][PRIMARY_CONTROL]["f1"]
-        for block in per_seed
-    ]
-    sign_flip = exact_sign_flip(deltas)
-    mean_delta_exceeds_sesoi = bool(sign_flip.mean_delta >= sesoi_f1)
-    stats_block = sign_flip_payload(
-        sign_flip, deltas, sesoi_key="sesoi_f1", sesoi=sesoi_f1,
-        exceeds_sesoi=mean_delta_exceeds_sesoi, provisional=False,
-        prereg_digest=prereg["canonical_sha256"],
-    )
-
-    n_runs = len(seed_runs)
-    mean_noise_rate = math.fsum(run.noisy_tv["firing_rate_on_noise"] for run in seed_runs) / n_runs
-    mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
-    noisy_tv_at_chance = at_chance(min(1.0, mean_noise_rate), min(1.0, mean_base_rate))
-    controls_block = noise_control_summary(
-        ONSET_BUDGET_POLICY, seed_runs, at_chance=noisy_tv_at_chance, mean_noise_rate=mean_noise_rate,
-        mean_base_rate=mean_base_rate, rate_key="mean_firing_rate_on_noise",
-    )
-    flags_block = safety_flags()
-
-    dominates = report.candidate_strictly_dominates_rate_matched_random
-    meets_bar = dominates and sign_flip.one_sided_significant and mean_delta_exceeds_sesoi
-    verdict = VERDICT_MECHANICS_OK if meets_bar else VERDICT_NULL
-
-    core_evidence = {
-        "per_seed": per_seed,
-        "stats": stats_block,
-        "controls": controls_block,
-        "matched_budget": report.matched_budget.payload(),
-        "flags": flags_block,
-    }
-    receipt = demonstration_receipt(
-        mechanism_id=BED_ID,
-        controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_BEST_SINGLE, "noisy_tv"),
-        evidence=core_evidence,
-        verdict=verdict,
-        detail={
-            "source_kind": "real",
-            "forcing_null": STAGE3_FORCING_NULL,
-            "candidate_strictly_dominates_rate_matched_random": dominates,
-            "one_sided_p": float(sign_flip.one_sided_p),
-            "note": (
-                "one real run is a mechanics demonstration; scientific confirmation needs the independent "
-                "verifier plus at least three bias-independent reproductions and cannot be self-certified"
+    def prepare_prereg(current: VariantCorpus) -> tuple[dict[str, Any], str | Path]:
+        prereg = build_prereg(
+            timestamp=timestamp,
+            operating_firing_fraction=min(
+                bed_config.target_rates,
+                key=lambda rate: abs(rate - current.train_density),
             ),
-        },
-    )
+            n_test_clips=current.n_test_clips,
+            n_test_onsets=current.n_test_onsets,
+            train_onset_density=current.train_density,
+            n_test_frames=current.n_test_frames,
+        )
+        return prereg, write_canonical_json(prereg, prereg_path)
 
-    truncations = [t.payload() for t in adapter.truncations()]
-    dropped_onsets = sum(t["dropped_onsets_past_end"] for t in truncations)
-    capped_clips = sum(1 for t in truncations if t["capped_by_max_frames"])
+    def extra_payload(context: VariantContext) -> dict[str, Any]:
+        truncations = [truncation.payload() for truncation in adapter.truncations()]
+        return {
+            "collar_frames": COLLAR_FRAMES,
+            "primary_control": PRIMARY_CONTROL,
+            "full_scale_anchors": {
+                "c_train_flops": FULL_SCALE_C_TRAIN,
+                "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
+                "downstream_flops_per_firing": bed_config.downstream_flops_per_firing,
+                "break_even_frames_anchor": (
+                    FULL_SCALE_C_TRAIN // bed_config.downstream_flops_per_firing
+                ),
+            },
+            "real_corpus": {
+                "producer_schema": REAL_PRODUCER_SCHEMA,
+                "foa_root": str(Path(foa_root)),
+                "metadata_root": str(Path(metadata_root)),
+                "n_clips": len(adapter.clips()),
+                "split_rooms": split.detail,
+                "n_train_frames": context.seed_runs[0].train_frames,
+                "n_test_clips": prepared.n_test_clips,
+                "n_test_onsets": prepared.n_test_onsets,
+                "n_test_frames": prepared.n_test_frames,
+                "train_onset_density": round(float(prepared.train_density), 12),
+                "operating_firing_fraction": round(float(context.operating_rate), 12),
+                "truncation": {
+                    "clips_capped_by_max_frames": sum(
+                        1 for item in truncations if item["capped_by_max_frames"]
+                    ),
+                    "onsets_dropped_past_audio_end": sum(
+                        item["dropped_onsets_past_end"] for item in truncations
+                    ),
+                    "max_frames": config.max_frames,
+                    "per_clip": truncations,
+                },
+            },
+            "prereg": {
+                "path": str(Path(prereg_path)),
+                "canonical_sha256": context.prereg_digest,
+                "sesoi_f1": context.sesoi_f1,
+                "provisional": False,
+                "written_before_test_scores": True,
+            },
+        }
 
-    body = artifact_envelope(
-        schema=ARTIFACT_SCHEMA, report=report, seeds=config.seeds, per_seed=per_seed,
-        stats=stats_block, controls=controls_block, flags=flags_block, verdict=verdict,
-        featurizer={
+    spec = FeaturizerVariantSpec(
+        artifact_schema=ARTIFACT_SCHEMA,
+        variant_id="",
+        identity_key=None,
+        prereg_schema="",
+        prereg_family_field="",
+        prereg_member_field="",
+        refusal=RealArtifactRefusal,
+        flops_per_frame=FLOPS_PER_FRAME,
+        spread=lambda _per_seed: {},
+        featurizer_payload=lambda _context: {
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME,
-        }, gate={
-            "params": seed_runs[0].gate_params,
-            "param_ceiling": 4096,
-            "state_bytes": OnlineState.state_bytes(),
-            "flops_per_inference": FLOPS_PER_INFERENCE,
-        }, receipt_payload=receipt,
-        extra={
-        "collar_frames": COLLAR_FRAMES,
-        "primary_control": PRIMARY_CONTROL,
-        "full_scale_anchors": {
-            "c_train_flops": FULL_SCALE_C_TRAIN,
-            "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
-            "downstream_flops_per_firing": bed_config.downstream_flops_per_firing,
-            "break_even_frames_anchor": FULL_SCALE_C_TRAIN // bed_config.downstream_flops_per_firing,
         },
-        "real_corpus": {
-            "producer_schema": REAL_PRODUCER_SCHEMA,
-            "foa_root": str(Path(foa_root)),
-            "metadata_root": str(Path(metadata_root)),
-            "n_clips": len(adapter.clips()),
-            "split_rooms": split.detail,
-            "n_train_frames": seed_runs[0].train_frames,
-            "n_test_clips": n_test_clips,
-            "n_test_onsets": n_test_onsets,
-            "n_test_frames": n_test_frames,
-            "train_onset_density": round(float(train_density), 12),
-            "operating_firing_fraction": round(float(operating_rate), 12),
-            "truncation": {
-                "clips_capped_by_max_frames": capped_clips,
-                "onsets_dropped_past_audio_end": dropped_onsets,
-                "max_frames": config.max_frames,
-                "per_clip": truncations,
-            },
-        },
-        "prereg": {
-            "path": str(prereg_written),
-            "canonical_sha256": prereg["canonical_sha256"],
-            "sesoi_f1": sesoi_f1,
-            "provisional": False,
-            "written_before_test_scores": True,
-        },
-        },
+        extra_payload=extra_payload,
+        final_extra=lambda _context: {},
+        receipt_extra={},
+        receipt_note=(
+            "one real run is a mechanics demonstration; scientific confirmation needs the independent "
+            "verifier plus at least three bias-independent reproductions and cannot be self-certified"
+        ),
+        prepare_prereg=prepare_prereg,
+        include_prereg_in_result=True,
+        include_spread_in_detail=False,
+        stats_extra=lambda _beats_random: {},
+        include_beats_random_in_detail=False,
     )
-    return finalize_artifact(
-        body,
-        prereg=prereg,
-        verdict=verdict,
-        detail={
-            "dominates": dominates,
-            "mean_delta": float(sign_flip.mean_delta),
-            "one_sided_p": float(sign_flip.one_sided_p),
-            "mean_delta_exceeds_sesoi": mean_delta_exceeds_sesoi,
-            "sesoi_f1": sesoi_f1,
-            "noisy_tv_at_chance": noisy_tv_at_chance,
-            "measured_wall_ns": measured_wall_ns,
-            "per_seed_deltas": [float(v) for v in deltas],
-        },
+    return build_featurizer_variant_artifact(
+        config=config,
+        bed_config=bed_config,
+        corpus=prepared,
+        featurizer=featurizer,
+        prereg_path=prereg_path,
+        spec=spec,
+        clock_ns=time.perf_counter_ns,
     )
