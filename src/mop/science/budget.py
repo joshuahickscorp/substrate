@@ -8,8 +8,8 @@ from typing import Any
 ARM_CANDIDATE = "candidate"
 ARM_RATE_MATCHED_RANDOM = "rate_matched_random"
 ARM_ALWAYS_ON = "always_on"
-ARM_BEST_SINGLE = "best_single"
 ARM_NEVER_UPDATE = "never_update"
+_ARMS = (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE)
 
 
 class BudgetRefusal(ValueError):
@@ -37,48 +37,15 @@ def _sealed(value: float) -> float:
 class BudgetPolicy:
     schema: str
     bed_id: str
-    metric_key: str
-    action_key: str
-    direction: str
-    reference_kind: str
     claim_scope: str
     flop_ceiling: int
-    metric_min: float = 0.0
-    metric_max: float | None = None
-    architectures: tuple[str, ...] = ()
-    include_mean_actions: bool = True
-    delta_key: str = ""
 
     def __post_init__(self) -> None:
-        required = ("schema", "bed_id", "metric_key", "action_key", "reference_kind", "claim_scope")
-        if any(not isinstance(getattr(self, field), str) or not getattr(self, field) for field in required):
+        if any(
+            not isinstance(value, str) or not value for value in (self.schema, self.bed_id, self.claim_scope)
+        ):
             raise BudgetRefusal("BudgetPolicy identity fields must be non-empty strings")
-        if self.direction not in ("higher", "lower"):
-            raise BudgetRefusal("BudgetPolicy.direction must be higher or lower")
-        if self.reference_kind not in (ARM_BEST_SINGLE, ARM_NEVER_UPDATE):
-            raise BudgetRefusal("BudgetPolicy.reference_kind is not a supported control")
         _integer(self.flop_ceiling, "BudgetPolicy.flop_ceiling", positive=True)
-        if self.metric_max is not None and self.metric_max < self.metric_min:
-            raise BudgetRefusal("BudgetPolicy metric bounds are reversed")
-        if len(set(self.architectures)) != len(self.architectures):
-            raise BudgetRefusal("BudgetPolicy.architectures must be unique")
-
-    @property
-    def controls(self) -> tuple[str, ...]:
-        return (ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, self.reference_kind)
-
-    @property
-    def all_arms(self) -> tuple[str, ...]:
-        return (ARM_CANDIDATE, *self.controls)
-
-    def metric(self, value: object) -> float:
-        number = _finite(value, self.metric_key)
-        if number < self.metric_min or (self.metric_max is not None and number > self.metric_max):
-            raise BudgetRefusal(f"{self.metric_key} must be in [{self.metric_min}, {self.metric_max}]")
-        return number
-
-    def improvement(self, candidate: float, control: float) -> float:
-        return candidate - control if self.direction == "higher" else control - candidate
 
 
 @dataclass(frozen=True, slots=True)
@@ -120,10 +87,9 @@ def arm_flop_model(
     downstream_flops_per_firing: int,
     candidate_train_flops: Callable[[], int],
 ) -> FlopModel:
-    runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
     return FlopModel(
         featurize_per_frame * total_frames,
-        gate_infer_per_frame * total_frames if runs_gate else 0,
+        gate_infer_per_frame * total_frames if kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM) else 0,
         downstream_flops_per_firing,
         candidate_train_flops() if kind == ARM_CANDIDATE else 0,
     )
@@ -142,62 +108,49 @@ class BudgetSeedRun:
 
 
 def noise_control_summary(
-    policy: BudgetPolicy,
     seed_runs: Sequence[Any],
     *,
     at_chance: bool,
     mean_noise_rate: float,
     mean_base_rate: float,
-    rate_key: str,
 ) -> dict[str, Any]:
-    if rate_key not in ("mean_firing_rate_on_noise", "mean_reestimate_rate_on_noise"):
-        raise BudgetRefusal("noise-control rate_key is not declared")
     return {
         "noisy_tv_at_chance": bool(at_chance),
-        rate_key: _sealed(mean_noise_rate),
+        "mean_reestimate_rate_on_noise": _sealed(mean_noise_rate),
         "mean_base_rate": _sealed(mean_base_rate),
         "per_seed_noisy_tv": [run.noisy_tv for run in seed_runs],
         "primary_control": ARM_RATE_MATCHED_RANDOM,
-        "control_arms": [*policy.controls, "noisy_tv"],
+        "control_arms": [ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"],
     }
 
 
 @dataclass(frozen=True, slots=True)
 class _Arm:
-    policy: BudgetPolicy
     name: str
     kind: str
     total_frames: int
     params: int
     flop_model: FlopModel
     results: tuple[tuple[int, float, int], ...]
-    architecture: str | None
 
     def __post_init__(self) -> None:
         _integer(self.total_frames, "Arm.total_frames", positive=True)
         _integer(self.params, "Arm.params")
-        if self.kind not in self.policy.all_arms or not self.results:
+        if self.kind not in _ARMS or not self.results:
             raise BudgetRefusal("arm kind and seed results must satisfy the policy")
-        if self.architecture not in ((None,) if not self.policy.architectures else self.policy.architectures):
-            raise BudgetRefusal(f"architecture {self.architecture!r} is not declared")
         seeds = [row[0] for row in self.results]
         if seeds != sorted(set(seeds)):
             raise BudgetRefusal("arm seeds must be unique and ascending")
         for seed, metric, actions in self.results:
             _integer(seed, "seed")
-            self.policy.metric(metric)
+            if _finite(metric, "mae") < 0:
+                raise BudgetRefusal("mae must be in [0.0, None]")
             if _integer(actions, "actions") > self.total_frames:
                 raise BudgetRefusal("an action count cannot exceed the total frame count")
 
     @property
     def seeds(self) -> tuple[int, ...]:
         return tuple(row[0] for row in self.results)
-
-    def row(self, seed: int) -> tuple[int, float, int]:
-        try:
-            return next(row for row in self.results if row[0] == seed)
-        except StopIteration as error:
-            raise BudgetRefusal(f"arm {self.name!r} has no result for seed {seed}") from error
 
     def mean_metric(self) -> float:
         return math.fsum(row[1] for row in self.results) / len(self.results)
@@ -213,247 +166,146 @@ class _Arm:
 
     def payload(self) -> dict[str, Any]:
         payload: dict[str, Any] = {"name": self.name, "kind": self.kind}
-        if self.architecture is not None:
-            payload["architecture"] = self.architecture
         payload.update(
             total_frames=self.total_frames,
             params=self.params,
             flop_model=self.flop_model.payload(),
             seed_results=[
-                {"seed": seed, self.policy.metric_key: _sealed(metric), self.policy.action_key: actions}
+                {"seed": seed, "mae": _sealed(metric), "reestimations": actions}
                 for seed, metric, actions in self.results
             ],
-            **{
-                f"mean_{self.policy.metric_key}": _sealed(self.mean_metric()),
-                "mean_lifecycle_flops": _sealed(self.mean_flops()),
-                "max_lifecycle_flops": self.max_flops(),
-            },
+            mean_mae=_sealed(self.mean_metric()),
+            mean_lifecycle_flops=_sealed(self.mean_flops()),
+            max_lifecycle_flops=self.max_flops(),
+            mean_reestimations=_sealed(self.mean_actions()),
         )
-        if self.policy.include_mean_actions:
-            payload[f"mean_{self.policy.action_key}"] = _sealed(self.mean_actions())
         return payload
 
 
-@dataclass(frozen=True, slots=True)
-class _Point:
-    policy: BudgetPolicy
-    budget_id: str
-    arms: tuple[_Arm, _Arm, _Arm, _Arm]
-    architecture: str | None
-
-    @property
-    def candidate(self) -> _Arm:
-        return self.arms[0]
-
-    @property
-    def random(self) -> _Arm:
-        return self.arms[1]
-
-    def certify(self, ceiling: int) -> None:
-        expected = (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, self.policy.reference_kind)
-        if not self.budget_id or tuple(arm.kind for arm in self.arms) != expected:
-            raise BudgetRefusal("budget point identity or arm order is invalid")
-        for arm in self.arms:
-            if (
-                arm.policy != self.policy
-                or arm.seeds != self.candidate.seeds
-                or arm.total_frames != self.candidate.total_frames
-            ):
-                raise BudgetRefusal("all arms must share one policy, paired seeds, and total frame count")
-            if arm.max_flops() > ceiling:
-                raise BudgetRefusal(f"arm {arm.name!r} exceeds lifecycle FLOP ceiling {ceiling}")
-            if arm.kind in self.policy.controls and arm.flop_model.train_flops:
-                raise BudgetRefusal(f"control arm {arm.name!r} must not charge a training cost")
-        if self.candidate.flop_model.train_flops <= 0:
-            raise BudgetRefusal("the candidate must charge its amortized training cost C_train")
-        for seed in self.candidate.seeds:
-            candidate, control = self.candidate.row(seed), self.random.row(seed)
-            if candidate[2] != control[2]:
-                raise BudgetRefusal(f"seed {seed}: matched control action count differs from the candidate")
-            if self.candidate.flop_model.run_flops(candidate[2]) != self.random.flop_model.run_flops(
-                control[2]
-            ):
-                raise BudgetRefusal(f"seed {seed}: matched control inference FLOPs differ from the candidate")
+def _certify_point(budget_id: str, arms: tuple[_Arm, ...], ceiling: int) -> None:
+    if not budget_id or tuple(arm.kind for arm in arms) != _ARMS:
+        raise BudgetRefusal("budget point identity or arm order is invalid")
+    candidate, random = arms[:2]
+    for arm in arms:
+        if arm.seeds != candidate.seeds or arm.total_frames != candidate.total_frames:
+            raise BudgetRefusal("all arms must share one policy, paired seeds, and total frame count")
+        if arm.max_flops() > ceiling:
+            raise BudgetRefusal(f"arm {arm.name!r} exceeds lifecycle FLOP ceiling {ceiling}")
+        if arm.kind != ARM_CANDIDATE and arm.flop_model.train_flops:
+            raise BudgetRefusal(f"control arm {arm.name!r} must not charge a training cost")
+    if candidate.flop_model.train_flops <= 0:
+        raise BudgetRefusal("the candidate must charge its amortized training cost C_train")
+    for candidate_row, control_row in zip(candidate.results, random.results, strict=True):
+        seed = candidate_row[0]
+        if candidate_row[2] != control_row[2]:
+            raise BudgetRefusal(f"seed {seed}: matched control action count differs from the candidate")
+        if candidate.flop_model.run_flops(candidate_row[2]) != random.flop_model.run_flops(control_row[2]):
+            raise BudgetRefusal(f"seed {seed}: matched control inference FLOPs differ from the candidate")
 
 
 @dataclass(frozen=True, slots=True)
 class _ComputePoint:
-    policy: BudgetPolicy
     budget_id: str
     arm_kind: str
     flops: float
-    metric_value: float
+    mae: float
     params: int
     actions: float
-    architecture: str | None
 
     def payload(self) -> dict[str, Any]:
-        payload: dict[str, Any] = {"budget_id": self.budget_id}
-        if self.architecture is not None:
-            payload["architecture"] = self.architecture
-        payload.update(
-            arm_kind=self.arm_kind,
-            flops=_sealed(self.flops),
-            **{
-                self.policy.metric_key: _sealed(self.metric_value),
-                "params": self.params,
-                self.policy.action_key: _sealed(self.actions),
-            },
-        )
-        return payload
+        return {
+            "budget_id": self.budget_id,
+            "arm_kind": self.arm_kind,
+            "flops": _sealed(self.flops),
+            "mae": _sealed(self.mae),
+            "params": self.params,
+            "reestimations": _sealed(self.actions),
+        }
 
 
 def _pareto(points: list[_ComputePoint]) -> tuple[_ComputePoint, ...]:
     frontier = []
     for candidate in points:
-        higher = candidate.policy.direction == "higher"
-        for other in points:
-            metric_better = (
-                other.metric_value > candidate.metric_value
-                if higher
-                else other.metric_value < candidate.metric_value
-            )
-            metric_no_worse = (
-                other.metric_value >= candidate.metric_value
-                if higher
-                else other.metric_value <= candidate.metric_value
-            )
-            if (
-                other.flops <= candidate.flops
-                and metric_no_worse
-                and (other.flops < candidate.flops or metric_better)
-            ):
-                break
-        else:
+        if not any(
+            other.flops <= candidate.flops
+            and other.mae <= candidate.mae
+            and (other.flops < candidate.flops or other.mae < candidate.mae)
+            for other in points
+        ):
             frontier.append(candidate)
-    sign = -1 if points and points[0].policy.direction == "higher" else 1
-    return tuple(sorted(frontier, key=lambda row: (row.flops, sign * row.metric_value)))
-
-
-@dataclass(frozen=True, slots=True)
-class BudgetReport:
-    policy: BudgetPolicy
-    source_kind: str
-    flop_ceiling: int
-    seeds: tuple[int, ...]
-    arm_summaries: tuple[dict[str, Any], ...]
-    pareto: tuple[_ComputePoint, ...]
-    rows: tuple[dict[str, Any], ...]
-    candidate_strictly_dominates_rate_matched_random: bool
-    break_even: dict[str, Any]
-    matched_budget: dict[str, int]
-    verdict: str
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "schema": self.policy.schema,
-            "bed_id": self.policy.bed_id,
-            "source_kind": self.source_kind,
-            "flop_ceiling": self.flop_ceiling,
-            "seeds": list(self.seeds),
-            "arm_summaries": [dict(row) for row in self.arm_summaries],
-            "pareto": [row.payload() for row in self.pareto],
-            "per_budget_candidate_vs_rate_matched_random": [dict(row) for row in self.rows],
-            "candidate_strictly_dominates_rate_matched_random": (
-                self.candidate_strictly_dominates_rate_matched_random
-            ),
-            "break_even": dict(self.break_even),
-            "matched_budget": dict(self.matched_budget),
-            "verdict": self.verdict,
-            "activation_allowed": False,
-            "scientific_promotion": False,
-            "independent_scientific_confirmation": False,
-            "claim_scope": self.policy.claim_scope,
-        }
+    return tuple(sorted(frontier, key=lambda row: (row.flops, row.mae)))
 
 
 def run_matched_budget(
     policy: BudgetPolicy,
     seed_runs: Sequence[Any],
     *,
-    score_group: str,
-    score_field: str,
-    action_group: str,
     flop_model: Callable[[str], FlopModel],
     operating_budget_id: str | None = None,
-    source_kind: str = "synthetic",
     ceiling: int | None = None,
-    architecture: str | None = None,
-    wall_ns: int | None = None,
-) -> BudgetReport:
+) -> dict[str, Any]:
     runs = list(seed_runs)
-    if not runs or source_kind not in ("synthetic", "real"):
-        raise BudgetRefusal("matched-budget analysis requires seed runs and a real or synthetic source")
+    if not runs:
+        raise BudgetRefusal("matched-budget analysis requires seed runs and a real source")
     if not isinstance(policy, BudgetPolicy):
         raise BudgetRefusal("matched-budget analysis requires a BudgetPolicy")
     first = runs[0]
     limit = policy.flop_ceiling if ceiling is None else _integer(ceiling, "ceiling", positive=True)
-    points: list[_Point] = []
+    points: list[tuple[str, tuple[_Arm, ...]]] = []
     for budget_id in first.per_budget:
-        arms = []
-        for kind in policy.all_arms:
-            model = flop_model(kind)
-            if not isinstance(model, FlopModel):
-                raise BudgetRefusal("flop_model must return FlopModel")
-            name = f"{kind}@{architecture}@{budget_id}" if architecture else f"{kind}@{budget_id}"
-            results = tuple(
-                (
-                    run.seed,
-                    run.per_budget[budget_id][score_group][kind][score_field],
-                    run.per_budget[budget_id][action_group][kind],
-                )
-                for run in runs
+        arms = tuple(
+            _Arm(
+                f"{kind}@{budget_id}",
+                kind,
+                first.total_frames,
+                first.gate_params if kind == ARM_CANDIDATE else 0,
+                model,
+                tuple(
+                    (
+                        run.seed,
+                        run.per_budget[budget_id]["arm_scores"][kind]["mae"],
+                        run.per_budget[budget_id]["reestimations"][kind],
+                    )
+                    for run in runs
+                ),
             )
-            arms.append(
-                _Arm(
-                    policy,
-                    name,
-                    kind,
-                    first.total_frames,
-                    first.gate_params if kind == ARM_CANDIDATE else 0,
-                    model,
-                    results,
-                    architecture,
-                )
-            )
-        point = _Point(policy, budget_id, tuple(arms), architecture)  # type: ignore[arg-type]
-        point.certify(limit)
-        points.append(point)
+            for kind in _ARMS
+            if isinstance(model := flop_model(kind), FlopModel)
+        )
+        if len(arms) != len(_ARMS):
+            raise BudgetRefusal("flop_model must return FlopModel")
+        _certify_point(budget_id, arms, limit)
+        points.append((budget_id, arms))
     if not points:
         raise BudgetRefusal("budget-point projection needs at least one budget")
-    if len({point.budget_id for point in points}) != len(points):
-        raise BudgetRefusal("budget point ids must be unique")
 
     compute: list[_ComputePoint] = []
     rows = []
     dominates = True
-    for point in points:
-        for arm in point.arms:
+    for budget_id, arms in points:
+        for arm in arms:
             compute.append(
                 _ComputePoint(
-                    policy,
-                    point.budget_id,
+                    budget_id,
                     arm.kind,
                     arm.mean_flops(),
                     arm.mean_metric(),
                     arm.params,
                     arm.mean_actions(),
-                    architecture,
                 )
             )
-        candidate, control = point.candidate.mean_metric(), point.random.mean_metric()
-        delta = policy.improvement(candidate, control)
+        candidate, random = arms[:2]
+        candidate_mae, random_mae = candidate.mean_metric(), random.mean_metric()
+        delta = random_mae - candidate_mae
         wins = delta > 0
         dominates &= wins
         rows.append(
             {
-                "budget_id": point.budget_id,
-                f"candidate_mean_{policy.metric_key}": _sealed(candidate),
-                f"rate_matched_random_mean_{policy.metric_key}": _sealed(control),
-                policy.delta_key or f"delta_mean_{policy.metric_key}": _sealed(delta),
-                "matched_inference_flops": point.candidate.flop_model.run_flops(
-                    point.candidate.results[0][2]
-                ),
+                "budget_id": budget_id,
+                "candidate_mean_mae": _sealed(candidate_mae),
+                "rate_matched_random_mean_mae": _sealed(random_mae),
+                "delta_mean_mae_control_minus_candidate": _sealed(delta),
+                "matched_inference_flops": candidate.flop_model.run_flops(candidate.results[0][2]),
                 "candidate_strictly_beats_rate_matched_random": wins,
             }
         )
@@ -461,52 +313,55 @@ def run_matched_budget(
     operating = points[0]
     if operating_budget_id is not None:
         try:
-            operating = next(point for point in points if point.budget_id == operating_budget_id)
+            operating = next(point for point in points if point[0] == operating_budget_id)
         except StopIteration as error:
             raise BudgetRefusal(f"operating_budget_id {operating_budget_id!r} is not in the sweep") from error
-    frames = operating.candidate.total_frames
-    actions = round(operating.candidate.mean_actions())
-    saving = (frames - actions) / frames * operating.candidate.flop_model.downstream_flops_per_firing
-    training = operating.candidate.flop_model.train_flops
+    candidate = operating[1][0]
+    frames, actions = candidate.total_frames, round(candidate.mean_actions())
+    saving = (frames - actions) / frames * candidate.flop_model.downstream_flops_per_firing
+    training = candidate.flop_model.train_flops
     break_even = {
         "train_flops": training,
         "per_query_saving": _sealed(saving),
         "n_star_frames": math.ceil(training / saving) if saving > 0 else None,
         "amortizable": saving > 0,
     }
-    binding = max(point.candidate.max_flops() for point in points)
+    binding = max(arms[0].max_flops() for _, arms in points)
     if binding > limit:
         raise BudgetRefusal(f"binding candidate FLOPs {binding} exceed ceiling {limit}")
-    matched = {
-        "params": points[0].candidate.params,
-        "flops": binding,
-        "wall_ns": binding if wall_ns is None else _integer(wall_ns, "wall_ns", positive=True),
-        "seeds": len(points[0].candidate.seeds),
+    first_candidate = points[0][1][0]
+    return {
+        "schema": policy.schema,
+        "bed_id": policy.bed_id,
+        "source_kind": "real",
+        "flop_ceiling": limit,
+        "seeds": list(first_candidate.seeds),
+        "arm_summaries": [arm.payload() for _, arms in points for arm in arms],
+        "pareto": [row.payload() for row in _pareto(compute)],
+        "per_budget_candidate_vs_rate_matched_random": rows,
+        "candidate_strictly_dominates_rate_matched_random": dominates,
+        "break_even": break_even,
+        "matched_budget": {
+            "params": first_candidate.params,
+            "flops": binding,
+            "wall_ns": binding,
+            "seeds": len(first_candidate.seeds),
+        },
+        "verdict": "mechanics-ok" if dominates else "null",
+        "activation_allowed": False,
+        "scientific_promotion": False,
+        "independent_scientific_confirmation": False,
+        "claim_scope": policy.claim_scope,
     }
-    return BudgetReport(
-        policy,
-        source_kind,
-        limit,
-        points[0].candidate.seeds,
-        tuple(arm.payload() for point in points for arm in point.arms),
-        _pareto(compute),
-        tuple(rows),
-        dominates,
-        break_even,
-        matched,
-        "mechanics-ok" if dominates else "null",
-    )
 
 
 __all__ = [
     "ARM_ALWAYS_ON",
-    "ARM_BEST_SINGLE",
     "ARM_CANDIDATE",
     "ARM_NEVER_UPDATE",
     "ARM_RATE_MATCHED_RANDOM",
     "BudgetPolicy",
     "BudgetRefusal",
-    "BudgetReport",
     "BudgetSeedRun",
     "FlopModel",
     "arm_flop_model",

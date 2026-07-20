@@ -305,9 +305,6 @@ def build_real_count_bed_artifact(
     report = run_matched_budget(
         COUNT_BUDGET_POLICY,
         seed_runs,
-        score_group="arm_scores",
-        score_field="mae",
-        action_group="reestimations",
         flop_model=lambda kind: arm_flop_model(
             kind,
             seed_runs[0].total_frames,
@@ -317,7 +314,6 @@ def build_real_count_bed_artifact(
             candidate_train_flops=lambda: training_flops(seed_runs[0].train_frames, config.epochs),
         ),
         operating_budget_id=seed_runs[0].operating_budget_id,
-        source_kind="real",
         ceiling=FLOP_CEILING,
     )
     per_seed = [run.per_seed_block for run in seed_runs]
@@ -341,19 +337,17 @@ def build_real_count_bed_artifact(
     mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
     noisy_tv_at_chance = at_chance(min(1.0, mean_noise_rate), min(1.0, mean_base_rate))
     controls = noise_control_summary(
-        COUNT_BUDGET_POLICY,
         seed_runs,
         at_chance=noisy_tv_at_chance,
         mean_noise_rate=mean_noise_rate,
         mean_base_rate=mean_base_rate,
-        rate_key="mean_reestimate_rate_on_noise",
     )
     flags = {
         "activation_allowed": False,
         "scientific_promotion": False,
         "independent_scientific_confirmation": False,
     }
-    dominates = report.candidate_strictly_dominates_rate_matched_random
+    dominates = report["candidate_strictly_dominates_rate_matched_random"]
     meets_bar = dominates and sign_flip.one_sided_significant and exceeds_sesoi
     verdict = "mechanics-ok" if meets_bar else "null"
     truncations = [truncation.payload() for truncation in adapter.truncations()]
@@ -361,7 +355,7 @@ def build_real_count_bed_artifact(
         "per_seed": per_seed,
         "stats": stats,
         "controls": controls,
-        "matched_budget": report.matched_budget,
+        "matched_budget": report["matched_budget"],
         "flags": flags,
     }
     receipt = {
@@ -423,9 +417,9 @@ def build_real_count_bed_artifact(
     body = {
         "schema": ARTIFACT_SCHEMA,
         "stage": STAGE,
-        "bed_id": report.policy.bed_id,
-        "claim_scope": report.policy.claim_scope,
-        "source_kind": report.source_kind,
+        "bed_id": COUNT_BUDGET_POLICY.bed_id,
+        "claim_scope": COUNT_BUDGET_POLICY.claim_scope,
+        "source_kind": "real",
         "rights_clean": True,
         "reproductions": 0,
         "seeds": list(config.seeds),
@@ -434,7 +428,7 @@ def build_real_count_bed_artifact(
         "controls": controls,
         "flags": flags,
         "verdict": verdict,
-        "harness": report.payload(),
+        "harness": report,
         "featurizer": {
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
@@ -448,9 +442,9 @@ def build_real_count_bed_artifact(
             "flops_per_inference": FLOPS_PER_INFERENCE,
         },
         "demonstration_receipt": receipt,
-        "matched_budget": report.matched_budget,
+        "matched_budget": report["matched_budget"],
         "matched_budget_wall_note": MATCHED_BUDGET_WALL_NOTE,
-        "break_even": report.break_even,
+        "break_even": report["break_even"],
         "full_scale_anchors": {
             "c_train_flops": FULL_SCALE_C_TRAIN,
             "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
