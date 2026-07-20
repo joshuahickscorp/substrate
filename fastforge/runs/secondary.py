@@ -35,13 +35,22 @@ ARMS = [
     "fresh_independent",
     "separate_per_domain",
     "lstm_gdumb",
+    "matched_capacity_multi_domain",
+    "projection_only_transfer",
     "G0_always_trainable",
     "G1_frozen_after_first",
+    "G2_reopened_at_return",
     "G4_adapters_only",
     "H_always_update",
+    "H_never_update",
     "H_cosine_gate",
 ]
-BASELINES = ["fresh_independent", "separate_per_domain", "lstm_gdumb"]
+BASELINES = [
+    "fresh_independent",
+    "separate_per_domain",
+    "lstm_gdumb",
+    "matched_capacity_multi_domain",
+]
 
 
 def shard(direction, seed):
