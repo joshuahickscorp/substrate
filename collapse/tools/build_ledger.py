@@ -1929,65 +1929,8 @@ def main() -> int:
             it["dependency"] = ""
             it["next_action"] = "prevent parallel evidence authorities"
 
-    # Resolve the pessimistic starting checklist from final machine evidence.
-    tags = set(sh("git", "tag", "--list").splitlines())
-    py = [ROOT / p for p in sh("git", "ls-files", "*.py").splitlines() if (ROOT / p).is_file()]
-
-    def loc(paths: list[Path]) -> int:
-        return sum(len(path.read_text(encoding="utf-8").splitlines()) for path in paths)
-
-    maintained = loc(py)
-    source = loc([path for path in py if path.is_relative_to(ROOT / "src/mop")])
-    tests = loc([path for path in py if path.is_relative_to(ROOT / "tests")])
-    scripts = sum(path.is_relative_to(ROOT / "scripts") for path in py)
-    evidence = [
-        "collapse/MOP_REDUCTION_LOG.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
-        "collapse/MOP_PROOF_INDEX.json",
-        "tests/",
-    ]
-    release = (
-        "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass"
-    )
-    detail = {
-        "WS-1": "origin/main a1d6be3 is merged into the collapse branch",
-        "WS-3": "protected checkout clean; no General Run controller touched",
-        "GIT-1": "PR #31 remains draft against current main",
-        "TGT-GLOBAL": f"{maintained} maintained Python LOC, below 35000",
-        "TGT-KERNEL": f"{source} src/mop LOC, below 15000",
-        "TGT-TESTS": f"{tests} test LOC, below 12000",
-        "TGT-ENTRYPOINTS": f"one installed CLI plus {scripts} developer scripts",
-        "TGT-CLI": "exactly one installed CLI",
-        "SEC-9": "one production evidence authority plus independent STARSS verifier",
-        "SEC-11": "STARSS lifecycle deleted; unique counting science and verifier retained",
-        "SEC-19": "61 proof files indexed; zero duplicate SHA-256 groups",
-        "SEC-20": "no pack exists, so no pack owns a duplicate authority",
-        "CC-1": "current main merged; live identities audited without interference",
-        "CC-5": "append-only accounting separates every LOC category",
-        "CC-11": f"one installed CLI plus {scripts} developer scripts",
-        "CC-12": "STARSS duplication removed with replay and mutation coverage retained",
-        "CC-17": "all retired code and documents have tag/blob recovery",
-        "CC-18": "no packs and zero duplicate proof payloads",
-        "CC-19": "sealed STARSS replay and mutation tests pass",
-        "CC-20": "independent STARSS verifier remains structurally separate",
-        "CC-21": "resume tests and rollback tags pass",
-        "CC-22": "fresh clone builds sdist/wheel and passes release validation",
-        "CC-23": "fresh-clone offline portability tests pass",
-        "CC-25": release,
-        "CC-27": "cl100k_base orientation tokens fell 77893 to 1068 (98.63 percent)",
-        "CC-30": "draft PR #31 contains the final measured result",
-    }
-    for it in checklist:
-        if it["id"].startswith("TAG-") and it["id"][4:] not in tags:
-            continue
-        if it["status"] != "verified":
-            it.update(
-                status="complete",
-                evidence_paths=evidence,
-                validation=detail.get(it["id"], release),
-                dependency="",
-                next_action="none",
-            )
+    # Completion is reconciled only from item-specific evidence above. A final audit may override
+    # remaining items after its exact requirement, command, and artifact checks have passed.
 
     # live run state (read-only), for the ledger header
     live_status = {}

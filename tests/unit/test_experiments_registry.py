@@ -27,6 +27,18 @@ def test_every_row_has_the_scientific_contract():
         "falsifier",
         "metrics",
         "controls",
+        "source",
+        "split",
+        "unit",
+        "treatments",
+        "sesoi",
+        "multiplicity",
+        "budget",
+        "stop",
+        "claim_ceiling",
+        "provider",
+        "verifier",
+        "program",
         "resource_tier",
         "taxonomy_slot",
         "status",
@@ -42,3 +54,5 @@ def test_registry_ids_match_runtime_objects():
     for experiment_id, experiment in REGISTRY.items():
         assert experiment.id == experiment_id
         assert experiment.null_hypothesis
+        row = next(row for row in _rows() if row["id"] == experiment_id)
+        assert experiment.declaration == row

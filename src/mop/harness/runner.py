@@ -6,7 +6,7 @@ from omegaconf import DictConfig
 
 from ..config import snapshot
 from ..devices import resolve
-from ..experiments import get_experiment
+from ..experiments import get_experiment, interpret
 from ..logging_utils import RunManifest, get_logger, new_run_dir
 from ..seeding import seed_everything
 from .validate import validate_config
@@ -34,7 +34,7 @@ def run_experiment(cfg: DictConfig, run_dir: Path | None = None) -> dict:
         extra={"contract": exp.contract(), "device_note": dev.note},
     )
     try:
-        metrics = exp.run(cfg, dev, run_dir)
+        metrics = interpret(exp, cfg, dev, run_dir)
         man.metrics = metrics
         man.status = "ok"
     except Exception as ex:  # surface, never swallow

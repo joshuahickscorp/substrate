@@ -1053,6 +1053,42 @@
       "proof": "the generator is Ruff-clean, deterministically regenerates the proof index, state, and compact ledger, and all 261 checklist items remain terminal (218 complete, 43 verified)",
       "accounting_note": "242 Python lines deleted for 50 compact replacement lines, net -192; maintained Python is 16670 LOC, src/mop remains 10513 LOC, and validation remains 2970 LOC",
       "tag": "mop-collapse-final"
+    },
+    {
+      "region": "section10_experiment_engine_section11_starss23_section15_registry",
+      "batch": "selected_record_engine_becomes_global",
+      "checkpoint_status": "green",
+      "primitive": "the subclass-owned CM7/CM8 run lifecycle was replaced by the selected sealed-record interpreter; runtime records are derived from the sole YAML registry, unique execution providers remain explicit, and onset/counting/DoA/counting-reproduction are compact historical records under the same engine",
+      "deduplicated_LOC": 0,
+      "added_LOC": 417,
+      "eliminated_LOC": 110,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": -307,
+      "files_changed": 9,
+      "destination_api": "ExperimentSpec + bind + interpret in src/mop/experiments/base.py, with registry-derived provider bindings",
+      "proof": "166 tests collect and the full suite passes with 6 environment skips; all 10 acceptance checks pass; Ruff and mypy over 42 source files pass; record drift, lifecycle reordering, missing metrics, verifier refusal, historical non-executability, YAML projection, and all four STARSS axis declarations are tested",
+      "accounting_note": "417 Python lines added and 110 deleted, net +307, to repair an explicit architecture violation without restoring any old lifecycle; maintained Python is 16977 LOC, src/mop is 10715 LOC, validation is 3075 LOC",
+      "tag": "mop-collapse-declarative-engine"
+    },
+    {
+      "region": "section25_ledger_section26_completion",
+      "batch": "remove_blanket_completion_override",
+      "checkpoint_status": "green",
+      "primitive": "the generic bulk completion override was deleted; the durable checklist now reopens every condition without item-specific evidence instead of using release-suite success as proof of unrelated artifacts and invariants",
+      "deduplicated_LOC": 0,
+      "added_LOC": 2,
+      "eliminated_LOC": 59,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 57,
+      "files_changed": 3,
+      "destination_api": "item-specific reconciliation in collapse/tools/build_ledger.py and the generated durable state",
+      "proof": "the generator is Ruff-clean and deterministic; the regenerated checklist honestly reports 59 complete, 43 verified, 47 active, 9 partial, and 103 pending items",
+      "accounting_note": "59 Python lines deleted for 2 replacement comments, net -57; maintained Python is 16920 LOC, src/mop is 10715 LOC, validation is 3075 LOC",
+      "tag": "mop-collapse-declarative-engine"
     }
   ],
   "deferred_heavy_validation": {

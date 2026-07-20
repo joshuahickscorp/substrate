@@ -1,27 +1,32 @@
 from __future__ import annotations
 
-from .base import Experiment
-from .custom_substrate import CM7, CM8
+from typing import Any
 
-REGISTRY: dict[str, type[Experiment]] = {CM7.id: CM7, CM8.id: CM8}
+import yaml
 
-
-def register(cls: type[Experiment]) -> type[Experiment]:
-    REGISTRY[cls.id] = cls
-    return cls
+from ..config import REPO_ROOT
+from .base import ExperimentSpec, RecordRefused, bind, interpret
+from .custom_substrate import BINDINGS
 
 
-def get_experiment(eid: str) -> Experiment:
-    if eid not in REGISTRY:
-        raise KeyError(f"unknown experiment {eid!r}; have {sorted(REGISTRY)}")
-    return REGISTRY[eid]()
+def _registry_rows() -> list[dict[str, Any]]:
+    payload = yaml.safe_load((REPO_ROOT / "registry/experiments.yaml").read_text())
+    rows = payload.get("experiments") if isinstance(payload, dict) else None
+    if not isinstance(rows, list) or not all(isinstance(row, dict) for row in rows):
+        raise RecordRefused("registry/experiments.yaml must contain experiment mappings")
+    return rows
 
 
-__all__ = [
-    "Experiment",
-    "CM7",
-    "CM8",
-    "REGISTRY",
-    "register",
-    "get_experiment",
-]
+_ROWS = _registry_rows()
+if {row["id"] for row in _ROWS} != set(BINDINGS):
+    raise RecordRefused("the registry and implementation provider bindings differ")
+REGISTRY = {row["id"]: bind(row, *BINDINGS[row["id"]]) for row in _ROWS}
+
+
+def get_experiment(experiment_id: str) -> ExperimentSpec:
+    if experiment_id not in REGISTRY:
+        raise KeyError(f"unknown experiment {experiment_id!r}; have {sorted(REGISTRY)}")
+    return REGISTRY[experiment_id]
+
+
+__all__ = ["ExperimentSpec", "REGISTRY", "RecordRefused", "get_experiment", "interpret"]

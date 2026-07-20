@@ -1856,6 +1856,39 @@
       "paths": [
         "collapse/tools/build_ledger.py"
       ]
+    },
+    {
+      "id": "replaced_abc_with_selected_global_record_engine",
+      "source_tag": "mop-collapse-final",
+      "reason": "the prior final tree had retired the measured Architecture B record interpreter and retained an ABC whose subclasses owned their run lifecycles; the replacement derives CM7/CM8 records from the sole YAML registry, binds only unique providers, and expresses the four required STARSS axes through the same sealed record contract",
+      "replacement_paths": [
+        "src/mop/experiments/base.py",
+        "registry/experiments.yaml",
+        "src/mop/beds/starss23/experiments.py"
+      ],
+      "recovery": "git show mop-collapse-final:<path>",
+      "paths": [
+        "registry/experiments.yaml",
+        "src/mop/beds/starss23/experiments.py",
+        "src/mop/experiments/__init__.py",
+        "src/mop/experiments/base.py",
+        "src/mop/experiments/custom_substrate.py",
+        "src/mop/harness/runner.py",
+        "tests/unit/test_experiments_registry.py"
+      ]
+    },
+    {
+      "id": "removed_blanket_completion_override",
+      "source_tag": "mop-collapse-final",
+      "reason": "the prior generator marked 193 unrelated requirements complete from one generic release sentence; item-specific reconciliation now reopens every artifact, gate, invariant, PR disposition, and completion condition that lacks direct evidence",
+      "replacement_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/tools/build_ledger.py"
+      ],
+      "recovery": "git show mop-collapse-final:<path>",
+      "paths": [
+        "collapse/tools/build_ledger.py"
+      ]
     }
   ]
 }
