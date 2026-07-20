@@ -98,6 +98,9 @@ def main():
             "passed": passed,
             "all_pass": all(passed.values()),
             "environmental_skips": skips,
+            "self_reference_note": "this record validates the commit named above and is written afterwards, "
+            "so it necessarily lands in a later commit. The validated commit is the one to check out; this "
+            "artifact is the receipt for it, not part of it.",
             "wall_seconds": round(time.time() - t0, 1),
         },
     )

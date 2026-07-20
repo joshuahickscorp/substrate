@@ -183,12 +183,16 @@ def main():
             break
         time.sleep(120)
 
+    # Terminal order matters and is not arbitrary. The fabric must run strictly last, because it indexes
+    # every artifact and anything sealed after it leaves a stale hash in the index. The ledger feeds the
+    # synthesis, and the synthesis is the last thing sealed, so the order is fixed: reports, ledger,
+    # synthesis, fabric.
     run_sync("fastforge.runs.testreport")
-    run_sync("fastforge.runs.fabric")
+    run_sync("fastforge.runs.codereport")
+    run_sync("fastforge.runs.domainvalidity")
+    run_sync("fastforge.runs.thirddomain")
     run_sync("fastforge.runs.ledger")
     run_sync("fastforge.runs.synthesis")
-    # the synthesis quotes the fabric, and the fabric must index the synthesis. One extra pass closes the
-    # cycle: the counts the synthesis quotes do not change, only the hash of the synthesis itself.
     run_sync("fastforge.runs.fabric")
     print("SUPERVISOR_DONE", flush=True)
 
