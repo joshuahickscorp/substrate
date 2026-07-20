@@ -798,6 +798,24 @@
       "proof": "the protected Generation-1 result set contains complete independently verified cognitive corpus, competence atlas, context routing, frozen D1 challenge, consolidated final result, and completed downstream successor artifacts, all with promotion and activation disabled; the live checkout is clean and all live proof/run artifacts remain present; full 2879-case collection and compile-all are clean; retained coexistence boundary is 39 passed/8 expected skipped; direct scheduler assertions and the 32-case docs gate are green; all 127 deleted paths recover from the prior tag; the broader local-throttle suite reaches only the pre-existing fail-closed stale P6 continual_stream evidence binding",
       "accounting_note": "37467 Python lines deleted for 10 survivor lines, net -37457; generated configuration/proof outputs contribute a further 265643 deleted non-Python lines, including the 265181-line cognitive corpus; total physical tracked change is 10 added/303110 deleted, net -303100; the protected checkout was restored immediately after a path-resolution error and verified clean before validation",
       "tag": "mop-collapse-generation1-program"
+    },
+    {
+      "region": "section8_studies_section9_evidence_section10_experiments_section13_controller_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "retired_pre_generation1_campaign_and_escs_substrate",
+      "checkpoint_status": "green",
+      "primitive": "the sealed or superseded EDCM, ESCS, P4, P5, P6-10K, potential-atlas, governed-rewrite, extended-compute, campaign-supervisor, throttle, coexistence, and null-safe routing vertical slice was converted to recoverable history together with unexecuted ESCS X2/X3 and P6 100K/1M successors; the stale ESCS substrate/preflight package and integrated-ESCS Stage-3 mechanism were also physically deleted",
+      "deduplicated_LOC": 0,
+      "added_LOC": 19,
+      "eliminated_LOC": 95905,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 95886,
+      "files_changed": 230,
+      "destination_api": "seven retained Stage-3 mechanism runners, the generic experiment registry, the ladder campaign without Generation-1 waiting, and the STARSS23 adapter with its local transport-charge value",
+      "proof": "EDCM, ESCS G0/X0/X1, P4, P5, and P6-10K have sealed successful or independently verified live results with scientific promotion disabled; ESCS X2/X3 and P6 100K/1M have no completed result; the ESCS substrate preflight and perspective registry were already stale against earlier source/documentation collapse and had no non-ESCS runtime consumer; full 2110-case collection and compile-all are clean; retained registry/ladder boundary is 24/24 green, retained Stage-3/event-formation/STARSS boundary is 119/119 green, and the 32-case docs gate is green; all deleted paths recover from the prior tag",
+      "accounting_note": "95905 Python lines deleted for 19 survivor lines, net -95886; generated configuration and proof outputs contribute a further 88876 deleted non-Python lines; total physical tracked change is 19 added/184781 deleted, net -184762; one ladder subprocess end-to-end case was excluded because its own process-group cleanup terminates the enclosing test shell, while its ten non-spawning cases and full collection remain green",
+      "tag": "mop-collapse-pre-generation1-campaign"
     }
   ],
   "deferred_heavy_validation": {

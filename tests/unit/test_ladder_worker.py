@@ -44,7 +44,7 @@ def test_main_writes_a_sealed_receipt_and_exits_zero(tmp_path: Path) -> None:
     assert "wall" not in receipt
 
 
-@pytest.mark.parametrize("epoch", ["trace_stability", "construction_search", "integrated_escs"])
+@pytest.mark.parametrize("epoch", ["trace_stability", "construction_search"])
 def test_receipt_seal_verifies_across_epochs(tmp_path: Path, epoch: str) -> None:
     out = tmp_path / f"{epoch}.json"
     assert _run(out, epoch=epoch, seed=5, reps=2) == 0

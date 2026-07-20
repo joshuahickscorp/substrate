@@ -15,7 +15,6 @@ STAGE3_EPOCHS: tuple[str, ...] = (
     "intervention_simulation",
     "memory_organization",
     "construction_search",
-    "integrated_escs",
 )
 
 

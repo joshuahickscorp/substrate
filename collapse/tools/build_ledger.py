@@ -881,6 +881,19 @@ def main() -> int:
                     "all 127 paths recover and protected live evidence remains present"),
         rollback_tag="mop-collapse-generation1-program",
         next_action="delete the next completed experimental vertical slice"))
+    checklist.append(item(
+        "RED-pre-generation1-campaign-escs", 8, "verified_reduction",
+        "Retire the pre-Generation1 campaign, throttle, and ESCS substrate stack",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/ladder/stage3_registry.py", "src/mop/beds/starss23/adapter.py"],
+        validation=("95905 campaign, evidence, controller, throttle, ESCS substrate, and dedicated-test "
+                    "Python LOC removed for 19 retained-kernel LOC, net -95886; generated outputs add "
+                    "88876 non-Python deletions; 2110-case collection, compile-all, 24-case registry/"
+                    "ladder boundary, 119-case Stage-3/event/STARSS boundary, and 32-case docs gate "
+                    "green; all 222 deleted paths recover and protected live evidence remains present"),
+        rollback_tag="mop-collapse-pre-generation1-campaign",
+        next_action="delete the next sealed campaign or unreachable experimental framework"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
