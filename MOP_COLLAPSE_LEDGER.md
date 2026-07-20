@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `0244fff` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `9c12be8` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 244. By status: `{"complete": 17, "active": 51, "pending": 138, "partial": 10, "verified": 28}`.
+Total items: 245. By status: `{"complete": 17, "active": 51, "pending": 138, "partial": 10, "verified": 29}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -135,7 +135,7 @@ Total items: 244. By status: `{"complete": 17, "active": 51, "pending": 138, "pa
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
 | SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | measure and collapse the next residual STARSS producer family |
-| SEC-12 | 12 | region | active | Mechanism-family collapse (one provider contract) | collapse the matching joint-axis scaffold and bed lifecycle |
+| SEC-12 | 12 | region | active | Mechanism-family collapse (one provider contract) | collapse the matching joint-axis bed and remaining mechanism lifecycles |
 | SEC-13 | 13 | region | active | One campaign controller (AFTER live run terminal + PR30 closure) | collapse the surviving base/extension/recovery modules into one controller |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
 | SEC-15 | 15 | region | pending | One registry (typed capability registry) | unify experiment/mechanism/dataset/instrument/verifier registries |
@@ -187,7 +187,7 @@ Total items: 244. By status: `{"complete": 17, "active": 51, "pending": 138, "pa
 | CC-10 | 26 | completion_condition | pending | one typed configuration authority remains | evidence required per spec; nothing complete from prose |
 | CC-11 | 26 | completion_condition | pending | one normal CLI remains | evidence required per spec; nothing complete from prose |
 | CC-12 | 26 | completion_condition | pending | STARSS23 framework duplication removed | evidence required per spec; nothing complete from prose |
-| CC-13 | 26 | completion_condition | partial | mechanism-family boilerplate removed | collapse remaining mechanism scaffold/impl/bed/runner families |
+| CC-13 | 26 | completion_condition | partial | mechanism-family boilerplate removed | collapse remaining mechanism impl/bed/runner families |
 | CC-14 | 26 | completion_condition | pending | script wrappers collapsed | evidence required per spec; nothing complete from prose |
 | CC-15 | 26 | completion_condition | pending | validation uses shared matrices and properties | evidence required per spec; nothing complete from prose |
 | CC-16 | 26 | completion_condition | complete | current-facing docs consolidated | none |
@@ -280,6 +280,7 @@ Total items: 244. By status: `{"complete": 17, "active": 51, "pending": 138, "pa
 | RED-doa-gate-complete-python-surface | 11 | verified_reduction | verified | Centralize DoA gates and seed records; finish embedded Python documentation removal | collapse remaining DoA statistics/control projections and measure STARSS residual |
 | RED-doa-projection-controller-predecessors | 13 | verified_reduction | verified | Collapse DoA projections and delete superseded Generation-1 controller branches | collapse surviving base/extension/recovery controller modules |
 | RED-joint-axis-construction-search | 12 | verified_reduction | verified | Centralize joint-axis runners and select the construction-search vector engine | collapse matching joint-axis scaffold and bed lifecycle |
+| RED-joint-axis-scaffolds | 12 | verified_reduction | verified | Centralize joint-axis mechanism scaffold lifecycles | collapse matching joint-axis bed and remaining mechanism lifecycles |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -288,7 +289,7 @@ Total items: 244. By status: `{"complete": 17, "active": 51, "pending": 138, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 0244fff
+- commit: pending; base 9c12be8
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)

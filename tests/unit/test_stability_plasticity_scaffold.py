@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -22,7 +21,6 @@ from mop.mechanisms.stability_plasticity_scaffold import (
     assert_control_completeness,
     build_split_control_family,
     build_split_verdict,
-    coverage,
     default_contract,
     evaluate_joint_improvement,
     simulate_reading,
@@ -352,15 +350,3 @@ def test_gate_refuses_receipt_for_a_different_verdict() -> None:
     )
     with pytest.raises(StabilityPlasticityRefusal, match="this exact verdict"):
         gate.authorize(verdict, receipt)
-
-
-def test_coverage_lists_every_sub_question_with_bullets() -> None:
-    cov = coverage()
-    assert set(cov) == {
-        "stable-core-coexists-with-rapid-adaptation",
-        "retention-and-future-learning-improve-jointly",
-        "improvement-is-at-matched-cost",
-        "replay-is-not-a-complete-theory-of-plasticity",
-    }
-    for bullets in cov.values():
-        assert len(bullets) >= 2

@@ -546,6 +546,24 @@
       "proof": "four-mechanism pre/post result-and-receipt fingerprint exact: c88fd435a128aed19cdd7600dcd3461e11b2f5e7069ce302b68e05fa6b0a6a67; construction-search scalar/vector pre/post fingerprint exact: 66253d4b0f4acb8ca4b0c6ca5c102f8fe870fe9f0cf6230194f452395c14b48b; 105 dual-axis cases, 9 ordinary construction-search cases, and 9 successor-batch/oracle cases green; changed files compile and pass ruff",
       "accounting_note": "src 301 added/932 deleted; tests 13 added/683 deleted; 198-LOC scalar engine and 657-LOC scalar-equivalence-only test harnesses physically deleted; independent chunked-oracle monolithic-reference, RSS, wall-time, and ordinary runner gates retained",
       "tag": "mop-collapse-mechanism-runners"
+    },
+    {
+      "region": "section12_mechanism_provider_system_and_section17_validation",
+      "batch": "joint_axis_scaffold_lifecycle",
+      "checkpoint_status": "green",
+      "primitive": "four dual-axis mechanism scaffolds collapsed onto one typed reading, budget, control-family, contract, verdict, receipt, and claim-gate lifecycle; executable coverage prose and its bullet-format-only test were deleted; one stale private canonical-byte test dependency was redirected to the existing public authority",
+      "deduplicated_LOC": 1472,
+      "added_LOC": 685,
+      "eliminated_LOC": 107,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 894,
+      "files_changed": 7,
+      "destination_api": "mop.mechanisms.joint_axis_runner scaffold and runner lifecycle",
+      "proof": "pre/post scaffold payload, digest, property, and refusal fingerprint exact across all four mechanisms: b56e41377d1db1fe8ccd98ae3f2a244f0f683f506db12117ec19b2c7a076f1a9; 104 focused mechanism cases and 11 continual-verifier cases green; full 3829-case collection, compile-all, changed-file ruff, and docs gate green",
+      "accounting_note": "src 683 added/1563 deleted; tests 2 added/16 deleted; 93 source LOC of executable coverage prose and its 14-LOC formatting-only test eliminated; scientific claim guards, contracts, payloads, digests, refusal messages, independent verification, and exact public class identities retained",
+      "tag": "mop-collapse-mechanism-scaffolds"
     }
   ],
   "deferred_heavy_validation": {

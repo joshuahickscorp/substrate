@@ -19,7 +19,6 @@ from mop.studies.continual_million_event_verify import (
     SCHEDULES,
     TIE_RULE,
     VERIFIER_SCHEMA,
-    _canonical_bytes,
     _canonical_sha256,
     _decision,
     _embedded_preflight_authority,
@@ -35,11 +34,12 @@ from mop.substrate.continual_stream import (
     TransitionSchedule,
     materialize_stream,
 )
+from mop.substrate.events import canonical_bytes
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(_canonical_bytes(payload) + b"\n")
+    path.write_bytes(canonical_bytes(payload) + b"\n")
 
 
 def _sha256_file(path: Path) -> str:
