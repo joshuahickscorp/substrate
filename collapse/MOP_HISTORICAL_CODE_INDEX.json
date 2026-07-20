@@ -2363,6 +2363,23 @@
         "collapse/MOP_AUTHORITY_GRAPH.json",
         "collapse/MOP_EVIDENCE_EQUIVALENCE.json"
       ]
+    },
+    {
+      "id": "retired_historical_project_exhaustion_meta_aggregate",
+      "source_tag": "mop-collapse-lowest-green-29",
+      "reason": "the 21191-line project-exhaustion proof was a generated meta-aggregate of 177 experiment rows and 370 embedded artifacts rather than a raw result or independent-verifier authority; its exact hash, byte count, schema, full coverage/classification/blocker/null-signal totals, and hardware conclusion remain embedded in the retained CM7 requirements audit, while the complete body remains byte-recoverable from the source tag",
+      "replacement_paths": [
+        "runs/mop_cm7_min_objective_probe/000/requirements_audit.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-29:<path>",
+      "content_sha256": {
+        "proof/PROJECT_EXPERIMENT_EXHAUSTION.json": "09be97f99ccfa357d2b151ab981c34649fd30b0775c54115573d625db4ef3a1e"
+      },
+      "paths": [
+        "proof/PROJECT_EXPERIMENT_EXHAUSTION.json"
+      ]
     }
   ]
 }
