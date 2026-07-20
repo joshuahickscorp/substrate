@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "c35a267c4c571c3965bae570e2449ce7840641f4",
+    "base_commit": "52815de64745502c0ffb75a7bebf0ee4ae7dd1a4",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,21 +118,21 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 351648,
+    "eliminated_LOC": 352980,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 9964,
-    "net_global_reduction_LOC": 357544
+    "added_LOC": 11722,
+    "net_global_reduction_LOC": 357118
   },
   "checklist_summary": {
     "total": 259,
     "by_status": {
-      "complete": 26,
-      "active": 52,
-      "pending": 128,
-      "partial": 10,
+      "complete": 33,
+      "active": 49,
+      "pending": 125,
+      "partial": 9,
       "verified": 43
     }
   },
@@ -1127,26 +1127,30 @@
       "section": 5,
       "kind": "target",
       "title": "global maintained <=75000 (extreme 50000) LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked maintained Python is below the 50000 LOC extreme target",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "TGT-TESTS",
       "section": 5,
       "kind": "target",
       "title": "default test harness <=15000 LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/"
+      ],
+      "validation": "retained test harness is 9119 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "TGT-DOCS",
@@ -1158,7 +1162,7 @@
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
         "tests/unit/test_markdown_consolidation.py"
       ],
-      "validation": "exactly eight current Markdown authorities totaling under 8000 LOC",
+      "validation": "exactly four current Markdown authorities totaling under 8000 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1208,13 +1212,16 @@
       "section": 5,
       "kind": "target",
       "title": "experiment execution frameworks exactly 1",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/science/",
+        "src/mop/experiments/base.py"
+      ],
+      "validation": "one experiment execution framework remains",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "none"
     },
     {
       "id": "TGT-REGISTRY",
@@ -1422,16 +1429,16 @@
       "section": 10,
       "kind": "region",
       "title": "One experiment engine (ExperimentSpec..IndependentVerifier)",
-      "status": "active",
+      "status": "complete",
       "evidence_paths": [
         "src/mop/science/",
-        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
+        "src/mop/experiments/base.py"
       ],
-      "validation": "Architecture B selected: one 198-LOC sealed-record interpreter; Architecture A physically deleted",
+      "validation": "one shared experiment lifecycle serves the two active declarations",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "build engine; simple<=150 LOC, complex<=400 LOC declarations"
+      "next_action": "none"
     },
     {
       "id": "SEC-11",
@@ -1459,35 +1466,30 @@
       "section": 12,
       "kind": "region",
       "title": "Mechanism-family collapse (one provider contract)",
-      "status": "active",
+      "status": "complete",
       "evidence_paths": [
-        "src/mop/mechanisms/joint_axis_runner.py",
-        "src/mop/mechanisms/construction_search_vec_impl.py",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "four dual-axis runner lifecycles centralized with exact result/receipt fingerprint; construction-search vector engine selected after exact parity and measured speed advantage; matching reading, budget, control, contract, verdict, receipt, and gate scaffold lifecycle centralized with exact cross-version fingerprint; explicitly retired stability_plasticity v1 family sealed and physically deleted in favor of r2; the three active successor bed and implementation-dispatch lifecycles now share the same authority with exact parity; prior mechanism batches reduced owned Python by 3926 LOC before the shared-bed/CLI batch",
+      "validation": "all completed mechanism scaffold, bed, implementation, and runner families are retired",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse remaining active mechanism impl/bed/runner lifecycles"
+      "next_action": "none"
     },
     {
       "id": "SEC-13",
       "section": 13,
       "kind": "region",
       "title": "One campaign controller (AFTER live run terminal + PR30 closure)",
-      "status": "active",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
-        "src/mop/studio/generation1_successor_chain_v7.py",
-        "src/mop/studio/generation1_successor_extension_chain_v4.py",
-        "src/mop/studio/generation1_successor_recovery_launcher_v2.py"
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "12 superseded controller modules, 12 dedicated legacy test modules, and 12 wrapper scripts physically deleted; active v7 -> extension-v4 -> recovery-v2 path passes 77 focused cases; archived v6 path and SHA-256 pinned",
+      "validation": "historical campaign controllers are tag-recoverable and no parallel controller remains",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse the surviving base/extension/recovery modules into one controller"
+      "next_action": "none"
     },
     {
       "id": "SEC-14",
@@ -1499,7 +1501,7 @@
         "scripts/studio/__main__.py",
         "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "thirteen parallel Studio command wrappers and their shim deleted; three additional dead/duplicate module wrappers deleted; unified Studio parser retains all thirteen commands; command/framework batch net -671 owned LOC",
+      "validation": "parallel Studio command wrappers and completed campaign entrypoints are retired; the host operations parser retains only doctor and profiles",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1554,7 +1556,7 @@
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
         "scripts/check_docs.py"
       ],
-      "validation": "170 original document versions sealed by SHA-256 and Git blob; 162 superseded files deleted; eight current authorities under 800 LOC; all runtime-unused embedded Python documentation and comment-only prose removed without statement packing; scanner reports zero eligible lines",
+      "validation": "170 original document versions sealed by SHA-256 and Git blob; 162 superseded files deleted; four current authorities under 800 LOC; all runtime-unused embedded Python documentation and comment-only prose removed without statement packing; scanner reports zero eligible lines",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2150,16 +2152,15 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "mechanism-family boilerplate removed",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "src/mop/mechanisms/joint_axis_runner.py",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "dual-axis runner, scaffold, and active successor bed/dispatch families collapsed; retired v1 family deleted; remaining mechanism families remain",
+      "validation": "mechanism-family boilerplate was physically retired at the 50k checkpoint",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse remaining mechanism impl/bed/runner families"
+      "next_action": "none"
     },
     {
       "id": "CC-14",
@@ -2196,7 +2197,7 @@
       "evidence_paths": [
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "current-facing documentation consolidated to eight files",
+      "validation": "current-facing documentation consolidated to four files and 94 lines",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",

@@ -161,6 +161,11 @@ class CountGateInterface:
     __slots__ = ()
     _feature_dim = N_CFEAT
     _refusal: type[ValueError] = CountGateRefusal
+    d_in: int
+    theta: float
+
+    def _forward(self, x: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        raise NotImplementedError
 
     def predict_proba(self, x: np.ndarray) -> np.ndarray:
         x = np.asarray(x, dtype=np.float64)

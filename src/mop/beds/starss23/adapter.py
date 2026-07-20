@@ -608,8 +608,8 @@ class RealStarssAdapter:
         for wav_path in wav_paths:
             clip_id = wav_path.stem
             name = parse_clip_name(clip_id)  # refuses any non STARSS23 filename before any decode
-            meta_path = meta_by_stem.get(clip_id)
-            if meta_path is None:
+            matching_meta_path = meta_by_stem.get(clip_id)
+            if matching_meta_path is None:
                 raise AdapterRefusal(
                     f"FOA clip {clip_id} has no matching metadata under {self._metadata_root}"
                 )
@@ -618,7 +618,7 @@ class RealStarssAdapter:
             audio, n_frames, capped = _truncate_to_frames(decoded, max_frames)
             self._audio[clip_id] = audio
 
-            metadata_text = meta_path.read_text(encoding="utf-8")
+            metadata_text = matching_meta_path.read_text(encoding="utf-8")
             all_onsets = onset_events_from_rows(parse_starss23_metadata(metadata_text))
             kept_onsets = tuple(onset for onset in all_onsets if onset.frame < n_frames)
             self._truncations.append(

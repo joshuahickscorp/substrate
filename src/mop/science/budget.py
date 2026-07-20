@@ -267,7 +267,7 @@ class Arm:
         return math.fsum(result.actions for result in self.seed_results) / len(self.seed_results)
 
     def payload(self) -> dict[str, Any]:
-        result = {"name": self.name, "kind": self.kind}
+        result: dict[str, Any] = {"name": self.name, "kind": self.kind}
         if self.architecture is not None:
             result["architecture"] = self.architecture
         result.update(
@@ -497,7 +497,7 @@ class ComputePoint:
     architecture: str | None = None
 
     def payload(self) -> dict[str, Any]:
-        result = {"budget_id": self.budget_id}
+        result: dict[str, Any] = {"budget_id": self.budget_id}
         if self.architecture is not None:
             result["architecture"] = self.architecture
         result.update(
@@ -665,9 +665,9 @@ def _analyze(
     policy = points[0].policy
     limit = policy.flop_ceiling if ceiling is None else _positive_int(ceiling, "ceiling")
     seeds = points[0].candidate.seeds
-    ids = []
-    compute_points = []
-    rows = []
+    ids: list[str] = []
+    compute_points: list[ComputePoint] = []
+    rows: list[dict[str, Any]] = []
     dominates = True
     for point in points:
         if point.policy != policy or point.candidate.seeds != seeds:
