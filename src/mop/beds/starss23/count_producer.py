@@ -6,21 +6,12 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, NamedTuple
 
 import numpy as np
 
 from mop.config import REPO_ROOT
-from mop.evidence import write_canonical_json
-from mop.science import (
-    VERDICT_MECHANICS_OK,
-    VERDICT_NULL,
-    ArtifactResult,
-    artifact_envelope,
-    demonstration_receipt,
-    finalize_artifact,
-    safety_flags,
-)
+from mop.evidence import canonical_sha256, write_canonical_json
 from mop.science.budget import (
     ARM_ALWAYS_ON,
     ARM_CANDIDATE,
@@ -79,10 +70,21 @@ FULL_SCALE_TRAIN_FRAMES = 54_000
 FULL_SCALE_TEST_FRAMES = 24_000
 FULL_SCALE_C_TRAIN = training_flops(FULL_SCALE_TRAIN_FRAMES, DEFAULT_EPOCHS)  # ~8.27e9
 FULL_SCALE_FEATURIZE = FLOPS_PER_FRAME_COUNT * FULL_SCALE_TEST_FRAMES
+MATCHED_BUDGET_WALL_NOTE = (
+    "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is byte-reproducible; "
+    "the measured wall is unsealed run provenance, and the authoritative sealed compute axes are the "
+    "parameter count and the FLOP ledger"
+)
 
 
 class CountProducerRefusal(ValueError):
     pass
+
+
+class CountArtifact(NamedTuple):
+    artifact: dict[str, Any]
+    detail: dict[str, Any]
+    prereg: dict[str, Any]
 
 
 @dataclass(frozen=True, slots=True)
@@ -200,31 +202,31 @@ def _prepare_count_corpus(
     )
 
 
-def run_count_seed(
-    *,
+def _run_seed_real(
     seed: int,
+    train_clips: tuple[Clip, ...],
     val_clips: tuple[Clip, ...],
     test_clips: tuple[Clip, ...],
     features_by_clip: dict[str, np.ndarray],
     estimator_by_clip: dict[str, np.ndarray],
     gt_by_clip: dict[str, tuple[int, ...]],
     noise_features: np.ndarray,
-    target_rates: tuple[float, ...],
+    config: RealCountBedConfig,
     operating_density: float,
-    train_gate: Callable[[], tuple[Any, int]],
-    state_factory: Callable[[], Any],
-    score_rows: Callable[[list[tuple[str, list[int], list[int], list[int]]]], dict[str, Any]],
 ) -> BudgetSeedRun:
 
-    gate, train_frames = train_gate()
+    gate, train_frames = _train_count_gate(seed, train_clips, features_by_clip, gt_by_clip, config)
     total_frames = int(sum(clip.n_frames for clip in test_clips))
 
     val_probs = np.concatenate(
-        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, state_factory)[1] for clip in val_clips]
+        [
+            causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, CountOnlineState.initial)[1]
+            for clip in val_clips
+        ]
     )
 
     per_budget: dict[str, dict[str, Any]] = {}
-    for rate in target_rates:
+    for rate in config.target_rates:
         theta = float(np.quantile(val_probs, 1.0 - rate))
         budget_id = f"rate_{rate:.2f}"
 
@@ -240,7 +242,7 @@ def run_count_seed(
             features = features_by_clip[clip.clip_id]
             gt = list(gt_by_clip[clip.clip_id])
             estimator = [int(v) for v in estimator_by_clip[clip.clip_id].tolist()]
-            candidate_r, _ = causal_gate_trace(gate, features, theta, state_factory)
+            candidate_r, _ = causal_gate_trace(gate, features, theta, CountOnlineState.initial)
             arm_r = {
                 ARM_CANDIDATE: candidate_r,
                 ARM_RATE_MATCHED_RANDOM: rate_matched_random_fires(
@@ -261,7 +263,10 @@ def run_count_seed(
                     },
                 }
             )
-        arm_scores = {kind: score_rows(rows) for kind, rows in arm_rows.items()}
+        arm_scores = {
+            kind: score_arm([(gt, estimator, r) for _, gt, estimator, r in rows], COLD_START).payload()
+            for kind, rows in arm_rows.items()
+        }
         per_budget[budget_id] = {
             "theta": theta,
             "rate": rate,
@@ -281,7 +286,7 @@ def run_count_seed(
 
     operating_theta = operating["theta"]
     base_rate = operating["reestimations"][ARM_CANDIDATE] / max(1, total_frames)
-    noise_reestimates, _ = causal_gate_trace(gate, noise_features, operating_theta, state_factory)
+    noise_reestimates, _ = causal_gate_trace(gate, noise_features, operating_theta, CountOnlineState.initial)
     noise_rate = len(noise_reestimates) / noise_features.shape[0]
     noisy_tv = {
         "reestimate_rate_on_noise": round(float(noise_rate), 12),
@@ -299,43 +304,6 @@ def run_count_seed(
         operating_budget_id=operating_budget_id,
         per_seed_block=per_seed_block,
         noisy_tv=noisy_tv,
-    )
-
-
-def _micro_count_score(
-    rows: list[tuple[str, list[int], list[int], list[int]]],
-) -> dict[str, Any]:
-    return score_arm([(gt, estimator, r) for _, gt, estimator, r in rows], COLD_START).payload()
-
-
-def _run_seed_real(
-    seed: int,
-    train_clips: tuple[Clip, ...],
-    val_clips: tuple[Clip, ...],
-    test_clips: tuple[Clip, ...],
-    features_by_clip: dict[str, np.ndarray],
-    estimator_by_clip: dict[str, np.ndarray],
-    gt_by_clip: dict[str, tuple[int, ...]],
-    noise_features: np.ndarray,
-    config: RealCountBedConfig,
-    operating_density: float,
-    *,
-    train_gate_provider: Callable[..., tuple[Any, int]] = _train_count_gate,
-) -> BudgetSeedRun:
-
-    return run_count_seed(
-        seed=seed,
-        val_clips=val_clips,
-        test_clips=test_clips,
-        features_by_clip=features_by_clip,
-        estimator_by_clip=estimator_by_clip,
-        gt_by_clip=gt_by_clip,
-        noise_features=noise_features,
-        target_rates=config.target_rates,
-        operating_density=operating_density,
-        train_gate=lambda: train_gate_provider(seed, train_clips, features_by_clip, gt_by_clip, config),
-        state_factory=CountOnlineState.initial,
-        score_rows=_micro_count_score,
     )
 
 
@@ -358,7 +326,7 @@ def _build_count_artifact(
     estimator: FrozenCountEstimator,
     prereg_path: str | Path,
     clock_ns: Callable[[], int],
-) -> ArtifactResult:
+) -> CountArtifact:
     if corpus.n_test_changes == 0:
         raise CountProducerRefusal("the real test split carries no count changes to track")
     prereg = build_count_prereg(
@@ -432,10 +400,14 @@ def _build_count_artifact(
         mean_base_rate=mean_base_rate,
         rate_key="mean_reestimate_rate_on_noise",
     )
-    flags = safety_flags()
+    flags = {
+        "activation_allowed": False,
+        "scientific_promotion": False,
+        "independent_scientific_confirmation": False,
+    }
     dominates = report.candidate_strictly_dominates_rate_matched_random
     meets_bar = dominates and sign_flip.one_sided_significant and exceeds_sesoi
-    verdict = VERDICT_MECHANICS_OK if meets_bar else VERDICT_NULL
+    verdict = "mechanics-ok" if meets_bar else "null"
     truncations = [truncation.payload() for truncation in corpus.adapter.truncations()]
     core_evidence = {
         "per_seed": per_seed,
@@ -444,12 +416,18 @@ def _build_count_artifact(
         "matched_budget": report.matched_budget.payload(),
         "flags": flags,
     }
-    receipt = demonstration_receipt(
-        mechanism_id=COUNT_BED_ID,
-        controls_cleared=(ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"),
-        evidence=core_evidence,
-        verdict=verdict,
-        detail={
+    receipt = {
+        "schema": "mop-ladder-run-receipt/v1",
+        "kind": "mechanics-demonstration",
+        "mechanism_id": COUNT_BED_ID,
+        "stage": STAGE,
+        "requirement_id": "stage3.confirmed_useful_mechanism",
+        "verdict": verdict,
+        "controls_cleared": [ARM_RATE_MATCHED_RANDOM, ARM_ALWAYS_ON, ARM_NEVER_UPDATE, "noisy_tv"],
+        "evidence_digest": canonical_sha256(core_evidence),
+        "overturns_null": "",
+        "matched": None,
+        "detail": {
             "source_kind": "real",
             "forcing_null": STAGE3_FORCING_NULL,
             "question": (
@@ -462,7 +440,8 @@ def _build_count_artifact(
             "candidate_strictly_dominates_rate_matched_random": dominates,
             "one_sided_p": float(sign_flip.one_sided_p),
         },
-    )
+        "claim_scope": COUNT_BUDGET_POLICY.claim_scope,
+    }
     real_corpus = {
         "producer_schema": COUNT_PRODUCER_SCHEMA,
         "foa_root": str(corpus.foa_root),
@@ -493,58 +472,64 @@ def _build_count_artifact(
         }
         for clip in corpus.test_clips
     }
-    body = artifact_envelope(
-        schema=ARTIFACT_SCHEMA,
-        report=report,
-        seeds=config.seeds,
-        per_seed=per_seed,
-        stats=stats,
-        controls=controls,
-        flags=flags,
-        verdict=verdict,
-        featurizer={
+    body = {
+        "schema": ARTIFACT_SCHEMA,
+        "stage": STAGE,
+        "bed_id": report.policy.bed_id,
+        "claim_scope": report.policy.claim_scope,
+        "source_kind": report.source_kind,
+        "rights_clean": True,
+        "reproductions": 0,
+        "seeds": list(config.seeds),
+        "per_seed": per_seed,
+        "stats": stats,
+        "controls": controls,
+        "flags": flags,
+        "verdict": verdict,
+        "harness": report.payload(),
+        "featurizer": {
             "n_params": featurizer.n_params(),
             "parameter_digest": featurizer.parameter_digest(),
             "flops_per_frame": FLOPS_PER_FRAME_COUNT,
             "d_cfeat": D_CFEAT,
         },
-        gate={
+        "gate": {
             "params": seed_runs[0].gate_params,
             "param_ceiling": 4096,
             "state_bytes": CountOnlineState.state_bytes(),
             "flops_per_inference": FLOPS_PER_INFERENCE,
         },
-        receipt_payload=receipt,
-        extra={
-            "full_scale_anchors": {
-                "c_train_flops": FULL_SCALE_C_TRAIN,
-                "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
-                "downstream_flops_per_reestimate": config.downstream_flops_per_reestimate,
-                "break_even_frames_anchor": FULL_SCALE_C_TRAIN // config.downstream_flops_per_reestimate,
-            },
-            "cold_start": COLD_START,
-            "primary_control": ARM_RATE_MATCHED_RANDOM,
-            "corpus_tracks": corpus_tracks,
-            "estimator": {
-                "n_params": estimator.n_params(),
-                "parameter_digest": estimator.parameter_digest(),
-                "flops_per_reestimate": FLOPS_PER_REESTIMATE,
-            },
-            "real_corpus": real_corpus,
-            "prereg": {
-                "path": str(prereg_written),
-                "canonical_sha256": prereg["canonical_sha256"],
-                "sesoi_mae": sesoi_mae,
-                "provisional": False,
-                "written_before_test_scores": True,
-            },
+        "demonstration_receipt": receipt,
+        "matched_budget": report.matched_budget.payload(),
+        "matched_budget_wall_note": MATCHED_BUDGET_WALL_NOTE,
+        "break_even": report.break_even.payload(),
+        "full_scale_anchors": {
+            "c_train_flops": FULL_SCALE_C_TRAIN,
+            "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
+            "downstream_flops_per_reestimate": config.downstream_flops_per_reestimate,
+            "break_even_frames_anchor": FULL_SCALE_C_TRAIN // config.downstream_flops_per_reestimate,
         },
-    )
-    return finalize_artifact(
+        "cold_start": COLD_START,
+        "primary_control": ARM_RATE_MATCHED_RANDOM,
+        "corpus_tracks": corpus_tracks,
+        "estimator": {
+            "n_params": estimator.n_params(),
+            "parameter_digest": estimator.parameter_digest(),
+            "flops_per_reestimate": FLOPS_PER_REESTIMATE,
+        },
+        "real_corpus": real_corpus,
+        "prereg": {
+            "path": str(prereg_written),
+            "canonical_sha256": prereg["canonical_sha256"],
+            "sesoi_mae": sesoi_mae,
+            "provisional": False,
+            "written_before_test_scores": True,
+        },
+    }
+    body["seal"] = canonical_sha256(body)
+    return CountArtifact(
         body,
-        prereg=prereg,
-        verdict=verdict,
-        detail={
+        {
             "dominates": dominates,
             "mean_delta_control_minus_candidate": float(sign_flip.mean_delta),
             "mean_delta_candidate_minus_control": candidate_delta,
@@ -556,6 +541,7 @@ def _build_count_artifact(
             "measured_wall_ns": measured_wall_ns,
             "per_seed_deltas": [float(value) for value in deltas],
         },
+        prereg,
     )
 
 
@@ -566,7 +552,7 @@ def build_real_count_bed_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_COUNT_PREREG_PATH,
-) -> ArtifactResult:
+) -> CountArtifact:
     config = config or RealCountBedConfig()
     featurizer, estimator = FrozenCountFeaturizer(), FrozenCountEstimator()
     adapter = RealStarssAdapter(foa_root, metadata_root, max_frames=config.max_frames)
