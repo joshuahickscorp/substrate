@@ -1,6 +1,6 @@
 import json
 
-import scripts.studio_scorecard as scorecard_cli
+import scripts.studio.__main__ as studio_cli
 
 from mop.studio.scorecard import build_studio_scorecard, render_markdown, upsert_report_block
 
@@ -218,7 +218,7 @@ def test_scorecard_markdown_block_upserts(tmp_path):
 
 def test_scorecard_cli_writes_receipt(tmp_path):
     out = tmp_path / "scorecard.json"
-    rc = scorecard_cli.main(["--out", str(out)])
+    rc = studio_cli.main(["scorecard", "--out", str(out)])
     assert rc == 1
     data = json.loads(out.read_text())
     assert data["schema"] == "mop-studio-scorecard/v1"
@@ -226,7 +226,7 @@ def test_scorecard_cli_writes_receipt(tmp_path):
 
 def test_scorecard_cli_allow_incomplete_preserves_receipt(tmp_path):
     out = tmp_path / "scorecard.json"
-    rc = scorecard_cli.main(["--out", str(out), "--allow-incomplete"])
+    rc = studio_cli.main(["scorecard", "--out", str(out), "--allow-incomplete"])
     assert rc == 0
     data = json.loads(out.read_text())
     assert data["schema"] == "mop-studio-scorecard/v1"

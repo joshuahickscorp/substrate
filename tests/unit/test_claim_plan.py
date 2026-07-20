@@ -1,7 +1,7 @@
 import json
 
 import pytest
-import scripts.studio_claim_plan as claim_cli
+import scripts.studio.__main__ as studio_cli
 
 from mop.falsification.null_cards import render_card
 from mop.studio.claim_plan import build_claim_daemon_plan, write_claim_daemon_plan
@@ -98,8 +98,9 @@ def test_claim_plan_requires_ledger_command(tmp_path):
 def test_claim_plan_cli_writes_daemon_valid_plan(tmp_path):
     card, run, verifier = _write_claim_files(tmp_path)
     out = tmp_path / "plan.json"
-    rc = claim_cli.main(
+    rc = studio_cli.main(
         [
+            "claim-plan",
             "--null-card",
             str(card),
             "--run-receipt",

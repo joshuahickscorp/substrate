@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import json
@@ -237,9 +236,7 @@ def _durability(root: Path, receipts: dict[str, dict[str, Any] | None]) -> dict[
 
 def _native_lanes(root: Path, receipts: dict[str, dict[str, Any] | None]) -> dict[str, Any]:
     manifest = receipts["native_lanes"]
-    cli_exists = (root / "scripts/studio/__main__.py").exists() or (
-        root / "scripts/studio_native_lanes.py"
-    ).exists()
+    cli_exists = (root / "scripts/studio/__main__.py").exists()
     checks = [
         _check("native_lane_cli", cli_exists, "native lane CLI"),
         _check("native_lane_manifest", _schema(manifest, "mop-studio-native-lanes/v1"), "native manifest"),

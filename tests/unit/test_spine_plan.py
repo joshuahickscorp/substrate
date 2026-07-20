@@ -1,6 +1,6 @@
 import json
 
-import scripts.studio_spine_plan as spine_cli
+import scripts.studio.__main__ as studio_cli
 
 from mop.studio.long_run import load_plan
 from mop.studio.spine_plan import (
@@ -87,8 +87,9 @@ def test_write_spine_plan_and_wave0_subplan_round_trip(tmp_path):
 def test_spine_plan_cli_writes_plan_and_wave0_subplan(tmp_path):
     plan_path = tmp_path / "spine_plan.json"
     wave0_path = tmp_path / "wave0_daemon_plan.json"
-    rc = spine_cli.main(
+    rc = studio_cli.main(
         [
+            "spine-plan",
             "--source",
             "/data/comp_video",
             "--out",
@@ -312,7 +313,9 @@ def test_spine_status_cli_writes_status_receipt(tmp_path):
     status_path = tmp_path / "spine_status.json"
     plan = build_studio_spine_plan(StudioSpineConfig(source="/data/comp_video", spine_dir=tmp_path))
     write_studio_spine_plan(plan, plan_path)
-    rc = spine_cli.main(["--status", "--plan", str(plan_path), "--status-out", str(status_path)])
+    rc = studio_cli.main(
+        ["spine-plan", "--status", "--plan", str(plan_path), "--status-out", str(status_path)]
+    )
     assert rc == 0
     status = json.loads(status_path.read_text())
     assert status["schema"] == "mop-studio-spine-status/v1"

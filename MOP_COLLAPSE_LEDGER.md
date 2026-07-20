@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `c6e9c32` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `69f58c5` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 246. By status: `{"complete": 17, "active": 51, "pending": 138, "partial": 10, "verified": 30}`.
+Total items: 247. By status: `{"complete": 17, "active": 52, "pending": 137, "partial": 10, "verified": 31}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -137,7 +137,7 @@ Total items: 246. By status: `{"complete": 17, "active": 51, "pending": 138, "pa
 | SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | measure and collapse the next residual STARSS producer family |
 | SEC-12 | 12 | region | active | Mechanism-family collapse (one provider contract) | collapse remaining active mechanism impl/bed/runner lifecycles |
 | SEC-13 | 13 | region | active | One campaign controller (AFTER live run terminal + PR30 closure) | collapse the surviving base/extension/recovery modules into one controller |
-| SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
+| SEC-14 | 14 | region | active | Entrypoint and script collapse (313 -> ~10 CLI verbs) | collapse the remaining script and module command surfaces onto normal CLI verbs |
 | SEC-15 | 15 | region | pending | One registry (typed capability registry) | unify experiment/mechanism/dataset/instrument/verifier registries |
 | SEC-16 | 16 | region | pending | One typed configuration authority | separate frozen-identity/runtime-policy/machine-profile/overrides |
 | SEC-17 | 17 | region | pending | Validation condensation (properties/matrices/mutation; coverage-equivalence receipts) | reduce handwritten test LOC; keep adversarial rigor + producer/verifier split |
@@ -282,6 +282,7 @@ Total items: 246. By status: `{"complete": 17, "active": 51, "pending": 138, "pa
 | RED-joint-axis-construction-search | 12 | verified_reduction | verified | Centralize joint-axis runners and select the construction-search vector engine | collapse matching joint-axis scaffold and bed lifecycle |
 | RED-joint-axis-scaffolds | 12 | verified_reduction | verified | Centralize joint-axis mechanism scaffold lifecycles | collapse matching joint-axis bed and remaining mechanism lifecycles |
 | RED-retired-stability-plasticity-v1 | 12 | verified_reduction | verified | Delete retired stability-plasticity v1 and executable coverage prose | collapse remaining active mechanism impl/bed/runner lifecycles |
+| RED-cli-bed-stage3-authorities | 12 | verified_reduction | verified | Centralize successor beds, Studio commands, and Stage-3 registry authority | collapse remaining active mechanism and command lifecycles |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -290,7 +291,7 @@ Total items: 246. By status: `{"complete": 17, "active": 51, "pending": 138, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base c6e9c32
+- commit: pending; base 69f58c5
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)

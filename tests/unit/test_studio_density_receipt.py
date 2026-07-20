@@ -1,7 +1,7 @@
 import json
 import subprocess
 
-import scripts.studio_density_receipt as density_cli
+import scripts.studio.__main__ as studio_cli
 
 from mop.studio.density_receipt import (
     DensityReceiptConfig,
@@ -73,8 +73,16 @@ def test_density_receipt_flags_unexpected_disk_recovery_schema(tmp_path):
 
 def test_density_receipt_cli_writes_receipt(tmp_path):
     out = tmp_path / "density.json"
-    rc = density_cli.main(
-        ["--repo-root", str(tmp_path), "--disk-recovery", str(tmp_path / "missing.json"), "--out", str(out)]
+    rc = studio_cli.main(
+        [
+            "density-receipt",
+            "--repo-root",
+            str(tmp_path),
+            "--disk-recovery",
+            str(tmp_path / "missing.json"),
+            "--out",
+            str(out),
+        ]
     )
     assert rc == 0
     data = json.loads(out.read_text())

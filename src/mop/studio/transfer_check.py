@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import json
@@ -22,18 +21,7 @@ REQUIRED_PATHS = (
     "docs/mixture_of_perspectives/STUDIO_RUN_REPORT.md",
     "docs/mixture_of_perspectives/STUDIO_TURNKEY_PLAN.md",
     "scripts/studio/__main__.py",
-    "scripts/studio_doctor.py",
     "scripts/studio_pipeline.py",
-    "scripts/studio_daemon.py",
-    "scripts/studio_transfer_check.py",
-    "scripts/studio_artifact_bundle.py",
-    "scripts/studio_disk_recovery.py",
-    "scripts/studio_density_receipt.py",
-    "scripts/studio_spine_plan.py",
-    "scripts/studio_scorecard.py",
-    "scripts/studio_objective_audit.py",
-    "scripts/studio_native_lanes.py",
-    "scripts/studio_claim_plan.py",
     "scripts/mop_dr13_predictor_fidelity.py",
     "scripts/mop_dr13_readout_adapter.py",
     "scripts/studio/dr1_smoke.py",

@@ -48,7 +48,8 @@ def test_objective_audit_can_complete_native_lane_point(tmp_path):
         },
     )
     (tmp_path / "scripts").mkdir()
-    (tmp_path / "scripts" / "studio_native_lanes.py").write_text("# ok")
+    (tmp_path / "scripts" / "studio").mkdir()
+    (tmp_path / "scripts" / "studio" / "__main__.py").write_text("# ok")
     audit = build_studio_objective_audit(repo_root=tmp_path)
     native = next(r for r in audit["requirements"] if r["id"] == "studio_native_lanes")
     assert native["status"] == "complete"

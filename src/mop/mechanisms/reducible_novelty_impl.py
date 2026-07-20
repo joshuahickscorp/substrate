@@ -1,9 +1,9 @@
-
 from __future__ import annotations
 
 from collections.abc import Callable
 
 from ..substrate.events import canonical_sha256
+from .joint_axis_runner import run_control_policy, run_policy_family
 from .reducible_novelty_bed import PILOT_PROBES_PER_SOURCE, SourcePanel
 from .reducible_novelty_scaffold import REQUIRED_CONTROLS, DualMetricReading
 
@@ -55,9 +55,7 @@ def _source_progress(panel: SourcePanel, index: int, probes: float) -> float:
 
 def total_progress(panel: SourcePanel, allocation: Allocation) -> float:
 
-    return sum(
-        _source_progress(panel, index, allocation[index]) for index in range(panel.source_count)
-    )
+    return sum(_source_progress(panel, index, allocation[index]) for index in range(panel.source_count))
 
 
 def learning_progress(panel: SourcePanel, allocation: Allocation) -> float:
@@ -82,13 +80,10 @@ def allocate_mechanism(panel: SourcePanel) -> Allocation:
     if pilot_total >= panel.probe_budget:
         raise ImplRefusal("panel budget too small to pilot every source")
     pilot_gains = tuple(
-        _source_progress(panel, index, PILOT_PROBES_PER_SOURCE)
-        for index in range(panel.source_count)
+        _source_progress(panel, index, PILOT_PROBES_PER_SOURCE) for index in range(panel.source_count)
     )
     detected = tuple(
-        index
-        for index in range(panel.source_count)
-        if pilot_gains[index] > PROGRESS_DETECTION_THRESHOLD
+        index for index in range(panel.source_count) if pilot_gains[index] > PROGRESS_DETECTION_THRESHOLD
     )
     remainder = panel.probe_budget - pilot_total
     values = [PILOT_PROBES_PER_SOURCE for _ in range(panel.source_count)]
@@ -116,9 +111,7 @@ def allocate_random(panel: SourcePanel) -> Allocation:
         for index in range(panel.source_count)
     )
     total = sum(weights)
-    return _check_allocation(
-        panel, tuple(panel.probe_budget * weight / total for weight in weights)
-    )
+    return _check_allocation(panel, tuple(panel.probe_budget * weight / total for weight in weights))
 
 
 def allocate_novelty_chaser(panel: SourcePanel) -> Allocation:
@@ -127,9 +120,7 @@ def allocate_novelty_chaser(panel: SourcePanel) -> Allocation:
     total = sum(novelties)
     if total <= 0.0:
         raise ImplRefusal("novelty chaser needs a panel with positive raw novelty")
-    return _check_allocation(
-        panel, tuple(panel.probe_budget * novelty / total for novelty in novelties)
-    )
+    return _check_allocation(panel, tuple(panel.probe_budget * novelty / total for novelty in novelties))
 
 
 def allocate_static_prior(panel: SourcePanel) -> Allocation:
@@ -165,16 +156,9 @@ def run_mechanism(panel: SourcePanel) -> DualMetricReading:
 
 
 def run_control(control: str, panel: SourcePanel) -> DualMetricReading:
-
-    policy = _CONTROL_POLICIES.get(control)
-    if policy is None:
-        raise ImplRefusal(f"unknown control {control!r}")
-    return _reading(panel, policy(panel))
+    allocation = run_control_policy(control, panel, _CONTROL_POLICIES, ImplRefusal)
+    return _reading(panel, allocation)
 
 
 def run_all(panel: SourcePanel) -> dict[str, DualMetricReading]:
-
-    readings: dict[str, DualMetricReading] = {MECHANISM_ARM: run_mechanism(panel)}
-    for control in REQUIRED_CONTROLS:
-        readings[control] = run_control(control, panel)
-    return readings
+    return run_policy_family(panel, run_mechanism, REQUIRED_CONTROLS, run_control)

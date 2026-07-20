@@ -79,6 +79,52 @@
         "tests/unit/test_stability_plasticity_runner.py",
         "tests/unit/test_stability_plasticity_scaffold.py"
       ]
+    },
+    {
+      "id": "superseded_studio_and_duplicate_module_wrappers",
+      "reason": "the unified scripts.studio command surface and direct module authorities supersede parallel one-command wrapper entrypoints",
+      "source_tag": "mop-collapse-retired-mechanism-v1",
+      "recovery": "git show mop-collapse-retired-mechanism-v1:<path>",
+      "replacement_paths": [
+        "scripts/studio/__main__.py",
+        "scripts/studio_pipeline.py",
+        "src/mop/studies/generation1_evidence_synthesis.py",
+        "src/mop/studies/generation1_evidence_synthesis_verify.py",
+        "src/mop/studio/encoder_scale_probe.py"
+      ],
+      "paths": [
+        "scripts/studio_artifact_bundle.py",
+        "scripts/studio_claim_plan.py",
+        "scripts/studio_daemon.py",
+        "scripts/studio_density_receipt.py",
+        "scripts/studio_disk_recovery.py",
+        "scripts/studio_doctor.py",
+        "scripts/studio_native_lanes.py",
+        "scripts/studio_objective_audit.py",
+        "scripts/studio_rehearsal.py",
+        "scripts/studio_scorecard.py",
+        "scripts/studio_spine_plan.py",
+        "scripts/studio_transfer_check.py",
+        "scripts/studio_wave0_report.py",
+        "scripts/studio/_shim.py",
+        "scripts/build_generation1_evidence_synthesis.py",
+        "scripts/verify_generation1_evidence_synthesis.py",
+        "scripts/encoder_scale_probe.py"
+      ]
+    },
+    {
+      "id": "test_only_stage3_demonstration_framework",
+      "reason": "the receipt-producing stage3_registry is the sole campaign, worker, program, and successor authority; this parallel scaffold-only framework was referenced only by its dedicated test",
+      "source_tag": "mop-collapse-retired-mechanism-v1",
+      "recovery": "git show mop-collapse-retired-mechanism-v1:<path>",
+      "replacement_paths": [
+        "src/mop/ladder/stage3_registry.py",
+        "tests/unit/test_stage3_registry.py"
+      ],
+      "paths": [
+        "src/mop/ladder/stage3_demonstrations.py",
+        "tests/unit/test_stage3_demonstrations.py"
+      ]
     }
   ]
 }

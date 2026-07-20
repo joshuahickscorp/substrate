@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -6,6 +5,7 @@ from typing import Any
 
 from ..ladder.stage_ladder import MatchedBudget
 from ..substrate.events import canonical_sha256
+from .joint_axis_runner import MechanismBedBase, MechanismBedSpec, seeded_unit
 from .stability_plasticity_r2_scaffold import REQUIRED_CONTROLS
 
 MECHANISM_ID = "stability_plasticity_r2"
@@ -45,11 +45,7 @@ class BedRefusal(ValueError):
 
 
 def _unit(seed: int, label: str) -> float:
-
-    if seed < 0:
-        raise BedRefusal("bed seed must be nonnegative")
-    digest = canonical_sha256({"seed": seed, "label": label})
-    return int(digest[:8], 16) / 0x1_0000_0000
+    return seeded_unit(seed, label, BedRefusal)
 
 
 def _signed(seed: int, label: str) -> float:
@@ -69,7 +65,6 @@ def _adapter_magnitude(seed: int, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class TaskStream:
-
     regime: str
     seed: int
     history: tuple[Vector, ...]
@@ -156,33 +151,22 @@ def _null_task(seed: int, task_index: int, core_sign: int) -> Vector:
 
 
 @dataclass(frozen=True, slots=True)
-class StabilityPlasticityR2Bed:
-
+class StabilityPlasticityR2Bed(MechanismBedBase):
     mechanism_id: str = MECHANISM_ID
     schema: str = BED_SCHEMA
     claim_scope: str = CLAIM_SCOPE
 
-    def __post_init__(self) -> None:
-        if self.mechanism_id != MECHANISM_ID:
-            raise BedRefusal("bed mechanism_id drift")
-        if self.schema != BED_SCHEMA:
-            raise BedRefusal(f"unsupported bed schema {self.schema!r}")
-        if self.claim_scope != CLAIM_SCOPE:
-            raise BedRefusal("bed claim scope cannot be widened")
-
-    def controls(self) -> tuple[str, ...]:
-
-        return REQUIRED_CONTROLS
-
-    def matched_cost(self) -> MatchedBudget:
-
-        return MatchedBudget(params=DIM * DIM, flops=1_048_576, wall_ns=1_000_000, seeds=8)
+    spec = MechanismBedSpec(
+        MECHANISM_ID,
+        BED_SCHEMA,
+        REQUIRED_CONTROLS,
+        MatchedBudget(params=DIM * DIM, flops=1_048_576, wall_ns=1_000_000, seeds=8),
+    )
+    refusal = BedRefusal
 
     def null_regime(self, seed: int) -> TaskStream:
 
-        history = tuple(
-            _null_task(seed, index, NULL_CORE_SIGNS[index]) for index in range(HISTORY_TASKS)
-        )
+        history = tuple(_null_task(seed, index, NULL_CORE_SIGNS[index]) for index in range(HISTORY_TASKS))
         future = _null_task(seed, HISTORY_TASKS, NULL_FUTURE_CORE_SIGN)
         return TaskStream(
             regime=REGIME_NULL,
@@ -213,25 +197,9 @@ class StabilityPlasticityR2Bed:
             future_recurrence_index=recurring,
         )
 
-    def regime(self, name: str, seed: int) -> TaskStream:
-
-        if name == REGIME_NULL:
-            return self.null_regime(seed)
-        if name == REGIME_FAVORABLE:
-            return self.favorable_regime(seed)
-        raise BedRefusal(f"unknown regime {name!r}")
-
-    def payload(self) -> dict[str, Any]:
+    def configuration_payload(self) -> dict[str, Any]:
         return {
-            "schema": self.schema,
-            "mechanism_id": self.mechanism_id,
             "dim": DIM,
             "core_dim": CORE_DIM,
             "history_tasks": HISTORY_TASKS,
-            "controls": list(self.controls()),
-            "matched_cost": self.matched_cost().payload(),
-            "claim_scope": self.claim_scope,
         }
-
-    def digest(self) -> str:
-        return canonical_sha256(self.payload())
