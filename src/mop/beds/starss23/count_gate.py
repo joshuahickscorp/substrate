@@ -7,8 +7,8 @@ from typing import Any
 
 import numpy as np
 
+from mop.evidence import canonical_sha256
 from mop.seeding import derive_seed32
-from mop.substrate.events import canonical_sha256
 
 from .count_featurizer import D_CFEAT, N_CHANNELS, N_MEL
 

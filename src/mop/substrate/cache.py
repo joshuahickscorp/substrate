@@ -73,8 +73,7 @@ def cache_latents(
 
 
 def _write_provenance(store, encoder, result_tag, seed, device) -> None:
-    import json
-
+    from ..evidence import atomic_write_json
     from ..provenance import cache_id, provenance
 
     backend = encoder.spec.backend
@@ -89,4 +88,4 @@ def _write_provenance(store, encoder, result_tag, seed, device) -> None:
         cache=cache_id(store.meta.name, len(store), sample),
         extra={"count": len(store), "feat_shape": store.meta.feat_shape, "dtype": store.meta.dtype},
     )
-    (store.root / "provenance.json").write_text(json.dumps(prov, indent=2, default=str))
+    atomic_write_json(store.root / "provenance.json", prov)

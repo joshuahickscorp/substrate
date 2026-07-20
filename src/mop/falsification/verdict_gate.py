@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from ..evidence import atomic_write_json, sha256_file
 from .null_cards import load_card, validate_card
 
 SCHEMA = "mop-verdict-gate/v1"
@@ -70,9 +70,7 @@ def build_verdict_gate(
 
 
 def write_verdict_gate(gate: dict[str, Any], path: Path | str) -> None:
-    p = Path(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(gate, indent=2, default=str) + "\n")
+    atomic_write_json(Path(path), gate)
 
 
 def _load_card(path: Path, strict: bool) -> tuple[dict[str, Any], list[str]]:
@@ -144,8 +142,4 @@ def truthy_top_level(obj: Any, keys: tuple[str, ...]) -> bool:
 def _sha256(path: Path | None) -> str | None:
     if path is None or not path.exists() or not path.is_file():
         return None
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            h.update(chunk)
-    return h.hexdigest()
+    return sha256_file(path)

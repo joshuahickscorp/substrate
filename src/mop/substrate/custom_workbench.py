@@ -20,7 +20,7 @@ import torch.nn.functional as F
 import yaml
 from torch import nn
 
-from mop.substrate.events import sha256_file
+from mop.evidence import atomic_write_json, canonical_bytes, canonical_sha256, sha256_file
 
 from ..config import REPO_ROOT
 from ..devices import DeviceInfo
@@ -43,25 +43,8 @@ class WorkbenchRefused(RuntimeError):
     pass
 
 
-def _canonical_json(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
-
-
-def json_sha256(value: Any) -> str:
-    return hashlib.sha256(_canonical_json(value)).hexdigest()
-
-
-def _atomic_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n")
-    os.replace(tmp, path)
+json_sha256 = canonical_sha256
+_atomic_json = atomic_write_json
 
 
 def _atomic_torch_save(path: Path, payload: Any) -> None:
@@ -82,7 +65,7 @@ def _state_sha256(state: Mapping[str, torch.Tensor]) -> str:
         tensor = state[name].detach().cpu().contiguous()
         digest.update(name.encode("utf-8"))
         digest.update(str(tensor.dtype).encode("ascii"))
-        digest.update(_canonical_json(list(tensor.shape)))
+        digest.update(canonical_bytes(list(tensor.shape)))
         digest.update(tensor.numpy().tobytes())
     return digest.hexdigest()
 

@@ -10,13 +10,13 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 from pathlib import Path
 
 from omegaconf import OmegaConf
 
 from mop.config import REPO_ROOT, compose
 from mop.devices import resolve
+from mop.evidence import atomic_write_json
 from mop.substrate.custom_workbench import (
     attest_current_requirements,
     cm8_preflight,
@@ -50,13 +50,6 @@ PROFILES: dict[str, dict] = {
 }
 
 
-def _atomic_json(path: Path, payload: dict) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n")
-    os.replace(tmp, path)
-
-
 def _config(profile: str, overrides: list[str]) -> dict:
     cfg = compose(["experiment=mop_cm7_min_objective_probe", *overrides])
     experiment = OmegaConf.merge(cfg.experiment, OmegaConf.create(PROFILES[profile]))
@@ -72,7 +65,7 @@ def run_cm7(args: argparse.Namespace) -> int:
     receipt = run_workbench(config, run_dir=run_dir, device=resolve(args.device))
     receipt = attest_current_requirements(run_dir)
     proof = args.proof or REPO_ROOT / "proof/CUSTOM_SUBSTRATE_PILOT.json"
-    _atomic_json(proof, receipt)
+    atomic_write_json(proof, receipt)
     print(
         json.dumps(
             {
@@ -97,7 +90,7 @@ def run_cm8(args: argparse.Namespace) -> int:
         raise TypeError("resolved CM8 config is not a mapping")
     receipt = cm8_preflight(value)
     proof = args.proof or REPO_ROOT / "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json"
-    _atomic_json(proof, receipt)
+    atomic_write_json(proof, receipt)
     print(json.dumps(receipt, indent=2))
     return 0
 
@@ -105,7 +98,7 @@ def run_cm8(args: argparse.Namespace) -> int:
 def run_attest(args: argparse.Namespace) -> int:
     receipt = attest_current_requirements(args.run_dir)
     proof = args.proof or REPO_ROOT / "proof/CUSTOM_SUBSTRATE_PILOT.json"
-    _atomic_json(proof, receipt)
+    atomic_write_json(proof, receipt)
     print(json.dumps(receipt["evidence_attestation"], indent=2))
     return 0 if receipt["evidence_attestation"]["scientifically_current"] else 3
 

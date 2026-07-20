@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import logging
 import platform
 import subprocess
@@ -10,6 +9,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from .config import REPO_ROOT
+from .evidence import atomic_write_json
 
 _FMT = "%(asctime)s %(levelname)s %(name)s | %(message)s"
 
@@ -62,7 +62,7 @@ class RunManifest:
     def write(self, run_dir: Path) -> Path:
         run_dir.mkdir(parents=True, exist_ok=True)
         p = run_dir / "manifest.json"
-        p.write_text(json.dumps(asdict(self), indent=2, default=str))
+        atomic_write_json(p, asdict(self))
         return p
 
 

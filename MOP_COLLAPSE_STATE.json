@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "116fed5f9f8830006a9ac11d2bede9077ec9294a",
+    "base_commit": "8aef9f17d95e55a6c1aae7fa1414c265f575d196",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,20 +118,20 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 374089,
-    "deduplicated_LOC": 15860,
+    "eliminated_LOC": 378853,
+    "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 11892,
-    "net_global_reduction_LOC": 378057
+    "added_LOC": 12044,
+    "net_global_reduction_LOC": 382564
   },
   "checklist_summary": {
     "total": 261,
     "by_status": {
-      "complete": 50,
+      "complete": 58,
       "active": 48,
-      "pending": 111,
+      "pending": 103,
       "partial": 9,
       "verified": 43
     }
@@ -455,13 +455,15 @@
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-event-horizon",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-event-horizon at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "PR9-1",
@@ -1135,7 +1137,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the complete src/mop tree is 17423 LOC, below the 18000 stretch target",
+      "validation": "the complete src/mop tree is 14128 LOC, below the 18000 stretch target",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1150,7 +1152,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked maintained Python is 27140 LOC, below the 35000 challenge",
+      "validation": "tracked maintained Python is 22528 LOC, below the 35000 challenge",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1165,7 +1167,7 @@
       "evidence_paths": [
         "tests/"
       ],
-      "validation": "retained test harness is 6116 LOC",
+      "validation": "retained test harness is 4850 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1197,7 +1199,7 @@
         "pyproject.toml",
         "scripts/"
       ],
-      "validation": "one installed CLI plus nine bounded developer entrypoints remain",
+      "validation": "one installed CLI plus eight bounded developer entrypoints remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1208,26 +1210,31 @@
       "section": 5,
       "kind": "target",
       "title": "production controllers exactly 1",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/harness/runner.py"
+      ],
+      "validation": "mop.harness.runner is the sole installed experiment controller",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent parallel controllers"
     },
     {
       "id": "TGT-EVIDENCE",
       "section": 5,
       "kind": "target",
       "title": "receipt/evidence engines exactly 1",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/evidence.py",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "mop.evidence is the sole production serializer and hasher; the STARSS verifier keeps its required independent implementation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent local evidence writers"
     },
     {
       "id": "TGT-EXPERIMENT",
@@ -1286,7 +1293,7 @@
         "pyproject.toml",
         "scripts/"
       ],
-      "validation": "one installed CLI plus nine bounded developer entrypoints remain",
+      "validation": "one installed CLI plus eight bounded developer entrypoints remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1467,7 +1474,7 @@
       "commit": "",
       "rollback_tag": "",
       "dependency": "heavy parity/mutation/replay suite must run under host headroom (live run active)",
-      "next_action": "deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2)"
+      "next_action": "prevent local evidence writers"
     },
     {
       "id": "SEC-10",
@@ -1588,13 +1595,16 @@
       "section": 17,
       "kind": "region",
       "title": "Validation condensation (properties/matrices/mutation; coverage-equivalence receipts)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "scripts/acceptance.py"
+      ],
+      "validation": "329 retained tests and all ten acceptance checks pass in 4850 test LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "reduce handwritten test LOC; keep adversarial rigor + producer/verifier split"
+      "next_action": "prevent duplicated fixture-specific suites"
     },
     {
       "id": "SEC-18",
@@ -2111,39 +2121,47 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "one evidence authority remains",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/evidence.py",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "mop.evidence is the sole production serializer and hasher; the STARSS verifier keeps its required independent implementation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "prevent local evidence writers"
     },
     {
       "id": "CC-7",
       "section": 26,
       "kind": "completion_condition",
       "title": "one experiment engine remains",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/harness/runner.py",
+        "src/mop/experiments/"
+      ],
+      "validation": "one installed experiment lifecycle serves the two active declarations",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-8",
       "section": 26,
       "kind": "completion_condition",
       "title": "one campaign controller remains active",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/harness/runner.py"
+      ],
+      "validation": "mop.harness.runner is the sole installed experiment controller",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "prevent parallel controllers"
     },
     {
       "id": "CC-9",
@@ -2237,13 +2255,16 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "validation uses shared matrices and properties",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "scripts/acceptance.py"
+      ],
+      "validation": "329 retained tests and all ten acceptance checks pass in 4850 test LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "prevent duplicated fixture-specific suites"
     },
     {
       "id": "CC-16",
@@ -2417,7 +2438,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the registry/config checkpoint is tagged and every deletion has tag recovery",
+      "validation": "the event-horizon checkpoint is tagged and every deletion has tag recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2432,7 +2453,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the registry/config checkpoint is tagged and every deletion has tag recovery",
+      "validation": "the event-horizon checkpoint is tagged and every deletion has tag recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",

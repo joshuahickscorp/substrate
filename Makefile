@@ -1,7 +1,7 @@
 VENV=.venv/bin
 PY=$(VENV)/python
 
-.PHONY: install install-studio verify-install test lint types fmt diag accept clean doctor cache-list storage docs
+.PHONY: install install-studio verify-install test lint types fmt accept clean doctor cache-list storage docs
 
 install:
 	uv venv --python 3.12 .venv
@@ -29,9 +29,6 @@ fmt:
 
 types:
 	$(VENV)/mypy
-
-diag:
-	$(PY) scripts/run_diagnostics.py device=cpu
 
 accept:
 	$(PY) scripts/acceptance.py

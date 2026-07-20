@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-import hashlib
 import json
-import os
 import re
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Any
+
+from ..evidence import canonical_bytes, canonical_sha256
 
 EVENT_GRAPH_SCHEMA = "mop-event-graph/v1"
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
@@ -26,21 +25,6 @@ _EVENT_KINDS = frozenset(
 )
 _ENTITY_STATES = frozenset({"active", "occluded", "split", "merged", "retired", "ambiguous"})
 _OBSERVATION_ROLES = frozenset({"primary", "control", "counterfactual"})
-
-
-def canonical_bytes(value: Any) -> bytes:
-
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
-
-
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def _require_sha256(value: str, label: str) -> None:
@@ -123,13 +107,13 @@ class FrozenJSON:
         if self.canonical != expected:
             raise ValueError("FrozenJSON text is not canonical")
         _require_sha256(self.sha256, "FrozenJSON.sha256")
-        if hashlib.sha256(self.canonical.encode("utf-8")).hexdigest() != self.sha256:
+        if canonical_sha256(value) != self.sha256:
             raise ValueError("FrozenJSON digest mismatch")
 
     @classmethod
     def from_value(cls, value: Any) -> FrozenJSON:
         raw = canonical_bytes(value)
-        return cls(canonical=raw.decode("utf-8"), sha256=hashlib.sha256(raw).hexdigest())
+        return cls(canonical=raw.decode("utf-8"), sha256=canonical_sha256(value))
 
     def value(self) -> Any:
         return json.loads(self.canonical)
@@ -466,31 +450,3 @@ class EventGraph:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def atomic_write_bytes(path: Path, payload: bytes) -> None:
-
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_bytes(payload)
-    os.replace(temporary, path)
-
-
-def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
-    raw = (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
-    atomic_write_bytes(path, raw)
-
-
-def write_canonical_json(payload: dict[str, Any], out_path: str | Path) -> Path:
-
-    path = Path(out_path)
-    atomic_write_bytes(path, canonical_bytes(payload))
-    return path

@@ -8,6 +8,7 @@ from typing import Any
 
 import numpy as np
 
+from ..evidence import atomic_write_json, canonical_sha256
 from ..provenance import git_dirty, git_sha, package_versions
 from .form import FORM_KINDS, OBJECTIVE_FAMILIES
 
@@ -234,8 +235,7 @@ def validate_cache_manifest(
     return problems
 
 
-def json_sha256(obj: Any) -> str:
-    return hashlib.sha256(_canonical_json(obj)).hexdigest()
+json_sha256 = canonical_sha256
 
 
 def _array_fingerprints(root: Path, *, full_hash_arrays: bool, sample_bytes: int) -> list[dict[str, Any]]:
@@ -574,8 +574,4 @@ def _read_json(path: Path) -> dict[str, Any] | None:
 
 
 def _write_json(path: Path, obj: Any) -> None:
-    path.write_bytes(_canonical_json(obj) + b"\n")
-
-
-def _canonical_json(obj: Any) -> bytes:
-    return json.dumps(obj, sort_keys=True, indent=2, default=str).encode()
+    atomic_write_json(path, obj)

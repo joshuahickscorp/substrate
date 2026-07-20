@@ -44,7 +44,7 @@
       "batch": "batch4_5_private_primitive_copies",
       "checkpoint_status": "provisional_pending_full_suite",
       "primitive": "_sha256 -> sha256_file (7 modules) + _canonical_bytes -> canonical_bytes (9 modules)",
-      "deduplicated_LOC": 105,
+      "deduplicated_LOC": 0,
       "added_LOC": 16,
       "eliminated_LOC": 0,
       "relocated_LOC": 0,
@@ -945,6 +945,24 @@
       "proof": "all 459 retained tests collect and the full suite passes with 6 environment skips; Ruff, compile-all, documentation and JSON integrity are clean; all 38 deleted paths recover from mop-collapse-35k; the protected checkout remains clean and untouched",
       "accounting_note": "6421 Python lines deleted for 48 survivor and ledger-generator lines, net -6373; total tracked physical change is 181 added/7347 deleted, net -7166; maintained Python is 27140 LOC, src/mop is 17423 LOC, validation is 6116 LOC, one registry file remains, and the config surface is one composed tree",
       "tag": "mop-collapse-registry-config"
+    },
+    {
+      "region": "section9_evidence_section10_experiment_section13_controller_section17_validation",
+      "batch": "single_evidence_controller_and_event_horizon",
+      "checkpoint_status": "green",
+      "primitive": "canonical JSON bytes, hashes, and atomic evidence writes were centralized in mop.evidence; the dormant generic science lifecycle, broad test-only diagnostics and shell mechanism banks, learning facade, diagnostics CLI, and their dedicated tests were converted to recoverable history",
+      "deduplicated_LOC": 0,
+      "added_LOC": 152,
+      "eliminated_LOC": 4764,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 4612,
+      "files_changed": 88,
+      "destination_api": "mop.evidence is the sole production evidence authority, mop.harness.runner is the sole installed controller and experiment lifecycle, and the STARSS verifier remains independently implemented",
+      "proof": "all 329 retained tests pass with 6 environment skips; all 10 acceptance checks pass, including Ruff formatting and lint, mypy over 66 source files, config composition, diagnostics, and Studio profiles; all 49 deleted paths recover from mop-collapse-registry-config; the protected checkout remains clean and untouched",
+      "accounting_note": "4764 Python lines deleted for 102 tracked survivor and ledger lines plus the 50-line new evidence authority, net -4612; total tracked physical change is 312 added/4879 deleted, net -4567; maintained Python is 22528 LOC, src/mop is 14128 LOC, validation is 4850 LOC, and eight developer scripts remain",
+      "tag": "mop-collapse-event-horizon"
     }
   ],
   "deferred_heavy_validation": {

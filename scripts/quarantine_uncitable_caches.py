@@ -15,8 +15,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from mop.config import REPO_ROOT
+from mop.evidence import atomic_write_json, sha256_file
 from mop.substrate.cache_tools import validate_cache
-from mop.substrate.events import sha256_file
 
 SCHEMA = "mop-cache-quarantine/v1"
 
@@ -106,8 +106,7 @@ def main(argv: list[str] | None = None) -> int:
         execute=bool(args.execute),
     )
     out = args.out if args.out.is_absolute() else REPO_ROOT / args.out
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+    atomic_write_json(out, receipt)
     print(json.dumps(receipt["summary"], indent=2))
     return 0 if receipt["all_ok"] else 1
 

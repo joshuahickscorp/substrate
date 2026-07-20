@@ -8,6 +8,7 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
+from ..evidence import atomic_write_json
 from ..logging_utils import get_logger
 
 log = get_logger("substrate.video")
@@ -122,7 +123,7 @@ def write_label_map(cache_dir: str | Path, label_map: dict[str, int]) -> Path:
     d = Path(cache_dir)
     d.mkdir(parents=True, exist_ok=True)
     p = d / LABEL_MAP_NAME
-    p.write_text(json.dumps(label_map, indent=2, sort_keys=True))
+    atomic_write_json(p, label_map)
     return p
 
 

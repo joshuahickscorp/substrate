@@ -5,8 +5,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mop.evidence import canonical_sha256
 from mop.science.statistics import BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS
-from mop.substrate.events import canonical_sha256
 
 from . import CLAIM_SCOPE
 from .count_estimator import FLOPS_PER_REESTIMATE
