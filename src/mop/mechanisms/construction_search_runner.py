@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, ClassVar
 
 from ..ladder.ladder_contracts import (
     VERDICT_MECHANICS_OK,
@@ -21,7 +21,7 @@ from .construction_search_bed import (
     SEARCH_ARM,
     STAGE,
 )
-from .construction_search_impl import ArmResult, evaluate_regime
+from .construction_search_vec_impl import VecArmResult, vec_evaluate_regime
 
 CONSTRUCTION_SEARCH_EVIDENCE_SCHEMA = "mop-construction-search-evidence/v1"
 
@@ -31,8 +31,8 @@ PRIOR_NULL = (
 )
 
 
-def _charged_nets(arms: dict[str, ArmResult], per_eval_cost: float) -> dict[str, float]:
-    return {arm: result.charged_net(per_eval_cost) for arm, result in arms.items()}
+def _charged_net(result: VecArmResult, per_eval_cost: float) -> float:
+    return result.raw_score - per_eval_cost * result.evaluations
 
 
 def _sorted_floats(values: dict[str, float]) -> dict[str, float]:
@@ -97,6 +97,9 @@ class RunResults:
 class ConstructionSearchRunner:
 
     mechanism_id: str = MECHANISM_ID
+    result_type: ClassVar = RunResults
+    evaluator: ClassVar = staticmethod(vec_evaluate_regime)
+    charger: ClassVar = staticmethod(_charged_net)
 
     def run(self, bed: Bed, seed: int) -> RunResults:
 
@@ -106,10 +109,14 @@ class ConstructionSearchRunner:
         null_spec = bed.null_regime(seed)
         per_eval_cost = favorable_spec.per_eval_cost
 
-        favorable_arms = evaluate_regime(favorable_spec, seed)
-        null_arms = evaluate_regime(null_spec, seed)
-        favorable_nets = _charged_nets(favorable_arms, per_eval_cost)
-        null_nets = _charged_nets(null_arms, per_eval_cost)
+        favorable_arms = type(self).evaluator(favorable_spec, seed)
+        null_arms = type(self).evaluator(null_spec, seed)
+        favorable_nets = {
+            arm: type(self).charger(result, per_eval_cost) for arm, result in favorable_arms.items()
+        }
+        null_nets = {
+            arm: type(self).charger(result, per_eval_cost) for arm, result in null_arms.items()
+        }
 
         search_favorable = favorable_nets[SEARCH_ARM]
         search_null = null_nets[SEARCH_ARM]
@@ -125,7 +132,7 @@ class ConstructionSearchRunner:
         )
         headroom_gap = favorable_arms[ORACLE_REFERENCE].raw_score - favorable_arms[SEARCH_ARM].raw_score
 
-        return RunResults(
+        return self.result_type(
             seed=seed,
             per_eval_cost=per_eval_cost,
             favorable_objective_digest=favorable_spec.digest(),

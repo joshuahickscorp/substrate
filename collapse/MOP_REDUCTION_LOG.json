@@ -528,6 +528,24 @@
       "proof": "fixed-clock and fixed-prereg-path DoA artifacts exactly match checkpoint be4b14f (prereg SHA-256 860b65e6ca5d97eff9a0b40690c829502b700b3e648883abcad731658da299c2; artifact SHA-256 e21a11bef9f2f969ccc914e9042a68c23b3a1711c8472d80275e071cc6ee9048); all 109 active controller/DoA cases green with the collapse worktree first on PYTHONPATH; complete owned Python surface compiles; changed active files pass ruff; docs gate reports 3840 tests, 133 experiments, and 10 acceptance checks without drift",
       "accounting_note": "src 134 added/14141 deleted; tests 0 added/10223 deleted; scripts 0 added/216 deleted; the 51-line machine historical-code index is excluded from owned Python reduction; v7 retains the exact archived v6 path and SHA-256 without importing the deleted generation",
       "tag": "mop-collapse-controller-predecessors"
+    },
+    {
+      "region": "section12_mechanism_provider_system_and_section17_validation",
+      "batch": "joint_axis_runner_and_construction_search_engine_selection",
+      "checkpoint_status": "green",
+      "primitive": "four dual-axis mechanisms collapsed onto one typed validation, control-comparison, evidence, and receipt runner lifecycle; construction-search scalar and vector runners collapsed onto one runner, the bit-identical faster vector engine was selected, and scalar-equivalence-only validation was deleted while the independent oracle correctness/resource gate remained",
+      "deduplicated_LOC": 760,
+      "added_LOC": 314,
+      "eliminated_LOC": 855,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1301,
+      "files_changed": 13,
+      "destination_api": "mop.mechanisms.joint_axis_runner plus construction_search_vec_impl behind both construction-search runner identities",
+      "proof": "four-mechanism pre/post result-and-receipt fingerprint exact: c88fd435a128aed19cdd7600dcd3461e11b2f5e7069ce302b68e05fa6b0a6a67; construction-search scalar/vector pre/post fingerprint exact: 66253d4b0f4acb8ca4b0c6ca5c102f8fe870fe9f0cf6230194f452395c14b48b; 105 dual-axis cases, 9 ordinary construction-search cases, and 9 successor-batch/oracle cases green; changed files compile and pass ruff",
+      "accounting_note": "src 301 added/932 deleted; tests 13 added/683 deleted; 198-LOC scalar engine and 657-LOC scalar-equivalence-only test harnesses physically deleted; independent chunked-oracle monolithic-reference, RSS, wall-time, and ordinary runner gates retained",
+      "tag": "mop-collapse-mechanism-runners"
     }
   ],
   "deferred_heavy_validation": {

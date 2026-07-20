@@ -250,7 +250,7 @@ def _studies() -> list[dict[str, Any]]:
         },
         authorities=[
             "src/mop/mechanisms/construction_search_scaffold.py",
-            "src/mop/mechanisms/construction_search_impl.py",
+            "src/mop/mechanisms/construction_search_vec_impl.py",
             "src/mop/mechanisms/construction_search_bed.py",
         ],
         blockers=common_blockers,
