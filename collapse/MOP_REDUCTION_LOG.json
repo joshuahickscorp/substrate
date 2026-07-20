@@ -1330,11 +1330,30 @@
       "performance": "alternating 800-sample refinalization median moved from 1.459ms to 1.473ms (+1.01%), inside the 2% gate",
       "accounting_note": "81 finalizer lifecycle and CLI lines deleted for 28 direct-policy lines, net -53; runtime source remains 9535 LOC, validation remains 2892 LOC, scripts fall to 772 LOC, and maintained Python falls to 13450 LOC",
       "tag": "mop-collapse-finalizer-lifecycle-cli"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section14_cli_section17_validation",
+      "batch": "retired_completed_zero_consumer_custom_finalizer_lifecycle",
+      "checkpoint_status": "green",
+      "primitive": "the completed custom-substrate finalizer and its dedicated tests are converted to tag-recoverable history after consumer analysis found no maintained import, call, registry, config, packaging, or documentation path; sealed proof, independent CM7 recomputation, active workbench execution, and portable artifact chain validation remain physically present",
+      "deduplicated_LOC": 0,
+      "added_LOC": 0,
+      "eliminated_LOC": 710,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 710,
+      "files_changed": 2,
+      "destination_api": "sealed CUSTOM_SUBSTRATE_PILOT proof chain, tests/unit/test_cm7_independent_recompute.py, src/mop/substrate/custom_artifact.py, and active custom-workbench execution",
+      "proof": "maintained Python consumer count is zero and the proof tree is byte-unchanged; all 28 retained CM7 independent-recompute, artifact, workbench, and experiment-engine cases pass; the 155-case full suite passes with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "the deleted lifecycle had no maintained execution or import path, so active runtime performance is unchanged by construction",
+      "accounting_note": "543 zero-consumer finalizer lines and 167 dedicated-test lines are physically deleted with no replacement, net -710; runtime source remains 9535 LOC, validation falls to 2725 LOC, scripts fall to 229 LOC, and maintained Python falls to 12740 LOC",
+      "tag": "mop-collapse-retired-custom-finalizer"
     }
   ],
   "latest_full_validation": {
     "command": ".venv/bin/python -m pytest -q",
-    "result": "159 collected; 153 passed; 6 environment skips",
+    "result": "155 collected; 149 passed; 6 environment skips",
     "acceptance": "10/10 passed",
     "static": "Ruff lint and format clean; mypy clean over 43 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
