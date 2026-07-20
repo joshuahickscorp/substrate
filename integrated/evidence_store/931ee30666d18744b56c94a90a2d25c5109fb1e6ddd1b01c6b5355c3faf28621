@@ -52,7 +52,7 @@
     "34 what code was retained": "one new package, fastforge, 7653 LOC, plus the inherited runtime at 4930 LOC",
     "35 what code was deleted": "[]. inherited runners under substrate_evo, forge, frontier, campaign2, salvage and integrated are the implementations behind sealed immutable evidence. Deleting them would make prior receipts unreproducible, so they are retained and this program adds exactly one new package instead of forking a second one.",
     "36 did clean clone pass": "True with skips domain data lives outside the repository by design, so a clean clone can validate code, tests and evidence but cannot rerun training without those paths. Tests that need data skip themselves rather than pass silently.",
-    "37 did proof indexing pass": "True over 46 artifacts, mutations True",
+    "37 did proof indexing pass": "True over 45 artifacts, mutations True",
     "38 what exact scientific ceiling remains": "the owned substrate now has repaired, non aliased transfer arms, two materially different owned architectures, an interference map, a plasticity action oracle and a bidirectional matrix. None of it clears SESOI against a strong matched conventional learner in both domain directions.",
     "39 is Owned Substrate v1 selected": "no",
     "40 is a unified cross domain entity evidenced": "no",
@@ -101,9 +101,9 @@
     "activation is licensed"
   ],
   "activation": false,
-  "wall_seconds": 0.9,
+  "wall_seconds": 0.8,
   "program": "mop-fast-state-plasticity-forge-v1",
   "source_commit": "a20ba41f17ec6a674cc768e913d1fab2d1ec5420",
   "SESOI": 0.05,
-  "sha256": "5ee0c258f31bebaa3b72981f43db27edf7a61cf2d783197021e06d3532d1eee6"
+  "sha256": "69634bd3fed0ec3caed0a2c6b497427bee2ff8dadd8b4c09b20dc1ea0c25b3ce"
 }

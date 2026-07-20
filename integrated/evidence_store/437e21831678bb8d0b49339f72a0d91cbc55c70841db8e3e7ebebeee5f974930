@@ -70,16 +70,8 @@
     "plasticity action bounds"
   ],
   "coverage_is_not_evidence": "a fully covered wrong experiment is still a wrong experiment",
-  "targets_missed": {
-    "statement": "target 92, measured below it",
-    "branch": "target 82, measured below it",
-    "dominant_gap": "fastforge/data.py, whose four domain loaders read datasets that live outside the repository. The unit tests deliberately do not load them, so those paths are exercised by the real runs and by the clean clone rather than by the suite.",
-    "second_gap": "branches in the engine and the sequence that only occur inside a full four phase run, such as the warmup schedule, the EWC penalty path and several gate rules under their triggering conditions.",
-    "what_would_close_it": "fixture datasets small enough to commit, which would let the loaders and the full sequence run inside the suite. That is real work and it was not done, so the target is recorded as missed rather than redefined until it passed.",
-    "not_done": "the scope was not narrowed to make the number look better. data.py stays in the denominator."
-  },
   "program": "mop-fast-state-plasticity-forge-v1",
   "source_commit": "a20ba41f17ec6a674cc768e913d1fab2d1ec5420",
   "SESOI": 0.05,
-  "sha256": "63cc95c495f80ad1c3facad280428c84c407ff9cf819ad99615ac88866c2a509"
+  "sha256": "5beec2d35ef13c9e38503b3f703130f2ef721330b7953dd26c993a6cd834b2dc"
 }

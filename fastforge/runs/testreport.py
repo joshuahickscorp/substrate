@@ -57,6 +57,7 @@ def main():
             "-m",
             "pytest",
             "tests/unit/test_fast_state_forge.py",
+            "tests/unit/test_fast_state_units.py",
             "-q",
             *[f"--cov={m.replace('/', '.')[:-3]}" for m in CRITICAL],
             "--cov-branch",
@@ -124,6 +125,21 @@ def main():
                 "plasticity action bounds",
             ],
             "coverage_is_not_evidence": "a fully covered wrong experiment is still a wrong experiment",
+            "targets_missed": {
+                "statement": "target 92, measured below it",
+                "branch": "target 82, measured below it",
+                "dominant_gap": "fastforge/data.py, whose four domain loaders read datasets that live "
+                "outside the repository. The unit tests deliberately do not load them, so those paths are "
+                "exercised by the real runs and by the clean clone rather than by the suite.",
+                "second_gap": "branches in the engine and the sequence that only occur inside a full four "
+                "phase run, such as the warmup schedule, the EWC penalty path and several gate rules under "
+                "their triggering conditions.",
+                "what_would_close_it": "fixture datasets small enough to commit, which would let the "
+                "loaders and the full sequence run inside the suite. That is real work and it was not done, "
+                "so the target is recorded as missed rather than redefined until it passed.",
+                "not_done": "the scope was not narrowed to make the number look better. data.py stays in "
+                "the denominator.",
+            },
         },
     )
     print("tests:", tail[-1] if tail else full.returncode, flush=True)
