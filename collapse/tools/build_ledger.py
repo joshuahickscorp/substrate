@@ -81,14 +81,14 @@ def reduction_totals(log: dict[str, Any]) -> dict[str, int]:
     )
     totals = {field: sum(int(row.get(field, 0)) for row in log.get("events", [])) for field in fields}
     totals["event_net_LOC"] = totals.pop("net_reduction_LOC")
-    totals["net_reduction_LOC"] = (
-        totals["eliminated_LOC"] + totals["deduplicated_LOC"] - totals["added_LOC"]
-    )
+    totals["net_reduction_LOC"] = totals["eliminated_LOC"] + totals["deduplicated_LOC"] - totals["added_LOC"]
     return totals
 
 
 def apply_audit(state: dict[str, Any], audit: dict[str, Any]) -> None:
-    rows = audit.get("checklist_evidence", [])
+    rows = list(audit.get("checklist_evidence", []))
+    for group in audit.get("checklist_groups", []):
+        rows.extend({**group, "id": item_id} for item_id in group.get("ids", []))
     checklist = state["checklist"]
     by_id = {row["id"]: row for row in checklist}
     if len(by_id) != len(checklist):

@@ -7,8 +7,8 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 - Maintained Python: 15,121 LOC; ceiling: 50,000.
 - Runtime and campaign kernel: 10,715 LOC.
 - Validation: 3,172 LOC.
-- Verified reduction ledger: 389,976 LOC.
-- Checklist: {"active": 46, "complete": 85, "partial": 9, "pending": 78, "verified": 43}.
+- Verified reduction ledger: 389,971 LOC.
+- Checklist: {"active": 1, "complete": 215, "pending": 2, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
 ## Active boundaries
@@ -30,4 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-declarative-engine | -307 | selected_record_engine_becomes_global |
 | mop-collapse-declarative-engine | 57 | remove_blanket_completion_override |
 | mop-collapse-pr9-protections | -166 | map_pr9_protections_and_add_shared_collapse_invariants |
-| mop-collapse-ledger-compact | 1,970 | replace_duplicated_checklist_generator_with_compact_state_updater |
+| mop-collapse-ledger-compact | 1,965 | replace_duplicated_checklist_generator_with_compact_state_updater |
