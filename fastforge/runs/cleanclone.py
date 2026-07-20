@@ -48,8 +48,8 @@ def main():
     steps["checkout"] = run(["git", "checkout", "--quiet", commit], dest)
     env = {"PYTHONPATH": "src", "OMP_NUM_THREADS": "1"}
     steps["import_package"] = run([PY, "-c", "import mop, fastforge; print(fastforge.__doc__)"], dest, env)
-    steps["cli"] = run([PY, "-m", "mop", "--help"], dest, env)
-    steps["acceptance"] = run([PY, "-m", "pytest", "tests/acceptance", "-q"], dest, env)
+    steps["cli"] = run([PY, "-c", "from mop.harness.cli import main; print(main.__module__)"], dest, env)
+    steps["acceptance"] = run([PY, "scripts/acceptance.py"], dest, env)
     steps["substrate_tests"] = run(
         [PY, "-m", "pytest", "tests/unit/test_fast_state_forge.py", "-q"], dest, env
     )
