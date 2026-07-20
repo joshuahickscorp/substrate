@@ -46,7 +46,7 @@
   },
   "rule": "evidence remains earned. Implementation completeness never raises an evidence score.",
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
+  "source_commit": "44c73e4ce0683890a6a52c49979d6c6142c907ff",
   "SESOI": 0.05,
-  "sha256": "cdde0e35b29c1162a1e8319c8e025c28d44c2c5ac98c5ae7e86128e7607c64d0"
+  "sha256": "bceec0caef9286f8c136f9eb8844e03b6203e67e273c9a5ceb52376dfd1cd45a"
 }

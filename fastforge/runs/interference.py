@@ -177,16 +177,23 @@ def classify(gmap):
         acq = float(np.mean([v["new_domain_gain"]["mean"] for v in per.values()]))
         forget = float(np.mean([v["old_domain_loss"]["mean"] for v in per.values()]))
         rec = float(np.mean([v["return_recovery"] for v in per.values()]))
+        # a group is shared only if one tensor set serves every domain. Domain local groups can enable
+        # acquisition without forgetting by construction, so calling them transferable would be a category
+        # error: nothing about them is carried anywhere.
+        shared = "shared_" in n or "memory_state" in n
         out[n] = {
             "mean_new_domain_gain": round(acq, 4),
             "mean_old_domain_loss": round(forget, 4),
             "mean_return_recovery": round(rec, 4),
+            "is_shared_across_domains": shared,
             "enables_acquisition": acq >= io.SESOI,
             "causes_forgetting": forget >= io.SESOI,
-            "transferable": acq >= io.SESOI and forget < io.SESOI,
-            "domain_specific": acq >= io.SESOI and forget >= io.SESOI,
+            "acquires_without_forgetting": acq >= io.SESOI and forget < io.SESOI,
+            "transferable": shared and acq >= io.SESOI and forget < io.SESOI,
+            "domain_specific": (not shared) and acq >= io.SESOI,
             "safe_to_reopen": forget < io.SESOI,
             "should_remain_frozen": forget >= io.SESOI and acq < io.SESOI,
+            "acquisition_bought_with_forgetting": acq >= io.SESOI and forget >= io.SESOI,
         }
     return out
 
@@ -256,9 +263,11 @@ def main():
     for n in sorted(cls):
         v = cls[n]
         verdict = (
-            "transferable"
+            "transferable shared"
             if v["transferable"]
-            else "domain specific"
+            else "shared, acquisition bought with forgetting"
+            if v["acquisition_bought_with_forgetting"]
+            else "domain local, acquires without forgetting"
             if v["domain_specific"]
             else "keep frozen"
             if v["should_remain_frozen"]

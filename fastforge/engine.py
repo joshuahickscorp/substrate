@@ -152,7 +152,9 @@ class Gate:
     probe     freeze when the reference domain probe loss rises above its entry value plus a margin
     drift     restore the delta toward the anchor when the measured drift exceeds a bound
     perf      reopen the shared group only after a performance drop on the active domain
-    random    freeze at the rate the matched signal gate achieved, with no signal
+    random    freeze at a fixed rate of one half, with no signal. The rate matched control is
+              shuffled, which replays the real decision sequence permuted and therefore blocks
+              exactly as often as the real gate did
     shuffled  the real signal sequence, permuted, so timing carries no information
     wrong     the reference batch comes from the wrong domain
     anchor_restore  revert the shared delta toward the frozen anchor once measured drift exceeds a bound,

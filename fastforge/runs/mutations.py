@@ -225,7 +225,7 @@ def live_mutations():
         for k in h2.delta:
             h2.delta[k].fill_(1e6)
     res["fast_delta_inflation_rejected"] = all(
-        float(h2.bounded_delta(n).abs().max()) <= A.TAU + 1e-5 for n in h2.anchor_keys
+        float(h2.bounded_delta(n).detach().abs().max()) <= A.TAU + 1e-5 for n in h2.anchor_keys
     )
 
     # memory inflation changes the recorded budget
