@@ -66,38 +66,6 @@ EXTERNAL_COEXISTENCE_TASKS = frozenset(
         "escs_x0_verify_cpu",
     }
 )
-GENERATION1_EXTERNAL_COEXISTENCE_TASKS = (
-    frozenset(
-        {
-            "g1_cognitive_corpus_aggregate",
-            "g1_cognitive_corpus_verify",
-            "g1_empirical_report",
-            "g1_evidence_synthesis",
-            "g1_evidence_synthesis_verify",
-            "g1_c1_difficulty_atlas",
-            "g1_c1_difficulty_atlas_verify",
-            "g1_c2_context_routing_shard_00",
-            "g1_c2_context_routing_shard_01",
-            "g1_c2_context_routing_shard_02",
-            "g1_c2_context_routing_shard_03",
-            "g1_c2_context_routing_aggregate",
-            "g1_c2_context_routing_verify",
-            "g1_c2_context_routing_verify_parallel",
-        }
-    )
-)
-GENERATION1_C2_ADAPTIVE_TASKS = frozenset(
-    {
-        "g1_c2_context_routing_shard_00",
-        "g1_c2_context_routing_shard_01",
-        "g1_c2_context_routing_shard_02",
-        "g1_c2_context_routing_shard_03",
-        "g1_c2_context_routing_verify_parallel",
-    }
-)
-GENERATION1_C2_PASSTHROUGH_TASKS = GENERATION1_C2_ADAPTIVE_TASKS | frozenset(
-    {"g1_c2_context_routing_aggregate"}
-)
 SEED_BOUNDARY_TASKS = frozenset({"edcm1_official_cpu", "escs_x0_official_cpu"})
 TASKPOLICY_COEXISTENCE_PREFIX = (
     "/usr/sbin/taskpolicy",
@@ -118,25 +86,6 @@ TASKPOLICY_COEXISTENCE_PREFIX = (
     "NUMEXPR_NUM_THREADS=1",
 )
 TASKPOLICY_COEXISTENCE_CAP_GB = 4096 * 1024 * 1024 / 1e9
-TASKPOLICY_ADAPTIVE_PREFIX = (
-    "/usr/sbin/taskpolicy",
-    "-d",
-    "throttle",
-    "-m",
-    "16384",
-    "-P",
-    "kill",
-    "/usr/bin/nice",
-    "-n",
-    "5",
-    "/usr/bin/env",
-    "OMP_NUM_THREADS=1",
-    "OPENBLAS_NUM_THREADS=1",
-    "MKL_NUM_THREADS=1",
-    "VECLIB_MAXIMUM_THREADS=1",
-    "NUMEXPR_NUM_THREADS=1",
-)
-TASKPOLICY_ADAPTIVE_CAP_GB = 16384 * 1024 * 1024 / 1e9
 DEFAULT_POLICY = REPO_ROOT / "configs/local_execution_throttle.yaml"
 DEFAULT_STATE_ROOT = REPO_ROOT / "runs/local_throttle"
 IMPLEMENTATION_PATH = Path(__file__).resolve()
@@ -457,23 +406,11 @@ class TaskDeclaration:
 
 def _external_coexistence_task_problems(task: TaskDeclaration) -> list[str]:
     problems: list[str] = []
-    if task.task_id not in (EXTERNAL_COEXISTENCE_TASKS | GENERATION1_EXTERNAL_COEXISTENCE_TASKS):
+    if task.task_id not in EXTERNAL_COEXISTENCE_TASKS:
         problems.append("task id is outside the exact reviewed coexistence set")
-    atlas_parallel = task.task_id == "g1_c1_difficulty_atlas" and 1 <= task.cpu_cores <= 6
-    adaptive_c2 = task.task_id in GENERATION1_C2_ADAPTIVE_TASKS
-    adaptive = adaptive_c2
-    if adaptive_c2:
-        cpu_ok = task.cpu_cores == 25
-    else:
-        cpu_ok = task.cpu_cores == 1 or atlas_parallel
-    if task.lane != "cpu" or task.accelerator != "none" or not cpu_ok:
-        problems.append(
-            "coexistence is restricted to one CPU core, six bounded C1 atlas cores, "
-            "or the reviewed 25-to-6 adaptive C2 envelope"
-        )
-    expected_cap = TASKPOLICY_ADAPTIVE_CAP_GB if adaptive else TASKPOLICY_COEXISTENCE_CAP_GB
-    expected_prefix = TASKPOLICY_ADAPTIVE_PREFIX if adaptive else TASKPOLICY_COEXISTENCE_PREFIX
-    if task.estimated_unified_memory_gb != expected_cap:
+    if task.lane != "cpu" or task.accelerator != "none" or task.cpu_cores != 1:
+        problems.append("coexistence is restricted to one CPU core")
+    if task.estimated_unified_memory_gb != TASKPOLICY_COEXISTENCE_CAP_GB:
         problems.append("task must declare its exact reviewed taskpolicy memory cap")
     if task.resource_probe:
         problems.append("kernel-bounded coexistence tasks are declared, not unmeasured, probes")
@@ -481,46 +418,18 @@ def _external_coexistence_task_problems(task: TaskDeclaration) -> list[str]:
         problems.append("coexistence task must remain exclusive within the MOP scheduler")
     if not task.pause_safe or not task.atomic_checkpoints or not task.checkpoint_globs:
         problems.append("coexistence task must retain an atomic pause/replay authority")
-    if task.command[: len(expected_prefix)] != expected_prefix:
+    if task.command[: len(TASKPOLICY_COEXISTENCE_PREFIX)] != TASKPOLICY_COEXISTENCE_PREFIX:
         problems.append("task must use its pinned lower-priority taskpolicy wrapper")
-    if atlas_parallel and task.cpu_cores > 1:
-        indexes = [index for index, value in enumerate(task.command) if value == "--seed-workers"]
-        if (
-            len(indexes) != 1
-            or indexes[0] + 1 >= len(task.command)
-            or task.command[indexes[0] + 1] != str(task.cpu_cores)
-        ):
-            problems.append("parallel C1 atlas cores must equal the exact seed-worker argument")
-    if adaptive:
-        for flag, expected in (("--idle-workers", "25"), ("--hawking-workers", "6")):
-            indexes = [index for index, value in enumerate(task.command) if value == flag]
-            if (
-                len(indexes) != 1
-                or indexes[0] + 1 >= len(task.command)
-                or task.command[indexes[0] + 1] != expected
-            ):
-                problems.append(f"adaptive C2 command must declare exact {flag} {expected}")
     return problems
 
 
 def is_taskpolicy_coexistence_command(command: Sequence[str]) -> bool:
     value = tuple(command)
-    return any(
-        value[: len(prefix)] == prefix
-        for prefix in (TASKPOLICY_COEXISTENCE_PREFIX, TASKPOLICY_ADAPTIVE_PREFIX)
-    )
+    return value[: len(TASKPOLICY_COEXISTENCE_PREFIX)] == TASKPOLICY_COEXISTENCE_PREFIX
 
 
 def _effective_external_task_cores(task: TaskDeclaration) -> int:
-    if task.task_id not in GENERATION1_C2_ADAPTIVE_TASKS:
-        return task.cpu_cores
-    indexes = [index for index, value in enumerate(task.command) if value == "--hawking-workers"]
-    if len(indexes) != 1 or indexes[0] + 1 >= len(task.command):
-        return task.cpu_cores
-    try:
-        return int(task.command[indexes[0] + 1])
-    except ValueError:
-        return task.cpu_cores
+    return task.cpu_cores
 
 
 def _is_external_coexistence_task(task: TaskDeclaration) -> bool:
@@ -4897,13 +4806,10 @@ def evaluate_task(
         and external_report is not None
         and external_report.get("profile") == coexistence.V5_PROFILE_NAME
     )
-    c2_external_passthrough = bool(
-        unmanaged and task.task_id in GENERATION1_C2_PASSTHROUGH_TASKS and _is_external_coexistence_task(task)
-    )
     _gate(
         gates,
         "unmanaged_heavy_process",
-        not unmanaged or validated_external_coexistence or c2_external_passthrough,
+        not unmanaged or validated_external_coexistence,
         (
             external_report
             if external_report is not None
@@ -4911,19 +4817,7 @@ def evaluate_task(
         ),
         [],
         (
-            (
-                "reviewed adaptive C2 command keeps its nice-priority lane while the sealed "
-                "Hawking queue owns the six-worker downshift"
-            )
-            if task.task_id in GENERATION1_C2_ADAPTIVE_TASKS
-            and c2_external_passthrough
-            and not validated_external_coexistence
-            else (
-                "reviewed one-core C2 aggregation boundary remains under its background-priority "
-                "wrapper while memory, swap, thermal, and disk gates stay live"
-            )
-            if c2_external_passthrough and not validated_external_coexistence
-            else "exact Hawking CPU profile permits one bounded background-QoS CPU lane"
+            "exact Hawking CPU profile permits one bounded background-QoS CPU lane"
             if validated_external_coexistence
             else (
                 "unknown or profile-invalid heavy work has no resource declaration, so admission fails closed"
@@ -4933,7 +4827,6 @@ def evaluate_task(
             task_already_active
             and unmanaged
             and not validated_external_coexistence
-            and not c2_external_passthrough
         ),
     )
     foreground = list(processes.get("foreground_resource_processes") or [])
@@ -4955,9 +4848,7 @@ def evaluate_task(
         if validated_external_v5
         else (0.85 if validated_external_coexistence else thresholds["maximum_load_per_logical_cpu"])
     )
-    cpu_is_admission_only = (
-        task_already_active or c2_external_passthrough
-    ) and not validated_external_coexistence
+    cpu_is_admission_only = task_already_active and not validated_external_coexistence
     v5_background_qos = validated_external_v5
     cpu_limit_label: float | str = "kernel-enforced background QoS" if v5_background_qos else load_max
     _gate(

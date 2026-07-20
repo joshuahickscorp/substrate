@@ -780,6 +780,24 @@
       "proof": "horizon v1 and v2 each have complete, problem-free sealed results and complete independent artifact verifications with scientific_promotion=false and activation_allowed=false; their protected 100 MB/21156-file evidence trees were not mutated; exact direct assertions prove retained adaptive C2 admission remains accepted and retired horizon task IDs fail closed; notifier/supervisor boundary is 45/45 green; full 3177-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all 16 deleted paths recover from the prior tag; the broader local-throttle suite reaches a pre-existing fail-closed stale P6 continual_stream evidence binding after current helper integrity pins pass",
       "accounting_note": "src 7 added/4175 deleted; scripts 0 added/1425 deleted; tests 5 added/2566 deleted; two one-line manifests and the 1343-line v5 throttle policy were also deleted but contribute zero to Python LOC accounting; live evidence remains outside this branch and untouched",
       "tag": "mop-collapse-successor-horizons"
+    },
+    {
+      "region": "section8_studies_section13_controller_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "completed_generation1_program",
+      "checkpoint_status": "green",
+      "primitive": "the completed Generation-1 empirical, C1/C2, C3, final-campaign, release-audit, supervisor, continuation, injection, reprofile, notifier, script, configuration, generated-proof, and dedicated-test surfaces were converted to recoverable history; campaign-only coexistence and adaptive C2 scheduler exceptions were physically deleted",
+      "deduplicated_LOC": 0,
+      "added_LOC": 10,
+      "eliminated_LOC": 37467,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 37457,
+      "files_changed": 129,
+      "destination_api": "immutable live Generation-1 results and run evidence plus the prior pushed recovery tag; the generic single-core coexistence governor remains maintained without campaign-specific task IDs",
+      "proof": "the protected Generation-1 result set contains complete independently verified cognitive corpus, competence atlas, context routing, frozen D1 challenge, consolidated final result, and completed downstream successor artifacts, all with promotion and activation disabled; the live checkout is clean and all live proof/run artifacts remain present; full 2879-case collection and compile-all are clean; retained coexistence boundary is 39 passed/8 expected skipped; direct scheduler assertions and the 32-case docs gate are green; all 127 deleted paths recover from the prior tag; the broader local-throttle suite reaches only the pre-existing fail-closed stale P6 continual_stream evidence binding",
+      "accounting_note": "37467 Python lines deleted for 10 survivor lines, net -37457; generated configuration/proof outputs contribute a further 265643 deleted non-Python lines, including the 265181-line cognitive corpus; total physical tracked change is 10 added/303110 deleted, net -303100; the protected checkout was restored immediately after a path-resolution error and verified clean before validation",
+      "tag": "mop-collapse-generation1-program"
     }
   ],
   "deferred_heavy_validation": {
