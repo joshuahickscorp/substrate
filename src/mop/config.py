@@ -1,15 +1,3 @@
-"""Config system. OmegaConf with a small Hydra-style group composition layer.
-
-Why not Hydra: the corpus pre-authorizes Hydra OR a lighter route; Hydra drags in
-antlr+plugins and owns your entrypoint. We need exactly two things from it: group
-selection (device=mps, encoder=..., experiment=...) and dotlist overrides. Both are
-~40 lines on OmegaConf, which we already depend on. One source of truth, fewer deps.
-
-config.yaml carries a `defaults:` map naming one file per group under configs/<group>/.
-compose() loads each, nests it under the group key, overlays config.yaml's own keys,
-then applies CLI-style dotlist overrides (e.g. shell.buffer.capacity=2048).
-"""
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -34,11 +22,6 @@ def compose(
     config_dir: Path | None = None,
     base: str = "config.yaml",
 ) -> DictConfig:
-    """Compose the full config tree from groups + dotlist overrides.
-
-    overrides may include group switches (`experiment=e1_baseline`) and value dotlist
-    overrides (`shell.buffer.capacity=4096`). Group switches are pulled out first.
-    """
     cdir = config_dir or CONFIG_DIR
     root = _load_yaml(cdir / base)
     defaults = dict(root.pop("defaults", {})) if "defaults" in root else {}
@@ -70,7 +53,6 @@ def compose(
 
 
 def snapshot(cfg: DictConfig, path: Path) -> Path:
-    """Write a frozen yaml snapshot of the resolved config for a run. Reproducibility."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(OmegaConf.to_yaml(cfg, resolve=True))
     return path

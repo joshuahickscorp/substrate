@@ -1,14 +1,5 @@
-"""Strict, read-only readiness doctor for the local and Studio execution envelopes.
-
-The doctor distinguishes three things that older checks blurred together: software readiness,
-evidence readiness, and hardware-envelope compatibility. It never downloads weights, repairs a cache,
-or infers a hardware wall from a profile label. A missing package, decoder, local model snapshot, citable
-cache manifest, or measured host resource is a failed check with an explicit remedy.
-"""
-
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 import platform
@@ -20,40 +11,18 @@ from collections.abc import Callable
 from datetime import UTC, datetime
 from functools import lru_cache
 from pathlib import Path
-from urllib.parse import urlparse
 
 from omegaconf import DictConfig, OmegaConf
 
 from .config import REPO_ROOT
 from .devices import apple_silicon_info
-from .studio.memory_envelope import memory_snapshot
 from .studio.profiles import get_profile
-from .substrate.cache_tools import validate_cache
+from .substrate.cache_manifest import validate_cache_manifest
 
 SCHEMA = "mop-studio-readiness/v2"
 
-# Checks are ordered from process portability through software, evidence, and launch resources.
-CHECK_NAMES = (
-    "python",
-    "package_import",
-    "torch",
-    "apple_silicon",
-    "memory_telemetry",
-    "disk_space",
-    "profile_host_match",
-    "profile_floor",
-    "video_backend",
-    "huggingface",
-    "encoders",
-    "encoder_weights",
-    "cache_manifests",
-    "cache_write",
-    "config_validation",
-)
-
 
 def _check(name: str, fn: Callable[[], tuple[bool, str]]) -> dict:
-    """Turn a probe exception into a failed check instead of crashing the doctor."""
     try:
         ok, detail = fn()
     except Exception as e:
@@ -63,12 +32,10 @@ def _check(name: str, fn: Callable[[], tuple[bool, str]]) -> dict:
 
 def _check_python() -> tuple[bool, str]:
     v = sys.version_info
-    ok = (v.major, v.minor) >= (3, 11)
-    return ok, f"{v.major}.{v.minor}.{v.micro}; project floor is 3.11"
+    return (v.major, v.minor) >= (3, 11), f"{v.major}.{v.minor}.{v.micro}; project floor is 3.11"
 
 
 def _check_package_import() -> tuple[bool, str]:
-    """Prove ``mop`` imports outside the repository without relying on PYTHONPATH or cwd."""
     code = (
         "import importlib.metadata,json,mop; "
         "print(json.dumps({'module':mop.__file__,'version':importlib.metadata.version('mop')}))"
@@ -113,35 +80,34 @@ def _check_apple_silicon() -> tuple[bool, str]:
     return ok, f"{chip}: {p}P/{e}E cores, {mem} GB unified, mps={info.get('mps_available')}"
 
 
-def _check_memory_telemetry() -> tuple[bool, str]:
-    """Require system and process memory telemetry used by every scale-boundary receipt."""
-    snap = memory_snapshot("studio_doctor")
-    required = ("process_rss_gb", "system_total_gb", "system_available_gb")
-    missing = [key for key in required if snap.get(key) is None]
-    try:
-        import psutil
+def _memory_snapshot() -> tuple[str, float, float, float]:
+    import psutil
 
-        version = psutil.__version__
-    except Exception:
-        version = "absent"
-    if missing:
-        return False, f"psutil={version}; missing {missing}; install project dependencies"
+    memory = psutil.virtual_memory()
     return (
-        True,
-        f"psutil={version}; RSS={snap['process_rss_gb']} GB, system="
-        f"{snap['system_available_gb']}/{snap['system_total_gb']} GB available",
+        psutil.__version__,
+        round(psutil.Process().memory_info().rss / 1e9, 4),
+        round(memory.total / 1e9, 4),
+        round(memory.available / 1e9, 4),
     )
+
+
+def _check_memory_telemetry() -> tuple[bool, str]:
+    try:
+        version, rss, total, available = _memory_snapshot()
+    except Exception:
+        fields = "['process_rss_gb', 'system_total_gb', 'system_available_gb']"
+        return False, f"psutil=absent; missing {fields}; install project dependencies"
+    return True, f"psutil={version}; RSS={rss} GB, system={available}/{total} GB available"
 
 
 def _check_disk_space() -> tuple[bool, str]:
     du = shutil.disk_usage(REPO_ROOT)
     free_gb = du.free / 1e9
-    ok = free_gb >= 5.0
-    return ok, f"{free_gb:.1f} GB free of {du.total / 1e9:.1f} GB at repository filesystem"
+    return free_gb >= 5.0, f"{free_gb:.1f} GB free of {du.total / 1e9:.1f} GB at repository filesystem"
 
 
 def _infer_profile_name() -> str:
-    """Select the largest measured resource envelope this host actually satisfies."""
     host = apple_silicon_info()
     for name in ("studio-m1ultra", "studio-1tb"):
         compatible, _, _ = get_profile(name).host_compatibility(host=host)
@@ -158,8 +124,7 @@ def _check_profile_host(profile_name: str | None = None) -> tuple[bool, str]:
         f"{measured['disk_total_gb']} GB disk; requires {profile.min_host_unified_memory_gb:.1f} GB "
         f"unified and {profile.min_host_disk_gb:.1f} GB disk"
     )
-    if problems:
-        detail += "; PROFILE/HOST MISMATCH: " + "; ".join(problems)
+    detail += ("; PROFILE/HOST MISMATCH: " + "; ".join(problems)) if problems else ""
     return ok, detail
 
 
@@ -174,13 +139,6 @@ def _check_profile_floor(profile_name: str | None = None) -> tuple[bool, str]:
 
 
 def _isolated_import_probe(modules: tuple[str, ...]) -> tuple[bool, str]:
-    """Import optional native modules outside the doctor process.
-
-    Video backends load codec and accelerator libraries with process-global destructors.  A broken
-    optional backend must be reported as unavailable without being able to crash the readiness
-    process later during interpreter teardown.
-    """
-
     imports = ";".join(f"importlib.import_module({module!r})" for module in modules)
     proc = subprocess.run(
         [sys.executable, "-I", "-c", f"import importlib;{imports}"],
@@ -200,23 +158,19 @@ def _isolated_import_probe(modules: tuple[str, ...]) -> tuple[bool, str]:
 
 @lru_cache(maxsize=1)
 def _check_video_backend() -> tuple[bool, str]:
-    """Require an importable real-video decoder while containing native-library failures."""
-
     errors: list[str] = []
-    ok, detail = _isolated_import_probe(("decord",))
-    if ok:
-        return True, "present: decord (isolated import)"
-    errors.append(f"decord={detail}")
-
-    ok, detail = _isolated_import_probe(("av", "torchvision.io"))
-    if ok:
-        return True, "present: torchvision.io + PyAV (isolated import)"
-    errors.append(f"torchvision/PyAV={detail}")
+    for modules, label in (
+        (("decord",), "decord"),
+        (("av", "torchvision.io"), "torchvision.io + PyAV"),
+    ):
+        ok, detail = _isolated_import_probe(modules)
+        if ok:
+            return True, f"present: {label} (isolated import)"
+        errors.append(f"{label.replace('torchvision.io + PyAV', 'torchvision/PyAV')}={detail}")
     return False, ", ".join(errors) + "; install `.[video]` before real-video work"
 
 
 def _check_huggingface() -> tuple[bool, str]:
-    """Require encoder libraries but make no network request; local weights are checked separately."""
     versions: list[str] = []
     for package, module in (("huggingface-hub", "huggingface_hub"), ("transformers", "transformers")):
         try:
@@ -276,130 +230,8 @@ def _local_weight_files(hf_id: str) -> list[Path]:
     return sorted(set(found))
 
 
-@lru_cache(maxsize=32)
-def _sha256_snapshot(path: str, size: int, mtime_ns: int, ctime_ns: int) -> str:
-    """Hash one immutable file snapshot while avoiding repeated multi-GB reads in one process."""
-    del size, mtime_ns, ctime_ns
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def _sha256_current(path: Path) -> str:
-    stat = path.stat()
-    return _sha256_snapshot(
-        str(path.resolve()),
-        int(stat.st_size),
-        int(stat.st_mtime_ns),
-        int(stat.st_ctime_ns),
-    )
-
-
-def _direct_checkpoint_path(cfg: DictConfig) -> tuple[Path | None, str | None]:
-    """Resolve an official direct checkpoint without treating its sentinel hf_id as a Hub repo."""
-    configured = OmegaConf.select(cfg, "checkpoint_path", default=None)
-    if configured:
-        path = Path(str(configured)).expanduser()
-        return (path if path.is_absolute() else REPO_ROOT / path).resolve(), None
-
-    source_url = str(OmegaConf.select(cfg, "checkpoint_url", default="")).strip()
-    filename = Path(urlparse(source_url).path).name
-    if not filename:
-        return None, "direct checkpoint config lacks checkpoint_path and checkpoint_url filename"
-    model_root = REPO_ROOT / "data" / "models"
-    matches = sorted(path.resolve() for path in model_root.rglob(filename) if path.is_file())
-    if not matches:
-        return None, f"direct checkpoint {filename!r} is absent under {model_root}"
-    if len(matches) > 1:
-        return None, f"direct checkpoint {filename!r} is ambiguous under {model_root}: {matches}"
-    return matches[0], None
-
-
-def _check_direct_checkpoint(name: str, cfg: DictConfig) -> tuple[bool, str]:
-    """Validate direct checkpoint bytes and their adjacent immutable authority receipt."""
-    checkpoint, resolution_problem = _direct_checkpoint_path(cfg)
-    if checkpoint is None:
-        return False, str(resolution_problem)
-    problems: list[str] = []
-    if not checkpoint.is_file():
-        return False, f"direct checkpoint missing: {checkpoint}"
-
-    expected_size_raw = OmegaConf.select(cfg, "checkpoint_content_length", default=None)
-    try:
-        expected_size = int(expected_size_raw)
-    except (TypeError, ValueError):
-        expected_size = 0
-        problems.append("config lacks a positive checkpoint_content_length")
-    if expected_size <= 0:
-        problems.append("config checkpoint_content_length must be positive")
-    actual_size = int(checkpoint.stat().st_size)
-    if expected_size > 0 and actual_size != expected_size:
-        problems.append(f"file size {actual_size} does not match configured {expected_size}")
-
-    expected_sha = str(OmegaConf.select(cfg, "checkpoint_sha256", default="")).lower()
-    if len(expected_sha) != 64 or any(char not in "0123456789abcdef" for char in expected_sha):
-        problems.append("config lacks a valid checkpoint_sha256")
-        expected_sha = ""
-    actual_sha = _sha256_current(checkpoint)
-    if expected_sha and actual_sha != expected_sha:
-        problems.append("file SHA256 does not match configured checkpoint_sha256")
-
-    receipt_path_raw = OmegaConf.select(cfg, "checkpoint_receipt_path", default=None)
-    if receipt_path_raw:
-        receipt_path = Path(str(receipt_path_raw)).expanduser()
-        if not receipt_path.is_absolute():
-            receipt_path = REPO_ROOT / receipt_path
-        receipt_path = receipt_path.resolve()
-    else:
-        receipt_path = checkpoint.with_name(checkpoint.name + ".receipt.json")
-    receipt: dict = {}
-    if not receipt_path.is_file():
-        problems.append(f"checkpoint receipt missing: {receipt_path}")
-    else:
-        try:
-            loaded = json.loads(receipt_path.read_text())
-            receipt = loaded if isinstance(loaded, dict) else {}
-            if not isinstance(loaded, dict):
-                problems.append("checkpoint receipt must be a JSON mapping")
-        except (OSError, json.JSONDecodeError):
-            problems.append("checkpoint receipt is not valid JSON")
-    if receipt:
-        if receipt.get("schema") != "mop-vjepa21-official-checkpoint/v1":
-            problems.append("checkpoint receipt schema is not the official checkpoint schema")
-        if receipt.get("all_ok") is not True:
-            problems.append("checkpoint receipt is not green")
-        if receipt.get("size") != expected_size or receipt.get("size") != actual_size:
-            problems.append("checkpoint receipt size does not match config and file")
-        if receipt.get("sha256") != expected_sha or receipt.get("sha256") != actual_sha:
-            problems.append("checkpoint receipt SHA256 does not match config and file")
-        receipt_bindings = {
-            "source_url": OmegaConf.select(cfg, "checkpoint_url", default=None),
-            "source_etag": OmegaConf.select(cfg, "checkpoint_etag", default=None),
-            "source_version_id": OmegaConf.select(cfg, "checkpoint_version_id", default=None),
-            "repository_commit": OmegaConf.select(cfg, "official_repo_commit", default=None),
-        }
-        for field, expected in receipt_bindings.items():
-            if expected is not None and receipt.get(field) != expected:
-                problems.append(f"checkpoint receipt {field} does not match config")
-
-    detail = (
-        f"{name}: direct checkpoint {checkpoint}, {actual_size} bytes, sha256={actual_sha}, "
-        f"receipt={receipt_path}"
-    )
-    if problems:
-        detail += "; " + "; ".join(problems)
-    return not problems, detail
-
-
 def _check_encoder_weights(profile_name: str | None = None) -> tuple[bool, str]:
-    """Require profile-relevant local weight shards without downloading them.
-
-    Local-max requires the configured default encoder. Studio envelopes require the published
-    encoder-scale grid. This keeps a missing giant model from masquerading as a laptop hardware wall.
-    """
-    required: list[tuple[str, str, DictConfig]] = []
+    required: list[tuple[str, DictConfig]] = []
     default_cfg = OmegaConf.load(REPO_ROOT / "configs" / "config.yaml")
     default_name = str(OmegaConf.select(default_cfg, "defaults.encoder", default=""))
     studio_profile = str(profile_name or _infer_profile_name()).startswith("studio-")
@@ -409,49 +241,38 @@ def _check_encoder_weights(profile_name: str | None = None) -> tuple[bool, str]:
         name = str(OmegaConf.select(cfg, "name", default=path.stem))
         if not studio_profile and name != default_name:
             continue
-        source_kind = str(OmegaConf.select(cfg, "source_kind", default="huggingface"))
-        required.append((name, source_kind, cfg))
+        required.append((name, cfg))
     present: list[str] = []
     missing: list[str] = []
-    direct_details: list[str] = []
-    for name, source_kind, cfg in required:
-        if source_kind == "official_pytorch_checkpoint":
-            ok, detail = _check_direct_checkpoint(name, cfg)
-            direct_details.append(detail)
-            (present if ok else missing).append(name if ok else f"{name}({detail})")
-            continue
+    for name, cfg in required:
         hf_id = str(OmegaConf.select(cfg, "hf_id", default=""))
         files = _local_weight_files(hf_id) if hf_id else []
         (present if files else missing).append(name if files else f"{name}({hf_id or 'missing hf_id'})")
     roots = ", ".join(str(root) for root in _hf_cache_roots())
-    authority = "; direct authorities: " + " | ".join(direct_details) if direct_details else ""
     if missing:
         return (
             False,
             f"local weight shards {len(present)}/{len(required)}; missing {missing}; "
-            f"searched HF roots {roots}{authority}",
+            f"searched HF roots {roots}",
         )
-    return True, f"local weight shards present for {present}; searched HF roots {roots}{authority}"
+    return True, f"local weight shards present for {present}; searched HF roots {roots}"
 
 
 def _check_cache_manifests() -> tuple[bool, str]:
-    """Require every on-disk latent store to pass strict citable validation."""
     root = REPO_ROOT / "data" / "cache"
     stores = sorted(path for path in root.glob("*") if path.is_dir() and (path / "meta.json").exists())
     if not stores:
         return False, "0 latent stores found; a full campaign needs at least one citable cache"
-    failures: list[str] = []
-    for store in stores:
-        problems = validate_cache(store, citable=True)
-        if problems:
-            failures.append(f"{store.name}: {problems[0]}")
+    failures = [
+        f"{store.name}: {problems[0]}" for store in stores if (problems := validate_cache_manifest(store))
+    ]
     if failures:
         return (
             False,
             f"{len(stores) - len(failures)}/{len(stores)} stores citable; first failures: "
             + "; ".join(failures[:3]),
         )
-    return True, f"{len(stores)}/{len(stores)} stores pass citable manifest and integrity checks"
+    return True, f"{len(stores)}/{len(stores)} stores pass citable manifest checks"
 
 
 def _check_cache_write() -> tuple[bool, str]:
@@ -495,6 +316,9 @@ def _probes(profile_name: str | None = None) -> tuple[tuple[str, Callable[[], tu
     )
 
 
+CHECK_NAMES = tuple(name for name, _probe in _probes())
+
+
 def _host_receipt() -> dict:
     info = dict(apple_silicon_info())
     du = shutil.disk_usage(REPO_ROOT)
@@ -512,7 +336,14 @@ def _host_receipt() -> dict:
 def _classify_failures(checks: list[dict]) -> dict[str, object]:
     failed = {str(check["name"]) for check in checks if not check["ok"]}
     groups = {
-        "software": {"python", "package_import", "torch", "memory_telemetry", "video_backend", "huggingface"},
+        "software": {
+            "python",
+            "package_import",
+            "torch",
+            "memory_telemetry",
+            "video_backend",
+            "huggingface",
+        },
         "evidence": {"encoders", "encoder_weights", "cache_manifests", "config_validation"},
         "resource_safety": {"apple_silicon", "disk_space", "profile_host_match", "profile_floor"},
     }
@@ -530,7 +361,6 @@ def _classify_failures(checks: list[dict]) -> dict[str, object]:
 
 
 def doctor(profile_name: str | None = None) -> dict:
-    """Run all cheap probes and return a machine-readable, no-download readiness receipt."""
     resolved_profile = profile_name or _infer_profile_name()
     checks = [_check(name, fn) for name, fn in _probes(resolved_profile)]
     passed = sum(1 for check in checks if check["ok"])
@@ -557,7 +387,6 @@ def doctor(profile_name: str | None = None) -> dict:
 
 
 def render_md(report: dict) -> str:
-    """Render every check plus the measured profile decision."""
     summary = report["summary"]
     profile_name = report.get("profile", {}).get("resolved", "unknown")
     head = f"CURRENT HOST READY FOR {profile_name}" if report["all_ok"] else "CURRENT HOST NOT READY"

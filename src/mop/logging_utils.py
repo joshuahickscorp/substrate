@@ -1,20 +1,15 @@
-"""Logging + run manifests. Every run gets a directory under runs/ holding the
-resolved config snapshot, a manifest (seed, device, git, timing), and any metrics
-or plots. No silent failures: errors are logged and surfaced, never swallowed.
-"""
-
 from __future__ import annotations
 
-import json
 import logging
 import platform
-import subprocess
 import sys
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from .config import REPO_ROOT
+from .evidence import atomic_write_json
+from .provenance import git_sha, package_versions
 
 _FMT = "%(asctime)s %(levelname)s %(name)s | %(message)s"
 
@@ -30,25 +25,12 @@ def get_logger(name: str = "mop", level: int = logging.INFO) -> logging.Logger:
     return log
 
 
-def _git_rev() -> str:
-    try:
-        return (
-            subprocess.check_output(
-                ["git", "rev-parse", "--short", "HEAD"], cwd=REPO_ROOT, stderr=subprocess.DEVNULL
-            )
-            .decode()
-            .strip()
-        )
-    except Exception:
-        return "nogit"
-
-
 @dataclass
 class RunManifest:
     name: str
     seed: int
     device: str
-    git: str = field(default_factory=_git_rev)
+    git: str = field(default_factory=git_sha)
     python: str = field(default_factory=lambda: sys.version.split()[0])
     platform: str = field(default_factory=platform.platform)
     started: float = field(default_factory=time.time)
@@ -56,25 +38,20 @@ class RunManifest:
     status: str = "running"
     metrics: dict = field(default_factory=dict)
     extra: dict = field(default_factory=dict)
-    # provenance: what produced this run (see provenance.py)
     encoder_id: str = ""
     encoder_backend: str = ""
     cache_id: str = ""
     result_tag: str = "provisional"
-    packages: dict = field(
-        default_factory=lambda: __import__("mop.provenance", fromlist=["x"]).package_versions()
-    )
+    packages: dict = field(default_factory=package_versions)
 
     def write(self, run_dir: Path) -> Path:
         run_dir.mkdir(parents=True, exist_ok=True)
         p = run_dir / "manifest.json"
-        p.write_text(json.dumps(asdict(self), indent=2, default=str))
+        atomic_write_json(p, asdict(self))
         return p
 
 
 def new_run_dir(name: str, root: Path | None = None) -> Path:
-    """Create a unique run dir runs/<name>/<n>. No timestamp: deterministic across
-    a session, monotonic per name, so reruns are easy to diff."""
     base = (root or REPO_ROOT / "runs") / name
     base.mkdir(parents=True, exist_ok=True)
     numeric = [int(p.name) for p in base.iterdir() if p.is_dir() and p.name.isdigit()]
@@ -82,8 +59,6 @@ def new_run_dir(name: str, root: Path | None = None) -> Path:
     while True:
         d = base / f"{n:03d}"
         try:
-            # exist_ok=False is the atomic claim. Concurrent workers can observe the same max, but
-            # exactly one creates it and the others advance rather than overwriting its receipt.
             d.mkdir(parents=False, exist_ok=False)
             return d
         except FileExistsError:

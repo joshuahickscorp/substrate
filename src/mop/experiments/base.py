@@ -1,101 +1,126 @@
-"""The doctrine contract, enforced in code. Every experiment carries a baseline, an
-ablation, a metric, and an explicit null. A concrete Experiment that fails to declare its
-null_hypothesis (or any contract field) raises at class-definition time: it cannot exist,
-let alone run. This is the corpus rule ("'it just did not work' is not acceptable") made
-unskippable.
-"""
-
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+import json
+from collections.abc import Callable, Mapping
+from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import Any
 
 from omegaconf import DictConfig
 
 from ..devices import DeviceInfo
+from ..evidence import canonical_bytes, canonical_sha256
 
-if TYPE_CHECKING:
-    from ..substrate.datasets import Task
-
-CONTRACT = ("id", "metric", "baseline", "ablation", "null_hypothesis", "tier")
-TIERS = {"cpu-now", "gpu-later", "env-later", "2.1-only"}
-
-
-def _mean(v):
-    return sum(v) / len(v) if v else 0.0
-
-
-def _std(v) -> float:
-    if len(v) < 2:
-        return 0.0
-    m = _mean(v)
-    return (sum((a - m) ** 2 for a in v) / (len(v) - 1)) ** 0.5
-
-
-def _split(task: Task, frac: float = 0.8) -> tuple[Task, Task]:
-    from ..substrate.datasets import Task
-
-    n = int(task.x.shape[0] * frac)
-    tr = Task(task.name, task.x[:n], task.y[:n], n_classes=task.n_classes, task_id=task.task_id)
-    te = Task(task.name, task.x[n:], task.y[n:], n_classes=task.n_classes, task_id=task.task_id)
-    return tr, te
-
-
-def _split_xy(x, y, frac: float = 0.7):
-    cut = int(x.shape[0] * frac)
-    return x[:cut], y[:cut], x[cut:], y[cut:]
+Executor = Callable[[DictConfig, DeviceInfo, Path], dict[str, Any]]
+Verifier = Callable[[Mapping[str, Any], Mapping[str, Any]], Mapping[str, Any]]
+PROGRAM = ("execute_provider", "verify", "project")
+REQUIRED = {
+    "id",
+    "name",
+    "question",
+    "null_hypothesis",
+    "metrics",
+    "controls",
+    "source",
+    "split",
+    "unit",
+    "treatments",
+    "sesoi",
+    "multiplicity",
+    "budget",
+    "stop",
+    "claim_ceiling",
+    "provider",
+    "verifier",
+    "program",
+    "status",
+    "resource_tier",
+}
 
 
-def _spread(v) -> float:
-    return (max(v) - min(v)) / 2.0 if len(v) > 1 else 0.0
+class RecordRefused(ValueError):
+    pass
 
 
-def _diag_mean(r) -> float:
-    return float(sum(r.R[j][j] for j in range(r.T)) / r.T)
+def _copy(value: Mapping[str, Any]) -> dict[str, Any]:
+    return json.loads(canonical_bytes(value))
 
 
-def _fit_eval(backbone, head, x, y, xte, yte, epochs: int, lr: float) -> float:
-    import torch
-    import torch.nn.functional as F
+def validate_declaration(record: Mapping[str, Any]) -> None:
+    missing = REQUIRED - record.keys()
+    if missing:
+        raise RecordRefused(f"experiment declaration is missing {sorted(missing)}")
+    for field in ("id", "name", "question", "null_hypothesis", "provider", "verifier"):
+        if not str(record[field]).strip():
+            raise RecordRefused(f"experiment declaration has an empty {field}")
+    if tuple(record["program"]) != PROGRAM:
+        raise RecordRefused("experiment program is unknown or reordered")
+    if not tuple(record["metrics"]) or not tuple(record["controls"]):
+        raise RecordRefused("metrics and controls must be nonempty")
+    claims = record["claim_ceiling"]
+    if not isinstance(claims, Mapping):
+        raise RecordRefused("claim_ceiling must be a mapping")
+    for field in ("activation_allowed", "scientific_promotion", "independent_confirmation"):
+        if claims.get(field) is not False:
+            raise RecordRefused(f"claim_ceiling.{field} must be false")
 
-    opt = torch.optim.Adam([*backbone.parameters(), *head.parameters()], lr=lr)
-    for _ in range(epochs):
-        opt.zero_grad()
-        z = backbone(x)
-        z = z[0] if isinstance(z, tuple) else z
-        F.cross_entropy(head(z), y).backward()
-        opt.step()
-    with torch.no_grad():
-        z = backbone(xte)
-        z = z[0] if isinstance(z, tuple) else z
-        return float((head(z).argmax(-1) == yte).float().mean())
+
+@dataclass(frozen=True, slots=True)
+class ExperimentSpec:
+    declaration: dict[str, Any]
+    record_sha256: str
+    executor: Executor | None
+    verifier: Verifier | None
+
+    @property
+    def id(self) -> str:
+        return str(self.declaration["id"])
+
+    @property
+    def null_hypothesis(self) -> str:
+        return str(self.declaration["null_hypothesis"])
+
+    def contract(self) -> dict[str, Any]:
+        return {"record": _copy(self.declaration), "record_sha256": self.record_sha256}
 
 
-class Experiment(ABC):
-    id: str = ""
-    metric: tuple[str, ...] = ()
-    baseline: str = ""
-    ablation: str = ""
-    null_hypothesis: str = ""
-    tier: str = ""
+def bind(
+    declaration: Mapping[str, Any],
+    executor: Executor | None,
+    verifier: Verifier | None,
+) -> ExperimentSpec:
+    record = _copy(declaration)
+    validate_declaration(record)
+    if record["status"] != "historical" and (executor is None or verifier is None):
+        raise RecordRefused("a nonhistorical experiment requires execution and verification providers")
+    return ExperimentSpec(record, canonical_sha256(record), executor, verifier)
 
-    def __init_subclass__(cls, **kw):
-        super().__init_subclass__(**kw)
-        if getattr(cls, "__abstractmethods__", None):
-            return  # still-abstract intermediate, not a concrete experiment yet
-        missing = [a for a in CONTRACT if not getattr(cls, a, None)]
-        if missing:
-            raise TypeError(
-                f"{cls.__name__} violates the doctrine contract: missing {missing}. "
-                "Every experiment must declare a baseline, ablation, metric, and null."
-            )
-        if cls.tier not in TIERS:
-            raise TypeError(f"{cls.__name__}.tier={cls.tier!r} not in {sorted(TIERS)}")
 
-    @abstractmethod
-    def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
-        """Run at the configured (toy) scale. Returns a metrics dict (json-serializable)."""
+def interpret(spec: ExperimentSpec, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict[str, Any]:
+    validate_declaration(spec.declaration)
+    if canonical_sha256(spec.declaration) != spec.record_sha256:
+        raise RecordRefused("the experiment declaration authority has drifted")
+    if spec.executor is None or spec.verifier is None:
+        raise RecordRefused(f"experiment {spec.id} is historical and not executable")
+    result = spec.executor(cfg, device, run_dir)
+    if not isinstance(result, dict):
+        raise RecordRefused("execution provider did not return a metric mapping")
+    missing_metrics = set(spec.declaration["metrics"]) - result.keys()
+    if missing_metrics:
+        raise RecordRefused(f"execution provider omitted metrics {sorted(missing_metrics)}")
+    verification = spec.verifier(result, spec.declaration)
+    if verification.get("verified") is not True:
+        raise RecordRefused("verification provider refused the experiment result")
+    if verification.get("independent_scientific_confirmation") is not False:
+        raise RecordRefused("local execution cannot claim independent scientific confirmation")
+    return result
 
-    def contract(self) -> dict:
-        return {a: getattr(self, a) for a in CONTRACT}
+
+__all__ = [
+    "PROGRAM",
+    "ExperimentSpec",
+    "RecordRefused",
+    "bind",
+    "interpret",
+    "validate_declaration",
+]

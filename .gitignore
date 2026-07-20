@@ -40,5 +40,6 @@ runs/mot/*
 *.bin
 **/.DS_Store
 GO.md
-runs/generation2/**/*.npz
-runs/generation2/**/__pycache__/
+
+# Accretion Collapse scratch working area
+.collapse/

@@ -1,47 +1,18 @@
-"""Concurrent-source-counting bed, component 3b: the candidate online re-estimation gate.
-
-This is the ONLY trained module in the counting bed. Per 100 ms frame it consumes the 256 frozen count
-features plus 8 self-derived online scalars (264 inputs) and emits a re-estimation probability
-``p_reestimate = sigmoid(MLP(z))``; it re-estimates iff ``p_reestimate >= theta``. The multilayer
-perceptron is 264 -> 12 -> 1, so its trainable parameter count is 3193, hard-capped at 4096 and
-byte-identical to the sealed onset gate, so the reused parameter and FLOP cost anchors of ``gate.py``
-carry over exactly. Its per-stream online state is eight float64 registers, hard-capped at a few kilobytes.
-
-The gate predicts the value of spending a re-estimation, that is, whether the concurrent-source count is
-about to change so a fresh estimate beats coasting on the stale one. It is trained on train-room value-of-
-computation targets (fire near a count change) with a firing-rate ponder penalty. It NEVER sees the count
-label online: ``infer`` and the online state carry the frozen features and self-derived running statistics
-only, so it is a pure change-detector decoupled from the estimator value. Compute is charged analytically
-through the reused ``gate`` cost model, so the ledger is reproducible across hosts.
-
-House style: no em dashes and no en dashes.
-"""
-
 from __future__ import annotations
 
 import hashlib
 import math
 from dataclasses import dataclass, fields
-from typing import Any
 
 import numpy as np
 
+from mop.evidence import canonical_sha256
 from mop.seeding import derive_seed32
-from mop.substrate.events import canonical_sha256
 
 from .count_featurizer import D_CFEAT, N_CHANNELS, N_MEL
-from .gate import (
-    C_TRAIN_ANCHOR,
-    DEFAULT_EPOCHS,
-    _sigmoid,
-    inference_flops,
-    param_count,
-    training_flops,
-)
 
 COUNT_GATE_SCHEMA = "mop-starss23-count-gate/v1"
 
-# Gate geometry. Byte-identical width to the sealed onset gate so its cost anchors reuse exactly.
 N_CFEAT = D_CFEAT  # 256 frozen count features
 N_CONLINE = 8  # self-derived online scalars
 D_IN = N_CFEAT + N_CONLINE  # 264 gate inputs
@@ -57,30 +28,56 @@ EMA_DECAY = 0.1
 
 DEFAULT_LEARNING_RATE = 0.1
 DEFAULT_PONDER_LAMBDA = 0.02
+DEFAULT_EPOCHS = 8
+DEFAULT_TRAIN_FRAMES = 54_000
+TRAIN_STEP_FACTOR = 3
 COUNT_VOC_WINDOW = 1  # a re-estimation is valuable within +/- 1 frame of a count change
 
-# The first N_MEL * N_CHANNELS = 128 features are the positive (source-enter) flux; the last 128 are the
-# negative (source-leave) flux, matching count_featurizer.featurize's concatenation order.
 _POS_BLOCK = N_MEL * N_CHANNELS  # 128
-
-# Anchors reused unchanged from gate.py so the counting bed and the onset bed charge identical costs.
-C_TRAIN_ANCHOR_COUNT = C_TRAIN_ANCHOR
-FLOPS_PER_INFERENCE = inference_flops(D_IN, HIDDEN, N_OUT)  # 6385
 
 
 class CountGateRefusal(ValueError):
-    """Raised when the candidate count gate would breach its parameter, state, or interface contract."""
+    pass
+
+
+N_PARAMS = D_IN * HIDDEN + HIDDEN + HIDDEN * N_OUT + N_OUT
+if N_PARAMS > PARAM_CEILING:
+    raise CountGateRefusal(f"gate trainable parameters {N_PARAMS} exceed the {PARAM_CEILING} ceiling")
+
+
+def inference_flops(d_in: int = D_IN, hidden: int = HIDDEN, n_out: int = N_OUT) -> int:
+    return 2 * d_in * hidden + 2 * hidden + 2 * hidden * n_out + n_out
+
+
+def training_flops(
+    n_train_frames: int = DEFAULT_TRAIN_FRAMES,
+    epochs: int = DEFAULT_EPOCHS,
+    d_in: int = D_IN,
+    hidden: int = HIDDEN,
+    n_out: int = N_OUT,
+) -> int:
+    if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
+        raise CountGateRefusal("n_train_frames must be a nonnegative integer")
+    if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs < 0:
+        raise CountGateRefusal("epochs must be a nonnegative integer")
+    return epochs * n_train_frames * TRAIN_STEP_FACTOR * inference_flops(d_in, hidden, n_out)
+
+
+def _sigmoid(x: np.ndarray) -> np.ndarray:
+    out = np.empty_like(x, dtype=np.float64)
+    positive = x >= 0.0
+    out[positive] = 1.0 / (1.0 + np.exp(-x[positive]))
+    exp_x = np.exp(x[~positive])
+    out[~positive] = exp_x / (1.0 + exp_x)
+    return out
+
+
+FLOPS_PER_INFERENCE = inference_flops()
+C_TRAIN_ANCHOR = training_flops()
 
 
 @dataclass(frozen=True, slots=True)
 class CountOnlineState:
-    """Per-stream online state fed to the count gate. Carries only self-derived running statistics.
-
-    The eight registers are updated causally from the frozen features and the gate's own re-estimation
-    decisions. None is a count label: the gate is blind to ground truth online by construction.
-    ``to_vector`` returns the eight bounded scalars the MLP sees.
-    """
-
     n_frames: float = 0.0
     n_reestimates: float = 0.0
     last_reestimate_frame: float = -1.0
@@ -91,18 +88,14 @@ class CountOnlineState:
     last_p_reestimate: float = 0.0
 
     @classmethod
-    def initial(cls) -> "CountOnlineState":
+    def initial(cls) -> CountOnlineState:
         return cls()
 
     @classmethod
     def state_bytes(cls) -> int:
-        """Byte footprint of the per-stream state: one float64 per register. Hard-capped few-KB."""
-
         return len(fields(cls)) * 8
 
     def to_vector(self) -> np.ndarray:
-        """Return the eight bounded online scalars the gate consumes, as float64."""
-
         recency = math.tanh((self.n_frames - self.last_reestimate_frame) / PHASE_HORIZON)
         phase = math.fmod(self.n_frames, PHASE_HORIZON) / PHASE_HORIZON
         cumulative_fraction = self.n_reestimates / max(1.0, self.n_frames)
@@ -120,14 +113,7 @@ class CountOnlineState:
             dtype=np.float64,
         )
 
-    def update(self, features: np.ndarray, p_reestimate: float, reestimated: bool) -> "CountOnlineState":
-        """Return the next state after observing one frame and the gate's own re-estimation decision.
-
-        Deterministic. Uses only the features and the decision, never a label. The energy is the mean of
-        the 256 features; the positive and negative flux peaks are the maxima of the two 128-feature
-        polarity blocks. The exponential moving averages decay at a fixed rate.
-        """
-
+    def update(self, features: np.ndarray, p_reestimate: float, reestimated: bool) -> CountOnlineState:
         features = np.asarray(features, dtype=np.float64)
         energy = float(features.mean()) if features.size else 0.0
         pos_peak = float(features[:_POS_BLOCK].max()) if features.size else 0.0
@@ -145,37 +131,24 @@ class CountOnlineState:
         )
 
 
-@dataclass
-class CountTrainingReport:
-    """Deterministic record of one fit call. Compute is the analytic C_train, not a measured count."""
-
-    epochs: int
-    n_train_frames: int
-    learning_rate: float
-    ponder_lambda: float
-    loss_history: tuple[float, ...]
-    final_reestimate_rate: float
-    c_train_flops: int
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "epochs": self.epochs,
-            "n_train_frames": self.n_train_frames,
-            "learning_rate": self.learning_rate,
-            "ponder_lambda": self.ponder_lambda,
-            "loss_history": [float(value) for value in self.loss_history],
-            "final_reestimate_rate": self.final_reestimate_rate,
-            "c_train_flops": self.c_train_flops,
-        }
-
-
 class CountGate:
-    """The only trained module: an online value-of-computation re-estimation trigger for counting.
+    def predict_proba(self, x: np.ndarray) -> np.ndarray:
+        x = np.asarray(x, dtype=np.float64)
+        if x.ndim != 2 or x.shape[1] != D_IN:
+            raise CountGateRefusal(f"gate input must be shape (N, {D_IN})")
+        return self._forward(x)[0]
 
-    Construction hard-asserts the parameter ceiling (<= 4096) and the online-state ceiling (few-KB).
-    Weights are seeded deterministically through ``derive_seed32`` so paired seeds reproduce byte for
-    byte. The forward path takes features plus online scalars and never a label.
-    """
+    def _assemble(self, features: np.ndarray, state: CountOnlineState) -> np.ndarray:
+        features = np.asarray(features, dtype=np.float64)
+        if features.shape != (N_CFEAT,):
+            raise CountGateRefusal(f"features must be a length {N_CFEAT} vector")
+        if not isinstance(state, CountOnlineState):
+            raise CountGateRefusal("state must be a CountOnlineState")
+        return np.concatenate([features, state.to_vector()])
+
+    def infer(self, features: np.ndarray, state: CountOnlineState) -> float:
+        x = self._assemble(features, state)
+        return float(self.predict_proba(x[None, :])[0])
 
     _SEED_NAMESPACE = "mop.beds.starss23.count_gate.init"
 
@@ -183,19 +156,8 @@ class CountGate:
         self,
         *,
         seed: int = 0,
-        d_in: int = D_IN,
-        hidden: int = HIDDEN,
-        n_out: int = N_OUT,
         theta: float = DEFAULT_THETA,
     ) -> None:
-        if hidden <= 0 or d_in <= 0 or n_out <= 0:
-            raise CountGateRefusal("gate dimensions must be positive")
-        n_params = param_count(d_in, hidden, n_out)
-        if n_params > PARAM_CEILING:
-            raise CountGateRefusal(
-                f"gate trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling"
-            )
-        assert n_params <= PARAM_CEILING, "count gate parameter ceiling breached"
         state_bytes = CountOnlineState.state_bytes()
         if state_bytes > STATE_CEILING_BYTES:
             raise CountGateRefusal(
@@ -205,28 +167,17 @@ class CountGate:
         if not 0.0 <= theta <= 1.0:
             raise CountGateRefusal("theta must lie in [0, 1]")
 
-        self.d_in = d_in
-        self.hidden = hidden
-        self.n_out = n_out
         self.theta = float(theta)
         self.seed = int(seed)
 
         rng = np.random.default_rng(derive_seed32(self.seed, self._SEED_NAMESPACE))
-        self.W1 = rng.standard_normal((hidden, d_in)) * math.sqrt(2.0 / d_in)
-        self.b1 = np.zeros(hidden, dtype=np.float64)
-        self.W2 = rng.standard_normal((n_out, hidden)) * math.sqrt(2.0 / hidden)
-        self.b2 = np.zeros(n_out, dtype=np.float64)
+        self.W1 = rng.standard_normal((HIDDEN, D_IN)) * math.sqrt(2.0 / D_IN)
+        self.b1 = np.zeros(HIDDEN, dtype=np.float64)
+        self.W2 = rng.standard_normal((N_OUT, HIDDEN)) * math.sqrt(2.0 / HIDDEN)
+        self.b2 = np.zeros(N_OUT, dtype=np.float64)
 
     def n_params(self) -> int:
-        """Exact trainable-parameter count from the live weight arrays."""
-
-        return int(self.W1.size + self.b1.size + self.W2.size + self.b2.size)
-
-    def flops_per_inference(self) -> int:
-        return inference_flops(self.d_in, self.hidden, self.n_out)
-
-    def training_flops(self, n_train_frames: int, epochs: int) -> int:
-        return training_flops(n_train_frames, epochs, self.d_in, self.hidden, self.n_out)
+        return N_PARAMS
 
     def parameter_digest(self) -> str:
         payload = {
@@ -235,9 +186,9 @@ class CountGate:
             "b1_sha256": hashlib.sha256(self.b1.astype("<f8").tobytes()).hexdigest(),
             "w2_sha256": hashlib.sha256(self.W2.astype("<f8").tobytes()).hexdigest(),
             "b2_sha256": hashlib.sha256(self.b2.astype("<f8").tobytes()).hexdigest(),
-            "d_in": self.d_in,
-            "hidden": self.hidden,
-            "n_out": self.n_out,
+            "d_in": D_IN,
+            "hidden": HIDDEN,
+            "n_out": N_OUT,
             "n_params": self.n_params(),
         }
         return canonical_sha256(payload)
@@ -249,36 +200,6 @@ class CountGate:
         p_reestimate = _sigmoid(logit[:, 0])
         return p_reestimate, hidden_pre, hidden
 
-    def predict_proba(self, x: np.ndarray) -> np.ndarray:
-        x = np.asarray(x, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise CountGateRefusal(f"gate input must be shape (N, {self.d_in})")
-        p_reestimate, _, _ = self._forward(x)
-        return p_reestimate
-
-    def _assemble(self, features: np.ndarray, state: CountOnlineState) -> np.ndarray:
-        features = np.asarray(features, dtype=np.float64)
-        if features.shape != (N_CFEAT,):
-            raise CountGateRefusal(f"features must be a length {N_CFEAT} vector")
-        if not isinstance(state, CountOnlineState):
-            raise CountGateRefusal("state must be a CountOnlineState")
-        return np.concatenate([features, state.to_vector()])
-
-    def infer(self, features: np.ndarray, state: CountOnlineState) -> float:
-        """Online re-estimation probability for one frame. Takes features and self-state, never a label."""
-
-        x = self._assemble(features, state)
-        return float(self.predict_proba(x[None, :])[0])
-
-    def decide(
-        self, features: np.ndarray, state: CountOnlineState, theta: float | None = None
-    ) -> tuple[bool, float]:
-        """Return ``(reestimate, p_reestimate)`` for one frame; re-estimates iff p_reestimate >= theta."""
-
-        threshold = self.theta if theta is None else float(theta)
-        p_reestimate = self.infer(features, state)
-        return (p_reestimate >= threshold, p_reestimate)
-
     def fit(
         self,
         x: np.ndarray,
@@ -287,20 +208,11 @@ class CountGate:
         epochs: int = DEFAULT_EPOCHS,
         learning_rate: float = DEFAULT_LEARNING_RATE,
         ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
-    ) -> CountTrainingReport:
-        """Fit the gate on train-room value-of-computation targets with a re-estimation ponder penalty.
-
-        ``x`` is (N, d_in): each row is a frame's 256 features plus its 8 online scalars. ``voc_targets`` is
-        (N,) in {0, 1}: 1 within ``COUNT_VOC_WINDOW`` frames of a count change, where a re-estimation beats
-        coasting. The loss is binary cross-entropy plus ``ponder_lambda`` times the mean re-estimation
-        probability, which prices re-estimations so the gate does not re-estimate everywhere. Full-batch
-        deterministic gradient descent. The reported compute is the analytic C_train.
-        """
-
+    ) -> float:
         x = np.asarray(x, dtype=np.float64)
         y = np.asarray(voc_targets, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise CountGateRefusal(f"training inputs must be shape (N, {self.d_in})")
+        if x.ndim != 2 or x.shape[1] != D_IN:
+            raise CountGateRefusal(f"training inputs must be shape (N, {D_IN})")
         if y.ndim != 1 or y.shape[0] != x.shape[0]:
             raise CountGateRefusal("voc_targets must be a length-N vector aligned to the inputs")
         if not np.all((y == 0.0) | (y == 1.0)):
@@ -313,16 +225,10 @@ class CountGate:
             raise CountGateRefusal("ponder_lambda must be nonnegative")
 
         n = x.shape[0]
-        eps = 1e-12
-        loss_history: list[float] = []
         final_p = np.zeros(n, dtype=np.float64)
         for _ in range(epochs):
             p_reestimate, hidden_pre, hidden = self._forward(x)
             final_p = p_reestimate
-            clipped = np.clip(p_reestimate, eps, 1.0 - eps)
-            bce = -(y * np.log(clipped) + (1.0 - y) * np.log(1.0 - clipped)).mean()
-            ponder = ponder_lambda * p_reestimate.mean()
-            loss_history.append(float(bce + ponder))
             d_logit = ((p_reestimate - y) + ponder_lambda * p_reestimate * (1.0 - p_reestimate)) / n
             d_logit = d_logit[:, None]
             grad_w2 = d_logit.T @ hidden
@@ -336,24 +242,10 @@ class CountGate:
             self.W1 -= learning_rate * grad_w1
             self.b1 -= learning_rate * grad_b1
 
-        return CountTrainingReport(
-            epochs=epochs,
-            n_train_frames=n,
-            learning_rate=float(learning_rate),
-            ponder_lambda=float(ponder_lambda),
-            loss_history=tuple(loss_history),
-            final_reestimate_rate=float(final_p.mean()),
-            c_train_flops=self.training_flops(n, epochs),
-        )
+        return float(final_p.mean())
 
 
 def voc_targets_from_count_track(count_track, window: int = COUNT_VOC_WINDOW) -> np.ndarray:
-    """Value-of-computation targets: 1 within ``window`` frames of a count change, else 0. Train labels only.
-
-    A change frame c satisfies ``count[c] != count[c-1]``; a re-estimation within ``window`` of any change
-    recovers the fresh count that coasting would miss. Used only at train time on train rooms.
-    """
-
     track = [int(v) for v in count_track]
     n_frames = len(track)
     if isinstance(window, bool) or not isinstance(window, int) or window < 0:

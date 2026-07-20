@@ -1,57 +1,31 @@
-"""Experiment registry. id -> Experiment class. The doctrine contract is enforced at import
-time (a subclass without a declared null cannot even be defined)."""
-
 from __future__ import annotations
 
-from .base import Experiment
-from .e1_baseline_harness import E1
-from .i4_backprop_alternatives import I4
+from typing import Any
 
-REGISTRY: dict[str, type[Experiment]] = {E1.id: E1, I4.id: I4}
+import yaml
 
-
-def register(cls: type[Experiment]) -> type[Experiment]:
-    REGISTRY[cls.id] = cls
-    return cls
+from ..config import REPO_ROOT
+from .base import ExperimentSpec, RecordRefused, bind, interpret
 
 
-def get_experiment(eid: str) -> Experiment:
-    if eid not in REGISTRY:
-        raise KeyError(f"unknown experiment {eid!r}; have {sorted(REGISTRY)}")
-    return REGISTRY[eid]()
+def _registry_rows() -> list[dict[str, Any]]:
+    payload = yaml.safe_load((REPO_ROOT / "registry/experiments.yaml").read_text())
+    rows = payload.get("experiments") if isinstance(payload, dict) else None
+    if not isinstance(rows, list) or not all(isinstance(row, dict) for row in rows):
+        raise RecordRefused("registry/experiments.yaml must contain experiment mappings")
+    return rows
 
 
-# E2-E10 scaffolds, registered on import
-from . import scaffolds  # noqa: E402
+_ROWS = _registry_rows()
+if any(row.get("status") != "historical" for row in _ROWS):
+    raise RecordRefused("a maintained experiment declaration must be historical or have a provider binding")
+REGISTRY = {row["id"]: bind(row, None, None) for row in _ROWS}
 
-for _cls in scaffolds.SCAFFOLDS:
-    REGISTRY[_cls.id] = _cls
 
-# The custom-substrate lane is intentionally kept out of the generic scaffold bank: CM7 is a
-# checkpointed local training workbench and CM8 is its fail-closed upstream-evidence preflight.
-from .custom_substrate import CM7, CM8  # noqa: E402
+def get_experiment(experiment_id: str) -> ExperimentSpec:
+    if experiment_id not in REGISTRY:
+        raise KeyError(f"unknown experiment {experiment_id!r}; have {sorted(REGISTRY)}")
+    return REGISTRY[experiment_id]
 
-REGISTRY[CM7.id] = CM7
-REGISTRY[CM8.id] = CM8
 
-# P4 and P5 ride the same lane: each class is a bounded mechanics smoke of its registered
-# codepath; the campaigns run through scripts/p4_capability_density.py and
-# scripts/p5_context_capability.py.
-from .p4_capability_density import P4Screen  # noqa: E402
-from .p5_context_wrapper import P5Context  # noqa: E402
-
-REGISTRY[P4Screen.id] = P4Screen
-REGISTRY[P5Context.id] = P5Context
-
-__all__ = [
-    "Experiment",
-    "E1",
-    "I4",
-    "CM7",
-    "CM8",
-    "P4Screen",
-    "P5Context",
-    "REGISTRY",
-    "register",
-    "get_experiment",
-]
+__all__ = ["ExperimentSpec", "REGISTRY", "RecordRefused", "get_experiment", "interpret"]
