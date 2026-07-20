@@ -2334,6 +2334,35 @@
         "collapse/MOP_CODEBASE_CENSUS.json",
         "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json"
       ]
+    },
+    {
+      "id": "retired_superseded_generated_graph_and_migration_analyses",
+      "source_tag": "mop-collapse-lowest-green-28",
+      "reason": "seven generated baseline graph, duplication, authority, equivalence, and migration analyses had no runtime, test, tooling, or proof consumer; their governing script-class, module, lifecycle-boilerplate, integrity-definition, and evidence-equivalence totals already survive in compact state, while every full source snapshot remains exactly tag-addressable",
+      "replacement_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-28:<path>",
+      "content_sha256": {
+        "collapse/MOP_COMMAND_GRAPH.json": "337db83e30cef4d01ef818e246add8924881efc2249eed4bc691cec0c46a50bf",
+        "collapse/MOP_EVIDENCE_MIGRATION.json": "31cfa441e6bc7a7896dea5b58ad4edbb43ca97a744d9c5b29d3155ad9e307fb0",
+        "collapse/MOP_IMPORT_GRAPH.json": "93a21d2b261f0cc447aa452999a60e12d65c7397959db3fccbbe1abc9b5f18df",
+        "collapse/MOP_DUP_FUNCTIONS.json": "de3f4c6c099c9bdc35a5a54421e6028d2a252c6f2a02ed29ab5ae192c2b14b5b",
+        "collapse/MOP_DUPLICATION_GRAPH.json": "f8650c9c6d82049a75a3bd22b975a3a6a254bf2b55d5ac37579d86931148f4c4",
+        "collapse/MOP_AUTHORITY_GRAPH.json": "fa3495a1d061ca57b0808ba76d20f4e8da173cd0ec5200611ec3a086cab25db0",
+        "collapse/MOP_EVIDENCE_EQUIVALENCE.json": "38b0e717cf09e5199d7ce2c2ef9184e49392405084351fb7b6d05af9365efc9f"
+      },
+      "paths": [
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_EVIDENCE_MIGRATION.json",
+        "collapse/MOP_IMPORT_GRAPH.json",
+        "collapse/MOP_DUP_FUNCTIONS.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_EVIDENCE_EQUIVALENCE.json"
+      ]
     }
   ]
 }

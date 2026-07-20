@@ -1629,6 +1629,16 @@
       "primitive": "retire generated baseline census and STARSS line-range snapshots after their governing totals and disposition survive in the compact state and completion audit",
       "proof": "both deleted paths resolve byte-exactly from mop-collapse-lowest-green-27-audit-corrected with SHA-256 9ba3229ed489a6598015ff3ca0569adf76c229ac803ad2119130572326a8ab3d and ceea0f5fd7c46092c24dee32b9c85bdc96d84aaa9f631996bd78aeb8e69a2145; compact baseline and STARSS category totals remain in MOP_COLLAPSE_STATE.json; the current physical census and scientific disposition remain in MOP_COMPLETION_AUDIT.json",
       "tag": "mop-collapse-retired-generated-audit-maps"
+    },
+    {
+      "batch": "retired_superseded_generated_analysis_maps",
+      "checkpoint_status": "green",
+      "metric": "tracked text physical LOC outside current documentation",
+      "eliminated_physical_LOC": 7326,
+      "files_deleted": 7,
+      "primitive": "retire generated baseline command/import/duplication/authority/equivalence/migration analyses after their governing totals survive in compact state",
+      "proof": "all seven deleted paths have recorded SHA-256 values and resolve byte-exactly from mop-collapse-lowest-green-28; no runtime, test, tooling, proof, or current audit consumer imports or parses them",
+      "tag": "mop-collapse-retired-generated-analysis-maps"
     }
   ],
   "latest_full_validation": {
