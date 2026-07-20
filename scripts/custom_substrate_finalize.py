@@ -129,11 +129,11 @@ def freeze_raw(run_dir: Path, *, allow_finalized: bool = False) -> tuple[dict[st
     current_path = run_dir / "workbench_receipt.json"
     current = json.loads(current_path.read_text())
     embedded = current.pop("evidence_attestation", None)
-    if not isinstance(embedded, dict):
+    if embedded is not None and not isinstance(embedded, dict):
+        raise RuntimeError("legacy embedded attestation is malformed")
+    if current.get("receipt_chain_schema") == CHAIN_SCHEMA:
         if not allow_finalized:
-            raise RuntimeError("completed receipt has no embedded launch-time attestation")
-        if current.get("receipt_chain_schema") != CHAIN_SCHEMA:
-            raise RuntimeError("existing receipt is not a finalized CM7 composite")
+            raise RuntimeError("existing receipt is already a finalized CM7 composite")
         links = current.get("receipt_chain") or {}
         raw_link = links.get("raw_training_receipt")
         if not isinstance(raw_link, dict):
@@ -156,9 +156,10 @@ def freeze_raw(run_dir: Path, *, allow_finalized: bool = False) -> tuple[dict[st
         return raw, expected
     raw_bytes = json_bytes(current)
     raw_hash = _sha_bytes(raw_bytes)
-    expected = str(embedded.get("original_receipt_sha256", ""))
-    if raw_hash != expected:
-        raise RuntimeError(f"raw reconstruction hash {raw_hash} does not match embedded {expected}")
+    if isinstance(embedded, dict):
+        expected = str(embedded.get("original_receipt_sha256", ""))
+        if raw_hash != expected:
+            raise RuntimeError(f"raw reconstruction hash {raw_hash} does not match embedded {expected}")
     raw_path = run_dir / "raw_workbench_receipt.json"
     if raw_path.exists() and sha256_file(raw_path) != raw_hash:
         raise RuntimeError("immutable raw receipt already exists with a different hash")
@@ -171,11 +172,11 @@ def freeze_raw(run_dir: Path, *, allow_finalized: bool = False) -> tuple[dict[st
     return current, raw_hash
 
 
-def build_attestation(run_dir: Path, raw_hash: str) -> dict[str, Any]:
+def build_attestation(run_dir: Path, raw_hash: str, *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
     start_path = run_dir / "requirements_audit.json"
     config = json.loads((run_dir / "resolved_config.json").read_text())
     start = json.loads(start_path.read_text())
-    current = audit_requirements(config["requirements_ledger"])
+    current = audit_requirements(config["requirements_ledger"], repo_root=repo_root)
     current_path = run_dir / "requirements_current_audit.json"
     atomic_write_json(current_path, current)
     problems: list[str] = []
@@ -184,7 +185,7 @@ def build_attestation(run_dir: Path, raw_hash: str) -> dict[str, Any]:
     for requirement in start["requirements"]:
         for source in requirement["sources"]:
             start_sources[str(source["path"])] = source
-            snapshot = REPO_ROOT / source["snapshot_path"]
+            snapshot = repo_root / source["snapshot_path"]
             actual = sha256_file(snapshot) if snapshot.is_file() else None
             expected = source.get("snapshot_sha256")
             ok = actual is not None and actual == expected
@@ -204,7 +205,7 @@ def build_attestation(run_dir: Path, raw_hash: str) -> dict[str, Any]:
     implementation = json.loads(implementation_path.read_text())
     implementation_checks: list[dict[str, Any]] = []
     for row in implementation["files"]:
-        snapshot = REPO_ROOT / row["snapshot_path"]
+        snapshot = repo_root / row["snapshot_path"]
         actual = sha256_file(snapshot) if snapshot.is_file() else None
         ok = actual is not None and actual == row["snapshot_sha256"]
         implementation_checks.append(

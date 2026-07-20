@@ -1918,6 +1918,23 @@
       "paths": [
         "src/mop/science/budget.py"
       ]
+    },
+    {
+      "id": "retired_embedded_custom_substrate_attestation_lifecycle",
+      "source_tag": "mop-collapse-lowest-green-3",
+      "reason": "CM7 training created and embedded a launch-time attestation only for finalization to remove it, reconstruct the raw receipt, and independently build a second attestation; training now emits one raw receipt and finalization is the sole current-evidence attestation owner",
+      "replacement_paths": [
+        "scripts/custom_substrate_finalize.py",
+        "tests/unit/test_custom_substrate_finalize.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-3:<path>",
+      "paths": [
+        "src/mop/substrate/custom_workbench.py",
+        "scripts/custom_substrate_workbench.py",
+        "scripts/custom_substrate_finalize.py",
+        "tests/unit/test_custom_substrate_workbench.py",
+        "tests/unit/test_custom_substrate_finalize.py"
+      ]
     }
   ]
 }

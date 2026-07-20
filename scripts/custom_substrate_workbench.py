@@ -18,7 +18,6 @@ from mop.config import REPO_ROOT, compose
 from mop.devices import resolve
 from mop.evidence import atomic_write_json
 from mop.substrate.custom_workbench import (
-    attest_current_requirements,
     cm8_preflight,
     run_workbench,
 )
@@ -63,7 +62,6 @@ def run_cm7(args: argparse.Namespace) -> int:
     config = _config(args.profile, args.override)
     run_dir = args.run_dir or REPO_ROOT / "runs/custom_substrate" / f"cm7_{args.profile}"
     receipt = run_workbench(config, run_dir=run_dir, device=resolve(args.device))
-    receipt = attest_current_requirements(run_dir)
     proof = args.proof or REPO_ROOT / "proof/CUSTOM_SUBSTRATE_PILOT.json"
     atomic_write_json(proof, receipt)
     print(
@@ -95,14 +93,6 @@ def run_cm8(args: argparse.Namespace) -> int:
     return 0
 
 
-def run_attest(args: argparse.Namespace) -> int:
-    receipt = attest_current_requirements(args.run_dir)
-    proof = args.proof or REPO_ROOT / "proof/CUSTOM_SUBSTRATE_PILOT.json"
-    atomic_write_json(proof, receipt)
-    print(json.dumps(receipt["evidence_attestation"], indent=2))
-    return 0 if receipt["evidence_attestation"]["scientifically_current"] else 3
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -123,13 +113,6 @@ def main(argv: list[str] | None = None) -> int:
     cm8 = subparsers.add_parser("cm8-preflight", help="audit CM8 upstream evidence without training")
     cm8.add_argument("--proof", type=Path)
     cm8.set_defaults(func=run_cm8)
-
-    attest = subparsers.add_parser(
-        "attest", help="rebind a completed run to current proof sources without retraining"
-    )
-    attest.add_argument("--run-dir", type=Path, required=True)
-    attest.add_argument("--proof", type=Path)
-    attest.set_defaults(func=run_attest)
 
     args = parser.parse_args(argv)
     return int(args.func(args))

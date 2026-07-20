@@ -5,12 +5,16 @@ import json
 from pathlib import Path
 
 import pytest
+import yaml
 from scripts.custom_substrate_finalize import (
     CHAIN_SCHEMA,
     RAW_SCHEMA,
+    build_attestation,
     freeze_raw,
     materialize_proof_chain,
 )
+
+from mop.substrate.custom_workbench import audit_requirements, snapshot_requirement_sources
 
 
 def _sha256(raw: bytes) -> str:
@@ -87,6 +91,8 @@ def test_freeze_raw_can_reuse_only_an_exact_bound_finalized_raw_receipt(tmp_path
     raw = {"schema": RAW_SCHEMA, "complete": True, "seed_results": {}}
     raw_bytes = _json_bytes(raw)
     raw_hash = _sha256(raw_bytes)
+    (run_dir / "workbench_receipt.json").write_bytes(raw_bytes)
+    assert freeze_raw(run_dir) == (raw, raw_hash)
     (run_dir / "raw_workbench_receipt.json").write_bytes(raw_bytes)
     composite = {
         **raw,
@@ -108,3 +114,53 @@ def test_freeze_raw_can_reuse_only_an_exact_bound_finalized_raw_receipt(tmp_path
     (run_dir / "raw_workbench_receipt.json").write_bytes(b"{}\n")
     with pytest.raises(RuntimeError, match="does not match the finalized binding"):
         freeze_raw(run_dir, allow_finalized=True)
+
+
+def test_final_attestation_preserves_snapshots_and_refuses_schema_drift(tmp_path: Path):
+    proof = tmp_path / "proof"
+    proof.mkdir()
+    source = proof / "source.json"
+    source.write_text(json.dumps({"schema": "evidence/v1", "value": 1}))
+    ledger = {
+        "schema": "mop-custom-substrate-requirements/v1",
+        "claim_scope": "fixture",
+        "requirements": [
+            {
+                "id": "r1",
+                "title": "identity",
+                "status": "required",
+                "sources": [{"path": "proof/source.json", "role": "fixture"}],
+                "design_response": ["preserve"],
+                "consumers": ["test"],
+                "promotion_gate": "clean",
+            }
+        ],
+    }
+    (tmp_path / "requirements.yaml").write_text(yaml.safe_dump(ledger))
+    run_dir = tmp_path / "run"
+    run_dir.mkdir()
+    start = audit_requirements("requirements.yaml", repo_root=tmp_path)
+    snapshot_requirement_sources(start, destination=run_dir / "requirements_sources", repo_root=tmp_path)
+    (run_dir / "requirements_audit.json").write_bytes(_json_bytes(start))
+    (run_dir / "resolved_config.json").write_text(json.dumps({"requirements_ledger": "requirements.yaml"}))
+    snapshot = run_dir / "implementation_sources/core.py"
+    snapshot.parent.mkdir()
+    snapshot.write_text("# frozen implementation\n")
+    snapshot_hash = _sha256(snapshot.read_bytes())
+    implementation = {
+        "files": [
+            {
+                "source_path": "core.py",
+                "snapshot_path": str(snapshot),
+                "snapshot_sha256": snapshot_hash,
+            }
+        ]
+    }
+    (run_dir / "implementation_manifest.json").write_bytes(_json_bytes(implementation))
+
+    current = build_attestation(run_dir, "0" * 64, repo_root=tmp_path)
+    assert current["scientifically_current"]
+    source.write_text(json.dumps({"schema": "evidence/v2", "value": 2}))
+    refused = build_attestation(run_dir, "0" * 64, repo_root=tmp_path)
+    assert not refused["scientifically_current"]
+    assert any("source schema drift" in problem for problem in refused["problems"])
