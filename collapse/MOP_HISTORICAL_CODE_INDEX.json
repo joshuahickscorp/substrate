@@ -1905,6 +1905,19 @@
         "tests/unit/test_custom_substrate_workbench.py",
         "tests/unit/test_custom_substrate_artifact.py"
       ]
+    },
+    {
+      "id": "retired_unconsumed_dual_budget_facade",
+      "source_tag": "mop-collapse-lowest-green-2",
+      "reason": "the dual-architecture report facade and three FLOP wrappers had no source, test, registry, CLI, or script consumers and duplicated the active matched-budget analysis retained by STARSS23 counting",
+      "replacement_paths": [
+        "src/mop/science/budget.py",
+        "src/mop/beds/starss23/count_variant_producer.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-2:<path>",
+      "paths": [
+        "src/mop/science/budget.py"
+      ]
     }
   ]
 }

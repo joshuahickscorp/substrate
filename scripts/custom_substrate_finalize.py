@@ -311,9 +311,7 @@ def build_environment(run_dir: Path, raw_hash: str) -> dict[str, Any]:
         "implementation_manifest_sha256": sha256_file(implementation_path),
         "implementation_aggregate_sha256": implementation["aggregate_sha256"],
         "source_inventory_sha256": implementation["aggregate_sha256"],
-        "snapshot_scope": (
-            "five core experiment/generator/runner/config/requirements files; not every transitive dependency"
-        ),
+        "snapshot_scope": "six core files; transitive dependencies are recorded, not snapshotted",
         "runtime": {
             "python": sys.version,
             "executable": sys.executable,
