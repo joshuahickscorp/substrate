@@ -1,0 +1,7 @@
+{
+  "schema": "domain-preflight/v1",
+  "HAR_raw": "eligible_principal (temporal order matters)",
+  "PAMAP2": "invalid_no_temporal_headroom (order-insensitive windowed activity recognition)",
+  "audio_STARSS23": "not_attempted (blocked: torchaudio/librosa absent; STARSS23 cached features are 8-clip citable fixture, insufficient units)",
+  "sha256": "6c73bd9b759672f754d5eff467bf9c16c0cb25b10762ce78500458fb6dce8ac1"
+}

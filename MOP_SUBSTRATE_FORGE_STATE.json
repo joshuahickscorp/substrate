@@ -1,0 +1,23 @@
+{
+  "schema": "mop-substrate-forge-state/v1",
+  "program_id": "mop-substrate-forge-v1",
+  "branch": "agent/mop-substrate-forge",
+  "base_commit": "3b86774",
+  "SESOI": 0.05,
+  "seed_floor": 5,
+  "activation": false,
+  "checklist": {
+    "AUTH": "complete",
+    "MEMORY_FRONTIER": "terminal (compression_null, 8-seed verified)",
+    "PAMAP2": "terminal (invalid_no_temporal_headroom)",
+    "ARCH_E": "terminal (null)",
+    "ARCH_F": "pending (Predictive Consolidation)",
+    "AT_ROUNDS": "pending",
+    "AUDIO_DOMAIN": "blocked (torchaudio/librosa absent)",
+    "CROSS_DOMAIN": "blocked (needs a 2nd valid temporal domain; PAMAP2 invalid)",
+    "VERIFY": "consistent",
+    "BOUNDARY": "sealed_checkpoint"
+  },
+  "terminal_condition": "boundary_checkpoint (not global event horizon; work floor incomplete)",
+  "sha256": "84d606f722f9b4d85d54823a8d2a86fff7a1bddf2fe8644d4ee0304d27fb0494"
+}

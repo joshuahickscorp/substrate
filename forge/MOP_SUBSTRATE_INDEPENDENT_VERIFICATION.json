@@ -1,0 +1,14 @@
+{
+  "schema": "mop-substrate-independent-verification/v1",
+  "compression_verdict_recheck": {
+    "any_lcb_ge_sesoi": false,
+    "sealed_verdict": "compression_null (no stable lower-CB advantage over GDumb)"
+  },
+  "pamap2_recheck": {
+    "bag_beats_gru": true,
+    "sealed_verdict": "invalid_no_temporal_headroom"
+  },
+  "receipt_integrity": false,
+  "all_consistent": true,
+  "sha256": "a9bcfe1c034624d9542713b68ad8c56e3eccaf91e00dd6a8afb2f058caf8902e"
+}

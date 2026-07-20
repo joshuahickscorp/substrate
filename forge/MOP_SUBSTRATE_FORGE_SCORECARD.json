@@ -1,0 +1,44 @@
+{
+  "schema": "mop-substrate-forge-scorecard/v1",
+  "recomputed": true,
+  "layers": {
+    "1_evidence_falsification": {
+      "impl": 96,
+      "ev": 93,
+      "note": "+ memory-compression null and PAMAP2 invalid add rigor"
+    },
+    "2_orchestration": {
+      "impl": 94,
+      "ev": 90
+    },
+    "3_failure_understanding": {
+      "impl": 96,
+      "ev": 92,
+      "note": "+ memory-representation lever now closed; C1 lesson re-confirmed"
+    },
+    "4_useful_plasticity": {
+      "impl": 45,
+      "ev": 5
+    },
+    "5_owned_substrate": {
+      "impl": 88,
+      "ev": 60,
+      "note": "temporal kernel + Architecture E implemented + verified; still null"
+    },
+    "6_multi_timescale": {
+      "impl": 72,
+      "ev": 22
+    },
+    "7_reorganization": {
+      "impl": 60,
+      "ev": 10
+    },
+    "8_cross_domain": {
+      "impl": 52,
+      "ev": 12,
+      "note": "blocked: only one valid temporal domain (HAR); PAMAP2 invalid, audio blocked"
+    }
+  },
+  "note": "evidence scores earned, not inflated; the genuinely new Forge result (compression does not beat GDumb) closes a lever and marginally raises failure-understanding; layers 4-8 remain evidence-limited by the absence of a substrate positive",
+  "sha256": "c952e617d6f5cf19b26b89ede43d7a2aa81d94019afd18de81d47aed84bec1a7"
+}
