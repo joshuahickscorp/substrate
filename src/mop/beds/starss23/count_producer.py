@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import math
 import os
-import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, NamedTuple
@@ -81,7 +80,6 @@ class CountProducerRefusal(ValueError):
 
 class CountArtifact(NamedTuple):
     artifact: dict[str, Any]
-    detail: dict[str, Any]
     prereg: dict[str, Any]
 
 
@@ -306,7 +304,6 @@ def build_real_count_bed_artifact(
     sesoi_mae = float(prereg["sesoi"]["sesoi_mae"])
     pooled = np.concatenate([features_by_clip[clip.clip_id] for clip in test_clips])
     target_mean, target_std = float(pooled.mean()), float(pooled.std())
-    started = time.perf_counter_ns()
     seed_runs = [
         _run_seed_real(
             seed,
@@ -322,7 +319,6 @@ def build_real_count_bed_artifact(
         )
         for seed in config.seeds
     ]
-    measured_wall_ns = max(1, time.perf_counter_ns() - started)
     report = run_matched_budget(
         COUNT_BUDGET_POLICY,
         seed_runs,
@@ -491,19 +487,4 @@ def build_real_count_bed_artifact(
         },
     }
     body["seal"] = canonical_sha256(body)
-    return CountArtifact(
-        body,
-        {
-            "dominates": dominates,
-            "mean_delta_control_minus_candidate": float(sign_flip.mean_delta),
-            "mean_delta_candidate_minus_control": candidate_delta,
-            "one_sided_p": float(sign_flip.one_sided_p),
-            "one_sided_significant": bool(sign_flip.one_sided_significant),
-            "mean_delta_exceeds_sesoi": exceeds_sesoi,
-            "sesoi_mae": sesoi_mae,
-            "noisy_tv_at_chance": noisy_tv_at_chance,
-            "measured_wall_ns": measured_wall_ns,
-            "per_seed_deltas": [float(value) for value in deltas],
-        },
-        prereg,
-    )
+    return CountArtifact(body, prereg)
