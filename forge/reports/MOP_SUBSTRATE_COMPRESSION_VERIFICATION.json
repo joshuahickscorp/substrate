@@ -1,0 +1,48 @@
+{
+  "schema": "mop-substrate-compression-verification/v1",
+  "seeds": 8,
+  "SESOI": 0.05,
+  "budgets": [
+    375,
+    750
+  ],
+  "results": {
+    "375": {
+      "means": {
+        "gdumb": 0.7721,
+        "prototype": 0.8091,
+        "coreset": 0.7348,
+        "reservoir": 0.7407
+      },
+      "prototype_minus_gdumb": {
+        "mean": 0.037,
+        "lcb": -0.0
+      },
+      "coreset_minus_gdumb": {
+        "mean": -0.0372,
+        "lcb": -0.073
+      }
+    },
+    "750": {
+      "means": {
+        "gdumb": 0.7613,
+        "prototype": 0.7653,
+        "coreset": 0.7713,
+        "reservoir": 0.7715
+      },
+      "prototype_minus_gdumb": {
+        "mean": 0.004,
+        "lcb": -0.0308
+      },
+      "coreset_minus_gdumb": {
+        "mean": 0.01,
+        "lcb": -0.0465
+      }
+    }
+  },
+  "positive_cells": [],
+  "verdict": "compression_null (no stable lower-CB advantage over GDumb)",
+  "note": "8-seed lower-95-CB of compression-minus-GDumb at matched stored-item budget; a positive requires lcb>=SESOI (the C1 stable-seed lesson)",
+  "wall_seconds": 3322.2,
+  "sha256": "689b96e186ce64ac9bb15c0f9b0a29bfd4ac864636b99d96af8cac83ae6df6b8"
+}

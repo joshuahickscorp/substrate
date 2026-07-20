@@ -1,0 +1,11 @@
+{
+  "schema": "mop-substrate-forge-synthesis/v1",
+  "type": "boundary_checkpoint",
+  "memory_compression": "compression_null (8-seed verified)",
+  "pamap2": "invalid_no_temporal_headroom",
+  "new_lever_closed": "memory representation/compression",
+  "global_event_horizon": false,
+  "activation": false,
+  "evidence_ceiling": "no bounded representation beats GDumb; the memory-capacity gap is not exploitable better than GDumb",
+  "sha256": "dcac3dd68418426da82e2656488b3c87a3aa8409ac807eff5acd5f9ed9dd5438"
+}

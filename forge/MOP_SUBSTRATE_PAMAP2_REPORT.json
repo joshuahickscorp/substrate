@@ -1,0 +1,26 @@
+{
+  "schema": "mop-substrate-pamap2-preflight/v1",
+  "domain": "PAMAP2",
+  "source_commit": "4b8799afdf946e479cc391fe803cfdcd5eba0558",
+  "n_windows": 19172,
+  "n_channels": 18,
+  "n_classes": 6,
+  "n_subjects": 8,
+  "units": "subject-disjoint",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "gru_correct": 0.7017,
+  "gru_shuffled": 0.708,
+  "bag_order_free": 0.7764,
+  "temporal_headroom_gru_vs_bag": -0.0746,
+  "temporal_headroom_lcb": -0.0975,
+  "order_matters_gru_vs_shuffled": -0.0062,
+  "verdict": "invalid_no_temporal_headroom",
+  "wall_seconds": 179.1,
+  "sha256": "f711194a3518b4eeee25ffe26a15c7cdb4c6cc1f293ef0a33a759d9905107f25"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "architecture-e/v1",
+  "name": "Dual-Memory Compressed Episodic",
+  "result": "null (dual recent+prototype does not beat GDumb; compression_null)",
+  "stores": [
+    "recent exact cache",
+    "prototype k-means",
+    "coreset k-center"
+  ],
+  "sha256": "bfaccbbbc1916c12502aecacf337578b2cff34ffe99a9c907553d423e5f817aa"
+}
