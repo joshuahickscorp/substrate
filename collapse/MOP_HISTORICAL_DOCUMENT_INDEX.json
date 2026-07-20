@@ -7,6 +7,15 @@
   "archived_total_lines": 44204,
   "removed_total_lines": 41327,
   "removed_total_bytes": 3062798,
+  "orientation_tokens": {
+    "tokenizer": "cl100k_base",
+    "baseline_front_door_files": 8,
+    "baseline_tokens": 77893,
+    "current_front_door_files": 4,
+    "current_tokens": 1068,
+    "reduction_tokens": 76825,
+    "reduction_percent": 98.63
+  },
   "recovery": "git show mop-collapse-starss23-lifecycle-21:<path>",
   "search": "git grep -n <pattern> mop-collapse-starss23-lifecycle-21 -- '*.md'",
   "removed_documents": [

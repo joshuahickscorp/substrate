@@ -1797,6 +1797,32 @@
         "tests/unit/test_video.py",
         "tests/unit/test_video_hardening.py"
       ]
+    },
+    {
+      "id": "retired_unconsumed_support_and_cache_maintenance_facades",
+      "source_tag": "mop-collapse-proof-index",
+      "reason": "the standalone continual-learning metric helpers had no source, CLI, configuration, registry, or test consumer; process-title labeling was an import-time side feature exercised only by its dedicated tests and pulled in a native runtime dependency; cache listing, quarantine, and storage facades were developer-only maintenance surfaces superseded by the citable cache manifest authority used directly by the custom workbench and Studio doctor; documentation drift enforcement duplicated a deliberately tiny four-file experimental documentation surface and was retired with its dedicated tests",
+      "replacement_paths": [
+        "src/mop/science/budget.py",
+        "src/mop/harness/runner.py",
+        "src/mop/substrate/cache_manifest.py",
+        "src/mop/substrate/custom_workbench.py"
+      ],
+      "recovery": "git show mop-collapse-proof-index:<path>",
+      "paths": [
+        "src/mop/metrics.py",
+        "src/mop/process_labels.py",
+        "tests/unit/test_process_labels.py",
+        "scripts/cache_tool.py",
+        "scripts/quarantine_uncitable_caches.py",
+        "src/mop/substrate/cache_tools.py",
+        "src/mop/substrate/storage.py",
+        "tests/unit/test_cache_quarantine.py",
+        "tests/unit/test_storage.py",
+        "scripts/check_docs.py",
+        "tests/unit/test_docs_drift.py",
+        "tests/unit/test_markdown_consolidation.py"
+      ]
     }
   ]
 }
