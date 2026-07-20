@@ -5,9 +5,9 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "72386210cf8c25c337fafc06f6b65503b7a28e79",
+    "base_commit": "d725ad4daef8328f980aa38dd2e1a56acaed4c45",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
-    "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
+    "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
       "state": "run_categorized_wave",
       "stage": "run_categorized_wave",
@@ -128,16 +128,16 @@
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 12912,
-    "net_global_reduction_LOC": 388172
+    "added_LOC": 13009,
+    "net_global_reduction_LOC": 388075
   },
   "checklist_summary": {
     "total": 261,
     "by_status": {
-      "complete": 59,
-      "active": 47,
-      "pending": 103,
+      "complete": 85,
+      "pending": 78,
       "partial": 9,
+      "active": 46,
       "verified": 43
     }
   },
@@ -181,13 +181,15 @@
       "section": 2,
       "kind": "invariant",
       "title": "Absolute non-interference with the live General Run (2.1)",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "read-only audits only; no signal/edit/merge into live tree",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_LIVE_NO_TOUCH.json"
+      ],
+      "validation": "No collapse command wrote to, signaled, restarted, or retuned the protected checkout or its processes. The branch/head change since the earlier snapshot was external to this collapse task.",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "re-verify live PID 52934 alive and untouched at every checkpoint"
+      "next_action": "continue non-interference until PR 31 is eligible to merge"
     },
     {
       "id": "GIT-1",
@@ -207,78 +209,90 @@
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-precheck",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-precheck at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-evidence",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-evidence",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-evidence at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-experiment-engine",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-experiment-engine",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-experiment-engine at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-starss23",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-starss23",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-starss23 at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-mechanisms",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-mechanisms",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-mechanisms at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-controller",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-controller",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-controller at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-registry-config",
@@ -300,130 +314,150 @@
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-validation",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-validation at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-docs",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-docs",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-docs at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-packs",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-packs",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-packs at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-300k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-300k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-300k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-250k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-250k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-250k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-200k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-200k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-200k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-150k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-150k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-150k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-125k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-125k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-125k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-100k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-100k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-100k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-75k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-75k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-75k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-50k",
@@ -475,91 +509,105 @@
       "section": 3,
       "kind": "pr9",
       "title": "Inspect every PR #9 file",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PR9_DISPOSITION.json"
+      ],
+      "validation": "all 11 changed files and eight useful protection classes have exact retained, rewritten, or retired dispositions; the isolated 21-test PR suite and controller probe pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "diff origin/agent/mop-extreme-condensation vs main; list files"
+      "next_action": "none"
     },
     {
       "id": "PR9-2",
       "section": 3,
       "kind": "pr9",
       "title": "Test PR #9 controller against current main",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PR9_DISPOSITION.json"
+      ],
+      "validation": "all 11 changed files and eight useful protection classes have exact retained, rewritten, or retired dispositions; the isolated 21-test PR suite and controller probe pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "run its accounting controller read-only"
+      "next_action": "none"
     },
     {
       "id": "PR9-3",
       "section": 3,
       "kind": "pr9",
       "title": "Port or rewrite only useful mechanisms",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PR9_DISPOSITION.json"
+      ],
+      "validation": "all 11 changed files and eight useful protection classes have exact retained, rewritten, or retired dispositions; the isolated 21-test PR suite and controller probe pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "port LOC accounting, no-minify/no-pack gates, hydration"
+      "next_action": "none"
     },
     {
       "id": "PR9-4",
       "section": 3,
       "kind": "pr9",
       "title": "Discard assumptions invalidated by Generation-1 era",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PR9_DISPOSITION.json"
+      ],
+      "validation": "all 11 changed files and eight useful protection classes have exact retained, rewritten, or retired dispositions; the isolated 21-test PR suite and controller probe pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "record discarded assumptions"
+      "next_action": "none"
     },
     {
       "id": "PR9-5",
       "section": 3,
       "kind": "pr9",
       "title": "Replace active-checkout LOC metric with honest global reduction",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PR9_DISPOSITION.json"
+      ],
+      "validation": "all 11 changed files and eight useful protection classes have exact retained, rewritten, or retired dispositions; the isolated 21-test PR suite and controller probe pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "global accounting is primary"
+      "next_action": "none"
     },
     {
       "id": "PR9-6",
       "section": 3,
       "kind": "pr9",
       "title": "Open a new draft PR from current main",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PR9_DISPOSITION.json"
+      ],
+      "validation": "all 11 changed files and eight useful protection classes have exact retained, rewritten, or retired dispositions; the isolated 21-test PR suite and controller probe pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "gh pr create --draft"
+      "next_action": "none"
     },
     {
       "id": "PR9-7",
       "section": 3,
       "kind": "pr9",
       "title": "Keep PR #9 open until protections exist on replacement",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PR9_DISPOSITION.json"
+      ],
+      "validation": "all 11 changed files and eight useful protection classes have exact retained, rewritten, or retired dispositions; the isolated 21-test PR suite and controller probe pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "do not close prematurely"
+      "next_action": "none"
     },
     {
       "id": "PR9-8",
@@ -1142,7 +1190,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the complete src/mop tree is 10890 LOC, below the 18000 stretch target",
+      "validation": "the complete src/mop tree is 10715 LOC, below the 18000 stretch target",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1157,7 +1205,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked maintained Python is 16995 LOC, below the 35000 challenge",
+      "validation": "tracked maintained Python is 17086 LOC, below the 35000 challenge",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1172,7 +1220,7 @@
       "evidence_paths": [
         "tests/"
       ],
-      "validation": "retained test harness is 2970 LOC",
+      "validation": "retained test harness is 3172 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1247,10 +1295,9 @@
       "title": "experiment execution frameworks exactly 1",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/science/",
         "src/mop/experiments/base.py"
       ],
-      "validation": "one experiment execution framework remains",
+      "validation": "one sealed-record experiment execution framework remains",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1487,10 +1534,11 @@
       "title": "One experiment engine (ExperimentSpec..IndependentVerifier)",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/science/",
-        "src/mop/experiments/base.py"
+        "src/mop/experiments/base.py",
+        "src/mop/experiments/__init__.py",
+        "registry/experiments.yaml"
       ],
-      "validation": "one shared experiment lifecycle serves the two active declarations",
+      "validation": "one sealed-record interpreter serves all active and historical declarations",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1501,21 +1549,24 @@
       "section": 11,
       "kind": "region",
       "title": "STARSS23 first high-pressure region collapse (12-step process)",
-      "status": "active",
+      "status": "complete",
       "evidence_paths": [
         "collapse/MOP_STARSS23_ANATOMY.json",
-        "src/mop/science/",
         "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
         "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/experiments/base.py",
         "src/mop/beds/starss23/experiments.py",
-        "src/mop/beds/starss23/feature_cache.py",
-        "tests/unit/test_science_engine.py"
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_verifier.py",
+        "tests/unit/test_experiment_engine.py",
+        "tests/unit/test_starss23_counting_bed.py"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count seed execution loops centralized with exact provider-specific records, net 191 LOC; native dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg analysis plans centralized with local family declarations retained, net 138 LOC; family label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP projection, count provider binding, and onset density centralized, net 34 LOC; frozen provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC; topology-neutral count and DoA gate interfaces centralized, net 58 LOC; three frozen-featurizer producer lifecycles and spread projections centralized behind local evidence declarations, net 260 LOC; five concurrent-count producer artifact lifecycles centralized behind provider, split, preregistration, scoring, and readout declarations, net 407 LOC; base onset, refractory-NMS, and learning-progress producer lifecycles centralized behind the onset executor, and embedded STARSS narrative documentation removed, net 3320 LOC; four family prereg assemblers centralized, eight local command wrappers deleted, and remaining comment-only STARSS documentation removed, net 1717 LOC; duplicated DoA architecture training implementations and the local seed projection collapsed onto shared dimension-driven and budget-seed lifecycles, exact numerical fingerprint and full 493-case STARSS suite preserved, net 118 executable LOC; remaining architecture-specific control, budget, statistics, gate, and detail projections collapsed onto indexed records with exact fixed-clock artifact parity, net 10 LOC",
+      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; the selected sealed-record interpreter is now the global engine and declares onset, counting, DoA, and counting data-split reproduction; superseded lifecycle is deleted and tag-recoverable; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count seed execution loops centralized with exact provider-specific records, net 191 LOC; native dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg analysis plans centralized with local family declarations retained, net 138 LOC; family label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP projection, count provider binding, and onset density centralized, net 34 LOC; frozen provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC; topology-neutral count and DoA gate interfaces centralized, net 58 LOC; three frozen-featurizer producer lifecycles and spread projections centralized behind local evidence declarations, net 260 LOC; five concurrent-count producer artifact lifecycles centralized behind provider, split, preregistration, scoring, and readout declarations, net 407 LOC; base onset, refractory-NMS, and learning-progress producer lifecycles centralized behind the onset executor, and embedded STARSS narrative documentation removed, net 3320 LOC; four family prereg assemblers centralized, eight local command wrappers deleted, and remaining comment-only STARSS documentation removed, net 1717 LOC; duplicated DoA architecture training implementations and the local seed projection collapsed onto shared dimension-driven and budget-seed lifecycles, exact numerical fingerprint and full 493-case STARSS suite preserved, net 118 executable LOC; remaining architecture-specific control, budget, statistics, gate, and detail projections collapsed onto indexed records with exact fixed-clock artifact parity, net 10 LOC",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; remaining producer families need sealed-artifact parity",
-      "next_action": "measure and collapse the next residual STARSS producer family"
+      "dependency": "",
+      "next_action": "prevent framework regrowth"
     },
     {
       "id": "SEC-12",
@@ -1537,15 +1588,16 @@
       "section": 13,
       "kind": "region",
       "title": "One campaign controller (AFTER live run terminal + PR30 closure)",
-      "status": "complete",
+      "status": "active",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_LIVE_NO_TOUCH.json"
       ],
-      "validation": "historical campaign controllers are tag-recoverable and no parallel controller remains",
+      "validation": "collapsed-tree historical controllers are tag-recoverable and no parallel installed controller remains, but the protected General Run status is stale and nonterminal",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "",
-      "next_action": "none"
+      "dependency": "General Run scientific terminal and PR 30 closure",
+      "next_action": "keep PR 31 draft; do not alter the protected checkout"
     },
     {
       "id": "SEC-14",
@@ -1656,26 +1708,32 @@
       "section": 10,
       "kind": "target",
       "title": "simple experiment <=150 LOC declaration + math",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "registry/experiments.yaml",
+        "src/mop/experiments/custom_substrate.py"
+      ],
+      "validation": "both active scientific declarations share 76 YAML lines and their complete unique provider/verifier module is 83 lines, below both per-experiment ceilings",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "enforce"
+      "next_action": "prevent declaration growth"
     },
     {
       "id": "TGT-EXP-COMPLEX",
       "section": 10,
       "kind": "target",
       "title": "complex experiment <=400 LOC declaration + math",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "registry/experiments.yaml",
+        "src/mop/experiments/custom_substrate.py"
+      ],
+      "validation": "both active scientific declarations share 76 YAML lines and their complete unique provider/verifier module is 83 lines, below both per-experiment ceilings",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "enforce"
+      "next_action": "prevent declaration growth"
     },
     {
       "id": "INV-frozen_instruments",
@@ -2145,7 +2203,7 @@
         "src/mop/harness/runner.py",
         "src/mop/experiments/"
       ],
-      "validation": "one installed experiment lifecycle serves the two active declarations",
+      "validation": "one sealed-record lifecycle serves active and historical declarations",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
