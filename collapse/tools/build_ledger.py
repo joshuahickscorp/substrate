@@ -797,6 +797,20 @@ def main() -> int:
                     "docs gate clean; all 25 deleted paths recover from the prior tag"),
         rollback_tag="mop-collapse-starss23-count-kernel",
         next_action="audit remaining STARSS23 package layers around the mechanics-ok counting kernel"))
+    checklist.append(item(
+        "RED-controller-extension-v4-recovery-v2", 13, "verified_reduction",
+        "Delete superseded extension-v4 and recovery-v2 controller branch",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/studio/general_run_orchestrator.py",
+                  "src/mop/studio/generation1_successor_chain_v7.py",
+                  "src/mop/studio/generation1_categorized_batch_extension_chain.py"],
+        validation=("3083 unreachable controller/wrapper/test LOC physically deleted after live terminal "
+                    "closure; retained General Run path 59/59 green; 3366-case collection, compile-all, "
+                    "critical ruff, and docs gate clean; all six paths recover; protected checkout "
+                    "unchanged"),
+        rollback_tag="mop-collapse-controller-extension-v4",
+        next_action="collapse duplication within the surviving General Run controller path"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

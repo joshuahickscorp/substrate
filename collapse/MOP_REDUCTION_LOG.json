@@ -690,6 +690,24 @@
       "proof": "the deleted base artifact records verdict=null and scientific_promotion=false with no campaign/config consumer; old/new Hann window and mel filterbank arrays are bit-exact and gate parameter/FLOP/training math is exact across canonical and alternate dimensions; retained count/science/adapter/schema/statistics battery is 121/121 green; full 3384-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all 25 deleted paths recover from the prior tag",
       "accounting_note": "src 76 added/3293 deleted; scripts 0 added/128 deleted; tests 1 added/1854 deleted; three null proof files totaling 0.67 MiB were also deleted but contribute zero to Python LOC accounting",
       "tag": "mop-collapse-starss23-count-kernel"
+    },
+    {
+      "region": "section13_controller_section14_entrypoints_and_section17_validation",
+      "batch": "superseded_extension_v4_recovery_v2_branch",
+      "checkpoint_status": "green",
+      "primitive": "the successor extension-v4 and recovery-v2 controller branch, wrappers, and dedicated tests were physically deleted after live terminal closure and reachability proved the General Run now uses v7 followed by the categorized-wave path",
+      "deduplicated_LOC": 0,
+      "added_LOC": 0,
+      "eliminated_LOC": 3083,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 3083,
+      "files_changed": 6,
+      "destination_api": "general_run_orchestrator -> generation1_successor_chain_v7 -> generation1_categorized_batch_extension_chain -> generation1_full_generations_extension_chain",
+      "proof": "no live controller process remains and the app terminal is closed; the last protected status is stale rather than terminal and the live checkout was not mutated; no current runtime/config consumer references the deleted branch; retained orchestrator/v7/categorized/full-generations battery is 59/59 green; full 3366-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all six deleted paths recover from the prior tag",
+      "accounting_note": "src 0 added/2386 deleted; scripts 0 added/36 deleted; tests 0 added/661 deleted; the protected checkout and its stale run state remain untouched",
+      "tag": "mop-collapse-controller-extension-v4"
     }
   ],
   "deferred_heavy_validation": {
