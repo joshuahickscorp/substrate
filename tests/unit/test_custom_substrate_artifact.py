@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 import torch
 
+from mop.evidence import canonical_sha256
 from mop.substrate.custom_artifact import (
     ARM_SCHEMA,
     ATTESTATION_SCHEMA,
@@ -20,7 +21,6 @@ from mop.substrate.custom_artifact import (
     PortableModelSpec,
     PortableTinyVideoSubstrate,
     export_artifact,
-    json_sha256,
     load_portable_artifact,
     preflight_export,
     read_tensor_pack,
@@ -68,7 +68,7 @@ def _fixture(run_root: Path) -> tuple[Path, Path, dict[str, torch.Tensor]]:
             "bytes": implementation_snapshot.stat().st_size,
         }
     ]
-    implementation_aggregate = json_sha256(
+    implementation_aggregate = canonical_sha256(
         [{"path": row["source_path"], "sha256": row["snapshot_sha256"]} for row in implementation_files]
     )
     _write_json(
@@ -103,7 +103,7 @@ def _fixture(run_root: Path) -> tuple[Path, Path, dict[str, torch.Tensor]]:
             ],
         }
     ]
-    requirements_aggregate = json_sha256(
+    requirements_aggregate = canonical_sha256(
         {
             "ledger_sha256": ledger_hash,
             "requirements": [
@@ -127,7 +127,7 @@ def _fixture(run_root: Path) -> tuple[Path, Path, dict[str, torch.Tensor]]:
     _write_json(run_dir / "requirements_current_audit.json", requirements)
 
     config = {"model": asdict(spec), "training": {"seeds": [0], "objectives": ["predictive"]}}
-    config_sha = json_sha256(config)
+    config_sha = canonical_sha256(config)
     _write_json(run_dir / "resolved_config.json", config)
     dataset = {
         "schema": DATASET_SCHEMA,
@@ -139,7 +139,7 @@ def _fixture(run_root: Path) -> tuple[Path, Path, dict[str, torch.Tensor]]:
         "disjoint_referents": True,
         "combination_disjoint": True,
     }
-    dataset["content_sha256"] = json_sha256(dataset)
+    dataset["content_sha256"] = canonical_sha256(dataset)
     _write_json(run_dir / "dataset_manifest.json", dataset)
     _write_json(
         run_dir / "teacher_audit.json",
@@ -437,58 +437,48 @@ def test_export_is_content_addressed_deterministic_and_loads_offline(tmp_path: P
     assert loaded.manifest["evidence"]["scope"]["natural_video_evidence"] is False
 
 
-def test_preflight_refuses_incomplete_self_report_and_missing_verifier(tmp_path: Path):
-    run_dir, verifier_path, _state = _fixture(tmp_path)
-    missing = preflight_export(run_dir, tmp_path / "missing.json")
-    assert not missing["eligible"] and "verifier" in missing["problems"][0]
-
-    verifier = json.loads(verifier_path.read_text())
-    verifier["selection"]["selection_status"] = "workbench-self-report"
-    _write_json(verifier_path, verifier)
-    self_report = preflight_export(run_dir, verifier_path)
-    assert not self_report["eligible"] and "uncorrected" in self_report["problems"][0]
-
-    receipt_path = run_dir / "raw_workbench_receipt.json"
-    receipt = json.loads(receipt_path.read_text())
-    receipt["complete"] = False
-    _write_json(receipt_path, receipt)
-    incomplete = preflight_export(run_dir, verifier_path)
-    assert not incomplete["eligible"] and "incomplete" in incomplete["problems"][0]
-
-
-def test_export_refuses_checkpoint_and_model_spec_mismatch(tmp_path: Path):
-    run_dir, verifier_path, _state = _fixture(tmp_path)
-    checkpoint = run_dir / "arms/seed_0/predictive/checkpoint.pt"
-    checkpoint.write_bytes(checkpoint.read_bytes() + b"drift")
-    drift = preflight_export(run_dir, verifier_path)
-    assert not drift["eligible"] and "checkpoint" in drift["problems"][0] and "drift" in drift["problems"][0]
-
-    run_dir, verifier_path, _state = _fixture(tmp_path / "spec")
-    receipt_path = run_dir / "raw_workbench_receipt.json"
-    receipt = json.loads(receipt_path.read_text())
-    receipt["model"]["spec"]["depth"] = 3
-    _write_json(receipt_path, receipt)
-    _rebind_verifier(run_dir, verifier_path)
-    mismatch = preflight_export(run_dir, verifier_path)
-    assert not mismatch["eligible"] and "model specs disagree" in mismatch["problems"][0]
-
-
-def test_preflight_refuses_composite_raw_confusion_and_chain_hash_drift(tmp_path: Path):
-    run_dir, verifier_path, _state = _fixture(tmp_path)
-    composite_path = run_dir / "workbench_receipt.json"
-    composite = json.loads(composite_path.read_text())
-    composite["model"]["spec"]["depth"] = 3
-    _write_json(composite_path, composite)
-    confused = preflight_export(run_dir, verifier_path)
-    assert not confused["eligible"] and "changed raw training field" in confused["problems"][0]
-
-    run_dir, verifier_path, _state = _fixture(tmp_path / "binding")
-    attestation_path = run_dir / "current_evidence_attestation.json"
-    attestation = json.loads(attestation_path.read_text())
-    attestation["source_drift"] = [{"fixture": True}]
-    _write_json(attestation_path, attestation)
-    drift = preflight_export(run_dir, verifier_path)
-    assert not drift["eligible"] and "receipt-chain bindings" in drift["problems"][0]
+@pytest.mark.parametrize(
+    ("case", "expected"),
+    [
+        ("missing_verifier", "verifier path"),
+        ("self_report", "uncorrected"),
+        ("incomplete", "incomplete"),
+        ("checkpoint", "checkpoint size drift"),
+        ("model_spec", "model specs disagree"),
+        ("composite", "changed raw training field"),
+        ("attestation", "receipt-chain bindings"),
+    ],
+)
+def test_preflight_refusal_matrix(tmp_path: Path, case: str, expected: str):
+    run_dir, verifier_path, _state = _fixture(tmp_path / case)
+    if case == "missing_verifier":
+        verifier_path = tmp_path / "missing.json"
+    elif case == "checkpoint":
+        path = run_dir / "arms/seed_0/predictive/checkpoint.pt"
+        path.write_bytes(path.read_bytes() + b"drift")
+    else:
+        filename = {
+            "self_report": "independent_verifier.json",
+            "incomplete": "raw_workbench_receipt.json",
+            "model_spec": "raw_workbench_receipt.json",
+            "composite": "workbench_receipt.json",
+            "attestation": "current_evidence_attestation.json",
+        }[case]
+        path = run_dir / filename
+        payload = json.loads(path.read_text())
+        if case == "self_report":
+            payload["selection"]["selection_status"] = "workbench-self-report"
+        elif case == "incomplete":
+            payload["complete"] = False
+        elif case in {"model_spec", "composite"}:
+            payload["model"]["spec"]["depth"] = 3
+        else:
+            payload["source_drift"] = [{"fixture": True}]
+        _write_json(path, payload)
+        if case == "model_spec":
+            _rebind_verifier(run_dir, verifier_path)
+    result = preflight_export(run_dir, verifier_path)
+    assert not result["eligible"] and expected in result["problems"][0]
 
 
 def test_offline_loader_refuses_artifact_hash_drift(tmp_path: Path):

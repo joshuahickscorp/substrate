@@ -97,10 +97,6 @@ class ArtifactRefused(RuntimeError):
     pass
 
 
-json_sha256 = canonical_sha256
-_atomic_json = atomic_write_json
-
-
 def _is_sha256(value: Any) -> bool:
     return (
         isinstance(value, str)
@@ -114,14 +110,23 @@ def _require(condition: bool, message: str) -> None:
         raise ArtifactRefused(message)
 
 
+def _object(value: Any, message: str) -> dict[str, Any]:
+    _require(isinstance(value, dict), message)
+    return cast(dict[str, Any], value)
+
+
+def _array(value: Any, message: str) -> list[Any]:
+    _require(isinstance(value, list), message)
+    return cast(list[Any], value)
+
+
 def _read_json(path: Path, label: str) -> dict[str, Any]:
     _require(path.is_file(), f"{label} missing: {path}")
     try:
         value = json.loads(path.read_text())
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ArtifactRefused(f"{label} is not valid JSON: {exc}") from exc
-    _require(isinstance(value, dict), f"{label} must be a JSON object")
-    return value
+    return _object(value, f"{label} must be a JSON object")
 
 
 def _model_spec(value: Mapping[str, Any]) -> PortableModelSpec:
@@ -223,13 +228,11 @@ def read_tensor_pack(path: Path) -> tuple[dict[str, torch.Tensor], dict[str, Any
         header = json.loads(content[prefix_bytes:payload_start])
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ArtifactRefused(f"tensor pack header is invalid: {exc}") from exc
-    _require(isinstance(header, dict), "tensor pack header must be an object")
-    header = cast(dict[str, Any], header)
+    header = _object(header, "tensor pack header must be an object")
     _require(header.get("schema") == TENSOR_PACK_SCHEMA, "tensor pack schema mismatch")
     _require(header.get("byte_order") == "little", "tensor pack byte order mismatch")
-    rows = header.get("tensors")
-    _require(isinstance(rows, list) and bool(rows), "tensor pack tensor table is empty")
-    rows = cast(list[Any], rows)
+    rows = _array(header.get("tensors"), "tensor pack tensor table is empty")
+    _require(bool(rows), "tensor pack tensor table is empty")
     _require(header.get("tensor_count") == len(rows), "tensor pack tensor count mismatch")
     _require(len(rows) <= 100_000, "tensor pack tensor table is unreasonably large")
     payload = memoryview(content)[payload_start:]
@@ -238,8 +241,7 @@ def read_tensor_pack(path: Path) -> tuple[dict[str, torch.Tensor], dict[str, Any
     expected_offset = 0
     prior_name = ""
     for row in rows:
-        _require(isinstance(row, dict), "tensor pack row must be an object")
-        row = cast(dict[str, Any], row)
+        row = _object(row, "tensor pack row must be an object")
         name, dtype_name, shape = row.get("name"), row.get("dtype"), row.get("shape")
         _require(isinstance(name, str) and name > prior_name, "tensor names must be unique and sorted")
         _require(dtype_name in _NAME_TO_DTYPE, f"unsupported packed dtype {dtype_name!r}")
@@ -408,9 +410,7 @@ def _require_verifier(
         verifier.get("verdict") == "promote-local-objective-lever" and verifier.get("promotion") is True,
         "independent verifier did not promote the local objective lever",
     )
-    bindings = verifier.get("bindings")
-    _require(isinstance(bindings, dict), "independent verifier bindings are missing")
-    bindings = cast(dict[str, Any], bindings)
+    bindings = _object(verifier.get("bindings"), "independent verifier bindings are missing")
     _require(
         bindings
         == {
@@ -420,9 +420,7 @@ def _require_verifier(
         },
         "independent verifier receipt-chain bindings disagree",
     )
-    selection = verifier.get("selection")
-    _require(isinstance(selection, dict), "verifier objective selection is missing")
-    selection = cast(dict[str, Any], selection)
+    selection = _object(verifier.get("selection"), "verifier objective selection is missing")
     candidates = selection.get("candidate_objectives")
     _require(
         isinstance(candidates, list)
@@ -437,9 +435,7 @@ def _require_verifier(
     _require(best_objective in _LEARNED_OBJECTIVES, "verifier raw winner is invalid")
     _require(bool(verifier.get("paired_comparisons")), "verifier paired comparisons are missing")
     _require(bool(verifier.get("gates")), "verifier gates are missing")
-    seed_results = receipt.get("seed_results")
-    _require(isinstance(seed_results, dict), "workbench seed results are missing")
-    seed_results = cast(dict[str, Any], seed_results)
+    seed_results = _object(receipt.get("seed_results"), "workbench seed results are missing")
     complete_seeds: list[int] = []
     for key, row in seed_results.items():
         if not isinstance(row, dict):
@@ -456,9 +452,7 @@ def _require_verifier(
 
 
 def _chain_link(composite: Mapping[str, Any], field: str, filename: str, expected_sha256: str) -> None:
-    link = composite.get(field)
-    _require(isinstance(link, dict), f"composite receipt link missing: {field}")
-    link = cast(dict[str, Any], link)
+    link = _object(composite.get(field), f"composite receipt link missing: {field}")
     path = link.get("path")
     _require(isinstance(path, str) and Path(path).name == filename, f"composite {field} path is invalid")
     _require(link.get("sha256") == expected_sha256, f"composite {field} hash mismatch")
@@ -488,12 +482,10 @@ def _require_composite(
     )
     _chain_link(composite, "environment_receipt", "environment_receipt.json", environment_sha256)
     _chain_link(composite, "independent_verifier", "independent_verifier.json", verifier_sha256)
-    authoritative = composite.get("authoritative_promotion")
-    _require(isinstance(authoritative, dict), "final authoritative promotion block is missing")
-    authoritative = cast(dict[str, Any], authoritative)
-    gates = authoritative.get("gates")
-    _require(isinstance(gates, dict), "final authoritative promotion gates are missing")
-    gates = cast(dict[str, Any], gates)
+    authoritative = _object(
+        composite.get("authoritative_promotion"), "final authoritative promotion block is missing"
+    )
+    gates = _object(authoritative.get("gates"), "final authoritative promotion gates are missing")
     expected_gates = {
         "raw_training_complete": raw_receipt.get("complete") is True,
         "evidence_current": attestation.get("scientifically_current") is True,
@@ -544,9 +536,7 @@ def _validate_receipt_chain(
         raw_receipt_sha256=raw_sha,
         current_audit_sha256=sha256_file(current_audit_path),
     )
-    receipt_implementation = receipt.get("implementation")
-    _require(isinstance(receipt_implementation, dict), "raw implementation binding is missing")
-    receipt_implementation = cast(dict[str, Any], receipt_implementation)
+    receipt_implementation = _object(receipt.get("implementation"), "raw implementation binding is missing")
     _require_environment(
         environment,
         raw_receipt_sha256=raw_sha,
@@ -599,8 +589,7 @@ def _snapshot_sources(
     sources: list[_SourceFile] = []
     hashes: set[str] = set()
     for index, value in enumerate(rows):
-        _require(isinstance(value, dict), f"{label} row is invalid")
-        row = cast(dict[str, Any], value)
+        row = _object(value, f"{label} row is invalid")
         expected = row.get("snapshot_sha256")
         _require(_is_sha256(expected), f"{label} hash is malformed")
         _require(expected == row.get(source_hash_key), f"{label} source/snapshot hash mismatch")
@@ -660,27 +649,19 @@ def _validate_provenance(
     implementation = _read_json(implementation_path, "implementation manifest")
     teacher = _read_json(teacher_path, "teacher audit")
 
-    _require(json_sha256(config) == receipt.get("config_sha256"), "resolved config hash drift")
+    _require(canonical_sha256(config) == receipt.get("config_sha256"), "resolved config hash drift")
     _require(dataset.get("schema") == DATASET_SCHEMA, "dataset manifest schema mismatch")
     dataset_without_hash = dict(dataset)
     recorded_dataset_hash = dataset_without_hash.pop("content_sha256", None)
-    _require(json_sha256(dataset_without_hash) == recorded_dataset_hash, "dataset content hash drift")
+    _require(canonical_sha256(dataset_without_hash) == recorded_dataset_hash, "dataset content hash drift")
     _require(recorded_dataset_hash == receipt.get("data_sha256"), "receipt dataset hash mismatch")
     _require(dataset.get("disjoint_referents") is True, "dataset referents are not disjoint")
     _require(dataset.get("combination_disjoint") is True, "dataset combinations are not disjoint")
     _require("not natural-video evidence" in str(dataset.get("claim_scope")), "dataset scope is unsafe")
-    dataset_record = receipt.get("dataset")
-    _require(isinstance(dataset_record, dict), "receipt dataset binding is missing")
-    dataset_record = cast(dict[str, Any], dataset_record)
-    dataset_spec = dataset.get("spec")
-    records = dataset.get("records")
-    splits = dataset.get("splits")
-    _require(isinstance(dataset_spec, dict), "dataset spec is missing")
-    _require(isinstance(records, list), "dataset records are missing")
-    _require(isinstance(splits, dict), "dataset splits are missing")
-    dataset_spec = cast(dict[str, Any], dataset_spec)
-    records = cast(list[Any], records)
-    splits = cast(dict[str, Any], splits)
+    dataset_record = _object(receipt.get("dataset"), "receipt dataset binding is missing")
+    dataset_spec = _object(dataset.get("spec"), "dataset spec is missing")
+    records = _array(dataset.get("records"), "dataset records are missing")
+    splits = _object(dataset.get("splits"), "dataset splits are missing")
     _require(len(records) == dataset_record.get("rows"), "receipt dataset row count mismatch")
     _require(dataset_spec.get("frames") == dataset_record.get("frames"), "receipt frame count mismatch")
     _require(
@@ -689,19 +670,15 @@ def _validate_provenance(
     )
     _require(dataset_record.get("disjoint_referents") is True, "receipt referent-disjoint flag failed")
     _require(dataset_record.get("combination_disjoint") is True, "receipt combination-disjoint flag failed")
-    split_counts = dataset_record.get("split_counts")
-    _require(isinstance(split_counts, dict), "receipt dataset split counts are missing")
-    split_counts = cast(dict[str, Any], split_counts)
+    split_counts = _object(dataset_record.get("split_counts"), "receipt dataset split counts are missing")
     for split in ("train", "val", "test"):
-        indices = splits.get(split)
-        _require(isinstance(indices, list), f"dataset {split} split is invalid")
-        indices = cast(list[Any], indices)
+        indices = _array(splits.get(split), f"dataset {split} split is invalid")
         _require(len(indices) == split_counts.get(split), f"receipt {split} split count mismatch")
 
     _require(requirements.get("schema") == REQUIREMENTS_SCHEMA, "requirements schema mismatch")
     _require(requirements.get("all_ok") is True and not requirements.get("problems"), "requirements failed")
     aggregate = _requirements_aggregate_payload(requirements)
-    _require(json_sha256(aggregate) == requirements.get("aggregate_sha256"), "requirements hash drift")
+    _require(canonical_sha256(aggregate) == requirements.get("aggregate_sha256"), "requirements hash drift")
     _require(
         requirements.get("aggregate_sha256") == receipt.get("requirements_sha256"),
         "receipt requirements hash mismatch",
@@ -709,24 +686,20 @@ def _validate_provenance(
 
     _require(implementation.get("schema") == IMPLEMENTATION_SCHEMA, "implementation schema mismatch")
     _require(implementation.get("all_ok") is True, "implementation snapshot did not pass")
-    implementation_rows = implementation.get("files")
-    _require(
-        isinstance(implementation_rows, list) and bool(implementation_rows),
-        "implementation files missing",
-    )
-    implementation_rows = cast(list[Any], implementation_rows)
+    implementation_rows = _array(implementation.get("files"), "implementation files missing")
+    _require(bool(implementation_rows), "implementation files missing")
     implementation_aggregate = [
         {"path": row.get("source_path"), "sha256": row.get("snapshot_sha256")}
         for row in implementation_rows
         if isinstance(row, dict)
     ]
     _require(
-        json_sha256(implementation_aggregate) == implementation.get("aggregate_sha256"),
+        canonical_sha256(implementation_aggregate) == implementation.get("aggregate_sha256"),
         "implementation aggregate hash drift",
     )
-    receipt_implementation = receipt.get("implementation")
-    _require(isinstance(receipt_implementation, dict), "receipt implementation binding is missing")
-    receipt_implementation = cast(dict[str, Any], receipt_implementation)
+    receipt_implementation = _object(
+        receipt.get("implementation"), "receipt implementation binding is missing"
+    )
     _require(receipt_implementation.get("all_ok") is True, "receipt implementation binding failed")
     _require(
         receipt_implementation.get("aggregate_sha256") == implementation.get("aggregate_sha256"),
@@ -762,7 +735,7 @@ def _validate_provenance(
     _require(current.get("schema") == REQUIREMENTS_SCHEMA, "current requirements schema mismatch")
     _require(current.get("all_ok") is True and not current.get("problems"), "current requirements failed")
     _require(
-        json_sha256(_requirements_aggregate_payload(current)) == current.get("aggregate_sha256"),
+        canonical_sha256(_requirements_aggregate_payload(current)) == current.get("aggregate_sha256"),
         "current requirements aggregate hash drift",
     )
     _require(
@@ -777,9 +750,7 @@ def _validate_provenance(
         run_dir, implementation_rows, "implementation_sources"
     )
     sources.extend(implementation_sources)
-    generator = dataset.get("generator")
-    _require(isinstance(generator, dict), "dataset generator provenance is missing")
-    generator = cast(dict[str, Any], generator)
+    generator = _object(dataset.get("generator"), "dataset generator provenance is missing")
     _require(
         generator.get("source_sha256") in implementation_hashes,
         "dataset generator is not present in the frozen implementation snapshots",
@@ -787,8 +758,7 @@ def _validate_provenance(
 
     requirement_rows: list[Any] = []
     for requirement in requirements.get("requirements", []):
-        _require(isinstance(requirement, dict), "requirements row is invalid")
-        requirement = cast(dict[str, Any], requirement)
+        requirement = _object(requirement, "requirements row is invalid")
         requirement_rows.extend(requirement.get("sources", []))
     requirement_sources, _hashes = _snapshot_sources(run_dir, requirement_rows, "requirements_sources")
     _require(bool(requirement_sources), "requirements evidence snapshots are missing")
@@ -826,18 +796,10 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
     )
     receipt, composite, attestation, environment, verifier = documents
     seed_results = cast(Mapping[str, Any], receipt["seed_results"])
-    seed_row = seed_results.get(str(seed))
-    _require(isinstance(seed_row, dict), "selected seed is absent from workbench receipt")
-    seed_row = cast(dict[str, Any], seed_row)
-    objective_row = seed_row.get(objective)
-    _require(isinstance(objective_row, dict), "selected objective is absent from workbench receipt")
-    objective_row = cast(dict[str, Any], objective_row)
-    embedded_arm = objective_row.get("training")
-    _require(
-        isinstance(embedded_arm, dict) and embedded_arm.get("complete") is True,
-        "selected arm incomplete",
-    )
-    embedded_arm = cast(dict[str, Any], embedded_arm)
+    seed_row = _object(seed_results.get(str(seed)), "selected seed is absent from workbench receipt")
+    objective_row = _object(seed_row.get(objective), "selected objective is absent from workbench receipt")
+    embedded_arm = _object(objective_row.get("training"), "selected arm incomplete")
+    _require(embedded_arm.get("complete") is True, "selected arm incomplete")
     arm_path = run_dir / "arms" / f"seed_{seed}" / objective / "arm_receipt.json"
     arm = _read_json(arm_path, "selected arm receipt")
     _require(arm.get("schema") == ARM_SCHEMA, "selected arm receipt schema mismatch")
@@ -855,14 +817,9 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
     ):
         _require(arm.get(key) == embedded_arm.get(key), f"selected arm disagrees with receipt: {key}")
     _require(arm.get("objective") == objective and arm.get("seed") == seed, "selected arm identity mismatch")
-    _require(arm.get("complete") is True, "selected arm receipt is incomplete")
     _require(arm.get("completed_steps") == arm.get("requested_steps"), "selected arm stopped early")
-    checkpoint_record = arm.get("checkpoint")
-    embedded_checkpoint = embedded_arm.get("checkpoint")
-    _require(isinstance(checkpoint_record, dict), "selected arm checkpoint record is missing")
-    _require(isinstance(embedded_checkpoint, dict), "embedded checkpoint record is missing")
-    checkpoint_record = cast(dict[str, Any], checkpoint_record)
-    embedded_checkpoint = cast(dict[str, Any], embedded_checkpoint)
+    checkpoint_record = _object(arm.get("checkpoint"), "selected arm checkpoint record is missing")
+    embedded_checkpoint = _object(embedded_arm.get("checkpoint"), "embedded checkpoint record is missing")
     checkpoint_sha = checkpoint_record.get("sha256")
     _require(_is_sha256(checkpoint_sha), "selected checkpoint hash is malformed")
     _require(checkpoint_sha == embedded_checkpoint.get("sha256"), "selected checkpoint bindings disagree")
@@ -877,8 +834,7 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
         checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     except Exception as exc:
         raise ArtifactRefused(f"selected checkpoint cannot be safely loaded: {exc}") from exc
-    _require(isinstance(checkpoint, dict), "selected checkpoint payload is invalid")
-    checkpoint = cast(dict[str, Any], checkpoint)
+    checkpoint = _object(checkpoint, "selected checkpoint payload is invalid")
     _require(checkpoint.get("schema") == CHECKPOINT_SCHEMA, "selected checkpoint schema mismatch")
     expected_checkpoint = {
         "objective": objective,
@@ -898,23 +854,18 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
         "selected checkpoint online state is invalid",
     )
     state = cast(dict[str, torch.Tensor], state)
-    actual_state_hash = state_sha256(state)
-    _require(actual_state_hash == arm.get("final_state_sha256"), "selected online state hash drift")
+    _require(state_sha256(state) == arm.get("final_state_sha256"), "selected online state hash drift")
     for key in ("config_sha256", "data_sha256", "requirements_sha256"):
         _require(arm.get(key) == receipt.get(key), f"selected arm differs from raw training identity: {key}")
 
-    model_record = receipt.get("model")
-    _require(isinstance(model_record, dict), "workbench model record is missing")
-    model_record = cast(dict[str, Any], model_record)
+    model_record = _object(receipt.get("model"), "workbench model record is missing")
     _require(model_record.get("architecture") == "TinyVideoSubstrate", "workbench architecture mismatch")
     _require(model_record.get("teacher_independent") is True, "selected model is not teacher independent")
     _require(
         model_record.get("exports") == ["dense_spatiotemporal_tokens", "pooled_retrieval_key"],
         "workbench export interface mismatch",
     )
-    spec_value = model_record.get("spec")
-    _require(isinstance(spec_value, dict), "workbench model spec is missing")
-    spec_value = cast(dict[str, Any], spec_value)
+    spec_value = _object(model_record.get("spec"), "workbench model spec is missing")
     spec = _model_spec(spec_value)
     config = _read_json(run_dir / "resolved_config.json", "resolved config")
     _require(config.get("model") == asdict(spec), "resolved config and receipt model specs disagree")
@@ -928,9 +879,7 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
     parameters = parameter_count(model)
     _require(parameters == model_record.get("trainable_parameters"), "model parameter count mismatch")
     _require(1_000_000 <= parameters <= 5_000_000, "model is outside the CM7 parameter envelope")
-    dataset_record = receipt.get("dataset")
-    _require(isinstance(dataset_record, dict), "workbench dataset record is missing")
-    dataset_record = cast(dict[str, Any], dataset_record)
+    dataset_record = _object(receipt.get("dataset"), "workbench dataset record is missing")
     frames, resolution = dataset_record.get("frames"), dataset_record.get("resolution")
     _require(isinstance(frames, int) and isinstance(resolution, int), "dataset geometry is invalid")
     frames = cast(int, frames)
@@ -1069,27 +1018,26 @@ def export_artifact(run_dir: Path, verifier_path: Path, output_root: Path) -> di
             },
             "weights": weights,
         }
-        manifest["artifact_id"] = json_sha256(manifest)
-        _atomic_json(scratch / "manifest.json", manifest)
+        manifest["artifact_id"] = canonical_sha256(manifest)
+        atomic_write_json(scratch / "manifest.json", manifest)
         target = output_root / f"tiny-video-substrate-{manifest['artifact_id']}"
-        if target.exists():
-            existing = load_portable_artifact(target)
-            _require(existing.manifest == manifest, "existing content-addressed artifact differs")
+        reused = target.exists()
+        if reused:
             shutil.rmtree(scratch)
-            return {
-                "artifact_id": manifest["artifact_id"],
-                "artifact_dir": str(target),
-                "manifest_sha256": sha256_file(target / "manifest.json"),
-                "reused": True,
-            }
-        os.replace(scratch, target)
+        else:
+            os.replace(scratch, target)
         loaded = load_portable_artifact(target)
-        _require(loaded.manifest == manifest, "new artifact failed post-export verification")
+        label = (
+            "existing content-addressed artifact differs"
+            if reused
+            else "new artifact failed post-export verification"
+        )
+        _require(loaded.manifest == manifest, label)
         return {
             "artifact_id": manifest["artifact_id"],
             "artifact_dir": str(target),
             "manifest_sha256": sha256_file(target / "manifest.json"),
-            "reused": False,
+            "reused": reused,
         }
     except Exception:
         if scratch.exists():
@@ -1107,16 +1055,12 @@ def _safe_artifact_path(root: Path, value: Any, label: str) -> Path:
 
 
 def _provenance_by_role(manifest: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
-    source = manifest.get("source_provenance")
-    _require(isinstance(source, dict), "artifact source provenance is missing")
-    source = cast(dict[str, Any], source)
-    rows = source.get("files")
-    _require(isinstance(rows, list) and bool(rows), "artifact provenance file table is empty")
-    rows = cast(list[Any], rows)
+    source = _object(manifest.get("source_provenance"), "artifact source provenance is missing")
+    rows = _array(source.get("files"), "artifact provenance file table is empty")
+    _require(bool(rows), "artifact provenance file table is empty")
     by_role: dict[str, Mapping[str, Any]] = {}
     for row in rows:
-        _require(isinstance(row, dict), "artifact provenance row is invalid")
-        row = cast(dict[str, Any], row)
+        row = _object(row, "artifact provenance row is invalid")
         role = row.get("role")
         _require(isinstance(role, str) and role not in by_role, "artifact provenance role is invalid")
         role = cast(str, role)
@@ -1126,11 +1070,8 @@ def _provenance_by_role(manifest: Mapping[str, Any]) -> dict[str, Mapping[str, A
 
 def _verify_embedded_evidence(root: Path, manifest: Mapping[str, Any]) -> None:
     by_role = _provenance_by_role(manifest)
-    evidence = manifest.get("evidence")
-    selection = manifest.get("selection")
-    _require(isinstance(evidence, dict) and isinstance(selection, dict), "artifact evidence is missing")
-    evidence = cast(dict[str, Any], evidence)
-    selection = cast(dict[str, Any], selection)
+    evidence = _object(manifest.get("evidence"), "artifact evidence is missing")
+    selection = _object(manifest.get("selection"), "artifact evidence is missing")
     _require(all(role in by_role for role in _CHAIN_ROLES), "portable artifact receipt chain is incomplete")
 
     def evidence_path(role: str) -> Path:
@@ -1164,9 +1105,7 @@ def _verify_embedded_evidence(root: Path, manifest: Mapping[str, Any]) -> None:
     _require(evidence.get("scope") == EVIDENCE_SCOPE, "artifact evidence scope drift")
     _require(seed == selection.get("seed") and objective == selection.get("objective"), "selection drift")
     _require(arm.get("seed") == seed and arm.get("objective") == objective, "embedded arm identity drift")
-    arm_checkpoint = arm.get("checkpoint")
-    _require(isinstance(arm_checkpoint, dict), "embedded arm checkpoint record missing")
-    arm_checkpoint = cast(dict[str, Any], arm_checkpoint)
+    arm_checkpoint = _object(arm.get("checkpoint"), "embedded arm checkpoint record missing")
     _require(arm_checkpoint.get("sha256") == selection.get("checkpoint_sha256"), "checkpoint drift")
     _require(arm.get("final_state_sha256") == selection.get("state_sha256"), "state binding drift")
 
@@ -1190,7 +1129,7 @@ def load_portable_artifact(
     _require(_is_sha256(recorded_id), "portable artifact id is malformed")
     identity = dict(manifest)
     identity.pop("artifact_id", None)
-    _require(json_sha256(identity) == recorded_id, "portable artifact content id mismatch")
+    _require(canonical_sha256(identity) == recorded_id, "portable artifact content id mismatch")
     _require(manifest.get("interface") == INTERFACE_SCHEMA, "portable interface schema mismatch")
 
     by_role = _provenance_by_role(manifest)
@@ -1219,14 +1158,14 @@ def load_portable_artifact(
         _safe_artifact_path(root, by_role["resolved_config"]["path"], "resolved config"),
         "embedded resolved config",
     )
-    _require(json_sha256(config) == source_record.get("config_sha256"), "embedded config identity drift")
+    _require(canonical_sha256(config) == source_record.get("config_sha256"), "embedded config identity drift")
     dataset = _read_json(
         _safe_artifact_path(root, by_role["dataset_manifest"]["path"], "dataset manifest"),
         "embedded dataset manifest",
     )
     dataset_identity = dict(dataset)
     dataset_sha = dataset_identity.pop("content_sha256", None)
-    _require(json_sha256(dataset_identity) == dataset_sha, "embedded dataset content hash drift")
+    _require(canonical_sha256(dataset_identity) == dataset_sha, "embedded dataset content hash drift")
     _require(dataset_sha == source_record.get("data_sha256"), "embedded dataset identity drift")
     requirements = _read_json(
         _safe_artifact_path(root, by_role["requirements_audit"]["path"], "requirements audit"),
@@ -1246,16 +1185,10 @@ def load_portable_artifact(
     )
     _verify_embedded_evidence(root, manifest)
 
-    weights = manifest.get("weights")
-    model_record = manifest.get("model")
-    selection = manifest.get("selection")
-    _require(
-        isinstance(weights, dict) and isinstance(model_record, dict) and isinstance(selection, dict),
-        "portable model or weight identity is missing",
-    )
-    weights = cast(dict[str, Any], weights)
-    model_record = cast(dict[str, Any], model_record)
-    selection = cast(dict[str, Any], selection)
+    identity_error = "portable model or weight identity is missing"
+    weights = _object(manifest.get("weights"), identity_error)
+    model_record = _object(manifest.get("model"), identity_error)
+    selection = _object(manifest.get("selection"), identity_error)
     _require(weights.get("format") == TENSOR_PACK_SCHEMA, "portable weight format mismatch")
     weight_path = _safe_artifact_path(root, weights.get("path"), "portable weights")
     _require(weight_path.is_file(), "portable weights are missing")
@@ -1270,9 +1203,7 @@ def load_portable_artifact(
     _require(model_record.get("architecture") == "PortableTinyVideoSubstrate", "architecture mismatch")
     _require(model_record.get("source_architecture") == "TinyVideoSubstrate", "source architecture drift")
     _require(model_record.get("teacher_independent") is True, "artifact is not teacher independent")
-    spec_value = model_record.get("spec")
-    _require(isinstance(spec_value, dict), "portable model spec is missing")
-    spec_value = cast(dict[str, Any], spec_value)
+    spec_value = _object(model_record.get("spec"), "portable model spec is missing")
     spec = _model_spec(spec_value)
     _require(config.get("model") == asdict(spec), "portable spec disagrees with frozen training config")
     with torch.random.fork_rng(devices=[]):

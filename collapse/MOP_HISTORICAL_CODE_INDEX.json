@@ -2033,6 +2033,20 @@
         "src/mop/substrate/custom_workbench.py",
         "tests/unit/test_custom_substrate_workbench.py"
       ]
+    },
+    {
+      "id": "collapsed_custom_artifact_json_guard_export_and_mutation_lifecycle",
+      "source_tag": "mop-collapse-lowest-green-9",
+      "reason": "provenance validation, export preparation, receipt-chain verification, and offline loading repeatedly expanded JSON object/list guards and casts; content-addressed export repeated new-versus-reused verification and response assembly; evidence aliases obscured the canonical authority; and seven artifact refusal attacks repeated mutation setup and assertions",
+      "replacement_paths": [
+        "src/mop/substrate/custom_artifact.py",
+        "tests/unit/test_custom_substrate_artifact.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-9:<path>",
+      "paths": [
+        "src/mop/substrate/custom_artifact.py",
+        "tests/unit/test_custom_substrate_artifact.py"
+      ]
     }
   ]
 }

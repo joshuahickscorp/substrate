@@ -1273,6 +1273,25 @@
       "performance": "forty-sample refusal-orchestration median improved 4.219ms to 3.662ms (-13.20%) by reusing the exact initialized model and eliminating repeated failure dispatch",
       "accounting_note": "159 Python lines deleted for 117 policy and condensed-test lines, net -42; runtime source falls 36 LOC to 9604, validation falls 6 LOC to 2902, scripts remain 952 LOC, and maintained Python falls to 13709 LOC",
       "tag": "mop-collapse-workbench-orchestration"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "typed_artifact_json_policy_and_single_export_finalization",
+      "checkpoint_status": "green",
+      "primitive": "two typed JSON policies own object and array refusal/casting across tensor packs, receipt chains, provenance, export preparation, and offline loading; the canonical evidence authority is called directly; one content-addressed finalization path handles new and reused artifacts; unreachable duplicate completion validation is removed; and one seven-case mutation matrix retains every refusal attack",
+      "deduplicated_LOC": 0,
+      "added_LOC": 129,
+      "eliminated_LOC": 208,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 79,
+      "files_changed": 2,
+      "destination_api": "_object and _array typed JSON policies, canonical mop.evidence calls, unified export_artifact finalization, and test_preflight_refusal_matrix",
+      "proof": "Architecture B is 1715 maintained regional LOC versus Architecture A at 1794; normalized manifests, tensor-pack bytes, selected and loaded state hashes, model output hashes, preflight receipts, seven mutation refusal lists, and offline weight-drift refusal are exact across both architectures, with only the intentionally changed embedded runtime-source bytes and resulting content address excluded; 12 focused logical cases and the expanded 159-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "fifty-sample preflight median moved 19.244ms to 19.333ms (+0.46%) and offline load 20.942ms to 21.221ms (+1.33%), both inside the 2% gate",
+      "accounting_note": "208 Python lines deleted for 129 typed-policy and condensed-test lines, net -79; runtime source falls 69 LOC to 9535, validation falls 10 LOC to 2892, scripts remain 952 LOC, and maintained Python falls to 13630 LOC",
+      "tag": "mop-collapse-artifact-provenance-policy"
     }
   ],
   "latest_full_validation": {
