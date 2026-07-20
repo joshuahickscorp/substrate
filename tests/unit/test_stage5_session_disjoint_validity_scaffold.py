@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -8,7 +7,6 @@ from mop.mechanisms.stage5_session_disjoint_validity_scaffold import (
     CLAIM_SCOPE,
     NEGATIVE_CONTROLS,
     PRIOR_NULL,
-    SUB_QUESTIONS,
     VALIDITY_AXES,
     AxisOutcome,
     ControlOutcome,
@@ -21,7 +19,6 @@ from mop.mechanisms.stage5_session_disjoint_validity_scaffold import (
     build_activation_gate,
     build_measured_efficiency,
     build_session_disjoint_contract,
-    coverage,
     synthesize_axis_evidence,
 )
 
@@ -273,10 +270,3 @@ def test_gate_refuses_when_a_control_leaked() -> None:
     receipt = gate.expected_receipt(contract)
     with pytest.raises(SessionDisjointValidityRefusal, match="negative controls leaked"):
         gate.certify_generality(contract, receipt)
-
-
-def test_coverage_lists_every_sub_question_with_two_bullets() -> None:
-    cov = coverage()
-    assert set(cov) == set(SUB_QUESTIONS)
-    for bullets in cov.values():
-        assert len(bullets) >= 2

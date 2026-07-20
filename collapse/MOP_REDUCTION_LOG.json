@@ -564,6 +564,24 @@
       "proof": "pre/post scaffold payload, digest, property, and refusal fingerprint exact across all four mechanisms: b56e41377d1db1fe8ccd98ae3f2a244f0f683f506db12117ec19b2c7a076f1a9; 104 focused mechanism cases and 11 continual-verifier cases green; full 3829-case collection, compile-all, changed-file ruff, and docs gate green",
       "accounting_note": "src 683 added/1563 deleted; tests 2 added/16 deleted; 93 source LOC of executable coverage prose and its 14-LOC formatting-only test eliminated; scientific claim guards, contracts, payloads, digests, refusal messages, independent verification, and exact public class identities retained",
       "tag": "mop-collapse-mechanism-scaffolds"
+    },
+    {
+      "region": "section12_mechanism_provider_system_section17_validation_and_section18_embedded_documentation",
+      "batch": "retired_stability_plasticity_v1_and_executable_coverage_prose",
+      "checkpoint_status": "green",
+      "primitive": "the explicitly retired stability_plasticity v1 bed, implementation, runner, scaffold, and dedicated tests were physically deleted after sealing their complete executable state; eleven remaining coverage dictionaries and their bullet-shape-only tests were deleted as executable documentation",
+      "deduplicated_LOC": 0,
+      "added_LOC": 34,
+      "eliminated_LOC": 1765,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1731,
+      "files_changed": 32,
+      "destination_api": "stability_plasticity_r2 plus executable mechanism contracts, nulls, controls, and behavioral tests",
+      "proof": "retired v1 pre-deletion bed, scaffold, implementation, runner, result, receipt, and Stage-3 fingerprints sealed as ead7459cbe476092f325c39c5a227c3bf7dbac5638cff994fa200a8b55d9c733; all six deleted files recover exactly from mop-collapse-mechanism-scaffolds; replacement r2 and active Stage-3/mechanism battery 405/405 green; full 3779-case collection, compile-all, changed-file ruff, and docs gate green",
+      "accounting_note": "src 16 added/1086 deleted; tests 18 added/679 deleted; the Generation-1 authority already records v1 as retired under doc-20 and replaced by recurrence-aware r2; P6 prior-null and retirement evidence remain in current authorities; coverage prose had no runtime consumer beyond the deleted bullet-count tests",
+      "tag": "mop-collapse-retired-mechanism-v1"
     }
   ],
   "deferred_heavy_validation": {

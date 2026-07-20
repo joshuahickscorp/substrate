@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -57,7 +56,6 @@ def _require_positive(value: int, label: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class Stage3ConfirmationReceipt:
-
     mechanism_id: str
     promotion_gate_digest: str
     independent_replications: int
@@ -138,7 +136,6 @@ def distinct_confirmed_mechanisms(receipts: Sequence[Stage3ConfirmationReceipt])
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-
     params: int
     flops: int
     memory_bytes: int
@@ -165,7 +162,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class JointAdvantageContract:
-
     schema: str
     integrated_budget: MatchedBudget
     baseline_budget: MatchedBudget
@@ -218,7 +214,6 @@ class JointAdvantageContract:
 
 @dataclass(frozen=True, slots=True)
 class AblationArm:
-
     arm: str
     mechanism_ids: tuple[str, ...]
     integrated: bool
@@ -255,7 +250,6 @@ class AblationArm:
 
 @dataclass(frozen=True, slots=True)
 class AblationLadder:
-
     schema: str
     mechanism_ids: tuple[str, ...]
     arms: tuple[AblationArm, ...]
@@ -319,7 +313,6 @@ def build_ablation_ladder(mechanism_ids: Sequence[str]) -> AblationLadder:
 
 @dataclass(frozen=True, slots=True)
 class IntegrationBatteryContract:
-
     schema: str
     receipts: tuple[Stage3ConfirmationReceipt, ...]
     joint_advantage: JointAdvantageContract
@@ -366,7 +359,6 @@ class IntegrationBatteryContract:
 
 @dataclass(frozen=True, slots=True)
 class Stage4EntryGate:
-
     min_confirmed_mechanisms: int = MIN_CONFIRMED_MECHANISMS
     claim_scope: str = CLAIM_SCOPE
 
@@ -417,26 +409,3 @@ def authorize_battery(gate: Stage4EntryGate, contract: IntegrationBatteryContrac
 
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
-
-
-def coverage() -> dict[str, tuple[str, ...]]:
-
-    return {
-        "S4.1 component-confirmation-precondition": (
-            "IntegrationBatteryContract refuses fewer than two confirmed Stage-3 receipts",
-            "Stage4EntryGate is closed by default and opens only on enough distinct confirmed mechanisms",
-            "each receipt must carry a promotion-gate pass digest and a self-consistent content digest",
-        ),
-        "S4.2 joint-advantage-over-best-single": (
-            "JointAdvantageContract names exactly the Stage 4 prior null as its rejection target",
-            "the prior null fixes the bar at the best single mechanism or a static composition",
-        ),
-        "S4.3 matched-compute-frontier": (
-            "JointAdvantageContract requires identical flops and wall-clock budget for treatment vs baseline",
-            "the strong baseline set is complete and order-checked, so no baseline family can be dropped",
-        ),
-        "S4.4 ablation-attribution": (
-            "AblationLadder requires each-mechanism-alone, best-single, and static-composition rungs",
-            "each-mechanism-alone must cover every confirmed mechanism exactly once before a joint claim",
-        ),
-    }

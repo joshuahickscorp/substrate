@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -76,7 +75,6 @@ def verify_control_registry() -> bool:
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-
     messages: int
     verify_calls: int
     flops: int
@@ -106,7 +104,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class BoundedMessageContract:
-
     schema: str
     bandwidth_limit: int
     max_fanout: int
@@ -158,7 +155,6 @@ class BoundedMessageContract:
 
 @dataclass(frozen=True, slots=True)
 class MessagePlan:
-
     schema: str
     seed: int
     bandwidth_limit: int
@@ -244,7 +240,6 @@ def causal_message_plan(*, edges: Sequence[tuple[str, str]], bandwidth_limit: in
 
 @dataclass(frozen=True, slots=True)
 class VerificationValueContract:
-
     schema: str
     selective: bool
     verify_fraction: float
@@ -303,7 +298,6 @@ REPAIR_METRICS: tuple[str, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class ContradictionRepairContract:
-
     schema: str
     trigger_condition: str
     controls: tuple[str, ...]
@@ -346,7 +340,6 @@ class ContradictionRepairContract:
 
 @dataclass(frozen=True, slots=True)
 class RepairPlan:
-
     schema: str
     seed: int
     triggered: bool
@@ -436,7 +429,6 @@ def assert_disagreement_present(claims: Sequence[tuple[str, int]]) -> None:
 
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
-
     license_id: str
     authority: str
     confirmed: bool
@@ -462,7 +454,6 @@ class ActivationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class MessagingActivationGate:
-
     activated: bool = False
     claim_scope: str = CLAIM_SCOPE
 
@@ -528,23 +519,3 @@ def default_contradiction_repair_contract() -> ContradictionRepairContract:
         matched_cost_required=True,
         prior_null="disagreement-only",
     )
-
-
-def coverage() -> dict[str, Sequence[str]]:
-
-    return {
-        "M1: does bounded causal messaging beat a limited broadcast baseline?": (
-            "BoundedMessageContract declares a bandwidth limit and refuses unbounded broadcast",
-            "causal_message_plan routes only along causal edges, capped by the bandwidth limit",
-            "controls span no-message, broadcast-all, and random-route at matched cost",
-        ),
-        "V1: is selective verification worth its matched cost?": (
-            "VerificationValueContract requires a strictly selective verify fraction, not always on",
-            "controls bound the policy by no-verify and always-verify at matched cost",
-        ),
-        "K1: does contradiction repair fire only on detected disagreement?": (
-            "ContradictionRepairContract triggers only on detected-disagreement",
-            "detect_and_repair emits an untriggered empty plan when all agents agree",
-            "controls span no-message, broadcast-all, stale-message, and majority-vote",
-        ),
-    }

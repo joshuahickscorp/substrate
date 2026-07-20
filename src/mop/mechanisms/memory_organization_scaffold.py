@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -64,7 +63,6 @@ def _require_finite(value: float, label: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class CapabilityExercise:
-
     capability: str
     exercised: bool
     op_log: tuple[str, ...]
@@ -111,7 +109,6 @@ class CapabilityExercise:
 
 @dataclass(frozen=True, slots=True)
 class MemoryOrganizationContract:
-
     schema: str
     organization_id: str
     exercises: tuple[CapabilityExercise, ...]
@@ -150,7 +147,6 @@ class MemoryOrganizationContract:
 
 @dataclass(frozen=True, slots=True)
 class MatchedRetrievalBudget:
-
     params: int
     retrieval_ops: int
     memory_bytes: int
@@ -177,7 +173,6 @@ class MatchedRetrievalBudget:
 
 @dataclass(frozen=True, slots=True)
 class FutureDecisionValueContract:
-
     schema: str
     value_target: str
     controls: tuple[str, ...]
@@ -228,7 +223,6 @@ class FutureDecisionValueContract:
 
 @dataclass(frozen=True, slots=True)
 class EpisodicHarmGuard:
-
     schema: str
     harm_tolerance: float
     claim_scope: str = CLAIM_SCOPE
@@ -263,7 +257,6 @@ class EpisodicHarmGuard:
 
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
-
     schema: str
     issuer: str
     cleared_nulls: tuple[str, ...]
@@ -336,7 +329,6 @@ class ActivationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class MemoryActivationGate:
-
     schema: str = MEMORY_ORGANIZATION_SCHEMA
     activation_permitted: bool = False
     receipt: ActivationReceipt | None = None
@@ -427,29 +419,3 @@ def default_episodic_harm_guard() -> EpisodicHarmGuard:
 
 def default_activation_gate() -> MemoryActivationGate:
     return MemoryActivationGate()
-
-
-def coverage() -> dict[str, Sequence[str]]:
-
-    return {
-        "future-decision-value-not-prediction": (
-            "FutureDecisionValueContract fixes the value target to future decisions and refuses prediction",
-            "both the organization and value contracts refuse prediction-only sufficiency",
-        ),
-        "four-capabilities-exercised": (
-            "MemoryOrganizationContract requires revision, provenance, deletion, and action, in order",
-            "CapabilityExercise fails closed unless each capability carries a hash-checked exercise witness",
-        ),
-        "declared-decision-controls": (
-            "the no-memory, flat-memory, replay-only, and stale-memory controls are fixed and order-checked",
-            "MatchedRetrievalBudget must be non-vacuous so every arm is held to the same retrieval cost",
-        ),
-        "replay-parity-null": (
-            "the replay-only control plus required matched cost encode the replay-parity null",
-            "a win must survive a replay baseline at equal retrieval budget or the bar is not cleared",
-        ),
-        "episodic-harm-null": (
-            "EpisodicHarmGuard fails closed when measured episodic harm exceeds the declared tolerance",
-            "the activation gate refuses until a receipt clears both the replay and episodic-harm nulls",
-        ),
-    }

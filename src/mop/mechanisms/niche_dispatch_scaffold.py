@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -57,7 +56,6 @@ def _require_cells(cells: Sequence[str], label: str) -> tuple[str, ...]:
 
 @dataclass(frozen=True, slots=True)
 class ContextPartition:
-
     partition_id: str
     cells: tuple[str, ...]
     claim_scope: str = CLAIM_SCOPE
@@ -92,7 +90,6 @@ class ContextPartition:
 
 @dataclass(frozen=True, slots=True)
 class NicheDeclaration:
-
     perspective_id: str
     seed: int
     cells: tuple[str, ...]
@@ -125,7 +122,6 @@ class NicheDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class ReproducedNiche:
-
     perspective_id: str
     seed_cells: Mapping[int, tuple[str, ...]]
     claim_scope: str = CLAIM_SCOPE
@@ -173,7 +169,6 @@ class ReproducedNiche:
 
 @dataclass(frozen=True, slots=True)
 class DisjointNicheContract:
-
     partition: ContextPartition
     niches: tuple[ReproducedNiche, ...]
     claim_scope: str = CLAIM_SCOPE
@@ -229,7 +224,6 @@ class DisjointNicheContract:
 
 @dataclass(frozen=True, slots=True)
 class PerspectiveAssessment:
-
     perspective_id: str
     net_effect: float
     unique_positive_cells: tuple[str, ...]
@@ -302,7 +296,6 @@ def assert_valid_edcm_bed(
 
 @dataclass(frozen=True, slots=True)
 class ComplementarityContract:
-
     assessments: tuple[PerspectiveAssessment, ...]
     evenness_tolerance: float
     assume_universal_complementarity: bool = False
@@ -359,7 +352,6 @@ class ComplementarityContract:
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-
     params: int
     flops: int
     wall_ticks: int
@@ -386,7 +378,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class DispatchValueContract:
-
     controls: tuple[str, ...]
     matched: MatchedBudget
     matched_cost_required: bool
@@ -440,7 +431,6 @@ class DispatchValueContract:
 
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
-
     issuer: str
     license_sha256: str
     scope: str
@@ -457,7 +447,6 @@ class ConfirmationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class DispatchActivationGate:
-
     activation_required: bool = True
     local_activation_permitted: bool = False
 
@@ -559,23 +548,3 @@ def build_default_dispatch_value_contract() -> DispatchValueContract:
 
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
-
-
-def coverage() -> dict[str, Sequence[str]]:
-
-    return {
-        "C1": (
-            "reproducible niches via ReproducedNiche, which refuses unless seeds agree on the cells",
-            "disjoint niches via DisjointNicheContract, which refuses any cross-perspective overlap",
-        ),
-        "C2": (
-            "complementarity screening that retains only net-positive, uniquely positive perspectives",
-            "explicit refusal of the universal-complementarity assumption and net-harmful perspectives",
-            "EDCM invalid-bed null encoded as a fail-closed check on evenness, harm, and uniqueness",
-        ),
-        "D1": (
-            "matched compute via MatchedBudget and the all-perspectives/random/single-best/majority controls",
-            "dispatch may claim value only if it strictly beats every matched control at matched cost",
-            "real activation quarantined behind a receipt gate that is off by default",
-        ),
-    }

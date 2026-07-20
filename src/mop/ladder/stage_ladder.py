@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -119,7 +118,6 @@ STAGE_MIN_MECHANISM_RECEIPTS: tuple[int, ...] = (0, 0, 0, 1, 2, 0)
 
 @dataclass(frozen=True, slots=True)
 class ControlManifest:
-
     schema: str = STAGE_LADDER_SCHEMA
     mechanism_controls: tuple[str, ...] = REQUIRED_MECHANISM_CONTROLS
     session_axes: tuple[str, ...] = SESSION_DISJOINT_AXES
@@ -158,7 +156,6 @@ def assert_control_manifest() -> ControlManifest:
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-
     params: int
     flops: int
     wall_ns: int
@@ -185,7 +182,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
-
     requirement_id: str
     digest: str
     controls_cleared: tuple[str, ...]
@@ -224,7 +220,6 @@ class ConfirmationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class StageActivationGate:
-
     activation_required: bool = True
     local_activation_permitted: bool = False
 
@@ -258,7 +253,6 @@ class StageActivationGate:
 
 @dataclass(frozen=True, slots=True)
 class StageDefinition:
-
     stage_index: int
     name: str
     documented_status: str
@@ -334,7 +328,6 @@ def build_stage_definitions() -> tuple[StageDefinition, ...]:
 
 @dataclass(frozen=True, slots=True)
 class StageLadder:
-
     stages: tuple[StageDefinition, ...]
     current_stage_index: int = CURRENT_STAGE_INDEX
     gate: StageActivationGate = field(default_factory=StageActivationGate)
@@ -462,33 +455,3 @@ class StageLadder:
 def build_default_ladder() -> StageLadder:
 
     return StageLadder(stages=build_stage_definitions())
-
-
-def coverage() -> dict[str, Sequence[str]]:
-
-    return {
-        "stage_0": (
-            "encodes governance, measurement, falsification, and recovery as a complete rung",
-            "carries no entry requirement and no forcing null; it is the earned base of the ladder",
-        ),
-        "stage_1": (
-            "encodes programmable heterogeneous mechanics as a complete rung",
-            "its entry requirement id is retained for provenance but is not re-checked below Stage 2",
-        ),
-        "stage_2": (
-            "encodes counterfactual ecology and formation machinery as the current position",
-            "the ladder sits here: mechanically formed, scientifically unformed, activation not ready",
-        ),
-        "stage_3": (
-            "refuses entry unless at least one confirmed useful-mechanism receipt clears the controls",
-            "its bar is forced by the Generation 0 first-mechanism null cluster under matched cost",
-        ),
-        "stage_4": (
-            "refuses entry unless Stage 3 is reached plus at least two confirmed mechanism receipts",
-            "its bar is forced by the absence of any integrated architecture advantage",
-        ),
-        "stage_5": (
-            "refuses entry unless the session-disjoint validity axes and measured efficiency are cleared",
-            "its bar is forced by the absence of any session-disjoint general validity under matched cost",
-        ),
-    }

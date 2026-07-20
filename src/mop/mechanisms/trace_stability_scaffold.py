@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -60,7 +59,6 @@ def assert_controls_complete(controls: Sequence[str]) -> None:
 
 @dataclass(frozen=True, slots=True)
 class TraceRecord:
-
     trace_id: str
     seed: int
     session_id: str
@@ -153,7 +151,6 @@ def cross_seed_agreement(records: Sequence[TraceRecord], metric: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class MatchedMeasurementBudget:
-
     seeds: int
     sessions: int
     samples_per_seed: int
@@ -180,7 +177,6 @@ class MatchedMeasurementBudget:
 
 @dataclass(frozen=True, slots=True)
 class TraceStabilityContract:
-
     schema: str
     trace_id: str
     stability_metric: str
@@ -229,7 +225,6 @@ class TraceStabilityContract:
 
 @dataclass(frozen=True, slots=True)
 class ControlOutcome:
-
     control: str
     agreement: float
     reproduced: bool
@@ -250,7 +245,6 @@ class ControlOutcome:
 
 @dataclass(frozen=True, slots=True)
 class StabilityVerdict:
-
     schema: str
     contract: TraceStabilityContract
     records: tuple[TraceRecord, ...]
@@ -321,7 +315,6 @@ class StabilityVerdict:
 
 @dataclass(frozen=True, slots=True)
 class LicenseReceipt:
-
     verdict_sha256: str
     verdict_label: str
     independent_confirmations: int
@@ -357,7 +350,6 @@ class LicenseReceipt:
 
 @dataclass(frozen=True, slots=True)
 class MechanismLicenseGate:
-
     stability_required: bool = True
     license_granted: bool = False
     claim_scope: str = CLAIM_SCOPE
@@ -451,25 +443,3 @@ def dead_control_outcomes(agreement: float = 0.5) -> tuple[ControlOutcome, ...]:
         ControlOutcome(control=control, agreement=agreement, reproduced=False)
         for control in REQUIRED_CONTROLS
     )
-
-
-def coverage() -> dict[str, Sequence[str]]:
-
-    return {
-        "seed-stability": (
-            "TraceStabilityContract refuses fewer than MIN_SEEDS seeds",
-            "StabilityVerdict refuses fewer than min_seeds distinct seeds among the records",
-        ),
-        "session-stability": (
-            "TraceRecord binds every measurement to a named session id",
-            "synthesize_trace_records reproduces records byte-identically per session",
-        ),
-        "control-death": (
-            "REQUIRED_CONTROLS pins single-seed, shuffled-seed, permuted-trace, and label-shuffled",
-            "StabilityVerdict.decide returns stable only when no control reproduces the trace",
-        ),
-        "license-gate": (
-            "MechanismLicenseGate is off by default and refuses authorization without a receipt",
-            "LicenseReceipt grants a license only for a stable, independently replicated verdict",
-        ),
-    }

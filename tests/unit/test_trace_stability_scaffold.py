@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -20,7 +19,6 @@ from mop.mechanisms.trace_stability_scaffold import (
     TraceStabilityRefusal,
     assert_controls_complete,
     build_default_contract,
-    coverage,
     cross_seed_agreement,
     dead_control_outcomes,
     synthesize_trace_records,
@@ -299,10 +297,3 @@ def test_gate_grants_on_stable_replicated_receipt() -> None:
         replication_min=2,
     )
     MechanismLicenseGate().authorize(receipt)  # does not raise
-
-
-def test_coverage_lists_all_subquestions() -> None:
-    cov = coverage()
-    assert set(cov) == {"seed-stability", "session-stability", "control-death", "license-gate"}
-    for bullets in cov.values():
-        assert len(bullets) >= 2

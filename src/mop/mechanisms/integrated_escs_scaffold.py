@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -52,7 +51,6 @@ def _require_sha256(value: str, label: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class CostVector:
-
     params: int
     flops: int
     memory_bytes: int
@@ -85,7 +83,6 @@ class CostVector:
 
 @dataclass(frozen=True, slots=True)
 class FrontierPoint:
-
     label: str
     quality: float
     cost: CostVector
@@ -130,7 +127,6 @@ class FrontierPoint:
 
 @dataclass(frozen=True, slots=True)
 class BaselineDeclaration:
-
     family: str
     point: FrontierPoint
     rationale: str
@@ -157,7 +153,6 @@ class BaselineDeclaration:
 
 @dataclass(frozen=True, slots=True)
 class BaselineSet:
-
     schema: str
     declarations: tuple[BaselineDeclaration, ...]
     claim_scope: str = CLAIM_SCOPE
@@ -219,7 +214,6 @@ def build_default_baseline_set() -> BaselineSet:
 
 @dataclass(frozen=True, slots=True)
 class IntegratedAdvantageContract:
-
     schema: str
     integrated: FrontierPoint
     baselines: BaselineSet
@@ -242,9 +236,7 @@ class IntegratedAdvantageContract:
                 "integrated advantage requires strict Pareto dominance over every baseline"
             )
         if self.replication_min < 2:
-            raise IntegratedEscsRefusal(
-                "integrated advantage requires at least two independent replications"
-            )
+            raise IntegratedEscsRefusal("integrated advantage requires at least two independent replications")
         self.baselines.assert_all_cost_matched(self.integrated.cost)
         for row in self.baselines.declarations:
             if not self.integrated.dominates(row.point):
@@ -269,7 +261,6 @@ class IntegratedAdvantageContract:
 
 @dataclass(frozen=True, slots=True)
 class MechanismRung:
-
     mechanism: str
     marginal_quality_gain: float
     marginal_cost: CostVector
@@ -300,7 +291,6 @@ class MechanismRung:
 
 @dataclass(frozen=True, slots=True)
 class AblationLadderContract:
-
     schema: str
     rungs: tuple[MechanismRung, ...]
     claim_scope: str = CLAIM_SCOPE
@@ -338,9 +328,7 @@ def build_default_ablation_ladder() -> AblationLadderContract:
         MechanismRung(
             mechanism=name,
             marginal_quality_gain=0.05,
-            marginal_cost=CostVector(
-                params=64, flops=1024, memory_bytes=256, wall_ticks=8, energy_units=4
-            ),
+            marginal_cost=CostVector(params=64, flops=1024, memory_bytes=256, wall_ticks=8, energy_units=4),
             min_efficiency=1e-9,
         )
         for name in MECHANISM_LADDER
@@ -350,7 +338,6 @@ def build_default_ablation_ladder() -> AblationLadderContract:
 
 @dataclass(frozen=True, slots=True)
 class FrontierVerdict:
-
     schema: str
     integrated: FrontierPoint
     baselines: BaselineSet
@@ -432,7 +419,6 @@ def build_dominating_frontier_verdict(seed: int = 0) -> FrontierVerdict:
 
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
-
     verdict_digest: str
     replications: int
     independent_auditor: str
@@ -444,14 +430,11 @@ class ActivationReceipt:
         if not self.independent_auditor.strip():
             raise IntegratedEscsRefusal("activation receipt requires a named independent auditor")
         if self.replications < 2:
-            raise IntegratedEscsRefusal(
-                "activation receipt requires at least two independent replications"
-            )
+            raise IntegratedEscsRefusal("activation receipt requires at least two independent replications")
 
 
 @dataclass(frozen=True, slots=True)
 class IntegratedActivationGate:
-
     activation_required: bool = True
     local_activation_permitted: bool = False
 
@@ -475,27 +458,5 @@ class IntegratedActivationGate:
                 "external authority with its own randomization and held-out evaluation"
             )
         if receipt.verdict_digest != expected_verdict_digest:
-            raise IntegratedEscsRefusal(
-                "activation receipt does not bind the expected verdict digest"
-            )
+            raise IntegratedEscsRefusal("activation receipt does not bind the expected verdict digest")
         return receipt
-
-
-def coverage() -> dict[str, tuple[str, ...]]:
-
-    return {
-        "matched-baseline-frontier": (
-            "matched baselines via BaselineSet over single-perspective, static-ensemble, no-memory, "
-            "and sparse-only, refusing any membership or order drift",
-            "matched full-system cost enforced by assert_all_cost_matched before any comparison",
-        ),
-        "marginal-mechanism-justification": (
-            "an ordered ablation ladder via AblationLadderContract over the fixed mechanism ladder",
-            "each rung must justify its marginal compute per FLOP or the ladder fails closed",
-        ),
-        "pareto-dominance-or-null": (
-            "strict Pareto dominance over every matched baseline via FrontierPoint.dominates",
-            "the prior null (no integrated advantage at matched cost) holds by default and must be "
-            "earned through a dominating verdict and an external activation receipt",
-        ),
-    }

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -22,7 +21,6 @@ from mop.mechanisms.messaging_repair_scaffold import (
     VerificationValueContract,
     assert_disagreement_present,
     causal_message_plan,
-    coverage,
     default_bounded_message_contract,
     default_contradiction_repair_contract,
     default_verification_value_contract,
@@ -319,13 +317,3 @@ def test_activation_gate_accepts_valid_receipt() -> None:
         controls_cleared=True,
     )
     gate.authorize(receipt)  # must not raise
-
-
-def test_coverage_lists_every_sub_question_with_two_bullets() -> None:
-    cov = coverage()
-    keys = set(cov)
-    assert any(k.startswith("M1") for k in keys)
-    assert any(k.startswith("V1") for k in keys)
-    assert any(k.startswith("K1") for k in keys)
-    for bullets in cov.values():
-        assert len(bullets) >= 2

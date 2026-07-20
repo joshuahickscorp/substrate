@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -20,7 +19,6 @@ from mop.mechanisms.event_formation_scaffold import (
     assert_control_ledger,
     build_hypothetical_useful_verdict,
     build_x0_strong_null_verdict,
-    coverage,
     default_matched_budget,
     mint_receipt,
     synthesize_relational_episode,
@@ -42,7 +40,9 @@ def test_control_ledger_digest_is_stable() -> None:
 
 def test_control_ledger_rejects_membership_or_order_drift() -> None:
     with pytest.raises(ValueError, match="membership or order drift"):
-        ControlLedgerContract(controls=("wrong-event", "wrong-time", "appearance-only", "stateless-delayed-trigger"))
+        ControlLedgerContract(
+            controls=("wrong-event", "wrong-time", "appearance-only", "stateless-delayed-trigger")
+        )
     with pytest.raises(EventFormationRefusal):
         assert_control_ledger(("wrong-time", "wrong-event"))
 
@@ -295,7 +295,9 @@ def test_activation_gate_refuses_x0_null_receipt() -> None:
 
 def test_activation_gate_refuses_under_replicated_receipt() -> None:
     gate = EventFormationActivationGate()
-    receipt = mint_receipt(build_hypothetical_useful_verdict(), license_id="lic.ok", independent_replications=1)
+    receipt = mint_receipt(
+        build_hypothetical_useful_verdict(), license_id="lic.ok", independent_replications=1
+    )
     assert receipt.claims_useful_event is True
     with pytest.raises(ValueError, match="fewer than the required independent replications"):
         gate.authorize(receipt)
@@ -303,7 +305,9 @@ def test_activation_gate_refuses_under_replicated_receipt() -> None:
 
 def test_activation_gate_opens_for_earned_replicated_receipt() -> None:
     gate = EventFormationActivationGate()
-    receipt = mint_receipt(build_hypothetical_useful_verdict(), license_id="lic.ok", independent_replications=3)
+    receipt = mint_receipt(
+        build_hypothetical_useful_verdict(), license_id="lic.ok", independent_replications=3
+    )
     gate.authorize(receipt)  # must not raise
 
 
@@ -340,18 +344,6 @@ def test_receipt_digest_stable_and_scope_locked() -> None:
             independent_replications=2,
             claim_scope="widened",
         )
-
-
-def test_coverage_lists_every_subquestion() -> None:
-    cov = coverage()
-    assert set(cov) == {
-        "relational-events",
-        "temporal-binding",
-        "oracle-headroom",
-        "utility-vs-compute",
-    }
-    for bullets in cov.values():
-        assert len(bullets) >= 2
 
 
 def test_required_controls_partition_into_untrained() -> None:

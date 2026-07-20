@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -65,7 +64,6 @@ def _require_positive(value: int, label: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class SearchBudget:
-
     candidate_evaluations: int
     objective_queries: int
     wall_proxy_units: int
@@ -95,7 +93,6 @@ class SearchBudget:
 
 @dataclass(frozen=True, slots=True)
 class SealedObjective:
-
     objective_id: str
     task_ids: tuple[str, ...]
     num_members: int
@@ -176,7 +173,6 @@ def seal_objective(
 
 @dataclass(frozen=True, slots=True)
 class ConstructionControl:
-
     id: str
     family: str
     rationale: str
@@ -207,7 +203,6 @@ class ConstructionControl:
 
 @dataclass(frozen=True, slots=True)
 class ConstructionControlSet:
-
     schema: str
     controls: tuple[ConstructionControl, ...]
     claim_scope: str = CLAIM_SCOPE
@@ -263,7 +258,6 @@ def build_default_control_set() -> ConstructionControlSet:
 
 @dataclass(frozen=True, slots=True)
 class ConstructionSearchContract:
-
     objective: SealedObjective
     budget: SearchBudget
     controls: ConstructionControlSet
@@ -326,7 +320,6 @@ def build_default_contract(
 
 @dataclass(frozen=True, slots=True)
 class SearchValueVerdict:
-
     gross_improvement: float
     charged_search_cost: float
     oracle_headroom_gap: float
@@ -379,7 +372,6 @@ class ConstructionSearchActivationRefusal(ConstructionSearchRefusal):
 
 @dataclass(frozen=True, slots=True)
 class ConstructionSearchActivationGate:
-
     activated: bool = False
     confirmation_receipt_sha256: str = ""
     license_id: str = ""
@@ -416,7 +408,6 @@ _MAX_ORACLE_MEMBERS = 16
 
 
 class _DeterministicStream:
-
     __slots__ = ("_state",)
 
     def __init__(self, seed: int) -> None:
@@ -453,7 +444,6 @@ def _score_coalition(
 
 @dataclass(frozen=True, slots=True)
 class SearchTrace:
-
     seed: int
     num_members: int
     num_tasks: int
@@ -656,30 +646,3 @@ def verdict_from_trace(trace: SearchTrace, *, matched_cost_charged: bool = True)
         claims_improvement=net > 0.0,
         matched_cost_charged=matched_cost_charged,
     )
-
-
-def coverage() -> dict[str, Sequence[str]]:
-
-    return {
-        "is-the-objective-sealed-before-search": (
-            "SealedObjective binds its core spec with a digest and refuses a moving target",
-            "seal_objective recomputes the digest so a rewritten objective fails closed",
-        ),
-        "does-search-beat-the-cheap-controls": (
-            "ConstructionControlSet requires no-search, random-construction, and greedy-only in order",
-            "verdict_from_trace takes the best cheap control as the bar to clear",
-        ),
-        "does-it-survive-charging-the-search-cost": (
-            "SearchValueVerdict refuses an improvement claim unless charged-cost net is positive",
-            "SearchBudget fixes a non-vacuous matched budget every arm must share",
-            "PRIOR_NULL is encoded so a zero or negative net leaves the null standing",
-        ),
-        "how-far-below-oracle-headroom-does-it-sit": (
-            "the oracle-headroom control gives an exhaustive, uncharged ceiling reference",
-            "SearchValueVerdict reports a nonnegative oracle_headroom_gap for every run",
-        ),
-        "is-a-value-claim-earned-yet": (
-            "ConstructionSearchActivationGate is off by default and refuses local authorization",
-            "activation requires an independent confirmation receipt and license id",
-        ),
-    }

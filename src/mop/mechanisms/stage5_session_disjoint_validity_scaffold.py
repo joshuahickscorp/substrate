@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -80,7 +79,6 @@ def assert_control_completeness(controls: tuple[ControlOutcome, ...]) -> None:
 
 @dataclass(frozen=True, slots=True)
 class AxisOutcome:
-
     axis: str
     passed: bool
     replications: int
@@ -121,7 +119,6 @@ class AxisOutcome:
 
 @dataclass(frozen=True, slots=True)
 class ControlOutcome:
-
     control: str
     leaked: bool
     evidence_sha256: str
@@ -152,7 +149,6 @@ class ControlOutcome:
 
 @dataclass(frozen=True, slots=True)
 class MatchedCostBudget:
-
     params: int
     flops: int
     wall_time_ms: int
@@ -181,7 +177,6 @@ class MatchedCostBudget:
 
 @dataclass(frozen=True, slots=True)
 class MeasuredResource:
-
     kind: str
     declared: float
     measured: float
@@ -216,7 +211,6 @@ class MeasuredResource:
 
 @dataclass(frozen=True, slots=True)
 class MeasuredEfficiencyContract:
-
     efficiency_metric: str
     resources: tuple[MeasuredResource, ...]
     matched: MatchedCostBudget
@@ -274,7 +268,6 @@ class MeasuredEfficiencyContract:
 
 @dataclass(frozen=True, slots=True)
 class SessionDisjointValidityContract:
-
     axes: tuple[AxisOutcome, ...]
     controls: tuple[ControlOutcome, ...]
     efficiency: MeasuredEfficiencyContract
@@ -323,7 +316,6 @@ class SessionDisjointValidityContract:
 
 @dataclass(frozen=True, slots=True)
 class ExternalValidityGate:
-
     license_token: str | None = None
     default_state: str = "off"
     claim_scope: str = CLAIM_SCOPE
@@ -501,29 +493,3 @@ SUB_QUESTIONS: tuple[str, ...] = (
     "is any efficiency claim backed by a real measured cost?",
     "are same-session-leak, seed-reuse, and single-task-family ruled out?",
 )
-
-
-def coverage() -> dict[str, list[str]]:
-
-    return {
-        SUB_QUESTIONS[0]: [
-            "the fresh-session axis in VALIDITY_AXES with a disjoint-from-calibration requirement",
-            "AxisOutcome refuses a passing axis that is not disjoint from the calibration session",
-        ],
-        SUB_QUESTIONS[1]: [
-            "the new-seeds and new-task-families axes carried in the ordered axis coverage check",
-            "each axis requires at least two independent replications before it can pass",
-        ],
-        SUB_QUESTIONS[2]: [
-            "the lesions and independent-reconstruction axes in VALIDITY_AXES",
-            "assert_axis_completeness fails closed on any missing or reordered axis",
-        ],
-        SUB_QUESTIONS[3]: [
-            "MeasuredEfficiencyContract refuses any declared-only cost via MeasuredResource.backed",
-            "a measured baseline and matched full-system cost are both required, non-vacuously",
-        ],
-        SUB_QUESTIONS[4]: [
-            "NEGATIVE_CONTROLS declares same-session-leak, seed-reuse, and single-task-family",
-            "ExternalValidityGate refuses certification whenever any negative control leaked",
-        ],
-    }

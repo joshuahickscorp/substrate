@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -12,9 +11,9 @@ from mop.ladder.stage3_registry import (
 )
 
 
-def test_registry_lists_nine_epochs() -> None:
-    assert len(STAGE3_EPOCHS) == 9
-    assert len(set(STAGE3_EPOCHS)) == 9
+def test_registry_lists_active_epochs() -> None:
+    assert len(STAGE3_EPOCHS) == 8
+    assert len(set(STAGE3_EPOCHS)) == 8
 
 
 @pytest.mark.parametrize("epoch", STAGE3_EPOCHS)

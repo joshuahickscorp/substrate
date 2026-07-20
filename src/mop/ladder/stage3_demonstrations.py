@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -17,7 +16,6 @@ STAGE3_EPOCHS: tuple[str, ...] = (
     "messaging_repair",
     "intervention_simulation",
     "memory_organization",
-    "stability_plasticity",
     "construction_search",
     "integrated_escs",
 )
@@ -31,7 +29,6 @@ class Stage3DemonstrationError(ValueError):
 
 @dataclass(frozen=True, slots=True)
 class DemonstrationResult:
-
     epoch: str
     seed: int
     verdict_status: str
@@ -98,9 +95,7 @@ def _demo_trace_stability(seed: int) -> _Outcome:
         lambda: mech.assert_controls_complete(mech.REQUIRED_CONTROLS),
         mech.TraceStabilityRefusal,
     )
-    null_holds = _refuses(
-        lambda: mech.MechanismLicenseGate().authorize(None), mech.TraceStabilityRefusal
-    )
+    null_holds = _refuses(lambda: mech.MechanismLicenseGate().authorize(None), mech.TraceStabilityRefusal)
     detail: dict[str, Any] = {
         "contract_sha256": contract.sha256,
         "record_seeds": [int(value) for value in seeds],
@@ -119,9 +114,7 @@ def _demo_niche_dispatch(seed: int) -> _Outcome:
     bed = mech.synthesize_disjoint_bed(seeds=(seed, seed + 1))
     assessments = mech.synthesize_valid_assessments(seed=seed)
     controls_ok = tuple(contract.controls) == mech.DISPATCH_CONTROLS
-    null_holds = _refuses(
-        lambda: mech.DispatchActivationGate().authorize(None), mech.NicheDispatchRefusal
-    )
+    null_holds = _refuses(lambda: mech.DispatchActivationGate().authorize(None), mech.NicheDispatchRefusal)
     detail: dict[str, Any] = {
         "contract_digest": contract.digest(),
         "bed_digest": bed.digest(),
@@ -168,9 +161,7 @@ def _demo_messaging_repair(seed: int) -> _Outcome:
     agreeing = [("agent.a", 1), ("agent.b", 1), ("agent.c", 1)]
     repair = mech.detect_and_repair(claims=agreeing, seed=seed)
     controls_ok = mech.verify_control_registry()
-    null_holds = _refuses(
-        lambda: mech.MessagingActivationGate().authorize(None), mech.MessagingRepairRefusal
-    )
+    null_holds = _refuses(lambda: mech.MessagingActivationGate().authorize(None), mech.MessagingRepairRefusal)
     detail: dict[str, Any] = {
         "bounded_contract_sha256": bounded.sha256,
         "verification_contract_sha256": verification.sha256,
@@ -193,12 +184,8 @@ def _demo_intervention_simulation(seed: int) -> _Outcome:
         seed=seed,
         margin_required=0.02,
     )
-    controls_ok = _completes(
-        mech.assert_control_registry_intact, mech.InterventionSimulationRefusal
-    )
-    null_holds = _refuses(
-        mech.default_activation_gate().authorize, mech.InterventionSimulationRefusal
-    )
+    controls_ok = _completes(mech.assert_control_registry_intact, mech.InterventionSimulationRefusal)
+    null_holds = _refuses(mech.default_activation_gate().authorize, mech.InterventionSimulationRefusal)
     detail: dict[str, Any] = {
         "scaffold_sha256": scaffold.sha256,
         "control_registry_digest": mech.control_registry_digest(),
@@ -228,27 +215,6 @@ def _demo_memory_organization(seed: int) -> _Outcome:
         "activation_gate_closed": null_holds,
     }
     return "memory-organization-prior-null", null_holds, controls_ok, detail
-
-
-def _demo_stability_plasticity(seed: int) -> _Outcome:
-    from ..mechanisms import stability_plasticity_scaffold as mech
-
-    verdict = mech.build_split_verdict(seed=seed)
-    controls_ok = _completes(
-        lambda: mech.assert_control_completeness(mech.REQUIRED_CONTROLS),
-        mech.StabilityPlasticityRefusal,
-    )
-    null_holds = _refuses(verdict.certify, mech.StabilityPlasticityRefusal)
-    status = mech.PRIOR_NULL if not verdict.both_axes_improved else "p6-joint-improvement-earned"
-    detail: dict[str, Any] = {
-        "verdict_digest": verdict.digest(),
-        "both_axes_improved": verdict.both_axes_improved,
-        "only_one_axis_improved": verdict.only_one_axis_improved,
-        "retention_margin": verdict.retention.margin,
-        "future_learnability_margin": verdict.future_learnability.margin,
-        "controls_declared": list(mech.REQUIRED_CONTROLS),
-    }
-    return status, null_holds, controls_ok, detail
 
 
 def _demo_construction_search(seed: int) -> _Outcome:
@@ -300,7 +266,6 @@ _HANDLERS: dict[str, Callable[[int], _Outcome]] = {
     "messaging_repair": _demo_messaging_repair,
     "intervention_simulation": _demo_intervention_simulation,
     "memory_organization": _demo_memory_organization,
-    "stability_plasticity": _demo_stability_plasticity,
     "construction_search": _demo_construction_search,
     "integrated_escs": _demo_integrated_escs,
 }
@@ -322,45 +287,3 @@ def run_demonstration(epoch: str, seed: int) -> DemonstrationResult:
         controls_ok=controls_ok,
         detail=detail,
     )
-
-
-def coverage() -> dict[str, list[str]]:
-
-    return {
-        "trace_stability": [
-            "builds the default stability contract and synthesizes seeded per seed records",
-            "declares the dead control family and confirms the license gate stays closed",
-        ],
-        "niche_dispatch": [
-            "builds the dispatch value contract and synthesizes a disjoint seeded bed",
-            "confirms the four matched controls and that the dispatch activation gate refuses",
-        ],
-        "event_formation": [
-            "synthesizes a seeded relational episode and runs the hypothetical useful verdict",
-            "confirms the x0 strong null holds because the activation gate withholds activation",
-        ],
-        "messaging_repair": [
-            "builds the bounded message, verification, and repair contracts under matched cost",
-            "runs a seeded causal plan and an agreement repair that stays untriggered",
-        ],
-        "intervention_simulation": [
-            "builds the composed epoch scaffold and a seeded matched control win comparison",
-            "confirms the control registry is intact and deployment activation is off",
-        ],
-        "memory_organization": [
-            "builds a seeded organization contract and the future decision value contract",
-            "computes seeded toy decision values and confirms the activation gate refuses",
-        ],
-        "stability_plasticity": [
-            "runs the seeded split verdict over the dual retention and learnability axes",
-            "confirms neither axis wins jointly so the p6 stability plasticity split holds",
-        ],
-        "construction_search": [
-            "seals the objective, runs every search arm, and charges the search cost verdict",
-            "confirms the prior null and that the value activation gate refuses local claims",
-        ],
-        "integrated_escs": [
-            "runs the null frontier verdict against the matched cost baseline set",
-            "confirms no integrated advantage is earned at matched cost",
-        ],
-    }

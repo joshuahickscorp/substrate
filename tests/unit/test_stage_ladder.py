@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -24,7 +23,6 @@ from mop.ladder.stage_ladder import (
     assert_control_manifest,
     build_default_ladder,
     build_stage_definitions,
-    coverage,
 )
 
 STAGE_LADDER_SCHEMA = "mop-stage-ladder/v1"
@@ -308,10 +306,3 @@ def test_ladder_rejects_wrong_stage_count() -> None:
 def test_ladder_rejects_position_below_floor() -> None:
     with pytest.raises(LadderRefusal, match="Stage 2 floor"):
         StageLadder(stages=build_stage_definitions(), current_stage_index=1)
-
-
-def test_coverage_lists_every_stage() -> None:
-    cov = coverage()
-    assert set(cov) == {f"stage_{index}" for index in range(6)}
-    for bullets in cov.values():
-        assert len(bullets) >= 2
