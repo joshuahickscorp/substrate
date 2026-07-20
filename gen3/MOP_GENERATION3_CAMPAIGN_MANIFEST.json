@@ -1,0 +1,27 @@
+{
+  "schema": "mop-generation3-campaign-manifest/v1",
+  "program_id": "mop-generation3-discovery-v1",
+  "branch": "agent/mop-generation3-discovery",
+  "base_commit": "89eeca5",
+  "run_root": "runs/generation3/mop-generation3-discovery-v1",
+  "proof_root": "proof/generation3",
+  "stop_switch": "~/.mop_generation3_stop",
+  "stop_semantics": "absent=active; present=halt at next checkpoint",
+  "preserved_legacy_switches": [
+    "~/.mop_autonomy_stop",
+    "~/.mop_clusterB_stop",
+    "~/.mop_scientific_frontier_stop"
+  ],
+  "process_identity": {
+    "supervisor_label": "mop-gen3-supervisor",
+    "process_label_prefix": "mopgen3",
+    "pid_receipt": "/Users/scammermike/Downloads/mop-gen3/runs/generation3/mop-generation3-discovery-v1/pid_receipt.json",
+    "event_log": "/Users/scammermike/Downloads/mop-gen3/runs/generation3/mop-generation3-discovery-v1/events.jsonl",
+    "status_projection": "/Users/scammermike/Downloads/mop-gen3/runs/generation3/mop-generation3-discovery-v1/status.json"
+  },
+  "runtime": "repaired global DAG scheduler (frontier/scheduler.py), receipt-cached verification, resumable checkpoints, retry escalation, stall detection, notifications",
+  "isolation": "new program_id/run_root/stop switch; legacy relaunchers cannot adopt or signal this campaign",
+  "resume_command": "read /Users/scammermike/Downloads/mop-gen3/MOP_GENERATION3_STATE.json and continue each stream from next_licensed_action",
+  "inspection_command": "cat /Users/scammermike/Downloads/mop-gen3/runs/generation3/mop-generation3-discovery-v1/status.json",
+  "sha256": "5ddf3f41672f0e13ce34db8687528fb284cb46cf8a8c385318d5b1acd7f70f1f"
+}
