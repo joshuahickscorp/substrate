@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import importlib
@@ -15,7 +14,6 @@ STAGE3_EPOCHS: tuple[str, ...] = (
     "messaging_repair",
     "intervention_simulation",
     "memory_organization",
-    "stability_plasticity",
     "construction_search",
     "integrated_escs",
 )

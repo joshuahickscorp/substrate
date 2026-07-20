@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -23,7 +22,6 @@ from mop.mechanisms.niche_dispatch_scaffold import (
     ReproducedNiche,
     assert_valid_edcm_bed,
     build_default_dispatch_value_contract,
-    coverage,
     synthesize_disjoint_bed,
     synthesize_partition,
     synthesize_valid_assessments,
@@ -251,13 +249,6 @@ def test_activation_gate_accepts_valid_receipt() -> None:
 def test_confirmation_receipt_rejects_unknown_scope() -> None:
     with pytest.raises(NicheDispatchRefusal, match="unsupported activation scope"):
         ConfirmationReceipt(issuer="external.authority", license_sha256="a" * 64, scope="production")
-
-
-def test_coverage_lists_every_subquestion_with_two_bullets() -> None:
-    cov = coverage()
-    assert set(cov) == {"C1", "C2", "D1"}
-    for bullets in cov.values():
-        assert len(bullets) >= 2
 
 
 def test_partition_schema_constant_matches() -> None:

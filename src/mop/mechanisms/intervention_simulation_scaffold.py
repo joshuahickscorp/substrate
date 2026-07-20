@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -84,7 +83,6 @@ def control_registry_digest() -> str:
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-
     params: int
     flops: int
     memory_bytes: int
@@ -125,7 +123,6 @@ def deterministic_unit_score(*, seed: int, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class ControlWinOutcome:
-
     arm_id: str
     control_id: str
     arm_score: float
@@ -181,7 +178,6 @@ def require_control_win(outcome: ControlWinOutcome, *, null_name: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class InterventionContract:
-
     do_operator_arm: str
     observational_control: str
     controls: tuple[str, ...]
@@ -236,7 +232,6 @@ class InterventionContract:
 
 @dataclass(frozen=True, slots=True)
 class SimulationForActionContract:
-
     policy_id: str
     controls: tuple[str, ...]
     rollout_horizon: int
@@ -290,7 +285,6 @@ class SimulationForActionContract:
 
 @dataclass(frozen=True, slots=True)
 class CalibratedUncertaintyContract:
-
     reliability_metric: str
     controls: tuple[str, ...]
     calibration_bins: int
@@ -357,7 +351,6 @@ FORBIDDEN_NOVELTY_TARGETS: tuple[str, ...] = (
 
 @dataclass(frozen=True, slots=True)
 class ReducibleNoveltyContract:
-
     curiosity_signal: str
     novelty_target: str
     reducibility_metric: str
@@ -421,7 +414,6 @@ class ReducibleNoveltyContract:
 
 @dataclass(frozen=True, slots=True)
 class DeploymentActivationGate:
-
     preregistration_digest: str
     activation_requested: bool = False
     confirmation_receipt: str | None = None
@@ -459,7 +451,6 @@ class DeploymentActivationGate:
 
 @dataclass(frozen=True, slots=True)
 class EpochScaffold:
-
     intervention: InterventionContract
     simulation: SimulationForActionContract
     uncertainty: CalibratedUncertaintyContract
@@ -560,29 +551,3 @@ def build_epoch_scaffold() -> EpochScaffold:
 
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
-
-
-def coverage() -> dict[str, list[str]]:
-
-    return {
-        "A1-causal-intervention": [
-            "InterventionContract pins a do-operator arm against an observational-only control",
-            "the observational-confound null is refused unless the do arm beats the control by margin",
-            "matched full-system cost is required before the intervention comparison is admissible",
-        ],
-        "S1-simulation-for-action": [
-            "SimulationForActionContract requires rollout value to beat a random-action control",
-            "the comparison runs at matched compute via a non-vacuous MatchedBudget",
-            "the P7 planning null forces the bar and is refused unless the policy wins",
-        ],
-        "U1-calibrated-uncertainty": [
-            "CalibratedUncertaintyContract declares a reliability metric over at least two bins",
-            "overconfident and temperature-one controls must both be beaten by the reliability margin",
-            "the temperature-one uncertainty null is bound and cannot be swapped for a weaker null",
-        ],
-        "N1-reducible-novelty": [
-            "ReducibleNoveltyContract admits the reducible novelty target only",
-            "irreducible-noise seeking is refused at construction, encoding the noise-seeking null",
-            "random-curiosity and count-based controls must be beaten by the curiosity margin",
-        ],
-    }

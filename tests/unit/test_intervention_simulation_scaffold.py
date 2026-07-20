@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -27,7 +26,6 @@ from mop.mechanisms.intervention_simulation_scaffold import (
     assert_control_registry_intact,
     build_epoch_scaffold,
     control_registry_digest,
-    coverage,
     default_activation_gate,
     default_intervention_contract,
     default_novelty_contract,
@@ -314,18 +312,6 @@ def test_activation_gate_accepts_matching_receipt() -> None:
         confirmation_receipt=digest,
     )
     gate.authorize()
-
-
-def test_coverage_lists_every_subquestion() -> None:
-    cov = coverage()
-    assert set(cov) == {
-        "A1-causal-intervention",
-        "S1-simulation-for-action",
-        "U1-calibrated-uncertainty",
-        "N1-reducible-novelty",
-    }
-    for bullets in cov.values():
-        assert len(bullets) >= 2
 
 
 def test_default_contracts_carry_bound_nulls() -> None:

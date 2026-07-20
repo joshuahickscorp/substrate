@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "9c12be8aabeebfcb642c982140e552c76d8b2147",
+    "base_commit": "c6e9c32d70900c26c71b0f1bd357ae4101a8942a",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 50530,
+    "eliminated_LOC": 52295,
     "deduplicated_LOC": 15641,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 8708,
-    "net_global_reduction_LOC": 57463
+    "added_LOC": 8742,
+    "net_global_reduction_LOC": 59194
   },
   "checklist_summary": {
-    "total": 245,
+    "total": 246,
     "by_status": {
       "complete": 17,
       "active": 51,
       "pending": 138,
       "partial": 10,
-      "verified": 29
+      "verified": 30
     }
   },
   "checklist": [
@@ -1447,11 +1447,11 @@
         "src/mop/mechanisms/construction_search_vec_impl.py",
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "four dual-axis runner lifecycles centralized with exact result/receipt fingerprint; construction-search vector engine selected after exact parity and measured speed advantage; matching reading, budget, control, contract, verdict, receipt, and gate scaffold lifecycle centralized with exact cross-version fingerprint; net owned Python reduction 2195 LOC",
+      "validation": "four dual-axis runner lifecycles centralized with exact result/receipt fingerprint; construction-search vector engine selected after exact parity and measured speed advantage; matching reading, budget, control, contract, verdict, receipt, and gate scaffold lifecycle centralized with exact cross-version fingerprint; explicitly retired stability_plasticity v1 family sealed and physically deleted in favor of r2; net owned Python reduction 3926 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse the matching joint-axis bed and remaining mechanism lifecycles"
+      "next_action": "collapse remaining active mechanism impl/bed/runner lifecycles"
     },
     {
       "id": "SEC-13",
@@ -2134,7 +2134,7 @@
         "src/mop/mechanisms/joint_axis_runner.py",
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "dual-axis runner and scaffold families collapsed; bed and remaining mechanism families remain",
+      "validation": "dual-axis runner and scaffold families collapsed; retired v1 family deleted; active bed and remaining mechanism families remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3489,14 +3489,33 @@
         "src/mop/mechanisms/joint_axis_runner.py",
         "src/mop/mechanisms/calibrated_uncertainty_scaffold.py",
         "src/mop/mechanisms/reducible_novelty_scaffold.py",
-        "src/mop/mechanisms/stability_plasticity_scaffold.py",
-        "src/mop/mechanisms/stability_plasticity_r2_scaffold.py"
+        "src/mop/mechanisms/stability_plasticity_r2_scaffold.py",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
       "validation": "1472 duplicate Python LOC and 107 prose-only Python LOC removed for 685 replacement LOC, net -894; exact four-mechanism scaffold fingerprint; 115 focused cases green; 3829-case collection, compile-all, ruff, and docs gates green",
       "commit": "",
       "rollback_tag": "mop-collapse-mechanism-scaffolds",
       "dependency": "",
       "next_action": "collapse matching joint-axis bed and remaining mechanism lifecycles"
+    },
+    {
+      "id": "RED-retired-stability-plasticity-v1",
+      "section": 12,
+      "kind": "verified_reduction",
+      "title": "Delete retired stability-plasticity v1 and executable coverage prose",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/mechanisms/stability_plasticity_r2_bed.py",
+        "src/mop/mechanisms/stability_plasticity_r2_impl.py",
+        "src/mop/mechanisms/stability_plasticity_r2_runner.py"
+      ],
+      "validation": "1765 superseded or prose-only Python LOC removed for 34 active-registry/test LOC, net -1731; six v1 files recover from the prior tag and the complete predecessor fingerprint is sealed; 405 focused cases green; 3779-case collection, compile-all, ruff, and docs gates green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-retired-mechanism-v1",
+      "dependency": "",
+      "next_action": "collapse remaining active mechanism impl/bed/runner lifecycles"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

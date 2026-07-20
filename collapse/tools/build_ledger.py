@@ -354,8 +354,10 @@ def main() -> int:
                                  "fingerprint; construction-search vector engine selected after exact parity "
                                  "and measured speed advantage; matching reading, budget, control, contract, "
                                  "verdict, receipt, and gate scaffold lifecycle centralized with exact "
-                                 "cross-version fingerprint; net owned Python reduction 2195 LOC")
-            it["next_action"] = "collapse the matching joint-axis bed and remaining mechanism lifecycles"
+                                 "cross-version fingerprint; explicitly retired stability_plasticity v1 "
+                                 "family sealed and physically deleted in favor of r2; net owned Python "
+                                 "reduction 3926 LOC")
+            it["next_action"] = "collapse remaining active mechanism impl/bed/runner lifecycles"
         if it["id"] == "CC-16":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
@@ -372,8 +374,8 @@ def main() -> int:
             it["status"] = "partial"
             it["evidence_paths"] = ["src/mop/mechanisms/joint_axis_runner.py",
                                     "collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = ("dual-axis runner and scaffold families collapsed; bed and remaining "
-                                 "mechanism families remain")
+            it["validation"] = ("dual-axis runner and scaffold families collapsed; retired v1 family "
+                                 "deleted; active bed and remaining mechanism families remain")
             it["next_action"] = "collapse remaining mechanism impl/bed/runner families"
 
     checklist.append(item(
@@ -684,13 +686,27 @@ def main() -> int:
         evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/mechanisms/joint_axis_runner.py",
                   "src/mop/mechanisms/calibrated_uncertainty_scaffold.py",
                   "src/mop/mechanisms/reducible_novelty_scaffold.py",
-                  "src/mop/mechanisms/stability_plasticity_scaffold.py",
-                  "src/mop/mechanisms/stability_plasticity_r2_scaffold.py"],
+                  "src/mop/mechanisms/stability_plasticity_r2_scaffold.py",
+                  "collapse/MOP_HISTORICAL_CODE_INDEX.json"],
         validation=("1472 duplicate Python LOC and 107 prose-only Python LOC removed for 685 replacement "
                     "LOC, net -894; exact four-mechanism scaffold fingerprint; 115 focused cases green; "
                     "3829-case collection, compile-all, ruff, and docs gates green"),
         rollback_tag="mop-collapse-mechanism-scaffolds",
         next_action="collapse matching joint-axis bed and remaining mechanism lifecycles"))
+    checklist.append(item(
+        "RED-retired-stability-plasticity-v1", 12, "verified_reduction",
+        "Delete retired stability-plasticity v1 and executable coverage prose",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/mechanisms/stability_plasticity_r2_bed.py",
+                  "src/mop/mechanisms/stability_plasticity_r2_impl.py",
+                  "src/mop/mechanisms/stability_plasticity_r2_runner.py"],
+        validation=("1765 superseded or prose-only Python LOC removed for 34 active-registry/test LOC, "
+                    "net -1731; six v1 files recover from the prior tag and the complete predecessor "
+                    "fingerprint is sealed; 405 focused cases green; 3779-case collection, compile-all, "
+                    "ruff, and docs gates green"),
+        rollback_tag="mop-collapse-retired-mechanism-v1",
+        next_action="collapse remaining active mechanism impl/bed/runner lifecycles"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -21,7 +20,6 @@ from mop.mechanisms.memory_organization_scaffold import (
     MemoryOrganizationContract,
     MemoryOrganizationRefusal,
     build_memory_organization,
-    coverage,
     default_activation_gate,
     default_episodic_harm_guard,
     default_future_decision_contract,
@@ -272,16 +270,3 @@ def test_toy_decision_values_is_deterministic_and_covers_all_arms() -> None:
     values = toy_decision_values(5)
     assert values == toy_decision_values(5)
     assert set(values) == {"organized-memory", *FUTURE_DECISION_CONTROLS}
-
-
-def test_coverage_lists_every_subquestion_with_two_bullets() -> None:
-    cov = coverage()
-    assert set(cov) == {
-        "future-decision-value-not-prediction",
-        "four-capabilities-exercised",
-        "declared-decision-controls",
-        "replay-parity-null",
-        "episodic-harm-null",
-    }
-    for bullets in cov.values():
-        assert len(bullets) >= 2

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -23,7 +22,6 @@ from mop.mechanisms.construction_search_scaffold import (
     SearchValueVerdict,
     build_default_contract,
     build_default_control_set,
-    coverage,
     run_construction_search,
     seal_objective,
     verdict_from_trace,
@@ -310,11 +308,3 @@ def test_module_declares_no_capability_claim() -> None:
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
     assert CLAIM_SCOPE == "deterministic programmatic mechanics only; no capability or natural-data claim"
     assert "G0 formation mechanics" in PRIOR_NULL
-
-
-def test_coverage_lists_every_subquestion_with_two_bullets() -> None:
-    cov = coverage()
-    assert len(cov) >= 4
-    for bullets in cov.values():
-        assert len(bullets) >= 2
-        assert all(isinstance(b, str) and b.strip() for b in bullets)

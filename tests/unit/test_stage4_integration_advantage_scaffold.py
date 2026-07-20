@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -21,7 +20,6 @@ from mop.mechanisms.stage4_integration_advantage_scaffold import (
     authorize_battery,
     build_ablation_ladder,
     build_stage3_receipt,
-    coverage,
     distinct_confirmed_mechanisms,
 )
 
@@ -311,15 +309,3 @@ def test_claim_scope_constant_is_the_canonical_string() -> None:
 
 def test_min_confirmed_mechanisms_matches_the_bar() -> None:
     assert MIN_CONFIRMED_MECHANISMS == 2
-
-
-def test_coverage_lists_every_sub_question_with_enough_bullets() -> None:
-    cov = coverage()
-    assert set(cov) == {
-        "S4.1 component-confirmation-precondition",
-        "S4.2 joint-advantage-over-best-single",
-        "S4.3 matched-compute-frontier",
-        "S4.4 ablation-attribution",
-    }
-    for bullets in cov.values():
-        assert len(bullets) >= 2

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -54,14 +53,11 @@ def _require_finite(value: float, label: str) -> None:
 def assert_control_ledger(controls: Sequence[str]) -> None:
 
     if tuple(controls) != REQUIRED_CONTROLS:
-        raise EventFormationRefusal(
-            "control ledger has membership or order drift vs the required controls"
-        )
+        raise EventFormationRefusal("control ledger has membership or order drift vs the required controls")
 
 
 @dataclass(frozen=True, slots=True)
 class ControlLedgerContract:
-
     controls: tuple[str, ...] = REQUIRED_CONTROLS
     claim_scope: str = CLAIM_SCOPE
     schema: str = EVENT_FORMATION_SCHEMA
@@ -86,7 +82,6 @@ class ControlLedgerContract:
 
 @dataclass(frozen=True, slots=True)
 class RelationalEventContract:
-
     event_id: str
     relation: str
     entity_refs: tuple[str, ...]
@@ -126,7 +121,6 @@ class RelationalEventContract:
 
 @dataclass(frozen=True, slots=True)
 class TemporalEventBindingContract:
-
     event_id: str
     clock_id: str
     window_start_tick: int
@@ -177,7 +171,6 @@ class TemporalEventBindingContract:
 
 @dataclass(frozen=True, slots=True)
 class OracleHeadroomContract:
-
     oracle_id: str
     oracle_utility: float
     baseline_utility: float
@@ -234,7 +227,6 @@ class OracleHeadroomContract:
 
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
-
     relational_ops: int
     temporal_ops: int
     trigger_evals: int
@@ -261,7 +253,6 @@ class MatchedBudget:
 
 @dataclass(frozen=True, slots=True)
 class EventUtilityVerdict:
-
     candidate_id: str
     oracle: OracleHeadroomContract
     utility_candidate: float
@@ -285,18 +276,14 @@ class EventUtilityVerdict:
                 "event utility must require matched charged-compute cost before any claim"
             )
         if set(self.utility_by_control) != set(UNTRAINED_CONTROLS):
-            raise EventFormationRefusal(
-                "utility by control must cover exactly the untrained controls"
-            )
+            raise EventFormationRefusal("utility by control must cover exactly the untrained controls")
         if set(self.charged_compute_by_control) != set(UNTRAINED_CONTROLS):
             raise EventFormationRefusal(
                 "charged compute by control must cover exactly the untrained controls"
             )
         _require_finite(self.utility_candidate, "EventUtilityVerdict.utility_candidate")
         _require_finite(self.utility_floor, "EventUtilityVerdict.utility_floor")
-        _require_finite(
-            self.charged_compute_candidate, "EventUtilityVerdict.charged_compute_candidate"
-        )
+        _require_finite(self.charged_compute_candidate, "EventUtilityVerdict.charged_compute_candidate")
         for control in UNTRAINED_CONTROLS:
             _require_finite(self.utility_by_control[control], f"utility_by_control[{control}]")
             _require_finite(
@@ -308,8 +295,7 @@ class EventUtilityVerdict:
 
     def beats_untrained_utility(self) -> bool:
         return all(
-            self.utility_candidate > self.utility_by_control[control]
-            for control in UNTRAINED_CONTROLS
+            self.utility_candidate > self.utility_by_control[control] for control in UNTRAINED_CONTROLS
         )
 
     def compute_cut_vs_both_untrained(self) -> bool:
@@ -349,7 +335,6 @@ class EventUtilityVerdict:
 
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
-
     license_id: str
     verdict_digest: str
     claims_useful_event: bool
@@ -383,15 +368,12 @@ class ActivationReceipt:
 
 @dataclass(frozen=True, slots=True)
 class EventFormationActivationGate:
-
     activation_permitted: bool = False
     required_replications: int = REQUIRED_REPLICATIONS
 
     def __post_init__(self) -> None:
         if self.activation_permitted:
-            raise EventFormationRefusal(
-                "event formation activation cannot be self-permitted by local code"
-            )
+            raise EventFormationRefusal("event formation activation cannot be self-permitted by local code")
         if self.required_replications < 1:
             raise EventFormationRefusal("required replications must be at least one")
 
@@ -403,13 +385,9 @@ class EventFormationActivationGate:
                 "external authority with its own randomization and held-out evaluation"
             )
         if not receipt.claims_useful_event:
-            raise EventFormationRefusal(
-                "receipt does not claim a useful event; activation stays closed"
-            )
+            raise EventFormationRefusal("receipt does not claim a useful event; activation stays closed")
         if receipt.independent_replications < self.required_replications:
-            raise EventFormationRefusal(
-                "receipt carries fewer than the required independent replications"
-            )
+            raise EventFormationRefusal("receipt carries fewer than the required independent replications")
         return receipt
 
     def authorize_local(self) -> ActivationReceipt:
@@ -497,26 +475,3 @@ def synthesize_relational_episode(seed: int, *, num_entities: int = 3) -> Relati
         relation=relation,
         entity_refs=entity_refs,
     )
-
-
-def coverage() -> dict[str, Sequence[str]]:
-
-    return {
-        "relational-events": (
-            "relational events via RelationalEventContract, which refuses a single scalar",
-            "at least two distinct entities per event, enforced at construction",
-        ),
-        "temporal-binding": (
-            "an event bound to a clock window via TemporalEventBindingContract",
-            "wrong-time and wrong-event controls, each refused if degenerate",
-        ),
-        "oracle-headroom": (
-            "a measured semantic-oracle upper bound via OracleHeadroomContract",
-            "refusal of an unmeasured oracle or a bed with no real headroom",
-        ),
-        "utility-vs-compute": (
-            "utility preserved and beaten vs both untrained controls before any claim",
-            "charged compute cut below both untrained controls at matched budget",
-            "the X0 strong null reachable and holding by default",
-        ),
-    }

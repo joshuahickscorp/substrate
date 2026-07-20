@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -26,7 +25,6 @@ from mop.mechanisms.integrated_escs_scaffold import (
     build_default_baseline_set,
     build_dominating_frontier_verdict,
     build_null_frontier_verdict,
-    coverage,
 )
 
 INTEGRATED_ESCS_SCHEMA = "mop-integrated-escs/v1"
@@ -168,9 +166,7 @@ def test_ablation_ladder_fails_closed_on_unjustified_rung() -> None:
     starved = MechanismRung(
         mechanism=MECHANISM_LADDER[-1],
         marginal_quality_gain=1e-9,
-        marginal_cost=CostVector(
-            params=10, flops=1_000_000, memory_bytes=10, wall_ticks=1, energy_units=1
-        ),
+        marginal_cost=CostVector(params=10, flops=1_000_000, memory_bytes=10, wall_ticks=1, energy_units=1),
         min_efficiency=1.0,
     )
     rungs[-1] = starved
@@ -290,14 +286,3 @@ def test_activation_receipt_rejects_single_replication() -> None:
             independent_auditor="external audit lab",
             preregistration_sha256="a" * 64,
         )
-
-
-def test_coverage_lists_every_sub_question_with_bullets() -> None:
-    cov = coverage()
-    assert set(cov) == {
-        "matched-baseline-frontier",
-        "marginal-mechanism-justification",
-        "pareto-dominance-or-null",
-    }
-    for bullets in cov.values():
-        assert len(bullets) >= 2

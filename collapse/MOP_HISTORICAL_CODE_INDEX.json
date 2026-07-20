@@ -56,6 +56,29 @@
         "tests/unit/test_construction_search_vec_equivalence_adversarial.py",
         "tests/unit/test_construction_search_vec_runner_equivalence.py"
       ]
+    },
+    {
+      "id": "stability_plasticity_v1_retired_mechanism",
+      "reason": "Generation-1 P1 was retired under the doc-20 redesign and replaced by the recurrence-aware stability_plasticity_r2 authority",
+      "source_tag": "mop-collapse-mechanism-scaffolds",
+      "recovery": "git show mop-collapse-mechanism-scaffolds:<path>",
+      "predecessor_fingerprint": "ead7459cbe476092f325c39c5a227c3bf7dbac5638cff994fa200a8b55d9c733",
+      "retirement_evidence": "src/mop/studies/generation1_full_generations_wave.py",
+      "replacement_paths": [
+        "src/mop/mechanisms/stability_plasticity_r2_bed.py",
+        "src/mop/mechanisms/stability_plasticity_r2_impl.py",
+        "src/mop/mechanisms/stability_plasticity_r2_runner.py",
+        "src/mop/mechanisms/stability_plasticity_r2_scaffold.py",
+        "tests/unit/test_stability_plasticity_r2_mechanism.py"
+      ],
+      "paths": [
+        "src/mop/mechanisms/stability_plasticity_bed.py",
+        "src/mop/mechanisms/stability_plasticity_impl.py",
+        "src/mop/mechanisms/stability_plasticity_runner.py",
+        "src/mop/mechanisms/stability_plasticity_scaffold.py",
+        "tests/unit/test_stability_plasticity_runner.py",
+        "tests/unit/test_stability_plasticity_scaffold.py"
+      ]
     }
   ]
 }
