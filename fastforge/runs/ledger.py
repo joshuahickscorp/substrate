@@ -259,11 +259,9 @@ def evidence_scores(st):
     cross = verdict("MOP_FAST_STATE_BIDIRECTIONAL_SYNTHESIS.json", "bidirectional_verdict")
     plast = verdict("MOP_SUBSTRATE_PLASTICITY_POLICY_REPORT.json", "verdict")
     reorg = verdict("MOP_FUNCTIONAL_REORGANIZATION_REPORT.json", "verdict")
-    third = (
-        io.load("MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json").get("gate", {}).get("verdict")
-        if io.exists("MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json")
-        else None
-    )
+    third = verdict("MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json", "verdict")
+    beds = verdict("MOP_DOMAIN_VALIDITY.json", "valid_domains")
+    secondary = verdict("MOP_FAST_STATE_SECONDARY_MATRIX.json", "verdict")
     terminal = sum(1 for v in st.values() if v["status"] == "terminal")
     frac = terminal / len(st)
     return {
@@ -283,7 +281,9 @@ def evidence_scores(st):
             "cross_domain": cross,
             "plasticity": plast,
             "reorganization": reorg,
-            "third_domain_gate": third,
+            "third_domain": third,
+            "secondary_stream_matrix": secondary,
+            "valid_temporal_beds": beds,
         },
     }
 

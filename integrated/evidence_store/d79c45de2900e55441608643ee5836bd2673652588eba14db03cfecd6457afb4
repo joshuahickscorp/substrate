@@ -261,8 +261,8 @@
         "R04",
         "R05"
       ],
-      "status": "terminal",
-      "next_exact_action": "none"
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.testreport"
     },
     "R22": {
       "id": "R22",
@@ -328,8 +328,8 @@
       "dependencies": [
         "R25"
       ],
-      "status": "terminal",
-      "next_exact_action": "none"
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.synthesis"
     }
   },
   "terminal": [
@@ -353,19 +353,19 @@
     "R18",
     "R19",
     "R20",
-    "R21",
     "R22",
     "R23",
-    "R25",
-    "R26"
+    "R25"
   ],
   "ready": [
-    "R24"
+    "R21",
+    "R24",
+    "R26"
   ],
   "blocked": [],
   "resume_rule": "the program resumes from this ledger without replanning: take every ready requirement and execute its next exact action",
   "program": "mop-fast-state-plasticity-forge-v1",
   "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
   "SESOI": 0.05,
-  "sha256": "aab6cea1ac88ddabae7799f2d7f556f2d37af6a503a287c1b76b71bb48ca3727"
+  "sha256": "18ec3ae0c5f5ce70584c9e51981fb003dfc72c458fb778b41abeb5aece073123"
 }

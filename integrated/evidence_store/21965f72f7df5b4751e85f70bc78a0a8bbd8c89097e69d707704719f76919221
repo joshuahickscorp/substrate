@@ -2,9 +2,9 @@
   "schema": "mop-fast-state-progress-scorecard/v1",
   "implementation": {
     "evidence_and_falsification": 100,
-    "orchestration": 80,
+    "orchestration": 60,
     "failure_understanding": 100,
-    "owned_substrate": 100,
+    "owned_substrate": 50,
     "multi_timescale_and_partitioned_plasticity": 100,
     "functional_reorganization": 100,
     "cross_domain_entity": 100
@@ -19,11 +19,11 @@
     "cross_domain_entity": 90
   },
   "evidence": {
-    "evidence_and_falsification": 91,
-    "orchestration": 91,
-    "failure_understanding": 91,
+    "evidence_and_falsification": 73,
+    "orchestration": 73,
+    "failure_understanding": 73,
     "useful_plasticity": 5,
-    "owned_substrate": 45,
+    "owned_substrate": 10,
     "partitioned_moldability": 15,
     "functional_reorganization": 5,
     "cross_domain_entity": 10
@@ -42,16 +42,11 @@
     "cross_domain": "cross_domain_null",
     "plasticity": "simple_partition_policy_sufficient",
     "reorganization": "functional_reorganization_null",
-    "third_domain": "third_domain_valid",
-    "secondary_stream_matrix": "secondary_null",
-    "valid_temporal_beds": [
-      "har_stream",
-      "speech_stream"
-    ]
+    "third_domain_gate": null
   },
   "rule": "evidence remains earned. Implementation completeness never raises an evidence score.",
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "source_commit": "852028e50b11c3c00910911221aa4405836ec6ab",
   "SESOI": 0.05,
-  "sha256": "c40783bec45670bc7efad7a5998ccbdffa37bd0fea3a48cc33ba114e3427bcb2"
+  "sha256": "b926c53f2be983076c14accadbd66779c489ce4a903c59ec890594a5c31af447"
 }

@@ -14,7 +14,9 @@
     "shared_core_causes_forgetting": true,
     "projection_or_norm_enables_acquisition": true,
     "forgetting_groups": [
+      "G.memory_state",
       "G.shared_fast_core",
+      "H.memory_state",
       "H.shared_fast_delta"
     ],
     "transferable_groups": [],
@@ -67,7 +69,7 @@
       },
       {
         "round": "G-R2",
-        "evidence_strength": 0.272,
+        "evidence_strength": 0.2943,
         "evidence_key": "shared_core_causes_forgetting"
       },
       {
@@ -290,7 +292,7 @@
   "verdict": "improvement_round_null",
   "wall_seconds": 0.1,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
   "SESOI": 0.05,
-  "sha256": "b0e7aff3305406b23cd89302ea27a14a25ffb0f84a989b2dc41ed0642bbb2152"
+  "sha256": "7d6299823a379286eb02eca2437eea1be0954791a4ba394c7f2e3a91d488d46e"
 }

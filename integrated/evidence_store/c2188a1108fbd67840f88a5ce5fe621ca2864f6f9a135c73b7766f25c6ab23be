@@ -20,13 +20,6 @@
     "adapt": 60
   },
   "scored_on": "tuning split, unit disjoint from both training and test",
-  "audit_corrections": {
-    "removed_memory_state_rows": "an independent audit found that the memory manipulation had no causal path: the second domain buffer is empty at the domain switch and the first domain buffer is not representable in the second domain, so the two memory_state rows were duplicates of the shared core row whose only difference came from a shifted random stream. Both rows are removed rather than reinterpreted.",
-    "removed_phantom_norm_row": "Architecture H declares no normalization group, so the H.norm row silently collapsed to a head only run and was a bit identical alias of H.head. It is removed and the skip is recorded in every shard.",
-    "relabelled_structural_zeros": "for a domain local group the old domain loss is exactly zero by construction, because those parameters are not read by the other domain's forward pass. That column is now marked analytic rather than measured, and the claim it supports is stated accordingly.",
-    "what_survives": "the load bearing half is unchanged and is genuinely measured on the two distinct shared parameter sets: opening a shared group buys new domain acquisition and costs old domain accuracy, with lower confidence bounds well above zero."
-  },
-  "claim_ceiling": "the only parameter groups whose updates can reach the other domain are the shared ones, and both of them buy acquisition with forgetting. Nothing here shows that domain local plasticity is preferable, only that domain local plasticity cannot interfere, which is true by construction.",
   "groups": {
     "G.adapter": {
       "har->speech": {
@@ -94,6 +87,40 @@
         "future_adaptation": 0.7082,
         "trainable_params": 390,
         "compute_seconds": 1.79
+      }
+    },
+    "G.memory_state": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1768,
+          "lower_95_cb": 0.1424,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.1839,
+          "lower_95_cb": 0.0762,
+          "n": 8
+        },
+        "return_recovery": 0.8776,
+        "future_adaptation": 0.3529,
+        "trainable_params": 25610,
+        "compute_seconds": 4.46
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.6648,
+          "lower_95_cb": 0.6208,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.3367,
+          "lower_95_cb": 0.2621,
+          "n": 8
+        },
+        "return_recovery": 0.7449,
+        "future_adaptation": 0.9218,
+        "trainable_params": 25350,
+        "compute_seconds": 3.56
       }
     },
     "G.norm": {
@@ -300,6 +327,74 @@
         "compute_seconds": 1.81
       }
     },
+    "H.memory_state": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1382,
+          "lower_95_cb": 0.1084,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.1765,
+          "lower_95_cb": 0.1046,
+          "n": 8
+        },
+        "return_recovery": 0.8619,
+        "future_adaptation": 0.2516,
+        "trainable_params": 25610,
+        "compute_seconds": 4.87
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.3762,
+          "lower_95_cb": 0.3064,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.4121,
+          "lower_95_cb": 0.2861,
+          "n": 8
+        },
+        "return_recovery": 0.7695,
+        "future_adaptation": 0.652,
+        "trainable_params": 25350,
+        "compute_seconds": 3.59
+      }
+    },
+    "H.norm": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.011,
+          "lower_95_cb": 0.0027,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8637,
+        "future_adaptation": 0.1032,
+        "trainable_params": 650,
+        "compute_seconds": 3.34
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.2964,
+          "lower_95_cb": 0.232,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7685,
+        "future_adaptation": 0.5179,
+        "trainable_params": 390,
+        "compute_seconds": 1.81
+      }
+    },
     "H.proj_conv": {
       "har->speech": {
         "new_domain_gain": {
@@ -409,8 +504,6 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8226,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -425,8 +518,6 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8233,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -436,13 +527,25 @@
       "should_remain_frozen": false,
       "acquisition_bought_with_forgetting": false
     },
+    "G.memory_state": {
+      "mean_new_domain_gain": 0.4208,
+      "mean_old_domain_loss": 0.2603,
+      "mean_return_recovery": 0.8113,
+      "is_shared_across_domains": true,
+      "enables_acquisition": true,
+      "causes_forgetting": true,
+      "acquires_without_forgetting": false,
+      "transferable": false,
+      "domain_specific": false,
+      "safe_to_reopen": false,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": true
+    },
     "G.norm": {
       "mean_new_domain_gain": 0.2667,
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8234,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -457,8 +560,6 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8224,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -473,8 +574,6 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8229,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -489,8 +588,6 @@
       "mean_old_domain_loss": 0.272,
       "mean_return_recovery": 0.8175,
       "is_shared_across_domains": true,
-      "forgetting_is_structurally_zero": false,
-      "forgetting_measurement_status": "measured",
       "enables_acquisition": true,
       "causes_forgetting": true,
       "acquires_without_forgetting": false,
@@ -505,8 +602,6 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8181,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -521,8 +616,34 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8161,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "H.memory_state": {
+      "mean_new_domain_gain": 0.2572,
+      "mean_old_domain_loss": 0.2943,
+      "mean_return_recovery": 0.8157,
+      "is_shared_across_domains": true,
+      "enables_acquisition": true,
+      "causes_forgetting": true,
+      "acquires_without_forgetting": false,
+      "transferable": false,
+      "domain_specific": false,
+      "safe_to_reopen": false,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": true
+    },
+    "H.norm": {
+      "mean_new_domain_gain": 0.1537,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8161,
+      "is_shared_across_domains": false,
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -537,8 +658,6 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8169,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -553,8 +672,6 @@
       "mean_old_domain_loss": 0.0,
       "mean_return_recovery": 0.8197,
       "is_shared_across_domains": false,
-      "forgetting_is_structurally_zero": true,
-      "forgetting_measurement_status": "analytic: a domain local group is not read by the other domain's forward pass, so its old domain loss is exactly zero by construction and no forgetting was measured for it",
       "enables_acquisition": true,
       "causes_forgetting": false,
       "acquires_without_forgetting": true,
@@ -569,8 +686,6 @@
       "mean_old_domain_loss": 0.2315,
       "mean_return_recovery": 0.8204,
       "is_shared_across_domains": true,
-      "forgetting_is_structurally_zero": false,
-      "forgetting_measurement_status": "measured",
       "enables_acquisition": true,
       "causes_forgetting": true,
       "acquires_without_forgetting": false,
@@ -590,11 +705,14 @@
     "G.proj_lin",
     "H.adapter",
     "H.head",
+    "H.norm",
     "H.proj_conv",
     "H.proj_lin"
   ],
   "forgetting_groups": [
+    "G.memory_state",
     "G.shared_fast_core",
+    "H.memory_state",
     "H.shared_fast_delta"
   ],
   "safe_to_reopen": [
@@ -605,12 +723,13 @@
     "G.proj_lin",
     "H.adapter",
     "H.head",
+    "H.norm",
     "H.proj_conv",
     "H.proj_lin"
   ],
   "keep_frozen": [],
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
   "SESOI": 0.05,
-  "sha256": "5bdf34b59b45c4c75f651b18b252ec6f41639250cc131acca5f14eef1f4a30a9"
+  "sha256": "6929810ef2941e4df0da40cca2bbdd738c764bcde51c51ac96f9599b53223524"
 }

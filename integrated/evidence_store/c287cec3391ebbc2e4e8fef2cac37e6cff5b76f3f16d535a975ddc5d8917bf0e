@@ -526,7 +526,7 @@
     }
   },
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "source_commit": "ee54f419f7ead5a2aa7877711d22439d52ee21e2",
   "SESOI": 0.05,
-  "sha256": "5c86567ae8d8fa3ae48dd69ce639792962c0e85bc5cb3c85e4155041b0effcb4"
+  "sha256": "369abed20c43aa5261fbadde3956854c9da68d50c97126c24265df7b77e40006"
 }
