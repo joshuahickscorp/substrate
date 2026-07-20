@@ -1254,6 +1254,25 @@
       "performance": "thirty-sample one-step checkpoint median improved 12.909ms to 9.406ms (-27.14%) after removal of the redundant deserialization",
       "accounting_note": "97 Python lines deleted for 35 replacement and condensed-test lines, net -62; runtime source falls 32 LOC to 9640, validation falls 30 LOC to 2908, scripts remain 952 LOC, and maintained Python falls to 13751 LOC",
       "tag": "mop-collapse-workbench-checkpoint-state"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "single_workbench_stop_failure_and_teacher_audit_policy",
+      "checkpoint_status": "green",
+      "primitive": "one stop reason owns wall-budget, disk-floor, and required-arm campaign state; one exception path writes both fail-closed receipt kinds before dispatching refusal versus reraised crash policy; the seeded initial model directly serves as the exact frozen control; teacher audits share one base record; receipt projections consume keyed authorities; and one parameterized failure matrix retains both logical attacks",
+      "deduplicated_LOC": 0,
+      "added_LOC": 117,
+      "eliminated_LOC": 159,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 42,
+      "files_changed": 2,
+      "destination_api": "run_workbench stop_reason and unified failure dispatch, audit_teacher_cache base policy, direct mop.evidence calls, and the parameterized required-arm failure matrix",
+      "proof": "Architecture B is 1861 maintained regional LOC versus Architecture A at 1903; success, wall stop, disk stop, scientific refusal, and unexpected crash produce exact normalized semantic receipts; uninterrupted, partial, and resumed real training plus six schema/identity mutations remain byte-for-byte exact; evaluation, promotion, objective-target, difficulty, and FLOP calculation ASTs are unchanged; all 16 focused cases and the unchanged 155-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "forty-sample refusal-orchestration median improved 4.219ms to 3.662ms (-13.20%) by reusing the exact initialized model and eliminating repeated failure dispatch",
+      "accounting_note": "159 Python lines deleted for 117 policy and condensed-test lines, net -42; runtime source falls 36 LOC to 9604, validation falls 6 LOC to 2902, scripts remain 952 LOC, and maintained Python falls to 13709 LOC",
+      "tag": "mop-collapse-workbench-orchestration"
     }
   ],
   "latest_full_validation": {

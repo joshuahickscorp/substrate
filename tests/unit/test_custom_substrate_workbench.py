@@ -180,53 +180,47 @@ def test_missing_teacher_is_optional_and_explicit():
     assert audit["all_ok"] and not audit["configured"] and not audit["available"]
 
 
-def test_required_arm_refusal_is_durable_and_aborts_all_loops(tmp_path: Path, monkeypatch):
+@pytest.mark.parametrize(
+    ("error", "receipt_name"),
+    [
+        (WorkbenchRefused("injected non-finite loss"), "refusal_receipt.json"),
+        (RuntimeError("injected backend recovery"), "crash_receipt.json"),
+    ],
+    ids=("scientific-refusal", "unexpected-exception"),
+)
+def test_required_arm_failure_is_durable_and_aborts(
+    tmp_path: Path, monkeypatch, error: Exception, receipt_name: str
+):
     calls: list[str] = []
 
-    def refuse(**kwargs):
+    def fail(**kwargs):
         calls.append(kwargs["objective"])
-        raise WorkbenchRefused("injected non-finite loss")
+        raise error
 
-    monkeypatch.setattr(workbench_module, "train_arm", refuse)
+    monkeypatch.setattr(workbench_module, "train_arm", fail)
     monkeypatch.setattr(workbench_module, "evaluate_model", _stub_evaluation)
-    run_dir = tmp_path / "refusal"
-    receipt = run_workbench(
-        _failure_injection_config(tmp_path),
-        run_dir=run_dir,
-        device=resolve("cpu"),
-        repo_root=REPO_ROOT,
-    )
+    run_dir = tmp_path / receipt_name.removesuffix("_receipt.json")
+    arguments = {
+        "config": _failure_injection_config(tmp_path),
+        "run_dir": run_dir,
+        "device": resolve("cpu"),
+        "repo_root": REPO_ROOT,
+    }
+    if isinstance(error, WorkbenchRefused):
+        receipt = run_workbench(**arguments)
+    else:
+        with pytest.raises(type(error), match=str(error)):
+            run_workbench(**arguments)
+        receipt = None
     assert calls == ["predictive"]
-    assert not receipt["complete"] and receipt["stopped_for_required_arm_refusal"]
-    assert not receipt["promotion"]["cm7_local_objective_lever_promotable"]
-    failure_path = run_dir / "arms/seed_0/predictive/refusal_receipt.json"
-    failure = json.loads(failure_path.read_text())
+    failure = json.loads((run_dir / "arms/seed_0/predictive" / receipt_name).read_text())
     assert failure["campaign_must_abort"] and failure["last_good_checkpoint"] is None
-    assert "1" not in receipt["seed_results"]
-
-
-def test_unexpected_arm_exception_writes_crash_then_reraises(tmp_path: Path, monkeypatch):
-    calls: list[str] = []
-
-    def crash(**kwargs):
-        calls.append(kwargs["objective"])
-        raise RuntimeError("injected backend recovery")
-
-    monkeypatch.setattr(workbench_module, "train_arm", crash)
-    monkeypatch.setattr(workbench_module, "evaluate_model", _stub_evaluation)
-    run_dir = tmp_path / "crash"
-    with pytest.raises(RuntimeError, match="backend recovery"):
-        run_workbench(
-            _failure_injection_config(tmp_path),
-            run_dir=run_dir,
-            device=resolve("cpu"),
-            repo_root=REPO_ROOT,
-        )
-    assert calls == ["predictive"]
-    crash_path = run_dir / "arms/seed_0/predictive/crash_receipt.json"
-    crash_receipt = json.loads(crash_path.read_text())
-    assert crash_receipt["campaign_must_abort"]
-    assert "RuntimeError: injected backend recovery" in crash_receipt["traceback"]
+    if receipt is not None:
+        assert not receipt["complete"] and receipt["stopped_for_required_arm_refusal"]
+        assert not receipt["promotion"]["cm7_local_objective_lever_promotable"]
+        assert "1" not in receipt["seed_results"]
+    else:
+        assert f"{type(error).__name__}: {error}" in failure["traceback"]
 
 
 def test_checkpoint_resume_matches_uninterrupted_training(tmp_path: Path):
