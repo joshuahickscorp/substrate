@@ -834,6 +834,24 @@
       "proof": "all F1-F20 lanes have sealed local outcomes, including the preserved failed F10 result; full collection is clean at 1945 tests and compile-all passes; retained registry, validation, verdict, Studio, long-run, action-world, custom-substrate, project-exhaustion, and docs boundaries are green; critical ruff passes; all 85 deleted paths recover from the prior tag; the protected checkout is clean and untouched",
       "accounting_note": "12200 Python lines deleted for 20 survivor lines, net -12180; registry, configuration, campaign, and generated evidence deletion brings the total tracked implementation change to 20 added/28789 deleted, net -28769; the 17 retained FORM receipts keep every FORM source required by the active custom-substrate ledger, whose only current audit failure is the pre-existing absent V-JEPA teacher cache manifest",
       "tag": "mop-collapse-form-program"
+    },
+    {
+      "region": "section8_studies_section9_evidence_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "retired_future_form_scaffold_implementations",
+      "checkpoint_status": "green",
+      "primitive": "the completed sensing, ecology, integrity, material-twin, integration-broadcast, and Expansion Wave 0 mechanics stacks were physically deleted with their configs, runners, independent verifiers, generated proofs, and dedicated tests after their F21-F66 declarations left the registry",
+      "deduplicated_LOC": 0,
+      "added_LOC": 0,
+      "eliminated_LOC": 15265,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 15265,
+      "files_changed": 47,
+      "destination_api": "the current non-F experiment registry and active action-world/custom-substrate/project-exhaustion programs; no replacement abstraction was needed",
+      "proof": "sensing, ecology, integrity, material-twin, and integration-broadcast each have completed programmatic run evidence and independent live-implementation verification; Expansion Wave 0 embeds an independent raw-replay verifier with all mutations rejected; every claim boundary is deterministic programmatic mechanics only; full collection is clean at 1691 tests, compile-all and critical ruff pass, retained registry and active science batteries are 51/51 green, docs are 32/32 green, all 46 deleted paths recover from the prior tag, and the protected checkout remains clean",
+      "accounting_note": "15265 Python lines deleted with zero additions; deletion of generated run evidence and configs brings total tracked change to 0 added/32390 deleted; one provenance path was removed from the retained action-world implementation without changing its mechanics",
+      "tag": "mop-collapse-future-scaffolds"
     }
   ],
   "deferred_heavy_validation": {

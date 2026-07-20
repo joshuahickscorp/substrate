@@ -105,7 +105,6 @@ UPSTREAM_PATHS = (
     "configs/experiment/e5_curiosity.yaml",
     "configs/custom_substrate/requirements.yaml",
     "proof/LOCAL_ACTION_ENVIRONMENT.json",
-    "proof/EXPANSION_WAVE0.json",
 )
 
 

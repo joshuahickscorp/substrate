@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "a9cce1dcb30faf70bde5ff9cf49f0328fafd2bab",
+    "base_commit": "34b90d12ccfa3f73dc126b708ad46cd69552b5f6",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,13 +118,13 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 256143,
+    "eliminated_LOC": 271408,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
     "added_LOC": 9081,
-    "net_global_reduction_LOC": 262922
+    "net_global_reduction_LOC": 278187
   },
   "checklist_summary": {
     "total": 259,

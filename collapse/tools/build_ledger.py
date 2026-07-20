@@ -1540,6 +1540,24 @@ def main() -> int:
     lines.append("- next_exact_edit: retire the completed F21-F66 scaffold implementation clusters whose "
                  "registry declarations are now absent.")
     lines.append("")
+    lines.append("### Future FORM scaffold retirement (current checkpoint)")
+    lines.append("")
+    lines.append("- closed families: sensing, ecology, integrity, material-twin, integration-broadcast, and "
+                 "Expansion Wave 0 mechanics stacks were deleted with configs, runners, verifiers, proofs, "
+                 "and dedicated tests.")
+    lines.append("- evidence boundary: every family completed deterministic programmatic mechanics and an "
+                 "independent live-implementation or raw-replay verification while explicitly withholding "
+                 "natural-data and capability claims.")
+    lines.append("- physical deletion: 15,265 Python lines and 32,390 total tracked lines removed with zero "
+                 "additions; cumulative verified owned Python reduction: 278,187 LOC.")
+    lines.append("- validation: full collection is 1,691 tests; registry and active science batteries 51/51, "
+                 "docs 32/32, compile-all, and critical ruff are green; all 46 deleted paths recover from "
+                 "mop-collapse-form-program.")
+    lines.append("- live-run non-interference: the protected checkout remains clean and untouched.")
+    lines.append("- rollback_tag: mop-collapse-future-scaffolds.")
+    lines.append("- next_exact_edit: audit the completed local-action, P7 action-world, and remaining generated "
+                 "preflight vertical slices for retirement.")
+    lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(f"checklist items: {len(checklist)}")

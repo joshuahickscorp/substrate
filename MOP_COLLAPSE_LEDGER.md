@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `a9cce1d` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `34b90d1` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -303,7 +303,7 @@ Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base a9cce1d
+- commit: pending; base 34b90d1
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -630,4 +630,14 @@ Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 - live-run non-interference: the protected checkout remains clean and untouched.
 - rollback_tag: mop-collapse-form-program.
 - next_exact_edit: retire the completed F21-F66 scaffold implementation clusters whose registry declarations are now absent.
+
+### Future FORM scaffold retirement (current checkpoint)
+
+- closed families: sensing, ecology, integrity, material-twin, integration-broadcast, and Expansion Wave 0 mechanics stacks were deleted with configs, runners, verifiers, proofs, and dedicated tests.
+- evidence boundary: every family completed deterministic programmatic mechanics and an independent live-implementation or raw-replay verification while explicitly withholding natural-data and capability claims.
+- physical deletion: 15,265 Python lines and 32,390 total tracked lines removed with zero additions; cumulative verified owned Python reduction: 278,187 LOC.
+- validation: full collection is 1,691 tests; registry and active science batteries 51/51, docs 32/32, compile-all, and critical ruff are green; all 46 deleted paths recover from mop-collapse-form-program.
+- live-run non-interference: the protected checkout remains clean and untouched.
+- rollback_tag: mop-collapse-future-scaffolds.
+- next_exact_edit: audit the completed local-action, P7 action-world, and remaining generated preflight vertical slices for retirement.
 
