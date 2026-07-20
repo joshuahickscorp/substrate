@@ -159,7 +159,7 @@
       "archived_LOC": 0,
       "generated_replacement_LOC": 0,
       "net_reduction_LOC": 41,
-      "files_changed": 19,
+      "files_changed": 18,
       "destination_api": "mop.science.safety_flags + mop.science.budget.noise_control_summary + mop.science.statistics.{sign_flip_payload,count_sign_flip_payload}",
       "proof": "fresh safety boundaries cannot be widened by mutation; control-arm order and sealed rates match policy; onset and lower-is-better count statistic shapes exact; overlap and unknown-key inputs refuse; full STARSS-focused suite 483/483 in 155.47s under nice -n 10",
       "accounting_note": "393 replaced Python LOC are production source; 352 added Python LOC = 283 production source + 69 direct shape/refusal tests; production source net -110, tests net +69, total owned Python net -41",
@@ -963,6 +963,24 @@
       "proof": "all 329 retained tests pass with 6 environment skips; all 10 acceptance checks pass, including Ruff formatting and lint, mypy over 66 source files, config composition, diagnostics, and Studio profiles; all 49 deleted paths recover from mop-collapse-registry-config; the protected checkout remains clean and untouched",
       "accounting_note": "4764 Python lines deleted for 102 tracked survivor and ledger lines plus the 50-line new evidence authority, net -4612; total tracked physical change is 312 added/4879 deleted, net -4567; maintained Python is 22528 LOC, src/mop is 14128 LOC, validation is 4850 LOC, and eight developer scripts remain",
       "tag": "mop-collapse-event-horizon"
+    },
+    {
+      "region": "section8_kernel_section12_mechanisms_section17_validation_section24_current_main",
+      "batch": "retired_stage_ladder_falsification_and_reconciled_current_main",
+      "checkpoint_status": "green",
+      "primitive": "the test-only stage-ladder, receipt, null-card, and verdict-gate facades were retired after surviving STARSS primitives moved into science and active null contracts remained in the experiment registry; current origin/main was merged and its post-campaign Telegram notifier revision intentionally remained retired rather than restoring a second controller",
+      "deduplicated_LOC": 0,
+      "added_LOC": 56,
+      "eliminated_LOC": 1824,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1768,
+      "files_changed": 19,
+      "destination_api": "mop.science owns the minimal demonstration receipt, mop.science.budget owns MatchedBudget, registry/experiments.yaml owns null contracts, and mop.harness.runner remains the sole controller",
+      "proof": "origin/main a1d6be3 was merged after a process audit confirmed no General Run controller remains; the latest notifier blobs recover directly from that main commit; all 276 retained tests pass with 6 environment skips; Ruff, mypy, compile-all, and all 10 acceptance checks are clean; all deleted facades recover from mop-collapse-event-horizon; the protected checkout remains clean and untouched",
+      "accounting_note": "1824 Python lines deleted for 56 survivor and ledger lines, net -1768; total tracked physical change is 135 added/1836 deleted, net -1701; maintained Python is 20760 LOC, src/mop is 13057 LOC, and validation is 4153 LOC",
+      "tag": "mop-collapse-current-main"
     }
   ],
   "deferred_heavy_validation": {

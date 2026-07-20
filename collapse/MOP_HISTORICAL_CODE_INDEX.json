@@ -1721,6 +1721,55 @@
         "tests/unit/test_shell.py",
         "tests/unit/test_substrate_ablation.py"
       ]
+    },
+    {
+      "id": "retired_current_main_telegram_notifier_revision",
+      "source_tag": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
+      "reason": "current main re-applied notifier changes after the campaign and General Run controllers became terminal, sealed history; merging current main intentionally retains the single-controller architecture instead of resurrecting the retired notification path",
+      "replacement_paths": [
+        "src/mop/harness/runner.py",
+        "src/mop/studio/profiles.py"
+      ],
+      "recovery": "git show a1d6be3f504f3e6d4403a2f75cfed0c2b257921e:<path>",
+      "paths": [
+        "src/mop/studio/telegram_rung_notifier.py",
+        "tests/unit/test_telegram_rung_notifier.py"
+      ]
+    },
+    {
+      "id": "retired_stage_ladder_facade",
+      "source_tag": "mop-collapse-event-horizon",
+      "reason": "the stage ladder had no installed runtime or active experiment consumer; STARSS required only matched-budget data and a fail-closed demonstration payload, now owned directly by the surviving science primitives",
+      "replacement_paths": [
+        "src/mop/science/__init__.py",
+        "src/mop/science/budget.py"
+      ],
+      "recovery": "git show mop-collapse-event-horizon:<path>",
+      "paths": [
+        "src/mop/ladder/__init__.py",
+        "src/mop/ladder/ladder_contracts.py",
+        "src/mop/ladder/stage_ladder.py",
+        "tests/unit/test_ladder_contracts.py",
+        "tests/unit/test_stage_ladder.py"
+      ]
+    },
+    {
+      "id": "retired_falsification_facade",
+      "source_tag": "mop-collapse-event-horizon",
+      "reason": "null-card and verdict-gate generation had no installed CLI, active experiment, registry, or runtime consumer after one-off falsification commands were retired; the active experiment registry retains each null hypothesis directly",
+      "replacement_paths": [
+        "registry/experiments.yaml",
+        "src/mop/experiments/base.py",
+        "src/mop/evidence.py"
+      ],
+      "recovery": "git show mop-collapse-event-horizon:<path>",
+      "paths": [
+        "src/mop/falsification/__init__.py",
+        "src/mop/falsification/null_cards.py",
+        "src/mop/falsification/verdict_gate.py",
+        "tests/unit/test_null_cards.py",
+        "tests/unit/test_verdict_gate.py"
+      ]
     }
   ]
 }

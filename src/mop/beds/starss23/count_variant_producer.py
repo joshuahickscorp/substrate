@@ -9,8 +9,9 @@ from typing import Any
 import numpy as np
 
 from mop.evidence import write_canonical_json
-from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL
 from mop.science import (
+    VERDICT_MECHANICS_OK,
+    VERDICT_NULL,
     ArtifactResult,
     artifact_envelope,
     demonstration_receipt,

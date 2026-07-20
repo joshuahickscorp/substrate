@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from typing import Any
 
 from mop.evidence import canonical_sha256
-from mop.ladder.stage_ladder import MatchedBudget
 
 ARM_CANDIDATE = "candidate"
 ARM_RATE_MATCHED_RANDOM = "rate_matched_random"
@@ -30,6 +29,27 @@ class UnchargedTraining(BudgetRefusal):
 
 class CeilingExceeded(BudgetRefusal):
     pass
+
+
+@dataclass(frozen=True, slots=True)
+class MatchedBudget:
+    params: int
+    flops: int
+    wall_ns: int
+    seeds: int
+
+    def __post_init__(self) -> None:
+        for name, value in self.payload().items():
+            if value <= 0:
+                raise BudgetRefusal(f"matched budget {name} must be positive (non-vacuous)")
+
+    def payload(self) -> dict[str, int]:
+        return {
+            "params": self.params,
+            "flops": self.flops,
+            "wall_ns": self.wall_ns,
+            "seeds": self.seeds,
+        }
 
 
 def _nonnegative_int(value: object, label: str) -> int:
