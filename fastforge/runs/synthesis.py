@@ -286,7 +286,32 @@ def answers():
         "rather than merely both being sequences, or an honest statement that cross modality transfer of "
         "fast dynamics is out of reach at this scale."
     )
+    valid = io.load("MOP_DOMAIN_VALIDITY.json") if io.exists("MOP_DOMAIN_VALIDITY.json") else {}
+    sec = (
+        io.load("MOP_FAST_STATE_SECONDARY_MATRIX.json")
+        if io.exists("MOP_FAST_STATE_SECONDARY_MATRIX.json")
+        else {}
+    )
+    q["44 were the principal beds actually temporal"] = (
+        "no, both are marginal under a genuinely order free control: "
+        + str({d: valid["gates"][d]["status"] for d in ("har", "speech") if d in valid.get("gates", {})})
+        + ". The order free control itself had to be repaired first: its projection carried a Conv1d of "
+        "kernel width five and therefore read local order."
+        if valid
+        else MISSING
+    )
+    q["45 did the premise survive on beds that are strongly temporal"] = (
+        f"{sec.get('verdict', MISSING)} on the {sec.get('pairing_rationale', 'stream')} pairing, which "
+        f"exists precisely so that a null on marginal beds cannot be explained away"
+        if sec
+        else MISSING
+    )
     q["within_domain"] = {d: within[d].get("verdict", MISSING) for d in within}
+    q["within_domain_arms_beating_the_strongest_baseline"] = {
+        d: within[d].get("arms_beating_the_strongest_baseline", MISSING) for d in within
+    }
+    q["domain_validity"] = {d: g["status"] for d, g in valid.get("gates", {}).items()} if valid else MISSING
+    q["secondary_matrix"] = sec.get("verdict", MISSING)
     q["improvement_rounds"] = rounds.get("verdict", MISSING)
     q["independent_verification"] = ver.get("checks", MISSING)
     q["mutation_suite"] = mut.get("all_rejected", MISSING)
@@ -321,6 +346,9 @@ def main():
         {
             "schema": "mop-fast-state-next-frontier/v1",
             "closed_by_this_program": [
+                "next activity prediction on scripted or free living accelerometry as a temporal bed, on two "
+                "independent datasets, for the same reason both times: the set of values in a window carries "
+                "the answer and their order does not",
                 "cross domain transfer of a shared fast temporal core between sensor and audio, under every "
                 "update partition tested, in both directions",
                 "interference gated adaptation as a route to safe shared plasticity",
